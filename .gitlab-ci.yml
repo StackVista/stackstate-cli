@@ -1,0 +1,117 @@
+variables:
+  GORELEASER_TAG: "v0.184.0"
+  GORELEASER_IMAGE: "goreleaser/goreleaser:${GORELEASER_TAG}"
+
+image: "golang:latest"
+
+stages:
+  - check
+  - build
+  - test
+  - deploy
+
+.go-base:
+  image:
+    name: ${GORELEASER_IMAGE}
+    entrypoint: [""]
+  variables:
+    GOPATH: /go
+    GITLAB_TOKEN: ${gitlab_api_scope_token}
+  before_script:
+  cache:
+    paths:
+      - /go/pkg/mod/
+
+
+# lint:
+#   image: registry.gitlab.com/gitlab-org/gitlab-build-images:golangci-lint-alpine
+#   stage: check
+#   script:
+#     # Use default .golangci.yml file from the image if one is not present in the project root.
+#     - '[ -e .golangci.yml ] || cp /golangci/.golangci.yml .'
+#     # Write the code coverage report to gl-code-quality-report.json
+#     # and print linting issues to stdout in the format: path/to/file:line description
+#     # remove `--issues-exit-code 0` or set to non-zero to fail the job if linting issues are detected
+#     - golangci-lint run --out-format code-climate ./... | tee gl-code-quality-report.json | jq -r '.[] | "\(.location.path):\(.location.lines.begin) \(.description)"'
+#   artifacts:
+#     reports:
+#       codequality: gl-code-quality-report.json
+#     paths:
+#       - gl-code-quality-report.json
+
+license_scanning:
+  stage: check
+  image: "registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3"
+  variables:
+    LM_REPORT_VERSION: '2.1'
+  allow_failure: true
+  script:
+    - /run.sh analyze .
+  artifacts:
+    reports:
+      license_scanning: gl-license-scanning-report.json
+
+dependency_scanning:
+  stage: check
+  image: "registry.gitlab.com/gitlab-org/security-products/analyzers/gemnasium:2"
+  script:
+    - /analyzer run
+  allow_failure: true
+  artifacts:
+    reports:
+      dependency_scanning: gl-dependency-scanning-report.json
+
+goreleaser_check:
+  stage: check
+  extends: .go-base
+  script:
+    - goreleaser check
+
+compile:
+  stage: build
+  extends: .go-base
+  script:
+  - goreleaser build --rm-dist --snapshot
+  tags:
+    - sts-k8s-xl-runner
+  artifacts:
+    paths:
+      - dist/
+    untracked: false
+    expire_in: 30 days
+
+test:
+  stage: test
+  extends: .go-base
+  tags:
+    - sts-k8s-xl-runner
+  script:
+    - go test ./...
+
+gorelease:
+  needs:
+  - test
+  stage: deploy
+  extends: .go-base
+  image:
+    name: docker:19.03.12
+  script:
+  - docker pull ${GORELEASER_IMAGE}
+  - docker run --rm --privileged=true -v $PWD:/src -w /src -v /var/run/docker.sock:/var/run/docker.sock -e GITLAB_TOKEN -e DOCKER_USERNAME -e DOCKER_PASSWORD -e DOCKER_REGISTRY -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION ${GORELEASER_IMAGE} release --rm-dist
+  tags:
+    - sts-k8s-xl-runner
+  rules:
+    - if: $CI_COMMIT_TAG
+      when: always
+    - when: never
+  services:
+    - name: docker:19.03.12-dind
+      command:
+        - --experimental
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_REGISTRY: quay.io
+    DOCKER_USERNAME: $quay_user
+    DOCKER_PASSWORD: $quay_password

@@ -1,0 +1,108 @@
+api:
+  deployment: stackstate-api
+  container: api
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+checks:
+  deployment: stacsktate-checks
+  container: checks
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+correlate:
+  deployment: stackstate-correlate
+  container: correlate
+  imagename: stackstate-correlate
+  groups:
+    - all-solo
+    - all-split
+e2es:
+  deployment: stackstate-e2es
+  container: e2es
+  imagename: stackstate-kafka-to-es
+  groups:
+    - all-kafka-to-es
+    - all-solo
+    - all-split
+health-sync:
+  deployment: stacsktate-health-sync
+  container: health-sync
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+initializer:
+  deployment: stacsktate-initializer
+  container: initializer
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+mm2es:
+  deployment: stackstate-mm2es
+  container: mm2es
+  imagename: stackstate-kafka-to-es
+  groups:
+    - all-kafka-to-es
+    - all-solo
+    - all-split
+problem-producer:
+  deployment: stacsktate-problem-producer
+  container: problem-producer
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+receiver:
+  deployment: stackstate-receiver
+  container: receiver
+  imagename: stackstate-receiver
+  groups:
+    - all-solo
+    - all-split
+server:
+  deployment: stacsktate-server
+  container: server
+  imagename: stackstate-server
+  groups:
+    - all-solo
+    - all-split-server-image
+slicing:
+  deployment: stacsktate-slicing
+  container: slicing
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+state:
+  deployment: stacsktate-state
+  container: state
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+sync:
+  deployment: stacsktate-sync
+  container: sync
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image
+trace2es:
+  deployment: stackstate-trace2es
+  container: trace2es
+  imagename: stackstate-kafka-to-es
+  groups:
+    - all-kafka-to-es
+    - all-solo
+    - all-split
+view-health:
+  deployment: stacsktate-view-health
+  container: view-health
+  imagename: stackstate-server
+  groups:
+    - all-split
+    - all-split-server-image

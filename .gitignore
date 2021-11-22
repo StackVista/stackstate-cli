@@ -1,0 +1,11 @@
+bin/
+dist/
+
+sts-toolbox.yaml
+values.yaml
+
+.vscode/launch.json
+
+__debug_bin
+
+pkged.go

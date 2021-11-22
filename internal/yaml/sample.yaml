@@ -1,0 +1,12 @@
+nested:
+  key: 1
+  anotherkey: 7
+  deeper:
+    sub: 2
+  double:
+    deep:
+      sub: 6
+  arr:
+    - 3
+    - 4
+base: 5

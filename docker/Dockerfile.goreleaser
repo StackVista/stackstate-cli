@@ -1,0 +1,14 @@
+FROM debian:10-slim
+
+RUN groupadd -r toolsmith && useradd -r -g toolsmith toolsmith
+RUN apt-get update && apt-get install -y --no-install-recommends curl unzip && \
+    rm -rf /var/lib/apt/lists/* && \
+    curl -fksSL "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" && \
+    unzip awscliv2.zip && \
+    ./aws/install && \
+    rm -rf awscliv2.zip
+WORKDIR /
+COPY sts-toolbox .
+USER toolsmith:toolsmith
+
+ENTRYPOINT ["/sts-toolbox"]

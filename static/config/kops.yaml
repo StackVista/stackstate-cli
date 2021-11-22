@@ -1,0 +1,25 @@
+aws:
+  profilePrefix: stackstate
+  profiles:
+    - name: stackstate-aihops
+      id: 865161460043
+    - name: stackstate-demo
+      id: 714565590525
+    - name: stackstate-infosec
+      id: 669835386582
+    - name: stackstate-integrations
+      id: 367271602634
+    - name: stackstate-master
+      id: 508573134510
+    - name: stackstate-preprod
+      id: 296205130898
+    - name: stackstate-prod
+      id: 483040731819
+    - name: stackstate-sandbox
+      id: 672574731473
+    - name: stackstate-tooling
+      id: 766509113410
+    - name: stackstate-trials
+      id: 705170121922
+kops:
+  bucketSuffix: kops-s3
