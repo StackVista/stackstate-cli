@@ -1,0 +1,25 @@
+components:
+  responses:
+    genericServerError:
+      description: "Error when handling the request on the server side."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericServerError"
+  schemas:
+    GenericServerError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+        - $ref: "#/components/schemas/InternalServerError"
+      required:
+        - _type
+    InternalServerError:
+      type: object
+      properties:
+        _type:
+          type: string
+          enum:
+            - InternalServerError
+      required:
+        - _type
