@@ -34,17 +34,18 @@ func RunScriptExecuteCommand(cmd *cobra.Command, _ []string) {
 		Description: "",
 		Variables:   nil,
 	}
+	configuration.DefaultHeader["Authorization"] = "ApiToken h17MZsqcL2Kbi21_FUOd86Moimc8SZwa"
 	client := stackstate_client.NewAPIClient(configuration)
 	scriptExecute := client.ScriptingApi.ScriptExecute(cmd.Context())
 	e := stackstate_client.ExecuteScriptRequest{
 		TimeoutMs:       nil,
-		Script:          "return 1+1",
+		Script:          "return 2+2",
 		ArgumentsScript: nil,
 	}
-	_, _, err := scriptExecute.ExecuteScriptRequest(e).Execute()
+	resp, _, err := scriptExecute.ExecuteScriptRequest(e).Execute()
 	if err != nil {
 		fmt.Println("Got err ", err)
 	}
 
-	println("got here")
+	fmt.Println("Success!", resp)
 }

@@ -28,8 +28,8 @@ var (
 type ScriptingApiService service
 
 type ApiScriptExecuteRequest struct {
-	ctx _context.Context
-	ApiService *ScriptingApiService
+	ctx                  _context.Context
+	ApiService           *ScriptingApiService
 	executeScriptRequest *ExecuteScriptRequest
 }
 
@@ -53,7 +53,7 @@ Execute a StackState Scripting Language or Template Language script with arbitra
 func (a *ScriptingApiService) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -118,6 +118,9 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (E
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
+
+	println(localVarHTTPResponse.StatusCode)
+	println(localVarBody)
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{

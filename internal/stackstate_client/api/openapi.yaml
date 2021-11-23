@@ -964,6 +964,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericServerError'
           description: Error when handling the request on the server side.
+      security:
+      - ApiKez: []
       summary: Execute script
       tags:
       - scripting

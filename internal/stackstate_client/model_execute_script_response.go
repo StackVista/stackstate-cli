@@ -18,14 +18,14 @@ import (
 // ExecuteScriptResponse struct for ExecuteScriptResponse
 type ExecuteScriptResponse struct {
 	// Can be of any type: boolean, number, string, array, object or null.
-	Result map[string]interface{} `json:"result"`
+	Result interface{} `json:"result"`
 }
 
 // NewExecuteScriptResponse instantiates a new ExecuteScriptResponse object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExecuteScriptResponse(result map[string]interface{}) *ExecuteScriptResponse {
+func NewExecuteScriptResponse(result interface{}) *ExecuteScriptResponse {
 	this := ExecuteScriptResponse{}
 	this.Result = result
 	return &this
@@ -40,10 +40,10 @@ func NewExecuteScriptResponseWithDefaults() *ExecuteScriptResponse {
 }
 
 // GetResult returns the Result field value
-// If the value is explicit nil, the zero value for map[string]interface{} will be returned
-func (o *ExecuteScriptResponse) GetResult() map[string]interface{} {
+// If the value is explicit nil, the zero value for interface{} will be returned
+func (o *ExecuteScriptResponse) GetResult() interface{} {
 	if o == nil {
-		var ret map[string]interface{}
+		var ret interface{}
 		return ret
 	}
 
@@ -53,7 +53,7 @@ func (o *ExecuteScriptResponse) GetResult() map[string]interface{} {
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ExecuteScriptResponse) GetResultOk() (*map[string]interface{}, bool) {
+func (o *ExecuteScriptResponse) GetResultOk() (*interface{}, bool) {
 	if o == nil || o.Result == nil {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *ExecuteScriptResponse) GetResultOk() (*map[string]interface{}, bool) {
 }
 
 // SetResult sets field value
-func (o *ExecuteScriptResponse) SetResult(v map[string]interface{}) {
+func (o *ExecuteScriptResponse) SetResult(v interface{}) {
 	o.Result = v
 }
 
@@ -108,5 +108,3 @@ func (v *NullableExecuteScriptResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
