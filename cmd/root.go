@@ -49,6 +49,7 @@ func RootCommand() *cobra.Command {
 func AllCommands(cfg *config.Config) *cobra.Command {
 	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand())
+	cmd.AddCommand(ScriptCommand())
 
 	return cmd
 }
