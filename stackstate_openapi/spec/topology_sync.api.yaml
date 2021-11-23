@@ -1,0 +1,186 @@
+paths:
+  /synchronization/topology/streams:
+    get:
+      tags:
+        - topologySynchronization
+      description: Overview of the topology synchronization streams
+      summary: Overview of the topology synchronization streams
+      operationId: getTopologySynchronizationStreams
+      responses:
+        "200":
+          description: "List of existing topology streams"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopologyStreamList"
+  /synchronization/topology/streams/sync:
+    parameters:
+      - in: query
+        name: identifier
+        allowReserved: true
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: identifierType
+        allowReserved: false
+        required: true
+        schema:
+          $ref: "#/components/schemas/IdentifierType"
+    get:
+      tags:
+        - topologySynchronization
+      description: Overview of a specific Topology Stream, queried by node id or sync identifier
+      summary: Overview of a specific Topology Stream, queried by node id or sync identifier
+      operationId: getTopologySynchronizationStreamById
+      responses:
+        "200":
+          description: "A specific topology stream"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopologyStreamListItem"
+        "400":
+          $ref: "#/components/responses/TopologySyncBadRequest"
+        "404":
+          $ref: "#/components/responses/TopologySyncNotFound"
+  /synchronization/topology/streams/status:
+    parameters:
+      - in: query
+        name: identifier
+        allowReserved: true
+        required: true
+        schema:
+          type: string
+    get:
+      tags:
+        - topologySynchronization
+      description: Metrics of a specific Topology Stream, queried by node id
+      summary: Metrics of a specific Topology Stream, queried by node id
+      operationId: getTopologySynchronizationStreamStatusById
+      responses:
+        "200":
+          description: "A specific topology stream metrics"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TopologyStreamMetrics"
+        "400":
+          $ref: "#/components/responses/TopologySyncBadRequest"
+        "404":
+          $ref: "#/components/responses/TopologySyncNotFound"
+components:
+  schemas:
+    MetricBucketValue:
+      type: object
+      properties:
+        value:
+          type: number
+          format: double
+    MetricBucketValues:
+      type: array
+      items:
+        $ref: "#/components/schemas/MetricBucketValue"
+    TopologyStreamMetrics:
+      type: object
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          $ref: "#/components/schemas/MetricBucketValues"
+      required:
+        - bucketSizeSeconds
+    TopologySyncMetrics:
+      type: object
+      properties:
+        partition:
+          type: integer
+        recoverMessage:
+          type: string
+        aggregateMetrics:
+          $ref: "#/components/schemas/TopologyStreamMetrics"
+      required:
+        - partition
+        - aggregateMetrics
+    TopologyStreamList:
+      type: object
+      properties:
+        streams:
+          type: array
+          items:
+            $ref: "#/components/schemas/TopologyStreamListItem"
+      required:
+        - streams
+    IdentifierType:
+      type: string
+      enum:
+        - NodeId
+        - Identifier
+    TopologySyncStatus:
+      type: string
+      enum:
+        - Running
+        - Resetting
+        - Deleting
+        - DeleteFailed
+    TopologyStreamListItem:
+      type: object
+      properties:
+        syncIdentifier:
+          type: string
+          nullable: true
+        nodeId:
+          type: integer
+          format: int64
+        createdRelations:
+          type: integer
+          format: int64
+        deletedRelations:
+          type: integer
+          format: int64
+        createdComponents:
+          type: integer
+          format: int64
+        deletedComponents:
+          type: integer
+          format: int64
+        errors:
+          type: integer
+          format: int64
+        status:
+          $ref: "#/components/schemas/TopologySyncStatus"
+      required:
+        - nodeId
+        - createdRelations
+        - deletedRelations
+        - createdComponents
+        - deletedComponents
+        - status
+        - errors
+    InvalidSyncIdentifier:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+    TopologySyncError:
+      type: object
+      properties:
+        message:
+          type: string
+      required:
+        - message
+  responses:
+    TopologySyncBadRequest:
+      description: "Bad request when specifying an invalid identifier"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/InvalidSyncIdentifier"
+    TopologySyncNotFound:
+      description: "Sync with given identifier not found"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/TopologySyncError"

@@ -1,0 +1,54 @@
+openapi: 3.0.3
+info:
+  description: StackState's API specification
+  version: 0.0.1
+  title: StackState API
+  license:
+    name: Proprietary
+    url: "https://stackstate.com"
+  contact:
+    name: StackState
+    email: info@stackstate.com
+    url: "https://stackstate.com"
+externalDocs:
+  description: Documentation
+  url: "https://docs.stackstate.com/"
+paths:
+  /user/profile:
+    $ref: "user_profile.api.yaml#/paths/%2Fuser%2Fprofile"
+  /user/profile/tokens:
+    $ref: "user_profile.api.yaml#/paths/%2Fuser%2Fprofile%2Ftokens"
+  /events:
+    $ref: "events.api.yaml#/paths/%2Fevents"
+  /events/{eventId}:
+    $ref: "events.api.yaml#/paths/%2Fevents%2F%7BeventId%7D"
+  /eventTypes:
+    $ref: "events.api.yaml#/paths/%2FeventTypes"
+  /eventSources:
+    $ref: "events.api.yaml#/paths/%2FeventSources"
+  /eventTags:
+    $ref: "events.api.yaml#/paths/%2FeventTags"
+  /synchronization/health/streams:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstreams"
+  /synchronization/health/stream/{healthStreamUrn}/status:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D%2Fstatus"
+  /synchronization/health/stream/{healthStreamUrn}/clearErrors:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D%2FclearErrors"
+  /synchronization/health/stream/{healthStreamUrn}:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D"
+  /synchronization/health/stream/{healthStreamUrn}/substreams:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D%2Fsubstreams"
+  /synchronization/health/stream/{healthStreamUrn}/topologyMatches:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D%2FtopologyMatches"
+  /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D%2Fsubstream%2F%7BhealthSyncSubStreamId%7D%2Fstatus"
+  /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches:
+    $ref: "health_sync.api.yaml#/paths/%2Fsynchronization%2Fhealth%2Fstream%2F%7BhealthStreamUrn%7D%2Fsubstream%2F%7BhealthSyncSubStreamId%7D%2FtopologyMatches"
+  /synchronization/topology/streams:
+    $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams"
+  /synchronization/topology/streams/sync:
+    $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2Fsync"
+  /synchronization/topology/streams/status:
+    $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2Fstatus"
+  /script/execute:
+    $ref: "script.api.yaml#/paths/%2Fscript%2Fexecute"
