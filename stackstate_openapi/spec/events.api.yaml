@@ -429,7 +429,7 @@ components:
         id:
           type: integer
           format: int64
-        type:
+        eventType:
           type: integer
           format: int64
         name:
@@ -449,7 +449,7 @@ components:
         id:
           type: integer
           format: int64
-        type:
+        eventType:
           type: integer
           format: int64
         name:
