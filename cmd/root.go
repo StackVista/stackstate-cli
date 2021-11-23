@@ -23,8 +23,8 @@ func RootCommand() *cobra.Command {
 	var verbosity int
 
 	cmd := &cobra.Command{
-		Use:   "sts-toolbox",
-		Short: "Development CLI for StackState",
+		Use:   "sts",
+		Short: "StackState Command Line Interface",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			switch verbosity {
 			case 0: //nolint:gomnd
@@ -49,12 +49,6 @@ func RootCommand() *cobra.Command {
 func AllCommands(cfg *config.Config) *cobra.Command {
 	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand())
-	cmd.AddCommand(ValuesCommand(cfg))
-	cmd.AddCommand(SandboxCommand(cfg))
-	cmd.AddCommand(ClusterCommand())
-	cmd.AddCommand(ScaleCommand(cfg))
-	cmd.AddCommand(TrafficMirrorCommand(cfg))
-	cmd.AddCommand(DevCommand(cfg))
 
 	return cmd
 }
@@ -72,7 +66,7 @@ func Execute(ctx context.Context) {
 	zerolog.SetGlobalLevel(zerolog.ErrorLevel)
 
 	taipanConfig := &taipan.Config{
-		DefaultConfigName:  "sts-toolbox",
+		DefaultConfigName:  "sts",
 		ConfigurationPaths: []string{".", homeFolder},
 		EnvironmentPrefix:  EnvPrefix,
 		AddConfigFlag:      true,
