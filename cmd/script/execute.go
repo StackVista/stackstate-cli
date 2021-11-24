@@ -1,6 +1,7 @@
 package script
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 
@@ -43,9 +44,19 @@ func RunScriptExecuteCommand(cmd *cobra.Command, args []string) error {
 		Variables:   nil,
 	}
 
-	configuration.DefaultHeader["Authorization"] = "ApiToken Sxeqe2hKAaTUgpQnIv3_ctkTYjsN8pz2"
+	auth := make(map[string]stackstate_client.APIKey)
+	auth["ApiToken"] = stackstate_client.APIKey{
+		Key:    "Sxeqe2hKAaTUgpQnIv3_ctkTYjsN8pz2",
+		Prefix: "",
+	}
+	ctx := context.WithValue(
+		cmd.Context(),
+		stackstate_client.ContextAPIKeys,
+		auth,
+	)
+
 	client := stackstate_client.NewAPIClient(configuration)
-	scriptExecute := client.ScriptingApi.ScriptExecute(cmd.Context())
+	scriptExecute := client.ScriptingApi.ScriptExecute(ctx)
 	scriptRequest := stackstate_client.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          args[0],
