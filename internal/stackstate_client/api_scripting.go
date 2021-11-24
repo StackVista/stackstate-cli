@@ -24,12 +24,29 @@ var (
 	_ _context.Context
 )
 
+type ScriptingApi interface {
+
+	/*
+	ScriptExecute Execute script
+
+	Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiScriptExecuteRequest
+	*/
+	ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest
+
+	// ScriptExecuteExecute executes the request
+	//  @return map[string]interface{}
+	ScriptExecuteExecute(r ApiScriptExecuteRequest) (map[string]interface{}, *_nethttp.Response, error)
+}
+
 // ScriptingApiService ScriptingApi service
 type ScriptingApiService service
 
 type ApiScriptExecuteRequest struct {
 	ctx _context.Context
-	ApiService *ScriptingApiService
+	ApiService ScriptingApi
 	executeScriptRequest *ExecuteScriptRequest
 }
 

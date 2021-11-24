@@ -3,15 +3,15 @@ package cmd
 import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/cmd/script"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func ScriptCommand(cfg *config.Config) *cobra.Command {
+func ScriptCommand(cli *di.Context) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "script",
 		Short: "StackState scripting related commands.",
 	}
-	cmd.AddCommand(script.ScriptExecuteCommand(cfg))
+	cmd.AddCommand(script.ScriptExecuteCommand(cli))
 
 	return cmd
 }

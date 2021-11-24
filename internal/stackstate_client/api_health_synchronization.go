@@ -25,12 +25,134 @@ var (
 	_ _context.Context
 )
 
+type HealthSynchronizationApi interface {
+
+	/*
+	DeleteHealthSynchronizationStream Delete health sync stream
+
+	Delete a health synchronization stream. Deletion will not be immediate.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @return ApiDeleteHealthSynchronizationStreamRequest
+	*/
+	DeleteHealthSynchronizationStream(ctx _context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest
+
+	// DeleteHealthSynchronizationStreamExecute executes the request
+	DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*_nethttp.Response, error)
+
+	/*
+	GetHealthSynchronizationStreamStatus Get health sync stream status
+
+	Status overview of a single health synchronization stream
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @return ApiGetHealthSynchronizationStreamStatusRequest
+	*/
+	GetHealthSynchronizationStreamStatus(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest
+
+	// GetHealthSynchronizationStreamStatusExecute executes the request
+	//  @return HealthStreamStatus
+	GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (HealthStreamStatus, *_nethttp.Response, error)
+
+	/*
+	GetHealthSynchronizationStreamTopologyMatches List health sync stream check-states
+
+	Overview of check-states matched to topology on the main stream.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @return ApiGetHealthSynchronizationStreamTopologyMatchesRequest
+	*/
+	GetHealthSynchronizationStreamTopologyMatches(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest
+
+	// GetHealthSynchronizationStreamTopologyMatchesExecute executes the request
+	//  @return TopologyMatchResult
+	GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error)
+
+	/*
+	GetHealthSynchronizationStreamsOverview List health sync streams
+
+	Status overview of the health synchronization streams.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetHealthSynchronizationStreamsOverviewRequest
+	*/
+	GetHealthSynchronizationStreamsOverview(ctx _context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest
+
+	// GetHealthSynchronizationStreamsOverviewExecute executes the request
+	//  @return StreamList
+	GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (StreamList, *_nethttp.Response, error)
+
+	/*
+	GetHealthSynchronizationSubStreamOverview List health sync sub-streams
+
+	Overview of all sub-streams in a certain health stream.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @return ApiGetHealthSynchronizationSubStreamOverviewRequest
+	*/
+	GetHealthSynchronizationSubStreamOverview(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest
+
+	// GetHealthSynchronizationSubStreamOverviewExecute executes the request
+	//  @return SubStreamList
+	GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (SubStreamList, *_nethttp.Response, error)
+
+	/*
+	GetHealthSynchronizationSubStreamStatus Get health sync sub-stream status
+
+	Status overview of a single health synchronization sub stream
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @param healthSyncSubStreamId Health synchronization sub stream id.
+	 @return ApiGetHealthSynchronizationSubStreamStatusRequest
+	*/
+	GetHealthSynchronizationSubStreamStatus(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest
+
+	// GetHealthSynchronizationSubStreamStatusExecute executes the request
+	//  @return HealthSubStreamStatus
+	GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (HealthSubStreamStatus, *_nethttp.Response, error)
+
+	/*
+	GetHealthSynchronizationSubStreamTopologyMatches List health sync sub-stream check-states
+
+	Overview of check-states matched to topology on the main stream.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @param healthSyncSubStreamId Health synchronization sub stream id.
+	 @return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
+	*/
+	GetHealthSynchronizationSubStreamTopologyMatches(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
+
+	// GetHealthSynchronizationSubStreamTopologyMatchesExecute executes the request
+	//  @return TopologyMatchResult
+	GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error)
+
+	/*
+	PostHealthSynchronizationStreamClearErrors Clear health sync stream errors
+
+	Clear all errors for a stream and its sub-streams.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param healthStreamUrn Urn of the health stream.
+	 @return ApiPostHealthSynchronizationStreamClearErrorsRequest
+	*/
+	PostHealthSynchronizationStreamClearErrors(ctx _context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest
+
+	// PostHealthSynchronizationStreamClearErrorsExecute executes the request
+	PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error)
+}
+
 // HealthSynchronizationApiService HealthSynchronizationApi service
 type HealthSynchronizationApiService service
 
 type ApiDeleteHealthSynchronizationStreamRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -158,7 +280,7 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 
 type ApiGetHealthSynchronizationStreamStatusRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -297,7 +419,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 
 type ApiGetHealthSynchronizationStreamTopologyMatchesRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -436,7 +558,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 
 type ApiGetHealthSynchronizationStreamsOverviewRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 }
 
 
@@ -552,7 +674,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 
 type ApiGetHealthSynchronizationSubStreamOverviewRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -691,7 +813,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 
 type ApiGetHealthSynchronizationSubStreamStatusRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 	healthSyncSubStreamId string
 }
@@ -834,7 +956,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 
 type ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 	healthSyncSubStreamId string
 }
@@ -977,7 +1099,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 
 type ApiPostHealthSynchronizationStreamClearErrorsRequest struct {
 	ctx _context.Context
-	ApiService *HealthSynchronizationApiService
+	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 

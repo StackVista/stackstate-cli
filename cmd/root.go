@@ -14,6 +14,8 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 const (
@@ -32,17 +34,22 @@ func RootCommand() *cobra.Command {
 	return cmd
 }
 
-func AllCommands(cfg *config.Config) *cobra.Command {
+func AllCommands(cli *di.Context) *cobra.Command {
 	cmd := RootCommand()
-	cmd.AddCommand(VersionCommand(cfg))
-	cmd.AddCommand(ScriptCommand(cfg))
+	cmd.AddCommand(VersionCommand())
+	cmd.AddCommand(ScriptCommand(cli))
 
 	return cmd
 }
 
 func Execute(ctx context.Context) {
 	cfg := &config.Config{}
-	cmd := AllCommands(cfg)
+	cli := &di.Context{
+		Config: cfg,
+		Client: nil,
+	}
+
+	cmd := AllCommands(cli)
 
 	homeFolder, err := home.Expand("~/.stackstate")
 	if err != nil {
@@ -61,7 +68,7 @@ func Execute(ctx context.Context) {
 
 	t := taipan.New(taipanConfig)
 	t.Inject(cmd)
-	SetVerboseLogging(cmd, cfg)
+	SetVerboseLoggingAndClient(cmd, cli)
 
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		fmt.Fprintf(os.Stderr, "🎃 %s\n", color.Red(err))
@@ -69,7 +76,7 @@ func Execute(ctx context.Context) {
 	}
 }
 
-func SetVerboseLogging(cmd *cobra.Command, cfg *config.Config) {
+func SetVerboseLoggingAndClient(cmd *cobra.Command, cli *di.Context) {
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	f := cmd.PersistentPreRunE
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
@@ -78,7 +85,18 @@ func SetVerboseLogging(cmd *cobra.Command, cfg *config.Config) {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
 		}
 		ret := f(cmd, args)
-		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cfg))
+
+		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
+
+		configuration := stackstate_client.NewConfiguration()
+		configuration.Servers[0] = stackstate_client.ServerConfiguration{
+			URL:         cli.Config.URL,
+			Description: "",
+			Variables:   nil,
+		}
+		client := stackstate_client.NewAPIClient(configuration)
+		cli.Client = client
+
 		return ret
 	}
 }

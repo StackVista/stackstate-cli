@@ -25,12 +25,86 @@ var (
 	_ _context.Context
 )
 
+type EventApi interface {
+
+	/*
+	GetEvent Get single event
+
+	Retrieves a specific event by its identifier.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param eventId The Identifier of an event.
+	 @return ApiGetEventRequest
+	*/
+	GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest
+
+	// GetEventExecute executes the request
+	//  @return TopologyEvent
+	GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error)
+
+	/*
+	GetEventSources Get event sources
+
+	Get a list of event sources.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetEventSourcesRequest
+	*/
+	GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest
+
+	// GetEventSourcesExecute executes the request
+	//  @return StringItemsWithTotal
+	GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error)
+
+	/*
+	GetEventTags Get event tags
+
+	Gets a list of tags that exist in a list of events.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetEventTagsRequest
+	*/
+	GetEventTags(ctx _context.Context) ApiGetEventTagsRequest
+
+	// GetEventTagsExecute executes the request
+	//  @return StringItemsWithTotal
+	GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error)
+
+	/*
+	GetEventTypes Get event types
+
+	Get a list of event types for a certain STQL query.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetEventTypesRequest
+	*/
+	GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest
+
+	// GetEventTypesExecute executes the request
+	//  @return StringItemsWithTotal
+	GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error)
+
+	/*
+	GetEvents Get events
+
+	Gets you a list of events that exist for topology and time selections.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetEventsRequest
+	*/
+	GetEvents(ctx _context.Context) ApiGetEventsRequest
+
+	// GetEventsExecute executes the request
+	//  @return EventItemsWithTotal
+	GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error)
+}
+
 // EventApiService EventApi service
 type EventApiService service
 
 type ApiGetEventRequest struct {
 	ctx _context.Context
-	ApiService *EventApiService
+	ApiService EventApi
 	eventId string
 	startTimestampMs *int32
 	endTimestampMs *int32
@@ -205,7 +279,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, 
 
 type ApiGetEventSourcesRequest struct {
 	ctx _context.Context
-	ApiService *EventApiService
+	ApiService EventApi
 	startTimestampMs *int32
 	endTimestampMs *int32
 	topologyQuery *string
@@ -443,7 +517,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (S
 
 type ApiGetEventTagsRequest struct {
 	ctx _context.Context
-	ApiService *EventApiService
+	ApiService EventApi
 	startTimestampMs *int32
 	endTimestampMs *int32
 	topologyQuery *string
@@ -681,7 +755,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringI
 
 type ApiGetEventTypesRequest struct {
 	ctx _context.Context
-	ApiService *EventApiService
+	ApiService EventApi
 	startTimestampMs *int32
 	endTimestampMs *int32
 	topologyQuery *string
@@ -919,7 +993,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (Strin
 
 type ApiGetEventsRequest struct {
 	ctx _context.Context
-	ApiService *EventApiService
+	ApiService EventApi
 	eventListRequest *EventListRequest
 }
 

@@ -24,12 +24,57 @@ var (
 	_ _context.Context
 )
 
+type TopologySynchronizationApi interface {
+
+	/*
+	GetTopologySynchronizationStreamById Overview of a specific Topology Stream, queried by node id or sync identifier
+
+	Overview of a specific Topology Stream, queried by node id or sync identifier
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetTopologySynchronizationStreamByIdRequest
+	*/
+	GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest
+
+	// GetTopologySynchronizationStreamByIdExecute executes the request
+	//  @return TopologyStreamListItem
+	GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItem, *_nethttp.Response, error)
+
+	/*
+	GetTopologySynchronizationStreamStatusById Metrics of a specific Topology Stream, queried by node id
+
+	Metrics of a specific Topology Stream, queried by node id
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetTopologySynchronizationStreamStatusByIdRequest
+	*/
+	GetTopologySynchronizationStreamStatusById(ctx _context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest
+
+	// GetTopologySynchronizationStreamStatusByIdExecute executes the request
+	//  @return TopologyStreamMetrics
+	GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (TopologyStreamMetrics, *_nethttp.Response, error)
+
+	/*
+	GetTopologySynchronizationStreams Overview of the topology synchronization streams
+
+	Overview of the topology synchronization streams
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetTopologySynchronizationStreamsRequest
+	*/
+	GetTopologySynchronizationStreams(ctx _context.Context) ApiGetTopologySynchronizationStreamsRequest
+
+	// GetTopologySynchronizationStreamsExecute executes the request
+	//  @return TopologyStreamList
+	GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error)
+}
+
 // TopologySynchronizationApiService TopologySynchronizationApi service
 type TopologySynchronizationApiService service
 
 type ApiGetTopologySynchronizationStreamByIdRequest struct {
 	ctx _context.Context
-	ApiService *TopologySynchronizationApiService
+	ApiService TopologySynchronizationApi
 	identifier *string
 	identifierType *IdentifierType
 }
@@ -182,7 +227,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 
 type ApiGetTopologySynchronizationStreamStatusByIdRequest struct {
 	ctx _context.Context
-	ApiService *TopologySynchronizationApiService
+	ApiService TopologySynchronizationApi
 	identifier *string
 }
 
@@ -326,7 +371,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 
 type ApiGetTopologySynchronizationStreamsRequest struct {
 	ctx _context.Context
-	ApiService *TopologySynchronizationApiService
+	ApiService TopologySynchronizationApi
 }
 
 

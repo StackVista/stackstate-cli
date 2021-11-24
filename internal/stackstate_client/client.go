@@ -50,17 +50,17 @@ type APIClient struct {
 
 	// API Services
 
-	ApiTokenApi *ApiTokenApiService
+	ApiTokenApi ApiTokenApi
 
-	EventApi *EventApiService
+	EventApi EventApi
 
-	HealthSynchronizationApi *HealthSynchronizationApiService
+	HealthSynchronizationApi HealthSynchronizationApi
 
-	ScriptingApi *ScriptingApiService
+	ScriptingApi ScriptingApi
 
-	TopologySynchronizationApi *TopologySynchronizationApiService
+	TopologySynchronizationApi TopologySynchronizationApi
 
-	UserProfileApi *UserProfileApiService
+	UserProfileApi UserProfileApi
 }
 
 type service struct {

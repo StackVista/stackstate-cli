@@ -24,12 +24,43 @@ var (
 	_ _context.Context
 )
 
+type UserProfileApi interface {
+
+	/*
+	GetCurrentUserProfile Get current user profile
+
+	Get current user profile.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetCurrentUserProfileRequest
+	*/
+	GetCurrentUserProfile(ctx _context.Context) ApiGetCurrentUserProfileRequest
+
+	// GetCurrentUserProfileExecute executes the request
+	//  @return UserProfile
+	GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error)
+
+	/*
+	SaveCurrentUserProfile Save current user profile
+
+	Save current user profile.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiSaveCurrentUserProfileRequest
+	*/
+	SaveCurrentUserProfile(ctx _context.Context) ApiSaveCurrentUserProfileRequest
+
+	// SaveCurrentUserProfileExecute executes the request
+	//  @return UserProfile
+	SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error)
+}
+
 // UserProfileApiService UserProfileApi service
 type UserProfileApiService service
 
 type ApiGetCurrentUserProfileRequest struct {
 	ctx _context.Context
-	ApiService *UserProfileApiService
+	ApiService UserProfileApi
 }
 
 
@@ -164,7 +195,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 
 type ApiSaveCurrentUserProfileRequest struct {
 	ctx _context.Context
-	ApiService *UserProfileApiService
+	ApiService UserProfileApi
 	userProfile *UserProfile
 }
 

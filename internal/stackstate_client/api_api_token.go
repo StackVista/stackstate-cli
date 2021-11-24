@@ -24,12 +24,29 @@ var (
 	_ _context.Context
 )
 
+type ApiTokenApi interface {
+
+	/*
+	GetCurrentUserApiTokens Get current user's API tokens
+
+	Get all API token of the logged-in user.
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetCurrentUserApiTokensRequest
+	*/
+	GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest
+
+	// GetCurrentUserApiTokensExecute executes the request
+	//  @return []ApiToken
+	GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error)
+}
+
 // ApiTokenApiService ApiTokenApi service
 type ApiTokenApiService service
 
 type ApiGetCurrentUserApiTokensRequest struct {
 	ctx _context.Context
-	ApiService *ApiTokenApiService
+	ApiService ApiTokenApi
 }
 
 
