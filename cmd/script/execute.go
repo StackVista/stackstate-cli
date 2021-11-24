@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
@@ -44,10 +45,6 @@ func RunScriptExecuteCommand(cfg *config.Config, cmd *cobra.Command, args []stri
 	}
 	verbose, _ := cmd.Flags().GetCount("verbose")
 
-	if verbose > 0 {
-		fmt.Printf("Config: %+v\n", cfg)
-	}
-
 	configuration := stackstate_client.NewConfiguration()
 	configuration.Servers[0] = stackstate_client.ServerConfiguration{
 		URL:         cfg.URL,
@@ -75,8 +72,10 @@ func RunScriptExecuteCommand(cfg *config.Config, cmd *cobra.Command, args []stri
 	}
 
 	if verbose > 0 {
-		scriptRequestStr, _ := json.Marshal(scriptRequest)
-		fmt.Println("Executing script request:", string(scriptRequestStr))
+		j, _ := json.Marshal(scriptRequest)
+		log.Ctx(cmd.Context()).Info().
+			RawJSON("ExecuteScriptRequest", j).
+			Msg("Executing script request")
 	}
 
 	scriptResponse, resp, err := scriptExecute.ExecuteScriptRequest(scriptRequest).Execute()

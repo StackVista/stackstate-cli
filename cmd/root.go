@@ -11,6 +11,7 @@ import (
 
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 )
@@ -77,9 +78,23 @@ func Execute(ctx context.Context) {
 
 	t := taipan.New(taipanConfig)
 	t.Inject(cmd)
+	SetVerboseLogging(cmd, cfg)
 
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		fmt.Fprintf(os.Stderr, "🎃 %s\n", color.Red(err))
 		os.Exit(2)
+	}
+}
+
+func SetVerboseLogging(cmd *cobra.Command, cfg *config.Config) {
+	f := cmd.PersistentPreRunE
+	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		verbose, _ := cmd.Flags().GetCount("verbose")
+		if verbose > 0 {
+			zerolog.SetGlobalLevel(zerolog.TraceLevel)
+		}
+		ret := f(cmd, args)
+		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cfg))
+		return ret
 	}
 }
