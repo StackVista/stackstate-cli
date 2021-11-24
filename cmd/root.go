@@ -65,8 +65,6 @@ func Execute(ctx context.Context) {
 		os.Exit(1)
 	}
 
-	zerolog.SetGlobalLevel(zerolog.ErrorLevel)
-
 	taipanConfig := &taipan.Config{
 		DefaultConfigName:  "cli",
 		ConfigurationPaths: []string{".", homeFolder},
@@ -87,6 +85,7 @@ func Execute(ctx context.Context) {
 }
 
 func SetVerboseLogging(cmd *cobra.Command, cfg *config.Config) {
+	zerolog.SetGlobalLevel(zerolog.Disabled)
 	f := cmd.PersistentPreRunE
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		verbose, _ := cmd.Flags().GetCount("verbose")
