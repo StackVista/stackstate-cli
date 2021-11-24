@@ -94,6 +94,6 @@ func RunScriptExecuteCommand(cfg *config.Config, cmd *cobra.Command, args []stri
 		}
 	}
 
-	fmt.Println(scriptResponse["result"])
+	cmd.Println(scriptResponse["result"])
 	return nil
 }
