@@ -21,27 +21,12 @@ const (
 )
 
 func RootCommand() *cobra.Command {
-	var verbosity int
-
 	cmd := &cobra.Command{
 		Use:   "sts",
 		Short: "StackState Command Line Interface",
-		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
-			switch verbosity {
-			case 0: //nolint:gomnd
-				// Nothing to do
-			case 1: //nolint:gomnd
-				zerolog.SetGlobalLevel(zerolog.InfoLevel)
-			case 2: //nolint:gomnd
-				zerolog.SetGlobalLevel(zerolog.DebugLevel)
-			default:
-				zerolog.SetGlobalLevel(zerolog.TraceLevel)
-			}
-
-			return nil
-		},
 	}
 
+	var verbosity int
 	cmd.PersistentFlags().CountVarP(&verbosity, "verbose", "v", "Print more verbose logging.")
 
 	return cmd
