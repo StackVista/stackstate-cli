@@ -6,15 +6,16 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-func ScriptExecuteCommand() *cobra.Command {
+func ScriptExecuteCommand(cfg *config.Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "execute <script>",
 		Args:  cobra.ExactArgs(1),
 		Short: "Execute a STSL script.",
-		RunE:  RunScriptExecuteCommand,
+		RunE:  RunCmdWithError(cfg, RunScriptExecuteCommand),
 	}
 
 	cmd.Flags().StringP("arguments-script", "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
@@ -23,7 +24,13 @@ func ScriptExecuteCommand() *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cmd *cobra.Command, args []string) error {
+func RunCmdWithError(cfg *config.Config, runFn func(*config.Config, *cobra.Command, []string) error) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		return runFn(cfg, cmd, args)
+	}
+}
+
+func RunScriptExecuteCommand(cfg *config.Config, cmd *cobra.Command, args []string) error {
 	var argumentsScript *string
 	a, _ := cmd.Flags().GetString("arguments-script")
 	if a != "" {
@@ -37,16 +44,20 @@ func RunScriptExecuteCommand(cmd *cobra.Command, args []string) error {
 	}
 	verbose, _ := cmd.Flags().GetCount("verbose")
 
+	if verbose > 0 {
+		fmt.Printf("Config: %+v\n", cfg)
+	}
+
 	configuration := stackstate_client.NewConfiguration()
 	configuration.Servers[0] = stackstate_client.ServerConfiguration{
-		URL:         "https://master.preprod.stackstate.io/api/",
+		URL:         cfg.URL,
 		Description: "",
 		Variables:   nil,
 	}
 
 	auth := make(map[string]stackstate_client.APIKey)
 	auth["ApiToken"] = stackstate_client.APIKey{
-		Key:    "Sxeqe2hKAaTUgpQnIv3_ctkTYjsN8pz2",
+		Key:    cfg.ApiToken,
 		Prefix: "",
 	}
 	ctx := context.WithValue(
@@ -70,16 +81,17 @@ func RunScriptExecuteCommand(cmd *cobra.Command, args []string) error {
 
 	scriptResponse, resp, err := scriptExecute.ExecuteScriptRequest(scriptRequest).Execute()
 
-	if resp.StatusCode == 401 {
-		return fmt.Errorf("401 Unauthorized. Please check your API Token")
-	}
-
 	if err != nil {
+		var status string
+		if resp != nil {
+			status = resp.Status + ". "
+		}
+
 		switch v := err.(type) {
 		case stackstate_client.GenericOpenAPIError:
-			return fmt.Errorf("%v. Error response: %+v", resp.Status, string(v.Body()))
+			return fmt.Errorf("%vError response: %+v", status, string(v.Body()))
 		default:
-			return fmt.Errorf("%v. %+v", resp.Status, v)
+			return fmt.Errorf("%v%+v", status, v)
 		}
 	}
 

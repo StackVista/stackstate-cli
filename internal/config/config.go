@@ -5,6 +5,8 @@ import (
 )
 
 type Config struct {
+	URL      string `yaml:"url"`
+	ApiToken string `yaml:"api-token"`
 }
 
 func (s *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {

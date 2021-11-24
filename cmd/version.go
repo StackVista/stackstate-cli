@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 )
 
 var (
@@ -12,7 +13,7 @@ var (
 	Date    string
 )
 
-func VersionCommand() *cobra.Command {
+func VersionCommand(_ *config.Config) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Display the version number",

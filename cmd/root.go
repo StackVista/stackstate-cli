@@ -48,8 +48,8 @@ func RootCommand() *cobra.Command {
 
 func AllCommands(cfg *config.Config) *cobra.Command {
 	cmd := RootCommand()
-	cmd.AddCommand(VersionCommand())
-	cmd.AddCommand(ScriptCommand())
+	cmd.AddCommand(VersionCommand(cfg))
+	cmd.AddCommand(ScriptCommand(cfg))
 
 	return cmd
 }
@@ -58,7 +58,7 @@ func Execute(ctx context.Context) {
 	cfg := &config.Config{}
 	cmd := AllCommands(cfg)
 
-	homeFolder, err := home.Expand("~/.sts")
+	homeFolder, err := home.Expand("~/.stackstate")
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%s\n", color.Red(err))
 		os.Exit(1)
@@ -67,7 +67,7 @@ func Execute(ctx context.Context) {
 	zerolog.SetGlobalLevel(zerolog.ErrorLevel)
 
 	taipanConfig := &taipan.Config{
-		DefaultConfigName:  "sts",
+		DefaultConfigName:  "cli",
 		ConfigurationPaths: []string{".", homeFolder},
 		EnvironmentPrefix:  EnvPrefix,
 		AddConfigFlag:      true,
