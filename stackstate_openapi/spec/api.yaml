@@ -52,3 +52,11 @@ paths:
     $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2Fstatus"
   /script/execute:
     $ref: "script.api.yaml#/paths/%2Fscript%2Fexecute"
+security:
+- ApiToken: []
+components:
+  securitySchemes:
+    ApiToken:
+      type: apiKey
+      in: header
+      name: X-API-Token

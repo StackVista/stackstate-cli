@@ -58,7 +58,7 @@ Other parameters are passed through a pointer to a apiGetCurrentUserProfileReque
 
 ### Authorization
 
-[app_id](../README.md#app_id)
+[ApiToken](../README.md#ApiToken)
 
 ### HTTP request headers
 
@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[app_id](../README.md#app_id)
+[ApiToken](../README.md#ApiToken)
 
 ### HTTP request headers
 

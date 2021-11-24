@@ -57,7 +57,7 @@ Other parameters are passed through a pointer to a apiGetCurrentUserApiTokensReq
 
 ### Authorization
 
-[app_id](../README.md#app_id)
+[ApiToken](../README.md#ApiToken)
 
 ### HTTP request headers
 

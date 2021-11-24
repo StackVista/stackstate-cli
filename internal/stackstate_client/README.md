@@ -176,7 +176,13 @@ Class | Method | HTTP request | Description
 
 
 
-### app_id
+### ApiToken
+
+- **Type**: API key
+- **API key parameter name**: X-API-Token
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Token and passed in as the auth context for each request.
 
 
 ## Documentation for Utility Methods

@@ -16,7 +16,7 @@ externalDocs:
 servers:
 - url: /
 security:
-- app_id: []
+- ApiToken: []
 paths:
   /user/profile:
     get:
@@ -2267,6 +2267,7 @@ components:
       - message
       type: object
   securitySchemes:
-    app_id:
-      scheme: ApiToken
-      type: http
+    ApiToken:
+      in: header
+      name: X-API-Token
+      type: apiKey
