@@ -13,7 +13,7 @@ func ScriptExecuteCommand() *cobra.Command {
 		Use:   "execute <script>",
 		Args:  cobra.ExactArgs(1),
 		Short: "Execute a STSL script.",
-		Run:   RunScriptExecuteCommand,
+		RunE:  RunScriptExecuteCommand,
 	}
 
 	cmd.Flags().StringP("arguments-script", "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
@@ -22,7 +22,7 @@ func ScriptExecuteCommand() *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cmd *cobra.Command, args []string) {
+func RunScriptExecuteCommand(cmd *cobra.Command, args []string) error {
 	var argumentsScript *string
 	a, _ := cmd.Flags().GetString("arguments-script")
 	if a != "" {
@@ -43,7 +43,7 @@ func RunScriptExecuteCommand(cmd *cobra.Command, args []string) {
 		Variables:   nil,
 	}
 
-	configuration.DefaultHeader["Authorization"] = "ApiToken ihm6EevUJ0lfKDx8ccKzNLxss3wyk1jk"
+	configuration.DefaultHeader["Authorization"] = "ApiToken Sxeqe2hKAaTUgpQnIv3_ctkTYjsN8pz2"
 	client := stackstate_client.NewAPIClient(configuration)
 	scriptExecute := client.ScriptingApi.ScriptExecute(cmd.Context())
 	scriptRequest := stackstate_client.ExecuteScriptRequest{
@@ -57,16 +57,21 @@ func RunScriptExecuteCommand(cmd *cobra.Command, args []string) {
 		fmt.Println("Executing script request:", string(scriptRequestStr))
 	}
 
-	resp, _, err := scriptExecute.ExecuteScriptRequest(scriptRequest).Execute()
+	scriptResponse, resp, err := scriptExecute.ExecuteScriptRequest(scriptRequest).Execute()
+
+	if resp.StatusCode == 401 {
+		return fmt.Errorf("401 Unauthorized. Please check your API Token")
+	}
+
 	if err != nil {
 		switch v := err.(type) {
 		case stackstate_client.GenericOpenAPIError:
-			fmt.Println("Got err with model ", v.Model)
+			return fmt.Errorf("%v. Error response: %+v", resp.Status, string(v.Body()))
 		default:
-			fmt.Println("Got err ", v)
+			return fmt.Errorf("%v. %+v", resp.Status, v)
 		}
-		return
 	}
 
-	fmt.Println(resp["result"])
+	fmt.Println(scriptResponse["result"])
+	return nil
 }

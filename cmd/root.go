@@ -60,7 +60,7 @@ func Execute(ctx context.Context) {
 
 	homeFolder, err := home.Expand("~/.sts")
 	if err != nil {
-		fmt.Printf("%s", color.Red(err))
+		fmt.Fprintf(os.Stderr, "%s\n", color.Red(err))
 		os.Exit(1)
 	}
 
@@ -79,7 +79,7 @@ func Execute(ctx context.Context) {
 	t.Inject(cmd)
 
 	if err := cmd.ExecuteContext(ctx); err != nil {
-		fmt.Printf("🎃 %s\n", color.Red(err))
-		os.Exit(1)
+		fmt.Fprintf(os.Stderr, "🎃 %s\n", color.Red(err))
+		os.Exit(2)
 	}
 }
