@@ -36,44 +36,38 @@ func HealthSubStreamNotFoundAsHealthSubStreamError(v *HealthSubStreamNotFound) H
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *HealthSubStreamError) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into HealthStreamNotFound
-	err = json.Unmarshal(data, &dst.HealthStreamNotFound)
-	if err == nil {
-		jsonHealthStreamNotFound, _ := json.Marshal(dst.HealthStreamNotFound)
-		if string(jsonHealthStreamNotFound) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'HealthStreamNotFound'
+	if jsonDict["_type"] == "HealthStreamNotFound" {
+		// try to unmarshal JSON data into HealthStreamNotFound
+		err = json.Unmarshal(data, &dst.HealthStreamNotFound)
+		if err == nil {
+			return nil // data stored in dst.HealthStreamNotFound, return on the first match
+		} else {
 			dst.HealthStreamNotFound = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal HealthSubStreamError as HealthStreamNotFound: %s", err.Error())
 		}
-	} else {
-		dst.HealthStreamNotFound = nil
 	}
 
-	// try to unmarshal data into HealthSubStreamNotFound
-	err = json.Unmarshal(data, &dst.HealthSubStreamNotFound)
-	if err == nil {
-		jsonHealthSubStreamNotFound, _ := json.Marshal(dst.HealthSubStreamNotFound)
-		if string(jsonHealthSubStreamNotFound) == "{}" { // empty struct
+	// check if the discriminator value is 'HealthSubStreamNotFound'
+	if jsonDict["_type"] == "HealthSubStreamNotFound" {
+		// try to unmarshal JSON data into HealthSubStreamNotFound
+		err = json.Unmarshal(data, &dst.HealthSubStreamNotFound)
+		if err == nil {
+			return nil // data stored in dst.HealthSubStreamNotFound, return on the first match
+		} else {
 			dst.HealthSubStreamNotFound = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal HealthSubStreamError as HealthSubStreamNotFound: %s", err.Error())
 		}
-	} else {
-		dst.HealthSubStreamNotFound = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.HealthStreamNotFound = nil
-		dst.HealthSubStreamNotFound = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(HealthSubStreamError)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(HealthSubStreamError)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

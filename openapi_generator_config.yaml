@@ -3,3 +3,4 @@ gitHost: gitlab.com
 gitUserId: stackvista
 gitRepoId: stackstate-cli2
 packageName: stackstate_client
+useOneOfDiscriminatorLookup: true

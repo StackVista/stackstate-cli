@@ -42,58 +42,50 @@ func UserNotLoggedInErrorAsUserProfileSaveError(v *UserNotLoggedInError) UserPro
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UserProfileSaveError) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into UserNameMismatchError
-	err = json.Unmarshal(data, &dst.UserNameMismatchError)
-	if err == nil {
-		jsonUserNameMismatchError, _ := json.Marshal(dst.UserNameMismatchError)
-		if string(jsonUserNameMismatchError) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'UserNameMismatchError'
+	if jsonDict["_type"] == "UserNameMismatchError" {
+		// try to unmarshal JSON data into UserNameMismatchError
+		err = json.Unmarshal(data, &dst.UserNameMismatchError)
+		if err == nil {
+			return nil // data stored in dst.UserNameMismatchError, return on the first match
+		} else {
 			dst.UserNameMismatchError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal UserProfileSaveError as UserNameMismatchError: %s", err.Error())
 		}
-	} else {
-		dst.UserNameMismatchError = nil
 	}
 
-	// try to unmarshal data into UserNotFoundError
-	err = json.Unmarshal(data, &dst.UserNotFoundError)
-	if err == nil {
-		jsonUserNotFoundError, _ := json.Marshal(dst.UserNotFoundError)
-		if string(jsonUserNotFoundError) == "{}" { // empty struct
+	// check if the discriminator value is 'UserNotFoundError'
+	if jsonDict["_type"] == "UserNotFoundError" {
+		// try to unmarshal JSON data into UserNotFoundError
+		err = json.Unmarshal(data, &dst.UserNotFoundError)
+		if err == nil {
+			return nil // data stored in dst.UserNotFoundError, return on the first match
+		} else {
 			dst.UserNotFoundError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal UserProfileSaveError as UserNotFoundError: %s", err.Error())
 		}
-	} else {
-		dst.UserNotFoundError = nil
 	}
 
-	// try to unmarshal data into UserNotLoggedInError
-	err = json.Unmarshal(data, &dst.UserNotLoggedInError)
-	if err == nil {
-		jsonUserNotLoggedInError, _ := json.Marshal(dst.UserNotLoggedInError)
-		if string(jsonUserNotLoggedInError) == "{}" { // empty struct
+	// check if the discriminator value is 'UserNotLoggedInError'
+	if jsonDict["_type"] == "UserNotLoggedInError" {
+		// try to unmarshal JSON data into UserNotLoggedInError
+		err = json.Unmarshal(data, &dst.UserNotLoggedInError)
+		if err == nil {
+			return nil // data stored in dst.UserNotLoggedInError, return on the first match
+		} else {
 			dst.UserNotLoggedInError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal UserProfileSaveError as UserNotLoggedInError: %s", err.Error())
 		}
-	} else {
-		dst.UserNotLoggedInError = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.UserNameMismatchError = nil
-		dst.UserNotFoundError = nil
-		dst.UserNotLoggedInError = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(UserProfileSaveError)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(UserProfileSaveError)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

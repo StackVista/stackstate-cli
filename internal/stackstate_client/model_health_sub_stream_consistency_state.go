@@ -42,58 +42,50 @@ func HealthSubStreamTransactionalIncrementsAsHealthSubStreamConsistencyState(v *
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *HealthSubStreamConsistencyState) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into HealthSubStreamExpiry
-	err = json.Unmarshal(data, &dst.HealthSubStreamExpiry)
-	if err == nil {
-		jsonHealthSubStreamExpiry, _ := json.Marshal(dst.HealthSubStreamExpiry)
-		if string(jsonHealthSubStreamExpiry) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'HealthSubStreamExpiry'
+	if jsonDict["_type"] == "HealthSubStreamExpiry" {
+		// try to unmarshal JSON data into HealthSubStreamExpiry
+		err = json.Unmarshal(data, &dst.HealthSubStreamExpiry)
+		if err == nil {
+			return nil // data stored in dst.HealthSubStreamExpiry, return on the first match
+		} else {
 			dst.HealthSubStreamExpiry = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal HealthSubStreamConsistencyState as HealthSubStreamExpiry: %s", err.Error())
 		}
-	} else {
-		dst.HealthSubStreamExpiry = nil
 	}
 
-	// try to unmarshal data into HealthSubStreamSnapshot
-	err = json.Unmarshal(data, &dst.HealthSubStreamSnapshot)
-	if err == nil {
-		jsonHealthSubStreamSnapshot, _ := json.Marshal(dst.HealthSubStreamSnapshot)
-		if string(jsonHealthSubStreamSnapshot) == "{}" { // empty struct
+	// check if the discriminator value is 'HealthSubStreamSnapshot'
+	if jsonDict["_type"] == "HealthSubStreamSnapshot" {
+		// try to unmarshal JSON data into HealthSubStreamSnapshot
+		err = json.Unmarshal(data, &dst.HealthSubStreamSnapshot)
+		if err == nil {
+			return nil // data stored in dst.HealthSubStreamSnapshot, return on the first match
+		} else {
 			dst.HealthSubStreamSnapshot = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal HealthSubStreamConsistencyState as HealthSubStreamSnapshot: %s", err.Error())
 		}
-	} else {
-		dst.HealthSubStreamSnapshot = nil
 	}
 
-	// try to unmarshal data into HealthSubStreamTransactionalIncrements
-	err = json.Unmarshal(data, &dst.HealthSubStreamTransactionalIncrements)
-	if err == nil {
-		jsonHealthSubStreamTransactionalIncrements, _ := json.Marshal(dst.HealthSubStreamTransactionalIncrements)
-		if string(jsonHealthSubStreamTransactionalIncrements) == "{}" { // empty struct
+	// check if the discriminator value is 'HealthSubStreamTransactionalIncrements'
+	if jsonDict["_type"] == "HealthSubStreamTransactionalIncrements" {
+		// try to unmarshal JSON data into HealthSubStreamTransactionalIncrements
+		err = json.Unmarshal(data, &dst.HealthSubStreamTransactionalIncrements)
+		if err == nil {
+			return nil // data stored in dst.HealthSubStreamTransactionalIncrements, return on the first match
+		} else {
 			dst.HealthSubStreamTransactionalIncrements = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal HealthSubStreamConsistencyState as HealthSubStreamTransactionalIncrements: %s", err.Error())
 		}
-	} else {
-		dst.HealthSubStreamTransactionalIncrements = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.HealthSubStreamExpiry = nil
-		dst.HealthSubStreamSnapshot = nil
-		dst.HealthSubStreamTransactionalIncrements = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(HealthSubStreamConsistencyState)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(HealthSubStreamConsistencyState)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

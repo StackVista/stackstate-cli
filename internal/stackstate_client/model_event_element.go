@@ -36,44 +36,38 @@ func EventRelationAsEventElement(v *EventRelation) EventElement {
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *EventElement) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into EventComponent
-	err = json.Unmarshal(data, &dst.EventComponent)
-	if err == nil {
-		jsonEventComponent, _ := json.Marshal(dst.EventComponent)
-		if string(jsonEventComponent) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'EventComponent'
+	if jsonDict["_type"] == "EventComponent" {
+		// try to unmarshal JSON data into EventComponent
+		err = json.Unmarshal(data, &dst.EventComponent)
+		if err == nil {
+			return nil // data stored in dst.EventComponent, return on the first match
+		} else {
 			dst.EventComponent = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal EventElement as EventComponent: %s", err.Error())
 		}
-	} else {
-		dst.EventComponent = nil
 	}
 
-	// try to unmarshal data into EventRelation
-	err = json.Unmarshal(data, &dst.EventRelation)
-	if err == nil {
-		jsonEventRelation, _ := json.Marshal(dst.EventRelation)
-		if string(jsonEventRelation) == "{}" { // empty struct
+	// check if the discriminator value is 'EventRelation'
+	if jsonDict["_type"] == "EventRelation" {
+		// try to unmarshal JSON data into EventRelation
+		err = json.Unmarshal(data, &dst.EventRelation)
+		if err == nil {
+			return nil // data stored in dst.EventRelation, return on the first match
+		} else {
 			dst.EventRelation = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal EventElement as EventRelation: %s", err.Error())
 		}
-	} else {
-		dst.EventRelation = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.EventComponent = nil
-		dst.EventRelation = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(EventElement)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(EventElement)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

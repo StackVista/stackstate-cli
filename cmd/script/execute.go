@@ -59,7 +59,12 @@ func RunScriptExecuteCommand(cmd *cobra.Command, args []string) {
 
 	resp, _, err := scriptExecute.ExecuteScriptRequest(scriptRequest).Execute()
 	if err != nil {
-		fmt.Println("Got err ", err)
+		switch v := err.(type) {
+		case stackstate_client.GenericOpenAPIError:
+			fmt.Println("Got err with model ", v.Model)
+		default:
+			fmt.Println("Got err ", v)
+		}
 		return
 	}
 

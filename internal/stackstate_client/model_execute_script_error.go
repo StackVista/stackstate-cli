@@ -72,128 +72,110 @@ func ExecuteScriptWrongReturnTypeErrorAsExecuteScriptError(v *ExecuteScriptWrong
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *ExecuteScriptError) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into ExecuteScriptArgumentsScriptError
-	err = json.Unmarshal(data, &dst.ExecuteScriptArgumentsScriptError)
-	if err == nil {
-		jsonExecuteScriptArgumentsScriptError, _ := json.Marshal(dst.ExecuteScriptArgumentsScriptError)
-		if string(jsonExecuteScriptArgumentsScriptError) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'ExecuteScriptArgumentsScriptError'
+	if jsonDict["_type"] == "ExecuteScriptArgumentsScriptError" {
+		// try to unmarshal JSON data into ExecuteScriptArgumentsScriptError
+		err = json.Unmarshal(data, &dst.ExecuteScriptArgumentsScriptError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptArgumentsScriptError, return on the first match
+		} else {
 			dst.ExecuteScriptArgumentsScriptError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptArgumentsScriptError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptArgumentsScriptError = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptExceptionError
-	err = json.Unmarshal(data, &dst.ExecuteScriptExceptionError)
-	if err == nil {
-		jsonExecuteScriptExceptionError, _ := json.Marshal(dst.ExecuteScriptExceptionError)
-		if string(jsonExecuteScriptExceptionError) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptExceptionError'
+	if jsonDict["_type"] == "ExecuteScriptExceptionError" {
+		// try to unmarshal JSON data into ExecuteScriptExceptionError
+		err = json.Unmarshal(data, &dst.ExecuteScriptExceptionError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptExceptionError, return on the first match
+		} else {
 			dst.ExecuteScriptExceptionError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptExceptionError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptExceptionError = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptExecutionError
-	err = json.Unmarshal(data, &dst.ExecuteScriptExecutionError)
-	if err == nil {
-		jsonExecuteScriptExecutionError, _ := json.Marshal(dst.ExecuteScriptExecutionError)
-		if string(jsonExecuteScriptExecutionError) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptExecutionError'
+	if jsonDict["_type"] == "ExecuteScriptExecutionError" {
+		// try to unmarshal JSON data into ExecuteScriptExecutionError
+		err = json.Unmarshal(data, &dst.ExecuteScriptExecutionError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptExecutionError, return on the first match
+		} else {
 			dst.ExecuteScriptExecutionError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptExecutionError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptExecutionError = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptGroovyRuntimeError
-	err = json.Unmarshal(data, &dst.ExecuteScriptGroovyRuntimeError)
-	if err == nil {
-		jsonExecuteScriptGroovyRuntimeError, _ := json.Marshal(dst.ExecuteScriptGroovyRuntimeError)
-		if string(jsonExecuteScriptGroovyRuntimeError) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptGroovyRuntimeError'
+	if jsonDict["_type"] == "ExecuteScriptGroovyRuntimeError" {
+		// try to unmarshal JSON data into ExecuteScriptGroovyRuntimeError
+		err = json.Unmarshal(data, &dst.ExecuteScriptGroovyRuntimeError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptGroovyRuntimeError, return on the first match
+		} else {
 			dst.ExecuteScriptGroovyRuntimeError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptGroovyRuntimeError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptGroovyRuntimeError = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptSecurityError
-	err = json.Unmarshal(data, &dst.ExecuteScriptSecurityError)
-	if err == nil {
-		jsonExecuteScriptSecurityError, _ := json.Marshal(dst.ExecuteScriptSecurityError)
-		if string(jsonExecuteScriptSecurityError) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptSecurityError'
+	if jsonDict["_type"] == "ExecuteScriptSecurityError" {
+		// try to unmarshal JSON data into ExecuteScriptSecurityError
+		err = json.Unmarshal(data, &dst.ExecuteScriptSecurityError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptSecurityError, return on the first match
+		} else {
 			dst.ExecuteScriptSecurityError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptSecurityError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptSecurityError = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptSyntaxErrors
-	err = json.Unmarshal(data, &dst.ExecuteScriptSyntaxErrors)
-	if err == nil {
-		jsonExecuteScriptSyntaxErrors, _ := json.Marshal(dst.ExecuteScriptSyntaxErrors)
-		if string(jsonExecuteScriptSyntaxErrors) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptSyntaxErrors'
+	if jsonDict["_type"] == "ExecuteScriptSyntaxErrors" {
+		// try to unmarshal JSON data into ExecuteScriptSyntaxErrors
+		err = json.Unmarshal(data, &dst.ExecuteScriptSyntaxErrors)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptSyntaxErrors, return on the first match
+		} else {
 			dst.ExecuteScriptSyntaxErrors = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptSyntaxErrors: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptSyntaxErrors = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptTimeoutError
-	err = json.Unmarshal(data, &dst.ExecuteScriptTimeoutError)
-	if err == nil {
-		jsonExecuteScriptTimeoutError, _ := json.Marshal(dst.ExecuteScriptTimeoutError)
-		if string(jsonExecuteScriptTimeoutError) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptTimeoutError'
+	if jsonDict["_type"] == "ExecuteScriptTimeoutError" {
+		// try to unmarshal JSON data into ExecuteScriptTimeoutError
+		err = json.Unmarshal(data, &dst.ExecuteScriptTimeoutError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptTimeoutError, return on the first match
+		} else {
 			dst.ExecuteScriptTimeoutError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptTimeoutError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptTimeoutError = nil
 	}
 
-	// try to unmarshal data into ExecuteScriptWrongReturnTypeError
-	err = json.Unmarshal(data, &dst.ExecuteScriptWrongReturnTypeError)
-	if err == nil {
-		jsonExecuteScriptWrongReturnTypeError, _ := json.Marshal(dst.ExecuteScriptWrongReturnTypeError)
-		if string(jsonExecuteScriptWrongReturnTypeError) == "{}" { // empty struct
+	// check if the discriminator value is 'ExecuteScriptWrongReturnTypeError'
+	if jsonDict["_type"] == "ExecuteScriptWrongReturnTypeError" {
+		// try to unmarshal JSON data into ExecuteScriptWrongReturnTypeError
+		err = json.Unmarshal(data, &dst.ExecuteScriptWrongReturnTypeError)
+		if err == nil {
+			return nil // data stored in dst.ExecuteScriptWrongReturnTypeError, return on the first match
+		} else {
 			dst.ExecuteScriptWrongReturnTypeError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal ExecuteScriptError as ExecuteScriptWrongReturnTypeError: %s", err.Error())
 		}
-	} else {
-		dst.ExecuteScriptWrongReturnTypeError = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.ExecuteScriptArgumentsScriptError = nil
-		dst.ExecuteScriptExceptionError = nil
-		dst.ExecuteScriptExecutionError = nil
-		dst.ExecuteScriptGroovyRuntimeError = nil
-		dst.ExecuteScriptSecurityError = nil
-		dst.ExecuteScriptSyntaxErrors = nil
-		dst.ExecuteScriptTimeoutError = nil
-		dst.ExecuteScriptWrongReturnTypeError = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(ExecuteScriptError)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(ExecuteScriptError)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON

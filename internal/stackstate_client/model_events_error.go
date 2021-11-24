@@ -48,72 +48,62 @@ func StqlParsingErrorAsEventsError(v *StqlParsingError) EventsError {
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *EventsError) UnmarshalJSON(data []byte) error {
 	var err error
-	match := 0
-	// try to unmarshal data into ElasticSearchError
-	err = json.Unmarshal(data, &dst.ElasticSearchError)
-	if err == nil {
-		jsonElasticSearchError, _ := json.Marshal(dst.ElasticSearchError)
-		if string(jsonElasticSearchError) == "{}" { // empty struct
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = json.Unmarshal(data, &jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'ElasticSearchError'
+	if jsonDict["_type"] == "ElasticSearchError" {
+		// try to unmarshal JSON data into ElasticSearchError
+		err = json.Unmarshal(data, &dst.ElasticSearchError)
+		if err == nil {
+			return nil // data stored in dst.ElasticSearchError, return on the first match
+		} else {
 			dst.ElasticSearchError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal EventsError as ElasticSearchError: %s", err.Error())
 		}
-	} else {
-		dst.ElasticSearchError = nil
 	}
 
-	// try to unmarshal data into EventNotFoundError
-	err = json.Unmarshal(data, &dst.EventNotFoundError)
-	if err == nil {
-		jsonEventNotFoundError, _ := json.Marshal(dst.EventNotFoundError)
-		if string(jsonEventNotFoundError) == "{}" { // empty struct
+	// check if the discriminator value is 'EventNotFoundError'
+	if jsonDict["_type"] == "EventNotFoundError" {
+		// try to unmarshal JSON data into EventNotFoundError
+		err = json.Unmarshal(data, &dst.EventNotFoundError)
+		if err == nil {
+			return nil // data stored in dst.EventNotFoundError, return on the first match
+		} else {
 			dst.EventNotFoundError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal EventsError as EventNotFoundError: %s", err.Error())
 		}
-	} else {
-		dst.EventNotFoundError = nil
 	}
 
-	// try to unmarshal data into RootCauseParsingError
-	err = json.Unmarshal(data, &dst.RootCauseParsingError)
-	if err == nil {
-		jsonRootCauseParsingError, _ := json.Marshal(dst.RootCauseParsingError)
-		if string(jsonRootCauseParsingError) == "{}" { // empty struct
+	// check if the discriminator value is 'RootCauseParsingError'
+	if jsonDict["_type"] == "RootCauseParsingError" {
+		// try to unmarshal JSON data into RootCauseParsingError
+		err = json.Unmarshal(data, &dst.RootCauseParsingError)
+		if err == nil {
+			return nil // data stored in dst.RootCauseParsingError, return on the first match
+		} else {
 			dst.RootCauseParsingError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal EventsError as RootCauseParsingError: %s", err.Error())
 		}
-	} else {
-		dst.RootCauseParsingError = nil
 	}
 
-	// try to unmarshal data into StqlParsingError
-	err = json.Unmarshal(data, &dst.StqlParsingError)
-	if err == nil {
-		jsonStqlParsingError, _ := json.Marshal(dst.StqlParsingError)
-		if string(jsonStqlParsingError) == "{}" { // empty struct
+	// check if the discriminator value is 'StqlParsingError'
+	if jsonDict["_type"] == "StqlParsingError" {
+		// try to unmarshal JSON data into StqlParsingError
+		err = json.Unmarshal(data, &dst.StqlParsingError)
+		if err == nil {
+			return nil // data stored in dst.StqlParsingError, return on the first match
+		} else {
 			dst.StqlParsingError = nil
-		} else {
-			match++
+			return fmt.Errorf("Failed to unmarshal EventsError as StqlParsingError: %s", err.Error())
 		}
-	} else {
-		dst.StqlParsingError = nil
 	}
 
-	if match > 1 { // more than 1 match
-		// reset to nil
-		dst.ElasticSearchError = nil
-		dst.EventNotFoundError = nil
-		dst.RootCauseParsingError = nil
-		dst.StqlParsingError = nil
-
-		return fmt.Errorf("Data matches more than one schema in oneOf(EventsError)")
-	} else if match == 1 {
-		return nil // exactly one match
-	} else { // no match
-		return fmt.Errorf("Data failed to match schemas in oneOf(EventsError)")
-	}
+	return nil
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
