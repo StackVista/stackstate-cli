@@ -32,7 +32,6 @@ docs/ExecuteScriptExceptionError.md
 docs/ExecuteScriptExecutionError.md
 docs/ExecuteScriptGroovyRuntimeError.md
 docs/ExecuteScriptRequest.md
-docs/ExecuteScriptResponse.md
 docs/ExecuteScriptSecurityError.md
 docs/ExecuteScriptSyntaxErrors.md
 docs/ExecuteScriptSyntaxErrorsErrors.md
@@ -107,7 +106,6 @@ model_execute_script_exception_error.go
 model_execute_script_execution_error.go
 model_execute_script_groovy_runtime_error.go
 model_execute_script_request.go
-model_execute_script_response.go
 model_execute_script_security_error.go
 model_execute_script_syntax_errors.go
 model_execute_script_syntax_errors_errors.go

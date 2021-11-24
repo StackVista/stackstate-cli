@@ -123,7 +123,6 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptExecutionError](docs/ExecuteScriptExecutionError.md)
  - [ExecuteScriptGroovyRuntimeError](docs/ExecuteScriptGroovyRuntimeError.md)
  - [ExecuteScriptRequest](docs/ExecuteScriptRequest.md)
- - [ExecuteScriptResponse](docs/ExecuteScriptResponse.md)
  - [ExecuteScriptSecurityError](docs/ExecuteScriptSecurityError.md)
  - [ExecuteScriptSyntaxErrors](docs/ExecuteScriptSyntaxErrors.md)
  - [ExecuteScriptSyntaxErrorsErrors](docs/ExecuteScriptSyntaxErrorsErrors.md)
@@ -175,7 +174,9 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Authorization
 
- Endpoints do not require authorization.
+
+
+### app_id
 
 
 ## Documentation for Utility Methods

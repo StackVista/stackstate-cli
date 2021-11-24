@@ -28,8 +28,8 @@ var (
 type ScriptingApiService service
 
 type ApiScriptExecuteRequest struct {
-	ctx                  _context.Context
-	ApiService           *ScriptingApiService
+	ctx _context.Context
+	ApiService *ScriptingApiService
 	executeScriptRequest *ExecuteScriptRequest
 }
 
@@ -38,7 +38,7 @@ func (r ApiScriptExecuteRequest) ExecuteScriptRequest(executeScriptRequest Execu
 	return r
 }
 
-func (r ApiScriptExecuteRequest) Execute() (ExecuteScriptResponse, *_nethttp.Response, error) {
+func (r ApiScriptExecuteRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
 	return r.ApiService.ScriptExecuteExecute(r)
 }
 
@@ -53,20 +53,20 @@ Execute a StackState Scripting Language or Template Language script with arbitra
 func (a *ScriptingApiService) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return ExecuteScriptResponse
-func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
+//  @return map[string]interface{}
+func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (map[string]interface{}, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  ExecuteScriptResponse
+		localVarReturnValue  map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ScriptingApiService.ScriptExecute")
@@ -118,9 +118,6 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (E
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
-
-	println(localVarHTTPResponse.StatusCode)
-	println(localVarBody)
 
 	if localVarHTTPResponse.StatusCode >= 300 {
 		newErr := GenericOpenAPIError{

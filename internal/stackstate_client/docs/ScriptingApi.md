@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ScriptExecute
 
-> ExecuteScriptResponse ScriptExecute(ctx).ExecuteScriptRequest(executeScriptRequest).Execute()
+> map[string]interface{} ScriptExecute(ctx).ExecuteScriptRequest(executeScriptRequest).Execute()
 
 Execute script
 
@@ -38,7 +38,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `ScriptingApi.ScriptExecute``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ScriptExecute`: ExecuteScriptResponse
+    // response from `ScriptExecute`: map[string]interface{}
     fmt.Fprintf(os.Stdout, "Response from `ScriptingApi.ScriptExecute`: %v\n", resp)
 }
 ```
@@ -58,11 +58,11 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ExecuteScriptResponse**](ExecuteScriptResponse.md)
+**map[string]interface{}**
 
 ### Authorization
 
-No authorization required
+[app_id](../README.md#app_id)
 
 ### HTTP request headers
 

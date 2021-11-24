@@ -15,6 +15,8 @@ externalDocs:
   url: https://docs.stackstate.com/
 servers:
 - url: /
+security:
+- app_id: []
 paths:
   /user/profile:
     get:
@@ -964,8 +966,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericServerError'
           description: Error when handling the request on the server side.
-      security:
-      - ApiKez: []
       summary: Execute script
       tags:
       - scripting
@@ -2099,16 +2099,6 @@ components:
       - bucketSizeSeconds
       type: object
     ExecuteScriptResponse:
-      example:
-        result: '{}'
-      properties:
-        result:
-          description: 'Can be of any type: boolean, number, string, array, object
-            or null.'
-          nullable: true
-          type: object
-      required:
-      - result
       type: object
     ExecuteScriptError:
       discriminator:
@@ -2276,3 +2266,7 @@ components:
       - location
       - message
       type: object
+  securitySchemes:
+    app_id:
+      scheme: ApiToken
+      type: http

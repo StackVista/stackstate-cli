@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[app_id](../README.md#app_id)
 
 ### HTTP request headers
 
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[app_id](../README.md#app_id)
 
 ### HTTP request headers
 
@@ -193,7 +193,7 @@ Other parameters are passed through a pointer to a apiGetTopologySynchronization
 
 ### Authorization
 
-No authorization required
+[app_id](../README.md#app_id)
 
 ### HTTP request headers
 

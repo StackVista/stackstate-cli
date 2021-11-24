@@ -48,13 +48,6 @@ components:
         - script
     ExecuteScriptResponse:
       type: object
-      properties:
-        result:
-          type: object
-          description: "Can be of any type: boolean, number, string, array, object or null."
-          nullable: true
-      required:
-        - result
     ExecuteScriptError:
       type: object
       discriminator:
