@@ -40,6 +40,11 @@ func CmdRunEWithDeps(cli *Deps, runFn func(*Deps, *cobra.Command, []string) erro
 				Description: "",
 				Variables:   nil,
 			}
+			verbose, _ := cmd.Flags().GetCount("verbose")
+			if verbose > 0 {
+				configuration.Debug = true
+			}
+
 			client := sts.NewAPIClient(configuration)
 			cli.Client = client
 

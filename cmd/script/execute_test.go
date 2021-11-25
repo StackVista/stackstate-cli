@@ -33,6 +33,7 @@ func setupCommand(mockScriptingApiService MockScriptingApiService) (*printer.Moc
 
 func TestExecuteSuccess(t *testing.T) {
 	mockPrinter, cli, root := setupCommand(NewMockScriptingApiService())
+
 	cobra_util.ExecuteCommandWithContext(cli.Context, root, "test")
 
 	expected := []interface{}{"hello test"}
