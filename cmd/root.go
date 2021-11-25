@@ -68,7 +68,8 @@ func Execute(ctx context.Context) {
 
 	t := taipan.New(taipanConfig)
 	t.Inject(cmd)
-	SetVerboseLoggingAndClient(cmd, cli)
+	InjectVerboseLogging(cmd, cli)
+	InjectClient(cmd, cli)
 
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		fmt.Fprintf(os.Stderr, "🎃 %s\n", color.Red(err))
@@ -76,7 +77,7 @@ func Execute(ctx context.Context) {
 	}
 }
 
-func SetVerboseLoggingAndClient(cmd *cobra.Command, cli *di.Context) {
+func InjectVerboseLogging(cmd *cobra.Command, cli *di.Context) {
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	f := cmd.PersistentPreRunE
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
@@ -88,6 +89,15 @@ func SetVerboseLoggingAndClient(cmd *cobra.Command, cli *di.Context) {
 
 		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
 
+		return ret
+	}
+}
+
+func InjectClient(cmd *cobra.Command, cli *di.Context) {
+	f := cmd.PersistentPreRunE
+	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		ret := f(cmd, args)
+
 		configuration := stackstate_client.NewConfiguration()
 		configuration.Servers[0] = stackstate_client.ServerConfiguration{
 			URL:         cli.Config.URL,
@@ -96,6 +106,17 @@ func SetVerboseLoggingAndClient(cmd *cobra.Command, cli *di.Context) {
 		}
 		client := stackstate_client.NewAPIClient(configuration)
 		cli.Client = client
+
+		auth := make(map[string]stackstate_client.APIKey)
+		auth["ApiToken"] = stackstate_client.APIKey{
+			Key:    cli.Config.ApiToken,
+			Prefix: "",
+		}
+		context.WithValue(
+			cmd.Context(),
+			stackstate_client.ContextAPIKeys,
+			auth,
+		)
 
 		return ret
 	}
