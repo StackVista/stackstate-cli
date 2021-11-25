@@ -9,7 +9,7 @@ import (
 
 func MakeErrorFromResponse(err error, resp *http.Response) error {
 	var status string
-	if resp != nil {
+	if resp != nil && resp.Status != "" {
 		status = resp.Status + ". "
 	}
 
