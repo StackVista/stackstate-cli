@@ -1,29 +1,24 @@
-package script
+package stackstate_client
 
 import (
 	"context"
 	"net/http"
-
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 type MockScriptingApiService struct {
 	ReturnFromScriptExecuteExecute ScriptExecuteExecuteReturnValues
+	ExecuteScriptRequests          *[]ExecuteScriptRequest
 }
 
 func NewMockScriptingApiService() MockScriptingApiService {
-	resp := http.Response{
-		StatusCode: 200,
-	}
-	scriptResponse := make(map[string]interface{})
-	scriptResponse["result"] = "hello test"
-
+	reqs := make([]ExecuteScriptRequest, 0)
 	return MockScriptingApiService{
 		ReturnFromScriptExecuteExecute: ScriptExecuteExecuteReturnValues{
-			ScriptResponse: scriptResponse,
-			HttpResponse:   &resp,
+			ScriptResponse: map[string]interface{}{"result": "hello test"},
+			HttpResponse:   &http.Response{StatusCode: 200},
 			Error:          nil,
 		},
+		ExecuteScriptRequests: &reqs,
 	}
 }
 
@@ -33,12 +28,13 @@ type ScriptExecuteExecuteReturnValues struct {
 	Error          error
 }
 
-func (mock MockScriptingApiService) ScriptExecute(ctx context.Context) sts.ApiScriptExecuteRequest {
-	return sts.ApiScriptExecuteRequest{
+func (mock MockScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
+	return ApiScriptExecuteRequest{
 		ApiService: mock,
 	}
 }
 
-func (mock MockScriptingApiService) ScriptExecuteExecute(r sts.ApiScriptExecuteRequest) (map[string]interface{}, *http.Response, error) {
+func (mock MockScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (map[string]interface{}, *http.Response, error) {
+	*mock.ExecuteScriptRequests = append(*mock.ExecuteScriptRequests, *r.executeScriptRequest)
 	return mock.ReturnFromScriptExecuteExecute.ScriptResponse, mock.ReturnFromScriptExecuteExecute.HttpResponse, mock.ReturnFromScriptExecuteExecute.Error
 }

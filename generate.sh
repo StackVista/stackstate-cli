@@ -1,5 +1,5 @@
 #!/bin/sh
-rm -rf internal/openapi
+rm -rf internal/stackstate_client
 docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
     -i /local/stackstate_openapi/spec/api.yaml  \
     -g go \
