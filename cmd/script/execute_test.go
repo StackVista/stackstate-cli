@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/internal/cobra_util"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
@@ -30,14 +31,14 @@ func setup() {
 	cli = di.Deps{
 		Config:  &config.Config{},
 		Client:  &client,
-		Printer: printer,
+		Printer: mockPrinter,
 		Context: context.Background(),
 	}
 }
 
 func TestExecuteSuccess(t *testing.T) {
-	cmd := ScriptExecuteCommand(&cli)
-	RunScriptExecuteCommand(&cli, cmd, []string{""})
+	root := ScriptExecuteCommand(&cli)
+	cobra_util.ExecuteCommandWithContext(cli.Context, root, "test")
 
 	expected := []interface{}{"hello test"}
 	assert.Equal(t, expected, *mockPrinter.PrintStructCalls)

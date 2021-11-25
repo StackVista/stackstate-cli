@@ -2,12 +2,12 @@ package script
 
 import (
 	"encoding/json"
-	"fmt"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
+	"gitlab.com/stackvista/stackstate-cli2/internal/openapi_util"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -16,7 +16,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 		Use:   "execute <script>",
 		Args:  cobra.ExactArgs(1),
 		Short: "Execute a STSL script.",
-		RunE:  di.CmdRunEWithDI(cli, RunScriptExecuteCommand),
+		RunE:  di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
 	}
 
 	cmd.Flags().StringP("arguments-script", "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
@@ -62,19 +62,10 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		Execute()
 
 	if err != nil {
-		var status string
-		if resp != nil {
-			status = resp.Status + ". "
-		}
-
-		switch v := err.(type) {
-		case sts.GenericOpenAPIError:
-			return fmt.Errorf("%vError response: %+v", status, string(v.Body()))
-		default:
-			return fmt.Errorf("%v%+v", status, v)
-		}
+		cli.Printer.PrintErr(openapi_util.MakeErrorFromResponse(err, resp))
+	} else {
+		cli.Printer.PrintStruct(scriptResponse["result"])
 	}
 
-	cli.Printer.PrintStruct(scriptResponse["result"])
 	return nil
 }
