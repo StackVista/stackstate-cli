@@ -1,4 +1,7 @@
-#!/bin/sh
+#!/bin/bash
+
+cd "$(dirname "$0")"
+cd ..
 
 # Throw everything away except for the mock files. 
 # You ask WHY?
@@ -11,7 +14,7 @@ find internal/stackstate_client -type f ! -name 'mock_*' -delete
 docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
     -i /local/stackstate_openapi/spec/api.yaml  \
     -g go \
-    -c /local/openapi_generator_config.yaml \
+    -c /local/stackstate_openapi/openapi_generator_config.yaml \
     -o /local/internal/stackstate_client
 
 # we need to throw these files away, otherwise go gets upset
