@@ -2,6 +2,7 @@ package script
 
 import (
 	"context"
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -12,22 +13,34 @@ import (
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-func TestExecute(t *testing.T) {
-	client := sts.APIClient{}
+var client = sts.APIClient{}
+var cli di.Deps
+var mockPrinter *printer.MockPrinter
+
+func TestMain(m *testing.M) {
+	setup()
+	code := m.Run()
+	os.Exit(code)
+}
+
+func setup() {
 	client.ScriptingApi = MockScriptingApiService{}
 	printer := printer.NewMockPrinter()
-	ctx := di.Deps{
+	mockPrinter = &printer
+	cli = di.Deps{
 		Config:  &config.Config{},
 		Client:  &client,
 		Printer: printer,
+		Context: context.Background(),
 	}
+}
 
-	cmd := ScriptExecuteCommand(&ctx)
-	context := context.Background()
-	RunScriptExecuteCommand(&ctx, &context, cmd, []string{""})
+func TestExecuteSuccess(t *testing.T) {
+	cmd := ScriptExecuteCommand(&cli)
+	RunScriptExecuteCommand(&cli, cmd, []string{""})
 
 	expected := []interface{}{"hello test"}
-	assert.Equal(t, expected, *printer.PrintStructCalls)
-	assert.Equal(t, []msg.LoadingMsg{msg.AwaitingServer}, *printer.StartSpinnerCalls)
-	assert.Equal(t, 1, *printer.StopSpinnerCalls)
+	assert.Equal(t, expected, *mockPrinter.PrintStructCalls)
+	assert.Equal(t, []msg.LoadingMsg{msg.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
+	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }

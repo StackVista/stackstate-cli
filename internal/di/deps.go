@@ -16,6 +16,7 @@ type Deps struct {
 	Config  *config.Config
 	Client  *sts.APIClient
 	Printer printer.Printer
+	Context context.Context
 }
 
 func NewDeps() Deps {
@@ -23,10 +24,11 @@ func NewDeps() Deps {
 		Config:  nil,
 		Client:  nil,
 		Printer: printer.NewStdPrinter(),
+		Context: nil,
 	}
 }
 
-func CmdRunEWithDI(cli *Deps, runFn func(*Deps, *context.Context, *cobra.Command, []string) error) func(*cobra.Command, []string) error {
+func CmdRunEWithDI(cli *Deps, runFn func(*Deps, *cobra.Command, []string) error) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 
 		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
@@ -45,12 +47,12 @@ func CmdRunEWithDI(cli *Deps, runFn func(*Deps, *context.Context, *cobra.Command
 			Key:    cli.Config.ApiToken,
 			Prefix: "",
 		}
-		ctx := context.WithValue(
+		cli.Context = context.WithValue(
 			cmd.Context(),
 			sts.ContextAPIKeys,
 			auth,
 		)
 
-		return runFn(cli, &ctx, cmd, args)
+		return runFn(cli, cmd, args)
 	}
 }

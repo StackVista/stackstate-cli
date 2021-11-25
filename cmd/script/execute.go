@@ -1,7 +1,6 @@
 package script
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 
@@ -26,7 +25,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cli *di.Deps, ctx *context.Context, cmd *cobra.Command, args []string) error {
+func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) error {
 	var argumentsScript *string
 	a, _ := cmd.Flags().GetString("arguments-script")
 	if a != "" {
@@ -57,7 +56,10 @@ func RunScriptExecuteCommand(cli *di.Deps, ctx *context.Context, cmd *cobra.Comm
 
 	cli.Printer.StartSpinner(msg.AwaitingServer)
 	defer cli.Printer.StopSpinner()
-	scriptResponse, resp, err := cli.Client.ScriptingApi.ScriptExecute(*ctx).ExecuteScriptRequest(scriptRequest).Execute()
+	scriptResponse, resp, err := cli.Client.ScriptingApi.
+		ScriptExecute(cli.Context).
+		ExecuteScriptRequest(scriptRequest).
+		Execute()
 
 	if err != nil {
 		var status string
