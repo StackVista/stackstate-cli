@@ -16,7 +16,7 @@ func ScriptExecuteCommand(cli *di.Context) *cobra.Command {
 		Use:   "execute <script>",
 		Args:  cobra.ExactArgs(1),
 		Short: "Execute a STSL script.",
-		RunE:  di.CmdRunEWithCLIContext(cli, RunScriptExecuteCommand),
+		RunE:  di.CmdRunEWithDI(cli, RunScriptExecuteCommand),
 	}
 
 	cmd.Flags().StringP("arguments-script", "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
@@ -25,7 +25,7 @@ func ScriptExecuteCommand(cli *di.Context) *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cli *di.Context, cmd *cobra.Command, args []string) error {
+func RunScriptExecuteCommand(cli *di.Context, ctx *context.Context, cmd *cobra.Command, args []string) error {
 	var argumentsScript *string
 	a, _ := cmd.Flags().GetString("arguments-script")
 	if a != "" {
@@ -39,18 +39,7 @@ func RunScriptExecuteCommand(cli *di.Context, cmd *cobra.Command, args []string)
 	}
 	verbose, _ := cmd.Flags().GetCount("verbose")
 
-	auth := make(map[string]stackstate_client.APIKey)
-	auth["ApiToken"] = stackstate_client.APIKey{
-		Key:    cli.Config.ApiToken,
-		Prefix: "",
-	}
-	ctx := context.WithValue(
-		cmd.Context(),
-		stackstate_client.ContextAPIKeys,
-		auth,
-	)
-
-	scriptExecute := cli.Client.ScriptingApi.ScriptExecute(ctx)
+	scriptExecute := cli.Client.ScriptingApi.ScriptExecute(*ctx)
 	scriptRequest := stackstate_client.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          args[0],
