@@ -2,18 +2,17 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"os"
 
 	"github.com/hierynomus/taipan"
 
 	home "github.com/mitchellh/go-homedir"
 
-	color "github.com/logrusorgru/aurora/v3"
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
 const (
@@ -32,7 +31,7 @@ func RootCommand() *cobra.Command {
 	return cmd
 }
 
-func AllCommands(cli *di.Context) *cobra.Command {
+func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand())
 	cmd.AddCommand(ScriptCommand(cli))
@@ -42,26 +41,27 @@ func AllCommands(cli *di.Context) *cobra.Command {
 
 func Execute(ctx context.Context) {
 	cfg := &config.Config{}
-	cli := &di.Context{
-		Config: cfg,
-		Client: nil,
+	cli := &di.Deps{
+		Config:  cfg,
+		Client:  nil,
+		Printer: printer.NewStdPrinter(),
 	}
 
 	cmd := AllCommands(cli)
 
 	// set verbosity using zerolog
-	cmd.PersistentPreRun = func(cmd *cobra.Command, args []string) {
+	zerolog.SetGlobalLevel(zerolog.Disabled)
+	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		verbose, _ := cmd.Flags().GetCount("verbose")
 		if verbose > 0 {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
-		} else {
-			zerolog.SetGlobalLevel(zerolog.Disabled)
 		}
+		return nil
 	}
 
 	homeFolder, err := home.Expand("~/.stackstate")
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s\n", color.Red(err))
+		cli.Printer.PrintErr(err)
 		os.Exit(1)
 	}
 
@@ -78,7 +78,7 @@ func Execute(ctx context.Context) {
 	t.Inject(cmd)
 
 	if err := cmd.ExecuteContext(ctx); err != nil {
-		fmt.Fprintf(os.Stderr, "🎃 %s\n", color.Red(err))
+		cli.Printer.PrintErr(err)
 		os.Exit(2)
 	}
 }

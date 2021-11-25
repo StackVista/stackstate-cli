@@ -6,7 +6,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func ScriptCommand(cli *di.Context) *cobra.Command {
+func ScriptCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "script",
 		Short: "StackState scripting related commands.",

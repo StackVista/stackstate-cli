@@ -7,23 +7,26 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Depedency Injection context for the CLI
-type Context struct {
-	Config *config.Config
-	Client *sts.APIClient
+type Deps struct {
+	Config  *config.Config
+	Client  *sts.APIClient
+	Printer printer.Printer
 }
 
-func NewContext() Context {
-	return Context{
-		Config: nil,
-		Client: nil,
+func NewDeps() Deps {
+	return Deps{
+		Config:  nil,
+		Client:  nil,
+		Printer: printer.NewStdPrinter(),
 	}
 }
 
-func CmdRunEWithDI(cli *Context, runFn func(*Context, *context.Context, *cobra.Command, []string) error) func(*cobra.Command, []string) error {
+func CmdRunEWithDI(cli *Deps, runFn func(*Deps, *context.Context, *cobra.Command, []string) error) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 
 		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))

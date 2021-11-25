@@ -8,10 +8,10 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-func ScriptExecuteCommand(cli *di.Context) *cobra.Command {
+func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "execute <script>",
 		Args:  cobra.ExactArgs(1),
@@ -25,7 +25,7 @@ func ScriptExecuteCommand(cli *di.Context) *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cli *di.Context, ctx *context.Context, cmd *cobra.Command, args []string) error {
+func RunScriptExecuteCommand(cli *di.Deps, ctx *context.Context, cmd *cobra.Command, args []string) error {
 	var argumentsScript *string
 	a, _ := cmd.Flags().GetString("arguments-script")
 	if a != "" {
@@ -39,8 +39,7 @@ func RunScriptExecuteCommand(cli *di.Context, ctx *context.Context, cmd *cobra.C
 	}
 	verbose, _ := cmd.Flags().GetCount("verbose")
 
-	scriptExecute := cli.Client.ScriptingApi.ScriptExecute(*ctx)
-	scriptRequest := stackstate_client.ExecuteScriptRequest{
+	scriptRequest := sts.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          args[0],
 		ArgumentsScript: argumentsScript,
@@ -55,7 +54,7 @@ func RunScriptExecuteCommand(cli *di.Context, ctx *context.Context, cmd *cobra.C
 			Msg("Executing script request")
 	}
 
-	scriptResponse, resp, err := scriptExecute.ExecuteScriptRequest(scriptRequest).Execute()
+	scriptResponse, resp, err := cli.Client.ScriptingApi.ScriptExecute(*ctx).ExecuteScriptRequest(scriptRequest).Execute()
 
 	if err != nil {
 		var status string
@@ -64,13 +63,13 @@ func RunScriptExecuteCommand(cli *di.Context, ctx *context.Context, cmd *cobra.C
 		}
 
 		switch v := err.(type) {
-		case stackstate_client.GenericOpenAPIError:
+		case sts.GenericOpenAPIError:
 			return fmt.Errorf("%vError response: %+v", status, string(v.Body()))
 		default:
 			return fmt.Errorf("%v%+v", status, v)
 		}
 	}
 
-	cmd.Println(scriptResponse["result"])
+	cli.Printer.PrintStruct(scriptResponse["result"])
 	return nil
 }

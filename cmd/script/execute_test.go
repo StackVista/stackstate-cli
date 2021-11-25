@@ -1,14 +1,31 @@
 package script
 
 import (
+	"context"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func TestExecute(t *testing.T) {
+
 	client := sts.APIClient{}
 	client.ScriptingApi = MockScriptingApiService{}
-	assert.Equal(t, true, false)
+	printer := printer.NewMockPrinter()
+	ctx := di.Deps{
+		Config:  &config.Config{},
+		Client:  &client,
+		Printer: printer,
+	}
+
+	cmd := ScriptExecuteCommand(&ctx)
+	context := context.Background()
+	RunScriptExecuteCommand(&ctx, &context, cmd, []string{""})
+
+	expected := []interface{}{"hello test"}
+	assert.Equal(t, expected, *printer.PrintStructCalls)
 }
