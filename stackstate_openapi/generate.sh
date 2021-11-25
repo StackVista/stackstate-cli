@@ -11,7 +11,7 @@ cd ..
 # something for later
 find internal/stackstate_client -type f ! -name 'mock_*' -delete
 
-docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli generate \
+docker run --rm -v "${PWD}:/local" openapitools/openapi-generator-cli:v5.3.0 generate \
     -i /local/stackstate_openapi/spec/api.yaml  \
     -g go \
     -c /local/stackstate_openapi/openapi_generator_config.yaml \

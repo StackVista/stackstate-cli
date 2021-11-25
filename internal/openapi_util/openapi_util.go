@@ -13,10 +13,19 @@ func MakeErrorFromResponse(err error, resp *http.Response) error {
 		status = resp.Status + ". "
 	}
 
+	suggestion := ""
+	if resp != nil && resp.StatusCode == 401 {
+		suggestion = "\nPlease check your configured API token."
+	}
+
 	switch v := err.(type) {
 	case sts.GenericOpenAPIError:
-		return fmt.Errorf("%vError response: %+v", status, string(v.Body()))
+		bodyStr := string(v.Body())
+		if bodyStr != "" {
+			bodyStr = fmt.Sprintf("Server response: %s", bodyStr)
+		}
+		return fmt.Errorf("%s%s%s", status, bodyStr, suggestion)
 	default:
-		return fmt.Errorf("%v%+v", status, v)
+		return fmt.Errorf("%v%v%s", status, v, suggestion)
 	}
 }
