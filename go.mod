@@ -8,6 +8,7 @@ require (
 	github.com/markbates/pkger v0.17.1
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mitchellh/go-homedir v1.1.0
+	github.com/pterm/pterm v0.12.33
 	github.com/rs/zerolog v1.25.0
 	github.com/spf13/cobra v1.2.1
 	github.com/stretchr/testify v1.7.0

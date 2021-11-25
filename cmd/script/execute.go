@@ -8,6 +8,7 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -54,6 +55,8 @@ func RunScriptExecuteCommand(cli *di.Deps, ctx *context.Context, cmd *cobra.Comm
 			Msg("Executing script request")
 	}
 
+	cli.Printer.StartSpinner(msg.AwaitingServer)
+	defer cli.Printer.StopSpinner()
 	scriptResponse, resp, err := cli.Client.ScriptingApi.ScriptExecute(*ctx).ExecuteScriptRequest(scriptRequest).Execute()
 
 	if err != nil {
