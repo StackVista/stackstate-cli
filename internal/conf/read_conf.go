@@ -37,8 +37,8 @@ func (s MissingConfError) Error() string {
 		"Or use the command line flags: %v.\n"+
 		"Or set environment variables: %v.",
 		strings.Join(configFilenames, ", "),
-		MinimumRequiredEnvVars,
 		MinimumRequiredFlags,
+		MinimumRequiredEnvVars,
 	)
 	return msg
 }
