@@ -2,6 +2,7 @@ package conf
 
 import (
 	"fmt"
+	"strings"
 
 	home "github.com/mitchellh/go-homedir"
 	"github.com/spf13/viper"
@@ -10,6 +11,8 @@ import (
 const (
 	ViperConfigName = "cli-config"
 	ViperConfigType = "yaml"
+	ViperEnvPrefix  = "STS_CLI"
+	RequiredEnvVars = "STS_CLI_API_URL,STS_CLI_API_TOKEN"
 )
 
 type ReadConfError struct {
@@ -30,16 +33,16 @@ func (s MissingConfError) Error() string {
 	for _, path := range s.Paths {
 		configFilenames = append(configFilenames, path+"/"+ViperConfigName+"."+ViperConfigType)
 	}
-	msg := fmt.Sprintf("Missing config."+
-		"Config can be provided via file, flags or environment variables."+
-		"Potential config file locations: %v", configFilenames)
+	msg := fmt.Sprintf("Missing config. "+
+		"Config can be provided via file, flags or environment variables.\n"+
+		"Potential config file locations: %v\n"+
+		"Or set environment variables: %v\n", configFilenames, RequiredEnvVars)
 	return msg
 }
 
 /*
 TODO:
 - Flags
-- Environmennt variables
 */
 
 func ReadConf() (Conf, error) {
@@ -76,10 +79,15 @@ func ReadConfWithPaths(paths []string) (Conf, error) {
 		}
 	}
 
+	// set environment variable config
+	viper.SetEnvPrefix("STS_CLI")
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
+	viper.AutomaticEnv()
+
 	// read config
 	conf := Conf{
-		ApiUrl:   viper.GetString("api-url"),
-		ApiToken: viper.GetString("api-token"),
+		ApiUrl:   viper.GetString("api.url"),
+		ApiToken: viper.GetString("api.token"),
 	}
 
 	// if at this point there is still no config and there was no config file

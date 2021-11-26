@@ -2,6 +2,7 @@ package conf
 
 import (
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/spf13/viper"
@@ -34,12 +35,25 @@ func TestValidationError(t *testing.T) {
 
 func TestLoadSuccessFromYaml(t *testing.T) {
 	confYaml := `
-api-url: https://my.stackstate.com/api
-api-token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
+api.url: https://my.stackstate.com/api
+api.token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 `
-
 	conf, err := readConfFromFile(t, confYaml)
 
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl)
+	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
+}
+
+func TestLoadSuccessFromEnv(t *testing.T) {
+	envs := strings.Split(RequiredEnvVars, ",")
+	assert.Equal(t, 2, len(envs))
+	os.Setenv(envs[0], "https://my.stackstate.com/api")
+	os.Setenv(envs[1], "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
+
+	conf, err := ReadConfWithPaths([]string{})
 	if err != nil {
 		t.Fatal(err)
 	}
