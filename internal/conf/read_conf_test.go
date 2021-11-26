@@ -49,12 +49,29 @@ api.token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 }
 
 func TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
-	envs := strings.Split(MinimumRequiredEnvVars, ",")
+	envs := strings.Split(strings.ReplaceAll(MinimumRequiredEnvVars, " ", ""), ",")
 	assert.Equal(t, 2, len(envs))
 	os.Setenv(envs[0], "https://my.stackstate.com/api")
-	os.Setenv(strings.TrimSpace(envs[1]), "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
+	os.Setenv(envs[1], "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
 
 	conf, err := ReadConfWithPaths(NewCommand(), []string{})
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl)
+	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
+}
+
+func TestLoadSuccessFromMinimumFlags(t *testing.T) {
+	cmd := NewCommand()
+	flags := strings.Split(strings.ReplaceAll(MinimumRequiredFlags, " ", ""), ",")
+	assert.Equal(t, 2, len(flags))
+	cmd.Flags().String(flags[0], "", "")
+	cmd.Flags().String(flags[1], "", "")
+	cmd.Flags().Set(flags[0], "https://my.stackstate.com/api")
+	cmd.Flags().Set(flags[1], "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
+
+	conf, err := ReadConfWithPaths(cmd, []string{})
 	if err != nil {
 		t.Fatal(err)
 	}

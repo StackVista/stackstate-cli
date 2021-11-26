@@ -44,7 +44,7 @@ func (s MissingConfError) Error() string {
 }
 
 func ReadConf(cmd *cobra.Command) (Conf, error) {
-	homeFolder, err := home.Expand("~/.stackstate")
+	homeFolder, err := home.Expand(HomeFolder)
 	if err != nil {
 		return Conf{}, err
 	}
@@ -76,19 +76,7 @@ func ReadConfWithPaths(cmd *cobra.Command, paths []string) (Conf, error) {
 		}
 	}
 
-	// set environment variable config
-	viper.BindEnv("api.url", "STS_CLI_API_URL")
-	viper.BindEnv("api.token", "STS_CLI_API_TOKEN")
-
-	// cmd flags
-	viper.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
-	viper.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
-
-	// read config
-	conf := Conf{
-		ApiUrl:   viper.GetString("api.url"),
-		ApiToken: viper.GetString("api.token"),
-	}
+	conf := bind(cmd)
 
 	// is config missing entirely?
 	if (conf == Conf{}) {

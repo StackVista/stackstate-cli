@@ -27,12 +27,8 @@ func (s ValidateConfError) Error() string {
 
 func ValidateConf(conf Conf) error {
 	var errors []error
-	if conf.ApiUrl == "" {
-		errors = append(errors, MissingFieldError{FieldName: "api-url"})
-	}
-	if conf.ApiToken == "" {
-		errors = append(errors, MissingFieldError{FieldName: "api-token"})
-	}
+
+	validate(conf, &errors)
 
 	if len(errors) != 0 {
 		return ValidateConfError{ValidationErrors: errors}

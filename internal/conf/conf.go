@@ -5,20 +5,29 @@ import (
 	"github.com/spf13/viper"
 )
 
+/*
+This config is used throughout the CLI.
+
+Note: when updating this struct, please also update the:
+ - constants
+ - bindings
+ - and validations
+ below.
+*/
 type Conf struct {
 	ApiUrl   string
 	ApiToken string
 }
 
 const (
+	HomeFolder             = "~/.stackstate"
 	ViperConfigName        = "cli-config"
 	ViperConfigType        = "yaml"
-	ViperEnvPrefix         = "STS_CLI"
 	MinimumRequiredEnvVars = "STS_CLI_API_URL, STS_CLI_API_TOKEN"
 	MinimumRequiredFlags   = "api-url, api-token"
 )
 
-func BindConfig(cmd *cobra.Command) Conf {
+func bind(cmd *cobra.Command) Conf {
 	// bind environment variable config
 	viper.BindEnv("api.url", "STS_CLI_API_URL")
 	viper.BindEnv("api.token", "STS_CLI_API_TOKEN")
@@ -27,9 +36,18 @@ func BindConfig(cmd *cobra.Command) Conf {
 	viper.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
 	viper.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
 
-	// read config
+	// read config from Viper
 	return Conf{
 		ApiUrl:   viper.GetString("api.url"),
 		ApiToken: viper.GetString("api.token"),
+	}
+}
+
+func validate(conf Conf, errors *[]error) {
+	if conf.ApiUrl == "" {
+		*errors = append(*errors, MissingFieldError{FieldName: "api-url"})
+	}
+	if conf.ApiToken == "" {
+		*errors = append(*errors, MissingFieldError{FieldName: "api-token"})
 	}
 }
