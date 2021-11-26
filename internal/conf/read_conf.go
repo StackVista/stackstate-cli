@@ -15,7 +15,11 @@ type ReadConfError struct {
 }
 
 func (s ReadConfError) Error() string {
-	return fmt.Sprintf("%s %s", s.prefixMsg, s.RootCause)
+	if s.prefixMsg != "" {
+		return fmt.Sprintf("%s %s", s.prefixMsg, s.RootCause)
+	} else {
+		return s.RootCause.Error()
+	}
 }
 
 type MissingConfError struct {
@@ -29,8 +33,13 @@ func (s MissingConfError) Error() string {
 	}
 	msg := fmt.Sprintf("Missing config. "+
 		"Config can be provided via file, flags or environment variables.\n"+
-		"Potential config file locations: %v\n"+
-		"Or set environment variables: %v\n", strings.Join(configFilenames, ", "), MinimumRequiredEnvVars)
+		"Potential config file locations: %v.\n"+
+		"Or use the command line flags: %v.\n"+
+		"Or set environment variables: %v.",
+		strings.Join(configFilenames, ", "),
+		MinimumRequiredEnvVars,
+		MinimumRequiredFlags,
+	)
 	return msg
 }
 
@@ -68,9 +77,8 @@ func ReadConfWithPaths(cmd *cobra.Command, paths []string) (Conf, error) {
 	}
 
 	// set environment variable config
-	viper.SetEnvPrefix(ViperEnvPrefix)
-	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_", "-", "_"))
-	viper.AutomaticEnv()
+	viper.BindEnv("api.url", "STS_CLI_API_URL")
+	viper.BindEnv("api.token", "STS_CLI_API_TOKEN")
 
 	// cmd flags
 	viper.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
