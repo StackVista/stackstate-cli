@@ -44,7 +44,7 @@ func (s MissingConfError) Error() string {
 }
 
 func ReadConf(cmd *cobra.Command) (Conf, error) {
-	homeFolder, err := home.Expand(HomeFolder)
+	homeFolder, err := home.Expand(HomePath)
 	if err != nil {
 		return Conf{}, err
 	}

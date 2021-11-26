@@ -1,6 +1,8 @@
 package conf
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -20,7 +22,7 @@ type Conf struct {
 }
 
 const (
-	HomeFolder             = "~/.stackstate"
+	HomePath               = "~/.stackstate"
 	ViperConfigName        = "cli-config"
 	ViperConfigType        = "yaml"
 	MinimumRequiredEnvVars = "STS_CLI_API_URL, STS_CLI_API_TOKEN"
@@ -50,4 +52,11 @@ func validate(conf Conf, errors *[]error) {
 	if conf.ApiToken == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "api-token"})
 	}
+}
+
+func convertConfToYaml(conf Conf) string {
+	return fmt.Sprintf(`
+api:
+  url: %s
+  token: %s`, conf.ApiUrl, conf.ApiToken)
 }
