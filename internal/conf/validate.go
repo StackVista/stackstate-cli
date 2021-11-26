@@ -13,11 +13,11 @@ func (s MissingFieldError) Error() string {
 	return fmt.Sprintf("Missing field: %v", s.FieldName)
 }
 
-type ValidationError struct {
+type ValidateConfError struct {
 	ValidationErrors []error
 }
 
-func (s ValidationError) Error() string {
+func (s ValidateConfError) Error() string {
 	strs := make([]string, len(s.ValidationErrors))
 	for _, e := range s.ValidationErrors {
 		strs = append(strs, e.Error())
@@ -35,7 +35,7 @@ func ValidateConf(conf Conf) error {
 	}
 
 	if len(errors) != 0 {
-		return ValidationError{ValidationErrors: errors}
+		return ValidateConfError{ValidationErrors: errors}
 	} else {
 		return nil
 	}

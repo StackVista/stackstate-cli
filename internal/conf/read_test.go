@@ -21,6 +21,17 @@ func TestYamlParseError(t *testing.T) {
 	assert.IsType(t, viper.ConfigParseError{}, err.(ReadConfError).RootCause)
 }
 
+func TestValidationError(t *testing.T) {
+	confYaml := "api-token: 123871283"
+	_, err := readConfFromFile(t, confYaml)
+	assert.IsType(t, ReadConfError{}, err)
+	assert.IsType(t, ValidateConfError{}, err.(ReadConfError).RootCause)
+	valErrs := err.(ReadConfError).RootCause.(ValidateConfError).ValidationErrors
+	assert.Greater(t, len(valErrs), 0)
+	assert.IsType(t, MissingFieldError{}, valErrs[0])
+	assert.Equal(t, "api-url", valErrs[0].(MissingFieldError).FieldName)
+}
+
 func TestLoadSuccessFromYaml(t *testing.T) {
 	confYaml := `
 api-url: https://my.stackstate.com/api
