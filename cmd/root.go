@@ -20,11 +20,6 @@ func RootCommand() *cobra.Command {
 		Use:   "sts",
 		Short: "StackState Command Line Interface",
 	}
-
-	var verbosity int
-	cmd.PersistentFlags().CountVarP(&verbosity, "verbose", "v", "Print more verbose logging.")
-	cmd.PersistentFlags().String("api-url", "", "StackState API URL.")
-
 	return cmd
 }
 
@@ -33,20 +28,18 @@ func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(VersionCommand())
 	cmd.AddCommand(ScriptCommand(cli))
 
+	var verbosity int
+	cmd.PersistentFlags().CountVarP(&verbosity, "verbose", "v", "Print more verbose logging.")
+	cmd.PersistentFlags().String("api-url", "", "StackState API URL.")
+	cmd.PersistentFlags().String("api-token", "", "StackState API Token.")
+
 	return cmd
 }
 
 func Execute(ctx context.Context) {
 	printer := pr.NewStdPrinter()
 
-	cfg, err := conf.ReadConf()
-	if err != nil {
-		printer.PrintErr(err)
-		os.Exit(1)
-	}
-
 	cli := &di.Deps{
-		Config:  &cfg,
 		Printer: printer,
 	}
 
@@ -55,6 +48,13 @@ func Execute(ctx context.Context) {
 	// set verbosity using zerolog
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		cfg, err := conf.ReadConf(cmd)
+		if err != nil {
+			printer.PrintErr(err)
+			os.Exit(1)
+		}
+		cli.Config = &cfg
+
 		verbose, _ := cmd.Flags().GetCount("verbose")
 		if verbose > 0 {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)

@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/cobra_util"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
@@ -20,7 +20,7 @@ func setupCommand(mockScriptingApiService sts.MockScriptingApiService) (*printer
 	client.ScriptingApi = mockScriptingApiService
 	mockPrinter := printer.NewMockPrinter()
 	cli := di.Deps{
-		Config:  &config.Config{},
+		Config:  &conf.Conf{},
 		Client:  &client,
 		Printer: &mockPrinter,
 		Context: context.Background(),
