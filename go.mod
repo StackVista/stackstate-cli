@@ -3,7 +3,6 @@ module gitlab.com/stackvista/stackstate-cli2
 go 1.15
 
 require (
-	github.com/hierynomus/taipan v1.2.0
 	github.com/logrusorgru/aurora/v3 v3.0.0
 	github.com/markbates/pkger v0.17.1
 	github.com/mcuadros/go-defaults v1.2.0

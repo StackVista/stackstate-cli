@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	ViperConfigName = "cli-config"
-	ViperConfigType = "yaml"
-	ViperEnvPrefix  = "STS_CLI"
-	RequiredEnvVars = "STS_CLI_API_URL,STS_CLI_API_TOKEN"
+	ViperConfigName        = "cli-config"
+	ViperConfigType        = "yaml"
+	ViperEnvPrefix         = "STS_CLI"
+	MinimumRequiredEnvVars = "STS_CLI_API_URL, STS_CLI_API_TOKEN"
 )
 
 type ReadConfError struct {
@@ -36,7 +36,7 @@ func (s MissingConfError) Error() string {
 	msg := fmt.Sprintf("Missing config. "+
 		"Config can be provided via file, flags or environment variables.\n"+
 		"Potential config file locations: %v\n"+
-		"Or set environment variables: %v\n", configFilenames, RequiredEnvVars)
+		"Or set environment variables: %v\n", strings.Join(configFilenames, ", "), MinimumRequiredEnvVars)
 	return msg
 }
 

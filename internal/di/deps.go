@@ -6,14 +6,14 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Depedency Injection context for the CLI
 type Deps struct {
-	Config  *config.Config
+	Config  *conf.Conf
 	Client  *sts.APIClient
 	Printer printer.Printer
 	Context context.Context
@@ -36,7 +36,7 @@ func CmdRunEWithDeps(cli *Deps, runFn func(*Deps, *cobra.Command, []string) erro
 		if cli.Client == nil {
 			configuration := sts.NewConfiguration()
 			configuration.Servers[0] = sts.ServerConfiguration{
-				URL:         cli.Config.URL,
+				URL:         cli.Config.ApiUrl,
 				Description: "",
 				Variables:   nil,
 			}

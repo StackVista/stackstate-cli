@@ -4,16 +4,11 @@ import (
 	"context"
 	"os"
 
-	"github.com/hierynomus/taipan"
-
-	home "github.com/mitchellh/go-homedir"
-
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
 const (
@@ -28,6 +23,7 @@ func RootCommand() *cobra.Command {
 
 	var verbosity int
 	cmd.PersistentFlags().CountVarP(&verbosity, "verbose", "v", "Print more verbose logging.")
+	cmd.PersistentFlags().String("api-url", "", "StackState API URL.")
 
 	return cmd
 }
@@ -41,11 +37,17 @@ func AllCommands(cli *di.Deps) *cobra.Command {
 }
 
 func Execute(ctx context.Context) {
-	cfg := &config.Config{}
+	printer := pr.NewStdPrinter()
+
+	cfg, err := conf.ReadConf()
+	if err != nil {
+		printer.PrintErr(err)
+		os.Exit(1)
+	}
+
 	cli := &di.Deps{
-		Config:  cfg,
-		Client:  nil,
-		Printer: printer.NewStdPrinter(),
+		Config:  &cfg,
+		Printer: printer,
 	}
 
 	cmd := AllCommands(cli)
@@ -59,26 +61,6 @@ func Execute(ctx context.Context) {
 		}
 		return nil
 	}
-
-	conf.ReadConf()
-
-	homeFolder, err := home.Expand("~/.stackstate")
-	if err != nil {
-		cli.Printer.PrintErr(err)
-		os.Exit(1)
-	}
-
-	taipanConfig := &taipan.Config{
-		DefaultConfigName:  "cli",
-		ConfigurationPaths: []string{".", homeFolder},
-		EnvironmentPrefix:  EnvPrefix,
-		AddConfigFlag:      true,
-		ConfigObject:       cfg,
-		PrefixCommands:     true,
-	}
-
-	t := taipan.New(taipanConfig)
-	t.Inject(cmd)
 
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		cli.Printer.PrintErr(err)

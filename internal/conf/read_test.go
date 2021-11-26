@@ -47,11 +47,11 @@ api.token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
 }
 
-func TestLoadSuccessFromEnv(t *testing.T) {
-	envs := strings.Split(RequiredEnvVars, ",")
+func TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
+	envs := strings.Split(MinimumRequiredEnvVars, ",")
 	assert.Equal(t, 2, len(envs))
 	os.Setenv(envs[0], "https://my.stackstate.com/api")
-	os.Setenv(envs[1], "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
+	os.Setenv(strings.TrimSpace(envs[1]), "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
 
 	conf, err := ReadConfWithPaths([]string{})
 	if err != nil {
