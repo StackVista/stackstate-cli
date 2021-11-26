@@ -10,6 +10,7 @@ import (
 
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
@@ -58,6 +59,8 @@ func Execute(ctx context.Context) {
 		}
 		return nil
 	}
+
+	conf.ReadConf()
 
 	homeFolder, err := home.Expand("~/.stackstate")
 	if err != nil {
