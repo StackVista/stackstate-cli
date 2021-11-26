@@ -4,8 +4,22 @@ import (
 	"os"
 	"testing"
 
+	"github.com/spf13/viper"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestMissingConf(t *testing.T) {
+	_, err := ReadConfWithPaths([]string{})
+	assert.IsType(t, ReadConfError{}, err)
+	assert.IsType(t, MissingConfError{}, err.(ReadConfError).RootCause)
+}
+
+func TestYamlParseError(t *testing.T) {
+	confYaml := `XXXX`
+	_, err := readConfFromFile(t, confYaml)
+	assert.IsType(t, ReadConfError{}, err)
+	assert.IsType(t, viper.ConfigParseError{}, err.(ReadConfError).RootCause)
+}
 
 func TestLoadSuccessFromYaml(t *testing.T) {
 	confYaml := `
@@ -18,7 +32,6 @@ api-token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Nil(t, err)
 	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl)
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
 }

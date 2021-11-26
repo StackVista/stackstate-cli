@@ -21,6 +21,21 @@ func (s ReadConfError) Error() string {
 	return fmt.Sprintf("%s %s", s.prefixMsg, s.RootCause)
 }
 
+type MissingConfError struct {
+	Paths []string
+}
+
+func (s MissingConfError) Error() string {
+	configFilenames := []string{}
+	for _, path := range s.Paths {
+		configFilenames = append(configFilenames, path+"/"+ViperConfigName+"."+ViperConfigType)
+	}
+	msg := fmt.Sprintf("Missing config."+
+		"Config can be provided via file, flags or environment variables."+
+		"Potential config file locations: %v", configFilenames)
+	return msg
+}
+
 /*
 TODO:
 - Flags
@@ -55,7 +70,7 @@ func ReadConfWithPaths(paths []string) (Conf, error) {
 		} else {
 			// Config file was found but another error was produced
 			return Conf{}, ReadConfError{
-				prefixMsg: "Error while parsing config file.",
+				prefixMsg: "Error while loading config file.",
 				RootCause: err,
 			}
 		}
@@ -70,10 +85,7 @@ func ReadConfWithPaths(paths []string) (Conf, error) {
 	// if at this point there is still no config and there was no config file
 	// blame it on the config file
 	if (conf == Conf{} && configFileNotFoundError != nil) {
-		return Conf{}, ReadConfError{
-			prefixMsg: "Missing config. Config can be provided via file, flags or environment variables.",
-			RootCause: configFileNotFoundError,
-		}
+		return Conf{}, ReadConfError{RootCause: MissingConfError{Paths: paths}}
 	}
 
 	// validate
