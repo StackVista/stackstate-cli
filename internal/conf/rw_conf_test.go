@@ -90,12 +90,12 @@ func (p ReadTests) TestYamlParseError(t *testing.T) {
 func (p ReadTests) TestValidationError(t *testing.T) {
 	confYaml := "api.token: 123871283"
 	_, err := readConfFromFile(t, confYaml)
-	assert.IsType(t, ReadConfError{}, err)
-	assert.IsType(t, ValidateConfError{}, err.(ReadConfError).RootCause)
+	assert.IsType(t, ReadConfError{}, err, "TestValidationError")
+	assert.IsType(t, ValidateConfError{}, err.(ReadConfError).RootCause, "TestValidationError")
 	valErrs := err.(ReadConfError).RootCause.(ValidateConfError).ValidationErrors
-	assert.Greater(t, len(valErrs), 0)
-	assert.IsType(t, MissingFieldError{}, valErrs[0])
-	assert.Equal(t, "api-url", valErrs[0].(MissingFieldError).FieldName)
+	assert.Greater(t, len(valErrs), 0, "TestValidationError")
+	assert.IsType(t, MissingFieldError{}, valErrs[0], "TestValidationError")
+	assert.Equal(t, "api-url", valErrs[0].(MissingFieldError).FieldName, "TestValidationError")
 }
 
 // executed by TestWriteReadRunner
@@ -105,8 +105,8 @@ func (p ReadTests) TestLoadSuccessFromYaml(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl)
-	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl, "TestLoadSuccessFromYaml")
+	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromYaml")
 }
 
 // executed by TestWriteReadRunner
@@ -121,8 +121,8 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl)
-	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl, "TestLoadSuccessFromMinimumRequiredEnvs")
+	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumRequiredEnvs")
 }
 
 // executed by TestWriteReadRunner
@@ -139,8 +139,8 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl)
-	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken)
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl, "TestLoadSuccessFromMinimumFlags")
+	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumFlags")
 }
 
 // executed by TestWriteReadRunner
@@ -149,7 +149,7 @@ func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
 	defer os.Setenv("TERM", term)
 	os.Setenv("TERM", "Dumb")
 	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor)
+	assert.Equal(t, true, conf.NoColor, "TestNoColorOnTermIsDumb")
 }
 
 // executed by TestWriteReadRunner
