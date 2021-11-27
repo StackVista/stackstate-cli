@@ -53,10 +53,11 @@ func ReadConf(cmd *cobra.Command) (Conf, error) {
 		".",
 	}
 
-	return ReadConfWithPaths(cmd, configPaths)
+	return readConfWithPaths(cmd, configPaths)
 }
 
-func ReadConfWithPaths(cmd *cobra.Command, paths []string) (Conf, error) {
+func readConfWithPaths(cmd *cobra.Command, paths []string) (Conf, error) {
+	viper.Reset()
 	// try read config file
 	viper.SetConfigName(ViperConfigName)
 	viper.SetConfigType(ViperConfigType)

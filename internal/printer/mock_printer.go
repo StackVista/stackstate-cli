@@ -9,6 +9,7 @@ type MockPrinter struct {
 	PrintErrCalls     *[]error
 	StartSpinnerCalls *[]msg.LoadingMsg
 	StopSpinnerCalls  *int
+	UseColor          bool
 }
 
 func NewMockPrinter() MockPrinter {
@@ -24,18 +25,26 @@ func NewMockPrinter() MockPrinter {
 	}
 }
 
-func (p MockPrinter) PrintStruct(s interface{}) {
+func (p *MockPrinter) PrintStruct(s interface{}) {
 	*p.PrintStructCalls = append(*p.PrintStructCalls, s)
 }
 
-func (p MockPrinter) PrintErr(err error) {
+func (p *MockPrinter) PrintErr(err error) {
 	*p.PrintErrCalls = append(*p.PrintErrCalls, err)
 }
 
-func (p MockPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
+func (p *MockPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
 	*p.StartSpinnerCalls = append(*p.StartSpinnerCalls, loadingMsg)
 }
 
-func (p MockPrinter) StopSpinner() {
+func (p *MockPrinter) StopSpinner() {
 	*p.StopSpinnerCalls++
+}
+
+func (p *MockPrinter) SetUseColor(useColor bool) {
+	p.UseColor = useColor
+}
+
+func (p *MockPrinter) GetUseColor() bool {
+	return p.UseColor
 }

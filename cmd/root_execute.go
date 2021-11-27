@@ -36,6 +36,8 @@ func Execute(ctx context.Context) {
 		}
 		cli.Config = &cfg
 
+		cli.Printer.SetUseColor(!cfg.NoColor)
+
 		verbose, _ := cmd.Flags().GetBool("verbose")
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)

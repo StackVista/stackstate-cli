@@ -2,6 +2,8 @@ package conf
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -19,6 +21,7 @@ Note: when updating this struct, please also update the:
 type Conf struct {
 	ApiUrl   string
 	ApiToken string
+	NoColor  bool
 }
 
 const (
@@ -33,15 +36,21 @@ func bind(cmd *cobra.Command) Conf {
 	// bind environment variable config
 	viper.BindEnv("api.url", "STS_CLI_API_URL")
 	viper.BindEnv("api.token", "STS_CLI_API_TOKEN")
+	viper.BindEnv("no_color", "STS_CLI_NO_COLOR")
+	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
+		viper.Set("no_color", true)
+	}
 
 	// bind cmd flags
 	viper.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
 	viper.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
+	viper.BindPFlag("no_color", cmd.Flags().Lookup("no-color"))
 
 	// read config from Viper
 	return Conf{
 		ApiUrl:   viper.GetString("api.url"),
 		ApiToken: viper.GetString("api.token"),
+		NoColor:  viper.GetBool("no_color"),
 	}
 }
 
@@ -58,5 +67,7 @@ func convertConfToYaml(conf Conf) string {
 	return fmt.Sprintf(`
 api:
   url: %s
-  token: %s`, conf.ApiUrl, conf.ApiToken)
+  token: %s
+no_color: false
+`, conf.ApiUrl, conf.ApiToken)
 }

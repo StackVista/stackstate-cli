@@ -6,10 +6,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWriteSuccess(t *testing.T) {
+type WriteTests struct{}
+
+func (p WriteTests) TestWriteSuccess(t *testing.T) {
 	confIn := Conf{
-		ApiUrl:   "https://my.stackstate.com/api",
-		ApiToken: "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M",
+		ApiUrl:   "https://write.stackstate.com/api",
+		ApiToken: "BSOPSIYZ4TuSzNIFzqPZyUMilggP9_M",
 	}
 
 	path := t.TempDir()
@@ -18,7 +20,7 @@ func TestWriteSuccess(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	confOut, err := ReadConfWithPaths(NewCommand(), []string{path})
+	confOut, err := readConfWithPaths(NewCommand(), []string{path})
 	if err != nil {
 		t.Fatal(err)
 	}

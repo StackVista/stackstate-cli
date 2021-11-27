@@ -18,9 +18,10 @@ func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(VersionCommand())
 	cmd.AddCommand(ScriptCommand(cli))
 
-	cmd.PersistentFlags().Bool("verbose", false, "Print more verbose logging.")
+	cmd.PersistentFlags().Bool("verbose", false, "Print verbose logging to see what the CLI is doing.")
 	cmd.PersistentFlags().String("api-url", "", "StackState API URL.")
 	cmd.PersistentFlags().String("api-token", "", "StackState API Token.")
+	cmd.PersistentFlags().Bool("no-color", false, "Print to terminal without color.")
 
 	return cmd
 }
