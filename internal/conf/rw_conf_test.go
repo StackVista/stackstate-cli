@@ -45,6 +45,8 @@ func TestWriteReadRunner(t *testing.T) {
 		tests.TestLoadSuccessFromMinimumRequiredEnvs(t)
 		tests.TestLoadSuccessFromMinimumFlags(t)
 		tests.TestNoColorOnTermIsDumb(t)
+		tests.TestNoColorFlag(t)
+		tests.TestNoColorEnv(t)
 	})
 }
 
@@ -61,7 +63,7 @@ func (p WriteTests) TestWriteSuccess(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	confOut, err := readConfWithPaths(NewCommand(), []string{path})
+	confOut, err := readConfWithPaths(newCmd(), viper.New(), []string{path})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -70,18 +72,18 @@ func (p WriteTests) TestWriteSuccess(t *testing.T) {
 
 // executed by TestWriteReadRunner
 func (p ReadTests) TestMissingConf(t *testing.T) {
-	_, err := readConfWithPaths(NewCommand(), []string{})
-	assert.NotNil(t, err)
-	assert.IsType(t, ReadConfError{}, err)
-	assert.IsType(t, MissingConfError{}, err.(ReadConfError).RootCause)
+	_, err := readConfWithPaths(newCmd(), viper.New(), []string{})
+	assert.NotNil(t, err, "TestMissingConf")
+	assert.IsType(t, ReadConfError{}, err, "TestMissingConf")
+	assert.IsType(t, MissingConfError{}, err.(ReadConfError).RootCause, "TestMissingConf")
 }
 
 // executed by TestWriteReadRunner
 func (p ReadTests) TestYamlParseError(t *testing.T) {
 	confYaml := `XXXX`
 	_, err := readConfFromFile(t, confYaml)
-	assert.IsType(t, ReadConfError{}, err)
-	assert.IsType(t, viper.ConfigParseError{}, err.(ReadConfError).RootCause)
+	assert.IsType(t, ReadConfError{}, err, "TestYamlParseError")
+	assert.IsType(t, viper.ConfigParseError{}, err.(ReadConfError).RootCause, "TestYamlParseError")
 }
 
 // executed by TestWriteReadRunner
@@ -115,7 +117,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 	os.Setenv(envs[0], "https://my.stackstate.com/api")
 	os.Setenv(envs[1], "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
 
-	conf, err := readConfWithPaths(NewCommand(), []string{})
+	conf, err := readConfWithPaths(newCmd(), viper.New(), []string{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -125,7 +127,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 
 // executed by TestWriteReadRunner
 func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
-	cmd := NewCommand()
+	cmd := newCmd()
 	flags := strings.Split(strings.ReplaceAll(MinimumRequiredFlags, " ", ""), ",")
 	assert.Equal(t, 2, len(flags))
 	cmd.Flags().String(flags[0], "", "")
@@ -133,7 +135,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	cmd.Flags().Set(flags[0], "https://my.stackstate.com/api")
 	cmd.Flags().Set(flags[1], "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M")
 
-	conf, err := readConfWithPaths(cmd, []string{})
+	conf, err := readConfWithPaths(cmd, viper.New(), []string{})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -143,13 +145,27 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 
 // executed by TestWriteReadRunner
 func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
-	t.Setenv("TERM", "dumb")
+	term := os.Getenv("TERM")
+	defer os.Setenv("TERM", term)
+	os.Setenv("TERM", "Dumb")
+	conf := readConfWithMinimal(t, newCmd())
+	assert.Equal(t, true, conf.NoColor)
+}
 
-	conf, err := readConfFromFile(t, MinimalConfYaml)
-	if err != nil {
-		t.Fatal(err)
-	}
+// executed by TestWriteReadRunner
+func (p ReadTests) TestNoColorFlag(t *testing.T) {
+	cmd := newCmd()
+	cmd.Flags().Bool("no-color", false, "") // register flag
+	cmd.Flags().Set("no-color", "true")
+	conf := readConfWithMinimal(t, cmd)
+	assert.Equal(t, true, conf.NoColor, "TestNoColorFlag")
+}
 
+// executed by TestWriteReadRunner
+func (p ReadTests) TestNoColorEnv(t *testing.T) {
+	defer os.Unsetenv("STS_CLI_NO_COLOR")
+	os.Setenv("STS_CLI_NO_COLOR", "true")
+	conf := readConfWithMinimal(t, newCmd())
 	assert.Equal(t, true, conf.NoColor)
 }
 
@@ -157,7 +173,8 @@ func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
 
 func readConfFromFile(t *testing.T, confYaml string) (Conf, error) {
 	return readConfWithPaths(
-		NewCommand(),
+		newCmd(),
+		viper.New(),
 		[]string{createTmpConfigFile(t, confYaml)},
 	)
 }
@@ -173,7 +190,19 @@ func createTmpConfigFile(t *testing.T, confYaml string) string {
 	return testDir
 }
 
-func NewCommand() *cobra.Command {
-	x := cobra.Command{}
-	return &x
+func newCmd() *cobra.Command {
+	return &cobra.Command{}
+}
+
+// Always reads the config succesfully. Handy for testing success paths.
+func readConfWithMinimal(t *testing.T, cmd *cobra.Command) Conf {
+	conf, err := readConfWithPaths(
+		cmd,
+		viper.New(),
+		[]string{createTmpConfigFile(t, MinimalConfYaml)},
+	)
+	if err != nil {
+		t.Fatal(err)
+	}
+	return conf
 }

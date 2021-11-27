@@ -59,19 +59,18 @@ func ReadConf(cmd *cobra.Command) (Conf, error) {
 		".",
 	}
 
-	return readConfWithPaths(cmd, configPaths)
+	return readConfWithPaths(cmd, viper.GetViper(), configPaths)
 }
 
-func readConfWithPaths(cmd *cobra.Command, paths []string) (Conf, error) {
-	viper.Reset()
+func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Conf, error) {
 	// try read config file
-	viper.SetConfigName(ViperConfigName)
-	viper.SetConfigType(ViperConfigType)
+	vp.SetConfigName(ViperConfigName)
+	vp.SetConfigType(ViperConfigType)
 	for _, path := range paths {
-		viper.AddConfigPath(path)
+		vp.AddConfigPath(path)
 	}
 
-	if err := viper.ReadInConfig(); err != nil {
+	if err := vp.ReadInConfig(); err != nil {
 		// continue if config file not found
 		// on missing config the paths are named in the error msg
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
@@ -83,7 +82,7 @@ func readConfWithPaths(cmd *cobra.Command, paths []string) (Conf, error) {
 		}
 	}
 
-	conf := bind(cmd)
+	conf := bind(cmd, vp)
 
 	// is config missing entirely?
 	if (conf == Conf{}) {

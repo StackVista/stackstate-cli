@@ -13,10 +13,11 @@ import (
 This config is used throughout the CLI.
 
 Note: when updating this struct, please also update the:
- - constants
- - bindings
- - and validations
- below.
+ 1. Conf struct
+ 2. Constants (e.g. MinimumRequiredEnvVars)
+ 2. Bindings (i.e. flags, environment variables and YAML)
+ 3. Validations
+ 4. and last but not least, the tests!
 */
 type Conf struct {
 	ApiUrl   string
@@ -32,25 +33,25 @@ const (
 	MinimumRequiredFlags   = "api-url, api-token"
 )
 
-func bind(cmd *cobra.Command) Conf {
-	// bind environment variable config
-	viper.BindEnv("api.url", "STS_CLI_API_URL")
-	viper.BindEnv("api.token", "STS_CLI_API_TOKEN")
-	viper.BindEnv("no_color", "STS_CLI_NO_COLOR")
+func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
+	// bind environment variables
+	vp.BindEnv("api.url", "STS_CLI_API_URL")
+	vp.BindEnv("api.token", "STS_CLI_API_TOKEN")
+	vp.BindEnv("no_color", "STS_CLI_NO_COLOR")
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
-		viper.Set("no_color", true)
+		vp.Set("no_color", true)
 	}
 
-	// bind cmd flags
-	viper.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
-	viper.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
-	viper.BindPFlag("no_color", cmd.Flags().Lookup("no-color"))
+	// bind flags
+	vp.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
+	vp.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
+	vp.BindPFlag("no_color", cmd.Flags().Lookup("no-color"))
 
-	// read config from Viper
+	// bind YAML
 	return Conf{
-		ApiUrl:   viper.GetString("api.url"),
-		ApiToken: viper.GetString("api.token"),
-		NoColor:  viper.GetBool("no_color"),
+		ApiUrl:   vp.GetString("api.url"),
+		ApiToken: vp.GetString("api.token"),
+		NoColor:  vp.GetBool("no_color"),
 	}
 }
 
