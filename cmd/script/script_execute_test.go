@@ -3,6 +3,7 @@ package script
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -57,7 +58,11 @@ func TestExecuteError(t *testing.T) {
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
 		mockApi.ExecuteScriptRequests,
 	)
-	assert.Equal(t, []error{fakeError}, *mockPrinter.PrintErrCalls)
+	assert.Equal(t, []printer.PrintErrResponseCall{{
+		Err:  fakeError,
+		Resp: &http.Response{StatusCode: 200}}},
+		*mockPrinter.PrintErrResponseCalls,
+	)
 	assert.Equal(t, []msg.LoadingMsg{msg.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
 	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }

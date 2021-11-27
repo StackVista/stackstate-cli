@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
-	"gitlab.com/stackvista/stackstate-cli2/internal/openapi_util"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -62,7 +61,7 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		Execute()
 
 	if err != nil {
-		cli.Printer.PrintErr(openapi_util.MakeErrorFromResponse(err, resp))
+		cli.Printer.PrintErrResponse(err, resp)
 	} else {
 		cli.Printer.PrintStruct(scriptResponse["result"])
 	}

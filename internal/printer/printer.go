@@ -4,16 +4,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/pterm/pterm"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
+	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gopkg.in/yaml.v3"
 )
 
 type Printer interface {
 	PrintStruct(s interface{})
 	PrintErr(err error)
+	PrintErrResponse(err error, resp *http.Response)
 	StartSpinner(loadingMsg msg.LoadingMsg)
 	StopSpinner()
 	SetUseColor(useColor bool)
@@ -34,6 +38,11 @@ func NewStdPrinter() Printer {
 		stdOut:   os.Stdout,
 		stdErr:   os.Stderr,
 	}
+}
+
+// kills any ongoing processes
+func resetStdPrinter(p *StdPrinter) {
+	p.StopSpinner()
 }
 
 func (p *StdPrinter) PrintStruct(s interface{}) {
@@ -83,7 +92,35 @@ func (p *StdPrinter) GetUseColor() bool {
 	return p.useColor
 }
 
-// kills any ongoing processes
-func resetStdPrinter(p *StdPrinter) {
-	p.StopSpinner()
+func (p *StdPrinter) PrintErrResponse(err error, resp *http.Response) {
+	var status string
+	if resp != nil && resp.Status != "" {
+		status = resp.Status + ". "
+	}
+
+	suggestion := ""
+	if resp != nil && resp.StatusCode == 401 {
+		suggestion = "\nPlease check your configured API token."
+	}
+
+	switch v := err.(type) {
+	case sts.GenericOpenAPIError:
+		var bodyStr string
+		if resp.Header.Get("Content-Type") == "application/json" {
+			var bodyStruct interface{}
+			json.Unmarshal(v.Body(), &bodyStruct)
+			yaml, err := yaml.Marshal(bodyStruct)
+			if err == nil && yaml != nil && bodyStruct != nil {
+				yamlResp := string(yaml)
+				bodyStr = fmt.Sprintf(
+					"\n\n----------------\n"+
+						"Server response:\n"+
+						"----------------\n"+
+						"%s", yamlResp)
+			}
+		}
+		p.PrintErr(fmt.Errorf("%s%s%s", status, bodyStr, suggestion))
+	default:
+		p.PrintErr(fmt.Errorf("%v%v%s", status, v, suggestion))
+	}
 }

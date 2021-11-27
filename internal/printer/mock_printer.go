@@ -1,27 +1,37 @@
 package printer
 
 import (
+	"net/http"
+
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 )
 
 type MockPrinter struct {
-	PrintStructCalls  *[]interface{}
-	PrintErrCalls     *[]error
-	StartSpinnerCalls *[]msg.LoadingMsg
-	StopSpinnerCalls  *int
-	UseColor          bool
+	PrintStructCalls      *[]interface{}
+	PrintErrCalls         *[]error
+	PrintErrResponseCalls *[]PrintErrResponseCall
+	StartSpinnerCalls     *[]msg.LoadingMsg
+	StopSpinnerCalls      *int
+	UseColor              bool
+}
+
+type PrintErrResponseCall struct {
+	Err  error
+	Resp *http.Response
 }
 
 func NewMockPrinter() MockPrinter {
 	printStructCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
+	printErrResponseCalls := make([]PrintErrResponseCall, 0)
 	startSpinnerCalls := make([]msg.LoadingMsg, 0)
 	var stopSpinnerCalls int
 	return MockPrinter{
-		PrintStructCalls:  &printStructCalls,
-		PrintErrCalls:     &printErrCalls,
-		StartSpinnerCalls: &startSpinnerCalls,
-		StopSpinnerCalls:  &stopSpinnerCalls,
+		PrintStructCalls:      &printStructCalls,
+		PrintErrCalls:         &printErrCalls,
+		PrintErrResponseCalls: &printErrResponseCalls,
+		StartSpinnerCalls:     &startSpinnerCalls,
+		StopSpinnerCalls:      &stopSpinnerCalls,
 	}
 }
 
@@ -47,4 +57,11 @@ func (p *MockPrinter) SetUseColor(useColor bool) {
 
 func (p *MockPrinter) GetUseColor() bool {
 	return p.UseColor
+}
+
+func (p *MockPrinter) PrintErrResponse(err error, resp *http.Response) {
+	*p.PrintErrResponseCalls = append(*p.PrintErrResponseCalls, PrintErrResponseCall{
+		Err:  err,
+		Resp: resp,
+	})
 }
