@@ -38,7 +38,7 @@ func NewStdPrinter() Printer {
 
 func (p *StdPrinter) PrintStruct(s interface{}) {
 	resetStdPrinter(p)
-	msg, _ := json.Marshal(s)
+	msg, _ := json.MarshalIndent(s, "", " ")
 	fmt.Fprintf(p.stdOut, "%s\n", string(msg))
 }
 
@@ -67,7 +67,7 @@ func (p *StdPrinter) StopSpinner() {
 
 func (p *StdPrinter) SetUseColor(useColor bool) {
 	if p.useColor == useColor {
-		return
+		return // no change
 	}
 
 	resetStdPrinter(p)
@@ -83,6 +83,7 @@ func (p *StdPrinter) GetUseColor() bool {
 	return p.useColor
 }
 
+// kills any ongoing processes
 func resetStdPrinter(p *StdPrinter) {
 	p.StopSpinner()
 }

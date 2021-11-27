@@ -1,10 +1,12 @@
 package openapi_util
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gopkg.in/yaml.v3"
 )
 
 func MakeErrorFromResponse(err error, resp *http.Response) error {
@@ -20,9 +22,19 @@ func MakeErrorFromResponse(err error, resp *http.Response) error {
 
 	switch v := err.(type) {
 	case sts.GenericOpenAPIError:
-		bodyStr := string(v.Body())
-		if bodyStr != "" {
-			bodyStr = fmt.Sprintf("Server response: %s", bodyStr)
+		var bodyStr string
+		if resp.Header.Get("Content-Type") == "application/json" {
+			var bodyStruct interface{}
+			json.Unmarshal(v.Body(), &bodyStruct)
+			yaml, err := yaml.Marshal(bodyStruct)
+			if err == nil && yaml != nil && bodyStruct != nil {
+				yamlResp := string(yaml)
+				bodyStr = fmt.Sprintf(
+					"\n\n----------------\n"+
+						"Server response:\n"+
+						"----------------\n"+
+						"%s", yamlResp)
+			}
 		}
 		return fmt.Errorf("%s%s%s", status, bodyStr, suggestion)
 	default:
