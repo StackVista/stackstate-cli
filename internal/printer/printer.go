@@ -21,30 +21,29 @@ type Printer interface {
 }
 
 type StdPrinter struct {
-	stdOut   io.Writer
-	stdErr   io.Writer
+	stdOut   io.Writer // for test purposes
+	stdErr   io.Writer // for test purposes
 	useColor bool
 	spinner  *pterm.SpinnerPrinter
 }
 
 func NewStdPrinter() Printer {
-	spinner := pterm.DefaultSpinner.WithRemoveWhenDone()
 	return &StdPrinter{
 		useColor: false, // IMPORTANT: use progressive enhancement!
-		spinner:  spinner,
+		spinner:  nil,
 		stdOut:   os.Stdout,
 		stdErr:   os.Stderr,
 	}
 }
 
 func (p *StdPrinter) PrintStruct(s interface{}) {
-	p.StopSpinner()
+	resetStdPrinter(p)
 	msg, _ := json.Marshal(s)
 	fmt.Fprintf(p.stdOut, "%s\n", string(msg))
 }
 
 func (p *StdPrinter) PrintErr(err error) {
-	p.StopSpinner()
+	resetStdPrinter(p)
 	if p.useColor {
 		fmt.Fprintf(p.stdErr, "%s\n", color.Red(err.Error()))
 	} else {
@@ -53,24 +52,37 @@ func (p *StdPrinter) PrintErr(err error) {
 }
 
 func (p *StdPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
-	p.StopSpinner()
-	if p.useColor {
+	resetStdPrinter(p)
+	if p.spinner != nil {
 		p.spinner.Text = loadingMsg.String()
 		p.spinner.Start()
 	}
 }
 
 func (p *StdPrinter) StopSpinner() {
-	p.spinner.Stop()
+	if p.spinner != nil {
+		p.spinner.Stop()
+	}
 }
 
 func (p *StdPrinter) SetUseColor(useColor bool) {
+	if p.useColor == useColor {
+		return
+	}
+
+	resetStdPrinter(p)
 	p.useColor = useColor
-	if !useColor {
-		p.StopSpinner()
+	if useColor {
+		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
+	} else {
+		p.spinner = nil
 	}
 }
 
 func (p *StdPrinter) GetUseColor() bool {
 	return p.useColor
+}
+
+func resetStdPrinter(p *StdPrinter) {
+	p.StopSpinner()
 }

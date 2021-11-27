@@ -12,6 +12,7 @@ import (
 func TestStdPrinterNoColorByDefault(t *testing.T) {
 	p := NewStdPrinter().(*StdPrinter)
 	assert.Equal(t, false, p.GetUseColor())
+	assert.Nil(t, p.spinner)
 
 	var buf bytes.Buffer
 	p.stdErr = &buf
@@ -22,6 +23,7 @@ func TestStdPrinterNoColorByDefault(t *testing.T) {
 func TestStdPrinterUseColor(t *testing.T) {
 	p := NewStdPrinter().(*StdPrinter)
 	p.SetUseColor(true)
+	assert.NotNil(t, p.spinner)
 
 	var buf bytes.Buffer
 	p.stdErr = &buf
