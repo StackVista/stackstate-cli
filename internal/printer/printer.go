@@ -93,9 +93,11 @@ func (p *StdPrinter) GetUseColor() bool {
 }
 
 func (p *StdPrinter) PrintErrResponse(err error, resp *http.Response) {
+	resetStdPrinter(p)
+
 	var status string
 	if resp != nil && resp.Status != "" {
-		status = resp.Status + ". "
+		status = resp.Status
 	}
 
 	suggestion := ""
@@ -119,8 +121,16 @@ func (p *StdPrinter) PrintErrResponse(err error, resp *http.Response) {
 						"%s", yamlResp)
 			}
 		}
-		p.PrintErr(fmt.Errorf("%s%s%s", status, bodyStr, suggestion))
+		if p.useColor {
+			fmt.Fprintf(p.stdErr, "❌ %s%s%s", color.Red(status), bodyStr, suggestion)
+		} else {
+			fmt.Fprintf(p.stdErr, "%s%s%s", status, bodyStr, suggestion)
+		}
 	default:
-		p.PrintErr(fmt.Errorf("%v%v%s", status, v, suggestion))
+		if p.useColor {
+			fmt.Fprintf(p.stdErr, "❌ %v%v%s", color.Red(status), v, suggestion)
+		} else {
+			fmt.Fprintf(p.stdErr, "%v%v", status, suggestion)
+		}
 	}
 }
