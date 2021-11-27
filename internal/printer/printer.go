@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/alecthomas/chroma/quick"
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/pterm/pterm"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
@@ -113,18 +114,31 @@ func (p *StdPrinter) PrintErrResponse(err error, resp *http.Response) {
 			json.Unmarshal(v.Body(), &bodyStruct)
 			yaml, err := yaml.Marshal(bodyStruct)
 			if err == nil && yaml != nil && bodyStruct != nil {
-				yamlResp := string(yaml)
-				bodyStr = fmt.Sprintf(
-					"\n\n----------------\n"+
-						"Server response:\n"+
-						"----------------\n"+
-						"%s", yamlResp)
+				bodyStr = string(yaml)
 			}
 		}
 		if p.useColor {
-			fmt.Fprintf(p.stdErr, "❌ %s%s%s", color.Red(status), bodyStr, suggestion)
+			fmt.Fprintf(p.stdErr, "❌ %s\n", color.Red(status))
+			if bodyStr != "" {
+				fmt.Fprintf(p.stdErr, "\n----------------\n"+
+					"Server response:\n"+
+					"----------------\n")
+				quick.Highlight(p.stdErr, bodyStr, "yaml", "terminal", "monokai")
+			}
+			if suggestion != "" {
+				fmt.Fprintf(p.stdErr, "\nSuggestion: %s", suggestion)
+			}
 		} else {
-			fmt.Fprintf(p.stdErr, "%s%s%s", status, bodyStr, suggestion)
+			fmt.Fprintf(p.stdErr, "%s\n", status)
+			if bodyStr != "" {
+				fmt.Fprintf(p.stdErr, "\n----------------\n"+
+					"Server response:\n"+
+					"----------------\n"+
+					"%s", bodyStr)
+			}
+			if suggestion != "" {
+				fmt.Fprintf(p.stdErr, "\nSuggestion: %s", suggestion)
+			}
 		}
 	default:
 		if p.useColor {
