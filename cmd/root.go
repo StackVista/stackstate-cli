@@ -18,8 +18,7 @@ func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(VersionCommand())
 	cmd.AddCommand(ScriptCommand(cli))
 
-	var verbosity int
-	cmd.PersistentFlags().CountVarP(&verbosity, "verbose", "v", "Print more verbose logging.")
+	cmd.PersistentFlags().Bool("verbose", false, "Print more verbose logging.")
 	cmd.PersistentFlags().String("api-url", "", "StackState API URL.")
 	cmd.PersistentFlags().String("api-token", "", "StackState API Token.")
 

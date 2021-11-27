@@ -40,8 +40,8 @@ func CmdRunEWithDeps(cli *Deps, runFn func(*Deps, *cobra.Command, []string) erro
 				Description: "",
 				Variables:   nil,
 			}
-			verbose, _ := cmd.Flags().GetCount("verbose")
-			if verbose > 0 {
+			verbose, _ := cmd.Flags().GetBool("verbose")
+			if verbose {
 				configuration.Debug = true
 			}
 

@@ -36,8 +36,8 @@ func Execute(ctx context.Context) {
 		}
 		cli.Config = &cfg
 
-		verbose, _ := cmd.Flags().GetCount("verbose")
-		if verbose > 0 {
+		verbose, _ := cmd.Flags().GetBool("verbose")
+		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
 		}
 		return nil

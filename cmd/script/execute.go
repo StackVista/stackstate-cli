@@ -37,7 +37,6 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		t32 := int32(t)
 		timeoutMs = &t32
 	}
-	verbose, _ := cmd.Flags().GetCount("verbose")
 
 	scriptRequest := sts.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
@@ -45,7 +44,8 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		ArgumentsScript: argumentsScript,
 	}
 
-	if verbose > 0 {
+	verbose, _ := cmd.Flags().GetBool("verbose")
+	if verbose {
 		j, _ := json.Marshal(scriptRequest)
 		log.
 			Ctx(cmd.Context()).

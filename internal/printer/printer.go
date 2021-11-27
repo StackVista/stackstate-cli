@@ -31,7 +31,7 @@ func NewStdPrinter() Printer {
 func (p StdPrinter) PrintStruct(s interface{}) {
 	p.StopSpinner()
 	x, _ := json.Marshal(s)
-	println(string(x))
+	fmt.Fprintf(os.Stdout, "%s\n", string(x))
 }
 
 func (p StdPrinter) PrintErr(err error) {
