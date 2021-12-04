@@ -13,6 +13,7 @@ type MockPrinter struct {
 	StartSpinnerCalls     *[]msg.LoadingMsg
 	StopSpinnerCalls      *int
 	UseColor              bool
+	StructFormat          StructFormatType
 }
 
 type PrintErrResponseCall struct {
@@ -35,8 +36,9 @@ func NewMockPrinter() MockPrinter {
 	}
 }
 
-func (p *MockPrinter) PrintStruct(s interface{}) {
+func (p *MockPrinter) PrintStruct(s interface{}) error {
 	*p.PrintStructCalls = append(*p.PrintStructCalls, s)
+	return nil
 }
 
 func (p *MockPrinter) PrintErr(err error) {
@@ -64,4 +66,12 @@ func (p *MockPrinter) PrintErrResponse(err error, resp *http.Response) {
 		Err:  err,
 		Resp: resp,
 	})
+}
+
+func (p *MockPrinter) SetStructFormat(structFormat StructFormatType) {
+	p.StructFormat = structFormat
+}
+
+func (p *MockPrinter) GetStructFormat() StructFormatType {
+	return p.StructFormat
 }

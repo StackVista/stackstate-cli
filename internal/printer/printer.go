@@ -1,6 +1,7 @@
 package printer
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -16,28 +17,40 @@ import (
 )
 
 type Printer interface {
-	PrintStruct(s interface{})
+	// Expects s to be JSON or YAML serializable. You'll get an error otherwise.
+	PrintStruct(s interface{}) error
 	PrintErr(err error)
 	PrintErrResponse(err error, resp *http.Response)
 	StartSpinner(loadingMsg msg.LoadingMsg)
 	StopSpinner()
 	SetUseColor(useColor bool)
 	GetUseColor() bool
+	SetStructFormat(structFormat StructFormatType)
+	GetStructFormat() StructFormatType
 }
 
+type StructFormatType int
+
+const (
+	YAML StructFormatType = iota
+	JSON
+)
+
 type StdPrinter struct {
-	stdOut   io.Writer // for test purposes
-	stdErr   io.Writer // for test purposes
-	useColor bool
-	spinner  *pterm.SpinnerPrinter
+	stdOut       io.Writer // for test purposes
+	stdErr       io.Writer // for test purposes
+	useColor     bool
+	spinner      *pterm.SpinnerPrinter
+	structFormat StructFormatType
 }
 
 func NewStdPrinter() Printer {
 	return &StdPrinter{
-		useColor: false, // IMPORTANT: use progressive enhancement!
-		spinner:  nil,
-		stdOut:   os.Stdout,
-		stdErr:   os.Stderr,
+		useColor:     false, // IMPORTANT: use progressive enhancement!
+		spinner:      nil,
+		stdOut:       os.Stdout,
+		stdErr:       os.Stderr,
+		structFormat: YAML,
 	}
 }
 
@@ -46,10 +59,30 @@ func resetStdPrinter(p *StdPrinter) {
 	p.StopSpinner()
 }
 
-func (p *StdPrinter) PrintStruct(s interface{}) {
+func (p *StdPrinter) PrintStruct(s interface{}) error {
 	resetStdPrinter(p)
-	msg, _ := json.MarshalIndent(s, "", " ")
-	fmt.Fprintf(p.stdOut, "%s\n", string(msg))
+	if p.structFormat == JSON {
+		msg, err := json.MarshalIndent(s, "", "  ")
+		if err != nil {
+			return err
+		}
+
+		fmt.Fprintf(p.stdOut, "%s\n", string(msg))
+	} else if p.structFormat == YAML {
+
+		var buf bytes.Buffer
+		yamlEncoder := yaml.NewEncoder(&buf)
+		yamlEncoder.SetIndent(2)
+		err := yamlEncoder.Encode(&s)
+		if err != nil {
+			return err
+		}
+
+		fmt.Fprintf(p.stdOut, "%s", buf.String())
+	} else {
+		return fmt.Errorf("unknown structFormat %v", p.structFormat)
+	}
+	return nil
 }
 
 func (p *StdPrinter) PrintErr(err error) {
@@ -147,4 +180,12 @@ func (p *StdPrinter) PrintErrResponse(err error, resp *http.Response) {
 			fmt.Fprintf(p.stdErr, "%v%v", status, suggestion)
 		}
 	}
+}
+
+func (p *StdPrinter) SetStructFormat(structFormat StructFormatType) {
+	p.structFormat = structFormat
+}
+
+func (p *StdPrinter) GetStructFormat() StructFormatType {
+	return p.structFormat
 }
