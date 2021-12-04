@@ -61,13 +61,23 @@ func resetStdPrinter(p *StdPrinter) {
 
 func (p *StdPrinter) PrintStruct(s interface{}) error {
 	resetStdPrinter(p)
+	msg, err := p.sprintStruct(s)
+	if err != nil {
+		return err
+	}
+
+	fmt.Fprint(p.stdOut, msg)
+	return nil
+}
+
+func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	if p.structFormat == JSON {
 		msg, err := json.MarshalIndent(s, "", "  ")
 		if err != nil {
-			return err
+			return "", err
 		}
 
-		fmt.Fprintf(p.stdOut, "%s\n", string(msg))
+		return string(msg) + "\n", nil
 	} else if p.structFormat == YAML {
 
 		var buf bytes.Buffer
@@ -75,14 +85,12 @@ func (p *StdPrinter) PrintStruct(s interface{}) error {
 		yamlEncoder.SetIndent(2)
 		err := yamlEncoder.Encode(&s)
 		if err != nil {
-			return err
+			return "", err
 		}
-
-		fmt.Fprintf(p.stdOut, "%s", buf.String())
-	} else {
-		return fmt.Errorf("unknown structFormat %v", p.structFormat)
+		return buf.String(), nil
 	}
-	return nil
+
+	return "", fmt.Errorf("unknown structFormat %v", p.structFormat)
 }
 
 func (p *StdPrinter) PrintErr(err error) {
