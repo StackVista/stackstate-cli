@@ -7,6 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 /*
@@ -23,7 +24,7 @@ type Conf struct {
 	ApiUrl   string
 	ApiToken string
 	NoColor  bool
-	Output   bool
+	Output   string
 }
 
 const (
@@ -55,7 +56,7 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 		ApiUrl:   vp.GetString("api.url"),
 		ApiToken: vp.GetString("api.token"),
 		NoColor:  vp.GetBool("no_color"),
-		Output:   vp.GetBool("output"),
+		Output:   vp.GetString("output"),
 	}
 }
 
@@ -63,8 +64,18 @@ func validate(conf Conf, errors *[]error) {
 	if conf.ApiUrl == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "api-url"})
 	}
+
 	if conf.ApiToken == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "api-token"})
+	}
+
+	outputChoices := []string{"Auto", "JSON", "YAML"}
+	if !util.StringInSliceIgnoreCase(conf.Output, outputChoices) {
+		*errors = append(*errors, MustBeOneOfError{
+			FieldName: "output",
+			Value:     conf.Output,
+			Choices:   outputChoices,
+		})
 	}
 }
 

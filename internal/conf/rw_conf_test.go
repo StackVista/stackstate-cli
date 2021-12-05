@@ -47,6 +47,7 @@ func TestWriteReadRunner(t *testing.T) {
 		tests.TestNoColorOnTermIsDumb(t)
 		tests.TestNoColorFlag(t)
 		tests.TestNoColorEnv(t)
+		tests.TestOuptutEnv(t)
 	})
 }
 
@@ -166,7 +167,15 @@ func (p ReadTests) TestNoColorEnv(t *testing.T) {
 	defer os.Unsetenv("STS_CLI_NO_COLOR")
 	os.Setenv("STS_CLI_NO_COLOR", "true")
 	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor)
+	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
+}
+
+// executed by TestWriteReadRunner
+func (p ReadTests) TestOuptutEnv(t *testing.T) {
+	defer os.Unsetenv("STS_CLI_OUTPUT")
+	os.Setenv("STS_CLI_OUTPUT", "JSON")
+	conf := readConfWithMinimal(t, newCmd())
+	assert.Equal(t, "JSON", conf.Output, "TestOuptutEnv")
 }
 
 ////------------- Fixture code -----------

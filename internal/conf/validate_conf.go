@@ -13,6 +13,16 @@ func (s MissingFieldError) Error() string {
 	return fmt.Sprintf("Missing field: %v", s.FieldName)
 }
 
+type MustBeOneOfError struct {
+	FieldName string
+	Value     string
+	Choices   []string
+}
+
+func (s MustBeOneOfError) Error() string {
+	return fmt.Sprintf("Field %s cannot be '%s'. Must be one of: [%s]", s.FieldName, s.Value, strings.Join(s.Choices, ", "))
+}
+
 type ValidateConfError struct {
 	ValidationErrors []error
 }
