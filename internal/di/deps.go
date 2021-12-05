@@ -23,7 +23,7 @@ func NewDeps() Deps {
 	return Deps{
 		Config:  nil,
 		Client:  nil,
-		Printer: printer.NewStdPrinter(),
+		Printer: printer.NewPrinter(),
 		Context: nil,
 	}
 }

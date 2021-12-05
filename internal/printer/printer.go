@@ -11,7 +11,6 @@ import (
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
-	"github.com/alecthomas/chroma/quick"
 	"github.com/alecthomas/chroma/styles"
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/pterm/pterm"
@@ -38,6 +37,8 @@ type StructFormatType int
 const (
 	YAML StructFormatType = iota
 	JSON
+	ServerErrorColorSymbol  = "❌"
+	GenericErrorColorSymbol = "❗"
 )
 
 type StdPrinter struct {
@@ -48,7 +49,7 @@ type StdPrinter struct {
 	structFormat StructFormatType
 }
 
-func NewStdPrinter() Printer {
+func NewPrinter() Printer {
 	return &StdPrinter{
 		useColor:     false, // IMPORTANT: use progressive enhancement!
 		spinner:      nil,
@@ -70,7 +71,7 @@ func (p *StdPrinter) PrintStruct(s interface{}) error {
 	if err != nil {
 		return err
 	}
-	fmt.Fprint(p.stdOut, msg)
+	fmt.Fprintf(p.stdOut, "%s\n", msg)
 
 	return nil
 }
@@ -83,7 +84,7 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 			return "", err
 		}
 
-		sructStr = string(msg) + "\n"
+		sructStr = string(msg)
 	} else if p.structFormat == YAML {
 
 		var buf bytes.Buffer
@@ -134,9 +135,9 @@ func colorizeStruct(structStr string, structFormat StructFormatType) (string, er
 func (p *StdPrinter) PrintErr(err error) {
 	resetStdPrinter(p)
 	if p.useColor {
-		fmt.Fprintf(p.stdErr, "%s\n", color.Red(err.Error()))
+		fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(err.Error()))
 	} else {
-		fmt.Fprintf(p.stdErr, "%s\n", err.Error())
+		fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
 	}
 }
 
@@ -172,59 +173,69 @@ func (p *StdPrinter) GetUseColor() bool {
 	return p.useColor
 }
 
-func (p *StdPrinter) PrintErrResponse(err error, resp *http.Response) {
+func (p *StdPrinter) PrintErrResponse(rtnErr error, resp *http.Response) {
+	// if reponse is nil then treat this error like any any other CLI error
+	// it could be a connection error, timeout, etc.
+	if resp == nil {
+		p.PrintErr(rtnErr)
+		return
+	}
+
 	resetStdPrinter(p)
+	var httpStatus, errorStr, suggestion string
 
-	var status string
-	if resp != nil && resp.Status != "" {
-		status = resp.Status
+	// get HTTP status string
+	if resp.Status != "" {
+		httpStatus = resp.Status
 	}
 
-	suggestion := ""
-	if resp != nil && resp.StatusCode == 401 {
-		suggestion = "\nPlease check your configured API token."
-	}
-
-	switch v := err.(type) {
+	// get error string
+	switch v := rtnErr.(type) {
 	case sts.GenericOpenAPIError:
-		var bodyStr string
+		// did server repond with JSON? Then show that to the user.
 		if resp.Header.Get("Content-Type") == "application/json" {
 			var bodyStruct interface{}
 			json.Unmarshal(v.Body(), &bodyStruct)
-			yaml, err := yaml.Marshal(bodyStruct)
-			if err == nil && yaml != nil && bodyStruct != nil {
-				bodyStr = string(yaml)
-			}
-		}
-		if p.useColor {
-			fmt.Fprintf(p.stdErr, "❌ %s\n", color.Red(status))
-			if bodyStr != "" {
-				fmt.Fprintf(p.stdErr, "\n----------------\n"+
-					"Server response:\n"+
-					"----------------\n")
-				quick.Highlight(p.stdErr, bodyStr, "yaml", "terminal", "monokai")
-			}
-			if suggestion != "" {
-				fmt.Fprintf(p.stdErr, "\nSuggestion: %s", suggestion)
-			}
-		} else {
-			fmt.Fprintf(p.stdErr, "%s\n", status)
-			if bodyStr != "" {
-				fmt.Fprintf(p.stdErr, "\n----------------\n"+
-					"Server response:\n"+
-					"----------------\n"+
-					"%s", bodyStr)
-			}
-			if suggestion != "" {
-				fmt.Fprintf(p.stdErr, "\nSuggestion: %s", suggestion)
+			body, err := p.sprintStruct(bodyStruct)
+			if err != nil {
+				errorStr = v.Error()
+			} else {
+				errorStr = body
 			}
 		}
 	default:
-		if p.useColor {
-			fmt.Fprintf(p.stdErr, "❌ %v%v%s", color.Red(status), v, suggestion)
-		} else {
-			fmt.Fprintf(p.stdErr, "%v%v", status, suggestion)
+		errorStr = v.Error()
+	}
+
+	// get suggestion
+	if resp.StatusCode == 401 {
+		suggestion = "Please check your configured API token."
+	}
+
+	// print
+	if p.useColor {
+		if suggestion != "" {
+			suggestion = fmt.Sprintf("%s %s", color.Blue("ⓘ"), suggestion)
 		}
+
+		fmt.Fprintf(p.stdErr,
+			"%s %v\n%s%s",
+			ServerErrorColorSymbol,
+			color.Red(httpStatus),
+			withNewLine(errorStr),
+			withNewLine(suggestion),
+		)
+	} else {
+		fmt.Fprintf(p.stdErr, "Server error: %s\n%s%s", httpStatus, withNewLine(errorStr), withNewLine(suggestion))
+	}
+}
+
+// add a new line to the string, if it exists
+func withNewLine(s string) string {
+	if s != "" {
+		return s + "\n"
+	} else {
+		return s
 	}
 }
 

@@ -17,7 +17,7 @@ const (
 )
 
 func Execute(ctx context.Context) {
-	printer := pr.NewStdPrinter()
+	printer := pr.NewPrinter()
 
 	cli := &di.Deps{
 		Printer: printer,
