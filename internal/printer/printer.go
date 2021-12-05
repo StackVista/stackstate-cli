@@ -8,7 +8,11 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/alecthomas/chroma"
+	"github.com/alecthomas/chroma/formatters"
+	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/quick"
+	"github.com/alecthomas/chroma/styles"
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/pterm/pterm"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
@@ -61,23 +65,25 @@ func resetStdPrinter(p *StdPrinter) {
 
 func (p *StdPrinter) PrintStruct(s interface{}) error {
 	resetStdPrinter(p)
+
 	msg, err := p.sprintStruct(s)
 	if err != nil {
 		return err
 	}
-
 	fmt.Fprint(p.stdOut, msg)
+
 	return nil
 }
 
 func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
+	var sructStr string
 	if p.structFormat == JSON {
 		msg, err := json.MarshalIndent(s, "", "  ")
 		if err != nil {
 			return "", err
 		}
 
-		return string(msg) + "\n", nil
+		sructStr = string(msg) + "\n"
 	} else if p.structFormat == YAML {
 
 		var buf bytes.Buffer
@@ -87,10 +93,42 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		return buf.String(), nil
+		sructStr = buf.String()
+	} else {
+		return "", fmt.Errorf("unknown structFormat %v", p.structFormat)
 	}
 
-	return "", fmt.Errorf("unknown structFormat %v", p.structFormat)
+	if p.useColor {
+		return colorizeStruct(sructStr, p.structFormat)
+	} else {
+		return sructStr, nil
+	}
+}
+
+func colorizeStruct(structStr string, structFormat StructFormatType) (string, error) {
+	var lexer chroma.Lexer
+	switch structFormat {
+	case JSON:
+		lexer = lexers.Get("json")
+	case YAML:
+		lexer = lexers.Get("yaml")
+	default:
+		return "", fmt.Errorf("unknown structFormat %v", structFormat)
+	}
+	style := styles.Get("monokai")
+	formatter := formatters.Get("terminal")
+
+	it, err := lexer.Tokenise(nil, structStr)
+	if err != nil {
+		return "", err
+	}
+	var buf bytes.Buffer
+	err = formatter.Format(&buf, style, it)
+	if err != nil {
+		return "", err
+	}
+
+	return buf.String(), nil
 }
 
 func (p *StdPrinter) PrintErr(err error) {

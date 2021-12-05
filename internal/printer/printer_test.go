@@ -78,12 +78,24 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 			"baz": "foobarbaz",
 		},
 	}
-	const expectedYaml = `bar:
-  baz: foobarbaz
-foo: 1
-`
+	const expectedYaml = "\x1b[1m\x1b[31mbar\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m  \x1b[0m\x1b[1m\x1b[31mbaz\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mfoobarbaz\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[31mfoo\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m"
 	p := NewStdPrinter().(*StdPrinter)
+	p.SetUseColor(true)
 	testPrintStruct(t, p, testStruct, expectedYaml)
+}
+
+func TestPrintStructAsJsonWithColor(t *testing.T) {
+	testStruct := map[string]interface{}{
+		"foo": 1,
+		"bar": map[string]interface{}{
+			"baz": "foobarbaz",
+		},
+	}
+	const expectedJson = "\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"bar\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n    \x1b[0m\x1b[1m\x1b[31m\"baz\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[37m\"foobarbaz\"\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m,\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"foo\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m"
+	p := NewStdPrinter().(*StdPrinter)
+	p.SetStructFormat(JSON)
+	p.SetUseColor(true)
+	testPrintStruct(t, p, testStruct, expectedJson)
 }
 
 func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expectedOutput string) {
