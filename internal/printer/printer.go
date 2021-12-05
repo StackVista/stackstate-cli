@@ -28,34 +28,36 @@ type Printer interface {
 	StopSpinner()
 	SetUseColor(useColor bool)
 	GetUseColor() bool
-	SetStructFormat(structFormat StructFormatType)
-	GetStructFormat() StructFormatType
+	SetOutputType(structFormat OutputType)
+	GetOutputType() OutputType
 }
 
-type StructFormatType int
+type OutputType int
 
 const (
-	YAML StructFormatType = iota
+	YAML OutputType = iota
 	JSON
+	// Auto formatting, sometimes prints in table format, sometimes in YAML
+	Auto
 	ServerErrorColorSymbol  = "❌"
 	GenericErrorColorSymbol = "❗"
 )
 
 type StdPrinter struct {
-	stdOut       io.Writer // for test purposes
-	stdErr       io.Writer // for test purposes
-	useColor     bool
-	spinner      *pterm.SpinnerPrinter
-	structFormat StructFormatType
+	stdOut     io.Writer // for test purposes
+	stdErr     io.Writer // for test purposes
+	useColor   bool
+	spinner    *pterm.SpinnerPrinter
+	outputType OutputType
 }
 
 func NewPrinter() Printer {
 	return &StdPrinter{
-		useColor:     false, // IMPORTANT: use progressive enhancement!
-		spinner:      nil,
-		stdOut:       os.Stdout,
-		stdErr:       os.Stderr,
-		structFormat: YAML,
+		useColor:   false, // IMPORTANT: use progressive enhancement!
+		spinner:    nil,
+		stdOut:     os.Stdout,
+		stdErr:     os.Stderr,
+		outputType: Auto,
 	}
 }
 
@@ -78,14 +80,14 @@ func (p *StdPrinter) PrintStruct(s interface{}) error {
 
 func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	var sructStr string
-	if p.structFormat == JSON {
+	if p.outputType == JSON {
 		msg, err := json.MarshalIndent(s, "", "  ")
 		if err != nil {
 			return "", err
 		}
 
 		sructStr = string(msg)
-	} else if p.structFormat == YAML {
+	} else if p.outputType == YAML || p.outputType == Auto {
 
 		var buf bytes.Buffer
 		yamlEncoder := yaml.NewEncoder(&buf)
@@ -96,22 +98,24 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 		}
 		sructStr = buf.String()
 	} else {
-		return "", fmt.Errorf("unknown structFormat %v", p.structFormat)
+		return "", fmt.Errorf("unknown structFormat %v", p.outputType)
 	}
 
 	if p.useColor {
-		return colorizeStruct(sructStr, p.structFormat)
+		return colorizeStruct(sructStr, p.outputType)
 	} else {
 		return sructStr, nil
 	}
 }
 
-func colorizeStruct(structStr string, structFormat StructFormatType) (string, error) {
+func colorizeStruct(structStr string, structFormat OutputType) (string, error) {
 	var lexer chroma.Lexer
 	switch structFormat {
 	case JSON:
 		lexer = lexers.Get("json")
 	case YAML:
+		lexer = lexers.Get("yaml")
+	case Auto:
 		lexer = lexers.Get("yaml")
 	default:
 		return "", fmt.Errorf("unknown structFormat %v", structFormat)
@@ -239,10 +243,10 @@ func withNewLine(s string) string {
 	}
 }
 
-func (p *StdPrinter) SetStructFormat(structFormat StructFormatType) {
-	p.structFormat = structFormat
+func (p *StdPrinter) SetOutputType(outputType OutputType) {
+	p.outputType = outputType
 }
 
-func (p *StdPrinter) GetStructFormat() StructFormatType {
-	return p.structFormat
+func (p *StdPrinter) GetOutputType() OutputType {
+	return p.outputType
 }

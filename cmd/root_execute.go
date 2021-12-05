@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"os"
+	"strings"
 
 	"github.com/rs/zerolog"
 	"github.com/spf13/cobra"
@@ -38,6 +40,21 @@ func Execute(ctx context.Context) {
 
 		cli.Printer.SetUseColor(!cfg.NoColor)
 
+		o, err := cmd.Flags().GetString("output")
+		if err != nil {
+			return err
+		}
+		switch strings.ToUpper(o) {
+		case "JSON":
+			cli.Printer.SetOutputType(pr.JSON)
+		case "YAML":
+			cli.Printer.SetOutputType(pr.YAML)
+		case "AUTO":
+			cli.Printer.SetOutputType(pr.Auto)
+		default:
+			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", o)
+		}
+
 		verbose, _ := cmd.Flags().GetBool("verbose")
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
@@ -45,6 +62,8 @@ func Execute(ctx context.Context) {
 		return nil
 	}
 
+	cmd.SilenceErrors = true
+	cmd.SilenceUsage = true
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		cli.Printer.PrintErr(err)
 		os.Exit(CommandExecutionExitCode)

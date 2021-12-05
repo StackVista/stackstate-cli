@@ -53,7 +53,7 @@ func TestPrintStructAsJson(t *testing.T) {
 }
 `
 	p := NewPrinter().(*StdPrinter)
-	p.SetStructFormat(JSON)
+	p.SetOutputType(JSON)
 	testPrintStruct(t, p, testStruct, expectedJson)
 }
 
@@ -95,7 +95,7 @@ func TestPrintStructAsJsonWithColor(t *testing.T) {
 	}
 	const expectedJson = "\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"bar\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n    \x1b[0m\x1b[1m\x1b[31m\"baz\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[37m\"foobarbaz\"\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m,\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"foo\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m}\x1b[0m\n"
 	p := NewPrinter().(*StdPrinter)
-	p.SetStructFormat(JSON)
+	p.SetOutputType(JSON)
 	p.SetUseColor(true)
 	testPrintStruct(t, p, testStruct, expectedJson)
 }

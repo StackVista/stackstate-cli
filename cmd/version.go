@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
 var (
@@ -12,14 +11,16 @@ var (
 	Date    string
 )
 
-func VersionCommand() *cobra.Command {
+func VersionCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "Display the version number",
 		Run: func(_ *cobra.Command, _ []string) {
-			fmt.Printf("Version: %s\n", Version)
-			fmt.Printf("Commit: %s\n", Commit)
-			fmt.Printf("Date built: %s\n", Date)
+			cli.Printer.PrintStruct(map[string]interface{}{
+				"version": Version,
+				"commit":  Commit,
+				"date":    Date,
+			})
 		},
 	}
 

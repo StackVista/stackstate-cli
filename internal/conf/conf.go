@@ -23,6 +23,7 @@ type Conf struct {
 	ApiUrl   string
 	ApiToken string
 	NoColor  bool
+	Output   bool
 }
 
 const (
@@ -41,17 +42,20 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
 		vp.Set("no_color", true)
 	}
+	vp.BindEnv("output", "STS_CLI_OUTPUT")
 
 	// bind flags
 	vp.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
 	vp.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
 	vp.BindPFlag("no_color", cmd.Flags().Lookup("no-color"))
+	vp.BindPFlag("output", cmd.Flags().Lookup("output"))
 
 	// bind YAML
 	return Conf{
 		ApiUrl:   vp.GetString("api.url"),
 		ApiToken: vp.GetString("api.token"),
 		NoColor:  vp.GetBool("no_color"),
+		Output:   vp.GetBool("output"),
 	}
 }
 
