@@ -69,7 +69,7 @@ func validate(conf Conf, errors *[]error) {
 		*errors = append(*errors, MissingFieldError{FieldName: "api-token"})
 	}
 
-	outputChoices := []string{"Auto", "JSON", "YAML"}
+	outputChoices := []string{"Auto", "JSON", "YAML", ""}
 	if !util.StringInSliceIgnoreCase(conf.Output, outputChoices) {
 		*errors = append(*errors, MustBeOneOfError{
 			FieldName: "output",
