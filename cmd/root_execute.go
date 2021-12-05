@@ -40,11 +40,7 @@ func Execute(ctx context.Context) {
 
 		cli.Printer.SetUseColor(!cfg.NoColor)
 
-		o, err := cmd.Flags().GetString("output")
-		if err != nil {
-			return err
-		}
-		switch strings.ToUpper(o) {
+		switch strings.ToUpper(cfg.Output) {
 		case "JSON":
 			cli.Printer.SetOutputType(pr.JSON)
 		case "YAML":
@@ -52,7 +48,7 @@ func Execute(ctx context.Context) {
 		case "AUTO":
 			cli.Printer.SetOutputType(pr.Auto)
 		default:
-			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", o)
+			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", cfg.Output)
 		}
 
 		verbose, _ := cmd.Flags().GetBool("verbose")
