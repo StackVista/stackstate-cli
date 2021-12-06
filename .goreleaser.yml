@@ -47,7 +47,7 @@ builds:
     -X gitlab.com/stackvista/stackstate-cli2/cmd.Commit={{.Commit}}
     -X gitlab.com/stackvista/stackstate-cli2/cmd.Date={{.Date}}
     -X main.builtBy=goreleaser
-  binary: "sts"
+  binary: sts
   env:
   - CGO_ENABLED=0
   - GO111MODULE=on
