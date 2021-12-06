@@ -4,7 +4,6 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -22,7 +21,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) error {
+func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
 	var argumentsScript *string
 	a, _ := cmd.Flags().GetString("arguments-script")
 	if a != "" {
@@ -41,7 +40,7 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		ArgumentsScript: argumentsScript,
 	}
 
-	cli.Printer.StartSpinner(msg.AwaitingServer)
+	cli.Printer.StartSpinner(common.AwaitingServer)
 	defer cli.Printer.StopSpinner()
 	scriptResponse, resp, err := cli.Client.ScriptingApi.
 		ScriptExecute(cli.Context).

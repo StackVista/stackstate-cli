@@ -3,13 +3,13 @@ package printer
 import (
 	"net/http"
 
-	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
 type MockPrinter struct {
 	PrintStructCalls  *[]interface{}
 	PrintErrCalls     *[]error
-	StartSpinnerCalls *[]msg.LoadingMsg
+	StartSpinnerCalls *[]common.LoadingMsg
 	StopSpinnerCalls  *int
 	UseColor          bool
 	outputType        OutputType
@@ -23,7 +23,7 @@ type PrintErrResponseCall struct {
 func NewMockPrinter() MockPrinter {
 	printStructCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
-	startSpinnerCalls := make([]msg.LoadingMsg, 0)
+	startSpinnerCalls := make([]common.LoadingMsg, 0)
 	var stopSpinnerCalls int
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
@@ -42,7 +42,7 @@ func (p *MockPrinter) PrintErr(err error) {
 	*p.PrintErrCalls = append(*p.PrintErrCalls, err)
 }
 
-func (p *MockPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
+func (p *MockPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
 	*p.StartSpinnerCalls = append(*p.StartSpinnerCalls, loadingMsg)
 }
 

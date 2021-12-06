@@ -8,6 +8,7 @@ import (
 
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
 func TestPrintErr(t *testing.T) {
@@ -107,31 +108,13 @@ func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expect
 	assert.Equal(t, expectedOutput, buf.String())
 }
 
-func TestPrintErrResponseWithoutResponseIsSameAsPrintErr(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
-	var buf bytes.Buffer
-	p.stdErr = &buf
-	p.printErrResponse(fmt.Errorf("test"), nil)
-	assert.Equal(t, "Error: test\n", buf.String())
-}
-
-func TestPrintErrResponseWithoutResponseIsSameAsPrintErrWithColor(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
-	p.SetUseColor(true)
-	var buf bytes.Buffer
-	p.stdErr = &buf
-	p.printErrResponse(fmt.Errorf("test"), nil)
-	expected := fmt.Sprintf("❗%s\n", color.Red("test"))
-	assert.Equal(t, expected, buf.String())
-}
-
 func TestPrintErrResponse503WithColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(true)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "503 Service Unavailable"}
-	p.printErrResponse(fmt.Errorf(""), &resp)
+	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
 	expected := fmt.Sprintf("❌ %s\n", color.Red("503 Service Unavailable"))
 	assert.Equal(t, expected, buf.String())
 }
@@ -141,7 +124,7 @@ func TestPrintErrResponse503(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "503 Service Unavailable"}
-	p.printErrResponse(fmt.Errorf(""), &resp)
+	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
 	expected := fmt.Sprintf("Server error: %s\n", "503 Service Unavailable")
 	assert.Equal(t, expected, buf.String())
 }

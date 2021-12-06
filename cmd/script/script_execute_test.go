@@ -11,7 +11,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
@@ -42,7 +41,7 @@ func TestExecuteSuccess(t *testing.T) {
 		mockApi.ExecuteScriptRequests,
 	)
 	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)
-	assert.Equal(t, []msg.LoadingMsg{msg.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
+	assert.Equal(t, []common.LoadingMsg{common.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
 	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }
 
@@ -59,7 +58,7 @@ func TestExecuteResponseError(t *testing.T) {
 		mockApi.ExecuteScriptRequests,
 	)
 	assert.IsType(t, common.ResponseError{}, err)
-	assert.Equal(t, []msg.LoadingMsg{msg.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
+	assert.Equal(t, []common.LoadingMsg{common.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
 	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }
 

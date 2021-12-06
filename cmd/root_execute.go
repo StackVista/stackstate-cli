@@ -9,15 +9,11 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-)
-
-const (
-	ConfigErrorExitCode      = 2
-	CommandExecutionExitCode = 1
 )
 
 func Execute(ctx context.Context) {
@@ -41,7 +37,7 @@ func Execute(ctx context.Context) {
 		cfg, err := conf.ReadConf(cmd)
 		if err != nil {
 			printer.PrintErr(err)
-			os.Exit(ConfigErrorExitCode)
+			os.Exit(common.ConfigErrorExitCode)
 		}
 		cli.Config = &cfg
 		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
@@ -90,6 +86,11 @@ func Execute(ctx context.Context) {
 	cmd.SilenceUsage = true
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		cli.Printer.PrintErr(err)
-		os.Exit(CommandExecutionExitCode)
+		switch v := err.(type) {
+		case common.CLIError:
+			os.Exit(v.GetExitCode())
+		default:
+			os.Exit(common.CommandExecutionExitCode)
+		}
 	}
 }

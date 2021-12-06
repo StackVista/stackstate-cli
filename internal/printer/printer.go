@@ -15,7 +15,6 @@ import (
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gopkg.in/yaml.v3"
 )
@@ -24,7 +23,7 @@ type Printer interface {
 	// Expects s to be JSON or YAML serializable. You'll get an error otherwise.
 	PrintStruct(s interface{}) error
 	PrintErr(err error)
-	StartSpinner(loadingMsg msg.LoadingMsg)
+	StartSpinner(loadingMsg common.LoadingMsg)
 	StopSpinner()
 	SetUseColor(useColor bool)
 	GetUseColor() bool
@@ -200,7 +199,7 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	}
 }
 
-func (p *StdPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
+func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
 	resetStdPrinter(p)
 	if p.spinner != nil {
 		p.spinner.Text = loadingMsg.String()

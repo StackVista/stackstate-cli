@@ -1,4 +1,4 @@
-package messages
+package common
 
 type LoadingMsg int
 
