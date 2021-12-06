@@ -1,10 +1,8 @@
 package script
 
 import (
-	"encoding/json"
-
-	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
@@ -43,16 +41,6 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		ArgumentsScript: argumentsScript,
 	}
 
-	verbose, _ := cmd.Flags().GetBool("verbose")
-	if verbose {
-		j, _ := json.Marshal(scriptRequest)
-		log.
-			Ctx(cmd.Context()).
-			Info().
-			RawJSON("ExecuteScriptRequest", j).
-			Msg("Executing script request")
-	}
-
 	cli.Printer.StartSpinner(msg.AwaitingServer)
 	defer cli.Printer.StopSpinner()
 	scriptResponse, resp, err := cli.Client.ScriptingApi.
@@ -61,10 +49,10 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) er
 		Execute()
 
 	if err != nil {
-		cli.Printer.PrintErrResponse(err, resp)
-	} else {
-		cli.Printer.PrintStruct(scriptResponse["result"])
+		return common.NewResponseError(err, resp)
 	}
+
+	cli.Printer.PrintStruct(scriptResponse["result"])
 
 	return nil
 }

@@ -3,12 +3,12 @@ package script
 import (
 	"context"
 	"fmt"
-	"net/http"
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/cobra_util"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
@@ -46,23 +46,19 @@ func TestExecuteSuccess(t *testing.T) {
 	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }
 
-func TestExecuteError(t *testing.T) {
+func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
 	mockApi := sts.NewMockScriptingApiService()
 	mockApi.ReturnFromScriptExecuteExecute.Error = fakeError
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
-	cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
+	_, err := cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
 		mockApi.ExecuteScriptRequests,
 	)
-	assert.Equal(t, []printer.PrintErrResponseCall{{
-		Err:  fakeError,
-		Resp: &http.Response{StatusCode: 200}}},
-		*mockPrinter.PrintErrResponseCalls,
-	)
+	assert.IsType(t, common.ResponseError{}, err)
 	assert.Equal(t, []msg.LoadingMsg{msg.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
 	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }

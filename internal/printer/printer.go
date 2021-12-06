@@ -14,6 +14,7 @@ import (
 	"github.com/alecthomas/chroma/styles"
 	color "github.com/logrusorgru/aurora/v3"
 	"github.com/pterm/pterm"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	msg "gitlab.com/stackvista/stackstate-cli2/internal/messages"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gopkg.in/yaml.v3"
@@ -23,7 +24,6 @@ type Printer interface {
 	// Expects s to be JSON or YAML serializable. You'll get an error otherwise.
 	PrintStruct(s interface{}) error
 	PrintErr(err error)
-	PrintErrResponse(err error, resp *http.Response)
 	StartSpinner(loadingMsg msg.LoadingMsg)
 	StopSpinner()
 	SetUseColor(useColor bool)
@@ -138,54 +138,20 @@ func colorizeStruct(structStr string, structFormat OutputType) (string, error) {
 
 func (p *StdPrinter) PrintErr(err error) {
 	resetStdPrinter(p)
-	if p.useColor {
-		fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(err.Error()))
-	} else {
-		fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
+
+	switch e := err.(type) {
+	case common.ResponseError:
+		p.printErrResponse(e.Err, e.Resp)
+	default:
+		if p.useColor {
+			fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(err.Error()))
+		} else {
+			fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
+		}
 	}
 }
 
-func (p *StdPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
-	resetStdPrinter(p)
-	if p.spinner != nil {
-		p.spinner.Text = loadingMsg.String()
-		p.spinner.Start()
-	}
-}
-
-func (p *StdPrinter) StopSpinner() {
-	if p.spinner != nil {
-		p.spinner.Stop()
-	}
-}
-
-func (p *StdPrinter) SetUseColor(useColor bool) {
-	if p.useColor == useColor {
-		return // no change
-	}
-
-	resetStdPrinter(p)
-	p.useColor = useColor
-	if useColor {
-		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
-	} else {
-		p.spinner = nil
-	}
-}
-
-func (p *StdPrinter) GetUseColor() bool {
-	return p.useColor
-}
-
-func (p *StdPrinter) PrintErrResponse(rtnErr error, resp *http.Response) {
-	// if reponse is nil then treat this error like any any other CLI error
-	// it could be a connection error, timeout, etc.
-	if resp == nil {
-		p.PrintErr(rtnErr)
-		return
-	}
-
-	resetStdPrinter(p)
+func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	var httpStatus, errorStr, suggestion string
 
 	// get HTTP status string
@@ -232,6 +198,38 @@ func (p *StdPrinter) PrintErrResponse(rtnErr error, resp *http.Response) {
 	} else {
 		fmt.Fprintf(p.stdErr, "Server error: %s\n%s%s", httpStatus, withNewLine(errorStr), withNewLine(suggestion))
 	}
+}
+
+func (p *StdPrinter) StartSpinner(loadingMsg msg.LoadingMsg) {
+	resetStdPrinter(p)
+	if p.spinner != nil {
+		p.spinner.Text = loadingMsg.String()
+		p.spinner.Start()
+	}
+}
+
+func (p *StdPrinter) StopSpinner() {
+	if p.spinner != nil {
+		p.spinner.Stop()
+	}
+}
+
+func (p *StdPrinter) SetUseColor(useColor bool) {
+	if p.useColor == useColor {
+		return // no change
+	}
+
+	resetStdPrinter(p)
+	p.useColor = useColor
+	if useColor {
+		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
+	} else {
+		p.spinner = nil
+	}
+}
+
+func (p *StdPrinter) GetUseColor() bool {
+	return p.useColor
 }
 
 // add a new line to the string, if it exists

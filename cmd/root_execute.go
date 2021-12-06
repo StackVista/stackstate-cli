@@ -7,10 +7,12 @@ import (
 	"strings"
 
 	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 const (
@@ -29,6 +31,11 @@ func Execute(ctx context.Context) {
 
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		verbose, _ := cmd.Flags().GetBool("verbose")
+		if verbose {
+			zerolog.SetGlobalLevel(zerolog.TraceLevel)
+		}
+
 		// needs to happen before run, but after execute
 		// so flag-config bindings can take hold
 		cfg, err := conf.ReadConf(cmd)
@@ -37,6 +44,7 @@ func Execute(ctx context.Context) {
 			os.Exit(ConfigErrorExitCode)
 		}
 		cli.Config = &cfg
+		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
 
 		cli.Printer.SetUseColor(!cfg.NoColor)
 
@@ -51,10 +59,30 @@ func Execute(ctx context.Context) {
 			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", cfg.Output)
 		}
 
-		verbose, _ := cmd.Flags().GetBool("verbose")
-		if verbose {
-			zerolog.SetGlobalLevel(zerolog.TraceLevel)
+		configuration := sts.NewConfiguration()
+		configuration.Servers[0] = sts.ServerConfiguration{
+			URL:         cli.Config.ApiUrl,
+			Description: "",
+			Variables:   nil,
 		}
+		if verbose {
+			configuration.Debug = true
+		}
+
+		client := sts.NewAPIClient(configuration)
+		cli.Client = client
+
+		auth := make(map[string]sts.APIKey)
+		auth["ApiToken"] = sts.APIKey{
+			Key:    cli.Config.ApiToken,
+			Prefix: "",
+		}
+		cli.Context = context.WithValue(
+			cmd.Context(),
+			sts.ContextAPIKeys,
+			auth,
+		)
+
 		return nil
 	}
 

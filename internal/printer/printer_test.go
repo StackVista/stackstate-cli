@@ -111,7 +111,7 @@ func TestPrintErrResponseWithoutResponseIsSameAsPrintErr(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	var buf bytes.Buffer
 	p.stdErr = &buf
-	p.PrintErrResponse(fmt.Errorf("test"), nil)
+	p.printErrResponse(fmt.Errorf("test"), nil)
 	assert.Equal(t, "Error: test\n", buf.String())
 }
 
@@ -120,7 +120,7 @@ func TestPrintErrResponseWithoutResponseIsSameAsPrintErrWithColor(t *testing.T) 
 	p.SetUseColor(true)
 	var buf bytes.Buffer
 	p.stdErr = &buf
-	p.PrintErrResponse(fmt.Errorf("test"), nil)
+	p.printErrResponse(fmt.Errorf("test"), nil)
 	expected := fmt.Sprintf("❗%s\n", color.Red("test"))
 	assert.Equal(t, expected, buf.String())
 }
@@ -131,7 +131,7 @@ func TestPrintErrResponse503WithColor(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "503 Service Unavailable"}
-	p.PrintErrResponse(fmt.Errorf(""), &resp)
+	p.printErrResponse(fmt.Errorf(""), &resp)
 	expected := fmt.Sprintf("❌ %s\n", color.Red("503 Service Unavailable"))
 	assert.Equal(t, expected, buf.String())
 }
@@ -141,7 +141,7 @@ func TestPrintErrResponse503(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "503 Service Unavailable"}
-	p.PrintErrResponse(fmt.Errorf(""), &resp)
+	p.printErrResponse(fmt.Errorf(""), &resp)
 	expected := fmt.Sprintf("Server error: %s\n", "503 Service Unavailable")
 	assert.Equal(t, expected, buf.String())
 }
