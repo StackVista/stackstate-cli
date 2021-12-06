@@ -128,3 +128,13 @@ func TestPrintErrResponse503(t *testing.T) {
 	expected := fmt.Sprintf("Server error: %s\n", "503 Service Unavailable")
 	assert.Equal(t, expected, buf.String())
 }
+
+func TestPrintErrResponse200(t *testing.T) {
+	p := NewPrinter().(*StdPrinter)
+	var buf bytes.Buffer
+	p.stdErr = &buf
+	resp := http.Response{Status: "200 Ok", StatusCode: 200}
+	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
+	expected := fmt.Sprintf("Server error: %s\n%s\n", "Client error", "Hello world")
+	assert.Equal(t, expected, buf.String())
+}

@@ -16,6 +16,7 @@ import (
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gopkg.in/yaml.v3"
 )
 
@@ -154,30 +155,32 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	var httpStatus, errorStr, suggestion string
 
 	// get HTTP status string
-	if resp.Status != "" {
+	if resp != nil && resp.Status != "" && resp.StatusCode != 200 {
 		httpStatus = resp.Status
+	} else {
+		httpStatus = "Client error"
 	}
 
 	// get error string
 	switch v := rtnErr.(type) {
 	case sts.GenericOpenAPIError:
-		// did server repond with JSON? Then show that to the user.
-		if resp.Header.Get("Content-Type") == "application/json" {
+		// did server repond with JSON? Then show that as an error string!
+		if resp != nil && resp.Header.Get("Content-Type") == "application/json" && resp.StatusCode != 200 {
 			var bodyStruct interface{}
 			json.Unmarshal(v.Body(), &bodyStruct)
 			body, err := p.sprintStruct(bodyStruct)
-			if err != nil {
-				errorStr = v.Error()
-			} else {
+			if err == nil {
 				errorStr = body
 			}
 		}
-	default:
-		errorStr = v.Error()
+	}
+	if errorStr == "" {
+		// otherwise show the error itself
+		errorStr = util.UcFirst(rtnErr.Error())
 	}
 
 	// get suggestion
-	if resp.StatusCode == 401 {
+	if resp != nil && resp.StatusCode == 401 {
 		suggestion = "Please check your configured API token."
 	}
 
@@ -191,11 +194,17 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 			"%s %v\n%s%s",
 			ServerErrorColorSymbol,
 			color.Red(httpStatus),
-			withNewLine(errorStr),
-			withNewLine(suggestion),
+			util.WithNewLine(errorStr),
+			util.WithNewLine(suggestion),
 		)
 	} else {
-		fmt.Fprintf(p.stdErr, "Server error: %s\n%s%s", httpStatus, withNewLine(errorStr), withNewLine(suggestion))
+		fmt.Fprintf(
+			p.stdErr,
+			"Server error: %s\n%s%s",
+			httpStatus,
+			util.WithNewLine(errorStr),
+			util.WithNewLine(suggestion),
+		)
 	}
 }
 
@@ -229,15 +238,6 @@ func (p *StdPrinter) SetUseColor(useColor bool) {
 
 func (p *StdPrinter) GetUseColor() bool {
 	return p.useColor
-}
-
-// add a new line to the string, if it exists
-func withNewLine(s string) string {
-	if s != "" {
-		return s + "\n"
-	} else {
-		return s
-	}
 }
 
 func (p *StdPrinter) SetOutputType(outputType OutputType) {
