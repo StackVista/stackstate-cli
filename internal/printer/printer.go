@@ -27,7 +27,7 @@ type Printer interface {
 	StopSpinner()
 	SetUseColor(useColor bool)
 	GetUseColor() bool
-	SetOutputType(structFormat OutputType)
+	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
 }
 
@@ -97,7 +97,7 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 		}
 		sructStr = buf.String()
 	} else {
-		return "", fmt.Errorf("unknown structFormat %v", p.outputType)
+		return "", fmt.Errorf("unknown outputType %v", p.outputType)
 	}
 
 	if p.useColor {
@@ -107,9 +107,9 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	}
 }
 
-func colorizeStruct(structStr string, structFormat OutputType) (string, error) {
+func colorizeStruct(structStr string, outputType OutputType) (string, error) {
 	var lexer chroma.Lexer
-	switch structFormat {
+	switch outputType {
 	case JSON:
 		lexer = lexers.Get("json")
 	case YAML:
@@ -117,7 +117,7 @@ func colorizeStruct(structStr string, structFormat OutputType) (string, error) {
 	case Auto:
 		lexer = lexers.Get("yaml")
 	default:
-		return "", fmt.Errorf("unknown structFormat %v", structFormat)
+		return "", fmt.Errorf("unknown outputType %v", outputType)
 	}
 	style := styles.Get("monokai")
 	formatter := formatters.Get("terminal")
