@@ -12,8 +12,8 @@ import (
 
 const (
 	MinimalConfYaml = `
-api.url: https://my.stackstate.com/api
-api.token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
+api-url: https://my.stackstate.com/api
+api-token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 `
 )
 
@@ -89,7 +89,7 @@ func (p ReadTests) TestYamlParseError(t *testing.T) {
 
 // executed by TestWriteReadRunner
 func (p ReadTests) TestValidationError(t *testing.T) {
-	confYaml := "api.token: 123871283"
+	confYaml := "api-token: 123871283"
 	_, err := readConfFromFile(t, confYaml)
 	assert.IsType(t, ReadConfError{}, err, "TestValidationError")
 	assert.IsType(t, ValidateConfError{}, err.(ReadConfError).RootCause, "TestValidationError")

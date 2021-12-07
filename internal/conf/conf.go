@@ -28,8 +28,8 @@ type Conf struct {
 }
 
 const (
-	HomePath               = "~/.stackstate"
-	ViperConfigName        = "cli-config"
+	XDGConfigSubPath       = "stackstate-cli"
+	ViperConfigName        = "config"
 	ViperConfigType        = "yaml"
 	MinimumRequiredEnvVars = "STS_CLI_API_URL, STS_CLI_API_TOKEN"
 	MinimumRequiredFlags   = "api-url, api-token"
@@ -37,25 +37,25 @@ const (
 
 func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	// bind environment variables
-	vp.BindEnv("api.url", "STS_CLI_API_URL")
-	vp.BindEnv("api.token", "STS_CLI_API_TOKEN")
-	vp.BindEnv("no_color", "STS_CLI_NO_COLOR")
+	vp.BindEnv("api-url", "STS_CLI_API_URL")
+	vp.BindEnv("api-token", "STS_CLI_API_TOKEN")
+	vp.BindEnv("no-color", "STS_CLI_NO_COLOR")
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
-		vp.Set("no_color", true)
+		vp.Set("no-color", true)
 	}
 	vp.BindEnv("output", "STS_CLI_OUTPUT")
 
 	// bind flags
-	vp.BindPFlag("api.url", cmd.Flags().Lookup("api-url"))
-	vp.BindPFlag("api.token", cmd.Flags().Lookup("api-token"))
-	vp.BindPFlag("no_color", cmd.Flags().Lookup("no-color"))
+	vp.BindPFlag("api-url", cmd.Flags().Lookup("api-url"))
+	vp.BindPFlag("api-token", cmd.Flags().Lookup("api-token"))
+	vp.BindPFlag("no-color", cmd.Flags().Lookup("no-color"))
 	vp.BindPFlag("output", cmd.Flags().Lookup("output"))
 
 	// bind YAML
 	return Conf{
-		ApiUrl:   vp.GetString("api.url"),
-		ApiToken: vp.GetString("api.token"),
-		NoColor:  vp.GetBool("no_color"),
+		ApiUrl:   vp.GetString("api-url"),
+		ApiToken: vp.GetString("api-token"),
+		NoColor:  vp.GetBool("no-color"),
 		Output:   vp.GetString("output"),
 	}
 }
@@ -81,9 +81,8 @@ func validate(conf Conf, errors *[]error) {
 
 func convertConfToYaml(conf Conf) string {
 	return fmt.Sprintf(`
-api:
-  url: %s
-  token: %s
-no_color: false
+api-url: %s
+api-token: %s
+no-color: false
 `, conf.ApiUrl, conf.ApiToken)
 }

@@ -49,20 +49,35 @@ func (s MissingConfError) Error() string {
 	return msg
 }
 
+// XDG spec https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
+func getXDGConfigHome() (XDGConfigHome string, err error) {
+	XDGConfigHome = os.Getenv("XDG_CONFIG_HOME")
+	if XDGConfigHome == "" {
+		XDGConfigHome, err = home.Expand("~/.config")
+	}
+	return
+}
+
+func getConfPath() (string, error) {
+	XDGConfigHome, err := getXDGConfigHome()
+	if err != nil {
+		return "", err
+	}
+
+	return XDGConfigHome + "/" + XDGConfigSubPath, nil
+}
+
 func ReadConf(cmd *cobra.Command) (Conf, error) {
-	homeFolder, err := home.Expand(HomePath)
+	confPath, err := getConfPath()
 	if err != nil {
 		return Conf{}, err
 	}
-	configPaths := []string{
-		homeFolder,
-		".",
-	}
-
-	return readConfWithPaths(cmd, viper.GetViper(), configPaths)
+	return readConfWithPaths(cmd, viper.GetViper(), []string{confPath})
 }
 
 func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Conf, error) {
+	fmt.Printf("%v", paths)
+
 	// try read config file
 	vp.SetConfigName(ViperConfigName)
 	vp.SetConfigType(ViperConfigType)
@@ -101,12 +116,12 @@ func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Con
 }
 
 func WriteConf(conf Conf) error {
-	path, err := home.Expand(HomePath)
+	confPath, err := getConfPath()
 	if err != nil {
 		return err
 	}
 
-	return WriteConfTo(conf, path)
+	return WriteConfTo(conf, confPath)
 }
 
 func WriteConfTo(conf Conf, path string) error {
