@@ -138,3 +138,12 @@ func TestPrintErrResponse200(t *testing.T) {
 	expected := fmt.Sprintf("Server error: %s\n%s\n", "Client error", "Hello world")
 	assert.Equal(t, expected, buf.String())
 }
+
+func TestPrintErrResponseNilResponse(t *testing.T) {
+	p := NewPrinter().(*StdPrinter)
+	var buf bytes.Buffer
+	p.stdErr = &buf
+	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
+	expected := fmt.Sprintf("Server error: %s\n%s\n", "Client error", "Hello world")
+	assert.Equal(t, expected, buf.String())
+}
