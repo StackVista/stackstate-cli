@@ -68,7 +68,6 @@ func TestPrintStructAsYaml(t *testing.T) {
 	const expectedYaml = `bar:
   baz: foobarbaz
 foo: 1
-
 `
 	p := NewPrinter().(*StdPrinter)
 	testPrintStruct(t, p, testStruct, expectedYaml)
@@ -81,7 +80,7 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 			"baz": "foobarbaz",
 		},
 	}
-	const expectedYaml = "\x1b[1m\x1b[31mbar\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m  \x1b[0m\x1b[1m\x1b[31mbaz\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mfoobarbaz\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[31mfoo\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\n"
+	const expectedYaml = "\x1b[1m\x1b[31mbar\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m  \x1b[0m\x1b[1m\x1b[31mbaz\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mfoobarbaz\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[31mfoo\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\n"
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(true)
 	testPrintStruct(t, p, testStruct, expectedYaml)

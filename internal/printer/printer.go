@@ -7,6 +7,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
@@ -96,7 +97,7 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 		if err != nil {
 			return "", err
 		}
-		sructStr = buf.String()
+		sructStr = strings.TrimRight(buf.String(), "\n")
 	} else {
 		return "", fmt.Errorf("unknown outputType %v", p.outputType)
 	}
