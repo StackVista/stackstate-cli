@@ -9,12 +9,12 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/cobra_util"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func setupCommand(mockScriptingApiService sts.MockScriptingApiService) (*printer.MockPrinter, di.Deps, *cobra.Command) {
@@ -36,7 +36,7 @@ func TestExecuteSuccess(t *testing.T) {
 	mockApi := sts.NewMockScriptingApiService()
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
-	cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
@@ -65,7 +65,7 @@ func TestExecuteFromScript(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "--file", tmpFile.Name())
+	util.ExecuteCommandWithContext(cli.Context, cmd, "--file", tmpFile.Name())
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test content"}},
@@ -82,7 +82,7 @@ func TestExecuteResponseError(t *testing.T) {
 	mockApi.ReturnFromScriptExecuteExecute.Error = fakeError
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
-	_, err := cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
@@ -96,7 +96,7 @@ func TestExecuteResponseError(t *testing.T) {
 func TestArgumentScriptFlag(t *testing.T) {
 	mockApi := sts.NewMockScriptingApiService()
 	_, cli, cmd := setupCommand(mockApi)
-	cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "-a", "argscript", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "-a", "argscript", "test script")
 
 	assert.Equal(t, "argscript", *(*mockApi.ExecuteScriptRequests)[0].ArgumentsScript)
 }
@@ -104,7 +104,7 @@ func TestArgumentScriptFlag(t *testing.T) {
 func TestTimeoutFlag(t *testing.T) {
 	mockApi := sts.NewMockScriptingApiService()
 	_, cli, cmd := setupCommand(mockApi)
-	cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "test script")
 
 	assert.Equal(t, int32(10), *(*mockApi.ExecuteScriptRequests)[0].TimeoutMs)
 }

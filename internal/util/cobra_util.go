@@ -1,4 +1,4 @@
-package cobra_util
+package util
 
 import (
 	"bytes"

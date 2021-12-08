@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/cmd/persistent_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
@@ -27,14 +28,14 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 
 func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
 	// get required --api-url and --api-token
-	apiUrl, missingApiUrl := cmd.Flags().GetString(common.ApiUrlFlag)
-	apiToken, missingApiToken := cmd.Flags().GetString(common.ApiTokenFlag)
+	apiUrl, missingApiUrl := cmd.Flags().GetString(persistent_flags.ApiUrlFlag)
+	apiToken, missingApiToken := cmd.Flags().GetString(persistent_flags.ApiTokenFlag)
 	missing := make([]string, 0)
 	if apiUrl == "" || missingApiUrl != nil {
-		missing = append(missing, common.ApiUrlFlag)
+		missing = append(missing, persistent_flags.ApiUrlFlag)
 	}
 	if apiToken == "" || missingApiToken != nil {
-		missing = append(missing, common.ApiTokenFlag)
+		missing = append(missing, persistent_flags.ApiTokenFlag)
 	}
 	if len(missing) > 0 {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))

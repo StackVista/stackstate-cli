@@ -30,7 +30,7 @@ func TestPrintErrWithColor(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "❗"+color.Red("test").String()+"\n", buf.String())
+	assert.Equal(t, "❗"+color.Red("Test").String()+"\n", buf.String())
 }
 
 func TestPrintStructAsJson(t *testing.T) {
