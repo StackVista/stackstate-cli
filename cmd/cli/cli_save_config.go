@@ -47,7 +47,10 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CL
 	}
 
 	// write config
-	filename, err := conf.WriteConf(*cli.Config)
+	filename, err := conf.WriteConf(conf.Conf{
+		ApiUrl:   apiUrl,
+		ApiToken: apiToken,
+	})
 	if err != nil {
 		return common.NewCLIError(err)
 	}
