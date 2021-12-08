@@ -1,6 +1,9 @@
 package cli
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
@@ -19,16 +22,23 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	}
 	cmd.Flags().BoolP(TestConnectFlagName, "t", false, "Test connection to StackState after the config file has been saved.")
 
-	// same as peristent flags on RootCommand.
-	cmd.Flags().String(common.ApiUrlFlag, "", "StackState API URL.")
-	cmd.Flags().String(common.ApiTokenFlag, "", "StackState API Token.")
-	cmd.MarkFlagRequired(common.ApiUrlFlag)
-	cmd.MarkFlagRequired(common.ApiTokenFlag)
-
 	return cmd
 }
 
 func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+	apiUrl, missingApiUrl := cmd.Flags().GetString(common.ApiUrlFlag)
+	apiToken, missingApiToken := cmd.Flags().GetString(common.ApiTokenFlag)
+	missing := make([]string, 0)
+	if apiUrl == "" || missingApiUrl != nil {
+		missing = append(missing, common.ApiUrlFlag)
+	}
+	if apiToken == "" || missingApiToken != nil {
+		missing = append(missing, common.ApiTokenFlag)
+	}
+	if len(missing) > 0 {
+		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
+	}
+
 	testConnect, err := cmd.Flags().GetBool(TestConnectFlagName)
 	if err != nil {
 		return common.NewCLIError(err)
