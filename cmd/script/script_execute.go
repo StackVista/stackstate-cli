@@ -25,7 +25,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.Flags().StringP(ArgumentsScriptFlag, "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "Timeout in milli-seconds.")
-	cmd.Flags().StringP(FileFlag, "f", "", "Filename of script to read")
+	cmd.Flags().StringP(FileFlag, "f", "", "Read the script from file.")
 
 	return cmd
 }
