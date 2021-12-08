@@ -12,6 +12,6 @@ func testConect(cli *di.Deps) common.CLIError {
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
-	cli.Printer.Success("Connection with: " + cli.Config.ApiUrl)
+	cli.Printer.Success("Connection verified to: " + cli.Config.ApiUrl)
 	return nil
 }

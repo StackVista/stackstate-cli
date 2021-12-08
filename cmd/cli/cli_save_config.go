@@ -58,7 +58,7 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CL
 
 	// test connect
 	if testConnect {
-		testConect(cli)
+		return testConect(cli)
 	}
 
 	return nil
