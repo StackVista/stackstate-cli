@@ -60,24 +60,24 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		timeoutMs = &t32
 	}
 
+	// execute script
+	cli.Printer.StartSpinner(common.AwaitingServer)
+	defer cli.Printer.StopSpinner()
+
 	scriptRequest := sts.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          script,
 		ArgumentsScript: argumentsScript,
 	}
-
-	cli.Printer.StartSpinner(common.AwaitingServer)
-	defer cli.Printer.StopSpinner()
 	scriptResponse, resp, err := cli.Client.ScriptingApi.
 		ScriptExecute(cli.Context).
 		ExecuteScriptRequest(scriptRequest).
 		Execute()
-
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
+	// print response
 	cli.Printer.PrintStruct(scriptResponse["result"])
-
 	return nil
 }

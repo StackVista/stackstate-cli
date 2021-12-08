@@ -20,10 +20,10 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().BoolP(TestConnectFlagName, "t", false, "Test connection to StackState after the config file has been saved.")
 
 	// same as peristent flags on RootCommand.
-	cmd.Flags().String("api-url", "", "StackState API URL.")
-	cmd.Flags().String("api-token", "", "StackState API Token.")
-	cmd.MarkFlagRequired("api-url")
-	cmd.MarkFlagRequired("api-token")
+	cmd.Flags().String(common.ApiUrlFlag, "", "StackState API URL.")
+	cmd.Flags().String(common.ApiTokenFlag, "", "StackState API Token.")
+	cmd.MarkFlagRequired(common.ApiUrlFlag)
+	cmd.MarkFlagRequired(common.ApiTokenFlag)
 
 	return cmd
 }
