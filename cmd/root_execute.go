@@ -86,11 +86,19 @@ func Execute(ctx context.Context) {
 	cmd.SilenceUsage = true
 	if err := cmd.ExecuteContext(ctx); err != nil {
 		cli.Printer.PrintErr(err)
+		var showUsage bool
+		var exitCode int
 		switch v := err.(type) {
 		case common.CLIError:
-			os.Exit(v.GetExitCode())
+			exitCode = v.GetExitCode()
+			showUsage = v.ShowUsage()
 		default:
-			os.Exit(common.CommandExecutionExitCode)
+			exitCode = common.CommandExecutionExitCode
+			showUsage = true
 		}
+		if showUsage {
+			println(cmd.UsageString())
+		}
+		os.Exit(exitCode)
 	}
 }

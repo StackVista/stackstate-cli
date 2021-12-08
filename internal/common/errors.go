@@ -8,6 +8,7 @@ type CLIError interface {
 	error
 	GetExitCode() ExitCode
 	Error() string
+	ShowUsage() bool
 }
 
 func NewCLIError(err error) CLIError {
@@ -26,6 +27,21 @@ func (p StdCLIError) GetExitCode() ExitCode {
 	return CommandExecutionExitCode
 }
 
+func (p StdCLIError) ShowUsage() bool {
+	return false
+}
+
+// --------------
+// ResponseError is For CLI errors that involve the server
+// --------------
+
+func NewResponseError(err error, resp *http.Response) ResponseError {
+	return ResponseError{
+		Err:  err,
+		Resp: resp,
+	}
+}
+
 type ResponseError struct {
 	Err  error
 	Resp *http.Response
@@ -39,9 +55,6 @@ func (p ResponseError) GetExitCode() ExitCode {
 	return ReponseErrorExitCode
 }
 
-func NewResponseError(err error, resp *http.Response) ResponseError {
-	return ResponseError{
-		Err:  err,
-		Resp: resp,
-	}
+func (p ResponseError) ShowUsage() bool {
+	return false
 }
