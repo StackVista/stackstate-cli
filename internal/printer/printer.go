@@ -31,6 +31,7 @@ type Printer interface {
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
+	Success(msg string)
 }
 
 type OutputType int
@@ -247,4 +248,13 @@ func (p *StdPrinter) SetOutputType(outputType OutputType) {
 
 func (p *StdPrinter) GetOutputType() OutputType {
 	return p.outputType
+}
+
+func (p *StdPrinter) Success(msg string) {
+	resetStdPrinter(p)
+	if p.useColor {
+		fmt.Fprintf(p.stdOut, "✅ %s\n", msg)
+	} else {
+		fmt.Fprintf(p.stdOut, "Success: %s\n", msg)
+	}
 }

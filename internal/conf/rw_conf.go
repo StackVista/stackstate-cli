@@ -3,6 +3,7 @@ package conf
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	home "github.com/mitchellh/go-homedir"
@@ -11,8 +12,8 @@ import (
 )
 
 const (
-	// readable by all the user groups, but writable by the user only.
-	ConfFilePermission = 0644
+	ConfFilePath       = 0755 // rwxr-xr-x
+	ConfFilePermission = 0644 // rw-r--r--
 )
 
 type ReadConfError struct {
@@ -76,8 +77,6 @@ func ReadConf(cmd *cobra.Command) (Conf, error) {
 }
 
 func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Conf, error) {
-	fmt.Printf("%v", paths)
-
 	// try read config file
 	vp.SetConfigName(ViperConfigName)
 	vp.SetConfigType(ViperConfigType)
@@ -115,26 +114,35 @@ func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Con
 	return conf, nil
 }
 
-func WriteConf(conf Conf) error {
+func WriteConf(conf Conf) (string, error) {
 	confPath, err := getConfPath()
 	if err != nil {
-		return err
+		return "", err
 	}
 
-	return WriteConfTo(conf, confPath)
+	filename := confPath + "/" + ViperConfigName + "." + ViperConfigType
+	err = WriteConfTo(conf, filename)
+	if err != nil {
+		return "", err
+	}
+
+	return filename, nil
 }
 
-func WriteConfTo(conf Conf, path string) error {
-	filename := path + "/" + ViperConfigName + "." + ViperConfigType
+func WriteConfTo(conf Conf, filename string) error {
 	err := ValidateConf(conf) // only want to write validated conf
 	if err != nil {
 		return nil
 	}
 
 	confYaml := convertConfToYaml(conf)
-	err = os.WriteFile(filename, []byte(confYaml), ConfFilePermission)
-	if err != nil {
-		return nil
+
+	if err := os.MkdirAll(filepath.Dir(filename), ConfFilePath); err != nil {
+		return err
+	}
+
+	if err := os.WriteFile(filename, []byte(confYaml), ConfFilePermission); err != nil {
+		return err
 	}
 	return nil
 }

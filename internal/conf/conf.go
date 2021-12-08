@@ -80,9 +80,8 @@ func validate(conf Conf, errors *[]error) {
 }
 
 func convertConfToYaml(conf Conf) string {
-	return fmt.Sprintf(`
-api-url: %s
+	return fmt.Sprintf(`api-url: %s
 api-token: %s
-no-color: false
-`, conf.ApiUrl, conf.ApiToken)
+no-color: %v
+`, conf.ApiUrl, conf.ApiToken, conf.NoColor)
 }

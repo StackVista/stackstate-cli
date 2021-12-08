@@ -59,7 +59,7 @@ func (p WriteTests) TestWriteSuccess(t *testing.T) {
 	}
 
 	path := t.TempDir()
-	err := WriteConfTo(confIn, path)
+	err := WriteConfTo(confIn, path+"/"+ViperConfigName+"."+ViperConfigType)
 	if err != nil {
 		t.Fatal(err)
 	}

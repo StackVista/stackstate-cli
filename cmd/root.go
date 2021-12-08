@@ -17,6 +17,7 @@ func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(ScriptCommand(cli))
+	cmd.AddCommand(CliCommand(cli))
 
 	cmd.PersistentFlags().Bool("verbose", false, "Print verbose logging to see what the CLI is doing.")
 	cmd.PersistentFlags().String("api-url", "", "StackState API URL.")

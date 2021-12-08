@@ -13,6 +13,7 @@ type MockPrinter struct {
 	StopSpinnerCalls  *int
 	UseColor          bool
 	outputType        OutputType
+	SuccessCalls      *[]string
 }
 
 type PrintErrResponseCall struct {
@@ -25,11 +26,13 @@ func NewMockPrinter() MockPrinter {
 	printErrCalls := make([]error, 0)
 	startSpinnerCalls := make([]common.LoadingMsg, 0)
 	var stopSpinnerCalls int
+	successCalls := make([]string, 0)
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
 		StartSpinnerCalls: &startSpinnerCalls,
 		StopSpinnerCalls:  &stopSpinnerCalls,
+		SuccessCalls:      &successCalls,
 	}
 }
 
@@ -64,4 +67,8 @@ func (p *MockPrinter) SetOutputType(outputType OutputType) {
 
 func (p *MockPrinter) GetOutputType() OutputType {
 	return p.outputType
+}
+
+func (p *MockPrinter) Success(msg string) {
+	*p.SuccessCalls = append(*p.SuccessCalls, msg)
 }
