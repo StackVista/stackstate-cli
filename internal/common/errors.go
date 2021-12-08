@@ -15,8 +15,16 @@ func NewCLIError(err error) CLIError {
 	return StdCLIError{Err: err}
 }
 
+func NewCLIArgParseError(err error) CLIError {
+	return StdCLIError{
+		Err:       err,
+		showUsage: true,
+	}
+}
+
 type StdCLIError struct {
-	Err error
+	Err       error
+	showUsage bool
 }
 
 func (p StdCLIError) Error() string {
@@ -28,7 +36,7 @@ func (p StdCLIError) GetExitCode() ExitCode {
 }
 
 func (p StdCLIError) ShowUsage() bool {
-	return false
+	return p.showUsage
 }
 
 // --------------

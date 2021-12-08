@@ -3,6 +3,8 @@ package script
 import (
 	"context"
 	"fmt"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -38,6 +40,35 @@ func TestExecuteSuccess(t *testing.T) {
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
+		mockApi.ExecuteScriptRequests,
+	)
+	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)
+	assert.Equal(t, []common.LoadingMsg{common.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
+	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
+}
+
+func TestExecuteFromScript(t *testing.T) {
+	mockApi := sts.NewMockScriptingApiService()
+	mockPrinter, cli, cmd := setupCommand(mockApi)
+
+	tmpFile, err := ioutil.TempFile(os.TempDir(), "script-execute-test-")
+	if err != nil {
+		t.Fatal("Cannot create temporary file", err)
+	}
+	defer os.Remove(tmpFile.Name())
+
+	text := []byte("test content")
+	if _, err = tmpFile.Write(text); err != nil {
+		t.Fatal("Failed to write to temporary file", err)
+	}
+	if err := tmpFile.Close(); err != nil {
+		t.Fatal(err)
+	}
+
+	cobra_util.ExecuteCommandWithContext(cli.Context, cmd, "--file", tmpFile.Name())
+
+	assert.Equal(t,
+		&[]sts.ExecuteScriptRequest{{Script: "test content"}},
 		mockApi.ExecuteScriptRequests,
 	)
 	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)

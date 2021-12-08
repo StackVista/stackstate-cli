@@ -146,7 +146,7 @@ func (p *StdPrinter) PrintErr(err error) {
 		p.printErrResponse(e.Err, e.Resp)
 	default:
 		if p.useColor {
-			fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(err.Error()))
+			fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(util.UcFirst(err.Error())))
 		} else {
 			fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
 		}

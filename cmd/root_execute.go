@@ -25,8 +25,10 @@ func Execute(ctx context.Context) {
 
 	cmd := AllCommands(cli)
 
+	runCmd := cmd
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+		runCmd = cmd
 		verbose, _ := cmd.Flags().GetBool("verbose")
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
@@ -97,7 +99,7 @@ func Execute(ctx context.Context) {
 			showUsage = true
 		}
 		if showUsage {
-			println(cmd.UsageString())
+			println(runCmd.UsageString())
 		}
 		os.Exit(exitCode)
 	}
