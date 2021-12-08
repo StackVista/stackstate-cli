@@ -16,7 +16,7 @@ const (
 
 func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "save-config",
+		Use:   "save-config --api-url <api-url> --api-token <api-token>",
 		Short: "Save config to file.",
 		RunE:  di.CmdRunEWithDeps(cli, RunCliSaveConfig),
 	}
@@ -26,6 +26,7 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+	// get required --api-url and --api-token
 	apiUrl, missingApiUrl := cmd.Flags().GetString(common.ApiUrlFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.ApiTokenFlag)
 	missing := make([]string, 0)
@@ -39,17 +40,20 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CL
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
 	}
 
+	// get test-connect flag
 	testConnect, err := cmd.Flags().GetBool(TestConnectFlagName)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 
+	// write config
 	filename, err := conf.WriteConf(*cli.Config)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 	cli.Printer.Success("Config saved to: " + filename)
 
+	// test connect
 	if testConnect {
 		testConect(cli)
 	}
