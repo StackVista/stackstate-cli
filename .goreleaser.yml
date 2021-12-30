@@ -25,8 +25,6 @@ brews:
 before:
   hooks:
     - go mod download
-    - go get github.com/markbates/pkger/cmd/pkger
-    - go generate ./...
 builds:
 - id: stackstate-cli
   goos:
