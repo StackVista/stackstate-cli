@@ -19,6 +19,7 @@ func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(ScriptCommand(cli))
 	cmd.AddCommand(CliCommand(cli))
+	cmd.AddCommand(MonitorCommand(cli))
 	persistent_flags.AddPersistentFlags(cmd)
 
 	return cmd

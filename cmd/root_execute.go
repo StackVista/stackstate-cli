@@ -42,7 +42,7 @@ func Execute(ctx context.Context) {
 			os.Exit(common.ConfigErrorExitCode)
 		}
 		cli.Config = &cfg
-		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
+		log.Printf("Loaded config %+v", cli.Config)
 
 		cli.Printer.SetUseColor(!cfg.NoColor)
 
