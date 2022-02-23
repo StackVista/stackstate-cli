@@ -6,8 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Id** | **int64** |  | 
-**EventType** | Pointer to **int64** |  | [optional] 
+**ComponentTypeId** | **int64** |  | 
 **Name** | **string** |  | 
+**RelationTypeId** | **int64** |  | 
 **Source** | [**EventComponent**](EventComponent.md) |  | 
 **Target** | [**EventComponent**](EventComponent.md) |  | 
 **DependencyDirection** | [**DependencyDirection**](DependencyDirection.md) |  | 
@@ -16,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewEventElement
 
-`func NewEventElement(type_ string, id int64, name string, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventElement`
+`func NewEventElement(type_ string, id int64, componentTypeId int64, name string, relationTypeId int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventElement`
 
 NewEventElement instantiates a new EventElement object
 This constructor will assign default values to properties that have it defined,
@@ -71,30 +72,25 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetEventType
+### GetComponentTypeId
 
-`func (o *EventElement) GetEventType() int64`
+`func (o *EventElement) GetComponentTypeId() int64`
 
-GetEventType returns the EventType field if non-nil, zero value otherwise.
+GetComponentTypeId returns the ComponentTypeId field if non-nil, zero value otherwise.
 
-### GetEventTypeOk
+### GetComponentTypeIdOk
 
-`func (o *EventElement) GetEventTypeOk() (*int64, bool)`
+`func (o *EventElement) GetComponentTypeIdOk() (*int64, bool)`
 
-GetEventTypeOk returns a tuple with the EventType field if it's non-nil, zero value otherwise
+GetComponentTypeIdOk returns a tuple with the ComponentTypeId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEventType
+### SetComponentTypeId
 
-`func (o *EventElement) SetEventType(v int64)`
+`func (o *EventElement) SetComponentTypeId(v int64)`
 
-SetEventType sets EventType field to given value.
+SetComponentTypeId sets ComponentTypeId field to given value.
 
-### HasEventType
-
-`func (o *EventElement) HasEventType() bool`
-
-HasEventType returns a boolean if a field has been set.
 
 ### GetName
 
@@ -114,6 +110,26 @@ and a boolean to check if the value has been set.
 `func (o *EventElement) SetName(v string)`
 
 SetName sets Name field to given value.
+
+
+### GetRelationTypeId
+
+`func (o *EventElement) GetRelationTypeId() int64`
+
+GetRelationTypeId returns the RelationTypeId field if non-nil, zero value otherwise.
+
+### GetRelationTypeIdOk
+
+`func (o *EventElement) GetRelationTypeIdOk() (*int64, bool)`
+
+GetRelationTypeIdOk returns a tuple with the RelationTypeId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRelationTypeId
+
+`func (o *EventElement) SetRelationTypeId(v int64)`
+
+SetRelationTypeId sets RelationTypeId field to given value.
 
 
 ### GetSource

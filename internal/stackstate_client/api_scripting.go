@@ -37,8 +37,8 @@ type ScriptingApi interface {
 	ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest
 
 	// ScriptExecuteExecute executes the request
-	//  @return map[string]interface{}
-	ScriptExecuteExecute(r ApiScriptExecuteRequest) (map[string]interface{}, *_nethttp.Response, error)
+	//  @return ExecuteScriptResponse
+	ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error)
 }
 
 // ScriptingApiService ScriptingApi service
@@ -55,7 +55,7 @@ func (r ApiScriptExecuteRequest) ExecuteScriptRequest(executeScriptRequest Execu
 	return r
 }
 
-func (r ApiScriptExecuteRequest) Execute() (map[string]interface{}, *_nethttp.Response, error) {
+func (r ApiScriptExecuteRequest) Execute() (ExecuteScriptResponse, *_nethttp.Response, error) {
 	return r.ApiService.ScriptExecuteExecute(r)
 }
 
@@ -75,15 +75,15 @@ func (a *ScriptingApiService) ScriptExecute(ctx _context.Context) ApiScriptExecu
 }
 
 // Execute executes the request
-//  @return map[string]interface{}
-func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (map[string]interface{}, *_nethttp.Response, error) {
+//  @return ExecuteScriptResponse
+func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  map[string]interface{}
+		localVarReturnValue  ExecuteScriptResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ScriptingApiService.ScriptExecute")

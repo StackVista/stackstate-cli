@@ -19,7 +19,7 @@ import (
 type EventRelation struct {
 	Type string `json:"_type"`
 	Id int64 `json:"id"`
-	EventType *int64 `json:"eventType,omitempty"`
+	RelationTypeId int64 `json:"relationTypeId"`
 	Name *string `json:"name,omitempty"`
 	Source EventComponent `json:"source"`
 	Target EventComponent `json:"target"`
@@ -30,10 +30,11 @@ type EventRelation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventRelation(type_ string, id int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection) *EventRelation {
+func NewEventRelation(type_ string, id int64, relationTypeId int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection) *EventRelation {
 	this := EventRelation{}
 	this.Type = type_
 	this.Id = id
+	this.RelationTypeId = relationTypeId
 	this.Source = source
 	this.Target = target
 	this.DependencyDirection = dependencyDirection
@@ -96,36 +97,28 @@ func (o *EventRelation) SetId(v int64) {
 	o.Id = v
 }
 
-// GetEventType returns the EventType field value if set, zero value otherwise.
-func (o *EventRelation) GetEventType() int64 {
-	if o == nil || o.EventType == nil {
+// GetRelationTypeId returns the RelationTypeId field value
+func (o *EventRelation) GetRelationTypeId() int64 {
+	if o == nil {
 		var ret int64
 		return ret
 	}
-	return *o.EventType
+
+	return o.RelationTypeId
 }
 
-// GetEventTypeOk returns a tuple with the EventType field value if set, nil otherwise
+// GetRelationTypeIdOk returns a tuple with the RelationTypeId field value
 // and a boolean to check if the value has been set.
-func (o *EventRelation) GetEventTypeOk() (*int64, bool) {
-	if o == nil || o.EventType == nil {
+func (o *EventRelation) GetRelationTypeIdOk() (*int64, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.EventType, true
+	return &o.RelationTypeId, true
 }
 
-// HasEventType returns a boolean if a field has been set.
-func (o *EventRelation) HasEventType() bool {
-	if o != nil && o.EventType != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetEventType gets a reference to the given int64 and assigns it to the EventType field.
-func (o *EventRelation) SetEventType(v int64) {
-	o.EventType = &v
+// SetRelationTypeId sets field value
+func (o *EventRelation) SetRelationTypeId(v int64) {
+	o.RelationTypeId = v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -240,8 +233,8 @@ func (o EventRelation) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["id"] = o.Id
 	}
-	if o.EventType != nil {
-		toSerialize["eventType"] = o.EventType
+	if true {
+		toSerialize["relationTypeId"] = o.RelationTypeId
 	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name

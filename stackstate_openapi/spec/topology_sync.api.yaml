@@ -39,7 +39,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TopologyStreamListItem"
+                $ref: "#/components/schemas/TopologyStreamListItemWithErrorDetails"
         "400":
           $ref: "#/components/responses/TopologySyncBadRequest"
         "404":
@@ -69,6 +69,33 @@ paths:
           $ref: "#/components/responses/TopologySyncBadRequest"
         "404":
           $ref: "#/components/responses/TopologySyncNotFound"
+  /synchronization/topology/streams/clearErrors:
+    parameters:
+      - in: query
+        name: identifier
+        allowReserved: true
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: identifierType
+        allowReserved: false
+        required: true
+        schema:
+          $ref: "#/components/schemas/IdentifierType"
+    post:
+      tags:
+        - topologySynchronization
+      description: Clear all the errors related to a specific sync
+      summary: Clear all the errors related to a specific sync
+      operationId: postTopologySynchronizationStreamClearErrors
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "400":
+          $ref: "#/components/responses/TopologySyncBadRequest"
+        "404":
+          $ref: "#/components/responses/TopologySyncNotFound"
 components:
   schemas:
     MetricBucketValue:
@@ -81,6 +108,28 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/MetricBucketValue"
+    MessageLevel:
+      type: string
+      enum:
+        - Warn
+        - Error
+        - Info
+    TopologyStreamError:
+      type: object
+      properties:
+        level:
+          $ref: "#/components/schemas/MessageLevel"
+        message:
+          type: string
+        externalId:
+          type: string
+      required:
+        - level
+        - message
+    TopologyStreamErrors:
+      type: array
+      items:
+        $ref: "#/components/schemas/TopologyStreamError"
     TopologyStreamMetrics:
       type: object
       properties:
@@ -123,6 +172,16 @@ components:
         - Resetting
         - Deleting
         - DeleteFailed
+    TopologyStreamListItemWithErrorDetails:
+      type: object
+      properties:
+        item:
+          $ref: "#/components/schemas/TopologyStreamListItem"
+        errorDetails:
+          $ref: "#/components/schemas/TopologyStreamErrors"
+      required:
+        - item
+        - errorDetails
     TopologyStreamListItem:
       type: object
       properties:
@@ -132,6 +191,8 @@ components:
         nodeId:
           type: integer
           format: int64
+        name:
+          type: string
         createdRelations:
           type: integer
           format: int64
@@ -151,6 +212,7 @@ components:
           $ref: "#/components/schemas/TopologySyncStatus"
       required:
         - nodeId
+        - name
         - createdRelations
         - deletedRelations
         - createdComponents

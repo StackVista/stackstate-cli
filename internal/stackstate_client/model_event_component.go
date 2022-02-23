@@ -19,7 +19,7 @@ import (
 type EventComponent struct {
 	Type string `json:"_type"`
 	Id int64 `json:"id"`
-	EventType *int64 `json:"eventType,omitempty"`
+	ComponentTypeId int64 `json:"componentTypeId"`
 	Name string `json:"name"`
 }
 
@@ -27,10 +27,11 @@ type EventComponent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventComponent(type_ string, id int64, name string) *EventComponent {
+func NewEventComponent(type_ string, id int64, componentTypeId int64, name string) *EventComponent {
 	this := EventComponent{}
 	this.Type = type_
 	this.Id = id
+	this.ComponentTypeId = componentTypeId
 	this.Name = name
 	return &this
 }
@@ -91,36 +92,28 @@ func (o *EventComponent) SetId(v int64) {
 	o.Id = v
 }
 
-// GetEventType returns the EventType field value if set, zero value otherwise.
-func (o *EventComponent) GetEventType() int64 {
-	if o == nil || o.EventType == nil {
+// GetComponentTypeId returns the ComponentTypeId field value
+func (o *EventComponent) GetComponentTypeId() int64 {
+	if o == nil {
 		var ret int64
 		return ret
 	}
-	return *o.EventType
+
+	return o.ComponentTypeId
 }
 
-// GetEventTypeOk returns a tuple with the EventType field value if set, nil otherwise
+// GetComponentTypeIdOk returns a tuple with the ComponentTypeId field value
 // and a boolean to check if the value has been set.
-func (o *EventComponent) GetEventTypeOk() (*int64, bool) {
-	if o == nil || o.EventType == nil {
+func (o *EventComponent) GetComponentTypeIdOk() (*int64, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.EventType, true
+	return &o.ComponentTypeId, true
 }
 
-// HasEventType returns a boolean if a field has been set.
-func (o *EventComponent) HasEventType() bool {
-	if o != nil && o.EventType != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetEventType gets a reference to the given int64 and assigns it to the EventType field.
-func (o *EventComponent) SetEventType(v int64) {
-	o.EventType = &v
+// SetComponentTypeId sets field value
+func (o *EventComponent) SetComponentTypeId(v int64) {
+	o.ComponentTypeId = v
 }
 
 // GetName returns the Name field value
@@ -155,8 +148,8 @@ func (o EventComponent) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["id"] = o.Id
 	}
-	if o.EventType != nil {
-		toSerialize["eventType"] = o.EventType
+	if true {
+		toSerialize["componentTypeId"] = o.ComponentTypeId
 	}
 	if true {
 		toSerialize["name"] = o.Name

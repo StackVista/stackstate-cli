@@ -1,0 +1,322 @@
+paths:
+  /monitors:
+    post:
+      tags:
+        - monitor
+      summary: "Create a monitor"
+      description: "Creates monitor"
+      operationId: createMonitor
+      requestBody:
+        $ref: "#/components/requestBodies/create"
+      responses:
+        "201":
+          $ref: "#/components/responses/monitor"
+        "400":
+          $ref: "#/components/responses/monitorInvalidIntervalError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+    get:
+      tags:
+        - monitor
+      summary: "List monitors"
+      description: "List all available monitor in the system"
+      operationId: getAllMonitors
+      responses:
+        "200":
+          $ref: "#/components/responses/monitors"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+  /monitor/{monitorId}:
+    get:
+      tags:
+        - monitor
+      summary: "Get a monitor"
+      description: "Returns a monitor full representation"
+      operationId: getMonitor
+      parameters:
+        - $ref: "#/components/parameters/monitorId"
+      responses:
+        "200":
+          $ref: "#/components/responses/monitor"
+        "404":
+          $ref: "#/components/responses/monitorNotFoundError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+    put:
+      tags:
+        - monitor
+      summary: "Update a monitor"
+      description: "Updates monitor using optional attributes"
+      operationId: updateMonitor
+      parameters:
+        - $ref: "#/components/parameters/monitorId"
+      requestBody:
+        $ref: "#/components/requestBodies/update"
+      responses:
+        "200":
+          $ref: "#/components/responses/monitor"
+        "400":
+          $ref: "#/components/responses/monitorInvalidIntervalError"
+        "404":
+          $ref: "#/components/responses/monitorNotFoundError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+
+    delete:
+      tags:
+        - monitor
+      summary: "Delete a monitor"
+      description: "Deletes existing monitor"
+      operationId: deleteMonitor
+      parameters:
+        - $ref: "#/components/parameters/monitorId"
+      responses:
+        "200":
+          description: "Return ok"
+        "404":
+          $ref: "#/components/responses/monitorNotFoundError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+
+  /monitor/{monitorId}/run:
+    post:
+      tags:
+        - monitor
+      parameters:
+        - $ref: "#/components/parameters/monitorId"
+      summary: "Run a monitor"
+      description: "Runs a monitor once"
+      operationId: runMonitor
+      responses:
+        "200":
+          $ref: "#/components/responses/monitorRunResult"
+        "404":
+          $ref: "#/components/responses/monitorNotFoundError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+
+  /monitor/{monitorId}/dryRun:
+    post:
+      tags:
+        - monitor
+      parameters:
+        - $ref: "#/components/parameters/monitorId"
+      summary: "Dry run a monitor and show a result"
+      description: "Performs a dry run of a monitor without topology state modification"
+      operationId: dryRunMonitor
+      responses:
+        "200":
+          $ref: "#/components/responses/monitorRunResult"
+        "404":
+          $ref: "#/components/responses/monitorNotFoundError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+
+components:
+  parameters:
+    monitorId:
+      in: path
+      name: monitorId
+      required: true
+      schema:
+        $ref: "#/components/schemas/MonitorId"
+      description: "The identifier of a monitor"
+  requestBodies:
+    create:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/CreateMonitor"
+    update:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/UpdateMonitor"
+  responses:
+    monitors:
+      description: "List of all available monitors"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MonitorList"
+    monitor:
+      description: "Full representation of a monitor"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Monitor"
+    monitorRunResult:
+      description: "Full representation of the result of a monitor run"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MonitorRunResult"
+    monitorNotFoundError:
+      description: "monitor was not found in the database"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MonitorNotFoundError"
+    monitorInvalidIntervalError:
+      description: "Error response if an unsupported monitor interval was provided"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MonitorInvalidIntervalError"
+    monitorApiError:
+      description: "container for all error response"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MonitorApiError"
+  schemas:
+    CreateMonitor:
+      type: object
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          type: integer
+          format: int64
+        parameters:
+          type: object
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+          description: "Placeholder for the topology element identifier"
+        intervalSeconds:
+          $ref: "#/components/schemas/MonitorInterval"
+      required:
+        - name
+        - identifier
+        - functionId
+        - parameters
+        - topologyMapping
+        - intervalSeconds
+
+    UpdateMonitor:
+      type: object
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          type: integer
+          format: int64
+        parameters:
+          type: object
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+        intervalSeconds:
+          $ref: "#/components/schemas/MonitorInterval"
+
+    MonitorList:
+      type: object
+      properties:
+        monitors:
+          type: array
+          items:
+            $ref: "#/components/schemas/Monitor"
+      required:
+        - monitors
+
+    MonitorId:
+      type: integer
+      format: int64
+
+    Monitor:
+      type: object
+      properties:
+        id:
+          $ref: "#/components/schemas/MonitorId"
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          type: integer
+          format: int64
+        parameters:
+          type: object
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+        intervalSeconds:
+          type: integer
+      required:
+        - id
+        - name
+        - functionId
+        - parameters
+        - topologyMapping
+        - intervalSeconds
+
+    MonitorRunResult:
+      type: object
+      properties:
+        result:
+          type: object
+      required:
+        - result
+
+    MonitorInterval:
+      type: integer
+
+    MonitorInvalidIntervalError:
+      type: object
+      properties:
+        _type:
+          type: string
+          enum:
+            - MonitorInvalidIntervalError
+        intervalSeconds:
+          type: integer
+      required:
+        - _type
+        - intervalSeconds
+
+    MonitorNotFoundError:
+      type: object
+      properties:
+        _type:
+          type: string
+          enum:
+            - MonitorNotFoundError
+        monitorId:
+          $ref: "#/components/schemas/MonitorId"
+      required:
+        - _type
+        - monitorId
+
+    MonitorApiError:
+      type: object
+      properties:
+        statusCode:
+          type: string
+        message:
+          type: string
+        monitorId:
+          type: string
+        monitorIdType:
+          type: string
+          enum:
+            - id
+            - urn
+      required:
+        - statusCode
+        - message

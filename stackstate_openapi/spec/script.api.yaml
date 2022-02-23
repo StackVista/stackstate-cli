@@ -48,6 +48,18 @@ components:
         - script
     ExecuteScriptResponse:
       type: object
+      properties:
+        result:
+          type: object
+          description: |
+            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
+            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
+            The `_type` property describes the original type of the result value during script execution.
+            The `value` property holds the resulting value serialized to JSON.
+            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
+          nullable: true
+      required:
+        - result
     ExecuteScriptError:
       type: object
       discriminator:

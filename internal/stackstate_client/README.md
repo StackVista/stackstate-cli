@@ -93,10 +93,23 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamstatus) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status | Get health sync sub-stream status
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/stream/{healthStreamUrn}/clearErrors | Clear health sync stream errors
+*MonitorApi* | [**CreateMonitor**](docs/MonitorApi.md#createmonitor) | **Post** /monitors | Create a monitor
+*MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitor/{monitorId} | Delete a monitor
+*MonitorApi* | [**DryRunMonitor**](docs/MonitorApi.md#dryrunmonitor) | **Post** /monitor/{monitorId}/dryRun | Dry run a monitor and show a result
+*MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
+*MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitor/{monitorId} | Get a monitor
+*MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitor/{monitorId}/run | Run a monitor
+*MonitorApi* | [**UpdateMonitor**](docs/MonitorApi.md#updatemonitor) | **Put** /monitor/{monitorId} | Update a monitor
+*MonitorUrnApi* | [**DeleteMonitorByURN**](docs/MonitorUrnApi.md#deletemonitorbyurn) | **Delete** /monitorUrn/{monitorUrnId} | Delete a monitor
+*MonitorUrnApi* | [**DryRunMonitorByURN**](docs/MonitorUrnApi.md#dryrunmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/dryRun | Dry run a monitor and show a result
+*MonitorUrnApi* | [**GetMonitorByURN**](docs/MonitorUrnApi.md#getmonitorbyurn) | **Get** /monitorUrn/{monitorUrnId} | Get a monitor
+*MonitorUrnApi* | [**RunMonitorByURN**](docs/MonitorUrnApi.md#runmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
+*MonitorUrnApi* | [**UpdateMonitorByURN**](docs/MonitorUrnApi.md#updatemonitorbyurn) | **Put** /monitorUrn/{monitorUrnId} | Update a monitor
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
+*TopologySynchronizationApi* | [**PostTopologySynchronizationStreamClearErrors**](docs/TopologySynchronizationApi.md#posttopologysynchronizationstreamclearerrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
 *UserProfileApi* | [**GetCurrentUserProfile**](docs/UserProfileApi.md#getcurrentuserprofile) | **Get** /user/profile | Get current user profile
 *UserProfileApi* | [**SaveCurrentUserProfile**](docs/UserProfileApi.md#savecurrentuserprofile) | **Put** /user/profile | Save current user profile
 
@@ -104,6 +117,7 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [ApiToken](docs/ApiToken.md)
+ - [CreateMonitor](docs/CreateMonitor.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [ElasticSearchError](docs/ElasticSearchError.md)
  - [EventCategory](docs/EventCategory.md)
@@ -123,6 +137,7 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptExecutionError](docs/ExecuteScriptExecutionError.md)
  - [ExecuteScriptGroovyRuntimeError](docs/ExecuteScriptGroovyRuntimeError.md)
  - [ExecuteScriptRequest](docs/ExecuteScriptRequest.md)
+ - [ExecuteScriptResponse](docs/ExecuteScriptResponse.md)
  - [ExecuteScriptSecurityError](docs/ExecuteScriptSecurityError.md)
  - [ExecuteScriptSyntaxErrors](docs/ExecuteScriptSyntaxErrors.md)
  - [ExecuteScriptSyntaxErrorsErrors](docs/ExecuteScriptSyntaxErrorsErrors.md)
@@ -144,8 +159,18 @@ Class | Method | HTTP request | Description
  - [InternalServerError](docs/InternalServerError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
+ - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
+ - [Monitor](docs/Monitor.md)
+ - [MonitorApiError](docs/MonitorApiError.md)
+ - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
+ - [MonitorInvalidIntervalError](docs/MonitorInvalidIntervalError.md)
+ - [MonitorList](docs/MonitorList.md)
+ - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
+ - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
+ - [RequestError](docs/RequestError.md)
+ - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
  - [RootCauseParsingError](docs/RootCauseParsingError.md)
  - [ScriptLocation](docs/ScriptLocation.md)
@@ -159,12 +184,15 @@ Class | Method | HTTP request | Description
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)
+ - [TopologyStreamError](docs/TopologyStreamError.md)
  - [TopologyStreamList](docs/TopologyStreamList.md)
  - [TopologyStreamListItem](docs/TopologyStreamListItem.md)
+ - [TopologyStreamListItemWithErrorDetails](docs/TopologyStreamListItemWithErrorDetails.md)
  - [TopologyStreamMetrics](docs/TopologyStreamMetrics.md)
  - [TopologySyncError](docs/TopologySyncError.md)
  - [TopologySyncStatus](docs/TopologySyncStatus.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
+ - [UpdateMonitor](docs/UpdateMonitor.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)
  - [UserNotFoundError](docs/UserNotFoundError.md)
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)

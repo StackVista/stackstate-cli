@@ -37,8 +37,8 @@ type TopologySynchronizationApi interface {
 	GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest
 
 	// GetTopologySynchronizationStreamByIdExecute executes the request
-	//  @return TopologyStreamListItem
-	GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItem, *_nethttp.Response, error)
+	//  @return TopologyStreamListItemWithErrorDetails
+	GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error)
 
 	/*
 	GetTopologySynchronizationStreamStatusById Metrics of a specific Topology Stream, queried by node id
@@ -67,6 +67,19 @@ type TopologySynchronizationApi interface {
 	// GetTopologySynchronizationStreamsExecute executes the request
 	//  @return TopologyStreamList
 	GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error)
+
+	/*
+	PostTopologySynchronizationStreamClearErrors Clear all the errors related to a specific sync
+
+	Clear all the errors related to a specific sync
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiPostTopologySynchronizationStreamClearErrorsRequest
+	*/
+	PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest
+
+	// PostTopologySynchronizationStreamClearErrorsExecute executes the request
+	PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error)
 }
 
 // TopologySynchronizationApiService TopologySynchronizationApi service
@@ -88,7 +101,7 @@ func (r ApiGetTopologySynchronizationStreamByIdRequest) IdentifierType(identifie
 	return r
 }
 
-func (r ApiGetTopologySynchronizationStreamByIdRequest) Execute() (TopologyStreamListItem, *_nethttp.Response, error) {
+func (r ApiGetTopologySynchronizationStreamByIdRequest) Execute() (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
 	return r.ApiService.GetTopologySynchronizationStreamByIdExecute(r)
 }
 
@@ -108,15 +121,15 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 }
 
 // Execute executes the request
-//  @return TopologyStreamListItem
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItem, *_nethttp.Response, error) {
+//  @return TopologyStreamListItemWithErrorDetails
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  TopologyStreamListItem
+		localVarReturnValue  TopologyStreamListItemWithErrorDetails
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreamById")
@@ -483,4 +496,146 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostTopologySynchronizationStreamClearErrorsRequest struct {
+	ctx _context.Context
+	ApiService TopologySynchronizationApi
+	identifier *string
+	identifierType *IdentifierType
+}
+
+func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) Identifier(identifier string) ApiPostTopologySynchronizationStreamClearErrorsRequest {
+	r.identifier = &identifier
+	return r
+}
+func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) IdentifierType(identifierType IdentifierType) ApiPostTopologySynchronizationStreamClearErrorsRequest {
+	r.identifierType = &identifierType
+	return r
+}
+
+func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) Execute() (*_nethttp.Response, error) {
+	return r.ApiService.PostTopologySynchronizationStreamClearErrorsExecute(r)
+}
+
+/*
+PostTopologySynchronizationStreamClearErrors Clear all the errors related to a specific sync
+
+Clear all the errors related to a specific sync
+
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostTopologySynchronizationStreamClearErrorsRequest
+*/
+func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
+	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.PostTopologySynchronizationStreamClearErrors")
+	if err != nil {
+		return nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/synchronization/topology/streams/clearErrors"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+	if r.identifier == nil {
+		return nil, reportError("identifier is required and must be specified")
+	}
+	if r.identifierType == nil {
+		return nil, reportError("identifierType is required and must be specified")
+	}
+
+	localVarQueryParams.Add("identifier", parameterToString(*r.identifier, ""))
+	localVarQueryParams.Add("identifierType", parameterToString(*r.identifierType, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v InvalidSyncIdentifier
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v TopologySyncError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }

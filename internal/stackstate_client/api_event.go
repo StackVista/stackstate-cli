@@ -233,6 +233,16 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, 
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v RequestError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v EventNotFoundError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -482,7 +492,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (S
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v TopologyOverflowError
+			var v RequestError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -720,7 +730,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringI
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v TopologyOverflowError
+			var v RequestError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -958,7 +968,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (Strin
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v TopologyOverflowError
+			var v RequestError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -1113,7 +1123,7 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWit
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v TopologyOverflowError
+			var v RequestError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

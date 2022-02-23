@@ -14,6 +14,20 @@ externalDocs:
   description: Documentation
   url: "https://docs.stackstate.com/"
 paths:
+  /monitors:
+    $ref: "monitors.api.yaml#/paths/%2Fmonitors"
+  /monitor/{monitorId}:
+    $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D"
+  /monitor/{monitorId}/run:
+    $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2Frun"
+  /monitor/{monitorId}/dryRun:
+    $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2FdryRun"
+  /monitorUrn/{monitorUrnId}:
+    $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D"
+  /monitorUrn/{monitorUrnId}/run:
+    $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D%2Frun"
+  /monitorUrn/{monitorUrnId}/dryRun:
+    $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D%2FdryRun"
   /user/profile:
     $ref: "user_profile.api.yaml#/paths/%2Fuser%2Fprofile"
   /user/profile/tokens:
@@ -50,10 +64,12 @@ paths:
     $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2Fsync"
   /synchronization/topology/streams/status:
     $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2Fstatus"
+  /synchronization/topology/streams/clearErrors:
+    $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2FclearErrors"
   /script/execute:
     $ref: "script.api.yaml#/paths/%2Fscript%2Fexecute"
 security:
-- ApiToken: []
+  - ApiToken: []
 components:
   securitySchemes:
     ApiToken:

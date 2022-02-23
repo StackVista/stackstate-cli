@@ -78,6 +78,6 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 	}
 
 	// print response
-	cli.Printer.PrintStruct(scriptResponse["result"])
+	cli.Printer.PrintStruct(scriptResponse.Result["value1"])
 	return nil
 }

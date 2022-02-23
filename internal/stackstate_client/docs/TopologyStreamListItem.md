@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SyncIdentifier** | Pointer to **NullableString** |  | [optional] 
 **NodeId** | **int64** |  | 
+**Name** | **string** |  | 
 **CreatedRelations** | **int64** |  | 
 **DeletedRelations** | **int64** |  | 
 **CreatedComponents** | **int64** |  | 
@@ -17,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewTopologyStreamListItem
 
-`func NewTopologyStreamListItem(nodeId int64, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, status TopologySyncStatus, ) *TopologyStreamListItem`
+`func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, status TopologySyncStatus, ) *TopologyStreamListItem`
 
 NewTopologyStreamListItem instantiates a new TopologyStreamListItem object
 This constructor will assign default values to properties that have it defined,
@@ -85,6 +86,26 @@ and a boolean to check if the value has been set.
 `func (o *TopologyStreamListItem) SetNodeId(v int64)`
 
 SetNodeId sets NodeId field to given value.
+
+
+### GetName
+
+`func (o *TopologyStreamListItem) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *TopologyStreamListItem) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *TopologyStreamListItem) SetName(v string)`
+
+SetName sets Name field to given value.
 
 
 ### GetCreatedRelations

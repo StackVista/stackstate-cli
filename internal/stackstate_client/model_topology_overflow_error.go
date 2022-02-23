@@ -17,6 +17,7 @@ import (
 
 // TopologyOverflowError struct for TopologyOverflowError
 type TopologyOverflowError struct {
+	Type string `json:"_type"`
 	MaxSize int32 `json:"maxSize"`
 }
 
@@ -24,8 +25,9 @@ type TopologyOverflowError struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTopologyOverflowError(maxSize int32) *TopologyOverflowError {
+func NewTopologyOverflowError(type_ string, maxSize int32) *TopologyOverflowError {
 	this := TopologyOverflowError{}
+	this.Type = type_
 	this.MaxSize = maxSize
 	return &this
 }
@@ -36,6 +38,30 @@ func NewTopologyOverflowError(maxSize int32) *TopologyOverflowError {
 func NewTopologyOverflowErrorWithDefaults() *TopologyOverflowError {
 	this := TopologyOverflowError{}
 	return &this
+}
+
+// GetType returns the Type field value
+func (o *TopologyOverflowError) GetType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value
+// and a boolean to check if the value has been set.
+func (o *TopologyOverflowError) GetTypeOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Type, true
+}
+
+// SetType sets field value
+func (o *TopologyOverflowError) SetType(v string) {
+	o.Type = v
 }
 
 // GetMaxSize returns the MaxSize field value
@@ -64,6 +90,9 @@ func (o *TopologyOverflowError) SetMaxSize(v int32) {
 
 func (o TopologyOverflowError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["_type"] = o.Type
+	}
 	if true {
 		toSerialize["maxSize"] = o.MaxSize
 	}

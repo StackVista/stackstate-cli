@@ -19,6 +19,7 @@ import (
 type TopologyStreamListItem struct {
 	SyncIdentifier NullableString `json:"syncIdentifier,omitempty"`
 	NodeId int64 `json:"nodeId"`
+	Name string `json:"name"`
 	CreatedRelations int64 `json:"createdRelations"`
 	DeletedRelations int64 `json:"deletedRelations"`
 	CreatedComponents int64 `json:"createdComponents"`
@@ -31,9 +32,10 @@ type TopologyStreamListItem struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTopologyStreamListItem(nodeId int64, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, status TopologySyncStatus) *TopologyStreamListItem {
+func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, status TopologySyncStatus) *TopologyStreamListItem {
 	this := TopologyStreamListItem{}
 	this.NodeId = nodeId
+	this.Name = name
 	this.CreatedRelations = createdRelations
 	this.DeletedRelations = deletedRelations
 	this.CreatedComponents = createdComponents
@@ -115,6 +117,30 @@ func (o *TopologyStreamListItem) GetNodeIdOk() (*int64, bool) {
 // SetNodeId sets field value
 func (o *TopologyStreamListItem) SetNodeId(v int64) {
 	o.NodeId = v
+}
+
+// GetName returns the Name field value
+func (o *TopologyStreamListItem) GetName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Name
+}
+
+// GetNameOk returns a tuple with the Name field value
+// and a boolean to check if the value has been set.
+func (o *TopologyStreamListItem) GetNameOk() (*string, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.Name, true
+}
+
+// SetName sets field value
+func (o *TopologyStreamListItem) SetName(v string) {
+	o.Name = v
 }
 
 // GetCreatedRelations returns the CreatedRelations field value
@@ -268,6 +294,9 @@ func (o TopologyStreamListItem) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["nodeId"] = o.NodeId
+	}
+	if true {
+		toSerialize["name"] = o.Name
 	}
 	if true {
 		toSerialize["createdRelations"] = o.CreatedRelations

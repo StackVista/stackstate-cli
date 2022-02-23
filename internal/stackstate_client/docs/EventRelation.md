@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Id** | **int64** |  | 
-**EventType** | Pointer to **int64** |  | [optional] 
+**RelationTypeId** | **int64** |  | 
 **Name** | Pointer to **string** |  | [optional] 
 **Source** | [**EventComponent**](EventComponent.md) |  | 
 **Target** | [**EventComponent**](EventComponent.md) |  | 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewEventRelation
 
-`func NewEventRelation(type_ string, id int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventRelation`
+`func NewEventRelation(type_ string, id int64, relationTypeId int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventRelation`
 
 NewEventRelation instantiates a new EventRelation object
 This constructor will assign default values to properties that have it defined,
@@ -71,30 +71,25 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetEventType
+### GetRelationTypeId
 
-`func (o *EventRelation) GetEventType() int64`
+`func (o *EventRelation) GetRelationTypeId() int64`
 
-GetEventType returns the EventType field if non-nil, zero value otherwise.
+GetRelationTypeId returns the RelationTypeId field if non-nil, zero value otherwise.
 
-### GetEventTypeOk
+### GetRelationTypeIdOk
 
-`func (o *EventRelation) GetEventTypeOk() (*int64, bool)`
+`func (o *EventRelation) GetRelationTypeIdOk() (*int64, bool)`
 
-GetEventTypeOk returns a tuple with the EventType field if it's non-nil, zero value otherwise
+GetRelationTypeIdOk returns a tuple with the RelationTypeId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEventType
+### SetRelationTypeId
 
-`func (o *EventRelation) SetEventType(v int64)`
+`func (o *EventRelation) SetRelationTypeId(v int64)`
 
-SetEventType sets EventType field to given value.
+SetRelationTypeId sets RelationTypeId field to given value.
 
-### HasEventType
-
-`func (o *EventRelation) HasEventType() bool`
-
-HasEventType returns a boolean if a field has been set.
 
 ### GetName
 

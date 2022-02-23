@@ -6,14 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Id** | **int64** |  | 
-**EventType** | Pointer to **int64** |  | [optional] 
+**ComponentTypeId** | **int64** |  | 
 **Name** | **string** |  | 
 
 ## Methods
 
 ### NewEventComponent
 
-`func NewEventComponent(type_ string, id int64, name string, ) *EventComponent`
+`func NewEventComponent(type_ string, id int64, componentTypeId int64, name string, ) *EventComponent`
 
 NewEventComponent instantiates a new EventComponent object
 This constructor will assign default values to properties that have it defined,
@@ -68,30 +68,25 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetEventType
+### GetComponentTypeId
 
-`func (o *EventComponent) GetEventType() int64`
+`func (o *EventComponent) GetComponentTypeId() int64`
 
-GetEventType returns the EventType field if non-nil, zero value otherwise.
+GetComponentTypeId returns the ComponentTypeId field if non-nil, zero value otherwise.
 
-### GetEventTypeOk
+### GetComponentTypeIdOk
 
-`func (o *EventComponent) GetEventTypeOk() (*int64, bool)`
+`func (o *EventComponent) GetComponentTypeIdOk() (*int64, bool)`
 
-GetEventTypeOk returns a tuple with the EventType field if it's non-nil, zero value otherwise
+GetComponentTypeIdOk returns a tuple with the ComponentTypeId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEventType
+### SetComponentTypeId
 
-`func (o *EventComponent) SetEventType(v int64)`
+`func (o *EventComponent) SetComponentTypeId(v int64)`
 
-SetEventType sets EventType field to given value.
+SetComponentTypeId sets ComponentTypeId field to given value.
 
-### HasEventType
-
-`func (o *EventComponent) HasEventType() bool`
-
-HasEventType returns a boolean if a field has been set.
 
 ### GetName
 
