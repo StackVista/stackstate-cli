@@ -13,7 +13,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func Execute(ctx context.Context) {
@@ -30,6 +29,7 @@ func Execute(ctx context.Context) {
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		runCmd = cmd
 		verbose, _ := cmd.Flags().GetBool("verbose")
+		cli.IsVerBose = verbose
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
 		}
@@ -57,29 +57,7 @@ func Execute(ctx context.Context) {
 			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", cfg.Output)
 		}
 
-		configuration := sts.NewConfiguration()
-		configuration.Servers[0] = sts.ServerConfiguration{
-			URL:         cli.Config.ApiUrl,
-			Description: "",
-			Variables:   nil,
-		}
-		if verbose {
-			configuration.Debug = true
-		}
-
-		client := sts.NewAPIClient(configuration)
-		cli.Client = client
-
-		auth := make(map[string]sts.APIKey)
-		auth["ApiToken"] = sts.APIKey{
-			Key:    cli.Config.ApiToken,
-			Prefix: "",
-		}
-		cli.Context = context.WithValue(
-			cmd.Context(),
-			sts.ContextAPIKeys,
-			auth,
-		)
+		cli.Context = cmd.Context()
 
 		return nil
 	}

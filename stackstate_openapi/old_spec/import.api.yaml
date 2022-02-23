@@ -1,0 +1,21 @@
+paths:
+  /import:
+    post:
+      summary: "Import "
+      description: "Import"
+      operationId: importSettings
+      requestBody:
+        required: true
+        content:
+          plain/text:
+              schema:
+                type: string
+      responses:
+        "200":
+          description: Result of executing the script.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object

@@ -32,6 +32,8 @@ type Printer interface {
 	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
 	Success(msg string)
+	Table(header []string, data [][]string)
+	PrintLn(text string)
 }
 
 type OutputType int
@@ -54,6 +56,7 @@ type StdPrinter struct {
 }
 
 func NewPrinter() Printer {
+	pterm.DisableColor()
 	return &StdPrinter{
 		useColor:   false, // IMPORTANT: use progressive enhancement!
 		spinner:    nil,
@@ -233,8 +236,10 @@ func (p *StdPrinter) SetUseColor(useColor bool) {
 	p.useColor = useColor
 	if useColor {
 		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
+		pterm.EnableColor()
 	} else {
 		p.spinner = nil
+		pterm.DisableColor()
 	}
 }
 
@@ -257,4 +262,15 @@ func (p *StdPrinter) Success(msg string) {
 	} else {
 		fmt.Fprintf(p.stdOut, "Success: %s\n", msg)
 	}
+}
+
+func (p *StdPrinter) Table(header []string, data [][]string) {
+	dataWithHeader := [][]string{}
+	dataWithHeader = append(dataWithHeader, header)
+	dataWithHeader = append(dataWithHeader, data...)
+	pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
+}
+
+func (p *StdPrinter) PrintLn(text string) {
+	fmt.Fprintf(p.stdOut, "%s\n", text)
 }

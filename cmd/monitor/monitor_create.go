@@ -36,7 +36,8 @@ func RunCreateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
-	_, resp, err := cli.Client.MonitorApi.CreateMonitor(cli.Context).CreateMonitor(monitor).Execute()
+	client, ctx := cli.NewStsClient()
+	_, resp, err := client.MonitorApi.CreateMonitor(ctx).CreateMonitor(monitor).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

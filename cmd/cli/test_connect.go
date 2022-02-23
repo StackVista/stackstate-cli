@@ -8,7 +8,8 @@ import (
 func testConect(cli *di.Deps) common.CLIError {
 	cli.Printer.StartSpinner(common.AwaitingServer)
 	defer cli.Printer.StopSpinner()
-	_, resp, err := cli.Client.UserProfileApi.GetCurrentUserProfile(cli.Context).Execute()
+	client, ctx := cli.NewStsClient()
+	_, resp, err := client.UserProfileApi.GetCurrentUserProfile(ctx).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

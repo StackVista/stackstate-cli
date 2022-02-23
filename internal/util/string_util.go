@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"strings"
 	"unicode"
 )
@@ -44,4 +45,8 @@ func WithNewLine(s string) string {
 	} else {
 		return s
 	}
+}
+
+func ToString(x interface{}) string {
+	return fmt.Sprintf("%v", x)
 }
