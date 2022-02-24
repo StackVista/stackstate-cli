@@ -23,7 +23,6 @@ func setupCommand(mockScriptingApiService sts.MockScriptingApiService) (*printer
 	mockPrinter := printer.NewMockPrinter()
 	cli := di.Deps{
 		Config:  &conf.Conf{},
-		Client:  &client,
 		Printer: &mockPrinter,
 		Context: context.Background(),
 	}

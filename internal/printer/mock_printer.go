@@ -14,6 +14,13 @@ type MockPrinter struct {
 	UseColor          bool
 	outputType        OutputType
 	SuccessCalls      *[]string
+	TableCalls        *[]TableCall
+	PrintLnCalls      *[]string
+}
+
+type TableCall struct {
+	Header []string
+	Data   [][]string
 }
 
 type PrintErrResponseCall struct {
@@ -71,4 +78,12 @@ func (p *MockPrinter) GetOutputType() OutputType {
 
 func (p *MockPrinter) Success(msg string) {
 	*p.SuccessCalls = append(*p.SuccessCalls, msg)
+}
+
+func (p *MockPrinter) Table(header []string, data [][]string) {
+	*p.TableCalls = append(*p.TableCalls, TableCall{header, data})
+}
+
+func (p *MockPrinter) PrintLn(text string) {
+	*p.PrintLnCalls = append(*p.PrintLnCalls, text)
 }
