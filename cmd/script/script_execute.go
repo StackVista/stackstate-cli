@@ -11,6 +11,7 @@ import (
 )
 
 const (
+	ScriptFlag          = "script"
 	FileFlag            = "file"
 	TimeoutFlag         = "timeout"
 	ArgumentsScriptFlag = "arguments-script"
@@ -18,11 +19,12 @@ const (
 
 func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "execute <script>",
+		Use:   "execute",
 		Short: "Execute a STSL script.",
 		RunE:  di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
 	}
 
+	cmd.Flags().StringP(ScriptFlag, "s", "", "The script.")
 	cmd.Flags().StringP(ArgumentsScriptFlag, "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "Timeout in milli-seconds.")
 	cmd.Flags().StringP(FileFlag, "f", "", "Read the script from file.")
@@ -32,20 +34,30 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 
 func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
 	var script string
+
+	script, err := cmd.Flags().GetString(ScriptFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
+
+	if file != "" && script != "" {
+		return common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. Pick one or the other", ScriptFlag, FileFlag))
+	}
+
 	if file != "" {
 		b, err := os.ReadFile(file)
 		if err != nil {
 			return common.NewCLIError(err)
 		}
 		script = string(b)
-	} else if len(args) > 0 {
-		script = args[0]
-	} else {
-		return common.NewCLIArgParseError(fmt.Errorf("missing <script> argument"))
+	}
+
+	if script == "" {
+		return common.NewCLIArgParseError(fmt.Errorf("required flag \"%s\" or \"%s\" not set", ScriptFlag, FileFlag))
 	}
 
 	var argumentsScript *string

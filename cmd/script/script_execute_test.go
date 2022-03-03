@@ -36,7 +36,7 @@ func TestExecuteSuccess(t *testing.T) {
 	mockApi := sts.NewMockScriptingApiService()
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "test script")
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
@@ -82,7 +82,7 @@ func TestExecuteResponseError(t *testing.T) {
 	mockApi.ReturnFromScriptExecuteExecute.Error = fakeError
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "test script")
 
 	assert.Equal(t,
 		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
@@ -96,7 +96,7 @@ func TestExecuteResponseError(t *testing.T) {
 func TestArgumentScriptFlag(t *testing.T) {
 	mockApi := sts.NewMockScriptingApiService()
 	_, cli, cmd := setupCommand(mockApi)
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-a", "argscript", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "-a", "argscript", "-s", "test script")
 
 	assert.Equal(t, "argscript", *(*mockApi.ExecuteScriptRequests)[0].ArgumentsScript)
 }
@@ -104,7 +104,15 @@ func TestArgumentScriptFlag(t *testing.T) {
 func TestTimeoutFlag(t *testing.T) {
 	mockApi := sts.NewMockScriptingApiService()
 	_, cli, cmd := setupCommand(mockApi)
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "-s", "test script")
 
 	assert.Equal(t, int32(10), *(*mockApi.ExecuteScriptRequests)[0].TimeoutMs)
+}
+
+func TestScriptAndFileFlag(t *testing.T) {
+	mockApi := sts.NewMockScriptingApiService()
+	_, cli, cmd := setupCommand(mockApi)
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "script", "-f", "file")
+
+	assert.Equal(t, common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags. Pick one or the other")), err)
 }
