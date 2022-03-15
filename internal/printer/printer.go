@@ -75,14 +75,7 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 	p.stdErr = stdErr
 }
 
-// kills any ongoing processes
-func resetStdPrinter(p *StdPrinter) {
-	p.StopSpinner()
-}
-
 func (p *StdPrinter) PrintStruct(s interface{}) error {
-	resetStdPrinter(p)
-
 	msg, err := p.sprintStruct(s)
 	if err != nil {
 		return err
@@ -151,8 +144,6 @@ func colorizeStruct(structStr string, outputType OutputType) (string, error) {
 }
 
 func (p *StdPrinter) PrintErr(err error) {
-	resetStdPrinter(p)
-
 	switch e := err.(type) {
 	case common.ResponseError:
 		p.printErrResponse(e.Err, e.Resp)
@@ -223,7 +214,6 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 }
 
 func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
-	resetStdPrinter(p)
 	if p.spinner != nil {
 		p.spinner.Text = loadingMsg.String()
 		p.spinner.Start()
@@ -241,7 +231,6 @@ func (p *StdPrinter) SetUseColor(useColor bool) {
 		return // no change
 	}
 
-	resetStdPrinter(p)
 	p.useColor = useColor
 	if useColor {
 		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
@@ -265,7 +254,6 @@ func (p *StdPrinter) GetOutputType() OutputType {
 }
 
 func (p *StdPrinter) Success(msg string) {
-	resetStdPrinter(p)
 	if p.useColor {
 		fmt.Fprintf(p.stdOut, "%s %s\n", SuccessSymbol, msg)
 	} else {
@@ -274,7 +262,6 @@ func (p *StdPrinter) Success(msg string) {
 }
 
 func (p *StdPrinter) PrintWarn(msg string) {
-	resetStdPrinter(p)
 	if p.useColor {
 		fmt.Fprintf(p.stdOut, "%s %s\n", WarningSymbol, msg)
 	} else {

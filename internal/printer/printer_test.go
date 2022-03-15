@@ -154,3 +154,10 @@ func TestPrintTable(t *testing.T) {
 	p.Table([]string{"A", "B"}, [][]string{{"1", "2"}}, nil)
 	assert.Equal(t, "A | B\n1 | 2\n", stdOut.String())
 }
+
+func TestPrintTableAsStruct(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetOutputType(YAML)
+	p.Table([]string{"A", "B"}, [][]string{{"1", "2"}}, map[string]interface{}{"A": 1, "B": 2})
+	assert.Equal(t, "A: 1\nB: 2\n", stdOut.String())
+}
