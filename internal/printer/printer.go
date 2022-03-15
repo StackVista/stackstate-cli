@@ -39,16 +39,25 @@ type Printer interface {
 
 type OutputType int
 
+type Symbol struct {
+	UnicodeChar string
+	Fallback    string
+}
+
 const (
 	YAML OutputType = iota
 	JSON
 	// Auto formatting, sometimes prints in table format, sometimes in YAML
 	Auto
-	ServerErrorColorSymbol  = "❌"
-	GenericErrorColorSymbol = "❗"
-	SuccessSymbol           = "✅"
-	WarningSymbol           = "\u26A0\uFE0F" // ⚠️
 )
+
+var symbols = map[string]Symbol{
+	"success":      {UnicodeChar: "✅", Fallback: "success"},
+	"warn":         {UnicodeChar: "\u26A0\uFE0F", Fallback: "warn"}, // ⚠️
+	"server-error": {UnicodeChar: "❌", Fallback: "server error"},
+	"error":        {UnicodeChar: "❗", Fallback: "error"},
+	"info":         {UnicodeChar: color.Blue.Render("ⓘ"), Fallback: "info"},
+}
 
 type StdPrinter struct {
 	stdOut     io.Writer // for test purposes
@@ -148,11 +157,7 @@ func (p *StdPrinter) PrintErr(err error) {
 	case common.ResponseError:
 		p.printErrResponse(e.Err, e.Resp)
 	default:
-		if p.useColor {
-			color.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red.Render(util.UcFirst(err.Error())))
-		} else {
-			fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
-		}
+		color.Fprintf(p.stdErr, "%s %s\n", p.sprintSymbol("error"), color.Red.Render(util.UcFirst(err.Error())))
 	}
 }
 
@@ -190,27 +195,17 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	}
 
 	// print
-	if p.useColor {
-		if suggestion != "" {
-			suggestion = fmt.Sprintf("%s %s", color.Blue.Render("ⓘ"), suggestion)
-		}
-
-		fmt.Fprintf(p.stdErr,
-			"%s %v\n%s%s",
-			ServerErrorColorSymbol,
-			color.Red.Render(httpStatus),
-			util.WithNewLine(errorStr),
-			util.WithNewLine(suggestion),
-		)
-	} else {
-		fmt.Fprintf(
-			p.stdErr,
-			"Server error: %s\n%s%s",
-			httpStatus,
-			util.WithNewLine(errorStr),
-			util.WithNewLine(suggestion),
-		)
+	if suggestion != "" {
+		suggestion = fmt.Sprintf("%s %s", p.sprintSymbol("info"), suggestion)
 	}
+
+	color.Fprintf(p.stdErr,
+		"%s %v\n%s%s",
+		p.sprintSymbol("server-error"),
+		color.Red.Render(httpStatus),
+		util.WithNewLine(errorStr),
+		util.WithNewLine(suggestion),
+	)
 }
 
 func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
@@ -254,19 +249,11 @@ func (p *StdPrinter) GetOutputType() OutputType {
 }
 
 func (p *StdPrinter) Success(msg string) {
-	if p.useColor {
-		fmt.Fprintf(p.stdOut, "%s %s\n", SuccessSymbol, msg)
-	} else {
-		fmt.Fprintf(p.stdOut, "Success: %s\n", msg)
-	}
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), msg)
 }
 
 func (p *StdPrinter) PrintWarn(msg string) {
-	if p.useColor {
-		fmt.Fprintf(p.stdOut, "%s %s\n", WarningSymbol, msg)
-	} else {
-		fmt.Fprintf(p.stdOut, "Warning: %s\n", msg)
-	}
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), msg)
 }
 
 func (p *StdPrinter) Table(header []string, data [][]string, structData interface{}) {
@@ -281,5 +268,14 @@ func (p *StdPrinter) Table(header []string, data [][]string, structData interfac
 }
 
 func (p *StdPrinter) PrintLn(text string) {
-	fmt.Fprintf(p.stdOut, "%s\n", text)
+	color.Fprintf(p.stdOut, "%s\n", text)
+}
+
+func (p *StdPrinter) sprintSymbol(symbolName string) string {
+	symbol := symbols[symbolName]
+	if p.useColor {
+		return symbol.UnicodeChar
+	} else {
+		return "[" + strings.ToUpper(symbol.Fallback) + "]"
+	}
 }
