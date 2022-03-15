@@ -31,6 +31,7 @@ type Printer interface {
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
+	PrintWarn(msg string)
 	Success(msg string)
 	Table(header []string, data [][]string)
 	PrintLn(text string)
@@ -45,6 +46,8 @@ const (
 	Auto
 	ServerErrorColorSymbol  = "❌"
 	GenericErrorColorSymbol = "❗"
+	SuccessSymbol           = "✅"
+	WarningSymbol           = "\u26A0\uFE0F" // ⚠️
 )
 
 type StdPrinter struct {
@@ -258,9 +261,18 @@ func (p *StdPrinter) GetOutputType() OutputType {
 func (p *StdPrinter) Success(msg string) {
 	resetStdPrinter(p)
 	if p.useColor {
-		fmt.Fprintf(p.stdOut, "✅ %s\n", msg)
+		fmt.Fprintf(p.stdOut, "%s %s\n", SuccessSymbol, msg)
 	} else {
 		fmt.Fprintf(p.stdOut, "Success: %s\n", msg)
+	}
+}
+
+func (p *StdPrinter) PrintWarn(msg string) {
+	resetStdPrinter(p)
+	if p.useColor {
+		fmt.Fprintf(p.stdOut, "%s %s\n", WarningSymbol, msg)
+	} else {
+		fmt.Fprintf(p.stdOut, "Warning: %s\n", msg)
 	}
 }
 

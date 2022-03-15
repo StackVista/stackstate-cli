@@ -42,7 +42,10 @@ func RunSettingsImportCommand(cli *di.Deps, cmd *cobra.Command, args []string) c
 		return common.NewResponseError(err, resp)
 	}
 
-	// TODO: what if len nodes == 0
+	if len(nodes) == 0 {
+		cli.Printer.PrintWarn("Nothing was imported.")
+		return nil
+	}
 
 	data := [][]string{}
 	for _, node := range nodes {
