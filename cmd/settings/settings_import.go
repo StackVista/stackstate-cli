@@ -37,8 +37,7 @@ func RunSettingsImportCommand(cli *di.Deps, cmd *cobra.Command, args []string) c
 		return common.NewCLIError(err)
 	}
 
-	client, ctx := cli.NewOldStsClient()
-	nodes, resp, err := client.DefaultApi.ImportSettings(ctx).Body(string(fileBytes)).Execute()
+	nodes, resp, err := cli.Client.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

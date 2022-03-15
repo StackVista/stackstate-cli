@@ -32,7 +32,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/ExecuteScriptTimeoutError"
         "500":
-          $ref: "common.api.yaml#/components/responses/genericServerError"
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 components:
   schemas:
     ExecuteScriptRequest:

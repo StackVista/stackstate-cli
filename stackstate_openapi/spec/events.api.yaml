@@ -11,12 +11,6 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/events"
-        "422":
-          description: Get Events Elastic Error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EventsError"
         "400":
           description: Get Events Topology Overflow Error Validation Error
           content:
@@ -24,7 +18,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RequestError"
         "500":
-          $ref: "common.api.yaml#/components/responses/genericServerError"
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
   /events/{eventId}:
     get:
       tags:
@@ -62,14 +56,8 @@ paths:
                 $ref: "#/components/schemas/RequestError"
         "404":
           $ref: "#/components/responses/eventNotFoundError"
-        "422":
-          description: "Get Event Elastic Error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EventsError"
         "500":
-          $ref: "common.api.yaml#/components/responses/genericServerError"
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
   /eventTypes:
     get:
       tags:
@@ -146,12 +134,6 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/eventSuggestions"
-        "422":
-          description: "Get events error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EventsError"
         "400":
           description: "Get events topology overflow error, validation error"
           content:
@@ -159,7 +141,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RequestError"
         "500":
-          $ref: "common.api.yaml#/components/responses/genericServerError"
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
   /eventSources:
     get:
       tags:
@@ -235,12 +217,6 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/eventSuggestions"
-        "422":
-          description: "Get events error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EventsError"
         "400":
           description: "Get events topology overflow error, validation error"
           content:
@@ -248,7 +224,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RequestError"
         "500":
-          $ref: "common.api.yaml#/components/responses/genericServerError"
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
   /eventTags:
     get:
       tags:
@@ -324,12 +300,6 @@ paths:
       responses:
         "200":
           $ref: "#/components/responses/eventSuggestions"
-        "422":
-          description: "Get events error"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/EventsError"
         "400":
           description: "Get events topology overflow error, validation error"
           content:
@@ -337,7 +307,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/RequestError"
         "500":
-          $ref: "common.api.yaml#/components/responses/genericServerError"
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 components:
   requestBodies:
     EventListBody:
@@ -550,30 +520,6 @@ components:
         - tags
         - elementIdentifiers
         - data
-    StqlParsingError:
-      type: object
-      properties:
-        _type:
-          type: string
-          enum:
-            - StqlParsingError
-        message:
-          type: string
-      required:
-        - _type
-        - message
-    RootCauseParsingError:
-      type: object
-      properties:
-        _type:
-          type: string
-          enum:
-            - RootCauseParsingError
-        message:
-          type: string
-      required:
-        - _type
-        - message
     ElasticSearchError:
       type: object
       properties:
@@ -588,6 +534,8 @@ components:
         - message
     EventNotFoundError:
       type: object
+      discriminator:
+        propertyName: _type
       properties:
         _type:
           type: string
@@ -598,16 +546,6 @@ components:
       required:
         - _type
         - eventId
-    EventsError:
-      discriminator:
-        propertyName: _type
-      oneOf:
-        - $ref: "#/components/schemas/ElasticSearchError"
-        - $ref: "#/components/schemas/RootCauseParsingError"
-        - $ref: "#/components/schemas/StqlParsingError"
-        - $ref: "#/components/schemas/EventNotFoundError"
-      required:
-        - _type
     TopologyOverflowError:
       type: object
       properties:

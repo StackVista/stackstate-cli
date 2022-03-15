@@ -1,0 +1,44 @@
+components:
+  responses:
+    genericErrorsResponse:
+      description: "Error when handling the request on the server side."
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/GenericErrorsResponse"
+  schemas:
+    GenericErrorsResponse:
+      type: object
+      properties:
+        _type:
+          type: string
+          enum:
+            - ErrorsResponse
+        trackingKey:
+          type: string
+        serverTimestamp:
+          type: integer
+          format: int64
+        errors:
+          type: array
+          items:
+            $ref: "#/components/schemas/GenericApiError"
+      required:
+        - trackingKey
+        - errors
+        - serverTimestamp
+    GenericApiError:
+      type: object
+      properties:
+        _type:
+          type: string
+          enum:
+            - InternalError
+        message:
+          type: string
+        errorCode:
+          type: integer
+          format: int64
+      required:
+        - _type
+        - message

@@ -69,9 +69,8 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		Script:          script,
 		ArgumentsScript: argumentsScript,
 	}
-	client, ctx := cli.NewStsClient()
-	scriptResponse, resp, err := client.ScriptingApi.
-		ScriptExecute(ctx).
+	scriptResponse, resp, err := cli.Client.ScriptingApi.
+		ScriptExecute(cli.Context).
 		ExecuteScriptRequest(scriptRequest).
 		Execute()
 	if err != nil {

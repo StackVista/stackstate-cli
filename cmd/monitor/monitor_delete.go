@@ -28,8 +28,7 @@ func RunDeleteMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
-	client, ctx := cli.NewStsClient()
-	resp, err := client.MonitorApi.DeleteMonitor(ctx, monitorId).Execute()
+	resp, err := cli.Client.MonitorApi.DeleteMonitor(cli.Context, monitorId).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

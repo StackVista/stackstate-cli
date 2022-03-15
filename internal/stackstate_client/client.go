@@ -56,6 +56,8 @@ type APIClient struct {
 
 	HealthSynchronizationApi HealthSynchronizationApi
 
+	ImportApi ImportApi
+
 	MonitorApi MonitorApi
 
 	MonitorUrnApi MonitorUrnApi
@@ -86,6 +88,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
+	c.ImportApi = (*ImportApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.MonitorUrnApi = (*MonitorUrnApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)

@@ -13,6 +13,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func Execute(ctx context.Context) {
@@ -57,7 +58,29 @@ func Execute(ctx context.Context) {
 			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", cfg.Output)
 		}
 
-		cli.Context = cmd.Context()
+		configuration := stackstate_client.NewConfiguration()
+		configuration.Servers[0] = stackstate_client.ServerConfiguration{
+			URL:         cli.Config.ApiUrl,
+			Description: "",
+			Variables:   nil,
+		}
+		configuration.Debug = cli.IsVerBose
+
+		client := stackstate_client.NewAPIClient(configuration)
+
+		auth := make(map[string]stackstate_client.APIKey)
+		auth["ApiToken"] = stackstate_client.APIKey{
+			Key:    cli.Config.ApiToken,
+			Prefix: "",
+		}
+		ctx := context.WithValue(
+			cmd.Context(),
+			stackstate_client.ContextAPIKeys,
+			auth,
+		)
+
+		cli.Context = ctx
+		cli.Client = client
 
 		return nil
 	}
