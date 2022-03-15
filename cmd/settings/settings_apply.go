@@ -14,11 +14,11 @@ const (
 	FileFlag = "file"
 )
 
-func SettingsImportCommand(cli *di.Deps) *cobra.Command {
+func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "import",
-		Short: "Import settings with STJ.",
-		RunE:  di.CmdRunEWithDeps(cli, RunSettingsImportCommand),
+		Use:   "apply",
+		Short: "Apply settings with STJ.",
+		RunE:  di.CmdRunEWithDeps(cli, RunSettingsApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", "The .stj file to import.")
 	cmd.MarkFlagRequired(FileFlag)
@@ -26,7 +26,7 @@ func SettingsImportCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsImportCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunSettingsApplyCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -52,7 +52,7 @@ func RunSettingsImportCommand(cli *di.Deps, cmd *cobra.Command, args []string) c
 		data = append(data, []string{util.ToString(node["_type"]), util.ToString(node["id"]), util.ToString(node["name"])})
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Imported <bold>%d</> setting node(s).", len(nodes)))
+	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).", len(nodes)))
 	cli.Printer.PrintLn("")
 	cli.Printer.Table([]string{"Type", "Id", "Name"}, data, nodes)
 

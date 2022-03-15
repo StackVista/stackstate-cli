@@ -11,7 +11,7 @@ func SettingsCommand(cli *di.Deps) *cobra.Command {
 		Use:   "settings",
 		Short: "Manage settings.",
 	}
-	cmd.AddCommand(settings.SettingsImportCommand(cli))
+	cmd.AddCommand(settings.SettingsApplyCommand(cli))
 
 	return cmd
 }

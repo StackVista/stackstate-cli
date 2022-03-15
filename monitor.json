@@ -1,1 +1,13 @@
-{"functionId":123,"identifier":"","intervalSeconds":0,"name1":"TEST JSON!","parameters":null,"topologyMapping":""}
+{
+  "name": "CPU Usage B",
+  "identifier": "urn:stackpack:eu:monitor-v2:ooeuc",
+  "functionId": 255838141436574,
+  "topologyMapping": "urn:process:/${host}:${tags.pid}:${tags.createTime}",
+  "parameters": {
+    "critical": 80.0,
+    "deviating": 40.0,
+    "repeatInterval": 30,
+    "expireAfter": 120
+  },
+  "intervalSeconds": 2
+}
