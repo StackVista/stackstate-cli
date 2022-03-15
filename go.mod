@@ -4,7 +4,7 @@ go 1.15
 
 require (
 	github.com/alecthomas/chroma v0.9.4
-	github.com/logrusorgru/aurora/v3 v3.0.0
+	github.com/gookit/color v1.4.2 // indirect
 	github.com/markbates/pkger v0.17.1
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect

@@ -13,7 +13,7 @@ import (
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
-	color "github.com/logrusorgru/aurora/v3"
+	"github.com/gookit/color"
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
@@ -33,7 +33,7 @@ type Printer interface {
 	GetOutputType() OutputType
 	PrintWarn(msg string)
 	Success(msg string)
-	Table(header []string, data [][]string)
+	Table(header []string, data [][]string, structData interface{})
 	PrintLn(text string)
 }
 
@@ -67,6 +67,12 @@ func NewPrinter() Printer {
 		stdErr:     os.Stderr,
 		outputType: Auto,
 	}
+}
+
+func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
+	color.SetOutput(stdOut)
+	p.stdOut = stdOut
+	p.stdErr = stdErr
 }
 
 // kills any ongoing processes
@@ -152,7 +158,7 @@ func (p *StdPrinter) PrintErr(err error) {
 		p.printErrResponse(e.Err, e.Resp)
 	default:
 		if p.useColor {
-			fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(util.UcFirst(err.Error())))
+			color.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red.Render(util.UcFirst(err.Error())))
 		} else {
 			fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
 		}
@@ -195,13 +201,13 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	// print
 	if p.useColor {
 		if suggestion != "" {
-			suggestion = fmt.Sprintf("%s %s", color.Blue("ⓘ"), suggestion)
+			suggestion = fmt.Sprintf("%s %s", color.Blue.Render("ⓘ"), suggestion)
 		}
 
 		fmt.Fprintf(p.stdErr,
 			"%s %v\n%s%s",
 			ServerErrorColorSymbol,
-			color.Red(httpStatus),
+			color.Red.Render(httpStatus),
 			util.WithNewLine(errorStr),
 			util.WithNewLine(suggestion),
 		)
@@ -276,11 +282,15 @@ func (p *StdPrinter) PrintWarn(msg string) {
 	}
 }
 
-func (p *StdPrinter) Table(header []string, data [][]string) {
-	dataWithHeader := [][]string{}
-	dataWithHeader = append(dataWithHeader, header)
-	dataWithHeader = append(dataWithHeader, data...)
-	pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
+func (p *StdPrinter) Table(header []string, data [][]string, structData interface{}) {
+	if p.outputType == Auto {
+		dataWithHeader := [][]string{}
+		dataWithHeader = append(dataWithHeader, header)
+		dataWithHeader = append(dataWithHeader, data...)
+		pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
+	} else {
+		p.PrintStruct(structData)
+	}
 }
 
 func (p *StdPrinter) PrintLn(text string) {

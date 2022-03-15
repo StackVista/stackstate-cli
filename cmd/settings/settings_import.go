@@ -54,7 +54,7 @@ func RunSettingsImportCommand(cli *di.Deps, cmd *cobra.Command, args []string) c
 
 	cli.Printer.Success(fmt.Sprintf("Imported %d setting node(s).", len(nodes)))
 	cli.Printer.PrintLn("")
-	cli.Printer.Table([]string{"Type", "Id", "Name"}, data)
+	cli.Printer.Table([]string{"Type", "Id", "Name"}, data, nodes)
 
 	return nil
 }

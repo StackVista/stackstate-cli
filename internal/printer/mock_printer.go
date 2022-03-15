@@ -20,8 +20,9 @@ type MockPrinter struct {
 }
 
 type TableCall struct {
-	Header []string
-	Data   [][]string
+	Header     []string
+	Data       [][]string
+	StructData interface{}
 }
 
 type PrintErrResponseCall struct {
@@ -87,8 +88,8 @@ func (p *MockPrinter) PrintWarn(msg string) {
 	*p.PrintWarnCalls = append(*p.PrintWarnCalls, msg)
 }
 
-func (p *MockPrinter) Table(header []string, data [][]string) {
-	*p.TableCalls = append(*p.TableCalls, TableCall{header, data})
+func (p *MockPrinter) Table(header []string, data [][]string, structData interface{}) {
+	*p.TableCalls = append(*p.TableCalls, TableCall{header, data, structData})
 }
 
 func (p *MockPrinter) PrintLn(text string) {
