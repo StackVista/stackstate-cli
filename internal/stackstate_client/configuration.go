@@ -96,6 +96,8 @@ type Configuration struct {
 	Servers          ServerConfigurations
 	OperationServers map[string]ServerConfigurations
 	HTTPClient       *http.Client
+	OnPreCallAPI func(*http.Request)
+	OnPostCallAPI func(*http.Request)
 }
 
 // NewConfiguration returns a new Configuration object

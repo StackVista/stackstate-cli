@@ -43,8 +43,6 @@ func TestExecuteSuccess(t *testing.T) {
 		mockApi.ExecuteScriptRequests,
 	)
 	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)
-	assert.Equal(t, []common.LoadingMsg{common.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
-	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }
 
 func TestExecuteFromScript(t *testing.T) {
@@ -72,15 +70,13 @@ func TestExecuteFromScript(t *testing.T) {
 		mockApi.ExecuteScriptRequests,
 	)
 	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)
-	assert.Equal(t, []common.LoadingMsg{common.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
-	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }
 
 func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
 	mockApi := sts.NewMockScriptingApiService()
 	mockApi.ReturnFromScriptExecuteExecute.Error = fakeError
-	mockPrinter, cli, cmd := setupCommand(mockApi)
+	_, cli, cmd := setupCommand(mockApi)
 
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "test script")
 
@@ -89,8 +85,6 @@ func TestExecuteResponseError(t *testing.T) {
 		mockApi.ExecuteScriptRequests,
 	)
 	assert.IsType(t, common.ResponseError{}, err)
-	assert.Equal(t, []common.LoadingMsg{common.AwaitingServer}, *mockPrinter.StartSpinnerCalls)
-	assert.Equal(t, 1, *mockPrinter.StopSpinnerCalls)
 }
 
 func TestArgumentScriptFlag(t *testing.T) {

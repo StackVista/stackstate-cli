@@ -111,6 +111,10 @@ type Configuration struct {
     {{#withCustomMiddlewareFunction}}
 	Middleware       MiddlewareFunction
     {{/withCustomMiddlewareFunction}}
+	{{#custom}}
+	OnPreCallAPI func(*http.Request)
+	OnPostCallAPI func(*http.Request)
+	{{/custom}}
 }
 
 // NewConfiguration returns a new Configuration object

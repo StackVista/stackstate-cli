@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 
@@ -65,7 +66,12 @@ func Execute(ctx context.Context) {
 			Variables:   nil,
 		}
 		configuration.Debug = cli.IsVerBose
-
+		configuration.OnPreCallAPI = func(r *http.Request) {
+			cli.Printer.StartSpinner(common.AwaitingServer)
+		}
+		configuration.OnPostCallAPI = func(r *http.Request) {
+			cli.Printer.StopSpinner()
+		}
 		client := stackstate_client.NewAPIClient(configuration)
 
 		auth := make(map[string]stackstate_client.APIKey)

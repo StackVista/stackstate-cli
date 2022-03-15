@@ -6,9 +6,7 @@ import (
 )
 
 func testConect(cli *di.Deps) common.CLIError {
-	cli.Printer.StartSpinner(common.AwaitingServer)
 	_, resp, err := cli.Client.UserProfileApi.GetCurrentUserProfile(cli.Context).Execute()
-	cli.Printer.StopSpinner()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

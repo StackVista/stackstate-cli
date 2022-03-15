@@ -193,7 +193,16 @@ func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 		log.Printf("\n%s\n", string(dump))
 	}
 
+	if c.cfg.OnPreCallAPI != nil {
+		c.cfg.OnPreCallAPI(request)
+	}
+
 	resp, err := c.cfg.HTTPClient.Do(request)
+
+	if c.cfg.OnPostCallAPI != nil {
+		c.cfg.OnPostCallAPI(request)
+	}
+
 	if err != nil {
 		return resp, err
 	}
