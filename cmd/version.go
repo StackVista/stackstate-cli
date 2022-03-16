@@ -17,7 +17,7 @@ var (
 func VersionCommand(cli *di.Deps) *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
-		Short: "Display the version number",
+		Short: "display the CLI version number",
 		RunE:  di.CmdRunEWithDeps(cli, RunVersionCommand),
 	}
 }

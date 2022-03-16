@@ -9,7 +9,7 @@ import (
 func ScriptCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "script",
-		Short: "StackState scripting related commands.",
+		Short: "run StackState scripts",
 	}
 	cmd.AddCommand(script.ScriptExecuteCommand(cli))
 

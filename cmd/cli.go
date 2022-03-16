@@ -9,7 +9,7 @@ import (
 func CliCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "cli",
-		Short: "Command to control this CLI",
+		Short: "command to control this CLI",
 	}
 	cmd.AddCommand(cli.CliSaveConfigCommand(deps))
 	cmd.AddCommand(cli.CliTestCommandCommand(deps))
