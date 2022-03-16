@@ -41,6 +41,33 @@ type ApiTokenApi interface {
 	GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error)
 }
 
+type ApiTokenApiMock struct {
+	GetCurrentUserApiTokensCalls []ApiGetCurrentUserApiTokensRequest
+	GetCurrentUserApiTokensResponse GetCurrentUserApiTokensMockResponse
+
+}	
+
+type GetCurrentUserApiTokensMockResponse struct {
+	A []ApiToken
+	B *_nethttp.Response
+	C error
+}
+
+func (a *ApiTokenApiMock) GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest {
+	return ApiGetCurrentUserApiTokensRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error) {
+	a.GetCurrentUserApiTokensCalls = append(a.GetCurrentUserApiTokensCalls, r)
+	return a.GetCurrentUserApiTokensResponse.A, a.GetCurrentUserApiTokensResponse.B, a.GetCurrentUserApiTokensResponse.C
+}
+
+
+
+
 // ApiTokenApiService ApiTokenApi service
 type ApiTokenApiService service
 

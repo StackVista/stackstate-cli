@@ -130,6 +130,158 @@ type MonitorApi interface {
 	UpdateMonitorExecute(r ApiUpdateMonitorRequest) (Monitor, *_nethttp.Response, error)
 }
 
+type MonitorApiMock struct {
+	CreateMonitorCalls []ApiCreateMonitorRequest
+	CreateMonitorResponse CreateMonitorMockResponse
+	DeleteMonitorCalls []ApiDeleteMonitorRequest
+	DeleteMonitorResponse DeleteMonitorMockResponse
+	DryRunMonitorCalls []ApiDryRunMonitorRequest
+	DryRunMonitorResponse DryRunMonitorMockResponse
+	GetAllMonitorsCalls []ApiGetAllMonitorsRequest
+	GetAllMonitorsResponse GetAllMonitorsMockResponse
+	GetMonitorCalls []ApiGetMonitorRequest
+	GetMonitorResponse GetMonitorMockResponse
+	RunMonitorCalls []ApiRunMonitorRequest
+	RunMonitorResponse RunMonitorMockResponse
+	UpdateMonitorCalls []ApiUpdateMonitorRequest
+	UpdateMonitorResponse UpdateMonitorMockResponse
+
+}	
+
+type CreateMonitorMockResponse struct {
+	A Monitor
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) CreateMonitor(ctx _context.Context) ApiCreateMonitorRequest {
+	return ApiCreateMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *MonitorApiMock) CreateMonitorExecute(r ApiCreateMonitorRequest) (Monitor, *_nethttp.Response, error) {
+	a.CreateMonitorCalls = append(a.CreateMonitorCalls, r)
+	return a.CreateMonitorResponse.A, a.CreateMonitorResponse.B, a.CreateMonitorResponse.C
+}
+
+type DeleteMonitorMockResponse struct {
+	
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) DeleteMonitor(ctx _context.Context, monitorId int64) ApiDeleteMonitorRequest {
+	return ApiDeleteMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+		monitorId: monitorId,
+	}
+}
+
+func (a *MonitorApiMock) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*_nethttp.Response, error) {
+	a.DeleteMonitorCalls = append(a.DeleteMonitorCalls, r)
+	return a.DeleteMonitorResponse.B, a.DeleteMonitorResponse.C
+}
+
+type DryRunMonitorMockResponse struct {
+	A MonitorRunResult
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) DryRunMonitor(ctx _context.Context, monitorId int64) ApiDryRunMonitorRequest {
+	return ApiDryRunMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+		monitorId: monitorId,
+	}
+}
+
+func (a *MonitorApiMock) DryRunMonitorExecute(r ApiDryRunMonitorRequest) (MonitorRunResult, *_nethttp.Response, error) {
+	a.DryRunMonitorCalls = append(a.DryRunMonitorCalls, r)
+	return a.DryRunMonitorResponse.A, a.DryRunMonitorResponse.B, a.DryRunMonitorResponse.C
+}
+
+type GetAllMonitorsMockResponse struct {
+	A MonitorList
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) GetAllMonitors(ctx _context.Context) ApiGetAllMonitorsRequest {
+	return ApiGetAllMonitorsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *MonitorApiMock) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (MonitorList, *_nethttp.Response, error) {
+	a.GetAllMonitorsCalls = append(a.GetAllMonitorsCalls, r)
+	return a.GetAllMonitorsResponse.A, a.GetAllMonitorsResponse.B, a.GetAllMonitorsResponse.C
+}
+
+type GetMonitorMockResponse struct {
+	A Monitor
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) GetMonitor(ctx _context.Context, monitorId int64) ApiGetMonitorRequest {
+	return ApiGetMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+		monitorId: monitorId,
+	}
+}
+
+func (a *MonitorApiMock) GetMonitorExecute(r ApiGetMonitorRequest) (Monitor, *_nethttp.Response, error) {
+	a.GetMonitorCalls = append(a.GetMonitorCalls, r)
+	return a.GetMonitorResponse.A, a.GetMonitorResponse.B, a.GetMonitorResponse.C
+}
+
+type RunMonitorMockResponse struct {
+	A MonitorRunResult
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) RunMonitor(ctx _context.Context, monitorId int64) ApiRunMonitorRequest {
+	return ApiRunMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+		monitorId: monitorId,
+	}
+}
+
+func (a *MonitorApiMock) RunMonitorExecute(r ApiRunMonitorRequest) (MonitorRunResult, *_nethttp.Response, error) {
+	a.RunMonitorCalls = append(a.RunMonitorCalls, r)
+	return a.RunMonitorResponse.A, a.RunMonitorResponse.B, a.RunMonitorResponse.C
+}
+
+type UpdateMonitorMockResponse struct {
+	A Monitor
+	B *_nethttp.Response
+	C error
+}
+
+func (a *MonitorApiMock) UpdateMonitor(ctx _context.Context, monitorId int64) ApiUpdateMonitorRequest {
+	return ApiUpdateMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+		monitorId: monitorId,
+	}
+}
+
+func (a *MonitorApiMock) UpdateMonitorExecute(r ApiUpdateMonitorRequest) (Monitor, *_nethttp.Response, error) {
+	a.UpdateMonitorCalls = append(a.UpdateMonitorCalls, r)
+	return a.UpdateMonitorResponse.A, a.UpdateMonitorResponse.B, a.UpdateMonitorResponse.C
+}
+
+
+
+
 // MonitorApiService MonitorApi service
 type MonitorApiService service
 

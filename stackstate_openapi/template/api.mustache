@@ -46,6 +46,11 @@ type {{classname}} interface {
 	{{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error)
 	{{/operation}}
 }
+
+{{#custom}}
+{{>api_mock}}
+{{/custom}}
+
 {{/generateInterfaces}}
 
 // {{classname}}Service {{classname}} service

@@ -41,6 +41,33 @@ type ScriptingApi interface {
 	ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error)
 }
 
+type ScriptingApiMock struct {
+	ScriptExecuteCalls []ApiScriptExecuteRequest
+	ScriptExecuteResponse ScriptExecuteMockResponse
+
+}	
+
+type ScriptExecuteMockResponse struct {
+	A ExecuteScriptResponse
+	B *_nethttp.Response
+	C error
+}
+
+func (a *ScriptingApiMock) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
+	return ApiScriptExecuteRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
+	a.ScriptExecuteCalls = append(a.ScriptExecuteCalls, r)
+	return a.ScriptExecuteResponse.A, a.ScriptExecuteResponse.B, a.ScriptExecuteResponse.C
+}
+
+
+
+
 // ScriptingApiService ScriptingApi service
 type ScriptingApiService service
 

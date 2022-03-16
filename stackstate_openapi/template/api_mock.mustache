@@ -1,0 +1,33 @@
+{{#custom}}
+type {{classname}}Mock struct {
+{{#operation}}	
+	{{nickname}}Calls []{{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	{{nickname}}Response {{nickname}}MockResponse
+{{/operation}}
+
+}	
+
+{{#operation}}
+type {{nickname}}MockResponse struct {
+	{{#returnType}}A {{{.}}}{{/returnType}}
+	B *_nethttp.Response
+	C error
+}
+
+func (a *{{{classname}}}Mock) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
+	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
+		ApiService: a,
+		ctx: ctx,
+		{{#pathParams}}
+		{{paramName}}: {{paramName}},
+		{{/pathParams}}
+	}
+}
+
+func (a *{{{classname}}}Mock) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+	a.{{nickname}}Calls = append(a.{{nickname}}Calls, r)
+	return {{#returnType}}a.{{nickname}}Response.A, {{/returnType}}a.{{nickname}}Response.B, a.{{nickname}}Response.C
+}
+
+{{/operation}}
+{{/custom}}

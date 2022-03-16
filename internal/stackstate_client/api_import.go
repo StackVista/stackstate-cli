@@ -41,6 +41,33 @@ type ImportApi interface {
 	ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error)
 }
 
+type ImportApiMock struct {
+	ImportSettingsCalls []ApiImportSettingsRequest
+	ImportSettingsResponse ImportSettingsMockResponse
+
+}	
+
+type ImportSettingsMockResponse struct {
+	A []map[string]interface{}
+	B *_nethttp.Response
+	C error
+}
+
+func (a *ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
+	return ApiImportSettingsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
+	a.ImportSettingsCalls = append(a.ImportSettingsCalls, r)
+	return a.ImportSettingsResponse.A, a.ImportSettingsResponse.B, a.ImportSettingsResponse.C
+}
+
+
+
+
 // ImportApiService ImportApi service
 type ImportApiService service
 

@@ -99,6 +99,114 @@ type EventApi interface {
 	GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error)
 }
 
+type EventApiMock struct {
+	GetEventCalls []ApiGetEventRequest
+	GetEventResponse GetEventMockResponse
+	GetEventSourcesCalls []ApiGetEventSourcesRequest
+	GetEventSourcesResponse GetEventSourcesMockResponse
+	GetEventTagsCalls []ApiGetEventTagsRequest
+	GetEventTagsResponse GetEventTagsMockResponse
+	GetEventTypesCalls []ApiGetEventTypesRequest
+	GetEventTypesResponse GetEventTypesMockResponse
+	GetEventsCalls []ApiGetEventsRequest
+	GetEventsResponse GetEventsMockResponse
+
+}	
+
+type GetEventMockResponse struct {
+	A TopologyEvent
+	B *_nethttp.Response
+	C error
+}
+
+func (a *EventApiMock) GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest {
+	return ApiGetEventRequest{
+		ApiService: a,
+		ctx: ctx,
+		eventId: eventId,
+	}
+}
+
+func (a *EventApiMock) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error) {
+	a.GetEventCalls = append(a.GetEventCalls, r)
+	return a.GetEventResponse.A, a.GetEventResponse.B, a.GetEventResponse.C
+}
+
+type GetEventSourcesMockResponse struct {
+	A StringItemsWithTotal
+	B *_nethttp.Response
+	C error
+}
+
+func (a *EventApiMock) GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest {
+	return ApiGetEventSourcesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+	a.GetEventSourcesCalls = append(a.GetEventSourcesCalls, r)
+	return a.GetEventSourcesResponse.A, a.GetEventSourcesResponse.B, a.GetEventSourcesResponse.C
+}
+
+type GetEventTagsMockResponse struct {
+	A StringItemsWithTotal
+	B *_nethttp.Response
+	C error
+}
+
+func (a *EventApiMock) GetEventTags(ctx _context.Context) ApiGetEventTagsRequest {
+	return ApiGetEventTagsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+	a.GetEventTagsCalls = append(a.GetEventTagsCalls, r)
+	return a.GetEventTagsResponse.A, a.GetEventTagsResponse.B, a.GetEventTagsResponse.C
+}
+
+type GetEventTypesMockResponse struct {
+	A StringItemsWithTotal
+	B *_nethttp.Response
+	C error
+}
+
+func (a *EventApiMock) GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest {
+	return ApiGetEventTypesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+	a.GetEventTypesCalls = append(a.GetEventTypesCalls, r)
+	return a.GetEventTypesResponse.A, a.GetEventTypesResponse.B, a.GetEventTypesResponse.C
+}
+
+type GetEventsMockResponse struct {
+	A EventItemsWithTotal
+	B *_nethttp.Response
+	C error
+}
+
+func (a *EventApiMock) GetEvents(ctx _context.Context) ApiGetEventsRequest {
+	return ApiGetEventsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+func (a *EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error) {
+	a.GetEventsCalls = append(a.GetEventsCalls, r)
+	return a.GetEventsResponse.A, a.GetEventsResponse.B, a.GetEventsResponse.C
+}
+
+
+
+
 // EventApiService EventApi service
 type EventApiService service
 
