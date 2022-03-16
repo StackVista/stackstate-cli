@@ -175,19 +175,19 @@ func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 		log.Printf("\n%s\n", string(dump))
 	}
 
-	{{#custom}}
+	{{#stsCallApiHooks}}
 	if c.cfg.OnPreCallAPI != nil {
 		c.cfg.OnPreCallAPI(request)
 	}
-	{{/custom}}
+	{{/stsCallApiHooks}}
 
 	resp, err := c.cfg.HTTPClient.Do(request)
 
-	{{#custom}}
+	{{#stsCallApiHooks}}
 	if c.cfg.OnPostCallAPI != nil {
 		c.cfg.OnPostCallAPI(request)
 	}
-	{{/custom}}
+	{{/stsCallApiHooks}}
 
 	if err != nil {
 		return resp, err

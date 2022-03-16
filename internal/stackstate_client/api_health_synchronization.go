@@ -147,6 +147,7 @@ type HealthSynchronizationApi interface {
 	PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error)
 }
 
+
 // HealthSynchronizationApiService HealthSynchronizationApi service
 type HealthSynchronizationApiService service
 
@@ -1224,3 +1225,270 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 
 	return localVarHTTPResponse, nil
 }
+
+
+// ---------------------------------------------
+// ------------------ MOCKS --------------------
+// ---------------------------------------------
+
+
+type HealthSynchronizationApiMock struct {
+	DeleteHealthSynchronizationStreamCalls *[]DeleteHealthSynchronizationStreamCall
+	DeleteHealthSynchronizationStreamResponse DeleteHealthSynchronizationStreamMockResponse
+	GetHealthSynchronizationStreamStatusCalls *[]GetHealthSynchronizationStreamStatusCall
+	GetHealthSynchronizationStreamStatusResponse GetHealthSynchronizationStreamStatusMockResponse
+	GetHealthSynchronizationStreamTopologyMatchesCalls *[]GetHealthSynchronizationStreamTopologyMatchesCall
+	GetHealthSynchronizationStreamTopologyMatchesResponse GetHealthSynchronizationStreamTopologyMatchesMockResponse
+	GetHealthSynchronizationStreamsOverviewCalls *[]GetHealthSynchronizationStreamsOverviewCall
+	GetHealthSynchronizationStreamsOverviewResponse GetHealthSynchronizationStreamsOverviewMockResponse
+	GetHealthSynchronizationSubStreamOverviewCalls *[]GetHealthSynchronizationSubStreamOverviewCall
+	GetHealthSynchronizationSubStreamOverviewResponse GetHealthSynchronizationSubStreamOverviewMockResponse
+	GetHealthSynchronizationSubStreamStatusCalls *[]GetHealthSynchronizationSubStreamStatusCall
+	GetHealthSynchronizationSubStreamStatusResponse GetHealthSynchronizationSubStreamStatusMockResponse
+	GetHealthSynchronizationSubStreamTopologyMatchesCalls *[]GetHealthSynchronizationSubStreamTopologyMatchesCall
+	GetHealthSynchronizationSubStreamTopologyMatchesResponse GetHealthSynchronizationSubStreamTopologyMatchesMockResponse
+	PostHealthSynchronizationStreamClearErrorsCalls *[]PostHealthSynchronizationStreamClearErrorsCall
+	PostHealthSynchronizationStreamClearErrorsResponse PostHealthSynchronizationStreamClearErrorsMockResponse
+}	
+
+func NewHealthSynchronizationApiMock() HealthSynchronizationApiMock {
+	xDeleteHealthSynchronizationStreamCalls := make([]DeleteHealthSynchronizationStreamCall, 0)
+	xGetHealthSynchronizationStreamStatusCalls := make([]GetHealthSynchronizationStreamStatusCall, 0)
+	xGetHealthSynchronizationStreamTopologyMatchesCalls := make([]GetHealthSynchronizationStreamTopologyMatchesCall, 0)
+	xGetHealthSynchronizationStreamsOverviewCalls := make([]GetHealthSynchronizationStreamsOverviewCall, 0)
+	xGetHealthSynchronizationSubStreamOverviewCalls := make([]GetHealthSynchronizationSubStreamOverviewCall, 0)
+	xGetHealthSynchronizationSubStreamStatusCalls := make([]GetHealthSynchronizationSubStreamStatusCall, 0)
+	xGetHealthSynchronizationSubStreamTopologyMatchesCalls := make([]GetHealthSynchronizationSubStreamTopologyMatchesCall, 0)
+	xPostHealthSynchronizationStreamClearErrorsCalls := make([]PostHealthSynchronizationStreamClearErrorsCall, 0)
+	return HealthSynchronizationApiMock {
+		DeleteHealthSynchronizationStreamCalls: &xDeleteHealthSynchronizationStreamCalls,
+		GetHealthSynchronizationStreamStatusCalls: &xGetHealthSynchronizationStreamStatusCalls,
+		GetHealthSynchronizationStreamTopologyMatchesCalls: &xGetHealthSynchronizationStreamTopologyMatchesCalls,
+		GetHealthSynchronizationStreamsOverviewCalls: &xGetHealthSynchronizationStreamsOverviewCalls,
+		GetHealthSynchronizationSubStreamOverviewCalls: &xGetHealthSynchronizationSubStreamOverviewCalls,
+		GetHealthSynchronizationSubStreamStatusCalls: &xGetHealthSynchronizationSubStreamStatusCalls,
+		GetHealthSynchronizationSubStreamTopologyMatchesCalls: &xGetHealthSynchronizationSubStreamTopologyMatchesCalls,
+		PostHealthSynchronizationStreamClearErrorsCalls: &xPostHealthSynchronizationStreamClearErrorsCalls,
+	}
+}
+
+type DeleteHealthSynchronizationStreamMockResponse struct {
+	
+	Response *_nethttp.Response
+	Error error
+}
+
+type DeleteHealthSynchronizationStreamCall struct {
+	PhealthStreamUrn string
+}
+
+
+func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStream(ctx _context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
+	return ApiDeleteHealthSynchronizationStreamRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*_nethttp.Response, error) {
+	p := DeleteHealthSynchronizationStreamCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+	}
+	*mock.DeleteHealthSynchronizationStreamCalls = append(*mock.DeleteHealthSynchronizationStreamCalls, p)
+	return mock.DeleteHealthSynchronizationStreamResponse.Response, mock.DeleteHealthSynchronizationStreamResponse.Error
+}
+
+type GetHealthSynchronizationStreamStatusMockResponse struct {
+	Result HealthStreamStatus
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetHealthSynchronizationStreamStatusCall struct {
+	PhealthStreamUrn string
+}
+
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatus(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
+	return ApiGetHealthSynchronizationStreamStatusRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (HealthStreamStatus, *_nethttp.Response, error) {
+	p := GetHealthSynchronizationStreamStatusCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+	}
+	*mock.GetHealthSynchronizationStreamStatusCalls = append(*mock.GetHealthSynchronizationStreamStatusCalls, p)
+	return mock.GetHealthSynchronizationStreamStatusResponse.Result, mock.GetHealthSynchronizationStreamStatusResponse.Response, mock.GetHealthSynchronizationStreamStatusResponse.Error
+}
+
+type GetHealthSynchronizationStreamTopologyMatchesMockResponse struct {
+	Result TopologyMatchResult
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetHealthSynchronizationStreamTopologyMatchesCall struct {
+	PhealthStreamUrn string
+}
+
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatches(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
+	return ApiGetHealthSynchronizationStreamTopologyMatchesRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error) {
+	p := GetHealthSynchronizationStreamTopologyMatchesCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+	}
+	*mock.GetHealthSynchronizationStreamTopologyMatchesCalls = append(*mock.GetHealthSynchronizationStreamTopologyMatchesCalls, p)
+	return mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Error
+}
+
+type GetHealthSynchronizationStreamsOverviewMockResponse struct {
+	Result StreamList
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetHealthSynchronizationStreamsOverviewCall struct {
+}
+
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverview(ctx _context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
+	return ApiGetHealthSynchronizationStreamsOverviewRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (StreamList, *_nethttp.Response, error) {
+	p := GetHealthSynchronizationStreamsOverviewCall {
+	}
+	*mock.GetHealthSynchronizationStreamsOverviewCalls = append(*mock.GetHealthSynchronizationStreamsOverviewCalls, p)
+	return mock.GetHealthSynchronizationStreamsOverviewResponse.Result, mock.GetHealthSynchronizationStreamsOverviewResponse.Response, mock.GetHealthSynchronizationStreamsOverviewResponse.Error
+}
+
+type GetHealthSynchronizationSubStreamOverviewMockResponse struct {
+	Result SubStreamList
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetHealthSynchronizationSubStreamOverviewCall struct {
+	PhealthStreamUrn string
+}
+
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverview(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
+	return ApiGetHealthSynchronizationSubStreamOverviewRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (SubStreamList, *_nethttp.Response, error) {
+	p := GetHealthSynchronizationSubStreamOverviewCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+	}
+	*mock.GetHealthSynchronizationSubStreamOverviewCalls = append(*mock.GetHealthSynchronizationSubStreamOverviewCalls, p)
+	return mock.GetHealthSynchronizationSubStreamOverviewResponse.Result, mock.GetHealthSynchronizationSubStreamOverviewResponse.Response, mock.GetHealthSynchronizationSubStreamOverviewResponse.Error
+}
+
+type GetHealthSynchronizationSubStreamStatusMockResponse struct {
+	Result HealthSubStreamStatus
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetHealthSynchronizationSubStreamStatusCall struct {
+	PhealthStreamUrn string
+	PhealthSyncSubStreamId string
+}
+
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatus(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
+	return ApiGetHealthSynchronizationSubStreamStatusRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+		healthSyncSubStreamId: healthSyncSubStreamId,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (HealthSubStreamStatus, *_nethttp.Response, error) {
+	p := GetHealthSynchronizationSubStreamStatusCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+			PhealthSyncSubStreamId: r.healthSyncSubStreamId,
+	}
+	*mock.GetHealthSynchronizationSubStreamStatusCalls = append(*mock.GetHealthSynchronizationSubStreamStatusCalls, p)
+	return mock.GetHealthSynchronizationSubStreamStatusResponse.Result, mock.GetHealthSynchronizationSubStreamStatusResponse.Response, mock.GetHealthSynchronizationSubStreamStatusResponse.Error
+}
+
+type GetHealthSynchronizationSubStreamTopologyMatchesMockResponse struct {
+	Result TopologyMatchResult
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetHealthSynchronizationSubStreamTopologyMatchesCall struct {
+	PhealthStreamUrn string
+	PhealthSyncSubStreamId string
+}
+
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatches(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
+	return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+		healthSyncSubStreamId: healthSyncSubStreamId,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error) {
+	p := GetHealthSynchronizationSubStreamTopologyMatchesCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+			PhealthSyncSubStreamId: r.healthSyncSubStreamId,
+	}
+	*mock.GetHealthSynchronizationSubStreamTopologyMatchesCalls = append(*mock.GetHealthSynchronizationSubStreamTopologyMatchesCalls, p)
+	return mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Error
+}
+
+type PostHealthSynchronizationStreamClearErrorsMockResponse struct {
+	
+	Response *_nethttp.Response
+	Error error
+}
+
+type PostHealthSynchronizationStreamClearErrorsCall struct {
+	PhealthStreamUrn string
+}
+
+
+func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrors(ctx _context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
+	return ApiPostHealthSynchronizationStreamClearErrorsRequest{
+		ApiService: mock,
+		ctx: ctx,
+		healthStreamUrn: healthStreamUrn,
+	}
+}
+
+func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+	p := PostHealthSynchronizationStreamClearErrorsCall {
+			PhealthStreamUrn: r.healthStreamUrn,
+	}
+	*mock.PostHealthSynchronizationStreamClearErrorsCalls = append(*mock.PostHealthSynchronizationStreamClearErrorsCalls, p)
+	return mock.PostHealthSynchronizationStreamClearErrorsResponse.Response, mock.PostHealthSynchronizationStreamClearErrorsResponse.Error
+}
+
+
