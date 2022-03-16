@@ -1,10 +1,15 @@
-{{#custom}}
+// ---------------------------------------------
+// ------------------ MOCKS --------------------
+// ---------------------------------------------
+
+{{#generateInterfaces}}
+{{#operations}}
+
 type {{classname}}Mock struct {
 {{#operation}}	
 	{{nickname}}Calls *[]{{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call
 	{{nickname}}Response {{nickname}}MockResponse
 {{/operation}}
-
 }	
 
 func New{{classname}}Mock() {{classname}}Mock {
@@ -53,4 +58,5 @@ func (mock {{{classname}}}Mock) {{nickname}}Execute(r {{#structPrefix}}{{&classn
 }
 
 {{/operation}}
-{{/custom}}
+{{/operations}}
+{{/generateInterfaces}}

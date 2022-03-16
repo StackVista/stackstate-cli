@@ -111,10 +111,10 @@ type Configuration struct {
     {{#withCustomMiddlewareFunction}}
 	Middleware       MiddlewareFunction
     {{/withCustomMiddlewareFunction}}
-	{{#custom}}
+	{{#stsCallApiHooks}}
 	OnPreCallAPI func(*http.Request)
 	OnPostCallAPI func(*http.Request)
-	{{/custom}}
+	{{/stsCallApiHooks}}
 }
 
 // NewConfiguration returns a new Configuration object

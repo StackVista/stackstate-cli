@@ -41,47 +41,6 @@ type ScriptingApi interface {
 	ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error)
 }
 
-type ScriptingApiMock struct {
-	ScriptExecuteCalls *[]ScriptExecuteCall
-	ScriptExecuteResponse ScriptExecuteMockResponse
-
-}	
-
-func NewScriptingApiMock() ScriptingApiMock {
-	xScriptExecuteCalls := make([]ScriptExecuteCall, 0)
-	return ScriptingApiMock {
-		ScriptExecuteCalls: &xScriptExecuteCalls,
-	}
-}
-
-type ScriptExecuteMockResponse struct {
-	Result ExecuteScriptResponse
-	Response *_nethttp.Response
-	Error error
-}
-
-type ScriptExecuteCall struct {
-	PexecuteScriptRequest *ExecuteScriptRequest
-}
-
-
-func (mock ScriptingApiMock) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
-	return ApiScriptExecuteRequest{
-		ApiService: mock,
-		ctx: ctx,
-	}
-}
-
-func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
-	p := ScriptExecuteCall {
-			PexecuteScriptRequest: r.executeScriptRequest,
-	}
-	*mock.ScriptExecuteCalls = append(*mock.ScriptExecuteCalls, p)
-	return mock.ScriptExecuteResponse.Result, mock.ScriptExecuteResponse.Response, mock.ScriptExecuteResponse.Error
-}
-
-
-
 
 // ScriptingApiService ScriptingApi service
 type ScriptingApiService service
@@ -240,3 +199,49 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (E
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+
+// ---------------------------------------------
+// ------------------ MOCKS --------------------
+// ---------------------------------------------
+
+
+type ScriptingApiMock struct {
+	ScriptExecuteCalls *[]ScriptExecuteCall
+	ScriptExecuteResponse ScriptExecuteMockResponse
+}	
+
+func NewScriptingApiMock() ScriptingApiMock {
+	xScriptExecuteCalls := make([]ScriptExecuteCall, 0)
+	return ScriptingApiMock {
+		ScriptExecuteCalls: &xScriptExecuteCalls,
+	}
+}
+
+type ScriptExecuteMockResponse struct {
+	Result ExecuteScriptResponse
+	Response *_nethttp.Response
+	Error error
+}
+
+type ScriptExecuteCall struct {
+	PexecuteScriptRequest *ExecuteScriptRequest
+}
+
+
+func (mock ScriptingApiMock) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
+	return ApiScriptExecuteRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
+	p := ScriptExecuteCall {
+			PexecuteScriptRequest: r.executeScriptRequest,
+	}
+	*mock.ScriptExecuteCalls = append(*mock.ScriptExecuteCalls, p)
+	return mock.ScriptExecuteResponse.Result, mock.ScriptExecuteResponse.Response, mock.ScriptExecuteResponse.Error
+}
+
+

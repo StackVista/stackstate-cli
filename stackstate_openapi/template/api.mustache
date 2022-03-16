@@ -47,10 +47,6 @@ type {{classname}} interface {
 	{{/operation}}
 }
 
-{{#custom}}
-{{>api_mock}}
-{{/custom}}
-
 {{/generateInterfaces}}
 
 // {{classname}}Service {{classname}} service
@@ -412,3 +408,10 @@ func (a *{{{classname}}}Service) {{nickname}}Execute(r {{#structPrefix}}{{&class
 }
 {{/operation}}
 {{/operations}}
+
+
+{{#stsGenerateMocks}}
+{{#generateInterfaces}}
+{{>api_mock}}
+{{/generateInterfaces}}
+{{/stsGenerateMocks}}

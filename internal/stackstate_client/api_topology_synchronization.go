@@ -82,139 +82,6 @@ type TopologySynchronizationApi interface {
 	PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error)
 }
 
-type TopologySynchronizationApiMock struct {
-	GetTopologySynchronizationStreamByIdCalls *[]GetTopologySynchronizationStreamByIdCall
-	GetTopologySynchronizationStreamByIdResponse GetTopologySynchronizationStreamByIdMockResponse
-	GetTopologySynchronizationStreamStatusByIdCalls *[]GetTopologySynchronizationStreamStatusByIdCall
-	GetTopologySynchronizationStreamStatusByIdResponse GetTopologySynchronizationStreamStatusByIdMockResponse
-	GetTopologySynchronizationStreamsCalls *[]GetTopologySynchronizationStreamsCall
-	GetTopologySynchronizationStreamsResponse GetTopologySynchronizationStreamsMockResponse
-	PostTopologySynchronizationStreamClearErrorsCalls *[]PostTopologySynchronizationStreamClearErrorsCall
-	PostTopologySynchronizationStreamClearErrorsResponse PostTopologySynchronizationStreamClearErrorsMockResponse
-
-}	
-
-func NewTopologySynchronizationApiMock() TopologySynchronizationApiMock {
-	xGetTopologySynchronizationStreamByIdCalls := make([]GetTopologySynchronizationStreamByIdCall, 0)
-	xGetTopologySynchronizationStreamStatusByIdCalls := make([]GetTopologySynchronizationStreamStatusByIdCall, 0)
-	xGetTopologySynchronizationStreamsCalls := make([]GetTopologySynchronizationStreamsCall, 0)
-	xPostTopologySynchronizationStreamClearErrorsCalls := make([]PostTopologySynchronizationStreamClearErrorsCall, 0)
-	return TopologySynchronizationApiMock {
-		GetTopologySynchronizationStreamByIdCalls: &xGetTopologySynchronizationStreamByIdCalls,
-		GetTopologySynchronizationStreamStatusByIdCalls: &xGetTopologySynchronizationStreamStatusByIdCalls,
-		GetTopologySynchronizationStreamsCalls: &xGetTopologySynchronizationStreamsCalls,
-		PostTopologySynchronizationStreamClearErrorsCalls: &xPostTopologySynchronizationStreamClearErrorsCalls,
-	}
-}
-
-type GetTopologySynchronizationStreamByIdMockResponse struct {
-	Result TopologyStreamListItemWithErrorDetails
-	Response *_nethttp.Response
-	Error error
-}
-
-type GetTopologySynchronizationStreamByIdCall struct {
-	Pidentifier *string
-	PidentifierType *IdentifierType
-}
-
-
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
-	return ApiGetTopologySynchronizationStreamByIdRequest{
-		ApiService: mock,
-		ctx: ctx,
-	}
-}
-
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
-	p := GetTopologySynchronizationStreamByIdCall {
-			Pidentifier: r.identifier,
-			PidentifierType: r.identifierType,
-	}
-	*mock.GetTopologySynchronizationStreamByIdCalls = append(*mock.GetTopologySynchronizationStreamByIdCalls, p)
-	return mock.GetTopologySynchronizationStreamByIdResponse.Result, mock.GetTopologySynchronizationStreamByIdResponse.Response, mock.GetTopologySynchronizationStreamByIdResponse.Error
-}
-
-type GetTopologySynchronizationStreamStatusByIdMockResponse struct {
-	Result TopologyStreamMetrics
-	Response *_nethttp.Response
-	Error error
-}
-
-type GetTopologySynchronizationStreamStatusByIdCall struct {
-	Pidentifier *string
-}
-
-
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusById(ctx _context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
-	return ApiGetTopologySynchronizationStreamStatusByIdRequest{
-		ApiService: mock,
-		ctx: ctx,
-	}
-}
-
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (TopologyStreamMetrics, *_nethttp.Response, error) {
-	p := GetTopologySynchronizationStreamStatusByIdCall {
-			Pidentifier: r.identifier,
-	}
-	*mock.GetTopologySynchronizationStreamStatusByIdCalls = append(*mock.GetTopologySynchronizationStreamStatusByIdCalls, p)
-	return mock.GetTopologySynchronizationStreamStatusByIdResponse.Result, mock.GetTopologySynchronizationStreamStatusByIdResponse.Response, mock.GetTopologySynchronizationStreamStatusByIdResponse.Error
-}
-
-type GetTopologySynchronizationStreamsMockResponse struct {
-	Result TopologyStreamList
-	Response *_nethttp.Response
-	Error error
-}
-
-type GetTopologySynchronizationStreamsCall struct {
-}
-
-
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreams(ctx _context.Context) ApiGetTopologySynchronizationStreamsRequest {
-	return ApiGetTopologySynchronizationStreamsRequest{
-		ApiService: mock,
-		ctx: ctx,
-	}
-}
-
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error) {
-	p := GetTopologySynchronizationStreamsCall {
-	}
-	*mock.GetTopologySynchronizationStreamsCalls = append(*mock.GetTopologySynchronizationStreamsCalls, p)
-	return mock.GetTopologySynchronizationStreamsResponse.Result, mock.GetTopologySynchronizationStreamsResponse.Response, mock.GetTopologySynchronizationStreamsResponse.Error
-}
-
-type PostTopologySynchronizationStreamClearErrorsMockResponse struct {
-	
-	Response *_nethttp.Response
-	Error error
-}
-
-type PostTopologySynchronizationStreamClearErrorsCall struct {
-	Pidentifier *string
-	PidentifierType *IdentifierType
-}
-
-
-func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
-	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
-		ApiService: mock,
-		ctx: ctx,
-	}
-}
-
-func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
-	p := PostTopologySynchronizationStreamClearErrorsCall {
-			Pidentifier: r.identifier,
-			PidentifierType: r.identifierType,
-	}
-	*mock.PostTopologySynchronizationStreamClearErrorsCalls = append(*mock.PostTopologySynchronizationStreamClearErrorsCalls, p)
-	return mock.PostTopologySynchronizationStreamClearErrorsResponse.Response, mock.PostTopologySynchronizationStreamClearErrorsResponse.Error
-}
-
-
-
 
 // TopologySynchronizationApiService TopologySynchronizationApi service
 type TopologySynchronizationApiService service
@@ -773,3 +640,141 @@ func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamCle
 
 	return localVarHTTPResponse, nil
 }
+
+
+// ---------------------------------------------
+// ------------------ MOCKS --------------------
+// ---------------------------------------------
+
+
+type TopologySynchronizationApiMock struct {
+	GetTopologySynchronizationStreamByIdCalls *[]GetTopologySynchronizationStreamByIdCall
+	GetTopologySynchronizationStreamByIdResponse GetTopologySynchronizationStreamByIdMockResponse
+	GetTopologySynchronizationStreamStatusByIdCalls *[]GetTopologySynchronizationStreamStatusByIdCall
+	GetTopologySynchronizationStreamStatusByIdResponse GetTopologySynchronizationStreamStatusByIdMockResponse
+	GetTopologySynchronizationStreamsCalls *[]GetTopologySynchronizationStreamsCall
+	GetTopologySynchronizationStreamsResponse GetTopologySynchronizationStreamsMockResponse
+	PostTopologySynchronizationStreamClearErrorsCalls *[]PostTopologySynchronizationStreamClearErrorsCall
+	PostTopologySynchronizationStreamClearErrorsResponse PostTopologySynchronizationStreamClearErrorsMockResponse
+}	
+
+func NewTopologySynchronizationApiMock() TopologySynchronizationApiMock {
+	xGetTopologySynchronizationStreamByIdCalls := make([]GetTopologySynchronizationStreamByIdCall, 0)
+	xGetTopologySynchronizationStreamStatusByIdCalls := make([]GetTopologySynchronizationStreamStatusByIdCall, 0)
+	xGetTopologySynchronizationStreamsCalls := make([]GetTopologySynchronizationStreamsCall, 0)
+	xPostTopologySynchronizationStreamClearErrorsCalls := make([]PostTopologySynchronizationStreamClearErrorsCall, 0)
+	return TopologySynchronizationApiMock {
+		GetTopologySynchronizationStreamByIdCalls: &xGetTopologySynchronizationStreamByIdCalls,
+		GetTopologySynchronizationStreamStatusByIdCalls: &xGetTopologySynchronizationStreamStatusByIdCalls,
+		GetTopologySynchronizationStreamsCalls: &xGetTopologySynchronizationStreamsCalls,
+		PostTopologySynchronizationStreamClearErrorsCalls: &xPostTopologySynchronizationStreamClearErrorsCalls,
+	}
+}
+
+type GetTopologySynchronizationStreamByIdMockResponse struct {
+	Result TopologyStreamListItemWithErrorDetails
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetTopologySynchronizationStreamByIdCall struct {
+	Pidentifier *string
+	PidentifierType *IdentifierType
+}
+
+
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
+	return ApiGetTopologySynchronizationStreamByIdRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
+	p := GetTopologySynchronizationStreamByIdCall {
+			Pidentifier: r.identifier,
+			PidentifierType: r.identifierType,
+	}
+	*mock.GetTopologySynchronizationStreamByIdCalls = append(*mock.GetTopologySynchronizationStreamByIdCalls, p)
+	return mock.GetTopologySynchronizationStreamByIdResponse.Result, mock.GetTopologySynchronizationStreamByIdResponse.Response, mock.GetTopologySynchronizationStreamByIdResponse.Error
+}
+
+type GetTopologySynchronizationStreamStatusByIdMockResponse struct {
+	Result TopologyStreamMetrics
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetTopologySynchronizationStreamStatusByIdCall struct {
+	Pidentifier *string
+}
+
+
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusById(ctx _context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
+	return ApiGetTopologySynchronizationStreamStatusByIdRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (TopologyStreamMetrics, *_nethttp.Response, error) {
+	p := GetTopologySynchronizationStreamStatusByIdCall {
+			Pidentifier: r.identifier,
+	}
+	*mock.GetTopologySynchronizationStreamStatusByIdCalls = append(*mock.GetTopologySynchronizationStreamStatusByIdCalls, p)
+	return mock.GetTopologySynchronizationStreamStatusByIdResponse.Result, mock.GetTopologySynchronizationStreamStatusByIdResponse.Response, mock.GetTopologySynchronizationStreamStatusByIdResponse.Error
+}
+
+type GetTopologySynchronizationStreamsMockResponse struct {
+	Result TopologyStreamList
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetTopologySynchronizationStreamsCall struct {
+}
+
+
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreams(ctx _context.Context) ApiGetTopologySynchronizationStreamsRequest {
+	return ApiGetTopologySynchronizationStreamsRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error) {
+	p := GetTopologySynchronizationStreamsCall {
+	}
+	*mock.GetTopologySynchronizationStreamsCalls = append(*mock.GetTopologySynchronizationStreamsCalls, p)
+	return mock.GetTopologySynchronizationStreamsResponse.Result, mock.GetTopologySynchronizationStreamsResponse.Response, mock.GetTopologySynchronizationStreamsResponse.Error
+}
+
+type PostTopologySynchronizationStreamClearErrorsMockResponse struct {
+	
+	Response *_nethttp.Response
+	Error error
+}
+
+type PostTopologySynchronizationStreamClearErrorsCall struct {
+	Pidentifier *string
+	PidentifierType *IdentifierType
+}
+
+
+func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
+	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+	p := PostTopologySynchronizationStreamClearErrorsCall {
+			Pidentifier: r.identifier,
+			PidentifierType: r.identifierType,
+	}
+	*mock.PostTopologySynchronizationStreamClearErrorsCalls = append(*mock.PostTopologySynchronizationStreamClearErrorsCalls, p)
+	return mock.PostTopologySynchronizationStreamClearErrorsResponse.Response, mock.PostTopologySynchronizationStreamClearErrorsResponse.Error
+}
+
+
