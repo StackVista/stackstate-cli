@@ -56,6 +56,8 @@ type APIClient struct {
 
 	HealthSynchronizationApi HealthSynchronizationApi
 
+	ImportApi ImportApi
+
 	MonitorApi MonitorApi
 
 	MonitorUrnApi MonitorUrnApi
@@ -86,6 +88,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
+	c.ImportApi = (*ImportApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.MonitorUrnApi = (*MonitorUrnApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
@@ -190,7 +193,16 @@ func (c *APIClient) callAPI(request *http.Request) (*http.Response, error) {
 		log.Printf("\n%s\n", string(dump))
 	}
 
+	if c.cfg.OnPreCallAPI != nil {
+		c.cfg.OnPreCallAPI(request)
+	}
+
 	resp, err := c.cfg.HTTPClient.Do(request)
+
+	if c.cfg.OnPostCallAPI != nil {
+		c.cfg.OnPostCallAPI(request)
+	}
+
 	if err != nil {
 		return resp, err
 	}

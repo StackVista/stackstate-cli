@@ -4,3 +4,7 @@ gitRepoId: stackstate-cli2
 packageName: stackstate_client
 useOneOfDiscriminatorLookup: true # needed for polymorphic types (using _type discriminator)
 generateInterfaces: true # needed for testing
+additionalProperties:
+  # All customizations to the templates are gated with this custom property. 
+  # This should help us if we at some point want to upgrade the templates.
+  custom: true 

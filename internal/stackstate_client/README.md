@@ -93,6 +93,7 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamstatus) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status | Get health sync sub-stream status
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/stream/{healthStreamUrn}/clearErrors | Clear health sync stream errors
+*ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
 *MonitorApi* | [**CreateMonitor**](docs/MonitorApi.md#createmonitor) | **Post** /monitors | Create a monitor
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitor/{monitorId} | Delete a monitor
 *MonitorApi* | [**DryRunMonitor**](docs/MonitorApi.md#dryrunmonitor) | **Post** /monitor/{monitorId}/dryRun | Dry run a monitor and show a result
@@ -119,7 +120,6 @@ Class | Method | HTTP request | Description
  - [ApiToken](docs/ApiToken.md)
  - [CreateMonitor](docs/CreateMonitor.md)
  - [DependencyDirection](docs/DependencyDirection.md)
- - [ElasticSearchError](docs/ElasticSearchError.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
  - [EventCursor](docs/EventCursor.md)
@@ -130,7 +130,6 @@ Class | Method | HTTP request | Description
  - [EventRef](docs/EventRef.md)
  - [EventRelation](docs/EventRelation.md)
  - [EventTag](docs/EventTag.md)
- - [EventsError](docs/EventsError.md)
  - [ExecuteScriptArgumentsScriptError](docs/ExecuteScriptArgumentsScriptError.md)
  - [ExecuteScriptError](docs/ExecuteScriptError.md)
  - [ExecuteScriptExceptionError](docs/ExecuteScriptExceptionError.md)
@@ -143,7 +142,8 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptSyntaxErrorsErrors](docs/ExecuteScriptSyntaxErrorsErrors.md)
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
- - [GenericServerError](docs/GenericServerError.md)
+ - [GenericApiError](docs/GenericApiError.md)
+ - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
  - [HealthStreamNotFound](docs/HealthStreamNotFound.md)
@@ -156,7 +156,6 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
- - [InternalServerError](docs/InternalServerError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
  - [MessageLevel](docs/MessageLevel.md)
@@ -172,10 +171,8 @@ Class | Method | HTTP request | Description
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
- - [RootCauseParsingError](docs/RootCauseParsingError.md)
  - [ScriptLocation](docs/ScriptLocation.md)
  - [SourceLink](docs/SourceLink.md)
- - [StqlParsingError](docs/StqlParsingError.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)

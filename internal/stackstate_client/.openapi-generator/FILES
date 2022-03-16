@@ -6,6 +6,7 @@ api/openapi.yaml
 api_api_token.go
 api_event.go
 api_health_synchronization.go
+api_import.go
 api_monitor.go
 api_monitor_urn.go
 api_scripting.go
@@ -17,7 +18,6 @@ docs/ApiToken.md
 docs/ApiTokenApi.md
 docs/CreateMonitor.md
 docs/DependencyDirection.md
-docs/ElasticSearchError.md
 docs/EventApi.md
 docs/EventCategory.md
 docs/EventComponent.md
@@ -29,7 +29,6 @@ docs/EventNotFoundError.md
 docs/EventRef.md
 docs/EventRelation.md
 docs/EventTag.md
-docs/EventsError.md
 docs/ExecuteScriptArgumentsScriptError.md
 docs/ExecuteScriptError.md
 docs/ExecuteScriptExceptionError.md
@@ -42,7 +41,8 @@ docs/ExecuteScriptSyntaxErrors.md
 docs/ExecuteScriptSyntaxErrorsErrors.md
 docs/ExecuteScriptTimeoutError.md
 docs/ExecuteScriptWrongReturnTypeError.md
-docs/GenericServerError.md
+docs/GenericApiError.md
+docs/GenericErrorsResponse.md
 docs/HealthStreamError.md
 docs/HealthStreamMetrics.md
 docs/HealthStreamNotFound.md
@@ -56,7 +56,7 @@ docs/HealthSubStreamStatus.md
 docs/HealthSubStreamTransactionalIncrements.md
 docs/HealthSynchronizationApi.md
 docs/IdentifierType.md
-docs/InternalServerError.md
+docs/ImportApi.md
 docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
 docs/MessageLevel.md
@@ -74,11 +74,9 @@ docs/MultipleMatchesCheckState.md
 docs/RequestError.md
 docs/RequestValidationError.md
 docs/RootCauseMode.md
-docs/RootCauseParsingError.md
 docs/ScriptLocation.md
 docs/ScriptingApi.md
 docs/SourceLink.md
-docs/StqlParsingError.md
 docs/StreamList.md
 docs/StreamListItem.md
 docs/StringItemsWithTotal.md
@@ -109,7 +107,6 @@ go.sum
 model_api_token.go
 model_create_monitor.go
 model_dependency_direction.go
-model_elastic_search_error.go
 model_event_category.go
 model_event_component.go
 model_event_cursor.go
@@ -120,7 +117,6 @@ model_event_not_found_error.go
 model_event_ref.go
 model_event_relation.go
 model_event_tag.go
-model_events_error.go
 model_execute_script_arguments_script_error.go
 model_execute_script_error.go
 model_execute_script_exception_error.go
@@ -133,7 +129,8 @@ model_execute_script_syntax_errors.go
 model_execute_script_syntax_errors_errors.go
 model_execute_script_timeout_error.go
 model_execute_script_wrong_return_type_error.go
-model_generic_server_error.go
+model_generic_api_error.go
+model_generic_errors_response.go
 model_health_stream_error.go
 model_health_stream_metrics.go
 model_health_stream_not_found.go
@@ -146,7 +143,6 @@ model_health_sub_stream_snapshot.go
 model_health_sub_stream_status.go
 model_health_sub_stream_transactional_increments.go
 model_identifier_type.go
-model_internal_server_error.go
 model_invalid_sync_identifier.go
 model_invalid_urn.go
 model_message_level.go
@@ -162,10 +158,8 @@ model_multiple_matches_check_state.go
 model_request_error.go
 model_request_validation_error.go
 model_root_cause_mode.go
-model_root_cause_parsing_error.go
 model_script_location.go
 model_source_link.go
-model_stql_parsing_error.go
 model_stream_list.go
 model_stream_list_item.go
 model_string_items_with_total.go

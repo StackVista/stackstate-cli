@@ -14,6 +14,15 @@ type MockPrinter struct {
 	UseColor          bool
 	outputType        OutputType
 	SuccessCalls      *[]string
+	PrintWarnCalls    *[]string
+	TableCalls        *[]TableCall
+	PrintLnCalls      *[]string
+}
+
+type TableCall struct {
+	Header     []string
+	Data       [][]string
+	StructData interface{}
 }
 
 type PrintErrResponseCall struct {
@@ -27,12 +36,14 @@ func NewMockPrinter() MockPrinter {
 	startSpinnerCalls := make([]common.LoadingMsg, 0)
 	var stopSpinnerCalls int
 	successCalls := make([]string, 0)
+	printWarnCalls := make([]string, 0)
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
 		StartSpinnerCalls: &startSpinnerCalls,
 		StopSpinnerCalls:  &stopSpinnerCalls,
 		SuccessCalls:      &successCalls,
+		PrintWarnCalls:    &printWarnCalls,
 	}
 }
 
@@ -71,4 +82,16 @@ func (p *MockPrinter) GetOutputType() OutputType {
 
 func (p *MockPrinter) Success(msg string) {
 	*p.SuccessCalls = append(*p.SuccessCalls, msg)
+}
+
+func (p *MockPrinter) PrintWarn(msg string) {
+	*p.PrintWarnCalls = append(*p.PrintWarnCalls, msg)
+}
+
+func (p *MockPrinter) Table(header []string, data [][]string, structData interface{}) {
+	*p.TableCalls = append(*p.TableCalls, TableCall{header, data, structData})
+}
+
+func (p *MockPrinter) PrintLn(text string) {
+	*p.PrintLnCalls = append(*p.PrintLnCalls, text)
 }

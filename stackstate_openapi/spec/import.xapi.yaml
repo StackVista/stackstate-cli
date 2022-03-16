@@ -1,0 +1,31 @@
+paths:
+  /import:
+    post:
+      tags:
+        - import
+      summary: "Import settings"
+      description: "Import StackState Templated JSON (STJ) setting nodes."
+      operationId: importSettings
+      requestBody:
+        required: true
+        content:
+          plain/text:
+            schema:
+              type: string
+      responses:
+        "200":
+          description: The full description of all imported nodes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+        "400":
+          description: "Failure to parse the STJ."
+          content:
+            application/json:
+              schema:
+                $ref: "generic_error_handling.xapi.yaml#/components/schemas/GenericErrorsResponse"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"

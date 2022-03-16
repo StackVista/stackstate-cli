@@ -7,21 +7,22 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Depedency Injection context for the CLI
 type Deps struct {
-	Config  *conf.Conf
-	Client  *sts.APIClient
-	Printer printer.Printer
-	Context context.Context
+	Config    *conf.Conf
+	Printer   printer.Printer
+	Context   context.Context
+	Client    *stackstate_client.APIClient
+	IsVerBose bool
 }
 
 func NewDeps() Deps {
 	return Deps{
-		Config:  nil,
 		Client:  nil,
+		Config:  nil,
 		Printer: printer.NewPrinter(),
 		Context: nil,
 	}

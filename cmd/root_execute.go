@@ -3,6 +3,7 @@ package cmd
 import (
 	"context"
 	"fmt"
+	"net/http"
 	"os"
 	"strings"
 
@@ -13,7 +14,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func Execute(ctx context.Context) {
@@ -30,6 +31,7 @@ func Execute(ctx context.Context) {
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		runCmd = cmd
 		verbose, _ := cmd.Flags().GetBool("verbose")
+		cli.IsVerBose = verbose
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
 		}
@@ -42,7 +44,7 @@ func Execute(ctx context.Context) {
 			os.Exit(common.ConfigErrorExitCode)
 		}
 		cli.Config = &cfg
-		log.Ctx(cmd.Context()).Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
+		log.Printf("Loaded config %+v", cli.Config)
 
 		cli.Printer.SetUseColor(!cfg.NoColor)
 
@@ -57,29 +59,34 @@ func Execute(ctx context.Context) {
 			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", cfg.Output)
 		}
 
-		configuration := sts.NewConfiguration()
-		configuration.Servers[0] = sts.ServerConfiguration{
+		configuration := stackstate_client.NewConfiguration()
+		configuration.Servers[0] = stackstate_client.ServerConfiguration{
 			URL:         cli.Config.ApiUrl,
 			Description: "",
 			Variables:   nil,
 		}
-		if verbose {
-			configuration.Debug = true
+		configuration.Debug = cli.IsVerBose
+		configuration.OnPreCallAPI = func(r *http.Request) {
+			cli.Printer.StartSpinner(common.AwaitingServer)
 		}
+		configuration.OnPostCallAPI = func(r *http.Request) {
+			cli.Printer.StopSpinner()
+		}
+		client := stackstate_client.NewAPIClient(configuration)
 
-		client := sts.NewAPIClient(configuration)
-		cli.Client = client
-
-		auth := make(map[string]sts.APIKey)
-		auth["ApiToken"] = sts.APIKey{
+		auth := make(map[string]stackstate_client.APIKey)
+		auth["ApiToken"] = stackstate_client.APIKey{
 			Key:    cli.Config.ApiToken,
 			Prefix: "",
 		}
-		cli.Context = context.WithValue(
+		ctx := context.WithValue(
 			cmd.Context(),
-			sts.ContextAPIKeys,
+			stackstate_client.ContextAPIKeys,
 			auth,
 		)
+
+		cli.Context = ctx
+		cli.Client = client
 
 		return nil
 	}

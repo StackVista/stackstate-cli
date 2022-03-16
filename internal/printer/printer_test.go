@@ -6,31 +6,33 @@ import (
 	"net/http"
 	"testing"
 
-	color "github.com/logrusorgru/aurora/v3"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
-func TestPrintErr(t *testing.T) {
+func setupPrinter() (StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	p := NewPrinter().(*StdPrinter)
+	var stdOut, stdErr bytes.Buffer
+	p.SetStdPrinterOutput(&stdOut, &stdErr)
+	return *p, &stdOut, &stdErr
+}
+
+func TestPrintErr(t *testing.T) {
+	p, _, stdErr := setupPrinter()
 	assert.Equal(t, false, p.GetUseColor())
 	assert.Nil(t, p.spinner)
 
-	var buf bytes.Buffer
-	p.stdErr = &buf
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "Error: test\n", buf.String())
+	assert.Equal(t, "[ERROR] Test\n", stdErr.String())
 }
 
 func TestPrintErrWithColor(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
+	p, _, stdErr := setupPrinter()
 	p.SetUseColor(true)
 	assert.NotNil(t, p.spinner)
 
-	var buf bytes.Buffer
-	p.stdErr = &buf
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "❗"+color.Red("Test").String()+"\n", buf.String())
+	assert.Equal(t, "❗ \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
 func TestPrintStructAsJson(t *testing.T) {
@@ -108,14 +110,14 @@ func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expect
 }
 
 func TestPrintErrResponse503WithColor(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
+	p, _, stdErr := setupPrinter()
 	p.SetUseColor(true)
-	var buf bytes.Buffer
-	p.stdErr = &buf
+
 	resp := http.Response{Status: "503 Service Unavailable"}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
-	expected := fmt.Sprintf("❌ %s\n", color.Red("503 Service Unavailable"))
-	assert.Equal(t, expected, buf.String())
+
+	expected := "❌ \x1b[31m503 Service Unavailable\x1b[0m\n"
+	assert.Equal(t, expected, stdErr.String())
 }
 
 func TestPrintErrResponse503(t *testing.T) {
@@ -124,7 +126,7 @@ func TestPrintErrResponse503(t *testing.T) {
 	p.stdErr = &buf
 	resp := http.Response{Status: "503 Service Unavailable"}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
-	expected := fmt.Sprintf("Server error: %s\n", "503 Service Unavailable")
+	expected := fmt.Sprintf("[SERVER ERROR] %s\n", "503 Service Unavailable")
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -134,7 +136,7 @@ func TestPrintErrResponse200(t *testing.T) {
 	p.stdErr = &buf
 	resp := http.Response{Status: "200 Ok", StatusCode: 200}
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
-	expected := fmt.Sprintf("Server error: %s\n%s\n", "Client error", "Hello world")
+	expected := fmt.Sprintf("[SERVER ERROR] %s\n%s\n", "Client error", "Hello world")
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -143,6 +145,19 @@ func TestPrintErrResponseNilResponse(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := fmt.Sprintf("Server error: %s\n%s\n", "Client error", "Hello world")
+	expected := fmt.Sprintf("[SERVER ERROR] %s\n%s\n", "Client error", "Hello world")
 	assert.Equal(t, expected, buf.String())
+}
+
+func TestPrintTable(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.Table([]string{"A", "B"}, [][]string{{"1", "2"}}, nil)
+	assert.Equal(t, "A | B\n1 | 2\n", stdOut.String())
+}
+
+func TestPrintTableAsStruct(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetOutputType(YAML)
+	p.Table([]string{"A", "B"}, [][]string{{"1", "2"}}, map[string]interface{}{"A": 1, "B": 2})
+	assert.Equal(t, "A: 1\nB: 2\n", stdOut.String())
 }

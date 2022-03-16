@@ -13,7 +13,7 @@ import (
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
-	color "github.com/logrusorgru/aurora/v3"
+	"github.com/gookit/color"
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
@@ -31,19 +31,33 @@ type Printer interface {
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
+	PrintWarn(msg string)
 	Success(msg string)
+	Table(header []string, data [][]string, structData interface{})
+	PrintLn(text string)
 }
 
 type OutputType int
+
+type Symbol struct {
+	UnicodeChar string
+	Fallback    string
+}
 
 const (
 	YAML OutputType = iota
 	JSON
 	// Auto formatting, sometimes prints in table format, sometimes in YAML
 	Auto
-	ServerErrorColorSymbol  = "❌"
-	GenericErrorColorSymbol = "❗"
 )
+
+var symbols = map[string]Symbol{
+	"success":      {UnicodeChar: "✅", Fallback: "success"},
+	"warn":         {UnicodeChar: "\u26A0\uFE0F", Fallback: "warn"}, // ⚠️
+	"server-error": {UnicodeChar: "❌", Fallback: "server error"},
+	"error":        {UnicodeChar: "❗", Fallback: "error"},
+	"info":         {UnicodeChar: color.Blue.Render("ⓘ"), Fallback: "info"},
+}
 
 type StdPrinter struct {
 	stdOut     io.Writer // for test purposes
@@ -54,6 +68,7 @@ type StdPrinter struct {
 }
 
 func NewPrinter() Printer {
+	pterm.DisableColor()
 	return &StdPrinter{
 		useColor:   false, // IMPORTANT: use progressive enhancement!
 		spinner:    nil,
@@ -63,14 +78,13 @@ func NewPrinter() Printer {
 	}
 }
 
-// kills any ongoing processes
-func resetStdPrinter(p *StdPrinter) {
-	p.StopSpinner()
+func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
+	color.SetOutput(stdOut)
+	p.stdOut = stdOut
+	p.stdErr = stdErr
 }
 
 func (p *StdPrinter) PrintStruct(s interface{}) error {
-	resetStdPrinter(p)
-
 	msg, err := p.sprintStruct(s)
 	if err != nil {
 		return err
@@ -139,17 +153,11 @@ func colorizeStruct(structStr string, outputType OutputType) (string, error) {
 }
 
 func (p *StdPrinter) PrintErr(err error) {
-	resetStdPrinter(p)
-
 	switch e := err.(type) {
 	case common.ResponseError:
 		p.printErrResponse(e.Err, e.Resp)
 	default:
-		if p.useColor {
-			fmt.Fprintf(p.stdErr, "%s%s\n", GenericErrorColorSymbol, color.Red(util.UcFirst(err.Error())))
-		} else {
-			fmt.Fprintf(p.stdErr, "Error: %s\n", err.Error())
-		}
+		color.Fprintf(p.stdErr, "%s %s\n", p.sprintSymbol("error"), color.Red.Render(util.UcFirst(err.Error())))
 	}
 }
 
@@ -187,31 +195,20 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	}
 
 	// print
-	if p.useColor {
-		if suggestion != "" {
-			suggestion = fmt.Sprintf("%s %s", color.Blue("ⓘ"), suggestion)
-		}
-
-		fmt.Fprintf(p.stdErr,
-			"%s %v\n%s%s",
-			ServerErrorColorSymbol,
-			color.Red(httpStatus),
-			util.WithNewLine(errorStr),
-			util.WithNewLine(suggestion),
-		)
-	} else {
-		fmt.Fprintf(
-			p.stdErr,
-			"Server error: %s\n%s%s",
-			httpStatus,
-			util.WithNewLine(errorStr),
-			util.WithNewLine(suggestion),
-		)
+	if suggestion != "" {
+		suggestion = fmt.Sprintf("%s %s", p.sprintSymbol("info"), suggestion)
 	}
+
+	color.Fprintf(p.stdErr,
+		"%s %v\n%s%s",
+		p.sprintSymbol("server-error"),
+		color.Red.Render(httpStatus),
+		util.WithNewLine(errorStr),
+		util.WithNewLine(suggestion),
+	)
 }
 
 func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
-	resetStdPrinter(p)
 	if p.spinner != nil {
 		p.spinner.Text = loadingMsg.String()
 		p.spinner.Start()
@@ -229,12 +226,13 @@ func (p *StdPrinter) SetUseColor(useColor bool) {
 		return // no change
 	}
 
-	resetStdPrinter(p)
 	p.useColor = useColor
 	if useColor {
 		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
+		pterm.EnableColor()
 	} else {
 		p.spinner = nil
+		pterm.DisableColor()
 	}
 }
 
@@ -251,10 +249,33 @@ func (p *StdPrinter) GetOutputType() OutputType {
 }
 
 func (p *StdPrinter) Success(msg string) {
-	resetStdPrinter(p)
-	if p.useColor {
-		fmt.Fprintf(p.stdOut, "✅ %s\n", msg)
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), msg)
+}
+
+func (p *StdPrinter) PrintWarn(msg string) {
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), msg)
+}
+
+func (p *StdPrinter) Table(header []string, data [][]string, structData interface{}) {
+	if p.outputType == Auto {
+		dataWithHeader := [][]string{}
+		dataWithHeader = append(dataWithHeader, header)
+		dataWithHeader = append(dataWithHeader, data...)
+		pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
 	} else {
-		fmt.Fprintf(p.stdOut, "Success: %s\n", msg)
+		p.PrintStruct(structData)
+	}
+}
+
+func (p *StdPrinter) PrintLn(text string) {
+	color.Fprintf(p.stdOut, "%s\n", text)
+}
+
+func (p *StdPrinter) sprintSymbol(symbolName string) string {
+	symbol := symbols[symbolName]
+	if p.useColor {
+		return symbol.UnicodeChar
+	} else {
+		return "[" + strings.ToUpper(symbol.Fallback) + "]"
 	}
 }
