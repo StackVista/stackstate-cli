@@ -1,38 +1,44 @@
 package monitor
 
 import (
+	"fmt"
+	"net/http"
+	"strconv"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-const (
-	IdFlag = "id"
-)
-
 func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "Delete a monitor.",
+		Short: "delete a monitor.",
 		RunE:  di.CmdRunEWithDeps(cli, RunDeleteMonitorCommand),
 	}
-	cmd.Flags().Int64P(IdFlag, "i", 0, "The id of the monitor you wish to delete.")
+	cmd.Flags().StringP(IdFlag, "i", "", "The id or identifier of the monitor you wish to delete.")
 	cmd.MarkFlagRequired(IdFlag)
 
 	return cmd
 }
 
 func RunDeleteMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
-	monitorId, err := cmd.Flags().GetInt64(IdFlag)
+	identifier, err := cmd.Flags().GetString(IdFlag)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 
-	resp, err := cli.Client.MonitorApi.DeleteMonitor(cli.Context, monitorId).Execute()
+	id, err := strconv.ParseInt(identifier, 0, 64)
+	var resp *http.Response
+	if err == nil {
+		resp, err = cli.Client.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
+	} else {
+		resp, err = cli.Client.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
+	}
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.Success("Monitor deleted.")
+	cli.Printer.Success(fmt.Sprintf("Monitor deleted: %s", identifier))
 	return nil
 }

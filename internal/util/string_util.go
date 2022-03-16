@@ -50,6 +50,8 @@ func WithNewLine(s string) string {
 
 func ToString(x interface{}) string {
 	switch v := x.(type) {
+	case *string:
+		return SafeStringPtrToString(v)
 	case float64:
 		i, err := safeConvertFloat64ToInt64(v)
 		if err != nil {
@@ -71,5 +73,13 @@ func safeConvertFloat64ToInt64(f float64) (int64, error) {
 		return 0, fmt.Errorf("lost precision during conversion")
 	} else {
 		return v, nil
+	}
+}
+
+func SafeStringPtrToString(s *string) string {
+	if s == nil {
+		return ""
+	} else {
+		return *s
 	}
 }

@@ -1,6 +1,8 @@
 package monitor
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
@@ -8,14 +10,10 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-const (
-	FileFlag = "file"
-)
-
 func CreateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: "Create a monitor.",
+		Short: "create a monitor.",
 		RunE:  di.CmdRunEWithDeps(cli, RunCreateMonitorCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", "The file with the monitor in it. Can either be a YAML or JSON file.")
@@ -36,11 +34,11 @@ func RunCreateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
-	_, resp, err := cli.Client.MonitorApi.CreateMonitor(cli.Context).CreateMonitor(monitor).Execute()
+	createdMonitor, resp, err := cli.Client.MonitorApi.CreateMonitor(cli.Context).CreateMonitor(monitor).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.Success("Monitor created.")
+	cli.Printer.Success(fmt.Sprintf("Monitor created: %s (%d)", util.ToString(createdMonitor.Identifier), createdMonitor.Id))
 	return nil
 }

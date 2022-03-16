@@ -47,14 +47,19 @@ func RunSettingsApplyCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return nil
 	}
 
-	data := [][]string{}
+	tableData := [][]string{}
 	for _, node := range nodes {
-		data = append(data, []string{util.ToString(node["_type"]), util.ToString(node["id"]), util.ToString(node["name"])})
+		tableData = append(tableData, []string{
+			util.ToString(node["_type"]),
+			util.ToString(node["id"]),
+			util.ToString(node["identifier"]),
+			util.ToString(node["name"]),
+		})
 	}
 
 	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).", len(nodes)))
 	cli.Printer.PrintLn("")
-	cli.Printer.Table([]string{"Type", "Id", "Name"}, data, nodes)
+	cli.Printer.Table([]string{"Type", "Id", "Identifier", "Name"}, tableData, nodes)
 
 	return nil
 }
