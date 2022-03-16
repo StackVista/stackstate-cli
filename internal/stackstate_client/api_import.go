@@ -42,27 +42,42 @@ type ImportApi interface {
 }
 
 type ImportApiMock struct {
-	ImportSettingsCalls []ApiImportSettingsRequest
+	ImportSettingsCalls *[]ImportSettingsCall
 	ImportSettingsResponse ImportSettingsMockResponse
 
 }	
 
-type ImportSettingsMockResponse struct {
-	A []map[string]interface{}
-	B *_nethttp.Response
-	C error
+func NewImportApiMock() ImportApiMock {
+	xImportSettingsCalls := make([]ImportSettingsCall, 0)
+	return ImportApiMock {
+		ImportSettingsCalls: &xImportSettingsCalls,
+	}
 }
 
-func (a *ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
+type ImportSettingsMockResponse struct {
+	Result []map[string]interface{}
+	Response *_nethttp.Response
+	Error error
+}
+
+type ImportSettingsCall struct {
+	Pbody *string
+}
+
+
+func (mock ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
-	a.ImportSettingsCalls = append(a.ImportSettingsCalls, r)
-	return a.ImportSettingsResponse.A, a.ImportSettingsResponse.B, a.ImportSettingsResponse.C
+func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
+	p := ImportSettingsCall {
+			Pbody: r.body,
+	}
+	*mock.ImportSettingsCalls = append(*mock.ImportSettingsCalls, p)
+	return mock.ImportSettingsResponse.Result, mock.ImportSettingsResponse.Response, mock.ImportSettingsResponse.Error
 }
 
 

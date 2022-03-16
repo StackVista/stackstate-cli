@@ -42,27 +42,42 @@ type ScriptingApi interface {
 }
 
 type ScriptingApiMock struct {
-	ScriptExecuteCalls []ApiScriptExecuteRequest
+	ScriptExecuteCalls *[]ScriptExecuteCall
 	ScriptExecuteResponse ScriptExecuteMockResponse
 
 }	
 
-type ScriptExecuteMockResponse struct {
-	A ExecuteScriptResponse
-	B *_nethttp.Response
-	C error
+func NewScriptingApiMock() ScriptingApiMock {
+	xScriptExecuteCalls := make([]ScriptExecuteCall, 0)
+	return ScriptingApiMock {
+		ScriptExecuteCalls: &xScriptExecuteCalls,
+	}
 }
 
-func (a *ScriptingApiMock) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
+type ScriptExecuteMockResponse struct {
+	Result ExecuteScriptResponse
+	Response *_nethttp.Response
+	Error error
+}
+
+type ScriptExecuteCall struct {
+	PexecuteScriptRequest *ExecuteScriptRequest
+}
+
+
+func (mock ScriptingApiMock) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
-	a.ScriptExecuteCalls = append(a.ScriptExecuteCalls, r)
-	return a.ScriptExecuteResponse.A, a.ScriptExecuteResponse.B, a.ScriptExecuteResponse.C
+func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
+	p := ScriptExecuteCall {
+			PexecuteScriptRequest: r.executeScriptRequest,
+	}
+	*mock.ScriptExecuteCalls = append(*mock.ScriptExecuteCalls, p)
+	return mock.ScriptExecuteResponse.Result, mock.ScriptExecuteResponse.Response, mock.ScriptExecuteResponse.Error
 }
 
 

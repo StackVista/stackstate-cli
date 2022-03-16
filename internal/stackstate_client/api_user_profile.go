@@ -56,47 +56,70 @@ type UserProfileApi interface {
 }
 
 type UserProfileApiMock struct {
-	GetCurrentUserProfileCalls []ApiGetCurrentUserProfileRequest
+	GetCurrentUserProfileCalls *[]GetCurrentUserProfileCall
 	GetCurrentUserProfileResponse GetCurrentUserProfileMockResponse
-	SaveCurrentUserProfileCalls []ApiSaveCurrentUserProfileRequest
+	SaveCurrentUserProfileCalls *[]SaveCurrentUserProfileCall
 	SaveCurrentUserProfileResponse SaveCurrentUserProfileMockResponse
 
 }	
 
-type GetCurrentUserProfileMockResponse struct {
-	A UserProfile
-	B *_nethttp.Response
-	C error
+func NewUserProfileApiMock() UserProfileApiMock {
+	xGetCurrentUserProfileCalls := make([]GetCurrentUserProfileCall, 0)
+	xSaveCurrentUserProfileCalls := make([]SaveCurrentUserProfileCall, 0)
+	return UserProfileApiMock {
+		GetCurrentUserProfileCalls: &xGetCurrentUserProfileCalls,
+		SaveCurrentUserProfileCalls: &xSaveCurrentUserProfileCalls,
+	}
 }
 
-func (a *UserProfileApiMock) GetCurrentUserProfile(ctx _context.Context) ApiGetCurrentUserProfileRequest {
+type GetCurrentUserProfileMockResponse struct {
+	Result UserProfile
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetCurrentUserProfileCall struct {
+}
+
+
+func (mock UserProfileApiMock) GetCurrentUserProfile(ctx _context.Context) ApiGetCurrentUserProfileRequest {
 	return ApiGetCurrentUserProfileRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *UserProfileApiMock) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
-	a.GetCurrentUserProfileCalls = append(a.GetCurrentUserProfileCalls, r)
-	return a.GetCurrentUserProfileResponse.A, a.GetCurrentUserProfileResponse.B, a.GetCurrentUserProfileResponse.C
+func (mock UserProfileApiMock) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
+	p := GetCurrentUserProfileCall {
+	}
+	*mock.GetCurrentUserProfileCalls = append(*mock.GetCurrentUserProfileCalls, p)
+	return mock.GetCurrentUserProfileResponse.Result, mock.GetCurrentUserProfileResponse.Response, mock.GetCurrentUserProfileResponse.Error
 }
 
 type SaveCurrentUserProfileMockResponse struct {
-	A UserProfile
-	B *_nethttp.Response
-	C error
+	Result UserProfile
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *UserProfileApiMock) SaveCurrentUserProfile(ctx _context.Context) ApiSaveCurrentUserProfileRequest {
+type SaveCurrentUserProfileCall struct {
+	PuserProfile *UserProfile
+}
+
+
+func (mock UserProfileApiMock) SaveCurrentUserProfile(ctx _context.Context) ApiSaveCurrentUserProfileRequest {
 	return ApiSaveCurrentUserProfileRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *UserProfileApiMock) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
-	a.SaveCurrentUserProfileCalls = append(a.SaveCurrentUserProfileCalls, r)
-	return a.SaveCurrentUserProfileResponse.A, a.SaveCurrentUserProfileResponse.B, a.SaveCurrentUserProfileResponse.C
+func (mock UserProfileApiMock) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
+	p := SaveCurrentUserProfileCall {
+			PuserProfile: r.userProfile,
+	}
+	*mock.SaveCurrentUserProfileCalls = append(*mock.SaveCurrentUserProfileCalls, p)
+	return mock.SaveCurrentUserProfileResponse.Result, mock.SaveCurrentUserProfileResponse.Response, mock.SaveCurrentUserProfileResponse.Error
 }
 
 

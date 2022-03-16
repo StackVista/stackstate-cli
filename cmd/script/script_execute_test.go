@@ -17,7 +17,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupCommand(mockScriptingApiService sts.MockScriptingApiService) (*printer.MockPrinter, di.Deps, *cobra.Command) {
+func setupCommand(mockScriptingApiService sts.ScriptingApiMock) (*printer.MockPrinter, di.Deps, *cobra.Command) {
 	client := sts.APIClient{}
 	client.ScriptingApi = mockScriptingApiService
 	mockPrinter := printer.NewMockPrinter()
@@ -33,21 +33,26 @@ func setupCommand(mockScriptingApiService sts.MockScriptingApiService) (*printer
 }
 
 func TestExecuteSuccess(t *testing.T) {
-	mockApi := sts.NewMockScriptingApiService()
+	mockApi := sts.NewScriptingApiMock()
+	mockApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
+		Result: map[string]interface{}{"value": "hello test"},
+	}
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
 	util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "test script")
 
 	assert.Equal(t,
-		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
-		mockApi.ExecuteScriptRequests,
+		[]sts.ScriptExecuteCall{
+			{PexecuteScriptRequest: &sts.ExecuteScriptRequest{Script: "test script"}},
+		},
+		*mockApi.ScriptExecuteCalls,
 	)
 	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)
 }
 
 func TestExecuteFromScript(t *testing.T) {
-	mockApi := sts.NewMockScriptingApiService()
-	mockPrinter, cli, cmd := setupCommand(mockApi)
+	mockApi := sts.NewScriptingApiMock()
+	_, cli, cmd := setupCommand(mockApi)
 
 	tmpFile, err := ioutil.TempFile(os.TempDir(), "script-execute-test-")
 	if err != nil {
@@ -66,45 +71,54 @@ func TestExecuteFromScript(t *testing.T) {
 	util.ExecuteCommandWithContext(cli.Context, cmd, "--file", tmpFile.Name())
 
 	assert.Equal(t,
-		&[]sts.ExecuteScriptRequest{{Script: "test content"}},
-		mockApi.ExecuteScriptRequests,
+		[]sts.ScriptExecuteCall{
+			{PexecuteScriptRequest: &sts.ExecuteScriptRequest{Script: "test content"}},
+		},
+		*mockApi.ScriptExecuteCalls,
 	)
-	assert.Equal(t, []interface{}{"hello test"}, *mockPrinter.PrintStructCalls)
 }
 
 func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
-	mockApi := sts.NewMockScriptingApiService()
-	mockApi.ReturnFromScriptExecuteExecute.Error = fakeError
+	mockApi := sts.NewScriptingApiMock()
+	mockApi.ScriptExecuteResponse.Error = fakeError
 	_, cli, cmd := setupCommand(mockApi)
 
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "test script")
 
 	assert.Equal(t,
-		&[]sts.ExecuteScriptRequest{{Script: "test script"}},
-		mockApi.ExecuteScriptRequests,
+		[]sts.ScriptExecuteCall{
+			{PexecuteScriptRequest: &sts.ExecuteScriptRequest{Script: "test script"}},
+		},
+		*mockApi.ScriptExecuteCalls,
 	)
 	assert.IsType(t, common.ResponseError{}, err)
 }
 
 func TestArgumentScriptFlag(t *testing.T) {
-	mockApi := sts.NewMockScriptingApiService()
+	mockApi := sts.NewScriptingApiMock()
 	_, cli, cmd := setupCommand(mockApi)
 	util.ExecuteCommandWithContext(cli.Context, cmd, "-a", "argscript", "-s", "test script")
 
-	assert.Equal(t, "argscript", *(*mockApi.ExecuteScriptRequests)[0].ArgumentsScript)
+	assert.Equal(t,
+		"argscript",
+		*(*mockApi.ScriptExecuteCalls)[0].PexecuteScriptRequest.ArgumentsScript,
+	)
 }
 
 func TestTimeoutFlag(t *testing.T) {
-	mockApi := sts.NewMockScriptingApiService()
+	mockApi := sts.NewScriptingApiMock()
 	_, cli, cmd := setupCommand(mockApi)
 	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "-s", "test script")
 
-	assert.Equal(t, int32(10), *(*mockApi.ExecuteScriptRequests)[0].TimeoutMs)
+	assert.Equal(t,
+		int32(10),
+		*(*mockApi.ScriptExecuteCalls)[0].PexecuteScriptRequest.TimeoutMs,
+	)
 }
 
 func TestScriptAndFileFlag(t *testing.T) {
-	mockApi := sts.NewMockScriptingApiService()
+	mockApi := sts.NewScriptingApiMock()
 	_, cli, cmd := setupCommand(mockApi)
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "script", "-f", "file")
 

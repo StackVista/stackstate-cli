@@ -100,108 +100,229 @@ type EventApi interface {
 }
 
 type EventApiMock struct {
-	GetEventCalls []ApiGetEventRequest
+	GetEventCalls *[]GetEventCall
 	GetEventResponse GetEventMockResponse
-	GetEventSourcesCalls []ApiGetEventSourcesRequest
+	GetEventSourcesCalls *[]GetEventSourcesCall
 	GetEventSourcesResponse GetEventSourcesMockResponse
-	GetEventTagsCalls []ApiGetEventTagsRequest
+	GetEventTagsCalls *[]GetEventTagsCall
 	GetEventTagsResponse GetEventTagsMockResponse
-	GetEventTypesCalls []ApiGetEventTypesRequest
+	GetEventTypesCalls *[]GetEventTypesCall
 	GetEventTypesResponse GetEventTypesMockResponse
-	GetEventsCalls []ApiGetEventsRequest
+	GetEventsCalls *[]GetEventsCall
 	GetEventsResponse GetEventsMockResponse
 
 }	
 
-type GetEventMockResponse struct {
-	A TopologyEvent
-	B *_nethttp.Response
-	C error
+func NewEventApiMock() EventApiMock {
+	xGetEventCalls := make([]GetEventCall, 0)
+	xGetEventSourcesCalls := make([]GetEventSourcesCall, 0)
+	xGetEventTagsCalls := make([]GetEventTagsCall, 0)
+	xGetEventTypesCalls := make([]GetEventTypesCall, 0)
+	xGetEventsCalls := make([]GetEventsCall, 0)
+	return EventApiMock {
+		GetEventCalls: &xGetEventCalls,
+		GetEventSourcesCalls: &xGetEventSourcesCalls,
+		GetEventTagsCalls: &xGetEventTagsCalls,
+		GetEventTypesCalls: &xGetEventTypesCalls,
+		GetEventsCalls: &xGetEventsCalls,
+	}
 }
 
-func (a *EventApiMock) GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest {
+type GetEventMockResponse struct {
+	Result TopologyEvent
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetEventCall struct {
+	PeventId string
+	PstartTimestampMs *int32
+	PendTimestampMs *int32
+	PplayHeadTimestampMs *int32
+}
+
+
+func (mock EventApiMock) GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest {
 	return ApiGetEventRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		eventId: eventId,
 	}
 }
 
-func (a *EventApiMock) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error) {
-	a.GetEventCalls = append(a.GetEventCalls, r)
-	return a.GetEventResponse.A, a.GetEventResponse.B, a.GetEventResponse.C
+func (mock EventApiMock) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error) {
+	p := GetEventCall {
+			PeventId: r.eventId,
+			PstartTimestampMs: r.startTimestampMs,
+			PendTimestampMs: r.endTimestampMs,
+			PplayHeadTimestampMs: r.playHeadTimestampMs,
+	}
+	*mock.GetEventCalls = append(*mock.GetEventCalls, p)
+	return mock.GetEventResponse.Result, mock.GetEventResponse.Response, mock.GetEventResponse.Error
 }
 
 type GetEventSourcesMockResponse struct {
-	A StringItemsWithTotal
-	B *_nethttp.Response
-	C error
+	Result StringItemsWithTotal
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *EventApiMock) GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest {
+type GetEventSourcesCall struct {
+	PstartTimestampMs *int32
+	PendTimestampMs *int32
+	PtopologyQuery *string
+	Plimit *int32
+	ProotCauseMode *RootCauseMode
+	PplayHeadTimestampMs *int32
+	PeventTypes *[]string
+	PeventCategories *[]EventCategory
+	PeventSources *[]string
+	PeventTags *[]string
+	Pmatch *string
+}
+
+
+func (mock EventApiMock) GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest {
 	return ApiGetEventSourcesRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
-	a.GetEventSourcesCalls = append(a.GetEventSourcesCalls, r)
-	return a.GetEventSourcesResponse.A, a.GetEventSourcesResponse.B, a.GetEventSourcesResponse.C
+func (mock EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+	p := GetEventSourcesCall {
+			PstartTimestampMs: r.startTimestampMs,
+			PendTimestampMs: r.endTimestampMs,
+			PtopologyQuery: r.topologyQuery,
+			Plimit: r.limit,
+			ProotCauseMode: r.rootCauseMode,
+			PplayHeadTimestampMs: r.playHeadTimestampMs,
+			PeventTypes: r.eventTypes,
+			PeventCategories: r.eventCategories,
+			PeventSources: r.eventSources,
+			PeventTags: r.eventTags,
+			Pmatch: r.match,
+	}
+	*mock.GetEventSourcesCalls = append(*mock.GetEventSourcesCalls, p)
+	return mock.GetEventSourcesResponse.Result, mock.GetEventSourcesResponse.Response, mock.GetEventSourcesResponse.Error
 }
 
 type GetEventTagsMockResponse struct {
-	A StringItemsWithTotal
-	B *_nethttp.Response
-	C error
+	Result StringItemsWithTotal
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *EventApiMock) GetEventTags(ctx _context.Context) ApiGetEventTagsRequest {
+type GetEventTagsCall struct {
+	PstartTimestampMs *int32
+	PendTimestampMs *int32
+	PtopologyQuery *string
+	Plimit *int32
+	ProotCauseMode *RootCauseMode
+	PplayHeadTimestampMs *int32
+	PeventTypes *[]string
+	PeventCategories *[]EventCategory
+	PeventSources *[]string
+	PeventTags *[]string
+	Pmatch *string
+}
+
+
+func (mock EventApiMock) GetEventTags(ctx _context.Context) ApiGetEventTagsRequest {
 	return ApiGetEventTagsRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
-	a.GetEventTagsCalls = append(a.GetEventTagsCalls, r)
-	return a.GetEventTagsResponse.A, a.GetEventTagsResponse.B, a.GetEventTagsResponse.C
+func (mock EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+	p := GetEventTagsCall {
+			PstartTimestampMs: r.startTimestampMs,
+			PendTimestampMs: r.endTimestampMs,
+			PtopologyQuery: r.topologyQuery,
+			Plimit: r.limit,
+			ProotCauseMode: r.rootCauseMode,
+			PplayHeadTimestampMs: r.playHeadTimestampMs,
+			PeventTypes: r.eventTypes,
+			PeventCategories: r.eventCategories,
+			PeventSources: r.eventSources,
+			PeventTags: r.eventTags,
+			Pmatch: r.match,
+	}
+	*mock.GetEventTagsCalls = append(*mock.GetEventTagsCalls, p)
+	return mock.GetEventTagsResponse.Result, mock.GetEventTagsResponse.Response, mock.GetEventTagsResponse.Error
 }
 
 type GetEventTypesMockResponse struct {
-	A StringItemsWithTotal
-	B *_nethttp.Response
-	C error
+	Result StringItemsWithTotal
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *EventApiMock) GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest {
+type GetEventTypesCall struct {
+	PstartTimestampMs *int32
+	PendTimestampMs *int32
+	PtopologyQuery *string
+	Plimit *int32
+	ProotCauseMode *RootCauseMode
+	PplayHeadTimestampMs *int32
+	PeventTypes *[]string
+	PeventCategories *[]EventCategory
+	PeventSources *[]string
+	PeventTags *[]string
+	Pmatch *string
+}
+
+
+func (mock EventApiMock) GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest {
 	return ApiGetEventTypesRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
-	a.GetEventTypesCalls = append(a.GetEventTypesCalls, r)
-	return a.GetEventTypesResponse.A, a.GetEventTypesResponse.B, a.GetEventTypesResponse.C
+func (mock EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+	p := GetEventTypesCall {
+			PstartTimestampMs: r.startTimestampMs,
+			PendTimestampMs: r.endTimestampMs,
+			PtopologyQuery: r.topologyQuery,
+			Plimit: r.limit,
+			ProotCauseMode: r.rootCauseMode,
+			PplayHeadTimestampMs: r.playHeadTimestampMs,
+			PeventTypes: r.eventTypes,
+			PeventCategories: r.eventCategories,
+			PeventSources: r.eventSources,
+			PeventTags: r.eventTags,
+			Pmatch: r.match,
+	}
+	*mock.GetEventTypesCalls = append(*mock.GetEventTypesCalls, p)
+	return mock.GetEventTypesResponse.Result, mock.GetEventTypesResponse.Response, mock.GetEventTypesResponse.Error
 }
 
 type GetEventsMockResponse struct {
-	A EventItemsWithTotal
-	B *_nethttp.Response
-	C error
+	Result EventItemsWithTotal
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *EventApiMock) GetEvents(ctx _context.Context) ApiGetEventsRequest {
+type GetEventsCall struct {
+	PeventListRequest *EventListRequest
+}
+
+
+func (mock EventApiMock) GetEvents(ctx _context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error) {
-	a.GetEventsCalls = append(a.GetEventsCalls, r)
-	return a.GetEventsResponse.A, a.GetEventsResponse.B, a.GetEventsResponse.C
+func (mock EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error) {
+	p := GetEventsCall {
+			PeventListRequest: r.eventListRequest,
+	}
+	*mock.GetEventsCalls = append(*mock.GetEventsCalls, p)
+	return mock.GetEventsResponse.Result, mock.GetEventsResponse.Response, mock.GetEventsResponse.Error
 }
 
 

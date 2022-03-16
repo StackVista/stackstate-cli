@@ -42,27 +42,40 @@ type ApiTokenApi interface {
 }
 
 type ApiTokenApiMock struct {
-	GetCurrentUserApiTokensCalls []ApiGetCurrentUserApiTokensRequest
+	GetCurrentUserApiTokensCalls *[]GetCurrentUserApiTokensCall
 	GetCurrentUserApiTokensResponse GetCurrentUserApiTokensMockResponse
 
 }	
 
-type GetCurrentUserApiTokensMockResponse struct {
-	A []ApiToken
-	B *_nethttp.Response
-	C error
+func NewApiTokenApiMock() ApiTokenApiMock {
+	xGetCurrentUserApiTokensCalls := make([]GetCurrentUserApiTokensCall, 0)
+	return ApiTokenApiMock {
+		GetCurrentUserApiTokensCalls: &xGetCurrentUserApiTokensCalls,
+	}
 }
 
-func (a *ApiTokenApiMock) GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest {
+type GetCurrentUserApiTokensMockResponse struct {
+	Result []ApiToken
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetCurrentUserApiTokensCall struct {
+}
+
+
+func (mock ApiTokenApiMock) GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest {
 	return ApiGetCurrentUserApiTokensRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (a *ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error) {
-	a.GetCurrentUserApiTokensCalls = append(a.GetCurrentUserApiTokensCalls, r)
-	return a.GetCurrentUserApiTokensResponse.A, a.GetCurrentUserApiTokensResponse.B, a.GetCurrentUserApiTokensResponse.C
+func (mock ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error) {
+	p := GetCurrentUserApiTokensCall {
+	}
+	*mock.GetCurrentUserApiTokensCalls = append(*mock.GetCurrentUserApiTokensCalls, p)
+	return mock.GetCurrentUserApiTokensResponse.Result, mock.GetCurrentUserApiTokensResponse.Response, mock.GetCurrentUserApiTokensResponse.Error
 }
 
 

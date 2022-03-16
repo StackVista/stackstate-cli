@@ -1,22 +1,40 @@
 {{#custom}}
 type {{classname}}Mock struct {
 {{#operation}}	
-	{{nickname}}Calls []{{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request
+	{{nickname}}Calls *[]{{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call
 	{{nickname}}Response {{nickname}}MockResponse
 {{/operation}}
 
 }	
 
-{{#operation}}
-type {{nickname}}MockResponse struct {
-	{{#returnType}}A {{{.}}}{{/returnType}}
-	B *_nethttp.Response
-	C error
+func New{{classname}}Mock() {{classname}}Mock {
+	{{#operation}}	
+	x{{nickname}}Calls := make([]{{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call, 0)
+	{{/operation}}
+	return {{classname}}Mock {
+	{{#operation}}	
+		{{nickname}}Calls: &x{{nickname}}Calls,
+	{{/operation}}
+	}
 }
 
-func (a *{{{classname}}}Mock) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
+{{#operation}}
+type {{nickname}}MockResponse struct {
+	{{#returnType}}Result {{{.}}}{{/returnType}}
+	Response *_nethttp.Response
+	Error error
+}
+
+type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call struct {
+{{#allParams}}
+	P{{paramName}} {{^isPathParam}}*{{/isPathParam}}{{{dataType}}}
+{{/allParams}}
+}
+
+
+func (mock {{{classname}}}Mock) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		{{#pathParams}}
 		{{paramName}}: {{paramName}},
@@ -24,9 +42,14 @@ func (a *{{{classname}}}Mock) {{{nickname}}}(ctx _context.Context{{#pathParams}}
 	}
 }
 
-func (a *{{{classname}}}Mock) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
-	a.{{nickname}}Calls = append(a.{{nickname}}Calls, r)
-	return {{#returnType}}a.{{nickname}}Response.A, {{/returnType}}a.{{nickname}}Response.B, a.{{nickname}}Response.C
+func (mock {{{classname}}}Mock) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+	p := {{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call {
+		{{#allParams}}
+			P{{paramName}}: r.{{paramName}},
+		{{/allParams}}
+	}
+	*mock.{{nickname}}Calls = append(*mock.{{nickname}}Calls, p)
+	return {{#returnType}}mock.{{nickname}}Response.Result, {{/returnType}}mock.{{nickname}}Response.Response, mock.{{nickname}}Response.Error
 }
 
 {{/operation}}

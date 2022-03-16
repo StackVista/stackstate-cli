@@ -103,112 +103,169 @@ type MonitorUrnApi interface {
 }
 
 type MonitorUrnApiMock struct {
-	DeleteMonitorByURNCalls []ApiDeleteMonitorByURNRequest
+	DeleteMonitorByURNCalls *[]DeleteMonitorByURNCall
 	DeleteMonitorByURNResponse DeleteMonitorByURNMockResponse
-	DryRunMonitorByURNCalls []ApiDryRunMonitorByURNRequest
+	DryRunMonitorByURNCalls *[]DryRunMonitorByURNCall
 	DryRunMonitorByURNResponse DryRunMonitorByURNMockResponse
-	GetMonitorByURNCalls []ApiGetMonitorByURNRequest
+	GetMonitorByURNCalls *[]GetMonitorByURNCall
 	GetMonitorByURNResponse GetMonitorByURNMockResponse
-	RunMonitorByURNCalls []ApiRunMonitorByURNRequest
+	RunMonitorByURNCalls *[]RunMonitorByURNCall
 	RunMonitorByURNResponse RunMonitorByURNMockResponse
-	UpdateMonitorByURNCalls []ApiUpdateMonitorByURNRequest
+	UpdateMonitorByURNCalls *[]UpdateMonitorByURNCall
 	UpdateMonitorByURNResponse UpdateMonitorByURNMockResponse
 
 }	
 
-type DeleteMonitorByURNMockResponse struct {
-	
-	B *_nethttp.Response
-	C error
+func NewMonitorUrnApiMock() MonitorUrnApiMock {
+	xDeleteMonitorByURNCalls := make([]DeleteMonitorByURNCall, 0)
+	xDryRunMonitorByURNCalls := make([]DryRunMonitorByURNCall, 0)
+	xGetMonitorByURNCalls := make([]GetMonitorByURNCall, 0)
+	xRunMonitorByURNCalls := make([]RunMonitorByURNCall, 0)
+	xUpdateMonitorByURNCalls := make([]UpdateMonitorByURNCall, 0)
+	return MonitorUrnApiMock {
+		DeleteMonitorByURNCalls: &xDeleteMonitorByURNCalls,
+		DryRunMonitorByURNCalls: &xDryRunMonitorByURNCalls,
+		GetMonitorByURNCalls: &xGetMonitorByURNCalls,
+		RunMonitorByURNCalls: &xRunMonitorByURNCalls,
+		UpdateMonitorByURNCalls: &xUpdateMonitorByURNCalls,
+	}
 }
 
-func (a *MonitorUrnApiMock) DeleteMonitorByURN(ctx _context.Context, monitorUrnId string) ApiDeleteMonitorByURNRequest {
+type DeleteMonitorByURNMockResponse struct {
+	
+	Response *_nethttp.Response
+	Error error
+}
+
+type DeleteMonitorByURNCall struct {
+	PmonitorUrnId string
+}
+
+
+func (mock MonitorUrnApiMock) DeleteMonitorByURN(ctx _context.Context, monitorUrnId string) ApiDeleteMonitorByURNRequest {
 	return ApiDeleteMonitorByURNRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
-func (a *MonitorUrnApiMock) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*_nethttp.Response, error) {
-	a.DeleteMonitorByURNCalls = append(a.DeleteMonitorByURNCalls, r)
-	return a.DeleteMonitorByURNResponse.B, a.DeleteMonitorByURNResponse.C
+func (mock MonitorUrnApiMock) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*_nethttp.Response, error) {
+	p := DeleteMonitorByURNCall {
+			PmonitorUrnId: r.monitorUrnId,
+	}
+	*mock.DeleteMonitorByURNCalls = append(*mock.DeleteMonitorByURNCalls, p)
+	return mock.DeleteMonitorByURNResponse.Response, mock.DeleteMonitorByURNResponse.Error
 }
 
 type DryRunMonitorByURNMockResponse struct {
-	A MonitorRunResult
-	B *_nethttp.Response
-	C error
+	Result MonitorRunResult
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *MonitorUrnApiMock) DryRunMonitorByURN(ctx _context.Context, monitorUrnId string) ApiDryRunMonitorByURNRequest {
+type DryRunMonitorByURNCall struct {
+	PmonitorUrnId string
+}
+
+
+func (mock MonitorUrnApiMock) DryRunMonitorByURN(ctx _context.Context, monitorUrnId string) ApiDryRunMonitorByURNRequest {
 	return ApiDryRunMonitorByURNRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
-func (a *MonitorUrnApiMock) DryRunMonitorByURNExecute(r ApiDryRunMonitorByURNRequest) (MonitorRunResult, *_nethttp.Response, error) {
-	a.DryRunMonitorByURNCalls = append(a.DryRunMonitorByURNCalls, r)
-	return a.DryRunMonitorByURNResponse.A, a.DryRunMonitorByURNResponse.B, a.DryRunMonitorByURNResponse.C
+func (mock MonitorUrnApiMock) DryRunMonitorByURNExecute(r ApiDryRunMonitorByURNRequest) (MonitorRunResult, *_nethttp.Response, error) {
+	p := DryRunMonitorByURNCall {
+			PmonitorUrnId: r.monitorUrnId,
+	}
+	*mock.DryRunMonitorByURNCalls = append(*mock.DryRunMonitorByURNCalls, p)
+	return mock.DryRunMonitorByURNResponse.Result, mock.DryRunMonitorByURNResponse.Response, mock.DryRunMonitorByURNResponse.Error
 }
 
 type GetMonitorByURNMockResponse struct {
-	A Monitor
-	B *_nethttp.Response
-	C error
+	Result Monitor
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *MonitorUrnApiMock) GetMonitorByURN(ctx _context.Context, monitorUrnId string) ApiGetMonitorByURNRequest {
+type GetMonitorByURNCall struct {
+	PmonitorUrnId string
+}
+
+
+func (mock MonitorUrnApiMock) GetMonitorByURN(ctx _context.Context, monitorUrnId string) ApiGetMonitorByURNRequest {
 	return ApiGetMonitorByURNRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
-func (a *MonitorUrnApiMock) GetMonitorByURNExecute(r ApiGetMonitorByURNRequest) (Monitor, *_nethttp.Response, error) {
-	a.GetMonitorByURNCalls = append(a.GetMonitorByURNCalls, r)
-	return a.GetMonitorByURNResponse.A, a.GetMonitorByURNResponse.B, a.GetMonitorByURNResponse.C
+func (mock MonitorUrnApiMock) GetMonitorByURNExecute(r ApiGetMonitorByURNRequest) (Monitor, *_nethttp.Response, error) {
+	p := GetMonitorByURNCall {
+			PmonitorUrnId: r.monitorUrnId,
+	}
+	*mock.GetMonitorByURNCalls = append(*mock.GetMonitorByURNCalls, p)
+	return mock.GetMonitorByURNResponse.Result, mock.GetMonitorByURNResponse.Response, mock.GetMonitorByURNResponse.Error
 }
 
 type RunMonitorByURNMockResponse struct {
-	A MonitorRunResult
-	B *_nethttp.Response
-	C error
+	Result MonitorRunResult
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *MonitorUrnApiMock) RunMonitorByURN(ctx _context.Context, monitorUrnId string) ApiRunMonitorByURNRequest {
+type RunMonitorByURNCall struct {
+	PmonitorUrnId string
+}
+
+
+func (mock MonitorUrnApiMock) RunMonitorByURN(ctx _context.Context, monitorUrnId string) ApiRunMonitorByURNRequest {
 	return ApiRunMonitorByURNRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
-func (a *MonitorUrnApiMock) RunMonitorByURNExecute(r ApiRunMonitorByURNRequest) (MonitorRunResult, *_nethttp.Response, error) {
-	a.RunMonitorByURNCalls = append(a.RunMonitorByURNCalls, r)
-	return a.RunMonitorByURNResponse.A, a.RunMonitorByURNResponse.B, a.RunMonitorByURNResponse.C
+func (mock MonitorUrnApiMock) RunMonitorByURNExecute(r ApiRunMonitorByURNRequest) (MonitorRunResult, *_nethttp.Response, error) {
+	p := RunMonitorByURNCall {
+			PmonitorUrnId: r.monitorUrnId,
+	}
+	*mock.RunMonitorByURNCalls = append(*mock.RunMonitorByURNCalls, p)
+	return mock.RunMonitorByURNResponse.Result, mock.RunMonitorByURNResponse.Response, mock.RunMonitorByURNResponse.Error
 }
 
 type UpdateMonitorByURNMockResponse struct {
-	A Monitor
-	B *_nethttp.Response
-	C error
+	Result Monitor
+	Response *_nethttp.Response
+	Error error
 }
 
-func (a *MonitorUrnApiMock) UpdateMonitorByURN(ctx _context.Context, monitorUrnId string) ApiUpdateMonitorByURNRequest {
+type UpdateMonitorByURNCall struct {
+	PmonitorUrnId string
+	PupdateMonitor *UpdateMonitor
+}
+
+
+func (mock MonitorUrnApiMock) UpdateMonitorByURN(ctx _context.Context, monitorUrnId string) ApiUpdateMonitorByURNRequest {
 	return ApiUpdateMonitorByURNRequest{
-		ApiService: a,
+		ApiService: mock,
 		ctx: ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
-func (a *MonitorUrnApiMock) UpdateMonitorByURNExecute(r ApiUpdateMonitorByURNRequest) (Monitor, *_nethttp.Response, error) {
-	a.UpdateMonitorByURNCalls = append(a.UpdateMonitorByURNCalls, r)
-	return a.UpdateMonitorByURNResponse.A, a.UpdateMonitorByURNResponse.B, a.UpdateMonitorByURNResponse.C
+func (mock MonitorUrnApiMock) UpdateMonitorByURNExecute(r ApiUpdateMonitorByURNRequest) (Monitor, *_nethttp.Response, error) {
+	p := UpdateMonitorByURNCall {
+			PmonitorUrnId: r.monitorUrnId,
+			PupdateMonitor: r.updateMonitor,
+	}
+	*mock.UpdateMonitorByURNCalls = append(*mock.UpdateMonitorByURNCalls, p)
+	return mock.UpdateMonitorByURNResponse.Result, mock.UpdateMonitorByURNResponse.Response, mock.UpdateMonitorByURNResponse.Error
 }
 
 
