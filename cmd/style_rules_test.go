@@ -50,7 +50,7 @@ func forAllFlags(parent *cobra.Command, fn func(*cobra.Command, *pflag.Flag)) {
 	})
 }
 
-func TestRuleEachNounCommandHasVerbs(t *testing.T) {
+func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 	root := setupCmd()
 	for _, nounCmd := range root.Commands() {
 		if nounCmd.Use == "version" {
@@ -58,6 +58,11 @@ func TestRuleEachNounCommandHasVerbs(t *testing.T) {
 		}
 		if len(nounCmd.Commands()) == 0 {
 			assert.Fail(t, nounCmd.Use+" has no verbs")
+		}
+		for _, verbCmd := range nounCmd.Commands() {
+			if len(verbCmd.Commands()) > 0 {
+				assert.Fail(t, verbCmd.Use+" should have no children")
+			}
 		}
 	}
 }
