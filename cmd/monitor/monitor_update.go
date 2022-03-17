@@ -15,11 +15,11 @@ import (
 func UpdateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update",
-		Short: "update a monitor.",
+		Short: "update a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunUpdateMonitorCommand),
 	}
-	cmd.Flags().StringP(FileFlag, "f", "", "The file with the monitor in it. Can either be a YAML or JSON file.")
-	cmd.Flags().StringP(IdFlag, "i", "", "The id or identifier of the monitor you wish to update.")
+	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
+	cmd.Flags().StringP(IdFlag, "i", "", IdFlagUsage)
 	cmd.MarkFlagRequired(IdFlag)
 	cmd.MarkFlagRequired(FileFlag)
 

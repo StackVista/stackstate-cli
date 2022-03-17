@@ -24,7 +24,7 @@ func Execute(ctx context.Context) {
 		Printer: printer,
 	}
 
-	cmd := AllCommands(cli)
+	cmd := RootCommand(cli)
 
 	runCmd := cmd
 	zerolog.SetGlobalLevel(zerolog.Disabled)

@@ -6,16 +6,11 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func RootCommand() *cobra.Command {
+func RootCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sts",
-		Short: "StackState Command Line Interface",
+		Short: "StackState CLI: " + Version,
 	}
-	return cmd
-}
-
-func AllCommands(cli *di.Deps) *cobra.Command {
-	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(ScriptCommand(cli))
 	cmd.AddCommand(CliCommand(cli))

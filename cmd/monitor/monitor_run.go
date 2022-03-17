@@ -20,8 +20,8 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 		Short: "run a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunRunMonitorCommand),
 	}
-	cmd.Flags().StringP(IdFlag, "i", "", "The id or identifier of the monitor you wish to delete")
-	cmd.Flags().Bool(DryRunFlag, false, "Do not save the states of the monitor run")
+	cmd.Flags().StringP(IdFlag, "i", "", IdFlag)
+	cmd.Flags().Bool(DryRunFlag, false, "do not save the states of the monitor run")
 	cmd.MarkFlagRequired(IdFlag)
 
 	return cmd

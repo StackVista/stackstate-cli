@@ -13,10 +13,10 @@ import (
 func CreateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: "create a monitor.",
+		Short: "create a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunCreateMonitorCommand),
 	}
-	cmd.Flags().StringP(FileFlag, "f", "", "The file with the monitor in it. Can either be a YAML or JSON file.")
+	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
 	cmd.MarkFlagRequired(FileFlag)
 
 	return cmd

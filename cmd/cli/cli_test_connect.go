@@ -9,7 +9,7 @@ import (
 func CliTestCommandCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "test-connect",
-		Short: "Test connection with StackState.",
+		Short: "test connection with StackState",
 		RunE:  di.CmdRunEWithDeps(cli, RunTestConnectConfig),
 	}
 	return cmd
