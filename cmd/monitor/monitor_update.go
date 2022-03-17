@@ -14,7 +14,7 @@ import (
 
 func UpdateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "update",
+		Use:   "update -f FILE -i ID",
 		Short: "update a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunUpdateMonitorCommand),
 	}

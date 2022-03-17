@@ -55,11 +55,11 @@ When you have an error related to the input of the CLI you should use a `CLIErro
 * **noun verb** level command: Any mutually exclusive or required flags should be included in this description, other flags will be covered under the general group `[flags]`, which is automatically added to the end of the `Usage:` text when printed in the CLI help. For example:
     ```text
     # the `Use:` text for the `script execute` command
-        Use:   "execute {-s script | -f file}"
+        Use:   "execute {-s SCRIPT | -f FILE}"
     
     # will result in the following being printed in the CLI help
       Usage:
-        sts script execute {-s script | -f file} [flags]
+        sts script execute {-s SCRIPT | -f FILE} [flags]
     ```
   * Use curly brackets `{}` to delimit REQUIRED flags (always show)
   * Use square brackets `[]` to delimit OPTIONAL flags (only show when mutually exclusive)

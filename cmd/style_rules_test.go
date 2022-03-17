@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"regexp"
+	"strings"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -60,6 +62,8 @@ func TestRuleEachNounCommandHasVerbs(t *testing.T) {
 	}
 }
 
+//--- cmd.Use USAGE ---
+
 func TestUseStartsWithLowerCaseWord(t *testing.T) {
 	root := setupCmd()
 	r := regexp.MustCompile(`^[a-z][a-z0-9-]*`)
@@ -69,6 +73,21 @@ func TestUseStartsWithLowerCaseWord(t *testing.T) {
 		}
 	})
 }
+
+func TestUseShouldMentionRequiredFlags(t *testing.T) {
+	root := setupCmd()
+	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
+		isRequiredFlag := len(flag.Annotations[cobra.BashCompOneRequiredFlag]) > 0
+		if isRequiredFlag {
+			requiredFlagInUse := fmt.Sprintf("-%s %s", flag.Shorthand, strings.ToUpper(flag.Name))
+			if !strings.Contains(cmd.Use, requiredFlagInUse) {
+				assert.Fail(t, cmd.Use+" does not contain: "+requiredFlagInUse)
+			}
+		}
+	})
+}
+
+//--- cmd.Short USAGE ---
 
 func TestShortShouldExist(t *testing.T) {
 	root := setupCmd()
@@ -96,6 +115,8 @@ func TestShortShouldNotEndWithFullStop(t *testing.T) {
 		}
 	})
 }
+
+//--- flag.Usage ---
 
 func TestFlagUsageShouldNotEndWithFullStop(t *testing.T) {
 	root := setupCmd()

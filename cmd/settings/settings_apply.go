@@ -16,7 +16,7 @@ const (
 
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "apply",
+		Use:   "apply -f FILE",
 		Short: "apply settings with STJ",
 		RunE:  di.CmdRunEWithDeps(cli, RunSettingsApplyCommand),
 	}

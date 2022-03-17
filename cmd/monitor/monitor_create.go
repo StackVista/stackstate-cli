@@ -12,7 +12,7 @@ import (
 
 func CreateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "create",
+		Use:   "create -f FILE",
 		Short: "create a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunCreateMonitorCommand),
 	}

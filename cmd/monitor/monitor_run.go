@@ -16,7 +16,7 @@ const (
 
 func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "run",
+		Use:   "run -i ID",
 		Short: "run a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunRunMonitorCommand),
 	}

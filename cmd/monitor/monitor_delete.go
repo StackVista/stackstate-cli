@@ -12,7 +12,7 @@ import (
 
 func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete",
+		Use:   "delete -i ID",
 		Short: "delete a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunDeleteMonitorCommand),
 	}

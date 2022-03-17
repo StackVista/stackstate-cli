@@ -19,14 +19,14 @@ const (
 
 func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "execute {-s script | -f file}",
+		Use:   "execute {-s SCRIPT | -f FILE}",
 		Short: "execute an STSL script",
-		Example: "# execute a script from file\n"+
-		    "sts execute --file \"path/to/my.script\"\n"+
-		    "\n"+
-		    "# execute a script with variables provided by an arguments-script\n"+
-		    "sts execute --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
-		RunE:  di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
+		Example: "# execute a script from file\n" +
+			"sts execute --file \"path/to/my.script\"\n" +
+			"\n" +
+			"# execute a script with variables provided by an arguments-script\n" +
+			"sts execute --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
+		RunE: di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
 	}
 
 	cmd.Flags().StringP(ScriptFlag, "s", "", "the actual script to execute")
