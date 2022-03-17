@@ -24,6 +24,13 @@ func Execute(ctx context.Context) {
 		Printer: printer,
 	}
 
+	if CLIType == "" {
+		CLIType = "local"
+	}
+	if CLIType != "saas" && CLIType != "full" && CLIType != "local" {
+		panic("Type must either 'full', 'local' or 'saas'.")
+	}
+
 	cmd := AllCommands(cli)
 
 	runCmd := cmd

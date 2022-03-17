@@ -17,10 +17,12 @@ func RootCommand() *cobra.Command {
 func AllCommands(cli *di.Deps) *cobra.Command {
 	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand(cli))
-	cmd.AddCommand(ScriptCommand(cli))
 	cmd.AddCommand(CliCommand(cli))
+	if CLIType != "saas" {
+		cmd.AddCommand(ScriptCommand(cli))
+		cmd.AddCommand(SettingsCommand(cli))
+	}
 	cmd.AddCommand(MonitorCommand(cli))
-	cmd.AddCommand(SettingsCommand(cli))
 	persistent_flags.AddPersistentFlags(cmd)
 
 	return cmd
