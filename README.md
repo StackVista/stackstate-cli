@@ -61,9 +61,16 @@ When you have an error related to the input of the CLI you should use a `CLIErro
       Usage:
         sts script execute {-s SCRIPT | -f FILE} [flags]
     ```
-  * Use curly brackets `{}` to delimit REQUIRED flags (always show)
-  * Use square brackets `[]` to delimit OPTIONAL flags (only show when mutually exclusive)
-  * Use a pipe `|` to indicate mutually exclusive flags - only one of the options shown can be used
+  * REQUIRED flags are always shown as standard text without any brackets. For example:
+    ```text
+    sts cli save-config --api-url API-URL --api-token API-TOKEN [flags]
+    ```
+  * REQUIRED, mutually exclusive flags are grouped inside curly brackets `{}` and separated by a pipe `|` - one of the options shown must be used. For example:
+    ```text
+    sts script execute {-s SCRIPT | -f FILE} [flags]
+    ```
+  * OPTIONAL, mutually exclusive flags are grouped inside square brackets `[]` and separated by a pipe `|` - only one of the options shown can be used
+  * all other OPTIONAL flags are not included, these are covered by the general group `[flags]` that will be added automatically
 
 `Short:` - a concise description of the command:
 * Start with a lower case letter
