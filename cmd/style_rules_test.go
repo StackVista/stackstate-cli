@@ -53,7 +53,7 @@ func forAllFlags(parent *cobra.Command, fn func(*cobra.Command, *pflag.Flag)) {
 func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 	root := setupCmd()
 	for _, nounCmd := range root.Commands() {
-		if nounCmd.Use == "version" {
+		if nounCmd.Use == "version" { // exception to the rule
 			continue
 		}
 		if len(nounCmd.Commands()) == 0 {
