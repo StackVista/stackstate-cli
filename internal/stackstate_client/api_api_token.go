@@ -41,6 +41,7 @@ type ApiTokenApi interface {
 	GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error)
 }
 
+
 // ApiTokenApiService ApiTokenApi service
 type ApiTokenApiService service
 
@@ -178,3 +179,47 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+
+// ---------------------------------------------
+// ------------------ MOCKS --------------------
+// ---------------------------------------------
+
+
+type ApiTokenApiMock struct {
+	GetCurrentUserApiTokensCalls *[]GetCurrentUserApiTokensCall
+	GetCurrentUserApiTokensResponse GetCurrentUserApiTokensMockResponse
+}	
+
+func NewApiTokenApiMock() ApiTokenApiMock {
+	xGetCurrentUserApiTokensCalls := make([]GetCurrentUserApiTokensCall, 0)
+	return ApiTokenApiMock {
+		GetCurrentUserApiTokensCalls: &xGetCurrentUserApiTokensCalls,
+	}
+}
+
+type GetCurrentUserApiTokensMockResponse struct {
+	Result []ApiToken
+	Response *_nethttp.Response
+	Error error
+}
+
+type GetCurrentUserApiTokensCall struct {
+}
+
+
+func (mock ApiTokenApiMock) GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest {
+	return ApiGetCurrentUserApiTokensRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error) {
+	p := GetCurrentUserApiTokensCall {
+	}
+	*mock.GetCurrentUserApiTokensCalls = append(*mock.GetCurrentUserApiTokensCalls, p)
+	return mock.GetCurrentUserApiTokensResponse.Result, mock.GetCurrentUserApiTokensResponse.Response, mock.GetCurrentUserApiTokensResponse.Error
+}
+
+

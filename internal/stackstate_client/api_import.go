@@ -41,6 +41,7 @@ type ImportApi interface {
 	ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error)
 }
 
+
 // ImportApiService ImportApi service
 type ImportApiService service
 
@@ -188,3 +189,49 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
+
+
+// ---------------------------------------------
+// ------------------ MOCKS --------------------
+// ---------------------------------------------
+
+
+type ImportApiMock struct {
+	ImportSettingsCalls *[]ImportSettingsCall
+	ImportSettingsResponse ImportSettingsMockResponse
+}	
+
+func NewImportApiMock() ImportApiMock {
+	xImportSettingsCalls := make([]ImportSettingsCall, 0)
+	return ImportApiMock {
+		ImportSettingsCalls: &xImportSettingsCalls,
+	}
+}
+
+type ImportSettingsMockResponse struct {
+	Result []map[string]interface{}
+	Response *_nethttp.Response
+	Error error
+}
+
+type ImportSettingsCall struct {
+	Pbody *string
+}
+
+
+func (mock ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
+	return ApiImportSettingsRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
+	p := ImportSettingsCall {
+			Pbody: r.body,
+	}
+	*mock.ImportSettingsCalls = append(*mock.ImportSettingsCalls, p)
+	return mock.ImportSettingsResponse.Result, mock.ImportSettingsResponse.Response, mock.ImportSettingsResponse.Error
+}
+
+

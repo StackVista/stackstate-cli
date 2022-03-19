@@ -10,3 +10,5 @@ values.yaml
 __debug_bin
 
 pkged.go
+
+dist/

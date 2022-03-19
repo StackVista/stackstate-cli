@@ -25,6 +25,12 @@ func Execute(ctx context.Context) {
 	}
 
 	cmd := RootCommand(cli)
+	if CLIType == "" {
+		CLIType = "local"
+	}
+	if CLIType != "saas" && CLIType != "full" && CLIType != "local" {
+		panic("Type must either 'full', 'local' or 'saas'.")
+	}
 
 	runCmd := cmd
 	zerolog.SetGlobalLevel(zerolog.Disabled)

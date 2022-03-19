@@ -6,14 +6,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-// These variables will be set on build by the ldlflags.
-// See the `ldflags` in .goreleaser.yml
-var (
-	Version string
-	Commit  string
-	Date    string
-)
-
 func VersionCommand(cli *di.Deps) *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
@@ -23,10 +15,13 @@ func VersionCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunVersionCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
-	cli.Printer.PrintStruct(map[string]interface{}{
-		"version": Version,
-		"commit":  Commit,
-		"date":    Date,
-	})
+	info := map[string]interface{}{
+		"version":  Version,
+		"commit":   Commit,
+		"date":     Date,
+		"cli-type": CLIType,
+	}
+
+	cli.Printer.Table([]string{"Version", "Date", "CLI Type", "Commit"}, [][]string{{Version, Date, CLIType, Commit}}, info)
 	return nil
 }
