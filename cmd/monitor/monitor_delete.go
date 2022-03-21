@@ -12,11 +12,11 @@ import (
 
 func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete",
-		Short: "delete a monitor.",
+		Use:   "delete -i ID",
+		Short: "delete a monitor",
 		RunE:  di.CmdRunEWithDeps(cli, RunDeleteMonitorCommand),
 	}
-	cmd.Flags().StringP(IdFlag, "i", "", "The id or identifier of the monitor you wish to delete.")
+	cmd.Flags().StringP(IdFlag, "i", "", IdFlag)
 	cmd.MarkFlagRequired(IdFlag)
 
 	return cmd

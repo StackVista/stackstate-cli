@@ -6,16 +6,15 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func RootCommand() *cobra.Command {
+func RootCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sts",
-		Short: "StackState Command Line Interface",
+		Short: "StackState: topology-powered observability",
 	}
-	return cmd
-}
+	cmd.SetUsageTemplate(cmd.UsageTemplate() +
+		"For more information about this CLI visit https://l.stackstate.com/cli\n",
+	)
 
-func AllCommands(cli *di.Deps) *cobra.Command {
-	cmd := RootCommand()
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(CliCommand(cli))
 	if CLIType != "saas" {

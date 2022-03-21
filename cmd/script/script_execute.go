@@ -19,15 +19,20 @@ const (
 
 func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "execute",
-		Short: "Execute a STSL script.",
-		RunE:  di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
+		Use:   "execute {--script SCRIPT | -f FILE}",
+		Short: "execute an STSL script",
+		Example: "# execute a script from file\n" +
+			"sts execute --file \"path/to/my.script\"\n" +
+			"\n" +
+			"# execute a script with variables provided by an arguments-script\n" +
+			"sts execute --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
+		RunE: di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
 	}
 
-	cmd.Flags().StringP(ScriptFlag, "s", "", "The script.")
-	cmd.Flags().StringP(ArgumentsScriptFlag, "a", "", "A script that returns a java.util.Map with arguments that can be used as variables within the actual script.")
-	cmd.Flags().IntP(TimeoutFlag, "t", 0, "Timeout in milli-seconds.")
-	cmd.Flags().StringP(FileFlag, "f", "", "Read the script from file.")
+	cmd.Flags().String(ScriptFlag, "", "a script to execute")
+	cmd.Flags().String(ArgumentsScriptFlag, "", "an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map")
+	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
+	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
 
 	return cmd
 }

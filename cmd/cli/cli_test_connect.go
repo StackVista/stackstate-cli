@@ -9,8 +9,10 @@ import (
 func CliTestCommandCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "test-connect",
-		Short: "Test connection with StackState.",
-		RunE:  di.CmdRunEWithDeps(cli, RunTestConnectConfig),
+		Short: "test connection with StackState",
+		Example: "# test connection to my.stackstate.com \n" +
+			`cli test-connect --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api"`,
+		RunE: di.CmdRunEWithDeps(cli, RunTestConnectConfig),
 	}
 	return cmd
 }

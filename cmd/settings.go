@@ -9,7 +9,7 @@ import (
 func SettingsCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "settings",
-		Short: "Manage settings.",
+		Short: "manage settings",
 	}
 	cmd.AddCommand(settings.SettingsApplyCommand(cli))
 

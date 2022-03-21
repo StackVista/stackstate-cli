@@ -16,11 +16,11 @@ const (
 
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "apply",
-		Short: "Apply settings with STJ.",
+		Use:   "apply -f FILE",
+		Short: "apply settings with STJ",
 		RunE:  di.CmdRunEWithDeps(cli, RunSettingsApplyCommand),
 	}
-	cmd.Flags().StringP(FileFlag, "f", "", "The .stj file to import.")
+	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
 	cmd.MarkFlagRequired(FileFlag)
 
 	return cmd
