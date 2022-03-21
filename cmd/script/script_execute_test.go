@@ -39,7 +39,7 @@ func TestExecuteSuccess(t *testing.T) {
 	}
 	mockPrinter, cli, cmd := setupCommand(mockApi)
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "test script")
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -84,7 +84,7 @@ func TestExecuteResponseError(t *testing.T) {
 	mockApi.ScriptExecuteResponse.Error = fakeError
 	_, cli, cmd := setupCommand(mockApi)
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "test script")
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "test script")
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -98,7 +98,7 @@ func TestExecuteResponseError(t *testing.T) {
 func TestArgumentScriptFlag(t *testing.T) {
 	mockApi := sts.NewScriptingApiMock()
 	_, cli, cmd := setupCommand(mockApi)
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-a", "argscript", "-s", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "--arguments-script", "argscript", "--script", "test script")
 
 	assert.Equal(t,
 		"argscript",
@@ -109,7 +109,7 @@ func TestArgumentScriptFlag(t *testing.T) {
 func TestTimeoutFlag(t *testing.T) {
 	mockApi := sts.NewScriptingApiMock()
 	_, cli, cmd := setupCommand(mockApi)
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "-s", "test script")
+	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "--script", "test script")
 
 	assert.Equal(t,
 		int32(10),
@@ -120,7 +120,7 @@ func TestTimeoutFlag(t *testing.T) {
 func TestScriptAndFileFlag(t *testing.T) {
 	mockApi := sts.NewScriptingApiMock()
 	_, cli, cmd := setupCommand(mockApi)
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "-s", "script", "-f", "file")
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script", "-f", "file")
 
 	assert.Equal(t, common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags. Pick one or the other")), err)
 }

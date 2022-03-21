@@ -13,9 +13,9 @@ const (
 )
 
 func AddPersistentFlags(cmd *cobra.Command) {
-	cmd.PersistentFlags().String(ApiUrlFlag, "", "specify the StackState API URL")
-	cmd.PersistentFlags().String(ApiTokenFlag, "", "specify the StackState API token")
+	cmd.PersistentFlags().String(ApiUrlFlag, "", "specify the API URL of the StackState the CLI should connect to")
+	cmd.PersistentFlags().String(ApiTokenFlag, "", "specify the API token of the StackState the CLI should connect to")
 	cmd.PersistentFlags().Bool(VerboseFlag, false, "print verbose logging to the terminal to track what the CLI is doing")
 	cmd.PersistentFlags().Bool(NoColorFlag, false, "disable color when printing to the terminal")
-	cmd.PersistentFlags().StringP(OutputFlag, "o", "Auto", "format output as: JSON, YAML or Auto")
+	cmd.PersistentFlags().StringP(OutputFlag, "o", "auto", "format output as: JSON, YAML or auto")
 }

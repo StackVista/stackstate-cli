@@ -23,7 +23,7 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 			`cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api" --test-connect`,
 		RunE: di.CmdRunEWithDeps(cli, RunCliSaveConfig),
 	}
-	cmd.Flags().BoolP(TestConnectFlagName, "t", false, "test the connection to StackState after configuration has been saved to file")
+	cmd.Flags().Bool(TestConnectFlagName, false, "test the connection to StackState after configuration has been saved to file")
 
 	return cmd
 }

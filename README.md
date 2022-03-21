@@ -103,3 +103,11 @@ When you have an error related to the input of the CLI you should use a `CLIErro
     # execute a script with variables provided by an arguments-script
     sts execute --script "x+y" --arguments-script "[x: 1, y: 2]"  
   ```
+
+## Rule: Flags short-hands must share meaning amongst all commands
+
+Short hands for flags (single letter flags) should have the same meaning amongst all commands. 
+
+For example: `-f` is a short hand for the `--file` flag. That is true for `script execute` as well as for `monitor create`. If `-f` is usable in any other command is must be the short hand fo `--file`.
+
+If you want to introduce a shorthand for a flag, please do some research into other CLI's flag's shorthands and what they typically mean there. 

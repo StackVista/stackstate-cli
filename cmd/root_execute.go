@@ -62,7 +62,7 @@ func Execute(ctx context.Context) {
 		case "AUTO":
 			cli.Printer.SetOutputType(pr.Auto)
 		default:
-			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or Auto", cfg.Output)
+			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or auto", cfg.Output)
 		}
 
 		configuration := stackstate_client.NewConfiguration()
