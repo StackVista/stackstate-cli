@@ -52,6 +52,26 @@ paths:
       summary: Import settings
       tags:
       - import
+  /node:
+    get:
+      description: ""
+      operationId: nodeSettings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeTypes'
+          description: hello world
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node API
+      tags:
+      - node
   /monitors:
     get:
       description: List all available monitor in the system
@@ -1463,6 +1483,21 @@ components:
       required:
       - _type
       - message
+      type: object
+    NodeTypes:
+      example:
+        nodeTypes:
+        - typeName: typeName
+          description: description
+        - typeName: typeName
+          description: description
+      properties:
+        nodeTypes:
+          items:
+            $ref: '#/components/schemas/NodeTypes_nodeTypes'
+          type: array
+      required:
+      - nodeTypes
       type: object
     MonitorList:
       example:
@@ -2983,6 +3018,19 @@ components:
           type: string
       required:
       - script
+      type: object
+    NodeTypes_nodeTypes:
+      example:
+        typeName: typeName
+        description: description
+      properties:
+        typeName:
+          type: string
+        description:
+          type: string
+      required:
+      - description
+      - typeName
       type: object
     ExecuteScriptSyntaxErrors_errors:
       properties:

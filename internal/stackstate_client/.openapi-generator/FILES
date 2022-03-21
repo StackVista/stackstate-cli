@@ -9,6 +9,7 @@ api_health_synchronization.go
 api_import.go
 api_monitor.go
 api_monitor_urn.go
+api_node.go
 api_scripting.go
 api_topology_synchronization.go
 api_user_profile.go
@@ -71,6 +72,9 @@ docs/MonitorNotFoundError.md
 docs/MonitorRunResult.md
 docs/MonitorUrnApi.md
 docs/MultipleMatchesCheckState.md
+docs/NodeApi.md
+docs/NodeTypes.md
+docs/NodeTypesNodeTypes.md
 docs/RequestError.md
 docs/RequestValidationError.md
 docs/RootCauseMode.md
@@ -155,6 +159,8 @@ model_monitor_list.go
 model_monitor_not_found_error.go
 model_monitor_run_result.go
 model_multiple_matches_check_state.go
+model_node_types.go
+model_node_types_node_types.go
 model_request_error.go
 model_request_validation_error.go
 model_root_cause_mode.go

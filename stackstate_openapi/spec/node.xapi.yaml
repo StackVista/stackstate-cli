@@ -1,0 +1,36 @@
+paths:
+  /node:
+    get:
+      tags:
+        - node
+      summary: "Node API"
+      description: ""
+      operationId: nodeSettings
+      responses:
+        "200":
+          description: "hello world"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NodeTypes"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+components:
+  schemas:
+    NodeTypes:
+      type: object
+      properties:
+        nodeTypes:
+          type: array
+          items:
+            type: object
+            properties:
+              typeName:
+                type: string
+              description:
+                type: string
+            required:
+              - typeName
+              - description
+      required:
+        - nodeTypes
