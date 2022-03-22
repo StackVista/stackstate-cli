@@ -37,6 +37,7 @@ func NewMockPrinter() MockPrinter {
 	var stopSpinnerCalls int
 	successCalls := make([]string, 0)
 	printWarnCalls := make([]string, 0)
+	printTableCalls := make([]TableCall, 0)
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
@@ -44,6 +45,7 @@ func NewMockPrinter() MockPrinter {
 		StopSpinnerCalls:  &stopSpinnerCalls,
 		SuccessCalls:      &successCalls,
 		PrintWarnCalls:    &printWarnCalls,
+		TableCalls:        &printTableCalls,
 	}
 }
 
