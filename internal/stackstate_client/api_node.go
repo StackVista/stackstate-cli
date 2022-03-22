@@ -27,44 +27,44 @@ var (
 type NodeApi interface {
 
 	/*
-	NodeSettings Node API
+	NodeListTypes Node API
 
-	
+	list all node types
 
 	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiNodeSettingsRequest
+	 @return ApiNodeListTypesRequest
 	*/
-	NodeSettings(ctx _context.Context) ApiNodeSettingsRequest
+	NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest
 
-	// NodeSettingsExecute executes the request
+	// NodeListTypesExecute executes the request
 	//  @return NodeTypes
-	NodeSettingsExecute(r ApiNodeSettingsRequest) (NodeTypes, *_nethttp.Response, error)
+	NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error)
 }
 
 
 // NodeApiService NodeApi service
 type NodeApiService service
 
-type ApiNodeSettingsRequest struct {
+type ApiNodeListTypesRequest struct {
 	ctx _context.Context
 	ApiService NodeApi
 }
 
 
-func (r ApiNodeSettingsRequest) Execute() (NodeTypes, *_nethttp.Response, error) {
-	return r.ApiService.NodeSettingsExecute(r)
+func (r ApiNodeListTypesRequest) Execute() (NodeTypes, *_nethttp.Response, error) {
+	return r.ApiService.NodeListTypesExecute(r)
 }
 
 /*
-NodeSettings Node API
+NodeListTypes Node API
 
-
+list all node types
 
  @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiNodeSettingsRequest
+ @return ApiNodeListTypesRequest
 */
-func (a *NodeApiService) NodeSettings(ctx _context.Context) ApiNodeSettingsRequest {
-	return ApiNodeSettingsRequest{
+func (a *NodeApiService) NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest {
+	return ApiNodeListTypesRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -72,7 +72,7 @@ func (a *NodeApiService) NodeSettings(ctx _context.Context) ApiNodeSettingsReque
 
 // Execute executes the request
 //  @return NodeTypes
-func (a *NodeApiService) NodeSettingsExecute(r ApiNodeSettingsRequest) (NodeTypes, *_nethttp.Response, error) {
+func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
@@ -82,7 +82,7 @@ func (a *NodeApiService) NodeSettingsExecute(r ApiNodeSettingsRequest) (NodeType
 		localVarReturnValue  NodeTypes
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.NodeSettings")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.NodeListTypes")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
@@ -177,39 +177,39 @@ func (a *NodeApiService) NodeSettingsExecute(r ApiNodeSettingsRequest) (NodeType
 
 
 type NodeApiMock struct {
-	NodeSettingsCalls *[]NodeSettingsCall
-	NodeSettingsResponse NodeSettingsMockResponse
+	NodeListTypesCalls *[]NodeListTypesCall
+	NodeListTypesResponse NodeListTypesMockResponse
 }	
 
 func NewNodeApiMock() NodeApiMock {
-	xNodeSettingsCalls := make([]NodeSettingsCall, 0)
+	xNodeListTypesCalls := make([]NodeListTypesCall, 0)
 	return NodeApiMock {
-		NodeSettingsCalls: &xNodeSettingsCalls,
+		NodeListTypesCalls: &xNodeListTypesCalls,
 	}
 }
 
-type NodeSettingsMockResponse struct {
+type NodeListTypesMockResponse struct {
 	Result NodeTypes
 	Response *_nethttp.Response
 	Error error
 }
 
-type NodeSettingsCall struct {
+type NodeListTypesCall struct {
 }
 
 
-func (mock NodeApiMock) NodeSettings(ctx _context.Context) ApiNodeSettingsRequest {
-	return ApiNodeSettingsRequest{
+func (mock NodeApiMock) NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest {
+	return ApiNodeListTypesRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock NodeApiMock) NodeSettingsExecute(r ApiNodeSettingsRequest) (NodeTypes, *_nethttp.Response, error) {
-	p := NodeSettingsCall {
+func (mock NodeApiMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error) {
+	p := NodeListTypesCall {
 	}
-	*mock.NodeSettingsCalls = append(*mock.NodeSettingsCalls, p)
-	return mock.NodeSettingsResponse.Result, mock.NodeSettingsResponse.Response, mock.NodeSettingsResponse.Error
+	*mock.NodeListTypesCalls = append(*mock.NodeListTypesCalls, p)
+	return mock.NodeListTypesResponse.Result, mock.NodeListTypesResponse.Response, mock.NodeListTypesResponse.Error
 }
 
 

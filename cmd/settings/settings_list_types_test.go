@@ -35,7 +35,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 		},
 	}
 	nodeApiMock := sts.NewNodeApiMock()
-	nodeApiMock.NodeSettingsResponse.Result = nodeApiResult
+	nodeApiMock.NodeListTypesResponse.Result = nodeApiResult
 	mockPrinter, cli, cmd := setupCommand(nodeApiMock)
 
 	util.ExecuteCommandWithContext(cli.Context, cmd)

@@ -4,11 +4,11 @@ paths:
       tags:
         - node
       summary: "Node API"
-      description: ""
-      operationId: nodeSettings
+      description: "list all node types"
+      operationId: nodeListTypes
       responses:
         "200":
-          description: "hello world"
+          description: "listing of all node types"
           content:
             application/json:
               schema:

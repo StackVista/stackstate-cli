@@ -4,13 +4,13 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**NodeSettings**](NodeApi.md#NodeSettings) | **Get** /node | Node API
+[**NodeListTypes**](NodeApi.md#NodeListTypes) | **Get** /node | Node API
 
 
 
-## NodeSettings
+## NodeListTypes
 
-> NodeTypes NodeSettings(ctx).Execute()
+> NodeTypes NodeListTypes(ctx).Execute()
 
 Node API
 
@@ -32,13 +32,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.NodeApi.NodeSettings(context.Background()).Execute()
+    resp, r, err := api_client.NodeApi.NodeListTypes(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.NodeSettings``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.NodeListTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `NodeSettings`: NodeTypes
-    fmt.Fprintf(os.Stdout, "Response from `NodeApi.NodeSettings`: %v\n", resp)
+    // response from `NodeListTypes`: NodeTypes
+    fmt.Fprintf(os.Stdout, "Response from `NodeApi.NodeListTypes`: %v\n", resp)
 }
 ```
 
@@ -48,7 +48,7 @@ This endpoint does not need any parameter.
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiNodeSettingsRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiNodeListTypesRequest struct via the builder pattern
 
 
 ### Return type

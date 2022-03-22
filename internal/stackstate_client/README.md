@@ -106,7 +106,7 @@ Class | Method | HTTP request | Description
 *MonitorUrnApi* | [**GetMonitorByURN**](docs/MonitorUrnApi.md#getmonitorbyurn) | **Get** /monitorUrn/{monitorUrnId} | Get a monitor
 *MonitorUrnApi* | [**RunMonitorByURN**](docs/MonitorUrnApi.md#runmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
 *MonitorUrnApi* | [**UpdateMonitorByURN**](docs/MonitorUrnApi.md#updatemonitorbyurn) | **Put** /monitorUrn/{monitorUrnId} | Update a monitor
-*NodeApi* | [**NodeSettings**](docs/NodeApi.md#nodesettings) | **Get** /node | Node API
+*NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id

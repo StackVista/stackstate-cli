@@ -54,15 +54,15 @@ paths:
       - import
   /node:
     get:
-      description: ""
-      operationId: nodeSettings
+      description: list all node types
+      operationId: nodeListTypes
       responses:
         "200":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NodeTypes'
-          description: hello world
+          description: listing of all node types
         "500":
           content:
             application/json:
