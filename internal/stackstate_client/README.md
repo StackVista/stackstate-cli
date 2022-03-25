@@ -107,6 +107,7 @@ Class | Method | HTTP request | Description
 *MonitorUrnApi* | [**RunMonitorByURN**](docs/MonitorUrnApi.md#runmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
 *MonitorUrnApi* | [**UpdateMonitorByURN**](docs/MonitorUrnApi.md#updatemonitorbyurn) | **Put** /monitorUrn/{monitorUrnId} | Update a monitor
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
+*NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
@@ -169,6 +170,7 @@ Class | Method | HTTP request | Description
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
+ - [NodeListType](docs/NodeListType.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
  - [RequestError](docs/RequestError.md)

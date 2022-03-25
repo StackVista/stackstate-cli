@@ -72,6 +72,45 @@ paths:
       summary: Node API
       tags:
       - node
+  /node/{nodeType}:
+    get:
+      description: list all nodes of that type
+      operationId: typeList
+      parameters:
+      - allowReserved: true
+        in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - allowReserved: true
+        in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - allowReserved: true
+        in: query
+        name: ownedBy
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeListTypes'
+          description: list of mentioned type nodes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node type API
+      tags:
+      - node
   /monitors:
     get:
       description: List all available monitor in the system
@@ -1498,6 +1537,51 @@ components:
           type: array
       required:
       - nodeTypes
+      type: object
+    NodeListTypes:
+      items:
+        $ref: '#/components/schemas/NodeListType'
+      type: array
+    NodeListType:
+      example:
+        identifier: identifier
+        lastUpdateTimestamp: 6
+        typeName: typeName
+        name: name
+        description: description
+        isSettingsNode: true
+        id: 0
+        manual: true
+        ownedBy: ownedBy
+      properties:
+        typeName:
+          type: string
+        id:
+          type: integer
+        lastUpdateTimestamp:
+          type: integer
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ownedBy:
+          type: string
+        manual:
+          type: boolean
+        isSettingsNode:
+          type: boolean
+      required:
+      - description
+      - id
+      - identifier
+      - isSettingsNode
+      - lastUpdateTimestamp
+      - manual
+      - name
+      - ownedBy
+      - typeName
       type: object
     MonitorList:
       example:
