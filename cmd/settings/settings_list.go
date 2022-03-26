@@ -16,11 +16,11 @@ const (
 
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list -t TYPE",
+		Use:   "list -y TYPE",
 		Short: "list all types of settings available",
 		RunE:  di.CmdRunEWithDeps(cli, RunSettingsListCommand),
 	}
-	cmd.Flags().StringP(TypeName, "t", "", "example: ComponentType")
+	cmd.Flags().StringP(TypeName, "y", "", "example: ComponentType")
 	cmd.MarkFlagRequired(TypeName)
 
 	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")
