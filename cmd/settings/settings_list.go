@@ -16,7 +16,7 @@ const (
 
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list",
+		Use:   "list -t TYPE",
 		Short: "list all types of settings available",
 		RunE:  di.CmdRunEWithDeps(cli, RunSettingsListCommand),
 	}
