@@ -13,6 +13,7 @@ import (
 	"net/http"
 	"strings"
 	"testing"
+	"time"
 )
 
 func setupCommandFn(mockNodeApi sts.NodeApiMock) (*printer.MockPrinter, di.Deps, *cobra.Command) {
@@ -41,6 +42,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 			LastUpdateTimestamp: 1438167001716,
 		},
 	}
+	expectedUpdateTime := time.UnixMilli(1438167001716).Format("Mon Jan _2 15:04:05 2006")
 	nodeApiMock := sts.NewNodeApiMock()
 	nodeApiMock.TypeListResponse.Result = nodeApiResult
 	nodeApiMock.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(strings.NewReader("no body"))}
@@ -50,7 +52,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 
 	expectedTableCall := printer.TableCall{
 		Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
-		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", "Wed Jul 29 10:50:01 2015"}},
+		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", expectedUpdateTime}},
 		StructData: "no body",
 	}
 

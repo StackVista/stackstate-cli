@@ -63,7 +63,7 @@ func RunSettingsListCommand(cli *di.Deps, cmd *cobra.Command, args []string) com
 
 	data := make([][]string, 0)
 	for _, v := range typeList {
-		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp()).UTC()
+		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
 		data = append(data, []string{
 			fmt.Sprintf("%d", v.GetId()),
 			v.GetTypeName(),
