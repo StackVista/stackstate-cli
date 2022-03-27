@@ -1,11 +1,11 @@
 package settings
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"io/ioutil"
 	"time"
 )
 
@@ -56,8 +56,8 @@ func RunSettingsListCommand(cli *di.Deps, cmd *cobra.Command, args []string) com
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
-	respBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
+	var respData []map[string]interface{}
+	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
 		return common.NewCLIError(err)
 	}
 
@@ -70,14 +70,13 @@ func RunSettingsListCommand(cli *di.Deps, cmd *cobra.Command, args []string) com
 			v.GetName(),
 			v.GetDescription(),
 			v.GetOwnedBy(),
-			//fmt.Sprintf("%d", v.GetLastUpdateTimestamp()),
 			lastUpdateTime.Format("Mon Jan _2 15:04:05 2006"),
 		})
 	}
 	cli.Printer.Table(
 		[]string{"id", "type", "name", "description", "owned by", "last updated"},
 		data,
-		string(respBytes),
+		respData,
 	)
 	return nil
 }

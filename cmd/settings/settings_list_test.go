@@ -1,7 +1,9 @@
 package settings
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
@@ -11,7 +13,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"io/ioutil"
 	"net/http"
-	"strings"
 	"testing"
 	"time"
 )
@@ -43,9 +44,13 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 		},
 	}
 	expectedUpdateTime := time.UnixMilli(1438167001716).Format("Mon Jan _2 15:04:05 2006")
+	buf := new(bytes.Buffer)
+	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ms_iis_ws"}}); err != nil {
+		t.Fatal(err)
+	}
 	nodeApiMock := sts.NewNodeApiMock()
 	nodeApiMock.TypeListResponse.Result = nodeApiResult
-	nodeApiMock.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(strings.NewReader("no body"))}
+	nodeApiMock.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	mockPrinter, cli, cmd := setupCommandFn(nodeApiMock)
 
 	util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "ComponentType")
@@ -53,7 +58,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 	expectedTableCall := printer.TableCall{
 		Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
 		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", expectedUpdateTime}},
-		StructData: "no body",
+		StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
 	}
 
 	assert.Equal(t, expectedTableCall, (*mockPrinter.TableCalls)[0])
