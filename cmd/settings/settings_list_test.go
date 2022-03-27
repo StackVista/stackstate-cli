@@ -38,7 +38,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 			Name:                "One",
 			Description:         "First component",
 			OwnedBy:             "owner-1",
-			LastUpdateTimestamp: 1257894000000,
+			LastUpdateTimestamp: 1438167001716,
 		},
 	}
 	nodeApiMock := sts.NewNodeApiMock()
@@ -50,7 +50,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 
 	expectedTableCall := printer.TableCall{
 		Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
-		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", "Wed Nov 11 00:00:00 2009"}},
+		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", "Wed Jul 29 10:50:01 2015"}},
 		StructData: "no body",
 	}
 
