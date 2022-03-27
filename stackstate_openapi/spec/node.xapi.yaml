@@ -20,7 +20,6 @@ paths:
       tags:
         - node
       parameters:
-#         - $ref: "#/components/parameters/nodeType"
         - in: path
           name: nodeType
           required: true
@@ -52,17 +51,7 @@ paths:
         "500":
           $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 components:
-  parameters:
-    nodeType:
-      - in: path
-        name: nodeType
-        required: true
-        schema:
-          $ref: "#/components/schemas/nodeType"
-        description: "Specify the type of nodes"
   schemas:
-    nodeType:
-      type: string
 
     NodeTypes:
       type: object
@@ -92,9 +81,9 @@ components:
         typeName:
           type: string
         id:
-          type: integer
+          type: int64
         lastUpdateTimestamp:
-          type: integer
+          type: int64
         identifier:
           type: string
         name:

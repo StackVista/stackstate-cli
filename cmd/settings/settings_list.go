@@ -6,6 +6,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"io/ioutil"
+	"time"
 )
 
 const (
@@ -16,11 +17,11 @@ const (
 
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list -y TYPE",
+		Use:   "list --type TYPE",
 		Short: "list all types of settings available",
 		RunE:  di.CmdRunEWithDeps(cli, RunSettingsListCommand),
 	}
-	cmd.Flags().StringP(TypeName, "y", "", "example: ComponentType")
+	cmd.Flags().StringP(TypeName, "", "", "example: ComponentType")
 	cmd.MarkFlagRequired(TypeName)
 
 	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")
@@ -62,13 +63,15 @@ func RunSettingsListCommand(cli *di.Deps, cmd *cobra.Command, args []string) com
 
 	data := make([][]string, 0)
 	for _, v := range typeList {
+		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
 		data = append(data, []string{
 			fmt.Sprintf("%d", v.GetId()),
 			v.GetTypeName(),
 			v.GetName(),
 			v.GetDescription(),
 			v.GetOwnedBy(),
-			fmt.Sprintf("%d", v.GetLastUpdateTimestamp()),
+			//fmt.Sprintf("%d", v.GetLastUpdateTimestamp()),
+			lastUpdateTime.Format("Mon Jan _2 15:04:05 2006"),
 		})
 	}
 	cli.Printer.Table(

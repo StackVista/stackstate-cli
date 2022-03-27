@@ -5,8 +5,8 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TypeName** | **string** |  | 
-**Id** | **int32** |  | 
-**LastUpdateTimestamp** | **int32** |  | 
+**Id** | **int64** |  | 
+**LastUpdateTimestamp** | **int64** |  | 
 **Identifier** | **string** |  | 
 **Name** | **string** |  | 
 **Description** | **string** |  | 
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewNodeListType
 
-`func NewNodeListType(typeName string, id int32, lastUpdateTimestamp int32, identifier string, name string, description string, ownedBy string, manual bool, isSettingsNode bool, ) *NodeListType`
+`func NewNodeListType(typeName string, id int64, lastUpdateTimestamp int64, identifier string, name string, description string, ownedBy string, manual bool, isSettingsNode bool, ) *NodeListType`
 
 NewNodeListType instantiates a new NodeListType object
 This constructor will assign default values to properties that have it defined,
@@ -55,40 +55,40 @@ SetTypeName sets TypeName field to given value.
 
 ### GetId
 
-`func (o *NodeListType) GetId() int32`
+`func (o *NodeListType) GetId() int64`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *NodeListType) GetIdOk() (*int32, bool)`
+`func (o *NodeListType) GetIdOk() (*int64, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *NodeListType) SetId(v int32)`
+`func (o *NodeListType) SetId(v int64)`
 
 SetId sets Id field to given value.
 
 
 ### GetLastUpdateTimestamp
 
-`func (o *NodeListType) GetLastUpdateTimestamp() int32`
+`func (o *NodeListType) GetLastUpdateTimestamp() int64`
 
 GetLastUpdateTimestamp returns the LastUpdateTimestamp field if non-nil, zero value otherwise.
 
 ### GetLastUpdateTimestampOk
 
-`func (o *NodeListType) GetLastUpdateTimestampOk() (*int32, bool)`
+`func (o *NodeListType) GetLastUpdateTimestampOk() (*int64, bool)`
 
 GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLastUpdateTimestamp
 
-`func (o *NodeListType) SetLastUpdateTimestamp(v int32)`
+`func (o *NodeListType) SetLastUpdateTimestamp(v int64)`
 
 SetLastUpdateTimestamp sets LastUpdateTimestamp field to given value.
 

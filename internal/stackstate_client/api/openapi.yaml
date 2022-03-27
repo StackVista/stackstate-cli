@@ -1545,20 +1545,21 @@ components:
     NodeListType:
       example:
         identifier: identifier
-        lastUpdateTimestamp: 6
+        lastUpdateTimestamp: 0
         typeName: typeName
         name: name
         description: description
         isSettingsNode: true
-        id: 0
+        id: ""
         manual: true
         ownedBy: ownedBy
       properties:
         typeName:
           type: string
         id:
-          type: integer
+          type: int64
         lastUpdateTimestamp:
+          format: int64
           type: integer
         identifier:
           type: string

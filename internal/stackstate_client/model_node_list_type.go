@@ -18,8 +18,8 @@ import (
 // NodeListType struct for NodeListType
 type NodeListType struct {
 	TypeName            string `json:"typeName"`
-	Id                  int32  `json:"id"`
-	LastUpdateTimestamp int32  `json:"lastUpdateTimestamp"`
+	Id                  int64  `json:"id"`
+	LastUpdateTimestamp int64  `json:"lastUpdateTimestamp"`
 	Identifier          string `json:"identifier"`
 	Name                string `json:"name"`
 	Description         string `json:"description"`
@@ -32,7 +32,7 @@ type NodeListType struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNodeListType(typeName string, id int32, lastUpdateTimestamp int32, identifier string, name string, description string, ownedBy string, manual bool, isSettingsNode bool) *NodeListType {
+func NewNodeListType(typeName string, id int64, lastUpdateTimestamp int64, identifier string, name string, description string, ownedBy string, manual bool, isSettingsNode bool) *NodeListType {
 	this := NodeListType{}
 	this.TypeName = typeName
 	this.Id = id
@@ -79,9 +79,9 @@ func (o *NodeListType) SetTypeName(v string) {
 }
 
 // GetId returns the Id field value
-func (o *NodeListType) GetId() int32 {
+func (o *NodeListType) GetId() int64 {
 	if o == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 
@@ -90,7 +90,7 @@ func (o *NodeListType) GetId() int32 {
 
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
-func (o *NodeListType) GetIdOk() (*int32, bool) {
+func (o *NodeListType) GetIdOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -98,14 +98,14 @@ func (o *NodeListType) GetIdOk() (*int32, bool) {
 }
 
 // SetId sets field value
-func (o *NodeListType) SetId(v int32) {
+func (o *NodeListType) SetId(v int64) {
 	o.Id = v
 }
 
 // GetLastUpdateTimestamp returns the LastUpdateTimestamp field value
-func (o *NodeListType) GetLastUpdateTimestamp() int32 {
+func (o *NodeListType) GetLastUpdateTimestamp() int64 {
 	if o == nil {
-		var ret int32
+		var ret int64
 		return ret
 	}
 
@@ -114,7 +114,7 @@ func (o *NodeListType) GetLastUpdateTimestamp() int32 {
 
 // GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *NodeListType) GetLastUpdateTimestampOk() (*int32, bool) {
+func (o *NodeListType) GetLastUpdateTimestampOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -122,7 +122,7 @@ func (o *NodeListType) GetLastUpdateTimestampOk() (*int32, bool) {
 }
 
 // SetLastUpdateTimestamp sets field value
-func (o *NodeListType) SetLastUpdateTimestamp(v int32) {
+func (o *NodeListType) SetLastUpdateTimestamp(v int64) {
 	o.LastUpdateTimestamp = v
 }
 
