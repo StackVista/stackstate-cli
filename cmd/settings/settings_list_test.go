@@ -50,7 +50,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 
 	expectedTableCall := printer.TableCall{
 		Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
-		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", "1"}},
+		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", "Thu Jan  1 01:00:00 1970"}},
 		StructData: "no body",
 	}
 
