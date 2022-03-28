@@ -1,6 +1,8 @@
 package di
 
-import "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+import (
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+)
 
 type MockStackStateClient struct {
 	apiClient         *stackstate_client.APIClient
@@ -20,6 +22,7 @@ type ApiMocks struct {
 	ScriptingApi               *stackstate_client.ScriptingApiMock
 	TopologySynchronizationApi *stackstate_client.TopologySynchronizationApiMock
 	UserProfileApi             *stackstate_client.UserProfileApiMock
+	ServerApi                  *stackstate_client.ServerApi
 }
 
 func NewMockStackStateClient() MockStackStateClient {
@@ -67,6 +70,6 @@ func NewMockStackStateClient() MockStackStateClient {
 	}
 }
 
-func (c MockStackStateClient) Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, error) {
+func (c *MockStackStateClient) Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, error) {
 	return c.apiClient, c.ConnectServerInfo, c.ConnectError
 }

@@ -3,6 +3,7 @@ package script
 import (
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"testing"
 
@@ -106,4 +107,12 @@ func TestScriptAndFileFlag(t *testing.T) {
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script", "-f", "file")
 
 	assert.Equal(t, common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags. Pick one or the other")), err)
+}
+
+func TestConnectionFailure(t *testing.T) {
+	cli, cmd := setupCommand()
+	respError := common.NewResponseError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	cli.MockClient.ConnectError = respError
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script")
+	assert.Equal(t, common.NewConnectError(respError), err)
 }

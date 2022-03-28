@@ -17,7 +17,7 @@ func NewMockDeps() MockDeps {
 	mockPrinter := printer.NewMockPrinter()
 	return MockDeps{
 		Deps: Deps{
-			Client:  mockClient,
+			Client:  &mockClient,
 			Printer: &mockPrinter,
 			Context: context.Background(),
 		},
