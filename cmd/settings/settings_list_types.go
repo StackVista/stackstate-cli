@@ -29,7 +29,7 @@ func RunSettingsListTypesCommand(cmd *cobra.Command, cli *di.Deps, api *stacksta
 	}
 
 	cli.Printer.Table(
-		[]string{"Name", "Description"},
+		[]string{"name", "description"},
 		data,
 		nodeTypes,
 	)

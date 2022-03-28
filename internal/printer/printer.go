@@ -258,8 +258,14 @@ func (p *StdPrinter) PrintWarn(msg string) {
 
 func (p *StdPrinter) Table(header []string, data [][]string, structData interface{}) {
 	if p.outputType == Auto {
+		// uppercase the headers
+		headerUpperCased := make([]string, 0)
+		for _, header := range header {
+			headerUpperCased = append(headerUpperCased, strings.ToUpper(header))
+		}
+
 		dataWithHeader := [][]string{}
-		dataWithHeader = append(dataWithHeader, header)
+		dataWithHeader = append(dataWithHeader, headerUpperCased)
 		dataWithHeader = append(dataWithHeader, data...)
 		pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
 	} else {
