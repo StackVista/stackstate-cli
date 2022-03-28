@@ -10,11 +10,11 @@ func VersionCommand(cli *di.Deps) *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
 		Short: "display the CLI version number",
-		RunE:  di.CmdRunEWithDeps(cli, RunVersionCommand),
+		RunE:  cli.CmdRunE(RunVersionCommand),
 	}
 }
 
-func RunVersionCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunVersionCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	info := map[string]interface{}{
 		"version":  Version,
 		"commit":   Commit,

@@ -1428,6 +1428,27 @@ paths:
       summary: Execute script
       tags:
       - scripting
+  /server/info:
+    get:
+      description: Get information of the StackState information, such as version,
+        deployment mode, etc.
+      operationId: serverInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerInfo'
+          description: Server information
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get server info
+      tags:
+      - server
 components:
   requestBodies:
     create:
@@ -3018,6 +3039,57 @@ components:
           type: string
       required:
       - script
+      type: object
+    ServerInfo:
+      example:
+        deploymentMode: Saas
+        version:
+          patch: 1
+          major: 0
+          minor: 6
+          isDev: true
+          commit: commit
+          diff: diff
+      properties:
+        version:
+          $ref: '#/components/schemas/ServerVersion'
+        deploymentMode:
+          enum:
+          - Saas
+          - SelfHosted
+          type: string
+      required:
+      - deploymentMode
+      - version
+      type: object
+    ServerVersion:
+      example:
+        patch: 1
+        major: 0
+        minor: 6
+        isDev: true
+        commit: commit
+        diff: diff
+      properties:
+        major:
+          type: integer
+        minor:
+          type: integer
+        patch:
+          type: integer
+        diff:
+          type: string
+        commit:
+          type: string
+        isDev:
+          type: boolean
+      required:
+      - commit
+      - diff
+      - isDev
+      - major
+      - minor
+      - patch
       type: object
     NodeTypes_nodeTypes:
       example:

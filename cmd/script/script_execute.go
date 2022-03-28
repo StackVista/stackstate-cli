@@ -7,7 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 const (
@@ -26,7 +26,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 			"\n" +
 			"# execute a script with variables provided by an arguments-script\n" +
 			"sts execute --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
-		RunE: di.CmdRunEWithDeps(cli, RunScriptExecuteCommand),
+		RunE: cli.CmdRunEWithApi(RunScriptExecuteCommand),
 	}
 
 	cmd.Flags().String(ScriptFlag, "", "a script to execute")
@@ -37,7 +37,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	var script string
 
 	script, err := cmd.Flags().GetString(ScriptFlag)
@@ -78,13 +78,13 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 	}
 
 	// execute script
-	scriptRequest := sts.ExecuteScriptRequest{
+	scriptRequest := stackstate_client.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          script,
 		ArgumentsScript: argumentsScript,
 	}
 
-	scriptResponse, resp, err := cli.Client.ScriptingApi.
+	scriptResponse, resp, err := api.ScriptingApi.
 		ScriptExecute(cli.Context).
 		ExecuteScriptRequest(scriptRequest).
 		Execute()

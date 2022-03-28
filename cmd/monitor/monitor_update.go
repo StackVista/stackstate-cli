@@ -16,7 +16,7 @@ func UpdateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "update -f FILE -i ID",
 		Short: "update a monitor",
-		RunE:  di.CmdRunEWithDeps(cli, RunUpdateMonitorCommand),
+		RunE:  cli.CmdRunEWithApi(RunUpdateMonitorCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
 	cmd.Flags().StringP(IdFlag, "i", "", IdFlagUsage)
@@ -26,7 +26,7 @@ func UpdateMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunUpdateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunUpdateMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -46,9 +46,9 @@ func RunUpdateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 	id, err := strconv.ParseInt(identifier, 0, 64)
 	var resp *http.Response
 	if err == nil {
-		_, resp, err = cli.Client.MonitorApi.UpdateMonitor(cli.Context, id).UpdateMonitor(monitor).Execute()
+		_, resp, err = api.MonitorApi.UpdateMonitor(cli.Context, id).UpdateMonitor(monitor).Execute()
 	} else {
-		_, resp, err = cli.Client.MonitorUrnApi.UpdateMonitorByURN(cli.Context, identifier).UpdateMonitor(monitor).Execute()
+		_, resp, err = api.MonitorUrnApi.UpdateMonitorByURN(cli.Context, identifier).UpdateMonitor(monitor).Execute()
 	}
 	if err != nil {
 		return common.NewResponseError(err, resp)
