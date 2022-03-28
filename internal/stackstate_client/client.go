@@ -66,6 +66,8 @@ type APIClient struct {
 
 	ScriptingApi ScriptingApi
 
+	ServerApi ServerApi
+
 	TopologySynchronizationApi TopologySynchronizationApi
 
 	UserProfileApi UserProfileApi
@@ -95,6 +97,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.MonitorUrnApi = (*MonitorUrnApiService)(&c.common)
 	c.NodeApi = (*NodeApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
+	c.ServerApi = (*ServerApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 

@@ -6,10 +6,11 @@ import (
 )
 
 func testConect(cli *di.Deps) common.CLIError {
-	_, resp, err := cli.Client.UserProfileApi.GetCurrentUserProfile(cli.Context).Execute()
+	_, _, err := cli.Client.Connect()
 	if err != nil {
-		return common.NewResponseError(err, resp)
+		return common.NewConnectError(err)
 	}
+
 	cli.Printer.Success("Connection verified to: " + cli.Config.ApiUrl)
 	return nil
 }

@@ -109,6 +109,7 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
+*ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -177,6 +178,8 @@ Class | Method | HTTP request | Description
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
  - [ScriptLocation](docs/ScriptLocation.md)
+ - [ServerInfo](docs/ServerInfo.md)
+ - [ServerVersion](docs/ServerVersion.md)
  - [SourceLink](docs/SourceLink.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)

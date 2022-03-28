@@ -61,6 +61,7 @@ paths:
   /synchronization/topology/streams/clearErrors:
     { $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2FclearErrors" }
   /script/execute: { $ref: "script.api.yaml#/paths/%2Fscript%2Fexecute" }
+  /server/info: { $ref: "server_info.api.yaml#/paths/%2Fserver%2Finfo" }
 security:
   - ApiToken: []
 components:

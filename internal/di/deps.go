@@ -15,7 +15,7 @@ type Deps struct {
 	Config    *conf.Conf
 	Printer   printer.Printer
 	Context   context.Context
-	Client    *stackstate_client.APIClient
+	Client    StackStateClient
 	IsVerBose bool
 }
 
@@ -28,8 +28,19 @@ func NewDeps() Deps {
 	}
 }
 
-func CmdRunEWithDeps(cli *Deps, runFn func(*Deps, *cobra.Command, []string) common.CLIError) func(*cobra.Command, []string) error {
+func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		return runFn(cli, cmd, args)
+		return runFn(cli, cmd)
+	}
+}
+
+func (cli *Deps) CmdRunEWithApi(runFn func(*cobra.Command, *Deps, *stackstate_client.APIClient, stackstate_client.ServerInfo) common.CLIError) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		api, serverInfo, err := cli.Client.Connect()
+		if err != nil {
+			return common.NewConnectError(err)
+		}
+
+		return runFn(cmd, cli, api, serverInfo)
 	}
 }

@@ -8,13 +8,14 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete -i ID",
 		Short: "delete a monitor",
-		RunE:  di.CmdRunEWithDeps(cli, RunDeleteMonitorCommand),
+		RunE:  cli.CmdRunEWithApi(RunDeleteMonitorCommand),
 	}
 	cmd.Flags().StringP(IdFlag, "i", "", IdFlag)
 	cmd.MarkFlagRequired(IdFlag)
@@ -22,7 +23,7 @@ func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunDeleteMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunDeleteMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	identifier, err := cmd.Flags().GetString(IdFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -31,9 +32,9 @@ func RunDeleteMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 	id, err := strconv.ParseInt(identifier, 0, 64)
 	var resp *http.Response
 	if err == nil {
-		resp, err = cli.Client.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
+		resp, err = api.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
 	} else {
-		resp, err = cli.Client.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
+		resp, err = api.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
 	}
 	if err != nil {
 		return common.NewResponseError(err, resp)

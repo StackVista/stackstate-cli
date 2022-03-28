@@ -32,7 +32,7 @@ func TestPrintErrWithColor(t *testing.T) {
 	assert.NotNil(t, p.spinner)
 
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "❗ \x1b[31mTest\x1b[0m\n", stdErr.String())
+	assert.Equal(t, "❌ \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
 func TestPrintStructAsJson(t *testing.T) {
@@ -126,7 +126,7 @@ func TestPrintErrResponse503(t *testing.T) {
 	p.stdErr = &buf
 	resp := http.Response{Status: "503 Service Unavailable"}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
-	expected := fmt.Sprintf("[SERVER ERROR] %s\n", "503 Service Unavailable")
+	expected := fmt.Sprintf("[ERROR] %s\n", "503 Service Unavailable")
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -136,7 +136,7 @@ func TestPrintErrResponse200(t *testing.T) {
 	p.stdErr = &buf
 	resp := http.Response{Status: "200 Ok", StatusCode: 200}
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
-	expected := fmt.Sprintf("[SERVER ERROR] %s\n%s\n", "Client error", "Hello world")
+	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Client error", "Hello world")
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -145,7 +145,7 @@ func TestPrintErrResponseNilResponse(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := fmt.Sprintf("[SERVER ERROR] %s\n%s\n", "Client error", "Hello world")
+	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Client error", "Hello world")
 	assert.Equal(t, expected, buf.String())
 }
 

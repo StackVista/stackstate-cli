@@ -4,21 +4,21 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-types",
 		Short: "list all types of settings available",
-		RunE:  di.CmdRunEWithDeps(cli, RunSettingsListTypesCommand),
+		RunE:  cli.CmdRunEWithApi(RunSettingsListTypesCommand),
 	}
 
 	return cmd
 }
 
-func RunSettingsListTypesCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
-
-	nodeTypes, resp, err := cli.Client.NodeApi.NodeListTypes(cli.Context).Execute()
+func RunSettingsListTypesCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+	nodeTypes, resp, err := api.NodeApi.NodeListTypes(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
@@ -29,7 +29,7 @@ func RunSettingsListTypesCommand(cli *di.Deps, cmd *cobra.Command, args []string
 	}
 
 	cli.Printer.Table(
-		[]string{"Name", "Description"},
+		[]string{"name", "description"},
 		data,
 		nodeTypes,
 	)

@@ -6,4 +6,5 @@ const (
 	ConfigErrorExitCode ExitCode = iota + 1
 	ReponseErrorExitCode
 	CommandExecutionExitCode
+	ConnectErrorExitCode
 )

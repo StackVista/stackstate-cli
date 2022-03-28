@@ -14,7 +14,7 @@ func CreateMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create -f FILE",
 		Short: "create a monitor",
-		RunE:  di.CmdRunEWithDeps(cli, RunCreateMonitorCommand),
+		RunE:  cli.CmdRunEWithApi(RunCreateMonitorCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
 	cmd.MarkFlagRequired(FileFlag)
@@ -22,7 +22,7 @@ func CreateMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunCreateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunCreateMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -34,7 +34,7 @@ func RunCreateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
-	createdMonitor, resp, err := cli.Client.MonitorApi.CreateMonitor(cli.Context).CreateMonitor(monitor).Execute()
+	createdMonitor, resp, err := api.MonitorApi.CreateMonitor(cli.Context).CreateMonitor(monitor).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
