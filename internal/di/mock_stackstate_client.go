@@ -22,7 +22,7 @@ type ApiMocks struct {
 	ScriptingApi               *stackstate_client.ScriptingApiMock
 	TopologySynchronizationApi *stackstate_client.TopologySynchronizationApiMock
 	UserProfileApi             *stackstate_client.UserProfileApiMock
-	ServerApi                  *stackstate_client.ServerApi
+	ServerApi                  *stackstate_client.ServerApiMock
 }
 
 func NewMockStackStateClient() MockStackStateClient {
@@ -36,6 +36,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	scriptingApi := stackstate_client.NewScriptingApiMock()
 	topologySynchronizationApi := stackstate_client.NewTopologySynchronizationApiMock()
 	userProfileApi := stackstate_client.NewUserProfileApiMock()
+	serverApi := stackstate_client.NewServerApiMock()
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
 		EventApi:                   &eventApi,
@@ -47,6 +48,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		ScriptingApi:               &scriptingApi,
 		TopologySynchronizationApi: &topologySynchronizationApi,
 		UserProfileApi:             &userProfileApi,
+		ServerApi:                  &serverApi,
 	}
 
 	apiClient := &stackstate_client.APIClient{
@@ -60,6 +62,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		ScriptingApi:               apiMocks.ScriptingApi,
 		TopologySynchronizationApi: apiMocks.TopologySynchronizationApi,
 		UserProfileApi:             apiMocks.UserProfileApi,
+		ServerApi:                  apiMocks.ServerApi,
 	}
 
 	return MockStackStateClient{
