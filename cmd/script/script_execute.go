@@ -78,13 +78,18 @@ func RunScriptExecuteCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 	}
 
 	// execute script
+	client, _, err := cli.Client.Connect()
+	if err != nil {
+		return common.NewConnectError(err)
+	}
+
 	scriptRequest := sts.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          script,
 		ArgumentsScript: argumentsScript,
 	}
 
-	scriptResponse, resp, err := cli.Client.ScriptingApi.
+	scriptResponse, resp, err := client.ScriptingApi.
 		ScriptExecute(cli.Context).
 		ExecuteScriptRequest(scriptRequest).
 		Execute()

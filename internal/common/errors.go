@@ -15,16 +15,25 @@ func NewCLIError(err error) CLIError {
 	return StdCLIError{Err: err}
 }
 
+func NewConnectError(err error) CLIError {
+	return StdCLIError{
+		Err:      err,
+		exitCode: ConnectErrorExitCode,
+	}
+}
+
 func NewCLIArgParseError(err error) CLIError {
 	return StdCLIError{
 		Err:       err,
 		showUsage: true,
+		exitCode:  CommandExecutionExitCode,
 	}
 }
 
 type StdCLIError struct {
 	Err       error
 	showUsage bool
+	exitCode  int
 }
 
 func (p StdCLIError) Error() string {
@@ -32,7 +41,7 @@ func (p StdCLIError) Error() string {
 }
 
 func (p StdCLIError) GetExitCode() ExitCode {
-	return CommandExecutionExitCode
+	return p.exitCode
 }
 
 func (p StdCLIError) ShowUsage() bool {

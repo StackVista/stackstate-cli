@@ -28,12 +28,17 @@ func RunDeleteMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
+	client, _, err := cli.Client.Connect()
+	if err != nil {
+		return common.NewConnectError(err)
+	}
+
 	id, err := strconv.ParseInt(identifier, 0, 64)
 	var resp *http.Response
 	if err == nil {
-		resp, err = cli.Client.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
+		resp, err = client.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
 	} else {
-		resp, err = cli.Client.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
+		resp, err = client.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
 	}
 	if err != nil {
 		return common.NewResponseError(err, resp)

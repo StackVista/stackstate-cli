@@ -14,18 +14,23 @@ import (
 )
 
 func setupCommand(mockNodeApi sts.NodeApiMock) (*printer.MockPrinter, di.Deps, *cobra.Command) {
-	client := sts.APIClient{}
-	client.NodeApi = mockNodeApi
+	client := di.NewMockStackStateClient()
 	mockPrinter := printer.NewMockPrinter()
 	cli := di.Deps{
 		Config:  &conf.Conf{},
 		Printer: &mockPrinter,
 		Context: context.Background(),
-		Client:  &client,
+		Client:  client,
 	}
 	cmd := SettingsListTypesCommand(&cli)
 
 	return &mockPrinter, cli, cmd
+}
+
+func setupCommand2(mockNodeApi sts.NodeApiMock) (di.MockDeps, *cobra.Command) {
+	mockCli := di.NewMockDeps()
+	cmd := SettingsListTypesCommand(&mockCli.Deps)
+	return mockCli, cmd
 }
 
 func TestListTypesPrintsToTable(t *testing.T) {

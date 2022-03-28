@@ -17,8 +17,12 @@ func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunSettingsListTypesCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+	client, _, err := cli.Client.Connect()
+	if err != nil {
+		return common.NewConnectError(err)
+	}
 
-	nodeTypes, resp, err := cli.Client.NodeApi.NodeListTypes(cli.Context).Execute()
+	nodeTypes, resp, err := client.NodeApi.NodeListTypes(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

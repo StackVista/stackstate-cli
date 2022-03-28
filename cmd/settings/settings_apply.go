@@ -37,7 +37,12 @@ func RunSettingsApplyCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
-	nodes, resp, err := cli.Client.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
+	client, _, err := cli.Client.Connect()
+	if err != nil {
+		return common.NewConnectError(err)
+	}
+
+	nodes, resp, err := client.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

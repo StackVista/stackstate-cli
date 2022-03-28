@@ -7,7 +7,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Depedency Injection context for the CLI
@@ -15,7 +14,7 @@ type Deps struct {
 	Config    *conf.Conf
 	Printer   printer.Printer
 	Context   context.Context
-	Client    *stackstate_client.APIClient
+	Client    StackStateClient
 	IsVerBose bool
 }
 

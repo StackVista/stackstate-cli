@@ -43,12 +43,17 @@ func RunUpdateMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
+	client, _, err := cli.Client.Connect()
+	if err != nil {
+		return common.NewConnectError(err)
+	}
+
 	id, err := strconv.ParseInt(identifier, 0, 64)
 	var resp *http.Response
 	if err == nil {
-		_, resp, err = cli.Client.MonitorApi.UpdateMonitor(cli.Context, id).UpdateMonitor(monitor).Execute()
+		_, resp, err = client.MonitorApi.UpdateMonitor(cli.Context, id).UpdateMonitor(monitor).Execute()
 	} else {
-		_, resp, err = cli.Client.MonitorUrnApi.UpdateMonitorByURN(cli.Context, identifier).UpdateMonitor(monitor).Execute()
+		_, resp, err = client.MonitorUrnApi.UpdateMonitorByURN(cli.Context, identifier).UpdateMonitor(monitor).Execute()
 	}
 	if err != nil {
 		return common.NewResponseError(err, resp)
