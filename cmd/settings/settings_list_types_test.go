@@ -29,11 +29,11 @@ func TestListTypesPrintsToTable(t *testing.T) {
 
 	util.ExecuteCommandWithContext(cli.Context, cmd)
 
-	expectedTableCall := printer.TableCall{
+	expectedTableCall := []printer.TableCall{{
 		Header:     []string{"Name", "Description"},
 		Data:       [][]string{{"hello", "world"}},
 		StructData: nodeApiResult,
-	}
+	}}
 
-	assert.Equal(t, expectedTableCall, (*cli.MockPrinter.TableCalls)[0])
+	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
 }

@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -18,7 +19,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apply -f FILE",
 		Short: "apply settings with STJ",
-		RunE:  di.CmdRunEWithDeps(cli, RunSettingsApplyCommand),
+		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
 	cmd.MarkFlagRequired(FileFlag)
@@ -26,7 +27,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsApplyCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunSettingsApplyCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -37,12 +38,7 @@ func RunSettingsApplyCommand(cli *di.Deps, cmd *cobra.Command, args []string) co
 		return common.NewCLIError(err)
 	}
 
-	client, _, err := cli.Client.Connect()
-	if err != nil {
-		return common.NewConnectError(err)
-	}
-
-	nodes, resp, err := client.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
+	nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

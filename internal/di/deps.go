@@ -7,6 +7,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Depedency Injection context for the CLI
@@ -27,8 +28,19 @@ func NewDeps() Deps {
 	}
 }
 
-func CmdRunEWithDeps(cli *Deps, runFn func(*Deps, *cobra.Command, []string) common.CLIError) func(*cobra.Command, []string) error {
+func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		return runFn(cli, cmd, args)
+		return runFn(cli, cmd)
+	}
+}
+
+func (cli *Deps) CmdRunEWithApi(runFn func(*cobra.Command, *Deps, *stackstate_client.APIClient, ServerInfo) common.CLIError) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		api, serverInfo, err := cli.Client.Connect()
+		if err != nil {
+			return common.NewConnectError(err)
+		}
+
+		return runFn(cmd, cli, api, serverInfo)
 	}
 }

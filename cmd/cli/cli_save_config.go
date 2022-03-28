@@ -21,14 +21,14 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 		Short: "save CLI configuration to file",
 		Example: "# save a new API token to the config file and test the connection - WARNING this will overwrite the saved config\n" +
 			`cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api" --test-connect`,
-		RunE: di.CmdRunEWithDeps(cli, RunCliSaveConfig),
+		RunE: cli.CmdRunE(RunCliSaveConfig),
 	}
 	cmd.Flags().Bool(TestConnectFlagName, false, "test the connection to StackState after configuration has been saved to file")
 
 	return cmd
 }
 
-func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// get required --api-url and --api-token
 	apiUrl, missingApiUrl := cmd.Flags().GetString(persistent_flags.ApiUrlFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(persistent_flags.ApiTokenFlag)

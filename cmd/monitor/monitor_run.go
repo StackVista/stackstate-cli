@@ -18,7 +18,7 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run -i ID",
 		Short: "run a monitor",
-		RunE:  di.CmdRunEWithDeps(cli, RunRunMonitorCommand),
+		RunE:  cli.CmdRunEWithApi(RunRunMonitorCommand),
 	}
 	cmd.Flags().StringP(IdFlag, "i", "", IdFlag)
 	cmd.Flags().Bool(DryRunFlag, false, "do not save the states of the monitor run")
@@ -27,7 +27,7 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunRunMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunRunMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -38,25 +38,20 @@ func RunRunMonitorCommand(cli *di.Deps, cmd *cobra.Command, args []string) commo
 		return common.NewCLIError(err)
 	}
 
-	client, _, err := cli.Client.Connect()
-	if err != nil {
-		return common.NewConnectError(err)
-	}
-
 	id, err := strconv.ParseInt(identifier, 0, 64)
 	var resp *http.Response
 	var runResult stackstate_client.MonitorRunResult
 	if err == nil {
 		if isDryRun {
-			runResult, resp, err = client.MonitorApi.DryRunMonitor(cli.Context, id).Execute()
+			runResult, resp, err = api.MonitorApi.DryRunMonitor(cli.Context, id).Execute()
 		} else {
-			runResult, resp, err = client.MonitorApi.RunMonitor(cli.Context, id).Execute()
+			runResult, resp, err = api.MonitorApi.RunMonitor(cli.Context, id).Execute()
 		}
 	} else {
 		if isDryRun {
-			runResult, resp, err = client.MonitorUrnApi.DryRunMonitorByURN(cli.Context, identifier).Execute()
+			runResult, resp, err = api.MonitorUrnApi.DryRunMonitorByURN(cli.Context, identifier).Execute()
 		} else {
-			runResult, resp, err = client.MonitorUrnApi.RunMonitorByURN(cli.Context, identifier).Execute()
+			runResult, resp, err = api.MonitorUrnApi.RunMonitorByURN(cli.Context, identifier).Execute()
 		}
 	}
 	if err != nil {
