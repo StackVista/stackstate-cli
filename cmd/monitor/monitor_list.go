@@ -17,7 +17,7 @@ func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunListMonitorsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
+func RunListMonitorsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	monitors, resp, err := api.MonitorApi.GetAllMonitors(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)

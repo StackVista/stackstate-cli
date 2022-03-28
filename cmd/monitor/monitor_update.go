@@ -26,7 +26,7 @@ func UpdateMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunUpdateMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
+func RunUpdateMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)

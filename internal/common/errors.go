@@ -1,6 +1,7 @@
 package common
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -16,9 +17,28 @@ func NewCLIError(err error) CLIError {
 }
 
 func NewConnectError(err error) CLIError {
-	return StdCLIError{
-		Err:      err,
-		exitCode: ConnectErrorExitCode,
+	var statusCode int
+	switch v := err.(type) {
+	case ResponseError:
+		// is access error?
+		if v.Resp != nil {
+			statusCode = v.Resp.StatusCode
+		}
+	}
+
+	if statusCode == 401 {
+		return StdCLIError{
+			Err: fmt.Errorf("could not connect to StackState: invalid api-token\n" +
+				"For more information: https://l.stackstate.com/cli-invalid-api-token"),
+			exitCode: ConnectErrorExitCode,
+		}
+	} else {
+		return StdCLIError{
+			Err: fmt.Errorf("could not connect to StackState: invalid api-url (%s)\n"+
+				"Get the URL of your StackState instance and add \"/api\" at the end\n"+
+				"Be aware that this CLI can only connect with StackState version 5 or greater", err),
+			exitCode: ConnectErrorExitCode,
+		}
 	}
 }
 
@@ -49,7 +69,7 @@ func (p StdCLIError) ShowUsage() bool {
 }
 
 // --------------
-// ResponseError is For CLI errors that involve the server
+// ResponseError is for errors that involve the server
 // --------------
 
 func NewResponseError(err error, resp *http.Response) ResponseError {

@@ -17,7 +17,7 @@ func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsListTypesCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
+func RunSettingsListTypesCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	nodeTypes, resp, err := api.NodeApi.NodeListTypes(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)

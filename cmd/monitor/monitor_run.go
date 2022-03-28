@@ -27,7 +27,7 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunRunMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
+func RunRunMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
 		return common.NewCLIError(err)

@@ -30,7 +30,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 	util.ExecuteCommandWithContext(cli.Context, cmd)
 
 	expectedTableCall := []printer.TableCall{{
-		Header:     []string{"Name", "Description"},
+		Header:     []string{"name", "description"},
 		Data:       [][]string{{"hello", "world"}},
 		StructData: nodeApiResult,
 	}}

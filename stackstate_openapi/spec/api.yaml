@@ -15,7 +15,7 @@ externalDocs:
   url: "https://docs.stackstate.com/"
 paths:
   /import: { $ref: "import.xapi.yaml#/paths/%2Fimport" }
-  /node: { $ref: "node.xapi.yaml#/paths/%2Fnode" }
+  /node: { $ref: "node.xapi.yaml#/paths/%2Fnode" }  
   /monitors: { $ref: "monitors.api.yaml#/paths/%2Fmonitors" }
   /monitor/{monitorId}: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D" }
   /monitor/{monitorId}/run: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2Frun" }
@@ -60,6 +60,7 @@ paths:
   /synchronization/topology/streams/clearErrors:
     { $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2FclearErrors" }
   /script/execute: { $ref: "script.api.yaml#/paths/%2Fscript%2Fexecute" }
+  /server/info: { $ref: "server_info.api.yaml#/paths/%2Fserver%2Finfo" }
 security:
   - ApiToken: []
 components:

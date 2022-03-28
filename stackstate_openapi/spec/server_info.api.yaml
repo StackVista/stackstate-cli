@@ -1,0 +1,54 @@
+paths:
+  /server/info:
+    get:
+      tags:
+        - server
+      summary: "Get server info"
+      description: "Get information of the StackState information, such as version, deployment mode, etc."
+      operationId: serverInfo
+      responses:
+        "200":
+          description: "Server information"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServerInfo"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+components:
+  schemas:
+    ServerInfo:
+      type: object
+      required:
+        - version
+        - deploymentMode
+      properties:
+        version:
+          $ref: "#/components/schemas/ServerVersion"
+        deploymentMode:
+          type: string
+          enum:
+            - Saas
+            - SelfHosted
+    ServerVersion:
+      type: object
+      required:
+        - major
+        - minor
+        - patch
+        - diff
+        - commit
+        - isDev
+      properties:
+        major:
+          type: integer
+        minor:
+          type: integer
+        patch:
+          type: integer
+        diff:
+          type: string
+        commit:
+          type: string
+        isDev:
+          type: boolean

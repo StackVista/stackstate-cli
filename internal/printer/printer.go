@@ -52,11 +52,10 @@ const (
 )
 
 var symbols = map[string]Symbol{
-	"success":      {UnicodeChar: "✅", Fallback: "success"},
-	"warn":         {UnicodeChar: "\u26A0\uFE0F", Fallback: "warn"}, // ⚠️
-	"server-error": {UnicodeChar: "❌", Fallback: "server error"},
-	"error":        {UnicodeChar: "❗", Fallback: "error"},
-	"info":         {UnicodeChar: color.Blue.Render("ⓘ"), Fallback: "info"},
+	"success": {UnicodeChar: "✅", Fallback: "success"},
+	"warn":    {UnicodeChar: "\u26A0\uFE0F", Fallback: "warn"}, // ⚠️
+	"error":   {UnicodeChar: "❌", Fallback: "error"},
+	"info":    {UnicodeChar: color.Blue.Render("ⓘ"), Fallback: "info"},
 }
 
 type StdPrinter struct {
@@ -162,7 +161,7 @@ func (p *StdPrinter) PrintErr(err error) {
 }
 
 func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
-	var httpStatus, errorStr, suggestion string
+	var httpStatus, errorStr string
 
 	// get HTTP status string
 	if resp != nil && resp.Status != "" && resp.StatusCode != 200 {
@@ -189,22 +188,11 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 		errorStr = util.UcFirst(rtnErr.Error())
 	}
 
-	// get suggestion
-	if resp != nil && resp.StatusCode == 401 {
-		suggestion = "Please check your configured API token."
-	}
-
-	// print
-	if suggestion != "" {
-		suggestion = fmt.Sprintf("%s %s", p.sprintSymbol("info"), suggestion)
-	}
-
 	color.Fprintf(p.stdErr,
-		"%s %v\n%s%s",
-		p.sprintSymbol("server-error"),
+		"%s %v\n%s",
+		p.sprintSymbol("error"),
 		color.Red.Render(httpStatus),
 		util.WithNewLine(errorStr),
-		util.WithNewLine(suggestion),
 	)
 }
 

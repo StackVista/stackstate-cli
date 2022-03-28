@@ -37,7 +37,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo di.ServerInfo) common.CLIError {
+func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	var script string
 
 	script, err := cmd.Flags().GetString(ScriptFlag)

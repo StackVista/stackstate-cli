@@ -8,7 +8,7 @@ import (
 )
 
 type StackStateClient interface {
-	Connect() (*stackstate_client.APIClient, ServerInfo, error)
+	Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, error)
 }
 
 func NewStackStateClient(client *stackstate_client.APIClient, context context.Context) StackStateClient {
@@ -23,13 +23,11 @@ type StdStackStateClient struct {
 	Context context.Context
 }
 
-type ServerInfo struct{}
-
-func (c StdStackStateClient) Connect() (*stackstate_client.APIClient, ServerInfo, error) {
-	_, resp, err := c.client.UserProfileApi.GetCurrentUserProfile(c.Context).Execute()
+func (c StdStackStateClient) Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, error) {
+	serverInfo, resp, err := c.client.ServerApi.ServerInfo(c.Context).Execute()
 	if err != nil {
-		return nil, ServerInfo{}, common.NewResponseError(err, resp)
+		return nil, stackstate_client.ServerInfo{}, common.NewResponseError(err, resp)
 	}
 
-	return c.client, ServerInfo{}, nil
+	return c.client, serverInfo, nil
 }
