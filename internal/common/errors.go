@@ -34,7 +34,8 @@ func NewConnectError(err error) CLIError {
 		}
 	} else {
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to StackState: invalid api-url (%s)\n"+
+			Err: fmt.Errorf("could not connect to StackState: %s\n"+
+				"Please check your api-url\n"+
 				"Get the URL of your StackState instance and add \"/api\" at the end\n"+
 				"Be aware that this CLI can only connect with StackState version 5 or greater", err),
 			exitCode: ConnectErrorExitCode,

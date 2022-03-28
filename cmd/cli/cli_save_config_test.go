@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"fmt"
 	"os"
 	"testing"
 
@@ -8,16 +9,13 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/cmd/persistent_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func TestWriteConfig(t *testing.T) {
-	mockPrinter := printer.NewMockPrinter()
-	cli := &di.Deps{
-		Printer: &mockPrinter,
-	}
-	cmd := CliSaveConfigCommand(cli)
+	cli := di.NewMockDeps()
+	cmd := CliSaveConfigCommand(&cli.Deps)
+	cli.MockClient.ConnectError = fmt.Errorf("should not have tried to connect")
 	persistent_flags.AddPersistentFlags(cmd)
 
 	oldConfHome := os.Getenv("XDG_CONFIG_HOME")
@@ -30,7 +28,7 @@ func TestWriteConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	cfg, err := conf.ReadConf(CliSaveConfigCommand(cli))
+	cfg, err := conf.ReadConf(CliSaveConfigCommand(&cli.Deps))
 	if err != nil {
 		t.Fatal(err)
 	}
