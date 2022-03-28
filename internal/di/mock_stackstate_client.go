@@ -10,30 +10,40 @@ type MockStackStateClient struct {
 }
 
 type ApiMocks struct {
-	ApiTokenApi                stackstate_client.ApiTokenApi
-	EventApi                   stackstate_client.EventApi
-	HealthSynchronizationApi   stackstate_client.HealthSynchronizationApi
-	ImportApi                  stackstate_client.ImportApi
-	MonitorApi                 stackstate_client.MonitorApi
-	MonitorUrnApi              stackstate_client.MonitorUrnApi
-	NodeApi                    stackstate_client.NodeApi
-	ScriptingApi               stackstate_client.ScriptingApi
-	TopologySynchronizationApi stackstate_client.TopologySynchronizationApi
-	UserProfileApi             stackstate_client.UserProfileApi
+	ApiTokenApi                *stackstate_client.ApiTokenApiMock
+	EventApi                   *stackstate_client.EventApiMock
+	HealthSynchronizationApi   *stackstate_client.HealthSynchronizationApiMock
+	ImportApi                  *stackstate_client.ImportApiMock
+	MonitorApi                 *stackstate_client.MonitorApiMock
+	MonitorUrnApi              *stackstate_client.MonitorUrnApiMock
+	NodeApi                    *stackstate_client.NodeApiMock
+	ScriptingApi               *stackstate_client.ScriptingApiMock
+	TopologySynchronizationApi *stackstate_client.TopologySynchronizationApiMock
+	UserProfileApi             *stackstate_client.UserProfileApiMock
 }
 
 func NewMockStackStateClient() MockStackStateClient {
+	apiTokenApi := stackstate_client.NewApiTokenApiMock()
+	eventApi := stackstate_client.NewEventApiMock()
+	healthSynchronizationApi := stackstate_client.NewHealthSynchronizationApiMock()
+	importApi := stackstate_client.NewImportApiMock()
+	monitorApi := stackstate_client.NewMonitorApiMock()
+	monitorApiUrn := stackstate_client.NewMonitorUrnApiMock()
+	nodeApi := stackstate_client.NewNodeApiMock()
+	scriptingApi := stackstate_client.NewScriptingApiMock()
+	topologySynchronizationApi := stackstate_client.NewTopologySynchronizationApiMock()
+	userProfileApi := stackstate_client.NewUserProfileApiMock()
 	apiMocks := ApiMocks{
-		ApiTokenApi:                stackstate_client.NewApiTokenApiMock(),
-		EventApi:                   stackstate_client.NewEventApiMock(),
-		HealthSynchronizationApi:   stackstate_client.NewHealthSynchronizationApiMock(),
-		ImportApi:                  stackstate_client.NewImportApiMock(),
-		MonitorApi:                 stackstate_client.NewMonitorApiMock(),
-		MonitorUrnApi:              stackstate_client.NewMonitorUrnApiMock(),
-		NodeApi:                    stackstate_client.NewNodeApiMock(),
-		ScriptingApi:               stackstate_client.NewScriptingApiMock(),
-		TopologySynchronizationApi: stackstate_client.NewTopologySynchronizationApiMock(),
-		UserProfileApi:             stackstate_client.NewUserProfileApiMock(),
+		ApiTokenApi:                &apiTokenApi,
+		EventApi:                   &eventApi,
+		HealthSynchronizationApi:   &healthSynchronizationApi,
+		ImportApi:                  &importApi,
+		MonitorApi:                 &monitorApi,
+		MonitorUrnApi:              &monitorApiUrn,
+		NodeApi:                    &nodeApi,
+		ScriptingApi:               &scriptingApi,
+		TopologySynchronizationApi: &topologySynchronizationApi,
+		UserProfileApi:             &userProfileApi,
 	}
 
 	apiClient := &stackstate_client.APIClient{

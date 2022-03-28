@@ -1,6 +1,10 @@
 package di
 
-import "gitlab.com/stackvista/stackstate-cli2/internal/printer"
+import (
+	"context"
+
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+)
 
 type MockDeps struct {
 	Deps
@@ -13,7 +17,9 @@ func NewMockDeps() MockDeps {
 	mockPrinter := printer.NewMockPrinter()
 	return MockDeps{
 		Deps: Deps{
-			Client: mockClient,
+			Client:  mockClient,
+			Printer: &mockPrinter,
+			Context: context.Background(),
 		},
 		MockClient:  &mockClient,
 		MockPrinter: &mockPrinter,

@@ -1,47 +1,31 @@
 package settings
 
 import (
-	"context"
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupCommand(mockNodeApi sts.NodeApiMock) (*printer.MockPrinter, di.Deps, *cobra.Command) {
-	client := di.NewMockStackStateClient()
-	mockPrinter := printer.NewMockPrinter()
-	cli := di.Deps{
-		Config:  &conf.Conf{},
-		Printer: &mockPrinter,
-		Context: context.Background(),
-		Client:  client,
-	}
-	cmd := SettingsListTypesCommand(&cli)
-
-	return &mockPrinter, cli, cmd
-}
-
-func setupCommand2(mockNodeApi sts.NodeApiMock) (di.MockDeps, *cobra.Command) {
+func setupCommand() (di.MockDeps, *cobra.Command) {
 	mockCli := di.NewMockDeps()
 	cmd := SettingsListTypesCommand(&mockCli.Deps)
 	return mockCli, cmd
 }
 
 func TestListTypesPrintsToTable(t *testing.T) {
+	cli, cmd := setupCommand()
+
 	nodeApiResult := sts.NodeTypes{
 		NodeTypes: []sts.NodeTypesNodeTypes{
 			{TypeName: "hello", Description: "world"},
 		},
 	}
-	nodeApiMock := sts.NewNodeApiMock()
-	nodeApiMock.NodeListTypesResponse.Result = nodeApiResult
-	mockPrinter, cli, cmd := setupCommand(nodeApiMock)
+	cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result = nodeApiResult
 
 	util.ExecuteCommandWithContext(cli.Context, cmd)
 
@@ -51,5 +35,5 @@ func TestListTypesPrintsToTable(t *testing.T) {
 		StructData: nodeApiResult,
 	}
 
-	assert.Equal(t, expectedTableCall, (*mockPrinter.TableCalls)[0])
+	assert.Equal(t, expectedTableCall, (*cli.MockPrinter.TableCalls)[0])
 }
