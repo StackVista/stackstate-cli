@@ -2,10 +2,17 @@
 
 ## Getting development started
 
-1. Install the latest version of Golang
-2. Run `go run main.go` 
+1. Install Nix package manager by following the [official installation instructions](https://nixos.org/download.html)
+2. Enable Nix Flakes support
+```
+mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
+```
+3. Enter development shell `nix develop`
+4. Run `go run main.go`
 
-Please read the command development rules. 
+It also possible to use nix phases to test `nix develop --check` and build the application `nix develop --build`, as specified in the Makefile, without entering the shell.
+
+Please read the command development rules.
 
 ## Command Development Rules
 
