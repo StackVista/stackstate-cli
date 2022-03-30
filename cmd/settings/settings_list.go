@@ -66,8 +66,9 @@ func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 	for _, v := range typeList {
 		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
 		data = append(data, []string{
-			fmt.Sprintf("%d", v.GetId()),
 			v.GetTypeName(),
+			fmt.Sprintf("%d", v.GetId()),
+			v.GetIdentifier(),
 			v.GetName(),
 			v.GetDescription(),
 			v.GetOwnedBy(),
@@ -75,7 +76,7 @@ func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 		})
 	}
 	cli.Printer.Table(
-		[]string{"id", "type", "name", "description", "owned by", "last updated"},
+		[]string{"Type", "Id", "Identifier", "Name", "description", "owned by", "last updated"},
 		data,
 		respData,
 	)

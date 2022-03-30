@@ -26,10 +26,12 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 	name := "One"
 	description := "First component"
 	owner := "owner-1"
+	identifier := "identifier-1"
 	nodeApiResult := []sts.Node{
 		{
 			Id:                  1,
 			TypeName:            "ComponentType",
+			Identifier:          &identifier,
 			Name:                &name,
 			Description:         &description,
 			OwnedBy:             &owner,
@@ -50,8 +52,8 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 
 	expectedTableCall := []printer.TableCall{
 		{
-			Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
-			Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", expectedUpdateTime}},
+			Header:     []string{"Type", "Id", "Identifier", "Name", "description", "owned by", "last updated"},
+			Data:       [][]string{{"ComponentType", "1", identifier, name, description, owner, expectedUpdateTime}},
 			StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
 		},
 	}
