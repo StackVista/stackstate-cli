@@ -171,7 +171,7 @@ Class | Method | HTTP request | Description
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
- - [NodeListType](docs/NodeListType.md)
+ - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
  - [RequestError](docs/RequestError.md)

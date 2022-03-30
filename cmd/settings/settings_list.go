@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"time"
 )
 
@@ -19,7 +20,7 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list --type TYPE",
 		Short: "list all types of settings available",
-		RunE:  di.CmdRunEWithDeps(cli, RunSettingsListCommand),
+		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
 	}
 	cmd.Flags().StringP(TypeName, "", "", "example: ComponentType")
 	cmd.MarkFlagRequired(TypeName)
@@ -30,7 +31,7 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsListCommand(cli *di.Deps, cmd *cobra.Command, args []string) common.CLIError {
+func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	typeName, err := cmd.Flags().GetString(TypeName)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -44,7 +45,7 @@ func RunSettingsListCommand(cli *di.Deps, cmd *cobra.Command, args []string) com
 		return common.NewCLIError(err)
 	}
 
-	apiClient := cli.Client.NodeApi.TypeList(cli.Context, typeName)
+	apiClient := api.NodeApi.TypeList(cli.Context, typeName)
 	if nameSpace != "" {
 		apiClient = apiClient.Namespace(nameSpace)
 	}

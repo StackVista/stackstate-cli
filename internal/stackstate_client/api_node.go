@@ -53,8 +53,8 @@ type NodeApi interface {
 	TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest
 
 	// TypeListExecute executes the request
-	//  @return []NodeListType
-	TypeListExecute(r ApiTypeListRequest) ([]NodeListType, *_nethttp.Response, error)
+	//  @return []Node
+	TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error)
 }
 
 // NodeApiService NodeApi service
@@ -201,7 +201,7 @@ func (r ApiTypeListRequest) OwnedBy(ownedBy string) ApiTypeListRequest {
 	return r
 }
 
-func (r ApiTypeListRequest) Execute() ([]NodeListType, *_nethttp.Response, error) {
+func (r ApiTypeListRequest) Execute() ([]Node, *_nethttp.Response, error) {
 	return r.ApiService.TypeListExecute(r)
 }
 
@@ -223,15 +223,15 @@ func (a *NodeApiService) TypeList(ctx _context.Context, nodeType string) ApiType
 }
 
 // Execute executes the request
-//  @return []NodeListType
-func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]NodeListType, *_nethttp.Response, error) {
+//  @return []Node
+func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  []NodeListType
+		localVarReturnValue  []Node
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.TypeList")
@@ -372,7 +372,7 @@ func (mock NodeApiMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTyp
 }
 
 type TypeListMockResponse struct {
-	Result   []NodeListType
+	Result   []Node
 	Response *_nethttp.Response
 	Error    error
 }
@@ -391,7 +391,7 @@ func (mock NodeApiMock) TypeList(ctx _context.Context, nodeType string) ApiTypeL
 	}
 }
 
-func (mock NodeApiMock) TypeListExecute(r ApiTypeListRequest) ([]NodeListType, *_nethttp.Response, error) {
+func (mock NodeApiMock) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error) {
 	p := TypeListCall{
 		PnodeType:  r.nodeType,
 		Pnamespace: r.namespace,

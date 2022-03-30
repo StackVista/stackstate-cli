@@ -2,11 +2,9 @@ package settings
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
@@ -17,29 +15,24 @@ import (
 	"time"
 )
 
-func setupCommandFn(mockNodeApi sts.NodeApiMock) (*printer.MockPrinter, di.Deps, *cobra.Command) {
-	client := sts.APIClient{}
-	client.NodeApi = mockNodeApi
-	mockPrinter := printer.NewMockPrinter()
-	cli := di.Deps{
-		Config:  &conf.Conf{},
-		Printer: &mockPrinter,
-		Context: context.Background(),
-		Client:  &client,
-	}
-	cmd := SettingsListCommand(&cli)
+func setupCommandFn() (di.MockDeps, *cobra.Command) {
+	mockCli := di.NewMockDeps()
+	cmd := SettingsListCommand(&mockCli.Deps)
 
-	return &mockPrinter, cli, cmd
+	return mockCli, cmd
 }
 
 func TestSettingsListPrintsToTable(t *testing.T) {
-	nodeApiResult := []sts.NodeListType{
+	name := "One"
+	description := "First component"
+	owner := "owner-1"
+	nodeApiResult := []sts.Node{
 		{
 			Id:                  1,
 			TypeName:            "ComponentType",
-			Name:                "One",
-			Description:         "First component",
-			OwnedBy:             "owner-1",
+			Name:                &name,
+			Description:         &description,
+			OwnedBy:             &owner,
 			LastUpdateTimestamp: 1438167001716,
 		},
 	}
@@ -48,18 +41,20 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ms_iis_ws"}}); err != nil {
 		t.Fatal(err)
 	}
-	nodeApiMock := sts.NewNodeApiMock()
-	nodeApiMock.TypeListResponse.Result = nodeApiResult
-	nodeApiMock.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
-	mockPrinter, cli, cmd := setupCommandFn(nodeApiMock)
+
+	cli, cmd := setupCommandFn()
+	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
+	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
 
 	util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "ComponentType")
 
-	expectedTableCall := printer.TableCall{
-		Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
-		Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", expectedUpdateTime}},
-		StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
+	expectedTableCall := []printer.TableCall{
+		{
+			Header:     []string{"id", "type", "name", "description", "owned by", "last updated"},
+			Data:       [][]string{{"1", "ComponentType", "One", "First component", "owner-1", expectedUpdateTime}},
+			StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
+		},
 	}
 
-	assert.Equal(t, expectedTableCall, (*mockPrinter.TableCalls)[0])
+	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
 }

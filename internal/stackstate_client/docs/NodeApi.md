@@ -72,7 +72,7 @@ Other parameters are passed through a pointer to a apiNodeListTypesRequest struc
 
 ## TypeList
 
-> []NodeListType TypeList(ctx, nodeType).Namespace(namespace).OwnedBy(ownedBy).Execute()
+> []Node TypeList(ctx, nodeType).Namespace(namespace).OwnedBy(ownedBy).Execute()
 
 Node type API
 
@@ -102,7 +102,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.TypeList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `TypeList`: []NodeListType
+    // response from `TypeList`: []Node
     fmt.Fprintf(os.Stdout, "Response from `NodeApi.TypeList`: %v\n", resp)
 }
 ```
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**[]NodeListType**](NodeListType.md)
+[**[]Node**](Node.md)
 
 ### Authorization
 

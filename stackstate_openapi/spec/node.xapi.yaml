@@ -23,19 +23,16 @@ paths:
         - in: path
           name: nodeType
           required: true
-          allowReserved: true
           schema:
             type: string
         - in: query
           name: namespace
           required: false
-          allowReserved: true
           schema:
             type: string
         - in: query
           name: ownedBy
           required: false
-          allowReserved: true
           schema:
             type: string
       summary: "Node type API"
@@ -47,7 +44,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/NodeListTypes"
+                $ref: "#/components/schemas/NodeList"
         "500":
           $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 components:
@@ -70,12 +67,12 @@ components:
               - description
       required:
         - nodeTypes
-    NodeListTypes:
+    NodeList:
       type: array
       items:
-        $ref: "#/components/schemas/NodeListType"
+        $ref: "#/components/schemas/Node"
 
-    NodeListType:
+    Node:
       type: object
       properties:
         typeName:
@@ -100,9 +97,3 @@ components:
         - typeName
         - id
         - lastUpdateTimestamp
-        - identifier
-        - name
-        - ownedBy
-        - manual
-        - isSettingsNode
-        - description
