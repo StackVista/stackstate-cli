@@ -48,9 +48,9 @@ func RunSettingsApplyCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 		return nil
 	}
 
-	tableData := [][]string{}
+	tableData := make([][]interface{}, 0)
 	for _, node := range nodes {
-		tableData = append(tableData, []string{
+		tableData = append(tableData, []interface{}{
 			util.ToString(node["_type"]),
 			util.ToString(node["id"]),
 			util.ToString(node["identifier"]),

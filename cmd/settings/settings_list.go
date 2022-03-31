@@ -2,7 +2,6 @@ package settings
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
@@ -62,17 +61,17 @@ func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 		return common.NewCLIError(err)
 	}
 
-	data := make([][]string, 0)
+	data := make([][]interface{}, 0)
 	for _, v := range typeList {
 		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
-		data = append(data, []string{
+		data = append(data, []interface{}{
 			v.GetTypeName(),
-			fmt.Sprintf("%d", v.GetId()),
+			v.GetId(),
 			v.GetIdentifier(),
 			v.GetName(),
 			v.GetDescription(),
 			v.GetOwnedBy(),
-			lastUpdateTime.Format("Mon Jan _2 15:04:05 2006"),
+			lastUpdateTime,
 		})
 	}
 	cli.Printer.Table(
