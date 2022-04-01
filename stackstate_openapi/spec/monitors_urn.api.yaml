@@ -22,14 +22,11 @@ paths:
       summary: "Delete a monitor"
       description: "Deletes existing monitor"
       operationId: deleteMonitorByURN
-      produces:
-        - "application/json"
-        - "text/plain"
       parameters:
         - $ref: "#/components/parameters/monitorUrnId"
       responses:
-        "200":
-          $ref: "#/components/responses/monitorIdentifierDeleted"
+        "204":
+          description: "Return ok"
         "404":
           $ref: "#/components/responses/monitorIdentifierNotFoundError"
         "500":
@@ -104,12 +101,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MonitorIdentifierNotFoundError"
-    monitorIdentifierDeleted:
-      description: "Return ok"
-      content:
-        text/plain:
-          schema:
-            type: string
   schemas:
     MonitorUrnId:
       type: string

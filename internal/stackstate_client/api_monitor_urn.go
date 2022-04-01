@@ -39,8 +39,7 @@ type MonitorUrnApi interface {
 	DeleteMonitorByURN(ctx _context.Context, monitorUrnId string) ApiDeleteMonitorByURNRequest
 
 	// DeleteMonitorByURNExecute executes the request
-	//  @return string
-	DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (string, *_nethttp.Response, error)
+	DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*_nethttp.Response, error)
 
 	/*
 	DryRunMonitorByURN Dry run a monitor and show a result
@@ -99,7 +98,7 @@ type ApiDeleteMonitorByURNRequest struct {
 }
 
 
-func (r ApiDeleteMonitorByURNRequest) Execute() (string, *_nethttp.Response, error) {
+func (r ApiDeleteMonitorByURNRequest) Execute() (*_nethttp.Response, error) {
 	return r.ApiService.DeleteMonitorByURNExecute(r)
 }
 
@@ -121,20 +120,18 @@ func (a *MonitorUrnApiService) DeleteMonitorByURN(ctx _context.Context, monitorU
 }
 
 // Execute executes the request
-//  @return string
-func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (string, *_nethttp.Response, error) {
+func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.DeleteMonitorByURN")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/monitorUrn/{monitorUrnId}"
@@ -154,7 +151,7 @@ func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURN
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"text/plain", "application/json"}
+	localVarHTTPHeaderAccepts := []string{"application/json"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -177,19 +174,19 @@ func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURN
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -202,33 +199,24 @@ func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURN
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
+			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v MonitorApiError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.model = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 type ApiDryRunMonitorByURNRequest struct {
@@ -679,7 +667,7 @@ func NewMonitorUrnApiMock() MonitorUrnApiMock {
 }
 
 type DeleteMonitorByURNMockResponse struct {
-	Result string
+	
 	Response *_nethttp.Response
 	Error error
 }
@@ -697,12 +685,12 @@ func (mock MonitorUrnApiMock) DeleteMonitorByURN(ctx _context.Context, monitorUr
 	}
 }
 
-func (mock MonitorUrnApiMock) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (string, *_nethttp.Response, error) {
+func (mock MonitorUrnApiMock) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*_nethttp.Response, error) {
 	p := DeleteMonitorByURNCall {
 			PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.DeleteMonitorByURNCalls = append(*mock.DeleteMonitorByURNCalls, p)
-	return mock.DeleteMonitorByURNResponse.Result, mock.DeleteMonitorByURNResponse.Response, mock.DeleteMonitorByURNResponse.Error
+	return mock.DeleteMonitorByURNResponse.Response, mock.DeleteMonitorByURNResponse.Error
 }
 
 type DryRunMonitorByURNMockResponse struct {

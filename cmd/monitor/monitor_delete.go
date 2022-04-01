@@ -32,9 +32,9 @@ func RunDeleteMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 	id, err := strconv.ParseInt(identifier, 0, 64)
 	var resp *http.Response
 	if err == nil {
-		_, resp, err = api.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
+		resp, err = api.MonitorApi.DeleteMonitor(cli.Context, id).Execute()
 	} else {
-		_, resp, err = api.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
+		resp, err = api.MonitorUrnApi.DeleteMonitorByURN(cli.Context, identifier).Execute()
 	}
 	if err != nil {
 		return common.NewResponseError(err, resp)

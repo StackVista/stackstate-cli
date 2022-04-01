@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## DeleteMonitorByURN
 
-> string DeleteMonitorByURN(ctx, monitorUrnId).Execute()
+> DeleteMonitorByURN(ctx, monitorUrnId).Execute()
 
 Delete a monitor
 
@@ -41,8 +41,6 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.DeleteMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `DeleteMonitorByURN`: string
-    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.DeleteMonitorByURN`: %v\n", resp)
 }
 ```
 
@@ -65,7 +63,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**string**
+ (empty response body)
 
 ### Authorization
 
@@ -74,7 +72,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: text/plain, application/json
+- **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

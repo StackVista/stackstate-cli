@@ -104,11 +104,7 @@ paths:
         schema:
           $ref: '#/components/schemas/MonitorId'
       responses:
-        "200":
-          content:
-            text/plain:
-              schema:
-                type: string
+        "204":
           description: Return ok
         "404":
           content:
@@ -235,11 +231,7 @@ paths:
         schema:
           $ref: '#/components/schemas/MonitorUrnId'
       responses:
-        "200":
-          content:
-            text/plain:
-              schema:
-                type: string
+        "204":
           description: Return ok
         "404":
           content:

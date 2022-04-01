@@ -34,14 +34,11 @@ paths:
       summary: "Delete a monitor"
       description: "Deletes existing monitor"
       operationId: deleteMonitor
-      produces:
-        - "application/json"
-        - "text/plain"
       parameters:
         - $ref: "#/components/parameters/monitorId"
       responses:
-        "200":
-          $ref: "#/components/responses/monitorIdDeleted"
+        "204":
+          description: "Return ok"
         "404":
           $ref: "#/components/responses/monitorNotFoundError"
         "500":
@@ -140,12 +137,6 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MonitorApiError"
-    monitorIdDeleted:
-      description: "Return ok"
-      content:
-        text/plain:
-          schema:
-            type: string
   schemas:
     MonitorList:
       type: object
