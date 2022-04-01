@@ -10,7 +10,7 @@ To install the package to the current profile you need to register the current r
 
 ```sh
 nix registry add stackstate-cli "git+ssh://git@gitlab.com/stackvista/stackstate-cli2"
-nix profile install stackstate-cli
+nix profile install stackstate-cli#sts
 ```
 
 Alternatively temporary shell environment with `sts` binary in $PATH can be started using
