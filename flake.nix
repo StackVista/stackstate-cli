@@ -37,6 +37,6 @@
           };
         };
 
-        defaultPackage = self.packages.sts;
+        defaultPackage = self.packages."${system}".sts;
       });
 }
