@@ -38,7 +38,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 			LastUpdateTimestamp: 1438167001716,
 		},
 	}
-	expectedUpdateTime := time.UnixMilli(1438167001716).Format("Mon Jan _2 15:04:05 2006")
+	expectedUpdateTime := util.TimeToString(time.UnixMilli(1438167001716))
 	buf := new(bytes.Buffer)
 	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ms_iis_ws"}}); err != nil {
 		t.Fatal(err)
@@ -77,7 +77,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 			LastUpdateTimestamp: 1438167001716,
 		},
 	}
-	expectedUpdateTime := time.UnixMilli(1438167001716).Format("Mon Jan _2 15:04:05 2006")
+	expectedUpdateTime := util.TimeToString(time.UnixMilli(1438167001716))
 	buf := new(bytes.Buffer)
 	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ms_iis_ws"}}); err != nil {
 		t.Fatal(err)

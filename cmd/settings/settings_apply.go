@@ -8,7 +8,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 const (
@@ -50,12 +49,7 @@ func RunSettingsApplyCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 
 	tableData := make([][]interface{}, 0)
 	for _, node := range nodes {
-		tableData = append(tableData, []interface{}{
-			util.ToString(node["_type"]),
-			util.ToString(node["id"]),
-			util.ToString(node["identifier"]),
-			util.ToString(node["name"]),
-		})
+		tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
 	}
 
 	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).", len(nodes)))
