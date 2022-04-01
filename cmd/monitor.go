@@ -12,8 +12,7 @@ func MonitorCommand(cli *di.Deps) *cobra.Command {
 		Short: "manage and develop monitors",
 	}
 	cmd.AddCommand(monitor.ListMonitorsCommand(cli))
-	cmd.AddCommand(monitor.CreateMonitorCommand(cli))
-	cmd.AddCommand(monitor.UpdateMonitorCommand(cli))
+	cmd.AddCommand(monitor.MonitorApplyCommand(cli))
 	cmd.AddCommand(monitor.DeleteMonitorCommand(cli))
 	cmd.AddCommand(monitor.RunMonitorCommand(cli))
 

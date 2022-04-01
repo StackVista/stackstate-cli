@@ -92,33 +92,6 @@ paths:
       summary: List monitors
       tags:
       - monitor
-    post:
-      description: Creates monitor
-      operationId: createMonitor
-      requestBody:
-        $ref: '#/components/requestBodies/create'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Monitor'
-          description: Full representation of a monitor
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorInvalidIntervalError'
-          description: Error response if an unsupported monitor interval was provided
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorApiError'
-          description: container for all error response
-      summary: Create a monitor
-      tags:
-      - monitor
   /monitor/{monitorId}:
     delete:
       description: Deletes existing monitor
@@ -132,6 +105,10 @@ paths:
           $ref: '#/components/schemas/MonitorId'
       responses:
         "200":
+          content:
+            text/plain:
+              schema:
+                type: string
           description: Return ok
         "404":
           content:
@@ -178,46 +155,6 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Get a monitor
-      tags:
-      - monitor
-    put:
-      description: Updates monitor using optional attributes
-      operationId: updateMonitor
-      parameters:
-      - description: The identifier of a monitor
-        in: path
-        name: monitorId
-        required: true
-        schema:
-          $ref: '#/components/schemas/MonitorId'
-      requestBody:
-        $ref: '#/components/requestBodies/update'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Monitor'
-          description: Full representation of a monitor
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorInvalidIntervalError'
-          description: Error response if an unsupported monitor interval was provided
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorNotFoundError'
-          description: monitor was not found in the database
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorApiError'
-          description: container for all error response
-      summary: Update a monitor
       tags:
       - monitor
   /monitor/{monitorId}/run:
@@ -299,6 +236,10 @@ paths:
           $ref: '#/components/schemas/MonitorUrnId'
       responses:
         "200":
+          content:
+            text/plain:
+              schema:
+                type: string
           description: Return ok
         "404":
           content:
@@ -345,46 +286,6 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Get a monitor
-      tags:
-      - monitorUrn
-    put:
-      description: Updates monitor using optional attributes
-      operationId: updateMonitorByURN
-      parameters:
-      - description: The identifier of a monitor
-        in: path
-        name: monitorUrnId
-        required: true
-        schema:
-          $ref: '#/components/schemas/MonitorUrnId'
-      requestBody:
-        $ref: '#/components/requestBodies/update'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Monitor'
-          description: Full representation of a monitor
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorInvalidIntervalError'
-          description: Error response if an unsupported monitor interval was provided
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
-          description: monitor was not found in the database
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorApiError'
-          description: container for all error response
-      summary: Update a monitor
       tags:
       - monitorUrn
   /monitorUrn/{monitorUrnId}/run:
@@ -1451,18 +1352,6 @@ paths:
       - server
 components:
   requestBodies:
-    create:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateMonitor'
-      required: true
-    update:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UpdateMonitor'
-      required: true
     EventListBody:
       content:
         application/json:
@@ -1609,57 +1498,6 @@ components:
       - message
       - statusCode
       type: object
-    CreateMonitor:
-      example:
-        topologyMapping: topologyMapping
-        identifier: identifier
-        functionId: 0
-        remediationHint: remediationHint
-        name: name
-        description: description
-        parameters: '{}'
-        intervalSeconds: 6
-      properties:
-        name:
-          type: string
-        identifier:
-          type: string
-        description:
-          type: string
-        functionId:
-          format: int64
-          type: integer
-        parameters:
-          type: object
-        remediationHint:
-          type: string
-        topologyMapping:
-          description: Placeholder for the topology element identifier
-          type: string
-        intervalSeconds:
-          type: integer
-      required:
-      - functionId
-      - identifier
-      - intervalSeconds
-      - name
-      - parameters
-      - topologyMapping
-      type: object
-    MonitorInterval:
-      type: integer
-    MonitorInvalidIntervalError:
-      properties:
-        _type:
-          enum:
-          - MonitorInvalidIntervalError
-          type: string
-        intervalSeconds:
-          type: integer
-      required:
-      - _type
-      - intervalSeconds
-      type: object
     MonitorNotFoundError:
       properties:
         _type:
@@ -1672,35 +1510,6 @@ components:
       required:
       - _type
       - monitorId
-      type: object
-    UpdateMonitor:
-      example:
-        topologyMapping: topologyMapping
-        identifier: identifier
-        functionId: 0
-        remediationHint: remediationHint
-        name: name
-        description: description
-        parameters: '{}'
-        intervalSeconds: 6
-      properties:
-        name:
-          type: string
-        identifier:
-          type: string
-        description:
-          type: string
-        functionId:
-          format: int64
-          type: integer
-        parameters:
-          type: object
-        remediationHint:
-          type: string
-        topologyMapping:
-          type: string
-        intervalSeconds:
-          type: integer
       type: object
     MonitorRunResult:
       example:

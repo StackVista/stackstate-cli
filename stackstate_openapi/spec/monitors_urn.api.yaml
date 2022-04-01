@@ -15,25 +15,6 @@ paths:
           $ref: "#/components/responses/monitorIdentifierNotFoundError"
         "500":
           $ref: "monitors.api.yaml#/components/responses/monitorApiError"
-    put:
-      tags:
-        - monitorUrn
-      summary: "Update a monitor"
-      description: "Updates monitor using optional attributes"
-      operationId: updateMonitorByURN
-      parameters:
-        - $ref: "#/components/parameters/monitorUrnId"
-      requestBody:
-        $ref: "#/components/requestBodies/update"
-      responses:
-        "200":
-          $ref: "monitors.api.yaml#/components/responses/monitor"
-        "400":
-          $ref: "monitors.api.yaml#/components/responses/monitorInvalidIntervalError"
-        "404":
-          $ref: "#/components/responses/monitorIdentifierNotFoundError"
-        "500":
-          $ref: "monitors.api.yaml#/components/responses/monitorApiError"
 
     delete:
       tags:
@@ -41,11 +22,14 @@ paths:
       summary: "Delete a monitor"
       description: "Deletes existing monitor"
       operationId: deleteMonitorByURN
+      produces:
+        - "application/json"
+        - "text/plain"
       parameters:
         - $ref: "#/components/parameters/monitorUrnId"
       responses:
         "200":
-          description: "Return ok"
+          $ref: "#/components/responses/monitorIdentifierDeleted"
         "404":
           $ref: "#/components/responses/monitorIdentifierNotFoundError"
         "500":
@@ -120,6 +104,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MonitorIdentifierNotFoundError"
+    monitorIdentifierDeleted:
+      description: "Return ok"
+      content:
+        text/plain:
+          schema:
+            type: string
   schemas:
     MonitorUrnId:
       type: string

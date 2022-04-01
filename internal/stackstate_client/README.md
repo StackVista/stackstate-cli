@@ -94,18 +94,15 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/stream/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
-*MonitorApi* | [**CreateMonitor**](docs/MonitorApi.md#createmonitor) | **Post** /monitors | Create a monitor
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitor/{monitorId} | Delete a monitor
 *MonitorApi* | [**DryRunMonitor**](docs/MonitorApi.md#dryrunmonitor) | **Post** /monitor/{monitorId}/dryRun | Dry run a monitor and show a result
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitor/{monitorId} | Get a monitor
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitor/{monitorId}/run | Run a monitor
-*MonitorApi* | [**UpdateMonitor**](docs/MonitorApi.md#updatemonitor) | **Put** /monitor/{monitorId} | Update a monitor
 *MonitorUrnApi* | [**DeleteMonitorByURN**](docs/MonitorUrnApi.md#deletemonitorbyurn) | **Delete** /monitorUrn/{monitorUrnId} | Delete a monitor
 *MonitorUrnApi* | [**DryRunMonitorByURN**](docs/MonitorUrnApi.md#dryrunmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/dryRun | Dry run a monitor and show a result
 *MonitorUrnApi* | [**GetMonitorByURN**](docs/MonitorUrnApi.md#getmonitorbyurn) | **Get** /monitorUrn/{monitorUrnId} | Get a monitor
 *MonitorUrnApi* | [**RunMonitorByURN**](docs/MonitorUrnApi.md#runmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
-*MonitorUrnApi* | [**UpdateMonitorByURN**](docs/MonitorUrnApi.md#updatemonitorbyurn) | **Put** /monitorUrn/{monitorUrnId} | Update a monitor
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
@@ -120,7 +117,6 @@ Class | Method | HTTP request | Description
 ## Documentation For Models
 
  - [ApiToken](docs/ApiToken.md)
- - [CreateMonitor](docs/CreateMonitor.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
@@ -165,7 +161,6 @@ Class | Method | HTTP request | Description
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
- - [MonitorInvalidIntervalError](docs/MonitorInvalidIntervalError.md)
  - [MonitorList](docs/MonitorList.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
@@ -195,7 +190,6 @@ Class | Method | HTTP request | Description
  - [TopologySyncError](docs/TopologySyncError.md)
  - [TopologySyncStatus](docs/TopologySyncStatus.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
- - [UpdateMonitor](docs/UpdateMonitor.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)
  - [UserNotFoundError](docs/UserNotFoundError.md)
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)

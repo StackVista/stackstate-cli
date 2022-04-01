@@ -8,13 +8,12 @@ Method | HTTP request | Description
 [**DryRunMonitorByURN**](MonitorUrnApi.md#DryRunMonitorByURN) | **Post** /monitorUrn/{monitorUrnId}/dryRun | Dry run a monitor and show a result
 [**GetMonitorByURN**](MonitorUrnApi.md#GetMonitorByURN) | **Get** /monitorUrn/{monitorUrnId} | Get a monitor
 [**RunMonitorByURN**](MonitorUrnApi.md#RunMonitorByURN) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
-[**UpdateMonitorByURN**](MonitorUrnApi.md#UpdateMonitorByURN) | **Put** /monitorUrn/{monitorUrnId} | Update a monitor
 
 
 
 ## DeleteMonitorByURN
 
-> DeleteMonitorByURN(ctx, monitorUrnId).Execute()
+> string DeleteMonitorByURN(ctx, monitorUrnId).Execute()
 
 Delete a monitor
 
@@ -42,6 +41,8 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.DeleteMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
+    // response from `DeleteMonitorByURN`: string
+    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.DeleteMonitorByURN`: %v\n", resp)
 }
 ```
 
@@ -64,7 +65,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
- (empty response body)
+**string**
 
 ### Authorization
 
@@ -73,7 +74,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
+- **Accept**: text/plain, application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
@@ -283,78 +284,6 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## UpdateMonitorByURN
-
-> Monitor UpdateMonitorByURN(ctx, monitorUrnId).UpdateMonitor(updateMonitor).Execute()
-
-Update a monitor
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
-    updateMonitor := *openapiclient.NewUpdateMonitor() // UpdateMonitor | 
-
-    configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MonitorUrnApi.UpdateMonitorByURN(context.Background(), monitorUrnId).UpdateMonitor(updateMonitor).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.UpdateMonitorByURN``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `UpdateMonitorByURN`: Monitor
-    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.UpdateMonitorByURN`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**monitorUrnId** | **string** | The identifier of a monitor | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiUpdateMonitorByURNRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **updateMonitor** | [**UpdateMonitor**](UpdateMonitor.md) |  | 
-
-### Return type
-
-[**Monitor**](Monitor.md)
-
-### Authorization
-
-[ApiToken](../README.md#ApiToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

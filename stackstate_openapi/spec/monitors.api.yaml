@@ -1,20 +1,5 @@
 paths:
   /monitors:
-    post:
-      tags:
-        - monitor
-      summary: "Create a monitor"
-      description: "Creates monitor"
-      operationId: createMonitor
-      requestBody:
-        $ref: "#/components/requestBodies/create"
-      responses:
-        "201":
-          $ref: "#/components/responses/monitor"
-        "400":
-          $ref: "#/components/responses/monitorInvalidIntervalError"
-        "500":
-          $ref: "#/components/responses/monitorApiError"
     get:
       tags:
         - monitor
@@ -42,25 +27,6 @@ paths:
           $ref: "#/components/responses/monitorNotFoundError"
         "500":
           $ref: "#/components/responses/monitorApiError"
-    put:
-      tags:
-        - monitor
-      summary: "Update a monitor"
-      description: "Updates monitor using optional attributes"
-      operationId: updateMonitor
-      parameters:
-        - $ref: "#/components/parameters/monitorId"
-      requestBody:
-        $ref: "#/components/requestBodies/update"
-      responses:
-        "200":
-          $ref: "#/components/responses/monitor"
-        "400":
-          $ref: "#/components/responses/monitorInvalidIntervalError"
-        "404":
-          $ref: "#/components/responses/monitorNotFoundError"
-        "500":
-          $ref: "#/components/responses/monitorApiError"
 
     delete:
       tags:
@@ -68,11 +34,14 @@ paths:
       summary: "Delete a monitor"
       description: "Deletes existing monitor"
       operationId: deleteMonitor
+      produces:
+        - "application/json"
+        - "text/plain"
       parameters:
         - $ref: "#/components/parameters/monitorId"
       responses:
         "200":
-          description: "Return ok"
+          $ref: "#/components/responses/monitorIdDeleted"
         "404":
           $ref: "#/components/responses/monitorNotFoundError"
         "500":
@@ -171,57 +140,13 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/MonitorApiError"
+    monitorIdDeleted:
+      description: "Return ok"
+      content:
+        text/plain:
+          schema:
+            type: string
   schemas:
-    CreateMonitor:
-      type: object
-      properties:
-        name:
-          type: string
-        identifier:
-          type: string
-        description:
-          type: string
-        functionId:
-          type: integer
-          format: int64
-        parameters:
-          type: object
-        remediationHint:
-          type: string
-        topologyMapping:
-          type: string
-          description: "Placeholder for the topology element identifier"
-        intervalSeconds:
-          $ref: "#/components/schemas/MonitorInterval"
-      required:
-        - name
-        - identifier
-        - functionId
-        - parameters
-        - topologyMapping
-        - intervalSeconds
-
-    UpdateMonitor:
-      type: object
-      properties:
-        name:
-          type: string
-        identifier:
-          type: string
-        description:
-          type: string
-        functionId:
-          type: integer
-          format: int64
-        parameters:
-          type: object
-        remediationHint:
-          type: string
-        topologyMapping:
-          type: string
-        intervalSeconds:
-          $ref: "#/components/schemas/MonitorInterval"
-
     MonitorList:
       type: object
       properties:
