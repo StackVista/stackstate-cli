@@ -32,11 +32,21 @@
             vendorSha256 = "sha256-vf0zhp2Y8MUJRvyBhJDLpmoooM8I8cboTFxR3JKs2Ns=";
 
             postInstall = ''
-            mv $out/bin/stackstate-cli2 $out/bin/sts
-          '';
+              mv $out/bin/stackstate-cli2 $out/bin/sts
+            '';
           };
         };
 
         defaultPackage = self.packages."${system}".sts;
+
+        apps = {
+          sts = {
+            type = "app";
+            program = "${self.packages."${system}".sts}/bin/sts";
+          };
+        };
+
+        defaultApp = self.apps."${system}".sts;
+
       });
 }
