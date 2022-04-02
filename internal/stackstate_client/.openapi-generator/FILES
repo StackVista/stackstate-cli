@@ -73,6 +73,7 @@ docs/MonitorNotFoundError.md
 docs/MonitorRunResult.md
 docs/MonitorUrnApi.md
 docs/MultipleMatchesCheckState.md
+docs/Node.md
 docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypes.md
@@ -163,6 +164,7 @@ model_monitor_list.go
 model_monitor_not_found_error.go
 model_monitor_run_result.go
 model_multiple_matches_check_state.go
+model_node.go
 model_node_types.go
 model_node_types_node_types.go
 model_request_error.go

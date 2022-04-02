@@ -4,11 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
-	"net/http"
-	"os"
-	"strings"
-
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
@@ -19,6 +14,10 @@ import (
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gopkg.in/yaml.v3"
+	"io"
+	"net/http"
+	"os"
+	"strings"
 )
 
 type Printer interface {
@@ -33,7 +32,7 @@ type Printer interface {
 	GetOutputType() OutputType
 	PrintWarn(msg string)
 	Success(msg string)
-	Table(header []string, data [][]string, structData interface{})
+	Table(header []string, data [][]interface{}, structData interface{})
 	PrintLn(text string)
 }
 
@@ -244,7 +243,7 @@ func (p *StdPrinter) PrintWarn(msg string) {
 	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), msg)
 }
 
-func (p *StdPrinter) Table(header []string, data [][]string, structData interface{}) {
+func (p *StdPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
 	if p.outputType == Auto {
 		// uppercase the headers
 		headerUpperCased := make([]string, 0)
@@ -252,9 +251,11 @@ func (p *StdPrinter) Table(header []string, data [][]string, structData interfac
 			headerUpperCased = append(headerUpperCased, strings.ToUpper(header))
 		}
 
-		dataWithHeader := [][]string{}
+		dataWithHeader := make([][]string, 0)
 		dataWithHeader = append(dataWithHeader, headerUpperCased)
-		dataWithHeader = append(dataWithHeader, data...)
+
+		dataStr := util.ToStringSlice(data)
+		dataWithHeader = append(dataWithHeader, dataStr...)
 		pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
 	} else {
 		p.PrintStruct(structData)

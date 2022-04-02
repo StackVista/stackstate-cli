@@ -3,7 +3,9 @@ package util
 import (
 	"fmt"
 	"math"
+	"reflect"
 	"strings"
+	"time"
 	"unicode"
 )
 
@@ -49,6 +51,10 @@ func WithNewLine(s string) string {
 }
 
 func ToString(x interface{}) string {
+	if reflect.ValueOf(x).Type() == reflect.TypeOf(time.Time{}) {
+		return TimeToString(x)
+	}
+
 	switch v := x.(type) {
 	case *string:
 		return SafeStringPtrToString(v)
@@ -82,4 +88,16 @@ func SafeStringPtrToString(s *string) string {
 	} else {
 		return *s
 	}
+}
+
+func ToStringSlice(data [][]interface{}) [][]string {
+	result := make([][]string, 0)
+	for _, row := range data {
+		columns := make([]string, 0)
+		for _, v := range row {
+			columns = append(columns, ToString(v))
+		}
+		result = append(result, columns)
+	}
+	return result
 }

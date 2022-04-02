@@ -23,9 +23,9 @@ func RunSettingsListTypesCommand(cmd *cobra.Command, cli *di.Deps, api *stacksta
 		return common.NewResponseError(err, resp)
 	}
 
-	data := make([][]string, 0)
+	data := make([][]interface{}, 0)
 	for _, nodeType := range nodeTypes.NodeTypes {
-		data = append(data, []string{nodeType.TypeName, nodeType.Description})
+		data = append(data, []interface{}{nodeType.TypeName, nodeType.Description})
 	}
 
 	cli.Printer.Table(
