@@ -88,10 +88,6 @@ docs/ScriptingApi.md
 docs/ServerApi.md
 docs/ServerInfo.md
 docs/ServerVersion.md
-docs/Setting.md
-docs/SettingList.md
-docs/SettingParameter.md
-docs/SettingScript.md
 docs/SourceLink.md
 docs/StreamList.md
 docs/StreamListItem.md
@@ -181,10 +177,6 @@ model_root_cause_mode.go
 model_script_location.go
 model_server_info.go
 model_server_version.go
-model_setting.go
-model_setting_list.go
-model_setting_parameter.go
-model_setting_script.go
 model_source_link.go
 model_stream_list.go
 model_stream_list_item.go

@@ -37,8 +37,8 @@ type ExportApi interface {
 	ExportSettings(ctx _context.Context) ApiExportSettingsRequest
 
 	// ExportSettingsExecute executes the request
-	//  @return SettingList
-	ExportSettingsExecute(r ApiExportSettingsRequest) (SettingList, *_nethttp.Response, error)
+	//  @return string
+	ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error)
 }
 
 // ExportApiService ExportApi service
@@ -55,7 +55,7 @@ func (r ApiExportSettingsRequest) Export(export Export) ApiExportSettingsRequest
 	return r
 }
 
-func (r ApiExportSettingsRequest) Execute() (SettingList, *_nethttp.Response, error) {
+func (r ApiExportSettingsRequest) Execute() (string, *_nethttp.Response, error) {
 	return r.ApiService.ExportSettingsExecute(r)
 }
 
@@ -75,15 +75,15 @@ func (a *ExportApiService) ExportSettings(ctx _context.Context) ApiExportSetting
 }
 
 // Execute executes the request
-//  @return SettingList
-func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (SettingList, *_nethttp.Response, error) {
+//  @return string
+func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  SettingList
+		localVarReturnValue  string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExportApiService.ExportSettings")
@@ -110,7 +110,7 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (Se
 	}
 
 	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
+	localVarHTTPHeaderAccepts := []string{"text/plain"}
 
 	// set Accept header
 	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
@@ -155,15 +155,6 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (Se
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
@@ -196,7 +187,7 @@ func NewExportApiMock() ExportApiMock {
 }
 
 type ExportSettingsMockResponse struct {
-	Result   SettingList
+	Result   string
 	Response *_nethttp.Response
 	Error    error
 }
@@ -212,7 +203,7 @@ func (mock ExportApiMock) ExportSettings(ctx _context.Context) ApiExportSettings
 	}
 }
 
-func (mock ExportApiMock) ExportSettingsExecute(r ApiExportSettingsRequest) (SettingList, *_nethttp.Response, error) {
+func (mock ExportApiMock) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error) {
 	p := ExportSettingsCall{
 		Pexport: r.export,
 	}

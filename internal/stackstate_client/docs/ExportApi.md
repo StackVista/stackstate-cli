@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ExportSettings
 
-> SettingList ExportSettings(ctx).Export(export).Execute()
+> string ExportSettings(ctx).Export(export).Execute()
 
 Export settings
 
@@ -38,7 +38,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `ExportApi.ExportSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ExportSettings`: SettingList
+    // response from `ExportSettings`: string
     fmt.Fprintf(os.Stdout, "Response from `ExportApi.ExportSettings`: %v\n", resp)
 }
 ```
@@ -58,7 +58,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**SettingList**](SettingList.md)
+**string**
 
 ### Authorization
 
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
-- **Accept**: application/json
+- **Accept**: text/plain
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)

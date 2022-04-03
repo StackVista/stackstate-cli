@@ -65,16 +65,10 @@ paths:
       responses:
         "200":
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: '#/components/schemas/SettingList'
+                type: string
           description: Full description of all nodes.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
       summary: Export settings
       tags:
       - export
@@ -1566,108 +1560,6 @@ components:
       required:
       - _type
       - message
-      type: object
-    SettingList:
-      example:
-        nodes:
-        - identifier: identifier
-          name: name
-          description: description
-          id: ""
-          ownedBy: ownedBy
-          parameters:
-          - multiple: true
-            name: name
-            id: ""
-            type: type
-            required: true
-          - multiple: true
-            name: name
-            id: ""
-            type: type
-            required: true
-          script:
-            scriptBody: scriptBody
-        - identifier: identifier
-          name: name
-          description: description
-          id: ""
-          ownedBy: ownedBy
-          parameters:
-          - multiple: true
-            name: name
-            id: ""
-            type: type
-            required: true
-          - multiple: true
-            name: name
-            id: ""
-            type: type
-            required: true
-          script:
-            scriptBody: scriptBody
-      properties:
-        nodes:
-          items:
-            $ref: '#/components/schemas/Setting'
-          type: array
-      type: object
-    Setting:
-      example:
-        identifier: identifier
-        name: name
-        description: description
-        id: ""
-        ownedBy: ownedBy
-        parameters:
-        - multiple: true
-          name: name
-          id: ""
-          type: type
-          required: true
-        - multiple: true
-          name: name
-          id: ""
-          type: type
-          required: true
-        script:
-          scriptBody: scriptBody
-      properties:
-        id:
-          type: int64
-        description:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        ownedBy:
-          type: string
-        parameters:
-          items:
-            $ref: '#/components/schemas/SettingParameter'
-          type: array
-        script:
-          $ref: '#/components/schemas/Setting_script'
-      type: object
-    SettingParameter:
-      example:
-        multiple: true
-        name: name
-        id: ""
-        type: type
-        required: true
-      properties:
-        id:
-          type: int64
-        multiple:
-          type: boolean
-        name:
-          type: string
-        required:
-          type: boolean
-        type:
-          type: string
       type: object
     export:
       properties:
@@ -3312,13 +3204,6 @@ components:
       - major
       - minor
       - patch
-      type: object
-    Setting_script:
-      example:
-        scriptBody: scriptBody
-      properties:
-        scriptBody:
-          type: string
       type: object
     NodeTypes_nodeTypes:
       example:

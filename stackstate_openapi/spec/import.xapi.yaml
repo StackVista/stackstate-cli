@@ -46,60 +46,12 @@ paths:
         "200":
           description: "Full description of all nodes."
           content:
-            application/json:
+            text/plain:
               schema:
-                $ref: "#/components/schemas/SettingList"
-        "400":
-              $ref: "#/components/responses/monitorInvalidIntervalError"
-        "500":
-          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+                type: string
 
 components:
   schemas:
-    SettingList:
-      type: object
-      properties:
-        nodes:
-          type: array
-          items:
-            $ref: "#/components/schemas/Setting"
-
-    Setting:
-      type: object
-      properties:
-        id:
-          type: int64
-        description:
-          type: string
-        identifier:
-          type: string
-        name:
-          type: string
-        ownedBy:
-          type: string
-        parameters:
-          type: array
-          items:
-            $ref: "#/components/schemas/SettingParameter"
-        script:
-          type: object
-          properties:
-            scriptBody:
-              type: string
-
-    SettingParameter:
-      type: object
-      properties:
-        id:
-          type: int64
-        multiple:
-          type: boolean
-        name:
-          type: string
-        required:
-          type: boolean
-        type:
-          type: string
 
     export:
       type: object
