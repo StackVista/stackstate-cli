@@ -85,6 +85,7 @@ Class | Method | HTTP request | Description
 *EventApi* | [**GetEventTags**](docs/EventApi.md#geteventtags) | **Get** /eventTags | Get event tags
 *EventApi* | [**GetEventTypes**](docs/EventApi.md#geteventtypes) | **Get** /eventTypes | Get event types
 *EventApi* | [**GetEvents**](docs/EventApi.md#getevents) | **Post** /events | Get events
+*ExportApi* | [**ExportSettings**](docs/ExportApi.md#exportsettings) | **Post** /export | Export settings
 *HealthSynchronizationApi* | [**DeleteHealthSynchronizationStream**](docs/HealthSynchronizationApi.md#deletehealthsynchronizationstream) | **Delete** /synchronization/health/stream/{healthStreamUrn} | Delete health sync stream
 *HealthSynchronizationApi* | [**GetHealthSynchronizationStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamstatus) | **Get** /synchronization/health/stream/{healthStreamUrn}/status | Get health sync stream status
 *HealthSynchronizationApi* | [**GetHealthSynchronizationStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamtopologymatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/topologyMatches | List health sync stream check-states
@@ -145,6 +146,7 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptSyntaxErrorsErrors](docs/ExecuteScriptSyntaxErrorsErrors.md)
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
+ - [Export](docs/Export.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [HealthStreamError](docs/HealthStreamError.md)
@@ -180,6 +182,10 @@ Class | Method | HTTP request | Description
  - [ScriptLocation](docs/ScriptLocation.md)
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
+ - [Setting](docs/Setting.md)
+ - [SettingList](docs/SettingList.md)
+ - [SettingParameter](docs/SettingParameter.md)
+ - [SettingScript](docs/SettingScript.md)
  - [SourceLink](docs/SourceLink.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)

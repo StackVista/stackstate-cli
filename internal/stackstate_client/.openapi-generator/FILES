@@ -5,6 +5,7 @@ README.md
 api/openapi.yaml
 api_api_token.go
 api_event.go
+api_export.go
 api_health_synchronization.go
 api_import.go
 api_monitor.go
@@ -43,6 +44,8 @@ docs/ExecuteScriptSyntaxErrors.md
 docs/ExecuteScriptSyntaxErrorsErrors.md
 docs/ExecuteScriptTimeoutError.md
 docs/ExecuteScriptWrongReturnTypeError.md
+docs/Export.md
+docs/ExportApi.md
 docs/GenericApiError.md
 docs/GenericErrorsResponse.md
 docs/HealthStreamError.md
@@ -85,6 +88,10 @@ docs/ScriptingApi.md
 docs/ServerApi.md
 docs/ServerInfo.md
 docs/ServerVersion.md
+docs/Setting.md
+docs/SettingList.md
+docs/SettingParameter.md
+docs/SettingScript.md
 docs/SourceLink.md
 docs/StreamList.md
 docs/StreamListItem.md
@@ -138,6 +145,7 @@ model_execute_script_syntax_errors.go
 model_execute_script_syntax_errors_errors.go
 model_execute_script_timeout_error.go
 model_execute_script_wrong_return_type_error.go
+model_export.go
 model_generic_api_error.go
 model_generic_errors_response.go
 model_health_stream_error.go
@@ -173,6 +181,10 @@ model_root_cause_mode.go
 model_script_location.go
 model_server_info.go
 model_server_version.go
+model_setting.go
+model_setting_list.go
+model_setting_parameter.go
+model_setting_script.go
 model_source_link.go
 model_stream_list.go
 model_stream_list_item.go
