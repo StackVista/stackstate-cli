@@ -1,6 +1,7 @@
 package printer
 
 import (
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"net/http"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -90,8 +91,9 @@ func (p *MockPrinter) PrintWarn(msg string) {
 	*p.PrintWarnCalls = append(*p.PrintWarnCalls, msg)
 }
 
-func (p *MockPrinter) Table(header []string, data [][]string, structData interface{}) {
-	*p.TableCalls = append(*p.TableCalls, TableCall{header, data, structData})
+func (p *MockPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
+	dataStr := util.ToStringSlice(data)
+	*p.TableCalls = append(*p.TableCalls, TableCall{header, dataStr, structData})
 }
 
 func (p *MockPrinter) PrintLn(text string) {

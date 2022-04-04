@@ -15,7 +15,8 @@ externalDocs:
   url: "https://docs.stackstate.com/"
 paths:
   /import: { $ref: "import.xapi.yaml#/paths/%2Fimport" }
-  /node: { $ref: "node.xapi.yaml#/paths/%2Fnode" }  
+  /node: { $ref: "node.xapi.yaml#/paths/%2Fnode" }
+  /node/{nodeType}: { $ref: "node.xapi.yaml#/paths/%2Fnode%2F%7BnodeType%7D" }
   /monitors: { $ref: "monitors.api.yaml#/paths/%2Fmonitors" }
   /monitor/{monitorId}: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D" }
   /monitor/{monitorId}/run: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2Frun" }

@@ -5,12 +5,12 @@ go 1.15
 require (
 	github.com/alecthomas/chroma v0.9.4
 	github.com/gookit/color v1.4.2
-	github.com/markbates/pkger v0.17.1
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/niemeyer/pretty v0.0.0-20200227124842-a10e7caefd8e // indirect
 	github.com/pterm/pterm v0.12.33
 	github.com/rs/zerolog v1.25.0
 	github.com/spf13/cobra v1.2.1
+	github.com/spf13/pflag v1.0.5
 	github.com/spf13/viper v1.8.1
 	github.com/stretchr/testify v1.7.0
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8
