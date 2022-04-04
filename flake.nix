@@ -29,7 +29,7 @@
             # This hash locks the dependencies of this package.
             # Change it to the provided when the go dependencies change.
             # See https://www.tweag.io/blog/2021-03-04-gomod2nix/ for details
-            vendorSha256 = "sha256-vf0zhp2Y8MUJRvyBhJDLpmoooM8I8cboTFxR3JKs2Ns=";
+            vendorSha256 = "sha256-+jA7RJ6Eh9e6JjyTFDifcN+iVWE66w3tRzBwj2b8ijM=";
 
             postInstall = ''
               mv $out/bin/stackstate-cli2 $out/bin/sts
