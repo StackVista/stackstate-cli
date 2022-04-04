@@ -23,9 +23,9 @@ func RunListMonitorsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 		return common.NewResponseError(err, resp)
 	}
 
-	tableData := [][]string{}
+	tableData := [][]interface{}{}
 	for _, monitor := range monitors.Monitors {
-		tableData = append(tableData, []string{util.ToString(monitor.Id), util.ToString(*monitor.Identifier), util.ToString(monitor.Name)})
+		tableData = append(tableData, []interface{}{util.ToString(monitor.Id), util.ToString(*monitor.Identifier), util.ToString(monitor.Name)})
 	}
 	cli.Printer.Table([]string{"Id", "Identifier", "Name"}, tableData, monitors.Monitors)
 

@@ -22,6 +22,6 @@ func RunVersionCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		"cli-type": CLIType,
 	}
 
-	cli.Printer.Table([]string{"Version", "Date", "CLI Type", "Commit"}, [][]string{{Version, Date, CLIType, Commit}}, info)
+	cli.Printer.Table([]string{"Version", "Date", "CLI Type", "Commit"}, [][]interface{}{{Version, Date, CLIType, Commit}}, info)
 	return nil
 }
