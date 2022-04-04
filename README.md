@@ -13,7 +13,7 @@ To ensure a superb command line experience for our users development of new CLI 
 
 ### Rule: familiarize yourself with CLI development
 
-CLI development has a big UX component to it. Please familourize yourself with CLI development by reading the following two resources:
+CLI development has a big UX component to it. Please familiarize yourself with CLI development by reading the following two resources:
  1. [Command Line Interface Guidelines](https://clig.dev)
  2. [12 Factor CLI Apps](https://medium.com/@jdxcode/12-factor-cli-apps-dd3c227a0e46)
 

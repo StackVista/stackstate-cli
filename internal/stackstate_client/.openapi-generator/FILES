@@ -18,7 +18,6 @@ client.go
 configuration.go
 docs/ApiToken.md
 docs/ApiTokenApi.md
-docs/CreateMonitor.md
 docs/DependencyDirection.md
 docs/EventApi.md
 docs/EventCategory.md
@@ -67,7 +66,6 @@ docs/Monitor.md
 docs/MonitorApi.md
 docs/MonitorApiError.md
 docs/MonitorIdentifierNotFoundError.md
-docs/MonitorInvalidIntervalError.md
 docs/MonitorList.md
 docs/MonitorNotFoundError.md
 docs/MonitorRunResult.md
@@ -103,7 +101,6 @@ docs/TopologySyncError.md
 docs/TopologySyncStatus.md
 docs/TopologySynchronizationApi.md
 docs/UnmatchedCheckState.md
-docs/UpdateMonitor.md
 docs/UserNameMismatchError.md
 docs/UserNotFoundError.md
 docs/UserNotLoggedInError.md
@@ -114,7 +111,6 @@ git_push.sh
 go.mod
 go.sum
 model_api_token.go
-model_create_monitor.go
 model_dependency_direction.go
 model_event_category.go
 model_event_component.go
@@ -159,7 +155,6 @@ model_metric_bucket_value.go
 model_monitor.go
 model_monitor_api_error.go
 model_monitor_identifier_not_found_error.go
-model_monitor_invalid_interval_error.go
 model_monitor_list.go
 model_monitor_not_found_error.go
 model_monitor_run_result.go
@@ -190,7 +185,6 @@ model_topology_stream_metrics.go
 model_topology_sync_error.go
 model_topology_sync_status.go
 model_unmatched_check_state.go
-model_update_monitor.go
 model_user_name_mismatch_error.go
 model_user_not_found_error.go
 model_user_not_logged_in_error.go
