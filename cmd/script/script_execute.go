@@ -1,7 +1,6 @@
 package script
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -38,6 +37,10 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+	if err := common.CheckRequiredMutuallyExclusiveFlags(cmd, []string{ScriptFlag, FileFlag}); err != nil {
+		return err
+	}
+
 	var script string
 
 	script, err := cmd.Flags().GetString(ScriptFlag)
@@ -49,20 +52,12 @@ func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 		return common.NewCLIError(err)
 	}
 
-	if file != "" && script != "" {
-		return common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. Pick one or the other", ScriptFlag, FileFlag))
-	}
-
 	if file != "" {
 		b, err := os.ReadFile(file)
 		if err != nil {
 			return common.NewCLIError(err)
 		}
 		script = string(b)
-	}
-
-	if script == "" {
-		return common.NewCLIArgParseError(fmt.Errorf("required flag \"%s\" or \"%s\" not set", ScriptFlag, FileFlag))
 	}
 
 	var argumentsScript *string

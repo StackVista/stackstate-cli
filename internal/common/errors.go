@@ -47,7 +47,7 @@ func NewCLIArgParseError(err error) CLIError {
 	return StdCLIError{
 		Err:       err,
 		showUsage: true,
-		exitCode:  CommandExecutionExitCode,
+		exitCode:  CommandFailedRequirementExitCode,
 	}
 }
 

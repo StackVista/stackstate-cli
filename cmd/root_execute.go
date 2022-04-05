@@ -109,7 +109,7 @@ func Execute(ctx context.Context) {
 			exitCode = v.GetExitCode()
 			showUsage = v.ShowUsage()
 		default:
-			exitCode = common.CommandExecutionExitCode
+			exitCode = common.CommandFailedRequirementExitCode
 			showUsage = true
 		}
 		if showUsage {

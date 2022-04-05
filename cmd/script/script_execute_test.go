@@ -105,5 +105,12 @@ func TestScriptAndFileFlag(t *testing.T) {
 	cli, cmd := setupCommand()
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script", "-f", "file")
 
-	assert.Equal(t, common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags. Pick one or the other")), err)
+	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{ScriptFlag, FileFlag}, []string{ScriptFlag, FileFlag}), err)
+}
+
+func TestNoScriptOrFileFlag(t *testing.T) {
+	cli, cmd := setupCommand()
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd)
+
+	assert.Equal(t, common.NewMutuallyExclusiveFlagsRequiredError([]string{ScriptFlag, FileFlag}), err)
 }

@@ -24,6 +24,10 @@ func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+	if err := common.CheckRequiredMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}); err != nil {
+		return err
+	}
+
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -39,9 +43,6 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	nodeTypes, err := cmd.Flags().GetStringSlice(TypeName)
 	if err != nil {
 		return common.NewCLIError(err)
-	}
-	if len(ids) != 0 && len(namespace) != 0 && len(nodeTypes) != 0 {
-		return common.NewCLIArgParseError(fmt.Errorf("can not find \"%s\" or \"%s\" or \"%s\" flags. Pick one or the other", ids, Namespace, TypeName))
 	}
 
 	exportArgs := stackstate_client.NewExport()
