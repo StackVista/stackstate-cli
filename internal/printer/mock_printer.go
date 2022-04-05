@@ -1,8 +1,9 @@
 package printer
 
 import (
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"net/http"
+
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
@@ -35,7 +36,6 @@ func NewMockPrinter() MockPrinter {
 	printStructCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
 	startSpinnerCalls := make([]common.LoadingMsg, 0)
-	var stopSpinnerCalls int
 	successCalls := make([]string, 0)
 	printWarnCalls := make([]string, 0)
 	printTableCalls := make([]TableCall, 0)
@@ -43,7 +43,6 @@ func NewMockPrinter() MockPrinter {
 		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
 		StartSpinnerCalls: &startSpinnerCalls,
-		StopSpinnerCalls:  &stopSpinnerCalls,
 		SuccessCalls:      &successCalls,
 		PrintWarnCalls:    &printWarnCalls,
 		TableCalls:        &printTableCalls,
@@ -59,12 +58,9 @@ func (p *MockPrinter) PrintErr(err error) {
 	*p.PrintErrCalls = append(*p.PrintErrCalls, err)
 }
 
-func (p *MockPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
+func (p *MockPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
 	*p.StartSpinnerCalls = append(*p.StartSpinnerCalls, loadingMsg)
-}
-
-func (p *MockPrinter) StopSpinner() {
-	*p.StopSpinnerCalls++
+	return func() {}
 }
 
 func (p *MockPrinter) SetUseColor(useColor bool) {

@@ -4,6 +4,11 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
+	"net/http"
+	"os"
+	"strings"
+
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
@@ -14,18 +19,13 @@ import (
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gopkg.in/yaml.v3"
-	"io"
-	"net/http"
-	"os"
-	"strings"
 )
 
 type Printer interface {
 	// Expects s to be JSON or YAML serializable. You'll get an error otherwise.
 	PrintStruct(s interface{}) error
 	PrintErr(err error)
-	StartSpinner(loadingMsg common.LoadingMsg)
-	StopSpinner()
+	StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
@@ -37,6 +37,8 @@ type Printer interface {
 }
 
 type OutputType int
+
+type StopPrinterFn func()
 
 type Symbol struct {
 	UnicodeChar string
@@ -195,17 +197,16 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	)
 }
 
-func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
+func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
 	if p.spinner != nil {
-		p.spinner.Text = loadingMsg.String()
-		p.spinner.Start()
+		s, _ := p.spinner.WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
+		return func() {
+			if s != nil {
+				s.Stop()
+			}
+		}
 	}
-}
-
-func (p *StdPrinter) StopSpinner() {
-	if p.spinner != nil {
-		p.spinner.Stop()
-	}
+	return func() {}
 }
 
 func (p *StdPrinter) SetUseColor(useColor bool) {

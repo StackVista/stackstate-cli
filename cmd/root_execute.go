@@ -73,11 +73,13 @@ func Execute(ctx context.Context) {
 		}
 		configuration.Debug = cli.IsVerBose
 		var client *stackstate_client.APIClient
+
+		stopSpinner := func() {}
 		configuration.OnPreCallAPI = func(r *http.Request) {
-			cli.Printer.StartSpinner(common.AwaitingServer)
+			stopSpinner = cli.Printer.StartSpinner(common.AwaitingServer)
 		}
 		configuration.OnPostCallAPI = func(r *http.Request) {
-			cli.Printer.StopSpinner()
+			stopSpinner()
 		}
 		client = stackstate_client.NewAPIClient(configuration)
 
