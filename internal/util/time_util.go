@@ -11,6 +11,6 @@ func TimeToString(val interface{}) string {
 		return fmt.Sprintf("invalid time %v", val)
 	}
 	timeZone, _ := t.Zone()
-	str := fmt.Sprintf("%s %s", t.Format("Mon Jan _2 15:04:05 2006"), timeZone)
+	str := fmt.Sprintf("%s %s", t.Format("Mon Jan 2 15:04:05 2006"), timeZone)
 	return str
 }
