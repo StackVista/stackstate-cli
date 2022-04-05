@@ -154,6 +154,9 @@ func TestFlagShortHandMustBeConsistentAmongstCommands(t *testing.T) {
 	root := setupCmd()
 	shorthands := make(map[string]string, 0)
 	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
+		if cmd.Use == "export {--ids IDs | --namespace NAMESPACE | --type LAYER_TYPE}" {
+			fmt.Println("export command test")
+		}
 		if len(flag.Shorthand) == 1 {
 			flagName := shorthands[flag.Shorthand]
 			if flagName != "" {

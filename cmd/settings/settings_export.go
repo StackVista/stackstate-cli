@@ -10,14 +10,14 @@ import (
 
 func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "export {--ids IDs | --namespace NAMESPACE | --type LAYER_TYPE} --allow-references ALLOW-REFERENCES",
+		Use:   "export {--ids IDs | --namespace NAMESPACE | --type LAYER_TYPE}",
 		Short: "export settings with STJ",
 		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
 	}
-	cmd.Flags().StringSlice(Ids, []string{""}, "ids of the items")
-	cmd.Flags().StringSlice(Namespace, []string{""}, "namespace of the component")
-	cmd.Flags().StringSlice(TypeName, []string{""}, "type of the layer")
-	cmd.Flags().StringSlice(AllowReferences, []string{""}, "filter by reference")
+	cmd.Flags().StringSlice(Ids, nil, "ids of the items")
+	cmd.Flags().StringSlice(Namespace, nil, "namespace of the component")
+	cmd.Flags().StringSlice(TypeName, nil, "type of the setting")
+	cmd.Flags().StringSlice(AllowReferences, nil, "filter by reference")
 
 	return cmd
 }
@@ -39,8 +39,8 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	if err != nil {
 		return common.NewCLIError(err)
 	}
-	if len(ids) != 0 && len(namespace) != 0 {
-		return common.NewCLIArgParseError(fmt.Errorf("can not find \"%s\" and \"%s\" flags. Pick one or the other", ids, Namespace))
+	if len(ids) != 0 && len(namespace) != 0 && len(nodeTypes) != 0 {
+		return common.NewCLIArgParseError(fmt.Errorf("can not find \"%s\" or \"%s\" or \"%s\" flags. Pick one or the other", ids, Namespace, TypeName))
 	}
 
 	exportArgs := stackstate_client.NewExport()
@@ -60,12 +60,11 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 		exportArgs.AllowReferences = &references
 	}
 
-	data, _, err := api.ExportApi.ExportSettings(cli.Context).Export(*exportArgs).Execute()
+	data, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*exportArgs).Execute()
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewResponseError(err, resp)
 	}
 
-	//cli.Printer.PrintLn(`{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]`)
 	cli.Printer.PrintLn(data)
 	return nil
 }
