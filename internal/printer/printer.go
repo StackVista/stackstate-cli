@@ -253,11 +253,7 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 		tw.Style().Options.SeparateHeader = false
 		tw.Style().Format.Header = text.FormatUpper
 		if p.useColor {
-			var headerColors = make([]text.Color, len(header))
-			for i := 0; i < len(header); i = i + 1 {
-				headerColors[i] = text.FgCyan
-			}
-			tw.Style().Color.Header = headerColors
+			tw.Style().Color.Header = text.Colors{text.FgCyan}
 		}
 
 		tw.AppendHeader(util.StringSliceToInterfaceSlice(header))
@@ -284,7 +280,6 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 
 		tw.AppendRows(rows)
 		fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
-		//fmt.Printf("columnWidth = %v || adjustedColumnWidth = %v || maxColumnWidth = %d || max width = %d || extra = %d ||  totalWidth = %d || biggerColumnCount = %d\n", columnWidths, adjustedColumnWidths, avgColumnWidth, pterm.DefaultParagraph.MaxWidth, extraColumnWidth, totalWidth, biggerColumnCount)
 	} else {
 		p.PrintStruct(structData)
 	}
@@ -301,13 +296,11 @@ func calcColumnWidth(header []string, data [][]interface{}) []int {
 
 	// maximum column width is the length of the longest value
 	for _, row := range data {
-		columns := make(table.Row, 0)
 		for i, v := range row {
 			value := util.ToString(v)
 			if columnWidths[i] < len(value) {
 				columnWidths[i] = len(value)
 			}
-			columns = append(columns, value)
 		}
 	}
 
