@@ -17,9 +17,9 @@ import (
 
 // Export struct for Export
 type Export struct {
-	NodesWithIds    *[]string `json:"nodesWithIds,omitempty"`
+	NodesWithIds *[]int64 `json:"nodesWithIds,omitempty"`
 	AllNodesOfTypes *[]string `json:"allNodesOfTypes,omitempty"`
-	Namespace       *[]string `json:"namespace,omitempty"`
+	Namespace *[]string `json:"namespace,omitempty"`
 	AllowReferences *[]string `json:"allowReferences,omitempty"`
 }
 
@@ -41,9 +41,9 @@ func NewExportWithDefaults() *Export {
 }
 
 // GetNodesWithIds returns the NodesWithIds field value if set, zero value otherwise.
-func (o *Export) GetNodesWithIds() []string {
+func (o *Export) GetNodesWithIds() []int64 {
 	if o == nil || o.NodesWithIds == nil {
-		var ret []string
+		var ret []int64
 		return ret
 	}
 	return *o.NodesWithIds
@@ -51,7 +51,7 @@ func (o *Export) GetNodesWithIds() []string {
 
 // GetNodesWithIdsOk returns a tuple with the NodesWithIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Export) GetNodesWithIdsOk() (*[]string, bool) {
+func (o *Export) GetNodesWithIdsOk() (*[]int64, bool) {
 	if o == nil || o.NodesWithIds == nil {
 		return nil, false
 	}
@@ -67,8 +67,8 @@ func (o *Export) HasNodesWithIds() bool {
 	return false
 }
 
-// SetNodesWithIds gets a reference to the given []string and assigns it to the NodesWithIds field.
-func (o *Export) SetNodesWithIds(v []string) {
+// SetNodesWithIds gets a reference to the given []int64 and assigns it to the NodesWithIds field.
+func (o *Export) SetNodesWithIds(v []int64) {
 	o.NodesWithIds = &v
 }
 
@@ -220,3 +220,5 @@ func (v *NullableExport) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

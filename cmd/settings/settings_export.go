@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
@@ -10,20 +11,20 @@ import (
 
 func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "export {--ids IDs | --namespace NAMESPACE | --type LAYER_TYPE}",
+		Use:   "export {--ids IDs | --namespace NAMESPACE | --type TYPE}",
 		Short: "export settings with STJ",
 		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
 	}
-	cmd.Flags().StringSlice(Ids, nil, "ids of the items")
-	cmd.Flags().StringSlice(Namespace, nil, "namespace of the component")
-	cmd.Flags().StringSlice(TypeName, nil, "type of the setting")
-	cmd.Flags().StringSlice(AllowReferences, nil, "filter by reference")
+	cmd.Flags().Int64Slice(Ids, nil, "list of ids to export")
+	cmd.Flags().StringSlice(Namespace, nil, "list of namespaces to export")
+	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
+	cmd.Flags().StringSlice(AllowReferences, nil, "list of namespaces that is allowed in the references")
 
 	return cmd
 }
 
 func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
-	ids, err := cmd.Flags().GetStringSlice(Ids)
+	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {
 		return common.NewCLIError(err)
 	}

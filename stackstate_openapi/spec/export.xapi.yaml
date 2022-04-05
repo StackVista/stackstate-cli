@@ -29,7 +29,8 @@ components:
         nodesWithIds:
           type: array
           items:
-            type: string
+            type: integer
+            format: int64
         allNodesOfTypes:
           type: array
           items:

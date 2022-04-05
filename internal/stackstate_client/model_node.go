@@ -17,15 +17,15 @@ import (
 
 // Node struct for Node
 type Node struct {
-	TypeName            string  `json:"typeName"`
-	Id                  int64   `json:"id"`
-	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp"`
-	Identifier          *string `json:"identifier,omitempty"`
-	Name                *string `json:"name,omitempty"`
-	Description         *string `json:"description,omitempty"`
-	OwnedBy             *string `json:"ownedBy,omitempty"`
-	Manual              *bool   `json:"manual,omitempty"`
-	IsSettingsNode      *bool   `json:"isSettingsNode,omitempty"`
+	TypeName string `json:"typeName"`
+	Id int64 `json:"id"`
+	LastUpdateTimestamp int64 `json:"lastUpdateTimestamp"`
+	Identifier *string `json:"identifier,omitempty"`
+	Name *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty"`
+	OwnedBy *string `json:"ownedBy,omitempty"`
+	Manual *bool `json:"manual,omitempty"`
+	IsSettingsNode *bool `json:"isSettingsNode,omitempty"`
 }
 
 // NewNode instantiates a new Node object
@@ -61,7 +61,7 @@ func (o *Node) GetTypeName() string {
 // GetTypeNameOk returns a tuple with the TypeName field value
 // and a boolean to check if the value has been set.
 func (o *Node) GetTypeNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.TypeName, true
@@ -85,7 +85,7 @@ func (o *Node) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Node) GetIdOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Id, true
@@ -109,7 +109,7 @@ func (o *Node) GetLastUpdateTimestamp() int64 {
 // GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
 // and a boolean to check if the value has been set.
 func (o *Node) GetLastUpdateTimestampOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.LastUpdateTimestamp, true
@@ -379,3 +379,5 @@ func (v *NullableNode) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

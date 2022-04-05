@@ -27,12 +27,12 @@ var (
 type ExportApi interface {
 
 	/*
-		ExportSettings Export settings
+	ExportSettings Export settings
 
-		Export StackState Templated JSON (STJ) setting nodes.
+	Export StackState Templated JSON (STJ) setting nodes.
 
-		 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		 @return ApiExportSettingsRequest
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiExportSettingsRequest
 	*/
 	ExportSettings(ctx _context.Context) ApiExportSettingsRequest
 
@@ -41,13 +41,14 @@ type ExportApi interface {
 	ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error)
 }
 
+
 // ExportApiService ExportApi service
 type ExportApiService service
 
 type ApiExportSettingsRequest struct {
-	ctx        _context.Context
+	ctx _context.Context
 	ApiService ExportApi
-	export     *Export
+	export *Export
 }
 
 func (r ApiExportSettingsRequest) Export(export Export) ApiExportSettingsRequest {
@@ -70,7 +71,7 @@ Export StackState Templated JSON (STJ) setting nodes.
 func (a *ExportApiService) ExportSettings(ctx _context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -170,43 +171,48 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type ExportApiMock struct {
-	ExportSettingsCalls    *[]ExportSettingsCall
+	ExportSettingsCalls *[]ExportSettingsCall
 	ExportSettingsResponse ExportSettingsMockResponse
-}
+}	
 
 func NewExportApiMock() ExportApiMock {
 	xExportSettingsCalls := make([]ExportSettingsCall, 0)
-	return ExportApiMock{
+	return ExportApiMock {
 		ExportSettingsCalls: &xExportSettingsCalls,
 	}
 }
 
 type ExportSettingsMockResponse struct {
-	Result   string
+	Result string
 	Response *_nethttp.Response
-	Error    error
+	Error error
 }
 
 type ExportSettingsCall struct {
 	Pexport *Export
 }
 
+
 func (mock ExportApiMock) ExportSettings(ctx _context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock ExportApiMock) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error) {
-	p := ExportSettingsCall{
-		Pexport: r.export,
+	p := ExportSettingsCall {
+			Pexport: r.export,
 	}
 	*mock.ExportSettingsCalls = append(*mock.ExportSettingsCalls, p)
 	return mock.ExportSettingsResponse.Result, mock.ExportSettingsResponse.Response, mock.ExportSettingsResponse.Error
 }
+
+

@@ -1565,7 +1565,8 @@ components:
       properties:
         nodesWithIds:
           items:
-            type: string
+            format: int64
+            type: integer
           type: array
         allNodesOfTypes:
           items:

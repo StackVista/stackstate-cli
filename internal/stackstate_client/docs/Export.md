@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NodesWithIds** | Pointer to **[]string** |  | [optional] 
+**NodesWithIds** | Pointer to **[]int64** |  | [optional] 
 **AllNodesOfTypes** | Pointer to **[]string** |  | [optional] 
 **Namespace** | Pointer to **[]string** |  | [optional] 
 **AllowReferences** | Pointer to **[]string** |  | [optional] 
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetNodesWithIds
 
-`func (o *Export) GetNodesWithIds() []string`
+`func (o *Export) GetNodesWithIds() []int64`
 
 GetNodesWithIds returns the NodesWithIds field if non-nil, zero value otherwise.
 
 ### GetNodesWithIdsOk
 
-`func (o *Export) GetNodesWithIdsOk() (*[]string, bool)`
+`func (o *Export) GetNodesWithIdsOk() (*[]int64, bool)`
 
 GetNodesWithIdsOk returns a tuple with the NodesWithIds field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNodesWithIds
 
-`func (o *Export) SetNodesWithIds(v []string)`
+`func (o *Export) SetNodesWithIds(v []int64)`
 
 SetNodesWithIds sets NodesWithIds field to given value.
 
