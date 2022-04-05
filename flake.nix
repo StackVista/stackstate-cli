@@ -14,13 +14,13 @@
 
         devShell = pkgs.mkShell {
           buildInputs = (with pkgs; [
-            go
+            go_1_18
             goreleaser
           ]);
         };
 
         packages = {
-          sts = pkgs.buildGoModule {
+          sts = pkgs.buildGo118Module {
             pname = "sts";
             version = "0.0.1";
 
