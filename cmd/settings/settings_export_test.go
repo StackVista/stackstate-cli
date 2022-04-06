@@ -20,7 +20,7 @@ func TestSettingsExportPrintsToTable(t *testing.T) {
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	util.ExecuteCommandWithContext(cli.Context, cmd)
-
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214")
+	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
 }
