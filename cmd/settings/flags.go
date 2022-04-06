@@ -6,6 +6,5 @@ const (
 	Namespace       = "namespace"
 	OwnedBy         = "owned-by"
 	Ids             = "ids"
-	AllowReferences = "allow-references"
-	OnlyIdentifier  = "only-identifier"
+	AllowReferences = "allowed-namespace-refs"
 )

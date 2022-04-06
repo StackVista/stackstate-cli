@@ -19,7 +19,7 @@ func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().Int64Slice(Ids, nil, "list of ids to export")
 	cmd.Flags().StringSlice(Namespace, nil, "list of namespaces to export")
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
-	cmd.Flags().StringSlice(AllowReferences, nil, "list of namespaces that is allowed in the references")
+	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that may be referenced by the exported settings")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
 
 	return cmd
