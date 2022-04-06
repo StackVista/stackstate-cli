@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -19,6 +20,7 @@ func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSlice(Namespace, nil, "list of namespaces to export")
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
 	cmd.Flags().StringSlice(AllowReferences, nil, "list of namespaces that is allowed in the references")
+	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
 
 	return cmd
 }
@@ -45,6 +47,11 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 		return common.NewCLIError(err)
 	}
 
+	filePath, err := cmd.Flags().GetString(FileFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
+
 	exportArgs := stackstate_client.NewExport()
 	if len(ids) != 0 {
 		exportArgs.NodesWithIds = &ids
@@ -67,6 +74,18 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 		return common.NewResponseError(err, resp)
 	}
 
+	if filePath != "" {
+		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			return common.NewCLIError(err)
+		}
+		defer file.Close()
+
+		if _, err = file.Write([]byte(data)); err != nil {
+			return common.NewCLIError(err)
+		}
+		data = fmt.Sprintf("result is wtritten to %s file", filePath)
+	}
 	cli.Printer.PrintLn(data)
 	return nil
 }

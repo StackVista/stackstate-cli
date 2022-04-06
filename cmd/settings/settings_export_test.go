@@ -3,6 +3,7 @@ package settings
 import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"testing"
@@ -23,4 +24,14 @@ func TestSettingsExportPrintsToTable(t *testing.T) {
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
+}
+
+func TestSettingsExportMutuallyExclusiveFlags(t *testing.T) {
+	cli, cmd := setupCommandExport()
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd)
+
+	assert.Equal(t, common.NewMutuallyExclusiveFlagsRequiredError([]string{Ids, Namespace, TypeName}), err)
+
+	_, err = util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--namespace", "default")
+	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{Ids, Namespace, TypeName}, []string{Ids, Namespace}), err)
 }
