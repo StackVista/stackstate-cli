@@ -4,10 +4,12 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func setupPrinter() (StdPrinter, *bytes.Buffer, *bytes.Buffer) {
@@ -153,6 +155,86 @@ func TestPrintTable(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
 	assert.Equal(t, "A | B\n1 | 2\n", stdOut.String())
+}
+
+func TestPrintTableWithColor(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(true)
+	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
+	assert.Equal(t, "\x1b[36mA\x1b[0m\x1b[36m | \x1b[0m\x1b[36mB\x1b[0m\n1 | 2\n", stdOut.String())
+}
+
+func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.MaxWidth = 25
+	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
+		{"1", "2", "3"},
+		{"hello darkness my old friend", "I've come to talk to you again", "Becasue a vision softly creeping"},
+	}, nil)
+
+	expected := `HELLO  | FOO    | WORLD 
+1      | 2      | 3     
+hello  | I've c | Becasu
+darkne | ome to | e a vi
+ss my  |  talk  | sion s
+old fr | to you | oftly 
+iend   |  again | creepi
+       |        | ng    
+`
+	assert.Equal(t, expected, stdOut.String())
+}
+
+func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.MaxWidth = 30
+	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
+		{"hello", "darkness my old friend", "Becasue a vision softly creeping"},
+	}, nil)
+
+	expected := `HELLO | FOO       | WORLD    
+hello | darkness  | Becasue a
+      | my old fr |  vision s
+      | iend      | oftly cre
+      |           | eping    
+`
+	assert.Equal(t, expected, stdOut.String())
+}
+
+func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+
+	data := []string{"hello", "fooba", "world"}
+	header1 := []string{"Hello", "Foo", "World"}
+	header2 := []string{"x", "y", "z"}
+	header3 := []string{"Wooot", "Woot", "It's the sound Of da Police"}
+	for i := 0; i < 100; i++ {
+		d := [][]interface{}{util.StringSliceToInterfaceSlice(data)}
+		if i%2 == 0 {
+			p.MaxWidth = 31
+			p.Table(header1, d, nil)
+		} else {
+			if i%3 == 0 {
+				p.MaxWidth = 32
+				p.Table(header2, d, nil)
+			} else {
+				p.MaxWidth = 33
+				p.Table(header3, d, nil)
+			}
+		}
+		data[0] = data[0] + "w"
+		data[1] = data[1] + "h "
+		data[2] = data[2] + "h h"
+	}
+
+	lines := strings.Split(stdOut.String(), "\n")
+	maxLineWidth := 0
+	for _, line := range lines {
+		if maxLineWidth < len(line) {
+			maxLineWidth = len(line)
+		}
+	}
+
+	assert.LessOrEqual(t, maxLineWidth, 33)
 }
 
 func TestPrintTableAsStruct(t *testing.T) {

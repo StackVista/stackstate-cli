@@ -67,6 +67,7 @@ type StdPrinter struct {
 	useColor   bool
 	spinner    *pterm.SpinnerPrinter
 	outputType OutputType
+	MaxWidth   int
 }
 
 func NewPrinter() Printer {
@@ -77,6 +78,7 @@ func NewPrinter() Printer {
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,
 		outputType: Auto,
+		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
 }
 
@@ -252,6 +254,9 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 		tw.Style().Options.DrawBorder = false
 		tw.Style().Options.SeparateHeader = false
 		tw.Style().Format.Header = text.FormatUpper
+		tw.Style().Box.PaddingLeft = ""
+		tw.Style().Box.PaddingRight = ""
+		tw.Style().Box.MiddleVertical = " | "
 		if p.useColor {
 			tw.Style().Color.Header = text.Colors{text.FgCyan}
 		}
@@ -268,7 +273,7 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 			rows = append(rows, columns)
 		}
 
-		adjustedColumnWidths := calcColumnWidth(header, data)
+		adjustedColumnWidths := calcColumnWidth(header, data, p.MaxWidth, tw.Style().Box)
 		columnConfigs := make([]table.ColumnConfig, len(header))
 		for i, h := range header {
 			columnConfigs = append(columnConfigs, table.ColumnConfig{
@@ -285,11 +290,13 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 	}
 }
 
-func calcColumnWidth(header []string, data [][]interface{}) []int {
-	columnWidths := make([]int, len(header))
-	adjustedColumnWidths := make([]int, len(header))
+func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box table.BoxStyle) []int {
+	// average column width should be the size of screen minus some table row overhead divided by the number of columns
+	tableRowOverheadWidth := len(box.PaddingLeft) + len(box.PaddingRight) + ((len(header) - 1) * (len(box.MiddleVertical) + len(box.PaddingLeft) + len(box.PaddingRight)))
+	avgColumnWidth := (maxWidth - tableRowOverheadWidth) / len(header)
 
 	// minimum column width is the length of the name of the header
+	columnWidths := make([]int, len(header))
 	for i, h := range header {
 		columnWidths[i] = len(h)
 	}
@@ -303,10 +310,6 @@ func calcColumnWidth(header []string, data [][]interface{}) []int {
 			}
 		}
 	}
-
-	// average column width should be the size of screen minus some table margins divided by the number of columns
-	tableMargins := 2 + (len(header)-1)*3
-	avgColumnWidth := (pterm.DefaultParagraph.MaxWidth - tableMargins) / len(header)
 
 	// every column smaller than the average column can be added to the bigger columns
 	extraRoomFromSmallerColumns := 0
@@ -322,6 +325,7 @@ func calcColumnWidth(header []string, data [][]interface{}) []int {
 	// any column:
 	// - smaller than the average stays the same maximum with any bigger
 	// - bigger than the average gets the average plus the extra room from smaller columns
+	adjustedColumnWidths := make([]int, len(header))
 	for i, cw := range columnWidths {
 		if cw < avgColumnWidth {
 			adjustedColumnWidths[i] = cw
