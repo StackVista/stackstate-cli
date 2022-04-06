@@ -63,9 +63,6 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 		exportArgs.AllNodesOfTypes = &nodeTypes
 	}
 	if len(references) != 0 {
-		if len(namespace) == 0 {
-			return common.NewCLIError(fmt.Errorf("\"%s\" flag is required for \"%s\" flag", Namespace, AllowReferences))
-		}
 		exportArgs.AllowReferences = &references
 	}
 
