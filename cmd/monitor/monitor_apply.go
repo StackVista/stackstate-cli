@@ -17,7 +17,7 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
-	cmd.MarkFlagRequired(FileFlag)
+	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 
 	return cmd
 }

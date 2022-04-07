@@ -21,7 +21,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
-	cmd.MarkFlagRequired(FileFlag)
+	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 
 	return cmd
 }

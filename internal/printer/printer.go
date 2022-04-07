@@ -24,8 +24,8 @@ import (
 )
 
 type Printer interface {
-	// Expects s to be JSON or YAML serializable. You'll get an error otherwise.
-	PrintStruct(s interface{}) error
+	// Expects s to be JSON or YAML serializable. Will print an error otherwise
+	PrintStruct(s interface{})
 	PrintErr(err error)
 	StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
@@ -88,14 +88,13 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 	p.stdErr = stdErr
 }
 
-func (p *StdPrinter) PrintStruct(s interface{}) error {
+func (p *StdPrinter) PrintStruct(s interface{}) {
 	msg, err := p.sprintStruct(s)
 	if err != nil {
-		return err
+		p.PrintErr(fmt.Errorf("Error while printing struct: %v", s))
+	} else {
+		fmt.Fprintf(p.stdOut, "%s\n", msg)
 	}
-	fmt.Fprintf(p.stdOut, "%s\n", msg)
-
-	return nil
 }
 
 func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
@@ -172,7 +171,7 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	if resp != nil && resp.Status != "" && resp.StatusCode != 200 {
 		httpStatus = resp.Status
 	} else {
-		httpStatus = "Client error"
+		httpStatus = "Response/Client error"
 	}
 
 	// get error string
@@ -181,10 +180,12 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 		// did server repond with JSON? Then show that as an error string!
 		if resp != nil && resp.Header.Get("Content-Type") == "application/json" && resp.StatusCode != 200 {
 			var bodyStruct interface{}
-			json.Unmarshal(v.Body(), &bodyStruct)
-			body, err := p.sprintStruct(bodyStruct)
-			if err == nil {
-				errorStr = body
+			err := json.Unmarshal(v.Body(), &bodyStruct)
+			if err != nil {
+				body, err := p.sprintStruct(bodyStruct)
+				if err == nil {
+					errorStr = body
+				}
 			}
 		}
 	}
@@ -206,6 +207,7 @@ func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
 		s, _ := p.spinner.WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
 		return func() {
 			if s != nil {
+				//nolint:golint,errcheck
 				s.Stop()
 			}
 		}

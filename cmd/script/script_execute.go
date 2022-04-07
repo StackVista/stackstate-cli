@@ -37,6 +37,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
+//nolint:funlen
 func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
 	var script string
 
@@ -93,6 +94,11 @@ func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 	}
 
 	// print response
-	cli.Printer.PrintStruct(scriptResponse.Result["value"])
+	value := scriptResponse.Result["value"]
+	if value == nil {
+		return common.NewResponseError(fmt.Errorf("missing `value` property from script execution response"), resp)
+	}
+	cli.Printer.PrintStruct(value)
+
 	return nil
 }

@@ -5,6 +5,10 @@ import (
 	"net/http"
 )
 
+const (
+	HTTPStatusUnauthorized = 401
+)
+
 type CLIError interface {
 	error
 	GetExitCode() ExitCode
@@ -18,6 +22,8 @@ func NewCLIError(err error) CLIError {
 
 func NewConnectError(err error) CLIError {
 	var statusCode int
+
+	//nolint:gocritic
 	switch v := err.(type) {
 	case ResponseError:
 		// is access error?
@@ -26,7 +32,7 @@ func NewConnectError(err error) CLIError {
 		}
 	}
 
-	if statusCode == 401 {
+	if statusCode == HTTPStatusUnauthorized {
 		return StdCLIError{
 			Err: fmt.Errorf("could not connect to StackState: invalid api-token\n" +
 				"For more information: https://l.stackstate.com/cli-invalid-api-token"),

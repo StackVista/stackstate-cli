@@ -40,19 +40,23 @@ func ReadInputStructFromFile(file string, outStruct interface{}) error {
 	switch format {
 	case JSON:
 		return json.Unmarshal(fileBytes, outStruct)
-	default:
+	case YAML:
 		// convert YAML to JSON
 		// this is a work-around to make the `json` tags on the struct work
 		// unfortunately the go-yaml does not support `json` struct tags
 		// see: https://github.com/go-yaml/yaml/issues/424
 		yamlMap := make(map[string]interface{})
-		yaml.Unmarshal(fileBytes, yamlMap)
+		err := yaml.Unmarshal(fileBytes, yamlMap)
+		if err != nil {
+			return err
+		}
 		jsonBytes, err := json.Marshal(yamlMap)
 		if err != nil {
 			return err
 		}
 		return json.Unmarshal(jsonBytes, outStruct)
 	}
+	return nil
 }
 
 func DetectInputFileFormat(file string) (InputFileFormat, error) {
@@ -62,6 +66,7 @@ func DetectInputFileFormat(file string) (InputFileFormat, error) {
 		return YAML, nil
 	case ".json":
 		return JSON, nil
+	default:
+		return -1, UnsupportedInputFileFormat{FileExtension: ext}
 	}
-	return -1, UnsupportedInputFileFormat{FileExtension: ext}
 }

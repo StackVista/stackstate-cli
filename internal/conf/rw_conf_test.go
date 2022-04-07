@@ -127,6 +127,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
+//nolint:golint,errcheck
 func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	cmd := newCmd()
 	flags := strings.Split(strings.ReplaceAll(MinimumRequiredFlags, " ", ""), ",")
@@ -154,6 +155,7 @@ func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
+//nolint:golint,errcheck
 func (p ReadTests) TestNoColorFlag(t *testing.T) {
 	cmd := newCmd()
 	cmd.Flags().Bool("no-color", false, "") // register flag

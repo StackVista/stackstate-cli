@@ -49,9 +49,8 @@ func NewMockPrinter() MockPrinter {
 	}
 }
 
-func (p *MockPrinter) PrintStruct(s interface{}) error {
+func (p *MockPrinter) PrintStruct(s interface{}) {
 	*p.PrintStructCalls = append(*p.PrintStructCalls, s)
-	return nil
 }
 
 func (p *MockPrinter) PrintErr(err error) {

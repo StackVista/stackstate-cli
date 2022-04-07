@@ -28,7 +28,7 @@ func TestExecuteSuccess(t *testing.T) {
 		Result: map[string]interface{}{"value": "hello test"},
 	}
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "test script")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--script", "test script")
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -56,7 +56,7 @@ func TestExecuteFromScript(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--file", tmpFile.Name())
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", tmpFile.Name())
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -84,7 +84,7 @@ func TestExecuteResponseError(t *testing.T) {
 
 func TestArgumentScriptFlag(t *testing.T) {
 	cli, cmd := setupCommand()
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--arguments-script", "argscript", "--script", "test script")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--arguments-script", "argscript", "--script", "test script")
 
 	assert.Equal(t,
 		"argscript",
@@ -94,7 +94,7 @@ func TestArgumentScriptFlag(t *testing.T) {
 
 func TestTimeoutFlag(t *testing.T) {
 	cli, cmd := setupCommand()
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "--script", "test script")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "-t", "10", "--script", "test script")
 
 	assert.Equal(t,
 		int32(10),

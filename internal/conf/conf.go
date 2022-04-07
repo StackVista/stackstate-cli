@@ -35,6 +35,7 @@ const (
 	MinimumRequiredFlags   = "api-url, api-token"
 )
 
+//nolint:golint,errcheck
 func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	// bind environment variables
 	vp.BindEnv("api-url", "STS_CLI_API_URL")

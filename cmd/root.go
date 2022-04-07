@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/persistent_flags"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
@@ -22,7 +22,7 @@ func RootCommand(cli *di.Deps) *cobra.Command {
 		cmd.AddCommand(SettingsCommand(cli))
 	}
 	cmd.AddCommand(MonitorCommand(cli))
-	persistent_flags.AddPersistentFlags(cmd)
+	common.AddPersistentFlags(cmd)
 
 	return cmd
 }
