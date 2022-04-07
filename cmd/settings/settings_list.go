@@ -2,11 +2,12 @@ package settings
 
 import (
 	"encoding/json"
+	"time"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"time"
 )
 
 const (
@@ -69,13 +70,12 @@ func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 			v.GetId(),
 			v.GetIdentifier(),
 			v.GetName(),
-			v.GetDescription(),
 			v.GetOwnedBy(),
 			lastUpdateTime,
 		})
 	}
 	cli.Printer.Table(
-		[]string{"Type", "Id", "Identifier", "Name", "description", "owned by", "last updated"},
+		[]string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
 		data,
 		respData,
 	)

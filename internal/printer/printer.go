@@ -14,6 +14,8 @@ import (
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
 	"github.com/gookit/color"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
@@ -65,6 +67,7 @@ type StdPrinter struct {
 	useColor   bool
 	spinner    *pterm.SpinnerPrinter
 	outputType OutputType
+	MaxWidth   int
 }
 
 func NewPrinter() Printer {
@@ -75,6 +78,7 @@ func NewPrinter() Printer {
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,
 		outputType: Auto,
+		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
 }
 
@@ -246,21 +250,90 @@ func (p *StdPrinter) PrintWarn(msg string) {
 
 func (p *StdPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
 	if p.outputType == Auto {
-		// uppercase the headers
-		headerUpperCased := make([]string, 0)
-		for _, header := range header {
-			headerUpperCased = append(headerUpperCased, strings.ToUpper(header))
+		tw := table.NewWriter()
+		tw.Style().Options.DrawBorder = false
+		tw.Style().Options.SeparateHeader = false
+		tw.Style().Format.Header = text.FormatUpper
+		tw.Style().Box.PaddingLeft = ""
+		tw.Style().Box.PaddingRight = ""
+		tw.Style().Box.MiddleVertical = " | "
+		if p.useColor {
+			tw.Style().Color.Header = text.Colors{text.FgCyan}
 		}
 
-		dataWithHeader := make([][]string, 0)
-		dataWithHeader = append(dataWithHeader, headerUpperCased)
+		tw.AppendHeader(util.StringSliceToInterfaceSlice(header))
 
-		dataStr := util.ToStringSlice(data)
-		dataWithHeader = append(dataWithHeader, dataStr...)
-		pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
+		rows := make([]table.Row, 0)
+		for _, row := range data {
+			columns := make(table.Row, 0)
+			for _, v := range row {
+				value := util.ToString(v)
+				columns = append(columns, value)
+			}
+			rows = append(rows, columns)
+		}
+
+		adjustedColumnWidths := calcColumnWidth(header, data, p.MaxWidth, tw.Style().Box)
+		columnConfigs := make([]table.ColumnConfig, len(header))
+		for i, h := range header {
+			columnConfigs = append(columnConfigs, table.ColumnConfig{
+				Name:     h,
+				WidthMax: adjustedColumnWidths[i],
+			})
+		}
+		tw.SetColumnConfigs(columnConfigs)
+
+		tw.AppendRows(rows)
+		fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
 	} else {
 		p.PrintStruct(structData)
 	}
+}
+
+func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box table.BoxStyle) []int {
+	// average column width should be the size of screen minus some table row overhead divided by the number of columns
+	tableRowOverheadWidth := len(box.PaddingLeft) + len(box.PaddingRight) + ((len(header) - 1) * (len(box.MiddleVertical) + len(box.PaddingLeft) + len(box.PaddingRight)))
+	avgColumnWidth := (maxWidth - tableRowOverheadWidth) / len(header)
+
+	// minimum column width is the length of the name of the header
+	columnWidths := make([]int, len(header))
+	for i, h := range header {
+		columnWidths[i] = len(h)
+	}
+
+	// maximum column width is the length of the longest value
+	for _, row := range data {
+		for i, v := range row {
+			value := util.ToString(v)
+			if columnWidths[i] < len(value) {
+				columnWidths[i] = len(value)
+			}
+		}
+	}
+
+	// every column smaller than the average column can be added to the bigger columns
+	extraRoomFromSmallerColumns := 0
+	biggerColumnCount := 0
+	for _, cw := range columnWidths {
+		if cw < avgColumnWidth {
+			extraRoomFromSmallerColumns = extraRoomFromSmallerColumns + (avgColumnWidth - cw)
+		} else {
+			biggerColumnCount = biggerColumnCount + 1
+		}
+	}
+
+	// any column:
+	// - smaller than the average stays the same maximum with any bigger
+	// - bigger than the average gets the average plus the extra room from smaller columns
+	adjustedColumnWidths := make([]int, len(header))
+	for i, cw := range columnWidths {
+		if cw < avgColumnWidth {
+			adjustedColumnWidths[i] = cw
+		} else {
+			adjustedColumnWidths[i] = avgColumnWidth + (extraRoomFromSmallerColumns / biggerColumnCount)
+		}
+	}
+	return adjustedColumnWidths
 }
 
 func (p *StdPrinter) PrintLn(text string) {

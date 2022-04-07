@@ -90,6 +90,14 @@ func SafeStringPtrToString(s *string) string {
 	}
 }
 
+func StringSliceToInterfaceSlice(a []string) []interface{} {
+	var b = make([]interface{}, len(a))
+	for i := 0; i < len(a); i++ {
+		b[i] = a[i]
+	}
+	return b
+}
+
 func ToStringSlice(data [][]interface{}) [][]string {
 	result := make([][]string, 0)
 	for _, row := range data {
