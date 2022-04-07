@@ -19,7 +19,7 @@ import (
 type Export struct {
 	NodesWithIds *[]int64 `json:"nodesWithIds,omitempty"`
 	AllNodesOfTypes *[]string `json:"allNodesOfTypes,omitempty"`
-	Namespace *[]string `json:"namespace,omitempty"`
+	Namespace *string `json:"namespace,omitempty"`
 	AllowReferences *[]string `json:"allowReferences,omitempty"`
 }
 
@@ -105,9 +105,9 @@ func (o *Export) SetAllNodesOfTypes(v []string) {
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *Export) GetNamespace() []string {
+func (o *Export) GetNamespace() string {
 	if o == nil || o.Namespace == nil {
-		var ret []string
+		var ret string
 		return ret
 	}
 	return *o.Namespace
@@ -115,7 +115,7 @@ func (o *Export) GetNamespace() []string {
 
 // GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Export) GetNamespaceOk() (*[]string, bool) {
+func (o *Export) GetNamespaceOk() (*string, bool) {
 	if o == nil || o.Namespace == nil {
 		return nil, false
 	}
@@ -131,8 +131,8 @@ func (o *Export) HasNamespace() bool {
 	return false
 }
 
-// SetNamespace gets a reference to the given []string and assigns it to the Namespace field.
-func (o *Export) SetNamespace(v []string) {
+// SetNamespace gets a reference to the given string and assigns it to the Namespace field.
+func (o *Export) SetNamespace(v string) {
 	o.Namespace = &v
 }
 

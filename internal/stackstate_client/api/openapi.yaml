@@ -1573,9 +1573,7 @@ components:
             type: string
           type: array
         namespace:
-          items:
-            type: string
-          type: array
+          type: string
         allowReferences:
           items:
             type: string

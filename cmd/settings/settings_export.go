@@ -17,9 +17,9 @@ func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
 	}
 	cmd.Flags().Int64Slice(Ids, nil, "list of ids to export")
-	cmd.Flags().StringSlice(Namespace, nil, "list of namespaces to export")
+	cmd.Flags().String(Namespace, "", "namespace to export")
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
-	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that may be referenced by the exported settings")
+	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces are allowed to be referenced by the exported settings (only usable in combiation with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
 
 	return cmd
@@ -34,7 +34,7 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	if err != nil {
 		return common.NewCLIError(err)
 	}
-	namespace, err := cmd.Flags().GetStringSlice(Namespace)
+	namespace, err := cmd.Flags().GetString(Namespace)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
@@ -63,6 +63,9 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 		exportArgs.AllNodesOfTypes = &nodeTypes
 	}
 	if len(references) != 0 {
+		if len(namespace) == 0 {
+			return common.NewCLIError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
+		}
 		exportArgs.AllowReferences = &references
 	}
 
