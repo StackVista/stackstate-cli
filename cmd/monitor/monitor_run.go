@@ -2,12 +2,12 @@ package monitor
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 const (
@@ -20,25 +20,30 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 		Short: "run a monitor",
 		RunE:  cli.CmdRunEWithApi(RunRunMonitorCommand),
 	}
-	cmd.Flags().StringP(IdFlag, "i", "", IdFlag)
+	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
 	cmd.Flags().Bool(DryRunFlag, false, "do not save the states of the monitor run")
-	cmd.MarkFlagRequired(IdFlag)
+	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
 
 	return cmd
 }
 
-func RunRunMonitorCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunRunMonitorCommand(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 
-	identifier, err := cmd.Flags().GetString(IdFlag)
+	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 
-	id, err := strconv.ParseInt(identifier, 0, 64)
+	id, err := util.StringToInt64(identifier)
 	var resp *http.Response
 	var runResult stackstate_client.MonitorRunResult
 	if err == nil {

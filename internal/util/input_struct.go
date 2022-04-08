@@ -22,7 +22,11 @@ type UnsupportedInputFileFormat struct {
 }
 
 func (e UnsupportedInputFileFormat) Error() string {
-	return fmt.Sprintf("Unsupported input file format for file extension: %s. File extension must be either '.yaml' or '.json'.", e.FileExtension)
+	return fmt.Sprintf(
+		"Unsupported input file format for file extension: %s. "+
+			"File extension must be either '.yaml' or '.json'.",
+		e.FileExtension,
+	)
 }
 
 func ReadInputStructFromFile(file string, outStruct interface{}) error {

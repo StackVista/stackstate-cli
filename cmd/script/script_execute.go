@@ -30,7 +30,9 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	}
 
 	cmd.Flags().String(ScriptFlag, "", "a script to execute")
-	cmd.Flags().String(ArgumentsScriptFlag, "", "an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map")
+	cmd.Flags().String(ArgumentsScriptFlag, "",
+		"an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map", // nolint:lll
+	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
 	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
 
@@ -38,7 +40,12 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 }
 
 //nolint:funlen
-func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunScriptExecuteCommand(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	var script string
 
 	script, err := cmd.Flags().GetString(ScriptFlag)
@@ -51,7 +58,9 @@ func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 	}
 
 	if file != "" && script != "" {
-		return common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. Pick one or the other", ScriptFlag, FileFlag))
+		return common.NewCLIArgParseError(
+			fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. "+
+				"Pick one or the other", ScriptFlag, FileFlag))
 	}
 
 	if file != "" {
@@ -96,9 +105,10 @@ func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 	// print response
 	value := scriptResponse.Result["value"]
 	if value == nil {
-		return common.NewResponseError(fmt.Errorf("missing `value` property from script execution response"), resp)
+		cli.Printer.Success("script executed (no response)")
+	} else {
+		cli.Printer.PrintStruct(value)
 	}
-	cli.Printer.PrintStruct(value)
 
 	return nil
 }

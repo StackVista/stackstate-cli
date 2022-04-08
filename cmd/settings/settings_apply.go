@@ -26,7 +26,12 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsApplyCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunSettingsApplyCommand(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIError(err)

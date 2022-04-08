@@ -49,7 +49,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "ComponentType")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType")
 
 	expectedTableCall := []printer.TableCall{
 		{
@@ -88,7 +88,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "ComponentType",
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType",
 		"-n", "component",
 		"-w", "urn:stackpack:stackstate-self-health:shared")
 

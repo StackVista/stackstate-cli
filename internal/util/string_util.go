@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
+)
+
+const (
+	Int64BitSize      = 64
+	StringToInt64Base = 0
 )
 
 // Find string in list of strings
@@ -108,4 +114,7 @@ func ToStringSlice(data [][]interface{}) [][]string {
 		result = append(result, columns)
 	}
 	return result
+}
+func StringToInt64(s string) (int64, error) {
+	return strconv.ParseInt(s, StringToInt64Base, Int64BitSize)
 }

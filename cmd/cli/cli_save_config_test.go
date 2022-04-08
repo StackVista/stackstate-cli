@@ -23,12 +23,19 @@ func TestWriteConfig(t *testing.T) {
 	tmpConfDir := t.TempDir()
 	os.Setenv("XDG_CONFIG_HOME", tmpConfDir)
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--api-url", "https://test.stackstate.io/api", "--api-token", "blaat")
+	util.ExecuteCommandWithContextUnsafe(
+		cli.Context,
+		cmd,
+		"--api-url",
+		"https://test.stackstate.io/api",
+		"--api-token",
+		"blaat",
+	)
 
 	cfg, err := conf.ReadConf(CliSaveConfigCommand(&cli.Deps))
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://test.stackstate.io/api", cfg.ApiUrl)
+	assert.Equal(t, "https://test.stackstate.io/api", cfg.ApiURL)
 	assert.Equal(t, "blaat", cfg.ApiToken)
 }

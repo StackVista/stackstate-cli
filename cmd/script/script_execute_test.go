@@ -64,6 +64,7 @@ func TestExecuteFromScript(t *testing.T) {
 		},
 		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
 	)
+	assert.Equal(t, []string{"script executed (no response)"}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestExecuteResponseError(t *testing.T) {
@@ -106,7 +107,13 @@ func TestScriptAndFileFlag(t *testing.T) {
 	cli, cmd := setupCommand()
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script", "-f", "file")
 
-	assert.Equal(t, common.NewCLIArgParseError(fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags. Pick one or the other")), err)
+	assert.Equal(t,
+		common.NewCLIArgParseError(
+			fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags."+
+				" Pick one or the other"),
+		),
+		err,
+	)
 }
 
 func TestConnectionFailure(t *testing.T) {

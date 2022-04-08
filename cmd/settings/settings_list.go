@@ -23,7 +23,7 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
 	}
 	cmd.Flags().StringP(TypeName, "", "", "example: ComponentType")
-	cmd.MarkFlagRequired(TypeName)
+	cmd.MarkFlagRequired(TypeName) //nolint:errcheck
 
 	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")
 	cmd.Flags().StringP(OwnedBy, "w", "", "name of the owner")
@@ -31,7 +31,12 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunSettingsListCommand(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	typeName, err := cmd.Flags().GetString(TypeName)
 	if err != nil {
 		return common.NewCLIError(err)

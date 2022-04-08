@@ -47,7 +47,7 @@ func TestPrintStructAsJson(t *testing.T) {
 			},
 		},
 	}
-	const expectedJson = `{
+	const expectedJSON = `{
   "bar": {
     "baz": "foobarbaz",
     "in": {
@@ -59,7 +59,7 @@ func TestPrintStructAsJson(t *testing.T) {
 `
 	p := NewPrinter().(*StdPrinter)
 	p.SetOutputType(JSON)
-	testPrintStruct(t, p, testStruct, expectedJson)
+	testPrintStruct(t, p, testStruct, expectedJSON)
 }
 
 func TestPrintStructAsYaml(t *testing.T) {
@@ -84,6 +84,7 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 			"baz": "foobarbaz",
 		},
 	}
+	//nolint:lll
 	const expectedYaml = "\x1b[1m\x1b[31mbar\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m  \x1b[0m\x1b[1m\x1b[31mbaz\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mfoobarbaz\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[31mfoo\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\n"
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(true)
@@ -97,11 +98,12 @@ func TestPrintStructAsJsonWithColor(t *testing.T) {
 			"baz": "foobarbaz",
 		},
 	}
-	const expectedJson = "\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"bar\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n    \x1b[0m\x1b[1m\x1b[31m\"baz\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[37m\"foobarbaz\"\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m,\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"foo\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m}\x1b[0m\n"
+	//nolint:lll
+	const expectedJSON = "\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"bar\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n    \x1b[0m\x1b[1m\x1b[31m\"baz\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[37m\"foobarbaz\"\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m,\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"foo\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m}\x1b[0m\n"
 	p := NewPrinter().(*StdPrinter)
 	p.SetOutputType(JSON)
 	p.SetUseColor(true)
-	testPrintStruct(t, p, testStruct, expectedJson)
+	testPrintStruct(t, p, testStruct, expectedJSON)
 }
 
 func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expectedOutput string) {
@@ -138,7 +140,7 @@ func TestPrintErrResponse200(t *testing.T) {
 	p.stdErr = &buf
 	resp := http.Response{Status: "200 Ok", StatusCode: 200}
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
-	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Client error", "Hello world")
+	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Response error", "Hello world")
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -147,7 +149,7 @@ func TestPrintErrResponseNilResponse(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Client error", "Hello world")
+	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Response error", "Hello world")
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -169,12 +171,12 @@ func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 	p.MaxWidth = 25
 	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
 		{"1", "2", "3"},
-		{"hello darkness my old friend", "I've come to talk to you again", "Becasue a vision softly creeping"},
+		{"hello darkness my old friend", "I've come to talk to you again", "Because a vision softly creeping"},
 	}, nil)
 
 	expected := `HELLO  | FOO    | WORLD 
 1      | 2      | 3     
-hello  | I've c | Becasu
+hello  | I've c | Becaus
 darkne | ome to | e a vi
 ss my  |  talk  | sion s
 old fr | to you | oftly 
@@ -188,11 +190,11 @@ func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.MaxWidth = 30
 	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
-		{"hello", "darkness my old friend", "Becasue a vision softly creeping"},
+		{"hello", "darkness my old friend", "Because a vision softly creeping"},
 	}, nil)
 
 	expected := `HELLO | FOO       | WORLD    
-hello | darkness  | Becasue a
+hello | darkness  | Because a
       | my old fr |  vision s
       | iend      | oftly cre
       |           | eping    
@@ -221,9 +223,9 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 				p.Table(header3, d, nil)
 			}
 		}
-		data[0] = data[0] + "w"
-		data[1] = data[1] + "h "
-		data[2] = data[2] + "h h"
+		data[0] += "w"
+		data[1] += "h "
+		data[2] += "h h"
 	}
 
 	lines := strings.Split(stdOut.String(), "\n")

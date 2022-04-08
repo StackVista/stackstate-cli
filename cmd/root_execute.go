@@ -17,6 +17,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
+//nolint:funlen
 func Execute(ctx context.Context) {
 	printer := pr.NewPrinter()
 
@@ -67,7 +68,7 @@ func Execute(ctx context.Context) {
 
 		configuration := stackstate_client.NewConfiguration()
 		configuration.Servers[0] = stackstate_client.ServerConfiguration{
-			URL:         cli.Config.ApiUrl,
+			URL:         cli.Config.ApiURL,
 			Description: "",
 			Variables:   nil,
 		}

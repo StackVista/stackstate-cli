@@ -32,13 +32,16 @@ linters-settings:
   skip-files:
     - "internal/stackstate_client/.*.go$"
 
-  maligned:
-    # print struct with more effective memory layout or not, false by default
-    suggest-new: true
+linters-settings:
+  stylecheck:
+    # https://staticcheck.io/docs/options#initialisms
+    initialisms: ["ACL", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "JSON", "QPS", "RAM", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "GID", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS"]
+    # https://staticcheck.io/docs/options#http_status_code_whitelist
+    http-status-code-whitelist: ["200", "400", "404", "500"]
+
 linters:
   disable-all: true
   enable:
-    - bodyclose
     - deadcode
     - depguard
     - dogsled

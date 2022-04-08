@@ -38,6 +38,10 @@ type Printer interface {
 	PrintLn(text string)
 }
 
+const (
+	YamlIndent = 2
+)
+
 type OutputType int
 
 type StopPrinterFn func()
@@ -91,7 +95,7 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 func (p *StdPrinter) PrintStruct(s interface{}) {
 	msg, err := p.sprintStruct(s)
 	if err != nil {
-		p.PrintErr(fmt.Errorf("Error while printing struct: %v", s))
+		p.PrintErr(fmt.Errorf("error (%s) while printing struct: %v", err, s))
 	} else {
 		fmt.Fprintf(p.stdOut, "%s\n", msg)
 	}
@@ -99,24 +103,25 @@ func (p *StdPrinter) PrintStruct(s interface{}) {
 
 func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	var sructStr string
-	if p.outputType == JSON {
+
+	switch p.outputType {
+	case JSON:
 		msg, err := json.MarshalIndent(s, "", "  ")
 		if err != nil {
 			return "", err
 		}
 
 		sructStr = string(msg)
-	} else if p.outputType == YAML || p.outputType == Auto {
-
+	case YAML, Auto:
 		var buf bytes.Buffer
 		yamlEncoder := yaml.NewEncoder(&buf)
-		yamlEncoder.SetIndent(2)
+		yamlEncoder.SetIndent(YamlIndent)
 		err := yamlEncoder.Encode(&s)
 		if err != nil {
 			return "", err
 		}
 		sructStr = strings.TrimRight(buf.String(), "\n")
-	} else {
+	default:
 		return "", fmt.Errorf("unknown outputType %v", p.outputType)
 	}
 
@@ -171,10 +176,11 @@ func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
 	if resp != nil && resp.Status != "" && resp.StatusCode != 200 {
 		httpStatus = resp.Status
 	} else {
-		httpStatus = "Response/Client error"
+		httpStatus = "Response error"
 	}
 
 	// get error string
+	//nolint:gocritic
 	switch v := rtnErr.(type) {
 	case sts.GenericOpenAPIError:
 		// did server repond with JSON? Then show that as an error string!
@@ -294,7 +300,8 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 
 func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box table.BoxStyle) []int {
 	// average column width should be the size of screen minus some table row overhead divided by the number of columns
-	tableRowOverheadWidth := len(box.PaddingLeft) + len(box.PaddingRight) + ((len(header) - 1) * (len(box.MiddleVertical) + len(box.PaddingLeft) + len(box.PaddingRight)))
+	tableRowOverheadWidth := len(box.PaddingLeft) + len(box.PaddingRight) +
+		((len(header) - 1) * (len(box.MiddleVertical) + len(box.PaddingLeft) + len(box.PaddingRight)))
 	avgColumnWidth := (maxWidth - tableRowOverheadWidth) / len(header)
 
 	// minimum column width is the length of the name of the header
@@ -318,9 +325,9 @@ func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box ta
 	biggerColumnCount := 0
 	for _, cw := range columnWidths {
 		if cw < avgColumnWidth {
-			extraRoomFromSmallerColumns = extraRoomFromSmallerColumns + (avgColumnWidth - cw)
+			extraRoomFromSmallerColumns += (avgColumnWidth - cw)
 		} else {
-			biggerColumnCount = biggerColumnCount + 1
+			biggerColumnCount++
 		}
 	}
 
