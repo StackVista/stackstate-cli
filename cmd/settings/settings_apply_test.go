@@ -15,11 +15,18 @@ import (
 type Filename = string
 
 func setupCmdSettingsApply() (di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := SettingsApplyCommand(&cli.Deps)
 
-	mockCli := di.NewMockDeps()
-	cmd := SettingsApplyCommand(&mockCli.Deps)
-
-	return mockCli, cmd
+	cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result = []map[string]interface{}{
+		{
+			"_type":      "Layer",
+			"id":         12345,
+			"identifier": "urn:stackpack:test:layer:test",
+			"name":       "test",
+		},
+	}
+	return cli, cmd
 }
 
 func createTempFile() *os.File {
@@ -34,19 +41,10 @@ func createTempFile() *os.File {
 	return file
 }
 
-func TestSetingsApplyFromFile(t *testing.T) {
+func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
 	cli, cmd := setupCmdSettingsApply()
 	file := createTempFile()
 	defer os.Remove(file.Name())
-
-	cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result = []map[string]interface{}{
-		{
-			"_type":      "Layer",
-			"id":         12345,
-			"identifier": "urn:stackpack:test:layer:test",
-			"name":       "test",
-		},
-	}
 
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name())
 
@@ -62,4 +60,14 @@ func TestSetingsApplyFromFile(t *testing.T) {
 		},
 	}
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
+}
+
+func TestSetingsApplyNamespace(t *testing.T) {
+	cli, cmd := setupCmdSettingsApply()
+	file := createTempFile()
+	defer os.Remove(file.Name())
+
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--namespace", "urn:test")
+
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace, "urn:test")
 }

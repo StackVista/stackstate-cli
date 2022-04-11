@@ -11,7 +11,8 @@ import (
 )
 
 const (
-	FileFlag = "file"
+	FileFlag      = "file"
+	NamespaceFlag = "namespace"
 )
 
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
@@ -21,6 +22,8 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
+	cmd.Flags().StringP(NamespaceFlag, "n", "", "name of the namespace to overwrite"+
+		" - WARNING this will overwrite the entire namespace")
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 
 	return cmd
@@ -36,13 +39,21 @@ func RunSettingsApplyCommand(
 	if err != nil {
 		return common.NewCLIError(err)
 	}
+	namespace, err := cmd.Flags().GetString(NamespaceFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 
-	nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
+	req := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))
+	if namespace != "" {
+		req = req.Namespace(namespace)
+	}
+	nodes, resp, err := req.Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
