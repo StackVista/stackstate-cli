@@ -28,12 +28,12 @@ var (
 type NodeApi interface {
 
 	/*
-		NodeListTypes Node API
+	NodeListTypes Node API
 
-		list all node types
+	list all node types
 
-		 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		 @return ApiNodeListTypesRequest
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiNodeListTypesRequest
 	*/
 	NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest
 
@@ -42,13 +42,13 @@ type NodeApi interface {
 	NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error)
 
 	/*
-		TypeList Node type API
+	TypeList Node type API
 
-		list all nodes of that type
+	list all nodes of that type
 
-		 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		 @param nodeType
-		 @return ApiTypeListRequest
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param nodeType
+	 @return ApiTypeListRequest
 	*/
 	TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest
 
@@ -57,13 +57,15 @@ type NodeApi interface {
 	TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error)
 }
 
+
 // NodeApiService NodeApi service
 type NodeApiService service
 
 type ApiNodeListTypesRequest struct {
-	ctx        _context.Context
+	ctx _context.Context
 	ApiService NodeApi
 }
+
 
 func (r ApiNodeListTypesRequest) Execute() (NodeTypes, *_nethttp.Response, error) {
 	return r.ApiService.NodeListTypesExecute(r)
@@ -80,7 +82,7 @@ list all node types
 func (a *NodeApiService) NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -185,11 +187,11 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTy
 }
 
 type ApiTypeListRequest struct {
-	ctx        _context.Context
+	ctx _context.Context
 	ApiService NodeApi
-	nodeType   string
-	namespace  *string
-	ownedBy    *string
+	nodeType string
+	namespace *string
+	ownedBy *string
 }
 
 func (r ApiTypeListRequest) Namespace(namespace string) ApiTypeListRequest {
@@ -217,8 +219,8 @@ list all nodes of that type
 func (a *NodeApiService) TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
 		ApiService: a,
-		ctx:        ctx,
-		nodeType:   nodeType,
+		ctx: ctx,
+		nodeType: nodeType,
 	}
 }
 
@@ -329,74 +331,81 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethtt
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type NodeApiMock struct {
-	NodeListTypesCalls    *[]NodeListTypesCall
+	NodeListTypesCalls *[]NodeListTypesCall
 	NodeListTypesResponse NodeListTypesMockResponse
-	TypeListCalls         *[]TypeListCall
-	TypeListResponse      TypeListMockResponse
-}
+	TypeListCalls *[]TypeListCall
+	TypeListResponse TypeListMockResponse
+}	
 
 func NewNodeApiMock() NodeApiMock {
 	xNodeListTypesCalls := make([]NodeListTypesCall, 0)
 	xTypeListCalls := make([]TypeListCall, 0)
-	return NodeApiMock{
+	return NodeApiMock {
 		NodeListTypesCalls: &xNodeListTypesCalls,
-		TypeListCalls:      &xTypeListCalls,
+		TypeListCalls: &xTypeListCalls,
 	}
 }
 
 type NodeListTypesMockResponse struct {
-	Result   NodeTypes
+	Result NodeTypes
 	Response *_nethttp.Response
-	Error    error
+	Error error
 }
 
 type NodeListTypesCall struct {
 }
 
+
 func (mock NodeApiMock) NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock NodeApiMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error) {
-	p := NodeListTypesCall{}
+	p := NodeListTypesCall {
+	}
 	*mock.NodeListTypesCalls = append(*mock.NodeListTypesCalls, p)
 	return mock.NodeListTypesResponse.Result, mock.NodeListTypesResponse.Response, mock.NodeListTypesResponse.Error
 }
 
 type TypeListMockResponse struct {
-	Result   []Node
+	Result []Node
 	Response *_nethttp.Response
-	Error    error
+	Error error
 }
 
 type TypeListCall struct {
-	PnodeType  string
+	PnodeType string
 	Pnamespace *string
-	PownedBy   *string
+	PownedBy *string
 }
+
 
 func (mock NodeApiMock) TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
 		ApiService: mock,
-		ctx:        ctx,
-		nodeType:   nodeType,
+		ctx: ctx,
+		nodeType: nodeType,
 	}
 }
 
 func (mock NodeApiMock) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error) {
-	p := TypeListCall{
-		PnodeType:  r.nodeType,
-		Pnamespace: r.namespace,
-		PownedBy:   r.ownedBy,
+	p := TypeListCall {
+			PnodeType: r.nodeType,
+			Pnamespace: r.namespace,
+			PownedBy: r.ownedBy,
 	}
 	*mock.TypeListCalls = append(*mock.TypeListCalls, p)
 	return mock.TypeListResponse.Result, mock.TypeListResponse.Response, mock.TypeListResponse.Error
 }
+
+

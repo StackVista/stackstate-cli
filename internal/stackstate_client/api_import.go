@@ -49,10 +49,25 @@ type ApiImportSettingsRequest struct {
 	ctx _context.Context
 	ApiService ImportApi
 	body *string
+	timeoutSeconds *int32
+	namespace *string
+	unlocked *string
 }
 
 func (r ApiImportSettingsRequest) Body(body string) ApiImportSettingsRequest {
 	r.body = &body
+	return r
+}
+func (r ApiImportSettingsRequest) TimeoutSeconds(timeoutSeconds int32) ApiImportSettingsRequest {
+	r.timeoutSeconds = &timeoutSeconds
+	return r
+}
+func (r ApiImportSettingsRequest) Namespace(namespace string) ApiImportSettingsRequest {
+	r.namespace = &namespace
+	return r
+}
+func (r ApiImportSettingsRequest) Unlocked(unlocked string) ApiImportSettingsRequest {
+	r.unlocked = &unlocked
 	return r
 }
 
@@ -101,6 +116,15 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
 
+	if r.timeoutSeconds != nil {
+		localVarQueryParams.Add("timeoutSeconds", parameterToString(*r.timeoutSeconds, ""))
+	}
+	if r.namespace != nil {
+		localVarQueryParams.Add("namespace", parameterToString(*r.namespace, ""))
+	}
+	if r.unlocked != nil {
+		localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"plain/text"}
 
@@ -216,6 +240,9 @@ type ImportSettingsMockResponse struct {
 
 type ImportSettingsCall struct {
 	Pbody *string
+	PtimeoutSeconds *int32
+	Pnamespace *string
+	Punlocked *string
 }
 
 
@@ -229,6 +256,9 @@ func (mock ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettings
 func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
 	p := ImportSettingsCall {
 			Pbody: r.body,
+			PtimeoutSeconds: r.timeoutSeconds,
+			Pnamespace: r.namespace,
+			Punlocked: r.unlocked,
 	}
 	*mock.ImportSettingsCalls = append(*mock.ImportSettingsCalls, p)
 	return mock.ImportSettingsResponse.Result, mock.ImportSettingsResponse.Response, mock.ImportSettingsResponse.Error

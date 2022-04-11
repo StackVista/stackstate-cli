@@ -22,6 +22,26 @@ paths:
     post:
       description: Import StackState Templated JSON (STJ) setting nodes.
       operationId: importSettings
+      parameters:
+      - in: query
+        name: timeoutSeconds
+        required: false
+        schema:
+          type: integer
+      - in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: unlocked
+        required: false
+        schema:
+          enum:
+          - fail
+          - skip
+          - overwrite
+          type: string
       requestBody:
         content:
           plain/text:

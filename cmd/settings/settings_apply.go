@@ -57,8 +57,7 @@ func RunSettingsApplyCommand(
 		tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).", len(nodes)))
-	cli.Printer.PrintLn("")
+	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).\n", len(nodes)))
 	cli.Printer.Table([]string{"Type", "Id", "Identifier", "Name"}, tableData, nodes)
 
 	return nil
