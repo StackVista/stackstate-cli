@@ -42,6 +42,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
+//nolint:funlen
 func RunSettingsApplyCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
