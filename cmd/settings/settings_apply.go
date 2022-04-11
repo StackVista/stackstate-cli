@@ -15,6 +15,7 @@ const (
 	FileFlag             = "file"
 	NamespaceFlag        = "namespace"
 	UnlockedStrategyFlag = "unlocked-strategy"
+	TimeoutFlag          = "timeout"
 )
 
 var (
@@ -35,6 +36,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		"",
 		"strategy to use when encountering unlocked settings when applying settings to a namespace"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
+	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in seconds")
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 
 	return cmd
@@ -63,6 +65,10 @@ func RunSettingsApplyCommand(
 			return err
 		}
 	}
+	timeout, err := cmd.Flags().GetInt(TimeoutFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
@@ -75,6 +81,9 @@ func RunSettingsApplyCommand(
 	}
 	if unlockedStrategy != "" {
 		request = request.Unlocked(unlockedStrategy)
+	}
+	if timeout > 0 {
+		request = request.TimeoutSeconds(int64(timeout))
 	}
 
 	nodes, resp, err := request.Execute()

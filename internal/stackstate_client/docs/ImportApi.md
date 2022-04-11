@@ -30,7 +30,7 @@ import (
 
 func main() {
     body := "body_example" // string | 
-    timeoutSeconds := int32(56) // int32 |  (optional)
+    timeoutSeconds := int64(789) // int64 |  (optional)
     namespace := "namespace_example" // string |  (optional)
     unlocked := "unlocked_example" // string |  (optional)
 
@@ -58,7 +58,7 @@ Other parameters are passed through a pointer to a apiImportSettingsRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **body** | **string** |  | 
- **timeoutSeconds** | **int32** |  | 
+ **timeoutSeconds** | **int64** |  | 
  **namespace** | **string** |  | 
  **unlocked** | **string** |  | 
 

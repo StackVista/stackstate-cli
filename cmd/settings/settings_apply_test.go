@@ -96,3 +96,13 @@ func TestSetingsApplyUnlockedStrategyFail(t *testing.T) {
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked, "fail")
 }
+
+func TestSetingsApplyUnlockedTimeout(t *testing.T) {
+	cli, cmd := setupCmdSettingsApply()
+	file := createTempFile()
+	defer os.Remove(file.Name())
+
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--timeout", "16")
+
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].PtimeoutSeconds, int64(16))
+}

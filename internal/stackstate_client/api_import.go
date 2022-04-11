@@ -49,7 +49,7 @@ type ApiImportSettingsRequest struct {
 	ctx _context.Context
 	ApiService ImportApi
 	body *string
-	timeoutSeconds *int32
+	timeoutSeconds *int64
 	namespace *string
 	unlocked *string
 }
@@ -58,7 +58,7 @@ func (r ApiImportSettingsRequest) Body(body string) ApiImportSettingsRequest {
 	r.body = &body
 	return r
 }
-func (r ApiImportSettingsRequest) TimeoutSeconds(timeoutSeconds int32) ApiImportSettingsRequest {
+func (r ApiImportSettingsRequest) TimeoutSeconds(timeoutSeconds int64) ApiImportSettingsRequest {
 	r.timeoutSeconds = &timeoutSeconds
 	return r
 }
@@ -240,7 +240,7 @@ type ImportSettingsMockResponse struct {
 
 type ImportSettingsCall struct {
 	Pbody *string
-	PtimeoutSeconds *int32
+	PtimeoutSeconds *int64
 	Pnamespace *string
 	Punlocked *string
 }

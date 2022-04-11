@@ -27,6 +27,7 @@ paths:
         name: timeoutSeconds
         required: false
         schema:
+          format: int64
           type: integer
       - in: query
         name: namespace
