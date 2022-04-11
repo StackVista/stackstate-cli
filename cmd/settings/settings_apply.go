@@ -3,6 +3,7 @@ package settings
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -11,8 +12,13 @@ import (
 )
 
 const (
-	FileFlag      = "file"
-	NamespaceFlag = "namespace"
+	FileFlag             = "file"
+	NamespaceFlag        = "namespace"
+	UnlockedStrategyFlag = "unlocked-strategy"
+)
+
+var (
+	UnlockedStrategyChoices = []string{"fail", "skip", "overwrite"}
 )
 
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
@@ -24,6 +30,11 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
 	cmd.Flags().StringP(NamespaceFlag, "n", "", "name of the namespace to overwrite"+
 		" - WARNING this will overwrite the entire namespace")
+	cmd.Flags().String(
+		UnlockedStrategyFlag,
+		"",
+		"strategy to use when encountering unlocked settings when applying settings to a namespace"+
+			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 
 	return cmd
@@ -43,17 +54,30 @@ func RunSettingsApplyCommand(
 	if err != nil {
 		return common.NewCLIError(err)
 	}
+	unlockedStrategy, err := cmd.Flags().GetString(UnlockedStrategyFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
+	if unlockedStrategy != "" {
+		if err := common.CheckFlagIsValidChoice(UnlockedStrategyFlag, unlockedStrategy, UnlockedStrategyChoices); err != nil {
+			return err
+		}
+	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
 
-	req := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))
+	request := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))
 	if namespace != "" {
-		req = req.Namespace(namespace)
+		request = request.Namespace(namespace)
 	}
-	nodes, resp, err := req.Execute()
+	if unlockedStrategy != "" {
+		request = request.Unlocked(unlockedStrategy)
+	}
+
+	nodes, resp, err := request.Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

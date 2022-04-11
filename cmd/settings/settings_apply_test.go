@@ -1,12 +1,14 @@
 package settings
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
@@ -70,4 +72,27 @@ func TestSetingsApplyNamespace(t *testing.T) {
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--namespace", "urn:test")
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace, "urn:test")
+}
+
+func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
+	cli, cmd := setupCmdSettingsApply()
+	file := createTempFile()
+	defer os.Remove(file.Name())
+
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--file", file.Name(), "--unlocked-strategy", "woopz")
+
+	assert.Equal(t, common.NewCLIArgParseError(
+		fmt.Errorf("invalid 'unlocked-strategy' flag value 'woopz' (must be { fail | skip | overwrite })")),
+		err,
+	)
+}
+
+func TestSetingsApplyUnlockedStrategyFail(t *testing.T) {
+	cli, cmd := setupCmdSettingsApply()
+	file := createTempFile()
+	defer os.Remove(file.Name())
+
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--unlocked-strategy", "fail")
+
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked, "fail")
 }

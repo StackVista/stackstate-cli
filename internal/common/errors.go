@@ -3,6 +3,9 @@ package common
 import (
 	"fmt"
 	"net/http"
+	"strings"
+
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 const (
@@ -73,6 +76,16 @@ func (p StdCLIError) GetExitCode() ExitCode {
 
 func (p StdCLIError) ShowUsage() bool {
 	return p.showUsage
+}
+
+func CheckFlagIsValidChoice(flagName string, flagValue string, choices []string) CLIError {
+	if !util.StringInSlice(flagValue, choices) {
+		return NewCLIArgParseError(
+			fmt.Errorf("invalid '%s' flag value '%s' (must be { %s })", flagName, flagValue, strings.Join(choices, " | ")),
+		)
+	} else {
+		return nil
+	}
 }
 
 // --------------
