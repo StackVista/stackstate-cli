@@ -23,3 +23,7 @@ func TestToStringPrintInf(t *testing.T) {
 func TestToStringPrintLargeNum(t *testing.T) {
 	assert.Equal(t, ToString(107915343054010.0), "107915343054010")
 }
+
+func TestToStringNil(t *testing.T) {
+	assert.Equal(t, ToString(nil), "nil")
+}

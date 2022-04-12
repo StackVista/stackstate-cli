@@ -57,6 +57,9 @@ func WithNewLine(s string) string {
 }
 
 func ToString(x interface{}) string {
+	if x == nil {
+		return "nil"
+	}
 	if reflect.ValueOf(x).Type() == reflect.TypeOf(time.Time{}) {
 		return TimeToString(x)
 	}
