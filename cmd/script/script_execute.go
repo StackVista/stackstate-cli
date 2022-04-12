@@ -31,7 +31,6 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.Flags().String(ScriptFlag, "", "a script to execute")
 	cmd.Flags().String(ArgumentsScriptFlag, "",
-		//nolint:lll
 		"an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map",
 	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
