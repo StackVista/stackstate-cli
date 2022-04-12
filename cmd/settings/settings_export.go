@@ -81,7 +81,8 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 		if _, err = file.Write([]byte(data)); err != nil {
 			return common.NewCLIError(err)
 		}
-		data = fmt.Sprintf("result is wtritten to %s file", filePath)
+		cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
+		return nil
 	}
 	cli.Printer.PrintLn(data)
 	return nil
