@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -18,7 +19,6 @@ import (
 	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gopkg.in/yaml.v3"
 )
@@ -169,42 +169,43 @@ func (p *StdPrinter) PrintErr(err error) {
 	}
 }
 
-func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
-	var httpStatus, errorStr string
+func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
+	var errorStr, bodyStr string
 
-	// get HTTP status string
-	if resp != nil && resp.Status != "" && resp.StatusCode != 200 {
-		httpStatus = resp.Status
+	isErrorResponse := resp != nil && ((resp.StatusCode-200 < 0) || (resp.StatusCode-200 >= 100))
+
+	// get error string with HTTP status
+	if isErrorResponse {
+		if err.Error() != "" && err.Error() != resp.Status {
+			errorStr = fmt.Sprintf("%s (%s)", resp.Status, err.Error())
+		} else {
+			errorStr = resp.Status
+		}
 	} else {
-		httpStatus = "Response error"
+		errorStr = fmt.Sprintf("Response error (%s)", err.Error())
 	}
 
 	// get error string
-	//nolint:gocritic
-	switch v := rtnErr.(type) {
-	case sts.GenericOpenAPIError:
-		// did server repond with JSON? Then show that as an error string!
-		if resp != nil && resp.Header.Get("Content-Type") == "application/json" && resp.StatusCode != 200 {
-			var bodyStruct interface{}
-			err := json.Unmarshal(v.Body(), &bodyStruct)
-			if err != nil {
+	// did server repond with JSON? Then show that as an error string!
+	if isErrorResponse && resp.Header.Get("Content-Type") == "application/json" {
+		var bodyStruct interface{}
+		bodyb, err := ioutil.ReadAll(resp.Body)
+		if err == nil {
+			err := json.Unmarshal(bodyb, &bodyStruct)
+			if err == nil {
 				body, err := p.sprintStruct(bodyStruct)
 				if err == nil {
-					errorStr = body
+					bodyStr = body
 				}
 			}
 		}
-	}
-	if errorStr == "" {
-		// otherwise show the error itself
-		errorStr = util.UcFirst(rtnErr.Error())
 	}
 
 	color.Fprintf(p.stdErr,
 		"%s %v\n%s",
 		p.sprintSymbol("error"),
-		color.Red.Render(httpStatus),
-		util.WithNewLine(errorStr),
+		color.Red.Render(errorStr),
+		util.WithNewLine(bodyStr),
 	)
 }
 

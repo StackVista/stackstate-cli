@@ -1,0 +1,97 @@
+paths:
+  /stackpack:
+    post:
+      tags:
+        - stackpack
+      summary: "StackPack API"
+      operationId: stackpackUpload
+      description: "upload a StackPack"
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/StackPackUpload"
+      responses:
+        "202":
+          description: "Upload success. Processing happens asynchronously."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StackPack"
+        "400":
+          description: "bad request"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+components:
+  schemas:
+    StackPackUpload:
+      type: object
+      properties:
+        stackPack:
+          type: string
+          format: binary
+    StackPack:
+      type: object
+      required:
+        - name
+        - displayName
+        - version
+        - categories
+        - isNew
+        - releaseStatus
+        - isCompatible
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        logo:
+          type: string
+        categories:
+          type: array
+          items:
+            type: string
+        isNew:
+          type: boolean
+        overviewUrl:
+          type: string
+        detailedOverviewUrl:
+          type: string
+        resourcesUrl:
+          type: string
+        faqs:
+          type: array
+          items:
+            type: object
+            required:
+              - question
+              - answer
+            properties:
+              question:
+                type: string
+              answer:
+                type: string
+        configurationUrls:
+          type: array
+          items:
+            type: array
+            items:
+              type: string
+        releaseStatus:
+          type: string
+          enum:
+            - AVAILABLE
+            - ENABLED
+            - COMING_SOON
+            - HIDDEN
+            - BROKEN
+        isCompatible: 
+          type: boolean

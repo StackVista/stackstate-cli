@@ -108,6 +108,39 @@ paths:
       summary: Node type API
       tags:
       - node
+  /stackpack:
+    post:
+      description: upload a StackPack
+      operationId: stackpackUpload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StackPackUpload'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackPack'
+          description: Upload success. Processing happens asynchronously.
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: StackPack API
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system
@@ -1475,6 +1508,87 @@ components:
       - id
       - lastUpdateTimestamp
       - typeName
+      type: object
+    StackPack:
+      example:
+        detailedOverviewUrl: detailedOverviewUrl
+        displayName: displayName
+        overviewUrl: overviewUrl
+        isNew: true
+        version: version
+        resourcesUrl: resourcesUrl
+        isCompatible: true
+        faqs:
+        - question: question
+          answer: answer
+        - question: question
+          answer: answer
+        configurationUrls:
+        - - configurationUrls
+          - configurationUrls
+        - - configurationUrls
+          - configurationUrls
+        name: name
+        releaseStatus: AVAILABLE
+        logo: logo
+        categories:
+        - categories
+        - categories
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        logo:
+          type: string
+        categories:
+          items:
+            type: string
+          type: array
+        isNew:
+          type: boolean
+        overviewUrl:
+          type: string
+        detailedOverviewUrl:
+          type: string
+        resourcesUrl:
+          type: string
+        faqs:
+          items:
+            $ref: '#/components/schemas/StackPack_faqs'
+          type: array
+        configurationUrls:
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+        releaseStatus:
+          enum:
+          - AVAILABLE
+          - ENABLED
+          - COMING_SOON
+          - HIDDEN
+          - BROKEN
+          type: string
+        isCompatible:
+          type: boolean
+      required:
+      - categories
+      - displayName
+      - isCompatible
+      - isNew
+      - name
+      - releaseStatus
+      - version
+      type: object
+    StackPackUpload:
+      properties:
+        stackPack:
+          format: binary
+          type: string
       type: object
     MonitorList:
       example:
@@ -2979,6 +3093,19 @@ components:
       required:
       - description
       - typeName
+      type: object
+    StackPack_faqs:
+      example:
+        question: question
+        answer: answer
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+      required:
+      - answer
+      - question
       type: object
     ExecuteScriptSyntaxErrors_errors:
       properties:
