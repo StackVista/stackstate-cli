@@ -6,6 +6,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"io/ioutil"
 	"testing"
 )
 
@@ -34,4 +35,16 @@ func TestSettingsExportMutuallyExclusiveFlags(t *testing.T) {
 
 	_, err = util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--namespace", "default")
 	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{Ids, Namespace, TypeName}, []string{Ids, Namespace}), err)
+}
+
+func TestRunSettingsExportToFile(t *testing.T) {
+	filePath := "./result.sjt"
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]`
+	cli, cmd := setupCommandExport()
+	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--file", filePath)
+	assert.Nil(t, err)
+	body, err := ioutil.ReadFile(filePath)
+	assert.Nil(t, err)
+	assert.Equal(t, expectedStr, string(body))
 }
