@@ -36,9 +36,7 @@ components:
           items:
             type: string
         namespace:
-          type: array
-          items:
-            type: string
+          type: string
         allowReferences:
           type: array
           items:

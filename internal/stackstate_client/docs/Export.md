@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **NodesWithIds** | Pointer to **[]int64** |  | [optional] 
 **AllNodesOfTypes** | Pointer to **[]string** |  | [optional] 
-**Namespace** | Pointer to **[]string** |  | [optional] 
+**Namespace** | Pointer to **string** |  | [optional] 
 **AllowReferences** | Pointer to **[]string** |  | [optional] 
 
 ## Methods
@@ -80,20 +80,20 @@ HasAllNodesOfTypes returns a boolean if a field has been set.
 
 ### GetNamespace
 
-`func (o *Export) GetNamespace() []string`
+`func (o *Export) GetNamespace() string`
 
 GetNamespace returns the Namespace field if non-nil, zero value otherwise.
 
 ### GetNamespaceOk
 
-`func (o *Export) GetNamespaceOk() (*[]string, bool)`
+`func (o *Export) GetNamespaceOk() (*string, bool)`
 
 GetNamespaceOk returns a tuple with the Namespace field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetNamespace
 
-`func (o *Export) SetNamespace(v []string)`
+`func (o *Export) SetNamespace(v string)`
 
 SetNamespace sets Namespace field to given value.
 
