@@ -47,6 +47,16 @@ func TestSettingsExportMutuallyExclusiveFlags(t *testing.T) {
 	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{Ids, Namespace, TypeName}, []string{Ids, Namespace}), err)
 }
 
+func TestRunSettingsExportWithReferencePrintToTable(t *testing.T) {
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "identifier": "urn:stackpack:common:baseline-function:median-absolute-deviation", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	cli, cmd := setupCommandExport()
+	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--namespace", "default", "--allowed-namespace-refs", "urn:stackpack:common:baseline-function:median-absolute-deviation", "--allowed-namespace-refs", "urn:stackpack")
+	assert.Nil(t, err)
+	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
+}
+
 func TestRunSettingsExportToFile(t *testing.T) {
 	filePath := "./result.sjt"
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
