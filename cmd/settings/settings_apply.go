@@ -11,13 +11,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-const (
-	FileFlag             = "file"
-	NamespaceFlag        = "namespace"
-	UnlockedStrategyFlag = "unlocked-strategy"
-	TimeoutFlag          = "timeout"
-)
-
 var (
 	UnlockedStrategyChoices = []string{"fail", "skip", "overwrite"}
 )
