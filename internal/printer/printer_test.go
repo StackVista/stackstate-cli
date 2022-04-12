@@ -3,6 +3,7 @@ package printer
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"testing"
@@ -117,30 +118,35 @@ func TestPrintErrResponse503WithColor(t *testing.T) {
 	p, _, stdErr := setupPrinter()
 	p.SetUseColor(true)
 
-	resp := http.Response{Status: "503 Service Unavailable"}
+	resp := http.Response{
+		Status: "503 Service Unavailable",
+		Header: map[string][]string{"Content-Type": {"application/json"}},
+		Body:   io.NopCloser(strings.NewReader(`{ "hello": "world" }`)),
+	}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
 
-	expected := "❌ \x1b[31m503 Service Unavailable\x1b[0m\n"
+	expected := "❌ \x1b[31m503 Service Unavailable\x1b[0m\n" +
+		"\x1b[1m\x1b[31mhello\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mworld\x1b[0m\n"
 	assert.Equal(t, expected, stdErr.String())
 }
 
-func TestPrintErrResponse503(t *testing.T) {
+func TestPrintErrResponse101(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	var buf bytes.Buffer
 	p.stdErr = &buf
-	resp := http.Response{Status: "503 Service Unavailable"}
+	resp := http.Response{Status: "101 Switching Protocols", StatusCode: 101}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
-	expected := fmt.Sprintf("[ERROR] %s\n", "503 Service Unavailable")
+	expected := fmt.Sprintf("[ERROR] %s\n", "101 Switching Protocols")
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponse200(t *testing.T) {
+func TestPrintErrResponse202(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	var buf bytes.Buffer
 	p.stdErr = &buf
-	resp := http.Response{Status: "200 Ok", StatusCode: 200}
+	resp := http.Response{Status: "202 Accepted", StatusCode: 202}
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
-	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Response error", "Hello world")
+	expected := "[ERROR] Response error (hello world)\n"
 	assert.Equal(t, expected, buf.String())
 }
 
@@ -149,7 +155,7 @@ func TestPrintErrResponseNilResponse(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := fmt.Sprintf("[ERROR] %s\n%s\n", "Response error", "Hello world")
+	expected := "[ERROR] Response error (hello world)\n"
 	assert.Equal(t, expected, buf.String())
 }
 

@@ -12,6 +12,7 @@ api_monitor_urn.go
 api_node.go
 api_scripting.go
 api_server.go
+api_stackpack.go
 api_topology_synchronization.go
 api_user_profile.go
 client.go
@@ -84,6 +85,9 @@ docs/ServerApi.md
 docs/ServerInfo.md
 docs/ServerVersion.md
 docs/SourceLink.md
+docs/StackPack.md
+docs/StackPackFaqs.md
+docs/StackpackApi.md
 docs/StreamList.md
 docs/StreamListItem.md
 docs/StringItemsWithTotal.md
@@ -169,6 +173,8 @@ model_script_location.go
 model_server_info.go
 model_server_version.go
 model_source_link.go
+model_stack_pack.go
+model_stack_pack_faqs.go
 model_stream_list.go
 model_stream_list_item.go
 model_string_items_with_total.go

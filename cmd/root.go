@@ -22,6 +22,7 @@ func RootCommand(cli *di.Deps) *cobra.Command {
 		cmd.AddCommand(SettingsCommand(cli))
 	}
 	cmd.AddCommand(MonitorCommand(cli))
+	cmd.AddCommand(StackPackCommand(cli))
 	common.AddPersistentFlags(cmd)
 
 	return cmd
