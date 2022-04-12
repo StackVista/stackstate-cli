@@ -58,3 +58,13 @@ func TestRunSettingsExportToFile(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, expectedStr, string(body))
 }
+
+func TestRunSettingsExportTypesPrintsToTable(t *testing.T) {
+	expectedStr := `{"nodes": [{ "description": "Base line function", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "BaselineFunction"}], "script": { "scriptBody": "script-bdy-1"}},{ "description": "Check function", "id": 314, "name": "name 314", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "CheckFunction"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	cli, cmd := setupCommandExport()
+	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "BaselineFunction", "--type", "CheckFunction")
+	assert.Nil(t, err)
+	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
+}
