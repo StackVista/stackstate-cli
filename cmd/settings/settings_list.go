@@ -2,11 +2,12 @@ package settings
 
 import (
 	"encoding/json"
+	"time"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"time"
 )
 
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
@@ -16,7 +17,7 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
 	}
 	cmd.Flags().StringP(TypeName, "", "", "example: ComponentType")
-	cmd.MarkFlagRequired(TypeName)
+	cmd.MarkFlagRequired(TypeName) //nolint:errcheck
 
 	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")
 	cmd.Flags().StringP(OwnedBy, "w", "", "name of the owner")
@@ -24,7 +25,12 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunSettingsListCommand(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	typeName, err := cmd.Flags().GetString(TypeName)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -63,13 +69,12 @@ func RunSettingsListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 			v.GetId(),
 			v.GetIdentifier(),
 			v.GetName(),
-			v.GetDescription(),
 			v.GetOwnedBy(),
 			lastUpdateTime,
 		})
 	}
 	cli.Printer.Table(
-		[]string{"Type", "Id", "Identifier", "Name", "description", "owned by", "last updated"},
+		[]string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
 		data,
 		respData,
 	)

@@ -4,9 +4,15 @@ import (
 	"fmt"
 	"math"
 	"reflect"
+	"strconv"
 	"strings"
 	"time"
 	"unicode"
+)
+
+const (
+	Int64BitSize      = 64
+	StringToInt64Base = 0
 )
 
 // Find string in list of strings
@@ -51,6 +57,9 @@ func WithNewLine(s string) string {
 }
 
 func ToString(x interface{}) string {
+	if x == nil {
+		return "nil"
+	}
 	if reflect.ValueOf(x).Type() == reflect.TypeOf(time.Time{}) {
 		return TimeToString(x)
 	}
@@ -90,6 +99,14 @@ func SafeStringPtrToString(s *string) string {
 	}
 }
 
+func StringSliceToInterfaceSlice(a []string) []interface{} {
+	var b = make([]interface{}, len(a))
+	for i := 0; i < len(a); i++ {
+		b[i] = a[i]
+	}
+	return b
+}
+
 func ToStringSlice(data [][]interface{}) [][]string {
 	result := make([][]string, 0)
 	for _, row := range data {
@@ -100,4 +117,7 @@ func ToStringSlice(data [][]interface{}) [][]string {
 		result = append(result, columns)
 	}
 	return result
+}
+func StringToInt64(s string) (int64, error) {
+	return strconv.ParseInt(s, StringToInt64Base, Int64BitSize)
 }

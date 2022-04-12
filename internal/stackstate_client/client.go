@@ -70,6 +70,8 @@ type APIClient struct {
 
 	ServerApi ServerApi
 
+	StackpackApi StackpackApi
+
 	TopologySynchronizationApi TopologySynchronizationApi
 
 	UserProfileApi UserProfileApi
@@ -101,6 +103,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.NodeApi = (*NodeApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)
+	c.StackpackApi = (*StackpackApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 
@@ -126,10 +129,6 @@ func selectHeaderContentType(contentTypes []string) string {
 func selectHeaderAccept(accepts []string) string {
 	if len(accepts) == 0 {
 		return ""
-	}
-
-	if contains(accepts, "application/json") {
-		return "application/json"
 	}
 
 	return strings.Join(accepts, ",")

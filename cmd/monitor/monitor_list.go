@@ -5,7 +5,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
@@ -17,7 +16,12 @@ func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunListMonitorsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunListMonitorsCommand(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	monitors, resp, err := api.MonitorApi.GetAllMonitors(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
@@ -25,7 +29,7 @@ func RunListMonitorsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_cl
 
 	tableData := [][]interface{}{}
 	for _, monitor := range monitors.Monitors {
-		tableData = append(tableData, []interface{}{util.ToString(monitor.Id), util.ToString(*monitor.Identifier), util.ToString(monitor.Name)})
+		tableData = append(tableData, []interface{}{monitor.Id, *monitor.Identifier, monitor.Name})
 	}
 	cli.Printer.Table([]string{"Id", "Identifier", "Name"}, tableData, monitors.Monitors)
 

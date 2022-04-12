@@ -3,6 +3,7 @@ package script
 import (
 	"fmt"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"testing"
 
@@ -27,7 +28,7 @@ func TestExecuteSuccess(t *testing.T) {
 		Result: map[string]interface{}{"value": "hello test"},
 	}
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "test script")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--script", "test script")
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -55,7 +56,7 @@ func TestExecuteFromScript(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--file", tmpFile.Name())
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", tmpFile.Name())
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -63,6 +64,7 @@ func TestExecuteFromScript(t *testing.T) {
 		},
 		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
 	)
+	assert.Equal(t, []string{"script executed (no response)"}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestExecuteResponseError(t *testing.T) {
@@ -83,7 +85,7 @@ func TestExecuteResponseError(t *testing.T) {
 
 func TestArgumentScriptFlag(t *testing.T) {
 	cli, cmd := setupCommand()
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--arguments-script", "argscript", "--script", "test script")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--arguments-script", "argscript", "--script", "test script")
 
 	assert.Equal(t,
 		"argscript",
@@ -93,7 +95,7 @@ func TestArgumentScriptFlag(t *testing.T) {
 
 func TestTimeoutFlag(t *testing.T) {
 	cli, cmd := setupCommand()
-	util.ExecuteCommandWithContext(cli.Context, cmd, "-t", "10", "--script", "test script")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "-t", "10", "--script", "test script")
 
 	assert.Equal(t,
 		int32(10),
@@ -105,12 +107,19 @@ func TestScriptAndFileFlag(t *testing.T) {
 	cli, cmd := setupCommand()
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script", "-f", "file")
 
-	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{ScriptFlag, FileFlag}, []string{ScriptFlag, FileFlag}), err)
+	assert.Equal(t,
+		common.NewCLIArgParseError(
+			fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags."+
+				" Pick one or the other"),
+		),
+		err,
+	)
 }
 
 func TestNoScriptOrFileFlag(t *testing.T) {
 	cli, cmd := setupCommand()
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd)
-
-	assert.Equal(t, common.NewMutuallyExclusiveFlagsRequiredError([]string{ScriptFlag, FileFlag}), err)
+	respError := common.NewResponseError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	cli.MockClient.ConnectError = respError
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script")
+	assert.Equal(t, common.NewConnectError(respError), err)
 }

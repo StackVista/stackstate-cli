@@ -11,4 +11,6 @@ __debug_bin
 
 pkged.go
 
+vendor/
 dist/
+result

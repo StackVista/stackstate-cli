@@ -18,7 +18,7 @@ func testConect(cli *di.Deps) common.CLIError {
 		dev = "-dev"
 	}
 	msg := fmt.Sprintf("Connection verified to %s (StackState version: %d.%d.%d+%s-%s%s)",
-		cli.Config.ApiUrl,
+		cli.Config.ApiURL,
 		serverInfo.Version.Major,
 		serverInfo.Version.Minor,
 		serverInfo.Version.Patch,

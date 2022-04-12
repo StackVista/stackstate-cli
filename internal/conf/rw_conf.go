@@ -51,21 +51,21 @@ func (s MissingConfError) Error() string {
 }
 
 // XDG spec https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
-func getXDGConfigHome() (XDGConfigHome string, err error) {
-	XDGConfigHome = os.Getenv("XDG_CONFIG_HOME")
-	if XDGConfigHome == "" {
-		XDGConfigHome, err = home.Expand("~/.config")
+func getXdgConfigHome() (xdgConfigHome string, err error) {
+	xdgConfigHome = os.Getenv("XDG_CONFIG_HOME")
+	if xdgConfigHome == "" {
+		xdgConfigHome, err = home.Expand("~/.config")
 	}
 	return
 }
 
 func getConfPath() (string, error) {
-	XDGConfigHome, err := getXDGConfigHome()
+	xdgConfigHome, err := getXdgConfigHome()
 	if err != nil {
 		return "", err
 	}
 
-	return XDGConfigHome + "/" + XDGConfigSubPath, nil
+	return xdgConfigHome + "/" + XDGConfigSubPath, nil
 }
 
 func ReadConf(cmd *cobra.Command) (Conf, error) {

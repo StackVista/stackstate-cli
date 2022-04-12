@@ -17,6 +17,7 @@ import (
 	_ioutil "io/ioutil"
 	_nethttp "net/http"
 	_neturl "net/url"
+	"os"
 )
 
 // Linger please
@@ -24,109 +25,82 @@ var (
 	_ _context.Context
 )
 
-type ImportApi interface {
+type StackpackApi interface {
 
 	/*
-	ImportSettings Import settings
+	StackpackUpload StackPack API
 
-	Import StackState Templated JSON (STJ) setting nodes.
+	upload a StackPack
 
 	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiImportSettingsRequest
+	 @return ApiStackpackUploadRequest
 	*/
-	ImportSettings(ctx _context.Context) ApiImportSettingsRequest
+	StackpackUpload(ctx _context.Context) ApiStackpackUploadRequest
 
-	// ImportSettingsExecute executes the request
-	//  @return []map[string]interface{}
-	ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error)
+	// StackpackUploadExecute executes the request
+	//  @return StackPack
+	StackpackUploadExecute(r ApiStackpackUploadRequest) (StackPack, *_nethttp.Response, error)
 }
 
 
-// ImportApiService ImportApi service
-type ImportApiService service
+// StackpackApiService StackpackApi service
+type StackpackApiService service
 
-type ApiImportSettingsRequest struct {
+type ApiStackpackUploadRequest struct {
 	ctx _context.Context
-	ApiService ImportApi
-	body *string
-	timeoutSeconds *int64
-	namespace *string
-	unlocked *string
+	ApiService StackpackApi
+	stackPack **os.File
 }
 
-func (r ApiImportSettingsRequest) Body(body string) ApiImportSettingsRequest {
-	r.body = &body
-	return r
-}
-func (r ApiImportSettingsRequest) TimeoutSeconds(timeoutSeconds int64) ApiImportSettingsRequest {
-	r.timeoutSeconds = &timeoutSeconds
-	return r
-}
-func (r ApiImportSettingsRequest) Namespace(namespace string) ApiImportSettingsRequest {
-	r.namespace = &namespace
-	return r
-}
-func (r ApiImportSettingsRequest) Unlocked(unlocked string) ApiImportSettingsRequest {
-	r.unlocked = &unlocked
+func (r ApiStackpackUploadRequest) StackPack(stackPack *os.File) ApiStackpackUploadRequest {
+	r.stackPack = &stackPack
 	return r
 }
 
-func (r ApiImportSettingsRequest) Execute() ([]map[string]interface{}, *_nethttp.Response, error) {
-	return r.ApiService.ImportSettingsExecute(r)
+func (r ApiStackpackUploadRequest) Execute() (StackPack, *_nethttp.Response, error) {
+	return r.ApiService.StackpackUploadExecute(r)
 }
 
 /*
-ImportSettings Import settings
+StackpackUpload StackPack API
 
-Import StackState Templated JSON (STJ) setting nodes.
+upload a StackPack
 
  @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiImportSettingsRequest
+ @return ApiStackpackUploadRequest
 */
-func (a *ImportApiService) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
-	return ApiImportSettingsRequest{
+func (a *StackpackApiService) StackpackUpload(ctx _context.Context) ApiStackpackUploadRequest {
+	return ApiStackpackUploadRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []map[string]interface{}
-func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
+//  @return StackPack
+func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest) (StackPack, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  []map[string]interface{}
+		localVarReturnValue  StackPack
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImportApiService.ImportSettings")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackpackUpload")
 	if err != nil {
 		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/import"
+	localVarPath := localBasePath + "/stackpack"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := _neturl.Values{}
 	localVarFormParams := _neturl.Values{}
-	if r.body == nil {
-		return localVarReturnValue, nil, reportError("body is required and must be specified")
-	}
 
-	if r.timeoutSeconds != nil {
-		localVarQueryParams.Add("timeoutSeconds", parameterToString(*r.timeoutSeconds, ""))
-	}
-	if r.namespace != nil {
-		localVarQueryParams.Add("namespace", parameterToString(*r.namespace, ""))
-	}
-	if r.unlocked != nil {
-		localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
-	}
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"plain/text"}
+	localVarHTTPContentTypes := []string{"multipart/form-data"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -142,8 +116,17 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	// body params
-	localVarPostBody = r.body
+	localVarFormFileName = "stackPack"
+	var localVarFile *os.File
+	if r.stackPack != nil {
+		localVarFile = *r.stackPack
+	}
+	if localVarFile != nil {
+		fbs, _ := _ioutil.ReadAll(localVarFile)
+		localVarFileBytes = fbs
+		localVarFileName = localVarFile.Name()
+		localVarFile.Close()
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -181,7 +164,7 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v GenericErrorsResponse
+			var v []string
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -220,48 +203,42 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 // ---------------------------------------------
 
 
-type ImportApiMock struct {
-	ImportSettingsCalls *[]ImportSettingsCall
-	ImportSettingsResponse ImportSettingsMockResponse
+type StackpackApiMock struct {
+	StackpackUploadCalls *[]StackpackUploadCall
+	StackpackUploadResponse StackpackUploadMockResponse
 }	
 
-func NewImportApiMock() ImportApiMock {
-	xImportSettingsCalls := make([]ImportSettingsCall, 0)
-	return ImportApiMock {
-		ImportSettingsCalls: &xImportSettingsCalls,
+func NewStackpackApiMock() StackpackApiMock {
+	xStackpackUploadCalls := make([]StackpackUploadCall, 0)
+	return StackpackApiMock {
+		StackpackUploadCalls: &xStackpackUploadCalls,
 	}
 }
 
-type ImportSettingsMockResponse struct {
-	Result []map[string]interface{}
+type StackpackUploadMockResponse struct {
+	Result StackPack
 	Response *_nethttp.Response
 	Error error
 }
 
-type ImportSettingsCall struct {
-	Pbody *string
-	PtimeoutSeconds *int64
-	Pnamespace *string
-	Punlocked *string
+type StackpackUploadCall struct {
+	PstackPack **os.File
 }
 
 
-func (mock ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
-	return ApiImportSettingsRequest{
+func (mock StackpackApiMock) StackpackUpload(ctx _context.Context) ApiStackpackUploadRequest {
+	return ApiStackpackUploadRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
-	p := ImportSettingsCall {
-			Pbody: r.body,
-			PtimeoutSeconds: r.timeoutSeconds,
-			Pnamespace: r.namespace,
-			Punlocked: r.unlocked,
+func (mock StackpackApiMock) StackpackUploadExecute(r ApiStackpackUploadRequest) (StackPack, *_nethttp.Response, error) {
+	p := StackpackUploadCall {
+			PstackPack: r.stackPack,
 	}
-	*mock.ImportSettingsCalls = append(*mock.ImportSettingsCalls, p)
-	return mock.ImportSettingsResponse.Result, mock.ImportSettingsResponse.Response, mock.ImportSettingsResponse.Error
+	*mock.StackpackUploadCalls = append(*mock.StackpackUploadCalls, p)
+	return mock.StackpackUploadResponse.Result, mock.StackpackUploadResponse.Response, mock.StackpackUploadResponse.Error
 }
 
 

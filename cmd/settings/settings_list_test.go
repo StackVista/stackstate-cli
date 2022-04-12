@@ -3,16 +3,17 @@ package settings
 import (
 	"bytes"
 	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"testing"
+	"time"
+
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
-	"io/ioutil"
-	"net/http"
-	"testing"
-	"time"
 )
 
 func setupCommandFn() (di.MockDeps, *cobra.Command) {
@@ -48,12 +49,12 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "ComponentType")
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType")
 
 	expectedTableCall := []printer.TableCall{
 		{
-			Header:     []string{"Type", "Id", "Identifier", "Name", "description", "owned by", "last updated"},
-			Data:       [][]string{{"ComponentType", "1", identifier, name, description, owner, expectedUpdateTime}},
+			Header:     []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+			Data:       [][]string{{"ComponentType", "1", identifier, name, owner, expectedUpdateTime}},
 			StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
 		},
 	}
@@ -87,14 +88,14 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
 
-	util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "ComponentType",
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType",
 		"-n", "component",
 		"-w", "urn:stackpack:stackstate-self-health:shared")
 
 	expectedTableCall := []printer.TableCall{
 		{
-			Header:     []string{"Type", "Id", "Identifier", "Name", "description", "owned by", "last updated"},
-			Data:       [][]string{{"ComponentType", "1", identifier, name, description, owner, expectedUpdateTime}},
+			Header:     []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+			Data:       [][]string{{"ComponentType", "1", identifier, name, owner, expectedUpdateTime}},
 			StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
 		},
 	}

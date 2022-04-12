@@ -27,7 +27,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 	}
 	cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result = nodeApiResult
 
-	util.ExecuteCommandWithContext(cli.Context, cmd)
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd)
 
 	expectedTableCall := []printer.TableCall{{
 		Header:     []string{"name", "description"},

@@ -15,25 +15,6 @@ paths:
           $ref: "#/components/responses/monitorIdentifierNotFoundError"
         "500":
           $ref: "monitors.api.yaml#/components/responses/monitorApiError"
-    put:
-      tags:
-        - monitorUrn
-      summary: "Update a monitor"
-      description: "Updates monitor using optional attributes"
-      operationId: updateMonitorByURN
-      parameters:
-        - $ref: "#/components/parameters/monitorUrnId"
-      requestBody:
-        $ref: "#/components/requestBodies/update"
-      responses:
-        "200":
-          $ref: "monitors.api.yaml#/components/responses/monitor"
-        "400":
-          $ref: "monitors.api.yaml#/components/responses/monitorInvalidIntervalError"
-        "404":
-          $ref: "#/components/responses/monitorIdentifierNotFoundError"
-        "500":
-          $ref: "monitors.api.yaml#/components/responses/monitorApiError"
 
     delete:
       tags:
@@ -44,7 +25,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/monitorUrnId"
       responses:
-        "200":
+        "204":
           description: "Return ok"
         "404":
           $ref: "#/components/responses/monitorIdentifierNotFoundError"

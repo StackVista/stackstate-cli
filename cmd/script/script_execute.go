@@ -29,7 +29,9 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	}
 
 	cmd.Flags().String(ScriptFlag, "", "a script to execute")
-	cmd.Flags().String(ArgumentsScriptFlag, "", "an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map")
+	cmd.Flags().String(ArgumentsScriptFlag, "",
+		"an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map",
+	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
 	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
 
@@ -52,12 +54,22 @@ func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 		return common.NewCLIError(err)
 	}
 
+	if file != "" && script != "" {
+		return common.NewCLIArgParseError(
+			fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. "+
+				"Pick one or the other", ScriptFlag, FileFlag))
+	}
+
 	if file != "" {
 		b, err := os.ReadFile(file)
 		if err != nil {
 			return common.NewCLIError(err)
 		}
 		script = string(b)
+	}
+
+	if script == "" {
+		return common.NewCLIArgParseError(fmt.Errorf("required flag \"%s\" or \"%s\" not set", ScriptFlag, FileFlag))
 	}
 
 	var argumentsScript *string
@@ -88,6 +100,12 @@ func RunScriptExecuteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_c
 	}
 
 	// print response
-	cli.Printer.PrintStruct(scriptResponse.Result["value"])
+	value := scriptResponse.Result["value"]
+	if value == nil {
+		cli.Printer.Success("script executed (no response)")
+	} else {
+		cli.Printer.PrintStruct(value)
+	}
+
 	return nil
 }

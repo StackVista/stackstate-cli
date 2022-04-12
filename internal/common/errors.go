@@ -3,6 +3,13 @@ package common
 import (
 	"fmt"
 	"net/http"
+	"strings"
+
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+)
+
+const (
+	HTTPStatusUnauthorized = 401
 )
 
 type CLIError interface {
@@ -18,6 +25,8 @@ func NewCLIError(err error) CLIError {
 
 func NewConnectError(err error) CLIError {
 	var statusCode int
+
+	//nolint:gocritic
 	switch v := err.(type) {
 	case ResponseError:
 		// is access error?
@@ -26,7 +35,7 @@ func NewConnectError(err error) CLIError {
 		}
 	}
 
-	if statusCode == 401 {
+	if statusCode == HTTPStatusUnauthorized {
 		return StdCLIError{
 			Err: fmt.Errorf("could not connect to StackState: invalid api-token\n" +
 				"For more information: https://l.stackstate.com/cli-invalid-api-token"),
@@ -35,7 +44,7 @@ func NewConnectError(err error) CLIError {
 	} else {
 		return StdCLIError{
 			Err: fmt.Errorf("could not connect to StackState: %s\n"+
-				"Please check your api-url\n"+
+				"Please check your api-url and network connection\n"+
 				"Get the URL of your StackState instance and add \"/api\" at the end\n"+
 				"Be aware that this CLI can only connect with StackState version 5 or greater", err),
 			exitCode: ConnectErrorExitCode,
@@ -67,6 +76,16 @@ func (p StdCLIError) GetExitCode() ExitCode {
 
 func (p StdCLIError) ShowUsage() bool {
 	return p.showUsage
+}
+
+func CheckFlagIsValidChoice(flagName string, flagValue string, choices []string) CLIError {
+	if !util.StringInSlice(flagValue, choices) {
+		return NewCLIArgParseError(
+			fmt.Errorf("invalid '%s' flag value '%s' (must be { %s })", flagName, flagValue, strings.Join(choices, " | ")),
+		)
+	} else {
+		return nil
+	}
 }
 
 // --------------

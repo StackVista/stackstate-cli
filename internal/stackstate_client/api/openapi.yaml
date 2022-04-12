@@ -22,6 +22,27 @@ paths:
     post:
       description: Import StackState Templated JSON (STJ) setting nodes.
       operationId: importSettings
+      parameters:
+      - in: query
+        name: timeoutSeconds
+        required: false
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: unlocked
+        required: false
+        schema:
+          enum:
+          - fail
+          - skip
+          - overwrite
+          type: string
       requestBody:
         content:
           plain/text:
@@ -128,6 +149,39 @@ paths:
       summary: Node type API
       tags:
       - node
+  /stackpack:
+    post:
+      description: upload a StackPack
+      operationId: stackpackUpload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StackPackUpload'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackPack'
+          description: Upload success. Processing happens asynchronously.
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: StackPack API
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system
@@ -148,33 +202,6 @@ paths:
       summary: List monitors
       tags:
       - monitor
-    post:
-      description: Creates monitor
-      operationId: createMonitor
-      requestBody:
-        $ref: '#/components/requestBodies/create'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Monitor'
-          description: Full representation of a monitor
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorInvalidIntervalError'
-          description: Error response if an unsupported monitor interval was provided
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorApiError'
-          description: container for all error response
-      summary: Create a monitor
-      tags:
-      - monitor
   /monitor/{monitorId}:
     delete:
       description: Deletes existing monitor
@@ -187,7 +214,7 @@ paths:
         schema:
           $ref: '#/components/schemas/MonitorId'
       responses:
-        "200":
+        "204":
           description: Return ok
         "404":
           content:
@@ -234,46 +261,6 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Get a monitor
-      tags:
-      - monitor
-    put:
-      description: Updates monitor using optional attributes
-      operationId: updateMonitor
-      parameters:
-      - description: The identifier of a monitor
-        in: path
-        name: monitorId
-        required: true
-        schema:
-          $ref: '#/components/schemas/MonitorId'
-      requestBody:
-        $ref: '#/components/requestBodies/update'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Monitor'
-          description: Full representation of a monitor
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorInvalidIntervalError'
-          description: Error response if an unsupported monitor interval was provided
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorNotFoundError'
-          description: monitor was not found in the database
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorApiError'
-          description: container for all error response
-      summary: Update a monitor
       tags:
       - monitor
   /monitor/{monitorId}/run:
@@ -354,7 +341,7 @@ paths:
         schema:
           $ref: '#/components/schemas/MonitorUrnId'
       responses:
-        "200":
+        "204":
           description: Return ok
         "404":
           content:
@@ -401,46 +388,6 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Get a monitor
-      tags:
-      - monitorUrn
-    put:
-      description: Updates monitor using optional attributes
-      operationId: updateMonitorByURN
-      parameters:
-      - description: The identifier of a monitor
-        in: path
-        name: monitorUrnId
-        required: true
-        schema:
-          $ref: '#/components/schemas/MonitorUrnId'
-      requestBody:
-        $ref: '#/components/requestBodies/update'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Monitor'
-          description: Full representation of a monitor
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorInvalidIntervalError'
-          description: Error response if an unsupported monitor interval was provided
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
-          description: monitor was not found in the database
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MonitorApiError'
-          description: container for all error response
-      summary: Update a monitor
       tags:
       - monitorUrn
   /monitorUrn/{monitorUrnId}/run:
@@ -1507,18 +1454,6 @@ paths:
       - server
 components:
   requestBodies:
-    create:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/CreateMonitor'
-      required: true
-    update:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/UpdateMonitor'
-      required: true
     EventListBody:
       content:
         application/json:
@@ -1633,6 +1568,87 @@ components:
       - lastUpdateTimestamp
       - typeName
       type: object
+    StackPack:
+      example:
+        detailedOverviewUrl: detailedOverviewUrl
+        displayName: displayName
+        overviewUrl: overviewUrl
+        isNew: true
+        version: version
+        resourcesUrl: resourcesUrl
+        isCompatible: true
+        faqs:
+        - question: question
+          answer: answer
+        - question: question
+          answer: answer
+        configurationUrls:
+        - - configurationUrls
+          - configurationUrls
+        - - configurationUrls
+          - configurationUrls
+        name: name
+        releaseStatus: AVAILABLE
+        logo: logo
+        categories:
+        - categories
+        - categories
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        logo:
+          type: string
+        categories:
+          items:
+            type: string
+          type: array
+        isNew:
+          type: boolean
+        overviewUrl:
+          type: string
+        detailedOverviewUrl:
+          type: string
+        resourcesUrl:
+          type: string
+        faqs:
+          items:
+            $ref: '#/components/schemas/StackPack_faqs'
+          type: array
+        configurationUrls:
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+        releaseStatus:
+          enum:
+          - AVAILABLE
+          - ENABLED
+          - COMING_SOON
+          - HIDDEN
+          - BROKEN
+          type: string
+        isCompatible:
+          type: boolean
+      required:
+      - categories
+      - displayName
+      - isCompatible
+      - isNew
+      - name
+      - releaseStatus
+      - version
+      type: object
+    StackPackUpload:
+      properties:
+        stackPack:
+          format: binary
+          type: string
+      type: object
     MonitorList:
       example:
         monitors:
@@ -1722,57 +1738,6 @@ components:
       - message
       - statusCode
       type: object
-    CreateMonitor:
-      example:
-        topologyMapping: topologyMapping
-        identifier: identifier
-        functionId: 0
-        remediationHint: remediationHint
-        name: name
-        description: description
-        parameters: '{}'
-        intervalSeconds: 6
-      properties:
-        name:
-          type: string
-        identifier:
-          type: string
-        description:
-          type: string
-        functionId:
-          format: int64
-          type: integer
-        parameters:
-          type: object
-        remediationHint:
-          type: string
-        topologyMapping:
-          description: Placeholder for the topology element identifier
-          type: string
-        intervalSeconds:
-          type: integer
-      required:
-      - functionId
-      - identifier
-      - intervalSeconds
-      - name
-      - parameters
-      - topologyMapping
-      type: object
-    MonitorInterval:
-      type: integer
-    MonitorInvalidIntervalError:
-      properties:
-        _type:
-          enum:
-          - MonitorInvalidIntervalError
-          type: string
-        intervalSeconds:
-          type: integer
-      required:
-      - _type
-      - intervalSeconds
-      type: object
     MonitorNotFoundError:
       properties:
         _type:
@@ -1785,35 +1750,6 @@ components:
       required:
       - _type
       - monitorId
-      type: object
-    UpdateMonitor:
-      example:
-        topologyMapping: topologyMapping
-        identifier: identifier
-        functionId: 0
-        remediationHint: remediationHint
-        name: name
-        description: description
-        parameters: '{}'
-        intervalSeconds: 6
-      properties:
-        name:
-          type: string
-        identifier:
-          type: string
-        description:
-          type: string
-        functionId:
-          format: int64
-          type: integer
-        parameters:
-          type: object
-        remediationHint:
-          type: string
-        topologyMapping:
-          type: string
-        intervalSeconds:
-          type: integer
       type: object
     MonitorRunResult:
       example:
@@ -3216,6 +3152,19 @@ components:
       required:
       - description
       - typeName
+      type: object
+    StackPack_faqs:
+      example:
+        question: question
+        answer: answer
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+      required:
+      - answer
+      - question
       type: object
     ExecuteScriptSyntaxErrors_errors:
       properties:

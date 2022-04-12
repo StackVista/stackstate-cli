@@ -17,6 +17,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
+//nolint:funlen
 func Execute(ctx context.Context) {
 	printer := pr.NewPrinter()
 
@@ -67,17 +68,19 @@ func Execute(ctx context.Context) {
 
 		configuration := stackstate_client.NewConfiguration()
 		configuration.Servers[0] = stackstate_client.ServerConfiguration{
-			URL:         cli.Config.ApiUrl,
+			URL:         cli.Config.ApiURL,
 			Description: "",
 			Variables:   nil,
 		}
 		configuration.Debug = cli.IsVerBose
 		var client *stackstate_client.APIClient
+
+		stopSpinner := func() {}
 		configuration.OnPreCallAPI = func(r *http.Request) {
-			cli.Printer.StartSpinner(common.AwaitingServer)
+			stopSpinner = cli.Printer.StartSpinner(common.AwaitingServer)
 		}
 		configuration.OnPostCallAPI = func(r *http.Request) {
-			cli.Printer.StopSpinner()
+			stopSpinner()
 		}
 		client = stackstate_client.NewAPIClient(configuration)
 

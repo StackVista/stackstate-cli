@@ -21,7 +21,7 @@ Note: when updating this struct, please also update the:
  4. and last but not least, the tests!
 */
 type Conf struct {
-	ApiUrl   string
+	ApiURL   string
 	ApiToken string
 	NoColor  bool
 	Output   string
@@ -35,6 +35,7 @@ const (
 	MinimumRequiredFlags   = "api-url, api-token"
 )
 
+//nolint:golint,errcheck
 func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	// bind environment variables
 	vp.BindEnv("api-url", "STS_CLI_API_URL")
@@ -53,7 +54,7 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 
 	// bind YAML
 	return Conf{
-		ApiUrl:   vp.GetString("api-url"),
+		ApiURL:   vp.GetString("api-url"),
 		ApiToken: vp.GetString("api-token"),
 		NoColor:  vp.GetBool("no-color"),
 		Output:   vp.GetString("output"),
@@ -61,7 +62,7 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 }
 
 func validate(conf Conf, errors *[]error) {
-	if conf.ApiUrl == "" {
+	if conf.ApiURL == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "api-url"})
 	}
 
@@ -83,5 +84,5 @@ func convertConfToYaml(conf Conf) string {
 	return fmt.Sprintf(`api-url: %s
 api-token: %s
 no-color: %v
-`, conf.ApiUrl, conf.ApiToken, conf.NoColor)
+`, conf.ApiURL, conf.ApiToken, conf.NoColor)
 }

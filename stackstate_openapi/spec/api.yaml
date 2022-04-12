@@ -18,6 +18,7 @@ paths:
   /export: { $ref: "export.xapi.yaml#/paths/%2Fexport" }
   /node: { $ref: "node.xapi.yaml#/paths/%2Fnode" }
   /node/{nodeType}: { $ref: "node.xapi.yaml#/paths/%2Fnode%2F%7BnodeType%7D" }
+  /stackpack: { $ref: "stackpack.xapi.yaml#/paths/%2Fstackpack" }
   /monitors: { $ref: "monitors.api.yaml#/paths/%2Fmonitors" }
   /monitor/{monitorId}: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D" }
   /monitor/{monitorId}/run: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2Frun" }

@@ -4,28 +4,30 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"io"
+	"io/ioutil"
+	"net/http"
+	"os"
+	"strings"
+
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
 	"github.com/gookit/color"
+	"github.com/jedib0t/go-pretty/v6/table"
+	"github.com/jedib0t/go-pretty/v6/text"
 	"github.com/pterm/pterm"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gopkg.in/yaml.v3"
-	"io"
-	"net/http"
-	"os"
-	"strings"
 )
 
 type Printer interface {
-	// Expects s to be JSON or YAML serializable. You'll get an error otherwise.
-	PrintStruct(s interface{}) error
+	// Expects s to be JSON or YAML serializable. Will print an error otherwise
+	PrintStruct(s interface{})
 	PrintErr(err error)
-	StartSpinner(loadingMsg common.LoadingMsg)
-	StopSpinner()
+	StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
@@ -36,7 +38,13 @@ type Printer interface {
 	PrintLn(text string)
 }
 
+const (
+	YamlIndent = 2
+)
+
 type OutputType int
+
+type StopPrinterFn func()
 
 type Symbol struct {
 	UnicodeChar string
@@ -63,6 +71,7 @@ type StdPrinter struct {
 	useColor   bool
 	spinner    *pterm.SpinnerPrinter
 	outputType OutputType
+	MaxWidth   int
 }
 
 func NewPrinter() Printer {
@@ -73,6 +82,7 @@ func NewPrinter() Printer {
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,
 		outputType: Auto,
+		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
 }
 
@@ -82,36 +92,36 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 	p.stdErr = stdErr
 }
 
-func (p *StdPrinter) PrintStruct(s interface{}) error {
+func (p *StdPrinter) PrintStruct(s interface{}) {
 	msg, err := p.sprintStruct(s)
 	if err != nil {
-		return err
+		p.PrintErr(fmt.Errorf("error (%s) while printing struct: %v", err, s))
+	} else {
+		fmt.Fprintf(p.stdOut, "%s\n", msg)
 	}
-	fmt.Fprintf(p.stdOut, "%s\n", msg)
-
-	return nil
 }
 
 func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	var sructStr string
-	if p.outputType == JSON {
+
+	switch p.outputType {
+	case JSON:
 		msg, err := json.MarshalIndent(s, "", "  ")
 		if err != nil {
 			return "", err
 		}
 
 		sructStr = string(msg)
-	} else if p.outputType == YAML || p.outputType == Auto {
-
+	case YAML, Auto:
 		var buf bytes.Buffer
 		yamlEncoder := yaml.NewEncoder(&buf)
-		yamlEncoder.SetIndent(2)
+		yamlEncoder.SetIndent(YamlIndent)
 		err := yamlEncoder.Encode(&s)
 		if err != nil {
 			return "", err
 		}
 		sructStr = strings.TrimRight(buf.String(), "\n")
-	} else {
+	default:
 		return "", fmt.Errorf("unknown outputType %v", p.outputType)
 	}
 
@@ -159,53 +169,58 @@ func (p *StdPrinter) PrintErr(err error) {
 	}
 }
 
-func (p *StdPrinter) printErrResponse(rtnErr error, resp *http.Response) {
-	var httpStatus, errorStr string
+func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
+	var errorStr, bodyStr string
 
-	// get HTTP status string
-	if resp != nil && resp.Status != "" && resp.StatusCode != 200 {
-		httpStatus = resp.Status
+	//nolint:gomnd
+	isErrorResponse := resp != nil && ((resp.StatusCode-200 < 0) || (resp.StatusCode-200 >= 100))
+
+	// get error string with HTTP status
+	if isErrorResponse {
+		if err.Error() != "" && err.Error() != resp.Status {
+			errorStr = fmt.Sprintf("%s (%s)", resp.Status, err.Error())
+		} else {
+			errorStr = resp.Status
+		}
 	} else {
-		httpStatus = "Client error"
+		errorStr = fmt.Sprintf("Response error (%s)", err.Error())
 	}
 
 	// get error string
-	switch v := rtnErr.(type) {
-	case sts.GenericOpenAPIError:
-		// did server repond with JSON? Then show that as an error string!
-		if resp != nil && resp.Header.Get("Content-Type") == "application/json" && resp.StatusCode != 200 {
-			var bodyStruct interface{}
-			json.Unmarshal(v.Body(), &bodyStruct)
-			body, err := p.sprintStruct(bodyStruct)
+	// did server repond with JSON? Then show that as an error string!
+	if isErrorResponse && resp.Header.Get("Content-Type") == "application/json" {
+		var bodyStruct interface{}
+		bodyb, err := ioutil.ReadAll(resp.Body)
+		if err == nil {
+			err := json.Unmarshal(bodyb, &bodyStruct)
 			if err == nil {
-				errorStr = body
+				body, err := p.sprintStruct(bodyStruct)
+				if err == nil {
+					bodyStr = body
+				}
 			}
 		}
-	}
-	if errorStr == "" {
-		// otherwise show the error itself
-		errorStr = util.UcFirst(rtnErr.Error())
 	}
 
 	color.Fprintf(p.stdErr,
 		"%s %v\n%s",
 		p.sprintSymbol("error"),
-		color.Red.Render(httpStatus),
-		util.WithNewLine(errorStr),
+		color.Red.Render(errorStr),
+		util.WithNewLine(bodyStr),
 	)
 }
 
-func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) {
+func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
 	if p.spinner != nil {
-		p.spinner.Text = loadingMsg.String()
-		p.spinner.Start()
+		s, _ := p.spinner.WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
+		return func() {
+			if s != nil {
+				//nolint:golint,errcheck
+				s.Stop()
+			}
+		}
 	}
-}
-
-func (p *StdPrinter) StopSpinner() {
-	if p.spinner != nil {
-		p.spinner.Stop()
-	}
+	return func() {}
 }
 
 func (p *StdPrinter) SetUseColor(useColor bool) {
@@ -245,21 +260,91 @@ func (p *StdPrinter) PrintWarn(msg string) {
 
 func (p *StdPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
 	if p.outputType == Auto {
-		// uppercase the headers
-		headerUpperCased := make([]string, 0)
-		for _, header := range header {
-			headerUpperCased = append(headerUpperCased, strings.ToUpper(header))
+		tw := table.NewWriter()
+		tw.Style().Options.DrawBorder = false
+		tw.Style().Options.SeparateHeader = false
+		tw.Style().Format.Header = text.FormatUpper
+		tw.Style().Box.PaddingLeft = ""
+		tw.Style().Box.PaddingRight = ""
+		tw.Style().Box.MiddleVertical = " | "
+		if p.useColor {
+			tw.Style().Color.Header = text.Colors{text.FgCyan}
 		}
 
-		dataWithHeader := make([][]string, 0)
-		dataWithHeader = append(dataWithHeader, headerUpperCased)
+		tw.AppendHeader(util.StringSliceToInterfaceSlice(header))
 
-		dataStr := util.ToStringSlice(data)
-		dataWithHeader = append(dataWithHeader, dataStr...)
-		pterm.DefaultTable.WithHasHeader().WithData(dataWithHeader).Render()
+		rows := make([]table.Row, 0)
+		for _, row := range data {
+			columns := make(table.Row, 0)
+			for _, v := range row {
+				value := util.ToString(v)
+				columns = append(columns, value)
+			}
+			rows = append(rows, columns)
+		}
+
+		adjustedColumnWidths := calcColumnWidth(header, data, p.MaxWidth, tw.Style().Box)
+		columnConfigs := make([]table.ColumnConfig, len(header))
+		for i, h := range header {
+			columnConfigs = append(columnConfigs, table.ColumnConfig{
+				Name:     h,
+				WidthMax: adjustedColumnWidths[i],
+			})
+		}
+		tw.SetColumnConfigs(columnConfigs)
+
+		tw.AppendRows(rows)
+		fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
 	} else {
 		p.PrintStruct(structData)
 	}
+}
+
+func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box table.BoxStyle) []int {
+	// average column width should be the size of screen minus some table row overhead divided by the number of columns
+	tableRowOverheadWidth := len(box.PaddingLeft) + len(box.PaddingRight) +
+		((len(header) - 1) * (len(box.MiddleVertical) + len(box.PaddingLeft) + len(box.PaddingRight)))
+	avgColumnWidth := (maxWidth - tableRowOverheadWidth) / len(header)
+
+	// minimum column width is the length of the name of the header
+	columnWidths := make([]int, len(header))
+	for i, h := range header {
+		columnWidths[i] = len(h)
+	}
+
+	// maximum column width is the length of the longest value
+	for _, row := range data {
+		for i, v := range row {
+			value := util.ToString(v)
+			if columnWidths[i] < len(value) {
+				columnWidths[i] = len(value)
+			}
+		}
+	}
+
+	// every column smaller than the average column can be added to the bigger columns
+	extraRoomFromSmallerColumns := 0
+	biggerColumnCount := 0
+	for _, cw := range columnWidths {
+		if cw < avgColumnWidth {
+			extraRoomFromSmallerColumns += (avgColumnWidth - cw)
+		} else {
+			biggerColumnCount++
+		}
+	}
+
+	// any column:
+	// - smaller than the average stays the same maximum with any bigger
+	// - bigger than the average gets the average plus the extra room from smaller columns
+	adjustedColumnWidths := make([]int, len(header))
+	for i, cw := range columnWidths {
+		if cw < avgColumnWidth {
+			adjustedColumnWidths[i] = cw
+		} else {
+			adjustedColumnWidths[i] = avgColumnWidth + (extraRoomFromSmallerColumns / biggerColumnCount)
+		}
+	}
+	return adjustedColumnWidths
 }
 
 func (p *StdPrinter) PrintLn(text string) {

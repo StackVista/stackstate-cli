@@ -24,6 +24,8 @@ type ApiMocks struct {
 	TopologySynchronizationApi *stackstate_client.TopologySynchronizationApiMock
 	UserProfileApi             *stackstate_client.UserProfileApiMock
 	ServerApi                  *stackstate_client.ServerApiMock
+	StackpackApi               *stackstate_client.StackpackApiMock
+	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
 func NewMockStackStateClient() MockStackStateClient {
@@ -39,6 +41,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	topologySynchronizationApi := stackstate_client.NewTopologySynchronizationApiMock()
 	userProfileApi := stackstate_client.NewUserProfileApiMock()
 	serverApi := stackstate_client.NewServerApiMock()
+	stackpackApi := stackstate_client.NewStackpackApiMock()
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
 		EventApi:                   &eventApi,
@@ -52,6 +55,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		TopologySynchronizationApi: &topologySynchronizationApi,
 		UserProfileApi:             &userProfileApi,
 		ServerApi:                  &serverApi,
+		StackpackApi:               &stackpackApi,
 	}
 
 	apiClient := &stackstate_client.APIClient{
@@ -67,6 +71,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		TopologySynchronizationApi: apiMocks.TopologySynchronizationApi,
 		UserProfileApi:             apiMocks.UserProfileApi,
 		ServerApi:                  apiMocks.ServerApi,
+		StackpackApi:               apiMocks.StackpackApi,
 	}
 
 	return MockStackStateClient{

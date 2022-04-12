@@ -24,7 +24,7 @@ type ReadTests struct{}
 Unfortuntately the tests in these suites interfere and this work around is
 necessary, because OS environment variables are shared.
 
-If you run these tests indiviudally they will succeed, but if you
+If you run these tests individually they will succeed, but if you
 run them all then they will fail, because Go's test runner runs these tests
 concurrently.
 
@@ -54,7 +54,7 @@ func TestWriteReadRunner(t *testing.T) {
 // executed by TestWriteReadRunner
 func (p WriteTests) TestWriteSuccess(t *testing.T) {
 	confIn := Conf{
-		ApiUrl:   "https://write.stackstate.com/api",
+		ApiURL:   "https://write.stackstate.com/api",
 		ApiToken: "BSOPSIYZ4TuSzNIFzqPZyUMilggP9_M",
 	}
 
@@ -106,7 +106,7 @@ func (p ReadTests) TestLoadSuccessFromYaml(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl, "TestLoadSuccessFromYaml")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromYaml")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromYaml")
 }
 
@@ -122,11 +122,12 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl, "TestLoadSuccessFromMinimumRequiredEnvs")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromMinimumRequiredEnvs")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumRequiredEnvs")
 }
 
 // executed by TestWriteReadRunner
+//nolint:golint,errcheck
 func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	cmd := newCmd()
 	flags := strings.Split(strings.ReplaceAll(MinimumRequiredFlags, " ", ""), ",")
@@ -140,7 +141,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiUrl, "TestLoadSuccessFromMinimumFlags")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromMinimumFlags")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumFlags")
 }
 
@@ -154,6 +155,7 @@ func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
+//nolint:golint,errcheck
 func (p ReadTests) TestNoColorFlag(t *testing.T) {
 	cmd := newCmd()
 	cmd.Flags().Bool("no-color", false, "") // register flag
@@ -192,7 +194,7 @@ func readConfFromFile(t *testing.T, confYaml string) (Conf, error) {
 func createTmpConfigFile(t *testing.T, confYaml string) string {
 	testDir := t.TempDir()
 	configFilePath := testDir + "/" + ViperConfigName + "." + ViperConfigType
-	err := os.WriteFile(configFilePath, []byte(confYaml), 0644)
+	err := os.WriteFile(configFilePath, []byte(confYaml), 0600)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -203,7 +205,7 @@ func newCmd() *cobra.Command {
 	return &cobra.Command{}
 }
 
-// Always reads the config succesfully. Handy for testing success paths.
+// Always reads the config successfully. Handy for testing success paths.
 func readConfWithMinimal(t *testing.T, cmd *cobra.Command) Conf {
 	conf, err := readConfWithPaths(
 		cmd,
