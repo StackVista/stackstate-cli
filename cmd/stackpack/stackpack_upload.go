@@ -44,12 +44,11 @@ func RunStackpackUploadCommand(
 	defer file.Close()
 
 	stackpack, resp, err := api.StackpackApi.StackpackUpload(cli.Context).StackPack(file).Execute()
-	fmt.Println(err)
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Succesfully uploaded StackPack: %s", filePath))
+	cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", filePath))
 	cli.Printer.Table(
 		[]string{"name", "display name", "version"},
 		[][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},

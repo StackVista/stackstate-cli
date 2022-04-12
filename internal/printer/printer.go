@@ -172,6 +172,7 @@ func (p *StdPrinter) PrintErr(err error) {
 func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
 	var errorStr, bodyStr string
 
+	//nolint:gomnd
 	isErrorResponse := resp != nil && ((resp.StatusCode-200 < 0) || (resp.StatusCode-200 >= 100))
 
 	// get error string with HTTP status

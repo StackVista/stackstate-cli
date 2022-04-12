@@ -12,15 +12,8 @@ run:
   tests: true
 
 linters-settings:
-  lll:
-    line-length: 250
   golint:
     min-confidence: 0
-  gomnd:
-    settings:
-      mnd:
-        # don't include the "operation" and "assign"
-        checks: argument,case,condition,return
   govet:
     check-shadowing: false
 
@@ -32,10 +25,14 @@ linters-settings:
   skip-files:
     - "internal/stackstate_client/.*.go$"
 
-linters-settings:
+  forbidigo:
+    # Forbid the following identifiers (list of regexp).
+    forbid:
+      - 'fmt\.Print.*(# Please use the printer instead!\.)?'
+
   stylecheck:
     # https://staticcheck.io/docs/options#initialisms
-    initialisms: ["ACL", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "JSON", "QPS", "RAM", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "GID", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS"]
+    initialisms: ["ACL", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "JSON", "QPS", "RAM", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "GID", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS", "STS"]
     # https://staticcheck.io/docs/options#http_status_code_whitelist
     http-status-code-whitelist: ["200", "400", "404", "500"]
 
@@ -77,3 +74,4 @@ linters:
     - unused
     - varcheck
     - whitespace
+    - forbidigo
