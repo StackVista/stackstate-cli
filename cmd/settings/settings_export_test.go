@@ -18,11 +18,21 @@ func setupCommandExport() (di.MockDeps, *cobra.Command) {
 }
 
 func TestSettingsExportPrintsToTable(t *testing.T) {
-	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]`
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214")
+	assert.Nil(t, err)
+	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
+}
+
+func TestSettingsExportIdsPrintsToTable(t *testing.T) {
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}},a{ "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	cli, cmd := setupCommandExport()
+	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--ids", "314")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
 }
@@ -39,7 +49,7 @@ func TestSettingsExportMutuallyExclusiveFlags(t *testing.T) {
 
 func TestRunSettingsExportToFile(t *testing.T) {
 	filePath := "./result.sjt"
-	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]`
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--file", filePath)
