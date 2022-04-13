@@ -75,7 +75,7 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	}
 
 	if filePath != "" {
-		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, 0644)
+		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(0644))
 		if err != nil {
 			return common.NewCLIError(err)
 		}
