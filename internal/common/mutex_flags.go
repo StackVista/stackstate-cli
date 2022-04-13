@@ -13,7 +13,7 @@ func CheckRequiredMutuallyExclusiveFlags(cmd *cobra.Command, flagNames []string)
 	for _, flagName := range flagNames {
 		f := cmd.Flags().Lookup(flagName)
 		if f.Changed {
-			flagUsageCount = flagUsageCount + 1
+			flagUsageCount++
 			flagsUsed = append(flagsUsed, flagName)
 		}
 	}
