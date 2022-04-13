@@ -1,13 +1,14 @@
 package settings
 
 import (
+	"io/ioutil"
+	"testing"
+
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
-	"io/ioutil"
-	"testing"
 )
 
 func setupCommandExport() (di.MockDeps, *cobra.Command) {
@@ -18,7 +19,8 @@ func setupCommandExport() (di.MockDeps, *cobra.Command) {
 }
 
 func TestSettingsExportPrintsToTable(t *testing.T) {
-	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
+"parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
@@ -28,7 +30,10 @@ func TestSettingsExportPrintsToTable(t *testing.T) {
 }
 
 func TestSettingsExportIdsPrintsToTable(t *testing.T) {
-	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}},a{ "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
+"parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}},
+{ "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": 
+[{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
@@ -48,18 +53,24 @@ func TestSettingsExportMutuallyExclusiveFlags(t *testing.T) {
 }
 
 func TestRunSettingsExportWithReferencePrintToTable(t *testing.T) {
-	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "identifier": "urn:stackpack:common:baseline-function:median-absolute-deviation", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, 
+"identifier": "urn:stackpack:common:baseline-function:median-absolute-deviation", "name": "name-1", 
+"ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}],
+"script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--namespace", "default", "--allowed-namespace-refs", "urn:stackpack:common:baseline-function:median-absolute-deviation", "--allowed-namespace-refs", "urn:stackpack")
+	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--namespace", "default",
+		"--allowed-namespace-refs", "urn:stackpack:common:baseline-function:median-absolute-deviation", "--allowed-namespace-refs", "urn:stackpack")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
 }
 
 func TestRunSettingsExportToFile(t *testing.T) {
 	filePath := "./result.sjt"
-	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1",
+"ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], 
+"script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--file", filePath)
@@ -70,7 +81,11 @@ func TestRunSettingsExportToFile(t *testing.T) {
 }
 
 func TestRunSettingsExportTypesPrintsToTable(t *testing.T) {
-	expectedStr := `{"nodes": [{ "description": "Base line function", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "BaselineFunction"}], "script": { "scriptBody": "script-bdy-1"}},{ "description": "Check function", "id": 314, "name": "name 314", "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "CheckFunction"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	expectedStr := `{"nodes": [{ "description": "Base line function", "id": -214, "name": "name-1", 
+"ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "BaselineFunction"}], 
+"script": { "scriptBody": "script-bdy-1"}},{ "description": "Check function", "id": 314, "name": "name 314", 
+"ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "CheckFunction"}], 
+"script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
