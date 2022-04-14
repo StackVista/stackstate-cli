@@ -39,7 +39,6 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-//nolint:funlen
 func RunScriptExecuteCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,

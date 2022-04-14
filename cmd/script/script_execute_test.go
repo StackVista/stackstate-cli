@@ -116,7 +116,7 @@ func TestScriptAndFileFlag(t *testing.T) {
 	)
 }
 
-func TestConnectionFailure(t *testing.T) {
+func TestConnectionError(t *testing.T) {
 	cli, cmd := setupCommand()
 	respError := common.NewResponseError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = respError

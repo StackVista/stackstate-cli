@@ -11,13 +11,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-const (
-	FileFlag             = "file"
-	NamespaceFlag        = "namespace"
-	UnlockedStrategyFlag = "unlocked-strategy"
-	TimeoutFlag          = "timeout"
-)
-
 var (
 	UnlockedStrategyChoices = []string{"fail", "skip", "overwrite"}
 )
@@ -42,7 +35,6 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-//nolint:funlen
 func RunSettingsApplyCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,

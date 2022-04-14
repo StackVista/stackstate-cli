@@ -39,6 +39,7 @@ func NewMockPrinter() MockPrinter {
 	successCalls := make([]string, 0)
 	printWarnCalls := make([]string, 0)
 	printTableCalls := make([]TableCall, 0)
+	printLnCalls := make([]string, 0)
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
@@ -46,6 +47,7 @@ func NewMockPrinter() MockPrinter {
 		SuccessCalls:      &successCalls,
 		PrintWarnCalls:    &printWarnCalls,
 		TableCalls:        &printTableCalls,
+		PrintLnCalls:      &printLnCalls,
 	}
 }
 

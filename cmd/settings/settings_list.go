@@ -10,12 +10,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-const (
-	TypeName  = "type"
-	Namespace = "namespace"
-	OwnedBy   = "owned-by"
-)
-
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list --type TYPE",

@@ -33,6 +33,10 @@ linters-settings:
   lll:
     line-length: 200
 
+  funlen:
+    lines: 100
+    statements: 60
+
   stylecheck:
     # https://staticcheck.io/docs/options#initialisms
     initialisms: ["ACL", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "JSON", "QPS", "RAM", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "GID", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS", "STS"]

@@ -1,0 +1,43 @@
+paths:
+  /export:
+      post:
+        tags:
+          - export
+        summary: "Export settings"
+        description: "Export StackState Templated JSON (STJ) setting nodes."
+        operationId: exportSettings
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/export"
+        responses:
+          "200":
+            description: "Full description of all nodes."
+            content:
+              text/plain:
+                schema:
+                  type: string
+
+components:
+  schemas:
+
+    export:
+      type: object
+      properties:
+        nodesWithIds:
+          type: array
+          items:
+            type: integer
+            format: int64
+        allNodesOfTypes:
+          type: array
+          items:
+            type: string
+        namespace:
+          type: string
+        allowReferences:
+          type: array
+          items:
+            type: string

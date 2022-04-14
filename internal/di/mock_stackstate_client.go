@@ -16,6 +16,7 @@ type ApiMocks struct {
 	EventApi                   *stackstate_client.EventApiMock
 	HealthSynchronizationApi   *stackstate_client.HealthSynchronizationApiMock
 	ImportApi                  *stackstate_client.ImportApiMock
+	ExportApi                  *stackstate_client.ExportApiMock
 	MonitorApi                 *stackstate_client.MonitorApiMock
 	MonitorUrnApi              *stackstate_client.MonitorUrnApiMock
 	NodeApi                    *stackstate_client.NodeApiMock
@@ -32,6 +33,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	eventApi := stackstate_client.NewEventApiMock()
 	healthSynchronizationApi := stackstate_client.NewHealthSynchronizationApiMock()
 	importApi := stackstate_client.NewImportApiMock()
+	exportApi := stackstate_client.NewExportApiMock()
 	monitorApi := stackstate_client.NewMonitorApiMock()
 	monitorApiUrn := stackstate_client.NewMonitorUrnApiMock()
 	nodeApi := stackstate_client.NewNodeApiMock()
@@ -45,6 +47,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		EventApi:                   &eventApi,
 		HealthSynchronizationApi:   &healthSynchronizationApi,
 		ImportApi:                  &importApi,
+		ExportApi:                  &exportApi,
 		MonitorApi:                 &monitorApi,
 		MonitorUrnApi:              &monitorApiUrn,
 		NodeApi:                    &nodeApi,
@@ -60,6 +63,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		EventApi:                   apiMocks.EventApi,
 		HealthSynchronizationApi:   apiMocks.HealthSynchronizationApi,
 		ImportApi:                  apiMocks.ImportApi,
+		ExportApi:                  apiMocks.ExportApi,
 		MonitorApi:                 apiMocks.MonitorApi,
 		MonitorUrnApi:              apiMocks.MonitorUrnApi,
 		NodeApi:                    apiMocks.NodeApi,
