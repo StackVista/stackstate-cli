@@ -42,7 +42,6 @@ func Execute(ctx context.Context) {
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
 		}
-
 		// needs to happen before run, but after execute
 		// so flag-config bindings can take hold
 		cfg, err := conf.ReadConf(cmd)

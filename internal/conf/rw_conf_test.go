@@ -38,7 +38,6 @@ func TestWriteReadRunner(t *testing.T) {
 	})
 	t.Run("read_conf", func(t *testing.T) {
 		tests := ReadTests{}
-		tests.TestMissingConf(t)
 		tests.TestYamlParseError(t)
 		tests.TestValidationError(t)
 		tests.TestLoadSuccessFromYaml(t)
@@ -69,14 +68,6 @@ func (p WriteTests) TestWriteSuccess(t *testing.T) {
 		t.Fatal(err)
 	}
 	assert.Equal(t, confIn, confOut)
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestMissingConf(t *testing.T) {
-	_, err := readConfWithPaths(newCmd(), viper.New(), []string{})
-	assert.NotNil(t, err, "TestMissingConf")
-	assert.IsType(t, ReadConfError{}, err, "TestMissingConf")
-	assert.IsType(t, MissingConfError{}, err.(ReadConfError).RootCause, "TestMissingConf")
 }
 
 // executed by TestWriteReadRunner

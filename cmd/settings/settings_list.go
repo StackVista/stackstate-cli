@@ -16,7 +16,7 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 		Short: "list all types of settings available",
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
 	}
-	cmd.Flags().StringP(TypeName, "", "", "example: ComponentType")
+	cmd.Flags().StringP(TypeName, "", "", "name of the setting type to list (to list all types run \"sts settings list-types\")")
 	cmd.MarkFlagRequired(TypeName) //nolint:errcheck
 
 	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")

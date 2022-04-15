@@ -41,6 +41,7 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	vp.BindEnv("api-url", "STS_CLI_API_URL")
 	vp.BindEnv("api-token", "STS_CLI_API_TOKEN")
 	vp.BindEnv("no-color", "STS_CLI_NO_COLOR")
+	vp.BindEnv("no-color", "NO_COLOR")
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
 		vp.Set("no-color", true)
 	}

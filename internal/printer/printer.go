@@ -77,7 +77,7 @@ type StdPrinter struct {
 func NewPrinter() Printer {
 	pterm.DisableColor()
 	return &StdPrinter{
-		useColor:   false, // IMPORTANT: use progressive enhancement!
+		useColor:   true,
 		spinner:    nil,
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,

@@ -1,0 +1,3 @@
+{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1",
+"ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], 
+"script": { "scriptBody": "script-bdy-1"}}]}
