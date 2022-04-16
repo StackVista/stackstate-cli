@@ -45,7 +45,7 @@ func TestStackpackListPrintToTable(t *testing.T) {
 		},
 	}
 	buf := new(bytes.Buffer)
-	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ucmdb"}}); err != nil {
+	if err := json.NewEncoder(buf).Encode(mockResponse); err != nil {
 		t.Fatal(err)
 	}
 	cli, cmd := setupCommandFn()
@@ -56,7 +56,7 @@ func TestStackpackListPrintToTable(t *testing.T) {
 		{
 			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
-			StructData: []map[string]interface{}{{"name": "ucmdb"}},
+			StructData: mockResponse,
 		},
 	}
 
@@ -67,23 +67,24 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 	name := "ucmdb"
 	displayName := "HP UCMDB"
 	version := "0.1.1"
-	mockResponse := []stackstate_client.Sstackpack{
-		{
-			Name:        &name,
-			DisplayName: &displayName,
-			Version:     &version,
-			Configurations: &[]stackstate_client.SstackpackConfigurations{
-				{
-					StackPackVersion: &version,
-				},
-			},
-			NextVersion: &stackstate_client.SstackpackLatestVersion{
-				Version: &version,
-			},
-			LatestVersion: &stackstate_client.SstackpackLatestVersion{
-				Version: &version,
+	installedStackPack := stackstate_client.Sstackpack{
+		Name:        &name,
+		DisplayName: &displayName,
+		Version:     &version,
+		Configurations: &[]stackstate_client.SstackpackConfigurations{
+			{
+				StackPackVersion: &version,
 			},
 		},
+		NextVersion: &stackstate_client.SstackpackLatestVersion{
+			Version: &version,
+		},
+		LatestVersion: &stackstate_client.SstackpackLatestVersion{
+			Version: &version,
+		},
+	}
+	mockResponse := []stackstate_client.Sstackpack{
+		installedStackPack,
 		{
 			Name:           &name,
 			DisplayName:    &displayName,
@@ -92,7 +93,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		},
 	}
 	buf := new(bytes.Buffer)
-	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ucmdb"}}); err != nil {
+	if err := json.NewEncoder(buf).Encode(mockResponse); err != nil {
 		t.Fatal(err)
 	}
 	cli, cmd := setupCommandFn()
@@ -103,7 +104,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		{
 			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
-			StructData: []map[string]interface{}{{"name": "ucmdb"}},
+			StructData: []stackstate_client.Sstackpack{installedStackPack},
 		},
 	}
 

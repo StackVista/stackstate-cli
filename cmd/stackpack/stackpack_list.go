@@ -1,8 +1,6 @@
 package stackpack
 
 import (
-	"encoding/json"
-
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
@@ -34,12 +32,8 @@ func RunStackpackListCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	var respData []map[string]interface{}
-	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		return common.NewCLIError(err)
-	}
-
 	data := make([][]interface{}, 0)
+	respData := make([]stackstate_client.Sstackpack, 0)
 	for _, v := range stackpackList {
 		if isInstalled && len(v.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
@@ -52,7 +46,9 @@ func RunStackpackListCommand(
 			getVersion(v.LatestVersion),
 			len(*v.Configurations),
 		}
+
 		data = append(data, row)
+		respData = append(respData, v)
 	}
 
 	cli.Printer.Table(
