@@ -30,7 +30,6 @@ func TestStackpackListPrintToTable(t *testing.T) {
 		{
 			Name:        &name,
 			DisplayName: &displayName,
-			Categories:  &[]string{"Demo", "Cloud"},
 			Version:     &version,
 			Configurations: &[]stackstate_client.SstackpackConfigurations{
 				{
@@ -55,8 +54,8 @@ func TestStackpackListPrintToTable(t *testing.T) {
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list")
 	expectedTableCall := []printer.TableCall{
 		{
-			Header:     []string{"name", "display name", "categories", "installed version", "next version", "latest version", "instance count"},
-			Data:       [][]string{{name, displayName, "Demo, Cloud", "0.1.1", "0.1.1", "0.1.1", "1"}},
+			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
 			StructData: []map[string]interface{}{{"name": "ucmdb"}},
 		},
 	}
@@ -72,7 +71,6 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		{
 			Name:        &name,
 			DisplayName: &displayName,
-			Categories:  &[]string{"Demo", "Cloud"},
 			Version:     &version,
 			Configurations: &[]stackstate_client.SstackpackConfigurations{
 				{
@@ -89,7 +87,6 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		{
 			Name:           &name,
 			DisplayName:    &displayName,
-			Categories:     &[]string{"not", "installed"},
 			Version:        &version,
 			Configurations: nil,
 		},
@@ -104,8 +101,8 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list", "--installed")
 	expectedTableCall := []printer.TableCall{
 		{
-			Header:     []string{"name", "display name", "categories", "installed version", "next version", "latest version", "instance count"},
-			Data:       [][]string{{name, displayName, "Demo, Cloud", "0.1.1", "0.1.1", "0.1.1", "1"}},
+			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
 			StructData: []map[string]interface{}{{"name": "ucmdb"}},
 		},
 	}

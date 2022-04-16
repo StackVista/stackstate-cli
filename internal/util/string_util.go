@@ -121,18 +121,3 @@ func ToStringSlice(data [][]interface{}) [][]string {
 func StringToInt64(s string) (int64, error) {
 	return strconv.ParseInt(s, StringToInt64Base, Int64BitSize)
 }
-
-func SliceToString(data []string, defaultStr string) string {
-	str := ""
-	for _, v := range data {
-		if str == "" {
-			str = v
-		} else {
-			str = fmt.Sprintf("%s, %s", str, v)
-		}
-	}
-	if str == "" {
-		return defaultStr
-	}
-	return str
-}

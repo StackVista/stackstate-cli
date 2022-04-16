@@ -20,7 +20,6 @@ type Sstackpack struct {
 	Name           *string                     `json:"name,omitempty"`
 	DisplayName    *string                     `json:"displayName,omitempty"`
 	Version        *string                     `json:"version,omitempty"`
-	Categories     *[]string                   `json:"categories,omitempty"`
 	Configurations *[]SstackpackConfigurations `json:"configurations,omitempty"`
 	LatestVersion  *SstackpackLatestVersion    `json:"latestVersion,omitempty"`
 	NextVersion    *SstackpackLatestVersion    `json:"nextVersion,omitempty"`
@@ -139,38 +138,6 @@ func (o *Sstackpack) SetVersion(v string) {
 	o.Version = &v
 }
 
-// GetCategories returns the Categories field value if set, zero value otherwise.
-func (o *Sstackpack) GetCategories() []string {
-	if o == nil || o.Categories == nil {
-		var ret []string
-		return ret
-	}
-	return *o.Categories
-}
-
-// GetCategoriesOk returns a tuple with the Categories field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *Sstackpack) GetCategoriesOk() (*[]string, bool) {
-	if o == nil || o.Categories == nil {
-		return nil, false
-	}
-	return o.Categories, true
-}
-
-// HasCategories returns a boolean if a field has been set.
-func (o *Sstackpack) HasCategories() bool {
-	if o != nil && o.Categories != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetCategories gets a reference to the given []string and assigns it to the Categories field.
-func (o *Sstackpack) SetCategories(v []string) {
-	o.Categories = &v
-}
-
 // GetConfigurations returns the Configurations field value if set, zero value otherwise.
 func (o *Sstackpack) GetConfigurations() []SstackpackConfigurations {
 	if o == nil || o.Configurations == nil {
@@ -277,9 +244,6 @@ func (o Sstackpack) MarshalJSON() ([]byte, error) {
 	}
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
-	}
-	if o.Categories != nil {
-		toSerialize["categories"] = o.Categories
 	}
 	if o.Configurations != nil {
 		toSerialize["configurations"] = o.Configurations

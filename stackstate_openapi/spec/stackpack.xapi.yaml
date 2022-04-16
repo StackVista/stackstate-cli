@@ -133,11 +133,7 @@ components:
           type: string
         version:
           type: string
-        categories:
-          type: array
-          items:
-            type: string
-        configurations:
+        mconfigurations:
           type: array
           items:
             type: object

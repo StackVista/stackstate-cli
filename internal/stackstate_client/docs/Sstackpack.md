@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** |  | [optional] 
 **DisplayName** | Pointer to **string** |  | [optional] 
 **Version** | Pointer to **string** |  | [optional] 
-**Categories** | Pointer to **[]string** |  | [optional] 
 **Configurations** | Pointer to [**[]SstackpackConfigurations**](SstackpackConfigurations.md) |  | [optional] 
 **LatestVersion** | Pointer to [**SstackpackLatestVersion**](SstackpackLatestVersion.md) |  | [optional] 
 **NextVersion** | Pointer to [**SstackpackLatestVersion**](SstackpackLatestVersion.md) |  | [optional] 
@@ -105,31 +104,6 @@ SetVersion sets Version field to given value.
 `func (o *Sstackpack) HasVersion() bool`
 
 HasVersion returns a boolean if a field has been set.
-
-### GetCategories
-
-`func (o *Sstackpack) GetCategories() []string`
-
-GetCategories returns the Categories field if non-nil, zero value otherwise.
-
-### GetCategoriesOk
-
-`func (o *Sstackpack) GetCategoriesOk() (*[]string, bool)`
-
-GetCategoriesOk returns a tuple with the Categories field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCategories
-
-`func (o *Sstackpack) SetCategories(v []string)`
-
-SetCategories sets Categories field to given value.
-
-### HasCategories
-
-`func (o *Sstackpack) HasCategories() bool`
-
-HasCategories returns a boolean if a field has been set.
 
 ### GetConfigurations
 

@@ -7,7 +7,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
@@ -45,11 +44,9 @@ func RunStackpackListCommand(
 		if isInstalled && len(v.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
 		}
-		categories := util.SliceToString(*v.Categories, "-")
 		row := []interface{}{
 			v.Name,
 			v.DisplayName,
-			categories,
 			v.Version,
 			getVersion(v.NextVersion),
 			getVersion(v.LatestVersion),
@@ -59,7 +56,7 @@ func RunStackpackListCommand(
 	}
 
 	cli.Printer.Table(
-		[]string{"name", "display name", "categories", "installed version", "next version", "latest version", "instance count"},
+		[]string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 		data,
 		respData,
 	)
