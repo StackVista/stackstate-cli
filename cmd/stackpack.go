@@ -12,6 +12,7 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 		Short: "manage stackpacks",
 	}
 	cmd.AddCommand(stackpack.StackpackUploadCommand(cli))
+	cmd.AddCommand(stackpack.StackpackListCommand(cli))
 
 	return cmd
 }

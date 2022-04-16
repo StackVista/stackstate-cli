@@ -150,6 +150,33 @@ paths:
       tags:
       - node
   /stackpack:
+    get:
+      description: list of stackpack
+      operationId: stackpackList
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackpackList'
+          description: Get list of stackpack
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: StackPack API
+      tags:
+      - stackpack
     post:
       description: upload a StackPack
       operationId: stackpackUpload
@@ -1567,6 +1594,45 @@ components:
       - id
       - lastUpdateTimestamp
       - typeName
+      type: object
+    StackpackList:
+      items:
+        $ref: '#/components/schemas/Sstackpack'
+      type: array
+    Sstackpack:
+      example:
+        latestVersion:
+          version: version
+        displayName: displayName
+        configurations:
+        - stackPackVersion: stackPackVersion
+        - stackPackVersion: stackPackVersion
+        name: name
+        categories:
+        - categories
+        - categories
+        version: version
+        nextVersion:
+          version: version
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        categories:
+          items:
+            type: string
+          type: array
+        configurations:
+          items:
+            $ref: '#/components/schemas/Sstackpack_configurations'
+          type: array
+        latestVersion:
+          $ref: '#/components/schemas/Sstackpack_latestVersion'
+        nextVersion:
+          $ref: '#/components/schemas/Sstackpack_latestVersion'
       type: object
     StackPack:
       example:
@@ -3152,6 +3218,20 @@ components:
       required:
       - description
       - typeName
+      type: object
+    Sstackpack_configurations:
+      example:
+        stackPackVersion: stackPackVersion
+      properties:
+        stackPackVersion:
+          type: string
+      type: object
+    Sstackpack_latestVersion:
+      example:
+        version: version
+      properties:
+        version:
+          type: string
       type: object
     StackPack_faqs:
       example:
