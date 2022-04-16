@@ -12,11 +12,11 @@ import (
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list --installed",
+		Use:   "list",
 		Short: "list of stackpack",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListCommand),
 	}
-	cmd.Flags().BoolP(InstalledFlag, "", false, "show only installed stackpack")
+	cmd.Flags().Bool(InstalledFlag, false, "show only installed stackpack")
 	return cmd
 }
 
