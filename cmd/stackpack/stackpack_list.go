@@ -2,6 +2,7 @@ package stackpack
 
 import (
 	"encoding/json"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
