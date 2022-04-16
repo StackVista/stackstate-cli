@@ -14,14 +14,14 @@ var fileMode = 0644
 
 func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "export {--ids IDs | --namespace NAMESPACE | --type TYPE}",
-		Short: "export settings with STJ",
+		Use:   "describe {--ids IDs | --namespace NAMESPACE | --type TYPE}",
+		Short: "describe settings with STJ",
 		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
 	}
-	cmd.Flags().Int64Slice(Ids, nil, "list of ids to export")
-	cmd.Flags().String(Namespace, "", "namespace to export")
-	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
-	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces are allowed to be referenced by the exported settings (only usable in combiation with the --namespace flag)")
+	cmd.Flags().Int64Slice(Ids, nil, "list of ids to describe")
+	cmd.Flags().String(Namespace, "", "namespace to describe")
+	cmd.Flags().StringSlice(TypeName, nil, "list of types to describe")
+	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
 
 	return cmd
@@ -31,6 +31,8 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	if err := common.CheckRequiredMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}); err != nil {
 		return err
 	}
+
+	//TODO check output type!!
 
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {

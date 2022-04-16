@@ -76,14 +76,16 @@ type StdPrinter struct {
 
 func NewPrinter() Printer {
 	pterm.DisableColor()
-	return &StdPrinter{
-		useColor:   true,
+	x := &StdPrinter{
+		useColor:   false,
 		spinner:    nil,
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,
 		outputType: Auto,
 		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
+	x.SetUseColor(true)
+	return x
 }
 
 func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
