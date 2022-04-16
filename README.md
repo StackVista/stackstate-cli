@@ -89,7 +89,7 @@ When you have an error related to the input of the CLI you should use a `CLIErro
       Usage:
         sts script execute {-s SCRIPT | -f FILE} [flags]
     ```
-  * REQUIRED flags are always shown as standard text without any brackets. For example:
+  * REQUIRED flags are always shown as standard text without any brackets. Optional flags are not. For example:
     ```text
     sts cli save-config --api-url API-URL --api-token API-TOKEN [flags]
     ```

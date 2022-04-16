@@ -7,7 +7,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-func CheckRequiredMutuallyExclusiveFlags(cmd *cobra.Command, flagNames []string) CLIError {
+func MarkMutexFlags(cmd *cobra.Command, flagNames []string, mutexName string, isRequired bool) {
+	for _, flagName := range flagNames {
+		var annotationName string
+		if isRequired {
+			annotationName = "rmutex"
+		} else {
+			annotationName = "mutex"
+		}
+		cmd.Flags().SetAnnotation(flagName, annotationName, []string{mutexName})
+	}
+}
+
+func CheckMutuallyExclusiveFlags(cmd *cobra.Command, flagNames []string, isRequired bool) CLIError {
 	flagUsageCount := 0
 	flagsUsed := make([]string, 0)
 	for _, flagName := range flagNames {
@@ -21,7 +33,7 @@ func CheckRequiredMutuallyExclusiveFlags(cmd *cobra.Command, flagNames []string)
 	if flagUsageCount > 1 {
 		return NewMutuallyExclusiveFlagsMultipleError(flagNames, flagsUsed)
 	}
-	if flagUsageCount == 0 {
+	if isRequired && flagUsageCount == 0 {
 		return NewMutuallyExclusiveFlagsRequiredError(flagNames)
 	}
 
