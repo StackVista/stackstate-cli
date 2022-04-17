@@ -15,7 +15,7 @@ func MarkMutexFlags(cmd *cobra.Command, flagNames []string, mutexName string, is
 		} else {
 			annotationName = "mutex"
 		}
-		cmd.Flags().SetAnnotation(flagName, annotationName, []string{mutexName})
+		cmd.Flags().SetAnnotation(flagName, annotationName, []string{mutexName}) //nolint:errcheck
 	}
 }
 
