@@ -28,6 +28,29 @@ paths:
                   type: string
         "500":
           $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+    get:
+      tags:
+        - stackpack
+      summary: "StackPack API"
+      operationId: stackpackList
+      description: "list of stackpack"
+      responses:
+        "200":
+          description: "Get list of stackpack"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StackpackList"
+        "400":
+          description: "bad request"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 components:
   schemas:
     StackPackUpload:
@@ -95,3 +118,35 @@ components:
             - BROKEN
         isCompatible: 
           type: boolean
+
+    StackpackList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Sstackpack"
+
+    Sstackpack:
+      type: object
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        mconfigurations:
+          type: array
+          items:
+            type: object
+            properties:
+              stackPackVersion:
+                type: string
+        latestVersion:
+          type: object
+          properties:
+            version:
+              type: string
+        nextVersion:
+          type: object
+          properties:
+            version:
+              type: string

@@ -14,7 +14,7 @@ var fileMode = 0644
 
 func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "export {--ids IDs | --namespace NAMESPACE | --type TYPE}",
+		Use:   "export {--ids IDS | --namespace NAMESPACE | --type TYPE}",
 		Short: "export settings with STJ",
 		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
 	}
@@ -23,12 +23,13 @@ func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
 	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces are allowed to be referenced by the exported settings (only usable in combiation with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
+	common.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
 
 	return cmd
 }
 
 func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
-	if err := common.CheckRequiredMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}); err != nil {
+	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return err
 	}
 
