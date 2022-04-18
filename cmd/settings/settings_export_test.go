@@ -71,7 +71,6 @@ func TestRunSettingsExportToFile(t *testing.T) {
 	file, err := ioutil.TempFile(os.TempDir(), "test_")
 	if err != nil {
 		panic(err)
-
 	}
 	filePath := file.Name()
 	file.Close()
