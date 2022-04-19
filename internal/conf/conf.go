@@ -45,7 +45,7 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 		vp.Set("no-color", true)
 	}
 	// Implementation of https://no-color.org/
-	if _, no_color_env_exists := os.LookupEnv("NO_COLOR"); no_color_env_exists {
+	if _, noColorEnvExists := os.LookupEnv("NO_COLOR"); noColorEnvExists {
 		vp.Set("no-color", true)
 	}
 	vp.BindEnv("output", "STS_CLI_OUTPUT")

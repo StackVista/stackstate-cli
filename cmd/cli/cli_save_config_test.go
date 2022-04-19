@@ -52,7 +52,7 @@ func TestSaveConfigSkipValidate(t *testing.T) {
 	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
 	defer cleanup()
 
-	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("should not have tried to connect, becasue --skip-validate was used"), nil)
+	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("should not have tried to connect, because --skip-validate was used"), nil)
 	util.ExecuteCommandWithContextUnsafe(
 		cli.Context,
 		cmd,

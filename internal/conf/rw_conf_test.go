@@ -167,7 +167,7 @@ func (p ReadTests) TestStsCliNoColorEnv(t *testing.T) {
 // executed by TestWriteReadRunner
 func (p ReadTests) TestNoColorEnv(t *testing.T) {
 	defer os.Unsetenv("NO_COLOR")
-	// https://no-color.org says we need to check for existance, not a specific value
+	// https://no-color.org says we need to check for existence, not a specific value
 	os.Setenv("NO_COLOR", "false")
 	conf := readConfWithMinimal(t, newCmd())
 	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
