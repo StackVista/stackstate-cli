@@ -16,11 +16,14 @@ builds:
   - windows
   goarch:
   - amd64
+  - arm64
   goarm:
   - "6"
   targets:
   - darwin_amd64
+  - darwin_arm64
   - linux_amd64
+  - linux_arm64
   - windows_amd64
   main: .
   ldflags:
@@ -44,7 +47,9 @@ builds:
   - "6"
   targets:
   - darwin_amd64
+  - darwin_arm64
   - linux_amd64
+  - linux_arm64
   - windows_amd64
   main: .
   ldflags:
@@ -57,6 +62,25 @@ builds:
   env:
   - CGO_ENABLED=0
   - GO111MODULE=on
+# Build Mac OS universal binaries that work for both Intel as well as the new M1 chips
+# see https://goreleaser.com/customization/universalbinaries/
+universal_binaries:
+-
+  id: stackstate-cli-full
+  ids:
+  - stackstate-cli-full
+  name_template: '{{.ProjectName}}-full-{{.Version}}'
+  replace: true
+  hooks:
+    post: mv {{ .Path }} "{{ dir .Path }}/sts"
+-
+  id: stackstate-cli-saas
+  ids:
+  - stackstate-cli-saas
+  name_template: '{{.ProjectName}}-saas-{{.Version}}'
+  replace: true
+  hooks:
+    post: mv {{ .Path }} "{{ dir .Path }}/sts"
 archives:
 - id: stackstate-cli-full
   builds:
@@ -89,13 +113,12 @@ changelog:
     exclude:
       - '^docs:'
       - '^test:'
-# blobs:
-#   - provider: s3
-#     region: eu-west-1
-#     bucket: stseuw1-tooling-main-homebrew
-#     ids:
-#       - stackstate-cli-full
-#       - stackstate-cli-saas
+blobs:
+  - provider: s3
+    bucket: cli-dl.stackstate.com
+    ids:
+      - stackstate-cli-full
+      - stackstate-cli-saas
 # brews:
 # - name: "{{ .ProjectName }}"-full
 #   ids:
