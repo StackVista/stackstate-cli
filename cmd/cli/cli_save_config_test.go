@@ -12,15 +12,43 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func TestWriteConfig(t *testing.T) {
-	doTestWriteConfig(t, false)
+func TestSaveConfig(t *testing.T) {
+	doTestSaveConfig(t, false)
 }
 
-func TestWriteConfigSkipValidate(t *testing.T) {
-	doTestWriteConfig(t, true)
+func TestSaveConfigSkipValidate(t *testing.T) {
+	doTestSaveConfig(t, true)
 }
 
-func doTestWriteConfig(t *testing.T, skipValidate bool) {
+func TestSaveConfigShouldNotSaveWhenFailedConnection(t *testing.T) {
+	cli := di.NewMockDeps()
+	cmd := CliSaveConfigCommand(&cli.Deps)
+	common.AddPersistentFlags(cmd)
+
+	oldConfHome := os.Getenv("XDG_CONFIG_HOME")
+	defer os.Setenv("XDG_CONFIG_HOME", oldConfHome)
+	tmpConfDir := t.TempDir()
+	os.Setenv("XDG_CONFIG_HOME", tmpConfDir)
+
+	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("failed connection"), nil)
+	_, err := util.ExecuteCommandWithContext(
+		cli.Context,
+		cmd,
+		"--api-url",
+		"https://test.stackstate.io/api",
+		"--api-token",
+		"blaat",
+	)
+
+	// should have had a connection error
+	assert.IsType(t, common.StdCLIError{}, err)
+
+	// should not have written config, so reading fails
+	_, err = conf.ReadConf(CliSaveConfigCommand(&cli.Deps))
+	assert.IsType(t, conf.ReadConfError{}, err)
+}
+
+func doTestSaveConfig(t *testing.T, skipValidate bool) {
 	cli := di.NewMockDeps()
 	cmd := CliSaveConfigCommand(&cli.Deps)
 	common.AddPersistentFlags(cmd)
