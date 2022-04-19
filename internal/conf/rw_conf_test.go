@@ -45,6 +45,7 @@ func TestWriteReadRunner(t *testing.T) {
 		tests.TestLoadSuccessFromMinimumFlags(t)
 		tests.TestNoColorOnTermIsDumb(t)
 		tests.TestNoColorFlag(t)
+		tests.TestStsCliNoColorEnv(t)
 		tests.TestNoColorEnv(t)
 		tests.TestOuptutEnv(t)
 	})
@@ -156,9 +157,18 @@ func (p ReadTests) TestNoColorFlag(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
-func (p ReadTests) TestNoColorEnv(t *testing.T) {
+func (p ReadTests) TestStsCliNoColorEnv(t *testing.T) {
 	defer os.Unsetenv("STS_CLI_NO_COLOR")
 	os.Setenv("STS_CLI_NO_COLOR", "true")
+	conf := readConfWithMinimal(t, newCmd())
+	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
+}
+
+// executed by TestWriteReadRunner
+func (p ReadTests) TestNoColorEnv(t *testing.T) {
+	defer os.Unsetenv("NO_COLOR")
+	// https://no-color.org says we need to check for existance, not a specific value
+	os.Setenv("NO_COLOR", "false")
 	conf := readConfWithMinimal(t, newCmd())
 	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
 }
