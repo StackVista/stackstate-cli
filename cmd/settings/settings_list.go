@@ -13,14 +13,15 @@ import (
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list --type TYPE",
-		Short: "list all types of settings available",
+		Short: "list all settings",
+		Long:  "List all settings of a certain type. To list all types run \"sts settings list-types\".",
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
 	}
-	cmd.Flags().StringP(TypeName, "", "", "name of the setting type to list (to list all types run \"sts settings list-types\")")
+	cmd.Flags().StringP(TypeName, "", "", "name of the setting type to list")
 	cmd.MarkFlagRequired(TypeName) //nolint:errcheck
 
-	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")
-	cmd.Flags().StringP(OwnedBy, "w", "", "name of the owner")
+	cmd.Flags().StringP(Namespace, "n", "", "filter by namespace")
+	cmd.Flags().StringP(OwnedBy, "w", "", "filter by owner")
 
 	return cmd
 }

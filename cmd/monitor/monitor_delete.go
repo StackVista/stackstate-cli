@@ -15,6 +15,7 @@ func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete -i ID",
 		Short: "delete a monitor",
+		Long:  "Delete a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunDeleteMonitorCommand),
 	}
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)

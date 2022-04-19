@@ -17,10 +17,10 @@ const (
 func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "save-config --api-url API-URL --api-token API-TOKEN",
-		Short: "save CLI configuration to file",
+		Short: "save CLI configuration",
+		Long:  "Save the configuration of this CLI to disk.",
 		Example: "# save a new API token to the config file" +
-			" - WARNING this will overwrite the saved config if the connection could be validated\n" +
-			`cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api"`,
+			`sts cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api"`,
 		RunE: cli.CmdRunE(RunCliSaveConfig),
 	}
 	cmd.Flags().Bool(

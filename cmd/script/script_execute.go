@@ -21,6 +21,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "execute {--script SCRIPT | -f FILE}",
 		Short: "execute an STSL script",
+		Long:  "Execute an STSL script.",
 		Example: "# execute a script from file\n" +
 			"sts execute --file \"path/to/my.script\"\n" +
 			"\n" +

@@ -10,6 +10,7 @@ func SettingsCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "settings",
 		Short: "manage settings",
+		Long:  "View, manage, export and import settings.",
 	}
 	cmd.AddCommand(settings.SettingsApplyCommand(cli))
 	cmd.AddCommand(settings.SettingsListTypesCommand(cli))

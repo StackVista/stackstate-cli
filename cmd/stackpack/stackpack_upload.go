@@ -14,6 +14,7 @@ func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "upload -f FILE",
 		Short: "upload a stackpack",
+		Long:  "Upload a StackPack file to StackState.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUploadCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", "stackpack to upload (.sts file")

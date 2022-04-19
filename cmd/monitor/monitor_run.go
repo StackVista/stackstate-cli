@@ -18,6 +18,7 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run -i ID",
 		Short: "run a monitor",
+		Long:  "Run a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunRunMonitorCommand),
 	}
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)

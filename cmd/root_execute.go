@@ -26,6 +26,7 @@ func Execute(ctx context.Context) {
 	}
 
 	cmd := RootCommand(cli)
+	decapitalizeHelpCommand(cmd)
 	if CLIType == "" {
 		CLIType = "local"
 	}
@@ -118,5 +119,14 @@ func Execute(ctx context.Context) {
 			println(runCmd.UsageString())
 		}
 		os.Exit(exitCode)
+	}
+}
+
+// we do this to be consistent with the styling rules
+func decapitalizeHelpCommand(root *cobra.Command) {
+	root.InitDefaultHelpCmd()
+	help, _, _ := root.Find([]string{"help"})
+	if help != nil {
+		help.Short = "help about any command"
 	}
 }

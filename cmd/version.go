@@ -9,7 +9,8 @@ import (
 func VersionCommand(cli *di.Deps) *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
-		Short: "display the CLI version number",
+		Short: "display version info",
+		Long:  "Display the version of this StackState CLI.",
 		RunE:  cli.CmdRunE(RunVersionCommand),
 	}
 }
