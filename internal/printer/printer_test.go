@@ -34,7 +34,7 @@ func TestPrintErrWithColorIsDefault(t *testing.T) {
 	assert.Equal(t, true, p.GetUseColor())
 
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "❌ \x1b[31mTest\x1b[0m\n", stdErr.String())
+	assert.Equal(t, "\u274C \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
 func TestPrintStructAsJsonWithoutColor(t *testing.T) {
@@ -126,7 +126,7 @@ func TestPrintCLIErrorWith503WithColor(t *testing.T) {
 	}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
 
-	expected := "❌ \x1b[31m503 Service Unavailable\x1b[0m\n" +
+	expected := "\u274C \x1b[31m503 Service Unavailable\x1b[0m\n" +
 		"\x1b[1m\x1b[31mhello\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mworld\x1b[0m\n"
 	assert.Equal(t, expected, stdErr.String())
 }
@@ -159,7 +159,7 @@ func TestPrintCLIErrorWithNilResponseWithColor(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := "❌ \x1b[31mHello world\x1b[0m\n"
+	expected := "\u274C \x1b[31mHello world\x1b[0m\n"
 	assert.Equal(t, expected, buf.String())
 }
 

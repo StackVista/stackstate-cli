@@ -45,24 +45,12 @@ type OutputType int
 
 type StopPrinterFn func()
 
-type Symbol struct {
-	UnicodeChar string
-	Fallback    string
-}
-
 const (
 	YAML OutputType = iota
 	JSON
 	// Auto formatting, sometimes prints in table format, sometimes in YAML
 	Auto
 )
-
-var symbols = map[string]Symbol{
-	"success": {UnicodeChar: "✅", Fallback: "success"},
-	"warn":    {UnicodeChar: "\u26A0\uFE0F", Fallback: "warn"}, // ⚠️
-	"error":   {UnicodeChar: "❌", Fallback: "error"},
-	"info":    {UnicodeChar: color.Blue.Render("ⓘ"), Fallback: "info"},
-}
 
 type StdPrinter struct {
 	stdOut     io.Writer // for test purposes
@@ -348,13 +336,4 @@ func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box ta
 
 func (p *StdPrinter) PrintLn(text string) {
 	color.Fprintf(p.stdOut, "%s\n", text)
-}
-
-func (p *StdPrinter) sprintSymbol(symbolName string) string {
-	symbol := symbols[symbolName]
-	if p.useColor {
-		return symbol.UnicodeChar
-	} else {
-		return "[" + strings.ToUpper(symbol.Fallback) + "]"
-	}
 }

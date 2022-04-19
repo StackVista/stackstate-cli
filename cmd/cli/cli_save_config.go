@@ -19,7 +19,7 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 		Use:   "save-config --api-url API-URL --api-token API-TOKEN",
 		Short: "save CLI configuration to file",
 		Example: "# save a new API token to the config file" +
-			" - WARNING this will overwrite the saved config\n" +
+			" - WARNING this will overwrite the saved config if the connection could be validated\n" +
 			`cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api"`,
 		RunE: cli.CmdRunE(RunCliSaveConfig),
 	}
@@ -47,6 +47,8 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
 	}
 
+	// this is really only necessary for testing
+	// in production this should've already been handled by Viper
 	cli.Config.ApiURL = apiURL
 	cli.Config.ApiToken = apiToken
 
