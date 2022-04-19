@@ -33,11 +33,11 @@ type ValidateConfError struct {
 }
 
 func (s ValidateConfError) Error() string {
-	strs := make([]string, len(s.ValidationErrors))
+	strs := make([]string, 0)
 	for _, e := range s.ValidationErrors {
 		strs = append(strs, e.Error())
 	}
-	return strings.Join(strs, "\n")
+	return "Validation errors:\n * " + strings.Join(strs, "\n * ")
 }
 
 func ValidateConf(conf Conf) error {
