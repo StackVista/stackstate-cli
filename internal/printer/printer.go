@@ -69,22 +69,20 @@ type StdPrinter struct {
 	stdOut     io.Writer // for test purposes
 	stdErr     io.Writer // for test purposes
 	useColor   bool
-	spinner    *pterm.SpinnerPrinter
 	outputType OutputType
 	MaxWidth   int
 }
 
 func NewPrinter() Printer {
-	pterm.DisableColor()
 	x := &StdPrinter{
-		useColor:   false,
-		spinner:    nil,
+		useColor:   true,
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,
 		outputType: Auto,
 		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
-	x.SetUseColor(true)
+	pterm.EnableColor()
+
 	return x
 }
 
@@ -213,8 +211,8 @@ func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
 }
 
 func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
-	if p.spinner != nil {
-		s, _ := p.spinner.WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
+	if p.useColor {
+		s, _ := pterm.DefaultSpinner.WithRemoveWhenDone().WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
 		return func() {
 			if s != nil {
 				//nolint:golint,errcheck
@@ -232,10 +230,8 @@ func (p *StdPrinter) SetUseColor(useColor bool) {
 
 	p.useColor = useColor
 	if useColor {
-		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
 		pterm.EnableColor()
 	} else {
-		p.spinner = nil
 		pterm.DisableColor()
 	}
 }

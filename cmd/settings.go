@@ -14,7 +14,7 @@ func SettingsCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(settings.SettingsApplyCommand(cli))
 	cmd.AddCommand(settings.SettingsListTypesCommand(cli))
 	cmd.AddCommand(settings.SettingsListCommand(cli))
-	cmd.AddCommand(settings.SettingsExportCommand(cli))
+	cmd.AddCommand(settings.SettingsDescribeCommand(cli))
 
 	return cmd
 }

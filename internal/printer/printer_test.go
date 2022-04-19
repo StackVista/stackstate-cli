@@ -20,25 +20,24 @@ func setupPrinter() (StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	return *p, &stdOut, &stdErr
 }
 
-func TestPrintErr(t *testing.T) {
+func TestPrintErrWithoutColor(t *testing.T) {
 	p, _, stdErr := setupPrinter()
+	p.SetUseColor(false)
 	assert.Equal(t, false, p.GetUseColor())
-	assert.Nil(t, p.spinner)
 
 	p.PrintErr(fmt.Errorf("test"))
 	assert.Equal(t, "[ERROR] Test\n", stdErr.String())
 }
 
-func TestPrintErrWithColor(t *testing.T) {
+func TestPrintErrWithColorIsDefault(t *testing.T) {
 	p, _, stdErr := setupPrinter()
-	p.SetUseColor(true)
-	assert.NotNil(t, p.spinner)
+	assert.Equal(t, true, p.GetUseColor())
 
 	p.PrintErr(fmt.Errorf("test"))
 	assert.Equal(t, "❌ \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
-func TestPrintStructAsJson(t *testing.T) {
+func TestPrintStructAsJsonWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
 		"foo": 1,
 		"bar": map[string]interface{}{
@@ -59,11 +58,12 @@ func TestPrintStructAsJson(t *testing.T) {
 }
 `
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	p.SetOutputType(JSON)
 	testPrintStruct(t, p, testStruct, expectedJSON)
 }
 
-func TestPrintStructAsYaml(t *testing.T) {
+func TestPrintStructAsYamlWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
 		"foo": 1,
 		"bar": map[string]interface{}{
@@ -75,6 +75,7 @@ func TestPrintStructAsYaml(t *testing.T) {
 foo: 1
 `
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	testPrintStruct(t, p, testStruct, expectedYaml)
 }
 
@@ -130,8 +131,9 @@ func TestPrintErrResponse503WithColor(t *testing.T) {
 	assert.Equal(t, expected, stdErr.String())
 }
 
-func TestPrintErrResponse101(t *testing.T) {
+func TestPrintErrResponse101WithoutColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "101 Switching Protocols", StatusCode: 101}
@@ -140,8 +142,9 @@ func TestPrintErrResponse101(t *testing.T) {
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponse202(t *testing.T) {
+func TestPrintErrResponse202WithoutColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "202 Accepted", StatusCode: 202}
@@ -150,17 +153,19 @@ func TestPrintErrResponse202(t *testing.T) {
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponseNilResponse(t *testing.T) {
+func TestPrintErrResponseNilResponseWithColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(true)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := "[ERROR] Response error (hello world)\n"
+	expected := "❌ \x1b[31mResponse error (hello world)\x1b[0m\n"
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintTable(t *testing.T) {
+func TestPrintTableWithoutColor(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
 	assert.Equal(t, "A | B\n1 | 2\n", stdOut.String())
 }
@@ -174,6 +179,7 @@ func TestPrintTableWithColor(t *testing.T) {
 
 func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.MaxWidth = 25
 	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
 		{"1", "2", "3"},
@@ -194,6 +200,7 @@ iend   |  again | creepi
 
 func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.MaxWidth = 30
 	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
 		{"hello", "darkness my old friend", "Because a vision softly creeping"},
@@ -210,6 +217,7 @@ hello | darkness  | Because a
 
 func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 
 	data := []string{"hello", "fooba", "world"}
 	header1 := []string{"Hello", "Foo", "World"}
@@ -247,6 +255,7 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 
 func TestPrintTableAsStruct(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.SetOutputType(YAML)
 	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, map[string]interface{}{"A": 1, "B": 2})
 	assert.Equal(t, "A: 1\nB: 2\n", stdOut.String())

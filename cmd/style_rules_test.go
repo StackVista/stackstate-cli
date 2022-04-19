@@ -81,10 +81,20 @@ func TestUseStartsWithLowerCaseWord(t *testing.T) {
 	})
 }
 
+func isFlagRequired(flag *pflag.Flag) bool {
+	if len(flag.Annotations[cobra.BashCompOneRequiredFlag]) > 0 {
+		return true
+	}
+	if len(flag.Annotations["rmutex"]) > 0 {
+		return true
+	}
+	return false
+}
+
 func TestUseShouldMentionRequiredFlags(t *testing.T) {
 	root := setupCmd()
 	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
-		isRequiredFlag := len(flag.Annotations[cobra.BashCompOneRequiredFlag]) > 0
+		isRequiredFlag := isFlagRequired(flag)
 		if isRequiredFlag {
 			var requiredFlagInUse string
 			if len(flag.Shorthand) == 1 {
@@ -94,6 +104,15 @@ func TestUseShouldMentionRequiredFlags(t *testing.T) {
 			}
 			if !strings.Contains(cmd.Use, requiredFlagInUse) {
 				assert.Fail(t, cmd.Use+" does not contain: "+requiredFlagInUse)
+			}
+		} else {
+			if len(flag.Shorthand) == 1 {
+				if strings.Contains(cmd.Use, fmt.Sprintf("-%s", flag.Shorthand)) {
+					assert.Fail(t, cmd.Use+" should not contain optional flag: "+flag.Name)
+				}
+			}
+			if strings.Contains(cmd.Use, fmt.Sprintf("--%s", flag.Name)) {
+				assert.Fail(t, cmd.Use+" should not contain optional flag: "+flag.Name)
 			}
 		}
 	})

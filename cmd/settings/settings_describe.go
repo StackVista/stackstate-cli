@@ -12,23 +12,24 @@ import (
 
 var fileMode = 0644
 
-func SettingsExportCommand(cli *di.Deps) *cobra.Command {
+func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "describe {--ids IDs | --namespace NAMESPACE | --type TYPE}",
-		Short: "describe settings with STJ",
-		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
+		Use:   "describe {--ids IDS | --namespace NAMESPACE | --type TYPE}",
+		Short: "describe settings in STJ format",
+		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand),
 	}
 	cmd.Flags().Int64Slice(Ids, nil, "list of ids to describe")
 	cmd.Flags().String(Namespace, "", "namespace to describe")
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to describe")
 	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
+	common.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
 
 	return cmd
 }
 
-func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
-	if err := common.CheckRequiredMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}); err != nil {
+func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return err
 	}
 
