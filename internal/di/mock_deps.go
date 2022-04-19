@@ -3,6 +3,7 @@ package di
 import (
 	"context"
 
+	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
@@ -20,6 +21,7 @@ func NewMockDeps() MockDeps {
 			Client:  &mockClient,
 			Printer: &mockPrinter,
 			Context: context.Background(),
+			Config:  &conf.Conf{},
 		},
 		MockClient:  &mockClient,
 		MockPrinter: &mockPrinter,

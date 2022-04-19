@@ -50,11 +50,11 @@ func RunScriptExecuteCommand(
 
 	script, err := cmd.Flags().GetString(ScriptFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	if file != "" && script != "" {
@@ -66,7 +66,7 @@ func RunScriptExecuteCommand(
 	if file != "" {
 		b, err := os.ReadFile(file)
 		if err != nil {
-			return common.NewCLIError(err)
+			return common.NewCLIError(err, nil)
 		}
 		script = string(b)
 	}

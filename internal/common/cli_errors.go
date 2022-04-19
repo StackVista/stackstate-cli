@@ -17,22 +17,24 @@ type CLIError interface {
 	GetExitCode() ExitCode
 	Error() string
 	ShowUsage() bool
+	HasServerResponse() bool
+	GetServerResponse() *http.Response
 }
 
-func NewCLIError(err error) CLIError {
-	return StdCLIError{Err: err}
+func NewCLIError(err error, serverResponse *http.Response) CLIError {
+	return StdCLIError{Err: err, ServerResponse: serverResponse}
 }
 
-func NewConnectError(err error) CLIError {
+func NewResponseError(err error, serverResponse *http.Response) CLIError {
+	return StdCLIError{Err: err, ServerResponse: serverResponse}
+}
+
+func NewConnectError(err error, serverResponse *http.Response) CLIError {
 	var statusCode int
 
-	//nolint:gocritic
-	switch v := err.(type) {
-	case ResponseError:
-		// is access error?
-		if v.Resp != nil {
-			statusCode = v.Resp.StatusCode
-		}
+	// is access error?
+	if serverResponse != nil {
+		statusCode = serverResponse.StatusCode
 	}
 
 	if statusCode == HTTPStatusUnauthorized {
@@ -43,10 +45,8 @@ func NewConnectError(err error) CLIError {
 		}
 	} else {
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to StackState: %s\n"+
-				"Please check your api-url and network connection\n"+
-				"Get the URL of your StackState instance and add \"/api\" at the end\n"+
-				"Be aware that this CLI can only connect with StackState version 5 or greater", err),
+			Err: fmt.Errorf("could not connect to StackState (%s)\n"+
+				"Please check your api-url and network connection", err),
 			exitCode: ConnectErrorExitCode,
 		}
 	}
@@ -54,16 +54,18 @@ func NewConnectError(err error) CLIError {
 
 func NewCLIArgParseError(err error) CLIError {
 	return StdCLIError{
-		Err:       err,
-		showUsage: true,
-		exitCode:  CommandFailedRequirementExitCode,
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      true,
+		exitCode:       CommandFailedRequirementExitCode,
 	}
 }
 
 type StdCLIError struct {
-	Err       error
-	showUsage bool
-	exitCode  int
+	Err            error
+	ServerResponse *http.Response
+	showUsage      bool
+	exitCode       int
 }
 
 func (p StdCLIError) Error() string {
@@ -78,6 +80,14 @@ func (p StdCLIError) ShowUsage() bool {
 	return p.showUsage
 }
 
+func (p StdCLIError) HasServerResponse() bool {
+	return p.ServerResponse != nil
+}
+
+func (p StdCLIError) GetServerResponse() *http.Response {
+	return p.ServerResponse
+}
+
 func CheckFlagIsValidChoice(flagName string, flagValue string, choices []string) CLIError {
 	if !util.StringInSlice(flagValue, choices) {
 		return NewCLIArgParseError(
@@ -86,32 +96,4 @@ func CheckFlagIsValidChoice(flagName string, flagValue string, choices []string)
 	} else {
 		return nil
 	}
-}
-
-// --------------
-// ResponseError is for errors that involve the server
-// --------------
-
-func NewResponseError(err error, resp *http.Response) ResponseError {
-	return ResponseError{
-		Err:  err,
-		Resp: resp,
-	}
-}
-
-type ResponseError struct {
-	Err  error
-	Resp *http.Response
-}
-
-func (p ResponseError) Error() string {
-	return p.Err.Error()
-}
-
-func (p ResponseError) GetExitCode() ExitCode {
-	return ReponseErrorExitCode
-}
-
-func (p ResponseError) ShowUsage() bool {
-	return false
 }

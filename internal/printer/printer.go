@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"strings"
 
@@ -162,15 +161,17 @@ func colorizeStruct(structStr string, outputType OutputType) (string, error) {
 
 func (p *StdPrinter) PrintErr(err error) {
 	switch e := err.(type) {
-	case common.ResponseError:
-		p.printErrResponse(e.Err, e.Resp)
+	case common.CLIError:
+		p.printCLIError(e)
 	default:
 		color.Fprintf(p.stdErr, "%s %s\n", p.sprintSymbol("error"), color.Red.Render(util.UcFirst(err.Error())))
 	}
 }
 
-func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
+func (p *StdPrinter) printCLIError(err common.CLIError) {
 	var errorStr, bodyStr string
+
+	resp := err.GetServerResponse()
 
 	//nolint:gomnd
 	isErrorResponse := resp != nil && ((resp.StatusCode-200 < 0) || (resp.StatusCode-200 >= 100))
@@ -183,7 +184,7 @@ func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
 			errorStr = resp.Status
 		}
 	} else {
-		errorStr = fmt.Sprintf("Response error (%s)", err.Error())
+		errorStr = util.UcFirst(err.Error())
 	}
 
 	// get error string
@@ -249,11 +250,11 @@ func (p *StdPrinter) GetOutputType() OutputType {
 }
 
 func (p *StdPrinter) Success(msg string) {
-	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), msg)
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), util.UcFirst(msg))
 }
 
 func (p *StdPrinter) PrintWarn(msg string) {
-	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), msg)
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), util.UcFirst(msg))
 }
 
 func (p *StdPrinter) Table(header []string, data [][]interface{}, structData interface{}) {

@@ -30,12 +30,12 @@ func RunMonitorApplyCommand(
 ) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()

@@ -29,7 +29,7 @@ func TestConnectError(t *testing.T) {
 
 	_, _, actualErr := client.Connect()
 
-	assert.Equal(t, common.NewResponseError(err, &resp), actualErr)
+	assert.Equal(t, common.NewConnectError(err, &resp), actualErr)
 }
 
 func TestConnectSuccess(t *testing.T) {

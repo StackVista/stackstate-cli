@@ -30,12 +30,12 @@ func RunStackpackUploadCommand(
 ) common.CLIError {
 	filePath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	file, err := os.Open(filePath)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	defer file.Close()
 

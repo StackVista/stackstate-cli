@@ -25,7 +25,7 @@ func RunStackpackListCommand(
 ) common.CLIError {
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
 	if err != nil {

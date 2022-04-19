@@ -37,24 +37,24 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	namespace, err := cmd.Flags().GetString(Namespace)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	references, err := cmd.Flags().GetStringSlice(AllowReferences)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	nodeTypes, err := cmd.Flags().GetStringSlice(TypeName)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	filePath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	exportArgs := stackstate_client.NewExport()
@@ -69,7 +69,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 	}
 	if len(references) != 0 {
 		if len(namespace) == 0 {
-			return common.NewCLIError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
+			return common.NewCLIArgParseError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
 		}
 		exportArgs.AllowReferences = &references
 	}
@@ -82,12 +82,12 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 	if filePath != "" {
 		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
 		if err != nil {
-			return common.NewCLIError(err)
+			return common.NewCLIError(err, nil)
 		}
 		defer file.Close()
 
 		if _, err = file.Write([]byte(data)); err != nil {
-			return common.NewCLIError(err)
+			return common.NewCLIError(err, nil)
 		}
 		cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
 		return nil

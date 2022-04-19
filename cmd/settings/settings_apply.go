@@ -43,15 +43,15 @@ func RunSettingsApplyCommand(
 ) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	namespace, err := cmd.Flags().GetString(NamespaceFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	unlockedStrategy, err := cmd.Flags().GetString(UnlockedStrategyFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	if unlockedStrategy != "" {
 		if err := common.CheckFlagIsValidChoice(UnlockedStrategyFlag, unlockedStrategy, UnlockedStrategyChoices); err != nil {
@@ -60,12 +60,12 @@ func RunSettingsApplyCommand(
 	}
 	timeout, err := cmd.Flags().GetInt(TimeoutFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIError(err, nil)
 	}
 
 	request := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))

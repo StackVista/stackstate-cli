@@ -35,12 +35,12 @@ func RunRunMonitorCommand(
 ) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	id, err := util.StringToInt64(identifier)

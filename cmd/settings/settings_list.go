@@ -33,15 +33,15 @@ func RunSettingsListCommand(
 ) common.CLIError {
 	typeName, err := cmd.Flags().GetString(TypeName)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	nameSpace, err := cmd.Flags().GetString(Namespace)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	ownedBy, err := cmd.Flags().GetString(OwnedBy)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	apiClient := api.NodeApi.TypeList(cli.Context, typeName)
@@ -58,7 +58,7 @@ func RunSettingsListCommand(
 	}
 	var respData []map[string]interface{}
 	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIError(err, resp)
 	}
 
 	data := make([][]interface{}, 0)

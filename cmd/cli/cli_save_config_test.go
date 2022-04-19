@@ -13,9 +13,16 @@ import (
 )
 
 func TestWriteConfig(t *testing.T) {
+	doTestWriteConfig(t, false)
+}
+
+func TestWriteConfigSkipValidate(t *testing.T) {
+	doTestWriteConfig(t, true)
+}
+
+func doTestWriteConfig(t *testing.T, skipValidate bool) {
 	cli := di.NewMockDeps()
 	cmd := CliSaveConfigCommand(&cli.Deps)
-	cli.MockClient.ConnectError = fmt.Errorf("should not have tried to connect")
 	common.AddPersistentFlags(cmd)
 
 	oldConfHome := os.Getenv("XDG_CONFIG_HOME")
@@ -23,14 +30,27 @@ func TestWriteConfig(t *testing.T) {
 	tmpConfDir := t.TempDir()
 	os.Setenv("XDG_CONFIG_HOME", tmpConfDir)
 
-	util.ExecuteCommandWithContextUnsafe(
-		cli.Context,
-		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
-		"--api-token",
-		"blaat",
-	)
+	if skipValidate {
+		cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("should not have tried to connect, becasue --skip-validate was used"), nil)
+		util.ExecuteCommandWithContextUnsafe(
+			cli.Context,
+			cmd,
+			"--api-url",
+			"https://test.stackstate.io/api",
+			"--api-token",
+			"blaat",
+			"--skip-validate",
+		)
+	} else {
+		util.ExecuteCommandWithContextUnsafe(
+			cli.Context,
+			cmd,
+			"--api-url",
+			"https://test.stackstate.io/api",
+			"--api-token",
+			"blaat",
+		)
+	}
 
 	cfg, err := conf.ReadConf(CliSaveConfigCommand(&cli.Deps))
 	if err != nil {

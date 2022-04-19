@@ -115,7 +115,7 @@ func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expect
 	assert.Equal(t, expectedOutput, buf.String())
 }
 
-func TestPrintErrResponse503WithColor(t *testing.T) {
+func TestPrintCLIErrorWith503WithColor(t *testing.T) {
 	p, _, stdErr := setupPrinter()
 	p.SetUseColor(true)
 
@@ -131,7 +131,7 @@ func TestPrintErrResponse503WithColor(t *testing.T) {
 	assert.Equal(t, expected, stdErr.String())
 }
 
-func TestPrintErrResponse101WithoutColor(t *testing.T) {
+func TestPrintCLIError101WithoutColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(false)
 	var buf bytes.Buffer
@@ -142,24 +142,24 @@ func TestPrintErrResponse101WithoutColor(t *testing.T) {
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponse202WithoutColor(t *testing.T) {
+func TestPrintCLIErrorWith202Response(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "202 Accepted", StatusCode: 202}
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
-	expected := "[ERROR] Response error (hello world)\n"
+	expected := "[ERROR] Hello world\n"
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponseNilResponseWithColor(t *testing.T) {
+func TestPrintCLIErrorWithNilResponseWithColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(true)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := "❌ \x1b[31mResponse error (hello world)\x1b[0m\n"
+	expected := "❌ \x1b[31mHello world\x1b[0m\n"
 	assert.Equal(t, expected, buf.String())
 }
 

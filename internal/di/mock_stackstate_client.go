@@ -1,13 +1,14 @@
 package di
 
 import (
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 type MockStackStateClient struct {
 	apiClient         *stackstate_client.APIClient
 	ConnectServerInfo stackstate_client.ServerInfo
-	ConnectError      error
+	ConnectError      common.CLIError
 	ApiMocks          ApiMocks
 }
 
@@ -82,6 +83,6 @@ func NewMockStackStateClient() MockStackStateClient {
 	}
 }
 
-func (c *MockStackStateClient) Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, error) {
+func (c *MockStackStateClient) Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, common.CLIError) {
 	return c.apiClient, c.ConnectServerInfo, c.ConnectError
 }
