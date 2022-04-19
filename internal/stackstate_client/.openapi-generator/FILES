@@ -3,6 +3,7 @@
 .travis.yml
 README.md
 api/openapi.yaml
+api_anomaly_feedback.go
 api_api_token.go
 api_event.go
 api_export.go
@@ -18,9 +19,16 @@ api_topology_synchronization.go
 api_user_profile.go
 client.go
 configuration.go
+docs/Annotation.md
+docs/AnnotationData.md
+docs/AnnotationMetricQuery.md
+docs/AnnotationType.md
+docs/AnomalyFeedbackApi.md
+docs/AnomalySeverity.md
 docs/ApiToken.md
 docs/ApiTokenApi.md
 docs/DependencyDirection.md
+docs/DownsamplingMethod.md
 docs/EventApi.md
 docs/EventCategory.md
 docs/EventComponent.md
@@ -46,6 +54,9 @@ docs/ExecuteScriptTimeoutError.md
 docs/ExecuteScriptWrongReturnTypeError.md
 docs/Export.md
 docs/ExportApi.md
+docs/FeedbackData.md
+docs/FeedbackWithContext.md
+docs/GenericAnnotationData.md
 docs/GenericApiError.md
 docs/GenericErrorsResponse.md
 docs/HealthStreamError.md
@@ -66,6 +77,9 @@ docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
 docs/MessageLevel.md
 docs/MetricBucketValue.md
+docs/MetricStreamAnomalyData.md
+docs/MetricStreamNoAnomalyData.md
+docs/MetricTelemetry.md
 docs/Monitor.md
 docs/MonitorApi.md
 docs/MonitorApiError.md
@@ -79,6 +93,7 @@ docs/Node.md
 docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypes.md
+docs/Reference.md
 docs/RequestError.md
 docs/RequestValidationError.md
 docs/RootCauseMode.md
@@ -96,6 +111,8 @@ docs/StreamListItem.md
 docs/StringItemsWithTotal.md
 docs/SubStreamList.md
 docs/SubStreamListItem.md
+docs/TelemetryQueryCondition.md
+docs/TimeRange.md
 docs/TopologyEvent.md
 docs/TopologyMatchResult.md
 docs/TopologyOverflowError.md
@@ -117,8 +134,14 @@ docs/UserProfileSaveError.md
 git_push.sh
 go.mod
 go.sum
+model_annotation.go
+model_annotation_data.go
+model_annotation_metric_query.go
+model_annotation_type.go
+model_anomaly_severity.go
 model_api_token.go
 model_dependency_direction.go
+model_downsampling_method.go
 model_event_category.go
 model_event_component.go
 model_event_cursor.go
@@ -142,6 +165,9 @@ model_execute_script_syntax_errors_errors.go
 model_execute_script_timeout_error.go
 model_execute_script_wrong_return_type_error.go
 model_export.go
+model_feedback_data.go
+model_feedback_with_context.go
+model_generic_annotation_data.go
 model_generic_api_error.go
 model_generic_errors_response.go
 model_health_stream_error.go
@@ -160,6 +186,9 @@ model_invalid_sync_identifier.go
 model_invalid_urn.go
 model_message_level.go
 model_metric_bucket_value.go
+model_metric_stream_anomaly_data.go
+model_metric_stream_no_anomaly_data.go
+model_metric_telemetry.go
 model_monitor.go
 model_monitor_api_error.go
 model_monitor_identifier_not_found_error.go
@@ -170,6 +199,7 @@ model_multiple_matches_check_state.go
 model_node.go
 model_node_types.go
 model_node_types_node_types.go
+model_reference.go
 model_request_error.go
 model_request_validation_error.go
 model_root_cause_mode.go
@@ -184,6 +214,8 @@ model_stream_list_item.go
 model_string_items_with_total.go
 model_sub_stream_list.go
 model_sub_stream_list_item.go
+model_telemetry_query_condition.go
+model_time_range.go
 model_topology_event.go
 model_topology_match_result.go
 model_topology_overflow_error.go

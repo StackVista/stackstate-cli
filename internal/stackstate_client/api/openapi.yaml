@@ -1452,6 +1452,41 @@ paths:
       summary: Get server info
       tags:
       - server
+  /anomaly-feedback:
+    get:
+      description: ""
+      parameters:
+      - in: query
+        name: startTime
+        required: true
+        schema:
+          type: integer
+      - in: query
+        name: endTime
+        required: false
+        schema:
+          type: integer
+      - in: query
+        name: history
+        required: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackWithContext'
+          description: Export feedback on anomalies.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: ""
+      tags:
+      - anomalyFeedback
 components:
   requestBodies:
     EventListBody:
@@ -3139,6 +3174,415 @@ components:
       - major
       - minor
       - patch
+      type: object
+    FeedbackWithContext:
+      discriminator:
+        propertyName: _type
+      example:
+        feedback:
+          subject: subject
+          query:
+            metricField: metricField
+            queryHash: queryHash
+            dataSourceId: 2
+            _type: AnnotationMetricQuery
+            conditions:
+            - _type: TelemetryQueryCondition
+              value: value
+              key: key
+            - _type: TelemetryQueryCondition
+              value: value
+              key: key
+            bucketSize: 5
+          _type: FeedbackData
+          thumbsdown:
+          - thumbsdown
+          - thumbsdown
+          thumbsup:
+          - thumbsup
+          - thumbsup
+        anomaly:
+          reference:
+            _type: Reference
+          identifiers:
+          - identifiers
+          - identifiers
+          _type: Annotation
+          eventTimeInterval:
+            _type: TimeRange
+            start: 1
+            end: 6
+          name: name
+          createdTime: 0
+          description: description
+          id: id
+          processedTime: 5
+          tags:
+          - tags
+          - tags
+        data:
+          _type: DownsampledTelemetry
+        _type: FeedbackWithContext
+      properties:
+        _type:
+          enum:
+          - FeedbackWithContext
+          type: string
+        anomaly:
+          $ref: '#/components/schemas/Annotation'
+        data:
+          $ref: '#/components/schemas/MetricTelemetry'
+        feedback:
+          $ref: '#/components/schemas/FeedbackData'
+      required:
+      - _type
+      - anomaly
+      - data
+      - feedback
+      type: object
+    Annotation:
+      discriminator:
+        propertyName: _type
+      example:
+        reference:
+          _type: Reference
+        identifiers:
+        - identifiers
+        - identifiers
+        _type: Annotation
+        eventTimeInterval:
+          _type: TimeRange
+          start: 1
+          end: 6
+        name: name
+        createdTime: 0
+        description: description
+        id: id
+        processedTime: 5
+        tags:
+        - tags
+        - tags
+      properties:
+        _type:
+          enum:
+          - Annotation
+          type: string
+        annotationType:
+          $ref: '#/components/schemas/AnnotationType'
+        createdTime:
+          format: int64
+          type: integer
+        data:
+          $ref: '#/components/schemas/AnnotationData'
+        description:
+          type: string
+        eventTimeInterval:
+          $ref: '#/components/schemas/TimeRange'
+        id:
+          type: string
+        identifiers:
+          items:
+            type: string
+          type: array
+        name:
+          type: string
+        processedTime:
+          format: int64
+          type: integer
+        reference:
+          $ref: '#/components/schemas/Reference'
+        tags:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
+      - annotationType
+      - createdTime
+      - description
+      - eventTimeInterval
+      - id
+      - identifiers
+      - name
+      - processedTime
+      - reference
+      - tags
+      type: object
+    AnnotationType:
+      enum:
+      - MetricStreamAnomaly
+      - MetricStreamNoAnomaly
+      - AnomalyFeedback
+      type: string
+    AnnotationData:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricStreamAnomalyData'
+      - $ref: '#/components/schemas/MetricStreamNoAnomalyData'
+      - $ref: '#/components/schemas/GenericAnnotationData'
+      - $ref: '#/components/schemas/FeedbackData'
+      required:
+      - _type
+      type: object
+    MetricStreamAnomalyData:
+      properties:
+        _type:
+          enum:
+          - MetricStreamAnomalyData
+          type: string
+        checkedInterval:
+          $ref: '#/components/schemas/TimeRange'
+        elementName:
+          type: string
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+        severity:
+          $ref: '#/components/schemas/AnomalySeverity'
+        severityScore:
+          format: double
+          type: number
+        streamName:
+          type: string
+      required:
+      - checkedInterval
+      - elementName
+      - explanation
+      - modelInfo
+      - severity
+      - severityScore
+      - streamName
+      type: object
+    TimeRange:
+      discriminator:
+        propertyName: _type
+      example:
+        _type: TimeRange
+        start: 1
+        end: 6
+      properties:
+        _type:
+          enum:
+          - TimeRange
+          type: string
+        end:
+          format: int64
+          type: integer
+        start:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - end
+      - start
+      type: object
+    AnnotationMetricQuery:
+      discriminator:
+        propertyName: _type
+      example:
+        metricField: metricField
+        queryHash: queryHash
+        dataSourceId: 2
+        _type: AnnotationMetricQuery
+        conditions:
+        - _type: TelemetryQueryCondition
+          value: value
+          key: key
+        - _type: TelemetryQueryCondition
+          value: value
+          key: key
+        bucketSize: 5
+      properties:
+        _type:
+          enum:
+          - AnnotationMetricQuery
+          type: string
+        aggregationMethod:
+          $ref: '#/components/schemas/DownsamplingMethod'
+        bucketSize:
+          format: int64
+          type: integer
+        conditions:
+          items:
+            $ref: '#/components/schemas/TelemetryQueryCondition'
+          type: array
+        dataSourceId:
+          format: int64
+          type: integer
+        metricField:
+          type: string
+        queryHash:
+          type: string
+      required:
+      - _type
+      - aggregationMethod
+      - bucketSize
+      - conditions
+      - dataSourceId
+      - queryHash
+      type: object
+    DownsamplingMethod:
+      enum:
+      - MEAN
+      - PERCENTILE_25
+      - PERCENTILE_50
+      - PERCENTILE_75
+      - PERCENTILE_90
+      - PERCENTILE_95
+      - PERCENTILE_98
+      - PERCENTILE_99
+      - MAX
+      - MIN
+      - SUM
+      - EVENT_COUNT
+      - SUM_NO_ZEROS
+      - EVENT_COUNT_NO_ZEROS
+      type: string
+    TelemetryQueryCondition:
+      discriminator:
+        propertyName: _type
+      example:
+        _type: TelemetryQueryCondition
+        value: value
+        key: key
+      properties:
+        _type:
+          enum:
+          - TelemetryQueryCondition
+          type: string
+        key:
+          type: string
+        value:
+          type: string
+      required:
+      - _type
+      - key
+      - value
+      type: object
+    AnomalySeverity:
+      enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+      type: string
+    MetricStreamNoAnomalyData:
+      properties:
+        _type:
+          enum:
+          - MetricStreamNoAnomalyData
+          type: string
+        checkedInterval:
+          $ref: '#/components/schemas/TimeRange'
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - checkedInterval
+      - explanation
+      - modelInfo
+      type: object
+    GenericAnnotationData:
+      properties:
+        _type:
+          enum:
+          - GenericAnnotationData
+          type: string
+        annotation:
+          type: object
+      required:
+      - _type
+      - annotation
+      type: object
+    FeedbackData:
+      example:
+        subject: subject
+        query:
+          metricField: metricField
+          queryHash: queryHash
+          dataSourceId: 2
+          _type: AnnotationMetricQuery
+          conditions:
+          - _type: TelemetryQueryCondition
+            value: value
+            key: key
+          - _type: TelemetryQueryCondition
+            value: value
+            key: key
+          bucketSize: 5
+        _type: FeedbackData
+        thumbsdown:
+        - thumbsdown
+        - thumbsdown
+        thumbsup:
+        - thumbsup
+        - thumbsup
+      properties:
+        _type:
+          enum:
+          - FeedbackData
+          type: string
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+        subject:
+          type: string
+        thumbsdown:
+          items:
+            type: string
+          type: array
+        thumbsup:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
+      - subject
+      - thumbsdown
+      - thumbsup
+      type: object
+    Reference:
+      discriminator:
+        propertyName: _type
+      example:
+        _type: Reference
+      properties:
+        _type:
+          enum:
+          - Reference
+          - MetricStreamReference
+          type: string
+      required:
+      - _type
+      type: object
+    MetricTelemetry:
+      discriminator:
+        propertyName: _type
+      example:
+        _type: DownsampledTelemetry
+      properties:
+        _type:
+          enum:
+          - DownsampledTelemetry
+          - TelemetryTermination
+          - DownsampledTelemetryData
+          - UnAggregatedTelemetry
+          - BaselineTelemetryData
+          - BaselineTelemetry
+          - MetricTelemetryData
+          - MetricTelemetry
+          - TelemetryError
+          - MetricData
+          - DownsampledMetricData
+          type: string
+      required:
+      - _type
       type: object
     NodeTypes_nodeTypes:
       example:

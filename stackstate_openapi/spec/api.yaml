@@ -64,6 +64,7 @@ paths:
     { $ref: "topology_sync.api.yaml#/paths/%2Fsynchronization%2Ftopology%2Fstreams%2FclearErrors" }
   /script/execute: { $ref: "script.api.yaml#/paths/%2Fscript%2Fexecute" }
   /server/info: { $ref: "server_info.api.yaml#/paths/%2Fserver%2Finfo" }
+  /anomaly-feedback: { $ref: "anomaly_feedback.xapi.yaml#/paths/%2Fanomaly-feedback" }
 security:
   - ApiToken: []
 components:
