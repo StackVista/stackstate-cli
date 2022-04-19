@@ -103,6 +103,9 @@ docs/ServerApi.md
 docs/ServerInfo.md
 docs/ServerVersion.md
 docs/SourceLink.md
+docs/Sstackpack.md
+docs/SstackpackConfigurations.md
+docs/SstackpackLatestVersion.md
 docs/StackPack.md
 docs/StackPackFaqs.md
 docs/StackpackApi.md
@@ -207,6 +210,9 @@ model_script_location.go
 model_server_info.go
 model_server_version.go
 model_source_link.go
+model_sstackpack.go
+model_sstackpack_configurations.go
+model_sstackpack_latest_version.go
 model_stack_pack.go
 model_stack_pack_faqs.go
 model_stream_list.go

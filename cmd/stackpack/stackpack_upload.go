@@ -10,10 +10,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-const (
-	FileFlag = "file"
-)
-
 func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "upload -f FILE",

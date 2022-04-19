@@ -2,6 +2,7 @@ package settings
 
 import (
 	"io/ioutil"
+	"os"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -67,13 +68,19 @@ func TestRunSettingsExportWithReferencePrintToTable(t *testing.T) {
 }
 
 func TestRunSettingsExportToFile(t *testing.T) {
-	filePath := "./result.sjt"
+	file, err := ioutil.TempFile(os.TempDir(), "test_")
+	if err != nil {
+		panic(err)
+	}
+	filePath := file.Name()
+	file.Close()
+
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1",
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}], 
 "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupCommandExport()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--file", filePath)
+	_, err = util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--file", filePath)
 	assert.Nil(t, err)
 	body, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)

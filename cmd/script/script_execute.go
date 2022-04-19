@@ -35,6 +35,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
 	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
+	common.MarkMutexFlags(cmd, []string{ScriptFlag, FileFlag}, "input", true)
 
 	return cmd
 }
