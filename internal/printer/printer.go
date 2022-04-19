@@ -41,15 +41,15 @@ const (
 	YamlIndent = 2
 )
 
-type OutputType int
+type OutputType string
 
 type StopPrinterFn func()
 
 const (
-	YAML OutputType = iota
-	JSON
+	YAML OutputType = "YAML"
+	JSON OutputType = "JSON"
 	// Auto formatting, sometimes prints in table format, sometimes in YAML
-	Auto
+	Auto OutputType = "Auto"
 )
 
 type StdPrinter struct {

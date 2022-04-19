@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -33,7 +34,9 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return err
 	}
 
-	//TODO check output type!!
+	if cli.Printer.GetOutputType() != printer.Auto {
+		return common.NewCLIArgParseError(fmt.Errorf("unsupported format: %s. Settings can only be described in STJ format", cli.Printer.GetOutputType()))
+	}
 
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {

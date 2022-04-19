@@ -48,6 +48,7 @@ func NewMockPrinter() MockPrinter {
 		PrintWarnCalls:    &printWarnCalls,
 		TableCalls:        &printTableCalls,
 		PrintLnCalls:      &printLnCalls,
+		outputType:        Auto,
 	}
 }
 
