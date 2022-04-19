@@ -11,23 +11,28 @@ paths:
           required: true
           schema:
             type: integer
+            format: int64
         - name: endTime
           in: query
           required: false
           schema:
             type: integer
+            format: int64
         - name: history
           in: query
           required: false
           schema:
             type: integer
+            format: int64
       responses:
         "200":
           description: "Export feedback on anomalies."
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/FeedbackWithContext"
+                type: array
+                items:
+                  $ref: "#/components/schemas/FeedbackWithContext"
         "500":
           $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 

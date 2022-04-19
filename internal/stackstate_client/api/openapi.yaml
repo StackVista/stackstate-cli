@@ -1460,23 +1460,28 @@ paths:
         name: startTime
         required: true
         schema:
+          format: int64
           type: integer
       - in: query
         name: endTime
         required: false
         schema:
+          format: int64
           type: integer
       - in: query
         name: history
         required: false
         schema:
+          format: int64
           type: integer
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/FeedbackWithContext'
+                items:
+                  $ref: '#/components/schemas/FeedbackWithContext'
+                type: array
           description: Export feedback on anomalies.
         "500":
           content:

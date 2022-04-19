@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## AnomalyFeedbackGet
 
-> FeedbackWithContext AnomalyFeedbackGet(ctx).StartTime(startTime).EndTime(endTime).History(history).Execute()
+> []FeedbackWithContext AnomalyFeedbackGet(ctx).StartTime(startTime).EndTime(endTime).History(history).Execute()
 
 
 
@@ -29,9 +29,9 @@ import (
 )
 
 func main() {
-    startTime := int32(56) // int32 | 
-    endTime := int32(56) // int32 |  (optional)
-    history := int32(56) // int32 |  (optional)
+    startTime := int64(789) // int64 | 
+    endTime := int64(789) // int64 |  (optional)
+    history := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -40,7 +40,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `AnomalyFeedbackApi.AnomalyFeedbackGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `AnomalyFeedbackGet`: FeedbackWithContext
+    // response from `AnomalyFeedbackGet`: []FeedbackWithContext
     fmt.Fprintf(os.Stdout, "Response from `AnomalyFeedbackApi.AnomalyFeedbackGet`: %v\n", resp)
 }
 ```
@@ -56,13 +56,13 @@ Other parameters are passed through a pointer to a apiAnomalyFeedbackGetRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **startTime** | **int32** |  | 
- **endTime** | **int32** |  | 
- **history** | **int32** |  | 
+ **startTime** | **int64** |  | 
+ **endTime** | **int64** |  | 
+ **history** | **int64** |  | 
 
 ### Return type
 
-[**FeedbackWithContext**](FeedbackWithContext.md)
+[**[]FeedbackWithContext**](FeedbackWithContext.md)
 
 ### Authorization
 
