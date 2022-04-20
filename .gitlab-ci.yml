@@ -1,5 +1,5 @@
 variables:
-  GORELEASER_TAG: "v0.184.0"
+  GORELEASER_TAG: "v1.7.0"
   GORELEASER_IMAGE: "goreleaser/goreleaser:${GORELEASER_TAG}"
 
 image: "golang:latest"

@@ -71,16 +71,12 @@ universal_binaries:
   - stackstate-cli-full
   name_template: '{{.ProjectName}}-full-{{.Version}}'
   replace: true
-  hooks:
-    post: mv {{ .Path }} "{{ dir .Path }}/sts"
 -
   id: stackstate-cli-saas
   ids:
   - stackstate-cli-saas
   name_template: '{{.ProjectName}}-saas-{{.Version}}'
   replace: true
-  hooks:
-    post: mv {{ .Path }} "{{ dir .Path }}/sts"
 archives:
 - id: stackstate-cli-full
   builds:
