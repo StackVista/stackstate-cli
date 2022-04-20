@@ -129,7 +129,7 @@ func TestShortShouldExist(t *testing.T) {
 	})
 }
 
-func TestShortShouldStartLowerCse(t *testing.T) {
+func TestShortShouldStartLowerCase(t *testing.T) {
 	root := setupCmd()
 	forAllCmd(root, func(cmd *cobra.Command) {
 		if !startWithLowerCaseWord.MatchString(cmd.Short) {

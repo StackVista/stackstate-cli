@@ -13,7 +13,7 @@ import (
 func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "status -i ID",
-		Short: "Status of a single monitor",
+		Short: "status of a single monitor",
 		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand),
 	}
 
