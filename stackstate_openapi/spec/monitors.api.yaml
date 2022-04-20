@@ -78,6 +78,23 @@ paths:
         "500":
           $ref: "#/components/responses/monitorApiError"
 
+  /monitor/{monitorId}/status:
+    get:
+      tags:
+        - monitor
+      summary: "Get a monitor with stream information"
+      description: "Returns a monitor full representation with the stream status information"
+      operationId: getMonitorWithStatus
+      parameters:
+        - $ref: "#/components/parameters/monitorId"
+      responses:
+        "200":
+          $ref: "#/components/responses/monitorStatus"
+        "404":
+          $ref: "#/components/responses/monitorNotFoundError"
+        "500":
+          $ref: "#/components/responses/monitorApiError"
+
 components:
   parameters:
     monitorId:
@@ -88,18 +105,6 @@ components:
         $ref: "#/components/schemas/MonitorId"
       description: "The identifier of a monitor"
   requestBodies:
-    create:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/CreateMonitor"
-    update:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/UpdateMonitor"
   responses:
     monitors:
       description: "List of all available monitors"
@@ -113,6 +118,12 @@ components:
         application/json:
           schema:
             $ref: "#/components/schemas/Monitor"
+    monitorStatus:
+      description: "Full representation of a monitor with status"
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/MonitorStatus"
     monitorRunResult:
       description: "Full representation of the result of a monitor run"
       content:
@@ -166,8 +177,10 @@ components:
         functionId:
           type: integer
           format: int64
-        parameters:
-          type: object
+        arguments:
+          type: array
+          items:
+            type: object
         remediationHint:
           type: string
         topologyMapping:
@@ -178,9 +191,23 @@ components:
         - id
         - name
         - functionId
-        - parameters
+        - arguments
         - topologyMapping
         - intervalSeconds
+
+    MonitorStatus:
+      type: object
+      properties:
+        monitor:
+          $ref: "#/components/schemas/Monitor"
+        status:
+          $ref: "health_sync.api.yaml#/components/schemas/HealthStreamStatus"
+        topologyMatchResult:
+          $ref: "health_sync.api.yaml#/components/schemas/TopologyMatchResult"
+      required:
+        - monitor
+        - status
+        - topologyMatchResult
 
     MonitorRunResult:
       type: object

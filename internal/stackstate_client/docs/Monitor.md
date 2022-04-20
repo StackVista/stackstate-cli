@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **Identifier** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **FunctionId** | **int64** |  | 
-**Parameters** | **map[string]interface{}** |  | 
+**Arguments** | **[]map[string]interface{}** |  | 
 **RemediationHint** | Pointer to **string** |  | [optional] 
 **TopologyMapping** | **string** |  | 
 **IntervalSeconds** | **int32** |  | 
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewMonitor
 
-`func NewMonitor(id int64, name string, functionId int64, parameters map[string]interface{}, topologyMapping string, intervalSeconds int32, ) *Monitor`
+`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, topologyMapping string, intervalSeconds int32, ) *Monitor`
 
 NewMonitor instantiates a new Monitor object
 This constructor will assign default values to properties that have it defined,
@@ -143,24 +143,24 @@ and a boolean to check if the value has been set.
 SetFunctionId sets FunctionId field to given value.
 
 
-### GetParameters
+### GetArguments
 
-`func (o *Monitor) GetParameters() map[string]interface{}`
+`func (o *Monitor) GetArguments() []map[string]interface{}`
 
-GetParameters returns the Parameters field if non-nil, zero value otherwise.
+GetArguments returns the Arguments field if non-nil, zero value otherwise.
 
-### GetParametersOk
+### GetArgumentsOk
 
-`func (o *Monitor) GetParametersOk() (*map[string]interface{}, bool)`
+`func (o *Monitor) GetArgumentsOk() (*[]map[string]interface{}, bool)`
 
-GetParametersOk returns a tuple with the Parameters field if it's non-nil, zero value otherwise
+GetArgumentsOk returns a tuple with the Arguments field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetParameters
+### SetArguments
 
-`func (o *Monitor) SetParameters(v map[string]interface{})`
+`func (o *Monitor) SetArguments(v []map[string]interface{})`
 
-SetParameters sets Parameters field to given value.
+SetArguments sets Arguments field to given value.
 
 
 ### GetRemediationHint
