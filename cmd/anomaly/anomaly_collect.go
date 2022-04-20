@@ -1,7 +1,9 @@
 package anomaly
 
 import (
+	"encoding/json"
 	"fmt"
+	"os"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -14,18 +16,21 @@ const (
 	StartTimeFlag = "start-time"
 	EndTimeFlag   = "end-time"
 	HistoryFlag   = "history"
+	FileFlag      = "file"
 
 	Day = 24 * time.Hour
 )
 
 func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "collect --start-time=TIMESTAMP [--end-time=TIMESTAMP] [--history=DURATION]",
+		Use:   "collect --start-time=TIMESTAMP --file FILE [--end-time=TIMESTAMP] [--history=DURATION]",
 		Short: "collect anomaly feedback",
 		RunE:  cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}
 	cmd.Flags().DurationP(StartTimeFlag, "s", 0, "start time of interval with anomalies")
 	cmd.MarkFlagRequired(StartTimeFlag) //nolint:errcheck
+	cmd.Flags().StringP(FileFlag, "f", "", "path to output file")
+	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 	cmd.Flags().DurationP(EndTimeFlag, "e", 0, "end time of interval with anomalies")
 	cmd.Flags().DurationP(HistoryFlag, "d", Day, "length of metric data history preceding the anomaly")
 
@@ -43,6 +48,11 @@ func RunCollectFeedbackCommand(
 		return common.NewCLIError(err)
 	}
 
+	filePath, err := cmd.Flags().GetString(FileFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
+
 	endTime, err := cmd.Flags().GetDuration(EndTimeFlag)
 	if err != nil {
 		return common.NewCLIError(err)
@@ -52,8 +62,8 @@ func RunCollectFeedbackCommand(
 	if err != nil {
 		return common.NewCLIError(err)
 	}
-	now := time.Now().UnixMilli()
 
+	now := time.Now().UnixMilli()
 	feedback, resp, err := api.AnomalyFeedbackApi.AnomalyFeedbackGet(cli.Context).
 		StartTime(now + startTime.Milliseconds()).
 		EndTime(now + endTime.Milliseconds()).
@@ -61,6 +71,22 @@ func RunCollectFeedbackCommand(
 		Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
+	}
+
+	const fileMode = 0644
+	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
+	if err != nil {
+		return common.NewCLIError(err)
+	}
+	defer file.Close()
+
+	data, err := json.Marshal(feedback)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
+
+	if _, err = file.Write(data); err != nil {
+		return common.NewCLIError(err)
 	}
 
 	cli.Printer.Success(fmt.Sprintf("Downloaded %d anomalies with feedback.", len(feedback)))
