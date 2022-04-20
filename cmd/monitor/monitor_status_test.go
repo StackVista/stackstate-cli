@@ -1,12 +1,12 @@
 package monitor
 
 import (
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
@@ -83,9 +83,9 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 			StructData: monitorStatusResult,
 		},
 		{
-			Header:     []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
+			Header: []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
 				"value between 0 and 0 seconds ago"},
-			Data:       [][]string{{"latency (Seconds)"}, {"messages processed (per second)"},
+			Data: [][]string{{"latency (Seconds)"}, {"messages processed (per second)"},
 				{"check states created (per second)"}, {"check states updated (per second)"},
 				{"check states deleted (per second)"}},
 			StructData: monitorStatusResult,

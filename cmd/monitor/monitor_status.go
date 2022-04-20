@@ -1,12 +1,13 @@
 package monitor
 
 import (
+	"net/http"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
-	"net/http"
 )
 
 func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
@@ -21,6 +22,12 @@ func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 
 	return cmd
 }
+
+const (
+	THOUSAND = 1000
+	TWO      = 2
+	THREE    = 3
+)
 
 func RunMonitorStatusCommand(
 	cmd *cobra.Command,
@@ -51,9 +58,9 @@ func RunMonitorStatusCommand(
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronized check state count: " + util.ToString(mainStreamStatus.CheckStateCount))
 	subStreamSnapshot := mainStreamStatus.SubStreamState.HealthSubStreamSnapshot
-	cli.Printer.PrintLn("Repeat interval (Seconds): " + util.ToString(subStreamSnapshot.GetRepeatIntervalMs()/1000))
+	cli.Printer.PrintLn("Repeat interval (Seconds): " + util.ToString(subStreamSnapshot.GetRepeatIntervalMs()/THOUSAND))
 	if subStreamSnapshot.HasExpiryIntervalMs() {
-		cli.Printer.PrintLn("Expiry (Seconds): " + util.ToString(subStreamSnapshot.GetExpiryIntervalMs()/1000))
+		cli.Printer.PrintLn("Expiry (Seconds): " + util.ToString(subStreamSnapshot.GetExpiryIntervalMs()/THOUSAND))
 	}
 
 	if mainStreamStatus.HasErrors() {
@@ -62,6 +69,8 @@ func RunMonitorStatusCommand(
 
 	metricsData := make([][]interface{}, 0)
 	bucketSizeS := mainStreamStatus.GetMetrics().BucketSizeSeconds
+	bucketSizeSDouble := bucketSizeS * TWO
+	bucketSizeSTriple := bucketSizeS * THREE
 	metrics := mainStreamStatus.GetMetrics()
 	metricsData = append(metricsData, CreateMetricRows("latency (Seconds)", metrics.GetLatencySeconds()))
 	metricsData = append(metricsData, CreateMetricRows("messages processed (per second)", metrics.GetMessagePerSecond()))
@@ -72,7 +81,10 @@ func RunMonitorStatusCommand(
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronization metrics:")
 	cli.Printer.Table(
-		[]string{"metric", "value between now and " + util.ToString(bucketSizeS) + " seconds ago", "value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeS*2) + " seconds ago", "value between " + util.ToString(bucketSizeS*2) + " and " + util.ToString(bucketSizeS*3) + " seconds ago"},
+		[]string{"metric",
+			"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
+			"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
+			"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
 		metricsData,
 		monitorStatus,
 	)
