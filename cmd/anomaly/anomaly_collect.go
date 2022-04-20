@@ -12,8 +12,10 @@ import (
 
 const (
 	StartTimeFlag = "start-time"
-	EndTimeFlag = "end-time"
-	HistoryFlag = "history"
+	EndTimeFlag   = "end-time"
+	HistoryFlag   = "history"
+
+	Day = 24 * time.Hour
 )
 
 func AnomalyCollect(cli *di.Deps) *cobra.Command {
@@ -25,7 +27,7 @@ func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd.Flags().DurationP(StartTimeFlag, "s", 0, "start time of interval with anomalies")
 	cmd.MarkFlagRequired(StartTimeFlag) //nolint:errcheck
 	cmd.Flags().DurationP(EndTimeFlag, "e", 0, "end time of interval with anomalies")
-	cmd.Flags().DurationP(HistoryFlag, "d", 24 * time.Hour, "length of metric data history preceding the anomaly")
+	cmd.Flags().DurationP(HistoryFlag, "d", Day, "length of metric data history preceding the anomaly")
 
 	return cmd
 }
