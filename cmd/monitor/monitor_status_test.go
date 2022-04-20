@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	//"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
@@ -34,12 +33,11 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 
 	var expiry int32 = 7200
 	var repeat int32 = 2
-	error := sts.HealthStreamError {
+	error := sts.HealthStreamError{
 		ErrorCode: "SubStreamStopWithoutStart",
-		Level: "ERROR",
-		Error: "Error",
-		Count: 11,
-
+		Level:     "ERROR",
+		Error:     "Error",
+		Count:     11,
 	}
 	healthStreamStatus := sts.HealthStreamStatus{
 		Partition:        1,
@@ -48,7 +46,7 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 		GlobalErrors:     nil,
 		AggregateMetrics: sts.HealthStreamMetrics{},
 		MainStreamStatus: &sts.HealthSubStreamStatus{
-			Errors: &[]sts.HealthStreamError { error },
+			Errors:  &[]sts.HealthStreamError{error},
 			Metrics: sts.HealthStreamMetrics{},
 			SubStreamState: sts.HealthSubStreamConsistencyState{
 				HealthSubStreamSnapshot: &sts.HealthSubStreamSnapshot{
@@ -65,8 +63,8 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 	}
 
 	monitorStatusResult := sts.MonitorStatus{
-		Monitor: monitor,
-		Status: healthStreamStatus,
+		Monitor:             monitor,
+		Status:              healthStreamStatus,
 		TopologyMatchResult: topologyMatchResult,
 	}
 
@@ -75,7 +73,9 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Synchronized check state count: 0", "Repeat interval (Seconds): 0", "Expiry (Seconds): 7", "", "Synchronization errors:", "", "Synchronization metrics:", "", "Check states with identifier matching exactly 1 topology element: 0"}
+	expectedPrintlnCalls := []string{"", "Synchronized check state count: 0", "Repeat interval (Seconds): 0",
+		"Expiry (Seconds): 7", "", "Synchronization errors:", "", "Synchronization metrics:", "",
+		"Check states with identifier matching exactly 1 topology element: 0"}
 	expectedTableCall := []printer.TableCall{
 		{
 			Header:     []string{"code", "level", "message", "occurrence count"},
@@ -83,8 +83,11 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 			StructData: monitorStatusResult,
 		},
 		{
-			Header:     []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago", "value between 0 and 0 seconds ago"},
-			Data:       [][]string{{"latency (Seconds)"}, {"messages processed (per second)"}, {"check states created (per second)"}, {"check states updated (per second)"}, {"check states deleted (per second)"}},
+			Header:     []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
+				"value between 0 and 0 seconds ago"},
+			Data:       [][]string{{"latency (Seconds)"}, {"messages processed (per second)"},
+				{"check states created (per second)"}, {"check states updated (per second)"},
+				{"check states deleted (per second)"}},
 			StructData: monitorStatusResult,
 		},
 	}

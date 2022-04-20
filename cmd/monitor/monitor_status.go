@@ -51,29 +51,13 @@ func RunMonitorStatusCommand(
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronized check state count: " + util.ToString(mainStreamStatus.CheckStateCount))
 	subStreamSnapshot := mainStreamStatus.SubStreamState.HealthSubStreamSnapshot
-	cli.Printer.PrintLn("Repeat interval (Seconds): " + util.ToString(subStreamSnapshot.GetRepeatIntervalMs() / 1000))
+	cli.Printer.PrintLn("Repeat interval (Seconds): " + util.ToString(subStreamSnapshot.GetRepeatIntervalMs()/1000))
 	if subStreamSnapshot.HasExpiryIntervalMs() {
-		cli.Printer.PrintLn("Expiry (Seconds): " + util.ToString(subStreamSnapshot.GetExpiryIntervalMs() / 1000))
+		cli.Printer.PrintLn("Expiry (Seconds): " + util.ToString(subStreamSnapshot.GetExpiryIntervalMs()/1000))
 	}
 
 	if mainStreamStatus.HasErrors() {
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Synchronization errors:")
-		data := make([][]interface{}, 0)
-		for _, e := range mainStreamStatus.GetErrors() {
-			data = append(data, []interface{}{
-				e.ErrorCode,
-				e.Level,
-				e.Error,
-				e.Count,
-			})
-		}
-
-		cli.Printer.Table(
-			[]string{"code", "level", "message", "occurrence count"},
-			data,
-			monitorStatus,
-		)
+		PrintErrors(cli, mainStreamStatus.GetErrors(), monitorStatus)
 	}
 
 	metricsData := make([][]interface{}, 0)
@@ -88,7 +72,7 @@ func RunMonitorStatusCommand(
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronization metrics:")
 	cli.Printer.Table(
-		[]string{"metric", "value between now and " + util.ToString(bucketSizeS) + " seconds ago", "value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeS * 2) + " seconds ago", "value between " + util.ToString(bucketSizeS * 2)  + " and " + util.ToString(bucketSizeS * 3) + " seconds ago"},
+		[]string{"metric", "value between now and " + util.ToString(bucketSizeS) + " seconds ago", "value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeS*2) + " seconds ago", "value between " + util.ToString(bucketSizeS*2) + " and " + util.ToString(bucketSizeS*3) + " seconds ago"},
 		metricsData,
 		monitorStatus,
 	)
@@ -98,50 +82,84 @@ func RunMonitorStatusCommand(
 	cli.Printer.PrintLn("Check states with identifier matching exactly 1 topology element: " + util.ToString(topologyMatchResult.MatchedCheckStates))
 
 	if len(topologyMatchResult.GetUnmatchedCheckStates()) > 0 {
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Check states with identifier which has no matching topology element:")
-
-		unmatchedData := make([][]interface{}, 0)
-		for _, u := range topologyMatchResult.GetUnmatchedCheckStates() {
-			unmatchedData = append(unmatchedData, []interface{}{
-				u.GetCheckStateId(),
-				u.GetTopologyElementIdentifier(),
-			})
-		}
-
-		cli.Printer.Table(
-			[]string{"check state id", "topology element identifier"},
-			unmatchedData,
-			monitorStatus,
-		)
+		PrintTopologyMatchResultUnmatched(cli, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
 	}
 
-
 	if len(topologyMatchResult.GetMultipleMatchesCheckStates()) > 0 {
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Check states with identifier which has multiple matching topology elements:")
-
-		multipleMatched := make([][]interface{}, 0)
-		for _, m := range topologyMatchResult.GetMultipleMatchesCheckStates() {
-			multipleMatched = append(multipleMatched, []interface{}{
-				m.GetCheckStateId(),
-				m.GetTopologyElementIdentifier(),
-				m.GetMatchCount(),
-			})
-		}
-
-		cli.Printer.Table(
-			[]string{"check state id", "topology element identifier", "number of matched topology elements"},
-			multipleMatched,
-			monitorStatus,
-		)
+		PrintTopologyMatchResultMultipleMatched(cli, topologyMatchResult.GetMultipleMatchesCheckStates(), monitorStatus)
 	}
 
 	return nil
 }
 
+func PrintErrors(cli *di.Deps,
+	errors []stackstate_client.HealthStreamError,
+	monitorStatus stackstate_client.MonitorStatus,
+) {
+	cli.Printer.PrintLn("")
+	cli.Printer.PrintLn("Synchronization errors:")
+	data := make([][]interface{}, 0)
+	for _, e := range errors {
+		data = append(data, []interface{}{
+			e.ErrorCode,
+			e.Level,
+			e.Error,
+			e.Count,
+		})
+	}
+
+	cli.Printer.Table(
+		[]string{"code", "level", "message", "occurrence count"},
+		data,
+		monitorStatus,
+	)
+}
+
+func PrintTopologyMatchResultUnmatched(cli *di.Deps,
+	unmatchedCheckStates []stackstate_client.UnmatchedCheckState,
+	monitorStatus stackstate_client.MonitorStatus) {
+	cli.Printer.PrintLn("")
+	cli.Printer.PrintLn("Check states with identifier which has no matching topology element:")
+
+	unmatchedData := make([][]interface{}, 0)
+	for _, u := range unmatchedCheckStates {
+		unmatchedData = append(unmatchedData, []interface{}{
+			u.GetCheckStateId(),
+			u.GetTopologyElementIdentifier(),
+		})
+	}
+
+	cli.Printer.Table(
+		[]string{"check state id", "topology element identifier"},
+		unmatchedData,
+		monitorStatus,
+	)
+}
+
+func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
+	multipleMatchesCheckState []stackstate_client.MultipleMatchesCheckState,
+	monitorStatus stackstate_client.MonitorStatus) {
+	cli.Printer.PrintLn("")
+	cli.Printer.PrintLn("Check states with identifier which has multiple matching topology elements:")
+
+	multipleMatched := make([][]interface{}, 0)
+	for _, m := range multipleMatchesCheckState {
+		multipleMatched = append(multipleMatched, []interface{}{
+			m.GetCheckStateId(),
+			m.GetTopologyElementIdentifier(),
+			m.GetMatchCount(),
+		})
+	}
+
+	cli.Printer.Table(
+		[]string{"check state id", "topology element identifier", "number of matched topology elements"},
+		multipleMatched,
+		monitorStatus,
+	)
+}
+
 func CreateMetricRows(metric string, metrics []stackstate_client.MetricBucketValue) []interface{} {
-	metricField:= make([]interface{}, 0)
+	metricField := make([]interface{}, 0)
 	metricField = append(metricField, metric)
 
 	metricRow := make([]interface{}, 0)
