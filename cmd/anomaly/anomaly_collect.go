@@ -40,7 +40,13 @@ func RunCollectFeedbackCommand(
 	if err != nil {
 		return common.NewCLIError(err)
 	}
+
 	endTime, err := cmd.Flags().GetDuration(EndTimeFlag)
+	if err != nil {
+		return common.NewCLIError(err)
+	}
+
+	history, err := cmd.Flags().GetDuration(HistoryFlag)
 	if err != nil {
 		return common.NewCLIError(err)
 	}
@@ -49,7 +55,7 @@ func RunCollectFeedbackCommand(
 	feedback, resp, err := api.AnomalyFeedbackApi.AnomalyFeedbackGet(cli.Context).
 		StartTime(now + startTime.Milliseconds()).
 		EndTime(now + endTime.Milliseconds()).
-		History(24 * 60 * 60 * 1000).
+		History(history.Milliseconds()).
 		Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
