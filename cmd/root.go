@@ -9,7 +9,8 @@ import (
 func RootCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sts",
-		Short: "StackState: topology-powered observability",
+		Short: "StackState: topology-powered observability", // never actually visible
+		Long:  "StackState: topology-powered observability.",
 	}
 	cmd.SetUsageTemplate(cmd.UsageTemplate() +
 		"For more information about this CLI visit https://l.stackstate.com/cli\n",

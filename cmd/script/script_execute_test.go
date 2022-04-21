@@ -69,8 +69,10 @@ func TestExecuteFromScript(t *testing.T) {
 
 func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
+	fakeErrorResp := &http.Response{StatusCode: 403}
 	cli, cmd := setupCommand()
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Error = fakeError
+	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Response = fakeErrorResp
 
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "test script")
 
@@ -80,7 +82,7 @@ func TestExecuteResponseError(t *testing.T) {
 		},
 		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
 	)
-	assert.IsType(t, common.ResponseError{}, err)
+	assert.Equal(t, common.NewResponseError(fakeError, fakeErrorResp), err)
 }
 
 func TestArgumentScriptFlag(t *testing.T) {
@@ -118,8 +120,8 @@ func TestScriptAndFileFlag(t *testing.T) {
 
 func TestConnectionError(t *testing.T) {
 	cli, cmd := setupCommand()
-	respError := common.NewResponseError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	respError := common.NewConnectError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = respError
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script")
-	assert.Equal(t, common.NewConnectError(respError), err)
+	assert.Equal(t, respError, err)
 }

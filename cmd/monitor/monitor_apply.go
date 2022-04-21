@@ -14,6 +14,7 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apply -f FILE",
 		Short: "apply a monitor with STJ",
+		Long:  "Apply a monitor with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
@@ -30,12 +31,12 @@ func RunMonitorApplyCommand(
 ) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()

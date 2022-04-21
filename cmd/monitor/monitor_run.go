@@ -18,6 +18,7 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run -i ID",
 		Short: "run a monitor",
+		Long:  "Run a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunRunMonitorCommand),
 	}
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
@@ -35,12 +36,12 @@ func RunRunMonitorCommand(
 ) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	id, err := util.StringToInt64(identifier)

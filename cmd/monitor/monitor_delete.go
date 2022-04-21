@@ -15,6 +15,7 @@ func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete -i ID",
 		Short: "delete a monitor",
+		Long:  "Delete a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunDeleteMonitorCommand),
 	}
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
@@ -31,7 +32,7 @@ func RunDeleteMonitorCommand(
 ) common.CLIError {
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	id, err := util.StringToInt64(identifier)

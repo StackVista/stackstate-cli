@@ -11,6 +11,7 @@ func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list all monitors",
+		Long:  "List all monitors.",
 		RunE:  cli.CmdRunEWithApi(RunListMonitorsCommand),
 	}
 	return cmd

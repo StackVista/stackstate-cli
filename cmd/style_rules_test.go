@@ -18,6 +18,7 @@ import (
 var (
 	startWithLowerCaseWordExceptions = `StackState`
 	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`)
+	startWithUpperCaseWord           = regexp.MustCompile(`^[A-Z0-9]`)
 	endsWithFullStop                 = regexp.MustCompile(`\s*\.\s*$`)
 	startsLowerCaseExceptions        = `\.stj`
 	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`)
@@ -50,7 +51,7 @@ func forAllFlags(parent *cobra.Command, fn func(*cobra.Command, *pflag.Flag)) {
 	})
 }
 
-//--- cmd ---
+//--- cmd.Use ---
 
 func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 	root := setupCmd()
@@ -68,8 +69,6 @@ func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 		}
 	}
 }
-
-//--- cmd.Use USAGE ---
 
 func TestUseStartsWithLowerCaseWord(t *testing.T) {
 	root := setupCmd()
@@ -118,7 +117,7 @@ func TestUseShouldMentionRequiredFlags(t *testing.T) {
 	})
 }
 
-//--- cmd.Short USAGE ---
+//--- cmd.Short ---
 
 func TestShortShouldExist(t *testing.T) {
 	root := setupCmd()
@@ -143,6 +142,26 @@ func TestShortShouldNotEndWithFullStop(t *testing.T) {
 	forAllCmd(root, func(cmd *cobra.Command) {
 		if endsWithFullStop.MatchString(cmd.Short) {
 			assert.Fail(t, cmd.Use+" short should not end with a fullstop: "+cmd.Short)
+		}
+	})
+}
+
+//--- cmd.Long ---
+
+func TestLongShouldExist(t *testing.T) {
+	root := setupCmd()
+	forAllCmd(root, func(cmd *cobra.Command) {
+		if cmd.Long == "" {
+			assert.Fail(t, cmd.Name()+" does not have a Long description")
+		}
+	})
+}
+
+func TestLongShouldStartWithUpperCase(t *testing.T) {
+	root := setupCmd()
+	forAllCmd(root, func(cmd *cobra.Command) {
+		if !startWithUpperCaseWord.MatchString(cmd.Long) {
+			assert.Fail(t, cmd.Name()+" long should start with upper-case: "+cmd.Long)
 		}
 	})
 }

@@ -13,14 +13,15 @@ import (
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list --type TYPE",
-		Short: "list all types of settings available",
+		Short: "list all settings",
+		Long:  "List all settings of a certain type. To list all types run \"sts settings list-types\".",
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
 	}
-	cmd.Flags().StringP(TypeName, "", "", "example: ComponentType")
+	cmd.Flags().StringP(TypeName, "", "", "name of the setting type to list")
 	cmd.MarkFlagRequired(TypeName) //nolint:errcheck
 
-	cmd.Flags().StringP(Namespace, "n", "", "name of the namespace")
-	cmd.Flags().StringP(OwnedBy, "w", "", "name of the owner")
+	cmd.Flags().StringP(Namespace, "n", "", "filter by namespace")
+	cmd.Flags().StringP(OwnedBy, "w", "", "filter by owner")
 
 	return cmd
 }
@@ -33,15 +34,15 @@ func RunSettingsListCommand(
 ) common.CLIError {
 	typeName, err := cmd.Flags().GetString(TypeName)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	nameSpace, err := cmd.Flags().GetString(Namespace)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	ownedBy, err := cmd.Flags().GetString(OwnedBy)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	apiClient := api.NodeApi.TypeList(cli.Context, typeName)
@@ -58,7 +59,7 @@ func RunSettingsListCommand(
 	}
 	var respData []map[string]interface{}
 	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIError(err, resp)
 	}
 
 	data := make([][]interface{}, 0)

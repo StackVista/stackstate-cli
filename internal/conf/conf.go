@@ -44,6 +44,10 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
 		vp.Set("no-color", true)
 	}
+	// Implementation of https://no-color.org/
+	if _, noColorEnvExists := os.LookupEnv("NO_COLOR"); noColorEnvExists {
+		vp.Set("no-color", true)
+	}
 	vp.BindEnv("output", "STS_CLI_OUTPUT")
 
 	// bind flags

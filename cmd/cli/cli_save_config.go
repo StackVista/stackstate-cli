@@ -11,22 +11,22 @@ import (
 )
 
 const (
-	TestConnectFlagName = "test-connect"
+	SkipValidateFlagName = "skip-validate"
 )
 
 func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "save-config --api-url API-URL --api-token API-TOKEN",
-		Short: "save CLI configuration to file",
-		Example: "# save a new API token to the config file and test the connection" +
-			" - WARNING this will overwrite the saved config\n" +
-			`cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api" --test-connect`,
+		Short: "save CLI configuration",
+		Long:  "Save the configuration of this CLI to disk.",
+		Example: "# save a new API token to the config file" +
+			`sts cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api"`,
 		RunE: cli.CmdRunE(RunCliSaveConfig),
 	}
 	cmd.Flags().Bool(
-		TestConnectFlagName,
+		SkipValidateFlagName,
 		false,
-		"test the connection to StackState after configuration has been saved to file",
+		"skip validating the connection before saving",
 	)
 
 	return cmd
@@ -47,26 +47,31 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
 	}
 
+	// this is really only necessary for testing
+	// in production this should've already been handled by Viper
+	cli.Config.ApiURL = apiURL
+	cli.Config.ApiToken = apiToken
+
 	// get test-connect flag
-	testConnect, err := cmd.Flags().GetBool(TestConnectFlagName)
+	skipValidate, err := cmd.Flags().GetBool(SkipValidateFlagName)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
+	}
+
+	// test connect
+	if !skipValidate {
+		err := testConect(cli)
+		if err != nil {
+			return err
+		}
 	}
 
 	// write config
-	filename, err := conf.WriteConf(conf.Conf{
-		ApiURL:   apiURL,
-		ApiToken: apiToken,
-	})
+	filename, err := conf.WriteConf(*cli.Config)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIError(err, nil)
 	}
 	cli.Printer.Success("Config saved to: " + filename)
-
-	// test connect
-	if testConnect {
-		return testConect(cli)
-	}
 
 	return nil
 }

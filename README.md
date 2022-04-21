@@ -106,6 +106,12 @@ When you have an error related to the input of the CLI you should use a `CLIErro
 * No full stop (`.`) at the end
 * Start with a verb and then describe what that verb works on. This should provide more info than the command.
 
+`Long:` - a description of the command:
+* Start with upper case
+* Full stop (`.`) at the end
+* Can be multiple sentences.
+* Do not use too many abbreviations.
+
 `Example:` - copy/paste examples of command usage:
 * Each example should start with a commented description of what it does.
   * Start with a lower case letter
