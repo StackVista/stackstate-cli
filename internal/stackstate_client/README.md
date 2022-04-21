@@ -99,10 +99,12 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**DryRunMonitor**](docs/MonitorApi.md#dryrunmonitor) | **Post** /monitor/{monitorId}/dryRun | Dry run a monitor and show a result
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitor/{monitorId} | Get a monitor
+*MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitor/{monitorId}/status | Get a monitor with stream information
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitor/{monitorId}/run | Run a monitor
 *MonitorUrnApi* | [**DeleteMonitorByURN**](docs/MonitorUrnApi.md#deletemonitorbyurn) | **Delete** /monitorUrn/{monitorUrnId} | Delete a monitor
 *MonitorUrnApi* | [**DryRunMonitorByURN**](docs/MonitorUrnApi.md#dryrunmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/dryRun | Dry run a monitor and show a result
 *MonitorUrnApi* | [**GetMonitorByURN**](docs/MonitorUrnApi.md#getmonitorbyurn) | **Get** /monitorUrn/{monitorUrnId} | Get a monitor
+*MonitorUrnApi* | [**GetMonitorWithStatusByURN**](docs/MonitorUrnApi.md#getmonitorwithstatusbyurn) | **Get** /monitorUrn/{monitorUrnId}/status | Get a monitor with stream information
 *MonitorUrnApi* | [**RunMonitorByURN**](docs/MonitorUrnApi.md#runmonitorbyurn) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
@@ -169,6 +171,7 @@ Class | Method | HTTP request | Description
  - [MonitorList](docs/MonitorList.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
+ - [MonitorStatus](docs/MonitorStatus.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)

@@ -133,7 +133,7 @@ components:
           type: string
         version:
           type: string
-        mconfigurations:
+        configurations:
           type: array
           items:
             type: object
