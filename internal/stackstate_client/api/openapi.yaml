@@ -1605,8 +1605,14 @@ components:
           version: version
         displayName: displayName
         configurations:
-        - stackPackVersion: stackPackVersion
-        - stackPackVersion: stackPackVersion
+        - lastUpdateTimestamp: ""
+          stackPackVersion: stackPackVersion
+          id: ""
+          status: status
+        - lastUpdateTimestamp: ""
+          stackPackVersion: stackPackVersion
+          id: ""
+          status: status
         name: name
         version: version
         nextVersion:
@@ -3214,10 +3220,21 @@ components:
       type: object
     Sstackpack_configurations:
       example:
+        lastUpdateTimestamp: ""
         stackPackVersion: stackPackVersion
+        id: ""
+        status: status
       properties:
+        id:
+          type: int64
+        status:
+          type: string
+        lastUpdateTimestamp:
+          type: int64
         stackPackVersion:
           type: string
+      required:
+      - lastUpdateTimestamp
       type: object
     Sstackpack_latestVersion:
       example:

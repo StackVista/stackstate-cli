@@ -13,6 +13,7 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	}
 	cmd.AddCommand(stackpack.StackpackUploadCommand(cli))
 	cmd.AddCommand(stackpack.StackpackListCommand(cli))
+	cmd.AddCommand(stackpack.StackpackListInstanceCommand(cli))
 
 	return cmd
 }
