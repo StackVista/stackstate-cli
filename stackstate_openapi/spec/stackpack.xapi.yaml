@@ -138,8 +138,16 @@ components:
           items:
             type: object
             properties:
+              id:
+                type: int64
+              status:
+                type: string
+              lastUpdateTimestamp:
+                type: int64
               stackPackVersion:
                 type: string
+            required:
+              - lastUpdateTimestamp
         latestVersion:
           type: object
           properties:

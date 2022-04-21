@@ -67,6 +67,8 @@ func ToString(x interface{}) string {
 	switch v := x.(type) {
 	case *string:
 		return SafeStringPtrToString(v)
+	case *int64:
+		return SafeIntPointerToString(v)
 	case float64:
 		i, err := safeConvertFloat64ToInt64(v)
 		if err != nil {
@@ -93,7 +95,7 @@ func safeConvertFloat64ToInt64(f float64) (int64, error) {
 
 func SafeStringPtrToString(s *string) string {
 	if s == nil {
-		return ""
+		return "-"
 	} else {
 		return *s
 	}
