@@ -52,11 +52,12 @@ func TestStackpackListPrintToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list")
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
-			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
-			StructData: mockResponse,
+			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data:                [][]interface{}{{&name, &displayName, &version, version, version, 1}},
+			StructData:          mockResponse,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},
 	}
 
@@ -67,6 +68,8 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 	name := "ucmdb"
 	displayName := "HP UCMDB"
 	version := "0.1.1"
+	nextVersion := "0.1.2"
+	latestVersion := "0.2.0"
 	installedStackPack := stackstate_client.Sstackpack{
 		Name:        &name,
 		DisplayName: &displayName,
@@ -77,10 +80,10 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 			},
 		},
 		NextVersion: &stackstate_client.SstackpackLatestVersion{
-			Version: &version,
+			Version: &nextVersion,
 		},
 		LatestVersion: &stackstate_client.SstackpackLatestVersion{
-			Version: &version,
+			Version: &latestVersion,
 		},
 	}
 	mockResponse := []stackstate_client.Sstackpack{
@@ -100,11 +103,12 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list", "--installed")
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
-			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
-			StructData: []stackstate_client.Sstackpack{installedStackPack},
+			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data:                [][]interface{}{{&name, &displayName, &version, nextVersion, latestVersion, 1}},
+			StructData:          []stackstate_client.Sstackpack{installedStackPack},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},
 	}
 

@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -33,11 +34,12 @@ func RunSettingsListTypesCommand(cmd *cobra.Command,
 		data = append(data, []interface{}{nodeType.TypeName, nodeType.Description})
 	}
 
-	cli.Printer.Table(
-		[]string{"name", "description"},
-		data,
-		nodeTypes,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:              []string{"name", "description"},
+		Data:                data,
+		StructData:          nodeTypes,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "setting types"},
+	})
 
 	return nil
 }

@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -56,10 +57,11 @@ func RunStackpackListInstanceCommand(
 			respData = append(respData, conf)
 		}
 	}
-	cli.Printer.Table(
-		[]string{"id", "status", "version", "last updated"},
-		data,
-		respData,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:              []string{"id", "status", "version", "last updated"},
+		Data:                data,
+		StructData:          respData,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
+	})
 	return nil
 }

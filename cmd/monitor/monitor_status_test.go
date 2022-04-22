@@ -76,16 +76,16 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 	expectedPrintlnCalls := []string{"", "Synchronized check state count: 0", "Repeat interval (Seconds): 0",
 		"Expiry (Seconds): 7", "", "Synchronization errors:", "", "Synchronization metrics:", "",
 		"Check states with identifier matching exactly 1 topology element: 0"}
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
 			Header:     []string{"code", "level", "message", "occurrence count"},
-			Data:       [][]string{{"SubStreamStopWithoutStart", "ERROR", "Error", "11"}},
+			Data:       [][]interface{}{{"SubStreamStopWithoutStart", "ERROR", "Error", int32(11)}},
 			StructData: monitorStatusResult,
 		},
 		{
 			Header: []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
 				"value between 0 and 0 seconds ago"},
-			Data: [][]string{{"latency (Seconds)"}, {"messages processed (per second)"},
+			Data: [][]interface{}{{"latency (Seconds)"}, {"messages processed (per second)"},
 				{"check states created (per second)"}, {"check states updated (per second)"},
 				{"check states deleted (per second)"}},
 			StructData: monitorStatusResult,

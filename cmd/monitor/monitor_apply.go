@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -54,8 +55,13 @@ func RunMonitorApplyCommand(
 		tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).", len(nodes)))
-	cli.Printer.PrintLn("")
-	cli.Printer.Table([]string{"Type", "Id", "Identifier", "Name"}, tableData, nodes)
+	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> monitor(s).", len(nodes)))
+	if len(nodes) > 0 {
+		cli.Printer.Table(printer.TableData{
+			Header:     []string{"Type", "Id", "Identifier", "Name"},
+			Data:       tableData,
+			StructData: nodes,
+		})
+	}
 	return nil
 }

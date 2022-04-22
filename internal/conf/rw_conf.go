@@ -22,7 +22,7 @@ type ReadConfError struct {
 
 func (s ReadConfError) Error() string {
 	if s.IsMissingConfigFile {
-		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. Try running `sts cli save-config --help`", s.RootCause)
+		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. To create one checkout `sts cli save-config --help`", s.RootCause)
 	} else {
 		return fmt.Sprintf("could not load StackState CLI config\n%s", s.RootCause)
 	}

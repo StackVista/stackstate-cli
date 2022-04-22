@@ -166,14 +166,20 @@ func TestPrintCLIErrorWithNilResponseWithColor(t *testing.T) {
 func TestPrintTableWithoutColor(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(false)
-	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
+	p.Table(TableData{
+		Header: []string{"A", "B"},
+		Data:   [][]interface{}{{"1", "2"}},
+	})
 	assert.Equal(t, "A | B\n1 | 2\n", stdOut.String())
 }
 
 func TestPrintTableWithColor(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(true)
-	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
+	p.Table(TableData{
+		Header: []string{"A", "B"},
+		Data:   [][]interface{}{{"1", "2"}},
+	})
 	assert.Equal(t, "\x1b[36mA\x1b[0m\x1b[36m | \x1b[0m\x1b[36mB\x1b[0m\n1 | 2\n", stdOut.String())
 }
 
@@ -181,10 +187,13 @@ func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(false)
 	p.MaxWidth = 25
-	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
-		{"1", "2", "3"},
-		{"hello darkness my old friend", "I've come to talk to you again", "Because a vision softly creeping"},
-	}, nil)
+	p.Table(TableData{
+		Header: []string{"Hello", "Foo", "World"},
+		Data: [][]interface{}{
+			{"1", "2", "3"},
+			{"hello darkness my old friend", "I've come to talk to you again", "Because a vision softly creeping"},
+		},
+	})
 
 	expected := `HELLO  | FOO    | WORLD 
 1      | 2      | 3     
@@ -202,9 +211,12 @@ func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(false)
 	p.MaxWidth = 30
-	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
-		{"hello", "darkness my old friend", "Because a vision softly creeping"},
-	}, nil)
+	p.Table(TableData{
+		Header: []string{"Hello", "Foo", "World"},
+		Data: [][]interface{}{
+			{"hello", "darkness my old friend", "Because a vision softly creeping"},
+		},
+	})
 
 	expected := `HELLO | FOO       | WORLD    
 hello | darkness  | Because a
@@ -227,14 +239,14 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 		d := [][]interface{}{util.StringSliceToInterfaceSlice(data)}
 		if i%2 == 0 {
 			p.MaxWidth = 31
-			p.Table(header1, d, nil)
+			p.Table(TableData{Header: header1, Data: d})
 		} else {
 			if i%3 == 0 {
 				p.MaxWidth = 32
-				p.Table(header2, d, nil)
+				p.Table(TableData{Header: header2, Data: d})
 			} else {
 				p.MaxWidth = 33
-				p.Table(header3, d, nil)
+				p.Table(TableData{Header: header3, Data: d})
 			}
 		}
 		data[0] += "w"
@@ -257,6 +269,31 @@ func TestPrintTableAsStruct(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(false)
 	p.SetOutputType(YAML)
-	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, map[string]interface{}{"A": 1, "B": 2})
+	p.Table(TableData{
+		Header:     []string{"A", "B"},
+		Data:       [][]interface{}{{"1", "2"}},
+		StructData: map[string]interface{}{"A": 1, "B": 2},
+	})
 	assert.Equal(t, "A: 1\nB: 2\n", stdOut.String())
+}
+
+func TestPrintTableNoData(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
+	p.Table(TableData{
+		Header: []string{"A", "B"},
+		Data:   [][]interface{}{},
+	})
+	assert.Equal(t, NoTableDataDefaultMsg+"\n", stdOut.String())
+}
+
+func TestPrintTableNoDataCustomMessage(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
+	p.Table(TableData{
+		Header:              []string{"A", "B"},
+		Data:                [][]interface{}{},
+		MissingTableDataMsg: NotFoundMsg{Types: "cats"},
+	})
+	assert.Equal(t, "No cats found.\n", stdOut.String())
 }

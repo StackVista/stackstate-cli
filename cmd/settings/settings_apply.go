@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -96,7 +97,13 @@ func RunSettingsApplyCommand(
 	}
 
 	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).\n", len(nodes)))
-	cli.Printer.Table([]string{"Type", "Id", "Identifier", "Name"}, tableData, nodes)
+	if len(nodes) > 0 {
+		cli.Printer.Table(printer.TableData{
+			Header:     []string{"Type", "Id", "Identifier", "Name"},
+			Data:       tableData,
+			StructData: nodes,
+		})
+	}
 
 	return nil
 }

@@ -39,7 +39,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 			LastUpdateTimestamp: 1438167001716,
 		},
 	}
-	expectedUpdateTime := util.TimeToString(time.UnixMilli(1438167001716))
+	expectedUpdateTime := time.UnixMilli(1438167001716)
 	buf := new(bytes.Buffer)
 	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ms_iis_ws"}}); err != nil {
 		t.Fatal(err)
@@ -51,11 +51,12 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType")
 
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
-			Header:     []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:       [][]string{{"ComponentType", "1", identifier, name, owner, expectedUpdateTime}},
-			StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
+			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}},
+			StructData:          []map[string]interface{}{{"name": "ms_iis_ws"}},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type ComponentType"},
 		},
 	}
 
@@ -78,7 +79,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 			LastUpdateTimestamp: 1438167001716,
 		},
 	}
-	expectedUpdateTime := util.TimeToString(time.UnixMilli(1438167001716))
+	expectedUpdateTime := time.UnixMilli(1438167001716)
 	buf := new(bytes.Buffer)
 	if err := json.NewEncoder(buf).Encode([]map[string]interface{}{{"name": "ms_iis_ws"}}); err != nil {
 		t.Fatal(err)
@@ -92,11 +93,12 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 		"-n", "component",
 		"-w", "urn:stackpack:stackstate-self-health:shared")
 
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
-			Header:     []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:       [][]string{{"ComponentType", "1", identifier, name, owner, expectedUpdateTime}},
-			StructData: []map[string]interface{}{{"name": "ms_iis_ws"}},
+			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}},
+			StructData:          []map[string]interface{}{{"name": "ms_iis_ws"}},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type ComponentType"},
 		},
 	}
 
