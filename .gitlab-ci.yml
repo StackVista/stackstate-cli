@@ -78,17 +78,12 @@ compile_test:
     - go test ./...
   tags:
     - sts-k8s-xl-runner
-  artifacts:
-    paths:
-      - dist/
-    untracked: false
-    expire_in: 30 days
 
 publish:
   stage: deploy
   extends: .go-base
   script:
-  - goreleaser release 
+  - goreleaser release --skip-validate
   tags:
     - sts-k8s-xl-runner
   # rules:
