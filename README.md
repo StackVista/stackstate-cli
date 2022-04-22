@@ -16,11 +16,17 @@ It also possible to use nix phases to test `nix develop --check` and build the a
 
 ## How to create a new release
 
- * Create a release branch
- * Tag the branch with a semantic version
- * Merge the branch to master
- * Publish pipeline will automatically take care of everything
+ 1. Determine the semantic version number you want to use:
+    - Breaking change? Major version! This should never happen after the initial release!
+    - New commands and/or flags? Minor version.
+    - Bugfixes/improvements of existing commands? Patch version.
+ 2. Tag and push the commit you wish to release with a tag of the format "v${version}":
 
+```sh
+git tag v1.2.1 -m "v1.2.1"
+git push origin v1.2.1
+```
+ 
 ## Nix installation
 
 Install Nix package manager by following the [official installation instructions](https://nixos.org/download.html).
