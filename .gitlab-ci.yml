@@ -8,8 +8,6 @@ image: "golang:latest"
 
 stages:
   - check
-  - build
-  - test
   - deploy
 
 .go-base:
@@ -33,6 +31,12 @@ lint:
 license_scanning:
   stage: check
   image: "registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3"
+  rules:
+    - changes:
+      - go.mod
+      - go.sum
+      - flake.nix
+      - flake.lock
   variables:
     LM_REPORT_VERSION: '2.1'
   allow_failure: true
@@ -45,6 +49,12 @@ license_scanning:
 dependency_scanning:
   stage: check
   image: "registry.gitlab.com/gitlab-org/security-products/analyzers/gemnasium:2"
+  rules:
+    - changes:
+      - go.mod
+      - go.sum
+      - flake.nix
+      - flake.lock
   script:
     - /analyzer run
   allow_failure: true
@@ -61,11 +71,11 @@ goreleaser_check:
   script:
     - goreleaser check
 
-compile:
-  stage: build
+compile_test:
+  stage: check
   extends: .go-base
   script:
-  - goreleaser build --rm-dist --snapshot
+    - go test ./...
   tags:
     - sts-k8s-xl-runner
   artifacts:
@@ -74,17 +84,7 @@ compile:
     untracked: false
     expire_in: 30 days
 
-test:
-  stage: test
-  extends: .go-base
-  tags:
-    - sts-k8s-xl-runner
-  script:
-    - go test ./...
-
 publish:
-  # needs:
-  # - test
   stage: deploy
   extends: .go-base
   script:
