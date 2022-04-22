@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -46,11 +47,11 @@ func RunStackpackUploadCommand(
 	}
 
 	cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", filePath))
-	cli.Printer.Table(
-		[]string{"name", "display name", "version"},
-		[][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
-		stackpack,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:     []string{"name", "display name", "version"},
+		Data:       [][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
+		StructData: stackpack,
+	})
 
 	return nil
 }

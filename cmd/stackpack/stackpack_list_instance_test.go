@@ -3,7 +3,6 @@ package stackpack
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"testing"
@@ -34,7 +33,7 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 	id := int64(12345)
 
 	unknownName := "unknown"
-	expectedUpdateTime := util.TimeToString(time.UnixMilli(1438167001716))
+	expectedUpdateTime := time.UnixMilli(1438167001716)
 	mockResponse := []stackstate_client.Sstackpack{
 		{
 			Name: &testName,
@@ -67,10 +66,10 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list-instances", "--name", testName)
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
 			Header: []string{"id", "status", "version", "last updated"},
-			Data:   [][]string{{fmt.Sprintf("%d", id), statusInstalled, testVersion, expectedUpdateTime}},
+			Data:   [][]interface{}{{&id, &statusInstalled, &testVersion, expectedUpdateTime}},
 			StructData: []stackstate_client.SstackpackConfigurations{
 				{
 					Id:                  &id,
@@ -79,6 +78,7 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 					LastUpdateTimestamp: 1438167001716,
 				},
 			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 		},
 	}
 

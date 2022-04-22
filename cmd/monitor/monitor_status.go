@@ -6,6 +6,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
@@ -81,14 +82,14 @@ func RunMonitorStatusCommand(
 
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronization metrics:")
-	cli.Printer.Table(
-		[]string{"metric",
+	cli.Printer.Table(printer.TableData{
+		Header: []string{"metric",
 			"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
 			"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
 			"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
-		metricsData,
-		monitorStatus,
-	)
+		Data:       metricsData,
+		StructData: monitorStatus,
+	})
 
 	topologyMatchResult := monitorStatus.TopologyMatchResult
 	cli.Printer.PrintLn("")
@@ -121,11 +122,11 @@ func PrintErrors(cli *di.Deps,
 		})
 	}
 
-	cli.Printer.Table(
-		[]string{"code", "level", "message", "occurrence count"},
-		data,
-		monitorStatus,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:     []string{"code", "level", "message", "occurrence count"},
+		Data:       data,
+		StructData: monitorStatus,
+	})
 }
 
 func PrintTopologyMatchResultUnmatched(cli *di.Deps,
@@ -142,11 +143,11 @@ func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 		})
 	}
 
-	cli.Printer.Table(
-		[]string{"check state id", "topology element identifier"},
-		unmatchedData,
-		monitorStatus,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:     []string{"check state id", "topology element identifier"},
+		Data:       unmatchedData,
+		StructData: monitorStatus,
+	})
 }
 
 func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
@@ -164,11 +165,11 @@ func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
 		})
 	}
 
-	cli.Printer.Table(
-		[]string{"check state id", "topology element identifier", "number of matched topology elements"},
-		multipleMatched,
-		monitorStatus,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:     []string{"check state id", "topology element identifier", "number of matched topology elements"},
+		Data:       multipleMatched,
+		StructData: monitorStatus,
+	})
 }
 
 func CreateMetricRows(metric string, metrics []stackstate_client.MetricBucketValue) []interface{} {

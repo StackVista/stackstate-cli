@@ -2,29 +2,19 @@ package printer
 
 import (
 	"net/http"
-
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
-
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
 type MockPrinter struct {
 	PrintStructCalls  *[]interface{}
 	PrintErrCalls     *[]error
-	StartSpinnerCalls *[]common.LoadingMsg
+	StartSpinnerCalls *[]LoadingMsg
 	StopSpinnerCalls  *int
 	UseColor          bool
 	outputType        OutputType
 	SuccessCalls      *[]string
 	PrintWarnCalls    *[]string
-	TableCalls        *[]TableCall
+	TableCalls        *[]TableData
 	PrintLnCalls      *[]string
-}
-
-type TableCall struct {
-	Header     []string
-	Data       [][]string
-	StructData interface{}
 }
 
 type PrintErrResponseCall struct {
@@ -35,10 +25,10 @@ type PrintErrResponseCall struct {
 func NewMockPrinter() MockPrinter {
 	printStructCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
-	startSpinnerCalls := make([]common.LoadingMsg, 0)
+	startSpinnerCalls := make([]LoadingMsg, 0)
 	successCalls := make([]string, 0)
 	printWarnCalls := make([]string, 0)
-	printTableCalls := make([]TableCall, 0)
+	printTableCalls := make([]TableData, 0)
 	printLnCalls := make([]string, 0)
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
@@ -60,7 +50,7 @@ func (p *MockPrinter) PrintErr(err error) {
 	*p.PrintErrCalls = append(*p.PrintErrCalls, err)
 }
 
-func (p *MockPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
+func (p *MockPrinter) StartSpinner(loadingMsg LoadingMsg) StopPrinterFn {
 	*p.StartSpinnerCalls = append(*p.StartSpinnerCalls, loadingMsg)
 	return func() {}
 }
@@ -89,9 +79,8 @@ func (p *MockPrinter) PrintWarn(msg string) {
 	*p.PrintWarnCalls = append(*p.PrintWarnCalls, msg)
 }
 
-func (p *MockPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
-	dataStr := util.ToStringSlice(data)
-	*p.TableCalls = append(*p.TableCalls, TableCall{header, dataStr, structData})
+func (p *MockPrinter) Table(t TableData) {
+	*p.TableCalls = append(*p.TableCalls, t)
 }
 
 func (p *MockPrinter) PrintLn(text string) {

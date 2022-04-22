@@ -26,15 +26,22 @@ type Printer interface {
 	// Expects s to be JSON or YAML serializable. Will print an error otherwise
 	PrintStruct(s interface{})
 	PrintErr(err error)
-	StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn
+	StartSpinner(loadingMsg LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
 	PrintWarn(msg string)
 	Success(msg string)
-	Table(header []string, data [][]interface{}, structData interface{})
+	Table(t TableData)
 	PrintLn(text string)
+}
+
+type TableData struct {
+	Header              []string
+	Data                [][]interface{}
+	StructData          interface{}
+	MissingTableDataMsg MissingTableDataMsg
 }
 
 const (
@@ -199,7 +206,7 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 	)
 }
 
-func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
+func (p *StdPrinter) StartSpinner(loadingMsg LoadingMsg) StopPrinterFn {
 	if p.useColor {
 		s, _ := pterm.DefaultSpinner.WithRemoveWhenDone().WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
 		return func() {
@@ -245,8 +252,17 @@ func (p *StdPrinter) PrintWarn(msg string) {
 	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), util.UcFirst(msg))
 }
 
-func (p *StdPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
+func (p *StdPrinter) Table(t TableData) {
 	if p.outputType == Auto {
+		if len(t.Data) == 0 {
+			missingMsg := NoTableDataDefaultMsg
+			if t.MissingTableDataMsg != nil {
+				missingMsg = t.MissingTableDataMsg.String()
+			}
+			p.PrintLn(missingMsg)
+			return
+		}
+
 		tw := table.NewWriter()
 		tw.Style().Options.DrawBorder = false
 		tw.Style().Options.SeparateHeader = false
@@ -258,10 +274,10 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 			tw.Style().Color.Header = text.Colors{text.FgCyan}
 		}
 
-		tw.AppendHeader(util.StringSliceToInterfaceSlice(header))
+		tw.AppendHeader(util.StringSliceToInterfaceSlice(t.Header))
 
 		rows := make([]table.Row, 0)
-		for _, row := range data {
+		for _, row := range t.Data {
 			columns := make(table.Row, 0)
 			for _, v := range row {
 				value := util.ToString(v)
@@ -270,9 +286,9 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 			rows = append(rows, columns)
 		}
 
-		adjustedColumnWidths := calcColumnWidth(header, data, p.MaxWidth, tw.Style().Box)
-		columnConfigs := make([]table.ColumnConfig, len(header))
-		for i, h := range header {
+		adjustedColumnWidths := calcColumnWidth(t.Header, t.Data, p.MaxWidth, tw.Style().Box)
+		columnConfigs := make([]table.ColumnConfig, len(t.Header))
+		for i, h := range t.Header {
 			columnConfigs = append(columnConfigs, table.ColumnConfig{
 				Name:     h,
 				WidthMax: adjustedColumnWidths[i],
@@ -283,7 +299,7 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 		tw.AppendRows(rows)
 		fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
 	} else {
-		p.PrintStruct(structData)
+		p.PrintStruct(t.StructData)
 	}
 }
 

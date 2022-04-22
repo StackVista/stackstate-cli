@@ -45,10 +45,10 @@ func TestUploadStackPackSuccess(t *testing.T) {
 
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name())
 
-	expectedTableCall := []printer.TableCall{
+	expectedTableCall := []printer.TableData{
 		{
 			Header:     []string{"name", "display name", "version"},
-			Data:       [][]string{{"test", "display test", "1.0.0"}},
+			Data:       [][]interface{}{{"test", "display test", "1.0.0"}},
 			StructData: stackpack,
 		},
 	}

@@ -118,4 +118,4 @@ brews:
   description: StackState CLI
   homepage: https://docs.stackstate.com
   url_template: https://dl.stackstate.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
-  goarm: "6"
+  caveats: "Run `sts` to get going!"

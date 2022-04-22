@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -74,10 +75,11 @@ func RunSettingsListCommand(
 			lastUpdateTime,
 		})
 	}
-	cli.Printer.Table(
-		[]string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-		data,
-		respData,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+		Data:                data,
+		StructData:          respData,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type " + typeName},
+	})
 	return nil
 }
