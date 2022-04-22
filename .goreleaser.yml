@@ -62,21 +62,6 @@ builds:
   env:
   - CGO_ENABLED=0
   - GO111MODULE=on
-# Build Mac OS universal binaries that work for both Intel as well as the new M1 chips
-# see https://goreleaser.com/customization/universalbinaries/
-universal_binaries:
--
-  id: stackstate-cli-full
-  ids:
-  - stackstate-cli-full
-  name_template: '{{.ProjectName}}-full-{{.Version}}'
-  replace: true
--
-  id: stackstate-cli-saas
-  ids:
-  - stackstate-cli-saas
-  name_template: '{{.ProjectName}}-saas-{{.Version}}'
-  replace: true
 archives:
 - id: stackstate-cli-full
   builds:
@@ -115,22 +100,22 @@ blobs:
     ids:
       - stackstate-cli-full
       - stackstate-cli-saas
-# brews:
-# - name: "{{ .ProjectName }}"-full
-#   ids:
-#     - stackstate-cli-full
-#   tap:
-#     owner: stackvista
-#     name: homebrew-tap
-#   commit_author:
-#     name: stackstatebot
-#     email: sts-admin@stackstate.com
-#   folder: Formula
-#   install: |
-#     bin.install "sts"
-#   test: |
-#     system "#{bin}/sts", "version"
-#   description: StackState CLI
-#   homepage: https://docs.stackstate.com
-#   url_template: https://stseuw1-tooling-main-homebrew.s3-eu-west-1.amazonaws.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
-#   goarm: "6"
+brews:
+- name: stackstate-cli
+  ids:
+    - stackstate-cli-full
+  tap:
+    owner: stackvista
+    name: homebrew-tap
+  commit_author:
+    name: stackstatebot
+    email: sts-admin@stackstate.com
+  folder: Formula
+  install: |
+    bin.install "sts"
+  test: |
+    system "#{bin}/sts", "version"
+  description: StackState CLI
+  homepage: https://docs.stackstate.com
+  url_template: https://dl.stackstate.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
+  goarm: "6"
