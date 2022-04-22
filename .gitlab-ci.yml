@@ -27,6 +27,14 @@ lint:
   stage: check
   script:
     - golangci-lint run
+  rules:
+    - changes:
+      - go.mod
+      - go.sum
+      - flake.lock
+      - flake.nix
+      - cmd/**
+      - internal/**
 
 license_scanning:
   stage: check
@@ -74,6 +82,14 @@ goreleaser_check:
 compile_test:
   stage: check
   extends: .go-base
+  rules:
+    - changes:
+      - go.mod
+      - go.sum
+      - flake.lock
+      - flake.nix
+      - cmd/**
+      - internal/**
   script:
     - go test ./...
   tags:
