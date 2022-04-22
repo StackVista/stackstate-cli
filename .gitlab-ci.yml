@@ -1,6 +1,8 @@
 variables:
   GORELEASER_TAG: "v1.7.0"
   GORELEASER_IMAGE: "goreleaser/goreleaser:${GORELEASER_TAG}"
+  GOLANGCI_LINT_TAG: "v1.44.2"
+  GOLANGCI_LINT_IMAGE: "golangci/golangci-lint:${GOLANGCI_LINT_TAG}"
 
 image: "golang:latest"
 
@@ -23,7 +25,7 @@ stages:
       - /go/pkg/mod/
 
 lint:
-  image: golangci/golangci-lint:v1.44.2
+  image: ${GOLANGCI_LINT_IMAGE}
   stage: check
   script:
     - golangci-lint run
@@ -53,6 +55,9 @@ dependency_scanning:
 goreleaser_check:
   stage: check
   extends: .go-base
+  rules:
+    - changes:
+      - .goreleaser.yml
   script:
     - goreleaser check
 
@@ -77,30 +82,16 @@ test:
   script:
     - go test ./...
 
-gorelease:
-  needs:
-  - test
+publish:
+  # needs:
+  # - test
   stage: deploy
   extends: .go-base
-  image:
-    name: docker:19.03.12
   script:
-  - docker pull ${GORELEASER_IMAGE}
-  - docker run --rm --privileged=true -v $PWD:/src -w /src -v /var/run/docker.sock:/var/run/docker.sock -e GITLAB_TOKEN -e DOCKER_USERNAME -e DOCKER_PASSWORD -e DOCKER_REGISTRY -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY -e AWS_DEFAULT_REGION ${GORELEASER_IMAGE} release --rm-dist
+  - goreleaser release 
   tags:
     - sts-k8s-xl-runner
-  rules:
-    - if: $CI_COMMIT_TAG
-      when: always
-    - when: never
-  services:
-    - name: docker:19.03.12-dind
-      command:
-        - --experimental
-  variables:
-    DOCKER_DRIVER: overlay2
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-    DOCKER_REGISTRY: quay.io
-    DOCKER_USERNAME: $quay_user
-    DOCKER_PASSWORD: $quay_password
+  # rules:
+  #   - if: $CI_COMMIT_TAG
+  #     when: always
+  #   - when: never

@@ -115,22 +115,22 @@ blobs:
     ids:
       - stackstate-cli-full
       - stackstate-cli-saas
-# brews:
-# - name: "{{ .ProjectName }}"-full
-#   ids:
-#     - stackstate-cli-full
-#   tap:
-#     owner: stackvista
-#     name: homebrew-tap
-#   commit_author:
-#     name: stackstatebot
-#     email: sts-admin@stackstate.com
-#   folder: Formula
-#   install: |
-#     bin.install "sts"
-#   test: |
-#     system "#{bin}/sts", "version"
-#   description: StackState CLI
-#   homepage: https://docs.stackstate.com
-#   url_template: https://stseuw1-tooling-main-homebrew.s3-eu-west-1.amazonaws.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
-#   goarm: "6"
+brews:
+- name: stackstate-cli
+  ids:
+    - stackstate-cli-full
+  tap:
+    owner: stackvista
+    name: homebrew-tap
+  commit_author:
+    name: stackstatebot
+    email: sts-admin@stackstate.com
+  folder: Formula
+  install: |
+    bin.install "sts"
+  test: |
+    system "#{bin}/sts", "version"
+  description: StackState CLI
+  homepage: https://docs.stackstate.com
+  url_template: https://dl.stackstate.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
+  goarm: "6"
