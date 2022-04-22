@@ -38,7 +38,7 @@ type CmdWithApiFn = func(
 	*cobra.Command,
 	*Deps,
 	*stackstate_client.APIClient,
-	stackstate_client.ServerInfo,
+	*stackstate_client.ServerInfo,
 ) common.CLIError
 
 func (cli *Deps) CmdRunEWithApi(

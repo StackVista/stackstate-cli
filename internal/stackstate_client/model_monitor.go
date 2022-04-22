@@ -64,7 +64,7 @@ func (o *Monitor) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Monitor) GetIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -88,7 +88,7 @@ func (o *Monitor) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Monitor) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -176,7 +176,7 @@ func (o *Monitor) GetFunctionId() int64 {
 // GetFunctionIdOk returns a tuple with the FunctionId field value
 // and a boolean to check if the value has been set.
 func (o *Monitor) GetFunctionIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.FunctionId, true
@@ -199,11 +199,11 @@ func (o *Monitor) GetParameters() map[string]interface{} {
 
 // GetParametersOk returns a tuple with the Parameters field value
 // and a boolean to check if the value has been set.
-func (o *Monitor) GetParametersOk() (*map[string]interface{}, bool) {
-	if o == nil  {
+func (o *Monitor) GetParametersOk() (map[string]interface{}, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Parameters, true
+	return o.Parameters, true
 }
 
 // SetParameters sets field value
@@ -256,7 +256,7 @@ func (o *Monitor) GetTopologyMapping() string {
 // GetTopologyMappingOk returns a tuple with the TopologyMapping field value
 // and a boolean to check if the value has been set.
 func (o *Monitor) GetTopologyMappingOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TopologyMapping, true
@@ -280,7 +280,7 @@ func (o *Monitor) GetIntervalSeconds() int32 {
 // GetIntervalSecondsOk returns a tuple with the IntervalSeconds field value
 // and a boolean to check if the value has been set.
 func (o *Monitor) GetIntervalSecondsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IntervalSeconds, true

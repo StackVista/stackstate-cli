@@ -20,7 +20,7 @@ type HealthStreamStatus struct {
 	Partition int32 `json:"partition"`
 	ConsistencyModel string `json:"consistencyModel"`
 	RecoverMessage *string `json:"recoverMessage,omitempty"`
-	GlobalErrors *[]HealthStreamError `json:"globalErrors,omitempty"`
+	GlobalErrors []HealthStreamError `json:"globalErrors,omitempty"`
 	AggregateMetrics HealthStreamMetrics `json:"aggregateMetrics"`
 	MainStreamStatus *HealthSubStreamStatus `json:"mainStreamStatus,omitempty"`
 }
@@ -58,7 +58,7 @@ func (o *HealthStreamStatus) GetPartition() int32 {
 // GetPartitionOk returns a tuple with the Partition field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamStatus) GetPartitionOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Partition, true
@@ -82,7 +82,7 @@ func (o *HealthStreamStatus) GetConsistencyModel() string {
 // GetConsistencyModelOk returns a tuple with the ConsistencyModel field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamStatus) GetConsistencyModelOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ConsistencyModel, true
@@ -131,12 +131,12 @@ func (o *HealthStreamStatus) GetGlobalErrors() []HealthStreamError {
 		var ret []HealthStreamError
 		return ret
 	}
-	return *o.GlobalErrors
+	return o.GlobalErrors
 }
 
 // GetGlobalErrorsOk returns a tuple with the GlobalErrors field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthStreamStatus) GetGlobalErrorsOk() (*[]HealthStreamError, bool) {
+func (o *HealthStreamStatus) GetGlobalErrorsOk() ([]HealthStreamError, bool) {
 	if o == nil || o.GlobalErrors == nil {
 		return nil, false
 	}
@@ -154,7 +154,7 @@ func (o *HealthStreamStatus) HasGlobalErrors() bool {
 
 // SetGlobalErrors gets a reference to the given []HealthStreamError and assigns it to the GlobalErrors field.
 func (o *HealthStreamStatus) SetGlobalErrors(v []HealthStreamError) {
-	o.GlobalErrors = &v
+	o.GlobalErrors = v
 }
 
 // GetAggregateMetrics returns the AggregateMetrics field value
@@ -170,7 +170,7 @@ func (o *HealthStreamStatus) GetAggregateMetrics() HealthStreamMetrics {
 // GetAggregateMetricsOk returns a tuple with the AggregateMetrics field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamStatus) GetAggregateMetricsOk() (*HealthStreamMetrics, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.AggregateMetrics, true

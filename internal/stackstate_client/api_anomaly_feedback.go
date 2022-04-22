@@ -13,73 +13,70 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type AnomalyFeedbackApi interface {
 
 	/*
-	AnomalyFeedbackGet 
+	CollectAnomalyFeedback Collect feedback on anomalies
 
 	
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiAnomalyFeedbackGetRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCollectAnomalyFeedbackRequest
 	*/
-	AnomalyFeedbackGet(ctx _context.Context) ApiAnomalyFeedbackGetRequest
+	CollectAnomalyFeedback(ctx context.Context) ApiCollectAnomalyFeedbackRequest
 
-	// AnomalyFeedbackGetExecute executes the request
+	// CollectAnomalyFeedbackExecute executes the request
 	//  @return []FeedbackWithContext
-	AnomalyFeedbackGetExecute(r ApiAnomalyFeedbackGetRequest) ([]FeedbackWithContext, *_nethttp.Response, error)
+	CollectAnomalyFeedbackExecute(r ApiCollectAnomalyFeedbackRequest) ([]FeedbackWithContext, *http.Response, error)
 }
-
 
 // AnomalyFeedbackApiService AnomalyFeedbackApi service
 type AnomalyFeedbackApiService service
 
-type ApiAnomalyFeedbackGetRequest struct {
-	ctx _context.Context
+type ApiCollectAnomalyFeedbackRequest struct {
+	ctx context.Context
 	ApiService AnomalyFeedbackApi
 	startTime *int64
 	endTime *int64
 	history *int64
 }
 
-func (r ApiAnomalyFeedbackGetRequest) StartTime(startTime int64) ApiAnomalyFeedbackGetRequest {
+func (r ApiCollectAnomalyFeedbackRequest) StartTime(startTime int64) ApiCollectAnomalyFeedbackRequest {
 	r.startTime = &startTime
 	return r
 }
-func (r ApiAnomalyFeedbackGetRequest) EndTime(endTime int64) ApiAnomalyFeedbackGetRequest {
+
+func (r ApiCollectAnomalyFeedbackRequest) EndTime(endTime int64) ApiCollectAnomalyFeedbackRequest {
 	r.endTime = &endTime
 	return r
 }
-func (r ApiAnomalyFeedbackGetRequest) History(history int64) ApiAnomalyFeedbackGetRequest {
+
+func (r ApiCollectAnomalyFeedbackRequest) History(history int64) ApiCollectAnomalyFeedbackRequest {
 	r.history = &history
 	return r
 }
 
-func (r ApiAnomalyFeedbackGetRequest) Execute() ([]FeedbackWithContext, *_nethttp.Response, error) {
-	return r.ApiService.AnomalyFeedbackGetExecute(r)
+func (r ApiCollectAnomalyFeedbackRequest) Execute() ([]FeedbackWithContext, *http.Response, error) {
+	return r.ApiService.CollectAnomalyFeedbackExecute(r)
 }
 
 /*
-AnomalyFeedbackGet 
+CollectAnomalyFeedback Collect feedback on anomalies
 
 
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAnomalyFeedbackGetRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCollectAnomalyFeedbackRequest
 */
-func (a *AnomalyFeedbackApiService) AnomalyFeedbackGet(ctx _context.Context) ApiAnomalyFeedbackGetRequest {
-	return ApiAnomalyFeedbackGetRequest{
+func (a *AnomalyFeedbackApiService) CollectAnomalyFeedback(ctx context.Context) ApiCollectAnomalyFeedbackRequest {
+	return ApiCollectAnomalyFeedbackRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -87,26 +84,24 @@ func (a *AnomalyFeedbackApiService) AnomalyFeedbackGet(ctx _context.Context) Api
 
 // Execute executes the request
 //  @return []FeedbackWithContext
-func (a *AnomalyFeedbackApiService) AnomalyFeedbackGetExecute(r ApiAnomalyFeedbackGetRequest) ([]FeedbackWithContext, *_nethttp.Response, error) {
+func (a *AnomalyFeedbackApiService) CollectAnomalyFeedbackExecute(r ApiCollectAnomalyFeedbackRequest) ([]FeedbackWithContext, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		localVarReturnValue  []FeedbackWithContext
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnomalyFeedbackApiService.AnomalyFeedbackGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnomalyFeedbackApiService.CollectAnomalyFeedback")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/anomaly-feedback"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.startTime == nil {
 		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
 	}
@@ -149,7 +144,7 @@ func (a *AnomalyFeedbackApiService) AnomalyFeedbackGetExecute(r ApiAnomalyFeedba
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -159,15 +154,15 @@ func (a *AnomalyFeedbackApiService) AnomalyFeedbackGetExecute(r ApiAnomalyFeedba
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -185,7 +180,7 @@ func (a *AnomalyFeedbackApiService) AnomalyFeedbackGetExecute(r ApiAnomalyFeedba
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -202,45 +197,45 @@ func (a *AnomalyFeedbackApiService) AnomalyFeedbackGetExecute(r ApiAnomalyFeedba
 
 
 type AnomalyFeedbackApiMock struct {
-	AnomalyFeedbackGetCalls *[]AnomalyFeedbackGetCall
-	AnomalyFeedbackGetResponse AnomalyFeedbackGetMockResponse
+	CollectAnomalyFeedbackCalls *[]CollectAnomalyFeedbackCall
+	CollectAnomalyFeedbackResponse CollectAnomalyFeedbackMockResponse
 }	
 
 func NewAnomalyFeedbackApiMock() AnomalyFeedbackApiMock {
-	xAnomalyFeedbackGetCalls := make([]AnomalyFeedbackGetCall, 0)
+	xCollectAnomalyFeedbackCalls := make([]CollectAnomalyFeedbackCall, 0)
 	return AnomalyFeedbackApiMock {
-		AnomalyFeedbackGetCalls: &xAnomalyFeedbackGetCalls,
+		CollectAnomalyFeedbackCalls: &xCollectAnomalyFeedbackCalls,
 	}
 }
 
-type AnomalyFeedbackGetMockResponse struct {
+type CollectAnomalyFeedbackMockResponse struct {
 	Result []FeedbackWithContext
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
-type AnomalyFeedbackGetCall struct {
+type CollectAnomalyFeedbackCall struct {
 	PstartTime *int64
 	PendTime *int64
 	Phistory *int64
 }
 
 
-func (mock AnomalyFeedbackApiMock) AnomalyFeedbackGet(ctx _context.Context) ApiAnomalyFeedbackGetRequest {
-	return ApiAnomalyFeedbackGetRequest{
+func (mock AnomalyFeedbackApiMock) CollectAnomalyFeedback(ctx context.Context) ApiCollectAnomalyFeedbackRequest {
+	return ApiCollectAnomalyFeedbackRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock AnomalyFeedbackApiMock) AnomalyFeedbackGetExecute(r ApiAnomalyFeedbackGetRequest) ([]FeedbackWithContext, *_nethttp.Response, error) {
-	p := AnomalyFeedbackGetCall {
+func (mock AnomalyFeedbackApiMock) CollectAnomalyFeedbackExecute(r ApiCollectAnomalyFeedbackRequest) ([]FeedbackWithContext, *http.Response, error) {
+	p := CollectAnomalyFeedbackCall {
 			PstartTime: r.startTime,
 			PendTime: r.endTime,
 			Phistory: r.history,
 	}
-	*mock.AnomalyFeedbackGetCalls = append(*mock.AnomalyFeedbackGetCalls, p)
-	return mock.AnomalyFeedbackGetResponse.Result, mock.AnomalyFeedbackGetResponse.Response, mock.AnomalyFeedbackGetResponse.Error
+	*mock.CollectAnomalyFeedbackCalls = append(*mock.CollectAnomalyFeedbackCalls, p)
+	return mock.CollectAnomalyFeedbackResponse.Result, mock.CollectAnomalyFeedbackResponse.Response, mock.CollectAnomalyFeedbackResponse.Error
 }
 
 

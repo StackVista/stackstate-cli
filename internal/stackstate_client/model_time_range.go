@@ -55,7 +55,7 @@ func (o *TimeRange) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *TimeRange) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -79,7 +79,7 @@ func (o *TimeRange) GetEnd() int64 {
 // GetEndOk returns a tuple with the End field value
 // and a boolean to check if the value has been set.
 func (o *TimeRange) GetEndOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.End, true
@@ -103,7 +103,7 @@ func (o *TimeRange) GetStart() int64 {
 // GetStartOk returns a tuple with the Start field value
 // and a boolean to check if the value has been set.
 func (o *TimeRange) GetStartOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Start, true

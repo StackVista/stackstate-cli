@@ -13,16 +13,12 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type TopologySynchronizationApi interface {
 
@@ -31,63 +27,62 @@ type TopologySynchronizationApi interface {
 
 	Overview of a specific Topology Stream, queried by node id or sync identifier
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetTopologySynchronizationStreamByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamByIdRequest
 	*/
-	GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest
+	GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest
 
 	// GetTopologySynchronizationStreamByIdExecute executes the request
 	//  @return TopologyStreamListItemWithErrorDetails
-	GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error)
+	GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error)
 
 	/*
 	GetTopologySynchronizationStreamStatusById Metrics of a specific Topology Stream, queried by node id
 
 	Metrics of a specific Topology Stream, queried by node id
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetTopologySynchronizationStreamStatusByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamStatusByIdRequest
 	*/
-	GetTopologySynchronizationStreamStatusById(ctx _context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest
+	GetTopologySynchronizationStreamStatusById(ctx context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest
 
 	// GetTopologySynchronizationStreamStatusByIdExecute executes the request
 	//  @return TopologyStreamMetrics
-	GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (TopologyStreamMetrics, *_nethttp.Response, error)
+	GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (*TopologyStreamMetrics, *http.Response, error)
 
 	/*
 	GetTopologySynchronizationStreams Overview of the topology synchronization streams
 
 	Overview of the topology synchronization streams
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetTopologySynchronizationStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamsRequest
 	*/
-	GetTopologySynchronizationStreams(ctx _context.Context) ApiGetTopologySynchronizationStreamsRequest
+	GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest
 
 	// GetTopologySynchronizationStreamsExecute executes the request
 	//  @return TopologyStreamList
-	GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error)
+	GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error)
 
 	/*
 	PostTopologySynchronizationStreamClearErrors Clear all the errors related to a specific sync
 
 	Clear all the errors related to a specific sync
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiPostTopologySynchronizationStreamClearErrorsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostTopologySynchronizationStreamClearErrorsRequest
 	*/
-	PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest
+	PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest
 
 	// PostTopologySynchronizationStreamClearErrorsExecute executes the request
-	PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error)
+	PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*http.Response, error)
 }
-
 
 // TopologySynchronizationApiService TopologySynchronizationApi service
 type TopologySynchronizationApiService service
 
 type ApiGetTopologySynchronizationStreamByIdRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService TopologySynchronizationApi
 	identifier *string
 	identifierType *IdentifierType
@@ -97,12 +92,13 @@ func (r ApiGetTopologySynchronizationStreamByIdRequest) Identifier(identifier st
 	r.identifier = &identifier
 	return r
 }
+
 func (r ApiGetTopologySynchronizationStreamByIdRequest) IdentifierType(identifierType IdentifierType) ApiGetTopologySynchronizationStreamByIdRequest {
 	r.identifierType = &identifierType
 	return r
 }
 
-func (r ApiGetTopologySynchronizationStreamByIdRequest) Execute() (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
+func (r ApiGetTopologySynchronizationStreamByIdRequest) Execute() (*TopologyStreamListItemWithErrorDetails, *http.Response, error) {
 	return r.ApiService.GetTopologySynchronizationStreamByIdExecute(r)
 }
 
@@ -111,10 +107,10 @@ GetTopologySynchronizationStreamById Overview of a specific Topology Stream, que
 
 Overview of a specific Topology Stream, queried by node id or sync identifier
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetTopologySynchronizationStreamByIdRequest
 */
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
 	return ApiGetTopologySynchronizationStreamByIdRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -123,26 +119,24 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 
 // Execute executes the request
 //  @return TopologyStreamListItemWithErrorDetails
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  TopologyStreamListItemWithErrorDetails
+		formFiles            []formFile
+		localVarReturnValue  *TopologyStreamListItemWithErrorDetails
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreamById")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/topology/streams/sync"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.identifier == nil {
 		return localVarReturnValue, nil, reportError("identifier is required and must be specified")
 	}
@@ -183,7 +177,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -193,15 +187,15 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -229,7 +223,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -240,7 +234,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 }
 
 type ApiGetTopologySynchronizationStreamStatusByIdRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService TopologySynchronizationApi
 	identifier *string
 }
@@ -250,7 +244,7 @@ func (r ApiGetTopologySynchronizationStreamStatusByIdRequest) Identifier(identif
 	return r
 }
 
-func (r ApiGetTopologySynchronizationStreamStatusByIdRequest) Execute() (TopologyStreamMetrics, *_nethttp.Response, error) {
+func (r ApiGetTopologySynchronizationStreamStatusByIdRequest) Execute() (*TopologyStreamMetrics, *http.Response, error) {
 	return r.ApiService.GetTopologySynchronizationStreamStatusByIdExecute(r)
 }
 
@@ -259,10 +253,10 @@ GetTopologySynchronizationStreamStatusById Metrics of a specific Topology Stream
 
 Metrics of a specific Topology Stream, queried by node id
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetTopologySynchronizationStreamStatusByIdRequest
 */
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStatusById(ctx _context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStatusById(ctx context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
 	return ApiGetTopologySynchronizationStreamStatusByIdRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -271,26 +265,24 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 
 // Execute executes the request
 //  @return TopologyStreamMetrics
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (TopologyStreamMetrics, *_nethttp.Response, error) {
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (*TopologyStreamMetrics, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  TopologyStreamMetrics
+		formFiles            []formFile
+		localVarReturnValue  *TopologyStreamMetrics
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreamStatusById")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/topology/streams/status"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.identifier == nil {
 		return localVarReturnValue, nil, reportError("identifier is required and must be specified")
 	}
@@ -327,7 +319,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -337,15 +329,15 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -373,7 +365,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -384,12 +376,11 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 }
 
 type ApiGetTopologySynchronizationStreamsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService TopologySynchronizationApi
 }
 
-
-func (r ApiGetTopologySynchronizationStreamsRequest) Execute() (TopologyStreamList, *_nethttp.Response, error) {
+func (r ApiGetTopologySynchronizationStreamsRequest) Execute() (*TopologyStreamList, *http.Response, error) {
 	return r.ApiService.GetTopologySynchronizationStreamsExecute(r)
 }
 
@@ -398,10 +389,10 @@ GetTopologySynchronizationStreams Overview of the topology synchronization strea
 
 Overview of the topology synchronization streams
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetTopologySynchronizationStreamsRequest
 */
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ctx _context.Context) ApiGetTopologySynchronizationStreamsRequest {
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest {
 	return ApiGetTopologySynchronizationStreamsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -410,26 +401,24 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ct
 
 // Execute executes the request
 //  @return TopologyStreamList
-func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error) {
+func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  TopologyStreamList
+		formFiles            []formFile
+		localVarReturnValue  *TopologyStreamList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreams")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/topology/streams"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -462,7 +451,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -472,15 +461,15 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -489,7 +478,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -500,7 +489,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 }
 
 type ApiPostTopologySynchronizationStreamClearErrorsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService TopologySynchronizationApi
 	identifier *string
 	identifierType *IdentifierType
@@ -510,12 +499,13 @@ func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) Identifier(ident
 	r.identifier = &identifier
 	return r
 }
+
 func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) IdentifierType(identifierType IdentifierType) ApiPostTopologySynchronizationStreamClearErrorsRequest {
 	r.identifierType = &identifierType
 	return r
 }
 
-func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiPostTopologySynchronizationStreamClearErrorsRequest) Execute() (*http.Response, error) {
 	return r.ApiService.PostTopologySynchronizationStreamClearErrorsExecute(r)
 }
 
@@ -524,10 +514,10 @@ PostTopologySynchronizationStreamClearErrors Clear all the errors related to a s
 
 Clear all the errors related to a specific sync
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiPostTopologySynchronizationStreamClearErrorsRequest
 */
-func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
+func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
 	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -535,25 +525,23 @@ func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamCle
 }
 
 // Execute executes the request
-func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.PostTopologySynchronizationStreamClearErrors")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/topology/streams/clearErrors"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.identifier == nil {
 		return nil, reportError("identifier is required and must be specified")
 	}
@@ -594,7 +582,7 @@ func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamCle
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
 	}
@@ -604,15 +592,15 @@ func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamCle
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -673,7 +661,7 @@ func NewTopologySynchronizationApiMock() TopologySynchronizationApiMock {
 
 type GetTopologySynchronizationStreamByIdMockResponse struct {
 	Result TopologyStreamListItemWithErrorDetails
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -683,25 +671,25 @@ type GetTopologySynchronizationStreamByIdCall struct {
 }
 
 
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamById(ctx _context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
 	return ApiGetTopologySynchronizationStreamByIdRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (TopologyStreamListItemWithErrorDetails, *_nethttp.Response, error) {
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error) {
 	p := GetTopologySynchronizationStreamByIdCall {
 			Pidentifier: r.identifier,
 			PidentifierType: r.identifierType,
 	}
 	*mock.GetTopologySynchronizationStreamByIdCalls = append(*mock.GetTopologySynchronizationStreamByIdCalls, p)
-	return mock.GetTopologySynchronizationStreamByIdResponse.Result, mock.GetTopologySynchronizationStreamByIdResponse.Response, mock.GetTopologySynchronizationStreamByIdResponse.Error
+	return &mock.GetTopologySynchronizationStreamByIdResponse.Result, mock.GetTopologySynchronizationStreamByIdResponse.Response, mock.GetTopologySynchronizationStreamByIdResponse.Error
 }
 
 type GetTopologySynchronizationStreamStatusByIdMockResponse struct {
 	Result TopologyStreamMetrics
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -710,24 +698,24 @@ type GetTopologySynchronizationStreamStatusByIdCall struct {
 }
 
 
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusById(ctx _context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusById(ctx context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
 	return ApiGetTopologySynchronizationStreamStatusByIdRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (TopologyStreamMetrics, *_nethttp.Response, error) {
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (*TopologyStreamMetrics, *http.Response, error) {
 	p := GetTopologySynchronizationStreamStatusByIdCall {
 			Pidentifier: r.identifier,
 	}
 	*mock.GetTopologySynchronizationStreamStatusByIdCalls = append(*mock.GetTopologySynchronizationStreamStatusByIdCalls, p)
-	return mock.GetTopologySynchronizationStreamStatusByIdResponse.Result, mock.GetTopologySynchronizationStreamStatusByIdResponse.Response, mock.GetTopologySynchronizationStreamStatusByIdResponse.Error
+	return &mock.GetTopologySynchronizationStreamStatusByIdResponse.Result, mock.GetTopologySynchronizationStreamStatusByIdResponse.Response, mock.GetTopologySynchronizationStreamStatusByIdResponse.Error
 }
 
 type GetTopologySynchronizationStreamsMockResponse struct {
 	Result TopologyStreamList
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -735,23 +723,23 @@ type GetTopologySynchronizationStreamsCall struct {
 }
 
 
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreams(ctx _context.Context) ApiGetTopologySynchronizationStreamsRequest {
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest {
 	return ApiGetTopologySynchronizationStreamsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (TopologyStreamList, *_nethttp.Response, error) {
+func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error) {
 	p := GetTopologySynchronizationStreamsCall {
 	}
 	*mock.GetTopologySynchronizationStreamsCalls = append(*mock.GetTopologySynchronizationStreamsCalls, p)
-	return mock.GetTopologySynchronizationStreamsResponse.Result, mock.GetTopologySynchronizationStreamsResponse.Response, mock.GetTopologySynchronizationStreamsResponse.Error
+	return &mock.GetTopologySynchronizationStreamsResponse.Result, mock.GetTopologySynchronizationStreamsResponse.Response, mock.GetTopologySynchronizationStreamsResponse.Error
 }
 
 type PostTopologySynchronizationStreamClearErrorsMockResponse struct {
 	
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -761,14 +749,14 @@ type PostTopologySynchronizationStreamClearErrorsCall struct {
 }
 
 
-func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrors(ctx _context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
+func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
 	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*http.Response, error) {
 	p := PostTopologySynchronizationStreamClearErrorsCall {
 			Pidentifier: r.identifier,
 			PidentifierType: r.identifierType,

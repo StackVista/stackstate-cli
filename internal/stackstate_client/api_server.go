@@ -13,16 +13,12 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type ServerApi interface {
 
@@ -31,27 +27,25 @@ type ServerApi interface {
 
 	Get information of the StackState information, such as version, deployment mode, etc.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiServerInfoRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiServerInfoRequest
 	*/
-	ServerInfo(ctx _context.Context) ApiServerInfoRequest
+	ServerInfo(ctx context.Context) ApiServerInfoRequest
 
 	// ServerInfoExecute executes the request
 	//  @return ServerInfo
-	ServerInfoExecute(r ApiServerInfoRequest) (ServerInfo, *_nethttp.Response, error)
+	ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error)
 }
-
 
 // ServerApiService ServerApi service
 type ServerApiService service
 
 type ApiServerInfoRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService ServerApi
 }
 
-
-func (r ApiServerInfoRequest) Execute() (ServerInfo, *_nethttp.Response, error) {
+func (r ApiServerInfoRequest) Execute() (*ServerInfo, *http.Response, error) {
 	return r.ApiService.ServerInfoExecute(r)
 }
 
@@ -60,10 +54,10 @@ ServerInfo Get server info
 
 Get information of the StackState information, such as version, deployment mode, etc.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiServerInfoRequest
 */
-func (a *ServerApiService) ServerInfo(ctx _context.Context) ApiServerInfoRequest {
+func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -72,26 +66,24 @@ func (a *ServerApiService) ServerInfo(ctx _context.Context) ApiServerInfoRequest
 
 // Execute executes the request
 //  @return ServerInfo
-func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (ServerInfo, *_nethttp.Response, error) {
+func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ServerInfo
+		formFiles            []formFile
+		localVarReturnValue  *ServerInfo
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServerApiService.ServerInfo")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/server/info"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -124,7 +116,7 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (ServerInfo
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -134,15 +126,15 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (ServerInfo
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -160,7 +152,7 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (ServerInfo
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -190,7 +182,7 @@ func NewServerApiMock() ServerApiMock {
 
 type ServerInfoMockResponse struct {
 	Result ServerInfo
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -198,18 +190,18 @@ type ServerInfoCall struct {
 }
 
 
-func (mock ServerApiMock) ServerInfo(ctx _context.Context) ApiServerInfoRequest {
+func (mock ServerApiMock) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ServerApiMock) ServerInfoExecute(r ApiServerInfoRequest) (ServerInfo, *_nethttp.Response, error) {
+func (mock ServerApiMock) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
 	p := ServerInfoCall {
 	}
 	*mock.ServerInfoCalls = append(*mock.ServerInfoCalls, p)
-	return mock.ServerInfoResponse.Result, mock.ServerInfoResponse.Response, mock.ServerInfoResponse.Error
+	return &mock.ServerInfoResponse.Result, mock.ServerInfoResponse.Response, mock.ServerInfoResponse.Error
 }
 
 

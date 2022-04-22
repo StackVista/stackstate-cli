@@ -57,7 +57,7 @@ func (o *EventComponent) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *EventComponent) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -81,7 +81,7 @@ func (o *EventComponent) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *EventComponent) GetIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -105,7 +105,7 @@ func (o *EventComponent) GetComponentTypeId() int64 {
 // GetComponentTypeIdOk returns a tuple with the ComponentTypeId field value
 // and a boolean to check if the value has been set.
 func (o *EventComponent) GetComponentTypeIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ComponentTypeId, true
@@ -129,7 +129,7 @@ func (o *EventComponent) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *EventComponent) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true

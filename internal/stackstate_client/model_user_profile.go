@@ -22,7 +22,7 @@ type UserProfile struct {
 	Name string `json:"name"`
 	Description *string `json:"description,omitempty"`
 	Identifier *string `json:"identifier,omitempty"`
-	StarredViews *[]int64 `json:"starredViews,omitempty"`
+	StarredViews []int64 `json:"starredViews,omitempty"`
 	OwnedBy *string `json:"ownedBy,omitempty"`
 }
 
@@ -121,7 +121,7 @@ func (o *UserProfile) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *UserProfile) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -202,12 +202,12 @@ func (o *UserProfile) GetStarredViews() []int64 {
 		var ret []int64
 		return ret
 	}
-	return *o.StarredViews
+	return o.StarredViews
 }
 
 // GetStarredViewsOk returns a tuple with the StarredViews field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *UserProfile) GetStarredViewsOk() (*[]int64, bool) {
+func (o *UserProfile) GetStarredViewsOk() ([]int64, bool) {
 	if o == nil || o.StarredViews == nil {
 		return nil, false
 	}
@@ -225,7 +225,7 @@ func (o *UserProfile) HasStarredViews() bool {
 
 // SetStarredViews gets a reference to the given []int64 and assigns it to the StarredViews field.
 func (o *UserProfile) SetStarredViews(v []int64) {
-	o.StarredViews = &v
+	o.StarredViews = v
 }
 
 // GetOwnedBy returns the OwnedBy field value if set, zero value otherwise.

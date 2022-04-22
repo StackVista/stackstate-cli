@@ -57,7 +57,7 @@ func (o *HealthStreamError) GetErrorCode() string {
 // GetErrorCodeOk returns a tuple with the ErrorCode field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamError) GetErrorCodeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ErrorCode, true
@@ -81,7 +81,7 @@ func (o *HealthStreamError) GetLevel() string {
 // GetLevelOk returns a tuple with the Level field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamError) GetLevelOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Level, true
@@ -105,7 +105,7 @@ func (o *HealthStreamError) GetError() string {
 // GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamError) GetErrorOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Error, true
@@ -129,7 +129,7 @@ func (o *HealthStreamError) GetCount() int32 {
 // GetCountOk returns a tuple with the Count field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamError) GetCountOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Count, true

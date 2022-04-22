@@ -13,17 +13,13 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strings"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type EventApi interface {
 
@@ -32,79 +28,78 @@ type EventApi interface {
 
 	Retrieves a specific event by its identifier.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param eventId The Identifier of an event.
-	 @return ApiGetEventRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param eventId The Identifier of an event.
+	@return ApiGetEventRequest
 	*/
-	GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest
+	GetEvent(ctx context.Context, eventId string) ApiGetEventRequest
 
 	// GetEventExecute executes the request
 	//  @return TopologyEvent
-	GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error)
+	GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error)
 
 	/*
 	GetEventSources Get event sources
 
 	Get a list of event sources.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetEventSourcesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventSourcesRequest
 	*/
-	GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest
+	GetEventSources(ctx context.Context) ApiGetEventSourcesRequest
 
 	// GetEventSourcesExecute executes the request
 	//  @return StringItemsWithTotal
-	GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error)
+	GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error)
 
 	/*
 	GetEventTags Get event tags
 
 	Gets a list of tags that exist in a list of events.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetEventTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventTagsRequest
 	*/
-	GetEventTags(ctx _context.Context) ApiGetEventTagsRequest
+	GetEventTags(ctx context.Context) ApiGetEventTagsRequest
 
 	// GetEventTagsExecute executes the request
 	//  @return StringItemsWithTotal
-	GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error)
+	GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error)
 
 	/*
 	GetEventTypes Get event types
 
 	Get a list of event types for a certain STQL query.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetEventTypesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventTypesRequest
 	*/
-	GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest
+	GetEventTypes(ctx context.Context) ApiGetEventTypesRequest
 
 	// GetEventTypesExecute executes the request
 	//  @return StringItemsWithTotal
-	GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error)
+	GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error)
 
 	/*
 	GetEvents Get events
 
 	Gets you a list of events that exist for topology and time selections.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetEventsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventsRequest
 	*/
-	GetEvents(ctx _context.Context) ApiGetEventsRequest
+	GetEvents(ctx context.Context) ApiGetEventsRequest
 
 	// GetEventsExecute executes the request
 	//  @return EventItemsWithTotal
-	GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error)
+	GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error)
 }
-
 
 // EventApiService EventApi service
 type EventApiService service
 
 type ApiGetEventRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService EventApi
 	eventId string
 	startTimestampMs *int32
@@ -116,16 +111,18 @@ func (r ApiGetEventRequest) StartTimestampMs(startTimestampMs int32) ApiGetEvent
 	r.startTimestampMs = &startTimestampMs
 	return r
 }
+
 func (r ApiGetEventRequest) EndTimestampMs(endTimestampMs int32) ApiGetEventRequest {
 	r.endTimestampMs = &endTimestampMs
 	return r
 }
+
 func (r ApiGetEventRequest) PlayHeadTimestampMs(playHeadTimestampMs int32) ApiGetEventRequest {
 	r.playHeadTimestampMs = &playHeadTimestampMs
 	return r
 }
 
-func (r ApiGetEventRequest) Execute() (TopologyEvent, *_nethttp.Response, error) {
+func (r ApiGetEventRequest) Execute() (*TopologyEvent, *http.Response, error) {
 	return r.ApiService.GetEventExecute(r)
 }
 
@@ -134,11 +131,11 @@ GetEvent Get single event
 
 Retrieves a specific event by its identifier.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param eventId The Identifier of an event.
  @return ApiGetEventRequest
 */
-func (a *EventApiService) GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest {
+func (a *EventApiService) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
 	return ApiGetEventRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -148,27 +145,25 @@ func (a *EventApiService) GetEvent(ctx _context.Context, eventId string) ApiGetE
 
 // Execute executes the request
 //  @return TopologyEvent
-func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error) {
+func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  TopologyEvent
+		formFiles            []formFile
+		localVarReturnValue  *TopologyEvent
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEvent")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/events/{eventId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"eventId"+"}", _neturl.PathEscape(parameterToString(r.eventId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"eventId"+"}", url.PathEscape(parameterToString(r.eventId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.startTimestampMs == nil {
 		return localVarReturnValue, nil, reportError("startTimestampMs is required and must be specified")
 	}
@@ -212,7 +207,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, 
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -222,15 +217,15 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, 
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -268,7 +263,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, 
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -279,7 +274,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, 
 }
 
 type ApiGetEventSourcesRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService EventApi
 	startTimestampMs *int32
 	endTimestampMs *int32
@@ -298,49 +293,59 @@ func (r ApiGetEventSourcesRequest) StartTimestampMs(startTimestampMs int32) ApiG
 	r.startTimestampMs = &startTimestampMs
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) EndTimestampMs(endTimestampMs int32) ApiGetEventSourcesRequest {
 	r.endTimestampMs = &endTimestampMs
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) TopologyQuery(topologyQuery string) ApiGetEventSourcesRequest {
 	r.topologyQuery = &topologyQuery
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) Limit(limit int32) ApiGetEventSourcesRequest {
 	r.limit = &limit
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) RootCauseMode(rootCauseMode RootCauseMode) ApiGetEventSourcesRequest {
 	r.rootCauseMode = &rootCauseMode
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) PlayHeadTimestampMs(playHeadTimestampMs int32) ApiGetEventSourcesRequest {
 	r.playHeadTimestampMs = &playHeadTimestampMs
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) EventTypes(eventTypes []string) ApiGetEventSourcesRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
+
 // The category labels of an event.
 func (r ApiGetEventSourcesRequest) EventCategories(eventCategories []EventCategory) ApiGetEventSourcesRequest {
 	r.eventCategories = &eventCategories
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) EventSources(eventSources []string) ApiGetEventSourcesRequest {
 	r.eventSources = &eventSources
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) EventTags(eventTags []string) ApiGetEventSourcesRequest {
 	r.eventTags = &eventTags
 	return r
 }
+
 func (r ApiGetEventSourcesRequest) Match(match string) ApiGetEventSourcesRequest {
 	r.match = &match
 	return r
 }
 
-func (r ApiGetEventSourcesRequest) Execute() (StringItemsWithTotal, *_nethttp.Response, error) {
+func (r ApiGetEventSourcesRequest) Execute() (*StringItemsWithTotal, *http.Response, error) {
 	return r.ApiService.GetEventSourcesExecute(r)
 }
 
@@ -349,10 +354,10 @@ GetEventSources Get event sources
 
 Get a list of event sources.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetEventSourcesRequest
 */
-func (a *EventApiService) GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest {
+func (a *EventApiService) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
 	return ApiGetEventSourcesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -361,26 +366,24 @@ func (a *EventApiService) GetEventSources(ctx _context.Context) ApiGetEventSourc
 
 // Execute executes the request
 //  @return StringItemsWithTotal
-func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  StringItemsWithTotal
+		formFiles            []formFile
+		localVarReturnValue  *StringItemsWithTotal
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventSources")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/eventSources"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.startTimestampMs == nil {
 		return localVarReturnValue, nil, reportError("startTimestampMs is required and must be specified")
 	}
@@ -450,7 +453,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (S
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -460,15 +463,15 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (S
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -496,7 +499,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (S
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -507,7 +510,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (S
 }
 
 type ApiGetEventTagsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService EventApi
 	startTimestampMs *int32
 	endTimestampMs *int32
@@ -526,49 +529,59 @@ func (r ApiGetEventTagsRequest) StartTimestampMs(startTimestampMs int32) ApiGetE
 	r.startTimestampMs = &startTimestampMs
 	return r
 }
+
 func (r ApiGetEventTagsRequest) EndTimestampMs(endTimestampMs int32) ApiGetEventTagsRequest {
 	r.endTimestampMs = &endTimestampMs
 	return r
 }
+
 func (r ApiGetEventTagsRequest) TopologyQuery(topologyQuery string) ApiGetEventTagsRequest {
 	r.topologyQuery = &topologyQuery
 	return r
 }
+
 func (r ApiGetEventTagsRequest) Limit(limit int32) ApiGetEventTagsRequest {
 	r.limit = &limit
 	return r
 }
+
 func (r ApiGetEventTagsRequest) RootCauseMode(rootCauseMode RootCauseMode) ApiGetEventTagsRequest {
 	r.rootCauseMode = &rootCauseMode
 	return r
 }
+
 func (r ApiGetEventTagsRequest) PlayHeadTimestampMs(playHeadTimestampMs int32) ApiGetEventTagsRequest {
 	r.playHeadTimestampMs = &playHeadTimestampMs
 	return r
 }
+
 func (r ApiGetEventTagsRequest) EventTypes(eventTypes []string) ApiGetEventTagsRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
+
 // The category labels of an event.
 func (r ApiGetEventTagsRequest) EventCategories(eventCategories []EventCategory) ApiGetEventTagsRequest {
 	r.eventCategories = &eventCategories
 	return r
 }
+
 func (r ApiGetEventTagsRequest) EventSources(eventSources []string) ApiGetEventTagsRequest {
 	r.eventSources = &eventSources
 	return r
 }
+
 func (r ApiGetEventTagsRequest) EventTags(eventTags []string) ApiGetEventTagsRequest {
 	r.eventTags = &eventTags
 	return r
 }
+
 func (r ApiGetEventTagsRequest) Match(match string) ApiGetEventTagsRequest {
 	r.match = &match
 	return r
 }
 
-func (r ApiGetEventTagsRequest) Execute() (StringItemsWithTotal, *_nethttp.Response, error) {
+func (r ApiGetEventTagsRequest) Execute() (*StringItemsWithTotal, *http.Response, error) {
 	return r.ApiService.GetEventTagsExecute(r)
 }
 
@@ -577,10 +590,10 @@ GetEventTags Get event tags
 
 Gets a list of tags that exist in a list of events.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetEventTagsRequest
 */
-func (a *EventApiService) GetEventTags(ctx _context.Context) ApiGetEventTagsRequest {
+func (a *EventApiService) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
 	return ApiGetEventTagsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -589,26 +602,24 @@ func (a *EventApiService) GetEventTags(ctx _context.Context) ApiGetEventTagsRequ
 
 // Execute executes the request
 //  @return StringItemsWithTotal
-func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  StringItemsWithTotal
+		formFiles            []formFile
+		localVarReturnValue  *StringItemsWithTotal
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventTags")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/eventTags"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.startTimestampMs == nil {
 		return localVarReturnValue, nil, reportError("startTimestampMs is required and must be specified")
 	}
@@ -678,7 +689,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringI
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -688,15 +699,15 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringI
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -724,7 +735,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringI
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -735,7 +746,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringI
 }
 
 type ApiGetEventTypesRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService EventApi
 	startTimestampMs *int32
 	endTimestampMs *int32
@@ -754,49 +765,59 @@ func (r ApiGetEventTypesRequest) StartTimestampMs(startTimestampMs int32) ApiGet
 	r.startTimestampMs = &startTimestampMs
 	return r
 }
+
 func (r ApiGetEventTypesRequest) EndTimestampMs(endTimestampMs int32) ApiGetEventTypesRequest {
 	r.endTimestampMs = &endTimestampMs
 	return r
 }
+
 func (r ApiGetEventTypesRequest) TopologyQuery(topologyQuery string) ApiGetEventTypesRequest {
 	r.topologyQuery = &topologyQuery
 	return r
 }
+
 func (r ApiGetEventTypesRequest) Limit(limit int32) ApiGetEventTypesRequest {
 	r.limit = &limit
 	return r
 }
+
 func (r ApiGetEventTypesRequest) RootCauseMode(rootCauseMode RootCauseMode) ApiGetEventTypesRequest {
 	r.rootCauseMode = &rootCauseMode
 	return r
 }
+
 func (r ApiGetEventTypesRequest) PlayHeadTimestampMs(playHeadTimestampMs int32) ApiGetEventTypesRequest {
 	r.playHeadTimestampMs = &playHeadTimestampMs
 	return r
 }
+
 func (r ApiGetEventTypesRequest) EventTypes(eventTypes []string) ApiGetEventTypesRequest {
 	r.eventTypes = &eventTypes
 	return r
 }
+
 // The category labels of an event.
 func (r ApiGetEventTypesRequest) EventCategories(eventCategories []EventCategory) ApiGetEventTypesRequest {
 	r.eventCategories = &eventCategories
 	return r
 }
+
 func (r ApiGetEventTypesRequest) EventSources(eventSources []string) ApiGetEventTypesRequest {
 	r.eventSources = &eventSources
 	return r
 }
+
 func (r ApiGetEventTypesRequest) EventTags(eventTags []string) ApiGetEventTypesRequest {
 	r.eventTags = &eventTags
 	return r
 }
+
 func (r ApiGetEventTypesRequest) Match(match string) ApiGetEventTypesRequest {
 	r.match = &match
 	return r
 }
 
-func (r ApiGetEventTypesRequest) Execute() (StringItemsWithTotal, *_nethttp.Response, error) {
+func (r ApiGetEventTypesRequest) Execute() (*StringItemsWithTotal, *http.Response, error) {
 	return r.ApiService.GetEventTypesExecute(r)
 }
 
@@ -805,10 +826,10 @@ GetEventTypes Get event types
 
 Get a list of event types for a certain STQL query.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetEventTypesRequest
 */
-func (a *EventApiService) GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest {
+func (a *EventApiService) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
 	return ApiGetEventTypesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -817,26 +838,24 @@ func (a *EventApiService) GetEventTypes(ctx _context.Context) ApiGetEventTypesRe
 
 // Execute executes the request
 //  @return StringItemsWithTotal
-func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  StringItemsWithTotal
+		formFiles            []formFile
+		localVarReturnValue  *StringItemsWithTotal
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventTypes")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/eventTypes"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.startTimestampMs == nil {
 		return localVarReturnValue, nil, reportError("startTimestampMs is required and must be specified")
 	}
@@ -906,7 +925,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (Strin
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -916,15 +935,15 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (Strin
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -952,7 +971,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (Strin
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -963,7 +982,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (Strin
 }
 
 type ApiGetEventsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService EventApi
 	eventListRequest *EventListRequest
 }
@@ -973,7 +992,7 @@ func (r ApiGetEventsRequest) EventListRequest(eventListRequest EventListRequest)
 	return r
 }
 
-func (r ApiGetEventsRequest) Execute() (EventItemsWithTotal, *_nethttp.Response, error) {
+func (r ApiGetEventsRequest) Execute() (*EventItemsWithTotal, *http.Response, error) {
 	return r.ApiService.GetEventsExecute(r)
 }
 
@@ -982,10 +1001,10 @@ GetEvents Get events
 
 Gets you a list of events that exist for topology and time selections.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetEventsRequest
 */
-func (a *EventApiService) GetEvents(ctx _context.Context) ApiGetEventsRequest {
+func (a *EventApiService) GetEvents(ctx context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -994,26 +1013,24 @@ func (a *EventApiService) GetEvents(ctx _context.Context) ApiGetEventsRequest {
 
 // Execute executes the request
 //  @return EventItemsWithTotal
-func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error) {
+func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  EventItemsWithTotal
+		formFiles            []formFile
+		localVarReturnValue  *EventItemsWithTotal
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEvents")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/events"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.eventListRequest == nil {
 		return localVarReturnValue, nil, reportError("eventListRequest is required and must be specified")
 	}
@@ -1051,7 +1068,7 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWit
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -1061,15 +1078,15 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWit
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1097,7 +1114,7 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWit
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1143,7 +1160,7 @@ func NewEventApiMock() EventApiMock {
 
 type GetEventMockResponse struct {
 	Result TopologyEvent
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1155,7 +1172,7 @@ type GetEventCall struct {
 }
 
 
-func (mock EventApiMock) GetEvent(ctx _context.Context, eventId string) ApiGetEventRequest {
+func (mock EventApiMock) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
 	return ApiGetEventRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1163,7 +1180,7 @@ func (mock EventApiMock) GetEvent(ctx _context.Context, eventId string) ApiGetEv
 	}
 }
 
-func (mock EventApiMock) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *_nethttp.Response, error) {
+func (mock EventApiMock) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
 	p := GetEventCall {
 			PeventId: r.eventId,
 			PstartTimestampMs: r.startTimestampMs,
@@ -1171,12 +1188,12 @@ func (mock EventApiMock) GetEventExecute(r ApiGetEventRequest) (TopologyEvent, *
 			PplayHeadTimestampMs: r.playHeadTimestampMs,
 	}
 	*mock.GetEventCalls = append(*mock.GetEventCalls, p)
-	return mock.GetEventResponse.Result, mock.GetEventResponse.Response, mock.GetEventResponse.Error
+	return &mock.GetEventResponse.Result, mock.GetEventResponse.Response, mock.GetEventResponse.Error
 }
 
 type GetEventSourcesMockResponse struct {
 	Result StringItemsWithTotal
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1195,14 +1212,14 @@ type GetEventSourcesCall struct {
 }
 
 
-func (mock EventApiMock) GetEventSources(ctx _context.Context) ApiGetEventSourcesRequest {
+func (mock EventApiMock) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
 	return ApiGetEventSourcesRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+func (mock EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventSourcesCall {
 			PstartTimestampMs: r.startTimestampMs,
 			PendTimestampMs: r.endTimestampMs,
@@ -1217,12 +1234,12 @@ func (mock EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (St
 			Pmatch: r.match,
 	}
 	*mock.GetEventSourcesCalls = append(*mock.GetEventSourcesCalls, p)
-	return mock.GetEventSourcesResponse.Result, mock.GetEventSourcesResponse.Response, mock.GetEventSourcesResponse.Error
+	return &mock.GetEventSourcesResponse.Result, mock.GetEventSourcesResponse.Response, mock.GetEventSourcesResponse.Error
 }
 
 type GetEventTagsMockResponse struct {
 	Result StringItemsWithTotal
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1241,14 +1258,14 @@ type GetEventTagsCall struct {
 }
 
 
-func (mock EventApiMock) GetEventTags(ctx _context.Context) ApiGetEventTagsRequest {
+func (mock EventApiMock) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
 	return ApiGetEventTagsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+func (mock EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventTagsCall {
 			PstartTimestampMs: r.startTimestampMs,
 			PendTimestampMs: r.endTimestampMs,
@@ -1263,12 +1280,12 @@ func (mock EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (StringIt
 			Pmatch: r.match,
 	}
 	*mock.GetEventTagsCalls = append(*mock.GetEventTagsCalls, p)
-	return mock.GetEventTagsResponse.Result, mock.GetEventTagsResponse.Response, mock.GetEventTagsResponse.Error
+	return &mock.GetEventTagsResponse.Result, mock.GetEventTagsResponse.Response, mock.GetEventTagsResponse.Error
 }
 
 type GetEventTypesMockResponse struct {
 	Result StringItemsWithTotal
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1287,14 +1304,14 @@ type GetEventTypesCall struct {
 }
 
 
-func (mock EventApiMock) GetEventTypes(ctx _context.Context) ApiGetEventTypesRequest {
+func (mock EventApiMock) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
 	return ApiGetEventTypesRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (StringItemsWithTotal, *_nethttp.Response, error) {
+func (mock EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventTypesCall {
 			PstartTimestampMs: r.startTimestampMs,
 			PendTimestampMs: r.endTimestampMs,
@@ -1309,12 +1326,12 @@ func (mock EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (String
 			Pmatch: r.match,
 	}
 	*mock.GetEventTypesCalls = append(*mock.GetEventTypesCalls, p)
-	return mock.GetEventTypesResponse.Result, mock.GetEventTypesResponse.Response, mock.GetEventTypesResponse.Error
+	return &mock.GetEventTypesResponse.Result, mock.GetEventTypesResponse.Response, mock.GetEventTypesResponse.Error
 }
 
 type GetEventsMockResponse struct {
 	Result EventItemsWithTotal
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1323,19 +1340,19 @@ type GetEventsCall struct {
 }
 
 
-func (mock EventApiMock) GetEvents(ctx _context.Context) ApiGetEventsRequest {
+func (mock EventApiMock) GetEvents(ctx context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (EventItemsWithTotal, *_nethttp.Response, error) {
+func (mock EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
 	p := GetEventsCall {
 			PeventListRequest: r.eventListRequest,
 	}
 	*mock.GetEventsCalls = append(*mock.GetEventsCalls, p)
-	return mock.GetEventsResponse.Result, mock.GetEventsResponse.Response, mock.GetEventsResponse.Error
+	return &mock.GetEventsResponse.Result, mock.GetEventsResponse.Response, mock.GetEventsResponse.Error
 }
 
 

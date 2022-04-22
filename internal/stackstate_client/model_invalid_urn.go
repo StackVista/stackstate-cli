@@ -53,7 +53,7 @@ func (o *InvalidUrn) GetUrn() string {
 // GetUrnOk returns a tuple with the Urn field value
 // and a boolean to check if the value has been set.
 func (o *InvalidUrn) GetUrnOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Urn, true
@@ -77,7 +77,7 @@ func (o *InvalidUrn) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *InvalidUrn) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true

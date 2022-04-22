@@ -50,11 +50,11 @@ func (o *StreamList) GetItems() []StreamListItem {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *StreamList) GetItemsOk() (*[]StreamListItem, bool) {
-	if o == nil  {
+func (o *StreamList) GetItemsOk() ([]StreamListItem, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Items, true
+	return o.Items, true
 }
 
 // SetItems sets field value

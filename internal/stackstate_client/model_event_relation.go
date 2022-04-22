@@ -62,7 +62,7 @@ func (o *EventRelation) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *EventRelation) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -86,7 +86,7 @@ func (o *EventRelation) GetId() int64 {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *EventRelation) GetIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -110,7 +110,7 @@ func (o *EventRelation) GetRelationTypeId() int64 {
 // GetRelationTypeIdOk returns a tuple with the RelationTypeId field value
 // and a boolean to check if the value has been set.
 func (o *EventRelation) GetRelationTypeIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.RelationTypeId, true
@@ -166,7 +166,7 @@ func (o *EventRelation) GetSource() EventComponent {
 // GetSourceOk returns a tuple with the Source field value
 // and a boolean to check if the value has been set.
 func (o *EventRelation) GetSourceOk() (*EventComponent, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Source, true
@@ -190,7 +190,7 @@ func (o *EventRelation) GetTarget() EventComponent {
 // GetTargetOk returns a tuple with the Target field value
 // and a boolean to check if the value has been set.
 func (o *EventRelation) GetTargetOk() (*EventComponent, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Target, true
@@ -214,7 +214,7 @@ func (o *EventRelation) GetDependencyDirection() DependencyDirection {
 // GetDependencyDirectionOk returns a tuple with the DependencyDirection field value
 // and a boolean to check if the value has been set.
 func (o *EventRelation) GetDependencyDirectionOk() (*DependencyDirection, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DependencyDirection, true

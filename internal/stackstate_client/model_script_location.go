@@ -53,7 +53,7 @@ func (o *ScriptLocation) GetLine() int32 {
 // GetLineOk returns a tuple with the Line field value
 // and a boolean to check if the value has been set.
 func (o *ScriptLocation) GetLineOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Line, true
@@ -77,7 +77,7 @@ func (o *ScriptLocation) GetColumn() int32 {
 // GetColumnOk returns a tuple with the Column field value
 // and a boolean to check if the value has been set.
 func (o *ScriptLocation) GetColumnOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Column, true

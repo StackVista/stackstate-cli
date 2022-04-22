@@ -36,10 +36,13 @@ func TestUploadStackPackSuccess(t *testing.T) {
 	cli, cmd := setupStackPackUploadCmd()
 	file := createTempFile()
 
-	stackpack := sts.StackPack{
-		Name:        "test",
-		DisplayName: "display test",
-		Version:     "1.0.0",
+	name := "test"
+	displayName := "display test"
+	version := "1.0.0"
+	stackpack := sts.Stackpack{
+		Name:        &name,
+		DisplayName: &displayName,
+		Version:     &version,
 	}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = stackpack
 

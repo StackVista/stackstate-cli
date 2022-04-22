@@ -35,8 +35,8 @@ func main() {
     monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MonitorUrnApi.DeleteMonitorByURN(context.Background(), monitorUrnId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorUrnApi.DeleteMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.DeleteMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -103,8 +103,8 @@ func main() {
     monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MonitorUrnApi.DryRunMonitorByURN(context.Background(), monitorUrnId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorUrnApi.DryRunMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.DryRunMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -173,8 +173,8 @@ func main() {
     monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MonitorUrnApi.GetMonitorByURN(context.Background(), monitorUrnId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorUrnApi.GetMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.GetMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -243,8 +243,8 @@ func main() {
     monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MonitorUrnApi.RunMonitorByURN(context.Background(), monitorUrnId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorUrnApi.RunMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.RunMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

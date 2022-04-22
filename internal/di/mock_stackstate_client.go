@@ -6,7 +6,7 @@ import (
 
 type MockStackStateClient struct {
 	apiClient         *stackstate_client.APIClient
-	ConnectServerInfo stackstate_client.ServerInfo
+	ConnectServerInfo *stackstate_client.ServerInfo
 	ConnectError      error
 	ApiMocks          ApiMocks
 }
@@ -25,6 +25,7 @@ type ApiMocks struct {
 	UserProfileApi             *stackstate_client.UserProfileApiMock
 	ServerApi                  *stackstate_client.ServerApiMock
 	StackpackApi               *stackstate_client.StackpackApiMock
+	AnomalyFeedbackApi         *stackstate_client.AnomalyFeedbackApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
@@ -42,6 +43,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	userProfileApi := stackstate_client.NewUserProfileApiMock()
 	serverApi := stackstate_client.NewServerApiMock()
 	stackpackApi := stackstate_client.NewStackpackApiMock()
+	anomalyFeedbackApi := stackstate_client.NewAnomalyFeedbackApiMock()
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
 		EventApi:                   &eventApi,
@@ -56,6 +58,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		UserProfileApi:             &userProfileApi,
 		ServerApi:                  &serverApi,
 		StackpackApi:               &stackpackApi,
+		AnomalyFeedbackApi:         &anomalyFeedbackApi,
 	}
 
 	apiClient := &stackstate_client.APIClient{
@@ -72,16 +75,17 @@ func NewMockStackStateClient() MockStackStateClient {
 		UserProfileApi:             apiMocks.UserProfileApi,
 		ServerApi:                  apiMocks.ServerApi,
 		StackpackApi:               apiMocks.StackpackApi,
+		AnomalyFeedbackApi:         apiMocks.AnomalyFeedbackApi,
 	}
 
 	return MockStackStateClient{
 		apiClient:         apiClient,
 		ApiMocks:          apiMocks,
-		ConnectServerInfo: stackstate_client.ServerInfo{},
+		ConnectServerInfo: &stackstate_client.ServerInfo{},
 		ConnectError:      nil,
 	}
 }
 
-func (c *MockStackStateClient) Connect() (*stackstate_client.APIClient, stackstate_client.ServerInfo, error) {
+func (c *MockStackStateClient) Connect() (*stackstate_client.APIClient, *stackstate_client.ServerInfo, error) {
 	return c.apiClient, c.ConnectServerInfo, c.ConnectError
 }

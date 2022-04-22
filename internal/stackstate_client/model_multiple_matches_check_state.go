@@ -55,7 +55,7 @@ func (o *MultipleMatchesCheckState) GetCheckStateId() string {
 // GetCheckStateIdOk returns a tuple with the CheckStateId field value
 // and a boolean to check if the value has been set.
 func (o *MultipleMatchesCheckState) GetCheckStateIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CheckStateId, true
@@ -79,7 +79,7 @@ func (o *MultipleMatchesCheckState) GetTopologyElementIdentifier() string {
 // GetTopologyElementIdentifierOk returns a tuple with the TopologyElementIdentifier field value
 // and a boolean to check if the value has been set.
 func (o *MultipleMatchesCheckState) GetTopologyElementIdentifierOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TopologyElementIdentifier, true
@@ -103,7 +103,7 @@ func (o *MultipleMatchesCheckState) GetMatchCount() int32 {
 // GetMatchCountOk returns a tuple with the MatchCount field value
 // and a boolean to check if the value has been set.
 func (o *MultipleMatchesCheckState) GetMatchCountOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.MatchCount, true

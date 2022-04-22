@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Type** | Pointer to **string** |  | [optional] 
+**Type** | **string** |  | 
 **CheckedInterval** | [**TimeRange**](TimeRange.md) |  | 
 **ElementName** | **string** |  | 
 **Explanation** | **string** |  | 
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewMetricStreamAnomalyData
 
-`func NewMetricStreamAnomalyData(checkedInterval TimeRange, elementName string, explanation string, modelInfo map[string]interface{}, severity AnomalySeverity, severityScore float64, streamName string, ) *MetricStreamAnomalyData`
+`func NewMetricStreamAnomalyData(type_ string, checkedInterval TimeRange, elementName string, explanation string, modelInfo map[string]interface{}, severity AnomalySeverity, severityScore float64, streamName string, ) *MetricStreamAnomalyData`
 
 NewMetricStreamAnomalyData instantiates a new MetricStreamAnomalyData object
 This constructor will assign default values to properties that have it defined,
@@ -52,11 +52,6 @@ and a boolean to check if the value has been set.
 
 SetType sets Type field to given value.
 
-### HasType
-
-`func (o *MetricStreamAnomalyData) HasType() bool`
-
-HasType returns a boolean if a field has been set.
 
 ### GetCheckedInterval
 

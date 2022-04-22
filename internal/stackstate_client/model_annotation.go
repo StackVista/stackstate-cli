@@ -72,7 +72,7 @@ func (o *Annotation) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -96,7 +96,7 @@ func (o *Annotation) GetAnnotationType() AnnotationType {
 // GetAnnotationTypeOk returns a tuple with the AnnotationType field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetAnnotationTypeOk() (*AnnotationType, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.AnnotationType, true
@@ -120,7 +120,7 @@ func (o *Annotation) GetCreatedTime() int64 {
 // GetCreatedTimeOk returns a tuple with the CreatedTime field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetCreatedTimeOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedTime, true
@@ -176,7 +176,7 @@ func (o *Annotation) GetDescription() string {
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetDescriptionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Description, true
@@ -200,7 +200,7 @@ func (o *Annotation) GetEventTimeInterval() TimeRange {
 // GetEventTimeIntervalOk returns a tuple with the EventTimeInterval field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetEventTimeIntervalOk() (*TimeRange, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EventTimeInterval, true
@@ -224,7 +224,7 @@ func (o *Annotation) GetId() string {
 // GetIdOk returns a tuple with the Id field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Id, true
@@ -247,11 +247,11 @@ func (o *Annotation) GetIdentifiers() []string {
 
 // GetIdentifiersOk returns a tuple with the Identifiers field value
 // and a boolean to check if the value has been set.
-func (o *Annotation) GetIdentifiersOk() (*[]string, bool) {
-	if o == nil  {
+func (o *Annotation) GetIdentifiersOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Identifiers, true
+	return o.Identifiers, true
 }
 
 // SetIdentifiers sets field value
@@ -272,7 +272,7 @@ func (o *Annotation) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -296,7 +296,7 @@ func (o *Annotation) GetProcessedTime() int64 {
 // GetProcessedTimeOk returns a tuple with the ProcessedTime field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetProcessedTimeOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ProcessedTime, true
@@ -320,7 +320,7 @@ func (o *Annotation) GetReference() Reference {
 // GetReferenceOk returns a tuple with the Reference field value
 // and a boolean to check if the value has been set.
 func (o *Annotation) GetReferenceOk() (*Reference, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Reference, true
@@ -343,11 +343,11 @@ func (o *Annotation) GetTags() []string {
 
 // GetTagsOk returns a tuple with the Tags field value
 // and a boolean to check if the value has been set.
-func (o *Annotation) GetTagsOk() (*[]string, bool) {
-	if o == nil  {
+func (o *Annotation) GetTagsOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Tags, true
+	return o.Tags, true
 }
 
 // SetTags sets field value

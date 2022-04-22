@@ -13,16 +13,12 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type ScriptingApi interface {
 
@@ -31,22 +27,21 @@ type ScriptingApi interface {
 
 	Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiScriptExecuteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiScriptExecuteRequest
 	*/
-	ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest
+	ScriptExecute(ctx context.Context) ApiScriptExecuteRequest
 
 	// ScriptExecuteExecute executes the request
 	//  @return ExecuteScriptResponse
-	ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error)
+	ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error)
 }
-
 
 // ScriptingApiService ScriptingApi service
 type ScriptingApiService service
 
 type ApiScriptExecuteRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService ScriptingApi
 	executeScriptRequest *ExecuteScriptRequest
 }
@@ -56,7 +51,7 @@ func (r ApiScriptExecuteRequest) ExecuteScriptRequest(executeScriptRequest Execu
 	return r
 }
 
-func (r ApiScriptExecuteRequest) Execute() (ExecuteScriptResponse, *_nethttp.Response, error) {
+func (r ApiScriptExecuteRequest) Execute() (*ExecuteScriptResponse, *http.Response, error) {
 	return r.ApiService.ScriptExecuteExecute(r)
 }
 
@@ -65,10 +60,10 @@ ScriptExecute Execute script
 
 Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiScriptExecuteRequest
 */
-func (a *ScriptingApiService) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
+func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -77,26 +72,24 @@ func (a *ScriptingApiService) ScriptExecute(ctx _context.Context) ApiScriptExecu
 
 // Execute executes the request
 //  @return ExecuteScriptResponse
-func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
+func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ExecuteScriptResponse
+		formFiles            []formFile
+		localVarReturnValue  *ExecuteScriptResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ScriptingApiService.ScriptExecute")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/script/execute"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.executeScriptRequest == nil {
 		return localVarReturnValue, nil, reportError("executeScriptRequest is required and must be specified")
 	}
@@ -134,7 +127,7 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (E
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -144,15 +137,15 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (E
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -190,7 +183,7 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (E
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -220,7 +213,7 @@ func NewScriptingApiMock() ScriptingApiMock {
 
 type ScriptExecuteMockResponse struct {
 	Result ExecuteScriptResponse
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -229,19 +222,19 @@ type ScriptExecuteCall struct {
 }
 
 
-func (mock ScriptingApiMock) ScriptExecute(ctx _context.Context) ApiScriptExecuteRequest {
+func (mock ScriptingApiMock) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (ExecuteScriptResponse, *_nethttp.Response, error) {
+func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
 	p := ScriptExecuteCall {
 			PexecuteScriptRequest: r.executeScriptRequest,
 	}
 	*mock.ScriptExecuteCalls = append(*mock.ScriptExecuteCalls, p)
-	return mock.ScriptExecuteResponse.Result, mock.ScriptExecuteResponse.Response, mock.ScriptExecuteResponse.Error
+	return &mock.ScriptExecuteResponse.Result, mock.ScriptExecuteResponse.Response, mock.ScriptExecuteResponse.Error
 }
 
 

@@ -17,7 +17,7 @@ import (
 
 // HealthSubStreamStatus struct for HealthSubStreamStatus
 type HealthSubStreamStatus struct {
-	Errors *[]HealthStreamError `json:"errors,omitempty"`
+	Errors []HealthStreamError `json:"errors,omitempty"`
 	Metrics HealthStreamMetrics `json:"metrics"`
 	SubStreamState HealthSubStreamConsistencyState `json:"subStreamState"`
 	CheckStateCount int32 `json:"checkStateCount"`
@@ -49,12 +49,12 @@ func (o *HealthSubStreamStatus) GetErrors() []HealthStreamError {
 		var ret []HealthStreamError
 		return ret
 	}
-	return *o.Errors
+	return o.Errors
 }
 
 // GetErrorsOk returns a tuple with the Errors field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthSubStreamStatus) GetErrorsOk() (*[]HealthStreamError, bool) {
+func (o *HealthSubStreamStatus) GetErrorsOk() ([]HealthStreamError, bool) {
 	if o == nil || o.Errors == nil {
 		return nil, false
 	}
@@ -72,7 +72,7 @@ func (o *HealthSubStreamStatus) HasErrors() bool {
 
 // SetErrors gets a reference to the given []HealthStreamError and assigns it to the Errors field.
 func (o *HealthSubStreamStatus) SetErrors(v []HealthStreamError) {
-	o.Errors = &v
+	o.Errors = v
 }
 
 // GetMetrics returns the Metrics field value
@@ -88,7 +88,7 @@ func (o *HealthSubStreamStatus) GetMetrics() HealthStreamMetrics {
 // GetMetricsOk returns a tuple with the Metrics field value
 // and a boolean to check if the value has been set.
 func (o *HealthSubStreamStatus) GetMetricsOk() (*HealthStreamMetrics, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Metrics, true
@@ -112,7 +112,7 @@ func (o *HealthSubStreamStatus) GetSubStreamState() HealthSubStreamConsistencySt
 // GetSubStreamStateOk returns a tuple with the SubStreamState field value
 // and a boolean to check if the value has been set.
 func (o *HealthSubStreamStatus) GetSubStreamStateOk() (*HealthSubStreamConsistencyState, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.SubStreamState, true
@@ -136,7 +136,7 @@ func (o *HealthSubStreamStatus) GetCheckStateCount() int32 {
 // GetCheckStateCountOk returns a tuple with the CheckStateCount field value
 // and a boolean to check if the value has been set.
 func (o *HealthSubStreamStatus) GetCheckStateCountOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CheckStateCount, true

@@ -30,42 +30,58 @@ type ExecuteScriptError struct {
 
 // ExecuteScriptArgumentsScriptErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptArgumentsScriptError wrapped in ExecuteScriptError
 func ExecuteScriptArgumentsScriptErrorAsExecuteScriptError(v *ExecuteScriptArgumentsScriptError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptArgumentsScriptError: v}
+	return ExecuteScriptError{
+		ExecuteScriptArgumentsScriptError: v,
+	}
 }
 
 // ExecuteScriptExceptionErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptExceptionError wrapped in ExecuteScriptError
 func ExecuteScriptExceptionErrorAsExecuteScriptError(v *ExecuteScriptExceptionError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptExceptionError: v}
+	return ExecuteScriptError{
+		ExecuteScriptExceptionError: v,
+	}
 }
 
 // ExecuteScriptExecutionErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptExecutionError wrapped in ExecuteScriptError
 func ExecuteScriptExecutionErrorAsExecuteScriptError(v *ExecuteScriptExecutionError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptExecutionError: v}
+	return ExecuteScriptError{
+		ExecuteScriptExecutionError: v,
+	}
 }
 
 // ExecuteScriptGroovyRuntimeErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptGroovyRuntimeError wrapped in ExecuteScriptError
 func ExecuteScriptGroovyRuntimeErrorAsExecuteScriptError(v *ExecuteScriptGroovyRuntimeError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptGroovyRuntimeError: v}
+	return ExecuteScriptError{
+		ExecuteScriptGroovyRuntimeError: v,
+	}
 }
 
 // ExecuteScriptSecurityErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptSecurityError wrapped in ExecuteScriptError
 func ExecuteScriptSecurityErrorAsExecuteScriptError(v *ExecuteScriptSecurityError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptSecurityError: v}
+	return ExecuteScriptError{
+		ExecuteScriptSecurityError: v,
+	}
 }
 
 // ExecuteScriptSyntaxErrorsAsExecuteScriptError is a convenience function that returns ExecuteScriptSyntaxErrors wrapped in ExecuteScriptError
 func ExecuteScriptSyntaxErrorsAsExecuteScriptError(v *ExecuteScriptSyntaxErrors) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptSyntaxErrors: v}
+	return ExecuteScriptError{
+		ExecuteScriptSyntaxErrors: v,
+	}
 }
 
 // ExecuteScriptTimeoutErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptTimeoutError wrapped in ExecuteScriptError
 func ExecuteScriptTimeoutErrorAsExecuteScriptError(v *ExecuteScriptTimeoutError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptTimeoutError: v}
+	return ExecuteScriptError{
+		ExecuteScriptTimeoutError: v,
+	}
 }
 
 // ExecuteScriptWrongReturnTypeErrorAsExecuteScriptError is a convenience function that returns ExecuteScriptWrongReturnTypeError wrapped in ExecuteScriptError
 func ExecuteScriptWrongReturnTypeErrorAsExecuteScriptError(v *ExecuteScriptWrongReturnTypeError) ExecuteScriptError {
-	return ExecuteScriptError{ ExecuteScriptWrongReturnTypeError: v}
+	return ExecuteScriptError{
+		ExecuteScriptWrongReturnTypeError: v,
+	}
 }
 
 
@@ -74,7 +90,7 @@ func (dst *ExecuteScriptError) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -217,6 +233,9 @@ func (src ExecuteScriptError) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *ExecuteScriptError) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.ExecuteScriptArgumentsScriptError != nil {
 		return obj.ExecuteScriptArgumentsScriptError
 	}

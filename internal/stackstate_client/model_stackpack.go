@@ -15,35 +15,35 @@ import (
 	"encoding/json"
 )
 
-// Sstackpack struct for Sstackpack
-type Sstackpack struct {
-	Name           *string                     `json:"name,omitempty"`
-	DisplayName    *string                     `json:"displayName,omitempty"`
-	Version        *string                     `json:"version,omitempty"`
-	Configurations *[]SstackpackConfigurations `json:"configurations,omitempty"`
-	LatestVersion  *SstackpackLatestVersion    `json:"latestVersion,omitempty"`
-	NextVersion    *SstackpackLatestVersion    `json:"nextVersion,omitempty"`
+// Stackpack struct for Stackpack
+type Stackpack struct {
+	Name *string `json:"name,omitempty"`
+	DisplayName *string `json:"displayName,omitempty"`
+	Version *string `json:"version,omitempty"`
+	Configurations []StackpackConfigurationsInner `json:"configurations,omitempty"`
+	LatestVersion *StackpackLatestVersion `json:"latestVersion,omitempty"`
+	NextVersion *StackpackLatestVersion `json:"nextVersion,omitempty"`
 }
 
-// NewSstackpack instantiates a new Sstackpack object
+// NewStackpack instantiates a new Stackpack object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSstackpack() *Sstackpack {
-	this := Sstackpack{}
+func NewStackpack() *Stackpack {
+	this := Stackpack{}
 	return &this
 }
 
-// NewSstackpackWithDefaults instantiates a new Sstackpack object
+// NewStackpackWithDefaults instantiates a new Stackpack object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSstackpackWithDefaults() *Sstackpack {
-	this := Sstackpack{}
+func NewStackpackWithDefaults() *Stackpack {
+	this := Stackpack{}
 	return &this
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
-func (o *Sstackpack) GetName() string {
+func (o *Stackpack) GetName() string {
 	if o == nil || o.Name == nil {
 		var ret string
 		return ret
@@ -53,7 +53,7 @@ func (o *Sstackpack) GetName() string {
 
 // GetNameOk returns a tuple with the Name field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetNameOk() (*string, bool) {
+func (o *Stackpack) GetNameOk() (*string, bool) {
 	if o == nil || o.Name == nil {
 		return nil, false
 	}
@@ -61,7 +61,7 @@ func (o *Sstackpack) GetNameOk() (*string, bool) {
 }
 
 // HasName returns a boolean if a field has been set.
-func (o *Sstackpack) HasName() bool {
+func (o *Stackpack) HasName() bool {
 	if o != nil && o.Name != nil {
 		return true
 	}
@@ -70,12 +70,12 @@ func (o *Sstackpack) HasName() bool {
 }
 
 // SetName gets a reference to the given string and assigns it to the Name field.
-func (o *Sstackpack) SetName(v string) {
+func (o *Stackpack) SetName(v string) {
 	o.Name = &v
 }
 
 // GetDisplayName returns the DisplayName field value if set, zero value otherwise.
-func (o *Sstackpack) GetDisplayName() string {
+func (o *Stackpack) GetDisplayName() string {
 	if o == nil || o.DisplayName == nil {
 		var ret string
 		return ret
@@ -85,7 +85,7 @@ func (o *Sstackpack) GetDisplayName() string {
 
 // GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetDisplayNameOk() (*string, bool) {
+func (o *Stackpack) GetDisplayNameOk() (*string, bool) {
 	if o == nil || o.DisplayName == nil {
 		return nil, false
 	}
@@ -93,7 +93,7 @@ func (o *Sstackpack) GetDisplayNameOk() (*string, bool) {
 }
 
 // HasDisplayName returns a boolean if a field has been set.
-func (o *Sstackpack) HasDisplayName() bool {
+func (o *Stackpack) HasDisplayName() bool {
 	if o != nil && o.DisplayName != nil {
 		return true
 	}
@@ -102,12 +102,12 @@ func (o *Sstackpack) HasDisplayName() bool {
 }
 
 // SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
-func (o *Sstackpack) SetDisplayName(v string) {
+func (o *Stackpack) SetDisplayName(v string) {
 	o.DisplayName = &v
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise.
-func (o *Sstackpack) GetVersion() string {
+func (o *Stackpack) GetVersion() string {
 	if o == nil || o.Version == nil {
 		var ret string
 		return ret
@@ -117,7 +117,7 @@ func (o *Sstackpack) GetVersion() string {
 
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetVersionOk() (*string, bool) {
+func (o *Stackpack) GetVersionOk() (*string, bool) {
 	if o == nil || o.Version == nil {
 		return nil, false
 	}
@@ -125,7 +125,7 @@ func (o *Sstackpack) GetVersionOk() (*string, bool) {
 }
 
 // HasVersion returns a boolean if a field has been set.
-func (o *Sstackpack) HasVersion() bool {
+func (o *Stackpack) HasVersion() bool {
 	if o != nil && o.Version != nil {
 		return true
 	}
@@ -134,22 +134,22 @@ func (o *Sstackpack) HasVersion() bool {
 }
 
 // SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *Sstackpack) SetVersion(v string) {
+func (o *Stackpack) SetVersion(v string) {
 	o.Version = &v
 }
 
 // GetConfigurations returns the Configurations field value if set, zero value otherwise.
-func (o *Sstackpack) GetConfigurations() []SstackpackConfigurations {
+func (o *Stackpack) GetConfigurations() []StackpackConfigurationsInner {
 	if o == nil || o.Configurations == nil {
-		var ret []SstackpackConfigurations
+		var ret []StackpackConfigurationsInner
 		return ret
 	}
-	return *o.Configurations
+	return o.Configurations
 }
 
 // GetConfigurationsOk returns a tuple with the Configurations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetConfigurationsOk() (*[]SstackpackConfigurations, bool) {
+func (o *Stackpack) GetConfigurationsOk() ([]StackpackConfigurationsInner, bool) {
 	if o == nil || o.Configurations == nil {
 		return nil, false
 	}
@@ -157,7 +157,7 @@ func (o *Sstackpack) GetConfigurationsOk() (*[]SstackpackConfigurations, bool) {
 }
 
 // HasConfigurations returns a boolean if a field has been set.
-func (o *Sstackpack) HasConfigurations() bool {
+func (o *Stackpack) HasConfigurations() bool {
 	if o != nil && o.Configurations != nil {
 		return true
 	}
@@ -165,15 +165,15 @@ func (o *Sstackpack) HasConfigurations() bool {
 	return false
 }
 
-// SetConfigurations gets a reference to the given []SstackpackConfigurations and assigns it to the Configurations field.
-func (o *Sstackpack) SetConfigurations(v []SstackpackConfigurations) {
-	o.Configurations = &v
+// SetConfigurations gets a reference to the given []StackpackConfigurationsInner and assigns it to the Configurations field.
+func (o *Stackpack) SetConfigurations(v []StackpackConfigurationsInner) {
+	o.Configurations = v
 }
 
 // GetLatestVersion returns the LatestVersion field value if set, zero value otherwise.
-func (o *Sstackpack) GetLatestVersion() SstackpackLatestVersion {
+func (o *Stackpack) GetLatestVersion() StackpackLatestVersion {
 	if o == nil || o.LatestVersion == nil {
-		var ret SstackpackLatestVersion
+		var ret StackpackLatestVersion
 		return ret
 	}
 	return *o.LatestVersion
@@ -181,7 +181,7 @@ func (o *Sstackpack) GetLatestVersion() SstackpackLatestVersion {
 
 // GetLatestVersionOk returns a tuple with the LatestVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetLatestVersionOk() (*SstackpackLatestVersion, bool) {
+func (o *Stackpack) GetLatestVersionOk() (*StackpackLatestVersion, bool) {
 	if o == nil || o.LatestVersion == nil {
 		return nil, false
 	}
@@ -189,7 +189,7 @@ func (o *Sstackpack) GetLatestVersionOk() (*SstackpackLatestVersion, bool) {
 }
 
 // HasLatestVersion returns a boolean if a field has been set.
-func (o *Sstackpack) HasLatestVersion() bool {
+func (o *Stackpack) HasLatestVersion() bool {
 	if o != nil && o.LatestVersion != nil {
 		return true
 	}
@@ -197,15 +197,15 @@ func (o *Sstackpack) HasLatestVersion() bool {
 	return false
 }
 
-// SetLatestVersion gets a reference to the given SstackpackLatestVersion and assigns it to the LatestVersion field.
-func (o *Sstackpack) SetLatestVersion(v SstackpackLatestVersion) {
+// SetLatestVersion gets a reference to the given StackpackLatestVersion and assigns it to the LatestVersion field.
+func (o *Stackpack) SetLatestVersion(v StackpackLatestVersion) {
 	o.LatestVersion = &v
 }
 
 // GetNextVersion returns the NextVersion field value if set, zero value otherwise.
-func (o *Sstackpack) GetNextVersion() SstackpackLatestVersion {
+func (o *Stackpack) GetNextVersion() StackpackLatestVersion {
 	if o == nil || o.NextVersion == nil {
-		var ret SstackpackLatestVersion
+		var ret StackpackLatestVersion
 		return ret
 	}
 	return *o.NextVersion
@@ -213,7 +213,7 @@ func (o *Sstackpack) GetNextVersion() SstackpackLatestVersion {
 
 // GetNextVersionOk returns a tuple with the NextVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetNextVersionOk() (*SstackpackLatestVersion, bool) {
+func (o *Stackpack) GetNextVersionOk() (*StackpackLatestVersion, bool) {
 	if o == nil || o.NextVersion == nil {
 		return nil, false
 	}
@@ -221,7 +221,7 @@ func (o *Sstackpack) GetNextVersionOk() (*SstackpackLatestVersion, bool) {
 }
 
 // HasNextVersion returns a boolean if a field has been set.
-func (o *Sstackpack) HasNextVersion() bool {
+func (o *Stackpack) HasNextVersion() bool {
 	if o != nil && o.NextVersion != nil {
 		return true
 	}
@@ -229,12 +229,12 @@ func (o *Sstackpack) HasNextVersion() bool {
 	return false
 }
 
-// SetNextVersion gets a reference to the given SstackpackLatestVersion and assigns it to the NextVersion field.
-func (o *Sstackpack) SetNextVersion(v SstackpackLatestVersion) {
+// SetNextVersion gets a reference to the given StackpackLatestVersion and assigns it to the NextVersion field.
+func (o *Stackpack) SetNextVersion(v StackpackLatestVersion) {
 	o.NextVersion = &v
 }
 
-func (o Sstackpack) MarshalJSON() ([]byte, error) {
+func (o Stackpack) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
@@ -257,38 +257,40 @@ func (o Sstackpack) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableSstackpack struct {
-	value *Sstackpack
+type NullableStackpack struct {
+	value *Stackpack
 	isSet bool
 }
 
-func (v NullableSstackpack) Get() *Sstackpack {
+func (v NullableStackpack) Get() *Stackpack {
 	return v.value
 }
 
-func (v *NullableSstackpack) Set(val *Sstackpack) {
+func (v *NullableStackpack) Set(val *Stackpack) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSstackpack) IsSet() bool {
+func (v NullableStackpack) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSstackpack) Unset() {
+func (v *NullableStackpack) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSstackpack(val *Sstackpack) *NullableSstackpack {
-	return &NullableSstackpack{value: val, isSet: true}
+func NewNullableStackpack(val *Stackpack) *NullableStackpack {
+	return &NullableStackpack{value: val, isSet: true}
 }
 
-func (v NullableSstackpack) MarshalJSON() ([]byte, error) {
+func (v NullableStackpack) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSstackpack) UnmarshalJSON(src []byte) error {
+func (v *NullableStackpack) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

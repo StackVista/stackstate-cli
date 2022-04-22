@@ -28,7 +28,7 @@ func SettingsExportCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo *stackstate_client.ServerInfo) common.CLIError {
 	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return err
 	}
@@ -57,19 +57,19 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 
 	exportArgs := stackstate_client.NewExport()
 	if len(ids) != 0 {
-		exportArgs.NodesWithIds = &ids
+		exportArgs.NodesWithIds = ids
 	}
 	if len(namespace) != 0 {
 		exportArgs.Namespace = &namespace
 	}
 	if len(nodeTypes) != 0 {
-		exportArgs.AllNodesOfTypes = &nodeTypes
+		exportArgs.AllNodesOfTypes = nodeTypes
 	}
 	if len(references) != 0 {
 		if len(namespace) == 0 {
 			return common.NewCLIError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
 		}
-		exportArgs.AllowReferences = &references
+		exportArgs.AllowReferences = references
 	}
 
 	data, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*exportArgs).Execute()

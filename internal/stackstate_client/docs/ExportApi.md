@@ -32,8 +32,8 @@ func main() {
     export := *openapiclient.NewExport() // Export | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ExportApi.ExportSettings(context.Background()).Export(export).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ExportApi.ExportSettings(context.Background()).Export(export).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ExportApi.ExportSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

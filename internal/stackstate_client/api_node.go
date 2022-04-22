@@ -13,17 +13,13 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strings"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type NodeApi interface {
 
@@ -32,42 +28,40 @@ type NodeApi interface {
 
 	list all node types
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiNodeListTypesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiNodeListTypesRequest
 	*/
-	NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest
+	NodeListTypes(ctx context.Context) ApiNodeListTypesRequest
 
 	// NodeListTypesExecute executes the request
 	//  @return NodeTypes
-	NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error)
+	NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error)
 
 	/*
 	TypeList Node type API
 
 	list all nodes of that type
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param nodeType
-	 @return ApiTypeListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@return ApiTypeListRequest
 	*/
-	TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest
+	TypeList(ctx context.Context, nodeType string) ApiTypeListRequest
 
 	// TypeListExecute executes the request
 	//  @return []Node
-	TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error)
+	TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error)
 }
-
 
 // NodeApiService NodeApi service
 type NodeApiService service
 
 type ApiNodeListTypesRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService NodeApi
 }
 
-
-func (r ApiNodeListTypesRequest) Execute() (NodeTypes, *_nethttp.Response, error) {
+func (r ApiNodeListTypesRequest) Execute() (*NodeTypes, *http.Response, error) {
 	return r.ApiService.NodeListTypesExecute(r)
 }
 
@@ -76,10 +70,10 @@ NodeListTypes Node API
 
 list all node types
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiNodeListTypesRequest
 */
-func (a *NodeApiService) NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest {
+func (a *NodeApiService) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -88,26 +82,24 @@ func (a *NodeApiService) NodeListTypes(ctx _context.Context) ApiNodeListTypesReq
 
 // Execute executes the request
 //  @return NodeTypes
-func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error) {
+func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  NodeTypes
+		formFiles            []formFile
+		localVarReturnValue  *NodeTypes
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.NodeListTypes")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/node"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -140,7 +132,7 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTy
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -150,15 +142,15 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTy
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -176,7 +168,7 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTy
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -187,7 +179,7 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTy
 }
 
 type ApiTypeListRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService NodeApi
 	nodeType string
 	namespace *string
@@ -198,12 +190,13 @@ func (r ApiTypeListRequest) Namespace(namespace string) ApiTypeListRequest {
 	r.namespace = &namespace
 	return r
 }
+
 func (r ApiTypeListRequest) OwnedBy(ownedBy string) ApiTypeListRequest {
 	r.ownedBy = &ownedBy
 	return r
 }
 
-func (r ApiTypeListRequest) Execute() ([]Node, *_nethttp.Response, error) {
+func (r ApiTypeListRequest) Execute() ([]Node, *http.Response, error) {
 	return r.ApiService.TypeListExecute(r)
 }
 
@@ -212,11 +205,11 @@ TypeList Node type API
 
 list all nodes of that type
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param nodeType
  @return ApiTypeListRequest
 */
-func (a *NodeApiService) TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest {
+func (a *NodeApiService) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -226,27 +219,25 @@ func (a *NodeApiService) TypeList(ctx _context.Context, nodeType string) ApiType
 
 // Execute executes the request
 //  @return []Node
-func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error) {
+func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		localVarReturnValue  []Node
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.TypeList")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/node/{nodeType}"
-	localVarPath = strings.Replace(localVarPath, "{"+"nodeType"+"}", _neturl.PathEscape(parameterToString(r.nodeType, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"nodeType"+"}", url.PathEscape(parameterToString(r.nodeType, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	if r.namespace != nil {
 		localVarQueryParams.Add("namespace", parameterToString(*r.namespace, ""))
@@ -285,7 +276,7 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethtt
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -295,15 +286,15 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethtt
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -321,7 +312,7 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethtt
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -355,7 +346,7 @@ func NewNodeApiMock() NodeApiMock {
 
 type NodeListTypesMockResponse struct {
 	Result NodeTypes
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -363,23 +354,23 @@ type NodeListTypesCall struct {
 }
 
 
-func (mock NodeApiMock) NodeListTypes(ctx _context.Context) ApiNodeListTypesRequest {
+func (mock NodeApiMock) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock NodeApiMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (NodeTypes, *_nethttp.Response, error) {
+func (mock NodeApiMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
 	p := NodeListTypesCall {
 	}
 	*mock.NodeListTypesCalls = append(*mock.NodeListTypesCalls, p)
-	return mock.NodeListTypesResponse.Result, mock.NodeListTypesResponse.Response, mock.NodeListTypesResponse.Error
+	return &mock.NodeListTypesResponse.Result, mock.NodeListTypesResponse.Response, mock.NodeListTypesResponse.Error
 }
 
 type TypeListMockResponse struct {
 	Result []Node
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -390,7 +381,7 @@ type TypeListCall struct {
 }
 
 
-func (mock NodeApiMock) TypeList(ctx _context.Context, nodeType string) ApiTypeListRequest {
+func (mock NodeApiMock) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -398,7 +389,7 @@ func (mock NodeApiMock) TypeList(ctx _context.Context, nodeType string) ApiTypeL
 	}
 }
 
-func (mock NodeApiMock) TypeListExecute(r ApiTypeListRequest) ([]Node, *_nethttp.Response, error) {
+func (mock NodeApiMock) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
 	p := TypeListCall {
 			PnodeType: r.nodeType,
 			Pnamespace: r.namespace,

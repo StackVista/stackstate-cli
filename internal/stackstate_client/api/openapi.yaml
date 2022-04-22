@@ -190,7 +190,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/StackPack'
+                $ref: '#/components/schemas/Stackpack'
           description: Upload success. Processing happens asynchronously.
         "400":
           content:
@@ -743,7 +743,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get events topology overflow error, validation error
+          description: "Get events topology overflow error, validation error"
         "500":
           content:
             application/json:
@@ -843,7 +843,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get events topology overflow error, validation error
+          description: "Get events topology overflow error, validation error"
         "500":
           content:
             application/json:
@@ -943,7 +943,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get events topology overflow error, validation error
+          description: "Get events topology overflow error, validation error"
         "500":
           content:
             application/json:
@@ -1279,8 +1279,8 @@ paths:
       - topologySynchronization
   /synchronization/topology/streams/sync:
     get:
-      description: Overview of a specific Topology Stream, queried by node id or sync
-        identifier
+      description: "Overview of a specific Topology Stream, queried by node id or\
+        \ sync identifier"
       operationId: getTopologySynchronizationStreamById
       parameters:
       - allowReserved: true
@@ -1314,8 +1314,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TopologySyncError'
           description: Sync with given identifier not found
-      summary: Overview of a specific Topology Stream, queried by node id or sync
-        identifier
+      summary: "Overview of a specific Topology Stream, queried by node id or sync\
+        \ identifier"
       tags:
       - topologySynchronization
     parameters:
@@ -1333,7 +1333,7 @@ paths:
         $ref: '#/components/schemas/IdentifierType'
   /synchronization/topology/streams/status:
     get:
-      description: Metrics of a specific Topology Stream, queried by node id
+      description: "Metrics of a specific Topology Stream, queried by node id"
       operationId: getTopologySynchronizationStreamStatusById
       parameters:
       - allowReserved: true
@@ -1361,7 +1361,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TopologySyncError'
           description: Sync with given identifier not found
-      summary: Metrics of a specific Topology Stream, queried by node id
+      summary: "Metrics of a specific Topology Stream, queried by node id"
       tags:
       - topologySynchronization
     parameters:
@@ -1460,8 +1460,8 @@ paths:
       - scripting
   /server/info:
     get:
-      description: Get information of the StackState information, such as version,
-        deployment mode, etc.
+      description: "Get information of the StackState information, such as version,\
+        \ deployment mode, etc."
       operationId: serverInfo
       responses:
         "200":
@@ -1482,6 +1482,7 @@ paths:
   /anomaly-feedback:
     get:
       description: ""
+      operationId: collectAnomalyFeedback
       parameters:
       - in: query
         name: startTime
@@ -1516,7 +1517,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
-      summary: ""
+      summary: Collect feedback on anomalies
       tags:
       - anomalyFeedback
 components:
@@ -1527,6 +1528,117 @@ components:
           schema:
             $ref: '#/components/schemas/EventListRequest'
       required: true
+  responses:
+    genericErrorsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericErrorsResponse'
+      description: Error when handling the request on the server side.
+    monitors:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorList'
+      description: List of all available monitors
+    monitorApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorApiError'
+      description: container for all error response
+    monitor:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Monitor'
+      description: Full representation of a monitor
+    monitorNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorNotFoundError'
+      description: monitor was not found in the database
+    monitorRunResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorRunResult'
+      description: Full representation of the result of a monitor run
+    monitorIdentifierNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+      description: monitor was not found in the database
+    userProfile:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserProfile'
+      description: User Profile
+    apiTokens:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/ApiToken'
+            type: array
+      description: Api Token
+    events:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventItemsWithTotal'
+      description: Event API
+    event:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TopologyEvent'
+      description: Event
+    eventNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventNotFoundError'
+      description: Error when retrieving an event
+    eventSuggestions:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StringItemsWithTotal'
+      description: Event field suggestions
+    urnBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidUrn'
+      description: Bad request when specifying an invalid identifier
+    healthStreamError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthStreamNotFound'
+      description: Error when retrieving health stream
+    healthSubStreamError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthSubStreamError'
+      description: Error when retrieving health sub stream
+    TopologySyncBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidSyncIdentifier'
+      description: Bad request when specifying an invalid identifier
+    TopologySyncNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TopologySyncError'
+      description: Sync with given identifier not found
   schemas:
     GenericErrorsResponse:
       properties:
@@ -1591,7 +1703,7 @@ components:
       properties:
         nodeTypes:
           items:
-            $ref: '#/components/schemas/NodeTypes_nodeTypes'
+            $ref: '#/components/schemas/NodeTypes_nodeTypes_inner'
           type: array
       required:
       - nodeTypes
@@ -1637,9 +1749,9 @@ components:
       type: object
     StackpackList:
       items:
-        $ref: '#/components/schemas/Sstackpack'
+        $ref: '#/components/schemas/Stackpack'
       type: array
-    Sstackpack:
+    Stackpack:
       example:
         latestVersion:
           version: version
@@ -1660,87 +1772,12 @@ components:
           type: string
         configurations:
           items:
-            $ref: '#/components/schemas/Sstackpack_configurations'
+            $ref: '#/components/schemas/Stackpack_configurations_inner'
           type: array
         latestVersion:
-          $ref: '#/components/schemas/Sstackpack_latestVersion'
+          $ref: '#/components/schemas/Stackpack_latestVersion'
         nextVersion:
-          $ref: '#/components/schemas/Sstackpack_latestVersion'
-      type: object
-    StackPack:
-      example:
-        detailedOverviewUrl: detailedOverviewUrl
-        displayName: displayName
-        overviewUrl: overviewUrl
-        isNew: true
-        version: version
-        resourcesUrl: resourcesUrl
-        isCompatible: true
-        faqs:
-        - question: question
-          answer: answer
-        - question: question
-          answer: answer
-        configurationUrls:
-        - - configurationUrls
-          - configurationUrls
-        - - configurationUrls
-          - configurationUrls
-        name: name
-        releaseStatus: AVAILABLE
-        logo: logo
-        categories:
-        - categories
-        - categories
-      properties:
-        name:
-          type: string
-        displayName:
-          type: string
-        version:
-          type: string
-        logo:
-          type: string
-        categories:
-          items:
-            type: string
-          type: array
-        isNew:
-          type: boolean
-        overviewUrl:
-          type: string
-        detailedOverviewUrl:
-          type: string
-        resourcesUrl:
-          type: string
-        faqs:
-          items:
-            $ref: '#/components/schemas/StackPack_faqs'
-          type: array
-        configurationUrls:
-          items:
-            items:
-              type: string
-            type: array
-          type: array
-        releaseStatus:
-          enum:
-          - AVAILABLE
-          - ENABLED
-          - COMING_SOON
-          - HIDDEN
-          - BROKEN
-          type: string
-        isCompatible:
-          type: boolean
-      required:
-      - categories
-      - displayName
-      - isCompatible
-      - isNew
-      - name
-      - releaseStatus
-      - version
+          $ref: '#/components/schemas/Stackpack_latestVersion'
       type: object
     StackPackUpload:
       properties:
@@ -1758,7 +1795,7 @@ components:
           name: name
           description: description
           id: 0
-          parameters: '{}'
+          parameters: "{}"
           intervalSeconds: 1
         - topologyMapping: topologyMapping
           identifier: identifier
@@ -1767,7 +1804,7 @@ components:
           name: name
           description: description
           id: 0
-          parameters: '{}'
+          parameters: "{}"
           intervalSeconds: 1
       properties:
         monitors:
@@ -1786,7 +1823,7 @@ components:
         name: name
         description: description
         id: 0
-        parameters: '{}'
+        parameters: "{}"
         intervalSeconds: 1
       properties:
         id:
@@ -1852,7 +1889,7 @@ components:
       type: object
     MonitorRunResult:
       example:
-        result: '{}'
+        result: "{}"
       properties:
         result:
           type: object
@@ -1861,6 +1898,36 @@ components:
       type: object
     MonitorUrnId:
       type: string
+    Monitor_1:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          format: int64
+          type: integer
+        parameters:
+          type: object
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+        intervalSeconds:
+          type: integer
+      required:
+      - functionId
+      - id
+      - intervalSeconds
+      - name
+      - parameters
+      - topologyMapping
+      type: object
     MonitorIdentifierNotFoundError:
       properties:
         _type:
@@ -2031,6 +2098,7 @@ components:
         - eventTags
         - eventTags
         endTimestampMs: 6
+        rootCauseMode: null
       properties:
         startTimestampMs:
           format: instant
@@ -2105,7 +2173,7 @@ components:
         items:
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
-          data: '{}'
+          data: "{}"
           description: description
           source: source
           eventType: eventType
@@ -2120,6 +2188,7 @@ components:
           - null
           name: name
           eventTime: 6
+          category: null
           elementIdentifiers:
           - elementIdentifiers
           - elementIdentifiers
@@ -2139,7 +2208,7 @@ components:
             eventTimestamp: 0
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
-          data: '{}'
+          data: "{}"
           description: description
           source: source
           eventType: eventType
@@ -2154,6 +2223,7 @@ components:
           - null
           name: name
           eventTime: 6
+          category: null
           elementIdentifiers:
           - elementIdentifiers
           - elementIdentifiers
@@ -2187,7 +2257,7 @@ components:
       example:
         identifier: identifier
         sourceIdentifier: sourceIdentifier
-        data: '{}'
+        data: "{}"
         description: description
         source: source
         eventType: eventType
@@ -2202,6 +2272,7 @@ components:
         - null
         name: name
         eventTime: 6
+        category: null
         elementIdentifiers:
         - elementIdentifiers
         - elementIdentifiers
@@ -2469,6 +2540,7 @@ components:
         recoverMessage: recoverMessage
         mainStreamStatus:
           checkStateCount: 5
+          subStreamState: null
           metrics:
             createsPerSecond:
             - value: 5.962133916683182
@@ -2617,6 +2689,7 @@ components:
     HealthSubStreamStatus:
       example:
         checkStateCount: 5
+        subStreamState: null
         metrics:
           createsPerSecond:
           - value: 5.962133916683182
@@ -2740,8 +2813,10 @@ components:
         subStreams:
         - subStreamId: subStreamId
           checkStateCount: 0
+          subStreamState: null
         - subStreamId: subStreamId
           checkStateCount: 0
+          subStreamState: null
       properties:
         subStreams:
           items:
@@ -2754,6 +2829,7 @@ components:
       example:
         subStreamId: subStreamId
         checkStateCount: 0
+        subStreamState: null
       properties:
         subStreamId:
           type: string
@@ -2860,6 +2936,7 @@ components:
           nodeId: 0
           errors: 2
           createdComponents: 5
+          status: null
         - syncIdentifier: syncIdentifier
           createdRelations: 6
           deletedComponents: 5
@@ -2868,6 +2945,7 @@ components:
           nodeId: 0
           errors: 2
           createdComponents: 5
+          status: null
       properties:
         streams:
           items:
@@ -2886,6 +2964,7 @@ components:
         nodeId: 0
         errors: 2
         createdComponents: 5
+        status: null
       properties:
         syncIdentifier:
           nullable: true
@@ -2940,10 +3019,13 @@ components:
           nodeId: 0
           errors: 2
           createdComponents: 5
+          status: null
         errorDetails:
-        - externalId: externalId
+        - level: null
+          externalId: externalId
           message: message
-        - externalId: externalId
+        - level: null
+          externalId: externalId
           message: message
       properties:
         item:
@@ -2962,6 +3044,7 @@ components:
       type: array
     TopologyStreamError:
       example:
+        level: null
         externalId: externalId
         message: message
       properties:
@@ -3018,15 +3101,17 @@ components:
       type: object
     ExecuteScriptResponse:
       example:
-        result: '{}'
+        result: "{}"
       properties:
         result:
-          description: |
-            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
-            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
-            The `_type` property describes the original type of the result value during script execution.
-            The `value` property holds the resulting value serialized to JSON.
-            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
+          description: "Contains a `value` and `_type` property. This is described\
+            \ this way, because `value` can hold any\nJSON type and most open api\
+            \ generators (but not all) have problems with such types or are inconsistent\
+            \ with the OpenAPI spec.\nThe `_type` property describes the original\
+            \ type of the result value during script execution.\nThe `value` property\
+            \ holds the resulting value serialized to JSON.\nThe `value` property\
+            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
+            \ array or object.\n"
           nullable: true
           type: object
       required:
@@ -3055,7 +3140,7 @@ components:
           type: string
         errors:
           items:
-            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors'
+            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors_inner'
           type: array
       required:
       - _type
@@ -3240,8 +3325,6 @@ components:
       - patch
       type: object
     FeedbackWithContext:
-      discriminator:
-        propertyName: _type
       example:
         feedback:
           subject: subject
@@ -3250,6 +3333,7 @@ components:
             queryHash: queryHash
             dataSourceId: 2
             _type: AnnotationMetricQuery
+            aggregationMethod: null
             conditions:
             - _type: TelemetryQueryCondition
               value: value
@@ -3266,8 +3350,8 @@ components:
           - thumbsup
           - thumbsup
         anomaly:
-          reference:
-            _type: Reference
+          reference: null
+          data: null
           identifiers:
           - identifiers
           - identifiers
@@ -3277,6 +3361,7 @@ components:
             start: 1
             end: 6
           name: name
+          annotationType: null
           createdTime: 0
           description: description
           id: id
@@ -3285,21 +3370,18 @@ components:
           - tags
           - tags
         data:
-          _type: DownsampledTelemetry
-        _type: FeedbackWithContext
+        - null
+        - null
       properties:
-        _type:
-          enum:
-          - FeedbackWithContext
-          type: string
         anomaly:
           $ref: '#/components/schemas/Annotation'
         data:
-          $ref: '#/components/schemas/MetricTelemetry'
+          items:
+            $ref: '#/components/schemas/Point'
+          type: array
         feedback:
           $ref: '#/components/schemas/FeedbackData'
       required:
-      - _type
       - anomaly
       - data
       - feedback
@@ -3308,8 +3390,8 @@ components:
       discriminator:
         propertyName: _type
       example:
-        reference:
-          _type: Reference
+        reference: null
+        data: null
         identifiers:
         - identifiers
         - identifiers
@@ -3319,6 +3401,7 @@ components:
           start: 1
           end: 6
         name: name
+        annotationType: null
         createdTime: 0
         description: description
         id: id
@@ -3413,6 +3496,7 @@ components:
         streamName:
           type: string
       required:
+      - _type
       - checkedInterval
       - elementName
       - explanation
@@ -3452,6 +3536,7 @@ components:
         queryHash: queryHash
         dataSourceId: 2
         _type: AnnotationMetricQuery
+        aggregationMethod: null
         conditions:
         - _type: TelemetryQueryCondition
           value: value
@@ -3573,6 +3658,7 @@ components:
           queryHash: queryHash
           dataSourceId: 2
           _type: AnnotationMetricQuery
+          aggregationMethod: null
           conditions:
           - _type: TelemetryQueryCondition
             value: value
@@ -3614,41 +3700,34 @@ components:
     Reference:
       discriminator:
         propertyName: _type
-      example:
-        _type: Reference
+      oneOf:
+      - $ref: '#/components/schemas/MetricStreamReference'
+      required:
+      - _type
+      type: object
+    MetricStreamReference:
       properties:
         _type:
           enum:
-          - Reference
           - MetricStreamReference
           type: string
+        elementIdentifiers:
+          items:
+            type: string
+          type: array
+        streamNodeId:
+          format: int64
+          type: integer
       required:
       - _type
+      - elementIdentifiers
+      - streamNodeId
       type: object
-    MetricTelemetry:
-      discriminator:
-        propertyName: _type
-      example:
-        _type: DownsampledTelemetry
-      properties:
-        _type:
-          enum:
-          - DownsampledTelemetry
-          - TelemetryTermination
-          - DownsampledTelemetryData
-          - UnAggregatedTelemetry
-          - BaselineTelemetryData
-          - BaselineTelemetry
-          - MetricTelemetryData
-          - MetricTelemetry
-          - TelemetryError
-          - MetricData
-          - DownsampledMetricData
-          type: string
-      required:
-      - _type
-      type: object
-    NodeTypes_nodeTypes:
+    Point:
+      items:
+        $ref: '#/components/schemas/Point_inner'
+      type: array
+    NodeTypes_nodeTypes_inner:
       example:
         typeName: typeName
         description: description
@@ -3661,34 +3740,21 @@ components:
       - description
       - typeName
       type: object
-    Sstackpack_configurations:
+    Stackpack_configurations_inner:
       example:
         stackPackVersion: stackPackVersion
       properties:
         stackPackVersion:
           type: string
       type: object
-    Sstackpack_latestVersion:
+    Stackpack_latestVersion:
       example:
         version: version
       properties:
         version:
           type: string
       type: object
-    StackPack_faqs:
-      example:
-        question: question
-        answer: answer
-      properties:
-        question:
-          type: string
-        answer:
-          type: string
-      required:
-      - answer
-      - question
-      type: object
-    ExecuteScriptSyntaxErrors_errors:
+    ExecuteScriptSyntaxErrors_errors_inner:
       properties:
         message:
           type: string
@@ -3698,6 +3764,12 @@ components:
       - location
       - message
       type: object
+    Point_inner:
+      anyOf:
+      - format: int64
+        type: integer
+      - format: double
+        type: number
   securitySchemes:
     ApiToken:
       in: header

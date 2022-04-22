@@ -122,9 +122,9 @@ components:
     StackpackList:
       type: array
       items:
-        $ref: "#/components/schemas/Sstackpack"
+        $ref: "#/components/schemas/Stackpack"
 
-    Sstackpack:
+    Stackpack:
       type: object
       properties:
         name:
@@ -133,7 +133,7 @@ components:
           type: string
         version:
           type: string
-        mconfigurations:
+        configurations:
           type: array
           items:
             type: object

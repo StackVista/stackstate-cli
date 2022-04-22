@@ -55,7 +55,7 @@ func (o *ExecuteScriptTimeoutError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptTimeoutError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -79,7 +79,7 @@ func (o *ExecuteScriptTimeoutError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptTimeoutError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true
@@ -103,7 +103,7 @@ func (o *ExecuteScriptTimeoutError) GetTimeoutMs() int32 {
 // GetTimeoutMsOk returns a tuple with the TimeoutMs field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptTimeoutError) GetTimeoutMsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TimeoutMs, true

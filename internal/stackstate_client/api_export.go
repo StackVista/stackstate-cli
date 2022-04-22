@@ -13,16 +13,12 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type ExportApi interface {
 
@@ -31,22 +27,21 @@ type ExportApi interface {
 
 	Export StackState Templated JSON (STJ) setting nodes.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiExportSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiExportSettingsRequest
 	*/
-	ExportSettings(ctx _context.Context) ApiExportSettingsRequest
+	ExportSettings(ctx context.Context) ApiExportSettingsRequest
 
 	// ExportSettingsExecute executes the request
 	//  @return string
-	ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error)
+	ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error)
 }
-
 
 // ExportApiService ExportApi service
 type ExportApiService service
 
 type ApiExportSettingsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService ExportApi
 	export *Export
 }
@@ -56,7 +51,7 @@ func (r ApiExportSettingsRequest) Export(export Export) ApiExportSettingsRequest
 	return r
 }
 
-func (r ApiExportSettingsRequest) Execute() (string, *_nethttp.Response, error) {
+func (r ApiExportSettingsRequest) Execute() (string, *http.Response, error) {
 	return r.ApiService.ExportSettingsExecute(r)
 }
 
@@ -65,10 +60,10 @@ ExportSettings Export settings
 
 Export StackState Templated JSON (STJ) setting nodes.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiExportSettingsRequest
 */
-func (a *ExportApiService) ExportSettings(ctx _context.Context) ApiExportSettingsRequest {
+func (a *ExportApiService) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -77,26 +72,24 @@ func (a *ExportApiService) ExportSettings(ctx _context.Context) ApiExportSetting
 
 // Execute executes the request
 //  @return string
-func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error) {
+func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		localVarReturnValue  string
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExportApiService.ExportSettings")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/export"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.export == nil {
 		return localVarReturnValue, nil, reportError("export is required and must be specified")
 	}
@@ -134,7 +127,7 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -144,15 +137,15 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -161,7 +154,7 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -191,7 +184,7 @@ func NewExportApiMock() ExportApiMock {
 
 type ExportSettingsMockResponse struct {
 	Result string
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -200,14 +193,14 @@ type ExportSettingsCall struct {
 }
 
 
-func (mock ExportApiMock) ExportSettings(ctx _context.Context) ApiExportSettingsRequest {
+func (mock ExportApiMock) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ExportApiMock) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *_nethttp.Response, error) {
+func (mock ExportApiMock) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
 	p := ExportSettingsCall {
 			Pexport: r.export,
 	}

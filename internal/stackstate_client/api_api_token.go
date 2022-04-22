@@ -13,16 +13,12 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type ApiTokenApi interface {
 
@@ -31,27 +27,25 @@ type ApiTokenApi interface {
 
 	Get all API token of the logged-in user.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetCurrentUserApiTokensRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCurrentUserApiTokensRequest
 	*/
-	GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest
+	GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest
 
 	// GetCurrentUserApiTokensExecute executes the request
 	//  @return []ApiToken
-	GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error)
+	GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error)
 }
-
 
 // ApiTokenApiService ApiTokenApi service
 type ApiTokenApiService service
 
 type ApiGetCurrentUserApiTokensRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService ApiTokenApi
 }
 
-
-func (r ApiGetCurrentUserApiTokensRequest) Execute() ([]ApiToken, *_nethttp.Response, error) {
+func (r ApiGetCurrentUserApiTokensRequest) Execute() ([]ApiToken, *http.Response, error) {
 	return r.ApiService.GetCurrentUserApiTokensExecute(r)
 }
 
@@ -60,10 +54,10 @@ GetCurrentUserApiTokens Get current user's API tokens
 
 Get all API token of the logged-in user.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetCurrentUserApiTokensRequest
 */
-func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest {
+func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
 	return ApiGetCurrentUserApiTokensRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -72,26 +66,24 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx _context.Context) ApiGe
 
 // Execute executes the request
 //  @return []ApiToken
-func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error) {
+func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		localVarReturnValue  []ApiToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiTokenApiService.GetCurrentUserApiTokens")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/profile/tokens"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -124,7 +116,7 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -134,15 +126,15 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -170,7 +162,7 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -200,7 +192,7 @@ func NewApiTokenApiMock() ApiTokenApiMock {
 
 type GetCurrentUserApiTokensMockResponse struct {
 	Result []ApiToken
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -208,14 +200,14 @@ type GetCurrentUserApiTokensCall struct {
 }
 
 
-func (mock ApiTokenApiMock) GetCurrentUserApiTokens(ctx _context.Context) ApiGetCurrentUserApiTokensRequest {
+func (mock ApiTokenApiMock) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
 	return ApiGetCurrentUserApiTokensRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *_nethttp.Response, error) {
+func (mock ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
 	p := GetCurrentUserApiTokensCall {
 	}
 	*mock.GetCurrentUserApiTokensCalls = append(*mock.GetCurrentUserApiTokensCalls, p)

@@ -44,7 +44,7 @@ func RunScriptExecuteCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	serverInfo *stackstate_client.ServerInfo,
 ) common.CLIError {
 	var script string
 

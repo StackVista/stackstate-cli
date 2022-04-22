@@ -53,7 +53,7 @@ func (o *MonitorIdentifierNotFoundError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *MonitorIdentifierNotFoundError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -77,7 +77,7 @@ func (o *MonitorIdentifierNotFoundError) GetMonitorIdentifier() string {
 // GetMonitorIdentifierOk returns a tuple with the MonitorIdentifier field value
 // and a boolean to check if the value has been set.
 func (o *MonitorIdentifierNotFoundError) GetMonitorIdentifierOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.MonitorIdentifier, true

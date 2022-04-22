@@ -26,20 +26,20 @@ func TestStackpackListPrintToTable(t *testing.T) {
 	name := "ucmdb"
 	displayName := "HP UCMDB"
 	version := "0.1.1"
-	mockResponse := []stackstate_client.Sstackpack{
+	mockResponse := []stackstate_client.Stackpack{
 		{
 			Name:        &name,
 			DisplayName: &displayName,
 			Version:     &version,
-			Configurations: &[]stackstate_client.SstackpackConfigurations{
+			Configurations: []stackstate_client.StackpackConfigurationsInner{
 				{
 					StackPackVersion: &version,
 				},
 			},
-			NextVersion: &stackstate_client.SstackpackLatestVersion{
+			NextVersion: &stackstate_client.StackpackLatestVersion{
 				Version: &version,
 			},
-			LatestVersion: &stackstate_client.SstackpackLatestVersion{
+			LatestVersion: &stackstate_client.StackpackLatestVersion{
 				Version: &version,
 			},
 		},
@@ -67,23 +67,23 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 	name := "ucmdb"
 	displayName := "HP UCMDB"
 	version := "0.1.1"
-	installedStackPack := stackstate_client.Sstackpack{
+	installedStackPack := stackstate_client.Stackpack{
 		Name:        &name,
 		DisplayName: &displayName,
 		Version:     &version,
-		Configurations: &[]stackstate_client.SstackpackConfigurations{
+		Configurations: []stackstate_client.StackpackConfigurationsInner{
 			{
 				StackPackVersion: &version,
 			},
 		},
-		NextVersion: &stackstate_client.SstackpackLatestVersion{
+		NextVersion: &stackstate_client.StackpackLatestVersion{
 			Version: &version,
 		},
-		LatestVersion: &stackstate_client.SstackpackLatestVersion{
+		LatestVersion: &stackstate_client.StackpackLatestVersion{
 			Version: &version,
 		},
 	}
-	mockResponse := []stackstate_client.Sstackpack{
+	mockResponse := []stackstate_client.Stackpack{
 		installedStackPack,
 		{
 			Name:           &name,
@@ -104,7 +104,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		{
 			Header:     []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data:       [][]string{{name, displayName, "0.1.1", "0.1.1", "0.1.1", "1"}},
-			StructData: []stackstate_client.Sstackpack{installedStackPack},
+			StructData: []stackstate_client.Stackpack{installedStackPack},
 		},
 	}
 

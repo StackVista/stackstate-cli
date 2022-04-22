@@ -25,17 +25,23 @@ type HealthSubStreamConsistencyState struct {
 
 // HealthSubStreamExpiryAsHealthSubStreamConsistencyState is a convenience function that returns HealthSubStreamExpiry wrapped in HealthSubStreamConsistencyState
 func HealthSubStreamExpiryAsHealthSubStreamConsistencyState(v *HealthSubStreamExpiry) HealthSubStreamConsistencyState {
-	return HealthSubStreamConsistencyState{ HealthSubStreamExpiry: v}
+	return HealthSubStreamConsistencyState{
+		HealthSubStreamExpiry: v,
+	}
 }
 
 // HealthSubStreamSnapshotAsHealthSubStreamConsistencyState is a convenience function that returns HealthSubStreamSnapshot wrapped in HealthSubStreamConsistencyState
 func HealthSubStreamSnapshotAsHealthSubStreamConsistencyState(v *HealthSubStreamSnapshot) HealthSubStreamConsistencyState {
-	return HealthSubStreamConsistencyState{ HealthSubStreamSnapshot: v}
+	return HealthSubStreamConsistencyState{
+		HealthSubStreamSnapshot: v,
+	}
 }
 
 // HealthSubStreamTransactionalIncrementsAsHealthSubStreamConsistencyState is a convenience function that returns HealthSubStreamTransactionalIncrements wrapped in HealthSubStreamConsistencyState
 func HealthSubStreamTransactionalIncrementsAsHealthSubStreamConsistencyState(v *HealthSubStreamTransactionalIncrements) HealthSubStreamConsistencyState {
-	return HealthSubStreamConsistencyState{ HealthSubStreamTransactionalIncrements: v}
+	return HealthSubStreamConsistencyState{
+		HealthSubStreamTransactionalIncrements: v,
+	}
 }
 
 
@@ -44,7 +50,7 @@ func (dst *HealthSubStreamConsistencyState) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -107,6 +113,9 @@ func (src HealthSubStreamConsistencyState) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *HealthSubStreamConsistencyState) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.HealthSubStreamExpiry != nil {
 		return obj.HealthSubStreamExpiry
 	}

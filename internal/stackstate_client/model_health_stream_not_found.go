@@ -53,7 +53,7 @@ func (o *HealthStreamNotFound) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamNotFound) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -77,7 +77,7 @@ func (o *HealthStreamNotFound) GetUrn() string {
 // GetUrnOk returns a tuple with the Urn field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamNotFound) GetUrnOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Urn, true

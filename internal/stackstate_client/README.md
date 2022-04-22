@@ -23,7 +23,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./stackstate_client"
+import stackstate_client "gitlab.com/stackvista/stackstate-cli2"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -41,7 +41,7 @@ Default configuration comes with `Servers` field that contains server objects as
 For using other server than the one defined on index 0 set context value `sw.ContextServerIndex` of type `int`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
+ctx := context.WithValue(context.Background(), stackstate_client.ContextServerIndex, 1)
 ```
 
 ### Templated Server URL
@@ -49,7 +49,7 @@ ctx := context.WithValue(context.Background(), sw.ContextServerIndex, 1)
 Templated server URL is formatted using default variables from configuration or from context value `sw.ContextServerVariables` of type `map[string]string`.
 
 ```golang
-ctx := context.WithValue(context.Background(), sw.ContextServerVariables, map[string]string{
+ctx := context.WithValue(context.Background(), stackstate_client.ContextServerVariables, map[string]string{
 	"basePath": "v2",
 })
 ```
@@ -63,10 +63,10 @@ An operation is uniquely identified by `"{classname}Service.{nickname}"` string.
 Similar rules for overriding default operation server index and variables applies by using `sw.ContextOperationServerIndices` and `sw.ContextOperationServerVariables` context maps.
 
 ```
-ctx := context.WithValue(context.Background(), sw.ContextOperationServerIndices, map[string]int{
+ctx := context.WithValue(context.Background(), stackstate_client.ContextOperationServerIndices, map[string]int{
 	"{classname}Service.{nickname}": 2,
 })
-ctx = context.WithValue(context.Background(), sw.ContextOperationServerVariables, map[string]map[string]string{
+ctx = context.WithValue(context.Background(), stackstate_client.ContextOperationServerVariables, map[string]map[string]string{
 	"{classname}Service.{nickname}": {
 		"port": "8443",
 	},
@@ -79,7 +79,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnomalyFeedbackApi* | [**AnomalyFeedbackGet**](docs/AnomalyFeedbackApi.md#anomalyfeedbackget) | **Get** /anomaly-feedback | 
+*AnomalyFeedbackApi* | [**CollectAnomalyFeedback**](docs/AnomalyFeedbackApi.md#collectanomalyfeedback) | **Get** /anomaly-feedback | Collect feedback on anomalies
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
@@ -148,7 +148,7 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptResponse](docs/ExecuteScriptResponse.md)
  - [ExecuteScriptSecurityError](docs/ExecuteScriptSecurityError.md)
  - [ExecuteScriptSyntaxErrors](docs/ExecuteScriptSyntaxErrors.md)
- - [ExecuteScriptSyntaxErrorsErrors](docs/ExecuteScriptSyntaxErrorsErrors.md)
+ - [ExecuteScriptSyntaxErrorsErrorsInner](docs/ExecuteScriptSyntaxErrorsErrorsInner.md)
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
  - [Export](docs/Export.md)
@@ -175,8 +175,9 @@ Class | Method | HTTP request | Description
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
  - [MetricStreamNoAnomalyData](docs/MetricStreamNoAnomalyData.md)
- - [MetricTelemetry](docs/MetricTelemetry.md)
+ - [MetricStreamReference](docs/MetricStreamReference.md)
  - [Monitor](docs/Monitor.md)
+ - [Monitor1](docs/Monitor1.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
  - [MonitorList](docs/MonitorList.md)
@@ -185,7 +186,8 @@ Class | Method | HTTP request | Description
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
- - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
+ - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
+ - [PointInner](docs/PointInner.md)
  - [Reference](docs/Reference.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
@@ -194,11 +196,9 @@ Class | Method | HTTP request | Description
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
  - [SourceLink](docs/SourceLink.md)
- - [Sstackpack](docs/Sstackpack.md)
- - [SstackpackConfigurations](docs/SstackpackConfigurations.md)
- - [SstackpackLatestVersion](docs/SstackpackLatestVersion.md)
- - [StackPack](docs/StackPack.md)
- - [StackPackFaqs](docs/StackPackFaqs.md)
+ - [Stackpack](docs/Stackpack.md)
+ - [StackpackConfigurationsInner](docs/StackpackConfigurationsInner.md)
+ - [StackpackLatestVersion](docs/StackpackLatestVersion.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)

@@ -18,11 +18,11 @@ import (
 // HealthStreamMetrics struct for HealthStreamMetrics
 type HealthStreamMetrics struct {
 	BucketSizeSeconds int32 `json:"bucketSizeSeconds"`
-	LatencySeconds *[]MetricBucketValue `json:"latencySeconds,omitempty"`
-	MessagePerSecond *[]MetricBucketValue `json:"messagePerSecond,omitempty"`
-	CreatesPerSecond *[]MetricBucketValue `json:"createsPerSecond,omitempty"`
-	UpdatesPerSecond *[]MetricBucketValue `json:"updatesPerSecond,omitempty"`
-	DeletesPerSecond *[]MetricBucketValue `json:"deletesPerSecond,omitempty"`
+	LatencySeconds []MetricBucketValue `json:"latencySeconds,omitempty"`
+	MessagePerSecond []MetricBucketValue `json:"messagePerSecond,omitempty"`
+	CreatesPerSecond []MetricBucketValue `json:"createsPerSecond,omitempty"`
+	UpdatesPerSecond []MetricBucketValue `json:"updatesPerSecond,omitempty"`
+	DeletesPerSecond []MetricBucketValue `json:"deletesPerSecond,omitempty"`
 }
 
 // NewHealthStreamMetrics instantiates a new HealthStreamMetrics object
@@ -56,7 +56,7 @@ func (o *HealthStreamMetrics) GetBucketSizeSeconds() int32 {
 // GetBucketSizeSecondsOk returns a tuple with the BucketSizeSeconds field value
 // and a boolean to check if the value has been set.
 func (o *HealthStreamMetrics) GetBucketSizeSecondsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.BucketSizeSeconds, true
@@ -73,12 +73,12 @@ func (o *HealthStreamMetrics) GetLatencySeconds() []MetricBucketValue {
 		var ret []MetricBucketValue
 		return ret
 	}
-	return *o.LatencySeconds
+	return o.LatencySeconds
 }
 
 // GetLatencySecondsOk returns a tuple with the LatencySeconds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthStreamMetrics) GetLatencySecondsOk() (*[]MetricBucketValue, bool) {
+func (o *HealthStreamMetrics) GetLatencySecondsOk() ([]MetricBucketValue, bool) {
 	if o == nil || o.LatencySeconds == nil {
 		return nil, false
 	}
@@ -96,7 +96,7 @@ func (o *HealthStreamMetrics) HasLatencySeconds() bool {
 
 // SetLatencySeconds gets a reference to the given []MetricBucketValue and assigns it to the LatencySeconds field.
 func (o *HealthStreamMetrics) SetLatencySeconds(v []MetricBucketValue) {
-	o.LatencySeconds = &v
+	o.LatencySeconds = v
 }
 
 // GetMessagePerSecond returns the MessagePerSecond field value if set, zero value otherwise.
@@ -105,12 +105,12 @@ func (o *HealthStreamMetrics) GetMessagePerSecond() []MetricBucketValue {
 		var ret []MetricBucketValue
 		return ret
 	}
-	return *o.MessagePerSecond
+	return o.MessagePerSecond
 }
 
 // GetMessagePerSecondOk returns a tuple with the MessagePerSecond field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthStreamMetrics) GetMessagePerSecondOk() (*[]MetricBucketValue, bool) {
+func (o *HealthStreamMetrics) GetMessagePerSecondOk() ([]MetricBucketValue, bool) {
 	if o == nil || o.MessagePerSecond == nil {
 		return nil, false
 	}
@@ -128,7 +128,7 @@ func (o *HealthStreamMetrics) HasMessagePerSecond() bool {
 
 // SetMessagePerSecond gets a reference to the given []MetricBucketValue and assigns it to the MessagePerSecond field.
 func (o *HealthStreamMetrics) SetMessagePerSecond(v []MetricBucketValue) {
-	o.MessagePerSecond = &v
+	o.MessagePerSecond = v
 }
 
 // GetCreatesPerSecond returns the CreatesPerSecond field value if set, zero value otherwise.
@@ -137,12 +137,12 @@ func (o *HealthStreamMetrics) GetCreatesPerSecond() []MetricBucketValue {
 		var ret []MetricBucketValue
 		return ret
 	}
-	return *o.CreatesPerSecond
+	return o.CreatesPerSecond
 }
 
 // GetCreatesPerSecondOk returns a tuple with the CreatesPerSecond field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthStreamMetrics) GetCreatesPerSecondOk() (*[]MetricBucketValue, bool) {
+func (o *HealthStreamMetrics) GetCreatesPerSecondOk() ([]MetricBucketValue, bool) {
 	if o == nil || o.CreatesPerSecond == nil {
 		return nil, false
 	}
@@ -160,7 +160,7 @@ func (o *HealthStreamMetrics) HasCreatesPerSecond() bool {
 
 // SetCreatesPerSecond gets a reference to the given []MetricBucketValue and assigns it to the CreatesPerSecond field.
 func (o *HealthStreamMetrics) SetCreatesPerSecond(v []MetricBucketValue) {
-	o.CreatesPerSecond = &v
+	o.CreatesPerSecond = v
 }
 
 // GetUpdatesPerSecond returns the UpdatesPerSecond field value if set, zero value otherwise.
@@ -169,12 +169,12 @@ func (o *HealthStreamMetrics) GetUpdatesPerSecond() []MetricBucketValue {
 		var ret []MetricBucketValue
 		return ret
 	}
-	return *o.UpdatesPerSecond
+	return o.UpdatesPerSecond
 }
 
 // GetUpdatesPerSecondOk returns a tuple with the UpdatesPerSecond field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthStreamMetrics) GetUpdatesPerSecondOk() (*[]MetricBucketValue, bool) {
+func (o *HealthStreamMetrics) GetUpdatesPerSecondOk() ([]MetricBucketValue, bool) {
 	if o == nil || o.UpdatesPerSecond == nil {
 		return nil, false
 	}
@@ -192,7 +192,7 @@ func (o *HealthStreamMetrics) HasUpdatesPerSecond() bool {
 
 // SetUpdatesPerSecond gets a reference to the given []MetricBucketValue and assigns it to the UpdatesPerSecond field.
 func (o *HealthStreamMetrics) SetUpdatesPerSecond(v []MetricBucketValue) {
-	o.UpdatesPerSecond = &v
+	o.UpdatesPerSecond = v
 }
 
 // GetDeletesPerSecond returns the DeletesPerSecond field value if set, zero value otherwise.
@@ -201,12 +201,12 @@ func (o *HealthStreamMetrics) GetDeletesPerSecond() []MetricBucketValue {
 		var ret []MetricBucketValue
 		return ret
 	}
-	return *o.DeletesPerSecond
+	return o.DeletesPerSecond
 }
 
 // GetDeletesPerSecondOk returns a tuple with the DeletesPerSecond field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *HealthStreamMetrics) GetDeletesPerSecondOk() (*[]MetricBucketValue, bool) {
+func (o *HealthStreamMetrics) GetDeletesPerSecondOk() ([]MetricBucketValue, bool) {
 	if o == nil || o.DeletesPerSecond == nil {
 		return nil, false
 	}
@@ -224,7 +224,7 @@ func (o *HealthStreamMetrics) HasDeletesPerSecond() bool {
 
 // SetDeletesPerSecond gets a reference to the given []MetricBucketValue and assigns it to the DeletesPerSecond field.
 func (o *HealthStreamMetrics) SetDeletesPerSecond(v []MetricBucketValue) {
-	o.DeletesPerSecond = &v
+	o.DeletesPerSecond = v
 }
 
 func (o HealthStreamMetrics) MarshalJSON() ([]byte, error) {

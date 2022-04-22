@@ -21,7 +21,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 	cli, cmd := setupCommand()
 
 	nodeApiResult := sts.NodeTypes{
-		NodeTypes: []sts.NodeTypesNodeTypes{
+		NodeTypes: []sts.NodeTypesNodeTypesInner{
 			{TypeName: "hello", Description: "world"},
 		},
 	}

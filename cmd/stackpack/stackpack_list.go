@@ -21,7 +21,7 @@ func RunStackpackListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	serverInfo *stackstate_client.ServerInfo,
 ) common.CLIError {
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
@@ -33,7 +33,7 @@ func RunStackpackListCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	respData := make([]stackstate_client.Sstackpack, 0)
+	respData := make([]stackstate_client.Stackpack, 0)
 	for _, v := range stackpackList {
 		if isInstalled && len(v.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
@@ -44,7 +44,7 @@ func RunStackpackListCommand(
 			v.Version,
 			getVersion(v.NextVersion),
 			getVersion(v.LatestVersion),
-			len(*v.Configurations),
+			len(v.Configurations),
 		}
 
 		data = append(data, row)
@@ -60,7 +60,7 @@ func RunStackpackListCommand(
 	return nil
 }
 
-func getVersion(data *stackstate_client.SstackpackLatestVersion) string {
+func getVersion(data *stackstate_client.StackpackLatestVersion) string {
 	if data != nil && data.GetVersion() != "" {
 		return data.GetVersion()
 	}

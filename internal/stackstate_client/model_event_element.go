@@ -24,12 +24,16 @@ type EventElement struct {
 
 // EventComponentAsEventElement is a convenience function that returns EventComponent wrapped in EventElement
 func EventComponentAsEventElement(v *EventComponent) EventElement {
-	return EventElement{ EventComponent: v}
+	return EventElement{
+		EventComponent: v,
+	}
 }
 
 // EventRelationAsEventElement is a convenience function that returns EventRelation wrapped in EventElement
 func EventRelationAsEventElement(v *EventRelation) EventElement {
-	return EventElement{ EventRelation: v}
+	return EventElement{
+		EventRelation: v,
+	}
 }
 
 
@@ -38,7 +42,7 @@ func (dst *EventElement) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -85,6 +89,9 @@ func (src EventElement) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *EventElement) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.EventComponent != nil {
 		return obj.EventComponent
 	}

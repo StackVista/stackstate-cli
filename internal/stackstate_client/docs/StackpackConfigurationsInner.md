@@ -1,4 +1,4 @@
-# SstackpackConfigurations
+# StackpackConfigurationsInner
 
 ## Properties
 
@@ -8,45 +8,45 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewSstackpackConfigurations
+### NewStackpackConfigurationsInner
 
-`func NewSstackpackConfigurations() *SstackpackConfigurations`
+`func NewStackpackConfigurationsInner() *StackpackConfigurationsInner`
 
-NewSstackpackConfigurations instantiates a new SstackpackConfigurations object
+NewStackpackConfigurationsInner instantiates a new StackpackConfigurationsInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSstackpackConfigurationsWithDefaults
+### NewStackpackConfigurationsInnerWithDefaults
 
-`func NewSstackpackConfigurationsWithDefaults() *SstackpackConfigurations`
+`func NewStackpackConfigurationsInnerWithDefaults() *StackpackConfigurationsInner`
 
-NewSstackpackConfigurationsWithDefaults instantiates a new SstackpackConfigurations object
+NewStackpackConfigurationsInnerWithDefaults instantiates a new StackpackConfigurationsInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetStackPackVersion
 
-`func (o *SstackpackConfigurations) GetStackPackVersion() string`
+`func (o *StackpackConfigurationsInner) GetStackPackVersion() string`
 
 GetStackPackVersion returns the StackPackVersion field if non-nil, zero value otherwise.
 
 ### GetStackPackVersionOk
 
-`func (o *SstackpackConfigurations) GetStackPackVersionOk() (*string, bool)`
+`func (o *StackpackConfigurationsInner) GetStackPackVersionOk() (*string, bool)`
 
 GetStackPackVersionOk returns a tuple with the StackPackVersion field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStackPackVersion
 
-`func (o *SstackpackConfigurations) SetStackPackVersion(v string)`
+`func (o *StackpackConfigurationsInner) SetStackPackVersion(v string)`
 
 SetStackPackVersion sets StackPackVersion field to given value.
 
 ### HasStackPackVersion
 
-`func (o *SstackpackConfigurations) HasStackPackVersion() bool`
+`func (o *StackpackConfigurationsInner) HasStackPackVersion() bool`
 
 HasStackPackVersion returns a boolean if a field has been set.
 

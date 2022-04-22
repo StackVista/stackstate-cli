@@ -32,8 +32,8 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.UserProfileApi.GetCurrentUserProfile(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserProfileApi.GetCurrentUserProfile(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserProfileApi.GetCurrentUserProfile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -94,8 +94,8 @@ func main() {
     userProfile := *openapiclient.NewUserProfile("Name_example") // UserProfile | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.UserProfileApi.SaveCurrentUserProfile(context.Background()).UserProfile(userProfile).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.UserProfileApi.SaveCurrentUserProfile(context.Background()).UserProfile(userProfile).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserProfileApi.SaveCurrentUserProfile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

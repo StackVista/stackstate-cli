@@ -39,8 +39,8 @@ func main() {
     healthStreamUrn := "healthStreamUrn_example" // string | Urn of the health stream.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.DeleteHealthSynchronizationStream(context.Background(), healthStreamUrn).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.DeleteHealthSynchronizationStream(context.Background(), healthStreamUrn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.DeleteHealthSynchronizationStream``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -107,8 +107,8 @@ func main() {
     healthStreamUrn := "healthStreamUrn_example" // string | Urn of the health stream.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(context.Background(), healthStreamUrn).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(context.Background(), healthStreamUrn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationStreamStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -177,8 +177,8 @@ func main() {
     healthStreamUrn := "healthStreamUrn_example" // string | Urn of the health stream.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches(context.Background(), healthStreamUrn).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches(context.Background(), healthStreamUrn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -246,8 +246,8 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -308,8 +308,8 @@ func main() {
     healthStreamUrn := "healthStreamUrn_example" // string | Urn of the health stream.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview(context.Background(), healthStreamUrn).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview(context.Background(), healthStreamUrn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -379,8 +379,8 @@ func main() {
     healthSyncSubStreamId := "healthSyncSubStreamId_example" // string | Health synchronization sub stream id.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -452,8 +452,8 @@ func main() {
     healthSyncSubStreamId := "healthSyncSubStreamId_example" // string | Health synchronization sub stream id.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -524,8 +524,8 @@ func main() {
     healthStreamUrn := "healthStreamUrn_example" // string | Urn of the health stream.
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrors(context.Background(), healthStreamUrn).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrors(context.Background(), healthStreamUrn).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrors``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

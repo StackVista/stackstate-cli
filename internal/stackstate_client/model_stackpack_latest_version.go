@@ -15,30 +15,30 @@ import (
 	"encoding/json"
 )
 
-// SstackpackLatestVersion struct for SstackpackLatestVersion
-type SstackpackLatestVersion struct {
+// StackpackLatestVersion struct for StackpackLatestVersion
+type StackpackLatestVersion struct {
 	Version *string `json:"version,omitempty"`
 }
 
-// NewSstackpackLatestVersion instantiates a new SstackpackLatestVersion object
+// NewStackpackLatestVersion instantiates a new StackpackLatestVersion object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSstackpackLatestVersion() *SstackpackLatestVersion {
-	this := SstackpackLatestVersion{}
+func NewStackpackLatestVersion() *StackpackLatestVersion {
+	this := StackpackLatestVersion{}
 	return &this
 }
 
-// NewSstackpackLatestVersionWithDefaults instantiates a new SstackpackLatestVersion object
+// NewStackpackLatestVersionWithDefaults instantiates a new StackpackLatestVersion object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSstackpackLatestVersionWithDefaults() *SstackpackLatestVersion {
-	this := SstackpackLatestVersion{}
+func NewStackpackLatestVersionWithDefaults() *StackpackLatestVersion {
+	this := StackpackLatestVersion{}
 	return &this
 }
 
 // GetVersion returns the Version field value if set, zero value otherwise.
-func (o *SstackpackLatestVersion) GetVersion() string {
+func (o *StackpackLatestVersion) GetVersion() string {
 	if o == nil || o.Version == nil {
 		var ret string
 		return ret
@@ -48,7 +48,7 @@ func (o *SstackpackLatestVersion) GetVersion() string {
 
 // GetVersionOk returns a tuple with the Version field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SstackpackLatestVersion) GetVersionOk() (*string, bool) {
+func (o *StackpackLatestVersion) GetVersionOk() (*string, bool) {
 	if o == nil || o.Version == nil {
 		return nil, false
 	}
@@ -56,7 +56,7 @@ func (o *SstackpackLatestVersion) GetVersionOk() (*string, bool) {
 }
 
 // HasVersion returns a boolean if a field has been set.
-func (o *SstackpackLatestVersion) HasVersion() bool {
+func (o *StackpackLatestVersion) HasVersion() bool {
 	if o != nil && o.Version != nil {
 		return true
 	}
@@ -65,11 +65,11 @@ func (o *SstackpackLatestVersion) HasVersion() bool {
 }
 
 // SetVersion gets a reference to the given string and assigns it to the Version field.
-func (o *SstackpackLatestVersion) SetVersion(v string) {
+func (o *StackpackLatestVersion) SetVersion(v string) {
 	o.Version = &v
 }
 
-func (o SstackpackLatestVersion) MarshalJSON() ([]byte, error) {
+func (o StackpackLatestVersion) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Version != nil {
 		toSerialize["version"] = o.Version
@@ -77,38 +77,40 @@ func (o SstackpackLatestVersion) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableSstackpackLatestVersion struct {
-	value *SstackpackLatestVersion
+type NullableStackpackLatestVersion struct {
+	value *StackpackLatestVersion
 	isSet bool
 }
 
-func (v NullableSstackpackLatestVersion) Get() *SstackpackLatestVersion {
+func (v NullableStackpackLatestVersion) Get() *StackpackLatestVersion {
 	return v.value
 }
 
-func (v *NullableSstackpackLatestVersion) Set(val *SstackpackLatestVersion) {
+func (v *NullableStackpackLatestVersion) Set(val *StackpackLatestVersion) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSstackpackLatestVersion) IsSet() bool {
+func (v NullableStackpackLatestVersion) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSstackpackLatestVersion) Unset() {
+func (v *NullableStackpackLatestVersion) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSstackpackLatestVersion(val *SstackpackLatestVersion) *NullableSstackpackLatestVersion {
-	return &NullableSstackpackLatestVersion{value: val, isSet: true}
+func NewNullableStackpackLatestVersion(val *StackpackLatestVersion) *NullableStackpackLatestVersion {
+	return &NullableStackpackLatestVersion{value: val, isSet: true}
 }
 
-func (v NullableSstackpackLatestVersion) MarshalJSON() ([]byte, error) {
+func (v NullableStackpackLatestVersion) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSstackpackLatestVersion) UnmarshalJSON(src []byte) error {
+func (v *NullableStackpackLatestVersion) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

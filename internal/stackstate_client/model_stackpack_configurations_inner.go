@@ -15,30 +15,30 @@ import (
 	"encoding/json"
 )
 
-// SstackpackConfigurations struct for SstackpackConfigurations
-type SstackpackConfigurations struct {
+// StackpackConfigurationsInner struct for StackpackConfigurationsInner
+type StackpackConfigurationsInner struct {
 	StackPackVersion *string `json:"stackPackVersion,omitempty"`
 }
 
-// NewSstackpackConfigurations instantiates a new SstackpackConfigurations object
+// NewStackpackConfigurationsInner instantiates a new StackpackConfigurationsInner object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSstackpackConfigurations() *SstackpackConfigurations {
-	this := SstackpackConfigurations{}
+func NewStackpackConfigurationsInner() *StackpackConfigurationsInner {
+	this := StackpackConfigurationsInner{}
 	return &this
 }
 
-// NewSstackpackConfigurationsWithDefaults instantiates a new SstackpackConfigurations object
+// NewStackpackConfigurationsInnerWithDefaults instantiates a new StackpackConfigurationsInner object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSstackpackConfigurationsWithDefaults() *SstackpackConfigurations {
-	this := SstackpackConfigurations{}
+func NewStackpackConfigurationsInnerWithDefaults() *StackpackConfigurationsInner {
+	this := StackpackConfigurationsInner{}
 	return &this
 }
 
 // GetStackPackVersion returns the StackPackVersion field value if set, zero value otherwise.
-func (o *SstackpackConfigurations) GetStackPackVersion() string {
+func (o *StackpackConfigurationsInner) GetStackPackVersion() string {
 	if o == nil || o.StackPackVersion == nil {
 		var ret string
 		return ret
@@ -48,7 +48,7 @@ func (o *SstackpackConfigurations) GetStackPackVersion() string {
 
 // GetStackPackVersionOk returns a tuple with the StackPackVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SstackpackConfigurations) GetStackPackVersionOk() (*string, bool) {
+func (o *StackpackConfigurationsInner) GetStackPackVersionOk() (*string, bool) {
 	if o == nil || o.StackPackVersion == nil {
 		return nil, false
 	}
@@ -56,7 +56,7 @@ func (o *SstackpackConfigurations) GetStackPackVersionOk() (*string, bool) {
 }
 
 // HasStackPackVersion returns a boolean if a field has been set.
-func (o *SstackpackConfigurations) HasStackPackVersion() bool {
+func (o *StackpackConfigurationsInner) HasStackPackVersion() bool {
 	if o != nil && o.StackPackVersion != nil {
 		return true
 	}
@@ -65,11 +65,11 @@ func (o *SstackpackConfigurations) HasStackPackVersion() bool {
 }
 
 // SetStackPackVersion gets a reference to the given string and assigns it to the StackPackVersion field.
-func (o *SstackpackConfigurations) SetStackPackVersion(v string) {
+func (o *StackpackConfigurationsInner) SetStackPackVersion(v string) {
 	o.StackPackVersion = &v
 }
 
-func (o SstackpackConfigurations) MarshalJSON() ([]byte, error) {
+func (o StackpackConfigurationsInner) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.StackPackVersion != nil {
 		toSerialize["stackPackVersion"] = o.StackPackVersion
@@ -77,38 +77,40 @@ func (o SstackpackConfigurations) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableSstackpackConfigurations struct {
-	value *SstackpackConfigurations
+type NullableStackpackConfigurationsInner struct {
+	value *StackpackConfigurationsInner
 	isSet bool
 }
 
-func (v NullableSstackpackConfigurations) Get() *SstackpackConfigurations {
+func (v NullableStackpackConfigurationsInner) Get() *StackpackConfigurationsInner {
 	return v.value
 }
 
-func (v *NullableSstackpackConfigurations) Set(val *SstackpackConfigurations) {
+func (v *NullableStackpackConfigurationsInner) Set(val *StackpackConfigurationsInner) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSstackpackConfigurations) IsSet() bool {
+func (v NullableStackpackConfigurationsInner) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSstackpackConfigurations) Unset() {
+func (v *NullableStackpackConfigurationsInner) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSstackpackConfigurations(val *SstackpackConfigurations) *NullableSstackpackConfigurations {
-	return &NullableSstackpackConfigurations{value: val, isSet: true}
+func NewNullableStackpackConfigurationsInner(val *StackpackConfigurationsInner) *NullableStackpackConfigurationsInner {
+	return &NullableStackpackConfigurationsInner{value: val, isSet: true}
 }
 
-func (v NullableSstackpackConfigurations) MarshalJSON() ([]byte, error) {
+func (v NullableStackpackConfigurationsInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSstackpackConfigurations) UnmarshalJSON(src []byte) error {
+func (v *NullableStackpackConfigurationsInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

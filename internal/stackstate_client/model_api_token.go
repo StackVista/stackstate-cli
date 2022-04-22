@@ -120,7 +120,7 @@ func (o *ApiToken) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *ApiToken) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -176,7 +176,7 @@ func (o *ApiToken) GetToken() string {
 // GetTokenOk returns a tuple with the Token field value
 // and a boolean to check if the value has been set.
 func (o *ApiToken) GetTokenOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Token, true

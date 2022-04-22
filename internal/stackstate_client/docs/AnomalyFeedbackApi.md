@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AnomalyFeedbackGet**](AnomalyFeedbackApi.md#AnomalyFeedbackGet) | **Get** /anomaly-feedback | 
+[**CollectAnomalyFeedback**](AnomalyFeedbackApi.md#CollectAnomalyFeedback) | **Get** /anomaly-feedback | Collect feedback on anomalies
 
 
 
-## AnomalyFeedbackGet
+## CollectAnomalyFeedback
 
-> []FeedbackWithContext AnomalyFeedbackGet(ctx).StartTime(startTime).EndTime(endTime).History(history).Execute()
+> []FeedbackWithContext CollectAnomalyFeedback(ctx).StartTime(startTime).EndTime(endTime).History(history).Execute()
 
-
+Collect feedback on anomalies
 
 
 
@@ -34,14 +34,14 @@ func main() {
     history := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.AnomalyFeedbackApi.AnomalyFeedbackGet(context.Background()).StartTime(startTime).EndTime(endTime).History(history).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AnomalyFeedbackApi.CollectAnomalyFeedback(context.Background()).StartTime(startTime).EndTime(endTime).History(history).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyFeedbackApi.AnomalyFeedbackGet``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyFeedbackApi.CollectAnomalyFeedback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `AnomalyFeedbackGet`: []FeedbackWithContext
-    fmt.Fprintf(os.Stdout, "Response from `AnomalyFeedbackApi.AnomalyFeedbackGet`: %v\n", resp)
+    // response from `CollectAnomalyFeedback`: []FeedbackWithContext
+    fmt.Fprintf(os.Stdout, "Response from `AnomalyFeedbackApi.CollectAnomalyFeedback`: %v\n", resp)
 }
 ```
 
@@ -51,7 +51,7 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiAnomalyFeedbackGetRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiCollectAnomalyFeedbackRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

@@ -13,61 +13,67 @@ package stackstate_client
 
 import (
 	"encoding/json"
+	"fmt"
 )
 
-// Reference struct for Reference
+// Reference - struct for Reference
 type Reference struct {
-	Type string `json:"_type"`
+	MetricStreamReference *MetricStreamReference
 }
 
-// NewReference instantiates a new Reference object
-// This constructor will assign default values to properties that have it defined,
-// and makes sure properties required by API are set, but the set of arguments
-// will change when the set of required properties is changed
-func NewReference(type_ string) *Reference {
-	this := Reference{}
-	this.Type = type_
-	return &this
+// MetricStreamReferenceAsReference is a convenience function that returns MetricStreamReference wrapped in Reference
+func MetricStreamReferenceAsReference(v *MetricStreamReference) Reference {
+	return Reference{
+		MetricStreamReference: v,
+	}
 }
 
-// NewReferenceWithDefaults instantiates a new Reference object
-// This constructor will only assign default values to properties that have it defined,
-// but it doesn't guarantee that properties required by API are set
-func NewReferenceWithDefaults() *Reference {
-	this := Reference{}
-	return &this
-}
 
-// GetType returns the Type field value
-func (o *Reference) GetType() string {
-	if o == nil {
-		var ret string
-		return ret
+// Unmarshal JSON data into one of the pointers in the struct
+func (dst *Reference) UnmarshalJSON(data []byte) error {
+	var err error
+	// use discriminator value to speed up the lookup
+	var jsonDict map[string]interface{}
+	err = newStrictDecoder(data).Decode(&jsonDict)
+	if err != nil {
+		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
 
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *Reference) GetTypeOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
+	// check if the discriminator value is 'MetricStreamReference'
+	if jsonDict["_type"] == "MetricStreamReference" {
+		// try to unmarshal JSON data into MetricStreamReference
+		err = json.Unmarshal(data, &dst.MetricStreamReference)
+		if err == nil {
+			return nil // data stored in dst.MetricStreamReference, return on the first match
+		} else {
+			dst.MetricStreamReference = nil
+			return fmt.Errorf("Failed to unmarshal Reference as MetricStreamReference: %s", err.Error())
+		}
 	}
-	return &o.Type, true
+
+	return nil
 }
 
-// SetType sets field value
-func (o *Reference) SetType(v string) {
-	o.Type = v
-}
-
-func (o Reference) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["_type"] = o.Type
+// Marshal data from the first non-nil pointers in the struct to JSON
+func (src Reference) MarshalJSON() ([]byte, error) {
+	if src.MetricStreamReference != nil {
+		return json.Marshal(&src.MetricStreamReference)
 	}
-	return json.Marshal(toSerialize)
+
+	return nil, nil // no data in oneOf schemas
+}
+
+// Get the actual instance
+func (obj *Reference) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
+	if obj.MetricStreamReference != nil {
+		return obj.MetricStreamReference
+	}
+
+	// all schemas are nil
+	return nil
 }
 
 type NullableReference struct {

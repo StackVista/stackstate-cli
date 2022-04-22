@@ -13,16 +13,12 @@ package stackstate_client
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type ImportApi interface {
 
@@ -31,22 +27,21 @@ type ImportApi interface {
 
 	Import StackState Templated JSON (STJ) setting nodes.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiImportSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiImportSettingsRequest
 	*/
-	ImportSettings(ctx _context.Context) ApiImportSettingsRequest
+	ImportSettings(ctx context.Context) ApiImportSettingsRequest
 
 	// ImportSettingsExecute executes the request
 	//  @return []map[string]interface{}
-	ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error)
+	ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error)
 }
-
 
 // ImportApiService ImportApi service
 type ImportApiService service
 
 type ApiImportSettingsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService ImportApi
 	body *string
 	timeoutSeconds *int64
@@ -58,20 +53,23 @@ func (r ApiImportSettingsRequest) Body(body string) ApiImportSettingsRequest {
 	r.body = &body
 	return r
 }
+
 func (r ApiImportSettingsRequest) TimeoutSeconds(timeoutSeconds int64) ApiImportSettingsRequest {
 	r.timeoutSeconds = &timeoutSeconds
 	return r
 }
+
 func (r ApiImportSettingsRequest) Namespace(namespace string) ApiImportSettingsRequest {
 	r.namespace = &namespace
 	return r
 }
+
 func (r ApiImportSettingsRequest) Unlocked(unlocked string) ApiImportSettingsRequest {
 	r.unlocked = &unlocked
 	return r
 }
 
-func (r ApiImportSettingsRequest) Execute() ([]map[string]interface{}, *_nethttp.Response, error) {
+func (r ApiImportSettingsRequest) Execute() ([]map[string]interface{}, *http.Response, error) {
 	return r.ApiService.ImportSettingsExecute(r)
 }
 
@@ -80,10 +78,10 @@ ImportSettings Import settings
 
 Import StackState Templated JSON (STJ) setting nodes.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiImportSettingsRequest
 */
-func (a *ImportApiService) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
+func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -92,26 +90,24 @@ func (a *ImportApiService) ImportSettings(ctx _context.Context) ApiImportSetting
 
 // Execute executes the request
 //  @return []map[string]interface{}
-func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
+func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		localVarReturnValue  []map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImportApiService.ImportSettings")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/import"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.body == nil {
 		return localVarReturnValue, nil, reportError("body is required and must be specified")
 	}
@@ -158,7 +154,7 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -168,15 +164,15 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -204,7 +200,7 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -234,7 +230,7 @@ func NewImportApiMock() ImportApiMock {
 
 type ImportSettingsMockResponse struct {
 	Result []map[string]interface{}
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -246,14 +242,14 @@ type ImportSettingsCall struct {
 }
 
 
-func (mock ImportApiMock) ImportSettings(ctx _context.Context) ApiImportSettingsRequest {
+func (mock ImportApiMock) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *_nethttp.Response, error) {
+func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
 	p := ImportSettingsCall {
 			Pbody: r.body,
 			PtimeoutSeconds: r.timeoutSeconds,

@@ -24,12 +24,16 @@ type HealthSubStreamError struct {
 
 // HealthStreamNotFoundAsHealthSubStreamError is a convenience function that returns HealthStreamNotFound wrapped in HealthSubStreamError
 func HealthStreamNotFoundAsHealthSubStreamError(v *HealthStreamNotFound) HealthSubStreamError {
-	return HealthSubStreamError{ HealthStreamNotFound: v}
+	return HealthSubStreamError{
+		HealthStreamNotFound: v,
+	}
 }
 
 // HealthSubStreamNotFoundAsHealthSubStreamError is a convenience function that returns HealthSubStreamNotFound wrapped in HealthSubStreamError
 func HealthSubStreamNotFoundAsHealthSubStreamError(v *HealthSubStreamNotFound) HealthSubStreamError {
-	return HealthSubStreamError{ HealthSubStreamNotFound: v}
+	return HealthSubStreamError{
+		HealthSubStreamNotFound: v,
+	}
 }
 
 
@@ -38,7 +42,7 @@ func (dst *HealthSubStreamError) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -85,6 +89,9 @@ func (src HealthSubStreamError) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *HealthSubStreamError) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.HealthStreamNotFound != nil {
 		return obj.HealthStreamNotFound
 	}

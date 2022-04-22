@@ -58,7 +58,7 @@ func (o *FeedbackData) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackData) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -114,7 +114,7 @@ func (o *FeedbackData) GetSubject() string {
 // GetSubjectOk returns a tuple with the Subject field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackData) GetSubjectOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Subject, true
@@ -137,11 +137,11 @@ func (o *FeedbackData) GetThumbsdown() []string {
 
 // GetThumbsdownOk returns a tuple with the Thumbsdown field value
 // and a boolean to check if the value has been set.
-func (o *FeedbackData) GetThumbsdownOk() (*[]string, bool) {
-	if o == nil  {
+func (o *FeedbackData) GetThumbsdownOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Thumbsdown, true
+	return o.Thumbsdown, true
 }
 
 // SetThumbsdown sets field value
@@ -161,11 +161,11 @@ func (o *FeedbackData) GetThumbsup() []string {
 
 // GetThumbsupOk returns a tuple with the Thumbsup field value
 // and a boolean to check if the value has been set.
-func (o *FeedbackData) GetThumbsupOk() (*[]string, bool) {
-	if o == nil  {
+func (o *FeedbackData) GetThumbsupOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Thumbsup, true
+	return o.Thumbsup, true
 }
 
 // SetThumbsup sets field value

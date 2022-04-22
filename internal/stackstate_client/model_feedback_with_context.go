@@ -17,9 +17,8 @@ import (
 
 // FeedbackWithContext struct for FeedbackWithContext
 type FeedbackWithContext struct {
-	Type string `json:"_type"`
 	Anomaly Annotation `json:"anomaly"`
-	Data MetricTelemetry `json:"data"`
+	Data [][]PointInner `json:"data"`
 	Feedback FeedbackData `json:"feedback"`
 }
 
@@ -27,9 +26,8 @@ type FeedbackWithContext struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFeedbackWithContext(type_ string, anomaly Annotation, data MetricTelemetry, feedback FeedbackData) *FeedbackWithContext {
+func NewFeedbackWithContext(anomaly Annotation, data [][]PointInner, feedback FeedbackData) *FeedbackWithContext {
 	this := FeedbackWithContext{}
-	this.Type = type_
 	this.Anomaly = anomaly
 	this.Data = data
 	this.Feedback = feedback
@@ -42,30 +40,6 @@ func NewFeedbackWithContext(type_ string, anomaly Annotation, data MetricTelemet
 func NewFeedbackWithContextWithDefaults() *FeedbackWithContext {
 	this := FeedbackWithContext{}
 	return &this
-}
-
-// GetType returns the Type field value
-func (o *FeedbackWithContext) GetType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *FeedbackWithContext) GetTypeOk() (*string, bool) {
-	if o == nil  {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value
-func (o *FeedbackWithContext) SetType(v string) {
-	o.Type = v
 }
 
 // GetAnomaly returns the Anomaly field value
@@ -81,7 +55,7 @@ func (o *FeedbackWithContext) GetAnomaly() Annotation {
 // GetAnomalyOk returns a tuple with the Anomaly field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackWithContext) GetAnomalyOk() (*Annotation, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Anomaly, true
@@ -93,9 +67,9 @@ func (o *FeedbackWithContext) SetAnomaly(v Annotation) {
 }
 
 // GetData returns the Data field value
-func (o *FeedbackWithContext) GetData() MetricTelemetry {
+func (o *FeedbackWithContext) GetData() [][]PointInner {
 	if o == nil {
-		var ret MetricTelemetry
+		var ret [][]PointInner
 		return ret
 	}
 
@@ -104,15 +78,15 @@ func (o *FeedbackWithContext) GetData() MetricTelemetry {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-func (o *FeedbackWithContext) GetDataOk() (*MetricTelemetry, bool) {
-	if o == nil  {
+func (o *FeedbackWithContext) GetDataOk() ([][]PointInner, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Data, true
+	return o.Data, true
 }
 
 // SetData sets field value
-func (o *FeedbackWithContext) SetData(v MetricTelemetry) {
+func (o *FeedbackWithContext) SetData(v [][]PointInner) {
 	o.Data = v
 }
 
@@ -129,7 +103,7 @@ func (o *FeedbackWithContext) GetFeedback() FeedbackData {
 // GetFeedbackOk returns a tuple with the Feedback field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackWithContext) GetFeedbackOk() (*FeedbackData, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Feedback, true
@@ -142,9 +116,6 @@ func (o *FeedbackWithContext) SetFeedback(v FeedbackData) {
 
 func (o FeedbackWithContext) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["_type"] = o.Type
-	}
 	if true {
 		toSerialize["anomaly"] = o.Anomaly
 	}

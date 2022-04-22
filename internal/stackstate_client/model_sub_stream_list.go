@@ -50,11 +50,11 @@ func (o *SubStreamList) GetSubStreams() []SubStreamListItem {
 
 // GetSubStreamsOk returns a tuple with the SubStreams field value
 // and a boolean to check if the value has been set.
-func (o *SubStreamList) GetSubStreamsOk() (*[]SubStreamListItem, bool) {
-	if o == nil  {
+func (o *SubStreamList) GetSubStreamsOk() ([]SubStreamListItem, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.SubStreams, true
+	return o.SubStreams, true
 }
 
 // SetSubStreams sets field value

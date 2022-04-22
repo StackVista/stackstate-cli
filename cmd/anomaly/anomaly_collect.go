@@ -23,15 +23,15 @@ const (
 
 func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "collect --start-time=TIMESTAMP --file FILE [--end-time=TIMESTAMP] [--history=DURATION]",
+		Use:   "collect --start-time START-TIME -f FILE",
 		Short: "collect anomaly feedback",
 		RunE:  cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}
-	cmd.Flags().DurationP(StartTimeFlag, "s", 0, "start time of interval with anomalies")
+	cmd.Flags().DurationP(StartTimeFlag, "", 0, "start time of interval with anomalies")
 	cmd.MarkFlagRequired(StartTimeFlag) //nolint:errcheck
 	cmd.Flags().StringP(FileFlag, "f", "", "path to output file")
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
-	cmd.Flags().DurationP(EndTimeFlag, "e", 0, "end time of interval with anomalies")
+	cmd.Flags().DurationP(EndTimeFlag, "", 0, "end time of interval with anomalies")
 	cmd.Flags().DurationP(HistoryFlag, "d", Day, "length of metric data history preceding the anomaly")
 
 	return cmd
@@ -41,7 +41,7 @@ func RunCollectFeedbackCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	serverInfo *stackstate_client.ServerInfo,
 ) common.CLIError {
 	startTime, err := cmd.Flags().GetDuration(StartTimeFlag)
 	if err != nil {
@@ -64,7 +64,7 @@ func RunCollectFeedbackCommand(
 	}
 
 	now := time.Now().UnixMilli()
-	feedback, resp, err := api.AnomalyFeedbackApi.AnomalyFeedbackGet(cli.Context).
+	feedback, resp, err := api.AnomalyFeedbackApi.CollectAnomalyFeedback(cli.Context).
 		StartTime(now + startTime.Milliseconds()).
 		EndTime(now + endTime.Milliseconds()).
 		History(history.Milliseconds()).

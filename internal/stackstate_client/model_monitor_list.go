@@ -50,11 +50,11 @@ func (o *MonitorList) GetMonitors() []Monitor {
 
 // GetMonitorsOk returns a tuple with the Monitors field value
 // and a boolean to check if the value has been set.
-func (o *MonitorList) GetMonitorsOk() (*[]Monitor, bool) {
-	if o == nil  {
+func (o *MonitorList) GetMonitorsOk() ([]Monitor, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Monitors, true
+	return o.Monitors, true
 }
 
 // SetMonitors sets field value

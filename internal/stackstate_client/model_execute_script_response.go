@@ -53,11 +53,11 @@ func (o *ExecuteScriptResponse) GetResult() map[string]interface{} {
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ExecuteScriptResponse) GetResultOk() (*map[string]interface{}, bool) {
+func (o *ExecuteScriptResponse) GetResultOk() (map[string]interface{}, bool) {
 	if o == nil || o.Result == nil {
 		return nil, false
 	}
-	return &o.Result, true
+	return o.Result, true
 }
 
 // SetResult sets field value

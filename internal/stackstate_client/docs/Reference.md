@@ -5,12 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
+**ElementIdentifiers** | **[]string** |  | 
+**StreamNodeId** | **int64** |  | 
 
 ## Methods
 
 ### NewReference
 
-`func NewReference(type_ string, ) *Reference`
+`func NewReference(type_ string, elementIdentifiers []string, streamNodeId int64, ) *Reference`
 
 NewReference instantiates a new Reference object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +45,46 @@ and a boolean to check if the value has been set.
 `func (o *Reference) SetType(v string)`
 
 SetType sets Type field to given value.
+
+
+### GetElementIdentifiers
+
+`func (o *Reference) GetElementIdentifiers() []string`
+
+GetElementIdentifiers returns the ElementIdentifiers field if non-nil, zero value otherwise.
+
+### GetElementIdentifiersOk
+
+`func (o *Reference) GetElementIdentifiersOk() (*[]string, bool)`
+
+GetElementIdentifiersOk returns a tuple with the ElementIdentifiers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetElementIdentifiers
+
+`func (o *Reference) SetElementIdentifiers(v []string)`
+
+SetElementIdentifiers sets ElementIdentifiers field to given value.
+
+
+### GetStreamNodeId
+
+`func (o *Reference) GetStreamNodeId() int64`
+
+GetStreamNodeId returns the StreamNodeId field if non-nil, zero value otherwise.
+
+### GetStreamNodeIdOk
+
+`func (o *Reference) GetStreamNodeIdOk() (*int64, bool)`
+
+GetStreamNodeIdOk returns a tuple with the StreamNodeId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStreamNodeId
+
+`func (o *Reference) SetStreamNodeId(v int64)`
+
+SetStreamNodeId sets StreamNodeId field to given value.
 
 
 

@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## StackpackList
 
-> []Sstackpack StackpackList(ctx).Execute()
+> []Stackpack StackpackList(ctx).Execute()
 
 StackPack API
 
@@ -32,13 +32,13 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.StackpackApi.StackpackList(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.StackpackList(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackpackList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `StackpackList`: []Sstackpack
+    // response from `StackpackList`: []Stackpack
     fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackpackList`: %v\n", resp)
 }
 ```
@@ -54,7 +54,7 @@ Other parameters are passed through a pointer to a apiStackpackListRequest struc
 
 ### Return type
 
-[**[]Sstackpack**](Sstackpack.md)
+[**[]Stackpack**](Stackpack.md)
 
 ### Authorization
 
@@ -72,7 +72,7 @@ Other parameters are passed through a pointer to a apiStackpackListRequest struc
 
 ## StackpackUpload
 
-> StackPack StackpackUpload(ctx).StackPack(stackPack).Execute()
+> Stackpack StackpackUpload(ctx).StackPack(stackPack).Execute()
 
 StackPack API
 
@@ -94,13 +94,13 @@ func main() {
     stackPack := os.NewFile(1234, "some_file") // *os.File |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.StackpackApi.StackpackUpload(context.Background()).StackPack(stackPack).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.StackpackUpload(context.Background()).StackPack(stackPack).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackpackUpload``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `StackpackUpload`: StackPack
+    // response from `StackpackUpload`: Stackpack
     fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackpackUpload`: %v\n", resp)
 }
 ```
@@ -120,7 +120,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**StackPack**](StackPack.md)
+[**Stackpack**](Stackpack.md)
 
 ### Authorization
 

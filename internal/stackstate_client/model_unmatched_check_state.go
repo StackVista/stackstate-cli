@@ -53,7 +53,7 @@ func (o *UnmatchedCheckState) GetCheckStateId() string {
 // GetCheckStateIdOk returns a tuple with the CheckStateId field value
 // and a boolean to check if the value has been set.
 func (o *UnmatchedCheckState) GetCheckStateIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CheckStateId, true
@@ -77,7 +77,7 @@ func (o *UnmatchedCheckState) GetTopologyElementIdentifier() string {
 // GetTopologyElementIdentifierOk returns a tuple with the TopologyElementIdentifier field value
 // and a boolean to check if the value has been set.
 func (o *UnmatchedCheckState) GetTopologyElementIdentifierOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TopologyElementIdentifier, true

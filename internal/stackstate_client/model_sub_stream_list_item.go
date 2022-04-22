@@ -55,7 +55,7 @@ func (o *SubStreamListItem) GetSubStreamId() string {
 // GetSubStreamIdOk returns a tuple with the SubStreamId field value
 // and a boolean to check if the value has been set.
 func (o *SubStreamListItem) GetSubStreamIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.SubStreamId, true
@@ -79,7 +79,7 @@ func (o *SubStreamListItem) GetSubStreamState() HealthSubStreamConsistencyState 
 // GetSubStreamStateOk returns a tuple with the SubStreamState field value
 // and a boolean to check if the value has been set.
 func (o *SubStreamListItem) GetSubStreamStateOk() (*HealthSubStreamConsistencyState, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.SubStreamState, true
@@ -103,7 +103,7 @@ func (o *SubStreamListItem) GetCheckStateCount() int32 {
 // GetCheckStateCountOk returns a tuple with the CheckStateCount field value
 // and a boolean to check if the value has been set.
 func (o *SubStreamListItem) GetCheckStateCountOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CheckStateCount, true
