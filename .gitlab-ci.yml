@@ -73,9 +73,6 @@ dependency_scanning:
 goreleaser_check:
   stage: check
   extends: .go-base
-  rules:
-    - changes:
-      - .goreleaser.yml
   script:
     - goreleaser check
 
