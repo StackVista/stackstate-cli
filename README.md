@@ -16,7 +16,10 @@ It also possible to use nix phases to test `nix develop --check` and build the a
 
 ## How to create a new release
 
-TODO
+ * Create a release branch
+ * Tag the branch with a semantic version
+ * Merge the branch to master
+ * Publish pipeline will automatically take care of everything
 
 ## Nix installation
 
