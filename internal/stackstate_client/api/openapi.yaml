@@ -3766,8 +3766,6 @@ components:
       type: object
     Point_inner:
       anyOf:
-      - format: int64
-        type: integer
       - format: double
         type: number
   securitySchemes:

@@ -19,7 +19,6 @@ import (
 // PointInner struct for PointInner
 type PointInner struct {
 	float64 *float64
-	int64 *int64
 }
 
 // Unmarshal JSON data into any of the pointers in the struct
@@ -38,19 +37,6 @@ func (dst *PointInner) UnmarshalJSON(data []byte) error {
 		dst.float64 = nil
 	}
 
-	// try to unmarshal JSON data into int64
-	err = json.Unmarshal(data, &dst.int64);
-	if err == nil {
-		jsonint64, _ := json.Marshal(dst.int64)
-		if string(jsonint64) == "{}" { // empty struct
-			dst.int64 = nil
-		} else {
-			return nil // data stored in dst.int64, return on the first match
-		}
-	} else {
-		dst.int64 = nil
-	}
-
 	return fmt.Errorf("Data failed to match schemas in anyOf(PointInner)")
 }
 
@@ -58,10 +44,6 @@ func (dst *PointInner) UnmarshalJSON(data []byte) error {
 func (src *PointInner) MarshalJSON() ([]byte, error) {
 	if src.float64 != nil {
 		return json.Marshal(&src.float64)
-	}
-
-	if src.int64 != nil {
-		return json.Marshal(&src.int64)
 	}
 
 	return nil, nil // no data in anyOf schemas

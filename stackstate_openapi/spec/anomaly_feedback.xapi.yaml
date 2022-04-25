@@ -58,8 +58,6 @@ components:
     Point:
       items:
         anyOf:
-          - type: integer
-            format: int64
           - type: number
             format: double
       type: array
