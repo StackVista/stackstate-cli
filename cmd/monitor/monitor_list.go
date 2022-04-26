@@ -15,6 +15,7 @@ func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List all monitors.",
 		RunE:  cli.CmdRunEWithApi(RunListMonitorsCommand),
 	}
+	common.AddJsonFlag(cmd)
 	return cmd
 }
 
@@ -24,21 +25,29 @@ func RunListMonitorsCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
+	json, err := cmd.Flags().GetBool(common.JsonFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
+	}
+
 	monitors, resp, err := api.MonitorApi.GetAllMonitors(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	tableData := [][]interface{}{}
-	for _, monitor := range monitors.Monitors {
-		tableData = append(tableData, []interface{}{monitor.Id, *monitor.Identifier, monitor.Name})
+	if json {
+		cli.Printer.PrintJson(monitors.Monitors)
+	} else {
+		tableData := [][]interface{}{}
+		for _, monitor := range monitors.Monitors {
+			tableData = append(tableData, []interface{}{monitor.Id, *monitor.Identifier, monitor.Name})
+		}
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"Id", "Identifier", "Name"},
+			Data:                tableData,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
+		})
 	}
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"Id", "Identifier", "Name"},
-		Data:                tableData,
-		StructData:          monitors.Monitors,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
-	})
 
 	return nil
 }

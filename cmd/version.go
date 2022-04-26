@@ -8,27 +8,37 @@ import (
 )
 
 func VersionCommand(cli *di.Deps) *cobra.Command {
-	return &cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "version",
 		Short: "display version info",
 		Long:  "Display the version of this StackState CLI.",
 		RunE:  cli.CmdRunE(RunVersionCommand),
 	}
+	common.AddJsonFlag(cmd)
+	return cmd
 }
 
 func RunVersionCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	info := map[string]interface{}{
-		"version":  Version,
-		"commit":   Commit,
-		"date":     Date,
-		"cli-type": CLIType,
+	json, err := cmd.Flags().GetBool(common.JsonFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
 	}
 
-	cli.Printer.Table(printer.TableData{
-		Header:     []string{"Version", "Date", "CLI Type", "Commit"},
-		Data:       [][]interface{}{{Version, Date, CLIType, Commit}},
-		StructData: info,
-	})
+	if json {
+		info := map[string]interface{}{
+			"version":  Version,
+			"commit":   Commit,
+			"date":     Date,
+			"cli-type": CLIType,
+		}
+
+		cli.Printer.PrintJson(info)
+	} else {
+		cli.Printer.Table(printer.TableData{
+			Header: []string{"Version", "Date", "CLI Type", "Commit"},
+			Data:   [][]interface{}{{Version, Date, CLIType, Commit}},
+		})
+	}
 
 	return nil
 }

@@ -78,6 +78,5 @@ func TestSettingsListPrintsToJson(t *testing.T) {
 
 	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType", "--json")
 
-	expectedTableCall := []interface{}{nodeApiResult}
-	assert.Equal(t, expectedTableCall, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t, []interface{}{nodeApiResult}, *cli.MockPrinter.PrintJsonCalls)
 }
