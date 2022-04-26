@@ -110,6 +110,7 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
+*StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
@@ -176,6 +177,7 @@ Class | Method | HTTP request | Description
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
+ - [ProvisionResponse](docs/ProvisionResponse.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)

@@ -209,6 +209,38 @@ paths:
       summary: StackPack API
       tags:
       - stackpack
+  /stackpack/{stackName}/provision:
+    post:
+      description: Provision details
+      operationId: provisionDetails
+      parameters:
+      - in: path
+        name: stackName
+        required: true
+        schema:
+          $ref: '#/components/schemas/stackName'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties:
+                type: string
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisionResponse'
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Provision API
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system
@@ -1780,6 +1812,27 @@ components:
           format: binary
           type: string
       type: object
+    ProvisionResponse:
+      example:
+        stackPackVersion: stackPackVersion
+        lastUpdateTimestamp: ""
+        name: name
+        id: ""
+        status: status
+      properties:
+        id:
+          type: int64
+        status:
+          type: string
+        name:
+          type: string
+        stackPackVersion:
+          type: string
+        lastUpdateTimestamp:
+          type: int64
+      type: object
+    stackName:
+      type: string
     MonitorList:
       example:
         monitors:

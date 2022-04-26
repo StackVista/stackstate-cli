@@ -80,6 +80,7 @@ docs/Node.md
 docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypes.md
+docs/ProvisionResponse.md
 docs/RequestError.md
 docs/RequestValidationError.md
 docs/RootCauseMode.md
@@ -175,6 +176,7 @@ model_multiple_matches_check_state.go
 model_node.go
 model_node_types.go
 model_node_types_node_types.go
+model_provision_response.go
 model_request_error.go
 model_request_validation_error.go
 model_root_cause_mode.go
