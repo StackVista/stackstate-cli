@@ -1,7 +1,6 @@
 package settings
 
 import (
-	"encoding/json"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -23,6 +22,7 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.Flags().StringP(Namespace, "n", "", "filter by namespace")
 	cmd.Flags().StringP(OwnedBy, "w", "", "filter by owner")
+	common.AddJsonFlag(cmd)
 
 	return cmd
 }
@@ -45,6 +45,10 @@ func RunSettingsListCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
+	json, err := cmd.Flags().GetBool(common.JsonFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
+	}
 
 	apiClient := api.NodeApi.TypeList(cli.Context, typeName)
 	if nameSpace != "" {
@@ -58,28 +62,27 @@ func RunSettingsListCommand(
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
-	var respData []map[string]interface{}
-	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		return common.NewCLIError(err, resp)
-	}
 
-	data := make([][]interface{}, 0)
-	for _, v := range typeList {
-		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
-		data = append(data, []interface{}{
-			v.GetTypeName(),
-			v.GetId(),
-			v.GetIdentifier(),
-			v.GetName(),
-			v.GetOwnedBy(),
-			lastUpdateTime,
+	if json {
+		cli.Printer.PrintJson(typeList)
+	} else {
+		data := make([][]interface{}, 0)
+		for _, v := range typeList {
+			lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
+			data = append(data, []interface{}{
+				v.GetTypeName(),
+				v.GetId(),
+				v.GetIdentifier(),
+				v.GetName(),
+				v.GetOwnedBy(),
+				lastUpdateTime,
+			})
+		}
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type " + typeName},
 		})
 	}
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-		Data:                data,
-		StructData:          respData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type " + typeName},
-	})
 	return nil
 }

@@ -2,10 +2,8 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
@@ -53,17 +51,6 @@ func Execute(ctx context.Context) {
 		log.Printf("Loaded config %+v", cli.Config)
 
 		cli.Printer.SetUseColor(!cfg.NoColor)
-
-		switch strings.ToUpper(cfg.Output) {
-		case "JSON":
-			cli.Printer.SetOutputType(printer.JSON)
-		case "YAML":
-			cli.Printer.SetOutputType(printer.YAML)
-		case "AUTO":
-			cli.Printer.SetOutputType(printer.Auto)
-		default:
-			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or auto", cfg.Output)
-		}
 
 		configuration := stackstate_client.NewConfiguration()
 		configuration.Servers[0] = stackstate_client.ServerConfiguration{

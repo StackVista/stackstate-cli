@@ -6,11 +6,11 @@ import (
 
 type MockPrinter struct {
 	PrintStructCalls  *[]interface{}
+	PrintJsonCalls    *[]interface{}
 	PrintErrCalls     *[]error
 	StartSpinnerCalls *[]LoadingMsg
 	StopSpinnerCalls  *int
 	UseColor          bool
-	outputType        OutputType
 	SuccessCalls      *[]string
 	PrintWarnCalls    *[]string
 	TableCalls        *[]TableData
@@ -24,6 +24,7 @@ type PrintErrResponseCall struct {
 
 func NewMockPrinter() MockPrinter {
 	printStructCalls := make([]interface{}, 0)
+	printJsonCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
 	startSpinnerCalls := make([]LoadingMsg, 0)
 	successCalls := make([]string, 0)
@@ -32,18 +33,22 @@ func NewMockPrinter() MockPrinter {
 	printLnCalls := make([]string, 0)
 	return MockPrinter{
 		PrintStructCalls:  &printStructCalls,
+		PrintJsonCalls:    &printJsonCalls,
 		PrintErrCalls:     &printErrCalls,
 		StartSpinnerCalls: &startSpinnerCalls,
 		SuccessCalls:      &successCalls,
 		PrintWarnCalls:    &printWarnCalls,
 		TableCalls:        &printTableCalls,
 		PrintLnCalls:      &printLnCalls,
-		outputType:        Auto,
 	}
 }
 
 func (p *MockPrinter) PrintStruct(s interface{}) {
 	*p.PrintStructCalls = append(*p.PrintStructCalls, s)
+}
+
+func (p *MockPrinter) PrintJson(s interface{}) {
+	*p.PrintJsonCalls = append(*p.PrintJsonCalls, s)
 }
 
 func (p *MockPrinter) PrintErr(err error) {
@@ -61,14 +66,6 @@ func (p *MockPrinter) SetUseColor(useColor bool) {
 
 func (p *MockPrinter) GetUseColor() bool {
 	return p.UseColor
-}
-
-func (p *MockPrinter) SetOutputType(outputType OutputType) {
-	p.outputType = outputType
-}
-
-func (p *MockPrinter) GetOutputType() OutputType {
-	return p.outputType
 }
 
 func (p *MockPrinter) Success(msg string) {

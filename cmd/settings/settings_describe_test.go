@@ -9,7 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -100,12 +99,4 @@ func TestRunSettingsDescribeTypesPrintsToTable(t *testing.T) {
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "BaselineFunction", "--type", "CheckFunction")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
-}
-
-func TestSettingsDescribeOutput(t *testing.T) {
-	cli, cmd := setupDescribeCmd()
-	cli.Printer.SetOutputType(printer.YAML)
-
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214")
-	assert.Equal(t, "unsupported format: YAML. Settings can only be described in STJ format", err.Error())
 }
