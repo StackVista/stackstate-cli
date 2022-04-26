@@ -15,7 +15,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-//nolint:funlen
 func Execute(ctx context.Context) {
 	pr := printer.NewPrinter()
 	cli := &di.Deps{
