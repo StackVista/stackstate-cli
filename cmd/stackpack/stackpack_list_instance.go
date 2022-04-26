@@ -18,6 +18,7 @@ func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunStackpackListInstanceCommand),
 	}
 	cmd.Flags().String(NameFlag, "", "name of the instance")
+	common.AddJsonFlag(cmd)
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
 	return cmd
 }
@@ -28,6 +29,11 @@ func RunStackpackListInstanceCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
+	json, err := cmd.Flags().GetBool(common.JsonFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
+	}
+
 	name, err := cmd.Flags().GetString(NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -57,11 +63,15 @@ func RunStackpackListInstanceCommand(
 			respData = append(respData, conf)
 		}
 	}
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"id", "status", "version", "last updated"},
-		Data:                data,
-		StructData:          respData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
-	})
+
+	if json {
+		cli.Printer.PrintJson(respData)
+	} else {
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"id", "status", "version", "last updated"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
+		})
+	}
 	return nil
 }
