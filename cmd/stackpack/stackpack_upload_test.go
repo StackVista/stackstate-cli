@@ -32,7 +32,7 @@ func createTempFile() *os.File {
 	return file
 }
 
-func TestUploadStackPackSuccess(t *testing.T) {
+func TestUploadStackPackPrintsToTable(t *testing.T) {
 	cli, cmd := setupStackPackUploadCmd()
 	file := createTempFile()
 
@@ -47,11 +47,26 @@ func TestUploadStackPackSuccess(t *testing.T) {
 
 	expectedTableCall := []printer.TableData{
 		{
-			Header:     []string{"name", "display name", "version"},
-			Data:       [][]interface{}{{"test", "display test", "1.0.0"}},
-			StructData: stackpack,
+			Header: []string{"name", "display name", "version"},
+			Data:   [][]interface{}{{"test", "display test", "1.0.0"}},
 		},
 	}
 
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
+}
+
+func TestUploadStackPackPrintToJson(t *testing.T) {
+	cli, cmd := setupStackPackUploadCmd()
+	file := createTempFile()
+
+	stackpack := sts.StackPack{
+		Name:        "test",
+		DisplayName: "display test",
+		Version:     "1.0.0",
+	}
+	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = stackpack
+
+	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--json")
+
+	assert.Equal(t, []interface{}{stackpack}, *cli.MockPrinter.PrintJsonCalls)
 }

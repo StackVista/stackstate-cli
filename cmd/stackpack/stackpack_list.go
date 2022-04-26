@@ -15,7 +15,8 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List available StackPacks.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListCommand),
 	}
-	cmd.Flags().Bool(InstalledFlag, false, "show only installed stackpack")
+	cmd.Flags().Bool(InstalledFlag, false, "show only installed StackPacks")
+	common.AddJsonFlag(cmd)
 	return cmd
 }
 
@@ -25,6 +26,10 @@ func RunStackpackListCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
+	json, err := cmd.Flags().GetBool(common.JsonFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
+	}
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -53,12 +58,15 @@ func RunStackpackListCommand(
 		respData = append(respData, v)
 	}
 
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-		Data:                data,
-		StructData:          respData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
-	})
+	if json {
+		cli.Printer.PrintJson(respData)
+	} else {
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
+		})
+	}
 
 	return nil
 }
