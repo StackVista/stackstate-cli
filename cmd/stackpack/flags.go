@@ -4,4 +4,5 @@ const (
 	FileFlag      = "file"
 	InstalledFlag = "installed"
 	NameFlag      = "name"
+	ParameterFlag = "parameter"
 )
