@@ -4,9 +4,82 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackName}/provision | Provision API
 [**StackpackList**](StackpackApi.md#StackpackList) | **Get** /stackpack | StackPack API
 [**StackpackUpload**](StackpackApi.md#StackpackUpload) | **Post** /stackpack | StackPack API
 
+
+
+## ProvisionDetails
+
+> ProvisionResponse ProvisionDetails(ctx, stackName).RequestBody(requestBody).Execute()
+
+Provision API
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackName := "stackName_example" // string | 
+    requestBody := map[string]string{"key": "Inner_example"} // map[string]string |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.StackpackApi.ProvisionDetails(context.Background(), stackName).RequestBody(requestBody).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ProvisionDetails``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ProvisionDetails`: ProvisionResponse
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.ProvisionDetails`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiProvisionDetailsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **requestBody** | **map[string]string** |  | 
+
+### Return type
+
+[**ProvisionResponse**](ProvisionResponse.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## StackpackList
