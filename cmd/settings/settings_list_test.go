@@ -9,7 +9,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 var (
@@ -31,18 +30,17 @@ var (
 	expectedUpdateTime = time.UnixMilli(1438167001716)
 )
 
-func setupSettingsListCmd() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := SettingsListCommand(&mockCli.Deps)
-	mockCli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
-
-	return mockCli, cmd
+func setupSettingsListCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := SettingsListCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
+	return &cli, cmd
 }
 
 func TestSettingsListPrintsToTable(t *testing.T) {
 	cli, cmd := setupSettingsListCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType")
 
 	expectedTableCall := []printer.TableData{
 		{
@@ -58,7 +56,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 	cli, cmd := setupSettingsListCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType",
 		"-n", "component",
 		"-w", "urn:stackpack:stackstate-self-health:shared")
 
@@ -76,7 +74,12 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 func TestSettingsListPrintsToJson(t *testing.T) {
 	cli, cmd := setupSettingsListCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--type", "ComponentType", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType", "--json")
 
-	assert.Equal(t, []interface{}{nodeApiResult}, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t,
+		[]interface{}{map[string]interface{}{
+			"type-list": nodeApiResult,
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
 }

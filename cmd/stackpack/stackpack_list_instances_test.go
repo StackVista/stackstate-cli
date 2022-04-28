@@ -9,7 +9,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 var (
@@ -22,7 +21,7 @@ var (
 	expectedUpdateTimeLi = time.UnixMilli(1438167001716)
 )
 
-func setupStackpackListInstanceFn() (di.MockDeps, *cobra.Command) {
+func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := StackpackListInstanceCommand(&cli.Deps)
 
@@ -52,12 +51,12 @@ func setupStackpackListInstanceFn() (di.MockDeps, *cobra.Command) {
 	}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
 
-	return cli, cmd
+	return &cli, cmd
 }
 
 func TestStackpackListInstancePrintToTable(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn()
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list-instances", "--name", testName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName)
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"id", "status", "version", "last updated"},
@@ -70,14 +69,15 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 
 func TestStackpackListInstancePrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn()
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list-instances", "--name", testName, "--json")
-	expectedJsonCalls := []interface{}{[]stackstate_client.SstackpackConfigurations{
-		{
-			Id:                  &id,
-			Status:              &statusInstalled,
-			StackPackVersion:    &testVersion,
-			LastUpdateTimestamp: 1438167001716,
-		}},
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "--json")
+	expectedJsonCalls := []interface{}{map[string]interface{}{
+		"instances": []stackstate_client.SstackpackConfigurations{
+			{
+				Id:                  &id,
+				Status:              &statusInstalled,
+				StackPackVersion:    &testVersion,
+				LastUpdateTimestamp: 1438167001716,
+			}}},
 	}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 }

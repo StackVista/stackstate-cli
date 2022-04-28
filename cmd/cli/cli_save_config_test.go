@@ -12,17 +12,16 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupSaveConfigCmd(t *testing.T) (di.MockDeps, *cobra.Command, string, func()) {
+func setupSaveConfigCmd(t *testing.T) (*di.MockDeps, *cobra.Command, string, func()) {
 	cli := di.NewMockDeps()
 	cmd := CliSaveConfigCommand(&cli.Deps)
-	common.AddPersistentFlags(cmd)
 
 	oldConfHome := os.Getenv("XDG_CONFIG_HOME")
 	tmpConfDir := t.TempDir()
 	os.Setenv("XDG_CONFIG_HOME", tmpConfDir)
 	expectedFile := tmpConfDir + "/stackstate-cli/config.yaml"
 
-	return cli, cmd, expectedFile, func() {
+	return &cli, cmd, expectedFile, func() {
 		os.Setenv("XDG_CONFIG_HOME", oldConfHome)
 	}
 }
@@ -31,8 +30,8 @@ func TestSaveConfig(t *testing.T) {
 	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
 	defer cleanup()
 
-	util.ExecuteCommandWithContextUnsafe(
-		cli.Context,
+	di.ExecuteCommandWithContextUnsafe(
+		&cli.Deps,
 		cmd,
 		"--api-url",
 		"https://test.stackstate.io/api",
@@ -53,8 +52,8 @@ func TestSaveConfigSkipValidate(t *testing.T) {
 	defer cleanup()
 
 	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("should not have tried to connect, because --skip-validate was used"), nil)
-	util.ExecuteCommandWithContextUnsafe(
-		cli.Context,
+	di.ExecuteCommandWithContextUnsafe(
+		&cli.Deps,
 		cmd,
 		"--api-url",
 		"https://test.stackstate.io/api",
@@ -75,8 +74,8 @@ func TestSaveConfigShouldNotSaveWhenFailedConnection(t *testing.T) {
 	defer cleanup()
 
 	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("failed connection"), nil)
-	_, err := util.ExecuteCommandWithContext(
-		cli.Context,
+	_, err := di.ExecuteCommandWithContext(
+		&cli.Deps,
 		cmd,
 		"--api-url",
 		"https://test.stackstate.io/api",

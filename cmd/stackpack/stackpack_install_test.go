@@ -10,7 +10,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 var (
@@ -30,18 +29,17 @@ var (
 	}
 )
 
-func setupStackPackInstallCmd() (di.MockDeps, *cobra.Command) {
+func setupStackPackInstallCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := StackpackInstallCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsResponse.Result = mockProvisionResponse
-
-	return cli, cmd
+	return &cli, cmd
 }
 
 func TestStackpackInstallPrintsToTable(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "install", "--name", "zabbix",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
 		"--parameter", "zabbix_instance_name=test_name",
 		"--parameter", "zabbix_instance_url=test_url",
 	)
@@ -69,9 +67,14 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 func TestStackpackInstallPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "install", "--name", "zabbix", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix", "--json")
 
-	assert.Equal(t, []interface{}{mockProvisionResponse}, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t,
+		[]interface{}{map[string]interface{}{
+			"instance": mockProvisionResponse},
+		},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
 }
 
 func TestParseParameter(t *testing.T) {

@@ -8,7 +8,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 var (
@@ -35,17 +34,16 @@ var (
 	}
 )
 
-func setupCommandFn() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := StackpackListCommand(&mockCli.Deps)
-
-	return mockCli, cmd
+func setupStackPackListCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := StackpackListCommand(&cli.Deps)
+	return &cli, cmd
 }
 
 func TestStackpackListPrintToTable(t *testing.T) {
-	cli, cmd := setupCommandFn()
+	cli, cmd := setupStackPackListCmd()
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
@@ -58,10 +56,12 @@ func TestStackpackListPrintToTable(t *testing.T) {
 }
 
 func TestStackpackListPrintToJson(t *testing.T) {
-	cli, cmd := setupCommandFn()
+	cli, cmd := setupStackPackListCmd()
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list", "--json")
-	expectedJsonCalls := []interface{}{mockResponse}
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--json")
+	expectedJsonCalls := []interface{}{map[string]interface{}{
+		"stackpacks": mockResponse,
+	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 }
 
@@ -96,9 +96,9 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 			Configurations: nil,
 		},
 	}
-	cli, cmd := setupCommandFn()
+	cli, cmd := setupStackPackListCmd()
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list", "--installed")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--installed")
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},

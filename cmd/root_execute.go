@@ -34,7 +34,10 @@ func Execute(ctx context.Context) {
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		runCmd = cmd
-		verbose, _ := cmd.Flags().GetBool("verbose")
+		json, _ := cmd.Flags().GetBool(common.JsonFlag)
+		cli.IsJson = json
+
+		verbose, _ := cmd.Flags().GetBool(common.VerboseFlag)
 		cli.IsVerBose = verbose
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)

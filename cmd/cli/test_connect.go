@@ -7,24 +7,27 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func testConect(cli *di.Deps) common.CLIError {
+func testConect(cli *di.Deps, silent bool) common.CLIError {
 	_, serverInfo, err := cli.Client.Connect()
 	if err != nil {
 		return err
 	}
 
-	dev := ""
-	if serverInfo.Version.IsDev {
-		dev = "-dev"
+	if !silent {
+		dev := ""
+		if serverInfo.Version.IsDev {
+			dev = "-dev"
+		}
+		msg := fmt.Sprintf("Connection verified to %s (StackState version: %d.%d.%d+%s-%s%s)",
+			cli.Config.ApiURL,
+			serverInfo.Version.Major,
+			serverInfo.Version.Minor,
+			serverInfo.Version.Patch,
+			serverInfo.Version.Diff,
+			serverInfo.Version.Commit,
+			dev)
+		cli.Printer.Success(msg)
 	}
-	msg := fmt.Sprintf("Connection verified to %s (StackState version: %d.%d.%d+%s-%s%s)",
-		cli.Config.ApiURL,
-		serverInfo.Version.Major,
-		serverInfo.Version.Minor,
-		serverInfo.Version.Patch,
-		serverInfo.Version.Diff,
-		serverInfo.Version.Commit,
-		dev)
-	cli.Printer.Success(msg)
+
 	return nil
 }

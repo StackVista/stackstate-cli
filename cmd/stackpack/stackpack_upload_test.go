@@ -10,14 +10,12 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupStackPackUploadCmd() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := StackpackUploadCommand(&mockCli.Deps)
-
-	return mockCli, cmd
+func setupStackPackUploadCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := StackpackUploadCommand(&cli.Deps)
+	return &cli, cmd
 }
 
 func createTempFile() *os.File {
@@ -43,7 +41,7 @@ func TestUploadStackPackPrintsToTable(t *testing.T) {
 	}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = stackpack
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name())
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name())
 
 	expectedTableCall := []printer.TableData{
 		{
@@ -66,7 +64,13 @@ func TestUploadStackPackPrintToJson(t *testing.T) {
 	}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = stackpack
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--json")
 
-	assert.Equal(t, []interface{}{stackpack}, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(
+		t,
+		[]interface{}{map[string]interface{}{
+			"uploaded-stackpack": stackpack,
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
 }

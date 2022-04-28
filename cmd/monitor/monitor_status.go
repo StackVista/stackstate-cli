@@ -21,7 +21,6 @@ func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
 	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
-	common.AddJsonFlag(cmd)
 
 	return cmd
 }
@@ -38,11 +37,6 @@ func RunMonitorStatusCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -62,8 +56,10 @@ func RunMonitorStatusCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	if json {
-		cli.Printer.PrintJson(monitorStatus)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"monitor-status": monitorStatus,
+		})
 	} else {
 		mainStreamStatus := monitorStatus.Status.MainStreamStatus
 		cli.Printer.PrintLn("")

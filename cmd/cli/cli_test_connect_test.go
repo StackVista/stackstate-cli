@@ -9,19 +9,18 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupCommand() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := CliTestCommandCommand(&mockCli.Deps)
-	return mockCli, cmd
+func setupCommand() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := CliTestCommandCommand(&cli.Deps)
+	return &cli, cmd
 }
 
 func TestConnectionFailure(t *testing.T) {
 	cli, cmd := setupCommand()
 	connectError := common.NewConnectError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = connectError
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd)
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd)
 	assert.Equal(t, connectError, err)
 }

@@ -20,7 +20,6 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
-	common.AddJsonFlag(cmd)
 
 	return cmd
 }
@@ -31,11 +30,6 @@ func RunMonitorApplyCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -61,8 +55,10 @@ func RunMonitorApplyCommand(
 		tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
 	}
 
-	if json {
-		cli.Printer.PrintJson(nodes)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"nodes": nodes,
+		})
 	} else {
 		cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> monitor(s).", len(nodes)))
 		if len(nodes) > 0 {

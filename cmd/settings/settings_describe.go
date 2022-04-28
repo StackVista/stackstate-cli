@@ -88,9 +88,24 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		if _, err = file.Write([]byte(data)); err != nil {
 			return common.NewCLIError(err, nil)
 		}
-		cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"describe-file-path": filePath,
+			})
+		} else {
+			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
+		}
+
 		return nil
+	} else {
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"data": data,
+			})
+		} else {
+			cli.Printer.PrintLn(data)
+		}
+
 	}
-	cli.Printer.PrintLn(data)
 	return nil
 }

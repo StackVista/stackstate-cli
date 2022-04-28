@@ -105,10 +105,16 @@ func RunScriptExecuteCommand(
 
 	// print response
 	value := scriptResponse.Result["value"]
-	if value == nil {
-		cli.Printer.Success("script executed (no response)")
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"result": scriptResponse.Result,
+		})
 	} else {
-		cli.Printer.PrintStruct(value)
+		if value == nil {
+			cli.Printer.Success("script executed (no response)")
+		} else {
+			cli.Printer.PrintStruct(value)
+		}
 	}
 
 	return nil

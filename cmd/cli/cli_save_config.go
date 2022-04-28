@@ -60,7 +60,7 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 
 	// test connect
 	if !skipValidate {
-		err := testConect(cli)
+		err := testConect(cli, cli.IsJson)
 		if err != nil {
 			return err
 		}
@@ -71,7 +71,15 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	if err != nil {
 		return common.NewCLIError(err, nil)
 	}
-	cli.Printer.Success("Config saved to: " + filename)
+
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"tested-connected": !skipValidate,
+			"config-file":      filename,
+		})
+	} else {
+		cli.Printer.Success("Config saved to: " + filename)
+	}
 
 	return nil
 }

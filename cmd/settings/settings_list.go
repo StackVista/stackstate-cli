@@ -22,7 +22,6 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.Flags().StringP(Namespace, "n", "", "filter by namespace")
 	cmd.Flags().StringP(OwnedBy, "w", "", "filter by owner")
-	common.AddJsonFlag(cmd)
 
 	return cmd
 }
@@ -45,10 +44,6 @@ func RunSettingsListCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
 
 	apiClient := api.NodeApi.TypeList(cli.Context, typeName)
 	if nameSpace != "" {
@@ -63,8 +58,10 @@ func RunSettingsListCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	if json {
-		cli.Printer.PrintJson(typeList)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"type-list": typeList,
+		})
 	} else {
 		data := make([][]interface{}, 0)
 		for _, v := range typeList {

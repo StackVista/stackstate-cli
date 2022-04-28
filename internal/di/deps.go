@@ -17,6 +17,7 @@ type Deps struct {
 	Context   context.Context
 	Client    StackStateClient
 	IsVerBose bool
+	IsJson    bool
 }
 
 func NewDeps() Deps {

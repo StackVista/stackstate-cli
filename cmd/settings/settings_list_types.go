@@ -15,7 +15,6 @@ func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List all types of settings available.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsListTypesCommand),
 	}
-	common.AddJsonFlag(cmd)
 
 	return cmd
 }
@@ -25,21 +24,18 @@ func RunSettingsListTypesCommand(cmd *cobra.Command,
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
-	nodeTypes, resp, err := api.NodeApi.NodeListTypes(cli.Context).Execute()
+	settingTypes, resp, err := api.NodeApi.NodeListTypes(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	if json {
-		cli.Printer.PrintJson(nodeTypes)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"setting-types": settingTypes,
+		})
 	} else {
 		data := make([][]interface{}, 0)
-		for _, nodeType := range nodeTypes.NodeTypes {
+		for _, nodeType := range settingTypes.NodeTypes {
 			data = append(data, []interface{}{nodeType.TypeName, nodeType.Description})
 		}
 

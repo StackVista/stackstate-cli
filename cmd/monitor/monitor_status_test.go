@@ -8,7 +8,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 var (
@@ -62,18 +61,17 @@ var (
 	}
 )
 
-func setMonitorStatusCmd() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := MonitorStatusCommand(&mockCli.Deps)
-
-	return mockCli, cmd
+func setMonitorStatusCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := MonitorStatusCommand(&cli.Deps)
+	return &cli, cmd
 }
 
 func TestSettingsStatusPrintsToTable(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd()
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = monitorStatusResult
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "-i", "211684343791306")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
 	expectedPrintlnCalls := []string{"", "Synchronized check state count: 0", "Repeat interval (Seconds): 0",
 		"Expiry (Seconds): 7", "", "Synchronization errors:", "", "Synchronization metrics:", "",
@@ -100,7 +98,12 @@ func TestSettingsStatusPrintsToJson(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd()
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = monitorStatusResult
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "-i", "211684343791306", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "--json")
 
-	assert.Equal(t, []interface{}{monitorStatusResult}, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t,
+		[]interface{}{map[string]interface{}{
+			"monitor-status": monitorStatusResult,
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
 }

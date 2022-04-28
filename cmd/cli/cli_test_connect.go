@@ -21,5 +21,12 @@ func CliTestCommandCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunTestConnectConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	return testConect(cli)
+	err := testConect(cli, cli.IsJson)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"connected": err != nil,
+			"error":     err.Error(),
+		})
+	}
+	return err
 }

@@ -16,7 +16,6 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunStackpackListCommand),
 	}
 	cmd.Flags().Bool(InstalledFlag, false, "show only installed StackPacks")
-	common.AddJsonFlag(cmd)
 	return cmd
 }
 
@@ -26,10 +25,6 @@ func RunStackpackListCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -40,26 +35,28 @@ func RunStackpackListCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	respData := make([]stackstate_client.Sstackpack, 0)
-	for _, v := range stackpackList {
-		if isInstalled && len(v.GetConfigurations()) == 0 {
+	stackpacks := make([]stackstate_client.Sstackpack, 0)
+	for _, stackpack := range stackpackList {
+		if isInstalled && len(stackpack.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
 		}
 		row := []interface{}{
-			v.Name,
-			v.DisplayName,
-			v.Version,
-			getVersion(v.NextVersion),
-			getVersion(v.LatestVersion),
-			len(*v.Configurations),
+			stackpack.Name,
+			stackpack.DisplayName,
+			stackpack.Version,
+			getVersion(stackpack.NextVersion),
+			getVersion(stackpack.LatestVersion),
+			len(*stackpack.Configurations),
 		}
 
 		data = append(data, row)
-		respData = append(respData, v)
+		stackpacks = append(stackpacks, stackpack)
 	}
 
-	if json {
-		cli.Printer.PrintJson(respData)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"stackpacks": stackpacks,
+		})
 	} else {
 		cli.Printer.Table(printer.TableData{
 			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},

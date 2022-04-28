@@ -8,10 +8,9 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupSettingListTypesCmd() (di.MockDeps, *cobra.Command) {
+func setupSettingListTypesCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := SettingsListTypesCommand(&cli.Deps)
 	nodeApiResult := sts.NodeTypes{
@@ -20,13 +19,13 @@ func setupSettingListTypesCmd() (di.MockDeps, *cobra.Command) {
 		},
 	}
 	cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result = nodeApiResult
-	return cli, cmd
+	return &cli, cmd
 }
 
 func TestListTypesPrintsToTable(t *testing.T) {
 	cli, cmd := setupSettingListTypesCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
 	expectedTableCall := []printer.TableData{{
 		Header:              []string{"name", "description"},
@@ -40,8 +39,10 @@ func TestListTypesPrintsToTable(t *testing.T) {
 func TestListTypesPrintsToJson(t *testing.T) {
 	cli, cmd := setupSettingListTypesCmd()
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--json")
 
-	expectedJsonCalls := []interface{}{cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result}
+	expectedJsonCalls := []interface{}{map[string]interface{}{
+		"setting-types": cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result,
+	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 }

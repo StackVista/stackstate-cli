@@ -18,7 +18,6 @@ func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunStackpackListInstanceCommand),
 	}
 	cmd.Flags().String(NameFlag, "", "name of the instance")
-	common.AddJsonFlag(cmd)
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
 	return cmd
 }
@@ -29,11 +28,6 @@ func RunStackpackListInstanceCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
 	name, err := cmd.Flags().GetString(NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -47,25 +41,27 @@ func RunStackpackListInstanceCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	respData := make([]stackstate_client.SstackpackConfigurations, 0)
+	instances := make([]stackstate_client.SstackpackConfigurations, 0)
 	for _, v := range stackpackList {
 		if v.GetName() != name {
 			continue
 		}
-		for _, conf := range v.GetConfigurations() {
+		for _, instance := range v.GetConfigurations() {
 			row := []interface{}{
-				conf.Id,
-				conf.Status,
-				conf.StackPackVersion,
-				time.UnixMilli(conf.GetLastUpdateTimestamp()),
+				instance.Id,
+				instance.Status,
+				instance.StackPackVersion,
+				time.UnixMilli(instance.GetLastUpdateTimestamp()),
 			}
 			data = append(data, row)
-			respData = append(respData, conf)
+			instances = append(instances, instance)
 		}
 	}
 
-	if json {
-		cli.Printer.PrintJson(respData)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"instances": instances,
+		})
 	} else {
 		cli.Printer.Table(printer.TableData{
 			Header:              []string{"id", "status", "version", "last updated"},

@@ -11,7 +11,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
+func MonitorDeleteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete -i ID",
 		Short: "delete a monitor",
@@ -46,6 +46,12 @@ func RunDeleteMonitorCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Monitor deleted: %s", identifier))
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"deleted-monitor-identifier": identifier,
+		})
+	} else {
+		cli.Printer.Success(fmt.Sprintf("Monitor deleted: %s", identifier))
+	}
 	return nil
 }

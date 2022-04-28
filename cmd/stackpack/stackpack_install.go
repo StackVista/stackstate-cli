@@ -26,7 +26,6 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().String(NameFlag, "", "name of the StackPack")
 	cmd.Flags().StringSliceP(ParameterFlag, "p", nil, "list of parameters of the form \"key=value\"")
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
-	common.AddJsonFlag(cmd)
 	return cmd
 }
 
@@ -36,11 +35,6 @@ func RunStackpackInstallCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
 	name, err := cmd.Flags().GetString(NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -63,8 +57,10 @@ func RunStackpackInstallCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	if json {
-		cli.Printer.PrintJson(instance)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"instance": instance,
+		})
 	} else {
 		lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
 

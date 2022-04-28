@@ -8,35 +8,31 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
+func MonitorListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list all monitors",
 		Long:  "List all monitors.",
-		RunE:  cli.CmdRunEWithApi(RunListMonitorsCommand),
+		RunE:  cli.CmdRunEWithApi(RunMonitorListCommand),
 	}
-	common.AddJsonFlag(cmd)
 	return cmd
 }
 
-func RunListMonitorsCommand(
+func RunMonitorListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
 	monitors, resp, err := api.MonitorApi.GetAllMonitors(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	if json {
-		cli.Printer.PrintJson(monitors.Monitors)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"monitors": monitors.Monitors,
+		})
 	} else {
 		tableData := [][]interface{}{}
 		for _, monitor := range monitors.Monitors {

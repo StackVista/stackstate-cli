@@ -33,7 +33,6 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in seconds")
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
-	common.AddJsonFlag(cmd)
 
 	return cmd
 }
@@ -44,11 +43,6 @@ func RunSettingsApplyCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	json, err := cmd.Flags().GetBool(common.JsonFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -92,8 +86,10 @@ func RunSettingsApplyCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	if json {
-		cli.Printer.PrintJson(nodes)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"applied-settings": nodes,
+		})
 	} else {
 		if len(nodes) == 0 {
 			cli.Printer.PrintWarn("Nothing was imported.")
