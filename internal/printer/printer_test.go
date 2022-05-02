@@ -20,25 +20,24 @@ func setupPrinter() (StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	return *p, &stdOut, &stdErr
 }
 
-func TestPrintErr(t *testing.T) {
+func TestPrintErrWithoutColor(t *testing.T) {
 	p, _, stdErr := setupPrinter()
+	p.SetUseColor(false)
 	assert.Equal(t, false, p.GetUseColor())
-	assert.Nil(t, p.spinner)
 
 	p.PrintErr(fmt.Errorf("test"))
 	assert.Equal(t, "[ERROR] Test\n", stdErr.String())
 }
 
-func TestPrintErrWithColor(t *testing.T) {
+func TestPrintErrWithColorIsDefault(t *testing.T) {
 	p, _, stdErr := setupPrinter()
-	p.SetUseColor(true)
-	assert.NotNil(t, p.spinner)
+	assert.Equal(t, true, p.GetUseColor())
 
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "❌ \x1b[31mTest\x1b[0m\n", stdErr.String())
+	assert.Equal(t, "\u274C \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
-func TestPrintStructAsJson(t *testing.T) {
+func TestPrintStructAsJsonWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
 		"foo": 1,
 		"bar": map[string]interface{}{
@@ -59,11 +58,12 @@ func TestPrintStructAsJson(t *testing.T) {
 }
 `
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	p.SetOutputType(JSON)
 	testPrintStruct(t, p, testStruct, expectedJSON)
 }
 
-func TestPrintStructAsYaml(t *testing.T) {
+func TestPrintStructAsYamlWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
 		"foo": 1,
 		"bar": map[string]interface{}{
@@ -75,6 +75,7 @@ func TestPrintStructAsYaml(t *testing.T) {
 foo: 1
 `
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	testPrintStruct(t, p, testStruct, expectedYaml)
 }
 
@@ -114,7 +115,7 @@ func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expect
 	assert.Equal(t, expectedOutput, buf.String())
 }
 
-func TestPrintErrResponse503WithColor(t *testing.T) {
+func TestPrintCLIErrorWith503WithColor(t *testing.T) {
 	p, _, stdErr := setupPrinter()
 	p.SetUseColor(true)
 
@@ -125,13 +126,14 @@ func TestPrintErrResponse503WithColor(t *testing.T) {
 	}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
 
-	expected := "❌ \x1b[31m503 Service Unavailable\x1b[0m\n" +
+	expected := "\u274C \x1b[31m503 Service Unavailable\x1b[0m\n" +
 		"\x1b[1m\x1b[31mhello\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mworld\x1b[0m\n"
 	assert.Equal(t, expected, stdErr.String())
 }
 
-func TestPrintErrResponse101(t *testing.T) {
+func TestPrintCLIError101WithoutColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "101 Switching Protocols", StatusCode: 101}
@@ -140,45 +142,58 @@ func TestPrintErrResponse101(t *testing.T) {
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponse202(t *testing.T) {
+func TestPrintCLIErrorWith202Response(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	resp := http.Response{Status: "202 Accepted", StatusCode: 202}
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), &resp))
-	expected := "[ERROR] Response error (hello world)\n"
+	expected := "[ERROR] Hello world\n"
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintErrResponseNilResponse(t *testing.T) {
+func TestPrintCLIErrorWithNilResponseWithColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(true)
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := "[ERROR] Response error (hello world)\n"
+	expected := "\u274C \x1b[31mHello world\x1b[0m\n"
 	assert.Equal(t, expected, buf.String())
 }
 
-func TestPrintTable(t *testing.T) {
+func TestPrintTableWithoutColor(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
-	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
+	p.SetUseColor(false)
+	p.Table(TableData{
+		Header: []string{"A", "B"},
+		Data:   [][]interface{}{{"1", "2"}},
+	})
 	assert.Equal(t, "A | B\n1 | 2\n", stdOut.String())
 }
 
 func TestPrintTableWithColor(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(true)
-	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, nil)
+	p.Table(TableData{
+		Header: []string{"A", "B"},
+		Data:   [][]interface{}{{"1", "2"}},
+	})
 	assert.Equal(t, "\x1b[36mA\x1b[0m\x1b[36m | \x1b[0m\x1b[36mB\x1b[0m\n1 | 2\n", stdOut.String())
 }
 
 func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.MaxWidth = 25
-	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
-		{"1", "2", "3"},
-		{"hello darkness my old friend", "I've come to talk to you again", "Because a vision softly creeping"},
-	}, nil)
+	p.Table(TableData{
+		Header: []string{"Hello", "Foo", "World"},
+		Data: [][]interface{}{
+			{"1", "2", "3"},
+			{"hello darkness my old friend", "I've come to talk to you again", "Because a vision softly creeping"},
+		},
+	})
 
 	expected := `HELLO  | FOO    | WORLD 
 1      | 2      | 3     
@@ -194,10 +209,14 @@ iend   |  again | creepi
 
 func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.MaxWidth = 30
-	p.Table([]string{"Hello", "Foo", "World"}, [][]interface{}{
-		{"hello", "darkness my old friend", "Because a vision softly creeping"},
-	}, nil)
+	p.Table(TableData{
+		Header: []string{"Hello", "Foo", "World"},
+		Data: [][]interface{}{
+			{"hello", "darkness my old friend", "Because a vision softly creeping"},
+		},
+	})
 
 	expected := `HELLO | FOO       | WORLD    
 hello | darkness  | Because a
@@ -210,6 +229,7 @@ hello | darkness  | Because a
 
 func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 
 	data := []string{"hello", "fooba", "world"}
 	header1 := []string{"Hello", "Foo", "World"}
@@ -219,14 +239,14 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 		d := [][]interface{}{util.StringSliceToInterfaceSlice(data)}
 		if i%2 == 0 {
 			p.MaxWidth = 31
-			p.Table(header1, d, nil)
+			p.Table(TableData{Header: header1, Data: d})
 		} else {
 			if i%3 == 0 {
 				p.MaxWidth = 32
-				p.Table(header2, d, nil)
+				p.Table(TableData{Header: header2, Data: d})
 			} else {
 				p.MaxWidth = 33
-				p.Table(header3, d, nil)
+				p.Table(TableData{Header: header3, Data: d})
 			}
 		}
 		data[0] += "w"
@@ -247,7 +267,33 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 
 func TestPrintTableAsStruct(t *testing.T) {
 	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
 	p.SetOutputType(YAML)
-	p.Table([]string{"A", "B"}, [][]interface{}{{"1", "2"}}, map[string]interface{}{"A": 1, "B": 2})
+	p.Table(TableData{
+		Header:     []string{"A", "B"},
+		Data:       [][]interface{}{{"1", "2"}},
+		StructData: map[string]interface{}{"A": 1, "B": 2},
+	})
 	assert.Equal(t, "A: 1\nB: 2\n", stdOut.String())
+}
+
+func TestPrintTableNoData(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
+	p.Table(TableData{
+		Header: []string{"A", "B"},
+		Data:   [][]interface{}{},
+	})
+	assert.Equal(t, NoTableDataDefaultMsg+"\n", stdOut.String())
+}
+
+func TestPrintTableNoDataCustomMessage(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
+	p.Table(TableData{
+		Header:              []string{"A", "B"},
+		Data:                [][]interface{}{},
+		MissingTableDataMsg: NotFoundMsg{Types: "cats"},
+	})
+	assert.Equal(t, "No cats found.\n", stdOut.String())
 }

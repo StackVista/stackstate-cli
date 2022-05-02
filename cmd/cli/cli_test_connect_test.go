@@ -20,8 +20,8 @@ func setupCommand() (di.MockDeps, *cobra.Command) {
 
 func TestConnectionFailure(t *testing.T) {
 	cli, cmd := setupCommand()
-	respError := common.NewResponseError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
-	cli.MockClient.ConnectError = respError
+	connectError := common.NewConnectError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	cli.MockClient.ConnectError = connectError
 	_, err := util.ExecuteCommandWithContext(cli.Context, cmd)
-	assert.Equal(t, common.NewConnectError(respError), err)
+	assert.Equal(t, connectError, err)
 }

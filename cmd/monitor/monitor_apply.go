@@ -7,6 +7,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -14,6 +15,7 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apply -f FILE",
 		Short: "apply a monitor with STJ",
+		Long:  "Apply a monitor with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
@@ -30,12 +32,12 @@ func RunMonitorApplyCommand(
 ) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
@@ -53,8 +55,13 @@ func RunMonitorApplyCommand(
 		tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).", len(nodes)))
-	cli.Printer.PrintLn("")
-	cli.Printer.Table([]string{"Type", "Id", "Identifier", "Name"}, tableData, nodes)
+	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> monitor(s).", len(nodes)))
+	if len(nodes) > 0 {
+		cli.Printer.Table(printer.TableData{
+			Header:     []string{"Type", "Id", "Identifier", "Name"},
+			Data:       tableData,
+			StructData: nodes,
+		})
+	}
 	return nil
 }

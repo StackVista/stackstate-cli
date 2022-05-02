@@ -19,12 +19,15 @@ paths:
   /node: { $ref: "node.xapi.yaml#/paths/%2Fnode" }
   /node/{nodeType}: { $ref: "node.xapi.yaml#/paths/%2Fnode%2F%7BnodeType%7D" }
   /stackpack: { $ref: "stackpack.xapi.yaml#/paths/%2Fstackpack" }
+  /stackpack/{stackName}/provision: { $ref: "stackpack.xapi.yaml#/paths/%2Fstackpack%2F%7BstackName%7D%2Fprovision" }
   /monitors: { $ref: "monitors.api.yaml#/paths/%2Fmonitors" }
   /monitor/{monitorId}: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D" }
   /monitor/{monitorId}/run: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2Frun" }
+  /monitor/{monitorId}/status: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2Fstatus" }
   /monitor/{monitorId}/dryRun: { $ref: "monitors.api.yaml#/paths/%2Fmonitor%2F%7BmonitorId%7D%2FdryRun" }
   /monitorUrn/{monitorUrnId}: { $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D" }
   /monitorUrn/{monitorUrnId}/run: { $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D%2Frun" }
+  /monitorUrn/{monitorUrnId}/status: { $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D%2Fstatus" }
   /monitorUrn/{monitorUrnId}/dryRun:
     { $ref: "monitors_urn.api.yaml#/paths/%2FmonitorUrn%2F%7BmonitorUrnId%7D%2FdryRun" }
   /user/profile: { $ref: "user_profile.api.yaml#/paths/%2Fuser%2Fprofile" }

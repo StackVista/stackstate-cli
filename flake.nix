@@ -30,7 +30,13 @@
             # This hash locks the dependencies of this package.
             # Change it to the provided when the go dependencies change.
             # See https://www.tweag.io/blog/2021-03-04-gomod2nix/ for details
-            vendorSha256 = "sha256-+jA7RJ6Eh9e6JjyTFDifcN+iVWE66w3tRzBwj2b8ijM=";
+            #
+            # NOTE In case if your build fails due to incosistency in vendor modules
+            # Comment out the real hash and uncomment the fake one then on next `nix build .` run
+            # you will get a new real hash which can be used here.
+            #
+            # vendorSha256 = pkgs.lib.fakeSha256;
+            vendorSha256 = "sha256-ogEbNzB78RGtrVM427ADwTcWcbY+ofIn0jxSWOdjplQ=";
 
             postInstall = ''
               mv $out/bin/stackstate-cli2 $out/bin/sts

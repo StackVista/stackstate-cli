@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"net/http"
 	"os"
 	"strings"
 
@@ -27,63 +26,58 @@ type Printer interface {
 	// Expects s to be JSON or YAML serializable. Will print an error otherwise
 	PrintStruct(s interface{})
 	PrintErr(err error)
-	StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn
+	StartSpinner(loadingMsg LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
 	GetUseColor() bool
 	SetOutputType(outputType OutputType)
 	GetOutputType() OutputType
 	PrintWarn(msg string)
 	Success(msg string)
-	Table(header []string, data [][]interface{}, structData interface{})
+	Table(t TableData)
 	PrintLn(text string)
+}
+
+type TableData struct {
+	Header              []string
+	Data                [][]interface{}
+	StructData          interface{}
+	MissingTableDataMsg MissingTableDataMsg
 }
 
 const (
 	YamlIndent = 2
 )
 
-type OutputType int
+type OutputType string
 
 type StopPrinterFn func()
 
-type Symbol struct {
-	UnicodeChar string
-	Fallback    string
-}
-
 const (
-	YAML OutputType = iota
-	JSON
+	YAML OutputType = "YAML"
+	JSON OutputType = "JSON"
 	// Auto formatting, sometimes prints in table format, sometimes in YAML
-	Auto
+	Auto OutputType = "Auto"
 )
-
-var symbols = map[string]Symbol{
-	"success": {UnicodeChar: "✅", Fallback: "success"},
-	"warn":    {UnicodeChar: "\u26A0\uFE0F", Fallback: "warn"}, // ⚠️
-	"error":   {UnicodeChar: "❌", Fallback: "error"},
-	"info":    {UnicodeChar: color.Blue.Render("ⓘ"), Fallback: "info"},
-}
 
 type StdPrinter struct {
 	stdOut     io.Writer // for test purposes
 	stdErr     io.Writer // for test purposes
 	useColor   bool
-	spinner    *pterm.SpinnerPrinter
 	outputType OutputType
 	MaxWidth   int
 }
 
 func NewPrinter() Printer {
-	pterm.DisableColor()
-	return &StdPrinter{
-		useColor:   false, // IMPORTANT: use progressive enhancement!
-		spinner:    nil,
+	x := &StdPrinter{
+		useColor:   true,
 		stdOut:     os.Stdout,
 		stdErr:     os.Stderr,
 		outputType: Auto,
 		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
+	pterm.EnableColor()
+
+	return x
 }
 
 func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
@@ -162,15 +156,17 @@ func colorizeStruct(structStr string, outputType OutputType) (string, error) {
 
 func (p *StdPrinter) PrintErr(err error) {
 	switch e := err.(type) {
-	case common.ResponseError:
-		p.printErrResponse(e.Err, e.Resp)
+	case common.CLIError:
+		p.printCLIError(e)
 	default:
 		color.Fprintf(p.stdErr, "%s %s\n", p.sprintSymbol("error"), color.Red.Render(util.UcFirst(err.Error())))
 	}
 }
 
-func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
+func (p *StdPrinter) printCLIError(err common.CLIError) {
 	var errorStr, bodyStr string
+
+	resp := err.GetServerResponse()
 
 	//nolint:gomnd
 	isErrorResponse := resp != nil && ((resp.StatusCode-200 < 0) || (resp.StatusCode-200 >= 100))
@@ -183,7 +179,7 @@ func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
 			errorStr = resp.Status
 		}
 	} else {
-		errorStr = fmt.Sprintf("Response error (%s)", err.Error())
+		errorStr = util.UcFirst(err.Error())
 	}
 
 	// get error string
@@ -210,9 +206,9 @@ func (p *StdPrinter) printErrResponse(err error, resp *http.Response) {
 	)
 }
 
-func (p *StdPrinter) StartSpinner(loadingMsg common.LoadingMsg) StopPrinterFn {
-	if p.spinner != nil {
-		s, _ := p.spinner.WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
+func (p *StdPrinter) StartSpinner(loadingMsg LoadingMsg) StopPrinterFn {
+	if p.useColor {
+		s, _ := pterm.DefaultSpinner.WithRemoveWhenDone().WithRemoveWhenDone().WithShowTimer(false).WithText(loadingMsg.String()).Start()
 		return func() {
 			if s != nil {
 				//nolint:golint,errcheck
@@ -230,10 +226,8 @@ func (p *StdPrinter) SetUseColor(useColor bool) {
 
 	p.useColor = useColor
 	if useColor {
-		p.spinner = pterm.DefaultSpinner.WithRemoveWhenDone()
 		pterm.EnableColor()
 	} else {
-		p.spinner = nil
 		pterm.DisableColor()
 	}
 }
@@ -251,15 +245,24 @@ func (p *StdPrinter) GetOutputType() OutputType {
 }
 
 func (p *StdPrinter) Success(msg string) {
-	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), msg)
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), util.UcFirst(msg))
 }
 
 func (p *StdPrinter) PrintWarn(msg string) {
-	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), msg)
+	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("warn"), util.UcFirst(msg))
 }
 
-func (p *StdPrinter) Table(header []string, data [][]interface{}, structData interface{}) {
+func (p *StdPrinter) Table(t TableData) {
 	if p.outputType == Auto {
+		if len(t.Data) == 0 {
+			missingMsg := NoTableDataDefaultMsg
+			if t.MissingTableDataMsg != nil {
+				missingMsg = t.MissingTableDataMsg.String()
+			}
+			p.PrintLn(missingMsg)
+			return
+		}
+
 		tw := table.NewWriter()
 		tw.Style().Options.DrawBorder = false
 		tw.Style().Options.SeparateHeader = false
@@ -271,10 +274,10 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 			tw.Style().Color.Header = text.Colors{text.FgCyan}
 		}
 
-		tw.AppendHeader(util.StringSliceToInterfaceSlice(header))
+		tw.AppendHeader(util.StringSliceToInterfaceSlice(t.Header))
 
 		rows := make([]table.Row, 0)
-		for _, row := range data {
+		for _, row := range t.Data {
 			columns := make(table.Row, 0)
 			for _, v := range row {
 				value := util.ToString(v)
@@ -283,9 +286,9 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 			rows = append(rows, columns)
 		}
 
-		adjustedColumnWidths := calcColumnWidth(header, data, p.MaxWidth, tw.Style().Box)
-		columnConfigs := make([]table.ColumnConfig, len(header))
-		for i, h := range header {
+		adjustedColumnWidths := calcColumnWidth(t.Header, t.Data, p.MaxWidth, tw.Style().Box)
+		columnConfigs := make([]table.ColumnConfig, len(t.Header))
+		for i, h := range t.Header {
 			columnConfigs = append(columnConfigs, table.ColumnConfig{
 				Name:     h,
 				WidthMax: adjustedColumnWidths[i],
@@ -296,7 +299,7 @@ func (p *StdPrinter) Table(header []string, data [][]interface{}, structData int
 		tw.AppendRows(rows)
 		fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
 	} else {
-		p.PrintStruct(structData)
+		p.PrintStruct(t.StructData)
 	}
 }
 
@@ -349,13 +352,4 @@ func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box ta
 
 func (p *StdPrinter) PrintLn(text string) {
 	color.Fprintf(p.stdOut, "%s\n", text)
-}
-
-func (p *StdPrinter) sprintSymbol(symbolName string) string {
-	symbol := symbols[symbolName]
-	if p.useColor {
-		return symbol.UnicodeChar
-	} else {
-		return "[" + strings.ToUpper(symbol.Fallback) + "]"
-	}
 }

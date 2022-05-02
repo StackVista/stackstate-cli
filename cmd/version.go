@@ -4,12 +4,14 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
 func VersionCommand(cli *di.Deps) *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
-		Short: "display the CLI version number",
+		Short: "display version info",
+		Long:  "Display the version of this StackState CLI.",
 		RunE:  cli.CmdRunE(RunVersionCommand),
 	}
 }
@@ -22,11 +24,11 @@ func RunVersionCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		"cli-type": CLIType,
 	}
 
-	cli.Printer.Table(
-		[]string{"Version", "Date", "CLI Type", "Commit"},
-		[][]interface{}{{Version, Date, CLIType, Commit}},
-		info,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:     []string{"Version", "Date", "CLI Type", "Commit"},
+		Data:       [][]interface{}{{Version, Date, CLIType, Commit}},
+		StructData: info,
+	})
 
 	return nil
 }

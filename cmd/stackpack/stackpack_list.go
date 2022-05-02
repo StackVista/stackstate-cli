@@ -4,13 +4,15 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "list of stackpack",
+		Short: "list stackpacks",
+		Long:  "List available StackPacks.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListCommand),
 	}
 	cmd.Flags().Bool(InstalledFlag, false, "show only installed stackpack")
@@ -25,7 +27,7 @@ func RunStackpackListCommand(
 ) common.CLIError {
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
 	if err != nil {
@@ -51,11 +53,12 @@ func RunStackpackListCommand(
 		respData = append(respData, v)
 	}
 
-	cli.Printer.Table(
-		[]string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-		data,
-		respData,
-	)
+	cli.Printer.Table(printer.TableData{
+		Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+		Data:                data,
+		StructData:          respData,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
+	})
 
 	return nil
 }

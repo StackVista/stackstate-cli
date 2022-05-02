@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -18,7 +19,8 @@ var (
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apply -f FILE",
-		Short: "apply settings with STJ",
+		Short: "apply saved settings",
+		Long:  "Apply saved settings with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),
 	}
 	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
@@ -43,15 +45,15 @@ func RunSettingsApplyCommand(
 ) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	namespace, err := cmd.Flags().GetString(NamespaceFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	unlockedStrategy, err := cmd.Flags().GetString(UnlockedStrategyFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	if unlockedStrategy != "" {
 		if err := common.CheckFlagIsValidChoice(UnlockedStrategyFlag, unlockedStrategy, UnlockedStrategyChoices); err != nil {
@@ -60,12 +62,12 @@ func RunSettingsApplyCommand(
 	}
 	timeout, err := cmd.Flags().GetInt(TimeoutFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	fileBytes, err := os.ReadFile(file)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIError(err, nil)
 	}
 
 	request := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))
@@ -95,7 +97,13 @@ func RunSettingsApplyCommand(
 	}
 
 	cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).\n", len(nodes)))
-	cli.Printer.Table([]string{"Type", "Id", "Identifier", "Name"}, tableData, nodes)
+	if len(nodes) > 0 {
+		cli.Printer.Table(printer.TableData{
+			Header:     []string{"Type", "Id", "Identifier", "Name"},
+			Data:       tableData,
+			StructData: nodes,
+		})
+	}
 
 	return nil
 }

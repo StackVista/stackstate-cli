@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	home "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
@@ -17,37 +16,16 @@ const (
 )
 
 type ReadConfError struct {
-	prefixMsg string
-	RootCause error
+	RootCause           error
+	IsMissingConfigFile bool
 }
 
 func (s ReadConfError) Error() string {
-	if s.prefixMsg != "" {
-		return fmt.Sprintf("%s %s", s.prefixMsg, s.RootCause)
+	if s.IsMissingConfigFile {
+		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. To create one checkout `sts cli save-config --help`", s.RootCause)
 	} else {
-		return s.RootCause.Error()
+		return fmt.Sprintf("could not load StackState CLI config\n%s", s.RootCause)
 	}
-}
-
-type MissingConfError struct {
-	Paths []string
-}
-
-func (s MissingConfError) Error() string {
-	configFilenames := []string{}
-	for _, path := range s.Paths {
-		configFilenames = append(configFilenames, path+"/"+ViperConfigName+"."+ViperConfigType)
-	}
-	msg := fmt.Sprintf("Missing config. "+
-		"Config can be provided via file, flags or environment variables.\n"+
-		"Potential config file locations: %v.\n"+
-		"Or use the command line flags: %v.\n"+
-		"Or set environment variables: %v.",
-		strings.Join(configFilenames, ", "),
-		MinimumRequiredFlags,
-		MinimumRequiredEnvVars,
-	)
-	return msg
 }
 
 // XDG spec https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
@@ -90,24 +68,19 @@ func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Con
 		if _, ok := err.(viper.ConfigFileNotFoundError); !ok {
 			// Config file was found but another error was produced
 			return Conf{}, ReadConfError{
-				prefixMsg: "Error while loading config file.",
-				RootCause: err,
+				RootCause:           err,
+				IsMissingConfigFile: false,
 			}
 		}
 	}
 
 	conf := bind(cmd, vp)
 
-	// is config missing entirely?
-	if (conf == Conf{}) {
-		return Conf{}, ReadConfError{RootCause: MissingConfError{Paths: paths}}
-	}
-
 	// validate
 	if err := ValidateConf(conf); err != nil {
 		return Conf{}, ReadConfError{
-			prefixMsg: "Could not load config, because of validation errors.",
-			RootCause: err,
+			RootCause:           err,
+			IsMissingConfigFile: vp.ConfigFileUsed() == "",
 		}
 	}
 

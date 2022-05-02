@@ -7,52 +7,58 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 var fileMode = 0644
 
-func SettingsExportCommand(cli *di.Deps) *cobra.Command {
+func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "export {--ids IDS | --namespace NAMESPACE | --type TYPE}",
-		Short: "export settings with STJ",
-		RunE:  cli.CmdRunEWithApi(RunSettingsExportCommand),
+		Use:   "describe {--ids IDS | --namespace NAMESPACE | --type TYPE}",
+		Short: "describe settings in STJ format",
+		Long:  "Describe settings in StackState Templated JSON.",
+		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand),
 	}
-	cmd.Flags().Int64Slice(Ids, nil, "list of ids to export")
-	cmd.Flags().String(Namespace, "", "namespace to export")
-	cmd.Flags().StringSlice(TypeName, nil, "list of types to export")
-	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces are allowed to be referenced by the exported settings (only usable in combiation with the --namespace flag)")
+	cmd.Flags().Int64Slice(Ids, nil, "list of ids to describe")
+	cmd.Flags().String(Namespace, "", "namespace to describe")
+	cmd.Flags().StringSlice(TypeName, nil, "list of types to describe")
+	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
 	common.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
 
 	return cmd
 }
 
-func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo *stackstate_client.ServerInfo) common.CLIError {
+func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo *stackstate_client.ServerInfo) common.CLIError {
 	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return err
 	}
 
+	if cli.Printer.GetOutputType() != printer.Auto {
+		return common.NewCLIArgParseError(fmt.Errorf("unsupported format: %s. Settings can only be described in STJ format", cli.Printer.GetOutputType()))
+	}
+
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	namespace, err := cmd.Flags().GetString(Namespace)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	references, err := cmd.Flags().GetStringSlice(AllowReferences)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 	nodeTypes, err := cmd.Flags().GetStringSlice(TypeName)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	filePath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	exportArgs := stackstate_client.NewExport()
@@ -67,7 +73,7 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	}
 	if len(references) != 0 {
 		if len(namespace) == 0 {
-			return common.NewCLIError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
+			return common.NewCLIArgParseError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
 		}
 		exportArgs.AllowReferences = references
 	}
@@ -80,12 +86,12 @@ func RunSettingsExportCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_
 	if filePath != "" {
 		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
 		if err != nil {
-			return common.NewCLIError(err)
+			return common.NewCLIError(err, nil)
 		}
 		defer file.Close()
 
 		if _, err = file.Write([]byte(data)); err != nil {
-			return common.NewCLIError(err)
+			return common.NewCLIError(err, nil)
 		}
 		cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
 		return nil

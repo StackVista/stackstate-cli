@@ -10,7 +10,7 @@ import (
 func testConect(cli *di.Deps) common.CLIError {
 	_, serverInfo, err := cli.Client.Connect()
 	if err != nil {
-		return common.NewConnectError(err)
+		return err
 	}
 
 	dev := ""

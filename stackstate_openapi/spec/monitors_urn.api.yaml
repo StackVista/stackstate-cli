@@ -66,6 +66,23 @@ paths:
         "500":
           $ref: "monitors.api.yaml#/components/responses/monitorApiError"
 
+  /monitorUrn/{monitorUrnId}/status:
+    get:
+      tags:
+        - monitorUrn
+      summary: "Get a monitor with stream information"
+      description: "Returns a monitor full representation with the stream status information"
+      operationId: getMonitorWithStatusByURN
+      parameters:
+        - $ref: "#/components/parameters/monitorUrnId"
+      responses:
+        "200":
+          $ref: "monitors.api.yaml#/components/responses/monitorStatus"
+        "404":
+          $ref: "#/components/responses/monitorIdentifierNotFoundError"
+        "500":
+          $ref: "monitors.api.yaml#/components/responses/monitorApiError"
+
 components:
   parameters:
     monitorUrnId:
@@ -76,12 +93,6 @@ components:
         $ref: "#/components/schemas/MonitorUrnId"
       description: "The identifier of a monitor"
   requestBodies:
-    update:
-      required: true
-      content:
-        application/json:
-          schema:
-            $ref: "monitors.api.yaml#/components/schemas/UpdateMonitor"
   responses:
     monitor:
       description: "Full representation of a monitor"

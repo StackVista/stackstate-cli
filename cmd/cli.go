@@ -10,6 +10,7 @@ func CliCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "cli",
 		Short: "manage this CLI",
+		Long:  "Manage the configuration this CLI.",
 	}
 	cmd.AddCommand(cli.CliSaveConfigCommand(deps))
 	cmd.AddCommand(cli.CliTestCommandCommand(deps))

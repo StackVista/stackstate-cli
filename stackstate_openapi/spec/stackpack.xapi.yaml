@@ -51,7 +51,39 @@ paths:
                   type: string
         "500":
           $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+  /stackpack/{stackName}/provision:
+    post:
+      tags:
+        - stackpack
+      parameters:
+        - $ref: "#/components/parameters/stackName"
+      summary: "Provision API"
+      operationId: provisionDetails
+      description: "Provision details"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties:
+                type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProvisionResponse"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
 components:
+  parameters:
+    stackName:
+      in: path
+      name: stackName
+      required: true
+      schema:
+        $ref: "#/components/schemas/stackName"
+
   schemas:
     StackPackUpload:
       type: object
@@ -138,8 +170,16 @@ components:
           items:
             type: object
             properties:
+              id:
+                type: int64
+              status:
+                type: string
+              lastUpdateTimestamp:
+                type: int64
               stackPackVersion:
                 type: string
+            required:
+              - lastUpdateTimestamp
         latestVersion:
           type: object
           properties:
@@ -150,3 +190,18 @@ components:
           properties:
             version:
               type: string
+    stackName:
+      type: string
+    ProvisionResponse:
+      type: object
+      properties:
+        id:
+          type: int64
+        status:
+          type: string
+        name:
+          type: string
+        stackPackVersion:
+          type: string
+        lastUpdateTimestamp:
+          type: int64

@@ -46,7 +46,7 @@ func (cli *Deps) CmdRunEWithApi(
 	return func(cmd *cobra.Command, args []string) error {
 		api, serverInfo, err := cli.Client.Connect()
 		if err != nil {
-			return common.NewConnectError(err)
+			return err
 		}
 
 		return runFn(cmd, cli, api, serverInfo)

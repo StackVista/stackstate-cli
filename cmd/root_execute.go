@@ -13,19 +13,19 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	pr "gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 //nolint:funlen
 func Execute(ctx context.Context) {
-	printer := pr.NewPrinter()
-
+	pr := printer.NewPrinter()
 	cli := &di.Deps{
-		Printer: printer,
+		Printer: pr,
 	}
 
 	cmd := RootCommand(cli)
+	decapitalizeHelpCommand(cmd)
 	if CLIType == "" {
 		CLIType = "local"
 	}
@@ -42,12 +42,11 @@ func Execute(ctx context.Context) {
 		if verbose {
 			zerolog.SetGlobalLevel(zerolog.TraceLevel)
 		}
-
 		// needs to happen before run, but after execute
 		// so flag-config bindings can take hold
 		cfg, err := conf.ReadConf(cmd)
 		if err != nil {
-			printer.PrintErr(err)
+			cli.Printer.PrintErr(err)
 			os.Exit(common.ConfigErrorExitCode)
 		}
 		cli.Config = &cfg
@@ -57,11 +56,11 @@ func Execute(ctx context.Context) {
 
 		switch strings.ToUpper(cfg.Output) {
 		case "JSON":
-			cli.Printer.SetOutputType(pr.JSON)
+			cli.Printer.SetOutputType(printer.JSON)
 		case "YAML":
-			cli.Printer.SetOutputType(pr.YAML)
+			cli.Printer.SetOutputType(printer.YAML)
 		case "AUTO":
-			cli.Printer.SetOutputType(pr.Auto)
+			cli.Printer.SetOutputType(printer.Auto)
 		default:
 			return fmt.Errorf("invalid choice for output flag: %s. Must be JSON, YAML or auto", cfg.Output)
 		}
@@ -77,7 +76,7 @@ func Execute(ctx context.Context) {
 
 		stopSpinner := func() {}
 		configuration.OnPreCallAPI = func(r *http.Request) {
-			stopSpinner = cli.Printer.StartSpinner(common.AwaitingServer)
+			stopSpinner = cli.Printer.StartSpinner(printer.AwaitingServer)
 		}
 		configuration.OnPostCallAPI = func(r *http.Request) {
 			stopSpinner()
@@ -119,5 +118,14 @@ func Execute(ctx context.Context) {
 			println(runCmd.UsageString())
 		}
 		os.Exit(exitCode)
+	}
+}
+
+// we do this to be consistent with the styling rules
+func decapitalizeHelpCommand(root *cobra.Command) {
+	root.InitDefaultHelpCmd()
+	help, _, _ := root.Find([]string{"help"})
+	if help != nil {
+		help.Short = "help about any command"
 	}
 }

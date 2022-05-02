@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -11,6 +12,7 @@ func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list all monitors",
+		Long:  "List all monitors.",
 		RunE:  cli.CmdRunEWithApi(RunListMonitorsCommand),
 	}
 	return cmd
@@ -31,7 +33,12 @@ func RunListMonitorsCommand(
 	for _, monitor := range monitors.Monitors {
 		tableData = append(tableData, []interface{}{monitor.Id, *monitor.Identifier, monitor.Name})
 	}
-	cli.Printer.Table([]string{"Id", "Identifier", "Name"}, tableData, monitors.Monitors)
+	cli.Printer.Table(printer.TableData{
+		Header:              []string{"Id", "Identifier", "Name"},
+		Data:                tableData,
+		StructData:          monitors.Monitors,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
+	})
 
 	return nil
 }
