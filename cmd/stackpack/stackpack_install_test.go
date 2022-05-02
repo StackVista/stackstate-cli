@@ -70,7 +70,7 @@ func TestStackpackInstallPrintsToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix", "--json")
 
 	assert.Equal(t,
-		[]interface{}{map[string]interface{}{
+		[]map[string]interface{}{{
 			"instance": mockProvisionResponse},
 		},
 		*cli.MockPrinter.PrintJsonCalls,

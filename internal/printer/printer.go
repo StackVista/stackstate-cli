@@ -25,7 +25,7 @@ import (
 type Printer interface {
 	// Expects s to be JSON or YAML serializable. Will print an error otherwise
 	PrintStruct(s interface{})
-	PrintJson(s interface{})
+	PrintJson(map[string]interface{})
 	PrintErr(err error)
 	StartSpinner(loadingMsg LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
@@ -47,16 +47,7 @@ const (
 	YamlIndent = 2
 )
 
-type OutputType string
-
 type StopPrinterFn func()
-
-const (
-	YAML OutputType = "YAML"
-	JSON OutputType = "JSON"
-	// Auto formatting, sometimes prints in table format, sometimes in YAML
-	Auto OutputType = "Auto"
-)
 
 type StdPrinter struct {
 	stdOut   io.Writer // for test purposes
@@ -84,7 +75,7 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 }
 
 func (p *StdPrinter) PrintStruct(s interface{}) {
-	msg, err := p.sprintStruct(s, YAML)
+	msg, err := p.sprintStruct(s)
 	if err != nil {
 		p.PrintErr(fmt.Errorf("error (%s) while printing struct to YAML: %v", err, s))
 	} else {
@@ -92,58 +83,37 @@ func (p *StdPrinter) PrintStruct(s interface{}) {
 	}
 }
 
-func (p *StdPrinter) PrintJson(s interface{}) {
-	msg, err := p.sprintStruct(s, JSON)
+func (p *StdPrinter) PrintJson(s map[string]interface{}) {
+	json, err := json.MarshalIndent(s, "", "  ")
 	if err != nil {
 		p.PrintErr(fmt.Errorf("error (%s) while printing struct to JSON: %v", err, s))
 	} else {
-		fmt.Fprintf(p.stdOut, "%s\n", msg)
+		fmt.Fprintf(p.stdOut, "%s\n", json)
 	}
 }
 
-func (p *StdPrinter) sprintStruct(s interface{}, outputType OutputType) (string, error) {
+func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	var sructStr string
 
-	switch outputType {
-	case JSON:
-		msg, err := json.MarshalIndent(s, "", "  ")
-		if err != nil {
-			return "", err
-		}
-
-		sructStr = string(msg)
-	case YAML, Auto:
-		var buf bytes.Buffer
-		yamlEncoder := yaml.NewEncoder(&buf)
-		yamlEncoder.SetIndent(YamlIndent)
-		err := yamlEncoder.Encode(&s)
-		if err != nil {
-			return "", err
-		}
-		sructStr = strings.TrimRight(buf.String(), "\n")
-	default:
-		return "", fmt.Errorf("unknown outputType %v", outputType)
+	var buf bytes.Buffer
+	yamlEncoder := yaml.NewEncoder(&buf)
+	yamlEncoder.SetIndent(YamlIndent)
+	err := yamlEncoder.Encode(&s)
+	if err != nil {
+		return "", err
 	}
+	sructStr = strings.TrimRight(buf.String(), "\n")
 
 	if p.useColor {
-		return colorizeStruct(sructStr, outputType)
+		return colorizeStruct(sructStr)
 	} else {
 		return sructStr, nil
 	}
 }
 
-func colorizeStruct(structStr string, outputType OutputType) (string, error) {
+func colorizeStruct(structStr string) (string, error) {
 	var lexer chroma.Lexer
-	switch outputType {
-	case JSON:
-		lexer = lexers.Get("json")
-	case YAML:
-		lexer = lexers.Get("yaml")
-	case Auto:
-		lexer = lexers.Get("yaml")
-	default:
-		return "", fmt.Errorf("unknown outputType %v", outputType)
-	}
+	lexer = lexers.Get("yaml")
 	style := styles.Get("monokai")
 	formatter := formatters.Get("terminal")
 
@@ -196,7 +166,7 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 		if err == nil {
 			err := json.Unmarshal(bodyb, &bodyStruct)
 			if err == nil {
-				body, err := p.sprintStruct(bodyStruct, YAML)
+				body, err := p.sprintStruct(bodyStruct)
 				if err == nil {
 					bodyStr = body
 				}

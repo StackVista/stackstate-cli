@@ -68,7 +68,7 @@ func TestUploadStackPackPrintToJson(t *testing.T) {
 
 	assert.Equal(
 		t,
-		[]interface{}{map[string]interface{}{
+		[]map[string]interface{}{{
 			"uploaded-stackpack": stackpack,
 		}},
 		*cli.MockPrinter.PrintJsonCalls,

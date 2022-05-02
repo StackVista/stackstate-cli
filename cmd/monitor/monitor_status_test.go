@@ -101,7 +101,7 @@ func TestSettingsStatusPrintsToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "--json")
 
 	assert.Equal(t,
-		[]interface{}{map[string]interface{}{
+		[]map[string]interface{}{{
 			"monitor-status": monitorStatusResult,
 		}},
 		*cli.MockPrinter.PrintJsonCalls,

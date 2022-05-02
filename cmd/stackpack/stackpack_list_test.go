@@ -59,7 +59,7 @@ func TestStackpackListPrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackListCmd()
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--json")
-	expectedJsonCalls := []interface{}{map[string]interface{}{
+	expectedJsonCalls := []map[string]interface{}{{
 		"stackpacks": mockResponse,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)

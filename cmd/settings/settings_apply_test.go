@@ -112,7 +112,7 @@ func TestSetingsApplyPrinJson(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--json")
 
-	expectedJsonCalls := []interface{}{map[string]interface{}{
+	expectedJsonCalls := []map[string]interface{}{{
 		"applied-settings": cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)

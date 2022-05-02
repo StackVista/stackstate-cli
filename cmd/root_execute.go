@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 
@@ -92,7 +93,6 @@ func Execute(ctx context.Context) {
 	cmd.SilenceErrors = true
 	cmd.SilenceUsage = true
 	if err := cmd.ExecuteContext(ctx); err != nil {
-		cli.Printer.PrintErr(err)
 		var showUsage bool
 		var exitCode int
 		switch v := err.(type) {
@@ -103,8 +103,18 @@ func Execute(ctx context.Context) {
 			exitCode = common.CommandFailedRequirementExitCode
 			showUsage = true
 		}
-		if showUsage {
-			println(runCmd.UsageString())
+
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"error":         true,
+				"error-type":    fmt.Sprintf("%T", err),
+				"error-message": err.Error(),
+			})
+		} else {
+			cli.Printer.PrintErr(err)
+			if showUsage {
+				cli.Printer.PrintLn(runCmd.UsageString())
+			}
 		}
 		os.Exit(exitCode)
 	}

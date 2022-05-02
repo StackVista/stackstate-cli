@@ -58,8 +58,12 @@ func TestPrintStructAsJsonWithoutColor(t *testing.T) {
 }
 `
 	p := NewPrinter().(*StdPrinter)
-	p.SetUseColor(false)
-	testPrintJson(t, p, testStruct, expectedJSON)
+	p.SetUseColor(true) // should not matter
+
+	var buf bytes.Buffer
+	p.stdOut = &buf
+	p.PrintJson(testStruct)
+	assert.Equal(t, expectedJSON, buf.String())
 }
 
 func TestPrintStructAsYamlWithoutColor(t *testing.T) {
@@ -92,31 +96,10 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 	testPrintStruct(t, p, testStruct, expectedYaml)
 }
 
-func TestPrintStructAsJsonWithColor(t *testing.T) {
-	testStruct := map[string]interface{}{
-		"foo": 1,
-		"bar": map[string]interface{}{
-			"baz": "foobarbaz",
-		},
-	}
-	//nolint:lll
-	const expectedJSON = "\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"bar\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n    \x1b[0m\x1b[1m\x1b[31m\"baz\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[37m\"foobarbaz\"\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m,\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"foo\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m}\x1b[0m\n"
-	p := NewPrinter().(*StdPrinter)
-	p.SetUseColor(true)
-	testPrintJson(t, p, testStruct, expectedJSON)
-}
-
 func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expectedOutput string) {
 	var buf bytes.Buffer
 	p.stdOut = &buf
 	p.PrintStruct(testStruct)
-	assert.Equal(t, expectedOutput, buf.String())
-}
-
-func testPrintJson(t *testing.T, p *StdPrinter, testStruct interface{}, expectedOutput string) {
-	var buf bytes.Buffer
-	p.stdOut = &buf
-	p.PrintJson(testStruct)
 	assert.Equal(t, expectedOutput, buf.String())
 }
 

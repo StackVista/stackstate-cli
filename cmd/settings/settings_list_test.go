@@ -77,7 +77,7 @@ func TestSettingsListPrintsToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType", "--json")
 
 	assert.Equal(t,
-		[]interface{}{map[string]interface{}{
+		[]map[string]interface{}{{
 			"type-list": nodeApiResult,
 		}},
 		*cli.MockPrinter.PrintJsonCalls,

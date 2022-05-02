@@ -41,7 +41,7 @@ func TestListTypesPrintsToJson(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--json")
 
-	expectedJsonCalls := []interface{}{map[string]interface{}{
+	expectedJsonCalls := []map[string]interface{}{{
 		"setting-types": cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
