@@ -12,7 +12,7 @@ mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" >> ~
 
 It also possible to use nix phases to test `nix develop --check` and build the application `nix develop --build`, as specified in the Makefile, without entering the shell.
 
-5. Read the [command development styling rules](STYLE.md).
+5. Read the [command development guide](CMD_DEVELOPMENT.md).
 
 ## How to create a new release
 

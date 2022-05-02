@@ -1,12 +1,20 @@
-# Command Development Styling rules
+# Command Development
 
-To ensure a superb command line experience for our users development of new CLI commands must adhere to strict rules. 
+To ensure a consistent command line experience for our users, development of new CLI commands must adhere to strict rules. Please familiarize yourself with the rules before developing on this CLI. This will result in a superb user experience. Thank you!!!
 
-## Rule: familiarize yourself with CLI development
+## Before developing please familiarize yourself with CLI development
 
 CLI development has a big UX component to it. Please familiarize yourself with CLI development by reading the following two resources:
  1. [Command Line Interface Guidelines](https://clig.dev)
  2. [12 Factor CLI Apps](https://medium.com/@jdxcode/12-factor-cli-apps-dd3c227a0e46)
+
+## Rule: always print to the screen via the `Printer` 
+
+To ensure consistent output we limit ourselves to printing to stdout and stderr via the `Printer`. If you need a type of output that the `Printer` does not yet support, then please build it into the `Printer` instead of working around it. 
+
+## Rule: each command must have both a human readable as well as a machine ouput
+
+The `--json` flag is a persistent flag that allows our users to use the CLI for machine purposes. Please ensure that each commands supports both types of output. 
 
 ## Rule: noun, verb, flags
 
