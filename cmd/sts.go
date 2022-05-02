@@ -124,7 +124,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 		var exitCode int
 		switch v := err.(type) {
 		case common.CLIError:
-			exitCode = v.GetExitCode()
+			exitCode = v.ExitCode()
 			showUsage = v.ShowUsage()
 		default:
 			showUsage = true

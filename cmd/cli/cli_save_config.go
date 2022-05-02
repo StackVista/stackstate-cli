@@ -69,7 +69,7 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// write config
 	filename, err := conf.WriteConf(*cli.Config)
 	if err != nil {
-		return common.NewCLIError(err, nil)
+		return common.NewReadFileError(err, filename)
 	}
 
 	if cli.IsJson {

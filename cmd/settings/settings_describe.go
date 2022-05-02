@@ -51,7 +51,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewCLIArgParseError(err)
 	}
 
-	filePath, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
@@ -78,22 +78,22 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewResponseError(err, resp)
 	}
 
-	if filePath != "" {
-		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
+	if filepath != "" {
+		file, err := os.OpenFile(filepath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
 		if err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewWriteFileError(err, filepath)
 		}
 		defer file.Close()
 
 		if _, err = file.Write([]byte(data)); err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewWriteFileError(err, filepath)
 		}
 		if cli.IsJson {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"describe-file-path": filePath,
+				"describe-file-path": filepath,
 			})
 		} else {
-			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
+			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filepath))
 		}
 
 		return nil

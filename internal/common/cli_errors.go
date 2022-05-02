@@ -14,15 +14,25 @@ const (
 
 type CLIError interface {
 	error
-	GetExitCode() ExitCode
+	ExitCode() ExitCode
 	Error() string
 	ShowUsage() bool
 	HasServerResponse() bool
 	GetServerResponse() *http.Response
 }
 
-func NewCLIError(err error, serverResponse *http.Response) CLIError {
-	return StdCLIError{Err: err, ServerResponse: serverResponse}
+func NewWriteFileError(err error, filepath string) CLIError {
+	return StdCLIError{
+		Err:      fmt.Errorf("cannot write to file %s (%s)", filepath, err.Error()),
+		exitCode: WriteFileErrorExitCode,
+	}
+}
+
+func NewReadFileError(err error, filepath string) CLIError {
+	return StdCLIError{
+		Err:      fmt.Errorf("cannot read file %s (%s)", filepath, err.Error()),
+		exitCode: ReadFileErrorExitCode,
+	}
 }
 
 func NewResponseError(err error, serverResponse *http.Response) CLIError {
@@ -72,7 +82,7 @@ func (p StdCLIError) Error() string {
 	return p.Err.Error()
 }
 
-func (p StdCLIError) GetExitCode() ExitCode {
+func (p StdCLIError) ExitCode() ExitCode {
 	return p.exitCode
 }
 

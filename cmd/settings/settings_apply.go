@@ -43,7 +43,7 @@ func RunSettingsApplyCommand(
 	api *stackstate_client.APIClient,
 	serverInfo stackstate_client.ServerInfo,
 ) common.CLIError {
-	file, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
@@ -65,9 +65,9 @@ func RunSettingsApplyCommand(
 		return common.NewCLIArgParseError(err)
 	}
 
-	fileBytes, err := os.ReadFile(file)
+	fileBytes, err := os.ReadFile(filepath)
 	if err != nil {
-		return common.NewCLIError(err, nil)
+		return common.NewReadFileError(err, filepath)
 	}
 
 	request := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))

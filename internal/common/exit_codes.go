@@ -8,4 +8,6 @@ const (
 	ReponseErrorExitCode
 	CommandFailedRequirementExitCode
 	ConnectErrorExitCode
+	ReadFileErrorExitCode
+	WriteFileErrorExitCode
 )

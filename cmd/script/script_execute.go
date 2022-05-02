@@ -53,21 +53,21 @@ func RunScriptExecuteCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-	file, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
 
-	if file != "" && script != "" {
+	if filepath != "" && script != "" {
 		return common.NewCLIArgParseError(
 			fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. "+
 				"Pick one or the other", ScriptFlag, FileFlag))
 	}
 
-	if file != "" {
-		b, err := os.ReadFile(file)
+	if filepath != "" {
+		b, err := os.ReadFile(filepath)
 		if err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewReadFileError(err, filepath)
 		}
 		script = string(b)
 	}
