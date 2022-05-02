@@ -66,6 +66,22 @@ func TestPrintStructAsJsonWithoutColor(t *testing.T) {
 	assert.Equal(t, expectedJSON, buf.String())
 }
 
+func TestPrintErrJson(t *testing.T) {
+	testStruct := fmt.Errorf("test error")
+	const expectedJSON = `{
+  "error": true,
+  "error-message": "test error"
+}
+`
+	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(true) // should not matter
+
+	var buf bytes.Buffer
+	p.stdErr = &buf
+	p.PrintErrJson(testStruct)
+	assert.Equal(t, expectedJSON, buf.String())
+}
+
 func TestPrintStructAsYamlWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
 		"foo": 1,

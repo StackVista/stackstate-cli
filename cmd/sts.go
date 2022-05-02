@@ -27,7 +27,7 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(CliCommand(cli))
-	if CLIType == "full" {
+	if CLIType != "saas" {
 		cmd.AddCommand(ScriptCommand(cli))
 		cmd.AddCommand(SettingsCommand(cli))
 		cmd.AddCommand(StackPackCommand(cli))
