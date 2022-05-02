@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"os"
 
@@ -16,14 +15,42 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
+func StsCommand(cli *di.Deps) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "sts",
+		Short: "StackState: topology-powered observability", // never actually visible
+		Long:  "StackState: topology-powered observability.",
+	}
+	cmd.SetUsageTemplate(cmd.UsageTemplate() +
+		"For more information about this CLI visit https://l.stackstate.com/cli\n",
+	)
+
+	cmd.AddCommand(VersionCommand(cli))
+	cmd.AddCommand(CliCommand(cli))
+	if CLIType != "saas" {
+		cmd.AddCommand(ScriptCommand(cli))
+		cmd.AddCommand(SettingsCommand(cli))
+	}
+	cmd.AddCommand(MonitorCommand(cli))
+	cmd.AddCommand(StackPackCommand(cli))
+
+	return cmd
+}
+
 func Execute(ctx context.Context) {
-	pr := printer.NewPrinter()
-	cli := &di.Deps{
-		Printer: pr,
+	cli := &di.Deps{}
+	cmd := StsCommand(cli)
+	execute(ctx, cli, cmd)
+}
+
+func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
+	common.AddPersistentFlags(sts)
+
+	if cli.Printer == nil {
+		cli.Printer = printer.NewPrinter()
 	}
 
-	cmd := RootCommand(cli)
-	decapitalizeHelpCommand(cmd)
+	decapitalizeHelpCommand(sts)
 	if CLIType == "" {
 		CLIType = "local"
 	}
@@ -31,9 +58,9 @@ func Execute(ctx context.Context) {
 		panic("Type must either 'full', 'local' or 'saas'.")
 	}
 
-	runCmd := cmd
+	runCmd := sts
 	zerolog.SetGlobalLevel(zerolog.Disabled)
-	cmd.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
+	sts.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		runCmd = cmd
 		json, _ := cmd.Flags().GetBool(common.JsonFlag)
 		cli.IsJson = json
@@ -90,9 +117,9 @@ func Execute(ctx context.Context) {
 		return nil
 	}
 
-	cmd.SilenceErrors = true
-	cmd.SilenceUsage = true
-	if err := cmd.ExecuteContext(ctx); err != nil {
+	sts.SilenceErrors = true
+	sts.SilenceUsage = true
+	if err := sts.ExecuteContext(ctx); err != nil {
 		var showUsage bool
 		var exitCode int
 		switch v := err.(type) {
@@ -100,14 +127,15 @@ func Execute(ctx context.Context) {
 			exitCode = v.GetExitCode()
 			showUsage = v.ShowUsage()
 		default:
-			exitCode = common.CommandFailedRequirementExitCode
 			showUsage = true
+		}
+		if exitCode == 0 {
+			exitCode = common.CommandFailedRequirementExitCode
 		}
 
 		if cli.IsJson {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"error":         true,
-				"error-type":    fmt.Sprintf("%T", err),
 				"error-message": err.Error(),
 			})
 		} else {
@@ -116,7 +144,9 @@ func Execute(ctx context.Context) {
 				cli.Printer.PrintLn(runCmd.UsageString())
 			}
 		}
-		os.Exit(exitCode)
+		return exitCode
+	} else {
+		return common.OkExitCode
 	}
 }
 
