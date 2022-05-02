@@ -17,6 +17,9 @@ import (
 
 // StackpackConfigurationsInner struct for StackpackConfigurationsInner
 type StackpackConfigurationsInner struct {
+	Id *int64 `json:"id,omitempty"`
+	Status *string `json:"status,omitempty"`
+	LastUpdateTimestamp int64 `json:"lastUpdateTimestamp"`
 	StackPackVersion *string `json:"stackPackVersion,omitempty"`
 }
 
@@ -24,8 +27,9 @@ type StackpackConfigurationsInner struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStackpackConfigurationsInner() *StackpackConfigurationsInner {
+func NewStackpackConfigurationsInner(lastUpdateTimestamp int64) *StackpackConfigurationsInner {
 	this := StackpackConfigurationsInner{}
+	this.LastUpdateTimestamp = lastUpdateTimestamp
 	return &this
 }
 
@@ -35,6 +39,94 @@ func NewStackpackConfigurationsInner() *StackpackConfigurationsInner {
 func NewStackpackConfigurationsInnerWithDefaults() *StackpackConfigurationsInner {
 	this := StackpackConfigurationsInner{}
 	return &this
+}
+
+// GetId returns the Id field value if set, zero value otherwise.
+func (o *StackpackConfigurationsInner) GetId() int64 {
+	if o == nil || o.Id == nil {
+		var ret int64
+		return ret
+	}
+	return *o.Id
+}
+
+// GetIdOk returns a tuple with the Id field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StackpackConfigurationsInner) GetIdOk() (*int64, bool) {
+	if o == nil || o.Id == nil {
+		return nil, false
+	}
+	return o.Id, true
+}
+
+// HasId returns a boolean if a field has been set.
+func (o *StackpackConfigurationsInner) HasId() bool {
+	if o != nil && o.Id != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetId gets a reference to the given int64 and assigns it to the Id field.
+func (o *StackpackConfigurationsInner) SetId(v int64) {
+	o.Id = &v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *StackpackConfigurationsInner) GetStatus() string {
+	if o == nil || o.Status == nil {
+		var ret string
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StackpackConfigurationsInner) GetStatusOk() (*string, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *StackpackConfigurationsInner) HasStatus() bool {
+	if o != nil && o.Status != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *StackpackConfigurationsInner) SetStatus(v string) {
+	o.Status = &v
+}
+
+// GetLastUpdateTimestamp returns the LastUpdateTimestamp field value
+func (o *StackpackConfigurationsInner) GetLastUpdateTimestamp() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+
+	return o.LastUpdateTimestamp
+}
+
+// GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
+// and a boolean to check if the value has been set.
+func (o *StackpackConfigurationsInner) GetLastUpdateTimestampOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LastUpdateTimestamp, true
+}
+
+// SetLastUpdateTimestamp sets field value
+func (o *StackpackConfigurationsInner) SetLastUpdateTimestamp(v int64) {
+	o.LastUpdateTimestamp = v
 }
 
 // GetStackPackVersion returns the StackPackVersion field value if set, zero value otherwise.
@@ -71,6 +163,15 @@ func (o *StackpackConfigurationsInner) SetStackPackVersion(v string) {
 
 func (o StackpackConfigurationsInner) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if o.Id != nil {
+		toSerialize["id"] = o.Id
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
+	}
+	if true {
+		toSerialize["lastUpdateTimestamp"] = o.LastUpdateTimestamp
+	}
 	if o.StackPackVersion != nil {
 		toSerialize["stackPackVersion"] = o.StackPackVersion
 	}

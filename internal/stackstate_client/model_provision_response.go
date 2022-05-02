@@ -17,11 +17,11 @@ import (
 
 // ProvisionResponse struct for ProvisionResponse
 type ProvisionResponse struct {
-	Id                  *int64  `json:"id,omitempty"`
-	Status              *string `json:"status,omitempty"`
-	Name                *string `json:"name,omitempty"`
-	StackPackVersion    *string `json:"stackPackVersion,omitempty"`
-	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
+	Id *int64 `json:"id,omitempty"`
+	Status *string `json:"status,omitempty"`
+	Name *string `json:"name,omitempty"`
+	StackPackVersion *string `json:"stackPackVersion,omitempty"`
+	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
 }
 
 // NewProvisionResponse instantiates a new ProvisionResponse object
@@ -256,3 +256,5 @@ func (v *NullableProvisionResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

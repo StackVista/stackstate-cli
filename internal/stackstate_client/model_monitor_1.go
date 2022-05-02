@@ -22,7 +22,7 @@ type Monitor1 struct {
 	Identifier *string `json:"identifier,omitempty"`
 	Description *string `json:"description,omitempty"`
 	FunctionId int64 `json:"functionId"`
-	Parameters map[string]interface{} `json:"parameters"`
+	Arguments []map[string]interface{} `json:"arguments"`
 	RemediationHint *string `json:"remediationHint,omitempty"`
 	TopologyMapping string `json:"topologyMapping"`
 	IntervalSeconds int32 `json:"intervalSeconds"`
@@ -32,12 +32,12 @@ type Monitor1 struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitor1(id int64, name string, functionId int64, parameters map[string]interface{}, topologyMapping string, intervalSeconds int32) *Monitor1 {
+func NewMonitor1(id int64, name string, functionId int64, arguments []map[string]interface{}, topologyMapping string, intervalSeconds int32) *Monitor1 {
 	this := Monitor1{}
 	this.Id = id
 	this.Name = name
 	this.FunctionId = functionId
-	this.Parameters = parameters
+	this.Arguments = arguments
 	this.TopologyMapping = topologyMapping
 	this.IntervalSeconds = intervalSeconds
 	return &this
@@ -187,28 +187,28 @@ func (o *Monitor1) SetFunctionId(v int64) {
 	o.FunctionId = v
 }
 
-// GetParameters returns the Parameters field value
-func (o *Monitor1) GetParameters() map[string]interface{} {
+// GetArguments returns the Arguments field value
+func (o *Monitor1) GetArguments() []map[string]interface{} {
 	if o == nil {
-		var ret map[string]interface{}
+		var ret []map[string]interface{}
 		return ret
 	}
 
-	return o.Parameters
+	return o.Arguments
 }
 
-// GetParametersOk returns a tuple with the Parameters field value
+// GetArgumentsOk returns a tuple with the Arguments field value
 // and a boolean to check if the value has been set.
-func (o *Monitor1) GetParametersOk() (map[string]interface{}, bool) {
+func (o *Monitor1) GetArgumentsOk() ([]map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Parameters, true
+	return o.Arguments, true
 }
 
-// SetParameters sets field value
-func (o *Monitor1) SetParameters(v map[string]interface{}) {
-	o.Parameters = v
+// SetArguments sets field value
+func (o *Monitor1) SetArguments(v []map[string]interface{}) {
+	o.Arguments = v
 }
 
 // GetRemediationHint returns the RemediationHint field value if set, zero value otherwise.
@@ -309,7 +309,7 @@ func (o Monitor1) MarshalJSON() ([]byte, error) {
 		toSerialize["functionId"] = o.FunctionId
 	}
 	if true {
-		toSerialize["parameters"] = o.Parameters
+		toSerialize["arguments"] = o.Arguments
 	}
 	if o.RemediationHint != nil {
 		toSerialize["remediationHint"] = o.RemediationHint

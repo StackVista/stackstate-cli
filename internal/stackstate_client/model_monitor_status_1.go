@@ -15,37 +15,37 @@ import (
 	"encoding/json"
 )
 
-// MonitorStatus struct for MonitorStatus
-type MonitorStatus struct {
-	Monitor Monitor `json:"monitor"`
-	Status HealthStreamStatus `json:"status"`
+// MonitorStatus1 struct for MonitorStatus1
+type MonitorStatus1 struct {
+	Monitor Monitor1 `json:"monitor"`
+	Status HealthStreamStatus1 `json:"status"`
 	TopologyMatchResult TopologyMatchResult `json:"topologyMatchResult"`
 }
 
-// NewMonitorStatus instantiates a new MonitorStatus object
+// NewMonitorStatus1 instantiates a new MonitorStatus1 object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStatus(monitor Monitor, status HealthStreamStatus, topologyMatchResult TopologyMatchResult) *MonitorStatus {
-	this := MonitorStatus{}
+func NewMonitorStatus1(monitor Monitor1, status HealthStreamStatus1, topologyMatchResult TopologyMatchResult) *MonitorStatus1 {
+	this := MonitorStatus1{}
 	this.Monitor = monitor
 	this.Status = status
 	this.TopologyMatchResult = topologyMatchResult
 	return &this
 }
 
-// NewMonitorStatusWithDefaults instantiates a new MonitorStatus object
+// NewMonitorStatus1WithDefaults instantiates a new MonitorStatus1 object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewMonitorStatusWithDefaults() *MonitorStatus {
-	this := MonitorStatus{}
+func NewMonitorStatus1WithDefaults() *MonitorStatus1 {
+	this := MonitorStatus1{}
 	return &this
 }
 
 // GetMonitor returns the Monitor field value
-func (o *MonitorStatus) GetMonitor() Monitor {
+func (o *MonitorStatus1) GetMonitor() Monitor1 {
 	if o == nil {
-		var ret Monitor
+		var ret Monitor1
 		return ret
 	}
 
@@ -54,7 +54,7 @@ func (o *MonitorStatus) GetMonitor() Monitor {
 
 // GetMonitorOk returns a tuple with the Monitor field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStatus) GetMonitorOk() (*Monitor, bool) {
+func (o *MonitorStatus1) GetMonitorOk() (*Monitor1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,14 +62,14 @@ func (o *MonitorStatus) GetMonitorOk() (*Monitor, bool) {
 }
 
 // SetMonitor sets field value
-func (o *MonitorStatus) SetMonitor(v Monitor) {
+func (o *MonitorStatus1) SetMonitor(v Monitor1) {
 	o.Monitor = v
 }
 
 // GetStatus returns the Status field value
-func (o *MonitorStatus) GetStatus() HealthStreamStatus {
+func (o *MonitorStatus1) GetStatus() HealthStreamStatus1 {
 	if o == nil {
-		var ret HealthStreamStatus
+		var ret HealthStreamStatus1
 		return ret
 	}
 
@@ -78,7 +78,7 @@ func (o *MonitorStatus) GetStatus() HealthStreamStatus {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStatus) GetStatusOk() (*HealthStreamStatus, bool) {
+func (o *MonitorStatus1) GetStatusOk() (*HealthStreamStatus1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -86,12 +86,12 @@ func (o *MonitorStatus) GetStatusOk() (*HealthStreamStatus, bool) {
 }
 
 // SetStatus sets field value
-func (o *MonitorStatus) SetStatus(v HealthStreamStatus) {
+func (o *MonitorStatus1) SetStatus(v HealthStreamStatus1) {
 	o.Status = v
 }
 
 // GetTopologyMatchResult returns the TopologyMatchResult field value
-func (o *MonitorStatus) GetTopologyMatchResult() TopologyMatchResult {
+func (o *MonitorStatus1) GetTopologyMatchResult() TopologyMatchResult {
 	if o == nil {
 		var ret TopologyMatchResult
 		return ret
@@ -102,7 +102,7 @@ func (o *MonitorStatus) GetTopologyMatchResult() TopologyMatchResult {
 
 // GetTopologyMatchResultOk returns a tuple with the TopologyMatchResult field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStatus) GetTopologyMatchResultOk() (*TopologyMatchResult, bool) {
+func (o *MonitorStatus1) GetTopologyMatchResultOk() (*TopologyMatchResult, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,11 +110,11 @@ func (o *MonitorStatus) GetTopologyMatchResultOk() (*TopologyMatchResult, bool) 
 }
 
 // SetTopologyMatchResult sets field value
-func (o *MonitorStatus) SetTopologyMatchResult(v TopologyMatchResult) {
+func (o *MonitorStatus1) SetTopologyMatchResult(v TopologyMatchResult) {
 	o.TopologyMatchResult = v
 }
 
-func (o MonitorStatus) MarshalJSON() ([]byte, error) {
+func (o MonitorStatus1) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["monitor"] = o.Monitor
@@ -128,38 +128,38 @@ func (o MonitorStatus) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableMonitorStatus struct {
-	value *MonitorStatus
+type NullableMonitorStatus1 struct {
+	value *MonitorStatus1
 	isSet bool
 }
 
-func (v NullableMonitorStatus) Get() *MonitorStatus {
+func (v NullableMonitorStatus1) Get() *MonitorStatus1 {
 	return v.value
 }
 
-func (v *NullableMonitorStatus) Set(val *MonitorStatus) {
+func (v *NullableMonitorStatus1) Set(val *MonitorStatus1) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableMonitorStatus) IsSet() bool {
+func (v NullableMonitorStatus1) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableMonitorStatus) Unset() {
+func (v *NullableMonitorStatus1) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableMonitorStatus(val *MonitorStatus) *NullableMonitorStatus {
-	return &NullableMonitorStatus{value: val, isSet: true}
+func NewNullableMonitorStatus1(val *MonitorStatus1) *NullableMonitorStatus1 {
+	return &NullableMonitorStatus1{value: val, isSet: true}
 }
 
-func (v NullableMonitorStatus) MarshalJSON() ([]byte, error) {
+func (v NullableMonitorStatus1) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableMonitorStatus) UnmarshalJSON(src []byte) error {
+func (v *NullableMonitorStatus1) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

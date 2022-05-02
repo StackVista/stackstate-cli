@@ -244,8 +244,8 @@ func main() {
     monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.MonitorUrnApi.GetMonitorWithStatusByURN(context.Background(), monitorUrnId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorUrnApi.GetMonitorWithStatusByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.GetMonitorWithStatusByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

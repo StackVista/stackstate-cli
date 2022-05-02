@@ -209,6 +209,38 @@ paths:
       summary: StackPack API
       tags:
       - stackpack
+  /stackpack/{stackName}/provision:
+    post:
+      description: Provision details
+      operationId: provisionDetails
+      parameters:
+      - in: path
+        name: stackName
+        required: true
+        schema:
+          $ref: '#/components/schemas/stackName'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties:
+                type: string
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisionResponse'
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Provision API
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system
@@ -321,6 +353,39 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Run a monitor
+      tags:
+      - monitor
+  /monitor/{monitorId}/status:
+    get:
+      description: Returns a monitor full representation with the stream status information
+      operationId: getMonitorWithStatus
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorStatus'
+          description: Full representation of a monitor with status
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor with stream information
       tags:
       - monitor
   /monitor/{monitorId}/dryRun:
@@ -448,6 +513,39 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Run a monitor
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/status:
+    get:
+      description: Returns a monitor full representation with the stream status information
+      operationId: getMonitorWithStatusByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorStatus'
+          description: Full representation of a monitor with status
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor with stream information
       tags:
       - monitorUrn
   /monitorUrn/{monitorUrnId}/dryRun:
@@ -1565,6 +1663,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorRunResult'
       description: Full representation of the result of a monitor run
+    monitorStatus:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorStatus'
+      description: Full representation of a monitor with status
     monitorIdentifierNotFoundError:
       content:
         application/json:
@@ -1757,8 +1861,14 @@ components:
           version: version
         displayName: displayName
         configurations:
-        - stackPackVersion: stackPackVersion
-        - stackPackVersion: stackPackVersion
+        - lastUpdateTimestamp: ""
+          stackPackVersion: stackPackVersion
+          id: ""
+          status: status
+        - lastUpdateTimestamp: ""
+          stackPackVersion: stackPackVersion
+          id: ""
+          status: status
         name: name
         version: version
         nextVersion:
@@ -1785,6 +1895,27 @@ components:
           format: binary
           type: string
       type: object
+    ProvisionResponse:
+      example:
+        stackPackVersion: stackPackVersion
+        lastUpdateTimestamp: ""
+        name: name
+        id: ""
+        status: status
+      properties:
+        id:
+          type: int64
+        status:
+          type: string
+        name:
+          type: string
+        stackPackVersion:
+          type: string
+        lastUpdateTimestamp:
+          type: int64
+      type: object
+    stackName:
+      type: string
     MonitorList:
       example:
         monitors:
@@ -1794,8 +1925,10 @@ components:
           remediationHint: remediationHint
           name: name
           description: description
+          arguments:
+          - "{}"
+          - "{}"
           id: 0
-          parameters: "{}"
           intervalSeconds: 1
         - topologyMapping: topologyMapping
           identifier: identifier
@@ -1803,8 +1936,10 @@ components:
           remediationHint: remediationHint
           name: name
           description: description
+          arguments:
+          - "{}"
+          - "{}"
           id: 0
-          parameters: "{}"
           intervalSeconds: 1
       properties:
         monitors:
@@ -1822,8 +1957,10 @@ components:
         remediationHint: remediationHint
         name: name
         description: description
+        arguments:
+        - "{}"
+        - "{}"
         id: 0
-        parameters: "{}"
         intervalSeconds: 1
       properties:
         id:
@@ -1838,8 +1975,10 @@ components:
         functionId:
           format: int64
           type: integer
-        parameters:
-          type: object
+        arguments:
+          items:
+            type: object
+          type: array
         remediationHint:
           type: string
         topologyMapping:
@@ -1847,11 +1986,11 @@ components:
         intervalSeconds:
           type: integer
       required:
+      - arguments
       - functionId
       - id
       - intervalSeconds
       - name
-      - parameters
       - topologyMapping
       type: object
     MonitorId:
@@ -1896,6 +2035,105 @@ components:
       required:
       - result
       type: object
+    MonitorStatus:
+      example:
+        monitor:
+          topologyMapping: topologyMapping
+          identifier: identifier
+          functionId: 6
+          remediationHint: remediationHint
+          name: name
+          description: description
+          arguments:
+          - "{}"
+          - "{}"
+          id: 0
+          intervalSeconds: 1
+        topologyMatchResult:
+          unmatchedCheckStates:
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+          matchedCheckStates: 2
+          multipleMatchesCheckStates:
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+            matchCount: 7
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+            matchCount: 7
+        status:
+          globalErrors:
+          - level: level
+            count: 6
+            errorCode: errorCode
+            error: error
+          - level: level
+            count: 6
+            errorCode: errorCode
+            error: error
+          partition: 0
+          recoverMessage: recoverMessage
+          mainStreamStatus:
+            checkStateCount: 5
+            subStreamState: null
+            metrics:
+              createsPerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              latencySeconds:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              bucketSizeSeconds: 1
+              deletesPerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              messagePerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              updatesPerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+            errors:
+            - level: level
+              count: 6
+              errorCode: errorCode
+              error: error
+            - level: level
+              count: 6
+              errorCode: errorCode
+              error: error
+          consistencyModel: consistencyModel
+          aggregateMetrics:
+            createsPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            latencySeconds:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            bucketSizeSeconds: 1
+            deletesPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            messagePerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            updatesPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor'
+        status:
+          $ref: '#/components/schemas/HealthStreamStatus'
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
+      required:
+      - monitor
+      - status
+      - topologyMatchResult
+      type: object
     MonitorUrnId:
       type: string
     Monitor_1:
@@ -1912,8 +2150,10 @@ components:
         functionId:
           format: int64
           type: integer
-        parameters:
-          type: object
+        arguments:
+          items:
+            type: object
+          type: array
         remediationHint:
           type: string
         topologyMapping:
@@ -1921,11 +2161,11 @@ components:
         intervalSeconds:
           type: integer
       required:
+      - arguments
       - functionId
       - id
       - intervalSeconds
       - name
-      - parameters
       - topologyMapping
       type: object
     MonitorIdentifierNotFoundError:
@@ -1939,6 +2179,19 @@ components:
       required:
       - _type
       - monitorIdentifier
+      type: object
+    MonitorStatus_1:
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor_1'
+        status:
+          $ref: '#/components/schemas/HealthStreamStatus_1'
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
+      required:
+      - monitor
+      - status
+      - topologyMatchResult
       type: object
     UserNotFoundError:
       properties:
@@ -2849,14 +3102,14 @@ components:
           checkStateId: checkStateId
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-        matchedCheckStates: 0
+        matchedCheckStates: 2
         multipleMatchesCheckStates:
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-          matchCount: 6
+          matchCount: 7
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-          matchCount: 6
+          matchCount: 7
       properties:
         matchedCheckStates:
           type: integer
@@ -2890,7 +3143,7 @@ components:
       example:
         topologyElementIdentifier: topologyElementIdentifier
         checkStateId: checkStateId
-        matchCount: 6
+        matchCount: 7
       properties:
         checkStateId:
           type: string
@@ -3727,6 +3980,71 @@ components:
       items:
         $ref: '#/components/schemas/Point_inner'
       type: array
+    HealthStreamStatus_1:
+      properties:
+        partition:
+          type: integer
+        consistencyModel:
+          type: string
+        recoverMessage:
+          type: string
+        globalErrors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        aggregateMetrics:
+          $ref: '#/components/schemas/HealthStreamMetrics_1'
+        mainStreamStatus:
+          $ref: '#/components/schemas/HealthSubStreamStatus_1'
+      required:
+      - aggregateMetrics
+      - consistencyModel
+      - partition
+      type: object
+    HealthStreamMetrics_1:
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        messagePerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        createsPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        updatesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        deletesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
+      type: object
+    HealthSubStreamStatus_1:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/HealthStreamMetrics_1'
+        subStreamState:
+          $ref: '#/components/schemas/HealthSubStreamConsistencyState'
+        checkStateCount:
+          type: integer
+      required:
+      - checkStateCount
+      - metrics
+      - subStreamState
+      type: object
     NodeTypes_nodeTypes_inner:
       example:
         typeName: typeName
@@ -3742,10 +4060,21 @@ components:
       type: object
     Stackpack_configurations_inner:
       example:
+        lastUpdateTimestamp: ""
         stackPackVersion: stackPackVersion
+        id: ""
+        status: status
       properties:
+        id:
+          type: int64
+        status:
+          type: string
+        lastUpdateTimestamp:
+          type: int64
         stackPackVersion:
           type: string
+      required:
+      - lastUpdateTimestamp
       type: object
     Stackpack_latestVersion:
       example:

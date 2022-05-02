@@ -72,15 +72,15 @@ type MonitorUrnApi interface {
 
 	Returns a monitor full representation with the stream status information
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param monitorUrnId The identifier of a monitor
-	 @return ApiGetMonitorWithStatusByURNRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorUrnId The identifier of a monitor
+	@return ApiGetMonitorWithStatusByURNRequest
 	*/
-	GetMonitorWithStatusByURN(ctx _context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest
+	GetMonitorWithStatusByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest
 
 	// GetMonitorWithStatusByURNExecute executes the request
 	//  @return MonitorStatus
-	GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (MonitorStatus, *_nethttp.Response, error)
+	GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (*MonitorStatus, *http.Response, error)
 
 	/*
 	RunMonitorByURN Run a monitor
@@ -499,13 +499,12 @@ func (a *MonitorUrnApiService) GetMonitorByURNExecute(r ApiGetMonitorByURNReques
 }
 
 type ApiGetMonitorWithStatusByURNRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService MonitorUrnApi
 	monitorUrnId string
 }
 
-
-func (r ApiGetMonitorWithStatusByURNRequest) Execute() (MonitorStatus, *_nethttp.Response, error) {
+func (r ApiGetMonitorWithStatusByURNRequest) Execute() (*MonitorStatus, *http.Response, error) {
 	return r.ApiService.GetMonitorWithStatusByURNExecute(r)
 }
 
@@ -514,11 +513,11 @@ GetMonitorWithStatusByURN Get a monitor with stream information
 
 Returns a monitor full representation with the stream status information
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param monitorUrnId The identifier of a monitor
  @return ApiGetMonitorWithStatusByURNRequest
 */
-func (a *MonitorUrnApiService) GetMonitorWithStatusByURN(ctx _context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest {
+func (a *MonitorUrnApiService) GetMonitorWithStatusByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest {
 	return ApiGetMonitorWithStatusByURNRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -528,27 +527,25 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURN(ctx _context.Context, m
 
 // Execute executes the request
 //  @return MonitorStatus
-func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (MonitorStatus, *_nethttp.Response, error) {
+func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (*MonitorStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  MonitorStatus
+		formFiles            []formFile
+		localVarReturnValue  *MonitorStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.GetMonitorWithStatusByURN")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/monitorUrn/{monitorUrnId}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"monitorUrnId"+"}", _neturl.PathEscape(parameterToString(r.monitorUrnId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"monitorUrnId"+"}", url.PathEscape(parameterToString(r.monitorUrnId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -581,7 +578,7 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorW
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -591,15 +588,15 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorW
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -627,7 +624,7 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorW
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -890,7 +887,7 @@ func (mock MonitorUrnApiMock) GetMonitorByURNExecute(r ApiGetMonitorByURNRequest
 
 type GetMonitorWithStatusByURNMockResponse struct {
 	Result MonitorStatus
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -899,7 +896,7 @@ type GetMonitorWithStatusByURNCall struct {
 }
 
 
-func (mock MonitorUrnApiMock) GetMonitorWithStatusByURN(ctx _context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest {
+func (mock MonitorUrnApiMock) GetMonitorWithStatusByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest {
 	return ApiGetMonitorWithStatusByURNRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -907,12 +904,12 @@ func (mock MonitorUrnApiMock) GetMonitorWithStatusByURN(ctx _context.Context, mo
 	}
 }
 
-func (mock MonitorUrnApiMock) GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (MonitorStatus, *_nethttp.Response, error) {
+func (mock MonitorUrnApiMock) GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (*MonitorStatus, *http.Response, error) {
 	p := GetMonitorWithStatusByURNCall {
 			PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.GetMonitorWithStatusByURNCalls = append(*mock.GetMonitorWithStatusByURNCalls, p)
-	return mock.GetMonitorWithStatusByURNResponse.Result, mock.GetMonitorWithStatusByURNResponse.Response, mock.GetMonitorWithStatusByURNResponse.Error
+	return &mock.GetMonitorWithStatusByURNResponse.Result, mock.GetMonitorWithStatusByURNResponse.Response, mock.GetMonitorWithStatusByURNResponse.Error
 }
 
 type RunMonitorByURNMockResponse struct {

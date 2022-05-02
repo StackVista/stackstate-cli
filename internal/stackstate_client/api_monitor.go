@@ -86,15 +86,15 @@ type MonitorApi interface {
 
 	Returns a monitor full representation with the stream status information
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param monitorId The identifier of a monitor
-	 @return ApiGetMonitorWithStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorId The identifier of a monitor
+	@return ApiGetMonitorWithStatusRequest
 	*/
-	GetMonitorWithStatus(ctx _context.Context, monitorId int64) ApiGetMonitorWithStatusRequest
+	GetMonitorWithStatus(ctx context.Context, monitorId int64) ApiGetMonitorWithStatusRequest
 
 	// GetMonitorWithStatusExecute executes the request
 	//  @return MonitorStatus
-	GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (MonitorStatus, *_nethttp.Response, error)
+	GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error)
 
 	/*
 	RunMonitor Run a monitor
@@ -635,13 +635,12 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 }
 
 type ApiGetMonitorWithStatusRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService MonitorApi
 	monitorId int64
 }
 
-
-func (r ApiGetMonitorWithStatusRequest) Execute() (MonitorStatus, *_nethttp.Response, error) {
+func (r ApiGetMonitorWithStatusRequest) Execute() (*MonitorStatus, *http.Response, error) {
 	return r.ApiService.GetMonitorWithStatusExecute(r)
 }
 
@@ -650,11 +649,11 @@ GetMonitorWithStatus Get a monitor with stream information
 
 Returns a monitor full representation with the stream status information
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param monitorId The identifier of a monitor
  @return ApiGetMonitorWithStatusRequest
 */
-func (a *MonitorApiService) GetMonitorWithStatus(ctx _context.Context, monitorId int64) ApiGetMonitorWithStatusRequest {
+func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorId int64) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -664,27 +663,25 @@ func (a *MonitorApiService) GetMonitorWithStatus(ctx _context.Context, monitorId
 
 // Execute executes the request
 //  @return MonitorStatus
-func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (MonitorStatus, *_nethttp.Response, error) {
+func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  MonitorStatus
+		formFiles            []formFile
+		localVarReturnValue  *MonitorStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitorWithStatus")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/monitor/{monitorId}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"monitorId"+"}", _neturl.PathEscape(parameterToString(r.monitorId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"monitorId"+"}", url.PathEscape(parameterToString(r.monitorId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -717,7 +714,7 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -727,15 +724,15 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -763,7 +760,7 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1054,7 +1051,7 @@ func (mock MonitorApiMock) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, 
 
 type GetMonitorWithStatusMockResponse struct {
 	Result MonitorStatus
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1063,7 +1060,7 @@ type GetMonitorWithStatusCall struct {
 }
 
 
-func (mock MonitorApiMock) GetMonitorWithStatus(ctx _context.Context, monitorId int64) ApiGetMonitorWithStatusRequest {
+func (mock MonitorApiMock) GetMonitorWithStatus(ctx context.Context, monitorId int64) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1071,12 +1068,12 @@ func (mock MonitorApiMock) GetMonitorWithStatus(ctx _context.Context, monitorId 
 	}
 }
 
-func (mock MonitorApiMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (MonitorStatus, *_nethttp.Response, error) {
+func (mock MonitorApiMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	p := GetMonitorWithStatusCall {
 			PmonitorId: r.monitorId,
 	}
 	*mock.GetMonitorWithStatusCalls = append(*mock.GetMonitorWithStatusCalls, p)
-	return mock.GetMonitorWithStatusResponse.Result, mock.GetMonitorWithStatusResponse.Response, mock.GetMonitorWithStatusResponse.Error
+	return &mock.GetMonitorWithStatusResponse.Result, mock.GetMonitorWithStatusResponse.Response, mock.GetMonitorWithStatusResponse.Error
 }
 
 type RunMonitorMockResponse struct {
