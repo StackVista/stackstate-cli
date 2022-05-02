@@ -5,6 +5,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
+//nolint:deadcode,unused
 func setMonitorRunCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := MonitorRunCommand(&cli.Deps)

@@ -15,7 +15,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-func StsCommand(cli *di.Deps) *cobra.Command {
+func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sts",
 		Short: "StackState: topology-powered observability", // never actually visible
@@ -27,19 +27,19 @@ func StsCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(CliCommand(cli))
-	if CLIType != "saas" {
+	if CLIType == "full" {
 		cmd.AddCommand(ScriptCommand(cli))
 		cmd.AddCommand(SettingsCommand(cli))
+		cmd.AddCommand(StackPackCommand(cli))
 	}
 	cmd.AddCommand(MonitorCommand(cli))
-	cmd.AddCommand(StackPackCommand(cli))
 
 	return cmd
 }
 
 func Execute(ctx context.Context) {
 	cli := &di.Deps{}
-	cmd := StsCommand(cli)
+	cmd := STSCommand(cli)
 	execute(ctx, cli, cmd)
 }
 
@@ -134,10 +134,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 		}
 
 		if cli.IsJson {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"error":         true,
-				"error-message": err.Error(),
-			})
+			cli.Printer.PrintErrJson(err)
 		} else {
 			cli.Printer.PrintErr(err)
 			if showUsage {

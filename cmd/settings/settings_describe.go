@@ -105,7 +105,6 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		} else {
 			cli.Printer.PrintLn(data)
 		}
-
 	}
 	return nil
 }

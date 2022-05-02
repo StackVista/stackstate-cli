@@ -32,7 +32,7 @@ func setupCmd() *cobra.Command {
 		Context: context.Background(),
 		Client:  nil,
 	}
-	return StsCommand(&cli)
+	return STSCommand(&cli)
 }
 
 func forAllCmd(parent *cobra.Command, fn func(*cobra.Command)) {

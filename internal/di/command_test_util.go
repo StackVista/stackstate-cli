@@ -17,7 +17,6 @@ func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (o
 		common.AddPersistentFlags(cmd)
 	}
 	if util.StringInSlice("--json", args) {
-		cmd.Flags().Set(common.JsonFlag, "true")
 		cli.IsJson = true
 	}
 	err = cmd.ExecuteContext(cli.Context)

@@ -5,8 +5,9 @@ import (
 )
 
 type MockPrinter struct {
-	PrintStructCalls  *[]interface{}
 	PrintJsonCalls    *[]map[string]interface{}
+	PrintErrJsonCalls *[]error
+	PrintStructCalls  *[]interface{}
 	PrintErrCalls     *[]error
 	StartSpinnerCalls *[]LoadingMsg
 	StopSpinnerCalls  *int
@@ -23,8 +24,9 @@ type PrintErrResponseCall struct {
 }
 
 func NewMockPrinter() MockPrinter {
-	printStructCalls := make([]interface{}, 0)
 	printJsonCalls := make([]map[string]interface{}, 0)
+	printErrJsonCalls := make([]error, 0)
+	printStructCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
 	startSpinnerCalls := make([]LoadingMsg, 0)
 	successCalls := make([]string, 0)
@@ -32,8 +34,9 @@ func NewMockPrinter() MockPrinter {
 	printTableCalls := make([]TableData, 0)
 	printLnCalls := make([]string, 0)
 	return MockPrinter{
-		PrintStructCalls:  &printStructCalls,
 		PrintJsonCalls:    &printJsonCalls,
+		PrintErrJsonCalls: &printErrJsonCalls,
+		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
 		StartSpinnerCalls: &startSpinnerCalls,
 		SuccessCalls:      &successCalls,
@@ -49,6 +52,10 @@ func (p *MockPrinter) PrintStruct(s interface{}) {
 
 func (p *MockPrinter) PrintJson(s map[string]interface{}) {
 	*p.PrintJsonCalls = append(*p.PrintJsonCalls, s)
+}
+
+func (p *MockPrinter) PrintErrJson(err error) {
+	*p.PrintErrJsonCalls = append(*p.PrintErrJsonCalls, err)
 }
 
 func (p *MockPrinter) PrintErr(err error) {

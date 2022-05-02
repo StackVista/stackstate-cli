@@ -9,7 +9,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
@@ -23,9 +22,9 @@ import (
 )
 
 type Printer interface {
-	// Expects s to be JSON or YAML serializable. Will print an error otherwise
-	PrintStruct(s interface{})
 	PrintJson(map[string]interface{})
+	PrintErrJson(err error)
+	PrintStruct(s interface{})
 	PrintErr(err error)
 	StartSpinner(loadingMsg LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
@@ -74,21 +73,31 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 	p.stdErr = stdErr
 }
 
+func (p *StdPrinter) PrintJson(s map[string]interface{}) {
+	json, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		e := fmt.Errorf("error (%s) while printing struct to JSON: %v", err, s)
+		p.PrintErrJson(e)
+	} else {
+		fmt.Fprintf(p.stdOut, "%s\n", json)
+	}
+}
+
+func (p *StdPrinter) PrintErrJson(err error) {
+	e := map[string]interface{}{
+		"error":         true,
+		"error-message": err.Error(),
+	}
+	json, _ := json.MarshalIndent(e, "", "  ")
+	fmt.Fprintf(p.stdErr, "%s\n", json)
+}
+
 func (p *StdPrinter) PrintStruct(s interface{}) {
 	msg, err := p.sprintStruct(s)
 	if err != nil {
 		p.PrintErr(fmt.Errorf("error (%s) while printing struct to YAML: %v", err, s))
 	} else {
 		fmt.Fprintf(p.stdOut, "%s\n", msg)
-	}
-}
-
-func (p *StdPrinter) PrintJson(s map[string]interface{}) {
-	json, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		p.PrintErr(fmt.Errorf("error (%s) while printing struct to JSON: %v", err, s))
-	} else {
-		fmt.Fprintf(p.stdOut, "%s\n", json)
 	}
 }
 
@@ -112,8 +121,7 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 }
 
 func colorizeStruct(structStr string) (string, error) {
-	var lexer chroma.Lexer
-	lexer = lexers.Get("yaml")
+	lexer := lexers.Get("yaml")
 	style := styles.Get("monokai")
 	formatter := formatters.Get("terminal")
 
