@@ -78,8 +78,8 @@ func TestSaveConfigToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
 		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
+		"--url",
+		"https://test.stackstate.io/",
 		"--api-token",
 		"blaat",
 		"--json",
@@ -102,8 +102,8 @@ func TestSaveConfigSkipValidate(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
 		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
+		"--url",
+		"https://test.stackstate.io",
 		"--api-token",
 		"blaat",
 		"--skip-validate",
@@ -112,7 +112,7 @@ func TestSaveConfigSkipValidate(t *testing.T) {
 	fileExists, _ := util.DoesFileExist(expectedFile)
 	assert.Equal(t, "Config saved to: "+expectedFile, (*cli.MockPrinter.SuccessCalls)[0])
 	assert.True(t, fileExists)
-	assert.Equal(t, "https://test.stackstate.io/api", cli.Config.URL)
+	assert.Equal(t, "https://test.stackstate.io", cli.Config.URL)
 	assert.Equal(t, "blaat", cli.Config.ApiToken)
 }
 
@@ -124,8 +124,8 @@ func TestSaveConfigShouldNotSaveWhenFailedConnection(t *testing.T) {
 	_, err := di.ExecuteCommandWithContext(
 		&cli.Deps,
 		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
+		"--url",
+		"https://test.stackstate.io",
 		"--api-token",
 		"blaat",
 	)

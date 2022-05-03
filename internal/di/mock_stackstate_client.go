@@ -1,8 +1,8 @@
 package di
 
 import (
+	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 type MockStackStateClient struct {

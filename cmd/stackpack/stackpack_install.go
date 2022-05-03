@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func StackpackInstallCommand(cli *di.Deps) *cobra.Command {

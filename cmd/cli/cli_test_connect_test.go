@@ -31,8 +31,8 @@ func TestConnectionToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
 		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
+		"--url",
+		"https://test.stackstate.io/",
 		"--api-token",
 		"blaat",
 		"--json",

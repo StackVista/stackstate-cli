@@ -34,6 +34,7 @@ lint:
       - flake.lock
       - flake.nix
       - cmd/**
+      - generated/**
       - internal/**
 
 license_scanning:
@@ -89,6 +90,7 @@ compile_test:
       - flake.lock
       - flake.nix
       - cmd/**
+      - generated/**
       - internal/**
   script:
     - go test ./... -v

@@ -3,8 +3,8 @@ package di
 import (
 	"context"
 
+	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 type StackStateClient interface {

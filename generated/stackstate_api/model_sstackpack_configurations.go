@@ -17,10 +17,10 @@ import (
 
 // SstackpackConfigurations struct for SstackpackConfigurations
 type SstackpackConfigurations struct {
-	Id                  *int64  `json:"id,omitempty"`
-	Status              *string `json:"status,omitempty"`
-	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp"`
-	StackPackVersion    *string `json:"stackPackVersion,omitempty"`
+	Id *int64 `json:"id,omitempty"`
+	Status *string `json:"status,omitempty"`
+	LastUpdateTimestamp int64 `json:"lastUpdateTimestamp"`
+	StackPackVersion *string `json:"stackPackVersion,omitempty"`
 }
 
 // NewSstackpackConfigurations instantiates a new SstackpackConfigurations object
@@ -118,7 +118,7 @@ func (o *SstackpackConfigurations) GetLastUpdateTimestamp() int64 {
 // GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
 // and a boolean to check if the value has been set.
 func (o *SstackpackConfigurations) GetLastUpdateTimestampOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.LastUpdateTimestamp, true
@@ -213,3 +213,5 @@ func (v *NullableSstackpackConfigurations) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

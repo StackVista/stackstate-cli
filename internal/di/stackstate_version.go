@@ -3,7 +3,7 @@ package di
 import (
 	"fmt"
 
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 )
 
 func VersionToString(version stackstate_client.ServerVersion) string {

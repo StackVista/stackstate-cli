@@ -9,9 +9,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func setupScriptExecuteCmd() (*di.MockDeps, *cobra.Command) {
