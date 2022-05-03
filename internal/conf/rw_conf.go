@@ -22,11 +22,11 @@ type ReadConfError struct {
 	IsMissingConfigFile bool
 }
 
-func (s ReadConfError) Error() string {
-	if s.IsMissingConfigFile {
-		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. To create one try running `sts cli save-config --help`", s.RootCause)
+func (p ReadConfError) Error() string {
+	if p.IsMissingConfigFile {
+		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. To create one try running `sts cli save-config --help`", p.RootCause)
 	} else {
-		return fmt.Sprintf("could not load StackState CLI config\n%s", s.RootCause)
+		return fmt.Sprintf("could not load StackState CLI config\n%s", p.RootCause)
 	}
 }
 

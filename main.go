@@ -87,7 +87,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	}
 }
 
-func PreRunCommand(cli *di.Deps, cmd *cobra.Command, args []string) error {
+func PreRunCommand(cli *di.Deps, cmd *cobra.Command, _ []string) error {
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
 		cli.NoColor = true
 	}

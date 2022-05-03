@@ -156,16 +156,3 @@ func createTmpConfigFile(t *testing.T, confYaml string) string {
 func newCmd() *cobra.Command {
 	return &cobra.Command{}
 }
-
-// Always reads the config successfully. Handy for testing success paths.
-func readConfWithMinimal(t *testing.T, cmd *cobra.Command) Conf {
-	conf, err := readConfWithPaths(
-		cmd,
-		viper.New(),
-		[]string{createTmpConfigFile(t, MinimalConfYaml)},
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	return conf
-}

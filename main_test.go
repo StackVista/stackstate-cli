@@ -14,7 +14,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-func setupStsCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) {
+func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) {
 	cli := di.NewMockDeps()
 	sts := cmd.STSCommand(&cli.Deps)
 	stdOut := new(bytes.Buffer)
@@ -34,7 +34,7 @@ func ErrorCmd() *cobra.Command {
 }
 
 func TestHelpWhenRunningWithoutArgs(t *testing.T) {
-	cli, cmd, stdOut, stdErr := setupStsCmd()
+	cli, cmd, stdOut, stdErr := setupSTSCmd()
 	cmd.SetArgs([]string{""})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -43,7 +43,7 @@ func TestHelpWhenRunningWithoutArgs(t *testing.T) {
 }
 
 func TestHelpWhenRunningHelp(t *testing.T) {
-	cli, cmd, stdOut, stdErr := setupStsCmd()
+	cli, cmd, stdOut, stdErr := setupSTSCmd()
 	cmd.SetArgs([]string{"help"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -52,7 +52,7 @@ func TestHelpWhenRunningHelp(t *testing.T) {
 }
 
 func TestVersionRun(t *testing.T) {
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -63,7 +63,7 @@ func TestVersionRun(t *testing.T) {
 }
 
 func TestVersionJsonRun(t *testing.T) {
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--json"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -103,7 +103,7 @@ func TestErrToJson(t *testing.T) {
 }
 
 func TestColorUsedByDefault(t *testing.T) {
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.True(t, cli.MockPrinter.UseColor)
@@ -111,7 +111,7 @@ func TestColorUsedByDefault(t *testing.T) {
 }
 
 func TestNoColorFlag(t *testing.T) {
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--no-color"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -123,7 +123,7 @@ func TestNoColorWhenDumbTerminal(t *testing.T) {
 	defer os.Setenv("TERM", term)
 	os.Setenv("TERM", "Dumb")
 
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -135,7 +135,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 	// https://no-color.org says we need to check for existence, not a specific value
 	os.Setenv("NO_COLOR", "false")
 
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -143,7 +143,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 }
 
 func TestNoColorWhenJsonOutput(t *testing.T) {
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--json"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -151,7 +151,7 @@ func TestNoColorWhenJsonOutput(t *testing.T) {
 }
 
 func TestVerbose(t *testing.T) {
-	cli, cmd, _, _ := setupStsCmd()
+	cli, cmd, _, _ := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--verbose"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.True(t, cli.IsVerBose)

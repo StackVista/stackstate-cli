@@ -52,7 +52,6 @@ type CmdWithApiFn = func(
 func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-
 		if cli.Config == nil {
 			err := cli.LoadConfig(cmd)
 			if err != nil {

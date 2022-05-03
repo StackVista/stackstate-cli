@@ -34,7 +34,7 @@ func TestSettingsDescribeJson(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--json")
+	di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--json") //nolint:errcheck
 	assert.Equal(
 		t,
 		[]map[string]interface{}{{
