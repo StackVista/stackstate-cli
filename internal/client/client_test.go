@@ -44,3 +44,10 @@ func TestConnectSuccess(t *testing.T) {
 
 	assert.Equal(t, "test", serverInfo.DeploymentMode)
 }
+
+func TestCombineURLAndApi(t *testing.T) {
+	assert.Equal(t, combineURLandPath("https://bla", "api"), "https://bla/api")
+	assert.Equal(t, combineURLandPath("https://bla///", "///api"), "https://bla/api")
+	assert.Equal(t, combineURLandPath("https://bla", "/api"), "https://bla/api")
+	assert.Equal(t, combineURLandPath("/https://bla", "api/"), "/https://bla/api/")
+}
