@@ -62,10 +62,10 @@ func NewPrinter() Printer {
 	return NewStdPrinter(runtime.GOOS, os.Stdout, os.Stdin)
 }
 
-func NewStdPrinter(OS string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
+func NewStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
 	x := &StdPrinter{
 		useColor:   true,
-		useSymbols: OS != "windows", // windows does not do symbols
+		useSymbols: os != "windows", // windows does not do symbols
 		stdOut:     stdOut,
 		stdErr:     stdErr,
 		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
