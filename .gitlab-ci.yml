@@ -91,7 +91,7 @@ compile_test:
       - cmd/**
       - internal/**
   script:
-    - go test ./...
+    - go test ./... -v
   tags:
     - sts-k8s-xl-runner
 
