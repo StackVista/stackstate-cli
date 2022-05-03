@@ -2,7 +2,6 @@ package di
 
 import (
 	"context"
-	"net/http"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
@@ -89,36 +88,6 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 }
 
 func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken string) common.CLIError {
-	configuration := stackstate_api.NewConfiguration()
-	configuration.Servers[0] = stackstate_api.ServerConfiguration{
-		URL:         apiURL + apiPath,
-		Description: "",
-		Variables:   nil,
-	}
-	configuration.Debug = cli.IsVerBose
-	var client *stackstate_api.APIClient
-
-	stopSpinner := func() {}
-	configuration.OnPreCallAPI = func(r *http.Request) {
-		stopSpinner = cli.Printer.StartSpinner(printer.AwaitingServer)
-	}
-	configuration.OnPostCallAPI = func(r *http.Request) {
-		stopSpinner()
-	}
-	client = stackstate_api.NewAPIClient(configuration)
-
-	auth := make(map[string]stackstate_api.APIKey)
-	auth["ApiToken"] = stackstate_api.APIKey{
-		Key:    apiToken,
-		Prefix: "",
-	}
-	ctx := context.WithValue(
-		cmd.Context(),
-		stackstate_api.ContextAPIKeys,
-		auth,
-	)
-
-	cli.Context = ctx
-	cli.Client = stackstate_client.NewStackStateClient(client, ctx)
+	cli.Client, cli.Context = stackstate_client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, apiURL, apiPath, apiToken)
 	return nil
 }

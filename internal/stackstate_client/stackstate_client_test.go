@@ -16,7 +16,11 @@ func setupClient() (StackStateClient, *stackstate_api.ServerApiMock) {
 	api := stackstate_api.APIClient{
 		ServerApi: &serverApi,
 	}
-	client := NewStackStateClient(&api, context.Background())
+	client := StdStackStateClient{
+		client:  &api,
+		Context: context.Background(),
+		apiURL:  "https://test",
+	}
 	return client, &serverApi
 }
 
@@ -29,7 +33,7 @@ func TestConnectError(t *testing.T) {
 
 	_, _, actualErr := client.Connect()
 
-	assert.Equal(t, common.NewConnectError(err, &resp), actualErr)
+	assert.Equal(t, common.NewConnectError(err, "https://test", &resp), actualErr)
 }
 
 func TestConnectSuccess(t *testing.T) {

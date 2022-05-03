@@ -17,20 +17,20 @@ func setupDescribeConfigCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 func TestDescribeConfig(t *testing.T) {
 	cli, cmd := setupDescribeConfigCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "1", "--api-token", "bla")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "https://test", "--api-token", "bla")
 
 	assert.Equal(t, 1, len(*cli.MockPrinter.PrintStructCalls))
 	config := (*cli.MockPrinter.PrintStructCalls)[0].(map[string]interface{})
 	assert.Equal(t, "bla", config["api-token"])
-	assert.Equal(t, "1", config["url"])
+	assert.Equal(t, "https://test", config["url"])
 }
 
 func TestDescribeConfigJson(t *testing.T) {
 	cli, cmd := setupDescribeConfigCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "1", "--api-token", "bla", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "https://test", "--api-token", "bla", "--json")
 
 	config := (*cli.MockPrinter.PrintJsonCalls)[0]
 	assert.Equal(t, "bla", config["api-token"])
-	assert.Equal(t, "1", config["url"])
+	assert.Equal(t, "https://test", config["url"])
 }

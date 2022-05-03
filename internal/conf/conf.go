@@ -2,6 +2,7 @@ package conf
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -10,12 +11,13 @@ import (
 /*
 This config is used throughout the CLI.
 
-Note: when updating this struct, please also update the:
+Note: when updating the config, please update:
  1. Conf struct
  2. Constants (e.g. MinimumRequiredEnvVars)
  2. Bindings (i.e. flags, environment variables and YAML)
  3. Validations
- 4. and last but not least, the tests!
+ 4. Generation of the YAML config
+ 5. and last but not least, the tests!
 */
 type Conf struct {
 	URL      string
@@ -57,6 +59,10 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 func validate(conf Conf, errors *[]error) {
 	if conf.URL == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "url"})
+	}
+
+	if !strings.HasPrefix(conf.URL, "http://") && !strings.HasPrefix(conf.URL, "https://") {
+		*errors = append(*errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", conf.URL))
 	}
 
 	if conf.ApiToken == "" {

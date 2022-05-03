@@ -39,7 +39,8 @@ func TestWriteReadRunner(t *testing.T) {
 	t.Run("read_conf", func(t *testing.T) {
 		tests := ReadTests{}
 		tests.TestYamlParseError(t)
-		tests.TestValidationError(t)
+		tests.TestMissingURLFieldValidationError(t)
+		tests.TestIncorrectURLFieldValidationError(t)
 		tests.TestLoadSuccessFromYaml(t)
 		tests.TestLoadSuccessFromMinimumRequiredEnvs(t)
 		tests.TestLoadSuccessFromMinimumFlags(t)
@@ -76,7 +77,7 @@ func (p ReadTests) TestYamlParseError(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
-func (p ReadTests) TestValidationError(t *testing.T) {
+func (p ReadTests) TestMissingURLFieldValidationError(t *testing.T) {
 	confYaml := "api-token: 123871283"
 	_, err := readConfFromFile(t, confYaml)
 	assert.IsType(t, ReadConfError{}, err, "TestValidationError")
@@ -85,6 +86,13 @@ func (p ReadTests) TestValidationError(t *testing.T) {
 	assert.Greater(t, len(valErrs), 0, "TestValidationError")
 	assert.IsType(t, MissingFieldError{}, valErrs[0], "TestValidationError")
 	assert.Equal(t, "url", valErrs[0].(MissingFieldError).FieldName, "TestValidationError")
+}
+
+// executed by TestWriteReadRunner
+func (p ReadTests) TestIncorrectURLFieldValidationError(t *testing.T) {
+	confYaml := "api-token: 123871283\nurl: test"
+	_, err := readConfFromFile(t, confYaml)
+	assert.Equal(t, "could not load StackState CLI config\nValidation error: URL test must start with \"https://\" or \"http://\"", err.Error(), "TestIncorrectURLFieldValidationError")
 }
 
 // executed by TestWriteReadRunner
