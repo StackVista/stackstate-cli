@@ -1,4 +1,4 @@
-package di
+package stackstate_client
 
 import (
 	"context"

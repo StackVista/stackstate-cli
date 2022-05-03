@@ -10,6 +10,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Dependency Injection context for the CLI
@@ -17,7 +18,7 @@ type Deps struct {
 	Config    *conf.Conf
 	Printer   printer.Printer
 	Context   context.Context
-	Client    StackStateClient
+	Client    stackstate_client.StackStateClient
 	IsVerBose bool
 	IsJson    bool
 	NoColor   bool
@@ -118,6 +119,6 @@ func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, a
 	)
 
 	cli.Context = ctx
-	cli.Client = NewStackStateClient(client, ctx)
+	cli.Client = stackstate_client.NewStackStateClient(client, ctx)
 	return nil
 }
