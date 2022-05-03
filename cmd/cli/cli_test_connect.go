@@ -4,6 +4,7 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func CliTestCommandCommand(cli *di.Deps) *cobra.Command {
@@ -15,18 +16,24 @@ func CliTestCommandCommand(cli *di.Deps) *cobra.Command {
 			"sts cli test-connect\n" +
 			"# test connection to my.stackstate.com \n" +
 			"sts cli test-connect --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url \"https://my.stackstate.com/api\"",
-		RunE: cli.CmdRunE(RunTestConnectConfig),
+		RunE: cli.CmdRunEWithApi(RunTestConnectConfig),
 	}
 	return cmd
 }
 
-func RunTestConnectConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	err := testConect(cli, cli.IsJson)
+func RunTestConnectConfig(
+	cmd *cobra.Command,
+	cli *di.Deps,
+	api *stackstate_client.APIClient,
+	serverInfo stackstate_client.ServerInfo,
+) common.CLIError {
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"connected": err != nil,
-			"error":     err.Error(),
+			"connected":   true,
+			"server-info": serverInfo,
 		})
+	} else {
+		PrintConnectionSuccess(cli.Printer, cli.Config.ApiURL, serverInfo)
 	}
-	return err
+	return nil
 }

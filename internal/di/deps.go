@@ -2,9 +2,9 @@ package di
 
 import (
 	"context"
-	"log"
 	"net/http"
 
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
@@ -53,24 +53,18 @@ func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 
-		// needs to happen before run, but after execute
-		// so flag-config bindings can take hold
 		if cli.Config == nil {
-			cfg, err := conf.ReadConf(cmd)
+			err := cli.LoadConfig(cmd)
 			if err != nil {
 				return err
 			}
-			cli.Config = &cfg
-			log.Printf("Loaded config %+v", cli.Config)
 		}
 
 		if cli.Client == nil {
-			ctx, client, err := createClient(cli, cmd)
+			err := cli.LoadClient(cmd, cli.Config.ApiURL, cli.Config.ApiToken)
 			if err != nil {
 				return err
 			}
-			cli.Context = ctx
-			cli.Client = client
 		}
 
 		api, serverInfo, err := cli.Client.Connect()
@@ -82,10 +76,22 @@ func (cli *Deps) CmdRunEWithApi(
 	}
 }
 
-func createClient(cli *Deps, cmd *cobra.Command) (context.Context, StackStateClient, error) {
+// needs to happen before command run, but after cobra command execute
+// so flag-config bindings can take hold
+func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
+	cfg, err := conf.ReadConf(cmd)
+	if err != nil {
+		return err
+	}
+	log.Printf("Loaded config %+v", cli.Config)
+	cli.Config = &cfg
+	return nil
+}
+
+func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiToken string) common.CLIError {
 	configuration := stackstate_client.NewConfiguration()
 	configuration.Servers[0] = stackstate_client.ServerConfiguration{
-		URL:         cli.Config.ApiURL,
+		URL:         apiURL,
 		Description: "",
 		Variables:   nil,
 	}
@@ -103,7 +109,7 @@ func createClient(cli *Deps, cmd *cobra.Command) (context.Context, StackStateCli
 
 	auth := make(map[string]stackstate_client.APIKey)
 	auth["ApiToken"] = stackstate_client.APIKey{
-		Key:    cli.Config.ApiToken,
+		Key:    apiToken,
 		Prefix: "",
 	}
 	ctx := context.WithValue(
@@ -112,5 +118,7 @@ func createClient(cli *Deps, cmd *cobra.Command) (context.Context, StackStateCli
 		auth,
 	)
 
-	return ctx, NewStackStateClient(client, ctx), nil
+	cli.Context = ctx
+	cli.Client = NewStackStateClient(client, ctx)
+	return nil
 }

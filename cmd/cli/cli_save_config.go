@@ -47,10 +47,11 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
 	}
 
-	// this is really only necessary for testing
-	// in production this should've already been handled by Viper
-	cli.Config.ApiURL = apiURL
-	cli.Config.ApiToken = apiToken
+	// set config
+	cli.Config = &conf.Conf{
+		ApiURL:   apiURL,
+		ApiToken: apiToken,
+	}
 
 	// get test-connect flag
 	skipValidate, err := cmd.Flags().GetBool(SkipValidateFlagName)
@@ -60,9 +61,20 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 
 	// test connect
 	if !skipValidate {
-		err := testConect(cli, cli.IsJson)
+		if cli.Client == nil {
+			err := cli.LoadClient(cmd, apiURL, apiToken)
+			if err != nil {
+				return err
+			}
+		}
+
+		_, serverInfo, err := cli.Client.Connect()
 		if err != nil {
 			return err
+		}
+
+		if !cli.IsJson {
+			PrintConnectionSuccess(cli.Printer, apiURL, serverInfo)
 		}
 	}
 
@@ -74,8 +86,8 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"tested-connected": !skipValidate,
-			"config-file":      filename,
+			"connection-tested": !skipValidate,
+			"config-file":       filename,
 		})
 	} else {
 		cli.Printer.Success("Config saved to: " + filename)
