@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/spf13/cobra"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
@@ -31,8 +31,8 @@ func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 func RunMonitorRunCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo stackstate_api.ServerInfo,
 ) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
@@ -46,7 +46,7 @@ func RunMonitorRunCommand(
 
 	id, err := util.StringToInt64(identifier)
 	var resp *http.Response
-	var runResult stackstate_client.MonitorRunResult
+	var runResult stackstate_api.MonitorRunResult
 	if err == nil {
 		if isDryRun {
 			runResult, resp, err = api.MonitorApi.DryRunMonitor(cli.Context, id).Execute()

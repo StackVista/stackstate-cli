@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
@@ -25,10 +25,10 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := StackpackListInstanceCommand(&cli.Deps)
 
-	mockResponse := []stackstate_client.Sstackpack{
+	mockResponse := []stackstate_api.Sstackpack{
 		{
 			Name: &testName,
-			Configurations: &[]stackstate_client.SstackpackConfigurations{
+			Configurations: &[]stackstate_api.SstackpackConfigurations{
 				{
 					Id:                  &id,
 					Status:              &statusInstalled,
@@ -39,7 +39,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 		},
 		{
 			Name: &unknownName,
-			Configurations: &[]stackstate_client.SstackpackConfigurations{
+			Configurations: &[]stackstate_api.SstackpackConfigurations{
 				{
 					Id:                  &id,
 					Status:              &statusInstalled,
@@ -71,7 +71,7 @@ func TestStackpackListInstancePrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn()
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "--json")
 	expectedJsonCalls := []map[string]interface{}{{
-		"instances": []stackstate_client.SstackpackConfigurations{
+		"instances": []stackstate_api.SstackpackConfigurations{
 			{
 				Id:                  &id,
 				Status:              &statusInstalled,

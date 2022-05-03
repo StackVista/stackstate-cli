@@ -6,7 +6,7 @@ import (
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
@@ -45,8 +45,8 @@ func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func
 type CmdWithApiFn = func(
 	*cobra.Command,
 	*Deps,
-	*stackstate_client.APIClient,
-	stackstate_client.ServerInfo,
+	*stackstate_api.APIClient,
+	stackstate_api.ServerInfo,
 ) common.CLIError
 
 func (cli *Deps) CmdRunEWithApi(
@@ -88,14 +88,14 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 }
 
 func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken string) common.CLIError {
-	configuration := stackstate_client.NewConfiguration()
-	configuration.Servers[0] = stackstate_client.ServerConfiguration{
+	configuration := stackstate_api.NewConfiguration()
+	configuration.Servers[0] = stackstate_api.ServerConfiguration{
 		URL:         apiURL + apiPath,
 		Description: "",
 		Variables:   nil,
 	}
 	configuration.Debug = cli.IsVerBose
-	var client *stackstate_client.APIClient
+	var client *stackstate_api.APIClient
 
 	stopSpinner := func() {}
 	configuration.OnPreCallAPI = func(r *http.Request) {
@@ -104,16 +104,16 @@ func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, a
 	configuration.OnPostCallAPI = func(r *http.Request) {
 		stopSpinner()
 	}
-	client = stackstate_client.NewAPIClient(configuration)
+	client = stackstate_api.NewAPIClient(configuration)
 
-	auth := make(map[string]stackstate_client.APIKey)
-	auth["ApiToken"] = stackstate_client.APIKey{
+	auth := make(map[string]stackstate_api.APIKey)
+	auth["ApiToken"] = stackstate_api.APIKey{
 		Key:    apiToken,
 		Prefix: "",
 	}
 	ctx := context.WithValue(
 		cmd.Context(),
-		stackstate_client.ContextAPIKeys,
+		stackstate_api.ContextAPIKeys,
 		auth,
 	)
 

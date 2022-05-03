@@ -3,10 +3,10 @@ package di
 import (
 	"fmt"
 
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 )
 
-func VersionToString(version stackstate_client.ServerVersion) string {
+func VersionToString(version stackstate_api.ServerVersion) string {
 	dev := ""
 	if version.IsDev {
 		dev = "-dev"

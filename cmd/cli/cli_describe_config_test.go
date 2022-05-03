@@ -19,7 +19,10 @@ func TestDescribeConfig(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "1", "--api-token", "bla")
 
-	assert.Equal(t, []interface{}{map[string]interface{}{"api-path": "/bla", "api-token": "bla", "url": "1"}}, *cli.MockPrinter.PrintStructCalls)
+	assert.Equal(t, 1, len(*cli.MockPrinter.PrintStructCalls))
+	config := (*cli.MockPrinter.PrintStructCalls)[0].(map[string]interface{})
+	assert.Equal(t, "bla", config["api-token"])
+	assert.Equal(t, "1", config["url"])
 }
 
 func TestDescribeConfigJson(t *testing.T) {
@@ -27,5 +30,7 @@ func TestDescribeConfigJson(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "1", "--api-token", "bla", "--json")
 
-	assert.Equal(t, []map[string]interface{}{{"api-path": "/bla", "api-token": "bla", "url": "1"}}, *cli.MockPrinter.PrintJsonCalls)
+	config := (*cli.MockPrinter.PrintJsonCalls)[0]
+	assert.Equal(t, "bla", config["api-token"])
+	assert.Equal(t, "1", config["url"])
 }

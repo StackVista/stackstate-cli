@@ -7,13 +7,13 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
-func setupClient() (StackStateClient, *stackstate_client.ServerApiMock) {
-	serverApi := stackstate_client.NewServerApiMock()
-	api := stackstate_client.APIClient{
+func setupClient() (StackStateClient, *stackstate_api.ServerApiMock) {
+	serverApi := stackstate_api.NewServerApiMock()
+	api := stackstate_api.APIClient{
 		ServerApi: &serverApi,
 	}
 	client := NewStackStateClient(&api, context.Background())
@@ -34,7 +34,7 @@ func TestConnectError(t *testing.T) {
 
 func TestConnectSuccess(t *testing.T) {
 	client, serverApi := setupClient()
-	serverApi.ServerInfoResponse.Result = stackstate_client.ServerInfo{DeploymentMode: "test"}
+	serverApi.ServerInfoResponse.Result = stackstate_api.ServerInfo{DeploymentMode: "test"}
 
 	_, serverInfo, _ := client.Connect()
 

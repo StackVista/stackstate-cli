@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
@@ -20,7 +20,7 @@ var (
 	provisionVersion      = "3.2.0"
 	timeMilli             = int64(1438167001716)
 	expectedUpdateTime    = time.UnixMilli(timeMilli)
-	mockProvisionResponse = stackstate_client.ProvisionResponse{
+	mockProvisionResponse = stackstate_api.ProvisionResponse{
 		Id:                  &provisionID,
 		Name:                &provisionName,
 		Status:              &provisionStatus,
@@ -45,7 +45,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 	)
 
 	assert.Equal(t,
-		stackstate_client.ProvisionDetailsCall{
+		stackstate_api.ProvisionDetailsCall{
 			PstackName: "zabbix",
 			PrequestBody: &map[string]string{
 				"zabbix_instance_name": "test_name",

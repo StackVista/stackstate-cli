@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
@@ -25,8 +25,8 @@ func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 func RunStackpackListInstanceCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo stackstate_api.ServerInfo,
 ) common.CLIError {
 	name, err := cmd.Flags().GetString(NameFlag)
 	if err != nil {
@@ -41,7 +41,7 @@ func RunStackpackListInstanceCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	instances := make([]stackstate_client.SstackpackConfigurations, 0)
+	instances := make([]stackstate_api.SstackpackConfigurations, 0)
 	for _, v := range stackpackList {
 		if v.GetName() != name {
 			continue

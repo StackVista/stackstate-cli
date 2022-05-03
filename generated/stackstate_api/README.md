@@ -1,4 +1,4 @@
-# Go API client for stackstate_client
+# Go API client for stackstate_api
 
 StackState's API specification
 
@@ -23,7 +23,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import sw "./stackstate_client"
+import sw "./stackstate_api"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:

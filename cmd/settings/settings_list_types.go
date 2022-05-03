@@ -2,7 +2,7 @@ package settings
 
 import (
 	"github.com/spf13/cobra"
-	stackstate_client "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
@@ -21,8 +21,8 @@ func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 
 func RunSettingsListTypesCommand(cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo stackstate_api.ServerInfo,
 ) common.CLIError {
 	settingTypes, resp, err := api.NodeApi.NodeListTypes(cli.Context).Execute()
 	if err != nil {
