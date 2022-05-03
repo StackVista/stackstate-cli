@@ -80,4 +80,5 @@ func TestStackpackListInstancePrintToJson(t *testing.T) {
 			}}},
 	}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }

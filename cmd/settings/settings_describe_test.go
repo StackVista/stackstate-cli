@@ -17,7 +17,7 @@ func setupDescribeCmd() (*di.MockDeps, *cobra.Command) {
 	return &cli, cmd
 }
 
-func TestSettingsDescribePrintsToTable(t *testing.T) {
+func TestSettingsDescribe(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd()
@@ -28,7 +28,24 @@ func TestSettingsDescribePrintsToTable(t *testing.T) {
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
 }
 
-func TestSettingsDescribeIdsPrintsToTable(t *testing.T) {
+func TestSettingsDescribeJson(t *testing.T) {
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
+"parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	cli, cmd := setupDescribeCmd()
+	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+
+	di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--json")
+	assert.Equal(
+		t,
+		[]map[string]interface{}{{
+			"data": expectedStr,
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
+}
+
+func TestSettingsDescribeIds(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}},
 { "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": 

@@ -105,7 +105,7 @@ func TestSetingsApplyUnlockedTimeout(t *testing.T) {
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].PtimeoutSeconds, int64(16))
 }
 
-func TestSetingsApplyPrinJson(t *testing.T) {
+func TestSetingsApplyJson(t *testing.T) {
 	cli, cmd := setupSettingsApplyCmd()
 	file := createTempFile()
 	defer os.Remove(file.Name())
@@ -116,4 +116,5 @@ func TestSetingsApplyPrinJson(t *testing.T) {
 		"applied-settings": cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }

@@ -63,6 +63,7 @@ func TestStackpackListPrintToJson(t *testing.T) {
 		"stackpacks": mockResponse,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestStackpackListWithInstalledPrintToTable(t *testing.T) {

@@ -45,4 +45,5 @@ func TestListTypesPrintsToJson(t *testing.T) {
 		"setting-types": cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }

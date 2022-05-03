@@ -106,4 +106,5 @@ func TestSettingsStatusPrintsToJson(t *testing.T) {
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }

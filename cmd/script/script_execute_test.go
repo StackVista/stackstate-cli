@@ -37,6 +37,23 @@ func TestExecuteSuccess(t *testing.T) {
 	assert.Equal(t, []interface{}{"hello test"}, *cli.MockPrinter.PrintStructCalls)
 }
 
+func TestExecuteSuccessJson(t *testing.T) {
+	cli, cmd := setupScriptExecuteCmd()
+	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
+		Result: map[string]interface{}{"value": "hello test"},
+	}
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script", "--json")
+
+	assert.Equal(t,
+		[]map[string]interface{}{{
+			"result": map[string]interface{}{"value": "hello test"},
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
+}
+
 func TestExecuteFromScript(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd()
 

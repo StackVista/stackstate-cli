@@ -75,6 +75,7 @@ func TestStackpackInstallPrintsToJson(t *testing.T) {
 		},
 		*cli.MockPrinter.PrintJsonCalls,
 	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestParseParameter(t *testing.T) {

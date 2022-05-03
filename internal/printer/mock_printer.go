@@ -16,6 +16,7 @@ type MockPrinter struct {
 	PrintWarnCalls    *[]string
 	TableCalls        *[]TableData
 	PrintLnCalls      *[]string
+	HasNonJsonCalls   bool
 }
 
 type PrintErrResponseCall struct {
@@ -48,6 +49,7 @@ func NewMockPrinter() MockPrinter {
 
 func (p *MockPrinter) PrintStruct(s interface{}) {
 	*p.PrintStructCalls = append(*p.PrintStructCalls, s)
+	p.HasNonJsonCalls = true
 }
 
 func (p *MockPrinter) PrintJson(s map[string]interface{}) {
@@ -60,10 +62,12 @@ func (p *MockPrinter) PrintErrJson(err error) {
 
 func (p *MockPrinter) PrintErr(err error) {
 	*p.PrintErrCalls = append(*p.PrintErrCalls, err)
+	p.HasNonJsonCalls = true
 }
 
 func (p *MockPrinter) StartSpinner(loadingMsg LoadingMsg) StopPrinterFn {
 	*p.StartSpinnerCalls = append(*p.StartSpinnerCalls, loadingMsg)
+	p.HasNonJsonCalls = true
 	return func() {}
 }
 
@@ -76,17 +80,21 @@ func (p *MockPrinter) GetUseColor() bool {
 }
 
 func (p *MockPrinter) Success(msg string) {
+	p.HasNonJsonCalls = true
 	*p.SuccessCalls = append(*p.SuccessCalls, msg)
 }
 
 func (p *MockPrinter) PrintWarn(msg string) {
+	p.HasNonJsonCalls = true
 	*p.PrintWarnCalls = append(*p.PrintWarnCalls, msg)
 }
 
 func (p *MockPrinter) Table(t TableData) {
+	p.HasNonJsonCalls = true
 	*p.TableCalls = append(*p.TableCalls, t)
 }
 
 func (p *MockPrinter) PrintLn(text string) {
+	p.HasNonJsonCalls = true
 	*p.PrintLnCalls = append(*p.PrintLnCalls, text)
 }

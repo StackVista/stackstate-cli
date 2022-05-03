@@ -27,8 +27,8 @@ func setupSaveConfigCmd(t *testing.T) (*di.MockDeps, *cobra.Command, string, fun
 }
 
 func TestSaveConfig(t *testing.T) {
-	cli, cmd, expectedFile, _ := setupSaveConfigCmd(t)
-	//defer cleanup()
+	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
+	defer cleanup()
 
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
@@ -43,6 +43,31 @@ func TestSaveConfig(t *testing.T) {
 	assert.Equal(t, "Connection verified to https://test.stackstate.io/api (StackState version: 0.0.0+-)", (*cli.MockPrinter.SuccessCalls)[0])
 	assert.Equal(t, "Config saved to: "+expectedFile, (*cli.MockPrinter.SuccessCalls)[1])
 	assert.True(t, fileExists)
+	assert.Equal(t, "blaat", cli.Config.ApiToken)
+	assert.Equal(t, "https://test.stackstate.io/api", cli.Config.ApiURL)
+}
+
+func TestSaveConfigToJson(t *testing.T) {
+	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
+	defer cleanup()
+
+	di.ExecuteCommandWithContextUnsafe(
+		&cli.Deps,
+		cmd,
+		"--api-url",
+		"https://test.stackstate.io/api",
+		"--api-token",
+		"blaat",
+		"--json",
+	)
+	assert.Equal(t,
+		[]map[string]interface{}{{
+			"connection-tested": true,
+			"config-file":       expectedFile,
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestSaveConfigSkipValidate(t *testing.T) {
