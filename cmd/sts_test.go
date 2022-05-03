@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"testing"
 
@@ -9,6 +10,16 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
+
+func setupStsCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) {
+	cli := di.NewMockDeps()
+	sts := STSCommand(&cli.Deps)
+	stdOut := new(bytes.Buffer)
+	stdErr := new(bytes.Buffer)
+	sts.SetOut(stdOut)
+	sts.SetErr(stdErr)
+	return &cli, sts, stdOut, stdErr
+}
 
 func ErrorCmd() *cobra.Command {
 	return &cobra.Command{
@@ -19,10 +30,28 @@ func ErrorCmd() *cobra.Command {
 	}
 }
 
-func TestHelp(t *testing.T) {
+func TestHelpWhenRunningWithoutArgs(t *testing.T) {
+	cli, cmd, stdOut, stdErr := setupStsCmd()
+	cmd.SetArgs([]string{""})
+	exitCode := execute(cli.Context, &cli.Deps, cmd)
+	assert.Equal(t, 0, exitCode)
+	assert.Contains(t, stdOut.String(), "Usage:")
+	assert.Equal(t, "", stdErr.String())
+}
+
+func TestHelpWhenRunningHelp(t *testing.T) {
+	cli, cmd, stdOut, stdErr := setupStsCmd()
+	cmd.SetArgs([]string{"help"})
+	exitCode := execute(cli.Context, &cli.Deps, cmd)
+	assert.Equal(t, 0, exitCode)
+	assert.Contains(t, stdOut.String(), "Usage:")
+	assert.Equal(t, "", stdErr.String())
+}
+
+func TestVersion(t *testing.T) {
 	cli := di.NewMockDeps()
 	sts := STSCommand(&cli.Deps)
-	sts.SetArgs([]string{"help"})
+	sts.SetArgs([]string{"version"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 	assert.Equal(t, 0, exitCode)
 }

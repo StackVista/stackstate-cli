@@ -2,6 +2,8 @@ package di
 
 import (
 	"context"
+	"log"
+	"net/http"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -45,6 +47,29 @@ type CmdWithApiFn = func(
 func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
+
+		// needs to happen before run, but after execute
+		// so flag-config bindings can take hold
+		if cli.Config == nil {
+			cfg, err := conf.ReadConf(cmd)
+			if err != nil {
+				return err
+			}
+			cli.Config = &cfg
+			log.Printf("Loaded config %+v", cli.Config)
+		}
+
+		cli.Printer.SetUseColor(!cli.Config.NoColor)
+
+		if cli.Client == nil {
+			ctx, client, err := createClient(cli, cmd)
+			if err != nil {
+				return err
+			}
+			cli.Context = ctx
+			cli.Client = client
+		}
+
 		api, serverInfo, err := cli.Client.Connect()
 		if err != nil {
 			return err
@@ -52,4 +77,37 @@ func (cli *Deps) CmdRunEWithApi(
 
 		return runFn(cmd, cli, api, serverInfo)
 	}
+}
+
+func createClient(cli *Deps, cmd *cobra.Command) (context.Context, StackStateClient, error) {
+	configuration := stackstate_client.NewConfiguration()
+	configuration.Servers[0] = stackstate_client.ServerConfiguration{
+		URL:         cli.Config.ApiURL,
+		Description: "",
+		Variables:   nil,
+	}
+	configuration.Debug = cli.IsVerBose
+	var client *stackstate_client.APIClient
+
+	stopSpinner := func() {}
+	configuration.OnPreCallAPI = func(r *http.Request) {
+		stopSpinner = cli.Printer.StartSpinner(printer.AwaitingServer)
+	}
+	configuration.OnPostCallAPI = func(r *http.Request) {
+		stopSpinner()
+	}
+	client = stackstate_client.NewAPIClient(configuration)
+
+	auth := make(map[string]stackstate_client.APIKey)
+	auth["ApiToken"] = stackstate_client.APIKey{
+		Key:    cli.Config.ApiToken,
+		Prefix: "",
+	}
+	ctx := context.WithValue(
+		cmd.Context(),
+		stackstate_client.ContextAPIKeys,
+		auth,
+	)
+
+	return ctx, NewStackStateClient(client, ctx), nil
 }

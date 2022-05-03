@@ -2,17 +2,12 @@ package cmd
 
 import (
 	"context"
-	"net/http"
-	"os"
 
 	"github.com/rs/zerolog"
-	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func STSCommand(cli *di.Deps) *cobra.Command {
@@ -63,8 +58,10 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 		return PreRunCommand(cli, cmd, args)
 	}
 
+	// shush, cobra... we take care of this ourselves
 	sts.SilenceErrors = true
 	sts.SilenceUsage = true
+
 	if err := sts.ExecuteContext(ctx); err != nil {
 		var showUsage bool
 		var exitCode int
@@ -102,49 +99,6 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command, args []string) error {
 	if verbose {
 		zerolog.SetGlobalLevel(zerolog.TraceLevel)
 	}
-	// needs to happen before run, but after execute
-	// so flag-config bindings can take hold
-	cfg, err := conf.ReadConf(cmd)
-	if err != nil {
-		cli.Printer.PrintErr(err)
-		os.Exit(common.ConfigErrorExitCode)
-	}
-	cli.Config = &cfg
-	log.Printf("Loaded config %+v", cli.Config)
-
-	cli.Printer.SetUseColor(!cfg.NoColor)
-
-	configuration := stackstate_client.NewConfiguration()
-	configuration.Servers[0] = stackstate_client.ServerConfiguration{
-		URL:         cli.Config.ApiURL,
-		Description: "",
-		Variables:   nil,
-	}
-	configuration.Debug = cli.IsVerBose
-	var client *stackstate_client.APIClient
-
-	stopSpinner := func() {}
-	configuration.OnPreCallAPI = func(r *http.Request) {
-		stopSpinner = cli.Printer.StartSpinner(printer.AwaitingServer)
-	}
-	configuration.OnPostCallAPI = func(r *http.Request) {
-		stopSpinner()
-	}
-	client = stackstate_client.NewAPIClient(configuration)
-
-	auth := make(map[string]stackstate_client.APIKey)
-	auth["ApiToken"] = stackstate_client.APIKey{
-		Key:    cli.Config.ApiToken,
-		Prefix: "",
-	}
-	ctx := context.WithValue(
-		cmd.Context(),
-		stackstate_client.ContextAPIKeys,
-		auth,
-	)
-
-	cli.Context = ctx
-	cli.Client = di.NewStackStateClient(client, ctx)
 
 	return nil
 }
