@@ -60,7 +60,7 @@ func (cli *Deps) CmdRunEWithApi(
 		}
 
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, cli.Config.ApiURL, cli.Config.ApiToken)
+			err := cli.LoadClient(cmd, cli.Config.URL, cli.Config.ApiPath, cli.Config.ApiToken)
 			if err != nil {
 				return err
 			}
@@ -87,10 +87,10 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 	return nil
 }
 
-func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiToken string) common.CLIError {
+func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken string) common.CLIError {
 	configuration := stackstate_client.NewConfiguration()
 	configuration.Servers[0] = stackstate_client.ServerConfiguration{
-		URL:         apiURL,
+		URL:         apiURL + apiPath,
 		Description: "",
 		Variables:   nil,
 	}

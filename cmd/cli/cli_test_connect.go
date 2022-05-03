@@ -33,7 +33,7 @@ func RunTestConnectConfig(
 			"server-info": serverInfo,
 		})
 	} else {
-		PrintConnectionSuccess(cli.Printer, cli.Config.ApiURL, serverInfo)
+		PrintConnectionSuccess(cli.Printer, cli.Config.URL, serverInfo)
 	}
 	return nil
 }

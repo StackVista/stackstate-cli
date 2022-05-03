@@ -8,6 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
@@ -33,18 +34,41 @@ func TestSaveConfig(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
 		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
+		"--url",
+		"https://test.stackstate.io/",
 		"--api-token",
 		"blaat",
 	)
 
 	fileExists, _ := util.DoesFileExist(expectedFile)
-	assert.Equal(t, "Connection verified to https://test.stackstate.io/api (StackState version: 0.0.0+-)", (*cli.MockPrinter.SuccessCalls)[0])
+	assert.Equal(t, "Connection verified to https://test.stackstate.io/ (StackState version: 0.0.0+-)", (*cli.MockPrinter.SuccessCalls)[0])
 	assert.Equal(t, "Config saved to: "+expectedFile, (*cli.MockPrinter.SuccessCalls)[1])
 	assert.True(t, fileExists)
-	assert.Equal(t, "blaat", cli.Config.ApiToken)
-	assert.Equal(t, "https://test.stackstate.io/api", cli.Config.ApiURL)
+	assert.Equal(t,
+		conf.Conf{
+			ApiToken: "blaat",
+			URL:      "https://test.stackstate.io/",
+			ApiPath:  "/api",
+		},
+		*cli.Config,
+	)
+}
+
+func TestSaveConfigWithApiPath(t *testing.T) {
+	cli, cmd, _, cleanup := setupSaveConfigCmd(t)
+	defer cleanup()
+
+	di.ExecuteCommandWithContextUnsafe(
+		&cli.Deps,
+		cmd,
+		"--url",
+		"https://test.stackstate.io/",
+		"--api-token",
+		"blaat",
+		"--api-path",
+		"/api/v2",
+	)
+	assert.Equal(t, "/api/v2", cli.Config.ApiPath)
 }
 
 func TestSaveConfigToJson(t *testing.T) {
@@ -88,7 +112,7 @@ func TestSaveConfigSkipValidate(t *testing.T) {
 	fileExists, _ := util.DoesFileExist(expectedFile)
 	assert.Equal(t, "Config saved to: "+expectedFile, (*cli.MockPrinter.SuccessCalls)[0])
 	assert.True(t, fileExists)
-	assert.Equal(t, "https://test.stackstate.io/api", cli.Config.ApiURL)
+	assert.Equal(t, "https://test.stackstate.io/api", cli.Config.URL)
 	assert.Equal(t, "blaat", cli.Config.ApiToken)
 }
 
