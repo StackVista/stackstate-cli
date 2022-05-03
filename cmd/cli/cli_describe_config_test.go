@@ -8,14 +8,14 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func setupDescribeConfigCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+func setupDescribeConfigCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := CliDescribeConfigCommand(&cli.Deps)
 	return &cli, cmd
 }
 
 func TestDescribeConfig(t *testing.T) {
-	cli, cmd := setupDescribeConfigCmd(t)
+	cli, cmd := setupDescribeConfigCmd()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "https://test", "--api-token", "bla")
 
@@ -26,7 +26,7 @@ func TestDescribeConfig(t *testing.T) {
 }
 
 func TestDescribeConfigJson(t *testing.T) {
-	cli, cmd := setupDescribeConfigCmd(t)
+	cli, cmd := setupDescribeConfigCmd()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "https://test", "--api-token", "bla", "--json")
 

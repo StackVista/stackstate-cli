@@ -6,10 +6,10 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/internal/client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Dependency Injection context for the CLI
@@ -17,7 +17,7 @@ type Deps struct {
 	Config    *conf.Conf
 	Printer   printer.Printer
 	Context   context.Context
-	Client    stackstate_client.StackStateClient
+	Client    client.StackStateClient
 	IsVerBose bool
 	IsJson    bool
 	NoColor   bool
@@ -88,6 +88,6 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 }
 
 func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken string) common.CLIError {
-	cli.Client, cli.Context = stackstate_client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, apiURL, apiPath, apiToken)
+	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, apiURL, apiPath, apiToken)
 	return nil
 }

@@ -37,6 +37,7 @@ func (s ValidateConfError) Error() string {
 	for _, e := range s.ValidationErrors {
 		strs = append(strs, e.Error())
 	}
+	//nolint:gocritic
 	if len(strs) > 1 {
 		return "Validation errors:\n * " + strings.Join(strs, "\n * ")
 	} else if len(strs) == 1 {

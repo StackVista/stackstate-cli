@@ -46,8 +46,7 @@ func NewConnectError(err error, apiURL string, serverResponse *http.Response) CL
 		}
 	} else {
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to %s (%s)\n"+
-				"Please check your api-url and network connection", apiURL, err),
+			Err:      fmt.Errorf("could not connect to %s (%s)", apiURL, err),
 			exitCode: ConnectErrorExitCode,
 		}
 	}

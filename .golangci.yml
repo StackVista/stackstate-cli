@@ -23,7 +23,7 @@ linters-settings:
     require-specific: true # don't require nolint directives to be specific about which linter is being skipped
 
   skip-files:
-    - "internal/stackstate_client/.*.go$"
+    - "generated/.*.go$"
 
   forbidigo:
     # Forbid the following identifiers (list of regexp).

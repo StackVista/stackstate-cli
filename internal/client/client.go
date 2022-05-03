@@ -1,4 +1,4 @@
-package stackstate_client
+package client
 
 import (
 	"context"
@@ -13,12 +13,12 @@ type StackStateClient interface {
 	Connect() (*stackstate_api.APIClient, stackstate_api.ServerInfo, common.CLIError)
 }
 
-func NewStackStateClient(ctx context.Context, isVerBose bool, pr printer.Printer, URL string, apiPath string, apiToken string) (StackStateClient, context.Context) {
-	apiURL := URL + apiPath
+func NewStackStateClient(ctx context.Context, isVerBose bool, pr printer.Printer, url string, apiPath string, apiToken string) (StackStateClient, context.Context) {
+	apiURL := url + apiPath
 
 	configuration := stackstate_api.NewConfiguration()
 	configuration.Servers[0] = stackstate_api.ServerConfiguration{
-		URL:         URL + apiPath,
+		URL:         url + apiPath,
 		Description: "",
 		Variables:   nil,
 	}
