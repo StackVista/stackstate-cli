@@ -7,6 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/alecthomas/chroma"
@@ -50,18 +51,24 @@ const (
 type StopPrinterFn func()
 
 type StdPrinter struct {
-	stdOut   io.Writer // for test purposes
-	stdErr   io.Writer // for test purposes
-	useColor bool
-	MaxWidth int
+	stdOut     io.Writer // for test purposes
+	stdErr     io.Writer // for test purposes
+	useColor   bool
+	useSymbols bool
+	MaxWidth   int
 }
 
 func NewPrinter() Printer {
+	return NewStdPrinter(runtime.GOOS, os.Stdout, os.Stdin)
+}
+
+func NewStdPrinter(OS string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
 	x := &StdPrinter{
-		useColor: true,
-		stdOut:   os.Stdout,
-		stdErr:   os.Stderr,
-		MaxWidth: pterm.DefaultParagraph.MaxWidth,
+		useColor:   true,
+		useSymbols: OS != "windows", // windows does not do symbols
+		stdOut:     stdOut,
+		stdErr:     stdErr,
+		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
 	pterm.EnableColor()
 

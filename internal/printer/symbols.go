@@ -20,7 +20,7 @@ var symbols = map[string]Symbol{
 
 func (p *StdPrinter) sprintSymbol(symbolName string) string {
 	symbol := symbols[symbolName]
-	if p.useColor {
+	if p.useColor && p.useSymbols {
 		return symbol.UnicodeChar
 	} else {
 		return "[" + strings.ToUpper(symbol.Fallback) + "]"
