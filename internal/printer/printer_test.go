@@ -58,9 +58,28 @@ func TestPrintStructAsJsonWithoutColor(t *testing.T) {
 }
 `
 	p := NewPrinter().(*StdPrinter)
-	p.SetUseColor(false)
-	p.SetOutputType(JSON)
-	testPrintStruct(t, p, testStruct, expectedJSON)
+	p.SetUseColor(true) // should not matter
+
+	var buf bytes.Buffer
+	p.stdOut = &buf
+	p.PrintJson(testStruct)
+	assert.Equal(t, expectedJSON, buf.String())
+}
+
+func TestPrintErrJson(t *testing.T) {
+	testStruct := fmt.Errorf("test error")
+	const expectedJSON = `{
+  "error": true,
+  "error-message": "test error"
+}
+`
+	p := NewPrinter().(*StdPrinter)
+	p.SetUseColor(true) // should not matter
+
+	var buf bytes.Buffer
+	p.stdErr = &buf
+	p.PrintErrJson(testStruct)
+	assert.Equal(t, expectedJSON, buf.String())
 }
 
 func TestPrintStructAsYamlWithoutColor(t *testing.T) {
@@ -91,21 +110,6 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(true)
 	testPrintStruct(t, p, testStruct, expectedYaml)
-}
-
-func TestPrintStructAsJsonWithColor(t *testing.T) {
-	testStruct := map[string]interface{}{
-		"foo": 1,
-		"bar": map[string]interface{}{
-			"baz": "foobarbaz",
-		},
-	}
-	//nolint:lll
-	const expectedJSON = "\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"bar\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[1m\x1b[37m{\x1b[0m\x1b[1m\x1b[37m\n    \x1b[0m\x1b[1m\x1b[31m\"baz\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[37m\"foobarbaz\"\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[37m}\x1b[0m\x1b[1m\x1b[37m,\x1b[0m\x1b[1m\x1b[37m\n  \x1b[0m\x1b[1m\x1b[31m\"foo\"\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m}\x1b[0m\n"
-	p := NewPrinter().(*StdPrinter)
-	p.SetOutputType(JSON)
-	p.SetUseColor(true)
-	testPrintStruct(t, p, testStruct, expectedJSON)
 }
 
 func testPrintStruct(t *testing.T, p *StdPrinter, testStruct interface{}, expectedOutput string) {
@@ -263,18 +267,6 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 	}
 
 	assert.LessOrEqual(t, maxLineWidth, 33)
-}
-
-func TestPrintTableAsStruct(t *testing.T) {
-	p, stdOut, _ := setupPrinter()
-	p.SetUseColor(false)
-	p.SetOutputType(YAML)
-	p.Table(TableData{
-		Header:     []string{"A", "B"},
-		Data:       [][]interface{}{{"1", "2"}},
-		StructData: map[string]interface{}{"A": 1, "B": 2},
-	})
-	assert.Equal(t, "A: 1\nB: 2\n", stdOut.String())
 }
 
 func TestPrintTableNoData(t *testing.T) {

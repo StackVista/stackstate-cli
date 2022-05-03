@@ -9,7 +9,6 @@ import (
 	"os"
 	"strings"
 
-	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
@@ -23,14 +22,13 @@ import (
 )
 
 type Printer interface {
-	// Expects s to be JSON or YAML serializable. Will print an error otherwise
+	PrintJson(map[string]interface{})
+	PrintErrJson(err error)
 	PrintStruct(s interface{})
 	PrintErr(err error)
 	StartSpinner(loadingMsg LoadingMsg) StopPrinterFn
 	SetUseColor(useColor bool)
 	GetUseColor() bool
-	SetOutputType(outputType OutputType)
-	GetOutputType() OutputType
 	PrintWarn(msg string)
 	Success(msg string)
 	Table(t TableData)
@@ -48,32 +46,21 @@ const (
 	YamlIndent = 2
 )
 
-type OutputType string
-
 type StopPrinterFn func()
 
-const (
-	YAML OutputType = "YAML"
-	JSON OutputType = "JSON"
-	// Auto formatting, sometimes prints in table format, sometimes in YAML
-	Auto OutputType = "Auto"
-)
-
 type StdPrinter struct {
-	stdOut     io.Writer // for test purposes
-	stdErr     io.Writer // for test purposes
-	useColor   bool
-	outputType OutputType
-	MaxWidth   int
+	stdOut   io.Writer // for test purposes
+	stdErr   io.Writer // for test purposes
+	useColor bool
+	MaxWidth int
 }
 
 func NewPrinter() Printer {
 	x := &StdPrinter{
-		useColor:   true,
-		stdOut:     os.Stdout,
-		stdErr:     os.Stderr,
-		outputType: Auto,
-		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
+		useColor: true,
+		stdOut:   os.Stdout,
+		stdErr:   os.Stderr,
+		MaxWidth: pterm.DefaultParagraph.MaxWidth,
 	}
 	pterm.EnableColor()
 
@@ -86,10 +73,29 @@ func (p *StdPrinter) SetStdPrinterOutput(stdOut io.Writer, stdErr io.Writer) {
 	p.stdErr = stdErr
 }
 
+func (p *StdPrinter) PrintJson(s map[string]interface{}) {
+	json, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		e := fmt.Errorf("error (%s) while printing struct to JSON: %v", err, s)
+		p.PrintErrJson(e)
+	} else {
+		fmt.Fprintf(p.stdOut, "%s\n", json)
+	}
+}
+
+func (p *StdPrinter) PrintErrJson(err error) {
+	e := map[string]interface{}{
+		"error":         true,
+		"error-message": err.Error(),
+	}
+	json, _ := json.MarshalIndent(e, "", "  ")
+	fmt.Fprintf(p.stdErr, "%s\n", json)
+}
+
 func (p *StdPrinter) PrintStruct(s interface{}) {
 	msg, err := p.sprintStruct(s)
 	if err != nil {
-		p.PrintErr(fmt.Errorf("error (%s) while printing struct: %v", err, s))
+		p.PrintErr(fmt.Errorf("error (%s) while printing struct to YAML: %v", err, s))
 	} else {
 		fmt.Fprintf(p.stdOut, "%s\n", msg)
 	}
@@ -98,46 +104,24 @@ func (p *StdPrinter) PrintStruct(s interface{}) {
 func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	var sructStr string
 
-	switch p.outputType {
-	case JSON:
-		msg, err := json.MarshalIndent(s, "", "  ")
-		if err != nil {
-			return "", err
-		}
-
-		sructStr = string(msg)
-	case YAML, Auto:
-		var buf bytes.Buffer
-		yamlEncoder := yaml.NewEncoder(&buf)
-		yamlEncoder.SetIndent(YamlIndent)
-		err := yamlEncoder.Encode(&s)
-		if err != nil {
-			return "", err
-		}
-		sructStr = strings.TrimRight(buf.String(), "\n")
-	default:
-		return "", fmt.Errorf("unknown outputType %v", p.outputType)
+	var buf bytes.Buffer
+	yamlEncoder := yaml.NewEncoder(&buf)
+	yamlEncoder.SetIndent(YamlIndent)
+	err := yamlEncoder.Encode(&s)
+	if err != nil {
+		return "", err
 	}
+	sructStr = strings.TrimRight(buf.String(), "\n")
 
 	if p.useColor {
-		return colorizeStruct(sructStr, p.outputType)
+		return colorizeStruct(sructStr)
 	} else {
 		return sructStr, nil
 	}
 }
 
-func colorizeStruct(structStr string, outputType OutputType) (string, error) {
-	var lexer chroma.Lexer
-	switch outputType {
-	case JSON:
-		lexer = lexers.Get("json")
-	case YAML:
-		lexer = lexers.Get("yaml")
-	case Auto:
-		lexer = lexers.Get("yaml")
-	default:
-		return "", fmt.Errorf("unknown outputType %v", outputType)
-	}
+func colorizeStruct(structStr string) (string, error) {
+	lexer := lexers.Get("yaml")
 	style := styles.Get("monokai")
 	formatter := formatters.Get("terminal")
 
@@ -236,14 +220,6 @@ func (p *StdPrinter) GetUseColor() bool {
 	return p.useColor
 }
 
-func (p *StdPrinter) SetOutputType(outputType OutputType) {
-	p.outputType = outputType
-}
-
-func (p *StdPrinter) GetOutputType() OutputType {
-	return p.outputType
-}
-
 func (p *StdPrinter) Success(msg string) {
 	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), util.UcFirst(msg))
 }
@@ -253,54 +229,50 @@ func (p *StdPrinter) PrintWarn(msg string) {
 }
 
 func (p *StdPrinter) Table(t TableData) {
-	if p.outputType == Auto {
-		if len(t.Data) == 0 {
-			missingMsg := NoTableDataDefaultMsg
-			if t.MissingTableDataMsg != nil {
-				missingMsg = t.MissingTableDataMsg.String()
-			}
-			p.PrintLn(missingMsg)
-			return
+	if len(t.Data) == 0 {
+		missingMsg := NoTableDataDefaultMsg
+		if t.MissingTableDataMsg != nil {
+			missingMsg = t.MissingTableDataMsg.String()
 		}
-
-		tw := table.NewWriter()
-		tw.Style().Options.DrawBorder = false
-		tw.Style().Options.SeparateHeader = false
-		tw.Style().Format.Header = text.FormatUpper
-		tw.Style().Box.PaddingLeft = ""
-		tw.Style().Box.PaddingRight = ""
-		tw.Style().Box.MiddleVertical = " | "
-		if p.useColor {
-			tw.Style().Color.Header = text.Colors{text.FgCyan}
-		}
-
-		tw.AppendHeader(util.StringSliceToInterfaceSlice(t.Header))
-
-		rows := make([]table.Row, 0)
-		for _, row := range t.Data {
-			columns := make(table.Row, 0)
-			for _, v := range row {
-				value := util.ToString(v)
-				columns = append(columns, value)
-			}
-			rows = append(rows, columns)
-		}
-
-		adjustedColumnWidths := calcColumnWidth(t.Header, t.Data, p.MaxWidth, tw.Style().Box)
-		columnConfigs := make([]table.ColumnConfig, len(t.Header))
-		for i, h := range t.Header {
-			columnConfigs = append(columnConfigs, table.ColumnConfig{
-				Name:     h,
-				WidthMax: adjustedColumnWidths[i],
-			})
-		}
-		tw.SetColumnConfigs(columnConfigs)
-
-		tw.AppendRows(rows)
-		fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
-	} else {
-		p.PrintStruct(t.StructData)
+		p.PrintLn(missingMsg)
+		return
 	}
+
+	tw := table.NewWriter()
+	tw.Style().Options.DrawBorder = false
+	tw.Style().Options.SeparateHeader = false
+	tw.Style().Format.Header = text.FormatUpper
+	tw.Style().Box.PaddingLeft = ""
+	tw.Style().Box.PaddingRight = ""
+	tw.Style().Box.MiddleVertical = " | "
+	if p.useColor {
+		tw.Style().Color.Header = text.Colors{text.FgCyan}
+	}
+
+	tw.AppendHeader(util.StringSliceToInterfaceSlice(t.Header))
+
+	rows := make([]table.Row, 0)
+	for _, row := range t.Data {
+		columns := make(table.Row, 0)
+		for _, v := range row {
+			value := util.ToString(v)
+			columns = append(columns, value)
+		}
+		rows = append(rows, columns)
+	}
+
+	adjustedColumnWidths := calcColumnWidth(t.Header, t.Data, p.MaxWidth, tw.Style().Box)
+	columnConfigs := make([]table.ColumnConfig, len(t.Header))
+	for i, h := range t.Header {
+		columnConfigs = append(columnConfigs, table.ColumnConfig{
+			Name:     h,
+			WidthMax: adjustedColumnWidths[i],
+		})
+	}
+	tw.SetColumnConfigs(columnConfigs)
+
+	tw.AppendRows(rows)
+	fmt.Fprintf(p.stdOut, "%s\n", tw.Render())
 }
 
 func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box table.BoxStyle) []int {

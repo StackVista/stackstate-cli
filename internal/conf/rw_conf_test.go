@@ -43,11 +43,6 @@ func TestWriteReadRunner(t *testing.T) {
 		tests.TestLoadSuccessFromYaml(t)
 		tests.TestLoadSuccessFromMinimumRequiredEnvs(t)
 		tests.TestLoadSuccessFromMinimumFlags(t)
-		tests.TestNoColorOnTermIsDumb(t)
-		tests.TestNoColorFlag(t)
-		tests.TestStsCliNoColorEnv(t)
-		tests.TestNoColorEnv(t)
-		tests.TestOuptutEnv(t)
 	})
 }
 
@@ -137,50 +132,6 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumFlags")
 }
 
-// executed by TestWriteReadRunner
-func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
-	term := os.Getenv("TERM")
-	defer os.Setenv("TERM", term)
-	os.Setenv("TERM", "Dumb")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor, "TestNoColorOnTermIsDumb")
-}
-
-// executed by TestWriteReadRunner
-//nolint:golint,errcheck
-func (p ReadTests) TestNoColorFlag(t *testing.T) {
-	cmd := newCmd()
-	cmd.Flags().Bool("no-color", false, "") // register flag
-	cmd.Flags().Set("no-color", "true")
-	conf := readConfWithMinimal(t, cmd)
-	assert.Equal(t, true, conf.NoColor, "TestNoColorFlag")
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestStsCliNoColorEnv(t *testing.T) {
-	defer os.Unsetenv("STS_CLI_NO_COLOR")
-	os.Setenv("STS_CLI_NO_COLOR", "true")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestNoColorEnv(t *testing.T) {
-	defer os.Unsetenv("NO_COLOR")
-	// https://no-color.org says we need to check for existence, not a specific value
-	os.Setenv("NO_COLOR", "false")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestOuptutEnv(t *testing.T) {
-	defer os.Unsetenv("STS_CLI_OUTPUT")
-	os.Setenv("STS_CLI_OUTPUT", "JSON")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, "JSON", conf.Output, "TestOuptutEnv")
-}
-
 ////------------- Fixture code -----------
 
 func readConfFromFile(t *testing.T, confYaml string) (Conf, error) {
@@ -204,17 +155,4 @@ func createTmpConfigFile(t *testing.T, confYaml string) string {
 
 func newCmd() *cobra.Command {
 	return &cobra.Command{}
-}
-
-// Always reads the config successfully. Handy for testing success paths.
-func readConfWithMinimal(t *testing.T, cmd *cobra.Command) Conf {
-	conf, err := readConfWithPaths(
-		cmd,
-		viper.New(),
-		[]string{createTmpConfigFile(t, MinimalConfYaml)},
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	return conf
 }

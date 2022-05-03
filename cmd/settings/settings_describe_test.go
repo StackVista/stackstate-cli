@@ -9,29 +9,44 @@ import (
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupDescribeCmd() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := SettingsDescribeCommand(&mockCli.Deps)
-
-	return mockCli, cmd
+func setupDescribeCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := SettingsDescribeCommand(&cli.Deps)
+	return &cli, cmd
 }
 
-func TestSettingsDescribePrintsToTable(t *testing.T) {
+func TestSettingsDescribe(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
 }
 
-func TestSettingsDescribeIdsPrintsToTable(t *testing.T) {
+func TestSettingsDescribeJson(t *testing.T) {
+	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
+"parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
+	cli, cmd := setupDescribeCmd()
+	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+
+	di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--json") //nolint:errcheck
+	assert.Equal(
+		t,
+		[]map[string]interface{}{{
+			"data":   expectedStr,
+			"format": "stj",
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
+}
+
+func TestSettingsDescribeIds(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common", 
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}},
 { "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters": 
@@ -39,18 +54,18 @@ func TestSettingsDescribeIdsPrintsToTable(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--ids", "314")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--ids", "314")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
 }
 
 func TestSettingsDescribeMutuallyExclusiveFlags(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd)
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd)
 
 	assert.Equal(t, common.NewMutuallyExclusiveFlagsRequiredError([]string{Ids, Namespace, TypeName}), err)
 
-	_, err = util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--namespace", "default")
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--namespace", "default")
 	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{Ids, Namespace, TypeName}, []string{Ids, Namespace}), err)
 }
 
@@ -62,7 +77,7 @@ func TestRunSettingsDescribeWithReferencePrintToTable(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--namespace", "default",
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--namespace", "default",
 		"--allowed-namespace-refs", "urn:stackpack:common:baseline-function:median-absolute-deviation", "--allowed-namespace-refs", "urn:stackpack")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
@@ -81,7 +96,7 @@ func TestRunSettingsDescribeToFile(t *testing.T) {
 "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
-	_, err = util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214", "--file", filePath)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--file", filePath)
 	assert.Nil(t, err)
 	body, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)
@@ -97,15 +112,7 @@ func TestRunSettingsDescribeTypesPrintsToTable(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--type", "BaselineFunction", "--type", "CheckFunction")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--type", "BaselineFunction", "--type", "CheckFunction")
 	assert.Nil(t, err)
 	assert.Equal(t, []string{expectedStr}, *cli.MockPrinter.PrintLnCalls)
-}
-
-func TestSettingsDescribeOutput(t *testing.T) {
-	cli, cmd := setupDescribeCmd()
-	cli.Printer.SetOutputType(printer.YAML)
-
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--ids", "-214")
-	assert.Equal(t, "unsupported format: YAML. Settings can only be described in STJ format", err.Error())
 }

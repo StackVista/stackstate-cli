@@ -14,5 +14,6 @@ func CliCommand(deps *di.Deps) *cobra.Command {
 	}
 	cmd.AddCommand(cli.CliSaveConfigCommand(deps))
 	cmd.AddCommand(cli.CliTestCommandCommand(deps))
+
 	return cmd
 }

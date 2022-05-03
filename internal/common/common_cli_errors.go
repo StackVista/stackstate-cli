@@ -12,17 +12,18 @@ const (
 	HTTPStatusUnauthorized = 401
 )
 
-type CLIError interface {
-	error
-	GetExitCode() ExitCode
-	Error() string
-	ShowUsage() bool
-	HasServerResponse() bool
-	GetServerResponse() *http.Response
+func NewWriteFileError(err error, filepath string) CLIError {
+	return StdCLIError{
+		Err:      fmt.Errorf("cannot write to file %s (%s)", filepath, err.Error()),
+		exitCode: WriteFileErrorExitCode,
+	}
 }
 
-func NewCLIError(err error, serverResponse *http.Response) CLIError {
-	return StdCLIError{Err: err, ServerResponse: serverResponse}
+func NewReadFileError(err error, filepath string) CLIError {
+	return StdCLIError{
+		Err:      fmt.Errorf("cannot read file %s (%s)", filepath, err.Error()),
+		exitCode: ReadFileErrorExitCode,
+	}
 }
 
 func NewResponseError(err error, serverResponse *http.Response) CLIError {
@@ -59,33 +60,6 @@ func NewCLIArgParseError(err error) CLIError {
 		showUsage:      true,
 		exitCode:       CommandFailedRequirementExitCode,
 	}
-}
-
-type StdCLIError struct {
-	Err            error
-	ServerResponse *http.Response
-	showUsage      bool
-	exitCode       int
-}
-
-func (p StdCLIError) Error() string {
-	return p.Err.Error()
-}
-
-func (p StdCLIError) GetExitCode() ExitCode {
-	return p.exitCode
-}
-
-func (p StdCLIError) ShowUsage() bool {
-	return p.showUsage
-}
-
-func (p StdCLIError) HasServerResponse() bool {
-	return p.ServerResponse != nil
-}
-
-func (p StdCLIError) GetServerResponse() *http.Response {
-	return p.ServerResponse
 }
 
 func CheckFlagIsValidChoice(flagName string, flagValue string, choices []string) CLIError {

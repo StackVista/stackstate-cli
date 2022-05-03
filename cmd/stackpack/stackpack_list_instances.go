@@ -41,27 +41,33 @@ func RunStackpackListInstanceCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	respData := make([]stackstate_client.SstackpackConfigurations, 0)
+	instances := make([]stackstate_client.SstackpackConfigurations, 0)
 	for _, v := range stackpackList {
 		if v.GetName() != name {
 			continue
 		}
-		for _, conf := range v.GetConfigurations() {
+		for _, instance := range v.GetConfigurations() {
 			row := []interface{}{
-				conf.Id,
-				conf.Status,
-				conf.StackPackVersion,
-				time.UnixMilli(conf.GetLastUpdateTimestamp()),
+				instance.Id,
+				instance.Status,
+				instance.StackPackVersion,
+				time.UnixMilli(instance.GetLastUpdateTimestamp()),
 			}
 			data = append(data, row)
-			respData = append(respData, conf)
+			instances = append(instances, instance)
 		}
 	}
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"id", "status", "version", "last updated"},
-		Data:                data,
-		StructData:          respData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
-	})
+
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"instances": instances,
+		})
+	} else {
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"id", "status", "version", "last updated"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
+		})
+	}
 	return nil
 }

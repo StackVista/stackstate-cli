@@ -3,8 +3,11 @@ package common
 type ExitCode = int
 
 const (
-	ConfigErrorExitCode ExitCode = iota + 1
+	OkExitCode ExitCode = iota
+	ConfigErrorExitCode
 	ReponseErrorExitCode
 	CommandFailedRequirementExitCode
 	ConnectErrorExitCode
+	ReadFileErrorExitCode
+	WriteFileErrorExitCode
 )

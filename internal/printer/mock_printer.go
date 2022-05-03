@@ -5,16 +5,18 @@ import (
 )
 
 type MockPrinter struct {
+	PrintJsonCalls    *[]map[string]interface{}
+	PrintErrJsonCalls *[]error
 	PrintStructCalls  *[]interface{}
 	PrintErrCalls     *[]error
 	StartSpinnerCalls *[]LoadingMsg
 	StopSpinnerCalls  *int
 	UseColor          bool
-	outputType        OutputType
 	SuccessCalls      *[]string
 	PrintWarnCalls    *[]string
 	TableCalls        *[]TableData
 	PrintLnCalls      *[]string
+	HasNonJsonCalls   bool
 }
 
 type PrintErrResponseCall struct {
@@ -23,6 +25,8 @@ type PrintErrResponseCall struct {
 }
 
 func NewMockPrinter() MockPrinter {
+	printJsonCalls := make([]map[string]interface{}, 0)
+	printErrJsonCalls := make([]error, 0)
 	printStructCalls := make([]interface{}, 0)
 	printErrCalls := make([]error, 0)
 	startSpinnerCalls := make([]LoadingMsg, 0)
@@ -31,6 +35,8 @@ func NewMockPrinter() MockPrinter {
 	printTableCalls := make([]TableData, 0)
 	printLnCalls := make([]string, 0)
 	return MockPrinter{
+		PrintJsonCalls:    &printJsonCalls,
+		PrintErrJsonCalls: &printErrJsonCalls,
 		PrintStructCalls:  &printStructCalls,
 		PrintErrCalls:     &printErrCalls,
 		StartSpinnerCalls: &startSpinnerCalls,
@@ -38,20 +44,30 @@ func NewMockPrinter() MockPrinter {
 		PrintWarnCalls:    &printWarnCalls,
 		TableCalls:        &printTableCalls,
 		PrintLnCalls:      &printLnCalls,
-		outputType:        Auto,
 	}
 }
 
 func (p *MockPrinter) PrintStruct(s interface{}) {
 	*p.PrintStructCalls = append(*p.PrintStructCalls, s)
+	p.HasNonJsonCalls = true
+}
+
+func (p *MockPrinter) PrintJson(s map[string]interface{}) {
+	*p.PrintJsonCalls = append(*p.PrintJsonCalls, s)
+}
+
+func (p *MockPrinter) PrintErrJson(err error) {
+	*p.PrintErrJsonCalls = append(*p.PrintErrJsonCalls, err)
 }
 
 func (p *MockPrinter) PrintErr(err error) {
 	*p.PrintErrCalls = append(*p.PrintErrCalls, err)
+	p.HasNonJsonCalls = true
 }
 
 func (p *MockPrinter) StartSpinner(loadingMsg LoadingMsg) StopPrinterFn {
 	*p.StartSpinnerCalls = append(*p.StartSpinnerCalls, loadingMsg)
+	p.HasNonJsonCalls = true
 	return func() {}
 }
 
@@ -63,26 +79,22 @@ func (p *MockPrinter) GetUseColor() bool {
 	return p.UseColor
 }
 
-func (p *MockPrinter) SetOutputType(outputType OutputType) {
-	p.outputType = outputType
-}
-
-func (p *MockPrinter) GetOutputType() OutputType {
-	return p.outputType
-}
-
 func (p *MockPrinter) Success(msg string) {
+	p.HasNonJsonCalls = true
 	*p.SuccessCalls = append(*p.SuccessCalls, msg)
 }
 
 func (p *MockPrinter) PrintWarn(msg string) {
+	p.HasNonJsonCalls = true
 	*p.PrintWarnCalls = append(*p.PrintWarnCalls, msg)
 }
 
 func (p *MockPrinter) Table(t TableData) {
+	p.HasNonJsonCalls = true
 	*p.TableCalls = append(*p.TableCalls, t)
 }
 
 func (p *MockPrinter) PrintLn(text string) {
+	p.HasNonJsonCalls = true
 	*p.PrintLnCalls = append(*p.PrintLnCalls, text)
 }

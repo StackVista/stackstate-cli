@@ -2,11 +2,10 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func RootCommand(cli *di.Deps) *cobra.Command {
+func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sts",
 		Short: "StackState: topology-powered observability", // never actually visible
@@ -18,13 +17,12 @@ func RootCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(VersionCommand(cli))
 	cmd.AddCommand(CliCommand(cli))
-	if CLIType != "saas" {
+	if cli.CLIType != "saas" {
 		cmd.AddCommand(ScriptCommand(cli))
 		cmd.AddCommand(SettingsCommand(cli))
+		cmd.AddCommand(StackPackCommand(cli))
 	}
 	cmd.AddCommand(MonitorCommand(cli))
-	cmd.AddCommand(StackPackCommand(cli))
-	common.AddPersistentFlags(cmd)
 
 	return cmd
 }

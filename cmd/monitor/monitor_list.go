@@ -8,17 +8,17 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
-func ListMonitorsCommand(cli *di.Deps) *cobra.Command {
+func MonitorListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list all monitors",
 		Long:  "List all monitors.",
-		RunE:  cli.CmdRunEWithApi(RunListMonitorsCommand),
+		RunE:  cli.CmdRunEWithApi(RunMonitorListCommand),
 	}
 	return cmd
 }
 
-func RunListMonitorsCommand(
+func RunMonitorListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_client.APIClient,
@@ -29,16 +29,21 @@ func RunListMonitorsCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	tableData := [][]interface{}{}
-	for _, monitor := range monitors.Monitors {
-		tableData = append(tableData, []interface{}{monitor.Id, *monitor.Identifier, monitor.Name})
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"monitors": monitors.Monitors,
+		})
+	} else {
+		tableData := [][]interface{}{}
+		for _, monitor := range monitors.Monitors {
+			tableData = append(tableData, []interface{}{monitor.Id, *monitor.Identifier, monitor.Name})
+		}
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"Id", "Identifier", "Name"},
+			Data:                tableData,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
+		})
 	}
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"Id", "Identifier", "Name"},
-		Data:                tableData,
-		StructData:          monitors.Monitors,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
-	})
 
 	return nil
 }

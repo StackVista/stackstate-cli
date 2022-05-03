@@ -1,7 +1,7 @@
 package settings
 
 import (
-	"encoding/json"
+	"fmt"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -58,28 +58,29 @@ func RunSettingsListCommand(
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
-	var respData []map[string]interface{}
-	if err := json.NewDecoder(resp.Body).Decode(&respData); err != nil {
-		return common.NewCLIError(err, resp)
-	}
 
-	data := make([][]interface{}, 0)
-	for _, v := range typeList {
-		lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
-		data = append(data, []interface{}{
-			v.GetTypeName(),
-			v.GetId(),
-			v.GetIdentifier(),
-			v.GetName(),
-			v.GetOwnedBy(),
-			lastUpdateTime,
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"settings": typeList,
+		})
+	} else {
+		data := make([][]interface{}, 0)
+		for _, v := range typeList {
+			lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
+			data = append(data, []interface{}{
+				v.GetTypeName(),
+				v.GetId(),
+				v.GetIdentifier(),
+				v.GetName(),
+				v.GetOwnedBy(),
+				lastUpdateTime,
+			})
+		}
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("settings of type \"%s\"", typeName)},
 		})
 	}
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-		Data:                data,
-		StructData:          respData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type " + typeName},
-	})
 	return nil
 }

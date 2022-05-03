@@ -34,7 +34,6 @@ func RunStackpackUploadCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-
 	file, err := os.Open(filePath)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -46,12 +45,17 @@ func RunStackpackUploadCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", filePath))
-	cli.Printer.Table(printer.TableData{
-		Header:     []string{"name", "display name", "version"},
-		Data:       [][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
-		StructData: stackpack,
-	})
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"uploaded-stackpack": stackpack,
+		})
+	} else {
+		cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", filePath))
+		cli.Printer.Table(printer.TableData{
+			Header: []string{"name", "display name", "version"},
+			Data:   [][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
+		})
+	}
 
 	return nil
 }

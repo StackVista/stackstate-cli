@@ -14,12 +14,12 @@ const (
 	DryRunFlag = "dry-run"
 )
 
-func RunMonitorCommand(cli *di.Deps) *cobra.Command {
+func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run -i ID",
 		Short: "run a monitor",
 		Long:  "Run a monitor.",
-		RunE:  cli.CmdRunEWithApi(RunRunMonitorCommand),
+		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand),
 	}
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
 	cmd.Flags().Bool(DryRunFlag, false, "do not save the states of the monitor run")
@@ -28,7 +28,7 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunRunMonitorCommand(
+func RunMonitorRunCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_client.APIClient,
@@ -64,7 +64,13 @@ func RunRunMonitorCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.PrintStruct(runResult.Result)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"run-result": runResult.Result,
+		})
+	} else {
+		cli.Printer.PrintStruct(runResult.Result)
+	}
 
 	return nil
 }

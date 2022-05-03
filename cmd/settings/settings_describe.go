@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
@@ -35,10 +34,6 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return err
 	}
 
-	if cli.Printer.GetOutputType() != printer.Auto {
-		return common.NewCLIArgParseError(fmt.Errorf("unsupported format: %s. Settings can only be described in STJ format", cli.Printer.GetOutputType()))
-	}
-
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
@@ -56,7 +51,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewCLIArgParseError(err)
 	}
 
-	filePath, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
@@ -83,19 +78,34 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewResponseError(err, resp)
 	}
 
-	if filePath != "" {
-		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
+	if filepath != "" {
+		file, err := os.OpenFile(filepath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
 		if err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewWriteFileError(err, filepath)
 		}
 		defer file.Close()
 
 		if _, err = file.Write([]byte(data)); err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewWriteFileError(err, filepath)
 		}
-		cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"describe-file-path": filepath,
+			})
+		} else {
+			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filepath))
+		}
+
 		return nil
+	} else {
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"data":   data,
+				"format": "stj",
+			})
+		} else {
+			cli.Printer.PrintLn(data)
+		}
 	}
-	cli.Printer.PrintLn(data)
 	return nil
 }

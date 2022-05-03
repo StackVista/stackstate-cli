@@ -27,10 +27,10 @@ builds:
   - windows_amd64
   main: .
   ldflags:
-  - -s -w -X gitlab.com/stackvista/stackstate-cli2/cmd.Version={{.Version}}
-    -X gitlab.com/stackvista/stackstate-cli2/cmd.Commit={{.Commit}}
-    -X gitlab.com/stackvista/stackstate-cli2/cmd.Date={{.Date}}
-    -X gitlab.com/stackvista/stackstate-cli2/cmd.CLIType=full
+  - -s -w -X gitlab.com/stackvista/stackstate-cli2/Version={{.Version}}
+    -X gitlab.com/stackvista/stackstate-cli2/Commit={{.Commit}}
+    -X gitlab.com/stackvista/stackstate-cli2/Date={{.Date}}
+    -X gitlab.com/stackvista/stackstate-cli2/CLIType=full
     -X main.builtBy=goreleaser
   binary: sts
   env:
@@ -53,10 +53,10 @@ builds:
   - windows_amd64
   main: .
   ldflags:
-  - -s -w -X gitlab.com/stackvista/stackstate-cli2/cmd.Version={{.Version}}
-    -X gitlab.com/stackvista/stackstate-cli2/cmd.Commit={{.Commit}}
-    -X gitlab.com/stackvista/stackstate-cli2/cmd.Date={{.Date}}
-    -X gitlab.com/stackvista/stackstate-cli2/cmd.CLIType=saas
+  - -s -w -X gitlab.com/stackvista/stackstate-cli2/Version={{.Version}}
+    -X gitlab.com/stackvista/stackstate-cli2/Commit={{.Commit}}
+    -X gitlab.com/stackvista/stackstate-cli2/Date={{.Date}}
+    -X gitlab.com/stackvista/stackstate-cli2/CLIType=saas
     -X main.builtBy=goreleaser
   binary: sts
   env:

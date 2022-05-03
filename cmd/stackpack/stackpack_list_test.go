@@ -1,10 +1,6 @@
 package stackpack
 
 import (
-	"bytes"
-	"encoding/json"
-	"io/ioutil"
-	"net/http"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -12,56 +8,62 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupCommandFn() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := StackpackListCommand(&mockCli.Deps)
-
-	return mockCli, cmd
-}
-
-func TestStackpackListPrintToTable(t *testing.T) {
-	name := "ucmdb"
-	displayName := "HP UCMDB"
-	version := "0.1.1"
-	mockResponse := []stackstate_client.Sstackpack{
+var (
+	ucmdbName       = "ucmdb"
+	ucmdDisplayName = "HP UCMDB"
+	ucmdbVersion    = "0.1.1"
+	mockResponse    = []stackstate_client.Sstackpack{
 		{
-			Name:        &name,
-			DisplayName: &displayName,
-			Version:     &version,
+			Name:        &ucmdbName,
+			DisplayName: &ucmdDisplayName,
+			Version:     &ucmdbVersion,
 			Configurations: &[]stackstate_client.SstackpackConfigurations{
 				{
-					StackPackVersion: &version,
+					StackPackVersion: &ucmdbVersion,
 				},
 			},
 			NextVersion: &stackstate_client.SstackpackLatestVersion{
-				Version: &version,
+				Version: &ucmdbVersion,
 			},
 			LatestVersion: &stackstate_client.SstackpackLatestVersion{
-				Version: &version,
+				Version: &ucmdbVersion,
 			},
 		},
 	}
-	buf := new(bytes.Buffer)
-	if err := json.NewEncoder(buf).Encode(mockResponse); err != nil {
-		t.Fatal(err)
-	}
-	cli, cmd := setupCommandFn()
-	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
+)
+
+func setupStackPackListCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := StackpackListCommand(&cli.Deps)
+	return &cli, cmd
+}
+
+func TestStackpackListPrintToTable(t *testing.T) {
+	cli, cmd := setupStackPackListCmd()
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-			Data:                [][]interface{}{{&name, &displayName, &version, version, version, 1}},
-			StructData:          mockResponse,
+			Data:                [][]interface{}{{&ucmdbName, &ucmdDisplayName, &ucmdbVersion, ucmdbVersion, ucmdbVersion, 1}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},
 	}
 
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
+}
+
+func TestStackpackListPrintToJson(t *testing.T) {
+	cli, cmd := setupStackPackListCmd()
+	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--json")
+	expectedJsonCalls := []map[string]interface{}{{
+		"stackpacks": mockResponse,
+	}}
+	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
@@ -95,19 +97,13 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 			Configurations: nil,
 		},
 	}
-	buf := new(bytes.Buffer)
-	if err := json.NewEncoder(buf).Encode(mockResponse); err != nil {
-		t.Fatal(err)
-	}
-	cli, cmd := setupCommandFn()
-	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Response = &http.Response{Body: ioutil.NopCloser(buf)}
+	cli, cmd := setupStackPackListCmd()
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "list", "--installed")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--installed")
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data:                [][]interface{}{{&name, &displayName, &version, nextVersion, latestVersion, 1}},
-			StructData:          []stackstate_client.Sstackpack{installedStackPack},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},
 	}
