@@ -17,6 +17,7 @@
             go
             goreleaser
             golangci-lint
+            openapi-generator-cli
           ]);
         };
 
