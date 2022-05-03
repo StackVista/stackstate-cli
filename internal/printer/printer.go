@@ -9,6 +9,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters"
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
@@ -93,7 +94,7 @@ func (p *StdPrinter) PrintErrJson(err error) {
 }
 
 func (p *StdPrinter) PrintStruct(s interface{}) {
-	msg, err := p.sprintStruct(s)
+	msg, err := p.sprintStruct(s, false)
 	if err != nil {
 		p.PrintErr(fmt.Errorf("error (%s) while printing struct to YAML: %v", err, s))
 	} else {
@@ -101,7 +102,7 @@ func (p *StdPrinter) PrintStruct(s interface{}) {
 	}
 }
 
-func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
+func (p *StdPrinter) sprintStruct(s interface{}, errorStyle bool) (string, error) {
 	var sructStr string
 
 	var buf bytes.Buffer
@@ -114,15 +115,20 @@ func (p *StdPrinter) sprintStruct(s interface{}) (string, error) {
 	sructStr = strings.TrimRight(buf.String(), "\n")
 
 	if p.useColor {
-		return colorizeStruct(sructStr)
+		return colorizeStruct(sructStr, errorStyle)
 	} else {
 		return sructStr, nil
 	}
 }
 
-func colorizeStruct(structStr string) (string, error) {
+func colorizeStruct(structStr string, errorStyle bool) (string, error) {
 	lexer := lexers.Get("yaml")
-	style := styles.Get("monokai")
+	var style *chroma.Style
+	if errorStyle {
+		style = styles.Get("monokai")
+	} else {
+		style = styles.Get("friendly")
+	}
 	formatter := formatters.Get("terminal")
 
 	it, err := lexer.Tokenise(nil, structStr)
@@ -174,7 +180,7 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 		if err == nil {
 			err := json.Unmarshal(bodyb, &bodyStruct)
 			if err == nil {
-				body, err := p.sprintStruct(bodyStruct)
+				body, err := p.sprintStruct(bodyStruct, true)
 				if err == nil {
 					bodyStr = body
 				}

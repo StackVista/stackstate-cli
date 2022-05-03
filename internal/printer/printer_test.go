@@ -106,7 +106,7 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 		},
 	}
 	//nolint:lll
-	const expectedYaml = "\x1b[1m\x1b[31mbar\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m  \x1b[0m\x1b[1m\x1b[31mbaz\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mfoobarbaz\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[31mfoo\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\n"
+	const expectedYaml = "\x1b[1m\x1b[34mbar\x1b[0m:\x1b[37m\n\x1b[0m\x1b[37m  \x1b[0m\x1b[1m\x1b[34mbaz\x1b[0m:\x1b[37m \x1b[0mfoobarbaz\x1b[37m\n\x1b[0m\x1b[1m\x1b[34mfoo\x1b[0m:\x1b[37m \x1b[0m\x1b[36m1\x1b[0m\n"
 	p := NewPrinter().(*StdPrinter)
 	p.SetUseColor(true)
 	testPrintStruct(t, p, testStruct, expectedYaml)
