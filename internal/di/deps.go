@@ -2,6 +2,7 @@ package di
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
@@ -82,8 +83,8 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 	if err != nil {
 		return err
 	}
-	log.Printf("Loaded config %+v", cli.Config)
 	cli.Config = &cfg
+	log.Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
 	return nil
 }
 

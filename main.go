@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/rs/zerolog"
@@ -25,6 +26,8 @@ var (
 
 func main() {
 	ctx := log.Logger.WithContext(context.Background())
+	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+
 	cli := &di.Deps{
 		Version: Version,
 		Commit:  Commit,
@@ -52,7 +55,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	sts.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
-		return PreRunCommand(cli, cmd, args)
+		return PreRunCommand(cli, cmd)
 	}
 
 	// shush, cobra... we take care of this ourselves
@@ -87,7 +90,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	}
 }
 
-func PreRunCommand(cli *di.Deps, cmd *cobra.Command, _ []string) error {
+func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
 		cli.NoColor = true
 	}
@@ -111,6 +114,14 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command, _ []string) error {
 	if verbose {
 		zerolog.SetGlobalLevel(zerolog.TraceLevel)
 	}
+	log.Info().
+		Strs("args", os.Args).
+		Str("os", runtime.GOOS).
+		Str("version", Version).
+		Str("commit", Commit).
+		Str("date", Date).
+		Str("CLIType", CLIType).
+		Msg("starting CLI")
 
 	cli.Printer.SetUseColor(!cli.NoColor)
 
