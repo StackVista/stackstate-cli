@@ -12,21 +12,42 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        pkgs-linux = import nixpkgs { system = "x86_64-linux"; };
+
+        # Dependencies used for both development and CI/CD
+        sharedDeps = pkgs: (with pkgs; [
+          bash
+          go
+          diffutils # Required for golangci-lint
+          golangci-lint
+          openapi-generator-cli
+        ]);
+
+        # Dependencies used only by CI/CD
+        ciDeps = pkgs: (with pkgs; [
+          git
+          cacert
+          gcc
+          coreutils-full
+          goreleaser
+        ]);
+
       in {
 
-        devShell = pkgs.mkShell {
-          buildInputs = (with pkgs; [
-            go
-            goreleaser
-            golangci-lint
-            openapi-generator-cli
-            bash
-            awscli
-          ]);
+        devShells = {
+          dev = pkgs.mkShell {
+            buildInputs = sharedDeps(pkgs);
+          };
+
+          ci = pkgs.mkShell {
+            buildInputs = sharedDeps(pkgs) ++ ciDeps(pkgs);
+          };
         };
 
+        devShell = self.devShells."${system}".dev;
+
         packages = {
-          sts = pkgs.buildGo118Module {
+          sts = pkgs.buildGoModule {
             pname = "sts";
             version = "0.0.1";
 
@@ -47,9 +68,23 @@
               mv $out/bin/stackstate-cli2 $out/bin/sts
             '';
           };
+
+          ci-image = pkgs.dockerTools.buildImage {
+            name = "stackstate-cli2-ci";
+            tag = "latest";
+
+            contents = sharedDeps(pkgs-linux) ++ ciDeps(pkgs-linux);
+
+            # Required to make golangci-lint work.
+            config = {
+              Volumes = {
+                "/tmp" = {};
+              };
+            };
+          };
         };
 
-        defaultPackage = self.packages."${system}".sts;
+        defaultpackage = self.packages."${system}".sts;
 
         apps = {
           sts = {

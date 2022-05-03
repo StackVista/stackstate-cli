@@ -44,6 +44,19 @@ nix shell "git+ssh://git@gitlab.com/stackvista/stackstate-cli2?ref=master"
 
 Where `ref=` can reference to any branch name
 
+## CI dependencies
+
+All the CI dependencies are also defined by flake.nix inside the `ciDeps` directive. It is possible to start bash session with all these dependencies in scope by calling `nix develop #.ci`.
+
+To build the base image locally run
+
+```
+nix build .#ci-image & docker load < result
+
+# Test
+docker run -ti --rm stackstate-cli2-ci:latest go version
+```
+
 ## Working with openapi
 
 This repository pulls the stackstate-api spec from the [openapi repository](gitlab.com/stackvista/platform/stackstate-openapi).
@@ -54,4 +67,3 @@ This repository pulls the stackstate-api spec from the [openapi repository](gitl
 - Commit the generated code
 
 The ci will check whether the requested api version and generated code are kep up to date.
-

@@ -1,23 +1,64 @@
 stages:
+  - setup
   - check
   - deploy
 
-.go-base:
+nix_checksum:
+  stage: .pre
+  image: busybox:1.35.0
+  artifacts:
+    reports:
+      dotenv: ci.env
+  rules:
+    - when: always
+  script:
+    - echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> ci.env
+
+publish_base_image:
+  stage: setup
   image: "nixos/nix:2.8.0"
+  services:
+    - name: docker:20.10.14-dind
   variables:
     NIX_CONFIG: "experimental-features = nix-command flakes"
-    GOPATH: /go
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
+    CI_BASE_IMAGE_PUSH: quay.io/stackstate/sts-ci-images:stackstate-cli2-${NIX_CHECKSUM}
+  rules:
+    - changes:
+      - flake.lock
+      - flake.nix
+  script:
+    - nix profile install nixpkgs#docker
+    - echo "${quay_password}" | docker login --username=${quay_user} --password-stdin quay.io
+    - nix build .#ci-image
+    - docker load < result
+    - docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
+    - docker push $CI_BASE_IMAGE_PUSH
+
+.go-base:
+  image:
+    name: ${DOCKER_PROXY_URL}/stackstate/sts-ci-images:stackstate-cli2-${NIX_CHECKSUM}
+    entrypoint: [""]
+  variables:
+    GOPATH: $CI_PROJECT_DIR/.go
+    GOCACHE: $CI_PROJECT_DIR/.gocache
     GITLAB_TOKEN: ${gitlab_api_scope_token}
   before_script:
   cache:
     paths:
-      - /go/pkg/mod/
+      - .go/pkg/mod/
+      - .gocache
+  tags:
+    - sts-k8s-xl-runner
 
 lint:
   extends: .go-base
   stage: check
   rules:
     - changes:
+      - .gitlab-ci.yml
       - go.mod
       - go.sum
       - flake.lock
@@ -41,6 +82,7 @@ license_scanning:
   image: "registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3"
   rules:
     - changes:
+      - .gitlab-ci.yml
       - go.mod
       - go.sum
       - flake.nix
@@ -59,6 +101,7 @@ dependency_scanning:
   image: "registry.gitlab.com/gitlab-org/security-products/analyzers/gemnasium:2"
   rules:
     - changes:
+      - .gitlab-ci.yml
       - go.mod
       - go.sum
       - flake.nix
@@ -75,15 +118,17 @@ goreleaser_check:
   stage: check
   rules:
     - changes:
+      - .gitlab-ci.yml
       - .goreleaser.yml
   script:
-    - nix develop -c goreleaser check
+    - goreleaser check
 
 compile_test:
   extends: .go-base
   stage: check
   rules:
     - changes:
+      - .gitlab-ci.yml
       - go.mod
       - go.sum
       - flake.lock
@@ -92,17 +137,13 @@ compile_test:
       - generated/**
       - internal/**
   script:
-    - nix develop -c go test ./... -v
-  tags:
-    - sts-k8s-xl-runner
+    - go test ./... -v
 
 publish:
   stage: deploy
   extends: .go-base
   script:
-  - nix develop -c scripts/publish.sh
-  tags:
-    - sts-k8s-xl-runner
+    - scripts/publish.sh
   rules:
     - if: '$CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^v[0-9]*/'
       when: always
