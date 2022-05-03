@@ -5,10 +5,10 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
@@ -27,8 +27,8 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 func RunMonitorApplyCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo stackstate_api.ServerInfo,
 ) common.CLIError {
 	file, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {

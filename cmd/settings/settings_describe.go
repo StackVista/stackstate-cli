@@ -5,9 +5,9 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 var fileMode = 0644
@@ -29,7 +29,7 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo stackstate_client.ServerInfo) common.CLIError {
+func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo stackstate_api.ServerInfo) common.CLIError {
 	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return err
 	}
@@ -56,7 +56,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewCLIArgParseError(err)
 	}
 
-	exportArgs := stackstate_client.NewExport()
+	exportArgs := stackstate_api.NewExport()
 	if len(ids) != 0 {
 		exportArgs.NodesWithIds = &ids
 	}

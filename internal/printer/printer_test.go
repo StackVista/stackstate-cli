@@ -13,11 +13,10 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupPrinter() (StdPrinter, *bytes.Buffer, *bytes.Buffer) {
-	p := NewPrinter().(*StdPrinter)
+func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	var stdOut, stdErr bytes.Buffer
-	p.SetStdPrinterOutput(&stdOut, &stdErr)
-	return *p, &stdOut, &stdErr
+	p := NewStdPrinter("linux", &stdOut, &stdErr)
+	return p, &stdOut, &stdErr
 }
 
 func TestPrintErrWithoutColor(t *testing.T) {
@@ -35,6 +34,13 @@ func TestPrintErrWithColorIsDefault(t *testing.T) {
 
 	p.PrintErr(fmt.Errorf("test"))
 	assert.Equal(t, "\u274C \x1b[31mTest\x1b[0m\n", stdErr.String())
+}
+
+func TestPrintWithoutSymbolButWithColorOnWindows(t *testing.T) {
+	var stdOut, stdErr bytes.Buffer
+	p := NewStdPrinter("windows", &stdOut, &stdErr)
+	p.PrintErr(fmt.Errorf("test"))
+	assert.Equal(t, "[ERROR] \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
 func TestPrintStructAsJsonWithoutColor(t *testing.T) {
@@ -57,7 +63,7 @@ func TestPrintStructAsJsonWithoutColor(t *testing.T) {
   "foo": 1
 }
 `
-	p := NewPrinter().(*StdPrinter)
+	p, _, _ := setupPrinter()
 	p.SetUseColor(true) // should not matter
 
 	var buf bytes.Buffer
@@ -73,7 +79,7 @@ func TestPrintErrJson(t *testing.T) {
   "error-message": "test error"
 }
 `
-	p := NewPrinter().(*StdPrinter)
+	p, _, _ := setupPrinter()
 	p.SetUseColor(true) // should not matter
 
 	var buf bytes.Buffer
@@ -93,7 +99,7 @@ func TestPrintStructAsYamlWithoutColor(t *testing.T) {
   baz: foobarbaz
 foo: 1
 `
-	p := NewPrinter().(*StdPrinter)
+	p, _, _ := setupPrinter()
 	p.SetUseColor(false)
 	testPrintStruct(t, p, testStruct, expectedYaml)
 }
@@ -106,8 +112,8 @@ func TestPrintStructAsYamlWithColor(t *testing.T) {
 		},
 	}
 	//nolint:lll
-	const expectedYaml = "\x1b[1m\x1b[31mbar\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[37m  \x1b[0m\x1b[1m\x1b[31mbaz\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mfoobarbaz\x1b[0m\x1b[1m\x1b[37m\n\x1b[0m\x1b[1m\x1b[31mfoo\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33m1\x1b[0m\n"
-	p := NewPrinter().(*StdPrinter)
+	const expectedYaml = "\x1b[1m\x1b[34mbar\x1b[0m:\x1b[37m\n\x1b[0m\x1b[37m  \x1b[0m\x1b[1m\x1b[34mbaz\x1b[0m:\x1b[37m \x1b[0mfoobarbaz\x1b[37m\n\x1b[0m\x1b[1m\x1b[34mfoo\x1b[0m:\x1b[37m \x1b[0m\x1b[36m1\x1b[0m\n"
+	p, _, _ := setupPrinter()
 	p.SetUseColor(true)
 	testPrintStruct(t, p, testStruct, expectedYaml)
 }
@@ -136,7 +142,7 @@ func TestPrintCLIErrorWith503WithColor(t *testing.T) {
 }
 
 func TestPrintCLIError101WithoutColor(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
+	p, _, _ := setupPrinter()
 	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
@@ -147,7 +153,7 @@ func TestPrintCLIError101WithoutColor(t *testing.T) {
 }
 
 func TestPrintCLIErrorWith202Response(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
+	p, _, _ := setupPrinter()
 	p.SetUseColor(false)
 	var buf bytes.Buffer
 	p.stdErr = &buf
@@ -158,7 +164,7 @@ func TestPrintCLIErrorWith202Response(t *testing.T) {
 }
 
 func TestPrintCLIErrorWithNilResponseWithColor(t *testing.T) {
-	p := NewPrinter().(*StdPrinter)
+	p, _, _ := setupPrinter()
 	p.SetUseColor(true)
 	var buf bytes.Buffer
 	p.stdErr = &buf

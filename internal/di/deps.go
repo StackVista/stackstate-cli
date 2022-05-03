@@ -2,14 +2,15 @@ package di
 
 import (
 	"context"
-	"net/http"
+	"fmt"
 
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/internal/client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 // Dependency Injection context for the CLI
@@ -17,7 +18,7 @@ type Deps struct {
 	Config    *conf.Conf
 	Printer   printer.Printer
 	Context   context.Context
-	Client    StackStateClient
+	Client    client.StackStateClient
 	IsVerBose bool
 	IsJson    bool
 	NoColor   bool
@@ -45,8 +46,8 @@ func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func
 type CmdWithApiFn = func(
 	*cobra.Command,
 	*Deps,
-	*stackstate_client.APIClient,
-	stackstate_client.ServerInfo,
+	*stackstate_api.APIClient,
+	stackstate_api.ServerInfo,
 ) common.CLIError
 
 func (cli *Deps) CmdRunEWithApi(
@@ -60,7 +61,7 @@ func (cli *Deps) CmdRunEWithApi(
 		}
 
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, cli.Config.ApiURL, cli.Config.ApiToken)
+			err := cli.LoadClient(cmd, cli.Config.URL, cli.Config.ApiPath, cli.Config.ApiToken)
 			if err != nil {
 				return err
 			}
@@ -82,42 +83,12 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 	if err != nil {
 		return err
 	}
-	log.Printf("Loaded config %+v", cli.Config)
 	cli.Config = &cfg
+	log.Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
 	return nil
 }
 
-func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiToken string) common.CLIError {
-	configuration := stackstate_client.NewConfiguration()
-	configuration.Servers[0] = stackstate_client.ServerConfiguration{
-		URL:         apiURL,
-		Description: "",
-		Variables:   nil,
-	}
-	configuration.Debug = cli.IsVerBose
-	var client *stackstate_client.APIClient
-
-	stopSpinner := func() {}
-	configuration.OnPreCallAPI = func(r *http.Request) {
-		stopSpinner = cli.Printer.StartSpinner(printer.AwaitingServer)
-	}
-	configuration.OnPostCallAPI = func(r *http.Request) {
-		stopSpinner()
-	}
-	client = stackstate_client.NewAPIClient(configuration)
-
-	auth := make(map[string]stackstate_client.APIKey)
-	auth["ApiToken"] = stackstate_client.APIKey{
-		Key:    apiToken,
-		Prefix: "",
-	}
-	ctx := context.WithValue(
-		cmd.Context(),
-		stackstate_client.ContextAPIKeys,
-		auth,
-	)
-
-	cli.Context = ctx
-	cli.Client = NewStackStateClient(client, ctx)
+func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken string) common.CLIError {
+	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, apiURL, apiPath, apiToken)
 	return nil
 }

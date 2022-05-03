@@ -30,7 +30,7 @@ func NewResponseError(err error, serverResponse *http.Response) CLIError {
 	return StdCLIError{Err: err, ServerResponse: serverResponse}
 }
 
-func NewConnectError(err error, serverResponse *http.Response) CLIError {
+func NewConnectError(err error, apiURL string, serverResponse *http.Response) CLIError {
 	var statusCode int
 
 	// is access error?
@@ -40,14 +40,13 @@ func NewConnectError(err error, serverResponse *http.Response) CLIError {
 
 	if statusCode == HTTPStatusUnauthorized {
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to StackState: invalid api-token\n" +
-				"For more information: https://l.stackstate.com/cli-invalid-api-token"),
+			Err: fmt.Errorf("could not connect to %s: invalid api-token\n"+
+				"For more information: https://l.stackstate.com/cli-invalid-api-token", apiURL),
 			exitCode: ConnectErrorExitCode,
 		}
 	} else {
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to StackState (%s)\n"+
-				"Please check your api-url and network connection", err),
+			Err:      fmt.Errorf("could not connect to %s (%s)", apiURL, err),
 			exitCode: ConnectErrorExitCode,
 		}
 	}

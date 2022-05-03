@@ -12,7 +12,7 @@ import (
 
 const (
 	MinimalConfYaml = `
-api-url: https://my.stackstate.com/api
+url: https://my.stackstate.com/api
 api-token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 `
 )
@@ -39,7 +39,8 @@ func TestWriteReadRunner(t *testing.T) {
 	t.Run("read_conf", func(t *testing.T) {
 		tests := ReadTests{}
 		tests.TestYamlParseError(t)
-		tests.TestValidationError(t)
+		tests.TestMissingURLFieldValidationError(t)
+		tests.TestIncorrectURLFieldValidationError(t)
 		tests.TestLoadSuccessFromYaml(t)
 		tests.TestLoadSuccessFromMinimumRequiredEnvs(t)
 		tests.TestLoadSuccessFromMinimumFlags(t)
@@ -49,8 +50,9 @@ func TestWriteReadRunner(t *testing.T) {
 // executed by TestWriteReadRunner
 func (p WriteTests) TestWriteSuccess(t *testing.T) {
 	confIn := Conf{
-		ApiURL:   "https://write.stackstate.com/api",
+		URL:      "https://write.stackstate.com/",
 		ApiToken: "BSOPSIYZ4TuSzNIFzqPZyUMilggP9_M",
+		ApiPath:  "test",
 	}
 
 	path := t.TempDir()
@@ -75,7 +77,7 @@ func (p ReadTests) TestYamlParseError(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
-func (p ReadTests) TestValidationError(t *testing.T) {
+func (p ReadTests) TestMissingURLFieldValidationError(t *testing.T) {
 	confYaml := "api-token: 123871283"
 	_, err := readConfFromFile(t, confYaml)
 	assert.IsType(t, ReadConfError{}, err, "TestValidationError")
@@ -83,7 +85,14 @@ func (p ReadTests) TestValidationError(t *testing.T) {
 	valErrs := err.(ReadConfError).RootCause.(ValidateConfError).ValidationErrors
 	assert.Greater(t, len(valErrs), 0, "TestValidationError")
 	assert.IsType(t, MissingFieldError{}, valErrs[0], "TestValidationError")
-	assert.Equal(t, "api-url", valErrs[0].(MissingFieldError).FieldName, "TestValidationError")
+	assert.Equal(t, "url", valErrs[0].(MissingFieldError).FieldName, "TestValidationError")
+}
+
+// executed by TestWriteReadRunner
+func (p ReadTests) TestIncorrectURLFieldValidationError(t *testing.T) {
+	confYaml := "api-token: 123871283\nurl: test"
+	_, err := readConfFromFile(t, confYaml)
+	assert.Equal(t, "could not load StackState CLI config\nValidation error: URL test must start with \"https://\" or \"http://\"", err.Error(), "TestIncorrectURLFieldValidationError")
 }
 
 // executed by TestWriteReadRunner
@@ -93,7 +102,7 @@ func (p ReadTests) TestLoadSuccessFromYaml(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromYaml")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.URL, "TestLoadSuccessFromYaml")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromYaml")
 }
 
@@ -109,7 +118,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromMinimumRequiredEnvs")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.URL, "TestLoadSuccessFromMinimumRequiredEnvs")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumRequiredEnvs")
 }
 
@@ -128,7 +137,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromMinimumFlags")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.URL, "TestLoadSuccessFromMinimumFlags")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumFlags")
 }
 

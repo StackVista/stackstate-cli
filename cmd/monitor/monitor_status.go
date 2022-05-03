@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -34,8 +34,8 @@ const (
 func RunMonitorStatusCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo stackstate_api.ServerInfo,
 ) common.CLIError {
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
@@ -44,7 +44,7 @@ func RunMonitorStatusCommand(
 
 	id, err := util.StringToInt64(identifier)
 	var resp *http.Response
-	var monitorStatus stackstate_client.MonitorStatus
+	var monitorStatus stackstate_api.MonitorStatus
 
 	if err == nil {
 		monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, id).Execute()
@@ -112,8 +112,8 @@ func RunMonitorStatusCommand(
 }
 
 func PrintErrors(cli *di.Deps,
-	errors []stackstate_client.HealthStreamError,
-	monitorStatus stackstate_client.MonitorStatus,
+	errors []stackstate_api.HealthStreamError,
+	monitorStatus stackstate_api.MonitorStatus,
 ) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronization errors:")
@@ -134,8 +134,8 @@ func PrintErrors(cli *di.Deps,
 }
 
 func PrintTopologyMatchResultUnmatched(cli *di.Deps,
-	unmatchedCheckStates []stackstate_client.UnmatchedCheckState,
-	monitorStatus stackstate_client.MonitorStatus) {
+	unmatchedCheckStates []stackstate_api.UnmatchedCheckState,
+	monitorStatus stackstate_api.MonitorStatus) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Check states with identifier which has no matching topology element:")
 
@@ -154,8 +154,8 @@ func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 }
 
 func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
-	multipleMatchesCheckState []stackstate_client.MultipleMatchesCheckState,
-	monitorStatus stackstate_client.MonitorStatus) {
+	multipleMatchesCheckState []stackstate_api.MultipleMatchesCheckState,
+	monitorStatus stackstate_api.MonitorStatus) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Check states with identifier which has multiple matching topology elements:")
 
@@ -174,7 +174,7 @@ func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
 	})
 }
 
-func CreateMetricRows(metric string, metrics []stackstate_client.MetricBucketValue) []interface{} {
+func CreateMetricRows(metric string, metrics []stackstate_api.MetricBucketValue) []interface{} {
 	metricField := make([]interface{}, 0)
 	metricField = append(metricField, metric)
 

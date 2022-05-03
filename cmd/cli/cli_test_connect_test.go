@@ -19,7 +19,7 @@ func setupTestConnectCmd() (*di.MockDeps, *cobra.Command) {
 
 func TestConnectionFailure(t *testing.T) {
 	cli, cmd := setupTestConnectCmd()
-	connectError := common.NewConnectError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	connectError := common.NewConnectError(fmt.Errorf("authentication error"), "https://test", &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = connectError
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd)
 	assert.Equal(t, connectError, err)
@@ -31,8 +31,8 @@ func TestConnectionToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
 		cmd,
-		"--api-url",
-		"https://test.stackstate.io/api",
+		"--url",
+		"https://test.stackstate.io/",
 		"--api-token",
 		"blaat",
 		"--json",

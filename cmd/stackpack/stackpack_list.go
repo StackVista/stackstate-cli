@@ -2,10 +2,10 @@ package stackpack
 
 import (
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
@@ -22,8 +22,8 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 func RunStackpackListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo stackstate_api.ServerInfo,
 ) common.CLIError {
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
@@ -35,7 +35,7 @@ func RunStackpackListCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	stackpacks := make([]stackstate_client.Sstackpack, 0)
+	stackpacks := make([]stackstate_api.Sstackpack, 0)
 	for _, stackpack := range stackpackList {
 		if isInstalled && len(stackpack.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
@@ -68,7 +68,7 @@ func RunStackpackListCommand(
 	return nil
 }
 
-func getVersion(data *stackstate_client.SstackpackLatestVersion) string {
+func getVersion(data *stackstate_api.SstackpackLatestVersion) string {
 	if data != nil && data.GetVersion() != "" {
 		return data.GetVersion()
 	}

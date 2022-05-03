@@ -37,7 +37,14 @@ func (s ValidateConfError) Error() string {
 	for _, e := range s.ValidationErrors {
 		strs = append(strs, e.Error())
 	}
-	return "Validation errors:\n * " + strings.Join(strs, "\n * ")
+	//nolint:gocritic
+	if len(strs) > 1 {
+		return "Validation errors:\n * " + strings.Join(strs, "\n * ")
+	} else if len(strs) == 1 {
+		return "Validation error: " + strs[0]
+	} else {
+		return "Validation error (unknown)"
+	}
 }
 
 func ValidateConf(conf Conf) error {

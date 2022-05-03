@@ -9,9 +9,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func setupScriptExecuteCmd() (*di.MockDeps, *cobra.Command) {
@@ -135,7 +135,7 @@ func TestScriptAndFileFlag(t *testing.T) {
 
 func TestConnectionError(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd()
-	respError := common.NewConnectError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	respError := common.NewConnectError(fmt.Errorf("authentication error"), "https://test", &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = respError
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script")
 	assert.Equal(t, respError, err)

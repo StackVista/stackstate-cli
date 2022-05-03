@@ -23,6 +23,7 @@ lint:
       - flake.lock
       - flake.nix
       - cmd/**
+      - generated/**
       - internal/**
   script:
     - nix develop -c golangci-lint run -v
@@ -80,6 +81,7 @@ compile_test:
       - flake.lock
       - flake.nix
       - cmd/**
+      - generated/**
       - internal/**
   script:
     - nix develop -c go test ./... -v

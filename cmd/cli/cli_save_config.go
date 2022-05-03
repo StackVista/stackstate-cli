@@ -12,6 +12,7 @@ import (
 
 const (
 	SkipValidateFlagName = "skip-validate"
+	ApiPathFlag          = "api-path"
 )
 
 func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
@@ -28,17 +29,18 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 		false,
 		"skip validating the connection before saving",
 	)
+	cmd.Flags().String(ApiPathFlag, "/api", "specify the path of the API end-point, e.g. the part that comes after the URL")
 
 	return cmd
 }
 
 func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// get required --api-url and --api-token
-	apiURL, missingApiURL := cmd.Flags().GetString(common.APIURLFlag)
+	apiURL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.APITokenFlag)
 	missing := make([]string, 0)
 	if apiURL == "" || missingApiURL != nil {
-		missing = append(missing, common.APIURLFlag)
+		missing = append(missing, common.URLFlag)
 	}
 	if apiToken == "" || missingApiToken != nil {
 		missing = append(missing, common.APITokenFlag)
@@ -47,10 +49,16 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
 	}
 
+	apiPath, err := cmd.Flags().GetString(ApiPathFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
+	}
+
 	// set config
 	cli.Config = &conf.Conf{
-		ApiURL:   apiURL,
+		URL:      apiURL,
 		ApiToken: apiToken,
+		ApiPath:  apiPath,
 	}
 
 	// get test-connect flag
@@ -62,7 +70,7 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// test connect
 	if !skipValidate {
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, apiURL, apiToken)
+			err := cli.LoadClient(cmd, apiURL, apiPath, apiToken)
 			if err != nil {
 				return err
 			}
