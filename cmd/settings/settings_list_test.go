@@ -46,7 +46,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 		{
 			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
 			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type ComponentType"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type \"ComponentType\""},
 		},
 	}
 
@@ -64,7 +64,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 		{
 			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
 			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type ComponentType"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type \"ComponentType\""},
 		},
 	}
 
@@ -78,7 +78,7 @@ func TestSettingsListPrintsToJson(t *testing.T) {
 
 	assert.Equal(t,
 		[]map[string]interface{}{{
-			"type-list": nodeApiResult,
+			"settings": nodeApiResult,
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)

@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -60,7 +61,7 @@ func RunSettingsListCommand(
 
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"type-list": typeList,
+			"settings": typeList,
 		})
 	} else {
 		data := make([][]interface{}, 0)
@@ -78,7 +79,7 @@ func RunSettingsListCommand(
 		cli.Printer.Table(printer.TableData{
 			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
 			Data:                data,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type " + typeName},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("settings of type \"%s\"", typeName)},
 		})
 	}
 	return nil

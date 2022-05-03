@@ -100,7 +100,8 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 	} else {
 		if cli.IsJson {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"data": data,
+				"data":   data,
+				"format": "stj",
 			})
 		} else {
 			cli.Printer.PrintLn(data)

@@ -38,7 +38,8 @@ func TestSettingsDescribeJson(t *testing.T) {
 	assert.Equal(
 		t,
 		[]map[string]interface{}{{
-			"data": expectedStr,
+			"data":   expectedStr,
+			"format": "stj",
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)
