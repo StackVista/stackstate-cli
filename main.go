@@ -14,6 +14,15 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
+// These variables will be set on build by the ldlflags.
+// See the `ldflags` in .goreleaser.yml
+var (
+	Version string
+	Commit  string
+	Date    string
+	CLIType string
+)
+
 func main() {
 	ctx := log.Logger.WithContext(context.Background())
 	cli := &di.Deps{

@@ -2,12 +2,14 @@ package conf
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"path/filepath"
 
 	home "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
 const (
@@ -22,10 +24,22 @@ type ReadConfError struct {
 
 func (s ReadConfError) Error() string {
 	if s.IsMissingConfigFile {
-		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. To create one checkout `sts cli save-config --help`", s.RootCause)
+		return fmt.Sprintf("could not load StackState CLI config\n%s\nYou do not have a config file. To create one try running `sts cli save-config --help`", s.RootCause)
 	} else {
 		return fmt.Sprintf("could not load StackState CLI config\n%s", s.RootCause)
 	}
+}
+
+func (p ReadConfError) ExitCode() common.ExitCode {
+	return common.ConfigErrorExitCode
+}
+
+func (p ReadConfError) ShowUsage() bool {
+	return false
+}
+
+func (p ReadConfError) GetServerResponse() *http.Response {
+	return nil
 }
 
 // XDG spec https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html
@@ -46,15 +60,18 @@ func getConfPath() (string, error) {
 	return xdgConfigHome + "/" + XDGConfigSubPath, nil
 }
 
-func ReadConf(cmd *cobra.Command) (Conf, error) {
+func ReadConf(cmd *cobra.Command) (Conf, common.CLIError) {
 	confPath, err := getConfPath()
 	if err != nil {
-		return Conf{}, err
+		return Conf{}, ReadConfError{
+			RootCause:           err,
+			IsMissingConfigFile: true,
+		}
 	}
 	return readConfWithPaths(cmd, viper.GetViper(), []string{confPath})
 }
 
-func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Conf, error) {
+func readConfWithPaths(cmd *cobra.Command, vp *viper.Viper, paths []string) (Conf, common.CLIError) {
 	// try read config file
 	vp.SetConfigName(ViperConfigName)
 	vp.SetConfigType(ViperConfigType)
