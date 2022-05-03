@@ -20,6 +20,11 @@ type Deps struct {
 	Client    StackStateClient
 	IsVerBose bool
 	IsJson    bool
+	NoColor   bool
+	Version   string
+	Commit    string
+	Date      string
+	CLIType   string
 }
 
 func NewDeps() Deps {
@@ -58,8 +63,6 @@ func (cli *Deps) CmdRunEWithApi(
 			cli.Config = &cfg
 			log.Printf("Loaded config %+v", cli.Config)
 		}
-
-		cli.Printer.SetUseColor(!cli.Config.NoColor)
 
 		if cli.Client == nil {
 			ctx, client, err := createClient(cli, cmd)

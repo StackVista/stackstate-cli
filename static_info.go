@@ -1,4 +1,4 @@
-package cmd
+package main
 
 // These variables will be set on build by the ldlflags.
 // See the `ldflags` in .goreleaser.yml
