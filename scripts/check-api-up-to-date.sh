@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # this script checks whether the committed api is up to date
 
 set -e
