@@ -31,6 +31,8 @@ lint:
 openapi-generate-check:
   extends: .go-base
   stage: check
+  rules:
+    - when: always
   script:
     - nix develop -c ./scripts/check-api-up-to-date.sh
 
