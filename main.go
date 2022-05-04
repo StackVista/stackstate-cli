@@ -62,7 +62,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	sts.SilenceErrors = true
 	sts.SilenceUsage = true
 
-	if err := sts.ExecuteContext(ctx); err != nil {
+	if cmd, err := sts.ExecuteContextC(ctx); err != nil {
 		var showUsage bool
 		var exitCode int
 		switch v := err.(type) {
@@ -81,7 +81,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 		} else {
 			cli.Printer.PrintErr(err)
 			if showUsage {
-				cli.Printer.PrintLn(sts.UsageString())
+				cli.Printer.PrintLn(cmd.UsageString())
 			}
 		}
 		return exitCode

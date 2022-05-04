@@ -15,22 +15,23 @@ import (
 )
 
 func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) {
+	errorCmd := cobra.Command{
+		Use:   "test-error",
+		Short: "some short help text for ErrorCmd",
+		Long:  "Some long help text for ErrorCmd.",
+		RunE: func(cmd *cobra.Command, args []string) error {
+			return common.NewCLIArgParseError(fmt.Errorf("test error"))
+		},
+	}
+
 	cli := di.NewMockDeps()
 	sts := cmd.STSCommand(&cli.Deps)
+	sts.AddCommand(&errorCmd)
 	stdOut := new(bytes.Buffer)
 	stdErr := new(bytes.Buffer)
 	sts.SetOut(stdOut)
 	sts.SetErr(stdErr)
 	return &cli, sts, stdOut, stdErr
-}
-
-func ErrorCmd() *cobra.Command {
-	return &cobra.Command{
-		Use: "test",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return common.NewCLIArgParseError(fmt.Errorf("test error"))
-		},
-	}
 }
 
 func TestHelpWhenRunningWithoutArgs(t *testing.T) {
@@ -64,8 +65,10 @@ func TestVersionRun(t *testing.T) {
 
 func TestVersionJsonRun(t *testing.T) {
 	cli, cmd, _, _ := setupSTSCmd()
+
 	cmd.SetArgs([]string{"version", "--json"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
+
 	assert.Equal(t, 0, exitCode)
 	assert.Equal(t, []map[string]interface{}{{
 		"cli-type": "full", "commit": "123124", "date": "1-1-2022", "version": "1.0.0",
@@ -73,30 +76,34 @@ func TestVersionJsonRun(t *testing.T) {
 }
 
 func TestWrongFlagError(t *testing.T) {
-	cli := di.NewMockDeps()
-	sts := cmd.STSCommand(&cli.Deps)
+	cli, sts, _, _ := setupSTSCmd()
+
 	sts.SetArgs([]string{"version", "--wrongflag"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
+
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
 	assert.Equal(t, []error{fmt.Errorf("unknown flag: --wrongflag")}, *cli.MockPrinter.PrintErrCalls)
 	assert.Contains(t, (*cli.MockPrinter.PrintLnCalls)[0], "Usage:") // show help
 }
 
 func TestErrHandling(t *testing.T) {
-	cli := di.NewMockDeps()
-	errorCmd := ErrorCmd()
-	errorCmd.SetArgs([]string{})
-	exitCode := execute(cli.Context, &cli.Deps, errorCmd)
+	cli, sts, _, _ := setupSTSCmd()
+
+	sts.SetArgs([]string{"test-error"})
+	exitCode := execute(cli.Context, &cli.Deps, sts)
+
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
 	expectedErrCalls := []error{common.NewCLIArgParseError(fmt.Errorf("test error"))}
 	assert.Equal(t, &expectedErrCalls, cli.MockPrinter.PrintErrCalls)
+	assert.Contains(t, (*cli.MockPrinter.PrintLnCalls)[0], "Usage:\n  sts test-error [flags]") // show help
 }
 
 func TestErrToJson(t *testing.T) {
-	cli := di.NewMockDeps()
-	errorCmd := ErrorCmd()
-	errorCmd.SetArgs([]string{"--json"})
-	exitCode := execute(cli.Context, &cli.Deps, errorCmd)
+	cli, sts, _, _ := setupSTSCmd()
+
+	sts.SetArgs([]string{"test-error", "--json"})
+	exitCode := execute(cli.Context, &cli.Deps, sts)
+
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
 	expectedJsonCalls := []error{common.NewCLIArgParseError(fmt.Errorf("test error"))}
 	assert.Equal(t, &expectedJsonCalls, cli.MockPrinter.PrintErrJsonCalls)
@@ -104,8 +111,10 @@ func TestErrToJson(t *testing.T) {
 
 func TestColorUsedByDefault(t *testing.T) {
 	cli, cmd, _, _ := setupSTSCmd()
+
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
+
 	assert.True(t, cli.MockPrinter.UseColor)
 	assert.False(t, cli.NoColor)
 }
