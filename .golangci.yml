@@ -37,12 +37,6 @@ linters-settings:
     lines: 100
     statements: 60
 
-  stylecheck:
-    # https://staticcheck.io/docs/options#initialisms
-    initialisms: ["STS"]
-    # https://staticcheck.io/docs/options#http_status_code_whitelist
-    http-status-code-whitelist: ["200", "400", "404", "500"]
-
 linters:
   disable-all: true
   enable:
@@ -74,7 +68,6 @@ linters:
     - exportloopref
     - staticcheck
     - structcheck
-    - stylecheck
     - typecheck
     - unconvert
     - unparam

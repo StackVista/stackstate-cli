@@ -20,15 +20,15 @@ func VersionCommand(cli *di.Deps) *cobra.Command {
 func RunVersionCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"version":  cli.Version,
-			"commit":   cli.Commit,
-			"date":     cli.Date,
-			"cli-type": cli.CLIType,
+			"version":    cli.Version,
+			"commit":     cli.Commit,
+			"build-date": cli.BuildDate,
+			"cli-type":   cli.CLIType,
 		})
 	} else {
 		cli.Printer.Table(printer.TableData{
-			Header: []string{"Version", "Date", "CLI Type", "Commit"},
-			Data:   [][]interface{}{{cli.Version, cli.Date, cli.CLIType, cli.Commit}},
+			Header: []string{"Version", "Build Date", "Commit", "CLI Type"},
+			Data:   [][]interface{}{{cli.Version, cli.BuildDate, cli.Commit, cli.CLIType}},
 		})
 	}
 

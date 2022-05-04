@@ -13,15 +13,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-)
-
-// These variables will be set on build by the ldlflags.
-// See the `ldflags` in .goreleaser.yml
-var (
-	Version string
-	Commit  string
-	Date    string
-	CLIType string
+	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
 func main() {
@@ -29,11 +21,15 @@ func main() {
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 
 	cli := &di.Deps{
-		Version: Version,
-		Commit:  Commit,
-		CLIType: CLIType,
-		Date:    Date,
+		Version:   static_info.Version,
+		Commit:    static_info.Commit,
+		CLIType:   static_info.CLIType,
+		BuildDate: static_info.BuildDate,
 	}
+	if cli.CLIType == "" {
+		cli.CLIType = "local"
+	}
+
 	cmd := cmd.STSCommand(cli)
 	execute(ctx, cli, cmd)
 }
@@ -46,10 +42,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	}
 
 	decapitalizeHelpCommand(sts)
-	if CLIType == "" {
-		CLIType = "local"
-	}
-	if CLIType != "saas" && CLIType != "full" && CLIType != "local" {
+	if cli.CLIType != "saas" && cli.CLIType != "full" && cli.CLIType != "local" {
 		panic("Type must either 'full', 'local' or 'saas'.")
 	}
 
@@ -117,10 +110,10 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 	log.Info().
 		Strs("args", os.Args).
 		Str("os", runtime.GOOS).
-		Str("version", Version).
-		Str("commit", Commit).
-		Str("date", Date).
-		Str("CLIType", CLIType).
+		Str("version", cli.Version).
+		Str("commit", cli.Commit).
+		Str("date", cli.BuildDate).
+		Str("CLIType", cli.CLIType).
 		Msg("starting CLI")
 
 	cli.Printer.SetUseColor(!cli.NoColor)
