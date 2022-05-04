@@ -17,12 +17,13 @@ import (
 
 // Sstackpack struct for Sstackpack
 type Sstackpack struct {
-	Name *string `json:"name,omitempty"`
-	DisplayName *string `json:"displayName,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Name           *string                     `json:"name,omitempty"`
+	DisplayName    *string                     `json:"displayName,omitempty"`
+	Version        *string                     `json:"version,omitempty"`
 	Configurations *[]SstackpackConfigurations `json:"configurations,omitempty"`
-	LatestVersion *SstackpackLatestVersion `json:"latestVersion,omitempty"`
-	NextVersion *SstackpackLatestVersion `json:"nextVersion,omitempty"`
+	LatestVersion  *SstackpackLatestVersion    `json:"latestVersion,omitempty"`
+	NextVersion    *SstackpackLatestVersion    `json:"nextVersion,omitempty"`
+	Steps          *[]StackPackStep            `json:"steps,omitempty"`
 }
 
 // NewSstackpack instantiates a new Sstackpack object
@@ -234,6 +235,38 @@ func (o *Sstackpack) SetNextVersion(v SstackpackLatestVersion) {
 	o.NextVersion = &v
 }
 
+// GetSteps returns the Steps field value if set, zero value otherwise.
+func (o *Sstackpack) GetSteps() []StackPackStep {
+	if o == nil || o.Steps == nil {
+		var ret []StackPackStep
+		return ret
+	}
+	return *o.Steps
+}
+
+// GetStepsOk returns a tuple with the Steps field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Sstackpack) GetStepsOk() (*[]StackPackStep, bool) {
+	if o == nil || o.Steps == nil {
+		return nil, false
+	}
+	return o.Steps, true
+}
+
+// HasSteps returns a boolean if a field has been set.
+func (o *Sstackpack) HasSteps() bool {
+	if o != nil && o.Steps != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSteps gets a reference to the given []StackPackStep and assigns it to the Steps field.
+func (o *Sstackpack) SetSteps(v []StackPackStep) {
+	o.Steps = &v
+}
+
 func (o Sstackpack) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Name != nil {
@@ -253,6 +286,9 @@ func (o Sstackpack) MarshalJSON() ([]byte, error) {
 	}
 	if o.NextVersion != nil {
 		toSerialize["nextVersion"] = o.NextVersion
+	}
+	if o.Steps != nil {
+		toSerialize["steps"] = o.Steps
 	}
 	return json.Marshal(toSerialize)
 }
@@ -292,5 +328,3 @@ func (v *NullableSstackpack) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
