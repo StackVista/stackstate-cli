@@ -8,7 +8,14 @@ OPENAPI_VERSION=`cat openapi_version`
 CHECKOUT_DIR="stackstate_openapi/checkout"
 
 rm -rf "$CHECKOUT_DIR"
-git clone https://gitlab.com/stackvista/platform/stackstate-openapi.git "$CHECKOUT_DIR"
+
+# In gitlab we authenticate with the job token when cloning
+if [[ -z "${CI_JOB_TOKEN}" ]]; then
+  git clone https://gitlab.com/stackvista/platform/stackstate-openapi.git "$CHECKOUT_DIR"
+else
+  git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.example.com/gitlab.com/stackvista/platform/stackstate-openapi.git" "$CHECKOUT_DIR"
+fi
+
 git -C "$CHECKOUT_DIR" checkout "$OPENAPI_VERSION"
 
 rm -rf generated/stackstate_api
