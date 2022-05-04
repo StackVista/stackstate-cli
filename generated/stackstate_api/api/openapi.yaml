@@ -232,6 +232,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProvisionResponse'
+          description: Successful provisioning of the stackpack
         "500":
           content:
             application/json:
@@ -1737,21 +1738,23 @@ components:
     Node:
       example:
         identifier: identifier
-        lastUpdateTimestamp: ""
+        lastUpdateTimestamp: 6
         typeName: typeName
         name: name
         description: description
         isSettingsNode: true
-        id: ""
+        id: 0
         manual: true
         ownedBy: ownedBy
       properties:
         typeName:
           type: string
         id:
-          type: int64
+          format: int64
+          type: integer
         lastUpdateTimestamp:
-          type: int64
+          format: int64
+          type: integer
         identifier:
           type: string
         name:
@@ -1779,18 +1782,27 @@ components:
           version: version
         displayName: displayName
         configurations:
-        - lastUpdateTimestamp: ""
+        - lastUpdateTimestamp: 6
           stackPackVersion: stackPackVersion
-          id: ""
+          id: 0
           status: status
-        - lastUpdateTimestamp: ""
+        - lastUpdateTimestamp: 6
           stackPackVersion: stackPackVersion
-          id: ""
+          id: 0
           status: status
         name: name
         version: version
         nextVersion:
           version: version
+        steps:
+        - display: display
+          name: name
+          value:
+            _type: _type
+        - display: display
+          name: name
+          value:
+            _type: _type
       properties:
         name:
           type: string
@@ -1806,6 +1818,24 @@ components:
           $ref: '#/components/schemas/Sstackpack_latestVersion'
         nextVersion:
           $ref: '#/components/schemas/Sstackpack_latestVersion'
+        steps:
+          items:
+            $ref: '#/components/schemas/StackPackStep'
+          type: array
+      type: object
+    StackPackStep:
+      example:
+        display: display
+        name: name
+        value:
+          _type: _type
+      properties:
+        display:
+          type: string
+        name:
+          type: string
+        value:
+          $ref: '#/components/schemas/StackPackStep_value'
       type: object
     StackPack:
       example:
@@ -1891,13 +1921,14 @@ components:
     ProvisionResponse:
       example:
         stackPackVersion: stackPackVersion
-        lastUpdateTimestamp: ""
+        lastUpdateTimestamp: 6
         name: name
-        id: ""
+        id: 0
         status: status
       properties:
         id:
-          type: int64
+          format: int64
+          type: integer
         status:
           type: string
         name:
@@ -1905,7 +1936,8 @@ components:
         stackPackVersion:
           type: string
         lastUpdateTimestamp:
-          type: int64
+          format: int64
+          type: integer
       type: object
     stackName:
       type: string
@@ -3618,17 +3650,19 @@ components:
       type: object
     Sstackpack_configurations:
       example:
-        lastUpdateTimestamp: ""
+        lastUpdateTimestamp: 6
         stackPackVersion: stackPackVersion
-        id: ""
+        id: 0
         status: status
       properties:
         id:
-          type: int64
+          format: int64
+          type: integer
         status:
           type: string
         lastUpdateTimestamp:
-          type: int64
+          format: int64
+          type: integer
         stackPackVersion:
           type: string
       required:
@@ -3639,6 +3673,13 @@ components:
         version: version
       properties:
         version:
+          type: string
+      type: object
+    StackPackStep_value:
+      example:
+        _type: _type
+      properties:
+        _type:
           type: string
       type: object
     StackPack_faqs:

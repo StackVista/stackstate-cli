@@ -198,6 +198,8 @@ Class | Method | HTTP request | Description
  - [SstackpackLatestVersion](docs/SstackpackLatestVersion.md)
  - [StackPack](docs/StackPack.md)
  - [StackPackFaqs](docs/StackPackFaqs.md)
+ - [StackPackStep](docs/StackPackStep.md)
+ - [StackPackStepValue](docs/StackPackStepValue.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)

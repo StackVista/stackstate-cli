@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Configurations** | Pointer to [**[]SstackpackConfigurations**](SstackpackConfigurations.md) |  | [optional] 
 **LatestVersion** | Pointer to [**SstackpackLatestVersion**](SstackpackLatestVersion.md) |  | [optional] 
 **NextVersion** | Pointer to [**SstackpackLatestVersion**](SstackpackLatestVersion.md) |  | [optional] 
+**Steps** | Pointer to [**[]StackPackStep**](StackPackStep.md) |  | [optional] 
 
 ## Methods
 
@@ -179,6 +180,31 @@ SetNextVersion sets NextVersion field to given value.
 `func (o *Sstackpack) HasNextVersion() bool`
 
 HasNextVersion returns a boolean if a field has been set.
+
+### GetSteps
+
+`func (o *Sstackpack) GetSteps() []StackPackStep`
+
+GetSteps returns the Steps field if non-nil, zero value otherwise.
+
+### GetStepsOk
+
+`func (o *Sstackpack) GetStepsOk() (*[]StackPackStep, bool)`
+
+GetStepsOk returns a tuple with the Steps field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSteps
+
+`func (o *Sstackpack) SetSteps(v []StackPackStep)`
+
+SetSteps sets Steps field to given value.
+
+### HasSteps
+
+`func (o *Sstackpack) HasSteps() bool`
+
+HasSteps returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

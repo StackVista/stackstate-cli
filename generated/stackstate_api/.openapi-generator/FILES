@@ -102,6 +102,8 @@ docs/SstackpackConfigurations.md
 docs/SstackpackLatestVersion.md
 docs/StackPack.md
 docs/StackPackFaqs.md
+docs/StackPackStep.md
+docs/StackPackStepValue.md
 docs/StackpackApi.md
 docs/StreamList.md
 docs/StreamListItem.md
@@ -201,6 +203,8 @@ model_sstackpack_configurations.go
 model_sstackpack_latest_version.go
 model_stack_pack.go
 model_stack_pack_faqs.go
+model_stack_pack_step.go
+model_stack_pack_step_value.go
 model_stream_list.go
 model_stream_list_item.go
 model_string_items_with_total.go
