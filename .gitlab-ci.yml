@@ -26,7 +26,7 @@ lint:
       - generated/**
       - internal/**
   script:
-    - nix develop -c golangci-lint run -v
+    - scripts/lint.sh
 
 openapi-generate-check:
   extends: .go-base
