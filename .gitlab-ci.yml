@@ -28,6 +28,12 @@ lint:
   script:
     - nix develop -c golangci-lint run -v
 
+openapi-generate-check:
+  extends: .go-base
+  stage: check
+  script:
+    - nix develop -c ./scripts/check-api-up-to-date.sh
+
 license_scanning:
   stage: check
   image: "registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3"
