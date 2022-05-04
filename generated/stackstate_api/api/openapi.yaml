@@ -1577,6 +1577,82 @@ paths:
       summary: Get server info
       tags:
       - server
+  /security/token:
+    get:
+      description: Get service tokens.
+      operationId: getServiceTokens
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceToken'
+                type: array
+          description: Service Tokens
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get service tokens
+      tags:
+      - serviceToken
+    post:
+      description: Create new service token.
+      operationId: createNewServiceToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewServiceTokenRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTokenCreatedResponse'
+          description: The newly created service token
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTokenCreateError'
+          description: Create service token error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create new service token
+      tags:
+      - serviceToken
+  /security/token/{serviceTokenId}:
+    delete:
+      description: Delete service token.
+      operationId: deleteServiceToken
+      parameters:
+      - description: The identifier of a service token
+        in: path
+        name: serviceTokenId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ServiceTokenId'
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete service token
+      tags:
+      - serviceToken
 components:
   requestBodies:
     EventListBody:
@@ -3430,6 +3506,103 @@ components:
       - minor
       - patch
       type: object
+    ServiceTokenCreatedResponse:
+      example:
+        name: name
+        expiration: 0
+        token: token
+      properties:
+        name:
+          readOnly: true
+          type: string
+        token:
+          readOnly: true
+          type: string
+        expiration:
+          format: int64
+          readOnly: true
+          type: integer
+      required:
+      - name
+      - token
+      type: object
+    ServiceTokenCreateError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ServiceTokenInvalidExpiryError'
+      required:
+      - _type
+    ServiceTokenInvalidExpiryError:
+      properties:
+        _type:
+          enum:
+          - ServiceTokenInvalidExpiryError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    NewServiceTokenRequest:
+      example:
+        expiryDate: 0
+        roles:
+        - roles
+        - roles
+        name: name
+      properties:
+        name:
+          type: string
+        expiryDate:
+          format: int64
+          type: integer
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - roles
+      type: object
+    ServiceToken:
+      example:
+        lastUpdateTimestamp: 6
+        roles:
+        - roles
+        - roles
+        name: name
+        description: description
+        expiration: 1
+        id: 0
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          format: int64
+          type: integer
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - roles
+      type: object
+    ServiceTokenId:
+      format: int64
+      type: integer
     NodeTypes_nodeTypes:
       example:
         typeName: typeName

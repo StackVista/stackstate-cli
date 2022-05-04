@@ -110,6 +110,9 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
+*ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/token | Create new service token
+*ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/token/{serviceTokenId} | Delete service token
+*ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/token | Get service tokens
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
@@ -174,6 +177,7 @@ Class | Method | HTTP request | Description
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
+ - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
@@ -184,6 +188,10 @@ Class | Method | HTTP request | Description
  - [ScriptLocation](docs/ScriptLocation.md)
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
+ - [ServiceToken](docs/ServiceToken.md)
+ - [ServiceTokenCreateError](docs/ServiceTokenCreateError.md)
+ - [ServiceTokenCreatedResponse](docs/ServiceTokenCreatedResponse.md)
+ - [ServiceTokenInvalidExpiryError](docs/ServiceTokenInvalidExpiryError.md)
  - [SourceLink](docs/SourceLink.md)
  - [Sstackpack](docs/Sstackpack.md)
  - [SstackpackConfigurations](docs/SstackpackConfigurations.md)
