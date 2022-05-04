@@ -34,17 +34,6 @@ func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) 
 	return &cli, sts, stdOut, stdErr
 }
 
-func ErrorCmd() *cobra.Command {
-	return &cobra.Command{
-		Use:   "test",
-		Short: "some short help text for ErrorCmd",
-		Long:  "Some long help text for ErrorCmd.",
-		RunE: func(cmd *cobra.Command, args []string) error {
-			return common.NewCLIArgParseError(fmt.Errorf("test error"))
-		},
-	}
-}
-
 func TestHelpWhenRunningWithoutArgs(t *testing.T) {
 	cli, cmd, stdOut, stdErr := setupSTSCmd()
 	cmd.SetArgs([]string{""})
