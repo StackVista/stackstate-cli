@@ -1715,6 +1715,15 @@ components:
         version: version
         nextVersion:
           version: version
+        steps:
+        - display: display
+          name: name
+          value:
+            _type: _type
+        - display: display
+          name: name
+          value:
+            _type: _type
       properties:
         name:
           type: string
@@ -1730,6 +1739,24 @@ components:
           $ref: '#/components/schemas/Sstackpack_latestVersion'
         nextVersion:
           $ref: '#/components/schemas/Sstackpack_latestVersion'
+        steps:
+          items:
+            $ref: '#/components/schemas/StackPackStep'
+          type: array
+      type: object
+    StackPackStep:
+      example:
+        display: display
+        name: name
+        value:
+          _type: _type
+      properties:
+        display:
+          type: string
+        name:
+          type: string
+        value:
+          $ref: '#/components/schemas/StackPackStep_value'
       type: object
     StackPack:
       example:
@@ -3466,6 +3493,13 @@ components:
         version: version
       properties:
         version:
+          type: string
+      type: object
+    StackPackStep_value:
+      example:
+        _type: _type
+      properties:
+        _type:
           type: string
       type: object
     StackPack_faqs:

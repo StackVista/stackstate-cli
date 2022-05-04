@@ -151,6 +151,19 @@ components:
         isCompatible: 
           type: boolean
 
+    StackPackStep:
+      type: object
+      properties:
+        display:
+          type: string
+        name:
+          type: string
+        value:
+          type: object
+          properties:
+            _type:
+              type: string
+
     StackpackList:
       type: array
       items:
@@ -190,6 +203,11 @@ components:
           properties:
             version:
               type: string
+        steps:
+           type: array
+           items:
+             $ref: "#/components/schemas/StackPackStep"
+
     stackName:
       type: string
     ProvisionResponse:
