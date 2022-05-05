@@ -16,17 +16,13 @@ It also possible to use nix phases to test `nix develop --check` and build the a
 
 ## How to create a new release
 
- 1. Determine the semantic version number you want to use:
+ 1. Check which version of the CLI is the latest by running `scripts/print_latest_version.sh`
+ 2. Determine the semantic version number you want to use:
     - Breaking change? Major version! This should never happen after the initial release!
     - New commands and/or flags? Minor version.
     - Bugfixes/improvements of existing commands? Patch version.
- 2. Tag and push the commit you wish to release with a tag of the format "v${version}":
+ 3. On a clean and committed and pushed commit run `scripts/create_release.sh -v VERSION` with your version.
 
-```sh
-git tag v1.2.1 -m "v1.2.1"
-git push origin v1.2.1
-```
- 
 ## Nix installation
 
 Install Nix package manager by following the [official installation instructions](https://nixos.org/download.html).
