@@ -5,6 +5,8 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func MarkMutexFlags(cmd *cobra.Command, flagNames []string, mutexName string, isRequired bool) {
@@ -17,6 +19,40 @@ func MarkMutexFlags(cmd *cobra.Command, flagNames []string, mutexName string, is
 		}
 		cmd.Flags().SetAnnotation(flagName, annotationName, []string{mutexName}) //nolint:errcheck
 	}
+}
+
+func GetAllMutexNames(cmd *cobra.Command, isRequired bool) []string {
+	mutexNames := make([]string, 0)
+	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+		if isRequired && len(flag.Annotations["rmutex"]) > 0 {
+			mutexNames = append(mutexNames, flag.Annotations["rmutex"][0])
+		}
+		if !isRequired && len(flag.Annotations["mutex"]) > 0 {
+			mutexNames = append(mutexNames, flag.Annotations["mutex"][0])
+		}
+	})
+	return util.UniqueStrings(mutexNames)
+}
+
+func GetAllFlagsOfMutex(cmd *cobra.Command, mutexName string) []*pflag.Flag {
+	flags := make([]*pflag.Flag, 0)
+	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+		if len(flag.Annotations["rmutex"]) > 0 && flag.Annotations["rmutex"][0] == mutexName {
+			flags = append(flags, flag)
+		}
+		if len(flag.Annotations["mutex"]) > 0 && flag.Annotations["mutex"][0] == mutexName {
+			flags = append(flags, flag)
+		}
+	})
+	return flags
+}
+
+func GetAllFlagNamesOfMutex(cmd *cobra.Command, mutexName string) []string {
+	mutexFlagNames := make([]string, 0)
+	for _, mutexFlag := range GetAllFlagsOfMutex(cmd, mutexName) {
+		mutexFlagNames = append(mutexFlagNames, mutexFlag.Name)
+	}
+	return mutexFlagNames
 }
 
 func CheckMutuallyExclusiveFlags(cmd *cobra.Command, flagNames []string, isRequired bool) CLIError {

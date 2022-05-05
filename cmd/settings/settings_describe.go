@@ -14,7 +14,7 @@ var fileMode = 0644
 
 func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "describe {--ids IDS | --namespace NAMESPACE | --type TYPE}",
+		Use:   "describe",
 		Short: "describe settings in STJ format",
 		Long:  "Describe settings in StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand),

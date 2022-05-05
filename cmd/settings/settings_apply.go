@@ -18,7 +18,7 @@ var (
 
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "apply -f FILE",
+		Use:   "apply",
 		Short: "apply saved settings",
 		Long:  "Apply saved settings with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"runtime"
 	"strings"
@@ -9,10 +10,12 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 	"gitlab.com/stackvista/stackstate-cli2/cmd"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
@@ -36,6 +39,7 @@ func main() {
 
 func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
 	common.AddPersistentFlags(sts)
+	addRequiredFlagsToCmd(sts)
 
 	if cli.Printer == nil {
 		cli.Printer = printer.NewPrinter()
@@ -128,4 +132,28 @@ func decapitalizeHelpCommand(root *cobra.Command) {
 	if help != nil {
 		help.Short = "help about any command"
 	}
+}
+
+func addRequiredFlagsToCmd(root *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
+		required := ""
+		cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+			if util.IsSingleRequiredFlag(flag) {
+				required += fmt.Sprintf("--%s %s", flag.Name, strings.ToUpper(flag.Value.Type()))
+			}
+		})
+
+		requiredMutexFlags := common.GetAllMutexNames(cmd, true)
+		for _, mutex := range requiredMutexFlags {
+			mutexFlagUses := make([]string, 0)
+			for _, mutexFlag := range common.GetAllFlagsOfMutex(cmd, mutex) {
+				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Value.Type())))
+			}
+			required += "{ " + strings.Join(mutexFlagUses, " | ") + " }"
+		}
+
+		if required != "" {
+			cmd.Use += " " + required
+		}
+	})
 }

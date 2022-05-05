@@ -17,7 +17,7 @@ const (
 
 func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "save-config --url URL --api-token API-TOKEN",
+		Use:   "save-config",
 		Short: "save CLI configuration",
 		Long:  "Save the configuration of this CLI to disk.",
 		Example: "# save a new API token to the config file" +

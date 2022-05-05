@@ -12,7 +12,7 @@ import (
 
 func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-parameters --name NAME",
+		Use:   "list-parameters",
 		Short: "list-parameters",
 		Long:  "List available parameters.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListParameterCommand),
