@@ -17,8 +17,8 @@ func TestAddingRequiredFlagsToCmd(t *testing.T) {
 	cmd.Flags().String("e", "", "")
 	cmd.Flags().String("ef", "", "")
 	cmd.Flags().String("ge", "", "")
-	cmd.MarkFlagRequired("a")
-	cmd.MarkFlagRequired("b")
+	cmd.MarkFlagRequired("a") //nolint:errcheck
+	cmd.MarkFlagRequired("b") //nolint:errcheck
 	mutex_flags.MarkMutexFlags(cmd, []string{"c", "db"}, "mutex1", true)
 	mutex_flags.MarkMutexFlags(cmd, []string{"ef", "ge"}, "mutex2", true)
 

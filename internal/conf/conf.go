@@ -56,6 +56,7 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	}
 }
 
+//nolint:gocritic
 func validate(conf Conf, errors *[]error) {
 	if conf.URL == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "url"})
