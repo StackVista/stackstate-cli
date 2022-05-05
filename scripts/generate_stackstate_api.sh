@@ -1,8 +1,6 @@
 #!/bin/sh
-set -e
+set -e && cd "$(dirname "$0")" && cd ..
 
-cd "$(dirname "$0")"
-cd ..
 
 rm -rf generated/stackstate_api
 nix develop -c openapi-generator-cli generate -i stackstate_openapi/spec/api.yaml -g go  -c stackstate_openapi/openapi_generator_config.yaml -o generated/stackstate_api -t stackstate_openapi/template
