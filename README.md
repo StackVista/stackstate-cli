@@ -23,6 +23,8 @@ It also possible to use nix phases to test `nix develop --check` and build the a
     - Bugfixes/improvements of existing commands? Patch version.
  3. On a clean and committed and pushed commit run `scripts/create_release.sh -v VERSION` with your version.
 
+ A tag will be pushed to Gitlab with the format: `v${VERSION}`. Gitlab's CI will then run the publishing pipeline.
+
 ## Nix installation
 
 Install Nix package manager by following the [official installation instructions](https://nixos.org/download.html).
