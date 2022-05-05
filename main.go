@@ -14,6 +14,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/cmd"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
@@ -143,10 +144,10 @@ func addRequiredFlagsToCmd(root *cobra.Command) {
 			}
 		})
 
-		requiredMutexFlags := common.GetAllMutexNames(cmd, true)
+		requiredMutexFlags := mutex_flags.GetAllMutexNames(cmd, true)
 		for _, mutex := range requiredMutexFlags {
 			mutexFlagUses := make([]string, 0)
-			for _, mutexFlag := range common.GetAllFlagsOfMutex(cmd, mutex) {
+			for _, mutexFlag := range mutex_flags.GetAllFlagsOfMutex(cmd, mutex) {
 				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Value.Type())))
 			}
 			required += "{ " + strings.Join(mutexFlagUses, " | ") + " }"

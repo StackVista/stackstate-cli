@@ -8,6 +8,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 var fileMode = 0644
@@ -24,14 +25,14 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to describe")
 	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
-	common.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
+	mutex_flags.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
 
 	return cmd
 }
 
 func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo stackstate_api.ServerInfo) common.CLIError {
-	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
-		return err
+	if err := mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
+		return common.NewCLIArgParseError(err)
 	}
 
 	ids, err := cmd.Flags().GetInt64Slice(Ids)

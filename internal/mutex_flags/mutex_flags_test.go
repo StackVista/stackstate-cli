@@ -1,4 +1,4 @@
-package common
+package mutex_flags
 
 import (
 	"testing"

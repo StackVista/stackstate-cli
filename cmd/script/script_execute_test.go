@@ -12,6 +12,7 @@ import (
 	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 func setupScriptExecuteCmd() (*di.MockDeps, *cobra.Command) {
@@ -125,11 +126,8 @@ func TestScriptAndFileFlag(t *testing.T) {
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script", "-f", "file")
 
 	assert.Equal(t,
-		common.NewCLIArgParseError(
-			fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags."+
-				" Pick one or the other"),
-		),
-		err,
+		mutex_flags.NewMutuallyExclusiveFlagsMultipleError([]string{"script", "file"}, []string{"script", "file"}).Error(),
+		err.Error(),
 	)
 }
 
