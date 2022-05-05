@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 	"testing"
 
@@ -17,6 +18,12 @@ func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	var stdOut, stdErr bytes.Buffer
 	p := NewStdPrinter("linux", &stdOut, &stdErr)
 	return p, &stdOut, &stdErr
+}
+
+func TestNewPrinter(t *testing.T) {
+	p := NewPrinter().(*StdPrinter)
+	assert.Equal(t, os.Stdout, p.stdOut)
+	assert.Equal(t, os.Stderr, p.stdErr)
 }
 
 func TestPrintErrWithoutColor(t *testing.T) {

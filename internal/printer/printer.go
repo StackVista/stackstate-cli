@@ -59,7 +59,7 @@ type StdPrinter struct {
 }
 
 func NewPrinter() Printer {
-	return NewStdPrinter(runtime.GOOS, os.Stdout, os.Stdin)
+	return NewStdPrinter(runtime.GOOS, os.Stdout, os.Stderr)
 }
 
 func NewStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
