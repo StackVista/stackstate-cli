@@ -23,7 +23,6 @@ func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) 
 			return common.NewCLIArgParseError(fmt.Errorf("test error"))
 		},
 	}
-
 	cli := di.NewMockDeps()
 	sts := cmd.STSCommand(&cli.Deps)
 	sts.AddCommand(&errorCmd)
