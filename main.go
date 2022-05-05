@@ -36,6 +36,7 @@ func main() {
 
 func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
 	common.AddPersistentFlags(sts)
+	common.AddRequiredFlagsToCmd(sts)
 
 	if cli.Printer == nil {
 		cli.Printer = printer.NewPrinter()

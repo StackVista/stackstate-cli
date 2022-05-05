@@ -27,3 +27,7 @@ func TestToStringPrintLargeNum(t *testing.T) {
 func TestToStringNil(t *testing.T) {
 	assert.Equal(t, ToString(nil), "nil")
 }
+
+func TestUniqueString(t *testing.T) {
+	assert.Equal(t, []string{"foo", "bar"}, UniqueStrings([]string{"foo", "bar", "foo", "bar"}))
+}

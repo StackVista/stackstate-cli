@@ -7,8 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 func setupDescribeCmd() (*di.MockDeps, *cobra.Command) {
@@ -63,10 +63,10 @@ func TestSettingsDescribeMutuallyExclusiveFlags(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd)
 
-	assert.Equal(t, common.NewMutuallyExclusiveFlagsRequiredError([]string{Ids, Namespace, TypeName}), err)
+	assert.Equal(t, mutex_flags.NewMutuallyExclusiveFlagsRequiredError([]string{Ids, Namespace, TypeName}).Error(), err.Error())
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--namespace", "default")
-	assert.Equal(t, common.NewMutuallyExclusiveFlagsMultipleError([]string{Ids, Namespace, TypeName}, []string{Ids, Namespace}), err)
+	assert.Equal(t, mutex_flags.NewMutuallyExclusiveFlagsMultipleError([]string{Ids, Namespace, TypeName}, []string{Ids, Namespace}).Error(), err.Error())
 }
 
 func TestRunSettingsDescribeWithReferencePrintToTable(t *testing.T) {

@@ -13,7 +13,7 @@ import (
 
 func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "apply -f FILE",
+		Use:   "apply",
 		Short: "apply a monitor with STJ",
 		Long:  "Apply a monitor with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand),

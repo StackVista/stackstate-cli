@@ -16,7 +16,7 @@ const (
 
 func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "run -i ID",
+		Use:   "run",
 		Short: "run a monitor",
 		Long:  "Run a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand),
