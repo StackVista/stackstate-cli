@@ -8,9 +8,8 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func setupCommandCollect() (di.MockDeps, *cobra.Command) {
@@ -31,20 +30,20 @@ func TestAnomalyCollectEmpty(t *testing.T) {
 	referenceFeedback, err := ioutil.ReadFile("test_feedback.json")
 	assert.Nil(t, err)
 	expectedStr := string(referenceFeedback)
-	var feedback []stackstate_client.FeedbackWithContext
+	var feedback []stackstate_api.FeedbackWithContext
 	err = json.Unmarshal([]byte(expectedStr), &feedback)
 	assert.Nil(t, err)
 
 	cli, cmd := setupCommandCollect()
 	cli.MockClient.ApiMocks.AnomalyFeedbackApi.CollectAnomalyFeedbackResponse.Result = feedback
 
-	_, err = util.ExecuteCommandWithContext(cli.Context, cmd, "--start-time=-1h", "--file", filePath)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--start-time=-1h", "--file", filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, []string{}, *cli.MockPrinter.PrintLnCalls)
 
 	body, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)
-	var writtenFeedback []stackstate_client.FeedbackWithContext
+	var writtenFeedback []stackstate_api.FeedbackWithContext
 	err = json.Unmarshal(body, &writtenFeedback)
 	assert.Nil(t, err)
 	assert.Equal(t, feedback, writtenFeedback)

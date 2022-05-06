@@ -16,6 +16,7 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(stackpack.StackpackListCommand(cli))
 	cmd.AddCommand(stackpack.StackpackListInstanceCommand(cli))
 	cmd.AddCommand(stackpack.StackpackInstallCommand(cli))
+	cmd.AddCommand(stackpack.StackpackListParameterCommand(cli))
 
 	return cmd
 }

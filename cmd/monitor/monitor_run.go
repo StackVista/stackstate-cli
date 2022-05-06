@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -14,12 +14,12 @@ const (
 	DryRunFlag = "dry-run"
 )
 
-func RunMonitorCommand(cli *di.Deps) *cobra.Command {
+func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "run -i ID",
+		Use:   "run",
 		Short: "run a monitor",
 		Long:  "Run a monitor.",
-		RunE:  cli.CmdRunEWithApi(RunRunMonitorCommand),
+		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand),
 	}
 	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
 	cmd.Flags().Bool(DryRunFlag, false, "do not save the states of the monitor run")
@@ -28,11 +28,11 @@ func RunMonitorCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunRunMonitorCommand(
+func RunMonitorRunCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo *stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
@@ -46,7 +46,7 @@ func RunRunMonitorCommand(
 
 	id, err := util.StringToInt64(identifier)
 	var resp *http.Response
-	var runResult *stackstate_client.MonitorRunResult
+	var runResult *stackstate_api.MonitorRunResult
 	if err == nil {
 		if isDryRun {
 			runResult, resp, err = api.MonitorApi.DryRunMonitor(cli.Context, id).Execute()
@@ -64,7 +64,13 @@ func RunRunMonitorCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.PrintStruct(runResult.Result)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"run-result": runResult.Result,
+		})
+	} else {
+		cli.Printer.PrintStruct(runResult.Result)
+	}
 
 	return nil
 }

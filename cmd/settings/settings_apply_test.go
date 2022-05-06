@@ -11,12 +11,11 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 type Filename = string
 
-func setupCmdSettingsApply() (di.MockDeps, *cobra.Command) {
+func setupSettingsApplyCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := SettingsApplyCommand(&cli.Deps)
 
@@ -28,7 +27,7 @@ func setupCmdSettingsApply() (di.MockDeps, *cobra.Command) {
 			"name":       "test",
 		},
 	}
-	return cli, cmd
+	return &cli, cmd
 }
 
 func createTempFile() *os.File {
@@ -44,11 +43,11 @@ func createTempFile() *os.File {
 }
 
 func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
-	cli, cmd := setupCmdSettingsApply()
+	cli, cmd := setupSettingsApplyCmd()
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name())
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name())
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pbody, "hello world")
 	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace)
@@ -56,30 +55,29 @@ func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
 	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked)
 	expectedTableCall := []printer.TableData{
 		{
-			Header:     []string{"Type", "Id", "Identifier", "Name"},
-			Data:       [][]interface{}{{"Layer", 12345, "urn:stackpack:test:layer:test", "test"}},
-			StructData: cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result,
+			Header: []string{"Type", "Id", "Identifier", "Name"},
+			Data:   [][]interface{}{{"Layer", 12345, "urn:stackpack:test:layer:test", "test"}},
 		},
 	}
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
 }
 
 func TestSetingsApplyNamespace(t *testing.T) {
-	cli, cmd := setupCmdSettingsApply()
+	cli, cmd := setupSettingsApplyCmd()
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--namespace", "urn:test")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--namespace", "urn:test")
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace, "urn:test")
 }
 
 func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
-	cli, cmd := setupCmdSettingsApply()
+	cli, cmd := setupSettingsApplyCmd()
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--file", file.Name(), "--unlocked-strategy", "woopz")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", file.Name(), "--unlocked-strategy", "woopz")
 
 	assert.Equal(t, common.NewCLIArgParseError(
 		fmt.Errorf("invalid 'unlocked-strategy' flag value 'woopz' (must be { fail | skip | overwrite })")),
@@ -88,21 +86,35 @@ func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
 }
 
 func TestSetingsApplyUnlockedStrategyFail(t *testing.T) {
-	cli, cmd := setupCmdSettingsApply()
+	cli, cmd := setupSettingsApplyCmd()
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--unlocked-strategy", "fail")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--unlocked-strategy", "fail")
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked, "fail")
 }
 
 func TestSetingsApplyUnlockedTimeout(t *testing.T) {
-	cli, cmd := setupCmdSettingsApply()
+	cli, cmd := setupSettingsApplyCmd()
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", file.Name(), "--timeout", "16")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--timeout", "16")
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].PtimeoutSeconds, int64(16))
+}
+
+func TestSetingsApplyJson(t *testing.T) {
+	cli, cmd := setupSettingsApplyCmd()
+	file := createTempFile()
+	defer os.Remove(file.Name())
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--json")
+
+	expectedJsonCalls := []map[string]interface{}{{
+		"applied-settings": cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result,
+	}}
+	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }

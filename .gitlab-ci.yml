@@ -1,20 +1,11 @@
-variables:
-  GORELEASER_TAG: "v1.7.0"
-  GORELEASER_IMAGE: "goreleaser/goreleaser:${GORELEASER_TAG}"
-  GOLANGCI_LINT_TAG: "v1.44.2"
-  GOLANGCI_LINT_IMAGE: "golangci/golangci-lint:${GOLANGCI_LINT_TAG}"
-
-image: "golang:latest"
-
 stages:
   - check
   - deploy
 
 .go-base:
-  image:
-    name: ${GORELEASER_IMAGE}
-    entrypoint: [""]
+  image: "nixos/nix:2.8.0"
   variables:
+    NIX_CONFIG: "experimental-features = nix-command flakes"
     GOPATH: /go
     GITLAB_TOKEN: ${gitlab_api_scope_token}
   before_script:
@@ -23,10 +14,8 @@ stages:
       - /go/pkg/mod/
 
 lint:
-  image: ${GOLANGCI_LINT_IMAGE}
+  extends: .go-base
   stage: check
-  script:
-    - golangci-lint run
   rules:
     - changes:
       - go.mod
@@ -34,7 +23,10 @@ lint:
       - flake.lock
       - flake.nix
       - cmd/**
+      - generated/**
       - internal/**
+  script:
+    - scripts/lint.sh
 
 license_scanning:
   stage: check
@@ -71,17 +63,17 @@ dependency_scanning:
       dependency_scanning: gl-dependency-scanning-report.json
 
 goreleaser_check:
-  stage: check
   extends: .go-base
+  stage: check
   rules:
     - changes:
       - .goreleaser.yml
   script:
-    - goreleaser check
+    - nix develop -c goreleaser check
 
 compile_test:
-  stage: check
   extends: .go-base
+  stage: check
   rules:
     - changes:
       - go.mod
@@ -89,9 +81,10 @@ compile_test:
       - flake.lock
       - flake.nix
       - cmd/**
+      - generated/**
       - internal/**
   script:
-    - go test ./...
+    - nix develop -c go test ./... -v
   tags:
     - sts-k8s-xl-runner
 
@@ -99,8 +92,7 @@ publish:
   stage: deploy
   extends: .go-base
   script:
-  - if [ -z ${AWS_ACCESS_KEY_ID} ]; then echo "missing AWS_ACCESS_KEY_ID environment variable!"; exit 1; fi
-  - goreleaser release
+  - nix develop -c scripts/publish.sh
   tags:
     - sts-k8s-xl-runner
   rules:

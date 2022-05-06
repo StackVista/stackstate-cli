@@ -7,9 +7,9 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 const (
@@ -40,27 +40,27 @@ func AnomalyCollect(cli *di.Deps) *cobra.Command {
 func RunCollectFeedbackCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo *stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	startTime, err := cmd.Flags().GetDuration(StartTimeFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	filePath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	endTime, err := cmd.Flags().GetDuration(EndTimeFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	history, err := cmd.Flags().GetDuration(HistoryFlag)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewCLIArgParseError(err)
 	}
 
 	now := time.Now().UnixMilli()
@@ -76,17 +76,17 @@ func RunCollectFeedbackCommand(
 	const fileMode = 0644
 	file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewWriteFileError(err, filePath)
 	}
 	defer file.Close()
 
 	data, err := json.Marshal(feedback)
 	if err != nil {
-		return common.NewCLIError(err)
+		return common.NewResponseError(err, resp)
 	}
 
 	if _, err = file.Write(data); err != nil {
-		return common.NewCLIError(err)
+		return common.NewWriteFileError(err, filePath)
 	}
 
 	cli.Printer.Success(fmt.Sprintf("Downloaded %d anomalies with feedback.", len(feedback)))

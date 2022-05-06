@@ -1,3 +1,8 @@
+# OpenApi header is included in this file to support code highlighting in VSCode
+openapi: 3.0.3
+info:
+  title: Node API
+  version: "1.0.0"
 paths:
   /node:
     get:
@@ -78,9 +83,11 @@ components:
         typeName:
           type: string
         id:
-          type: int64
+          type: integer
+          format: int64
         lastUpdateTimestamp:
-          type: int64
+          type: integer
+          format: int64
         identifier:
           type: string
         name:

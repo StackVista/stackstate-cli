@@ -2,9 +2,7 @@ package cmd
 
 import (
 	"context"
-	"fmt"
 	"regexp"
-	"strings"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -13,6 +11,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 var (
@@ -32,23 +31,7 @@ func setupCmd() *cobra.Command {
 		Context: context.Background(),
 		Client:  nil,
 	}
-	return RootCommand(&cli)
-}
-
-func forAllCmd(parent *cobra.Command, fn func(*cobra.Command)) {
-	fn(parent)
-	for _, child := range parent.Commands() {
-		fn(child)
-		forAllCmd(child, fn)
-	}
-}
-
-func forAllFlags(parent *cobra.Command, fn func(*cobra.Command, *pflag.Flag)) {
-	forAllCmd(parent, func(cmd *cobra.Command) {
-		cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-			fn(cmd, flag)
-		})
-	})
+	return STSCommand(&cli)
 }
 
 //--- cmd.Use ---
@@ -73,46 +56,9 @@ func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 func TestUseStartsWithLowerCaseWord(t *testing.T) {
 	root := setupCmd()
 	r := regexp.MustCompile(`^[a-z][a-z0-9-]*`)
-	forAllCmd(root, func(cmd *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
 		if !r.MatchString(cmd.Use) {
 			assert.Fail(t, cmd.Use+" does not match "+r.String())
-		}
-	})
-}
-
-func isFlagRequired(flag *pflag.Flag) bool {
-	if len(flag.Annotations[cobra.BashCompOneRequiredFlag]) > 0 {
-		return true
-	}
-	if len(flag.Annotations["rmutex"]) > 0 {
-		return true
-	}
-	return false
-}
-
-func TestUseShouldMentionRequiredFlags(t *testing.T) {
-	root := setupCmd()
-	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
-		isRequiredFlag := isFlagRequired(flag)
-		if isRequiredFlag {
-			var requiredFlagInUse string
-			if len(flag.Shorthand) == 1 {
-				requiredFlagInUse = fmt.Sprintf("-%s %s", flag.Shorthand, strings.ToUpper(flag.Name))
-			} else {
-				requiredFlagInUse = fmt.Sprintf("--%s %s", flag.Name, strings.ToUpper(flag.Name))
-			}
-			if !strings.Contains(cmd.Use, requiredFlagInUse) {
-				assert.Fail(t, cmd.Use+" does not contain: "+requiredFlagInUse)
-			}
-		} else {
-			if len(flag.Shorthand) == 1 {
-				if strings.Contains(cmd.Use, fmt.Sprintf("-%s", flag.Shorthand)) {
-					assert.Fail(t, cmd.Use+" should not contain optional flag: "+flag.Name)
-				}
-			}
-			if strings.Contains(cmd.Use, fmt.Sprintf("--%s", flag.Name)) {
-				assert.Fail(t, cmd.Use+" should not contain optional flag: "+flag.Name)
-			}
 		}
 	})
 }
@@ -121,7 +67,7 @@ func TestUseShouldMentionRequiredFlags(t *testing.T) {
 
 func TestShortShouldExist(t *testing.T) {
 	root := setupCmd()
-	forAllCmd(root, func(cmd *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
 		if cmd.Short == "" {
 			assert.Fail(t, cmd.Use+" does not have a short")
 		}
@@ -130,7 +76,7 @@ func TestShortShouldExist(t *testing.T) {
 
 func TestShortShouldStartLowerCase(t *testing.T) {
 	root := setupCmd()
-	forAllCmd(root, func(cmd *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
 		if !startWithLowerCaseWord.MatchString(cmd.Short) {
 			assert.Fail(t, cmd.Use+" short should start with lower-case: "+cmd.Short)
 		}
@@ -139,7 +85,7 @@ func TestShortShouldStartLowerCase(t *testing.T) {
 
 func TestShortShouldNotEndWithFullStop(t *testing.T) {
 	root := setupCmd()
-	forAllCmd(root, func(cmd *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
 		if endsWithFullStop.MatchString(cmd.Short) {
 			assert.Fail(t, cmd.Use+" short should not end with a fullstop: "+cmd.Short)
 		}
@@ -150,7 +96,7 @@ func TestShortShouldNotEndWithFullStop(t *testing.T) {
 
 func TestLongShouldExist(t *testing.T) {
 	root := setupCmd()
-	forAllCmd(root, func(cmd *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
 		if cmd.Long == "" {
 			assert.Fail(t, cmd.Name()+" does not have a Long description")
 		}
@@ -159,7 +105,7 @@ func TestLongShouldExist(t *testing.T) {
 
 func TestLongShouldStartWithUpperCase(t *testing.T) {
 	root := setupCmd()
-	forAllCmd(root, func(cmd *cobra.Command) {
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
 		if !startWithUpperCaseWord.MatchString(cmd.Long) {
 			assert.Fail(t, cmd.Name()+" long should start with upper-case: "+cmd.Long)
 		}
@@ -170,7 +116,7 @@ func TestLongShouldStartWithUpperCase(t *testing.T) {
 
 func TestFlagUsageShouldNotEndWithFullStop(t *testing.T) {
 	root := setupCmd()
-	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
+	util.ForAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
 		if endsWithFullStop.MatchString(flag.Usage) {
 			assert.Fail(t, flag.Name+" flag of command "+cmd.Use+" should not end with a fullstop: "+cmd.Short)
 		}
@@ -179,7 +125,7 @@ func TestFlagUsageShouldNotEndWithFullStop(t *testing.T) {
 
 func TestFlagUsageShouldStartWithLowerCase(t *testing.T) {
 	root := setupCmd()
-	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
+	util.ForAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
 		if !startsLowerCase.MatchString(flag.Usage) {
 			assert.Fail(t, flag.Name+" flag of command "+cmd.Use+" should start with lowercase: "+cmd.Short)
 		}
@@ -191,7 +137,7 @@ func TestFlagUsageShouldStartWithLowerCase(t *testing.T) {
 func TestFlagShortHandMustBeConsistentAmongstCommands(t *testing.T) {
 	root := setupCmd()
 	shorthands := make(map[string]string, 0)
-	forAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
+	util.ForAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
 		if len(flag.Shorthand) == 1 {
 			flagName := shorthands[flag.Shorthand]
 			if flagName != "" {

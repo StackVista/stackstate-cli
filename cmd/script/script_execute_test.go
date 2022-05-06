@@ -9,26 +9,25 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	sts "gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
-func setupCommand() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
-	cmd := ScriptExecuteCommand(&mockCli.Deps)
-
-	return mockCli, cmd
+func setupScriptExecuteCmd() (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps()
+	cmd := ScriptExecuteCommand(&cli.Deps)
+	return &cli, cmd
 }
 
 func TestExecuteSuccess(t *testing.T) {
-	cli, cmd := setupCommand()
+	cli, cmd := setupScriptExecuteCmd()
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
 		Result: map[string]interface{}{"value": "hello test"},
 	}
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--script", "test script")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script")
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -39,8 +38,25 @@ func TestExecuteSuccess(t *testing.T) {
 	assert.Equal(t, []interface{}{"hello test"}, *cli.MockPrinter.PrintStructCalls)
 }
 
+func TestExecuteSuccessJson(t *testing.T) {
+	cli, cmd := setupScriptExecuteCmd()
+	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
+		Result: map[string]interface{}{"value": "hello test"},
+	}
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script", "--json")
+
+	assert.Equal(t,
+		[]map[string]interface{}{{
+			"result": map[string]interface{}{"value": "hello test"},
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
+}
+
 func TestExecuteFromScript(t *testing.T) {
-	cli, cmd := setupCommand()
+	cli, cmd := setupScriptExecuteCmd()
 
 	tmpFile, err := ioutil.TempFile(os.TempDir(), "script-execute-test-")
 	if err != nil {
@@ -56,7 +72,7 @@ func TestExecuteFromScript(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--file", tmpFile.Name())
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", tmpFile.Name())
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -70,11 +86,11 @@ func TestExecuteFromScript(t *testing.T) {
 func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
 	fakeErrorResp := &http.Response{StatusCode: 403}
-	cli, cmd := setupCommand()
+	cli, cmd := setupScriptExecuteCmd()
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Error = fakeError
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Response = fakeErrorResp
 
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "test script")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "test script")
 
 	assert.Equal(t,
 		[]sts.ScriptExecuteCall{
@@ -86,8 +102,8 @@ func TestExecuteResponseError(t *testing.T) {
 }
 
 func TestArgumentScriptFlag(t *testing.T) {
-	cli, cmd := setupCommand()
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "--arguments-script", "argscript", "--script", "test script")
+	cli, cmd := setupScriptExecuteCmd()
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--arguments-script", "argscript", "--script", "test script")
 
 	assert.Equal(t,
 		"argscript",
@@ -96,8 +112,8 @@ func TestArgumentScriptFlag(t *testing.T) {
 }
 
 func TestTimeoutFlag(t *testing.T) {
-	cli, cmd := setupCommand()
-	util.ExecuteCommandWithContextUnsafe(cli.Context, cmd, "-t", "10", "--script", "test script")
+	cli, cmd := setupScriptExecuteCmd()
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-t", "10", "--script", "test script")
 
 	assert.Equal(t,
 		int32(10),
@@ -106,22 +122,19 @@ func TestTimeoutFlag(t *testing.T) {
 }
 
 func TestScriptAndFileFlag(t *testing.T) {
-	cli, cmd := setupCommand()
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script", "-f", "file")
+	cli, cmd := setupScriptExecuteCmd()
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script", "-f", "file")
 
 	assert.Equal(t,
-		common.NewCLIArgParseError(
-			fmt.Errorf("can not load script both from the \"script\" and the \"file\" flags."+
-				" Pick one or the other"),
-		),
-		err,
+		mutex_flags.NewMutuallyExclusiveFlagsMultipleError([]string{"script", "file"}, []string{"script", "file"}).Error(),
+		err.Error(),
 	)
 }
 
 func TestConnectionError(t *testing.T) {
-	cli, cmd := setupCommand()
-	respError := common.NewConnectError(fmt.Errorf("authentication error"), &http.Response{StatusCode: 401})
+	cli, cmd := setupScriptExecuteCmd()
+	respError := common.NewConnectError(fmt.Errorf("authentication error"), "https://test", &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = respError
-	_, err := util.ExecuteCommandWithContext(cli.Context, cmd, "--script", "script")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script")
 	assert.Equal(t, respError, err)
 }

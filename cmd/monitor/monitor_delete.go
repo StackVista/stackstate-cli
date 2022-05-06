@@ -5,15 +5,15 @@ import (
 	"net/http"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
+func MonitorDeleteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "delete -i ID",
+		Use:   "delete",
 		Short: "delete a monitor",
 		Long:  "Delete a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunDeleteMonitorCommand),
@@ -27,8 +27,8 @@ func DeleteMonitorCommand(cli *di.Deps) *cobra.Command {
 func RunDeleteMonitorCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo *stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
@@ -46,6 +46,12 @@ func RunDeleteMonitorCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Monitor deleted: %s", identifier))
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"deleted-monitor-identifier": identifier,
+		})
+	} else {
+		cli.Printer.Success(fmt.Sprintf("Monitor deleted: %s", identifier))
+	}
 	return nil
 }

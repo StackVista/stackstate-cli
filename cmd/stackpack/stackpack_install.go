@@ -6,15 +6,15 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "install --name NAME",
+		Use:   "install",
 		Short: "install a StackPack",
 		Long: "Install an instance of a StackPack. " +
 			"Be aware that each StackPack has a different set of parameters." +
@@ -32,8 +32,8 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 func RunStackpackInstallCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	name, err := cmd.Flags().GetString(NameFlag)
 	if err != nil {
@@ -43,30 +43,37 @@ func RunStackpackInstallCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-	parameter := make(map[string]string)
+	parameters := make(map[string]string)
 	for _, v := range params {
 		key, value, err := parseParameter(v)
 		if err != nil {
 			return common.NewCLIArgParseError(err)
 		}
-		parameter[key] = value
+		parameters[key] = value
 	}
 
-	provision, resp, err := api.StackpackApi.ProvisionDetails(cli.Context, name).RequestBody(parameter).Execute()
+	instance, resp, err := api.StackpackApi.ProvisionDetails(cli.Context, name).RequestBody(parameters).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
-	lastUpdateTime := time.UnixMilli(provision.GetLastUpdateTimestamp())
 
-	cli.Printer.Success("StackPack instance installed")
-	cli.Printer.Table(
-		printer.TableData{
-			Header:              []string{"id", "name", "status", "version", "last updated"},
-			Data:                [][]interface{}{{provision.Id, provision.Name, provision.Status, provision.StackPackVersion, lastUpdateTime}},
-			StructData:          provision,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + name},
-		},
-	)
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"instance": instance,
+		})
+	} else {
+		lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
+
+		cli.Printer.Success("StackPack instance installed")
+		cli.Printer.Table(
+			printer.TableData{
+				Header:              []string{"id", "name", "status", "version", "last updated"},
+				Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
+				MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + name},
+			},
+		)
+	}
+
 	return nil
 }
 

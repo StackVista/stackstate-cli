@@ -1,0 +1,4416 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: info@stackstate.com
+    name: StackState
+    url: https://stackstate.com
+  description: StackState's API specification
+  license:
+    name: Proprietary
+    url: https://stackstate.com
+  title: StackState API
+  version: 0.0.1
+externalDocs:
+  description: Documentation
+  url: https://docs.stackstate.com/
+servers:
+- url: /
+security:
+- ApiToken: []
+paths:
+  /import:
+    post:
+      description: Import StackState Templated JSON (STJ) setting nodes.
+      operationId: importSettings
+      parameters:
+      - in: query
+        name: timeoutSeconds
+        required: false
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: unlocked
+        required: false
+        schema:
+          enum:
+          - fail
+          - skip
+          - overwrite
+          type: string
+      requestBody:
+        content:
+          plain/text:
+            schema:
+              type: string
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: object
+                type: array
+          description: The full description of all imported nodes.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Failure to parse the STJ.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Import settings
+      tags:
+      - import
+  /export:
+    post:
+      description: Export StackState Templated JSON (STJ) setting nodes.
+      operationId: exportSettings
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/export'
+        required: true
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: Full description of all nodes.
+      summary: Export settings
+      tags:
+      - export
+  /node:
+    get:
+      description: list all node types
+      operationId: nodeListTypes
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeTypes'
+          description: listing of all node types
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node API
+      tags:
+      - node
+  /node/{nodeType}:
+    get:
+      description: list all nodes of that type
+      operationId: typeList
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: namespace
+        required: false
+        schema:
+          type: string
+      - in: query
+        name: ownedBy
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NodeList'
+          description: list of mentioned type nodes
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node type API
+      tags:
+      - node
+  /stackpack:
+    get:
+      description: list of stackpack
+      operationId: stackpackList
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackpackList'
+          description: Get list of stackpack
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: StackPack API
+      tags:
+      - stackpack
+    post:
+      description: upload a StackPack
+      operationId: stackpackUpload
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StackPackUpload'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackPack'
+          description: Upload success. Processing happens asynchronously.
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: StackPack API
+      tags:
+      - stackpack
+  /stackpack/{stackName}/provision:
+    post:
+      description: Provision details
+      operationId: provisionDetails
+      parameters:
+      - in: path
+        name: stackName
+        required: true
+        schema:
+          $ref: '#/components/schemas/stackName'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              additionalProperties:
+                type: string
+              type: object
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvisionResponse'
+          description: Successful provisioning of the stackpack
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Provision API
+      tags:
+      - stackpack
+  /monitors:
+    get:
+      description: List all available monitor in the system
+      operationId: getAllMonitors
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorList'
+          description: List of all available monitors
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: List monitors
+      tags:
+      - monitor
+  /monitor/{monitorId}:
+    delete:
+      description: Deletes existing monitor
+      operationId: deleteMonitor
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Delete a monitor
+      tags:
+      - monitor
+    get:
+      description: Returns a monitor full representation
+      operationId: getMonitor
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Monitor'
+          description: Full representation of a monitor
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor
+      tags:
+      - monitor
+  /monitor/{monitorId}/run:
+    post:
+      description: Runs a monitor once
+      operationId: runMonitor
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Run a monitor
+      tags:
+      - monitor
+  /monitor/{monitorId}/status:
+    get:
+      description: Returns a monitor full representation with the stream status information
+      operationId: getMonitorWithStatus
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorStatus'
+          description: Full representation of a monitor with status
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor with stream information
+      tags:
+      - monitor
+  /monitor/{monitorId}/dryRun:
+    post:
+      description: Performs a dry run of a monitor without topology state modification
+      operationId: dryRunMonitor
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Dry run a monitor and show a result
+      tags:
+      - monitor
+  /monitorUrn/{monitorUrnId}:
+    delete:
+      description: Deletes existing monitor
+      operationId: deleteMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Delete a monitor
+      tags:
+      - monitorUrn
+    get:
+      description: Returns a monitor full representation
+      operationId: getMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Monitor'
+          description: Full representation of a monitor
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/run:
+    post:
+      description: Runs a monitor once
+      operationId: runMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Run a monitor
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/status:
+    get:
+      description: Returns a monitor full representation with the stream status information
+      operationId: getMonitorWithStatusByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorStatus'
+          description: Full representation of a monitor with status
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor with stream information
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/dryRun:
+    post:
+      description: Performs a dry run of a monitor without topology state modification
+      operationId: dryRunMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Dry run a monitor and show a result
+      tags:
+      - monitorUrn
+  /user/profile:
+    get:
+      description: Get current user profile.
+      operationId: getCurrentUserProfile
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: User Profile
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotFoundError'
+          description: Get User Profile Error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get current user profile
+      tags:
+      - userProfile
+    put:
+      description: Save current user profile.
+      operationId: saveCurrentUserProfile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserProfile'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfile'
+          description: User Profile
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserProfileSaveError'
+          description: Save User Profile Error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Save current user profile
+      tags:
+      - userProfile
+  /user/profile/tokens:
+    get:
+      description: Get all API token of the logged-in user.
+      operationId: getCurrentUserApiTokens
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ApiToken'
+                type: array
+          description: Api Token
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserNotFoundError'
+          description: ""
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get current user's API tokens
+      tags:
+      - apiToken
+  /events:
+    post:
+      description: Gets you a list of events that exist for topology and time selections.
+      operationId: getEvents
+      requestBody:
+        $ref: '#/components/requestBodies/EventListBody'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventItemsWithTotal'
+          description: Event API
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+          description: Get Events Topology Overflow Error Validation Error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get events
+      tags:
+      - event
+  /events/{eventId}:
+    get:
+      description: Retrieves a specific event by its identifier.
+      operationId: getEvent
+      parameters:
+      - description: The Identifier of an event.
+        in: path
+        name: eventId
+        required: true
+        schema:
+          $ref: '#/components/schemas/EventId'
+      - in: query
+        name: startTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: endTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: playHeadTimestampMs
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyEvent'
+          description: Event
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+          description: Get Event Validation Error
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventNotFoundError'
+          description: Error when retrieving an event
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get single event
+      tags:
+      - event
+  /eventTypes:
+    get:
+      description: Get a list of event types for a certain STQL query.
+      operationId: getEventTypes
+      parameters:
+      - in: query
+        name: startTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: endTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: topologyQuery
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: rootCauseMode
+        schema:
+          $ref: '#/components/schemas/RootCauseMode'
+      - in: query
+        name: playHeadTimestampMs
+        schema:
+          format: instant
+          type: integer
+      - explode: false
+        in: query
+        name: eventTypes
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - in: query
+        name: limit
+        required: true
+        schema:
+          type: integer
+      - description: The category labels of an event.
+        explode: false
+        in: query
+        name: eventCategories
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/EventCategory'
+          type: array
+        style: pipeDelimited
+      - explode: false
+        in: query
+        name: eventSources
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - explode: false
+        in: query
+        name: eventTags
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - in: query
+        name: match
+        required: false
+        schema:
+          default: ""
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringItemsWithTotal'
+          description: Event field suggestions
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+          description: "Get events topology overflow error, validation error"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get event types
+      tags:
+      - event
+  /eventSources:
+    get:
+      description: Get a list of event sources.
+      operationId: getEventSources
+      parameters:
+      - in: query
+        name: startTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: endTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: topologyQuery
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: rootCauseMode
+        schema:
+          $ref: '#/components/schemas/RootCauseMode'
+      - in: query
+        name: playHeadTimestampMs
+        schema:
+          format: instant
+          type: integer
+      - explode: false
+        in: query
+        name: eventTypes
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - in: query
+        name: limit
+        required: true
+        schema:
+          type: integer
+      - description: The category labels of an event.
+        explode: false
+        in: query
+        name: eventCategories
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/EventCategory'
+          type: array
+        style: pipeDelimited
+      - explode: false
+        in: query
+        name: eventSources
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - explode: false
+        in: query
+        name: eventTags
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - in: query
+        name: match
+        schema:
+          default: ""
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringItemsWithTotal'
+          description: Event field suggestions
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+          description: "Get events topology overflow error, validation error"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get event sources
+      tags:
+      - event
+  /eventTags:
+    get:
+      description: Gets a list of tags that exist in a list of events.
+      operationId: getEventTags
+      parameters:
+      - in: query
+        name: startTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: endTimestampMs
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - in: query
+        name: topologyQuery
+        required: true
+        schema:
+          type: string
+      - in: query
+        name: rootCauseMode
+        schema:
+          $ref: '#/components/schemas/RootCauseMode'
+      - in: query
+        name: playHeadTimestampMs
+        schema:
+          format: instant
+          type: integer
+      - explode: false
+        in: query
+        name: eventTypes
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - in: query
+        name: limit
+        required: true
+        schema:
+          type: integer
+      - description: The category labels of an event.
+        explode: false
+        in: query
+        name: eventCategories
+        required: false
+        schema:
+          items:
+            $ref: '#/components/schemas/EventCategory'
+          type: array
+        style: pipeDelimited
+      - explode: false
+        in: query
+        name: eventSources
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - explode: false
+        in: query
+        name: eventTags
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+        style: pipeDelimited
+      - in: query
+        name: match
+        schema:
+          default: ""
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StringItemsWithTotal'
+          description: Event field suggestions
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+          description: "Get events topology overflow error, validation error"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get event tags
+      tags:
+      - event
+  /synchronization/health/streams:
+    get:
+      description: Status overview of the health synchronization streams.
+      operationId: getHealthSynchronizationStreamsOverview
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StreamList'
+          description: List of existing health streams
+      summary: List health sync streams
+      tags:
+      - healthSynchronization
+  /synchronization/health/stream/{healthStreamUrn}/status:
+    get:
+      description: Status overview of a single health synchronization stream
+      operationId: getHealthSynchronizationStreamStatus
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStreamStatus'
+          description: Status data
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStreamNotFound'
+          description: Error when retrieving health stream
+      summary: Get health sync stream status
+      tags:
+      - healthSynchronization
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+  /synchronization/health/stream/{healthStreamUrn}/clearErrors:
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+    post:
+      description: Clear all errors for a stream and its sub-streams.
+      operationId: postHealthSynchronizationStreamClearErrors
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStreamNotFound'
+          description: Error when retrieving health stream
+      summary: Clear health sync stream errors
+      tags:
+      - healthSynchronization
+  /synchronization/health/stream/{healthStreamUrn}:
+    delete:
+      description: Delete a health synchronization stream. Deletion will not be immediate.
+      operationId: deleteHealthSynchronizationStream
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStreamNotFound'
+          description: Error when retrieving health stream
+      summary: Delete health sync stream
+      tags:
+      - healthSynchronization
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+  /synchronization/health/stream/{healthStreamUrn}/substreams:
+    get:
+      description: Overview of all sub-streams in a certain health stream.
+      operationId: getHealthSynchronizationSubStreamOverview
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubStreamList'
+          description: List of substreams
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStreamNotFound'
+          description: Error when retrieving health stream
+      summary: List health sync sub-streams
+      tags:
+      - healthSynchronization
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+  /synchronization/health/stream/{healthStreamUrn}/topologyMatches:
+    get:
+      description: Overview of check-states matched to topology on the main stream.
+      operationId: getHealthSynchronizationStreamTopologyMatches
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyMatchResult'
+          description: Topology matches
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthSubStreamError'
+          description: Error when retrieving health sub stream
+      summary: List health sync stream check-states
+      tags:
+      - healthSynchronization
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+  /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status:
+    get:
+      description: Status overview of a single health synchronization sub stream
+      operationId: getHealthSynchronizationSubStreamStatus
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      - description: Health synchronization sub stream id.
+        in: path
+        name: healthSyncSubStreamId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthSubStreamStatus'
+          description: Sub stream status
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthSubStreamError'
+          description: Error when retrieving health sub stream
+      summary: Get health sync sub-stream status
+      tags:
+      - healthSynchronization
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+    - description: Health synchronization sub stream id.
+      in: path
+      name: healthSyncSubStreamId
+      required: true
+      schema:
+        type: string
+  /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches:
+    get:
+      description: Overview of check-states matched to topology on the main stream.
+      operationId: getHealthSynchronizationSubStreamTopologyMatches
+      parameters:
+      - description: Urn of the health stream.
+        in: path
+        name: healthStreamUrn
+        required: true
+        schema:
+          type: string
+      - description: Health synchronization sub stream id.
+        in: path
+        name: healthSyncSubStreamId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyMatchResult'
+          description: Topology matches for a specified sub stream
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidUrn'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthSubStreamError'
+          description: Error when retrieving health sub stream
+      summary: List health sync sub-stream check-states
+      tags:
+      - healthSynchronization
+    parameters:
+    - description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+    - description: Health synchronization sub stream id.
+      in: path
+      name: healthSyncSubStreamId
+      required: true
+      schema:
+        type: string
+  /synchronization/topology/streams:
+    get:
+      description: Overview of the topology synchronization streams
+      operationId: getTopologySynchronizationStreams
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyStreamList'
+          description: List of existing topology streams
+      summary: Overview of the topology synchronization streams
+      tags:
+      - topologySynchronization
+  /synchronization/topology/streams/sync:
+    get:
+      description: "Overview of a specific Topology Stream, queried by node id or\
+        \ sync identifier"
+      operationId: getTopologySynchronizationStreamById
+      parameters:
+      - allowReserved: true
+        in: query
+        name: identifier
+        required: true
+        schema:
+          type: string
+      - allowReserved: false
+        in: query
+        name: identifierType
+        required: true
+        schema:
+          $ref: '#/components/schemas/IdentifierType'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyStreamListItemWithErrorDetails'
+          description: A specific topology stream
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidSyncIdentifier'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologySyncError'
+          description: Sync with given identifier not found
+      summary: "Overview of a specific Topology Stream, queried by node id or sync\
+        \ identifier"
+      tags:
+      - topologySynchronization
+    parameters:
+    - allowReserved: true
+      in: query
+      name: identifier
+      required: true
+      schema:
+        type: string
+    - allowReserved: false
+      in: query
+      name: identifierType
+      required: true
+      schema:
+        $ref: '#/components/schemas/IdentifierType'
+  /synchronization/topology/streams/status:
+    get:
+      description: "Metrics of a specific Topology Stream, queried by node id"
+      operationId: getTopologySynchronizationStreamStatusById
+      parameters:
+      - allowReserved: true
+        in: query
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologyStreamMetrics'
+          description: A specific topology stream metrics
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidSyncIdentifier'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologySyncError'
+          description: Sync with given identifier not found
+      summary: "Metrics of a specific Topology Stream, queried by node id"
+      tags:
+      - topologySynchronization
+    parameters:
+    - allowReserved: true
+      in: query
+      name: identifier
+      required: true
+      schema:
+        type: string
+  /synchronization/topology/streams/clearErrors:
+    parameters:
+    - allowReserved: true
+      in: query
+      name: identifier
+      required: true
+      schema:
+        type: string
+    - allowReserved: false
+      in: query
+      name: identifierType
+      required: true
+      schema:
+        $ref: '#/components/schemas/IdentifierType'
+    post:
+      description: Clear all the errors related to a specific sync
+      operationId: postTopologySynchronizationStreamClearErrors
+      parameters:
+      - allowReserved: true
+        in: query
+        name: identifier
+        required: true
+        schema:
+          type: string
+      - allowReserved: false
+        in: query
+        name: identifierType
+        required: true
+        schema:
+          $ref: '#/components/schemas/IdentifierType'
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidSyncIdentifier'
+          description: Bad request when specifying an invalid identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopologySyncError'
+          description: Sync with given identifier not found
+      summary: Clear all the errors related to a specific sync
+      tags:
+      - topologySynchronization
+  /script/execute:
+    post:
+      description: Execute a StackState Scripting Language or Template Language script
+        with arbitrary arguments.
+      operationId: scriptExecute
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteScriptRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecuteScriptResponse'
+          description: Result of executing the script.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecuteScriptError'
+          description: Error occurred while executing script.
+        "408":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExecuteScriptTimeoutError'
+          description: Script timed out.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Execute script
+      tags:
+      - scripting
+  /server/info:
+    get:
+      description: "Get information of the StackState information, such as version,\
+        \ deployment mode, etc."
+      operationId: serverInfo
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerInfo'
+          description: Server information
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get server info
+      tags:
+      - server
+  /security/token:
+    get:
+      description: Get service tokens.
+      operationId: getServiceTokens
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceToken'
+                type: array
+          description: Service Tokens
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get service tokens
+      tags:
+      - serviceToken
+    post:
+      description: Create new service token.
+      operationId: createNewServiceToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewServiceTokenRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTokenCreatedResponse'
+          description: The newly created service token
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTokenCreateError'
+          description: Create service token error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create new service token
+      tags:
+      - serviceToken
+  /security/token/{serviceTokenId}:
+    delete:
+      description: Delete service token.
+      operationId: deleteServiceToken
+      parameters:
+      - description: The identifier of a service token
+        in: path
+        name: serviceTokenId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ServiceTokenId'
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete service token
+      tags:
+      - serviceToken
+  /anomaly-feedback:
+    get:
+      description: ""
+      operationId: collectAnomalyFeedback
+      parameters:
+      - in: query
+        name: startTime
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: endTime
+        required: false
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: history
+        required: false
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FeedbackWithContext'
+                type: array
+          description: Export feedback on anomalies.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Collect feedback on anomalies
+      tags:
+      - anomalyFeedback
+components:
+  requestBodies:
+    EventListBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventListRequest'
+      required: true
+  responses:
+    genericErrorsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericErrorsResponse'
+      description: Error when handling the request on the server side.
+    monitors:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorList'
+      description: List of all available monitors
+    monitorApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorApiError'
+      description: container for all error response
+    monitor:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Monitor'
+      description: Full representation of a monitor
+    monitorNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorNotFoundError'
+      description: monitor was not found in the database
+    monitorRunResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorRunResult'
+      description: Full representation of the result of a monitor run
+    monitorStatus:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorStatus'
+      description: Full representation of a monitor with status
+    monitorIdentifierNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+      description: monitor was not found in the database
+    userProfile:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserProfile'
+      description: User Profile
+    apiTokens:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/ApiToken'
+            type: array
+      description: Api Token
+    events:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventItemsWithTotal'
+      description: Event API
+    event:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TopologyEvent'
+      description: Event
+    eventNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventNotFoundError'
+      description: Error when retrieving an event
+    eventSuggestions:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StringItemsWithTotal'
+      description: Event field suggestions
+    urnBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidUrn'
+      description: Bad request when specifying an invalid identifier
+    healthStreamError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthStreamNotFound'
+      description: Error when retrieving health stream
+    healthSubStreamError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthSubStreamError'
+      description: Error when retrieving health sub stream
+    TopologySyncBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidSyncIdentifier'
+      description: Bad request when specifying an invalid identifier
+    TopologySyncNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TopologySyncError'
+      description: Sync with given identifier not found
+    tokens:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/ServiceToken'
+            type: array
+      description: Service Tokens
+  schemas:
+    GenericErrorsResponse:
+      properties:
+        _type:
+          enum:
+          - ErrorsResponse
+          type: string
+        trackingKey:
+          type: string
+        serverTimestamp:
+          format: int64
+          type: integer
+        errors:
+          items:
+            $ref: '#/components/schemas/GenericApiError'
+          type: array
+      required:
+      - errors
+      - serverTimestamp
+      - trackingKey
+      type: object
+    GenericApiError:
+      properties:
+        _type:
+          enum:
+          - InternalError
+          type: string
+        message:
+          type: string
+        errorCode:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - message
+      type: object
+    export:
+      properties:
+        nodesWithIds:
+          items:
+            format: int64
+            type: integer
+          type: array
+        allNodesOfTypes:
+          items:
+            type: string
+          type: array
+        namespace:
+          type: string
+        allowReferences:
+          items:
+            type: string
+          type: array
+      type: object
+    NodeTypes:
+      example:
+        nodeTypes:
+        - typeName: typeName
+          description: description
+        - typeName: typeName
+          description: description
+      properties:
+        nodeTypes:
+          items:
+            $ref: '#/components/schemas/NodeTypes_nodeTypes_inner'
+          type: array
+      required:
+      - nodeTypes
+      type: object
+    NodeList:
+      items:
+        $ref: '#/components/schemas/Node'
+      type: array
+    Node:
+      example:
+        identifier: identifier
+        lastUpdateTimestamp: 6
+        typeName: typeName
+        name: name
+        description: description
+        isSettingsNode: true
+        id: 0
+        manual: true
+        ownedBy: ownedBy
+      properties:
+        typeName:
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        ownedBy:
+          type: string
+        manual:
+          type: boolean
+        isSettingsNode:
+          type: boolean
+      required:
+      - id
+      - lastUpdateTimestamp
+      - typeName
+      type: object
+    StackpackList:
+      items:
+        $ref: '#/components/schemas/Sstackpack'
+      type: array
+    Sstackpack:
+      example:
+        latestVersion:
+          version: version
+        displayName: displayName
+        configurations:
+        - lastUpdateTimestamp: 6
+          stackPackVersion: stackPackVersion
+          id: 0
+          status: status
+        - lastUpdateTimestamp: 6
+          stackPackVersion: stackPackVersion
+          id: 0
+          status: status
+        name: name
+        version: version
+        nextVersion:
+          version: version
+        steps:
+        - display: display
+          name: name
+          value:
+            _type: _type
+        - display: display
+          name: name
+          value:
+            _type: _type
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        configurations:
+          items:
+            $ref: '#/components/schemas/Sstackpack_configurations_inner'
+          type: array
+        latestVersion:
+          $ref: '#/components/schemas/Sstackpack_latestVersion'
+        nextVersion:
+          $ref: '#/components/schemas/Sstackpack_latestVersion'
+        steps:
+          items:
+            $ref: '#/components/schemas/StackPackStep'
+          type: array
+      type: object
+    StackPackStep:
+      example:
+        display: display
+        name: name
+        value:
+          _type: _type
+      properties:
+        display:
+          type: string
+        name:
+          type: string
+        value:
+          $ref: '#/components/schemas/StackPackStep_value'
+      type: object
+    StackPack:
+      example:
+        detailedOverviewUrl: detailedOverviewUrl
+        displayName: displayName
+        overviewUrl: overviewUrl
+        isNew: true
+        version: version
+        resourcesUrl: resourcesUrl
+        isCompatible: true
+        faqs:
+        - question: question
+          answer: answer
+        - question: question
+          answer: answer
+        configurationUrls:
+        - - configurationUrls
+          - configurationUrls
+        - - configurationUrls
+          - configurationUrls
+        name: name
+        releaseStatus: AVAILABLE
+        logo: logo
+        categories:
+        - categories
+        - categories
+      properties:
+        name:
+          type: string
+        displayName:
+          type: string
+        version:
+          type: string
+        logo:
+          type: string
+        categories:
+          items:
+            type: string
+          type: array
+        isNew:
+          type: boolean
+        overviewUrl:
+          type: string
+        detailedOverviewUrl:
+          type: string
+        resourcesUrl:
+          type: string
+        faqs:
+          items:
+            $ref: '#/components/schemas/StackPack_faqs_inner'
+          type: array
+        configurationUrls:
+          items:
+            items:
+              type: string
+            type: array
+          type: array
+        releaseStatus:
+          enum:
+          - AVAILABLE
+          - ENABLED
+          - COMING_SOON
+          - HIDDEN
+          - BROKEN
+          type: string
+        isCompatible:
+          type: boolean
+      required:
+      - categories
+      - displayName
+      - isCompatible
+      - isNew
+      - name
+      - releaseStatus
+      - version
+      type: object
+    StackPackUpload:
+      properties:
+        stackPack:
+          format: binary
+          type: string
+      type: object
+    ProvisionResponse:
+      example:
+        stackPackVersion: stackPackVersion
+        lastUpdateTimestamp: 6
+        name: name
+        id: 0
+        status: status
+      properties:
+        id:
+          format: int64
+          type: integer
+        status:
+          type: string
+        name:
+          type: string
+        stackPackVersion:
+          type: string
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+      type: object
+    stackName:
+      type: string
+    MonitorList:
+      example:
+        monitors:
+        - topologyMapping: topologyMapping
+          identifier: identifier
+          functionId: 6
+          remediationHint: remediationHint
+          name: name
+          description: description
+          arguments:
+          - "{}"
+          - "{}"
+          id: 0
+          intervalSeconds: 1
+        - topologyMapping: topologyMapping
+          identifier: identifier
+          functionId: 6
+          remediationHint: remediationHint
+          name: name
+          description: description
+          arguments:
+          - "{}"
+          - "{}"
+          id: 0
+          intervalSeconds: 1
+      properties:
+        monitors:
+          items:
+            $ref: '#/components/schemas/Monitor'
+          type: array
+      required:
+      - monitors
+      type: object
+    Monitor:
+      example:
+        topologyMapping: topologyMapping
+        identifier: identifier
+        functionId: 6
+        remediationHint: remediationHint
+        name: name
+        description: description
+        arguments:
+        - "{}"
+        - "{}"
+        id: 0
+        intervalSeconds: 1
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          format: int64
+          type: integer
+        arguments:
+          items:
+            type: object
+          type: array
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+        intervalSeconds:
+          type: integer
+      required:
+      - arguments
+      - functionId
+      - id
+      - intervalSeconds
+      - name
+      - topologyMapping
+      type: object
+    MonitorId:
+      format: int64
+      type: integer
+    MonitorApiError:
+      properties:
+        statusCode:
+          type: string
+        message:
+          type: string
+        monitorId:
+          type: string
+        monitorIdType:
+          enum:
+          - id
+          - urn
+          type: string
+      required:
+      - message
+      - statusCode
+      type: object
+    MonitorNotFoundError:
+      properties:
+        _type:
+          enum:
+          - MonitorNotFoundError
+          type: string
+        monitorId:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - monitorId
+      type: object
+    MonitorRunResult:
+      example:
+        result: "{}"
+      properties:
+        result:
+          type: object
+      required:
+      - result
+      type: object
+    MonitorStatus:
+      example:
+        monitor:
+          topologyMapping: topologyMapping
+          identifier: identifier
+          functionId: 6
+          remediationHint: remediationHint
+          name: name
+          description: description
+          arguments:
+          - "{}"
+          - "{}"
+          id: 0
+          intervalSeconds: 1
+        topologyMatchResult:
+          unmatchedCheckStates:
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+          matchedCheckStates: 2
+          multipleMatchesCheckStates:
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+            matchCount: 7
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+            matchCount: 7
+        status:
+          globalErrors:
+          - level: level
+            count: 6
+            errorCode: errorCode
+            error: error
+          - level: level
+            count: 6
+            errorCode: errorCode
+            error: error
+          partition: 0
+          recoverMessage: recoverMessage
+          mainStreamStatus:
+            checkStateCount: 5
+            subStreamState: null
+            metrics:
+              createsPerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              latencySeconds:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              bucketSizeSeconds: 1
+              deletesPerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              messagePerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+              updatesPerSecond:
+              - value: 5.962133916683182
+              - value: 5.962133916683182
+            errors:
+            - level: level
+              count: 6
+              errorCode: errorCode
+              error: error
+            - level: level
+              count: 6
+              errorCode: errorCode
+              error: error
+          consistencyModel: consistencyModel
+          aggregateMetrics:
+            createsPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            latencySeconds:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            bucketSizeSeconds: 1
+            deletesPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            messagePerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            updatesPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor'
+        status:
+          $ref: '#/components/schemas/HealthStreamStatus'
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
+      required:
+      - monitor
+      - status
+      - topologyMatchResult
+      type: object
+    MonitorUrnId:
+      type: string
+    Monitor_1:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          format: int64
+          type: integer
+        arguments:
+          items:
+            type: object
+          type: array
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+        intervalSeconds:
+          type: integer
+      required:
+      - arguments
+      - functionId
+      - id
+      - intervalSeconds
+      - name
+      - topologyMapping
+      type: object
+    MonitorIdentifierNotFoundError:
+      properties:
+        _type:
+          enum:
+          - MonitorIdentifierNotFoundError
+          type: string
+        monitorIdentifier:
+          type: string
+      required:
+      - _type
+      - monitorIdentifier
+      type: object
+    MonitorStatus_1:
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor_1'
+        status:
+          $ref: '#/components/schemas/HealthStreamStatus_1'
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
+      required:
+      - monitor
+      - status
+      - topologyMatchResult
+      type: object
+    UserNotFoundError:
+      properties:
+        _type:
+          enum:
+          - UserNotFoundError
+          type: string
+        name:
+          type: string
+      required:
+      - _type
+      - name
+      type: object
+    UserProfileSaveError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/UserNameMismatchError'
+      - $ref: '#/components/schemas/UserNotFoundError'
+      - $ref: '#/components/schemas/UserNotLoggedInError'
+      required:
+      - _type
+    UserNameMismatchError:
+      properties:
+        _type:
+          enum:
+          - UserNameMismatchError
+          type: string
+        name:
+          type: string
+      required:
+      - _type
+      - name
+      type: object
+    UserNotLoggedInError:
+      properties:
+        _type:
+          enum:
+          - UserNotLoggedInError
+          type: string
+      required:
+      - _type
+      type: object
+    UserProfile:
+      example:
+        identifier: identifier
+        lastUpdateTimestamp: 6
+        starredViews:
+        - 1
+        - 1
+        name: name
+        description: description
+        id: 0
+        ownedBy: ownedBy
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        identifier:
+          type: string
+        starredViews:
+          items:
+            format: int64
+            type: integer
+          type: array
+        ownedBy:
+          type: string
+      required:
+      - name
+      type: object
+    ApiToken:
+      example:
+        lastUpdateTimestamp: 6
+        name: name
+        description: description
+        id: 0
+        token: token
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        token:
+          type: string
+      required:
+      - name
+      - token
+      type: object
+    RequestError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TopologyOverflowError'
+      - $ref: '#/components/schemas/RequestValidationError'
+      required:
+      - _type
+    TopologyOverflowError:
+      properties:
+        _type:
+          enum:
+          - TopologyOverflowError
+          type: string
+        maxSize:
+          type: integer
+      required:
+      - _type
+      - maxSize
+      type: object
+    RequestValidationError:
+      properties:
+        _type:
+          enum:
+          - RequestValidationError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    EventListRequest:
+      example:
+        cursor:
+          lastEventTimestampMs: 5
+          lastEventId: lastEventId
+        eventSources:
+        - eventSources
+        - eventSources
+        limit: 1
+        startTimestampMs: 0
+        playHeadTimestampMs: 5
+        eventCategories:
+        - null
+        - null
+        topologyQuery: topologyQuery
+        eventTypes:
+        - eventTypes
+        - eventTypes
+        eventTags:
+        - eventTags
+        - eventTags
+        endTimestampMs: 6
+        rootCauseMode: null
+      properties:
+        startTimestampMs:
+          format: instant
+          type: integer
+        endTimestampMs:
+          format: instant
+          type: integer
+        topologyQuery:
+          type: string
+        limit:
+          type: integer
+        playHeadTimestampMs:
+          format: instant
+          type: integer
+        rootCauseMode:
+          $ref: '#/components/schemas/RootCauseMode'
+        eventTypes:
+          items:
+            type: string
+          type: array
+        eventTags:
+          items:
+            type: string
+          type: array
+        eventCategories:
+          items:
+            $ref: '#/components/schemas/EventCategory'
+          type: array
+        eventSources:
+          items:
+            type: string
+          type: array
+        cursor:
+          $ref: '#/components/schemas/EventCursor'
+      required:
+      - endTimestampMs
+      - limit
+      - startTimestampMs
+      - topologyQuery
+      type: object
+    RootCauseMode:
+      enum:
+      - no-cause
+      - cause-only
+      - full-cause-tree
+      type: string
+    EventCategory:
+      enum:
+      - Changes
+      - Alerts
+      - Anomalies
+      - Activities
+      - Others
+      type: string
+    EventCursor:
+      example:
+        lastEventTimestampMs: 5
+        lastEventId: lastEventId
+      properties:
+        lastEventTimestampMs:
+          format: int64
+          type: integer
+        lastEventId:
+          type: string
+      required:
+      - lastEventId
+      - lastEventTimestampMs
+      type: object
+    EventItemsWithTotal:
+      example:
+        total: 5
+        items:
+        - identifier: identifier
+          sourceIdentifier: sourceIdentifier
+          data: "{}"
+          description: description
+          source: source
+          eventType: eventType
+          processedTime: 1
+          tags:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          elements:
+          - null
+          - null
+          name: name
+          eventTime: 6
+          category: null
+          elementIdentifiers:
+          - elementIdentifiers
+          - elementIdentifiers
+          sourceLinks:
+          - title: title
+            url: url
+          - title: title
+            url: url
+          causingEvents:
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 0
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 0
+        - identifier: identifier
+          sourceIdentifier: sourceIdentifier
+          data: "{}"
+          description: description
+          source: source
+          eventType: eventType
+          processedTime: 1
+          tags:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          elements:
+          - null
+          - null
+          name: name
+          eventTime: 6
+          category: null
+          elementIdentifiers:
+          - elementIdentifiers
+          - elementIdentifiers
+          sourceLinks:
+          - title: title
+            url: url
+          - title: title
+            url: url
+          causingEvents:
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 0
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 0
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/TopologyEvent'
+          type: array
+        total:
+          format: int64
+          type: integer
+      required:
+      - items
+      - total
+      type: object
+    TopologyEvent:
+      example:
+        identifier: identifier
+        sourceIdentifier: sourceIdentifier
+        data: "{}"
+        description: description
+        source: source
+        eventType: eventType
+        processedTime: 1
+        tags:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        elements:
+        - null
+        - null
+        name: name
+        eventTime: 6
+        category: null
+        elementIdentifiers:
+        - elementIdentifiers
+        - elementIdentifiers
+        sourceLinks:
+        - title: title
+          url: url
+        - title: title
+          url: url
+        causingEvents:
+        - eventId: eventId
+          eventType: eventType
+          title: title
+          eventTimestamp: 0
+        - eventId: eventId
+          eventType: eventType
+          title: title
+          eventTimestamp: 0
+      properties:
+        identifier:
+          type: string
+        sourceIdentifier:
+          type: string
+        elementIdentifiers:
+          items:
+            type: string
+          type: array
+        elements:
+          items:
+            $ref: '#/components/schemas/EventElement'
+          type: array
+        causingEvents:
+          items:
+            $ref: '#/components/schemas/EventRef'
+          type: array
+        source:
+          type: string
+        category:
+          $ref: '#/components/schemas/EventCategory'
+        description:
+          type: string
+        name:
+          type: string
+        sourceLinks:
+          items:
+            $ref: '#/components/schemas/SourceLink'
+          type: array
+        data:
+          type: object
+        eventType:
+          type: string
+        eventTime:
+          format: int64
+          type: integer
+        processedTime:
+          format: int64
+          type: integer
+        tags:
+          items:
+            $ref: '#/components/schemas/EventTag'
+          type: array
+      required:
+      - category
+      - causingEvents
+      - data
+      - elementIdentifiers
+      - elements
+      - eventTime
+      - eventType
+      - identifier
+      - name
+      - processedTime
+      - source
+      - sourceLinks
+      - tags
+      type: object
+    EventElement:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/EventComponent'
+      - $ref: '#/components/schemas/EventRelation'
+    EventComponent:
+      properties:
+        _type:
+          enum:
+          - EventComponent
+          type: string
+        id:
+          format: int64
+          type: integer
+        componentTypeId:
+          format: int64
+          type: integer
+        name:
+          type: string
+      required:
+      - _type
+      - componentTypeId
+      - id
+      - name
+      type: object
+    EventRelation:
+      properties:
+        _type:
+          enum:
+          - EventRelation
+          type: string
+        id:
+          format: int64
+          type: integer
+        relationTypeId:
+          format: int64
+          type: integer
+        name:
+          type: string
+        source:
+          $ref: '#/components/schemas/EventComponent'
+        target:
+          $ref: '#/components/schemas/EventComponent'
+        dependencyDirection:
+          $ref: '#/components/schemas/DependencyDirection'
+      required:
+      - _type
+      - dependencyDirection
+      - id
+      - relationTypeId
+      - source
+      - target
+      type: object
+    DependencyDirection:
+      enum:
+      - one-way
+      - none
+      - both
+      type: string
+    EventRef:
+      example:
+        eventId: eventId
+        eventType: eventType
+        title: title
+        eventTimestamp: 0
+      properties:
+        title:
+          type: string
+        eventId:
+          type: string
+        eventTimestamp:
+          format: int64
+          type: integer
+        eventType:
+          type: string
+      required:
+      - _type
+      - eventId
+      - eventTimestamp
+      - eventType
+      - title
+      type: object
+    SourceLink:
+      example:
+        title: title
+        url: url
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+      required:
+      - title
+      - url
+      type: object
+    EventTag:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+      - key
+      - value
+      type: object
+    EventId:
+      type: string
+    EventNotFoundError:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - EventNotFoundError
+          type: string
+        eventId:
+          type: string
+      required:
+      - _type
+      - eventId
+      type: object
+    StringItemsWithTotal:
+      example:
+        total: 0
+        items:
+        - items
+        - items
+      properties:
+        items:
+          items:
+            type: string
+          type: array
+        total:
+          format: int64
+          type: integer
+      required:
+      - items
+      - total
+      type: object
+    StreamList:
+      example:
+        items:
+        - urn: urn
+          subStreams: 0
+          consistencyModel: consistencyModel
+        - urn: urn
+          subStreams: 0
+          consistencyModel: consistencyModel
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/StreamListItem'
+          type: array
+      required:
+      - items
+      type: object
+    StreamListItem:
+      example:
+        urn: urn
+        subStreams: 0
+        consistencyModel: consistencyModel
+      properties:
+        urn:
+          type: string
+        consistencyModel:
+          type: string
+        subStreams:
+          type: integer
+      required:
+      - consistencyModel
+      - subStreams
+      - urn
+      type: object
+    HealthStreamStatus:
+      example:
+        globalErrors:
+        - level: level
+          count: 6
+          errorCode: errorCode
+          error: error
+        - level: level
+          count: 6
+          errorCode: errorCode
+          error: error
+        partition: 0
+        recoverMessage: recoverMessage
+        mainStreamStatus:
+          checkStateCount: 5
+          subStreamState: null
+          metrics:
+            createsPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            latencySeconds:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            bucketSizeSeconds: 1
+            deletesPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            messagePerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+            updatesPerSecond:
+            - value: 5.962133916683182
+            - value: 5.962133916683182
+          errors:
+          - level: level
+            count: 6
+            errorCode: errorCode
+            error: error
+          - level: level
+            count: 6
+            errorCode: errorCode
+            error: error
+        consistencyModel: consistencyModel
+        aggregateMetrics:
+          createsPerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          latencySeconds:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          bucketSizeSeconds: 1
+          deletesPerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          messagePerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          updatesPerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+      properties:
+        partition:
+          type: integer
+        consistencyModel:
+          type: string
+        recoverMessage:
+          type: string
+        globalErrors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        aggregateMetrics:
+          $ref: '#/components/schemas/HealthStreamMetrics'
+        mainStreamStatus:
+          $ref: '#/components/schemas/HealthSubStreamStatus'
+      required:
+      - aggregateMetrics
+      - consistencyModel
+      - partition
+      type: object
+    HealthStreamErrors:
+      items:
+        $ref: '#/components/schemas/HealthStreamError'
+      type: array
+    HealthStreamError:
+      example:
+        level: level
+        count: 6
+        errorCode: errorCode
+        error: error
+      properties:
+        errorCode:
+          type: string
+        level:
+          type: string
+        error:
+          type: string
+        count:
+          type: integer
+      required:
+      - count
+      - error
+      - errorCode
+      - level
+      type: object
+    HealthStreamMetrics:
+      example:
+        createsPerSecond:
+        - value: 5.962133916683182
+        - value: 5.962133916683182
+        latencySeconds:
+        - value: 5.962133916683182
+        - value: 5.962133916683182
+        bucketSizeSeconds: 1
+        deletesPerSecond:
+        - value: 5.962133916683182
+        - value: 5.962133916683182
+        messagePerSecond:
+        - value: 5.962133916683182
+        - value: 5.962133916683182
+        updatesPerSecond:
+        - value: 5.962133916683182
+        - value: 5.962133916683182
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        messagePerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        createsPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        updatesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        deletesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
+      type: object
+    MetricBucketValues:
+      items:
+        $ref: '#/components/schemas/MetricBucketValue'
+      type: array
+    MetricBucketValue:
+      example:
+        value: 5.962133916683182
+      properties:
+        value:
+          format: double
+          type: number
+      type: object
+    HealthSubStreamStatus:
+      example:
+        checkStateCount: 5
+        subStreamState: null
+        metrics:
+          createsPerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          latencySeconds:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          bucketSizeSeconds: 1
+          deletesPerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          messagePerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+          updatesPerSecond:
+          - value: 5.962133916683182
+          - value: 5.962133916683182
+        errors:
+        - level: level
+          count: 6
+          errorCode: errorCode
+          error: error
+        - level: level
+          count: 6
+          errorCode: errorCode
+          error: error
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/HealthStreamMetrics'
+        subStreamState:
+          $ref: '#/components/schemas/HealthSubStreamConsistencyState'
+        checkStateCount:
+          type: integer
+      required:
+      - checkStateCount
+      - metrics
+      - subStreamState
+      type: object
+    HealthSubStreamConsistencyState:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/HealthSubStreamSnapshot'
+      - $ref: '#/components/schemas/HealthSubStreamExpiry'
+      - $ref: '#/components/schemas/HealthSubStreamTransactionalIncrements'
+      required:
+      - _type
+    HealthSubStreamSnapshot:
+      properties:
+        _type:
+          enum:
+          - HealthSubStreamSnapshot
+          type: string
+        expiryIntervalMs:
+          type: integer
+        repeatIntervalMs:
+          type: integer
+      required:
+      - _type
+      - repeatIntervalMs
+      type: object
+    HealthSubStreamExpiry:
+      properties:
+        _type:
+          enum:
+          - HealthSubStreamExpiry
+          type: string
+        expiryIntervalMs:
+          type: integer
+        repeatIntervalMs:
+          type: integer
+      required:
+      - _type
+      - expiryIntervalMs
+      - repeatIntervalMs
+      type: object
+    HealthSubStreamTransactionalIncrements:
+      properties:
+        _type:
+          enum:
+          - HealthSubStreamTransactionalIncrements
+          type: string
+        offset:
+          format: int64
+          type: integer
+        batchIndex:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - offset
+      type: object
+    InvalidUrn:
+      properties:
+        urn:
+          type: string
+        message:
+          type: string
+      required:
+      - message
+      - urn
+      type: object
+    HealthStreamNotFound:
+      properties:
+        _type:
+          enum:
+          - HealthStreamNotFound
+          type: string
+        urn:
+          type: string
+      required:
+      - _type
+      - urn
+      type: object
+    SubStreamList:
+      example:
+        subStreams:
+        - subStreamId: subStreamId
+          checkStateCount: 0
+          subStreamState: null
+        - subStreamId: subStreamId
+          checkStateCount: 0
+          subStreamState: null
+      properties:
+        subStreams:
+          items:
+            $ref: '#/components/schemas/SubStreamListItem'
+          type: array
+      required:
+      - subStreams
+      type: object
+    SubStreamListItem:
+      example:
+        subStreamId: subStreamId
+        checkStateCount: 0
+        subStreamState: null
+      properties:
+        subStreamId:
+          type: string
+        subStreamState:
+          $ref: '#/components/schemas/HealthSubStreamConsistencyState'
+        checkStateCount:
+          type: integer
+      required:
+      - checkStateCount
+      - subStreamId
+      - subStreamState
+      type: object
+    TopologyMatchResult:
+      example:
+        unmatchedCheckStates:
+        - topologyElementIdentifier: topologyElementIdentifier
+          checkStateId: checkStateId
+        - topologyElementIdentifier: topologyElementIdentifier
+          checkStateId: checkStateId
+        matchedCheckStates: 2
+        multipleMatchesCheckStates:
+        - topologyElementIdentifier: topologyElementIdentifier
+          checkStateId: checkStateId
+          matchCount: 7
+        - topologyElementIdentifier: topologyElementIdentifier
+          checkStateId: checkStateId
+          matchCount: 7
+      properties:
+        matchedCheckStates:
+          type: integer
+        unmatchedCheckStates:
+          items:
+            $ref: '#/components/schemas/UnmatchedCheckState'
+          type: array
+        multipleMatchesCheckStates:
+          items:
+            $ref: '#/components/schemas/MultipleMatchesCheckState'
+          type: array
+      required:
+      - matchedCheckStates
+      - multipleMatchesCheckStates
+      - unmatchedCheckStates
+      type: object
+    UnmatchedCheckState:
+      example:
+        topologyElementIdentifier: topologyElementIdentifier
+        checkStateId: checkStateId
+      properties:
+        checkStateId:
+          type: string
+        topologyElementIdentifier:
+          type: string
+      required:
+      - checkStateId
+      - topologyElementIdentifier
+      type: object
+    MultipleMatchesCheckState:
+      example:
+        topologyElementIdentifier: topologyElementIdentifier
+        checkStateId: checkStateId
+        matchCount: 7
+      properties:
+        checkStateId:
+          type: string
+        topologyElementIdentifier:
+          type: string
+        matchCount:
+          type: integer
+      required:
+      - checkStateId
+      - matchCount
+      - topologyElementIdentifier
+      type: object
+    HealthSubStreamError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/HealthStreamNotFound'
+      - $ref: '#/components/schemas/HealthSubStreamNotFound'
+      required:
+      - _type
+    HealthSubStreamNotFound:
+      properties:
+        _type:
+          enum:
+          - HealthSubStreamNotFound
+          type: string
+        urn:
+          type: string
+        subStreamId:
+          type: string
+      required:
+      - _type
+      - urn
+      type: object
+    TopologyStreamList:
+      example:
+        streams:
+        - syncIdentifier: syncIdentifier
+          createdRelations: 6
+          deletedComponents: 5
+          name: name
+          deletedRelations: 1
+          nodeId: 0
+          errors: 2
+          createdComponents: 5
+          status: null
+        - syncIdentifier: syncIdentifier
+          createdRelations: 6
+          deletedComponents: 5
+          name: name
+          deletedRelations: 1
+          nodeId: 0
+          errors: 2
+          createdComponents: 5
+          status: null
+      properties:
+        streams:
+          items:
+            $ref: '#/components/schemas/TopologyStreamListItem'
+          type: array
+      required:
+      - streams
+      type: object
+    TopologyStreamListItem:
+      example:
+        syncIdentifier: syncIdentifier
+        createdRelations: 6
+        deletedComponents: 5
+        name: name
+        deletedRelations: 1
+        nodeId: 0
+        errors: 2
+        createdComponents: 5
+        status: null
+      properties:
+        syncIdentifier:
+          nullable: true
+          type: string
+        nodeId:
+          format: int64
+          type: integer
+        name:
+          type: string
+        createdRelations:
+          format: int64
+          type: integer
+        deletedRelations:
+          format: int64
+          type: integer
+        createdComponents:
+          format: int64
+          type: integer
+        deletedComponents:
+          format: int64
+          type: integer
+        errors:
+          format: int64
+          type: integer
+        status:
+          $ref: '#/components/schemas/TopologySyncStatus'
+      required:
+      - createdComponents
+      - createdRelations
+      - deletedComponents
+      - deletedRelations
+      - errors
+      - name
+      - nodeId
+      - status
+      type: object
+    TopologySyncStatus:
+      enum:
+      - Running
+      - Resetting
+      - Deleting
+      - DeleteFailed
+      type: string
+    TopologyStreamListItemWithErrorDetails:
+      example:
+        item:
+          syncIdentifier: syncIdentifier
+          createdRelations: 6
+          deletedComponents: 5
+          name: name
+          deletedRelations: 1
+          nodeId: 0
+          errors: 2
+          createdComponents: 5
+          status: null
+        errorDetails:
+        - level: null
+          externalId: externalId
+          message: message
+        - level: null
+          externalId: externalId
+          message: message
+      properties:
+        item:
+          $ref: '#/components/schemas/TopologyStreamListItem'
+        errorDetails:
+          items:
+            $ref: '#/components/schemas/TopologyStreamError'
+          type: array
+      required:
+      - errorDetails
+      - item
+      type: object
+    TopologyStreamErrors:
+      items:
+        $ref: '#/components/schemas/TopologyStreamError'
+      type: array
+    TopologyStreamError:
+      example:
+        level: null
+        externalId: externalId
+        message: message
+      properties:
+        level:
+          $ref: '#/components/schemas/MessageLevel'
+        message:
+          type: string
+        externalId:
+          type: string
+      required:
+      - level
+      - message
+      type: object
+    MessageLevel:
+      enum:
+      - Warn
+      - Error
+      - Info
+      type: string
+    IdentifierType:
+      enum:
+      - NodeId
+      - Identifier
+      type: string
+    InvalidSyncIdentifier:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    TopologySyncError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    TopologyStreamMetrics:
+      example:
+        latencySeconds:
+        - value: 5.962133916683182
+        - value: 5.962133916683182
+        bucketSizeSeconds: 0
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
+      type: object
+    ExecuteScriptResponse:
+      example:
+        result: "{}"
+      properties:
+        result:
+          description: "Contains a `value` and `_type` property. This is described\
+            \ this way, because `value` can hold any\nJSON type and most open api\
+            \ generators (but not all) have problems with such types or are inconsistent\
+            \ with the OpenAPI spec.\nThe `_type` property describes the original\
+            \ type of the result value during script execution.\nThe `value` property\
+            \ holds the resulting value serialized to JSON.\nThe `value` property\
+            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
+            \ array or object.\n"
+          nullable: true
+          type: object
+      required:
+      - result
+      type: object
+    ExecuteScriptError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ExecuteScriptSyntaxErrors'
+      - $ref: '#/components/schemas/ExecuteScriptGroovyRuntimeError'
+      - $ref: '#/components/schemas/ExecuteScriptExecutionError'
+      - $ref: '#/components/schemas/ExecuteScriptSecurityError'
+      - $ref: '#/components/schemas/ExecuteScriptExceptionError'
+      - $ref: '#/components/schemas/ExecuteScriptWrongReturnTypeError'
+      - $ref: '#/components/schemas/ExecuteScriptTimeoutError'
+      - $ref: '#/components/schemas/ExecuteScriptArgumentsScriptError'
+      type: object
+    ExecuteScriptSyntaxErrors:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptSyntaxErrors
+          type: string
+        message:
+          type: string
+        errors:
+          items:
+            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors_inner'
+          type: array
+      required:
+      - _type
+      - errors
+      - message
+      type: object
+    ScriptLocation:
+      properties:
+        line:
+          type: integer
+        column:
+          type: integer
+      required:
+      - column
+      - line
+      type: object
+    ExecuteScriptGroovyRuntimeError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptGroovyRuntimeError
+          type: string
+        message:
+          type: string
+        location:
+          $ref: '#/components/schemas/ScriptLocation'
+      required:
+      - _type
+      - message
+      type: object
+    ExecuteScriptExecutionError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptExecutionError
+          type: string
+        reason:
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      - reason
+      type: object
+    ExecuteScriptSecurityError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptSecurityError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    ExecuteScriptExceptionError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptExceptionError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    ExecuteScriptWrongReturnTypeError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptWrongReturnTypeError
+          type: string
+        message:
+          type: string
+        actualReturnType:
+          type: string
+        expectedReturnType:
+          type: string
+      required:
+      - _type
+      - actualReturnType
+      - expectedReturnType
+      - message
+      type: object
+    ExecuteScriptTimeoutError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptTimeoutError
+          type: string
+        message:
+          type: string
+        timeoutMs:
+          type: integer
+      required:
+      - _type
+      - message
+      - timeoutMs
+      type: object
+    ExecuteScriptArgumentsScriptError:
+      properties:
+        _type:
+          enum:
+          - ExecuteScriptArgumentsScriptError
+          type: string
+        message:
+          type: string
+        error:
+          $ref: '#/components/schemas/ExecuteScriptError'
+      required:
+      - _type
+      - error
+      - message
+      type: object
+    ExecuteScriptRequest:
+      example:
+        argumentsScript: argumentsScript
+        timeoutMs: 0
+        script: script
+      properties:
+        timeoutMs:
+          type: integer
+        script:
+          type: string
+        argumentsScript:
+          type: string
+      required:
+      - script
+      type: object
+    ServerInfo:
+      example:
+        deploymentMode: Saas
+        version:
+          patch: 1
+          major: 0
+          minor: 6
+          isDev: true
+          commit: commit
+          diff: diff
+      properties:
+        version:
+          $ref: '#/components/schemas/ServerVersion'
+        deploymentMode:
+          enum:
+          - Saas
+          - SelfHosted
+          type: string
+      required:
+      - deploymentMode
+      - version
+      type: object
+    ServerVersion:
+      example:
+        patch: 1
+        major: 0
+        minor: 6
+        isDev: true
+        commit: commit
+        diff: diff
+      properties:
+        major:
+          type: integer
+        minor:
+          type: integer
+        patch:
+          type: integer
+        diff:
+          type: string
+        commit:
+          type: string
+        isDev:
+          type: boolean
+      required:
+      - commit
+      - diff
+      - isDev
+      - major
+      - minor
+      - patch
+      type: object
+    ServiceTokenCreatedResponse:
+      example:
+        name: name
+        expiration: 0
+        token: token
+      properties:
+        name:
+          readOnly: true
+          type: string
+        token:
+          readOnly: true
+          type: string
+        expiration:
+          format: int64
+          readOnly: true
+          type: integer
+      required:
+      - name
+      - token
+      type: object
+    ServiceTokenCreateError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ServiceTokenInvalidExpiryError'
+      required:
+      - _type
+    ServiceTokenInvalidExpiryError:
+      properties:
+        _type:
+          enum:
+          - ServiceTokenInvalidExpiryError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    NewServiceTokenRequest:
+      example:
+        expiryDate: 0
+        roles:
+        - roles
+        - roles
+        name: name
+      properties:
+        name:
+          type: string
+        expiryDate:
+          format: int64
+          type: integer
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - roles
+      type: object
+    ServiceToken:
+      example:
+        lastUpdateTimestamp: 6
+        roles:
+        - roles
+        - roles
+        name: name
+        description: description
+        expiration: 1
+        id: 0
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          format: int64
+          type: integer
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - roles
+      type: object
+    ServiceTokenId:
+      format: int64
+      type: integer
+    FeedbackWithContext:
+      example:
+        feedback:
+          comments:
+          - author: author
+            text: text
+            timestamp: 7
+          - author: author
+            text: text
+            timestamp: 7
+          subject: subject
+          query:
+            metricField: metricField
+            queryHash: queryHash
+            dataSourceId: 9
+            conditions:
+            - value: value
+              key: key
+            - value: value
+              key: key
+            aggregationMethod: null
+            bucketSize: 3
+          _type: FeedbackData
+          thumbsdown:
+          - thumbsdown
+          - thumbsdown
+          thumbsup:
+          - thumbsup
+          - thumbsup
+        anomaly:
+          reference: null
+          data: null
+          identifiers:
+          - identifiers
+          - identifiers
+          name: name
+          eventTimeInterval:
+            start: 0
+            end: 6
+          description: description
+          annotationType: null
+          createdTime: 5
+          id: id
+          processedTime: 1
+          tags:
+          - tags
+          - tags
+        data:
+        - value: 2.3021358869347655
+          timestamp: 5.637376656633329
+        - value: 2.3021358869347655
+          timestamp: 5.637376656633329
+      properties:
+        anomaly:
+          $ref: '#/components/schemas/Annotation'
+        data:
+          items:
+            $ref: '#/components/schemas/Point'
+          type: array
+        feedback:
+          $ref: '#/components/schemas/FeedbackData'
+      required:
+      - anomaly
+      - data
+      - feedback
+      type: object
+    Annotation:
+      example:
+        reference: null
+        data: null
+        identifiers:
+        - identifiers
+        - identifiers
+        name: name
+        eventTimeInterval:
+          start: 0
+          end: 6
+        description: description
+        annotationType: null
+        createdTime: 5
+        id: id
+        processedTime: 1
+        tags:
+        - tags
+        - tags
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reference:
+          $ref: '#/components/schemas/Reference'
+        identifiers:
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        annotationType:
+          $ref: '#/components/schemas/AnnotationType'
+        eventTimeInterval:
+          $ref: '#/components/schemas/TimeRange'
+        processedTime:
+          format: int64
+          type: integer
+        createdTime:
+          format: int64
+          type: integer
+        tags:
+          items:
+            type: string
+          type: array
+        data:
+          $ref: '#/components/schemas/AnnotationData'
+      required:
+      - annotationType
+      - createdTime
+      - description
+      - eventTimeInterval
+      - id
+      - identifiers
+      - name
+      - processedTime
+      - reference
+      - tags
+      type: object
+    Reference:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricStreamReference'
+      required:
+      - _type
+      type: object
+    MetricStreamReference:
+      properties:
+        _type:
+          enum:
+          - MetricStreamReference
+          type: string
+        streamNodeId:
+          format: int64
+          type: integer
+        elementIdentifiers:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
+      - elementIdentifiers
+      - streamNodeId
+      type: object
+    AnnotationType:
+      enum:
+      - MetricStreamAnomaly
+      - MetricStreamNoAnomaly
+      - AnomalyFeedback
+      type: string
+    TimeRange:
+      example:
+        start: 0
+        end: 6
+      properties:
+        start:
+          format: int64
+          type: integer
+        end:
+          format: int64
+          type: integer
+      required:
+      - end
+      - start
+      type: object
+    AnnotationData:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricStreamAnomalyData'
+      - $ref: '#/components/schemas/MetricStreamNoAnomalyData'
+      - $ref: '#/components/schemas/GenericAnnotationData'
+      - $ref: '#/components/schemas/FeedbackData'
+      required:
+      - _type
+      type: object
+    MetricStreamAnomalyData:
+      properties:
+        _type:
+          enum:
+          - MetricStreamAnomalyData
+          type: string
+        severity:
+          $ref: '#/components/schemas/AnomalySeverity'
+        severityScore:
+          format: double
+          type: number
+        checkedInterval:
+          $ref: '#/components/schemas/TimeRange'
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        elementName:
+          type: string
+        streamName:
+          type: string
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - checkedInterval
+      - elementName
+      - explanation
+      - modelInfo
+      - severity
+      - severityScore
+      - streamName
+      type: object
+    AnomalySeverity:
+      enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+      type: string
+    AnnotationMetricQuery:
+      example:
+        metricField: metricField
+        queryHash: queryHash
+        dataSourceId: 9
+        conditions:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        aggregationMethod: null
+        bucketSize: 3
+      properties:
+        dataSourceId:
+          format: int64
+          type: integer
+        conditions:
+          items:
+            $ref: '#/components/schemas/TelemetryQueryCondition'
+          type: array
+        aggregationMethod:
+          $ref: '#/components/schemas/DownsamplingMethod'
+        bucketSize:
+          format: int64
+          type: integer
+        metricField:
+          type: string
+        queryHash:
+          type: string
+      required:
+      - aggregationMethod
+      - bucketSize
+      - conditions
+      - dataSourceId
+      - queryHash
+      type: object
+    TelemetryQueryCondition:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+      - key
+      type: object
+    DownsamplingMethod:
+      enum:
+      - MEAN
+      - PERCENTILE_25
+      - PERCENTILE_50
+      - PERCENTILE_75
+      - PERCENTILE_90
+      - PERCENTILE_95
+      - PERCENTILE_98
+      - PERCENTILE_99
+      - MAX
+      - MIN
+      - SUM
+      - EVENT_COUNT
+      - SUM_NO_ZEROS
+      - EVENT_COUNT_NO_ZEROS
+      type: string
+    MetricStreamNoAnomalyData:
+      properties:
+        _type:
+          enum:
+          - MetricStreamNoAnomalyData
+          type: string
+        checkedInterval:
+          $ref: '#/components/schemas/TimeRange'
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - checkedInterval
+      - explanation
+      - modelInfo
+      type: object
+    GenericAnnotationData:
+      properties:
+        _type:
+          enum:
+          - GenericAnnotationData
+          type: string
+        annotation:
+          type: object
+      required:
+      - _type
+      - annotation
+      type: object
+    FeedbackData:
+      example:
+        comments:
+        - author: author
+          text: text
+          timestamp: 7
+        - author: author
+          text: text
+          timestamp: 7
+        subject: subject
+        query:
+          metricField: metricField
+          queryHash: queryHash
+          dataSourceId: 9
+          conditions:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          aggregationMethod: null
+          bucketSize: 3
+        _type: FeedbackData
+        thumbsdown:
+        - thumbsdown
+        - thumbsdown
+        thumbsup:
+        - thumbsup
+        - thumbsup
+      properties:
+        _type:
+          enum:
+          - FeedbackData
+          type: string
+        subject:
+          type: string
+        thumbsup:
+          items:
+            type: string
+          type: array
+        thumbsdown:
+          items:
+            type: string
+          type: array
+        comments:
+          items:
+            $ref: '#/components/schemas/FeedbackComment'
+          type: array
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - comments
+      - subject
+      - thumbsdown
+      - thumbsup
+      type: object
+    FeedbackComment:
+      example:
+        author: author
+        text: text
+        timestamp: 7
+      properties:
+        author:
+          type: string
+        text:
+          type: string
+        timestamp:
+          format: int64
+          type: integer
+      required:
+      - author
+      - text
+      - timestamp
+      type: object
+    Point:
+      example:
+        value: 2.3021358869347655
+        timestamp: 5.637376656633329
+      properties:
+        timestamp:
+          format: int64
+          type: number
+        value:
+          format: double
+          type: number
+      required:
+      - timestamp
+      - value
+      type: object
+    HealthStreamStatus_1:
+      properties:
+        partition:
+          type: integer
+        consistencyModel:
+          type: string
+        recoverMessage:
+          type: string
+        globalErrors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        aggregateMetrics:
+          $ref: '#/components/schemas/HealthStreamMetrics_1'
+        mainStreamStatus:
+          $ref: '#/components/schemas/HealthSubStreamStatus_1'
+      required:
+      - aggregateMetrics
+      - consistencyModel
+      - partition
+      type: object
+    HealthStreamMetrics_1:
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        messagePerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        createsPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        updatesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        deletesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
+      type: object
+    HealthSubStreamStatus_1:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/HealthStreamMetrics_1'
+        subStreamState:
+          $ref: '#/components/schemas/HealthSubStreamConsistencyState'
+        checkStateCount:
+          type: integer
+      required:
+      - checkStateCount
+      - metrics
+      - subStreamState
+      type: object
+    NodeTypes_nodeTypes_inner:
+      example:
+        typeName: typeName
+        description: description
+      properties:
+        typeName:
+          type: string
+        description:
+          type: string
+      required:
+      - description
+      - typeName
+      type: object
+    Sstackpack_configurations_inner:
+      example:
+        lastUpdateTimestamp: 6
+        stackPackVersion: stackPackVersion
+        id: 0
+        status: status
+      properties:
+        id:
+          format: int64
+          type: integer
+        status:
+          type: string
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        stackPackVersion:
+          type: string
+      required:
+      - lastUpdateTimestamp
+      type: object
+    Sstackpack_latestVersion:
+      example:
+        version: version
+      properties:
+        version:
+          type: string
+      type: object
+    StackPackStep_value:
+      example:
+        _type: _type
+      properties:
+        _type:
+          type: string
+      type: object
+    StackPack_faqs_inner:
+      example:
+        question: question
+        answer: answer
+      properties:
+        question:
+          type: string
+        answer:
+          type: string
+      required:
+      - answer
+      - question
+      type: object
+    ExecuteScriptSyntaxErrors_errors_inner:
+      properties:
+        message:
+          type: string
+        location:
+          $ref: '#/components/schemas/ScriptLocation'
+      required:
+      - location
+      - message
+      type: object
+  securitySchemes:
+    ApiToken:
+      in: header
+      name: X-API-Token
+      type: apiKey

@@ -12,7 +12,7 @@ import (
 
 const (
 	MinimalConfYaml = `
-api-url: https://my.stackstate.com/api
+url: https://my.stackstate.com/api
 api-token: BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M
 `
 )
@@ -39,23 +39,20 @@ func TestWriteReadRunner(t *testing.T) {
 	t.Run("read_conf", func(t *testing.T) {
 		tests := ReadTests{}
 		tests.TestYamlParseError(t)
-		tests.TestValidationError(t)
+		tests.TestMissingURLFieldValidationError(t)
+		tests.TestIncorrectURLFieldValidationError(t)
 		tests.TestLoadSuccessFromYaml(t)
 		tests.TestLoadSuccessFromMinimumRequiredEnvs(t)
 		tests.TestLoadSuccessFromMinimumFlags(t)
-		tests.TestNoColorOnTermIsDumb(t)
-		tests.TestNoColorFlag(t)
-		tests.TestStsCliNoColorEnv(t)
-		tests.TestNoColorEnv(t)
-		tests.TestOuptutEnv(t)
 	})
 }
 
 // executed by TestWriteReadRunner
 func (p WriteTests) TestWriteSuccess(t *testing.T) {
 	confIn := Conf{
-		ApiURL:   "https://write.stackstate.com/api",
+		URL:      "https://write.stackstate.com/",
 		ApiToken: "BSOPSIYZ4TuSzNIFzqPZyUMilggP9_M",
+		ApiPath:  "test",
 	}
 
 	path := t.TempDir()
@@ -80,7 +77,7 @@ func (p ReadTests) TestYamlParseError(t *testing.T) {
 }
 
 // executed by TestWriteReadRunner
-func (p ReadTests) TestValidationError(t *testing.T) {
+func (p ReadTests) TestMissingURLFieldValidationError(t *testing.T) {
 	confYaml := "api-token: 123871283"
 	_, err := readConfFromFile(t, confYaml)
 	assert.IsType(t, ReadConfError{}, err, "TestValidationError")
@@ -88,7 +85,14 @@ func (p ReadTests) TestValidationError(t *testing.T) {
 	valErrs := err.(ReadConfError).RootCause.(ValidateConfError).ValidationErrors
 	assert.Greater(t, len(valErrs), 0, "TestValidationError")
 	assert.IsType(t, MissingFieldError{}, valErrs[0], "TestValidationError")
-	assert.Equal(t, "api-url", valErrs[0].(MissingFieldError).FieldName, "TestValidationError")
+	assert.Equal(t, "url", valErrs[0].(MissingFieldError).FieldName, "TestValidationError")
+}
+
+// executed by TestWriteReadRunner
+func (p ReadTests) TestIncorrectURLFieldValidationError(t *testing.T) {
+	confYaml := "api-token: 123871283\nurl: test"
+	_, err := readConfFromFile(t, confYaml)
+	assert.Equal(t, "could not load StackState CLI config\nValidation error: URL test must start with \"https://\" or \"http://\"", err.Error(), "TestIncorrectURLFieldValidationError")
 }
 
 // executed by TestWriteReadRunner
@@ -98,7 +102,7 @@ func (p ReadTests) TestLoadSuccessFromYaml(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromYaml")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.URL, "TestLoadSuccessFromYaml")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromYaml")
 }
 
@@ -114,7 +118,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromMinimumRequiredEnvs")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.URL, "TestLoadSuccessFromMinimumRequiredEnvs")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumRequiredEnvs")
 }
 
@@ -133,52 +137,23 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	assert.Equal(t, "https://my.stackstate.com/api", conf.ApiURL, "TestLoadSuccessFromMinimumFlags")
+	assert.Equal(t, "https://my.stackstate.com/api", conf.URL, "TestLoadSuccessFromMinimumFlags")
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumFlags")
 }
 
-// executed by TestWriteReadRunner
-func (p ReadTests) TestNoColorOnTermIsDumb(t *testing.T) {
-	term := os.Getenv("TERM")
-	defer os.Setenv("TERM", term)
-	os.Setenv("TERM", "Dumb")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor, "TestNoColorOnTermIsDumb")
-}
-
-// executed by TestWriteReadRunner
-//nolint:golint,errcheck
-func (p ReadTests) TestNoColorFlag(t *testing.T) {
-	cmd := newCmd()
-	cmd.Flags().Bool("no-color", false, "") // register flag
-	cmd.Flags().Set("no-color", "true")
-	conf := readConfWithMinimal(t, cmd)
-	assert.Equal(t, true, conf.NoColor, "TestNoColorFlag")
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestStsCliNoColorEnv(t *testing.T) {
-	defer os.Unsetenv("STS_CLI_NO_COLOR")
-	os.Setenv("STS_CLI_NO_COLOR", "true")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestNoColorEnv(t *testing.T) {
-	defer os.Unsetenv("NO_COLOR")
-	// https://no-color.org says we need to check for existence, not a specific value
-	os.Setenv("NO_COLOR", "false")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, true, conf.NoColor, "TestNoColorEnv")
-}
-
-// executed by TestWriteReadRunner
-func (p ReadTests) TestOuptutEnv(t *testing.T) {
-	defer os.Unsetenv("STS_CLI_OUTPUT")
-	os.Setenv("STS_CLI_OUTPUT", "JSON")
-	conf := readConfWithMinimal(t, newCmd())
-	assert.Equal(t, "JSON", conf.Output, "TestOuptutEnv")
+func TestNothing(t *testing.T) {
+	_, err := readConfWithPaths(newCmd(), viper.New(), []string{})
+	assert.Equal(
+		t,
+		ReadConfError{
+			RootCause: ValidateConfError{
+				ValidationErrors: []error{
+					MissingFieldError{FieldName: "url"},
+					MissingFieldError{FieldName: "api-token"},
+				},
+			},
+			IsMissingConfigFile: true,
+		}, err)
 }
 
 ////------------- Fixture code -----------
@@ -204,17 +179,4 @@ func createTmpConfigFile(t *testing.T, confYaml string) string {
 
 func newCmd() *cobra.Command {
 	return &cobra.Command{}
-}
-
-// Always reads the config successfully. Handy for testing success paths.
-func readConfWithMinimal(t *testing.T, cmd *cobra.Command) Conf {
-	conf, err := readConfWithPaths(
-		cmd,
-		viper.New(),
-		[]string{createTmpConfigFile(t, MinimalConfYaml)},
-	)
-	if err != nil {
-		t.Fatal(err)
-	}
-	return conf
 }

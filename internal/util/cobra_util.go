@@ -1,25 +1,32 @@
 package util
 
 import (
-	"bytes"
-	"context"
-
 	"github.com/spf13/cobra"
+	"github.com/spf13/pflag"
 )
 
-func ExecuteCommandWithContext(ctx context.Context, root *cobra.Command, args ...string) (output string, err error) {
-	buf := new(bytes.Buffer)
-	root.SetOut(buf)
-	root.SetErr(buf)
-	root.SetArgs(args)
-	err = root.ExecuteContext(ctx)
-	return buf.String(), err
+func ForAllCmd(parent *cobra.Command, fn func(*cobra.Command)) {
+	fn(parent)
+	for _, child := range parent.Commands() {
+		fn(child)
+		if child.HasSubCommands() {
+			ForAllCmd(child, fn)
+		}
+	}
 }
 
-func ExecuteCommandWithContextUnsafe(ctx context.Context, root *cobra.Command, args ...string) string {
-	res, err := ExecuteCommandWithContext(ctx, root, args...)
-	if err != nil {
-		panic(err)
-	}
-	return res
+func ForAllFlags(parent *cobra.Command, fn func(*cobra.Command, *pflag.Flag)) {
+	ForAllCmd(parent, func(cmd *cobra.Command) {
+		cmd.Flags().VisitAll(func(flag *pflag.Flag) {
+			fn(cmd, flag)
+		})
+	})
+}
+
+func IsFlagRequired(flag *pflag.Flag) bool {
+	return IsSingleRequiredFlag(flag) || len(flag.Annotations["rmutex"]) > 0
+}
+
+func IsSingleRequiredFlag(flag *pflag.Flag) bool {
+	return len(flag.Annotations[cobra.BashCompOneRequiredFlag]) > 0
 }

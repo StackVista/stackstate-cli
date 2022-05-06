@@ -1,13 +1,13 @@
 package script
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 const (
@@ -36,7 +36,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
 	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
-	common.MarkMutexFlags(cmd, []string{ScriptFlag, FileFlag}, "input", true)
+	mutex_flags.MarkMutexFlags(cmd, []string{ScriptFlag, FileFlag}, "input", true)
 
 	return cmd
 }
@@ -44,8 +44,8 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 func RunScriptExecuteCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo *stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	var script string
 
@@ -53,27 +53,22 @@ func RunScriptExecuteCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-	file, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
 
-	if file != "" && script != "" {
-		return common.NewCLIArgParseError(
-			fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. "+
-				"Pick one or the other", ScriptFlag, FileFlag))
+	err = mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{ScriptFlag, FileFlag}, true)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
 	}
 
-	if file != "" {
-		b, err := os.ReadFile(file)
+	if filepath != "" {
+		b, err := os.ReadFile(filepath)
 		if err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewReadFileError(err, filepath)
 		}
 		script = string(b)
-	}
-
-	if script == "" {
-		return common.NewCLIArgParseError(fmt.Errorf("required flag \"%s\" or \"%s\" not set", ScriptFlag, FileFlag))
 	}
 
 	var argumentsScript *string
@@ -89,7 +84,7 @@ func RunScriptExecuteCommand(
 	}
 
 	// execute script
-	scriptRequest := stackstate_client.ExecuteScriptRequest{
+	scriptRequest := stackstate_api.ExecuteScriptRequest{
 		TimeoutMs:       timeoutMs,
 		Script:          script,
 		ArgumentsScript: argumentsScript,
@@ -105,10 +100,16 @@ func RunScriptExecuteCommand(
 
 	// print response
 	value := scriptResponse.Result["value"]
-	if value == nil {
-		cli.Printer.Success("script executed (no response)")
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"result": scriptResponse.Result,
+		})
 	} else {
-		cli.Printer.PrintStruct(value)
+		if value == nil {
+			cli.Printer.Success("script executed (no response)")
+		} else {
+			cli.Printer.PrintStruct(value)
+		}
 	}
 
 	return nil

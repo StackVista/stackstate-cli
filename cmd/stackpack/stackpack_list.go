@@ -2,10 +2,10 @@ package stackpack
 
 import (
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
 )
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
@@ -15,15 +15,15 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List available StackPacks.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListCommand),
 	}
-	cmd.Flags().Bool(InstalledFlag, false, "show only installed stackpack")
+	cmd.Flags().Bool(InstalledFlag, false, "show only installed StackPacks")
 	return cmd
 }
 
 func RunStackpackListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
-	api *stackstate_client.APIClient,
-	serverInfo *stackstate_client.ServerInfo,
+	api *stackstate_api.APIClient,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
@@ -35,35 +35,40 @@ func RunStackpackListCommand(
 	}
 
 	data := make([][]interface{}, 0)
-	respData := make([]stackstate_client.Stackpack, 0)
-	for _, v := range stackpackList {
-		if isInstalled && len(v.GetConfigurations()) == 0 {
+	stackpacks := make([]stackstate_api.Sstackpack, 0)
+	for _, stackpack := range stackpackList {
+		if isInstalled && len(stackpack.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
 		}
 		row := []interface{}{
-			v.Name,
-			v.DisplayName,
-			v.Version,
-			getVersion(v.NextVersion),
-			getVersion(v.LatestVersion),
-			len(v.Configurations),
+			stackpack.Name,
+			stackpack.DisplayName,
+			stackpack.Version,
+			getVersion(stackpack.NextVersion),
+			getVersion(stackpack.LatestVersion),
+			len(stackpack.Configurations),
 		}
 
 		data = append(data, row)
-		respData = append(respData, v)
+		stackpacks = append(stackpacks, stackpack)
 	}
 
-	cli.Printer.Table(printer.TableData{
-		Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-		Data:                data,
-		StructData:          respData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
-	})
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"stackpacks": stackpacks,
+		})
+	} else {
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
+		})
+	}
 
 	return nil
 }
 
-func getVersion(data *stackstate_client.StackpackLatestVersion) string {
+func getVersion(data *stackstate_api.SstackpackLatestVersion) string {
 	if data != nil && data.GetVersion() != "" {
 		return data.GetVersion()
 	}

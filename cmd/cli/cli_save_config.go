@@ -12,15 +12,16 @@ import (
 
 const (
 	SkipValidateFlagName = "skip-validate"
+	ApiPathFlag          = "api-path"
 )
 
 func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "save-config --api-url API-URL --api-token API-TOKEN",
+		Use:   "save-config",
 		Short: "save CLI configuration",
 		Long:  "Save the configuration of this CLI to disk.",
 		Example: "# save a new API token to the config file" +
-			`sts cli save-config --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4 --api-url "https://my.stackstate.com/api"`,
+			`sts cli save-config --url "https://my.stackstate.com --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4"`,
 		RunE: cli.CmdRunE(RunCliSaveConfig),
 	}
 	cmd.Flags().Bool(
@@ -28,17 +29,18 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 		false,
 		"skip validating the connection before saving",
 	)
+	cmd.Flags().String(ApiPathFlag, "/api", "specify the path of the API end-point, e.g. the part that comes after the URL")
 
 	return cmd
 }
 
 func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// get required --api-url and --api-token
-	apiURL, missingApiURL := cmd.Flags().GetString(common.APIURLFlag)
+	apiURL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.APITokenFlag)
 	missing := make([]string, 0)
 	if apiURL == "" || missingApiURL != nil {
-		missing = append(missing, common.APIURLFlag)
+		missing = append(missing, common.URLFlag)
 	}
 	if apiToken == "" || missingApiToken != nil {
 		missing = append(missing, common.APITokenFlag)
@@ -47,10 +49,17 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
 	}
 
-	// this is really only necessary for testing
-	// in production this should've already been handled by Viper
-	cli.Config.ApiURL = apiURL
-	cli.Config.ApiToken = apiToken
+	apiPath, err := cmd.Flags().GetString(ApiPathFlag)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
+	}
+
+	// set config
+	cli.Config = &conf.Conf{
+		URL:      apiURL,
+		ApiToken: apiToken,
+		ApiPath:  apiPath,
+	}
 
 	// get test-connect flag
 	skipValidate, err := cmd.Flags().GetBool(SkipValidateFlagName)
@@ -60,18 +69,37 @@ func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 
 	// test connect
 	if !skipValidate {
-		err := testConect(cli)
+		if cli.Client == nil {
+			err := cli.LoadClient(cmd, apiURL, apiPath, apiToken)
+			if err != nil {
+				return err
+			}
+		}
+
+		_, serverInfo, err := cli.Client.Connect()
 		if err != nil {
 			return err
+		}
+
+		if !cli.IsJson {
+			PrintConnectionSuccess(cli.Printer, apiURL, serverInfo)
 		}
 	}
 
 	// write config
 	filename, err := conf.WriteConf(*cli.Config)
 	if err != nil {
-		return common.NewCLIError(err, nil)
+		return common.NewReadFileError(err, filename)
 	}
-	cli.Printer.Success("Config saved to: " + filename)
+
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"connection-tested": !skipValidate,
+			"config-file":       filename,
+		})
+	} else {
+		cli.Printer.Success("Config saved to: " + filename)
+	}
 
 	return nil
 }

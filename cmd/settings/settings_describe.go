@@ -5,17 +5,17 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/stackstate_client"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 var fileMode = 0644
 
 func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "describe {--ids IDS | --namespace NAMESPACE | --type TYPE}",
+		Use:   "describe",
 		Short: "describe settings in STJ format",
 		Long:  "Describe settings in StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand),
@@ -25,18 +25,14 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to describe")
 	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
-	common.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
+	mutex_flags.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
 
 	return cmd
 }
 
-func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_client.APIClient, serverInfo *stackstate_client.ServerInfo) common.CLIError {
-	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
-		return err
-	}
-
-	if cli.Printer.GetOutputType() != printer.Auto {
-		return common.NewCLIArgParseError(fmt.Errorf("unsupported format: %s. Settings can only be described in STJ format", cli.Printer.GetOutputType()))
+func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+	if err := mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
+		return common.NewCLIArgParseError(err)
 	}
 
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
@@ -56,12 +52,12 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewCLIArgParseError(err)
 	}
 
-	filePath, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
 
-	exportArgs := stackstate_client.NewExport()
+	exportArgs := stackstate_api.NewExport()
 	if len(ids) != 0 {
 		exportArgs.NodesWithIds = ids
 	}
@@ -83,19 +79,34 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewResponseError(err, resp)
 	}
 
-	if filePath != "" {
-		file, err := os.OpenFile(filePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
+	if filepath != "" {
+		file, err := os.OpenFile(filepath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
 		if err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewWriteFileError(err, filepath)
 		}
 		defer file.Close()
 
 		if _, err = file.Write([]byte(data)); err != nil {
-			return common.NewCLIError(err, nil)
+			return common.NewWriteFileError(err, filepath)
 		}
-		cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filePath))
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"describe-file-path": filepath,
+			})
+		} else {
+			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filepath))
+		}
+
 		return nil
+	} else {
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"data":   data,
+				"format": "stj",
+			})
+		} else {
+			cli.Printer.PrintLn(data)
+		}
 	}
-	cli.Printer.PrintLn(data)
 	return nil
 }
