@@ -62,7 +62,7 @@
             # you will get a new real hash which can be used here.
             #
             # vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-ogEbNzB78RGtrVM427ADwTcWcbY+ofIn0jxSWOdjplQ=";
+            vendorSha256 = "sha256-MBsjDNYZUclHxtDM+sboZc7IsomwQHuvErnRJ5Wey4s=";
 
             postInstall = ''
               mv $out/bin/stackstate-cli2 $out/bin/sts
@@ -84,7 +84,7 @@
           };
         };
 
-        defaultpackage = self.packages."${system}".sts;
+        defaultPackage = self.packages."${system}".sts;
 
         apps = {
           sts = {
