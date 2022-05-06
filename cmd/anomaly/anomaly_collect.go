@@ -23,7 +23,7 @@ const (
 
 func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "collect --start-time START-TIME -f FILE",
+		Use:   "collect",
 		Short: "collect anomaly feedback",
 		RunE:  cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}

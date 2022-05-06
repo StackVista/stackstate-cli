@@ -23,6 +23,7 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 		cmd.AddCommand(StackPackCommand(cli))
 	}
 	cmd.AddCommand(MonitorCommand(cli))
+	cmd.AddCommand(AnomalyCommand(cli))
 
 	return cmd
 }
