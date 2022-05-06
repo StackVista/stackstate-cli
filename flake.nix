@@ -30,6 +30,7 @@
           gcc
           coreutils-full
           goreleaser
+          awscli
         ]);
 
       in {
