@@ -75,7 +75,7 @@ openapi-generate-check:
   rules:
     - when: always
   script:
-    - nix develop -c ./scripts/check-api-up-to-date.sh
+    - ./scripts/check-api-up-to-date.sh
 
 license_scanning:
   stage: check
