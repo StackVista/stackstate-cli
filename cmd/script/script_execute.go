@@ -1,13 +1,13 @@
 package script
 
 import (
-	"fmt"
 	"os"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 const (
@@ -36,7 +36,7 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
 	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
-	common.MarkMutexFlags(cmd, []string{ScriptFlag, FileFlag}, "input", true)
+	mutex_flags.MarkMutexFlags(cmd, []string{ScriptFlag, FileFlag}, "input", true)
 
 	return cmd
 }
@@ -58,10 +58,9 @@ func RunScriptExecuteCommand(
 		return common.NewCLIArgParseError(err)
 	}
 
-	if filepath != "" && script != "" {
-		return common.NewCLIArgParseError(
-			fmt.Errorf("can not load script both from the \"%s\" and the \"%s\" flags. "+
-				"Pick one or the other", ScriptFlag, FileFlag))
+	err = mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{ScriptFlag, FileFlag}, true)
+	if err != nil {
+		return common.NewCLIArgParseError(err)
 	}
 
 	if filepath != "" {
@@ -70,10 +69,6 @@ func RunScriptExecuteCommand(
 			return common.NewReadFileError(err, filepath)
 		}
 		script = string(b)
-	}
-
-	if script == "" {
-		return common.NewCLIArgParseError(fmt.Errorf("required flag \"%s\" or \"%s\" not set", ScriptFlag, FileFlag))
 	}
 
 	var argumentsScript *string

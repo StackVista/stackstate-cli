@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"strings"
 	"testing"
 
@@ -15,8 +16,14 @@ import (
 
 func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	var stdOut, stdErr bytes.Buffer
-	p := NewStdPrinter("linux", &stdOut, &stdErr)
+	p := newStdPrinter("linux", &stdOut, &stdErr)
 	return p, &stdOut, &stdErr
+}
+
+func TestNewPrinter(t *testing.T) {
+	p := NewPrinter().(*StdPrinter)
+	assert.Equal(t, os.Stdout, p.stdOut)
+	assert.Equal(t, os.Stderr, p.stdErr)
 }
 
 func TestPrintErrWithoutColor(t *testing.T) {
@@ -38,9 +45,9 @@ func TestPrintErrWithColorIsDefault(t *testing.T) {
 
 func TestPrintWithoutSymbolButWithColorOnWindows(t *testing.T) {
 	var stdOut, stdErr bytes.Buffer
-	p := NewStdPrinter("windows", &stdOut, &stdErr)
+	p := newStdPrinter("windows", &stdOut, &stdErr)
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "[ERROR] \x1b[31mTest\x1b[0m\n", stdErr.String())
+	assert.Equal(t, "\x1b[31m[ERROR]\x1b[0m \x1b[31mTest\x1b[0m\n", stdErr.String())
 }
 
 func TestPrintStructAsJsonWithoutColor(t *testing.T) {

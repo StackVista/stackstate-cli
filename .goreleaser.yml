@@ -27,11 +27,11 @@ builds:
   - windows_amd64
   main: .
   ldflags:
-  - -s -w -X gitlab.com/stackvista/stackstate-cli2/Version={{.Version}}
-    -X gitlab.com/stackvista/stackstate-cli2/Commit={{.Commit}}
-    -X gitlab.com/stackvista/stackstate-cli2/Date={{.Date}}
-    -X gitlab.com/stackvista/stackstate-cli2/CLIType=full
-    -X main.builtBy=goreleaser
+  - -s -w -X gitlab.com/stackvista/stackstate-cli2/static_info.Version={{.Version}}
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.Commit={{.Commit}}
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.BuildDate={{.Date}}
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.CLIType=full
+    -X static_info.builtBy=goreleaser
   binary: sts
   env:
   - CGO_ENABLED=0
@@ -53,10 +53,10 @@ builds:
   - windows_amd64
   main: .
   ldflags:
-  - -s -w -X gitlab.com/stackvista/stackstate-cli2/Version={{.Version}}
-    -X gitlab.com/stackvista/stackstate-cli2/Commit={{.Commit}}
-    -X gitlab.com/stackvista/stackstate-cli2/Date={{.Date}}
-    -X gitlab.com/stackvista/stackstate-cli2/CLIType=saas
+  - -s -w -X gitlab.com/stackvista/stackstate-cli2/static_info.Version={{.Version}}
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.Commit={{.Commit}}
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.BuildDate={{.Date}}
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.CLIType=full
     -X main.builtBy=goreleaser
   binary: sts
   env:
@@ -73,6 +73,8 @@ archives:
     format: zip
   files:
   - none*
+  replacements:
+    amd64: x86_64
 - id: stackstate-cli-saas
   builds:
   - stackstate-cli-saas
@@ -83,6 +85,8 @@ archives:
     format: zip
   files:
   - none*
+  replacements:
+    amd64: x86_64
 checksum:
   name_template: 'checksums.txt'
   algorithm: sha256

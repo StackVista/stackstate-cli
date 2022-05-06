@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-set -e
-
-cd "$(dirname "$0")"
-cd ..
+set -e && cd "$(dirname "$0")" && cd ..
 
 OPENAPI_VERSION=`cat openapi_version`
 CHECKOUT_DIR="stackstate_openapi/checkout"

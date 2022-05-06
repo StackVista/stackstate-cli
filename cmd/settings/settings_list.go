@@ -13,7 +13,7 @@ import (
 
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list --type TYPE",
+		Use:   "list",
 		Short: "list all settings",
 		Long:  "List all settings of a certain type. To list all types run \"sts settings list-types\".",
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),

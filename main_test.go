@@ -23,7 +23,6 @@ func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) 
 			return common.NewCLIArgParseError(fmt.Errorf("test error"))
 		},
 	}
-
 	cli := di.NewMockDeps()
 	sts := cmd.STSCommand(&cli.Deps)
 	sts.AddCommand(&errorCmd)
@@ -58,8 +57,8 @@ func TestVersionRun(t *testing.T) {
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
 	assert.Equal(t, []printer.TableData{{
-		Header: []string{"Version", "Date", "CLI Type", "Commit"},
-		Data:   [][]interface{}{{"1.0.0", "1-1-2022", "full", "123124"}},
+		Header: []string{"Version", "Build Date", "Commit", "CLI Type"},
+		Data:   [][]interface{}{{"1.0.0", "1-1-2022", "123124", "full"}},
 	}}, *cli.MockPrinter.TableCalls)
 }
 
@@ -71,7 +70,7 @@ func TestVersionJsonRun(t *testing.T) {
 
 	assert.Equal(t, 0, exitCode)
 	assert.Equal(t, []map[string]interface{}{{
-		"cli-type": "full", "commit": "123124", "date": "1-1-2022", "version": "1.0.0",
+		"cli-type": "full", "commit": "123124", "build-date": "1-1-2022", "version": "1.0.0",
 	}}, *cli.MockPrinter.PrintJsonCalls)
 }
 

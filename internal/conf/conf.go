@@ -56,13 +56,14 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	}
 }
 
+//nolint:gocritic
 func validate(conf Conf, errors *[]error) {
 	if conf.URL == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "url"})
-	}
-
-	if !strings.HasPrefix(conf.URL, "http://") && !strings.HasPrefix(conf.URL, "https://") {
-		*errors = append(*errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", conf.URL))
+	} else {
+		if !strings.HasPrefix(conf.URL, "http://") && !strings.HasPrefix(conf.URL, "https://") {
+			*errors = append(*errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", conf.URL))
+		}
 	}
 
 	if conf.ApiToken == "" {

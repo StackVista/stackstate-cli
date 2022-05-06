@@ -13,7 +13,7 @@ import (
 
 func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "upload -f FILE",
+		Use:   "upload",
 		Short: "upload a stackpack",
 		Long:  "Upload a StackPack file to StackState.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUploadCommand),

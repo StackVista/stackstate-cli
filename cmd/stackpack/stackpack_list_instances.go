@@ -12,7 +12,7 @@ import (
 
 func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "list-instances --name NAME",
+		Use:   "list-instances",
 		Short: "list installed instances of a StackPack",
 		Long:  "List all installed instances of a StackPack.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListInstanceCommand),

@@ -100,8 +100,7 @@ publish:
   stage: deploy
   extends: .go-base
   script:
-  - if [ -z ${AWS_ACCESS_KEY_ID} ]; then echo "missing AWS_ACCESS_KEY_ID environment variable!"; exit 1; fi
-  - nix develop -c goreleaser release
+  - nix develop -c scripts/publish.sh
   tags:
     - sts-k8s-xl-runner
   rules:

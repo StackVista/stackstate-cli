@@ -141,6 +141,21 @@ func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	assert.Equal(t, "BSOPSIY6Z3TuSmNIFzqPZyUMilggP9_M", conf.ApiToken, "TestLoadSuccessFromMinimumFlags")
 }
 
+func TestNothing(t *testing.T) {
+	_, err := readConfWithPaths(newCmd(), viper.New(), []string{})
+	assert.Equal(
+		t,
+		ReadConfError{
+			RootCause: ValidateConfError{
+				ValidationErrors: []error{
+					MissingFieldError{FieldName: "url"},
+					MissingFieldError{FieldName: "api-token"},
+				},
+			},
+			IsMissingConfigFile: true,
+		}, err)
+}
+
 ////------------- Fixture code -----------
 
 func readConfFromFile(t *testing.T, confYaml string) (Conf, error) {

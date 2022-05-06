@@ -21,6 +21,7 @@
             golangci-lint
             openapi-generator-cli
             bash
+            awscli
           ]);
         };
 

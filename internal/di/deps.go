@@ -24,7 +24,7 @@ type Deps struct {
 	NoColor   bool
 	Version   string
 	Commit    string
-	Date      string
+	BuildDate string
 	CLIType   string
 }
 

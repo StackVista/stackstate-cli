@@ -14,7 +14,7 @@ import (
 
 func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "install --name NAME",
+		Use:   "install",
 		Short: "install a StackPack",
 		Long: "Install an instance of a StackPack. " +
 			"Be aware that each StackPack has a different set of parameters." +
