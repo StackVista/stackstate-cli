@@ -25,6 +25,7 @@ func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "collect",
 		Short: "collect anomaly feedback",
+		Long:  "Fetch anomaly annotations with feedback (thumbs-up/down and/or comments)",
 		RunE:  cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}
 	cmd.Flags().DurationP(StartTimeFlag, "", 0, "start time of interval with anomalies")
@@ -89,7 +90,13 @@ func RunCollectFeedbackCommand(
 		return common.NewWriteFileError(err, filePath)
 	}
 
-	cli.Printer.Success(fmt.Sprintf("Downloaded %d anomalies with feedback.", len(feedback)))
+	if cli.IsJson {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"downloaded-anomalies": len(feedback),
+		})
+	} else {
+		cli.Printer.Success(fmt.Sprintf("Downloaded %d anomalies with feedback.", len(feedback)))
+	}
 
 	return nil
 }
