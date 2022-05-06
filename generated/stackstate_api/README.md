@@ -79,6 +79,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AnomalyFeedbackApi* | [**CollectAnomalyFeedback**](docs/AnomalyFeedbackApi.md#collectanomalyfeedback) | **Get** /anomaly-feedback | Collect feedback on anomalies
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
@@ -110,6 +111,9 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
+*ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/token | Create new service token
+*ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/token/{serviceTokenId} | Delete service token
+*ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/token | Get service tokens
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
@@ -123,8 +127,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Annotation](docs/Annotation.md)
+ - [AnnotationData](docs/AnnotationData.md)
+ - [AnnotationMetricQuery](docs/AnnotationMetricQuery.md)
+ - [AnnotationType](docs/AnnotationType.md)
+ - [AnomalySeverity](docs/AnomalySeverity.md)
  - [ApiToken](docs/ApiToken.md)
  - [DependencyDirection](docs/DependencyDirection.md)
+ - [DownsamplingMethod](docs/DownsamplingMethod.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
  - [EventCursor](docs/EventCursor.md)
@@ -148,6 +158,10 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
  - [Export](docs/Export.md)
+ - [FeedbackComment](docs/FeedbackComment.md)
+ - [FeedbackData](docs/FeedbackData.md)
+ - [FeedbackWithContext](docs/FeedbackWithContext.md)
+ - [GenericAnnotationData](docs/GenericAnnotationData.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [HealthStreamError](docs/HealthStreamError.md)
@@ -166,6 +180,9 @@ Class | Method | HTTP request | Description
  - [InvalidUrn](docs/InvalidUrn.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
+ - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
+ - [MetricStreamNoAnomalyData](docs/MetricStreamNoAnomalyData.md)
+ - [MetricStreamReference](docs/MetricStreamReference.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
@@ -174,16 +191,23 @@ Class | Method | HTTP request | Description
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
+ - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
+ - [Point](docs/Point.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
+ - [Reference](docs/Reference.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
  - [ScriptLocation](docs/ScriptLocation.md)
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
+ - [ServiceToken](docs/ServiceToken.md)
+ - [ServiceTokenCreateError](docs/ServiceTokenCreateError.md)
+ - [ServiceTokenCreatedResponse](docs/ServiceTokenCreatedResponse.md)
+ - [ServiceTokenInvalidExpiryError](docs/ServiceTokenInvalidExpiryError.md)
  - [SourceLink](docs/SourceLink.md)
  - [Sstackpack](docs/Sstackpack.md)
  - [SstackpackConfigurations](docs/SstackpackConfigurations.md)
@@ -197,6 +221,8 @@ Class | Method | HTTP request | Description
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
+ - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
+ - [TimeRange](docs/TimeRange.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)

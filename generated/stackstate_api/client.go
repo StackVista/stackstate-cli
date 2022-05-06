@@ -50,6 +50,8 @@ type APIClient struct {
 
 	// API Services
 
+	AnomalyFeedbackApi AnomalyFeedbackApi
+
 	ApiTokenApi ApiTokenApi
 
 	EventApi EventApi
@@ -69,6 +71,8 @@ type APIClient struct {
 	ScriptingApi ScriptingApi
 
 	ServerApi ServerApi
+
+	ServiceTokenApi ServiceTokenApi
 
 	StackpackApi StackpackApi
 
@@ -93,6 +97,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AnomalyFeedbackApi = (*AnomalyFeedbackApiService)(&c.common)
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)
 	c.ExportApi = (*ExportApiService)(&c.common)
@@ -103,6 +108,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.NodeApi = (*NodeApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)
+	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
 	c.StackpackApi = (*StackpackApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
