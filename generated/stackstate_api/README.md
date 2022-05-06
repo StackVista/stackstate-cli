@@ -79,6 +79,7 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AnomalyFeedbackApi* | [**CollectAnomalyFeedback**](docs/AnomalyFeedbackApi.md#collectanomalyfeedback) | **Get** /anomaly-feedback | Collect feedback on anomalies
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
@@ -126,8 +127,14 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [Annotation](docs/Annotation.md)
+ - [AnnotationData](docs/AnnotationData.md)
+ - [AnnotationMetricQuery](docs/AnnotationMetricQuery.md)
+ - [AnnotationType](docs/AnnotationType.md)
+ - [AnomalySeverity](docs/AnomalySeverity.md)
  - [ApiToken](docs/ApiToken.md)
  - [DependencyDirection](docs/DependencyDirection.md)
+ - [DownsamplingMethod](docs/DownsamplingMethod.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
  - [EventCursor](docs/EventCursor.md)
@@ -151,6 +158,10 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
  - [Export](docs/Export.md)
+ - [FeedbackComment](docs/FeedbackComment.md)
+ - [FeedbackData](docs/FeedbackData.md)
+ - [FeedbackWithContext](docs/FeedbackWithContext.md)
+ - [GenericAnnotationData](docs/GenericAnnotationData.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [HealthStreamError](docs/HealthStreamError.md)
@@ -169,6 +180,9 @@ Class | Method | HTTP request | Description
  - [InvalidUrn](docs/InvalidUrn.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
+ - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
+ - [MetricStreamNoAnomalyData](docs/MetricStreamNoAnomalyData.md)
+ - [MetricStreamReference](docs/MetricStreamReference.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
@@ -181,7 +195,9 @@ Class | Method | HTTP request | Description
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
+ - [Point](docs/Point.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
+ - [Reference](docs/Reference.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
@@ -205,6 +221,8 @@ Class | Method | HTTP request | Description
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
+ - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
+ - [TimeRange](docs/TimeRange.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)
