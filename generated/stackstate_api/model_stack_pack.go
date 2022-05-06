@@ -26,7 +26,7 @@ type StackPack struct {
 	OverviewUrl *string `json:"overviewUrl,omitempty"`
 	DetailedOverviewUrl *string `json:"detailedOverviewUrl,omitempty"`
 	ResourcesUrl *string `json:"resourcesUrl,omitempty"`
-	Faqs []StackPackFaqsInner `json:"faqs,omitempty"`
+	Faqs []StackPackFaqs `json:"faqs,omitempty"`
 	ConfigurationUrls [][]string `json:"configurationUrls,omitempty"`
 	ReleaseStatus string `json:"releaseStatus"`
 	IsCompatible bool `json:"isCompatible"`
@@ -305,9 +305,9 @@ func (o *StackPack) SetResourcesUrl(v string) {
 }
 
 // GetFaqs returns the Faqs field value if set, zero value otherwise.
-func (o *StackPack) GetFaqs() []StackPackFaqsInner {
+func (o *StackPack) GetFaqs() []StackPackFaqs {
 	if o == nil || o.Faqs == nil {
-		var ret []StackPackFaqsInner
+		var ret []StackPackFaqs
 		return ret
 	}
 	return o.Faqs
@@ -315,7 +315,7 @@ func (o *StackPack) GetFaqs() []StackPackFaqsInner {
 
 // GetFaqsOk returns a tuple with the Faqs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StackPack) GetFaqsOk() ([]StackPackFaqsInner, bool) {
+func (o *StackPack) GetFaqsOk() ([]StackPackFaqs, bool) {
 	if o == nil || o.Faqs == nil {
 		return nil, false
 	}
@@ -331,8 +331,8 @@ func (o *StackPack) HasFaqs() bool {
 	return false
 }
 
-// SetFaqs gets a reference to the given []StackPackFaqsInner and assigns it to the Faqs field.
-func (o *StackPack) SetFaqs(v []StackPackFaqsInner) {
+// SetFaqs gets a reference to the given []StackPackFaqs and assigns it to the Faqs field.
+func (o *StackPack) SetFaqs(v []StackPackFaqs) {
 	o.Faqs = v
 }
 

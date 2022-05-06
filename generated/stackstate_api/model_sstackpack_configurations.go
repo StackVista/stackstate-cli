@@ -15,34 +15,34 @@ import (
 	"encoding/json"
 )
 
-// SstackpackConfigurationsInner struct for SstackpackConfigurationsInner
-type SstackpackConfigurationsInner struct {
+// SstackpackConfigurations struct for SstackpackConfigurations
+type SstackpackConfigurations struct {
 	Id *int64 `json:"id,omitempty"`
 	Status *string `json:"status,omitempty"`
 	LastUpdateTimestamp int64 `json:"lastUpdateTimestamp"`
 	StackPackVersion *string `json:"stackPackVersion,omitempty"`
 }
 
-// NewSstackpackConfigurationsInner instantiates a new SstackpackConfigurationsInner object
+// NewSstackpackConfigurations instantiates a new SstackpackConfigurations object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSstackpackConfigurationsInner(lastUpdateTimestamp int64) *SstackpackConfigurationsInner {
-	this := SstackpackConfigurationsInner{}
+func NewSstackpackConfigurations(lastUpdateTimestamp int64) *SstackpackConfigurations {
+	this := SstackpackConfigurations{}
 	this.LastUpdateTimestamp = lastUpdateTimestamp
 	return &this
 }
 
-// NewSstackpackConfigurationsInnerWithDefaults instantiates a new SstackpackConfigurationsInner object
+// NewSstackpackConfigurationsWithDefaults instantiates a new SstackpackConfigurations object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSstackpackConfigurationsInnerWithDefaults() *SstackpackConfigurationsInner {
-	this := SstackpackConfigurationsInner{}
+func NewSstackpackConfigurationsWithDefaults() *SstackpackConfigurations {
+	this := SstackpackConfigurations{}
 	return &this
 }
 
 // GetId returns the Id field value if set, zero value otherwise.
-func (o *SstackpackConfigurationsInner) GetId() int64 {
+func (o *SstackpackConfigurations) GetId() int64 {
 	if o == nil || o.Id == nil {
 		var ret int64
 		return ret
@@ -52,7 +52,7 @@ func (o *SstackpackConfigurationsInner) GetId() int64 {
 
 // GetIdOk returns a tuple with the Id field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SstackpackConfigurationsInner) GetIdOk() (*int64, bool) {
+func (o *SstackpackConfigurations) GetIdOk() (*int64, bool) {
 	if o == nil || o.Id == nil {
 		return nil, false
 	}
@@ -60,7 +60,7 @@ func (o *SstackpackConfigurationsInner) GetIdOk() (*int64, bool) {
 }
 
 // HasId returns a boolean if a field has been set.
-func (o *SstackpackConfigurationsInner) HasId() bool {
+func (o *SstackpackConfigurations) HasId() bool {
 	if o != nil && o.Id != nil {
 		return true
 	}
@@ -69,12 +69,12 @@ func (o *SstackpackConfigurationsInner) HasId() bool {
 }
 
 // SetId gets a reference to the given int64 and assigns it to the Id field.
-func (o *SstackpackConfigurationsInner) SetId(v int64) {
+func (o *SstackpackConfigurations) SetId(v int64) {
 	o.Id = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
-func (o *SstackpackConfigurationsInner) GetStatus() string {
+func (o *SstackpackConfigurations) GetStatus() string {
 	if o == nil || o.Status == nil {
 		var ret string
 		return ret
@@ -84,7 +84,7 @@ func (o *SstackpackConfigurationsInner) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SstackpackConfigurationsInner) GetStatusOk() (*string, bool) {
+func (o *SstackpackConfigurations) GetStatusOk() (*string, bool) {
 	if o == nil || o.Status == nil {
 		return nil, false
 	}
@@ -92,7 +92,7 @@ func (o *SstackpackConfigurationsInner) GetStatusOk() (*string, bool) {
 }
 
 // HasStatus returns a boolean if a field has been set.
-func (o *SstackpackConfigurationsInner) HasStatus() bool {
+func (o *SstackpackConfigurations) HasStatus() bool {
 	if o != nil && o.Status != nil {
 		return true
 	}
@@ -101,12 +101,12 @@ func (o *SstackpackConfigurationsInner) HasStatus() bool {
 }
 
 // SetStatus gets a reference to the given string and assigns it to the Status field.
-func (o *SstackpackConfigurationsInner) SetStatus(v string) {
+func (o *SstackpackConfigurations) SetStatus(v string) {
 	o.Status = &v
 }
 
 // GetLastUpdateTimestamp returns the LastUpdateTimestamp field value
-func (o *SstackpackConfigurationsInner) GetLastUpdateTimestamp() int64 {
+func (o *SstackpackConfigurations) GetLastUpdateTimestamp() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -117,7 +117,7 @@ func (o *SstackpackConfigurationsInner) GetLastUpdateTimestamp() int64 {
 
 // GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
 // and a boolean to check if the value has been set.
-func (o *SstackpackConfigurationsInner) GetLastUpdateTimestampOk() (*int64, bool) {
+func (o *SstackpackConfigurations) GetLastUpdateTimestampOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -125,12 +125,12 @@ func (o *SstackpackConfigurationsInner) GetLastUpdateTimestampOk() (*int64, bool
 }
 
 // SetLastUpdateTimestamp sets field value
-func (o *SstackpackConfigurationsInner) SetLastUpdateTimestamp(v int64) {
+func (o *SstackpackConfigurations) SetLastUpdateTimestamp(v int64) {
 	o.LastUpdateTimestamp = v
 }
 
 // GetStackPackVersion returns the StackPackVersion field value if set, zero value otherwise.
-func (o *SstackpackConfigurationsInner) GetStackPackVersion() string {
+func (o *SstackpackConfigurations) GetStackPackVersion() string {
 	if o == nil || o.StackPackVersion == nil {
 		var ret string
 		return ret
@@ -140,7 +140,7 @@ func (o *SstackpackConfigurationsInner) GetStackPackVersion() string {
 
 // GetStackPackVersionOk returns a tuple with the StackPackVersion field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SstackpackConfigurationsInner) GetStackPackVersionOk() (*string, bool) {
+func (o *SstackpackConfigurations) GetStackPackVersionOk() (*string, bool) {
 	if o == nil || o.StackPackVersion == nil {
 		return nil, false
 	}
@@ -148,7 +148,7 @@ func (o *SstackpackConfigurationsInner) GetStackPackVersionOk() (*string, bool) 
 }
 
 // HasStackPackVersion returns a boolean if a field has been set.
-func (o *SstackpackConfigurationsInner) HasStackPackVersion() bool {
+func (o *SstackpackConfigurations) HasStackPackVersion() bool {
 	if o != nil && o.StackPackVersion != nil {
 		return true
 	}
@@ -157,11 +157,11 @@ func (o *SstackpackConfigurationsInner) HasStackPackVersion() bool {
 }
 
 // SetStackPackVersion gets a reference to the given string and assigns it to the StackPackVersion field.
-func (o *SstackpackConfigurationsInner) SetStackPackVersion(v string) {
+func (o *SstackpackConfigurations) SetStackPackVersion(v string) {
 	o.StackPackVersion = &v
 }
 
-func (o SstackpackConfigurationsInner) MarshalJSON() ([]byte, error) {
+func (o SstackpackConfigurations) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
 		toSerialize["id"] = o.Id
@@ -178,38 +178,38 @@ func (o SstackpackConfigurationsInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableSstackpackConfigurationsInner struct {
-	value *SstackpackConfigurationsInner
+type NullableSstackpackConfigurations struct {
+	value *SstackpackConfigurations
 	isSet bool
 }
 
-func (v NullableSstackpackConfigurationsInner) Get() *SstackpackConfigurationsInner {
+func (v NullableSstackpackConfigurations) Get() *SstackpackConfigurations {
 	return v.value
 }
 
-func (v *NullableSstackpackConfigurationsInner) Set(val *SstackpackConfigurationsInner) {
+func (v *NullableSstackpackConfigurations) Set(val *SstackpackConfigurations) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSstackpackConfigurationsInner) IsSet() bool {
+func (v NullableSstackpackConfigurations) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSstackpackConfigurationsInner) Unset() {
+func (v *NullableSstackpackConfigurations) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSstackpackConfigurationsInner(val *SstackpackConfigurationsInner) *NullableSstackpackConfigurationsInner {
-	return &NullableSstackpackConfigurationsInner{value: val, isSet: true}
+func NewNullableSstackpackConfigurations(val *SstackpackConfigurations) *NullableSstackpackConfigurations {
+	return &NullableSstackpackConfigurations{value: val, isSet: true}
 }
 
-func (v NullableSstackpackConfigurationsInner) MarshalJSON() ([]byte, error) {
+func (v NullableSstackpackConfigurations) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSstackpackConfigurationsInner) UnmarshalJSON(src []byte) error {
+func (v *NullableSstackpackConfigurations) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

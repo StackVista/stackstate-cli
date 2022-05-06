@@ -14,7 +14,7 @@ func setupSettingListTypesCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := SettingsListTypesCommand(&cli.Deps)
 	nodeApiResult := sts.NodeTypes{
-		NodeTypes: []sts.NodeTypesNodeTypesInner{
+		NodeTypes: []sts.NodeTypesNodeTypes{
 			{TypeName: "hello", Description: "world"},
 		},
 	}

@@ -19,14 +19,14 @@ import (
 type ExecuteScriptSyntaxErrors struct {
 	Type string `json:"_type"`
 	Message string `json:"message"`
-	Errors []ExecuteScriptSyntaxErrorsErrorsInner `json:"errors"`
+	Errors []ExecuteScriptSyntaxErrorsErrors `json:"errors"`
 }
 
 // NewExecuteScriptSyntaxErrors instantiates a new ExecuteScriptSyntaxErrors object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExecuteScriptSyntaxErrors(type_ string, message string, errors []ExecuteScriptSyntaxErrorsErrorsInner) *ExecuteScriptSyntaxErrors {
+func NewExecuteScriptSyntaxErrors(type_ string, message string, errors []ExecuteScriptSyntaxErrorsErrors) *ExecuteScriptSyntaxErrors {
 	this := ExecuteScriptSyntaxErrors{}
 	this.Type = type_
 	this.Message = message
@@ -91,9 +91,9 @@ func (o *ExecuteScriptSyntaxErrors) SetMessage(v string) {
 }
 
 // GetErrors returns the Errors field value
-func (o *ExecuteScriptSyntaxErrors) GetErrors() []ExecuteScriptSyntaxErrorsErrorsInner {
+func (o *ExecuteScriptSyntaxErrors) GetErrors() []ExecuteScriptSyntaxErrorsErrors {
 	if o == nil {
-		var ret []ExecuteScriptSyntaxErrorsErrorsInner
+		var ret []ExecuteScriptSyntaxErrorsErrors
 		return ret
 	}
 
@@ -102,7 +102,7 @@ func (o *ExecuteScriptSyntaxErrors) GetErrors() []ExecuteScriptSyntaxErrorsError
 
 // GetErrorsOk returns a tuple with the Errors field value
 // and a boolean to check if the value has been set.
-func (o *ExecuteScriptSyntaxErrors) GetErrorsOk() ([]ExecuteScriptSyntaxErrorsErrorsInner, bool) {
+func (o *ExecuteScriptSyntaxErrors) GetErrorsOk() ([]ExecuteScriptSyntaxErrorsErrors, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,7 +110,7 @@ func (o *ExecuteScriptSyntaxErrors) GetErrorsOk() ([]ExecuteScriptSyntaxErrorsEr
 }
 
 // SetErrors sets field value
-func (o *ExecuteScriptSyntaxErrors) SetErrors(v []ExecuteScriptSyntaxErrorsErrorsInner) {
+func (o *ExecuteScriptSyntaxErrors) SetErrors(v []ExecuteScriptSyntaxErrorsErrors) {
 	o.Errors = v
 }
 

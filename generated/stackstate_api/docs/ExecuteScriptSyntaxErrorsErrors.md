@@ -1,4 +1,4 @@
-# ExecuteScriptSyntaxErrorsErrorsInner
+# ExecuteScriptSyntaxErrorsErrors
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewExecuteScriptSyntaxErrorsErrorsInner
+### NewExecuteScriptSyntaxErrorsErrors
 
-`func NewExecuteScriptSyntaxErrorsErrorsInner(message string, location ScriptLocation, ) *ExecuteScriptSyntaxErrorsErrorsInner`
+`func NewExecuteScriptSyntaxErrorsErrors(message string, location ScriptLocation, ) *ExecuteScriptSyntaxErrorsErrors`
 
-NewExecuteScriptSyntaxErrorsErrorsInner instantiates a new ExecuteScriptSyntaxErrorsErrorsInner object
+NewExecuteScriptSyntaxErrorsErrors instantiates a new ExecuteScriptSyntaxErrorsErrors object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewExecuteScriptSyntaxErrorsErrorsInnerWithDefaults
+### NewExecuteScriptSyntaxErrorsErrorsWithDefaults
 
-`func NewExecuteScriptSyntaxErrorsErrorsInnerWithDefaults() *ExecuteScriptSyntaxErrorsErrorsInner`
+`func NewExecuteScriptSyntaxErrorsErrorsWithDefaults() *ExecuteScriptSyntaxErrorsErrors`
 
-NewExecuteScriptSyntaxErrorsErrorsInnerWithDefaults instantiates a new ExecuteScriptSyntaxErrorsErrorsInner object
+NewExecuteScriptSyntaxErrorsErrorsWithDefaults instantiates a new ExecuteScriptSyntaxErrorsErrors object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMessage
 
-`func (o *ExecuteScriptSyntaxErrorsErrorsInner) GetMessage() string`
+`func (o *ExecuteScriptSyntaxErrorsErrors) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *ExecuteScriptSyntaxErrorsErrorsInner) GetMessageOk() (*string, bool)`
+`func (o *ExecuteScriptSyntaxErrorsErrors) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *ExecuteScriptSyntaxErrorsErrorsInner) SetMessage(v string)`
+`func (o *ExecuteScriptSyntaxErrorsErrors) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 
 
 ### GetLocation
 
-`func (o *ExecuteScriptSyntaxErrorsErrorsInner) GetLocation() ScriptLocation`
+`func (o *ExecuteScriptSyntaxErrorsErrors) GetLocation() ScriptLocation`
 
 GetLocation returns the Location field if non-nil, zero value otherwise.
 
 ### GetLocationOk
 
-`func (o *ExecuteScriptSyntaxErrorsErrorsInner) GetLocationOk() (*ScriptLocation, bool)`
+`func (o *ExecuteScriptSyntaxErrorsErrors) GetLocationOk() (*ScriptLocation, bool)`
 
 GetLocationOk returns a tuple with the Location field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLocation
 
-`func (o *ExecuteScriptSyntaxErrorsErrorsInner) SetLocation(v ScriptLocation)`
+`func (o *ExecuteScriptSyntaxErrorsErrors) SetLocation(v ScriptLocation)`
 
 SetLocation sets Location field to given value.
 

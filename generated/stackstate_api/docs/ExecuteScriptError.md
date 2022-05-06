@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Message** | **string** |  | 
-**Errors** | [**[]ExecuteScriptSyntaxErrorsErrorsInner**](ExecuteScriptSyntaxErrorsErrorsInner.md) |  | 
+**Errors** | [**[]ExecuteScriptSyntaxErrorsErrors**](ExecuteScriptSyntaxErrorsErrors.md) |  | 
 **Location** | Pointer to [**ScriptLocation**](ScriptLocation.md) |  | [optional] 
 **Reason** | **string** |  | 
 **ActualReturnType** | **string** |  | 
@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewExecuteScriptError
 
-`func NewExecuteScriptError(type_ string, message string, errors []ExecuteScriptSyntaxErrorsErrorsInner, reason string, actualReturnType string, expectedReturnType string, timeoutMs int32, error_ ExecuteScriptError, ) *ExecuteScriptError`
+`func NewExecuteScriptError(type_ string, message string, errors []ExecuteScriptSyntaxErrorsErrors, reason string, actualReturnType string, expectedReturnType string, timeoutMs int32, error_ ExecuteScriptError, ) *ExecuteScriptError`
 
 NewExecuteScriptError instantiates a new ExecuteScriptError object
 This constructor will assign default values to properties that have it defined,
@@ -75,20 +75,20 @@ SetMessage sets Message field to given value.
 
 ### GetErrors
 
-`func (o *ExecuteScriptError) GetErrors() []ExecuteScriptSyntaxErrorsErrorsInner`
+`func (o *ExecuteScriptError) GetErrors() []ExecuteScriptSyntaxErrorsErrors`
 
 GetErrors returns the Errors field if non-nil, zero value otherwise.
 
 ### GetErrorsOk
 
-`func (o *ExecuteScriptError) GetErrorsOk() (*[]ExecuteScriptSyntaxErrorsErrorsInner, bool)`
+`func (o *ExecuteScriptError) GetErrorsOk() (*[]ExecuteScriptSyntaxErrorsErrors, bool)`
 
 GetErrorsOk returns a tuple with the Errors field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetErrors
 
-`func (o *ExecuteScriptError) SetErrors(v []ExecuteScriptSyntaxErrorsErrorsInner)`
+`func (o *ExecuteScriptError) SetErrors(v []ExecuteScriptSyntaxErrorsErrors)`
 
 SetErrors sets Errors field to given value.
 

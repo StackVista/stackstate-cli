@@ -20,7 +20,7 @@ type Sstackpack struct {
 	Name *string `json:"name,omitempty"`
 	DisplayName *string `json:"displayName,omitempty"`
 	Version *string `json:"version,omitempty"`
-	Configurations []SstackpackConfigurationsInner `json:"configurations,omitempty"`
+	Configurations []SstackpackConfigurations `json:"configurations,omitempty"`
 	LatestVersion *SstackpackLatestVersion `json:"latestVersion,omitempty"`
 	NextVersion *SstackpackLatestVersion `json:"nextVersion,omitempty"`
 	Steps []StackPackStep `json:"steps,omitempty"`
@@ -140,9 +140,9 @@ func (o *Sstackpack) SetVersion(v string) {
 }
 
 // GetConfigurations returns the Configurations field value if set, zero value otherwise.
-func (o *Sstackpack) GetConfigurations() []SstackpackConfigurationsInner {
+func (o *Sstackpack) GetConfigurations() []SstackpackConfigurations {
 	if o == nil || o.Configurations == nil {
-		var ret []SstackpackConfigurationsInner
+		var ret []SstackpackConfigurations
 		return ret
 	}
 	return o.Configurations
@@ -150,7 +150,7 @@ func (o *Sstackpack) GetConfigurations() []SstackpackConfigurationsInner {
 
 // GetConfigurationsOk returns a tuple with the Configurations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetConfigurationsOk() ([]SstackpackConfigurationsInner, bool) {
+func (o *Sstackpack) GetConfigurationsOk() ([]SstackpackConfigurations, bool) {
 	if o == nil || o.Configurations == nil {
 		return nil, false
 	}
@@ -166,8 +166,8 @@ func (o *Sstackpack) HasConfigurations() bool {
 	return false
 }
 
-// SetConfigurations gets a reference to the given []SstackpackConfigurationsInner and assigns it to the Configurations field.
-func (o *Sstackpack) SetConfigurations(v []SstackpackConfigurationsInner) {
+// SetConfigurations gets a reference to the given []SstackpackConfigurations and assigns it to the Configurations field.
+func (o *Sstackpack) SetConfigurations(v []SstackpackConfigurations) {
 	o.Configurations = v
 }
 

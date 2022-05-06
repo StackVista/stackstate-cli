@@ -28,7 +28,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 	mockResponse := []stackstate_api.Sstackpack{
 		{
 			Name: &testName,
-			Configurations: []stackstate_api.SstackpackConfigurationsInner{
+			Configurations: []stackstate_api.SstackpackConfigurations{
 				{
 					Id:                  &id,
 					Status:              &statusInstalled,
@@ -39,7 +39,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 		},
 		{
 			Name: &unknownName,
-			Configurations: []stackstate_api.SstackpackConfigurationsInner{
+			Configurations: []stackstate_api.SstackpackConfigurations{
 				{
 					Id:                  &id,
 					Status:              &statusInstalled,
@@ -71,7 +71,7 @@ func TestStackpackListInstancePrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn()
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "--json")
 	expectedJsonCalls := []map[string]interface{}{{
-		"instances": []stackstate_api.SstackpackConfigurationsInner{
+		"instances": []stackstate_api.SstackpackConfigurations{
 			{
 				Id:                  &id,
 				Status:              &statusInstalled,

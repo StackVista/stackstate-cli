@@ -1892,7 +1892,7 @@ components:
       properties:
         nodeTypes:
           items:
-            $ref: '#/components/schemas/NodeTypes_nodeTypes_inner'
+            $ref: '#/components/schemas/NodeTypes_nodeTypes'
           type: array
       required:
       - nodeTypes
@@ -1978,7 +1978,7 @@ components:
           type: string
         configurations:
           items:
-            $ref: '#/components/schemas/Sstackpack_configurations_inner'
+            $ref: '#/components/schemas/Sstackpack_configurations'
           type: array
         latestVersion:
           $ref: '#/components/schemas/Sstackpack_latestVersion'
@@ -2051,7 +2051,7 @@ components:
           type: string
         faqs:
           items:
-            $ref: '#/components/schemas/StackPack_faqs_inner'
+            $ref: '#/components/schemas/StackPack_faqs'
           type: array
         configurationUrls:
           items:
@@ -3584,7 +3584,7 @@ components:
           type: string
         errors:
           items:
-            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors_inner'
+            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors'
           type: array
       required:
       - _type
@@ -4339,7 +4339,7 @@ components:
       - metrics
       - subStreamState
       type: object
-    NodeTypes_nodeTypes_inner:
+    NodeTypes_nodeTypes:
       example:
         typeName: typeName
         description: description
@@ -4352,7 +4352,7 @@ components:
       - description
       - typeName
       type: object
-    Sstackpack_configurations_inner:
+    Sstackpack_configurations:
       example:
         lastUpdateTimestamp: 6
         stackPackVersion: stackPackVersion
@@ -4386,7 +4386,7 @@ components:
         _type:
           type: string
       type: object
-    StackPack_faqs_inner:
+    StackPack_faqs:
       example:
         question: question
         answer: answer
@@ -4399,7 +4399,7 @@ components:
       - answer
       - question
       type: object
-    ExecuteScriptSyntaxErrors_errors_inner:
+    ExecuteScriptSyntaxErrors_errors:
       properties:
         message:
           type: string

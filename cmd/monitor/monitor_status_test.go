@@ -54,7 +54,7 @@ var (
 		MultipleMatchesCheckStates: nil,
 	}
 
-	monitorStatusResult = sts.MonitorStatus{
+	monitorStatusResult = &sts.MonitorStatus{
 		Monitor:             monitor,
 		Status:              healthStreamStatus,
 		TopologyMatchResult: topologyMatchResult,
@@ -69,7 +69,7 @@ func setMonitorStatusCmd() (*di.MockDeps, *cobra.Command) {
 
 func TestSettingsStatusPrintsToTable(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd()
-	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = monitorStatusResult
+	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
@@ -96,7 +96,7 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 
 func TestSettingsStatusPrintsToJson(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd()
-	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = monitorStatusResult
+	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "--json")
 

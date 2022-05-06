@@ -60,12 +60,12 @@ func TestUploadStackPackPrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackUploadCmd()
 	file := createTempFile()
 
-	stackpack := sts.StackPack{
+	stackpack := &sts.StackPack{
 		Name:        "test",
 		DisplayName: "display test",
 		Version:     "1.0.0",
 	}
-	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = stackpack
+	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = *stackpack
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--json")
 

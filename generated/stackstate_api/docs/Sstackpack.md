@@ -7,7 +7,7 @@ Name | Type | Description | Notes
 **Name** | Pointer to **string** |  | [optional] 
 **DisplayName** | Pointer to **string** |  | [optional] 
 **Version** | Pointer to **string** |  | [optional] 
-**Configurations** | Pointer to [**[]SstackpackConfigurationsInner**](SstackpackConfigurationsInner.md) |  | [optional] 
+**Configurations** | Pointer to [**[]SstackpackConfigurations**](SstackpackConfigurations.md) |  | [optional] 
 **LatestVersion** | Pointer to [**SstackpackLatestVersion**](SstackpackLatestVersion.md) |  | [optional] 
 **NextVersion** | Pointer to [**SstackpackLatestVersion**](SstackpackLatestVersion.md) |  | [optional] 
 **Steps** | Pointer to [**[]StackPackStep**](StackPackStep.md) |  | [optional] 
@@ -108,20 +108,20 @@ HasVersion returns a boolean if a field has been set.
 
 ### GetConfigurations
 
-`func (o *Sstackpack) GetConfigurations() []SstackpackConfigurationsInner`
+`func (o *Sstackpack) GetConfigurations() []SstackpackConfigurations`
 
 GetConfigurations returns the Configurations field if non-nil, zero value otherwise.
 
 ### GetConfigurationsOk
 
-`func (o *Sstackpack) GetConfigurationsOk() (*[]SstackpackConfigurationsInner, bool)`
+`func (o *Sstackpack) GetConfigurationsOk() (*[]SstackpackConfigurations, bool)`
 
 GetConfigurationsOk returns a tuple with the Configurations field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetConfigurations
 
-`func (o *Sstackpack) SetConfigurations(v []SstackpackConfigurationsInner)`
+`func (o *Sstackpack) SetConfigurations(v []SstackpackConfigurations)`
 
 SetConfigurations sets Configurations field to given value.
 

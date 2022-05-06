@@ -19,7 +19,7 @@ var (
 			Name:        &ucmdbName,
 			DisplayName: &ucmdDisplayName,
 			Version:     &ucmdbVersion,
-			Configurations: []stackstate_api.SstackpackConfigurationsInner{
+			Configurations: []stackstate_api.SstackpackConfigurations{
 				{
 					StackPackVersion: &ucmdbVersion,
 				},
@@ -76,7 +76,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		Name:        &name,
 		DisplayName: &displayName,
 		Version:     &version,
-		Configurations: []stackstate_api.SstackpackConfigurationsInner{
+		Configurations: []stackstate_api.SstackpackConfigurations{
 			{
 				StackPackVersion: &version,
 			},
@@ -104,7 +104,6 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		{
 			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data:                [][]interface{}{{&name, &displayName, &version, nextVersion, latestVersion, 1}},
-			StructData:          []stackstate_api.Sstackpack{installedStackPack},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},
 	}

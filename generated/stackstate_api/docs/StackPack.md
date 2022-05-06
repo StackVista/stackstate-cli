@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 **OverviewUrl** | Pointer to **string** |  | [optional] 
 **DetailedOverviewUrl** | Pointer to **string** |  | [optional] 
 **ResourcesUrl** | Pointer to **string** |  | [optional] 
-**Faqs** | Pointer to [**[]StackPackFaqsInner**](StackPackFaqsInner.md) |  | [optional] 
+**Faqs** | Pointer to [**[]StackPackFaqs**](StackPackFaqs.md) |  | [optional] 
 **ConfigurationUrls** | Pointer to **[][]string** |  | [optional] 
 **ReleaseStatus** | **string** |  | 
 **IsCompatible** | **bool** |  | 
@@ -239,20 +239,20 @@ HasResourcesUrl returns a boolean if a field has been set.
 
 ### GetFaqs
 
-`func (o *StackPack) GetFaqs() []StackPackFaqsInner`
+`func (o *StackPack) GetFaqs() []StackPackFaqs`
 
 GetFaqs returns the Faqs field if non-nil, zero value otherwise.
 
 ### GetFaqsOk
 
-`func (o *StackPack) GetFaqsOk() (*[]StackPackFaqsInner, bool)`
+`func (o *StackPack) GetFaqsOk() (*[]StackPackFaqs, bool)`
 
 GetFaqsOk returns a tuple with the Faqs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFaqs
 
-`func (o *StackPack) SetFaqs(v []StackPackFaqsInner)`
+`func (o *StackPack) SetFaqs(v []StackPackFaqs)`
 
 SetFaqs sets Faqs field to given value.
 

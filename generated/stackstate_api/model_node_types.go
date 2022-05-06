@@ -17,14 +17,14 @@ import (
 
 // NodeTypes struct for NodeTypes
 type NodeTypes struct {
-	NodeTypes []NodeTypesNodeTypesInner `json:"nodeTypes"`
+	NodeTypes []NodeTypesNodeTypes `json:"nodeTypes"`
 }
 
 // NewNodeTypes instantiates a new NodeTypes object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNodeTypes(nodeTypes []NodeTypesNodeTypesInner) *NodeTypes {
+func NewNodeTypes(nodeTypes []NodeTypesNodeTypes) *NodeTypes {
 	this := NodeTypes{}
 	this.NodeTypes = nodeTypes
 	return &this
@@ -39,9 +39,9 @@ func NewNodeTypesWithDefaults() *NodeTypes {
 }
 
 // GetNodeTypes returns the NodeTypes field value
-func (o *NodeTypes) GetNodeTypes() []NodeTypesNodeTypesInner {
+func (o *NodeTypes) GetNodeTypes() []NodeTypesNodeTypes {
 	if o == nil {
-		var ret []NodeTypesNodeTypesInner
+		var ret []NodeTypesNodeTypes
 		return ret
 	}
 
@@ -50,7 +50,7 @@ func (o *NodeTypes) GetNodeTypes() []NodeTypesNodeTypesInner {
 
 // GetNodeTypesOk returns a tuple with the NodeTypes field value
 // and a boolean to check if the value has been set.
-func (o *NodeTypes) GetNodeTypesOk() ([]NodeTypesNodeTypesInner, bool) {
+func (o *NodeTypes) GetNodeTypesOk() ([]NodeTypesNodeTypes, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,7 +58,7 @@ func (o *NodeTypes) GetNodeTypesOk() ([]NodeTypesNodeTypesInner, bool) {
 }
 
 // SetNodeTypes sets field value
-func (o *NodeTypes) SetNodeTypes(v []NodeTypesNodeTypesInner) {
+func (o *NodeTypes) SetNodeTypes(v []NodeTypesNodeTypes) {
 	o.NodeTypes = v
 }
 

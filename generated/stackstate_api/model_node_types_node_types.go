@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// NodeTypesNodeTypesInner struct for NodeTypesNodeTypesInner
-type NodeTypesNodeTypesInner struct {
+// NodeTypesNodeTypes struct for NodeTypesNodeTypes
+type NodeTypesNodeTypes struct {
 	TypeName string `json:"typeName"`
 	Description string `json:"description"`
 }
 
-// NewNodeTypesNodeTypesInner instantiates a new NodeTypesNodeTypesInner object
+// NewNodeTypesNodeTypes instantiates a new NodeTypesNodeTypes object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNodeTypesNodeTypesInner(typeName string, description string) *NodeTypesNodeTypesInner {
-	this := NodeTypesNodeTypesInner{}
+func NewNodeTypesNodeTypes(typeName string, description string) *NodeTypesNodeTypes {
+	this := NodeTypesNodeTypes{}
 	this.TypeName = typeName
 	this.Description = description
 	return &this
 }
 
-// NewNodeTypesNodeTypesInnerWithDefaults instantiates a new NodeTypesNodeTypesInner object
+// NewNodeTypesNodeTypesWithDefaults instantiates a new NodeTypesNodeTypes object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewNodeTypesNodeTypesInnerWithDefaults() *NodeTypesNodeTypesInner {
-	this := NodeTypesNodeTypesInner{}
+func NewNodeTypesNodeTypesWithDefaults() *NodeTypesNodeTypes {
+	this := NodeTypesNodeTypes{}
 	return &this
 }
 
 // GetTypeName returns the TypeName field value
-func (o *NodeTypesNodeTypesInner) GetTypeName() string {
+func (o *NodeTypesNodeTypes) GetTypeName() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *NodeTypesNodeTypesInner) GetTypeName() string {
 
 // GetTypeNameOk returns a tuple with the TypeName field value
 // and a boolean to check if the value has been set.
-func (o *NodeTypesNodeTypesInner) GetTypeNameOk() (*string, bool) {
+func (o *NodeTypesNodeTypes) GetTypeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *NodeTypesNodeTypesInner) GetTypeNameOk() (*string, bool) {
 }
 
 // SetTypeName sets field value
-func (o *NodeTypesNodeTypesInner) SetTypeName(v string) {
+func (o *NodeTypesNodeTypes) SetTypeName(v string) {
 	o.TypeName = v
 }
 
 // GetDescription returns the Description field value
-func (o *NodeTypesNodeTypesInner) GetDescription() string {
+func (o *NodeTypesNodeTypes) GetDescription() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -76,7 +76,7 @@ func (o *NodeTypesNodeTypesInner) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
-func (o *NodeTypesNodeTypesInner) GetDescriptionOk() (*string, bool) {
+func (o *NodeTypesNodeTypes) GetDescriptionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,11 +84,11 @@ func (o *NodeTypesNodeTypesInner) GetDescriptionOk() (*string, bool) {
 }
 
 // SetDescription sets field value
-func (o *NodeTypesNodeTypesInner) SetDescription(v string) {
+func (o *NodeTypesNodeTypes) SetDescription(v string) {
 	o.Description = v
 }
 
-func (o NodeTypesNodeTypesInner) MarshalJSON() ([]byte, error) {
+func (o NodeTypesNodeTypes) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["typeName"] = o.TypeName
@@ -99,38 +99,38 @@ func (o NodeTypesNodeTypesInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableNodeTypesNodeTypesInner struct {
-	value *NodeTypesNodeTypesInner
+type NullableNodeTypesNodeTypes struct {
+	value *NodeTypesNodeTypes
 	isSet bool
 }
 
-func (v NullableNodeTypesNodeTypesInner) Get() *NodeTypesNodeTypesInner {
+func (v NullableNodeTypesNodeTypes) Get() *NodeTypesNodeTypes {
 	return v.value
 }
 
-func (v *NullableNodeTypesNodeTypesInner) Set(val *NodeTypesNodeTypesInner) {
+func (v *NullableNodeTypesNodeTypes) Set(val *NodeTypesNodeTypes) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableNodeTypesNodeTypesInner) IsSet() bool {
+func (v NullableNodeTypesNodeTypes) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableNodeTypesNodeTypesInner) Unset() {
+func (v *NullableNodeTypesNodeTypes) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableNodeTypesNodeTypesInner(val *NodeTypesNodeTypesInner) *NullableNodeTypesNodeTypesInner {
-	return &NullableNodeTypesNodeTypesInner{value: val, isSet: true}
+func NewNullableNodeTypesNodeTypes(val *NodeTypesNodeTypes) *NullableNodeTypesNodeTypes {
+	return &NullableNodeTypesNodeTypes{value: val, isSet: true}
 }
 
-func (v NullableNodeTypesNodeTypesInner) MarshalJSON() ([]byte, error) {
+func (v NullableNodeTypesNodeTypes) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableNodeTypesNodeTypesInner) UnmarshalJSON(src []byte) error {
+func (v *NullableNodeTypesNodeTypes) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -1,4 +1,4 @@
-# SstackpackConfigurationsInner
+# SstackpackConfigurations
 
 ## Properties
 
@@ -11,115 +11,115 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewSstackpackConfigurationsInner
+### NewSstackpackConfigurations
 
-`func NewSstackpackConfigurationsInner(lastUpdateTimestamp int64, ) *SstackpackConfigurationsInner`
+`func NewSstackpackConfigurations(lastUpdateTimestamp int64, ) *SstackpackConfigurations`
 
-NewSstackpackConfigurationsInner instantiates a new SstackpackConfigurationsInner object
+NewSstackpackConfigurations instantiates a new SstackpackConfigurations object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSstackpackConfigurationsInnerWithDefaults
+### NewSstackpackConfigurationsWithDefaults
 
-`func NewSstackpackConfigurationsInnerWithDefaults() *SstackpackConfigurationsInner`
+`func NewSstackpackConfigurationsWithDefaults() *SstackpackConfigurations`
 
-NewSstackpackConfigurationsInnerWithDefaults instantiates a new SstackpackConfigurationsInner object
+NewSstackpackConfigurationsWithDefaults instantiates a new SstackpackConfigurations object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetId
 
-`func (o *SstackpackConfigurationsInner) GetId() int64`
+`func (o *SstackpackConfigurations) GetId() int64`
 
 GetId returns the Id field if non-nil, zero value otherwise.
 
 ### GetIdOk
 
-`func (o *SstackpackConfigurationsInner) GetIdOk() (*int64, bool)`
+`func (o *SstackpackConfigurations) GetIdOk() (*int64, bool)`
 
 GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetId
 
-`func (o *SstackpackConfigurationsInner) SetId(v int64)`
+`func (o *SstackpackConfigurations) SetId(v int64)`
 
 SetId sets Id field to given value.
 
 ### HasId
 
-`func (o *SstackpackConfigurationsInner) HasId() bool`
+`func (o *SstackpackConfigurations) HasId() bool`
 
 HasId returns a boolean if a field has been set.
 
 ### GetStatus
 
-`func (o *SstackpackConfigurationsInner) GetStatus() string`
+`func (o *SstackpackConfigurations) GetStatus() string`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *SstackpackConfigurationsInner) GetStatusOk() (*string, bool)`
+`func (o *SstackpackConfigurations) GetStatusOk() (*string, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *SstackpackConfigurationsInner) SetStatus(v string)`
+`func (o *SstackpackConfigurations) SetStatus(v string)`
 
 SetStatus sets Status field to given value.
 
 ### HasStatus
 
-`func (o *SstackpackConfigurationsInner) HasStatus() bool`
+`func (o *SstackpackConfigurations) HasStatus() bool`
 
 HasStatus returns a boolean if a field has been set.
 
 ### GetLastUpdateTimestamp
 
-`func (o *SstackpackConfigurationsInner) GetLastUpdateTimestamp() int64`
+`func (o *SstackpackConfigurations) GetLastUpdateTimestamp() int64`
 
 GetLastUpdateTimestamp returns the LastUpdateTimestamp field if non-nil, zero value otherwise.
 
 ### GetLastUpdateTimestampOk
 
-`func (o *SstackpackConfigurationsInner) GetLastUpdateTimestampOk() (*int64, bool)`
+`func (o *SstackpackConfigurations) GetLastUpdateTimestampOk() (*int64, bool)`
 
 GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLastUpdateTimestamp
 
-`func (o *SstackpackConfigurationsInner) SetLastUpdateTimestamp(v int64)`
+`func (o *SstackpackConfigurations) SetLastUpdateTimestamp(v int64)`
 
 SetLastUpdateTimestamp sets LastUpdateTimestamp field to given value.
 
 
 ### GetStackPackVersion
 
-`func (o *SstackpackConfigurationsInner) GetStackPackVersion() string`
+`func (o *SstackpackConfigurations) GetStackPackVersion() string`
 
 GetStackPackVersion returns the StackPackVersion field if non-nil, zero value otherwise.
 
 ### GetStackPackVersionOk
 
-`func (o *SstackpackConfigurationsInner) GetStackPackVersionOk() (*string, bool)`
+`func (o *SstackpackConfigurations) GetStackPackVersionOk() (*string, bool)`
 
 GetStackPackVersionOk returns a tuple with the StackPackVersion field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStackPackVersion
 
-`func (o *SstackpackConfigurationsInner) SetStackPackVersion(v string)`
+`func (o *SstackpackConfigurations) SetStackPackVersion(v string)`
 
 SetStackPackVersion sets StackPackVersion field to given value.
 
 ### HasStackPackVersion
 
-`func (o *SstackpackConfigurationsInner) HasStackPackVersion() bool`
+`func (o *SstackpackConfigurations) HasStackPackVersion() bool`
 
 HasStackPackVersion returns a boolean if a field has been set.
 
