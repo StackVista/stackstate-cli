@@ -232,6 +232,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ProvisionResponse'
+          description: Successful provisioning of the stackpack
         "500":
           content:
             application/json:
@@ -1577,6 +1578,123 @@ paths:
       summary: Get server info
       tags:
       - server
+  /security/token:
+    get:
+      description: Get service tokens.
+      operationId: getServiceTokens
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ServiceToken'
+                type: array
+          description: Service Tokens
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get service tokens
+      tags:
+      - serviceToken
+    post:
+      description: Create new service token.
+      operationId: createNewServiceToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewServiceTokenRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTokenCreatedResponse'
+          description: The newly created service token
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceTokenCreateError'
+          description: Create service token error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create new service token
+      tags:
+      - serviceToken
+  /security/token/{serviceTokenId}:
+    delete:
+      description: Delete service token.
+      operationId: deleteServiceToken
+      parameters:
+      - description: The identifier of a service token
+        in: path
+        name: serviceTokenId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ServiceTokenId'
+      responses:
+        "204":
+          description: Return ok (but no content)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete service token
+      tags:
+      - serviceToken
+  /anomaly-feedback:
+    get:
+      description: ""
+      operationId: collectAnomalyFeedback
+      parameters:
+      - in: query
+        name: startTime
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: endTime
+        required: false
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: history
+        required: false
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/FeedbackWithContext'
+                type: array
+          description: Export feedback on anomalies.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Collect feedback on anomalies
+      tags:
+      - anomalyFeedback
 components:
   requestBodies:
     EventListBody:
@@ -1661,21 +1779,23 @@ components:
     Node:
       example:
         identifier: identifier
-        lastUpdateTimestamp: ""
+        lastUpdateTimestamp: 6
         typeName: typeName
         name: name
         description: description
         isSettingsNode: true
-        id: ""
+        id: 0
         manual: true
         ownedBy: ownedBy
       properties:
         typeName:
           type: string
         id:
-          type: int64
+          format: int64
+          type: integer
         lastUpdateTimestamp:
-          type: int64
+          format: int64
+          type: integer
         identifier:
           type: string
         name:
@@ -1703,13 +1823,13 @@ components:
           version: version
         displayName: displayName
         configurations:
-        - lastUpdateTimestamp: ""
+        - lastUpdateTimestamp: 6
           stackPackVersion: stackPackVersion
-          id: ""
+          id: 0
           status: status
-        - lastUpdateTimestamp: ""
+        - lastUpdateTimestamp: 6
           stackPackVersion: stackPackVersion
-          id: ""
+          id: 0
           status: status
         name: name
         version: version
@@ -1842,13 +1962,14 @@ components:
     ProvisionResponse:
       example:
         stackPackVersion: stackPackVersion
-        lastUpdateTimestamp: ""
+        lastUpdateTimestamp: 6
         name: name
-        id: ""
+        id: 0
         status: status
       properties:
         id:
-          type: int64
+          format: int64
+          type: integer
         status:
           type: string
         name:
@@ -1856,7 +1977,8 @@ components:
         stackPackVersion:
           type: string
         lastUpdateTimestamp:
-          type: int64
+          format: int64
+          type: integer
       type: object
     stackName:
       type: string
@@ -2327,7 +2449,7 @@ components:
           description: description
           source: source
           eventType: eventType
-          processedTime: 1
+          processedTime: 6
           tags:
           - value: value
             key: key
@@ -2337,7 +2459,7 @@ components:
           - null
           - null
           name: name
-          eventTime: 6
+          eventTime: 0
           elementIdentifiers:
           - elementIdentifiers
           - elementIdentifiers
@@ -2350,18 +2472,18 @@ components:
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 0
+            eventTimestamp: 1
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 0
+            eventTimestamp: 1
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
           data: '{}'
           description: description
           source: source
           eventType: eventType
-          processedTime: 1
+          processedTime: 6
           tags:
           - value: value
             key: key
@@ -2371,7 +2493,7 @@ components:
           - null
           - null
           name: name
-          eventTime: 6
+          eventTime: 0
           elementIdentifiers:
           - elementIdentifiers
           - elementIdentifiers
@@ -2384,11 +2506,11 @@ components:
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 0
+            eventTimestamp: 1
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 0
+            eventTimestamp: 1
       properties:
         items:
           items:
@@ -2409,7 +2531,7 @@ components:
         description: description
         source: source
         eventType: eventType
-        processedTime: 1
+        processedTime: 6
         tags:
         - value: value
           key: key
@@ -2419,7 +2541,7 @@ components:
         - null
         - null
         name: name
-        eventTime: 6
+        eventTime: 0
         elementIdentifiers:
         - elementIdentifiers
         - elementIdentifiers
@@ -2432,11 +2554,11 @@ components:
         - eventId: eventId
           eventType: eventType
           title: title
-          eventTimestamp: 0
+          eventTimestamp: 1
         - eventId: eventId
           eventType: eventType
           title: title
-          eventTimestamp: 0
+          eventTimestamp: 1
       properties:
         identifier:
           type: string
@@ -2449,10 +2571,6 @@ components:
         elements:
           items:
             $ref: '#/components/schemas/EventElement'
-          type: array
-        causingEvents:
-          items:
-            $ref: '#/components/schemas/EventRef'
           type: array
         source:
           type: string
@@ -2479,6 +2597,10 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/EventTag'
+          type: array
+        causingEvents:
+          items:
+            $ref: '#/components/schemas/EventRef'
           type: array
       required:
       - category
@@ -2555,29 +2677,6 @@ components:
       - none
       - both
       type: string
-    EventRef:
-      example:
-        eventId: eventId
-        eventType: eventType
-        title: title
-        eventTimestamp: 0
-      properties:
-        title:
-          type: string
-        eventId:
-          type: string
-        eventTimestamp:
-          format: int64
-          type: integer
-        eventType:
-          type: string
-      required:
-      - _type
-      - eventId
-      - eventTimestamp
-      - eventType
-      - title
-      type: object
     SourceLink:
       example:
         title: title
@@ -2603,6 +2702,29 @@ components:
       required:
       - key
       - value
+      type: object
+    EventRef:
+      example:
+        eventId: eventId
+        eventType: eventType
+        title: title
+        eventTimestamp: 1
+      properties:
+        title:
+          type: string
+        eventId:
+          type: string
+        eventTimestamp:
+          format: int64
+          type: integer
+        eventType:
+          type: string
+      required:
+      - _type
+      - eventId
+      - eventTimestamp
+      - eventType
+      - title
       type: object
     EventId:
       type: string
@@ -3457,6 +3579,503 @@ components:
       - minor
       - patch
       type: object
+    ServiceTokenCreatedResponse:
+      example:
+        name: name
+        expiration: 0
+        token: token
+      properties:
+        name:
+          readOnly: true
+          type: string
+        token:
+          readOnly: true
+          type: string
+        expiration:
+          format: int64
+          readOnly: true
+          type: integer
+      required:
+      - name
+      - token
+      type: object
+    ServiceTokenCreateError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ServiceTokenInvalidExpiryError'
+      required:
+      - _type
+    ServiceTokenInvalidExpiryError:
+      properties:
+        _type:
+          enum:
+          - ServiceTokenInvalidExpiryError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    NewServiceTokenRequest:
+      example:
+        expiryDate: 0
+        roles:
+        - roles
+        - roles
+        name: name
+      properties:
+        name:
+          type: string
+        expiryDate:
+          format: int64
+          type: integer
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - roles
+      type: object
+    ServiceToken:
+      example:
+        lastUpdateTimestamp: 6
+        roles:
+        - roles
+        - roles
+        name: name
+        description: description
+        expiration: 1
+        id: 0
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          format: int64
+          type: integer
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - name
+      - roles
+      type: object
+    ServiceTokenId:
+      format: int64
+      type: integer
+    FeedbackWithContext:
+      example:
+        feedback:
+          comments:
+          - author: author
+            text: text
+            timestamp: 7
+          - author: author
+            text: text
+            timestamp: 7
+          subject: subject
+          query:
+            metricField: metricField
+            queryHash: queryHash
+            dataSourceId: 9
+            conditions:
+            - value: value
+              key: key
+            - value: value
+              key: key
+            bucketSize: 3
+          _type: FeedbackData
+          thumbsdown:
+          - thumbsdown
+          - thumbsdown
+          thumbsup:
+          - thumbsup
+          - thumbsup
+        anomaly:
+          identifiers:
+          - identifiers
+          - identifiers
+          name: name
+          eventTimeInterval:
+            start: 0
+            end: 6
+          description: description
+          createdTime: 5
+          id: id
+          processedTime: 1
+          tags:
+          - tags
+          - tags
+        data:
+        - value: 2.3021358869347655
+          timestamp: 5.637376656633329
+        - value: 2.3021358869347655
+          timestamp: 5.637376656633329
+      properties:
+        anomaly:
+          $ref: '#/components/schemas/Annotation'
+        data:
+          items:
+            $ref: '#/components/schemas/Point'
+          type: array
+        feedback:
+          $ref: '#/components/schemas/FeedbackData'
+      required:
+      - anomaly
+      - data
+      - feedback
+      type: object
+    Annotation:
+      example:
+        identifiers:
+        - identifiers
+        - identifiers
+        name: name
+        eventTimeInterval:
+          start: 0
+          end: 6
+        description: description
+        createdTime: 5
+        id: id
+        processedTime: 1
+        tags:
+        - tags
+        - tags
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reference:
+          $ref: '#/components/schemas/Reference'
+        identifiers:
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        annotationType:
+          $ref: '#/components/schemas/AnnotationType'
+        eventTimeInterval:
+          $ref: '#/components/schemas/TimeRange'
+        processedTime:
+          format: int64
+          type: integer
+        createdTime:
+          format: int64
+          type: integer
+        tags:
+          items:
+            type: string
+          type: array
+        data:
+          $ref: '#/components/schemas/AnnotationData'
+      required:
+      - annotationType
+      - createdTime
+      - description
+      - eventTimeInterval
+      - id
+      - identifiers
+      - name
+      - processedTime
+      - reference
+      - tags
+      type: object
+    Reference:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricStreamReference'
+      required:
+      - _type
+      type: object
+    MetricStreamReference:
+      properties:
+        _type:
+          enum:
+          - MetricStreamReference
+          type: string
+        streamNodeId:
+          format: int64
+          type: integer
+        elementIdentifiers:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
+      - elementIdentifiers
+      - streamNodeId
+      type: object
+    AnnotationType:
+      enum:
+      - MetricStreamAnomaly
+      - MetricStreamNoAnomaly
+      - AnomalyFeedback
+      type: string
+    TimeRange:
+      example:
+        start: 0
+        end: 6
+      properties:
+        start:
+          format: int64
+          type: integer
+        end:
+          format: int64
+          type: integer
+      required:
+      - end
+      - start
+      type: object
+    AnnotationData:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricStreamAnomalyData'
+      - $ref: '#/components/schemas/MetricStreamNoAnomalyData'
+      - $ref: '#/components/schemas/GenericAnnotationData'
+      - $ref: '#/components/schemas/FeedbackData'
+      required:
+      - _type
+      type: object
+    MetricStreamAnomalyData:
+      properties:
+        _type:
+          enum:
+          - MetricStreamAnomalyData
+          type: string
+        severity:
+          $ref: '#/components/schemas/AnomalySeverity'
+        severityScore:
+          format: double
+          type: number
+        checkedInterval:
+          $ref: '#/components/schemas/TimeRange'
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        elementName:
+          type: string
+        streamName:
+          type: string
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - checkedInterval
+      - elementName
+      - explanation
+      - modelInfo
+      - severity
+      - severityScore
+      - streamName
+      type: object
+    AnomalySeverity:
+      enum:
+      - LOW
+      - MEDIUM
+      - HIGH
+      type: string
+    AnnotationMetricQuery:
+      example:
+        metricField: metricField
+        queryHash: queryHash
+        dataSourceId: 9
+        conditions:
+        - value: value
+          key: key
+        - value: value
+          key: key
+        bucketSize: 3
+      properties:
+        dataSourceId:
+          format: int64
+          type: integer
+        conditions:
+          items:
+            $ref: '#/components/schemas/TelemetryQueryCondition'
+          type: array
+        aggregationMethod:
+          $ref: '#/components/schemas/DownsamplingMethod'
+        bucketSize:
+          format: int64
+          type: integer
+        metricField:
+          type: string
+        queryHash:
+          type: string
+      required:
+      - aggregationMethod
+      - bucketSize
+      - conditions
+      - dataSourceId
+      - queryHash
+      type: object
+    TelemetryQueryCondition:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+      - key
+      type: object
+    DownsamplingMethod:
+      enum:
+      - MEAN
+      - PERCENTILE_25
+      - PERCENTILE_50
+      - PERCENTILE_75
+      - PERCENTILE_90
+      - PERCENTILE_95
+      - PERCENTILE_98
+      - PERCENTILE_99
+      - MAX
+      - MIN
+      - SUM
+      - EVENT_COUNT
+      - SUM_NO_ZEROS
+      - EVENT_COUNT_NO_ZEROS
+      type: string
+    MetricStreamNoAnomalyData:
+      properties:
+        _type:
+          enum:
+          - MetricStreamNoAnomalyData
+          type: string
+        checkedInterval:
+          $ref: '#/components/schemas/TimeRange'
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - checkedInterval
+      - explanation
+      - modelInfo
+      type: object
+    GenericAnnotationData:
+      properties:
+        _type:
+          enum:
+          - GenericAnnotationData
+          type: string
+        annotation:
+          type: object
+      required:
+      - _type
+      - annotation
+      type: object
+    FeedbackData:
+      example:
+        comments:
+        - author: author
+          text: text
+          timestamp: 7
+        - author: author
+          text: text
+          timestamp: 7
+        subject: subject
+        query:
+          metricField: metricField
+          queryHash: queryHash
+          dataSourceId: 9
+          conditions:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          bucketSize: 3
+        _type: FeedbackData
+        thumbsdown:
+        - thumbsdown
+        - thumbsdown
+        thumbsup:
+        - thumbsup
+        - thumbsup
+      properties:
+        _type:
+          enum:
+          - FeedbackData
+          type: string
+        subject:
+          type: string
+        thumbsup:
+          items:
+            type: string
+          type: array
+        thumbsdown:
+          items:
+            type: string
+          type: array
+        comments:
+          items:
+            $ref: '#/components/schemas/FeedbackComment'
+          type: array
+        query:
+          $ref: '#/components/schemas/AnnotationMetricQuery'
+      required:
+      - _type
+      - comments
+      - subject
+      - thumbsdown
+      - thumbsup
+      type: object
+    FeedbackComment:
+      example:
+        author: author
+        text: text
+        timestamp: 7
+      properties:
+        author:
+          type: string
+        text:
+          type: string
+        timestamp:
+          format: int64
+          type: integer
+      required:
+      - author
+      - text
+      - timestamp
+      type: object
+    Point:
+      example:
+        value: 2.3021358869347655
+        timestamp: 5.637376656633329
+      properties:
+        timestamp:
+          format: int64
+          type: number
+        value:
+          format: double
+          type: number
+      required:
+      - timestamp
+      - value
+      type: object
     NodeTypes_nodeTypes:
       example:
         typeName: typeName
@@ -3472,17 +4091,19 @@ components:
       type: object
     Sstackpack_configurations:
       example:
-        lastUpdateTimestamp: ""
+        lastUpdateTimestamp: 6
         stackPackVersion: stackPackVersion
-        id: ""
+        id: 0
         status: status
       properties:
         id:
-          type: int64
+          format: int64
+          type: integer
         status:
           type: string
         lastUpdateTimestamp:
-          type: int64
+          format: int64
+          type: integer
         stackPackVersion:
           type: string
       required:

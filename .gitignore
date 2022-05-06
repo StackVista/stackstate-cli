@@ -14,3 +14,8 @@ pkged.go
 vendor/
 dist/
 result
+
+*.swp
+
+.go/
+.gocache/
