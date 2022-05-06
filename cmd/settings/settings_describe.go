@@ -31,13 +31,8 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo stackstate_api.ServerInfo) common.CLIError {
-<<<<<<< HEAD
 	if err := mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return common.NewCLIArgParseError(err)
-=======
-	if err := common.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
-		return err
->>>>>>> 8d60b5e (CI: Docker base image with nix dependencies)
 	}
 
 	ids, err := cmd.Flags().GetInt64Slice(Ids)
