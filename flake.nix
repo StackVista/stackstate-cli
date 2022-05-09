@@ -77,11 +77,9 @@
             contents = sharedDeps(pkgs-linux) ++ ciDeps(pkgs-linux);
 
             # Required to make golangci-lint work.
-            config = {
-              Volumes = {
-                "/tmp" = {};
-              };
-            };
+            runAsRoot = ''
+              mkdir /tmp
+            '';
           };
         };
 
