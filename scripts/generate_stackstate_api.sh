@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 set -e && cd "$(dirname "$0")" && cd ..
 
 OPENAPI_VERSION=`cat openapi_version`
