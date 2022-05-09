@@ -60,7 +60,7 @@ func (o *AnnotationMetricQuery) GetDataSourceId() int64 {
 // GetDataSourceIdOk returns a tuple with the DataSourceId field value
 // and a boolean to check if the value has been set.
 func (o *AnnotationMetricQuery) GetDataSourceIdOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.DataSourceId, true
@@ -83,11 +83,11 @@ func (o *AnnotationMetricQuery) GetConditions() []TelemetryQueryCondition {
 
 // GetConditionsOk returns a tuple with the Conditions field value
 // and a boolean to check if the value has been set.
-func (o *AnnotationMetricQuery) GetConditionsOk() ([]TelemetryQueryCondition, bool) {
-	if o == nil {
+func (o *AnnotationMetricQuery) GetConditionsOk() (*[]TelemetryQueryCondition, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Conditions, true
+	return &o.Conditions, true
 }
 
 // SetConditions sets field value
@@ -108,7 +108,7 @@ func (o *AnnotationMetricQuery) GetAggregationMethod() DownsamplingMethod {
 // GetAggregationMethodOk returns a tuple with the AggregationMethod field value
 // and a boolean to check if the value has been set.
 func (o *AnnotationMetricQuery) GetAggregationMethodOk() (*DownsamplingMethod, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.AggregationMethod, true
@@ -132,7 +132,7 @@ func (o *AnnotationMetricQuery) GetBucketSize() int64 {
 // GetBucketSizeOk returns a tuple with the BucketSize field value
 // and a boolean to check if the value has been set.
 func (o *AnnotationMetricQuery) GetBucketSizeOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.BucketSize, true
@@ -188,7 +188,7 @@ func (o *AnnotationMetricQuery) GetQueryHash() string {
 // GetQueryHashOk returns a tuple with the QueryHash field value
 // and a boolean to check if the value has been set.
 func (o *AnnotationMetricQuery) GetQueryHashOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.QueryHash, true

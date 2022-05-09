@@ -52,7 +52,7 @@ func (o *TelemetryQueryCondition) GetKey() string {
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
 func (o *TelemetryQueryCondition) GetKeyOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Key, true

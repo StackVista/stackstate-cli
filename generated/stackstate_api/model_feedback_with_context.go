@@ -55,7 +55,7 @@ func (o *FeedbackWithContext) GetAnomaly() Annotation {
 // GetAnomalyOk returns a tuple with the Anomaly field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackWithContext) GetAnomalyOk() (*Annotation, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Anomaly, true
@@ -78,11 +78,11 @@ func (o *FeedbackWithContext) GetData() []Point {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-func (o *FeedbackWithContext) GetDataOk() ([]Point, bool) {
-	if o == nil {
+func (o *FeedbackWithContext) GetDataOk() (*[]Point, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Data, true
+	return &o.Data, true
 }
 
 // SetData sets field value
@@ -103,7 +103,7 @@ func (o *FeedbackWithContext) GetFeedback() FeedbackData {
 // GetFeedbackOk returns a tuple with the Feedback field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackWithContext) GetFeedbackOk() (*FeedbackData, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Feedback, true

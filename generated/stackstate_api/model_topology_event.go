@@ -21,7 +21,6 @@ type TopologyEvent struct {
 	SourceIdentifier *string `json:"sourceIdentifier,omitempty"`
 	ElementIdentifiers []string `json:"elementIdentifiers"`
 	Elements []EventElement `json:"elements"`
-	CausingEvents []EventRef `json:"causingEvents"`
 	Source string `json:"source"`
 	Category EventCategory `json:"category"`
 	Description *string `json:"description,omitempty"`
@@ -32,18 +31,18 @@ type TopologyEvent struct {
 	EventTime int64 `json:"eventTime"`
 	ProcessedTime int64 `json:"processedTime"`
 	Tags []EventTag `json:"tags"`
+	CausingEvents []EventRef `json:"causingEvents"`
 }
 
 // NewTopologyEvent instantiates a new TopologyEvent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTopologyEvent(identifier string, elementIdentifiers []string, elements []EventElement, causingEvents []EventRef, source string, category EventCategory, name string, sourceLinks []SourceLink, data map[string]interface{}, eventType string, eventTime int64, processedTime int64, tags []EventTag) *TopologyEvent {
+func NewTopologyEvent(identifier string, elementIdentifiers []string, elements []EventElement, source string, category EventCategory, name string, sourceLinks []SourceLink, data map[string]interface{}, eventType string, eventTime int64, processedTime int64, tags []EventTag, causingEvents []EventRef) *TopologyEvent {
 	this := TopologyEvent{}
 	this.Identifier = identifier
 	this.ElementIdentifiers = elementIdentifiers
 	this.Elements = elements
-	this.CausingEvents = causingEvents
 	this.Source = source
 	this.Category = category
 	this.Name = name
@@ -53,6 +52,7 @@ func NewTopologyEvent(identifier string, elementIdentifiers []string, elements [
 	this.EventTime = eventTime
 	this.ProcessedTime = processedTime
 	this.Tags = tags
+	this.CausingEvents = causingEvents
 	return &this
 }
 
@@ -77,7 +77,7 @@ func (o *TopologyEvent) GetIdentifier() string {
 // GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetIdentifierOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Identifier, true
@@ -132,11 +132,11 @@ func (o *TopologyEvent) GetElementIdentifiers() []string {
 
 // GetElementIdentifiersOk returns a tuple with the ElementIdentifiers field value
 // and a boolean to check if the value has been set.
-func (o *TopologyEvent) GetElementIdentifiersOk() ([]string, bool) {
-	if o == nil {
+func (o *TopologyEvent) GetElementIdentifiersOk() (*[]string, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.ElementIdentifiers, true
+	return &o.ElementIdentifiers, true
 }
 
 // SetElementIdentifiers sets field value
@@ -156,40 +156,16 @@ func (o *TopologyEvent) GetElements() []EventElement {
 
 // GetElementsOk returns a tuple with the Elements field value
 // and a boolean to check if the value has been set.
-func (o *TopologyEvent) GetElementsOk() ([]EventElement, bool) {
-	if o == nil {
+func (o *TopologyEvent) GetElementsOk() (*[]EventElement, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Elements, true
+	return &o.Elements, true
 }
 
 // SetElements sets field value
 func (o *TopologyEvent) SetElements(v []EventElement) {
 	o.Elements = v
-}
-
-// GetCausingEvents returns the CausingEvents field value
-func (o *TopologyEvent) GetCausingEvents() []EventRef {
-	if o == nil {
-		var ret []EventRef
-		return ret
-	}
-
-	return o.CausingEvents
-}
-
-// GetCausingEventsOk returns a tuple with the CausingEvents field value
-// and a boolean to check if the value has been set.
-func (o *TopologyEvent) GetCausingEventsOk() ([]EventRef, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.CausingEvents, true
-}
-
-// SetCausingEvents sets field value
-func (o *TopologyEvent) SetCausingEvents(v []EventRef) {
-	o.CausingEvents = v
 }
 
 // GetSource returns the Source field value
@@ -205,7 +181,7 @@ func (o *TopologyEvent) GetSource() string {
 // GetSourceOk returns a tuple with the Source field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetSourceOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Source, true
@@ -229,7 +205,7 @@ func (o *TopologyEvent) GetCategory() EventCategory {
 // GetCategoryOk returns a tuple with the Category field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetCategoryOk() (*EventCategory, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Category, true
@@ -285,7 +261,7 @@ func (o *TopologyEvent) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Name, true
@@ -308,11 +284,11 @@ func (o *TopologyEvent) GetSourceLinks() []SourceLink {
 
 // GetSourceLinksOk returns a tuple with the SourceLinks field value
 // and a boolean to check if the value has been set.
-func (o *TopologyEvent) GetSourceLinksOk() ([]SourceLink, bool) {
-	if o == nil {
+func (o *TopologyEvent) GetSourceLinksOk() (*[]SourceLink, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.SourceLinks, true
+	return &o.SourceLinks, true
 }
 
 // SetSourceLinks sets field value
@@ -332,11 +308,11 @@ func (o *TopologyEvent) GetData() map[string]interface{} {
 
 // GetDataOk returns a tuple with the Data field value
 // and a boolean to check if the value has been set.
-func (o *TopologyEvent) GetDataOk() (map[string]interface{}, bool) {
-	if o == nil {
+func (o *TopologyEvent) GetDataOk() (*map[string]interface{}, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Data, true
+	return &o.Data, true
 }
 
 // SetData sets field value
@@ -357,7 +333,7 @@ func (o *TopologyEvent) GetEventType() string {
 // GetEventTypeOk returns a tuple with the EventType field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetEventTypeOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.EventType, true
@@ -381,7 +357,7 @@ func (o *TopologyEvent) GetEventTime() int64 {
 // GetEventTimeOk returns a tuple with the EventTime field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetEventTimeOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.EventTime, true
@@ -405,7 +381,7 @@ func (o *TopologyEvent) GetProcessedTime() int64 {
 // GetProcessedTimeOk returns a tuple with the ProcessedTime field value
 // and a boolean to check if the value has been set.
 func (o *TopologyEvent) GetProcessedTimeOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.ProcessedTime, true
@@ -428,16 +404,40 @@ func (o *TopologyEvent) GetTags() []EventTag {
 
 // GetTagsOk returns a tuple with the Tags field value
 // and a boolean to check if the value has been set.
-func (o *TopologyEvent) GetTagsOk() ([]EventTag, bool) {
-	if o == nil {
+func (o *TopologyEvent) GetTagsOk() (*[]EventTag, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Tags, true
+	return &o.Tags, true
 }
 
 // SetTags sets field value
 func (o *TopologyEvent) SetTags(v []EventTag) {
 	o.Tags = v
+}
+
+// GetCausingEvents returns the CausingEvents field value
+func (o *TopologyEvent) GetCausingEvents() []EventRef {
+	if o == nil {
+		var ret []EventRef
+		return ret
+	}
+
+	return o.CausingEvents
+}
+
+// GetCausingEventsOk returns a tuple with the CausingEvents field value
+// and a boolean to check if the value has been set.
+func (o *TopologyEvent) GetCausingEventsOk() (*[]EventRef, bool) {
+	if o == nil  {
+		return nil, false
+	}
+	return &o.CausingEvents, true
+}
+
+// SetCausingEvents sets field value
+func (o *TopologyEvent) SetCausingEvents(v []EventRef) {
+	o.CausingEvents = v
 }
 
 func (o TopologyEvent) MarshalJSON() ([]byte, error) {
@@ -453,9 +453,6 @@ func (o TopologyEvent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["elements"] = o.Elements
-	}
-	if true {
-		toSerialize["causingEvents"] = o.CausingEvents
 	}
 	if true {
 		toSerialize["source"] = o.Source
@@ -486,6 +483,9 @@ func (o TopologyEvent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["tags"] = o.Tags
+	}
+	if true {
+		toSerialize["causingEvents"] = o.CausingEvents
 	}
 	return json.Marshal(toSerialize)
 }

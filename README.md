@@ -43,3 +43,15 @@ nix shell "git+ssh://git@gitlab.com/stackvista/stackstate-cli2?ref=master"
 ```
 
 Where `ref=` can reference to any branch name
+
+## Working with openapi
+
+This repository pulls the stackstate-api spec from the [openapi repository](gitlab.com/stackvista/platform/stackstate-openapi).
+
+### Bumping the openapi version
+- Change the version/branch/commit sha in the `openapi_version` file
+- Run `nix develop -x ./scripts/generate_stackstate_api.sh`
+- Commit the generated code
+
+The ci will check whether the requested api version and generated code are kep up to date.
+

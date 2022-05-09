@@ -20,10 +20,10 @@ type Sstackpack struct {
 	Name *string `json:"name,omitempty"`
 	DisplayName *string `json:"displayName,omitempty"`
 	Version *string `json:"version,omitempty"`
-	Configurations []SstackpackConfigurations `json:"configurations,omitempty"`
+	Configurations *[]SstackpackConfigurations `json:"configurations,omitempty"`
 	LatestVersion *SstackpackLatestVersion `json:"latestVersion,omitempty"`
 	NextVersion *SstackpackLatestVersion `json:"nextVersion,omitempty"`
-	Steps []StackPackStep `json:"steps,omitempty"`
+	Steps *[]StackPackStep `json:"steps,omitempty"`
 }
 
 // NewSstackpack instantiates a new Sstackpack object
@@ -145,12 +145,12 @@ func (o *Sstackpack) GetConfigurations() []SstackpackConfigurations {
 		var ret []SstackpackConfigurations
 		return ret
 	}
-	return o.Configurations
+	return *o.Configurations
 }
 
 // GetConfigurationsOk returns a tuple with the Configurations field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetConfigurationsOk() ([]SstackpackConfigurations, bool) {
+func (o *Sstackpack) GetConfigurationsOk() (*[]SstackpackConfigurations, bool) {
 	if o == nil || o.Configurations == nil {
 		return nil, false
 	}
@@ -168,7 +168,7 @@ func (o *Sstackpack) HasConfigurations() bool {
 
 // SetConfigurations gets a reference to the given []SstackpackConfigurations and assigns it to the Configurations field.
 func (o *Sstackpack) SetConfigurations(v []SstackpackConfigurations) {
-	o.Configurations = v
+	o.Configurations = &v
 }
 
 // GetLatestVersion returns the LatestVersion field value if set, zero value otherwise.
@@ -241,12 +241,12 @@ func (o *Sstackpack) GetSteps() []StackPackStep {
 		var ret []StackPackStep
 		return ret
 	}
-	return o.Steps
+	return *o.Steps
 }
 
 // GetStepsOk returns a tuple with the Steps field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Sstackpack) GetStepsOk() ([]StackPackStep, bool) {
+func (o *Sstackpack) GetStepsOk() (*[]StackPackStep, bool) {
 	if o == nil || o.Steps == nil {
 		return nil, false
 	}
@@ -264,7 +264,7 @@ func (o *Sstackpack) HasSteps() bool {
 
 // SetSteps gets a reference to the given []StackPackStep and assigns it to the Steps field.
 func (o *Sstackpack) SetSteps(v []StackPackStep) {
-	o.Steps = v
+	o.Steps = &v
 }
 
 func (o Sstackpack) MarshalJSON() ([]byte, error) {

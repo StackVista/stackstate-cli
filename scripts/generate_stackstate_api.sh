@@ -1,8 +1,19 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -e && cd "$(dirname "$0")" && cd ..
 
-cd "$(dirname "$0")"
-cd ..
+OPENAPI_VERSION=`cat openapi_version`
+CHECKOUT_DIR="stackstate_openapi/checkout"
+
+rm -rf "$CHECKOUT_DIR"
+
+# In gitlab we authenticate with the job token when cloning
+if [[ -z "${CI_JOB_TOKEN}" ]]; then
+  git clone https://gitlab.com/stackvista/platform/stackstate-openapi.git "$CHECKOUT_DIR"
+else
+  git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/stackvista/platform/stackstate-openapi.git" "$CHECKOUT_DIR"
+fi
+
+git -C "$CHECKOUT_DIR" checkout "$OPENAPI_VERSION"
 
 rm -rf generated/stackstate_api
 docker run --rm -v "${PWD}:/local" \
@@ -14,7 +25,6 @@ docker run --rm -v "${PWD}:/local" \
     -o /local/generated/stackstate_api \
     -t /local/stackstate_openapi/template \
     $@
-#    openapitools/openapi-generator-cli@sha256:890596803c279fa18a7d7206f5a4b775dbec0d72515521820fc866635915d99c generate \
 
 # we need to throw these files away, otherwise go gets upset
 rm generated/stackstate_api/go.mod

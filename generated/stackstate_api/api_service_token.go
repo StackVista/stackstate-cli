@@ -13,13 +13,17 @@ package stackstate_api
 
 import (
 	"bytes"
-	"context"
-	"io/ioutil"
-	"net/http"
-	"net/url"
+	_context "context"
+	_ioutil "io/ioutil"
+	_nethttp "net/http"
+	_neturl "net/url"
 	"strings"
 )
 
+// Linger please
+var (
+	_ _context.Context
+)
 
 type ServiceTokenApi interface {
 
@@ -28,49 +32,50 @@ type ServiceTokenApi interface {
 
 	Create new service token.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateNewServiceTokenRequest
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiCreateNewServiceTokenRequest
 	*/
-	CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest
+	CreateNewServiceToken(ctx _context.Context) ApiCreateNewServiceTokenRequest
 
 	// CreateNewServiceTokenExecute executes the request
 	//  @return ServiceTokenCreatedResponse
-	CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error)
+	CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (ServiceTokenCreatedResponse, *_nethttp.Response, error)
 
 	/*
 	DeleteServiceToken Delete service token
 
 	Delete service token.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param serviceTokenId The identifier of a service token
-	@return ApiDeleteServiceTokenRequest
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @param serviceTokenId The identifier of a service token
+	 @return ApiDeleteServiceTokenRequest
 	*/
-	DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest
+	DeleteServiceToken(ctx _context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest
 
 	// DeleteServiceTokenExecute executes the request
-	DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*http.Response, error)
+	DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*_nethttp.Response, error)
 
 	/*
 	GetServiceTokens Get service tokens
 
 	Get service tokens.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetServiceTokensRequest
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiGetServiceTokensRequest
 	*/
-	GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest
+	GetServiceTokens(ctx _context.Context) ApiGetServiceTokensRequest
 
 	// GetServiceTokensExecute executes the request
 	//  @return []ServiceToken
-	GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *http.Response, error)
+	GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *_nethttp.Response, error)
 }
+
 
 // ServiceTokenApiService ServiceTokenApi service
 type ServiceTokenApiService service
 
 type ApiCreateNewServiceTokenRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService ServiceTokenApi
 	newServiceTokenRequest *NewServiceTokenRequest
 }
@@ -80,7 +85,7 @@ func (r ApiCreateNewServiceTokenRequest) NewServiceTokenRequest(newServiceTokenR
 	return r
 }
 
-func (r ApiCreateNewServiceTokenRequest) Execute() (*ServiceTokenCreatedResponse, *http.Response, error) {
+func (r ApiCreateNewServiceTokenRequest) Execute() (ServiceTokenCreatedResponse, *_nethttp.Response, error) {
 	return r.ApiService.CreateNewServiceTokenExecute(r)
 }
 
@@ -89,10 +94,10 @@ CreateNewServiceToken Create new service token
 
 Create new service token.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiCreateNewServiceTokenRequest
 */
-func (a *ServiceTokenApiService) CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest {
+func (a *ServiceTokenApiService) CreateNewServiceToken(ctx _context.Context) ApiCreateNewServiceTokenRequest {
 	return ApiCreateNewServiceTokenRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -101,24 +106,26 @@ func (a *ServiceTokenApiService) CreateNewServiceToken(ctx context.Context) ApiC
 
 // Execute executes the request
 //  @return ServiceTokenCreatedResponse
-func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error) {
+func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (ServiceTokenCreatedResponse, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
+		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ServiceTokenCreatedResponse
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  ServiceTokenCreatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceTokenApiService.CreateNewServiceToken")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/security/token"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 	if r.newServiceTokenRequest == nil {
 		return localVarReturnValue, nil, reportError("newServiceTokenRequest is required and must be specified")
 	}
@@ -156,7 +163,7 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -166,15 +173,15 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -202,7 +209,7 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -213,12 +220,13 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 }
 
 type ApiDeleteServiceTokenRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService ServiceTokenApi
 	serviceTokenId int64
 }
 
-func (r ApiDeleteServiceTokenRequest) Execute() (*http.Response, error) {
+
+func (r ApiDeleteServiceTokenRequest) Execute() (*_nethttp.Response, error) {
 	return r.ApiService.DeleteServiceTokenExecute(r)
 }
 
@@ -227,11 +235,11 @@ DeleteServiceToken Delete service token
 
 Delete service token.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param serviceTokenId The identifier of a service token
  @return ApiDeleteServiceTokenRequest
 */
-func (a *ServiceTokenApiService) DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
+func (a *ServiceTokenApiService) DeleteServiceToken(ctx _context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
 	return ApiDeleteServiceTokenRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -240,24 +248,26 @@ func (a *ServiceTokenApiService) DeleteServiceToken(ctx context.Context, service
 }
 
 // Execute executes the request
-func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*http.Response, error) {
+func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
+		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceTokenApiService.DeleteServiceToken")
 	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/security/token/{serviceTokenId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"serviceTokenId"+"}", url.PathEscape(parameterToString(r.serviceTokenId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"serviceTokenId"+"}", _neturl.PathEscape(parameterToString(r.serviceTokenId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -290,7 +300,7 @@ func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTok
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return nil, err
 	}
@@ -300,15 +310,15 @@ func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTok
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -328,11 +338,12 @@ func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTok
 }
 
 type ApiGetServiceTokensRequest struct {
-	ctx context.Context
+	ctx _context.Context
 	ApiService ServiceTokenApi
 }
 
-func (r ApiGetServiceTokensRequest) Execute() ([]ServiceToken, *http.Response, error) {
+
+func (r ApiGetServiceTokensRequest) Execute() ([]ServiceToken, *_nethttp.Response, error) {
 	return r.ApiService.GetServiceTokensExecute(r)
 }
 
@@ -341,10 +352,10 @@ GetServiceTokens Get service tokens
 
 Get service tokens.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetServiceTokensRequest
 */
-func (a *ServiceTokenApiService) GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest {
+func (a *ServiceTokenApiService) GetServiceTokens(ctx _context.Context) ApiGetServiceTokensRequest {
 	return ApiGetServiceTokensRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -353,24 +364,26 @@ func (a *ServiceTokenApiService) GetServiceTokens(ctx context.Context) ApiGetSer
 
 // Execute executes the request
 //  @return []ServiceToken
-func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *http.Response, error) {
+func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *_nethttp.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
+		localVarHTTPMethod   = _nethttp.MethodGet
 		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
 		localVarReturnValue  []ServiceToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceTokenApiService.GetServiceTokens")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/security/token"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -403,7 +416,7 @@ func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRe
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -413,15 +426,15 @@ func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRe
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -439,7 +452,7 @@ func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRe
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := &GenericOpenAPIError{
+		newErr := GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -477,7 +490,7 @@ func NewServiceTokenApiMock() ServiceTokenApiMock {
 
 type CreateNewServiceTokenMockResponse struct {
 	Result ServiceTokenCreatedResponse
-	Response *http.Response
+	Response *_nethttp.Response
 	Error error
 }
 
@@ -486,24 +499,24 @@ type CreateNewServiceTokenCall struct {
 }
 
 
-func (mock ServiceTokenApiMock) CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest {
+func (mock ServiceTokenApiMock) CreateNewServiceToken(ctx _context.Context) ApiCreateNewServiceTokenRequest {
 	return ApiCreateNewServiceTokenRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ServiceTokenApiMock) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error) {
+func (mock ServiceTokenApiMock) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (ServiceTokenCreatedResponse, *_nethttp.Response, error) {
 	p := CreateNewServiceTokenCall {
 			PnewServiceTokenRequest: r.newServiceTokenRequest,
 	}
 	*mock.CreateNewServiceTokenCalls = append(*mock.CreateNewServiceTokenCalls, p)
-	return &mock.CreateNewServiceTokenResponse.Result, mock.CreateNewServiceTokenResponse.Response, mock.CreateNewServiceTokenResponse.Error
+	return mock.CreateNewServiceTokenResponse.Result, mock.CreateNewServiceTokenResponse.Response, mock.CreateNewServiceTokenResponse.Error
 }
 
 type DeleteServiceTokenMockResponse struct {
 	
-	Response *http.Response
+	Response *_nethttp.Response
 	Error error
 }
 
@@ -512,7 +525,7 @@ type DeleteServiceTokenCall struct {
 }
 
 
-func (mock ServiceTokenApiMock) DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
+func (mock ServiceTokenApiMock) DeleteServiceToken(ctx _context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
 	return ApiDeleteServiceTokenRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -520,7 +533,7 @@ func (mock ServiceTokenApiMock) DeleteServiceToken(ctx context.Context, serviceT
 	}
 }
 
-func (mock ServiceTokenApiMock) DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*http.Response, error) {
+func (mock ServiceTokenApiMock) DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*_nethttp.Response, error) {
 	p := DeleteServiceTokenCall {
 			PserviceTokenId: r.serviceTokenId,
 	}
@@ -530,7 +543,7 @@ func (mock ServiceTokenApiMock) DeleteServiceTokenExecute(r ApiDeleteServiceToke
 
 type GetServiceTokensMockResponse struct {
 	Result []ServiceToken
-	Response *http.Response
+	Response *_nethttp.Response
 	Error error
 }
 
@@ -538,14 +551,14 @@ type GetServiceTokensCall struct {
 }
 
 
-func (mock ServiceTokenApiMock) GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest {
+func (mock ServiceTokenApiMock) GetServiceTokens(ctx _context.Context) ApiGetServiceTokensRequest {
 	return ApiGetServiceTokensRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock ServiceTokenApiMock) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *http.Response, error) {
+func (mock ServiceTokenApiMock) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *_nethttp.Response, error) {
 	p := GetServiceTokensCall {
 	}
 	*mock.GetServiceTokensCalls = append(*mock.GetServiceTokensCalls, p)

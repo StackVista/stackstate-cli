@@ -54,7 +54,7 @@ func (o *NewServiceTokenRequest) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *NewServiceTokenRequest) GetNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Name, true
@@ -109,11 +109,11 @@ func (o *NewServiceTokenRequest) GetRoles() []string {
 
 // GetRolesOk returns a tuple with the Roles field value
 // and a boolean to check if the value has been set.
-func (o *NewServiceTokenRequest) GetRolesOk() ([]string, bool) {
-	if o == nil {
+func (o *NewServiceTokenRequest) GetRolesOk() (*[]string, bool) {
+	if o == nil  {
 		return nil, false
 	}
-	return o.Roles, true
+	return &o.Roles, true
 }
 
 // SetRoles sets field value

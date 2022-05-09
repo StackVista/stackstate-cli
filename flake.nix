@@ -1,6 +1,8 @@
 {
   description = "StackState CLI";
 
+  nixConfig.bash-prompt = "STS CLI 2 $ ";
+
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
@@ -18,6 +20,7 @@
             goreleaser
             golangci-lint
             openapi-generator-cli
+            bash
             awscli
           ]);
         };

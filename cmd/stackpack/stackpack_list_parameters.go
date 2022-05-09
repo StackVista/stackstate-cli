@@ -14,10 +14,10 @@ func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-parameters",
 		Short: "list-parameters",
-		Long:  "List available parameters.",
+		Long:  "List all parameters required for a StackPack's installation.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListParameterCommand),
 	}
-	cmd.Flags().String(NameFlag, "", "name of the parameter")
+	cmd.Flags().String(NameFlag, "", "name of the StackPack")
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
 	return cmd
 }

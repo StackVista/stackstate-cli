@@ -55,7 +55,7 @@ func (o *FeedbackComment) GetAuthor() string {
 // GetAuthorOk returns a tuple with the Author field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackComment) GetAuthorOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Author, true
@@ -79,7 +79,7 @@ func (o *FeedbackComment) GetText() string {
 // GetTextOk returns a tuple with the Text field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackComment) GetTextOk() (*string, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Text, true
@@ -103,7 +103,7 @@ func (o *FeedbackComment) GetTimestamp() int64 {
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
 func (o *FeedbackComment) GetTimestampOk() (*int64, bool) {
-	if o == nil {
+	if o == nil  {
 		return nil, false
 	}
 	return &o.Timestamp, true
