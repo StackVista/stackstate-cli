@@ -91,11 +91,16 @@
           ci-image = pkgs.dockerTools.buildImage {
             name = "stackstate-cli2-ci";
             tag = "latest";
+            created = "now";
 
             contents = sharedDeps(pkgs-linux) ++ ciDeps(pkgs-linux);
 
-            # Required to make golangci-lint work.
             config = {
+              Env = [
+                "GIT_SSL_CAINFO=/etc/ssl/certs/ca-bundle.crt"
+                "SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt"
+              ];
+
               Volumes = {
                 "/tmp" = {};
               };
