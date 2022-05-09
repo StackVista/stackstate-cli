@@ -12,21 +12,43 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        pkgs-linux = import nixpkgs { system = "x86_64-linux"; };
+
+        # Dependencies used for both development and CI/CD
+        sharedDeps = pkgs: (with pkgs; [
+          bash
+          go
+          diffutils # Required for golangci-lint
+          golangci-lint
+          openapi-generator-cli
+        ]);
+
+        # Dependencies used only by CI/CD
+        ciDeps = pkgs: (with pkgs; [
+          git
+          cacert
+          gcc
+          coreutils-full
+          goreleaser
+          awscli
+        ]);
+
       in {
 
-        devShell = pkgs.mkShell {
-          buildInputs = (with pkgs; [
-            go
-            goreleaser
-            golangci-lint
-            docker
-            bash
-            awscli
-          ]);
+        devShells = {
+          dev = pkgs.mkShell {
+            buildInputs = sharedDeps(pkgs);
+          };
+
+          ci = pkgs.mkShell {
+            buildInputs = sharedDeps(pkgs) ++ ciDeps(pkgs);
+          };
         };
 
+        devShell = self.devShells."${system}".dev;
+
         packages = {
-          sts = pkgs.buildGo118Module {
+          sts = pkgs.buildGoModule {
             pname = "sts";
             version = "0.0.1";
 
@@ -41,11 +63,31 @@
             # you will get a new real hash which can be used here.
             #
             # vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-ogEbNzB78RGtrVM427ADwTcWcbY+ofIn0jxSWOdjplQ=";
+            vendorSha256 = "sha256-MBsjDNYZUclHxtDM+sboZc7IsomwQHuvErnRJ5Wey4s=";
 
             postInstall = ''
               mv $out/bin/stackstate-cli2 $out/bin/sts
             '';
+          };
+
+          ci-image = pkgs.dockerTools.buildImage {
+            name = "stackstate-cli2-ci";
+            tag = "latest";
+            created = "now";
+
+            contents = sharedDeps(pkgs-linux) ++ ciDeps(pkgs-linux);
+
+            config = {
+              Env = [
+                "GIT_SSL_CAINFO=/etc/ssl/certs/ca-bundle.crt"
+                "SSL_CERT_FILE=/etc/ssl/certs/ca-bundle.crt"
+              ];
+
+              # Required to make golangci-lint work.
+              Volumes = {
+                "/tmp" = {};
+              };
+            };
           };
         };
 
