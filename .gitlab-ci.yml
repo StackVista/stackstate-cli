@@ -17,8 +17,6 @@ nix_checksum:
 publish_base_image:
   stage: setup
   image: "nixos/nix:2.8.0"
-  tags:
-    - sts-k8s-xl-runner
   services:
     - name: docker:20.10.14-dind
   variables:
