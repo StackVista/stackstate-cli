@@ -18,7 +18,7 @@ publish_base_image:
   stage: setup
   image: "nixos/nix:2.8.0"
   services:
-    - name: docker:20.10.14-dind
+    - name: docker:stable-dind
   variables:
     NIX_CONFIG: "experimental-features = nix-command flakes"
     DOCKER_DRIVER: overlay2
