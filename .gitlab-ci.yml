@@ -35,6 +35,15 @@ openapi-generate-check:
     - when: always
   script:
     - nix develop -c ./scripts/check-api-up-to-date.sh
+  services:
+    - alias: docker
+      command:
+        - --experimental
+      name: ${DOCKER_PROXY_URL}/docker:dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_HOST: tcp://docker:2375
+    DOCKER_TLS_CERTDIR: ""
 
 license_scanning:
   stage: check
