@@ -19,7 +19,7 @@
             go
             goreleaser
             golangci-lint
-            openapi-generator-cli
+            docker
             bash
             awscli
           ]);
