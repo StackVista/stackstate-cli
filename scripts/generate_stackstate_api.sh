@@ -19,7 +19,7 @@ rm -rf generated/stackstate_api
 docker run --rm -v "${PWD}:/local" \
     --user $(id -u):$(id -g) \
     openapitools/openapi-generator-cli:v6.0.0-beta generate \
-    -i /local/stackstate_openapi/spec/openapi.yaml  \
+    -i /local/$CHECKOUT_DIR/spec/openapi.yaml  \
     -g go \
     -c /local/stackstate_openapi/openapi_generator_config.yaml \
     -o /local/generated/stackstate_api \

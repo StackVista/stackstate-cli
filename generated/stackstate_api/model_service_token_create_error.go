@@ -23,7 +23,9 @@ type ServiceTokenCreateError struct {
 
 // ServiceTokenInvalidExpiryErrorAsServiceTokenCreateError is a convenience function that returns ServiceTokenInvalidExpiryError wrapped in ServiceTokenCreateError
 func ServiceTokenInvalidExpiryErrorAsServiceTokenCreateError(v *ServiceTokenInvalidExpiryError) ServiceTokenCreateError {
-	return ServiceTokenCreateError{ ServiceTokenInvalidExpiryError: v}
+	return ServiceTokenCreateError{
+		ServiceTokenInvalidExpiryError: v,
+	}
 }
 
 
@@ -32,7 +34,7 @@ func (dst *ServiceTokenCreateError) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -63,6 +65,9 @@ func (src ServiceTokenCreateError) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *ServiceTokenCreateError) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.ServiceTokenInvalidExpiryError != nil {
 		return obj.ServiceTokenInvalidExpiryError
 	}

@@ -53,7 +53,7 @@ func (o *Point) GetTimestamp() float32 {
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
 func (o *Point) GetTimestampOk() (*float32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Timestamp, true
@@ -77,7 +77,7 @@ func (o *Point) GetValue() float64 {
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
 func (o *Point) GetValueOk() (*float64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Value, true

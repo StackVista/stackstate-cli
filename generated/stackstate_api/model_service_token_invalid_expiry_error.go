@@ -53,7 +53,7 @@ func (o *ServiceTokenInvalidExpiryError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *ServiceTokenInvalidExpiryError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -77,7 +77,7 @@ func (o *ServiceTokenInvalidExpiryError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *ServiceTokenInvalidExpiryError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true

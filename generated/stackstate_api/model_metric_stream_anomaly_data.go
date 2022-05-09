@@ -66,7 +66,7 @@ func (o *MetricStreamAnomalyData) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -90,7 +90,7 @@ func (o *MetricStreamAnomalyData) GetSeverity() AnomalySeverity {
 // GetSeverityOk returns a tuple with the Severity field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetSeverityOk() (*AnomalySeverity, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Severity, true
@@ -114,7 +114,7 @@ func (o *MetricStreamAnomalyData) GetSeverityScore() float64 {
 // GetSeverityScoreOk returns a tuple with the SeverityScore field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetSeverityScoreOk() (*float64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.SeverityScore, true
@@ -138,7 +138,7 @@ func (o *MetricStreamAnomalyData) GetCheckedInterval() TimeRange {
 // GetCheckedIntervalOk returns a tuple with the CheckedInterval field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetCheckedIntervalOk() (*TimeRange, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CheckedInterval, true
@@ -162,7 +162,7 @@ func (o *MetricStreamAnomalyData) GetExplanation() string {
 // GetExplanationOk returns a tuple with the Explanation field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetExplanationOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Explanation, true
@@ -185,11 +185,11 @@ func (o *MetricStreamAnomalyData) GetModelInfo() map[string]interface{} {
 
 // GetModelInfoOk returns a tuple with the ModelInfo field value
 // and a boolean to check if the value has been set.
-func (o *MetricStreamAnomalyData) GetModelInfoOk() (*map[string]interface{}, bool) {
-	if o == nil  {
+func (o *MetricStreamAnomalyData) GetModelInfoOk() (map[string]interface{}, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ModelInfo, true
+	return o.ModelInfo, true
 }
 
 // SetModelInfo sets field value
@@ -210,7 +210,7 @@ func (o *MetricStreamAnomalyData) GetElementName() string {
 // GetElementNameOk returns a tuple with the ElementName field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetElementNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ElementName, true
@@ -234,7 +234,7 @@ func (o *MetricStreamAnomalyData) GetStreamName() string {
 // GetStreamNameOk returns a tuple with the StreamName field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamAnomalyData) GetStreamNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StreamName, true
