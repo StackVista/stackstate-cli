@@ -23,9 +23,9 @@ func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "collect",
 		Short: "collect anomalies that have user feedback",
-		Long:  "Fetch anomalies that users have given feedback on, as thumbs-up/-down and/or comments",
-		Example: "# Export anomalies with feedback in the last 7 days, include 1 day of metric data for each anomaly" +
-			`sts anomaly collect --start-time=-7d --file anomaly-feedback.json"`,
+		Long:  "Collect anomalies that users have given feedback on, as thumbs-up/-down and/or comments",
+		Example: "# Collect anomalies with feedback in the last 8 days, include 2 days of metric data for each anomaly" +
+			`sts anomaly collect --start-time -8d --history 2d --file anomaly-feedback.json`,
 		RunE: cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}
 	cmd.Flags().StringP(StartTimeFlag, "", "-7d", "start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
@@ -66,7 +66,7 @@ func RunCollectFeedbackCommand(
 		return common.NewCLIArgParseError(err)
 	}
 
-	feedback, resp, err := api.AnomalyFeedbackApi.CollectAnomalyFeedback(cli.Context).
+	anomalies, resp, err := api.AnomalyFeedbackApi.CollectAnomalyFeedback(cli.Context).
 		StartTime(startTime.UnixMilli()).
 		EndTime(endTime.UnixMilli()).
 		History(history.Milliseconds()).
@@ -82,7 +82,7 @@ func RunCollectFeedbackCommand(
 	}
 	defer file.Close()
 
-	data, err := json.Marshal(feedback)
+	data, err := json.Marshal(anomalies)
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
@@ -93,10 +93,11 @@ func RunCollectFeedbackCommand(
 
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"downloaded-anomalies": len(feedback),
+			"collected-anomalies": len(anomalies),
+			"filepath":            filePath,
 		})
 	} else {
-		cli.Printer.Success(fmt.Sprintf("Downloaded %d anomalies with feedback.", len(feedback)))
+		cli.Printer.Success(fmt.Sprintf("Collected %d anomalies to %s.", len(anomalies), filePath))
 	}
 
 	return nil

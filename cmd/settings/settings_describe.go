@@ -91,7 +91,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		}
 		if cli.IsJson {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"describe-file-path": filepath,
+				"filepath": filepath,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filepath))
