@@ -5,7 +5,6 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
-	"time"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
@@ -18,54 +17,6 @@ func setupCommandCollect() (di.MockDeps, *cobra.Command) {
 	cmd := AnomalyCollect(&mockCli.Deps)
 
 	return mockCli, cmd
-}
-
-type TestClock struct {
-	now int64
-}
-
-func newTestClock() Clock {
-	return &TestClock{
-		now: 1652108645000,
-	}
-}
-
-func (clock *TestClock) Now() time.Time {
-	return time.UnixMilli(clock.now)
-}
-
-func TestTimeParsing(t *testing.T) {
-	clock := newTestClock()
-	parsedTime, err := parseTime(clock, "-2d")
-	assert.Nil(t, err)
-	assert.Equal(t, int64(1652108645000-2*86400000), parsedTime.UnixMilli())
-
-	parsedTime, err = parseTime(clock, "2022-05-09T15:04:05Z")
-	assert.Nil(t, err)
-	assert.Equal(t, int64(1652108645000), parsedTime.UnixMilli())
-
-	parsedTime, err = parseTime(clock, "1652108645000")
-	assert.Nil(t, err)
-	assert.Equal(t, int64(1652108645000), parsedTime.UnixMilli())
-
-	parsedTime, err = parseTime(clock, "-2w")
-	assert.NotNil(t, err)
-}
-
-func TestDurationParsing(t *testing.T) {
-	duration, err := parseDuration("1d")
-	assert.Nil(t, err)
-	assert.Equal(t, int64(86400000), duration.Milliseconds())
-
-	duration, err = parseDuration("1.5h")
-	assert.Nil(t, err)
-	assert.Equal(t, int64(5400000), duration.Milliseconds())
-
-	_, err = parseDuration("2w")
-	assert.Equal(t, "unknown unit w - expected d (days) or h (hours)", err.Error())
-
-	_, err = parseDuration("d")
-	assert.Equal(t, "invalid duration - expected a value and a unit (h or d), e.g. 2h or 3.5d", err.Error())
 }
 
 func TestAnomalyCollectEmpty(t *testing.T) {
