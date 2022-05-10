@@ -52,6 +52,22 @@ func TestTimeParsing(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
+func TestDurationParsing(t *testing.T) {
+	duration, err := parseDuration("1d")
+	assert.Nil(t, err)
+	assert.Equal(t, int64(86400000), duration.Milliseconds())
+
+	duration, err = parseDuration("1.5h")
+	assert.Nil(t, err)
+	assert.Equal(t, int64(5400000), duration.Milliseconds())
+
+	_, err = parseDuration("2w")
+	assert.Equal(t, "unknown unit w - expected d (days) or h (hours)", err.Error())
+
+	_, err = parseDuration("d")
+	assert.Equal(t, "invalid duration - expected a value and a unit (h or d), e.g. 2h or 3.5d", err.Error())
+}
+
 func TestAnomalyCollectEmpty(t *testing.T) {
 	file, err := ioutil.TempFile(os.TempDir(), "test_")
 	if err != nil {

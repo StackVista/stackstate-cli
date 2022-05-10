@@ -36,7 +36,7 @@ func AnomalyCollect(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringP(FileFlag, "f", "", "path to output file")
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 	cmd.Flags().StringP(EndTimeFlag, "", "-0h", "end time of interval with anomalies")
-	cmd.Flags().DurationP(HistoryFlag, "d", Day, "length of metric data history preceding the anomaly")
+	cmd.Flags().StringP(HistoryFlag, "d", "1d", "length of metric data history preceding the anomaly")
 
 	return cmd
 }
@@ -57,7 +57,7 @@ func (clock *StdClock) Now() time.Time {
 
 func NewTimeParseError(value string) common.CLIError {
 	return common.StdCLIError{
-		Err: fmt.Errorf("invalid time format %s - expected ISO8601 (2016-09-13T13:12:04Z), milliseconds since epoch or relative time (-168h) ", value),
+		Err: fmt.Errorf("invalid time format %s - expected ISO8601 (2016-09-13T13:12:04Z), milliseconds since epoch or relative time (-168h)", value),
 	}
 }
 
@@ -77,6 +77,36 @@ func parseTime(clock Clock, strStartTime string) (time.Time, common.CLIError) {
 		startTime = time.UnixMilli(startTimeInt)
 	}
 	return startTime, nil
+}
+
+func parseDuration(strDuration string) (time.Duration, common.CLIError) {
+	length := len(strDuration)
+	if length < 2 { //nolint:gomnd
+		return 0, common.StdCLIError{
+			Err: fmt.Errorf("invalid duration - expected a value and a unit (h or d), e.g. 2h or 3.5d"),
+		}
+	}
+
+	unit := strDuration[length-1]
+	var unitLength time.Duration
+	switch unit {
+	case 'h':
+		unitLength = time.Hour
+	case 'd':
+		unitLength = Day
+	default:
+		return 0, common.StdCLIError{
+			Err: fmt.Errorf("unknown unit %c - expected d (days) or h (hours)", unit),
+		}
+	}
+
+	value, err := strconv.ParseFloat(strDuration[0:length-1], 64) //nolint:gomnd
+	if err != nil {
+		return 0, common.StdCLIError{
+			Err: fmt.Errorf("invalid value %s - expected a floating point value (%s)", strDuration[0:length-1], err),
+		}
+	}
+	return time.Duration(float64(unitLength.Nanoseconds()) * value), nil
 }
 
 func RunCollectFeedbackCommand(
@@ -110,9 +140,13 @@ func RunCollectFeedbackCommand(
 		return parseErr
 	}
 
-	history, err := cmd.Flags().GetDuration(HistoryFlag)
+	strHistory, err := cmd.Flags().GetString(HistoryFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
+	}
+	history, parseErr := parseDuration(strHistory)
+	if parseErr != nil {
+		return parseErr
 	}
 
 	feedback, resp, err := api.AnomalyFeedbackApi.CollectAnomalyFeedback(cli.Context).

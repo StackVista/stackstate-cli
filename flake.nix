@@ -36,6 +36,7 @@
         sharedDeps = pkgs: (with pkgs; [
           bash
           go
+          gotools
           diffutils # Required for golangci-lint
           golangci-lint
           openapi-generator-cli
