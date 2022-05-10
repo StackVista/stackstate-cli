@@ -28,7 +28,7 @@ func AnomalyCollect(cli *di.Deps) *cobra.Command {
 		Short: "collect anomalies that have user feedback",
 		Long:  "Fetch anomalies that users have given feedback on, as thumbs-up/-down and/or comments",
 		Example: "# Export anomalies with feedback in the last 7 days, include 1 day of metric data for each anomaly" +
-			`sts anomaly collect --start-time=-168h --file anomaly-feedback.json"`,
+			`sts anomaly collect --start-time=-7d --file anomaly-feedback.json"`,
 		RunE: cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}
 	cmd.Flags().StringP(StartTimeFlag, "", "-7d", "start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
@@ -67,9 +67,9 @@ func parseTime(clock Clock, strStartTime string) (time.Time, common.CLIError) {
 	if err != nil {
 		startTime, err = time.Parse(time.RFC3339, strStartTime)
 		if err != nil {
-			duration, err := time.ParseDuration(strStartTime)
-			if err != nil {
-				return time.Time{}, NewTimeParseError(strStartTime)
+			duration, cliErr := parseDuration(strStartTime)
+			if cliErr != nil {
+				return time.Time{}, cliErr
 			}
 			startTime = clock.Now().Add(duration)
 		}

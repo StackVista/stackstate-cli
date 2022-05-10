@@ -36,9 +36,9 @@ func (clock *TestClock) Now() time.Time {
 
 func TestTimeParsing(t *testing.T) {
 	clock := newTestClock()
-	parsedTime, err := parseTime(clock, "-2h")
+	parsedTime, err := parseTime(clock, "-2d")
 	assert.Nil(t, err)
-	assert.Equal(t, int64(1652108645000-7200000), parsedTime.UnixMilli())
+	assert.Equal(t, int64(1652108645000-2*86400000), parsedTime.UnixMilli())
 
 	parsedTime, err = parseTime(clock, "2022-05-09T15:04:05Z")
 	assert.Nil(t, err)
@@ -48,7 +48,7 @@ func TestTimeParsing(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, int64(1652108645000), parsedTime.UnixMilli())
 
-	_, err = parseTime(clock, "-2d")
+	parsedTime, err = parseTime(clock, "-2w")
 	assert.NotNil(t, err)
 }
 
