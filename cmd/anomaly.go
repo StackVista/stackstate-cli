@@ -12,7 +12,7 @@ func AnomalyCommand(cli *di.Deps) *cobra.Command {
 		Short: "ingest/export anomalies",
 		Long:  "Manage anomalies on metric streams",
 	}
-	cmd.AddCommand(anomaly.AnomalyCollect(cli))
+	cmd.AddCommand(anomaly.AnomalyCollectFeedback(cli))
 
 	return cmd
 }

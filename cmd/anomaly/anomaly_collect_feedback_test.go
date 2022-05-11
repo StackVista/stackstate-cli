@@ -2,6 +2,7 @@ package anomaly
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -14,7 +15,7 @@ import (
 
 func setupCommandCollect() (di.MockDeps, *cobra.Command) {
 	mockCli := di.NewMockDeps()
-	cmd := AnomalyCollect(&mockCli.Deps)
+	cmd := AnomalyCollectFeedback(&mockCli.Deps)
 
 	return mockCli, cmd
 }
@@ -39,7 +40,7 @@ func TestAnomalyCollectEmpty(t *testing.T) {
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--start-time", "1652108645000", "--end-time", "1652108845000", "--file", filePath)
 	assert.Nil(t, err)
-	assert.Equal(t, []string{"Downloaded 2 anomalies with feedback."}, *cli.MockPrinter.SuccessCalls)
+	assert.Equal(t, []string{fmt.Sprintf("Collected 2 anomalies to %s.", filePath)}, *cli.MockPrinter.SuccessCalls)
 
 	calls := *cli.MockClient.ApiMocks.AnomalyFeedbackApi.CollectAnomalyFeedbackCalls
 	assert.Equal(t, 1, len(calls))
