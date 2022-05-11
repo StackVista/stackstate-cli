@@ -34,8 +34,8 @@ func main() {
     newServiceTokenRequest := *openapiclient.NewNewServiceTokenRequest("Name_example", []string{"Roles_example"}) // NewServiceTokenRequest | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceTokenApi.CreateNewServiceToken(context.Background()).NewServiceTokenRequest(newServiceTokenRequest).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceTokenApi.CreateNewServiceToken(context.Background()).NewServiceTokenRequest(newServiceTokenRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenApi.CreateNewServiceToken``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -100,8 +100,8 @@ func main() {
     serviceTokenId := int64(789) // int64 | The identifier of a service token
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceTokenApi.DeleteServiceToken(context.Background(), serviceTokenId).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceTokenApi.DeleteServiceToken(context.Background(), serviceTokenId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenApi.DeleteServiceToken``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -167,8 +167,8 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ServiceTokenApi.GetServiceTokens(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ServiceTokenApi.GetServiceTokens(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenApi.GetServiceTokens``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -13,7 +13,7 @@ import (
 )
 
 type StackStateClient interface {
-	Connect() (*stackstate_api.APIClient, stackstate_api.ServerInfo, common.CLIError)
+	Connect() (*stackstate_api.APIClient, *stackstate_api.ServerInfo, common.CLIError)
 }
 
 func NewStackStateClient(ctx context.Context, isVerBose bool, pr printer.Printer, url string, apiPath string, apiToken string) (StackStateClient, context.Context) {
@@ -60,12 +60,12 @@ type StdStackStateClient struct {
 	apiURL  string
 }
 
-func (c StdStackStateClient) Connect() (*stackstate_api.APIClient, stackstate_api.ServerInfo, common.CLIError) {
+func (c StdStackStateClient) Connect() (*stackstate_api.APIClient, *stackstate_api.ServerInfo, common.CLIError) {
 	log.Info().Str("api-url", c.apiURL).Msg("Connecting to StackState")
 
 	serverInfo, resp, err := c.client.ServerApi.ServerInfo(c.Context).Execute()
 	if err != nil {
-		return nil, stackstate_api.ServerInfo{}, common.NewConnectError(err, c.apiURL, resp)
+		return nil, &stackstate_api.ServerInfo{}, common.NewConnectError(err, c.apiURL, resp)
 	}
 
 	return c.client, serverInfo, nil

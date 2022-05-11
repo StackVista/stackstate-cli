@@ -13,16 +13,12 @@ package stackstate_api
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type UserProfileApi interface {
 
@@ -31,41 +27,39 @@ type UserProfileApi interface {
 
 	Get current user profile.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetCurrentUserProfileRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCurrentUserProfileRequest
 	*/
-	GetCurrentUserProfile(ctx _context.Context) ApiGetCurrentUserProfileRequest
+	GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest
 
 	// GetCurrentUserProfileExecute executes the request
 	//  @return UserProfile
-	GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error)
+	GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error)
 
 	/*
 	SaveCurrentUserProfile Save current user profile
 
 	Save current user profile.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiSaveCurrentUserProfileRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSaveCurrentUserProfileRequest
 	*/
-	SaveCurrentUserProfile(ctx _context.Context) ApiSaveCurrentUserProfileRequest
+	SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest
 
 	// SaveCurrentUserProfileExecute executes the request
 	//  @return UserProfile
-	SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error)
+	SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error)
 }
-
 
 // UserProfileApiService UserProfileApi service
 type UserProfileApiService service
 
 type ApiGetCurrentUserProfileRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService UserProfileApi
 }
 
-
-func (r ApiGetCurrentUserProfileRequest) Execute() (UserProfile, *_nethttp.Response, error) {
+func (r ApiGetCurrentUserProfileRequest) Execute() (*UserProfile, *http.Response, error) {
 	return r.ApiService.GetCurrentUserProfileExecute(r)
 }
 
@@ -74,10 +68,10 @@ GetCurrentUserProfile Get current user profile
 
 Get current user profile.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetCurrentUserProfileRequest
 */
-func (a *UserProfileApiService) GetCurrentUserProfile(ctx _context.Context) ApiGetCurrentUserProfileRequest {
+func (a *UserProfileApiService) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
 	return ApiGetCurrentUserProfileRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -86,26 +80,24 @@ func (a *UserProfileApiService) GetCurrentUserProfile(ctx _context.Context) ApiG
 
 // Execute executes the request
 //  @return UserProfile
-func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
+func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  UserProfile
+		formFiles            []formFile
+		localVarReturnValue  *UserProfile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserProfileApiService.GetCurrentUserProfile")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/profile"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -138,7 +130,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -148,15 +140,15 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -184,7 +176,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -195,7 +187,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 }
 
 type ApiSaveCurrentUserProfileRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService UserProfileApi
 	userProfile *UserProfile
 }
@@ -205,7 +197,7 @@ func (r ApiSaveCurrentUserProfileRequest) UserProfile(userProfile UserProfile) A
 	return r
 }
 
-func (r ApiSaveCurrentUserProfileRequest) Execute() (UserProfile, *_nethttp.Response, error) {
+func (r ApiSaveCurrentUserProfileRequest) Execute() (*UserProfile, *http.Response, error) {
 	return r.ApiService.SaveCurrentUserProfileExecute(r)
 }
 
@@ -214,10 +206,10 @@ SaveCurrentUserProfile Save current user profile
 
 Save current user profile.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiSaveCurrentUserProfileRequest
 */
-func (a *UserProfileApiService) SaveCurrentUserProfile(ctx _context.Context) ApiSaveCurrentUserProfileRequest {
+func (a *UserProfileApiService) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
 	return ApiSaveCurrentUserProfileRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -226,26 +218,24 @@ func (a *UserProfileApiService) SaveCurrentUserProfile(ctx _context.Context) Api
 
 // Execute executes the request
 //  @return UserProfile
-func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
+func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPut
+		localVarHTTPMethod   = http.MethodPut
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  UserProfile
+		formFiles            []formFile
+		localVarReturnValue  *UserProfile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserProfileApiService.SaveCurrentUserProfile")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/user/profile"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 	if r.userProfile == nil {
 		return localVarReturnValue, nil, reportError("userProfile is required and must be specified")
 	}
@@ -283,7 +273,7 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -293,15 +283,15 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -329,7 +319,7 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -363,7 +353,7 @@ func NewUserProfileApiMock() UserProfileApiMock {
 
 type GetCurrentUserProfileMockResponse struct {
 	Result UserProfile
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -371,23 +361,23 @@ type GetCurrentUserProfileCall struct {
 }
 
 
-func (mock UserProfileApiMock) GetCurrentUserProfile(ctx _context.Context) ApiGetCurrentUserProfileRequest {
+func (mock UserProfileApiMock) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
 	return ApiGetCurrentUserProfileRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock UserProfileApiMock) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
+func (mock UserProfileApiMock) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	p := GetCurrentUserProfileCall {
 	}
 	*mock.GetCurrentUserProfileCalls = append(*mock.GetCurrentUserProfileCalls, p)
-	return mock.GetCurrentUserProfileResponse.Result, mock.GetCurrentUserProfileResponse.Response, mock.GetCurrentUserProfileResponse.Error
+	return &mock.GetCurrentUserProfileResponse.Result, mock.GetCurrentUserProfileResponse.Response, mock.GetCurrentUserProfileResponse.Error
 }
 
 type SaveCurrentUserProfileMockResponse struct {
 	Result UserProfile
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -396,19 +386,19 @@ type SaveCurrentUserProfileCall struct {
 }
 
 
-func (mock UserProfileApiMock) SaveCurrentUserProfile(ctx _context.Context) ApiSaveCurrentUserProfileRequest {
+func (mock UserProfileApiMock) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
 	return ApiSaveCurrentUserProfileRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock UserProfileApiMock) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (UserProfile, *_nethttp.Response, error) {
+func (mock UserProfileApiMock) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	p := SaveCurrentUserProfileCall {
 			PuserProfile: r.userProfile,
 	}
 	*mock.SaveCurrentUserProfileCalls = append(*mock.SaveCurrentUserProfileCalls, p)
-	return mock.SaveCurrentUserProfileResponse.Result, mock.SaveCurrentUserProfileResponse.Response, mock.SaveCurrentUserProfileResponse.Error
+	return &mock.SaveCurrentUserProfileResponse.Result, mock.SaveCurrentUserProfileResponse.Response, mock.SaveCurrentUserProfileResponse.Error
 }
 
 

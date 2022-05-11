@@ -1,0 +1,246 @@
+[
+  {
+    "feedback": {
+      "subject": "e2956bbf-59ed-4ca6-a370-8941ca19a018",
+      "thumbsup": [],
+      "thumbsdown": [
+        "admin"
+      ],
+      "query": {
+        "dataSourceId": 11282966548664,
+        "conditions": [
+          {
+            "key": "tags.createTime",
+            "value": "1650570625000"
+          },
+          {
+            "key": "tags.pid",
+            "value": "4360"
+          },
+          {
+            "key": "host",
+            "value": "frnksts"
+          }
+        ],
+        "aggregationMethod": "MEAN",
+        "bucketSize": 60000,
+        "metricField": "cpu_systemPct",
+        "queryHash": "c25ae0a217f898010b35ec8aebde35e4a7d16940f4c795057b23831e5ebc900b",
+        "_type": "AnnotationMetricQuery"
+      },
+      "_type": "FeedbackData"
+    },
+    "anomaly": {
+      "id": "e2956bbf-59ed-4ca6-a370-8941ca19a018",
+      "name": "test-name",
+      "reference": {
+        "streamNodeId": 231236816040121,
+        "elementIdentifiers": [
+          "urn:process:/frnksts:4360:1650570625000",
+          "urn:process:/frnksts:4360:16505706"
+        ],
+        "_type": "MetricStreamReference"
+      },
+      "identifiers": [
+        "urn:system:auto:stream-instance:c25ae0a217f898010b35ec8aebde35e4a7d16940f4c795057b23831e5ebc900b"
+      ],
+      "description": "LOW severity RISE has been detected.",
+      "annotationType": "MetricStreamAnomaly",
+      "eventTimeInterval": {
+        "start": 1650615462000,
+        "end": 1650616062000
+      },
+      "processedTime": 1650626701000,
+      "createdTime": 1650626701000,
+      "tags": [
+        "severity:LOW",
+        "anomalyDirection:RISE"
+      ],
+      "data": {
+        "severity": "LOW",
+        "severityScore": 0.8,
+        "checkedInterval": {
+          "start": 1650611862000,
+          "end": 1650619062000
+        },
+        "explanation": "LOW severity RISE has been detected.",
+        "modelInfo": {
+          "algorithm": "EWMA"
+        },
+        "elementName": "gnome-shell",
+        "streamName": "CPU time - System (percentage / second)",
+        "query": {
+          "dataSourceId": 11282966548664,
+          "conditions": [
+            {
+              "key": "tags.createTime",
+              "value": "1650570625000"
+            },
+            {
+              "key": "tags.pid",
+              "value": "4360"
+            },
+            {
+              "key": "host",
+              "value": "frnksts"
+            }
+          ],
+          "aggregationMethod": "MEAN",
+          "bucketSize": 60000,
+          "metricField": "cpu_systemPct",
+          "queryHash": "c25ae0a217f898010b35ec8aebde35e4a7d16940f4c795057b23831e5ebc900b",
+          "_type": "AnnotationMetricQuery"
+        },
+        "_type": "MetricStreamAnomalyData"
+      },
+      "_type": "Annotation"
+    },
+    "data": []
+  },
+  {
+    "feedback": {
+      "subject": "254eabf3-7237-4c1d-a0af-5443f3cebdc4",
+      "thumbsup": [
+        "admin"
+      ],
+      "thumbsdown": [],
+      "query": {
+        "dataSourceId": 11282966548664,
+        "conditions": [
+          {
+            "key": "tags.createTime",
+            "value": "1650570625000"
+          },
+          {
+            "key": "tags.pid",
+            "value": "4360"
+          },
+          {
+            "key": "host",
+            "value": "frnksts"
+          }
+        ],
+        "aggregationMethod": "MEAN",
+        "bucketSize": 60000,
+        "metricField": "cpu_systemPct",
+        "queryHash": "c25ae0a217f898010b35ec8aebde35e4a7d16940f4c795057b23831e5ebc900b",
+        "_type": "AnnotationMetricQuery"
+      },
+      "_type": "FeedbackData"
+    },
+    "anomaly": {
+      "id": "254eabf3-7237-4c1d-a0af-5443f3cebdc4",
+      "name": "test-name",
+      "reference": {
+        "streamNodeId": 231236816040121,
+        "elementIdentifiers": [
+          "urn:process:/frnksts:4360:1650570625000",
+          "urn:process:/frnksts:4360:16505706"
+        ],
+        "_type": "MetricStreamReference"
+      },
+      "identifiers": [
+        "urn:system:auto:stream-instance:c25ae0a217f898010b35ec8aebde35e4a7d16940f4c795057b23831e5ebc900b"
+      ],
+      "description": "LOW severity DROP has been detected.",
+      "annotationType": "MetricStreamAnomaly",
+      "eventTimeInterval": {
+        "start": 1650622333000,
+        "end": 1650622513000
+      },
+      "processedTime": 1650626716000,
+      "createdTime": 1650626716000,
+      "tags": [
+        "severity:LOW",
+        "anomalyDirection:DROP"
+      ],
+      "data": {
+        "severity": "LOW",
+        "severityScore": 0.8,
+        "checkedInterval": {
+          "start": 1650618733000,
+          "end": 1650625933000
+        },
+        "explanation": "LOW severity DROP has been detected.",
+        "modelInfo": {
+          "algorithm": "EWMA"
+        },
+        "elementName": "gnome-shell",
+        "streamName": "CPU time - System (percentage / second)",
+        "query": {
+          "dataSourceId": 11282966548664,
+          "conditions": [
+            {
+              "key": "tags.createTime",
+              "value": "1650570625000"
+            },
+            {
+              "key": "tags.pid",
+              "value": "4360"
+            },
+            {
+              "key": "host",
+              "value": "frnksts"
+            }
+          ],
+          "aggregationMethod": "MEAN",
+          "bucketSize": 60000,
+          "metricField": "cpu_systemPct",
+          "queryHash": "c25ae0a217f898010b35ec8aebde35e4a7d16940f4c795057b23831e5ebc900b",
+          "_type": "AnnotationMetricQuery"
+        },
+        "_type": "MetricStreamAnomalyData"
+      },
+      "_type": "Annotation"
+    },
+    "data": [
+      {
+        "timestamp": 1650621900000,
+        "value": 1.0043522119522095
+      },
+      {
+        "timestamp": 1650621960000,
+        "value": 0.5854098200798035
+      },
+      {
+        "timestamp": 1650622020000,
+        "value": 0.6189557015895844
+      },
+      {
+        "timestamp": 1650622080000,
+        "value": 0.6524638533592224
+      },
+      {
+        "timestamp": 1650622140000,
+        "value": 0.9032303094863892
+      },
+      {
+        "timestamp": 1650622200000,
+        "value": 0.16732096672058105
+      },
+      {
+        "timestamp": 1650622260000,
+        "value": 0.06690291687846184
+      },
+      {
+        "timestamp": 1650622320000,
+        "value": 0.050168970599770546
+      },
+      {
+        "timestamp": 1650622380000,
+        "value": 0.06689383089542389
+      },
+      {
+        "timestamp": 1650622440000,
+        "value": 0.050165826454758644
+      }
+    ],
+    "comments": [
+      {
+        "author": "ye-author",
+        "comment": "it's great",
+        "timestamp": 1650622360000
+      }
+    ]
+  }
+]

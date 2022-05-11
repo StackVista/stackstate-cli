@@ -32,8 +32,8 @@ func main() {
     executeScriptRequest := *openapiclient.NewExecuteScriptRequest("Script_example") // ExecuteScriptRequest | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ScriptingApi.ScriptExecute(context.Background()).ExecuteScriptRequest(executeScriptRequest).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ScriptingApi.ScriptExecute(context.Background()).ExecuteScriptRequest(executeScriptRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ScriptingApi.ScriptExecute``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

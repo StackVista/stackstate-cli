@@ -32,7 +32,7 @@ func RunMonitorRunCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	isDryRun, err := cmd.Flags().GetBool(DryRunFlag)
 	if err != nil {
@@ -46,7 +46,7 @@ func RunMonitorRunCommand(
 
 	id, err := util.StringToInt64(identifier)
 	var resp *http.Response
-	var runResult stackstate_api.MonitorRunResult
+	var runResult *stackstate_api.MonitorRunResult
 	if err == nil {
 		if isDryRun {
 			runResult, resp, err = api.MonitorApi.DryRunMonitor(cli.Context, id).Execute()

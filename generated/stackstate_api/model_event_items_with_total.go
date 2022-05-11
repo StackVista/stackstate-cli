@@ -52,11 +52,11 @@ func (o *EventItemsWithTotal) GetItems() []TopologyEvent {
 
 // GetItemsOk returns a tuple with the Items field value
 // and a boolean to check if the value has been set.
-func (o *EventItemsWithTotal) GetItemsOk() (*[]TopologyEvent, bool) {
-	if o == nil  {
+func (o *EventItemsWithTotal) GetItemsOk() ([]TopologyEvent, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Items, true
+	return o.Items, true
 }
 
 // SetItems sets field value
@@ -77,7 +77,7 @@ func (o *EventItemsWithTotal) GetTotal() int64 {
 // GetTotalOk returns a tuple with the Total field value
 // and a boolean to check if the value has been set.
 func (o *EventItemsWithTotal) GetTotalOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Total, true

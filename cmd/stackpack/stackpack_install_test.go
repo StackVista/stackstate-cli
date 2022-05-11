@@ -20,7 +20,7 @@ var (
 	provisionVersion      = "3.2.0"
 	timeMilli             = int64(1438167001716)
 	expectedUpdateTime    = time.UnixMilli(timeMilli)
-	mockProvisionResponse = stackstate_api.ProvisionResponse{
+	mockProvisionResponse = &stackstate_api.ProvisionResponse{
 		Id:                  &provisionID,
 		Name:                &provisionName,
 		Status:              &provisionStatus,
@@ -32,7 +32,7 @@ var (
 func setupStackPackInstallCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
 	cmd := StackpackInstallCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsResponse.Result = mockProvisionResponse
+	cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsResponse.Result = *mockProvisionResponse
 	return &cli, cmd
 }
 

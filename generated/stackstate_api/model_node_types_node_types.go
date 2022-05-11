@@ -53,7 +53,7 @@ func (o *NodeTypesNodeTypes) GetTypeName() string {
 // GetTypeNameOk returns a tuple with the TypeName field value
 // and a boolean to check if the value has been set.
 func (o *NodeTypesNodeTypes) GetTypeNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TypeName, true
@@ -77,7 +77,7 @@ func (o *NodeTypesNodeTypes) GetDescription() string {
 // GetDescriptionOk returns a tuple with the Description field value
 // and a boolean to check if the value has been set.
 func (o *NodeTypesNodeTypes) GetDescriptionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Description, true

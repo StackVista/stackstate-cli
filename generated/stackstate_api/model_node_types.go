@@ -50,11 +50,11 @@ func (o *NodeTypes) GetNodeTypes() []NodeTypesNodeTypes {
 
 // GetNodeTypesOk returns a tuple with the NodeTypes field value
 // and a boolean to check if the value has been set.
-func (o *NodeTypes) GetNodeTypesOk() (*[]NodeTypesNodeTypes, bool) {
-	if o == nil  {
+func (o *NodeTypes) GetNodeTypesOk() ([]NodeTypesNodeTypes, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.NodeTypes, true
+	return o.NodeTypes, true
 }
 
 // SetNodeTypes sets field value

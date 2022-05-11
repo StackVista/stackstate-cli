@@ -55,7 +55,7 @@ func (o *StreamListItem) GetUrn() string {
 // GetUrnOk returns a tuple with the Urn field value
 // and a boolean to check if the value has been set.
 func (o *StreamListItem) GetUrnOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Urn, true
@@ -79,7 +79,7 @@ func (o *StreamListItem) GetConsistencyModel() string {
 // GetConsistencyModelOk returns a tuple with the ConsistencyModel field value
 // and a boolean to check if the value has been set.
 func (o *StreamListItem) GetConsistencyModelOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ConsistencyModel, true
@@ -103,7 +103,7 @@ func (o *StreamListItem) GetSubStreams() int32 {
 // GetSubStreamsOk returns a tuple with the SubStreams field value
 // and a boolean to check if the value has been set.
 func (o *StreamListItem) GetSubStreamsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.SubStreams, true

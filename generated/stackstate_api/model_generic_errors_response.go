@@ -88,7 +88,7 @@ func (o *GenericErrorsResponse) GetTrackingKey() string {
 // GetTrackingKeyOk returns a tuple with the TrackingKey field value
 // and a boolean to check if the value has been set.
 func (o *GenericErrorsResponse) GetTrackingKeyOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TrackingKey, true
@@ -112,7 +112,7 @@ func (o *GenericErrorsResponse) GetServerTimestamp() int64 {
 // GetServerTimestampOk returns a tuple with the ServerTimestamp field value
 // and a boolean to check if the value has been set.
 func (o *GenericErrorsResponse) GetServerTimestampOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ServerTimestamp, true
@@ -135,11 +135,11 @@ func (o *GenericErrorsResponse) GetErrors() []GenericApiError {
 
 // GetErrorsOk returns a tuple with the Errors field value
 // and a boolean to check if the value has been set.
-func (o *GenericErrorsResponse) GetErrorsOk() (*[]GenericApiError, bool) {
-	if o == nil  {
+func (o *GenericErrorsResponse) GetErrorsOk() ([]GenericApiError, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Errors, true
+	return o.Errors, true
 }
 
 // SetErrors sets field value

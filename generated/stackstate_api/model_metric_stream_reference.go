@@ -55,7 +55,7 @@ func (o *MetricStreamReference) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamReference) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -79,7 +79,7 @@ func (o *MetricStreamReference) GetStreamNodeId() int64 {
 // GetStreamNodeIdOk returns a tuple with the StreamNodeId field value
 // and a boolean to check if the value has been set.
 func (o *MetricStreamReference) GetStreamNodeIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StreamNodeId, true
@@ -102,11 +102,11 @@ func (o *MetricStreamReference) GetElementIdentifiers() []string {
 
 // GetElementIdentifiersOk returns a tuple with the ElementIdentifiers field value
 // and a boolean to check if the value has been set.
-func (o *MetricStreamReference) GetElementIdentifiersOk() (*[]string, bool) {
-	if o == nil  {
+func (o *MetricStreamReference) GetElementIdentifiersOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ElementIdentifiers, true
+	return o.ElementIdentifiers, true
 }
 
 // SetElementIdentifiers sets field value

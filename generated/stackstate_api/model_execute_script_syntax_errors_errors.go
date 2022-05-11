@@ -53,7 +53,7 @@ func (o *ExecuteScriptSyntaxErrorsErrors) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptSyntaxErrorsErrors) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true
@@ -77,7 +77,7 @@ func (o *ExecuteScriptSyntaxErrorsErrors) GetLocation() ScriptLocation {
 // GetLocationOk returns a tuple with the Location field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptSyntaxErrorsErrors) GetLocationOk() (*ScriptLocation, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Location, true

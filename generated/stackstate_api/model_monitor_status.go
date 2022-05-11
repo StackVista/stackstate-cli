@@ -55,7 +55,7 @@ func (o *MonitorStatus) GetMonitor() Monitor {
 // GetMonitorOk returns a tuple with the Monitor field value
 // and a boolean to check if the value has been set.
 func (o *MonitorStatus) GetMonitorOk() (*Monitor, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Monitor, true
@@ -79,7 +79,7 @@ func (o *MonitorStatus) GetStatus() HealthStreamStatus {
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *MonitorStatus) GetStatusOk() (*HealthStreamStatus, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Status, true
@@ -103,7 +103,7 @@ func (o *MonitorStatus) GetTopologyMatchResult() TopologyMatchResult {
 // GetTopologyMatchResultOk returns a tuple with the TopologyMatchResult field value
 // and a boolean to check if the value has been set.
 func (o *MonitorStatus) GetTopologyMatchResultOk() (*TopologyMatchResult, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TopologyMatchResult, true

@@ -28,7 +28,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 	mockResponse := []stackstate_api.Sstackpack{
 		{
 			Name: &testName,
-			Configurations: &[]stackstate_api.SstackpackConfigurations{
+			Configurations: []stackstate_api.SstackpackConfigurations{
 				{
 					Id:                  &id,
 					Status:              &statusInstalled,
@@ -39,7 +39,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 		},
 		{
 			Name: &unknownName,
-			Configurations: &[]stackstate_api.SstackpackConfigurations{
+			Configurations: []stackstate_api.SstackpackConfigurations{
 				{
 					Id:                  &id,
 					Status:              &statusInstalled,

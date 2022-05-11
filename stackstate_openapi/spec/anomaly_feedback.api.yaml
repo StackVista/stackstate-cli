@@ -1,0 +1,346 @@
+paths:
+  /anomaly-feedback:
+    get:
+      tags:
+        - anomalyFeedback
+      summary: "Collect feedback on anomalies"
+      description: ""
+      operationId: collectAnomalyFeedback
+      parameters:
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: endTime
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+        - name: history
+          in: query
+          required: false
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          description: "Export feedback on anomalies."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FeedbackWithContext"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+
+components:
+  schemas:
+    FeedbackWithContext:
+      properties:
+        anomaly:
+          $ref: "#/components/schemas/Annotation"
+        data:
+          items:
+            $ref: "#/components/schemas/Point"
+          type: array
+        feedback:
+          $ref: "#/components/schemas/FeedbackData"
+      required:
+        - anomaly
+        - data
+        - feedback
+      type: object
+
+    Point:
+      properties:
+        timestamp:
+          type: number
+          format: int64
+        value:
+          type: number
+          format: double
+      required:
+        - timestamp
+        - value
+      type: object
+
+    Annotation:
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reference:
+          $ref: "#/components/schemas/Reference"
+        identifiers:
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        annotationType:
+          $ref: "#/components/schemas/AnnotationType"
+        eventTimeInterval:
+          $ref: "#/components/schemas/TimeRange"
+        processedTime:
+          format: int64
+          type: integer
+        createdTime:
+          format: int64
+          type: integer
+        tags:
+          items:
+            type: string
+          type: array
+        data:
+          $ref: "#/components/schemas/AnnotationData"
+      required:
+        - annotationType
+        - createdTime
+        - description
+        - eventTimeInterval
+        - id
+        - identifiers
+        - name
+        - processedTime
+        - reference
+        - tags
+      type: object
+
+    AnnotationType:
+      enum:
+        - MetricStreamAnomaly
+        - MetricStreamNoAnomaly
+        - AnomalyFeedback
+      type: string
+
+    AnnotationData:
+      discriminator:
+        propertyName: _type
+      oneOf:
+        - $ref: "#/components/schemas/MetricStreamAnomalyData"
+        - $ref: "#/components/schemas/MetricStreamNoAnomalyData"
+        - $ref: "#/components/schemas/GenericAnnotationData"
+        - $ref: "#/components/schemas/FeedbackData"
+      required:
+        - _type
+      type: object
+
+    MetricStreamAnomalyData:
+      properties:
+        _type:
+          enum:
+            - MetricStreamAnomalyData
+          type: string
+        severity:
+          $ref: "#/components/schemas/AnomalySeverity"
+        severityScore:
+          format: double
+          type: number
+        checkedInterval:
+          $ref: "#/components/schemas/TimeRange"
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        elementName:
+          type: string
+        streamName:
+          type: string
+        query:
+          $ref: "#/components/schemas/AnnotationMetricQuery"
+      required:
+        - _type
+        - checkedInterval
+        - elementName
+        - explanation
+        - modelInfo
+        - severity
+        - severityScore
+        - streamName
+      type: object
+
+    AnomalySeverity:
+      enum:
+        - LOW
+        - MEDIUM
+        - HIGH
+      type: string
+
+    MetricStreamNoAnomalyData:
+      type: object
+      properties:
+        _type:
+          enum:
+            - MetricStreamNoAnomalyData
+          type: string
+        checkedInterval:
+          $ref: "#/components/schemas/TimeRange"
+        explanation:
+          type: string
+        modelInfo:
+          type: object
+        query:
+          $ref: "#/components/schemas/AnnotationMetricQuery"
+      required:
+        - _type
+        - checkedInterval
+        - explanation
+        - modelInfo
+
+    GenericAnnotationData:
+      type: object
+      properties:
+        _type:
+          enum:
+            - GenericAnnotationData
+          type: string
+        annotation:
+          type: object
+      required:
+        - _type
+        - annotation
+
+    FeedbackData:
+      type: object
+      properties:
+        _type:
+          enum:
+            - FeedbackData
+          type: string
+        subject:
+          type: string
+        thumbsup:
+          items:
+            type: string
+          type: array
+        thumbsdown:
+          items:
+            type: string
+          type: array
+        comments:
+          items:
+            $ref: "#/components/schemas/FeedbackComment"
+          type: array
+        query:
+          $ref: "#/components/schemas/AnnotationMetricQuery"
+      required:
+        - _type
+        - subject
+        - thumbsdown
+        - thumbsup
+        - comments
+
+    TimeRange:
+      properties:
+        start:
+          format: int64
+          type: integer
+        end:
+          format: int64
+          type: integer
+      required:
+        - start
+        - end
+      type: object
+
+    FeedbackComment:
+      properties:
+        author:
+          type: string
+        text:
+          type: string
+        timestamp:
+          type: integer
+          format: int64
+      required:
+        - author
+        - text
+        - timestamp
+      type: object
+
+    AnnotationMetricQuery:
+      properties:
+        dataSourceId:
+          format: int64
+          type: integer
+        conditions:
+          items:
+            $ref: "#/components/schemas/TelemetryQueryCondition"
+          type: array
+        aggregationMethod:
+          $ref: "#/components/schemas/DownsamplingMethod"
+        bucketSize:
+          format: int64
+          type: integer
+        metricField:
+          type: string
+        queryHash:
+          type: string
+      required:
+        - aggregationMethod
+        - bucketSize
+        - conditions
+        - dataSourceId
+        - queryHash
+      type: object
+
+    DownsamplingMethod:
+      enum:
+        - MEAN
+        - PERCENTILE_25
+        - PERCENTILE_50
+        - PERCENTILE_75
+        - PERCENTILE_90
+        - PERCENTILE_95
+        - PERCENTILE_98
+        - PERCENTILE_99
+        - MAX
+        - MIN
+        - SUM
+        - EVENT_COUNT
+        - SUM_NO_ZEROS
+        - EVENT_COUNT_NO_ZEROS
+      type: string
+
+    TelemetryQueryCondition:
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+        - key
+      type: object
+
+    Reference:
+      discriminator:
+        propertyName: _type
+      oneOf:
+        - $ref: "#/components/schemas/MetricStreamReference"
+      required:
+        - _type
+      type: object
+
+    MetricStreamReference:
+      properties:
+        _type:
+          enum:
+            - MetricStreamReference
+          type: string
+        streamNodeId:
+          format: int64
+          type: integer
+        elementIdentifiers:
+          items:
+            type: string
+          type: array
+      required:
+        - _type
+        - elementIdentifiers
+        - streamNodeId
+      type: object

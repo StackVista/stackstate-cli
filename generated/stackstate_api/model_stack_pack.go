@@ -26,8 +26,8 @@ type StackPack struct {
 	OverviewUrl *string `json:"overviewUrl,omitempty"`
 	DetailedOverviewUrl *string `json:"detailedOverviewUrl,omitempty"`
 	ResourcesUrl *string `json:"resourcesUrl,omitempty"`
-	Faqs *[]StackPackFaqs `json:"faqs,omitempty"`
-	ConfigurationUrls *[][]string `json:"configurationUrls,omitempty"`
+	Faqs []StackPackFaqs `json:"faqs,omitempty"`
+	ConfigurationUrls [][]string `json:"configurationUrls,omitempty"`
 	ReleaseStatus string `json:"releaseStatus"`
 	IsCompatible bool `json:"isCompatible"`
 }
@@ -69,7 +69,7 @@ func (o *StackPack) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -93,7 +93,7 @@ func (o *StackPack) GetDisplayName() string {
 // GetDisplayNameOk returns a tuple with the DisplayName field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetDisplayNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DisplayName, true
@@ -117,7 +117,7 @@ func (o *StackPack) GetVersion() string {
 // GetVersionOk returns a tuple with the Version field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetVersionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Version, true
@@ -172,11 +172,11 @@ func (o *StackPack) GetCategories() []string {
 
 // GetCategoriesOk returns a tuple with the Categories field value
 // and a boolean to check if the value has been set.
-func (o *StackPack) GetCategoriesOk() (*[]string, bool) {
-	if o == nil  {
+func (o *StackPack) GetCategoriesOk() ([]string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Categories, true
+	return o.Categories, true
 }
 
 // SetCategories sets field value
@@ -197,7 +197,7 @@ func (o *StackPack) GetIsNew() bool {
 // GetIsNewOk returns a tuple with the IsNew field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetIsNewOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsNew, true
@@ -310,12 +310,12 @@ func (o *StackPack) GetFaqs() []StackPackFaqs {
 		var ret []StackPackFaqs
 		return ret
 	}
-	return *o.Faqs
+	return o.Faqs
 }
 
 // GetFaqsOk returns a tuple with the Faqs field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StackPack) GetFaqsOk() (*[]StackPackFaqs, bool) {
+func (o *StackPack) GetFaqsOk() ([]StackPackFaqs, bool) {
 	if o == nil || o.Faqs == nil {
 		return nil, false
 	}
@@ -333,7 +333,7 @@ func (o *StackPack) HasFaqs() bool {
 
 // SetFaqs gets a reference to the given []StackPackFaqs and assigns it to the Faqs field.
 func (o *StackPack) SetFaqs(v []StackPackFaqs) {
-	o.Faqs = &v
+	o.Faqs = v
 }
 
 // GetConfigurationUrls returns the ConfigurationUrls field value if set, zero value otherwise.
@@ -342,12 +342,12 @@ func (o *StackPack) GetConfigurationUrls() [][]string {
 		var ret [][]string
 		return ret
 	}
-	return *o.ConfigurationUrls
+	return o.ConfigurationUrls
 }
 
 // GetConfigurationUrlsOk returns a tuple with the ConfigurationUrls field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *StackPack) GetConfigurationUrlsOk() (*[][]string, bool) {
+func (o *StackPack) GetConfigurationUrlsOk() ([][]string, bool) {
 	if o == nil || o.ConfigurationUrls == nil {
 		return nil, false
 	}
@@ -365,7 +365,7 @@ func (o *StackPack) HasConfigurationUrls() bool {
 
 // SetConfigurationUrls gets a reference to the given [][]string and assigns it to the ConfigurationUrls field.
 func (o *StackPack) SetConfigurationUrls(v [][]string) {
-	o.ConfigurationUrls = &v
+	o.ConfigurationUrls = v
 }
 
 // GetReleaseStatus returns the ReleaseStatus field value
@@ -381,7 +381,7 @@ func (o *StackPack) GetReleaseStatus() string {
 // GetReleaseStatusOk returns a tuple with the ReleaseStatus field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetReleaseStatusOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ReleaseStatus, true
@@ -405,7 +405,7 @@ func (o *StackPack) GetIsCompatible() bool {
 // GetIsCompatibleOk returns a tuple with the IsCompatible field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetIsCompatibleOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsCompatible, true

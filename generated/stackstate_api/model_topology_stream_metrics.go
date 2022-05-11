@@ -18,7 +18,7 @@ import (
 // TopologyStreamMetrics struct for TopologyStreamMetrics
 type TopologyStreamMetrics struct {
 	BucketSizeSeconds int32 `json:"bucketSizeSeconds"`
-	LatencySeconds *[]MetricBucketValue `json:"latencySeconds,omitempty"`
+	LatencySeconds []MetricBucketValue `json:"latencySeconds,omitempty"`
 }
 
 // NewTopologyStreamMetrics instantiates a new TopologyStreamMetrics object
@@ -52,7 +52,7 @@ func (o *TopologyStreamMetrics) GetBucketSizeSeconds() int32 {
 // GetBucketSizeSecondsOk returns a tuple with the BucketSizeSeconds field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamMetrics) GetBucketSizeSecondsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.BucketSizeSeconds, true
@@ -69,12 +69,12 @@ func (o *TopologyStreamMetrics) GetLatencySeconds() []MetricBucketValue {
 		var ret []MetricBucketValue
 		return ret
 	}
-	return *o.LatencySeconds
+	return o.LatencySeconds
 }
 
 // GetLatencySecondsOk returns a tuple with the LatencySeconds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TopologyStreamMetrics) GetLatencySecondsOk() (*[]MetricBucketValue, bool) {
+func (o *TopologyStreamMetrics) GetLatencySecondsOk() ([]MetricBucketValue, bool) {
 	if o == nil || o.LatencySeconds == nil {
 		return nil, false
 	}
@@ -92,7 +92,7 @@ func (o *TopologyStreamMetrics) HasLatencySeconds() bool {
 
 // SetLatencySeconds gets a reference to the given []MetricBucketValue and assigns it to the LatencySeconds field.
 func (o *TopologyStreamMetrics) SetLatencySeconds(v []MetricBucketValue) {
-	o.LatencySeconds = &v
+	o.LatencySeconds = v
 }
 
 func (o TopologyStreamMetrics) MarshalJSON() ([]byte, error) {

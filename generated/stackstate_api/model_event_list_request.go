@@ -23,10 +23,10 @@ type EventListRequest struct {
 	Limit int32 `json:"limit"`
 	PlayHeadTimestampMs *int32 `json:"playHeadTimestampMs,omitempty"`
 	RootCauseMode *RootCauseMode `json:"rootCauseMode,omitempty"`
-	EventTypes *[]string `json:"eventTypes,omitempty"`
-	EventTags *[]string `json:"eventTags,omitempty"`
-	EventCategories *[]EventCategory `json:"eventCategories,omitempty"`
-	EventSources *[]string `json:"eventSources,omitempty"`
+	EventTypes []string `json:"eventTypes,omitempty"`
+	EventTags []string `json:"eventTags,omitempty"`
+	EventCategories []EventCategory `json:"eventCategories,omitempty"`
+	EventSources []string `json:"eventSources,omitempty"`
 	Cursor *EventCursor `json:"cursor,omitempty"`
 }
 
@@ -64,7 +64,7 @@ func (o *EventListRequest) GetStartTimestampMs() int32 {
 // GetStartTimestampMsOk returns a tuple with the StartTimestampMs field value
 // and a boolean to check if the value has been set.
 func (o *EventListRequest) GetStartTimestampMsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StartTimestampMs, true
@@ -88,7 +88,7 @@ func (o *EventListRequest) GetEndTimestampMs() int32 {
 // GetEndTimestampMsOk returns a tuple with the EndTimestampMs field value
 // and a boolean to check if the value has been set.
 func (o *EventListRequest) GetEndTimestampMsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EndTimestampMs, true
@@ -112,7 +112,7 @@ func (o *EventListRequest) GetTopologyQuery() string {
 // GetTopologyQueryOk returns a tuple with the TopologyQuery field value
 // and a boolean to check if the value has been set.
 func (o *EventListRequest) GetTopologyQueryOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.TopologyQuery, true
@@ -136,7 +136,7 @@ func (o *EventListRequest) GetLimit() int32 {
 // GetLimitOk returns a tuple with the Limit field value
 // and a boolean to check if the value has been set.
 func (o *EventListRequest) GetLimitOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Limit, true
@@ -217,12 +217,12 @@ func (o *EventListRequest) GetEventTypes() []string {
 		var ret []string
 		return ret
 	}
-	return *o.EventTypes
+	return o.EventTypes
 }
 
 // GetEventTypesOk returns a tuple with the EventTypes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventListRequest) GetEventTypesOk() (*[]string, bool) {
+func (o *EventListRequest) GetEventTypesOk() ([]string, bool) {
 	if o == nil || o.EventTypes == nil {
 		return nil, false
 	}
@@ -240,7 +240,7 @@ func (o *EventListRequest) HasEventTypes() bool {
 
 // SetEventTypes gets a reference to the given []string and assigns it to the EventTypes field.
 func (o *EventListRequest) SetEventTypes(v []string) {
-	o.EventTypes = &v
+	o.EventTypes = v
 }
 
 // GetEventTags returns the EventTags field value if set, zero value otherwise.
@@ -249,12 +249,12 @@ func (o *EventListRequest) GetEventTags() []string {
 		var ret []string
 		return ret
 	}
-	return *o.EventTags
+	return o.EventTags
 }
 
 // GetEventTagsOk returns a tuple with the EventTags field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventListRequest) GetEventTagsOk() (*[]string, bool) {
+func (o *EventListRequest) GetEventTagsOk() ([]string, bool) {
 	if o == nil || o.EventTags == nil {
 		return nil, false
 	}
@@ -272,7 +272,7 @@ func (o *EventListRequest) HasEventTags() bool {
 
 // SetEventTags gets a reference to the given []string and assigns it to the EventTags field.
 func (o *EventListRequest) SetEventTags(v []string) {
-	o.EventTags = &v
+	o.EventTags = v
 }
 
 // GetEventCategories returns the EventCategories field value if set, zero value otherwise.
@@ -281,12 +281,12 @@ func (o *EventListRequest) GetEventCategories() []EventCategory {
 		var ret []EventCategory
 		return ret
 	}
-	return *o.EventCategories
+	return o.EventCategories
 }
 
 // GetEventCategoriesOk returns a tuple with the EventCategories field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventListRequest) GetEventCategoriesOk() (*[]EventCategory, bool) {
+func (o *EventListRequest) GetEventCategoriesOk() ([]EventCategory, bool) {
 	if o == nil || o.EventCategories == nil {
 		return nil, false
 	}
@@ -304,7 +304,7 @@ func (o *EventListRequest) HasEventCategories() bool {
 
 // SetEventCategories gets a reference to the given []EventCategory and assigns it to the EventCategories field.
 func (o *EventListRequest) SetEventCategories(v []EventCategory) {
-	o.EventCategories = &v
+	o.EventCategories = v
 }
 
 // GetEventSources returns the EventSources field value if set, zero value otherwise.
@@ -313,12 +313,12 @@ func (o *EventListRequest) GetEventSources() []string {
 		var ret []string
 		return ret
 	}
-	return *o.EventSources
+	return o.EventSources
 }
 
 // GetEventSourcesOk returns a tuple with the EventSources field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventListRequest) GetEventSourcesOk() (*[]string, bool) {
+func (o *EventListRequest) GetEventSourcesOk() ([]string, bool) {
 	if o == nil || o.EventSources == nil {
 		return nil, false
 	}
@@ -336,7 +336,7 @@ func (o *EventListRequest) HasEventSources() bool {
 
 // SetEventSources gets a reference to the given []string and assigns it to the EventSources field.
 func (o *EventListRequest) SetEventSources(v []string) {
-	o.EventSources = &v
+	o.EventSources = v
 }
 
 // GetCursor returns the Cursor field value if set, zero value otherwise.

@@ -53,7 +53,7 @@ func (o *ServerInfo) GetVersion() ServerVersion {
 // GetVersionOk returns a tuple with the Version field value
 // and a boolean to check if the value has been set.
 func (o *ServerInfo) GetVersionOk() (*ServerVersion, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Version, true
@@ -77,7 +77,7 @@ func (o *ServerInfo) GetDeploymentMode() string {
 // GetDeploymentModeOk returns a tuple with the DeploymentMode field value
 // and a boolean to check if the value has been set.
 func (o *ServerInfo) GetDeploymentModeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DeploymentMode, true

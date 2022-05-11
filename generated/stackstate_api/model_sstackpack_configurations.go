@@ -118,7 +118,7 @@ func (o *SstackpackConfigurations) GetLastUpdateTimestamp() int64 {
 // GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
 // and a boolean to check if the value has been set.
 func (o *SstackpackConfigurations) GetLastUpdateTimestampOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.LastUpdateTimestamp, true

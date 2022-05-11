@@ -24,12 +24,16 @@ type RequestError struct {
 
 // RequestValidationErrorAsRequestError is a convenience function that returns RequestValidationError wrapped in RequestError
 func RequestValidationErrorAsRequestError(v *RequestValidationError) RequestError {
-	return RequestError{ RequestValidationError: v}
+	return RequestError{
+		RequestValidationError: v,
+	}
 }
 
 // TopologyOverflowErrorAsRequestError is a convenience function that returns TopologyOverflowError wrapped in RequestError
 func TopologyOverflowErrorAsRequestError(v *TopologyOverflowError) RequestError {
-	return RequestError{ TopologyOverflowError: v}
+	return RequestError{
+		TopologyOverflowError: v,
+	}
 }
 
 
@@ -38,7 +42,7 @@ func (dst *RequestError) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -85,6 +89,9 @@ func (src RequestError) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *RequestError) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.RequestValidationError != nil {
 		return obj.RequestValidationError
 	}

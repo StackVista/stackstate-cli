@@ -34,8 +34,8 @@ func main() {
     history := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.AnomalyFeedbackApi.CollectAnomalyFeedback(context.Background()).StartTime(startTime).EndTime(endTime).History(history).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.AnomalyFeedbackApi.CollectAnomalyFeedback(context.Background()).StartTime(startTime).EndTime(endTime).History(history).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `AnomalyFeedbackApi.CollectAnomalyFeedback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

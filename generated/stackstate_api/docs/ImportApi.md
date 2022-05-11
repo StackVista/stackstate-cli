@@ -35,8 +35,8 @@ func main() {
     unlocked := "unlocked_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.ImportApi.ImportSettings(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ImportApi.ImportSettings(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ImportApi.ImportSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

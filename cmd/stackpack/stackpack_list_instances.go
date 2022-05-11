@@ -26,7 +26,7 @@ func RunStackpackListInstanceCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	name, err := cmd.Flags().GetString(NameFlag)
 	if err != nil {

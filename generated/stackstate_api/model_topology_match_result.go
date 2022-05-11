@@ -55,7 +55,7 @@ func (o *TopologyMatchResult) GetMatchedCheckStates() int32 {
 // GetMatchedCheckStatesOk returns a tuple with the MatchedCheckStates field value
 // and a boolean to check if the value has been set.
 func (o *TopologyMatchResult) GetMatchedCheckStatesOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.MatchedCheckStates, true
@@ -78,11 +78,11 @@ func (o *TopologyMatchResult) GetUnmatchedCheckStates() []UnmatchedCheckState {
 
 // GetUnmatchedCheckStatesOk returns a tuple with the UnmatchedCheckStates field value
 // and a boolean to check if the value has been set.
-func (o *TopologyMatchResult) GetUnmatchedCheckStatesOk() (*[]UnmatchedCheckState, bool) {
-	if o == nil  {
+func (o *TopologyMatchResult) GetUnmatchedCheckStatesOk() ([]UnmatchedCheckState, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.UnmatchedCheckStates, true
+	return o.UnmatchedCheckStates, true
 }
 
 // SetUnmatchedCheckStates sets field value
@@ -102,11 +102,11 @@ func (o *TopologyMatchResult) GetMultipleMatchesCheckStates() []MultipleMatchesC
 
 // GetMultipleMatchesCheckStatesOk returns a tuple with the MultipleMatchesCheckStates field value
 // and a boolean to check if the value has been set.
-func (o *TopologyMatchResult) GetMultipleMatchesCheckStatesOk() (*[]MultipleMatchesCheckState, bool) {
-	if o == nil  {
+func (o *TopologyMatchResult) GetMultipleMatchesCheckStatesOk() ([]MultipleMatchesCheckState, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.MultipleMatchesCheckStates, true
+	return o.MultipleMatchesCheckStates, true
 }
 
 // SetMultipleMatchesCheckStates sets field value

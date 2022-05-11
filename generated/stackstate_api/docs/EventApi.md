@@ -39,8 +39,8 @@ func main() {
     playHeadTimestampMs := int32(56) // int32 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EventApi.GetEvent(context.Background(), eventId).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).PlayHeadTimestampMs(playHeadTimestampMs).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EventApi.GetEvent(context.Background(), eventId).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).PlayHeadTimestampMs(playHeadTimestampMs).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEvent``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -122,8 +122,8 @@ func main() {
     match := "match_example" // string |  (optional) (default to "")
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EventApi.GetEventSources(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EventApi.GetEventSources(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -208,8 +208,8 @@ func main() {
     match := "match_example" // string |  (optional) (default to "")
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EventApi.GetEventTags(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EventApi.GetEventTags(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -294,8 +294,8 @@ func main() {
     match := "match_example" // string |  (optional) (default to "")
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EventApi.GetEventTypes(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EventApi.GetEventTypes(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -370,8 +370,8 @@ func main() {
     eventListRequest := *openapiclient.NewEventListRequest(int32(123), int32(123), "TopologyQuery_example", int32(123)) // EventListRequest | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.EventApi.GetEvents(context.Background()).EventListRequest(eventListRequest).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EventApi.GetEvents(context.Background()).EventListRequest(eventListRequest).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEvents``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

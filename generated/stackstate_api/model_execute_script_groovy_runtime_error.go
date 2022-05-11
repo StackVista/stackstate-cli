@@ -54,7 +54,7 @@ func (o *ExecuteScriptGroovyRuntimeError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptGroovyRuntimeError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -78,7 +78,7 @@ func (o *ExecuteScriptGroovyRuntimeError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptGroovyRuntimeError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true

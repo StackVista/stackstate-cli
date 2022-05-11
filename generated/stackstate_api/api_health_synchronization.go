@@ -13,17 +13,13 @@ package stackstate_api
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strings"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type HealthSynchronizationApi interface {
 
@@ -32,133 +28,131 @@ type HealthSynchronizationApi interface {
 
 	Delete a health synchronization stream. Deletion will not be immediate.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @return ApiDeleteHealthSynchronizationStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@return ApiDeleteHealthSynchronizationStreamRequest
 	*/
-	DeleteHealthSynchronizationStream(ctx _context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest
+	DeleteHealthSynchronizationStream(ctx context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest
 
 	// DeleteHealthSynchronizationStreamExecute executes the request
-	DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*_nethttp.Response, error)
+	DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*http.Response, error)
 
 	/*
 	GetHealthSynchronizationStreamStatus Get health sync stream status
 
 	Status overview of a single health synchronization stream
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @return ApiGetHealthSynchronizationStreamStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@return ApiGetHealthSynchronizationStreamStatusRequest
 	*/
-	GetHealthSynchronizationStreamStatus(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest
+	GetHealthSynchronizationStreamStatus(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest
 
 	// GetHealthSynchronizationStreamStatusExecute executes the request
 	//  @return HealthStreamStatus
-	GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (HealthStreamStatus, *_nethttp.Response, error)
+	GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (*HealthStreamStatus, *http.Response, error)
 
 	/*
 	GetHealthSynchronizationStreamTopologyMatches List health sync stream check-states
 
 	Overview of check-states matched to topology on the main stream.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @return ApiGetHealthSynchronizationStreamTopologyMatchesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@return ApiGetHealthSynchronizationStreamTopologyMatchesRequest
 	*/
-	GetHealthSynchronizationStreamTopologyMatches(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest
+	GetHealthSynchronizationStreamTopologyMatches(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest
 
 	// GetHealthSynchronizationStreamTopologyMatchesExecute executes the request
 	//  @return TopologyMatchResult
-	GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error)
+	GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error)
 
 	/*
 	GetHealthSynchronizationStreamsOverview List health sync streams
 
 	Status overview of the health synchronization streams.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiGetHealthSynchronizationStreamsOverviewRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetHealthSynchronizationStreamsOverviewRequest
 	*/
-	GetHealthSynchronizationStreamsOverview(ctx _context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest
+	GetHealthSynchronizationStreamsOverview(ctx context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest
 
 	// GetHealthSynchronizationStreamsOverviewExecute executes the request
 	//  @return StreamList
-	GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (StreamList, *_nethttp.Response, error)
+	GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (*StreamList, *http.Response, error)
 
 	/*
 	GetHealthSynchronizationSubStreamOverview List health sync sub-streams
 
 	Overview of all sub-streams in a certain health stream.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @return ApiGetHealthSynchronizationSubStreamOverviewRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@return ApiGetHealthSynchronizationSubStreamOverviewRequest
 	*/
-	GetHealthSynchronizationSubStreamOverview(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest
+	GetHealthSynchronizationSubStreamOverview(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest
 
 	// GetHealthSynchronizationSubStreamOverviewExecute executes the request
 	//  @return SubStreamList
-	GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (SubStreamList, *_nethttp.Response, error)
+	GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (*SubStreamList, *http.Response, error)
 
 	/*
 	GetHealthSynchronizationSubStreamStatus Get health sync sub-stream status
 
 	Status overview of a single health synchronization sub stream
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @param healthSyncSubStreamId Health synchronization sub stream id.
-	 @return ApiGetHealthSynchronizationSubStreamStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@param healthSyncSubStreamId Health synchronization sub stream id.
+	@return ApiGetHealthSynchronizationSubStreamStatusRequest
 	*/
-	GetHealthSynchronizationSubStreamStatus(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest
+	GetHealthSynchronizationSubStreamStatus(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest
 
 	// GetHealthSynchronizationSubStreamStatusExecute executes the request
 	//  @return HealthSubStreamStatus
-	GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (HealthSubStreamStatus, *_nethttp.Response, error)
+	GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (*HealthSubStreamStatus, *http.Response, error)
 
 	/*
 	GetHealthSynchronizationSubStreamTopologyMatches List health sync sub-stream check-states
 
 	Overview of check-states matched to topology on the main stream.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @param healthSyncSubStreamId Health synchronization sub stream id.
-	 @return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@param healthSyncSubStreamId Health synchronization sub stream id.
+	@return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
 	*/
-	GetHealthSynchronizationSubStreamTopologyMatches(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
+	GetHealthSynchronizationSubStreamTopologyMatches(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
 
 	// GetHealthSynchronizationSubStreamTopologyMatchesExecute executes the request
 	//  @return TopologyMatchResult
-	GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error)
+	GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error)
 
 	/*
 	PostHealthSynchronizationStreamClearErrors Clear health sync stream errors
 
 	Clear all errors for a stream and its sub-streams.
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param healthStreamUrn Urn of the health stream.
-	 @return ApiPostHealthSynchronizationStreamClearErrorsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param healthStreamUrn Urn of the health stream.
+	@return ApiPostHealthSynchronizationStreamClearErrorsRequest
 	*/
-	PostHealthSynchronizationStreamClearErrors(ctx _context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest
+	PostHealthSynchronizationStreamClearErrors(ctx context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest
 
 	// PostHealthSynchronizationStreamClearErrorsExecute executes the request
-	PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error)
+	PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*http.Response, error)
 }
-
 
 // HealthSynchronizationApiService HealthSynchronizationApi service
 type HealthSynchronizationApiService service
 
 type ApiDeleteHealthSynchronizationStreamRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
-
-func (r ApiDeleteHealthSynchronizationStreamRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiDeleteHealthSynchronizationStreamRequest) Execute() (*http.Response, error) {
 	return r.ApiService.DeleteHealthSynchronizationStreamExecute(r)
 }
 
@@ -167,11 +161,11 @@ DeleteHealthSynchronizationStream Delete health sync stream
 
 Delete a health synchronization stream. Deletion will not be immediate.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @return ApiDeleteHealthSynchronizationStreamRequest
 */
-func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStream(ctx _context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
+func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStream(ctx context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
 	return ApiDeleteHealthSynchronizationStreamRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -180,26 +174,24 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStream(ctx 
 }
 
 // Execute executes the request
-func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.DeleteHealthSynchronizationStream")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -232,7 +224,7 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
 	}
@@ -242,15 +234,15 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -280,13 +272,12 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 }
 
 type ApiGetHealthSynchronizationStreamStatusRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
-
-func (r ApiGetHealthSynchronizationStreamStatusRequest) Execute() (HealthStreamStatus, *_nethttp.Response, error) {
+func (r ApiGetHealthSynchronizationStreamStatusRequest) Execute() (*HealthStreamStatus, *http.Response, error) {
 	return r.ApiService.GetHealthSynchronizationStreamStatusExecute(r)
 }
 
@@ -295,11 +286,11 @@ GetHealthSynchronizationStreamStatus Get health sync stream status
 
 Status overview of a single health synchronization stream
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @return ApiGetHealthSynchronizationStreamStatusRequest
 */
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatus(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatus(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
 	return ApiGetHealthSynchronizationStreamStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -309,27 +300,25 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatus(c
 
 // Execute executes the request
 //  @return HealthStreamStatus
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (HealthStreamStatus, *_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (*HealthStreamStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  HealthStreamStatus
+		formFiles            []formFile
+		localVarReturnValue  *HealthStreamStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationStreamStatus")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -362,7 +351,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -372,15 +361,15 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -408,7 +397,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -419,13 +408,12 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 }
 
 type ApiGetHealthSynchronizationStreamTopologyMatchesRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
-
-func (r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) Execute() (TopologyMatchResult, *_nethttp.Response, error) {
+func (r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) Execute() (*TopologyMatchResult, *http.Response, error) {
 	return r.ApiService.GetHealthSynchronizationStreamTopologyMatchesExecute(r)
 }
 
@@ -434,11 +422,11 @@ GetHealthSynchronizationStreamTopologyMatches List health sync stream check-stat
 
 Overview of check-states matched to topology on the main stream.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @return ApiGetHealthSynchronizationStreamTopologyMatchesRequest
 */
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopologyMatches(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopologyMatches(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationStreamTopologyMatchesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -448,27 +436,25 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 
 // Execute executes the request
 //  @return TopologyMatchResult
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  TopologyMatchResult
+		formFiles            []formFile
+		localVarReturnValue  *TopologyMatchResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationStreamTopologyMatches")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}/topologyMatches"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -501,7 +487,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -511,15 +497,15 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -547,7 +533,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -558,12 +544,11 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 }
 
 type ApiGetHealthSynchronizationStreamsOverviewRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 }
 
-
-func (r ApiGetHealthSynchronizationStreamsOverviewRequest) Execute() (StreamList, *_nethttp.Response, error) {
+func (r ApiGetHealthSynchronizationStreamsOverviewRequest) Execute() (*StreamList, *http.Response, error) {
 	return r.ApiService.GetHealthSynchronizationStreamsOverviewExecute(r)
 }
 
@@ -572,10 +557,10 @@ GetHealthSynchronizationStreamsOverview List health sync streams
 
 Status overview of the health synchronization streams.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetHealthSynchronizationStreamsOverviewRequest
 */
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOverview(ctx _context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOverview(ctx context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
 	return ApiGetHealthSynchronizationStreamsOverviewRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -584,26 +569,24 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 
 // Execute executes the request
 //  @return StreamList
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (StreamList, *_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (*StreamList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  StreamList
+		formFiles            []formFile
+		localVarReturnValue  *StreamList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationStreamsOverview")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/streams"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -636,7 +619,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -646,15 +629,15 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -663,7 +646,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -674,13 +657,12 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 }
 
 type ApiGetHealthSynchronizationSubStreamOverviewRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
-
-func (r ApiGetHealthSynchronizationSubStreamOverviewRequest) Execute() (SubStreamList, *_nethttp.Response, error) {
+func (r ApiGetHealthSynchronizationSubStreamOverviewRequest) Execute() (*SubStreamList, *http.Response, error) {
 	return r.ApiService.GetHealthSynchronizationSubStreamOverviewExecute(r)
 }
 
@@ -689,11 +671,11 @@ GetHealthSynchronizationSubStreamOverview List health sync sub-streams
 
 Overview of all sub-streams in a certain health stream.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @return ApiGetHealthSynchronizationSubStreamOverviewRequest
 */
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverview(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverview(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
 	return ApiGetHealthSynchronizationSubStreamOverviewRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -703,27 +685,25 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 
 // Execute executes the request
 //  @return SubStreamList
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (SubStreamList, *_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (*SubStreamList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  SubStreamList
+		formFiles            []formFile
+		localVarReturnValue  *SubStreamList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationSubStreamOverview")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}/substreams"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -756,7 +736,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -766,15 +746,15 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -802,7 +782,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -813,14 +793,13 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 }
 
 type ApiGetHealthSynchronizationSubStreamStatusRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 	healthSyncSubStreamId string
 }
 
-
-func (r ApiGetHealthSynchronizationSubStreamStatusRequest) Execute() (HealthSubStreamStatus, *_nethttp.Response, error) {
+func (r ApiGetHealthSynchronizationSubStreamStatusRequest) Execute() (*HealthSubStreamStatus, *http.Response, error) {
 	return r.ApiService.GetHealthSynchronizationSubStreamStatusExecute(r)
 }
 
@@ -829,12 +808,12 @@ GetHealthSynchronizationSubStreamStatus Get health sync sub-stream status
 
 Status overview of a single health synchronization sub stream
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @param healthSyncSubStreamId Health synchronization sub stream id.
  @return ApiGetHealthSynchronizationSubStreamStatusRequest
 */
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatus(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatus(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
 	return ApiGetHealthSynchronizationSubStreamStatusRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -845,28 +824,26 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 
 // Execute executes the request
 //  @return HealthSubStreamStatus
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (HealthSubStreamStatus, *_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (*HealthSubStreamStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  HealthSubStreamStatus
+		formFiles            []formFile
+		localVarReturnValue  *HealthSubStreamStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationSubStreamStatus")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"healthSyncSubStreamId"+"}", _neturl.PathEscape(parameterToString(r.healthSyncSubStreamId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthSyncSubStreamId"+"}", url.PathEscape(parameterToString(r.healthSyncSubStreamId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -899,7 +876,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -909,15 +886,15 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -945,7 +922,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -956,14 +933,13 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 }
 
 type ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 	healthSyncSubStreamId string
 }
 
-
-func (r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) Execute() (TopologyMatchResult, *_nethttp.Response, error) {
+func (r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) Execute() (*TopologyMatchResult, *http.Response, error) {
 	return r.ApiService.GetHealthSynchronizationSubStreamTopologyMatchesExecute(r)
 }
 
@@ -972,12 +948,12 @@ GetHealthSynchronizationSubStreamTopologyMatches List health sync sub-stream che
 
 Overview of check-states matched to topology on the main stream.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @param healthSyncSubStreamId Health synchronization sub stream id.
  @return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
 */
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopologyMatches(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopologyMatches(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -988,28 +964,26 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 
 // Execute executes the request
 //  @return TopologyMatchResult
-func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  TopologyMatchResult
+		formFiles            []formFile
+		localVarReturnValue  *TopologyMatchResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationSubStreamTopologyMatches")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"healthSyncSubStreamId"+"}", _neturl.PathEscape(parameterToString(r.healthSyncSubStreamId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthSyncSubStreamId"+"}", url.PathEscape(parameterToString(r.healthSyncSubStreamId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1042,7 +1016,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -1052,15 +1026,15 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1088,7 +1062,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -1099,13 +1073,12 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 }
 
 type ApiPostHealthSynchronizationStreamClearErrorsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService HealthSynchronizationApi
 	healthStreamUrn string
 }
 
-
-func (r ApiPostHealthSynchronizationStreamClearErrorsRequest) Execute() (*_nethttp.Response, error) {
+func (r ApiPostHealthSynchronizationStreamClearErrorsRequest) Execute() (*http.Response, error) {
 	return r.ApiService.PostHealthSynchronizationStreamClearErrorsExecute(r)
 }
 
@@ -1114,11 +1087,11 @@ PostHealthSynchronizationStreamClearErrors Clear health sync stream errors
 
 Clear all errors for a stream and its sub-streams.
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param healthStreamUrn Urn of the health stream.
  @return ApiPostHealthSynchronizationStreamClearErrorsRequest
 */
-func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearErrors(ctx _context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
+func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearErrors(ctx context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
 	return ApiPostHealthSynchronizationStreamClearErrorsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -1127,26 +1100,24 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 }
 
 // Execute executes the request
-func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.PostHealthSynchronizationStreamClearErrors")
 	if err != nil {
-		return nil, GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/synchronization/health/stream/{healthStreamUrn}/clearErrors"
-	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", _neturl.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1179,7 +1150,7 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return nil, err
 	}
@@ -1189,15 +1160,15 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 		return localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -1274,7 +1245,7 @@ func NewHealthSynchronizationApiMock() HealthSynchronizationApiMock {
 
 type DeleteHealthSynchronizationStreamMockResponse struct {
 	
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1283,7 +1254,7 @@ type DeleteHealthSynchronizationStreamCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStream(ctx _context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
+func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStream(ctx context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
 	return ApiDeleteHealthSynchronizationStreamRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1291,7 +1262,7 @@ func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStream(ctx _
 	}
 }
 
-func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*http.Response, error) {
 	p := DeleteHealthSynchronizationStreamCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 	}
@@ -1301,7 +1272,7 @@ func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStreamExecut
 
 type GetHealthSynchronizationStreamStatusMockResponse struct {
 	Result HealthStreamStatus
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1310,7 +1281,7 @@ type GetHealthSynchronizationStreamStatusCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatus(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatus(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
 	return ApiGetHealthSynchronizationStreamStatusRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1318,17 +1289,17 @@ func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatus(ct
 	}
 }
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (HealthStreamStatus, *_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (*HealthStreamStatus, *http.Response, error) {
 	p := GetHealthSynchronizationStreamStatusCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.GetHealthSynchronizationStreamStatusCalls = append(*mock.GetHealthSynchronizationStreamStatusCalls, p)
-	return mock.GetHealthSynchronizationStreamStatusResponse.Result, mock.GetHealthSynchronizationStreamStatusResponse.Response, mock.GetHealthSynchronizationStreamStatusResponse.Error
+	return &mock.GetHealthSynchronizationStreamStatusResponse.Result, mock.GetHealthSynchronizationStreamStatusResponse.Response, mock.GetHealthSynchronizationStreamStatusResponse.Error
 }
 
 type GetHealthSynchronizationStreamTopologyMatchesMockResponse struct {
 	Result TopologyMatchResult
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1337,7 +1308,7 @@ type GetHealthSynchronizationStreamTopologyMatchesCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatches(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatches(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationStreamTopologyMatchesRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1345,17 +1316,17 @@ func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyM
 	}
 }
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
 	p := GetHealthSynchronizationStreamTopologyMatchesCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.GetHealthSynchronizationStreamTopologyMatchesCalls = append(*mock.GetHealthSynchronizationStreamTopologyMatchesCalls, p)
-	return mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Error
+	return &mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Error
 }
 
 type GetHealthSynchronizationStreamsOverviewMockResponse struct {
 	Result StreamList
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1363,23 +1334,23 @@ type GetHealthSynchronizationStreamsOverviewCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverview(ctx _context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverview(ctx context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
 	return ApiGetHealthSynchronizationStreamsOverviewRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (StreamList, *_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (*StreamList, *http.Response, error) {
 	p := GetHealthSynchronizationStreamsOverviewCall {
 	}
 	*mock.GetHealthSynchronizationStreamsOverviewCalls = append(*mock.GetHealthSynchronizationStreamsOverviewCalls, p)
-	return mock.GetHealthSynchronizationStreamsOverviewResponse.Result, mock.GetHealthSynchronizationStreamsOverviewResponse.Response, mock.GetHealthSynchronizationStreamsOverviewResponse.Error
+	return &mock.GetHealthSynchronizationStreamsOverviewResponse.Result, mock.GetHealthSynchronizationStreamsOverviewResponse.Response, mock.GetHealthSynchronizationStreamsOverviewResponse.Error
 }
 
 type GetHealthSynchronizationSubStreamOverviewMockResponse struct {
 	Result SubStreamList
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1388,7 +1359,7 @@ type GetHealthSynchronizationSubStreamOverviewCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverview(ctx _context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverview(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
 	return ApiGetHealthSynchronizationSubStreamOverviewRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1396,17 +1367,17 @@ func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOvervi
 	}
 }
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (SubStreamList, *_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (*SubStreamList, *http.Response, error) {
 	p := GetHealthSynchronizationSubStreamOverviewCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.GetHealthSynchronizationSubStreamOverviewCalls = append(*mock.GetHealthSynchronizationSubStreamOverviewCalls, p)
-	return mock.GetHealthSynchronizationSubStreamOverviewResponse.Result, mock.GetHealthSynchronizationSubStreamOverviewResponse.Response, mock.GetHealthSynchronizationSubStreamOverviewResponse.Error
+	return &mock.GetHealthSynchronizationSubStreamOverviewResponse.Result, mock.GetHealthSynchronizationSubStreamOverviewResponse.Response, mock.GetHealthSynchronizationSubStreamOverviewResponse.Error
 }
 
 type GetHealthSynchronizationSubStreamStatusMockResponse struct {
 	Result HealthSubStreamStatus
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1416,7 +1387,7 @@ type GetHealthSynchronizationSubStreamStatusCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatus(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatus(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
 	return ApiGetHealthSynchronizationSubStreamStatusRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1425,18 +1396,18 @@ func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatus
 	}
 }
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (HealthSubStreamStatus, *_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (*HealthSubStreamStatus, *http.Response, error) {
 	p := GetHealthSynchronizationSubStreamStatusCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 			PhealthSyncSubStreamId: r.healthSyncSubStreamId,
 	}
 	*mock.GetHealthSynchronizationSubStreamStatusCalls = append(*mock.GetHealthSynchronizationSubStreamStatusCalls, p)
-	return mock.GetHealthSynchronizationSubStreamStatusResponse.Result, mock.GetHealthSynchronizationSubStreamStatusResponse.Response, mock.GetHealthSynchronizationSubStreamStatusResponse.Error
+	return &mock.GetHealthSynchronizationSubStreamStatusResponse.Result, mock.GetHealthSynchronizationSubStreamStatusResponse.Response, mock.GetHealthSynchronizationSubStreamStatusResponse.Error
 }
 
 type GetHealthSynchronizationSubStreamTopologyMatchesMockResponse struct {
 	Result TopologyMatchResult
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1446,7 +1417,7 @@ type GetHealthSynchronizationSubStreamTopologyMatchesCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatches(ctx _context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatches(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1455,18 +1426,18 @@ func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopolo
 	}
 }
 
-func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (TopologyMatchResult, *_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
 	p := GetHealthSynchronizationSubStreamTopologyMatchesCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 			PhealthSyncSubStreamId: r.healthSyncSubStreamId,
 	}
 	*mock.GetHealthSynchronizationSubStreamTopologyMatchesCalls = append(*mock.GetHealthSynchronizationSubStreamTopologyMatchesCalls, p)
-	return mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Error
+	return &mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Error
 }
 
 type PostHealthSynchronizationStreamClearErrorsMockResponse struct {
 	
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -1475,7 +1446,7 @@ type PostHealthSynchronizationStreamClearErrorsCall struct {
 }
 
 
-func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrors(ctx _context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
+func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrors(ctx context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
 	return ApiPostHealthSynchronizationStreamClearErrorsRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -1483,7 +1454,7 @@ func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErr
 	}
 }
 
-func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*_nethttp.Response, error) {
+func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*http.Response, error) {
 	p := PostHealthSynchronizationStreamClearErrorsCall {
 			PhealthStreamUrn: r.healthStreamUrn,
 	}

@@ -50,11 +50,11 @@ func (o *MonitorRunResult) GetResult() map[string]interface{} {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-func (o *MonitorRunResult) GetResultOk() (*map[string]interface{}, bool) {
-	if o == nil  {
+func (o *MonitorRunResult) GetResultOk() (map[string]interface{}, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Result, true
+	return o.Result, true
 }
 
 // SetResult sets field value

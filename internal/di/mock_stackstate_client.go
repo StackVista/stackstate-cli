@@ -7,7 +7,7 @@ import (
 
 type MockStackStateClient struct {
 	apiClient         *stackstate_api.APIClient
-	ConnectServerInfo stackstate_api.ServerInfo
+	ConnectServerInfo *stackstate_api.ServerInfo
 	ConnectError      common.CLIError
 	ApiMocks          ApiMocks
 }
@@ -26,6 +26,7 @@ type ApiMocks struct {
 	UserProfileApi             *stackstate_api.UserProfileApiMock
 	ServerApi                  *stackstate_api.ServerApiMock
 	StackpackApi               *stackstate_api.StackpackApiMock
+	AnomalyFeedbackApi         *stackstate_api.AnomalyFeedbackApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
@@ -43,6 +44,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	userProfileApi := stackstate_api.NewUserProfileApiMock()
 	serverApi := stackstate_api.NewServerApiMock()
 	stackpackApi := stackstate_api.NewStackpackApiMock()
+	anomalyFeedbackApi := stackstate_api.NewAnomalyFeedbackApiMock()
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
 		EventApi:                   &eventApi,
@@ -57,6 +59,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		UserProfileApi:             &userProfileApi,
 		ServerApi:                  &serverApi,
 		StackpackApi:               &stackpackApi,
+		AnomalyFeedbackApi:         &anomalyFeedbackApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
@@ -73,16 +76,17 @@ func NewMockStackStateClient() MockStackStateClient {
 		UserProfileApi:             apiMocks.UserProfileApi,
 		ServerApi:                  apiMocks.ServerApi,
 		StackpackApi:               apiMocks.StackpackApi,
+		AnomalyFeedbackApi:         apiMocks.AnomalyFeedbackApi,
 	}
 
 	return MockStackStateClient{
 		apiClient:         apiClient,
 		ApiMocks:          apiMocks,
-		ConnectServerInfo: stackstate_api.ServerInfo{},
+		ConnectServerInfo: &stackstate_api.ServerInfo{},
 		ConnectError:      nil,
 	}
 }
 
-func (c *MockStackStateClient) Connect() (*stackstate_api.APIClient, stackstate_api.ServerInfo, common.CLIError) {
+func (c *MockStackStateClient) Connect() (*stackstate_api.APIClient, *stackstate_api.ServerInfo, common.CLIError) {
 	return c.apiClient, c.ConnectServerInfo, c.ConnectError
 }

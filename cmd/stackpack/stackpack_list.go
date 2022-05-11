@@ -23,7 +23,7 @@ func RunStackpackListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	isInstalled, err := cmd.Flags().GetBool(InstalledFlag)
 	if err != nil {
@@ -46,7 +46,7 @@ func RunStackpackListCommand(
 			stackpack.Version,
 			getVersion(stackpack.NextVersion),
 			getVersion(stackpack.LatestVersion),
-			len(*stackpack.Configurations),
+			len(stackpack.Configurations),
 		}
 
 		data = append(data, row)

@@ -26,7 +26,7 @@ func New{{classname}}Mock() {{classname}}Mock {
 {{#operation}}
 type {{nickname}}MockResponse struct {
 	{{#returnType}}Result {{{.}}}{{/returnType}}
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -37,7 +37,7 @@ type {{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call struct 
 }
 
 
-func (mock {{{classname}}}Mock) {{{nickname}}}(ctx _context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
+func (mock {{{classname}}}Mock) {{{nickname}}}(ctx context.Context{{#pathParams}}, {{paramName}} {{{dataType}}}{{/pathParams}}) {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request {
 	return {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request{
 		ApiService: mock,
 		ctx: ctx,
@@ -47,14 +47,14 @@ func (mock {{{classname}}}Mock) {{{nickname}}}(ctx _context.Context{{#pathParams
 	}
 }
 
-func (mock {{{classname}}}Mock) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{{.}}}, {{/returnType}}*_nethttp.Response, error) {
+func (mock {{{classname}}}Mock) {{nickname}}Execute(r {{#structPrefix}}{{&classname}}{{/structPrefix}}Api{{operationId}}Request) ({{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}*{{/returnTypeIsPrimitive}}{{/isArray}}{{{.}}}, {{/returnType}}*http.Response, error) {
 	p := {{#structPrefix}}{{&classname}}{{/structPrefix}}{{operationId}}Call {
 		{{#allParams}}
 			P{{paramName}}: r.{{paramName}},
 		{{/allParams}}
 	}
 	*mock.{{nickname}}Calls = append(*mock.{{nickname}}Calls, p)
-	return {{#returnType}}mock.{{nickname}}Response.Result, {{/returnType}}mock.{{nickname}}Response.Response, mock.{{nickname}}Response.Error
+	return {{#returnType}}{{^isArray}}{{^returnTypeIsPrimitive}}&{{/returnTypeIsPrimitive}}{{/isArray}}mock.{{nickname}}Response.Result, {{/returnType}}mock.{{nickname}}Response.Response, mock.{{nickname}}Response.Error
 }
 
 {{/operation}}

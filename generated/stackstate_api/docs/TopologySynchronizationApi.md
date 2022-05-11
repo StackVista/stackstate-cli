@@ -36,8 +36,8 @@ func main() {
     identifierType := openapiclient.IdentifierType("NodeId") // IdentifierType | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.TopologySynchronizationApi.GetTopologySynchronizationStreamById(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TopologySynchronizationApi.GetTopologySynchronizationStreamById(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.GetTopologySynchronizationStreamById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -103,8 +103,8 @@ func main() {
     identifier := "identifier_example" // string | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.TopologySynchronizationApi.GetTopologySynchronizationStreamStatusById(context.Background()).Identifier(identifier).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TopologySynchronizationApi.GetTopologySynchronizationStreamStatusById(context.Background()).Identifier(identifier).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.GetTopologySynchronizationStreamStatusById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -168,8 +168,8 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.TopologySynchronizationApi.GetTopologySynchronizationStreams(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TopologySynchronizationApi.GetTopologySynchronizationStreams(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.GetTopologySynchronizationStreams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -231,8 +231,8 @@ func main() {
     identifierType := openapiclient.IdentifierType("NodeId") // IdentifierType | 
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrors(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrors(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrors``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

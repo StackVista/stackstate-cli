@@ -55,7 +55,7 @@ func (o *MonitorApiError) GetStatusCode() string {
 // GetStatusCodeOk returns a tuple with the StatusCode field value
 // and a boolean to check if the value has been set.
 func (o *MonitorApiError) GetStatusCodeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.StatusCode, true
@@ -79,7 +79,7 @@ func (o *MonitorApiError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *MonitorApiError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true

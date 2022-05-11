@@ -24,7 +24,7 @@ func setupStackpackListParametersFn() (*di.MockDeps, *cobra.Command) {
 	mockResponse := []stackstate_api.Sstackpack{
 		{
 			Name: &parameterName,
-			Steps: &[]stackstate_api.StackPackStep{
+			Steps: []stackstate_api.StackPackStep{
 				{
 					Name:    &stepName,
 					Display: &stepDisplayName,

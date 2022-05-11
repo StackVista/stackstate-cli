@@ -11,13 +11,32 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
-        pkgs-linux = import nixpkgs { system = "x86_64-linux"; };
+
+        # TODO Remove me and references when openapi-generator-cli 6.0.0 is officially available
+        # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/networking/openapi-generator-cli/default.nix
+        openApiOverlay = _: prev: {
+          openapi-generator-cli = prev.openapi-generator-cli.overrideAttrs (old: rec {
+            pname = "openapi-generator-cli";
+            version = "6.0.0-beta";
+
+            jarfilename = "${pname}-${version}.jar";
+
+            src = prev.fetchurl {
+              url = "mirror://maven/org/openapitools/${pname}/${version}/${jarfilename}";
+              sha256 = "sha256-+3krdLgamGocyzguWsKY87awnzTkAtBCQVb0z4+ZZQ0=";
+            };
+
+          });
+        };
+
+        pkgs = import nixpkgs { inherit system; overlays = [ openApiOverlay ]; };
+        pkgs-linux = import nixpkgs { system = "x86_64-linux"; overlays = [ openApiOverlay ]; };
 
         # Dependencies used for both development and CI/CD
         sharedDeps = pkgs: (with pkgs; [
           bash
           go
+          gotools
           diffutils # Required for golangci-lint
           golangci-lint
           openapi-generator-cli

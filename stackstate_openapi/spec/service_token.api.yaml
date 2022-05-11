@@ -1,0 +1,157 @@
+# OpenApi header is included in this file to support code highlighting in VSCode
+openapi: 3.0.3
+info:
+  title: Service Token API
+  version: "1.0.0"
+paths:
+  /security/token:
+    get:
+      tags:
+        - serviceToken
+      summary: "Get service tokens"
+      description: "Get service tokens."
+      operationId: getServiceTokens
+      responses:
+        "200":
+          $ref: "#/components/responses/tokens"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+    post:
+      tags:
+        - serviceToken
+      summary: "Create new service token"
+      description: "Create new service token."
+      operationId: createNewServiceToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/NewServiceTokenRequest"
+      responses:
+        "200":
+          description: The newly created service token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceTokenCreatedResponse"
+        "400":
+          description: Create service token error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ServiceTokenCreateError"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+  /security/token/{serviceTokenId}:
+    delete:
+      tags:
+        - serviceToken
+      summary: "Delete service token"
+      description: "Delete service token."
+      operationId: deleteServiceToken
+      parameters:
+        - $ref: "#/components/parameters/serviceTokenId"
+      responses:
+        "204":
+          description: "Return ok (but no content)"
+        "500":
+          $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+components:
+  parameters:
+    serviceTokenId:
+      in: path
+      name: serviceTokenId
+      required: true
+      schema:
+        $ref: "#/components/schemas/ServiceTokenId"
+      description: "The identifier of a service token"
+
+  responses:
+    tokens:
+      description: Service Tokens
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: "#/components/schemas/ServiceToken"
+  schemas:
+    ServiceTokenId:
+      type: integer
+      format: int64
+    ServiceTokenInvalidExpiryError:
+      type: object
+      properties:
+        _type:
+          type: string
+          enum:
+            - ServiceTokenInvalidExpiryError
+        message:
+          type: string
+      required:
+        - _type
+        - message
+    ServiceTokenCreateError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+        - $ref: "#/components/schemas/ServiceTokenInvalidExpiryError"
+      required:
+        - _type
+    ServiceToken:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          readOnly: true
+        lastUpdateTimestamp:
+          type: integer
+          format: int64
+          readOnly: true
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          type: integer
+          format: int64
+        roles:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - roles
+    NewServiceTokenRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        expiryDate:
+          type: integer
+          format: int64
+        roles:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+        - roles
+    ServiceTokenCreatedResponse:
+      type: object
+      properties:
+        name:
+          type: string
+          readOnly: true
+        token:
+          type: string
+          readOnly: true
+        expiration:
+          type: integer
+          format: int64
+          readOnly: true
+      required:
+        - token
+        - name

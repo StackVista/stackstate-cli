@@ -61,7 +61,7 @@ func (o *ServerVersion) GetMajor() int32 {
 // GetMajorOk returns a tuple with the Major field value
 // and a boolean to check if the value has been set.
 func (o *ServerVersion) GetMajorOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Major, true
@@ -85,7 +85,7 @@ func (o *ServerVersion) GetMinor() int32 {
 // GetMinorOk returns a tuple with the Minor field value
 // and a boolean to check if the value has been set.
 func (o *ServerVersion) GetMinorOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Minor, true
@@ -109,7 +109,7 @@ func (o *ServerVersion) GetPatch() int32 {
 // GetPatchOk returns a tuple with the Patch field value
 // and a boolean to check if the value has been set.
 func (o *ServerVersion) GetPatchOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Patch, true
@@ -133,7 +133,7 @@ func (o *ServerVersion) GetDiff() string {
 // GetDiffOk returns a tuple with the Diff field value
 // and a boolean to check if the value has been set.
 func (o *ServerVersion) GetDiffOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Diff, true
@@ -157,7 +157,7 @@ func (o *ServerVersion) GetCommit() string {
 // GetCommitOk returns a tuple with the Commit field value
 // and a boolean to check if the value has been set.
 func (o *ServerVersion) GetCommitOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Commit, true
@@ -181,7 +181,7 @@ func (o *ServerVersion) GetIsDev() bool {
 // GetIsDevOk returns a tuple with the IsDev field value
 // and a boolean to check if the value has been set.
 func (o *ServerVersion) GetIsDevOk() (*bool, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.IsDev, true

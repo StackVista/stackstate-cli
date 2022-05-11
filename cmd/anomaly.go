@@ -1,0 +1,18 @@
+package cmd
+
+import (
+	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/cmd/anomaly"
+	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+)
+
+func AnomalyCommand(cli *di.Deps) *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "anomaly",
+		Short: "ingest/export anomalies",
+		Long:  "Manage anomalies on metric streams",
+	}
+	cmd.AddCommand(anomaly.AnomalyCollect(cli))
+
+	return cmd
+}

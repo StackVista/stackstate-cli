@@ -30,7 +30,7 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo stackstate_api.ServerInfo) common.CLIError {
+func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 	if err := mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{Ids, Namespace, TypeName}, true); err != nil {
 		return common.NewCLIArgParseError(err)
 	}
@@ -59,19 +59,19 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 
 	exportArgs := stackstate_api.NewExport()
 	if len(ids) != 0 {
-		exportArgs.NodesWithIds = &ids
+		exportArgs.NodesWithIds = ids
 	}
 	if len(namespace) != 0 {
 		exportArgs.Namespace = &namespace
 	}
 	if len(nodeTypes) != 0 {
-		exportArgs.AllNodesOfTypes = &nodeTypes
+		exportArgs.AllNodesOfTypes = nodeTypes
 	}
 	if len(references) != 0 {
 		if len(namespace) == 0 {
 			return common.NewCLIArgParseError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferences))
 		}
-		exportArgs.AllowReferences = &references
+		exportArgs.AllowReferences = references
 	}
 
 	data, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*exportArgs).Execute()
@@ -91,7 +91,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		}
 		if cli.IsJson {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"describe-file-path": filepath,
+				"filepath": filepath,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("settings exported to: %s", filepath))

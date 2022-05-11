@@ -53,7 +53,7 @@ func (o *TopologyStreamListItemWithErrorDetails) GetItem() TopologyStreamListIte
 // GetItemOk returns a tuple with the Item field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItemWithErrorDetails) GetItemOk() (*TopologyStreamListItem, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Item, true
@@ -76,11 +76,11 @@ func (o *TopologyStreamListItemWithErrorDetails) GetErrorDetails() []TopologyStr
 
 // GetErrorDetailsOk returns a tuple with the ErrorDetails field value
 // and a boolean to check if the value has been set.
-func (o *TopologyStreamListItemWithErrorDetails) GetErrorDetailsOk() (*[]TopologyStreamError, bool) {
-	if o == nil  {
+func (o *TopologyStreamListItemWithErrorDetails) GetErrorDetailsOk() ([]TopologyStreamError, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.ErrorDetails, true
+	return o.ErrorDetails, true
 }
 
 // SetErrorDetails sets field value

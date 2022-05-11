@@ -35,7 +35,7 @@ func RunMonitorStatusCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	identifier, err := cmd.Flags().GetString(IDFlag)
 	if err != nil {
@@ -44,7 +44,7 @@ func RunMonitorStatusCommand(
 
 	id, err := util.StringToInt64(identifier)
 	var resp *http.Response
-	var monitorStatus stackstate_api.MonitorStatus
+	var monitorStatus *stackstate_api.MonitorStatus
 
 	if err == nil {
 		monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, id).Execute()
@@ -113,7 +113,7 @@ func RunMonitorStatusCommand(
 
 func PrintErrors(cli *di.Deps,
 	errors []stackstate_api.HealthStreamError,
-	monitorStatus stackstate_api.MonitorStatus,
+	monitorStatus *stackstate_api.MonitorStatus,
 ) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Synchronization errors:")
@@ -135,7 +135,7 @@ func PrintErrors(cli *di.Deps,
 
 func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 	unmatchedCheckStates []stackstate_api.UnmatchedCheckState,
-	monitorStatus stackstate_api.MonitorStatus) {
+	monitorStatus *stackstate_api.MonitorStatus) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Check states with identifier which has no matching topology element:")
 
@@ -155,7 +155,7 @@ func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 
 func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
 	multipleMatchesCheckState []stackstate_api.MultipleMatchesCheckState,
-	monitorStatus stackstate_api.MonitorStatus) {
+	monitorStatus *stackstate_api.MonitorStatus) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Check states with identifier which has multiple matching topology elements:")
 

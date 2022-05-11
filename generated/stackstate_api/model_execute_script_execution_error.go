@@ -55,7 +55,7 @@ func (o *ExecuteScriptExecutionError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptExecutionError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -79,7 +79,7 @@ func (o *ExecuteScriptExecutionError) GetReason() string {
 // GetReasonOk returns a tuple with the Reason field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptExecutionError) GetReasonOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Reason, true
@@ -103,7 +103,7 @@ func (o *ExecuteScriptExecutionError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptExecutionError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true

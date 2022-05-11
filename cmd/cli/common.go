@@ -8,7 +8,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-func PrintConnectionSuccess(pr printer.Printer, apiUrl string, serverInfo stackstate_api.ServerInfo) {
+func PrintConnectionSuccess(pr printer.Printer, apiUrl string, serverInfo *stackstate_api.ServerInfo) {
 	pr.Success(
 		fmt.Sprintf("Connection verified to %s (StackState version: %s)",
 			apiUrl,

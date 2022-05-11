@@ -26,22 +26,30 @@ type AnnotationData struct {
 
 // FeedbackDataAsAnnotationData is a convenience function that returns FeedbackData wrapped in AnnotationData
 func FeedbackDataAsAnnotationData(v *FeedbackData) AnnotationData {
-	return AnnotationData{ FeedbackData: v}
+	return AnnotationData{
+		FeedbackData: v,
+	}
 }
 
 // GenericAnnotationDataAsAnnotationData is a convenience function that returns GenericAnnotationData wrapped in AnnotationData
 func GenericAnnotationDataAsAnnotationData(v *GenericAnnotationData) AnnotationData {
-	return AnnotationData{ GenericAnnotationData: v}
+	return AnnotationData{
+		GenericAnnotationData: v,
+	}
 }
 
 // MetricStreamAnomalyDataAsAnnotationData is a convenience function that returns MetricStreamAnomalyData wrapped in AnnotationData
 func MetricStreamAnomalyDataAsAnnotationData(v *MetricStreamAnomalyData) AnnotationData {
-	return AnnotationData{ MetricStreamAnomalyData: v}
+	return AnnotationData{
+		MetricStreamAnomalyData: v,
+	}
 }
 
 // MetricStreamNoAnomalyDataAsAnnotationData is a convenience function that returns MetricStreamNoAnomalyData wrapped in AnnotationData
 func MetricStreamNoAnomalyDataAsAnnotationData(v *MetricStreamNoAnomalyData) AnnotationData {
-	return AnnotationData{ MetricStreamNoAnomalyData: v}
+	return AnnotationData{
+		MetricStreamNoAnomalyData: v,
+	}
 }
 
 
@@ -50,7 +58,7 @@ func (dst *AnnotationData) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
-	err = json.Unmarshal(data, &jsonDict)
+	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
@@ -129,6 +137,9 @@ func (src AnnotationData) MarshalJSON() ([]byte, error) {
 
 // Get the actual instance
 func (obj *AnnotationData) GetActualInstance() (interface{}) {
+	if obj == nil {
+		return nil
+	}
 	if obj.FeedbackData != nil {
 		return obj.FeedbackData
 	}

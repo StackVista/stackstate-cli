@@ -54,7 +54,7 @@ func (o *HealthSubStreamSnapshot) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *HealthSubStreamSnapshot) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -110,7 +110,7 @@ func (o *HealthSubStreamSnapshot) GetRepeatIntervalMs() int32 {
 // GetRepeatIntervalMsOk returns a tuple with the RepeatIntervalMs field value
 // and a boolean to check if the value has been set.
 func (o *HealthSubStreamSnapshot) GetRepeatIntervalMsOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.RepeatIntervalMs, true

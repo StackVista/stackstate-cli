@@ -842,7 +842,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get events topology overflow error, validation error
+          description: "Get events topology overflow error, validation error"
         "500":
           content:
             application/json:
@@ -942,7 +942,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get events topology overflow error, validation error
+          description: "Get events topology overflow error, validation error"
         "500":
           content:
             application/json:
@@ -1042,7 +1042,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get events topology overflow error, validation error
+          description: "Get events topology overflow error, validation error"
         "500":
           content:
             application/json:
@@ -1378,8 +1378,8 @@ paths:
       - topologySynchronization
   /synchronization/topology/streams/sync:
     get:
-      description: Overview of a specific Topology Stream, queried by node id or sync
-        identifier
+      description: "Overview of a specific Topology Stream, queried by node id or\
+        \ sync identifier"
       operationId: getTopologySynchronizationStreamById
       parameters:
       - allowReserved: true
@@ -1413,8 +1413,8 @@ paths:
               schema:
                 $ref: '#/components/schemas/TopologySyncError'
           description: Sync with given identifier not found
-      summary: Overview of a specific Topology Stream, queried by node id or sync
-        identifier
+      summary: "Overview of a specific Topology Stream, queried by node id or sync\
+        \ identifier"
       tags:
       - topologySynchronization
     parameters:
@@ -1432,7 +1432,7 @@ paths:
         $ref: '#/components/schemas/IdentifierType'
   /synchronization/topology/streams/status:
     get:
-      description: Metrics of a specific Topology Stream, queried by node id
+      description: "Metrics of a specific Topology Stream, queried by node id"
       operationId: getTopologySynchronizationStreamStatusById
       parameters:
       - allowReserved: true
@@ -1460,7 +1460,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/TopologySyncError'
           description: Sync with given identifier not found
-      summary: Metrics of a specific Topology Stream, queried by node id
+      summary: "Metrics of a specific Topology Stream, queried by node id"
       tags:
       - topologySynchronization
     parameters:
@@ -1559,8 +1559,8 @@ paths:
       - scripting
   /server/info:
     get:
-      description: Get information of the StackState information, such as version,
-        deployment mode, etc.
+      description: "Get information of the StackState information, such as version,\
+        \ deployment mode, etc."
       operationId: serverInfo
       responses:
         "200":
@@ -1703,6 +1703,131 @@ components:
           schema:
             $ref: '#/components/schemas/EventListRequest'
       required: true
+  responses:
+    genericErrorsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericErrorsResponse'
+      description: Error when handling the request on the server side.
+    monitors:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorList'
+      description: List of all available monitors
+    monitorApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorApiError'
+      description: container for all error response
+    monitor:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Monitor'
+      description: Full representation of a monitor
+    monitorNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorNotFoundError'
+      description: monitor was not found in the database
+    monitorRunResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorRunResult'
+      description: Full representation of the result of a monitor run
+    monitorStatus:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorStatus'
+      description: Full representation of a monitor with status
+    monitorIdentifierNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+      description: monitor was not found in the database
+    userProfile:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UserProfile'
+      description: User Profile
+    apiTokens:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/ApiToken'
+            type: array
+      description: Api Token
+    events:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventItemsWithTotal'
+      description: Event API
+    event:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TopologyEvent'
+      description: Event
+    eventNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventNotFoundError'
+      description: Error when retrieving an event
+    eventSuggestions:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StringItemsWithTotal'
+      description: Event field suggestions
+    urnBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidUrn'
+      description: Bad request when specifying an invalid identifier
+    healthStreamError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthStreamNotFound'
+      description: Error when retrieving health stream
+    healthSubStreamError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/HealthSubStreamError'
+      description: Error when retrieving health sub stream
+    TopologySyncBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidSyncIdentifier'
+      description: Bad request when specifying an invalid identifier
+    TopologySyncNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TopologySyncError'
+      description: Sync with given identifier not found
+    tokens:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/ServiceToken'
+            type: array
+      description: Service Tokens
   schemas:
     GenericErrorsResponse:
       properties:
@@ -1992,8 +2117,8 @@ components:
           name: name
           description: description
           arguments:
-          - '{}'
-          - '{}'
+          - "{}"
+          - "{}"
           id: 0
           intervalSeconds: 1
         - topologyMapping: topologyMapping
@@ -2003,8 +2128,8 @@ components:
           name: name
           description: description
           arguments:
-          - '{}'
-          - '{}'
+          - "{}"
+          - "{}"
           id: 0
           intervalSeconds: 1
       properties:
@@ -2024,8 +2149,8 @@ components:
         name: name
         description: description
         arguments:
-        - '{}'
-        - '{}'
+        - "{}"
+        - "{}"
         id: 0
         intervalSeconds: 1
       properties:
@@ -2094,7 +2219,7 @@ components:
       type: object
     MonitorRunResult:
       example:
-        result: '{}'
+        result: "{}"
       properties:
         result:
           type: object
@@ -2111,8 +2236,8 @@ components:
           name: name
           description: description
           arguments:
-          - '{}'
-          - '{}'
+          - "{}"
+          - "{}"
           id: 0
           intervalSeconds: 1
         topologyMatchResult:
@@ -2143,6 +2268,7 @@ components:
           recoverMessage: recoverMessage
           mainStreamStatus:
             checkStateCount: 5
+            subStreamState: null
             metrics:
               createsPerSecond:
               - value: 5.962133916683182
@@ -2201,6 +2327,38 @@ components:
       type: object
     MonitorUrnId:
       type: string
+    Monitor_1:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          format: int64
+          type: integer
+        arguments:
+          items:
+            type: object
+          type: array
+        remediationHint:
+          type: string
+        topologyMapping:
+          type: string
+        intervalSeconds:
+          type: integer
+      required:
+      - arguments
+      - functionId
+      - id
+      - intervalSeconds
+      - name
+      - topologyMapping
+      type: object
     MonitorIdentifierNotFoundError:
       properties:
         _type:
@@ -2212,6 +2370,19 @@ components:
       required:
       - _type
       - monitorIdentifier
+      type: object
+    MonitorStatus_1:
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor_1'
+        status:
+          $ref: '#/components/schemas/HealthStreamStatus_1'
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
+      required:
+      - monitor
+      - status
+      - topologyMatchResult
       type: object
     UserNotFoundError:
       properties:
@@ -2371,6 +2542,7 @@ components:
         - eventTags
         - eventTags
         endTimestampMs: 6
+        rootCauseMode: null
       properties:
         startTimestampMs:
           format: instant
@@ -2445,7 +2617,7 @@ components:
         items:
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
-          data: '{}'
+          data: "{}"
           description: description
           source: source
           eventType: eventType
@@ -2460,6 +2632,7 @@ components:
           - null
           name: name
           eventTime: 0
+          category: null
           elementIdentifiers:
           - elementIdentifiers
           - elementIdentifiers
@@ -2479,7 +2652,7 @@ components:
             eventTimestamp: 1
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
-          data: '{}'
+          data: "{}"
           description: description
           source: source
           eventType: eventType
@@ -2494,6 +2667,7 @@ components:
           - null
           name: name
           eventTime: 0
+          category: null
           elementIdentifiers:
           - elementIdentifiers
           - elementIdentifiers
@@ -2527,7 +2701,7 @@ components:
       example:
         identifier: identifier
         sourceIdentifier: sourceIdentifier
-        data: '{}'
+        data: "{}"
         description: description
         source: source
         eventType: eventType
@@ -2542,6 +2716,7 @@ components:
         - null
         name: name
         eventTime: 0
+        category: null
         elementIdentifiers:
         - elementIdentifiers
         - elementIdentifiers
@@ -2809,6 +2984,7 @@ components:
         recoverMessage: recoverMessage
         mainStreamStatus:
           checkStateCount: 5
+          subStreamState: null
           metrics:
             createsPerSecond:
             - value: 5.962133916683182
@@ -2957,6 +3133,7 @@ components:
     HealthSubStreamStatus:
       example:
         checkStateCount: 5
+        subStreamState: null
         metrics:
           createsPerSecond:
           - value: 5.962133916683182
@@ -3080,8 +3257,10 @@ components:
         subStreams:
         - subStreamId: subStreamId
           checkStateCount: 0
+          subStreamState: null
         - subStreamId: subStreamId
           checkStateCount: 0
+          subStreamState: null
       properties:
         subStreams:
           items:
@@ -3094,6 +3273,7 @@ components:
       example:
         subStreamId: subStreamId
         checkStateCount: 0
+        subStreamState: null
       properties:
         subStreamId:
           type: string
@@ -3200,6 +3380,7 @@ components:
           nodeId: 0
           errors: 2
           createdComponents: 5
+          status: null
         - syncIdentifier: syncIdentifier
           createdRelations: 6
           deletedComponents: 5
@@ -3208,6 +3389,7 @@ components:
           nodeId: 0
           errors: 2
           createdComponents: 5
+          status: null
       properties:
         streams:
           items:
@@ -3226,6 +3408,7 @@ components:
         nodeId: 0
         errors: 2
         createdComponents: 5
+        status: null
       properties:
         syncIdentifier:
           nullable: true
@@ -3280,10 +3463,13 @@ components:
           nodeId: 0
           errors: 2
           createdComponents: 5
+          status: null
         errorDetails:
-        - externalId: externalId
+        - level: null
+          externalId: externalId
           message: message
-        - externalId: externalId
+        - level: null
+          externalId: externalId
           message: message
       properties:
         item:
@@ -3302,6 +3488,7 @@ components:
       type: array
     TopologyStreamError:
       example:
+        level: null
         externalId: externalId
         message: message
       properties:
@@ -3358,15 +3545,17 @@ components:
       type: object
     ExecuteScriptResponse:
       example:
-        result: '{}'
+        result: "{}"
       properties:
         result:
-          description: |
-            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
-            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
-            The `_type` property describes the original type of the result value during script execution.
-            The `value` property holds the resulting value serialized to JSON.
-            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
+          description: "Contains a `value` and `_type` property. This is described\
+            \ this way, because `value` can hold any\nJSON type and most open api\
+            \ generators (but not all) have problems with such types or are inconsistent\
+            \ with the OpenAPI spec.\nThe `_type` property describes the original\
+            \ type of the result value during script execution.\nThe `value` property\
+            \ holds the resulting value serialized to JSON.\nThe `value` property\
+            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
+            \ array or object.\n"
           nullable: true
           type: object
       required:
@@ -3696,6 +3885,7 @@ components:
               key: key
             - value: value
               key: key
+            aggregationMethod: null
             bucketSize: 3
           _type: FeedbackData
           thumbsdown:
@@ -3705,6 +3895,8 @@ components:
           - thumbsup
           - thumbsup
         anomaly:
+          reference: null
+          data: null
           identifiers:
           - identifiers
           - identifiers
@@ -3713,6 +3905,7 @@ components:
             start: 0
             end: 6
           description: description
+          annotationType: null
           createdTime: 5
           id: id
           processedTime: 1
@@ -3740,6 +3933,8 @@ components:
       type: object
     Annotation:
       example:
+        reference: null
+        data: null
         identifiers:
         - identifiers
         - identifiers
@@ -3748,6 +3943,7 @@ components:
           start: 0
           end: 6
         description: description
+        annotationType: null
         createdTime: 5
         id: id
         processedTime: 1
@@ -3902,6 +4098,7 @@ components:
           key: key
         - value: value
           key: key
+        aggregationMethod: null
         bucketSize: 3
       properties:
         dataSourceId:
@@ -4007,6 +4204,7 @@ components:
             key: key
           - value: value
             key: key
+          aggregationMethod: null
           bucketSize: 3
         _type: FeedbackData
         thumbsdown:
@@ -4075,6 +4273,71 @@ components:
       required:
       - timestamp
       - value
+      type: object
+    HealthStreamStatus_1:
+      properties:
+        partition:
+          type: integer
+        consistencyModel:
+          type: string
+        recoverMessage:
+          type: string
+        globalErrors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        aggregateMetrics:
+          $ref: '#/components/schemas/HealthStreamMetrics_1'
+        mainStreamStatus:
+          $ref: '#/components/schemas/HealthSubStreamStatus_1'
+      required:
+      - aggregateMetrics
+      - consistencyModel
+      - partition
+      type: object
+    HealthStreamMetrics_1:
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        messagePerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        createsPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        updatesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+        deletesPerSecond:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
+      type: object
+    HealthSubStreamStatus_1:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/HealthStreamError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/HealthStreamMetrics_1'
+        subStreamState:
+          $ref: '#/components/schemas/HealthSubStreamConsistencyState'
+        checkStateCount:
+          type: integer
+      required:
+      - checkStateCount
+      - metrics
+      - subStreamState
       type: object
     NodeTypes_nodeTypes:
       example:

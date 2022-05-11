@@ -57,7 +57,7 @@ func (o *EventRef) GetTitle() string {
 // GetTitleOk returns a tuple with the Title field value
 // and a boolean to check if the value has been set.
 func (o *EventRef) GetTitleOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Title, true
@@ -81,7 +81,7 @@ func (o *EventRef) GetEventId() string {
 // GetEventIdOk returns a tuple with the EventId field value
 // and a boolean to check if the value has been set.
 func (o *EventRef) GetEventIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EventId, true
@@ -105,7 +105,7 @@ func (o *EventRef) GetEventTimestamp() int64 {
 // GetEventTimestampOk returns a tuple with the EventTimestamp field value
 // and a boolean to check if the value has been set.
 func (o *EventRef) GetEventTimestampOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EventTimestamp, true
@@ -129,7 +129,7 @@ func (o *EventRef) GetEventType() string {
 // GetEventTypeOk returns a tuple with the EventType field value
 // and a boolean to check if the value has been set.
 func (o *EventRef) GetEventTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.EventType, true

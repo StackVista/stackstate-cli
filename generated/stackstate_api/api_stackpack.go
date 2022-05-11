@@ -13,18 +13,14 @@ package stackstate_api
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io/ioutil"
+	"net/http"
+	"net/url"
 	"strings"
 	"os"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type StackpackApi interface {
 
@@ -33,51 +29,50 @@ type StackpackApi interface {
 
 	Provision details
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @param stackName
-	 @return ApiProvisionDetailsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackName
+	@return ApiProvisionDetailsRequest
 	*/
-	ProvisionDetails(ctx _context.Context, stackName string) ApiProvisionDetailsRequest
+	ProvisionDetails(ctx context.Context, stackName string) ApiProvisionDetailsRequest
 
 	// ProvisionDetailsExecute executes the request
 	//  @return ProvisionResponse
-	ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (ProvisionResponse, *_nethttp.Response, error)
+	ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error)
 
 	/*
 	StackpackList StackPack API
 
 	list of stackpack
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiStackpackListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackpackListRequest
 	*/
-	StackpackList(ctx _context.Context) ApiStackpackListRequest
+	StackpackList(ctx context.Context) ApiStackpackListRequest
 
 	// StackpackListExecute executes the request
 	//  @return []Sstackpack
-	StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *_nethttp.Response, error)
+	StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *http.Response, error)
 
 	/*
 	StackpackUpload StackPack API
 
 	upload a StackPack
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiStackpackUploadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackpackUploadRequest
 	*/
-	StackpackUpload(ctx _context.Context) ApiStackpackUploadRequest
+	StackpackUpload(ctx context.Context) ApiStackpackUploadRequest
 
 	// StackpackUploadExecute executes the request
 	//  @return StackPack
-	StackpackUploadExecute(r ApiStackpackUploadRequest) (StackPack, *_nethttp.Response, error)
+	StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error)
 }
-
 
 // StackpackApiService StackpackApi service
 type StackpackApiService service
 
 type ApiProvisionDetailsRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService StackpackApi
 	stackName string
 	requestBody *map[string]string
@@ -88,7 +83,7 @@ func (r ApiProvisionDetailsRequest) RequestBody(requestBody map[string]string) A
 	return r
 }
 
-func (r ApiProvisionDetailsRequest) Execute() (ProvisionResponse, *_nethttp.Response, error) {
+func (r ApiProvisionDetailsRequest) Execute() (*ProvisionResponse, *http.Response, error) {
 	return r.ApiService.ProvisionDetailsExecute(r)
 }
 
@@ -97,11 +92,11 @@ ProvisionDetails Provision API
 
 Provision details
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param stackName
  @return ApiProvisionDetailsRequest
 */
-func (a *StackpackApiService) ProvisionDetails(ctx _context.Context, stackName string) ApiProvisionDetailsRequest {
+func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -111,27 +106,25 @@ func (a *StackpackApiService) ProvisionDetails(ctx _context.Context, stackName s
 
 // Execute executes the request
 //  @return ProvisionResponse
-func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (ProvisionResponse, *_nethttp.Response, error) {
+func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  ProvisionResponse
+		formFiles            []formFile
+		localVarReturnValue  *ProvisionResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ProvisionDetails")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/stackpack/{stackName}/provision"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", _neturl.PathEscape(parameterToString(r.stackName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -166,7 +159,7 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -176,15 +169,15 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -202,7 +195,7 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -213,12 +206,11 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 }
 
 type ApiStackpackListRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService StackpackApi
 }
 
-
-func (r ApiStackpackListRequest) Execute() ([]Sstackpack, *_nethttp.Response, error) {
+func (r ApiStackpackListRequest) Execute() ([]Sstackpack, *http.Response, error) {
 	return r.ApiService.StackpackListExecute(r)
 }
 
@@ -227,10 +219,10 @@ StackpackList StackPack API
 
 list of stackpack
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiStackpackListRequest
 */
-func (a *StackpackApiService) StackpackList(ctx _context.Context) ApiStackpackListRequest {
+func (a *StackpackApiService) StackpackList(ctx context.Context) ApiStackpackListRequest {
 	return ApiStackpackListRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -239,26 +231,24 @@ func (a *StackpackApiService) StackpackList(ctx _context.Context) ApiStackpackLi
 
 // Execute executes the request
 //  @return []Sstackpack
-func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *_nethttp.Response, error) {
+func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodGet
+		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
+		formFiles            []formFile
 		localVarReturnValue  []Sstackpack
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackpackList")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/stackpack"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -291,7 +281,7 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -301,15 +291,15 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -337,7 +327,7 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -348,7 +338,7 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 }
 
 type ApiStackpackUploadRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService StackpackApi
 	stackPack **os.File
 }
@@ -358,7 +348,7 @@ func (r ApiStackpackUploadRequest) StackPack(stackPack *os.File) ApiStackpackUpl
 	return r
 }
 
-func (r ApiStackpackUploadRequest) Execute() (StackPack, *_nethttp.Response, error) {
+func (r ApiStackpackUploadRequest) Execute() (*StackPack, *http.Response, error) {
 	return r.ApiService.StackpackUploadExecute(r)
 }
 
@@ -367,10 +357,10 @@ StackpackUpload StackPack API
 
 upload a StackPack
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiStackpackUploadRequest
 */
-func (a *StackpackApiService) StackpackUpload(ctx _context.Context) ApiStackpackUploadRequest {
+func (a *StackpackApiService) StackpackUpload(ctx context.Context) ApiStackpackUploadRequest {
 	return ApiStackpackUploadRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -379,26 +369,24 @@ func (a *StackpackApiService) StackpackUpload(ctx _context.Context) ApiStackpack
 
 // Execute executes the request
 //  @return StackPack
-func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest) (StackPack, *_nethttp.Response, error) {
+func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  StackPack
+		formFiles            []formFile
+		localVarReturnValue  *StackPack
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackpackUpload")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/stackpack"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"multipart/form-data"}
@@ -417,17 +405,23 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarFormFileName = "stackPack"
-	var localVarFile *os.File
+	var stackPackLocalVarFormFileName string
+	var stackPackLocalVarFileName     string
+	var stackPackLocalVarFileBytes    []byte
+
+	stackPackLocalVarFormFileName = "stackPack"
+
+	var stackPackLocalVarFile *os.File
 	if r.stackPack != nil {
-		localVarFile = *r.stackPack
+		stackPackLocalVarFile = *r.stackPack
 	}
-	if localVarFile != nil {
-		fbs, _ := _ioutil.ReadAll(localVarFile)
-		localVarFileBytes = fbs
-		localVarFileName = localVarFile.Name()
-		localVarFile.Close()
+	if stackPackLocalVarFile != nil {
+		fbs, _ := ioutil.ReadAll(stackPackLocalVarFile)
+		stackPackLocalVarFileBytes = fbs
+		stackPackLocalVarFileName = stackPackLocalVarFile.Name()
+		stackPackLocalVarFile.Close()
 	}
+	formFiles = append(formFiles, formFile{fileBytes: stackPackLocalVarFileBytes, fileName: stackPackLocalVarFileName, formFileName: stackPackLocalVarFormFileName})
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -442,7 +436,7 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 			}
 		}
 	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -452,15 +446,15 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -488,7 +482,7 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -526,7 +520,7 @@ func NewStackpackApiMock() StackpackApiMock {
 
 type ProvisionDetailsMockResponse struct {
 	Result ProvisionResponse
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -536,7 +530,7 @@ type ProvisionDetailsCall struct {
 }
 
 
-func (mock StackpackApiMock) ProvisionDetails(ctx _context.Context, stackName string) ApiProvisionDetailsRequest {
+func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
 		ApiService: mock,
 		ctx: ctx,
@@ -544,18 +538,18 @@ func (mock StackpackApiMock) ProvisionDetails(ctx _context.Context, stackName st
 	}
 }
 
-func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (ProvisionResponse, *_nethttp.Response, error) {
+func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	p := ProvisionDetailsCall {
 			PstackName: r.stackName,
 			PrequestBody: r.requestBody,
 	}
 	*mock.ProvisionDetailsCalls = append(*mock.ProvisionDetailsCalls, p)
-	return mock.ProvisionDetailsResponse.Result, mock.ProvisionDetailsResponse.Response, mock.ProvisionDetailsResponse.Error
+	return &mock.ProvisionDetailsResponse.Result, mock.ProvisionDetailsResponse.Response, mock.ProvisionDetailsResponse.Error
 }
 
 type StackpackListMockResponse struct {
 	Result []Sstackpack
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -563,14 +557,14 @@ type StackpackListCall struct {
 }
 
 
-func (mock StackpackApiMock) StackpackList(ctx _context.Context) ApiStackpackListRequest {
+func (mock StackpackApiMock) StackpackList(ctx context.Context) ApiStackpackListRequest {
 	return ApiStackpackListRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock StackpackApiMock) StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *_nethttp.Response, error) {
+func (mock StackpackApiMock) StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *http.Response, error) {
 	p := StackpackListCall {
 	}
 	*mock.StackpackListCalls = append(*mock.StackpackListCalls, p)
@@ -579,7 +573,7 @@ func (mock StackpackApiMock) StackpackListExecute(r ApiStackpackListRequest) ([]
 
 type StackpackUploadMockResponse struct {
 	Result StackPack
-	Response *_nethttp.Response
+	Response *http.Response
 	Error error
 }
 
@@ -588,19 +582,19 @@ type StackpackUploadCall struct {
 }
 
 
-func (mock StackpackApiMock) StackpackUpload(ctx _context.Context) ApiStackpackUploadRequest {
+func (mock StackpackApiMock) StackpackUpload(ctx context.Context) ApiStackpackUploadRequest {
 	return ApiStackpackUploadRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock StackpackApiMock) StackpackUploadExecute(r ApiStackpackUploadRequest) (StackPack, *_nethttp.Response, error) {
+func (mock StackpackApiMock) StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error) {
 	p := StackpackUploadCall {
 			PstackPack: r.stackPack,
 	}
 	*mock.StackpackUploadCalls = append(*mock.StackpackUploadCalls, p)
-	return mock.StackpackUploadResponse.Result, mock.StackpackUploadResponse.Response, mock.StackpackUploadResponse.Error
+	return &mock.StackpackUploadResponse.Result, mock.StackpackUploadResponse.Response, mock.StackpackUploadResponse.Error
 }
 
 

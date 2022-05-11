@@ -53,7 +53,7 @@ func (o *EventTag) GetKey() string {
 // GetKeyOk returns a tuple with the Key field value
 // and a boolean to check if the value has been set.
 func (o *EventTag) GetKeyOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Key, true
@@ -77,7 +77,7 @@ func (o *EventTag) GetValue() string {
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
 func (o *EventTag) GetValueOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Value, true

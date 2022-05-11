@@ -54,7 +54,7 @@ func (o *TopologyStreamError) GetLevel() MessageLevel {
 // GetLevelOk returns a tuple with the Level field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamError) GetLevelOk() (*MessageLevel, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Level, true
@@ -78,7 +78,7 @@ func (o *TopologyStreamError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true

@@ -22,7 +22,7 @@ func RunMonitorListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	monitors, resp, err := api.MonitorApi.GetAllMonitors(cli.Context).Execute()
 	if err != nil {

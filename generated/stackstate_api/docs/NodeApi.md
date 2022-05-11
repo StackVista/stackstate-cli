@@ -32,8 +32,8 @@ import (
 func main() {
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.NodeApi.NodeListTypes(context.Background()).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NodeApi.NodeListTypes(context.Background()).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.NodeListTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -96,8 +96,8 @@ func main() {
     ownedBy := "ownedBy_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.NodeApi.TypeList(context.Background(), nodeType).Namespace(namespace).OwnedBy(ownedBy).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NodeApi.TypeList(context.Background(), nodeType).Namespace(namespace).OwnedBy(ownedBy).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.TypeList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

@@ -25,7 +25,7 @@ func RunTestConnectConfig(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{

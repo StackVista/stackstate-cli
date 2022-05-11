@@ -53,7 +53,7 @@ func (o *EventCursor) GetLastEventTimestampMs() int64 {
 // GetLastEventTimestampMsOk returns a tuple with the LastEventTimestampMs field value
 // and a boolean to check if the value has been set.
 func (o *EventCursor) GetLastEventTimestampMsOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.LastEventTimestampMs, true
@@ -77,7 +77,7 @@ func (o *EventCursor) GetLastEventId() string {
 // GetLastEventIdOk returns a tuple with the LastEventId field value
 // and a boolean to check if the value has been set.
 func (o *EventCursor) GetLastEventIdOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.LastEventId, true

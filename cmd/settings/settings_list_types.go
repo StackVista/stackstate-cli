@@ -22,7 +22,7 @@ func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 func RunSettingsListTypesCommand(cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	settingTypes, resp, err := api.NodeApi.NodeListTypes(cli.Context).Execute()
 	if err != nil {
@@ -31,7 +31,7 @@ func RunSettingsListTypesCommand(cmd *cobra.Command,
 
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"setting-types": settingTypes,
+			"setting-types": *settingTypes,
 		})
 	} else {
 		data := make([][]interface{}, 0)

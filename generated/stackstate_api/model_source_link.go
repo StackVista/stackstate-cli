@@ -53,7 +53,7 @@ func (o *SourceLink) GetTitle() string {
 // GetTitleOk returns a tuple with the Title field value
 // and a boolean to check if the value has been set.
 func (o *SourceLink) GetTitleOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Title, true
@@ -77,7 +77,7 @@ func (o *SourceLink) GetUrl() string {
 // GetUrlOk returns a tuple with the Url field value
 // and a boolean to check if the value has been set.
 func (o *SourceLink) GetUrlOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Url, true

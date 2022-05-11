@@ -31,7 +31,7 @@ func RunSettingsListCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
-	serverInfo stackstate_api.ServerInfo,
+	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
 	typeName, err := cmd.Flags().GetString(TypeName)
 	if err != nil {

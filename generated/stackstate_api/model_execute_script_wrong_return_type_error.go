@@ -57,7 +57,7 @@ func (o *ExecuteScriptWrongReturnTypeError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptWrongReturnTypeError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -81,7 +81,7 @@ func (o *ExecuteScriptWrongReturnTypeError) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptWrongReturnTypeError) GetMessageOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Message, true
@@ -105,7 +105,7 @@ func (o *ExecuteScriptWrongReturnTypeError) GetActualReturnType() string {
 // GetActualReturnTypeOk returns a tuple with the ActualReturnType field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptWrongReturnTypeError) GetActualReturnTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ActualReturnType, true
@@ -129,7 +129,7 @@ func (o *ExecuteScriptWrongReturnTypeError) GetExpectedReturnType() string {
 // GetExpectedReturnTypeOk returns a tuple with the ExpectedReturnType field value
 // and a boolean to check if the value has been set.
 func (o *ExecuteScriptWrongReturnTypeError) GetExpectedReturnTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.ExpectedReturnType, true

@@ -50,11 +50,11 @@ func (o *TopologyStreamList) GetStreams() []TopologyStreamListItem {
 
 // GetStreamsOk returns a tuple with the Streams field value
 // and a boolean to check if the value has been set.
-func (o *TopologyStreamList) GetStreamsOk() (*[]TopologyStreamListItem, bool) {
-	if o == nil  {
+func (o *TopologyStreamList) GetStreamsOk() ([]TopologyStreamListItem, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Streams, true
+	return o.Streams, true
 }
 
 // SetStreams sets field value

@@ -66,7 +66,7 @@ func (o *TopologyStreamListItem) GetSyncIdentifier() string {
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
 func (o *TopologyStreamListItem) GetSyncIdentifierOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return o.SyncIdentifier.Get(), o.SyncIdentifier.IsSet()
@@ -108,7 +108,7 @@ func (o *TopologyStreamListItem) GetNodeId() int64 {
 // GetNodeIdOk returns a tuple with the NodeId field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetNodeIdOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.NodeId, true
@@ -132,7 +132,7 @@ func (o *TopologyStreamListItem) GetName() string {
 // GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetNameOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Name, true
@@ -156,7 +156,7 @@ func (o *TopologyStreamListItem) GetCreatedRelations() int64 {
 // GetCreatedRelationsOk returns a tuple with the CreatedRelations field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetCreatedRelationsOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedRelations, true
@@ -180,7 +180,7 @@ func (o *TopologyStreamListItem) GetDeletedRelations() int64 {
 // GetDeletedRelationsOk returns a tuple with the DeletedRelations field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetDeletedRelationsOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DeletedRelations, true
@@ -204,7 +204,7 @@ func (o *TopologyStreamListItem) GetCreatedComponents() int64 {
 // GetCreatedComponentsOk returns a tuple with the CreatedComponents field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetCreatedComponentsOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.CreatedComponents, true
@@ -228,7 +228,7 @@ func (o *TopologyStreamListItem) GetDeletedComponents() int64 {
 // GetDeletedComponentsOk returns a tuple with the DeletedComponents field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetDeletedComponentsOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.DeletedComponents, true
@@ -252,7 +252,7 @@ func (o *TopologyStreamListItem) GetErrors() int64 {
 // GetErrorsOk returns a tuple with the Errors field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetErrorsOk() (*int64, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Errors, true
@@ -276,7 +276,7 @@ func (o *TopologyStreamListItem) GetStatus() TopologySyncStatus {
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
 func (o *TopologyStreamListItem) GetStatusOk() (*TopologySyncStatus, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Status, true

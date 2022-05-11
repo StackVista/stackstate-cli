@@ -53,7 +53,7 @@ func (o *TopologyOverflowError) GetType() string {
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
 func (o *TopologyOverflowError) GetTypeOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Type, true
@@ -77,7 +77,7 @@ func (o *TopologyOverflowError) GetMaxSize() int32 {
 // GetMaxSizeOk returns a tuple with the MaxSize field value
 // and a boolean to check if the value has been set.
 func (o *TopologyOverflowError) GetMaxSizeOk() (*int32, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.MaxSize, true

@@ -17,10 +17,10 @@ import (
 
 // Export struct for Export
 type Export struct {
-	NodesWithIds *[]int64 `json:"nodesWithIds,omitempty"`
-	AllNodesOfTypes *[]string `json:"allNodesOfTypes,omitempty"`
+	NodesWithIds []int64 `json:"nodesWithIds,omitempty"`
+	AllNodesOfTypes []string `json:"allNodesOfTypes,omitempty"`
 	Namespace *string `json:"namespace,omitempty"`
-	AllowReferences *[]string `json:"allowReferences,omitempty"`
+	AllowReferences []string `json:"allowReferences,omitempty"`
 }
 
 // NewExport instantiates a new Export object
@@ -46,12 +46,12 @@ func (o *Export) GetNodesWithIds() []int64 {
 		var ret []int64
 		return ret
 	}
-	return *o.NodesWithIds
+	return o.NodesWithIds
 }
 
 // GetNodesWithIdsOk returns a tuple with the NodesWithIds field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Export) GetNodesWithIdsOk() (*[]int64, bool) {
+func (o *Export) GetNodesWithIdsOk() ([]int64, bool) {
 	if o == nil || o.NodesWithIds == nil {
 		return nil, false
 	}
@@ -69,7 +69,7 @@ func (o *Export) HasNodesWithIds() bool {
 
 // SetNodesWithIds gets a reference to the given []int64 and assigns it to the NodesWithIds field.
 func (o *Export) SetNodesWithIds(v []int64) {
-	o.NodesWithIds = &v
+	o.NodesWithIds = v
 }
 
 // GetAllNodesOfTypes returns the AllNodesOfTypes field value if set, zero value otherwise.
@@ -78,12 +78,12 @@ func (o *Export) GetAllNodesOfTypes() []string {
 		var ret []string
 		return ret
 	}
-	return *o.AllNodesOfTypes
+	return o.AllNodesOfTypes
 }
 
 // GetAllNodesOfTypesOk returns a tuple with the AllNodesOfTypes field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Export) GetAllNodesOfTypesOk() (*[]string, bool) {
+func (o *Export) GetAllNodesOfTypesOk() ([]string, bool) {
 	if o == nil || o.AllNodesOfTypes == nil {
 		return nil, false
 	}
@@ -101,7 +101,7 @@ func (o *Export) HasAllNodesOfTypes() bool {
 
 // SetAllNodesOfTypes gets a reference to the given []string and assigns it to the AllNodesOfTypes field.
 func (o *Export) SetAllNodesOfTypes(v []string) {
-	o.AllNodesOfTypes = &v
+	o.AllNodesOfTypes = v
 }
 
 // GetNamespace returns the Namespace field value if set, zero value otherwise.
@@ -142,12 +142,12 @@ func (o *Export) GetAllowReferences() []string {
 		var ret []string
 		return ret
 	}
-	return *o.AllowReferences
+	return o.AllowReferences
 }
 
 // GetAllowReferencesOk returns a tuple with the AllowReferences field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Export) GetAllowReferencesOk() (*[]string, bool) {
+func (o *Export) GetAllowReferencesOk() ([]string, bool) {
 	if o == nil || o.AllowReferences == nil {
 		return nil, false
 	}
@@ -165,7 +165,7 @@ func (o *Export) HasAllowReferences() bool {
 
 // SetAllowReferences gets a reference to the given []string and assigns it to the AllowReferences field.
 func (o *Export) SetAllowReferences(v []string) {
-	o.AllowReferences = &v
+	o.AllowReferences = v
 }
 
 func (o Export) MarshalJSON() ([]byte, error) {

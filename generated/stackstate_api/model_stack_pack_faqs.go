@@ -53,7 +53,7 @@ func (o *StackPackFaqs) GetQuestion() string {
 // GetQuestionOk returns a tuple with the Question field value
 // and a boolean to check if the value has been set.
 func (o *StackPackFaqs) GetQuestionOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Question, true
@@ -77,7 +77,7 @@ func (o *StackPackFaqs) GetAnswer() string {
 // GetAnswerOk returns a tuple with the Answer field value
 // and a boolean to check if the value has been set.
 func (o *StackPackFaqs) GetAnswerOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Answer, true
