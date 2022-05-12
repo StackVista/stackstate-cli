@@ -75,6 +75,15 @@ paths:
                 $ref: "#/components/schemas/ProvisionResponse"
         "500":
           $ref: "generic_error_handling.xapi.yaml#/components/responses/genericErrorsResponse"
+  /stackpack/{stackName}/upgrade:
+    post:
+      tags:
+        - stackpack
+      parameters:
+
+      summary: "Upgrade API"
+      operationId: upgradeInstance
+      description: "Update instance"
 components:
   parameters:
     stackName:
