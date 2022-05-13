@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Monitor** | [**Monitor**](Monitor.md) |  | 
-**Status** | [**HealthStreamStatus**](HealthStreamStatus.md) |  | 
+**Status** | [**MonitorStreamStatus**](MonitorStreamStatus.md) |  | 
 **TopologyMatchResult** | [**TopologyMatchResult**](TopologyMatchResult.md) |  | 
 
 ## Methods
 
 ### NewMonitorStatus
 
-`func NewMonitorStatus(monitor Monitor, status HealthStreamStatus, topologyMatchResult TopologyMatchResult, ) *MonitorStatus`
+`func NewMonitorStatus(monitor Monitor, status MonitorStreamStatus, topologyMatchResult TopologyMatchResult, ) *MonitorStatus`
 
 NewMonitorStatus instantiates a new MonitorStatus object
 This constructor will assign default values to properties that have it defined,
@@ -49,20 +49,20 @@ SetMonitor sets Monitor field to given value.
 
 ### GetStatus
 
-`func (o *MonitorStatus) GetStatus() HealthStreamStatus`
+`func (o *MonitorStatus) GetStatus() MonitorStreamStatus`
 
 GetStatus returns the Status field if non-nil, zero value otherwise.
 
 ### GetStatusOk
 
-`func (o *MonitorStatus) GetStatusOk() (*HealthStreamStatus, bool)`
+`func (o *MonitorStatus) GetStatusOk() (*MonitorStreamStatus, bool)`
 
 GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatus
 
-`func (o *MonitorStatus) SetStatus(v HealthStreamStatus)`
+`func (o *MonitorStatus) SetStatus(v MonitorStreamStatus)`
 
 SetStatus sets Status field to given value.
 

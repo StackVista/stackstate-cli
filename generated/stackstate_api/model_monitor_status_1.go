@@ -18,7 +18,7 @@ import (
 // MonitorStatus1 struct for MonitorStatus1
 type MonitorStatus1 struct {
 	Monitor Monitor1 `json:"monitor"`
-	Status HealthStreamStatus1 `json:"status"`
+	Status MonitorStreamStatus1 `json:"status"`
 	TopologyMatchResult TopologyMatchResult `json:"topologyMatchResult"`
 }
 
@@ -26,7 +26,7 @@ type MonitorStatus1 struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStatus1(monitor Monitor1, status HealthStreamStatus1, topologyMatchResult TopologyMatchResult) *MonitorStatus1 {
+func NewMonitorStatus1(monitor Monitor1, status MonitorStreamStatus1, topologyMatchResult TopologyMatchResult) *MonitorStatus1 {
 	this := MonitorStatus1{}
 	this.Monitor = monitor
 	this.Status = status
@@ -67,9 +67,9 @@ func (o *MonitorStatus1) SetMonitor(v Monitor1) {
 }
 
 // GetStatus returns the Status field value
-func (o *MonitorStatus1) GetStatus() HealthStreamStatus1 {
+func (o *MonitorStatus1) GetStatus() MonitorStreamStatus1 {
 	if o == nil {
-		var ret HealthStreamStatus1
+		var ret MonitorStreamStatus1
 		return ret
 	}
 
@@ -78,7 +78,7 @@ func (o *MonitorStatus1) GetStatus() HealthStreamStatus1 {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStatus1) GetStatusOk() (*HealthStreamStatus1, bool) {
+func (o *MonitorStatus1) GetStatusOk() (*MonitorStreamStatus1, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -86,7 +86,7 @@ func (o *MonitorStatus1) GetStatusOk() (*HealthStreamStatus1, bool) {
 }
 
 // SetStatus sets field value
-func (o *MonitorStatus1) SetStatus(v HealthStreamStatus1) {
+func (o *MonitorStatus1) SetStatus(v MonitorStreamStatus1) {
 	o.Status = v
 }
 
