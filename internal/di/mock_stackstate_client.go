@@ -22,6 +22,7 @@ type ApiMocks struct {
 	MonitorUrnApi              *stackstate_api.MonitorUrnApiMock
 	NodeApi                    *stackstate_api.NodeApiMock
 	ScriptingApi               *stackstate_api.ScriptingApiMock
+	ServiceTokenApi            *stackstate_api.ServiceTokenApiMock
 	TopologySynchronizationApi *stackstate_api.TopologySynchronizationApiMock
 	UserProfileApi             *stackstate_api.UserProfileApiMock
 	ServerApi                  *stackstate_api.ServerApiMock
@@ -40,6 +41,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	monitorApiUrn := stackstate_api.NewMonitorUrnApiMock()
 	nodeApi := stackstate_api.NewNodeApiMock()
 	scriptingApi := stackstate_api.NewScriptingApiMock()
+	serviceTokenApi := stackstate_api.NewServiceTokenApiMock()
 	topologySynchronizationApi := stackstate_api.NewTopologySynchronizationApiMock()
 	userProfileApi := stackstate_api.NewUserProfileApiMock()
 	serverApi := stackstate_api.NewServerApiMock()
@@ -55,6 +57,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		MonitorUrnApi:              &monitorApiUrn,
 		NodeApi:                    &nodeApi,
 		ScriptingApi:               &scriptingApi,
+		ServiceTokenApi:            &serviceTokenApi,
 		TopologySynchronizationApi: &topologySynchronizationApi,
 		UserProfileApi:             &userProfileApi,
 		ServerApi:                  &serverApi,
@@ -71,6 +74,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		MonitorApi:                 apiMocks.MonitorApi,
 		MonitorUrnApi:              apiMocks.MonitorUrnApi,
 		NodeApi:                    apiMocks.NodeApi,
+		ServiceTokenApi:            apiMocks.ServiceTokenApi,
 		ScriptingApi:               apiMocks.ScriptingApi,
 		TopologySynchronizationApi: apiMocks.TopologySynchronizationApi,
 		UserProfileApi:             apiMocks.UserProfileApi,
