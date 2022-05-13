@@ -23,9 +23,8 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 			"sts stackpack install --name example -p \"full_name=First Last\" -p URL=https://stackstate.com",
 		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand),
 	}
-	cmd.Flags().String(NameFlag, "", "name of the StackPack")
+	common.AddRequiredNameFlag(cmd, "name of the StackPack")
 	cmd.Flags().StringSliceP(ParameterFlag, "p", nil, "list of parameters of the form \"key=value\"")
-	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
 	return cmd
 }
 
@@ -35,7 +34,7 @@ func RunStackpackInstallCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	name, err := cmd.Flags().GetString(NameFlag)
+	name, err := cmd.Flags().GetString(common.NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

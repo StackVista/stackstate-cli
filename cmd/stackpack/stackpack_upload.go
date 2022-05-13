@@ -18,8 +18,7 @@ func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Upload a StackPack file to StackState.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUploadCommand),
 	}
-	cmd.Flags().StringP(FileFlag, "f", "", "stackpack to upload (.sts file")
-	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
+	common.AddRequiredFileFlag(cmd, "stackpack file to upload (.sts file)")
 
 	return cmd
 }
@@ -30,7 +29,7 @@ func RunStackpackUploadCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	filePath, err := cmd.Flags().GetString(FileFlag)
+	filePath, err := cmd.Flags().GetString(common.FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

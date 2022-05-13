@@ -17,8 +17,7 @@ func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List all installed instances of a StackPack.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListInstanceCommand),
 	}
-	cmd.Flags().String(NameFlag, "", "name of the instance")
-	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
+	common.AddRequiredNameFlag(cmd, "name of the instance")
 	return cmd
 }
 
@@ -28,7 +27,7 @@ func RunStackpackListInstanceCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	name, err := cmd.Flags().GetString(NameFlag)
+	name, err := cmd.Flags().GetString(common.NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

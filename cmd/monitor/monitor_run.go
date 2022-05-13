@@ -21,9 +21,9 @@ func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Run a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand),
 	}
-	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
+
+	common.AddRequiredIDFlag(cmd, IDFlagUsage)
 	cmd.Flags().Bool(DryRunFlag, false, "do not save the states of the monitor run")
-	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
 
 	return cmd
 }
@@ -39,7 +39,7 @@ func RunMonitorRunCommand(
 		return common.NewCLIArgParseError(err)
 	}
 
-	identifier, err := cmd.Flags().GetString(IDFlag)
+	identifier, err := cmd.Flags().GetString(common.IDFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

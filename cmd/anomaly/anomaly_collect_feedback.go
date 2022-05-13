@@ -16,7 +16,6 @@ const (
 	StartTimeFlag = "start-time"
 	EndTimeFlag   = "end-time"
 	HistoryFlag   = "history"
-	FileFlag      = "file"
 )
 
 func AnomalyCollectFeedback(cli *di.Deps) *cobra.Command {
@@ -30,8 +29,7 @@ func AnomalyCollectFeedback(cli *di.Deps) *cobra.Command {
 	}
 	cmd.Flags().StringP(StartTimeFlag, "", "-7d", "start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
 	cmd.MarkFlagRequired(StartTimeFlag) //nolint:errcheck
-	cmd.Flags().StringP(FileFlag, "f", "", "path to output file")
-	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
+	common.AddRequiredFileFlag(cmd, "path to output file")
 	cmd.Flags().StringP(EndTimeFlag, "", "-0h", "end time of interval with anomalies")
 	cmd.Flags().StringP(HistoryFlag, "d", "1d", "length of metric data history preceding the anomaly")
 
@@ -61,7 +59,7 @@ func RunCollectFeedbackCommand(
 		return cliErr
 	}
 
-	filePath, err := cmd.Flags().GetString(FileFlag)
+	filePath, err := cmd.Flags().GetString(common.FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

@@ -19,8 +19,7 @@ func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand),
 	}
 
-	cmd.Flags().StringP(IDFlag, "i", "", IDFlag)
-	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
+	common.AddRequiredIDFlag(cmd, IDFlagUsage)
 
 	return cmd
 }
@@ -37,7 +36,7 @@ func RunMonitorStatusCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	identifier, err := cmd.Flags().GetString(IDFlag)
+	identifier, err := cmd.Flags().GetString(common.IDFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
