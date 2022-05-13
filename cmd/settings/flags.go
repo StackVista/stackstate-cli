@@ -1,7 +1,6 @@
 package settings
 
 const (
-	FileFlag             = "file"
 	TypeName             = "type"
 	Namespace            = "namespace"
 	OwnedBy              = "owned-by"

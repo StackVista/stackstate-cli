@@ -18,8 +18,8 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Apply a monitor with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand),
 	}
-	cmd.Flags().StringP(FileFlag, "f", "", FileFlagUsage)
-	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
+
+	common.AddRequiredFileFlag(cmd, FileFlagUsage)
 
 	return cmd
 }
@@ -30,7 +30,7 @@ func RunMonitorApplyCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	file, err := cmd.Flags().GetString(FileFlag)
+	file, err := cmd.Flags().GetString(common.FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

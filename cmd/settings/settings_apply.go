@@ -23,7 +23,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Apply saved settings with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),
 	}
-	cmd.Flags().StringP(FileFlag, "f", "", ".stj file to import")
+	common.AddRequiredFileFlag(cmd, ".stj file to import")
 	cmd.Flags().StringP(NamespaceFlag, "n", "", "name of the namespace to overwrite"+
 		" - WARNING this will overwrite the entire namespace")
 	cmd.Flags().String(
@@ -32,7 +32,6 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		"strategy to use when encountering unlocked settings when applying settings to a namespace"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in seconds")
-	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 
 	return cmd
 }
@@ -43,7 +42,7 @@ func RunSettingsApplyCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	filepath, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(common.FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

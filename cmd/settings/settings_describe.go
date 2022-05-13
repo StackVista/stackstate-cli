@@ -24,7 +24,7 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().String(Namespace, "", "namespace to describe")
 	cmd.Flags().StringSlice(TypeName, nil, "list of types to describe")
 	cmd.Flags().StringSlice(AllowReferences, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
-	cmd.Flags().StringP(FileFlag, "f", "", "path of the output file")
+	common.AddFileFlag(cmd, "path to the output file")
 	mutex_flags.MarkMutexFlags(cmd, []string{Ids, Namespace, TypeName}, "filter", true)
 
 	return cmd
@@ -52,7 +52,7 @@ func RunSettingsDescribeCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 		return common.NewCLIArgParseError(err)
 	}
 
-	filepath, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(common.FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

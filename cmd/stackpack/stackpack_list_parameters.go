@@ -17,8 +17,7 @@ func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List all parameters required for a StackPack's installation.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListParameterCommand),
 	}
-	cmd.Flags().String(NameFlag, "", "name of the StackPack")
-	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
+	common.AddRequiredNameFlag(cmd, "name of the StackPack")
 	return cmd
 }
 
@@ -28,7 +27,7 @@ func RunStackpackListParameterCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	name, err := cmd.Flags().GetString(NameFlag)
+	name, err := cmd.Flags().GetString(common.NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

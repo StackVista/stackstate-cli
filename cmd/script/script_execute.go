@@ -12,7 +12,6 @@ import (
 
 const (
 	ScriptFlag          = "script"
-	FileFlag            = "file"
 	TimeoutFlag         = "timeout"
 	ArgumentsScriptFlag = "arguments-script"
 )
@@ -35,8 +34,8 @@ func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
 		"an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map",
 	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
-	cmd.Flags().StringP(FileFlag, "f", "", "path to a file that contains the script to execute")
-	mutex_flags.MarkMutexFlags(cmd, []string{ScriptFlag, FileFlag}, "input", true)
+	common.AddFileFlag(cmd, "path to a file containing the script to execute")
+	mutex_flags.MarkMutexFlags(cmd, []string{ScriptFlag, common.FileFlag}, "input", true)
 
 	return cmd
 }
@@ -53,12 +52,12 @@ func RunScriptExecuteCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-	filepath, err := cmd.Flags().GetString(FileFlag)
+	filepath, err := cmd.Flags().GetString(common.FileFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
 
-	err = mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{ScriptFlag, FileFlag}, true)
+	err = mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{ScriptFlag, common.FileFlag}, true)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
