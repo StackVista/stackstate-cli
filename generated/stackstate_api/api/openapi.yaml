@@ -242,6 +242,38 @@ paths:
       summary: Provision API
       tags:
       - stackpack
+  /stackpack/{stackName}/confirm-manual-step/{stackId}:
+    post:
+      description: Confirm manual steps oof the stackpack
+      operationId: confirmManualSteps
+      parameters:
+      - in: path
+        name: stackName
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: stackId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: successful response
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Confirm manual steps
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system

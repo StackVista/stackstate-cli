@@ -4,10 +4,84 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ConfirmManualSteps**](StackpackApi.md#ConfirmManualSteps) | **Post** /stackpack/{stackName}/confirm-manual-step/{stackId} | Confirm manual steps
 [**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackName}/provision | Provision API
 [**StackpackList**](StackpackApi.md#StackpackList) | **Get** /stackpack | StackPack API
 [**StackpackUpload**](StackpackApi.md#StackpackUpload) | **Post** /stackpack | StackPack API
 
+
+
+## ConfirmManualSteps
+
+> string ConfirmManualSteps(ctx, stackName, stackId).Execute()
+
+Confirm manual steps
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackName := "stackName_example" // string | 
+    stackId := int64(789) // int64 | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.ConfirmManualSteps(context.Background(), stackName, stackId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ConfirmManualSteps``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ConfirmManualSteps`: string
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.ConfirmManualSteps`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackName** | **string** |  | 
+**stackId** | **int64** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiConfirmManualStepsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+**string**
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## ProvisionDetails
