@@ -7,6 +7,7 @@ Method | HTTP request | Description
 [**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackName}/provision | Provision API
 [**StackpackList**](StackpackApi.md#StackpackList) | **Get** /stackpack | StackPack API
 [**StackpackUpload**](StackpackApi.md#StackpackUpload) | **Post** /stackpack | StackPack API
+[**UpgradeStackPack**](StackpackApi.md#UpgradeStackPack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
 
 
 
@@ -202,6 +203,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: multipart/form-data
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpgradeStackPack
+
+> string UpgradeStackPack(ctx, stackName).Unlocked(unlocked).Execute()
+
+Upgrade API
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackName := "stackName_example" // string | 
+    unlocked := "unlocked_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.UpgradeStackPack(context.Background(), stackName).Unlocked(unlocked).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.UpgradeStackPack``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpgradeStackPack`: string
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.UpgradeStackPack`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpgradeStackPackRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **unlocked** | **string** |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

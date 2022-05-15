@@ -117,6 +117,7 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
+*StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams

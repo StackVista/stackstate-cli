@@ -242,6 +242,38 @@ paths:
       summary: Provision API
       tags:
       - stackpack
+  /stackpack/{stackName}/upgrade:
+    post:
+      description: Upgrade stackpack
+      operationId: upgradeStackPack
+      parameters:
+      - in: path
+        name: stackName
+        required: true
+        schema:
+          type: string
+      - allowReserved: true
+        in: query
+        name: unlocked
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: successful
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Upgrade API
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system

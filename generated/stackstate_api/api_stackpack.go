@@ -66,6 +66,21 @@ type StackpackApi interface {
 	// StackpackUploadExecute executes the request
 	//  @return StackPack
 	StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error)
+
+	/*
+	UpgradeStackPack Upgrade API
+
+	Upgrade stackpack
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackName
+	@return ApiUpgradeStackPackRequest
+	*/
+	UpgradeStackPack(ctx context.Context, stackName string) ApiUpgradeStackPackRequest
+
+	// UpgradeStackPackExecute executes the request
+	//  @return string
+	UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error)
 }
 
 // StackpackApiService StackpackApi service
@@ -492,6 +507,142 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiUpgradeStackPackRequest struct {
+	ctx context.Context
+	ApiService StackpackApi
+	stackName string
+	unlocked *string
+}
+
+func (r ApiUpgradeStackPackRequest) Unlocked(unlocked string) ApiUpgradeStackPackRequest {
+	r.unlocked = &unlocked
+	return r
+}
+
+func (r ApiUpgradeStackPackRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.UpgradeStackPackExecute(r)
+}
+
+/*
+UpgradeStackPack Upgrade API
+
+Upgrade stackpack
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param stackName
+ @return ApiUpgradeStackPackRequest
+*/
+func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackName string) ApiUpgradeStackPackRequest {
+	return ApiUpgradeStackPackRequest{
+		ApiService: a,
+		ctx: ctx,
+		stackName: stackName,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.UpgradeStackPack")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/{stackName}/upgrade"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.unlocked == nil {
+		return localVarReturnValue, nil, reportError("unlocked is required and must be specified")
+	}
+
+	localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
@@ -505,16 +656,20 @@ type StackpackApiMock struct {
 	StackpackListResponse StackpackListMockResponse
 	StackpackUploadCalls *[]StackpackUploadCall
 	StackpackUploadResponse StackpackUploadMockResponse
+	UpgradeStackPackCalls *[]UpgradeStackPackCall
+	UpgradeStackPackResponse UpgradeStackPackMockResponse
 }	
 
 func NewStackpackApiMock() StackpackApiMock {
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
 	xStackpackListCalls := make([]StackpackListCall, 0)
 	xStackpackUploadCalls := make([]StackpackUploadCall, 0)
+	xUpgradeStackPackCalls := make([]UpgradeStackPackCall, 0)
 	return StackpackApiMock {
 		ProvisionDetailsCalls: &xProvisionDetailsCalls,
 		StackpackListCalls: &xStackpackListCalls,
 		StackpackUploadCalls: &xStackpackUploadCalls,
+		UpgradeStackPackCalls: &xUpgradeStackPackCalls,
 	}
 }
 
@@ -595,6 +750,35 @@ func (mock StackpackApiMock) StackpackUploadExecute(r ApiStackpackUploadRequest)
 	}
 	*mock.StackpackUploadCalls = append(*mock.StackpackUploadCalls, p)
 	return &mock.StackpackUploadResponse.Result, mock.StackpackUploadResponse.Response, mock.StackpackUploadResponse.Error
+}
+
+type UpgradeStackPackMockResponse struct {
+	Result string
+	Response *http.Response
+	Error error
+}
+
+type UpgradeStackPackCall struct {
+	PstackName string
+	Punlocked *string
+}
+
+
+func (mock StackpackApiMock) UpgradeStackPack(ctx context.Context, stackName string) ApiUpgradeStackPackRequest {
+	return ApiUpgradeStackPackRequest{
+		ApiService: mock,
+		ctx: ctx,
+		stackName: stackName,
+	}
+}
+
+func (mock StackpackApiMock) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
+	p := UpgradeStackPackCall {
+			PstackName: r.stackName,
+			Punlocked: r.unlocked,
+	}
+	*mock.UpgradeStackPackCalls = append(*mock.UpgradeStackPackCalls, p)
+	return mock.UpgradeStackPackResponse.Result, mock.UpgradeStackPackResponse.Response, mock.UpgradeStackPackResponse.Error
 }
 
 
