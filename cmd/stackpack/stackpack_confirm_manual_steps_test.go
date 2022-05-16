@@ -32,7 +32,9 @@ func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
 		"--id", "1234", "--json",
 	)
 	expectedJsonCalls := []map[string]interface{}{{
-		"confirm-manual-steps": "confirmation of manual steps of the provisioning StackPack Name: zabbix StackPack Id: 1234",
+		"success":               true,
+		"stackpack-name":        "zabbix",
+		"stackpack-instance-id": int64(1234),
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 }

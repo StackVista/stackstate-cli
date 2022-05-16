@@ -42,7 +42,9 @@ func RunStackpackConfirmManualStepsCommand(
 	}
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"confirm-manual-steps": fmt.Sprintf("confirmation of manual steps of the provisioning StackPack Name: %s StackPack Id: %d", name, id),
+			"success":               true,
+			"stackpack-name":        name,
+			"stackpack-instance-id": id,
 		})
 	} else {
 		cli.Printer.Success(fmt.Sprintf("confirmation of manual steps of the provisioning StackPack Name: %s StackPack Id: %d", name, id))
