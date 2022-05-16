@@ -3,6 +3,8 @@ package stackpack
 import (
 	"testing"
 
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
@@ -24,6 +26,13 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 	assert.Equal(t,
 		[]string{"confirmation of manual steps of the provisioning StackPack Name: zabbix StackPack Id: 1234"},
 		*cli.MockPrinter.SuccessCalls)
+	assert.Equal(t,
+		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,
+		[]stackstate_api.ConfirmManualStepsCall{{
+			PstackpackName:       name,
+			PstackpackInstanceId: int64(1234),
+		}},
+	)
 }
 
 func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
@@ -37,4 +46,11 @@ func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
 		"stackpack-instance-id": int64(1234),
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t,
+		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,
+		[]stackstate_api.ConfirmManualStepsCall{{
+			PstackpackName:       name,
+			PstackpackInstanceId: int64(1234),
+		}},
+	)
 }
