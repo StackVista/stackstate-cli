@@ -16,10 +16,10 @@ func StackpackUninstallCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Uninstall StackPack instances by id.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUninstallCommand),
 	}
-	cmd.Flags().String(NameFlag, "", "name of the StackPack")
+	cmd.Flags().String(common.NameFlag, "", "name of the StackPack")
 	cmd.Flags().Int64(IdFlag, 0, "id of the StackPack instance")
-	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
-	cmd.MarkFlagRequired(IdFlag)   //nolint:errcheck
+	cmd.MarkFlagRequired(common.NameFlag) //nolint:errcheck
+	cmd.MarkFlagRequired(IdFlag)          //nolint:errcheck
 	return cmd
 }
 
@@ -29,7 +29,7 @@ func RunStackpackUninstallCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	name, err := cmd.Flags().GetString(NameFlag)
+	name, err := cmd.Flags().GetString(common.NameFlag)
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}

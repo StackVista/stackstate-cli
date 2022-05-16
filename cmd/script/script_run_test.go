@@ -17,7 +17,7 @@ import (
 
 func setupScriptExecuteCmd() (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps()
-	cmd := ScriptExecuteCommand(&cli.Deps)
+	cmd := ScriptRunCommand(&cli.Deps)
 	return &cli, cmd
 }
 
