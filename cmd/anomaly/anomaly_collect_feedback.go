@@ -27,11 +27,11 @@ func AnomalyCollectFeedback(cli *di.Deps) *cobra.Command {
 			`sts anomaly collect --start-time -8d --history 2d --file anomaly-feedback.json`,
 		RunE: cli.CmdRunEWithApi(RunCollectFeedbackCommand),
 	}
-	cmd.Flags().StringP(StartTimeFlag, "", "-7d", "start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
+	cmd.Flags().String(StartTimeFlag, "-7d", "start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
 	cmd.MarkFlagRequired(StartTimeFlag) //nolint:errcheck
 	common.AddRequiredFileFlag(cmd, "path to output file")
-	cmd.Flags().StringP(EndTimeFlag, "", "-0h", "end time of interval with anomalies")
-	cmd.Flags().StringP(HistoryFlag, "d", "1d", "length of metric data history preceding the anomaly")
+	cmd.Flags().String(EndTimeFlag, "-0h", "end time of interval with anomalies")
+	cmd.Flags().String(HistoryFlag, "1d", "length of metric data history preceding the anomaly")
 
 	return cmd
 }
