@@ -16,7 +16,7 @@ func StackpackUninstallCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Uninstall StackPack instances by id.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUninstallCommand),
 	}
-	cmd.Flags().Int64(IdFlag, 0, "id of the StackPack instance")
+	cmd.Flags().Int64P(IdFlag, common.IDFlagShort, 0, "id of the StackPack instance")
 	common.AddRequiredNameFlag(cmd, "name of the StackPack")
 	cmd.MarkFlagRequired(IdFlag) //nolint:errcheck
 	return cmd

@@ -24,7 +24,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand),
 	}
 	common.AddRequiredFileFlag(cmd, ".stj file to import")
-	cmd.Flags().StringP(NamespaceFlag, "n", "", "name of the namespace to overwrite"+
+	cmd.Flags().String(NamespaceFlag, "", "name of the namespace to overwrite"+
 		" - WARNING this will overwrite the entire namespace")
 	cmd.Flags().String(
 		UnlockedStrategyFlag,

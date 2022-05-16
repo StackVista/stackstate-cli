@@ -46,7 +46,7 @@ func TestStackpackListParameterPrintToTable(t *testing.T) {
 		{
 			Header:              []string{"name", "display name", "type"},
 			Data:                [][]interface{}{{&stepName, &stepDisplayName, &stepType}},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack %s does not exist", parameterName)},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack \"%s\"", parameterName)},
 		},
 	}
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)

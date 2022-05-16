@@ -21,7 +21,7 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 		Short: "save CLI configuration",
 		Long:  "Save the configuration of this CLI to disk.",
 		Example: "# save a new API token to the config file" +
-			`sts cli save-config --url "https://my.stackstate.com --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4"`,
+			`sts cli-config save --url "https://my.stackstate.com --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4"`,
 		RunE: cli.CmdRunE(RunSave),
 	}
 	cmd.Flags().Bool(
@@ -35,11 +35,11 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	// get required --api-url and --api-token
-	apiURL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
+	// get required --url and --api-token
+	URL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.APITokenFlag)
 	missing := make([]string, 0)
-	if apiURL == "" || missingApiURL != nil {
+	if URL == "" || missingApiURL != nil {
 		missing = append(missing, common.URLFlag)
 	}
 	if apiToken == "" || missingApiToken != nil {
@@ -56,7 +56,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 
 	// set config
 	cli.Config = &conf.Conf{
-		URL:      apiURL,
+		URL:      URL,
 		ApiToken: apiToken,
 		ApiPath:  apiPath,
 	}
@@ -70,7 +70,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// test connect
 	if !skipValidate {
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, apiURL, apiPath, apiToken)
+			err := cli.LoadClient(cmd, URL, apiPath, apiToken)
 			if err != nil {
 				return err
 			}
@@ -82,7 +82,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		}
 
 		if !cli.IsJson {
-			PrintConnectionSuccess(cli.Printer, apiURL, serverInfo)
+			PrintConnectionSuccess(cli.Printer, URL, serverInfo)
 		}
 	}
 

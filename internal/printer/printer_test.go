@@ -16,7 +16,7 @@ import (
 
 func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	var stdOut, stdErr bytes.Buffer
-	p := newStdPrinter("linux", &stdOut, &stdErr)
+	p := NewStdPrinter("linux", &stdOut, &stdErr)
 	return p, &stdOut, &stdErr
 }
 
@@ -40,14 +40,14 @@ func TestPrintErrWithColorIsDefault(t *testing.T) {
 	assert.Equal(t, true, p.GetUseColor())
 
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "\u274C \x1b[31mTest\x1b[0m\n", stdErr.String())
+	assert.Equal(t, "\u274C Test\n", stdErr.String())
 }
 
 func TestPrintWithoutSymbolButWithColorOnWindows(t *testing.T) {
 	var stdOut, stdErr bytes.Buffer
-	p := newStdPrinter("windows", &stdOut, &stdErr)
+	p := NewStdPrinter("windows", &stdOut, &stdErr)
 	p.PrintErr(fmt.Errorf("test"))
-	assert.Equal(t, "\x1b[31m[ERROR]\x1b[0m \x1b[31mTest\x1b[0m\n", stdErr.String())
+	assert.Equal(t, "\x1b[31m[ERROR]\x1b[0m Test\n", stdErr.String())
 }
 
 func TestPrintStructAsJsonWithoutColor(t *testing.T) {
@@ -143,8 +143,7 @@ func TestPrintCLIErrorWith503WithColor(t *testing.T) {
 	}
 	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
 
-	expected := "\u274C \x1b[31m503 Service Unavailable\x1b[0m\n" +
-		"\x1b[1m\x1b[31mhello\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mworld\x1b[0m\n"
+	expected := "\u274C 503 Service Unavailable\n\x1b[1m\x1b[31mhello\x1b[0m\x1b[1m\x1b[37m:\x1b[0m\x1b[1m\x1b[37m \x1b[0m\x1b[33mworld\x1b[0m\n"
 	assert.Equal(t, expected, stdErr.String())
 }
 
@@ -176,7 +175,7 @@ func TestPrintCLIErrorWithNilResponseWithColor(t *testing.T) {
 	var buf bytes.Buffer
 	p.stdErr = &buf
 	p.PrintErr(common.NewResponseError(fmt.Errorf("hello world"), nil))
-	expected := "\u274C \x1b[31mHello world\x1b[0m\n"
+	expected := "\u274C Hello world\n"
 	assert.Equal(t, expected, buf.String())
 }
 

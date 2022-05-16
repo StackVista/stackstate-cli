@@ -55,7 +55,7 @@ func RunStackpackListParameterCommand(
 		cli.Printer.Table(printer.TableData{
 			Header:              []string{"name", "display name", "type"},
 			Data:                data,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack %s does not exist", name)},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack \"%s\"", name)},
 		})
 	}
 	return nil

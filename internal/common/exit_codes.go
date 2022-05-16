@@ -10,4 +10,5 @@ const (
 	ConnectErrorExitCode
 	ReadFileErrorExitCode
 	WriteFileErrorExitCode
+	UnknownSubCommmandExitCode
 )

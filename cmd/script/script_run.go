@@ -16,31 +16,31 @@ const (
 	ArgumentsScriptFlag = "arguments-script"
 )
 
-func ScriptExecuteCommand(cli *di.Deps) *cobra.Command {
+func ScriptRunCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "execute {--script SCRIPT | -f FILE}",
-		Short: "execute an STSL script",
-		Long:  "Execute an STSL script.",
-		Example: "# execute a script from file\n" +
-			"sts execute --file \"path/to/my.script\"\n" +
+		Use:   "run",
+		Short: "run a STSL script",
+		Long:  "Run an STSL script.",
+		Example: "# run a script from file\n" +
+			"sts script run --file \"path/to/my.script\"\n" +
 			"\n" +
-			"# execute a script with variables provided by an arguments-script\n" +
-			"sts execute --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
-		RunE: cli.CmdRunEWithApi(RunScriptExecuteCommand),
+			"# run a script with variables provided by an arguments-script\n" +
+			"sts script run --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
+		RunE: cli.CmdRunEWithApi(RunScriptRunCommand),
 	}
 
-	cmd.Flags().String(ScriptFlag, "", "a script to execute")
+	cmd.Flags().String(ScriptFlag, "", "a script to run")
 	cmd.Flags().String(ArgumentsScriptFlag, "",
 		"an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map",
 	)
 	cmd.Flags().IntP(TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
-	common.AddFileFlag(cmd, "path to a file containing the script to execute")
+	common.AddFileFlag(cmd, "path to a file containing the script to run")
 	mutex_flags.MarkMutexFlags(cmd, []string{ScriptFlag, common.FileFlag}, "input", true)
 
 	return cmd
 }
 
-func RunScriptExecuteCommand(
+func RunScriptRunCommand(
 	cmd *cobra.Command,
 	cli *di.Deps,
 	api *stackstate_api.APIClient,
