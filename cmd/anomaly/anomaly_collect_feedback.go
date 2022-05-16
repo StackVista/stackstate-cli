@@ -64,7 +64,8 @@ func RunCollectFeedbackCommand(
 		return common.NewCLIArgParseError(err)
 	}
 
-	anomalies, resp, err := api.AnomalyFeedbackApi.CollectAnomalyFeedback(cli.Context).
+	anomalies, resp, err := api.ExportAnomalyApi.ExportAnomaly(cli.Context).
+		Feedback("present").
 		StartTime(startTime.UnixMilli()).
 		EndTime(endTime.UnixMilli()).
 		History(history.Milliseconds()).

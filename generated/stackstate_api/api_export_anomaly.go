@@ -20,90 +20,99 @@ import (
 )
 
 
-type AnomalyFeedbackApi interface {
+type ExportAnomalyApi interface {
 
 	/*
-	CollectAnomalyFeedback Collect feedback on anomalies
+	ExportAnomaly Export anomalies with metric history and feedback
 
 	
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCollectAnomalyFeedbackRequest
+	@return ApiExportAnomalyRequest
 	*/
-	CollectAnomalyFeedback(ctx context.Context) ApiCollectAnomalyFeedbackRequest
+	ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest
 
-	// CollectAnomalyFeedbackExecute executes the request
-	//  @return []FeedbackWithContext
-	CollectAnomalyFeedbackExecute(r ApiCollectAnomalyFeedbackRequest) ([]FeedbackWithContext, *http.Response, error)
+	// ExportAnomalyExecute executes the request
+	//  @return []AnomalyWithContext
+	ExportAnomalyExecute(r ApiExportAnomalyRequest) ([]AnomalyWithContext, *http.Response, error)
 }
 
-// AnomalyFeedbackApiService AnomalyFeedbackApi service
-type AnomalyFeedbackApiService service
+// ExportAnomalyApiService ExportAnomalyApi service
+type ExportAnomalyApiService service
 
-type ApiCollectAnomalyFeedbackRequest struct {
+type ApiExportAnomalyRequest struct {
 	ctx context.Context
-	ApiService AnomalyFeedbackApi
+	ApiService ExportAnomalyApi
 	startTime *int64
+	feedback *string
 	endTime *int64
 	history *int64
 }
 
-func (r ApiCollectAnomalyFeedbackRequest) StartTime(startTime int64) ApiCollectAnomalyFeedbackRequest {
+func (r ApiExportAnomalyRequest) StartTime(startTime int64) ApiExportAnomalyRequest {
 	r.startTime = &startTime
 	return r
 }
 
-func (r ApiCollectAnomalyFeedbackRequest) EndTime(endTime int64) ApiCollectAnomalyFeedbackRequest {
+func (r ApiExportAnomalyRequest) Feedback(feedback string) ApiExportAnomalyRequest {
+	r.feedback = &feedback
+	return r
+}
+
+func (r ApiExportAnomalyRequest) EndTime(endTime int64) ApiExportAnomalyRequest {
 	r.endTime = &endTime
 	return r
 }
 
-func (r ApiCollectAnomalyFeedbackRequest) History(history int64) ApiCollectAnomalyFeedbackRequest {
+func (r ApiExportAnomalyRequest) History(history int64) ApiExportAnomalyRequest {
 	r.history = &history
 	return r
 }
 
-func (r ApiCollectAnomalyFeedbackRequest) Execute() ([]FeedbackWithContext, *http.Response, error) {
-	return r.ApiService.CollectAnomalyFeedbackExecute(r)
+func (r ApiExportAnomalyRequest) Execute() ([]AnomalyWithContext, *http.Response, error) {
+	return r.ApiService.ExportAnomalyExecute(r)
 }
 
 /*
-CollectAnomalyFeedback Collect feedback on anomalies
+ExportAnomaly Export anomalies with metric history and feedback
 
 
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCollectAnomalyFeedbackRequest
+ @return ApiExportAnomalyRequest
 */
-func (a *AnomalyFeedbackApiService) CollectAnomalyFeedback(ctx context.Context) ApiCollectAnomalyFeedbackRequest {
-	return ApiCollectAnomalyFeedbackRequest{
+func (a *ExportAnomalyApiService) ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest {
+	return ApiExportAnomalyRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []FeedbackWithContext
-func (a *AnomalyFeedbackApiService) CollectAnomalyFeedbackExecute(r ApiCollectAnomalyFeedbackRequest) ([]FeedbackWithContext, *http.Response, error) {
+//  @return []AnomalyWithContext
+func (a *ExportAnomalyApiService) ExportAnomalyExecute(r ApiExportAnomalyRequest) ([]AnomalyWithContext, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  []FeedbackWithContext
+		localVarReturnValue  []AnomalyWithContext
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "AnomalyFeedbackApiService.CollectAnomalyFeedback")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExportAnomalyApiService.ExportAnomaly")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/anomaly-feedback"
+	localVarPath := localBasePath + "/anomalies/export"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.startTime == nil {
 		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
+	}
+	if r.feedback == nil {
+		return localVarReturnValue, nil, reportError("feedback is required and must be specified")
 	}
 
 	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
@@ -113,6 +122,7 @@ func (a *AnomalyFeedbackApiService) CollectAnomalyFeedbackExecute(r ApiCollectAn
 	if r.history != nil {
 		localVarQueryParams.Add("history", parameterToString(*r.history, ""))
 	}
+	localVarQueryParams.Add("feedback", parameterToString(*r.feedback, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -166,6 +176,16 @@ func (a *AnomalyFeedbackApiService) CollectAnomalyFeedbackExecute(r ApiCollectAn
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 413 {
+			var v TooManyAnomaliesError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -196,46 +216,48 @@ func (a *AnomalyFeedbackApiService) CollectAnomalyFeedbackExecute(r ApiCollectAn
 // ---------------------------------------------
 
 
-type AnomalyFeedbackApiMock struct {
-	CollectAnomalyFeedbackCalls *[]CollectAnomalyFeedbackCall
-	CollectAnomalyFeedbackResponse CollectAnomalyFeedbackMockResponse
+type ExportAnomalyApiMock struct {
+	ExportAnomalyCalls *[]ExportAnomalyCall
+	ExportAnomalyResponse ExportAnomalyMockResponse
 }	
 
-func NewAnomalyFeedbackApiMock() AnomalyFeedbackApiMock {
-	xCollectAnomalyFeedbackCalls := make([]CollectAnomalyFeedbackCall, 0)
-	return AnomalyFeedbackApiMock {
-		CollectAnomalyFeedbackCalls: &xCollectAnomalyFeedbackCalls,
+func NewExportAnomalyApiMock() ExportAnomalyApiMock {
+	xExportAnomalyCalls := make([]ExportAnomalyCall, 0)
+	return ExportAnomalyApiMock {
+		ExportAnomalyCalls: &xExportAnomalyCalls,
 	}
 }
 
-type CollectAnomalyFeedbackMockResponse struct {
-	Result []FeedbackWithContext
+type ExportAnomalyMockResponse struct {
+	Result []AnomalyWithContext
 	Response *http.Response
 	Error error
 }
 
-type CollectAnomalyFeedbackCall struct {
+type ExportAnomalyCall struct {
 	PstartTime *int64
+	Pfeedback *string
 	PendTime *int64
 	Phistory *int64
 }
 
 
-func (mock AnomalyFeedbackApiMock) CollectAnomalyFeedback(ctx context.Context) ApiCollectAnomalyFeedbackRequest {
-	return ApiCollectAnomalyFeedbackRequest{
+func (mock ExportAnomalyApiMock) ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest {
+	return ApiExportAnomalyRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock AnomalyFeedbackApiMock) CollectAnomalyFeedbackExecute(r ApiCollectAnomalyFeedbackRequest) ([]FeedbackWithContext, *http.Response, error) {
-	p := CollectAnomalyFeedbackCall {
+func (mock ExportAnomalyApiMock) ExportAnomalyExecute(r ApiExportAnomalyRequest) ([]AnomalyWithContext, *http.Response, error) {
+	p := ExportAnomalyCall {
 			PstartTime: r.startTime,
+			Pfeedback: r.feedback,
 			PendTime: r.endTime,
 			Phistory: r.history,
 	}
-	*mock.CollectAnomalyFeedbackCalls = append(*mock.CollectAnomalyFeedbackCalls, p)
-	return mock.CollectAnomalyFeedbackResponse.Result, mock.CollectAnomalyFeedbackResponse.Response, mock.CollectAnomalyFeedbackResponse.Error
+	*mock.ExportAnomalyCalls = append(*mock.ExportAnomalyCalls, p)
+	return mock.ExportAnomalyResponse.Result, mock.ExportAnomalyResponse.Response, mock.ExportAnomalyResponse.Error
 }
 
 

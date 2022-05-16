@@ -1,18 +1,18 @@
-# \AnomalyFeedbackApi
+# \ExportAnomalyApi
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CollectAnomalyFeedback**](AnomalyFeedbackApi.md#CollectAnomalyFeedback) | **Get** /anomaly-feedback | Collect feedback on anomalies
+[**ExportAnomaly**](ExportAnomalyApi.md#ExportAnomaly) | **Get** /anomalies/export | Export anomalies with metric history and feedback
 
 
 
-## CollectAnomalyFeedback
+## ExportAnomaly
 
-> []FeedbackWithContext CollectAnomalyFeedback(ctx).StartTime(startTime).EndTime(endTime).History(history).Execute()
+> []AnomalyWithContext ExportAnomaly(ctx).StartTime(startTime).Feedback(feedback).EndTime(endTime).History(history).Execute()
 
-Collect feedback on anomalies
+Export anomalies with metric history and feedback
 
 
 
@@ -30,18 +30,19 @@ import (
 
 func main() {
     startTime := int64(789) // int64 | 
+    feedback := "feedback_example" // string | 
     endTime := int64(789) // int64 |  (optional)
     history := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AnomalyFeedbackApi.CollectAnomalyFeedback(context.Background()).StartTime(startTime).EndTime(endTime).History(history).Execute()
+    resp, r, err := apiClient.ExportAnomalyApi.ExportAnomaly(context.Background()).StartTime(startTime).Feedback(feedback).EndTime(endTime).History(history).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AnomalyFeedbackApi.CollectAnomalyFeedback``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ExportAnomalyApi.ExportAnomaly``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `CollectAnomalyFeedback`: []FeedbackWithContext
-    fmt.Fprintf(os.Stdout, "Response from `AnomalyFeedbackApi.CollectAnomalyFeedback`: %v\n", resp)
+    // response from `ExportAnomaly`: []AnomalyWithContext
+    fmt.Fprintf(os.Stdout, "Response from `ExportAnomalyApi.ExportAnomaly`: %v\n", resp)
 }
 ```
 
@@ -51,18 +52,19 @@ func main() {
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiCollectAnomalyFeedbackRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiExportAnomalyRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **startTime** | **int64** |  | 
+ **feedback** | **string** |  | 
  **endTime** | **int64** |  | 
  **history** | **int64** |  | 
 
 ### Return type
 
-[**[]FeedbackWithContext**](FeedbackWithContext.md)
+[**[]AnomalyWithContext**](AnomalyWithContext.md)
 
 ### Authorization
 
