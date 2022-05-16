@@ -112,7 +112,7 @@ func ToString(x interface{}) string {
 			return fmt.Sprintf("%g", v)
 		}
 	case time.Time:
-		return TimeToString(v)
+		return v.Format("Mon Jan 2 15:04:05 2006 MST")
 	default:
 		return fmt.Sprintf("%v", v)
 	}

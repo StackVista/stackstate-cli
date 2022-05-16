@@ -34,8 +34,12 @@ func TestToString(t *testing.T) {
 	ui64 := uint64(42)
 	f32 := float32(3.14)
 	f64 := float32(3.14)
-	tme := time.UnixMilli(0)
+	unixEpoch := time.UnixMilli(0).In(time.UTC)
 	str := "hello world"
+	EST, err := time.LoadLocation("EST")
+	if err != nil {
+		t.Fatal(err)
+	}
 
 	tests := map[string]struct {
 		input    interface{}
@@ -71,8 +75,9 @@ func TestToString(t *testing.T) {
 		"not a number":      {input: math.NaN(), expected: "NaN"},
 		"nil":               {input: nil, expected: "-"},
 		"float32 nil":       {input: f32nil, expected: "-"},
-		"time":              {input: time.UnixMilli(0), expected: "Thu Jan 1 01:00:00 1970 CET"},
-		"ptime":             {input: &tme, expected: "Thu Jan 1 01:00:00 1970 CET"},
+		"time":              {input: unixEpoch, expected: "Thu Jan 1 00:00:00 1970 UTC"},
+		"time 2":            {input: time.Date(2022, time.May, 16, 21, 03, 0, 0, EST), expected: "Mon May 16 21:03:00 2022 EST"},
+		"ptime":             {input: &unixEpoch, expected: "Thu Jan 1 00:00:00 1970 UTC"},
 		"map nil":           {input: mapnil, expected: "-"},
 		"str nil":           {input: strnil, expected: "-"},
 		"slice nil":         {input: slicenil, expected: "-"},
