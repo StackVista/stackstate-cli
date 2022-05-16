@@ -1,8 +1,6 @@
 package stackpack
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -55,7 +53,7 @@ func RunStackpackListParameterCommand(
 		cli.Printer.Table(printer.TableData{
 			Header:              []string{"name", "display name", "type"},
 			Data:                data,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack %s does not exist", name)},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPack " + name},
 		})
 	}
 	return nil
