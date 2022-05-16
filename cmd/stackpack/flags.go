@@ -4,4 +4,5 @@ const (
 	InstalledFlag = "installed"
 	ParameterFlag = "parameter"
 	IdFlag        = "id"
+	NameFlag      = "name"
 )

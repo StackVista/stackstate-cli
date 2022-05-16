@@ -61,16 +61,16 @@ func RunMonitorStatusCommand(
 		})
 	} else {
 		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.Status.MonitorHealthStateStateCount))
-		if monitorStatus.Status.HasErrors() {
-			PrintErrors(cli, monitorStatus.Status.GetErrors())
+		cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.MonitorHealthStateStateCount))
+		if monitorStatus.HasErrors() {
+			PrintErrors(cli, monitorStatus.GetErrors())
 		}
 
 		metricsData := make([][]interface{}, 0)
-		bucketSizeS := monitorStatus.Status.GetMetrics().HealthStreamMetrics.BucketSizeSeconds
+		bucketSizeS := monitorStatus.GetMetrics().HealthSyncServiceMetrics.BucketSizeSeconds
 		bucketSizeSDouble := bucketSizeS * TWO
 		bucketSizeSTriple := bucketSizeS * THREE
-		metrics := monitorStatus.Status.GetMetrics().HealthStreamMetrics
+		metrics := monitorStatus.GetMetrics().HealthSyncServiceMetrics
 		metricsData = append(metricsData, CreateMetricRows("latency (Seconds)", metrics.GetLatencySeconds()))
 		metricsData = append(metricsData, CreateMetricRows("messages processed (per second)", metrics.GetMessagePerSecond()))
 		metricsData = append(metricsData, CreateMetricRows("monitor health states created (per second)", metrics.GetCreatesPerSecond()))
@@ -104,7 +104,7 @@ func RunMonitorStatusCommand(
 }
 
 func PrintErrors(cli *di.Deps,
-	errors []stackstate_api.MonitorStreamError,
+	errors []stackstate_api.MonitorError,
 ) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Monitor Stream errors:")

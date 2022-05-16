@@ -22,26 +22,24 @@ var (
 		IntervalSeconds: 2,
 	}
 	monitorHealthStateCount int32 = 10
-	error        = sts.MonitorStreamError{
+	error        = sts.MonitorError{
 		Error:     "Error",
 		Count:     11,
 	}
-	metrics = sts.MonitorStreamMetrics{
-		HealthStreamMetrics: sts.HealthStreamMetrics{},
+	metrics = sts.MonitorMetrics{
+		HealthSyncServiceMetrics: sts.HealthStreamMetrics{},
 	}
 	topologyMatchResult = sts.TopologyMatchResult{
 		MatchedCheckStates:         0,
 		UnmatchedCheckStates:       nil,
 		MultipleMatchesCheckStates: nil,
 	}
-	monitorStreamStatus = sts.MonitorStreamStatus{
-		Errors: []sts.MonitorStreamError{ error },
-		Metrics: metrics,
-		MonitorHealthStateStateCount: monitorHealthStateCount,
-	}
+
 	monitorStatusResult = &sts.MonitorStatus{
 		Monitor:             monitor,
-		Status:              monitorStreamStatus,
+		Errors: []sts.MonitorError{ error },
+		Metrics: metrics,
+		MonitorHealthStateStateCount: monitorHealthStateCount,
 		TopologyMatchResult: topologyMatchResult,
 	}
 )

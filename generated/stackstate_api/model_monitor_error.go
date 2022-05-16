@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// MonitorStreamError struct for MonitorStreamError
-type MonitorStreamError struct {
+// MonitorError struct for MonitorError
+type MonitorError struct {
 	Error string `json:"error"`
 	Count int32 `json:"count"`
 }
 
-// NewMonitorStreamError instantiates a new MonitorStreamError object
+// NewMonitorError instantiates a new MonitorError object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStreamError(error_ string, count int32) *MonitorStreamError {
-	this := MonitorStreamError{}
+func NewMonitorError(error_ string, count int32) *MonitorError {
+	this := MonitorError{}
 	this.Error = error_
 	this.Count = count
 	return &this
 }
 
-// NewMonitorStreamErrorWithDefaults instantiates a new MonitorStreamError object
+// NewMonitorErrorWithDefaults instantiates a new MonitorError object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewMonitorStreamErrorWithDefaults() *MonitorStreamError {
-	this := MonitorStreamError{}
+func NewMonitorErrorWithDefaults() *MonitorError {
+	this := MonitorError{}
 	return &this
 }
 
 // GetError returns the Error field value
-func (o *MonitorStreamError) GetError() string {
+func (o *MonitorError) GetError() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *MonitorStreamError) GetError() string {
 
 // GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStreamError) GetErrorOk() (*string, bool) {
+func (o *MonitorError) GetErrorOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *MonitorStreamError) GetErrorOk() (*string, bool) {
 }
 
 // SetError sets field value
-func (o *MonitorStreamError) SetError(v string) {
+func (o *MonitorError) SetError(v string) {
 	o.Error = v
 }
 
 // GetCount returns the Count field value
-func (o *MonitorStreamError) GetCount() int32 {
+func (o *MonitorError) GetCount() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -76,7 +76,7 @@ func (o *MonitorStreamError) GetCount() int32 {
 
 // GetCountOk returns a tuple with the Count field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStreamError) GetCountOk() (*int32, bool) {
+func (o *MonitorError) GetCountOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,11 +84,11 @@ func (o *MonitorStreamError) GetCountOk() (*int32, bool) {
 }
 
 // SetCount sets field value
-func (o *MonitorStreamError) SetCount(v int32) {
+func (o *MonitorError) SetCount(v int32) {
 	o.Count = v
 }
 
-func (o MonitorStreamError) MarshalJSON() ([]byte, error) {
+func (o MonitorError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["error"] = o.Error
@@ -99,38 +99,38 @@ func (o MonitorStreamError) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableMonitorStreamError struct {
-	value *MonitorStreamError
+type NullableMonitorError struct {
+	value *MonitorError
 	isSet bool
 }
 
-func (v NullableMonitorStreamError) Get() *MonitorStreamError {
+func (v NullableMonitorError) Get() *MonitorError {
 	return v.value
 }
 
-func (v *NullableMonitorStreamError) Set(val *MonitorStreamError) {
+func (v *NullableMonitorError) Set(val *MonitorError) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableMonitorStreamError) IsSet() bool {
+func (v NullableMonitorError) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableMonitorStreamError) Unset() {
+func (v *NullableMonitorError) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableMonitorStreamError(val *MonitorStreamError) *NullableMonitorStreamError {
-	return &NullableMonitorStreamError{value: val, isSet: true}
+func NewNullableMonitorError(val *MonitorError) *NullableMonitorError {
+	return &NullableMonitorError{value: val, isSet: true}
 }
 
-func (v NullableMonitorStreamError) MarshalJSON() ([]byte, error) {
+func (v NullableMonitorError) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableMonitorStreamError) UnmarshalJSON(src []byte) error {
+func (v *NullableMonitorError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

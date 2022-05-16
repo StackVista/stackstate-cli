@@ -242,6 +242,46 @@ paths:
       summary: Provision API
       tags:
       - stackpack
+  /stackpack/{stackName}/deprovision/{stackId}:
+    post:
+      description: Provision details
+      operationId: provisionUninstall
+      parameters:
+      - in: path
+        name: stackName
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: stackId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: successfully uninstalled
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Provision API
+      tags:
+      - stackpack
   /monitors:
     get:
       description: List all available monitor in the system
@@ -2255,61 +2295,8 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
-        topologyMatchResult:
-          unmatchedCheckStates:
-          - topologyElementIdentifier: topologyElementIdentifier
-            checkStateId: checkStateId
-          - topologyElementIdentifier: topologyElementIdentifier
-            checkStateId: checkStateId
-          matchedCheckStates: 5
-          multipleMatchesCheckStates:
-          - topologyElementIdentifier: topologyElementIdentifier
-            checkStateId: checkStateId
-            matchCount: 2
-          - topologyElementIdentifier: topologyElementIdentifier
-            checkStateId: checkStateId
-            matchCount: 2
-        status:
-          metrics:
-            healthStreamMetrics:
-              createsPerSecond:
-              - value: 1.4658129805029452
-              - value: 1.4658129805029452
-              latencySeconds:
-              - value: 1.4658129805029452
-              - value: 1.4658129805029452
-              bucketSizeSeconds: 6
-              deletesPerSecond:
-              - value: 1.4658129805029452
-              - value: 1.4658129805029452
-              messagePerSecond:
-              - value: 1.4658129805029452
-              - value: 1.4658129805029452
-              updatesPerSecond:
-              - value: 1.4658129805029452
-              - value: 1.4658129805029452
-          monitorHealthStateStateCount: 5
-          errors:
-          - count: 0
-            error: error
-          - count: 0
-            error: error
-      properties:
-        monitor:
-          $ref: '#/components/schemas/Monitor'
-        status:
-          $ref: '#/components/schemas/MonitorStreamStatus'
-        topologyMatchResult:
-          $ref: '#/components/schemas/TopologyMatchResult'
-      required:
-      - monitor
-      - status
-      - topologyMatchResult
-      type: object
-    MonitorStreamStatus:
-      example:
         metrics:
-          healthStreamMetrics:
+          healthSyncServiceMetrics:
             createsPerSecond:
             - value: 1.4658129805029452
             - value: 1.4658129805029452
@@ -2327,29 +2314,50 @@ components:
             - value: 1.4658129805029452
             - value: 1.4658129805029452
         monitorHealthStateStateCount: 5
+        topologyMatchResult:
+          unmatchedCheckStates:
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+          matchedCheckStates: 5
+          multipleMatchesCheckStates:
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+            matchCount: 2
+          - topologyElementIdentifier: topologyElementIdentifier
+            checkStateId: checkStateId
+            matchCount: 2
         errors:
         - count: 0
           error: error
         - count: 0
           error: error
       properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor'
         errors:
           items:
-            $ref: '#/components/schemas/MonitorStreamError'
+            $ref: '#/components/schemas/MonitorError'
           type: array
         metrics:
-          $ref: '#/components/schemas/MonitorStreamMetrics'
+          $ref: '#/components/schemas/MonitorMetrics'
         monitorHealthStateStateCount:
           type: integer
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
       required:
       - metrics
+      - monitor
       - monitorHealthStateStateCount
+      - status
+      - topologyMatchResult
       type: object
-    MonitorStreamErrors:
+    MonitorErrors:
       items:
-        $ref: '#/components/schemas/MonitorStreamError'
+        $ref: '#/components/schemas/MonitorError'
       type: array
-    MonitorStreamError:
+    MonitorError:
       example:
         count: 0
         error: error
@@ -2362,9 +2370,9 @@ components:
       - count
       - error
       type: object
-    MonitorStreamMetrics:
+    MonitorMetrics:
       example:
-        healthStreamMetrics:
+        healthSyncServiceMetrics:
           createsPerSecond:
           - value: 1.4658129805029452
           - value: 1.4658129805029452
@@ -2382,10 +2390,10 @@ components:
           - value: 1.4658129805029452
           - value: 1.4658129805029452
       properties:
-        healthStreamMetrics:
+        healthSyncServiceMetrics:
           $ref: '#/components/schemas/HealthStreamMetrics'
       required:
-      - healthStreamMetrics
+      - healthSyncServiceMetrics
       type: object
     MonitorUrnId:
       type: string
@@ -2434,28 +2442,22 @@ components:
       properties:
         monitor:
           $ref: '#/components/schemas/Monitor_1'
-        status:
-          $ref: '#/components/schemas/MonitorStreamStatus_1'
+        errors:
+          items:
+            $ref: '#/components/schemas/MonitorError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/MonitorMetrics'
+        monitorHealthStateStateCount:
+          type: integer
         topologyMatchResult:
           $ref: '#/components/schemas/TopologyMatchResult'
       required:
+      - metrics
       - monitor
+      - monitorHealthStateStateCount
       - status
       - topologyMatchResult
-      type: object
-    MonitorStreamStatus_1:
-      properties:
-        errors:
-          items:
-            $ref: '#/components/schemas/MonitorStreamError'
-          type: array
-        metrics:
-          $ref: '#/components/schemas/MonitorStreamMetrics'
-        monitorHealthStateStateCount:
-          type: integer
-      required:
-      - metrics
-      - monitorHealthStateStateCount
       type: object
     UserNotFoundError:
       properties:

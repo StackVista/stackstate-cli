@@ -5,14 +5,16 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Monitor** | [**Monitor1**](Monitor1.md) |  | 
-**Status** | [**MonitorStreamStatus1**](MonitorStreamStatus1.md) |  | 
+**Errors** | Pointer to [**[]MonitorError**](MonitorError.md) |  | [optional] 
+**Metrics** | [**MonitorMetrics**](MonitorMetrics.md) |  | 
+**MonitorHealthStateStateCount** | **int32** |  | 
 **TopologyMatchResult** | [**TopologyMatchResult**](TopologyMatchResult.md) |  | 
 
 ## Methods
 
 ### NewMonitorStatus1
 
-`func NewMonitorStatus1(monitor Monitor1, status MonitorStreamStatus1, topologyMatchResult TopologyMatchResult, ) *MonitorStatus1`
+`func NewMonitorStatus1(monitor Monitor1, metrics MonitorMetrics, monitorHealthStateStateCount int32, topologyMatchResult TopologyMatchResult, ) *MonitorStatus1`
 
 NewMonitorStatus1 instantiates a new MonitorStatus1 object
 This constructor will assign default values to properties that have it defined,
@@ -47,24 +49,69 @@ and a boolean to check if the value has been set.
 SetMonitor sets Monitor field to given value.
 
 
-### GetStatus
+### GetErrors
 
-`func (o *MonitorStatus1) GetStatus() MonitorStreamStatus1`
+`func (o *MonitorStatus1) GetErrors() []MonitorError`
 
-GetStatus returns the Status field if non-nil, zero value otherwise.
+GetErrors returns the Errors field if non-nil, zero value otherwise.
 
-### GetStatusOk
+### GetErrorsOk
 
-`func (o *MonitorStatus1) GetStatusOk() (*MonitorStreamStatus1, bool)`
+`func (o *MonitorStatus1) GetErrorsOk() (*[]MonitorError, bool)`
 
-GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+GetErrorsOk returns a tuple with the Errors field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStatus
+### SetErrors
 
-`func (o *MonitorStatus1) SetStatus(v MonitorStreamStatus1)`
+`func (o *MonitorStatus1) SetErrors(v []MonitorError)`
 
-SetStatus sets Status field to given value.
+SetErrors sets Errors field to given value.
+
+### HasErrors
+
+`func (o *MonitorStatus1) HasErrors() bool`
+
+HasErrors returns a boolean if a field has been set.
+
+### GetMetrics
+
+`func (o *MonitorStatus1) GetMetrics() MonitorMetrics`
+
+GetMetrics returns the Metrics field if non-nil, zero value otherwise.
+
+### GetMetricsOk
+
+`func (o *MonitorStatus1) GetMetricsOk() (*MonitorMetrics, bool)`
+
+GetMetricsOk returns a tuple with the Metrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetrics
+
+`func (o *MonitorStatus1) SetMetrics(v MonitorMetrics)`
+
+SetMetrics sets Metrics field to given value.
+
+
+### GetMonitorHealthStateStateCount
+
+`func (o *MonitorStatus1) GetMonitorHealthStateStateCount() int32`
+
+GetMonitorHealthStateStateCount returns the MonitorHealthStateStateCount field if non-nil, zero value otherwise.
+
+### GetMonitorHealthStateStateCountOk
+
+`func (o *MonitorStatus1) GetMonitorHealthStateStateCountOk() (*int32, bool)`
+
+GetMonitorHealthStateStateCountOk returns a tuple with the MonitorHealthStateStateCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMonitorHealthStateStateCount
+
+`func (o *MonitorStatus1) SetMonitorHealthStateStateCount(v int32)`
+
+SetMonitorHealthStateStateCount sets MonitorHealthStateStateCount field to given value.
 
 
 ### GetTopologyMatchResult
