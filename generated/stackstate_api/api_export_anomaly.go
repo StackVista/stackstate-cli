@@ -49,21 +49,25 @@ type ApiExportAnomalyRequest struct {
 	history *int64
 }
 
+// Beginning of timerange of to be exported anomalies.  Timestamp in unix millis.
 func (r ApiExportAnomalyRequest) StartTime(startTime int64) ApiExportAnomalyRequest {
 	r.startTime = &startTime
 	return r
 }
 
+// Type of filtering to do on feedback.  Filtering on feedback is currently mandatory, with only the &#39;present&#39; value being supporeted (feedback is available).
 func (r ApiExportAnomalyRequest) Feedback(feedback string) ApiExportAnomalyRequest {
 	r.feedback = &feedback
 	return r
 }
 
+// End of timerange of to be exported anomalies.  Timestamp in unix millis.
 func (r ApiExportAnomalyRequest) EndTime(endTime int64) ApiExportAnomalyRequest {
 	r.endTime = &endTime
 	return r
 }
 
+// Amount of historic data, leading up to the anomaly, to be exported.  Duration in unix millis.
 func (r ApiExportAnomalyRequest) History(history int64) ApiExportAnomalyRequest {
 	r.history = &history
 	return r

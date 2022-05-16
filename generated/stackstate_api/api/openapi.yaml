@@ -1659,25 +1659,34 @@ paths:
       description: ""
       operationId: exportAnomaly
       parameters:
-      - in: query
+      - description: Beginning of timerange of to be exported anomalies.  Timestamp
+          in unix millis.
+        in: query
         name: startTime
         required: true
         schema:
           format: int64
           type: integer
-      - in: query
+      - description: End of timerange of to be exported anomalies.  Timestamp in unix
+          millis.
+        in: query
         name: endTime
         required: false
         schema:
           format: int64
           type: integer
-      - in: query
+      - description: "Amount of historic data, leading up to the anomaly, to be exported.\
+          \  Duration in unix millis."
+        in: query
         name: history
         required: false
         schema:
           format: int64
           type: integer
-      - in: query
+      - description: "Type of filtering to do on feedback.  Filtering on feedback\
+          \ is currently mandatory, with only the 'present' value being supporeted\
+          \ (feedback is available)."
+        in: query
         name: feedback
         required: true
         schema:

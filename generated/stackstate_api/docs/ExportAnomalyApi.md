@@ -29,10 +29,10 @@ import (
 )
 
 func main() {
-    startTime := int64(789) // int64 | 
-    feedback := "feedback_example" // string | 
-    endTime := int64(789) // int64 |  (optional)
-    history := int64(789) // int64 |  (optional)
+    startTime := int64(789) // int64 | Beginning of timerange of to be exported anomalies.  Timestamp in unix millis.
+    feedback := "feedback_example" // string | Type of filtering to do on feedback.  Filtering on feedback is currently mandatory, with only the 'present' value being supporeted (feedback is available).
+    endTime := int64(789) // int64 | End of timerange of to be exported anomalies.  Timestamp in unix millis. (optional)
+    history := int64(789) // int64 | Amount of historic data, leading up to the anomaly, to be exported.  Duration in unix millis. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -57,10 +57,10 @@ Other parameters are passed through a pointer to a apiExportAnomalyRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **startTime** | **int64** |  | 
- **feedback** | **string** |  | 
- **endTime** | **int64** |  | 
- **history** | **int64** |  | 
+ **startTime** | **int64** | Beginning of timerange of to be exported anomalies.  Timestamp in unix millis. | 
+ **feedback** | **string** | Type of filtering to do on feedback.  Filtering on feedback is currently mandatory, with only the &#39;present&#39; value being supporeted (feedback is available). | 
+ **endTime** | **int64** | End of timerange of to be exported anomalies.  Timestamp in unix millis. | 
+ **history** | **int64** | Amount of historic data, leading up to the anomaly, to be exported.  Duration in unix millis. | 
 
 ### Return type
 
