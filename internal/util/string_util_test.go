@@ -21,6 +21,8 @@ func TestUniqueString(t *testing.T) {
 func TestToString(t *testing.T) {
 	var f32nil *float32
 	var mapnil map[string]string
+	var strnil *string
+	var slicenil []float64
 
 	i8 := byte(7)
 	ui8 := byte(7)
@@ -32,6 +34,8 @@ func TestToString(t *testing.T) {
 	ui64 := uint64(42)
 	f32 := float32(3.14)
 	f64 := float32(3.14)
+	tme := time.UnixMilli(0)
+	str := "hello world"
 
 	tests := map[string]struct {
 		input    interface{}
@@ -68,8 +72,12 @@ func TestToString(t *testing.T) {
 		"nil":               {input: nil, expected: "-"},
 		"float32 nil":       {input: f32nil, expected: "-"},
 		"time":              {input: time.UnixMilli(0), expected: "Thu Jan 1 01:00:00 1970 CET"},
+		"ptime":             {input: &tme, expected: "Thu Jan 1 01:00:00 1970 CET"},
 		"map nil":           {input: mapnil, expected: "-"},
+		"str nil":           {input: strnil, expected: "-"},
+		"slice nil":         {input: slicenil, expected: "-"},
 		"string":            {input: "hello world", expected: "hello world"},
+		"pstring":           {input: &str, expected: "hello world"},
 	}
 
 	for name, tc := range tests {

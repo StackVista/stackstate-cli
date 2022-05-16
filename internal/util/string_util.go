@@ -56,18 +56,18 @@ func WithNewLine(s string) string {
 	}
 }
 
+/**
+Best effort conversion from any type to a end-user readable string. Not a developer readable string.
+*/
 func ToString(x interface{}) string {
 	r := reflect.ValueOf(x)
 	k := r.Kind()
 
+	// this is the only way to check whether `x == nill`, because nil is specific to the type in Golang :(
 	isPointer := k == reflect.Chan || k == reflect.Func || k == reflect.Map || k == reflect.Pointer ||
 		k == reflect.UnsafePointer || k == reflect.Slice || k == reflect.Interface
-
 	if k == reflect.Invalid || (isPointer && r.IsNil()) {
 		return "-"
-	}
-	if r.Type() == reflect.TypeOf(time.Time{}) {
-		return TimeToString(x)
 	}
 
 	// by this time we know that all null pointer are already handled
@@ -94,6 +94,10 @@ func ToString(x interface{}) string {
 		x = *p
 	case *float64:
 		x = *p
+	case *time.Time:
+		x = *p
+	case *string:
+		x = *p
 	}
 
 	switch v := x.(type) {
@@ -107,6 +111,8 @@ func ToString(x interface{}) string {
 			// %g = necessary digits only
 			return fmt.Sprintf("%g", v)
 		}
+	case time.Time:
+		return TimeToString(v)
 	default:
 		return fmt.Sprintf("%v", v)
 	}
