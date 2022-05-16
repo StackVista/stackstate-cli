@@ -72,51 +72,43 @@ func ToString(x interface{}) string {
 
 	// by this time we know that all null pointer are already handled
 	// so we can simply dereference any pointer we have
-	switch z := x.(type) {
+	// if there is a more elegant way of dereferencing pointers you're welcome to do to
+	switch p := x.(type) {
 	case *int8:
-		x = *z
+		x = *p
 	case *uint8:
-		x = *z
+		x = *p
 	case *int16:
-		x = *z
+		x = *p
 	case *uint16:
-		x = *z
+		x = *p
 	case *int32:
-		x = *z
+		x = *p
 	case *uint32:
-		x = *z
+		x = *p
 	case *int64:
-		x = *z
+		x = *p
 	case *uint64:
-		x = *z
+		x = *p
 	case *float32:
-		x = *z
+		x = *p
 	case *float64:
-		x = *z
+		x = *p
 	}
 
 	switch v := x.(type) {
 	case float64:
-		i, err := safeConvertFloat64ToInt64(v)
-		if err != nil {
-			return fmt.Sprintf("%v", v)
+		if math.Floor(v)-v == 0.0 {
+			// print large decimal numbers without scientific notation
+			// this can be annoying because often ids in StackState are big numbers
+			// and these are often deserialized as float64
+			return fmt.Sprintf("%.0f", v)
 		} else {
-			return fmt.Sprintf("%d", i)
+			// %g = necessary digits only
+			return fmt.Sprintf("%g", v)
 		}
 	default:
 		return fmt.Sprintf("%v", v)
-	}
-}
-
-func safeConvertFloat64ToInt64(f float64) (int64, error) {
-	if math.IsNaN(f) || math.IsInf(f, 0) {
-		return 0, fmt.Errorf("NaN or Inf")
-	}
-	v := int64(f)
-	if float64(v)-f != 0 {
-		return 0, fmt.Errorf("lost precision during conversion")
-	} else {
-		return v, nil
 	}
 }
 
