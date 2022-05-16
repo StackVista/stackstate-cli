@@ -14,7 +14,7 @@ func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "upgrade",
 		Short: "upgrade a StackPack",
-		Long:  "Upgrade SpackPack instance",
+		Long:  "Upgrade a StackPack instance to the next version.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUpgradeCommand),
 	}
 	common.AddRequiredNameFlag(cmd, "name of the StackPack")

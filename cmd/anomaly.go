@@ -9,8 +9,8 @@ import (
 func AnomalyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "anomaly",
-		Short: "ingest/export anomalies",
-		Long:  "Manage anomalies on metric streams",
+		Short: "inspect anomalies",
+		Long:  "Inspect anomalies on metric streams.",
 	}
 	cmd.AddCommand(anomaly.AnomalyCollectFeedback(cli))
 

@@ -112,6 +112,15 @@ func TestLongShouldStartWithUpperCase(t *testing.T) {
 	})
 }
 
+func TestLongShouldEndWithAFullStop(t *testing.T) {
+	root := setupCmd()
+	util.ForAllCmd(root, func(cmd *cobra.Command) {
+		if !endsWithFullStop.MatchString(cmd.Long) {
+			assert.Fail(t, cmd.Name()+" long should end with a full stop: "+cmd.Long)
+		}
+	})
+}
+
 //--- flag.Usage ---
 
 func TestFlagUsageShouldNotEndWithFullStop(t *testing.T) {
