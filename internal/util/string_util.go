@@ -64,7 +64,7 @@ func ToString(x interface{}) string {
 	k := r.Kind()
 
 	// this is the only way to check whether `x == nill`, because nil is specific to the type in Golang :(
-	isPointer := k == reflect.Chan || k == reflect.Func || k == reflect.Map || k == reflect.Pointer ||
+	isPointer := k == reflect.Chan || k == reflect.Func || k == reflect.Map || k == reflect.Ptr ||
 		k == reflect.UnsafePointer || k == reflect.Slice || k == reflect.Interface
 	if k == reflect.Invalid || (isPointer && r.IsNil()) {
 		return "-"
