@@ -21,7 +21,7 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 		Short: "save CLI configuration",
 		Long:  "Save the configuration of this CLI to disk.",
 		Example: "# save a new API token to the config file" +
-			`sts cli save-config --url "https://my.stackstate.com --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4"`,
+			`sts cli-config save --url "https://my.stackstate.com --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4"`,
 		RunE: cli.CmdRunE(RunSave),
 	}
 	cmd.Flags().Bool(

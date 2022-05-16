@@ -103,11 +103,19 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 		cli.NoColor = true
 	}
 
-	verbose, _ := cmd.Flags().GetBool(common.VerboseFlag)
-	cli.IsVerBose = verbose
-	if verbose {
+	verbosity, _ := cmd.Flags().GetCount(common.VerboseFlag)
+	cli.IsVerBose = verbosity > 0
+	switch verbosity {
+	case 0: //nolint:gomnd
+		// Nothing to do
+	case 1: //nolint:gomnd
+		zerolog.SetGlobalLevel(zerolog.InfoLevel)
+	case 2: //nolint:gomnd
+		zerolog.SetGlobalLevel(zerolog.DebugLevel)
+	default:
 		zerolog.SetGlobalLevel(zerolog.TraceLevel)
 	}
+
 	log.Info().
 		Strs("args", os.Args).
 		Str("os", runtime.GOOS).
