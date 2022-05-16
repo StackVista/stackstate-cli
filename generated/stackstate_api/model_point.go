@@ -17,18 +17,18 @@ import (
 
 // Point struct for Point
 type Point struct {
-	Timestamp float32 `json:"timestamp"`
-	Value float64 `json:"value"`
+	Ts float32 `json:"ts"`
+	V float64 `json:"v"`
 }
 
 // NewPoint instantiates a new Point object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPoint(timestamp float32, value float64) *Point {
+func NewPoint(ts float32, v float64) *Point {
 	this := Point{}
-	this.Timestamp = timestamp
-	this.Value = value
+	this.Ts = ts
+	this.V = v
 	return &this
 }
 
@@ -40,61 +40,61 @@ func NewPointWithDefaults() *Point {
 	return &this
 }
 
-// GetTimestamp returns the Timestamp field value
-func (o *Point) GetTimestamp() float32 {
+// GetTs returns the Ts field value
+func (o *Point) GetTs() float32 {
 	if o == nil {
 		var ret float32
 		return ret
 	}
 
-	return o.Timestamp
+	return o.Ts
 }
 
-// GetTimestampOk returns a tuple with the Timestamp field value
+// GetTsOk returns a tuple with the Ts field value
 // and a boolean to check if the value has been set.
-func (o *Point) GetTimestampOk() (*float32, bool) {
+func (o *Point) GetTsOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Timestamp, true
+	return &o.Ts, true
 }
 
-// SetTimestamp sets field value
-func (o *Point) SetTimestamp(v float32) {
-	o.Timestamp = v
+// SetTs sets field value
+func (o *Point) SetTs(v float32) {
+	o.Ts = v
 }
 
-// GetValue returns the Value field value
-func (o *Point) GetValue() float64 {
+// GetV returns the V field value
+func (o *Point) GetV() float64 {
 	if o == nil {
 		var ret float64
 		return ret
 	}
 
-	return o.Value
+	return o.V
 }
 
-// GetValueOk returns a tuple with the Value field value
+// GetVOk returns a tuple with the V field value
 // and a boolean to check if the value has been set.
-func (o *Point) GetValueOk() (*float64, bool) {
+func (o *Point) GetVOk() (*float64, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Value, true
+	return &o.V, true
 }
 
-// SetValue sets field value
-func (o *Point) SetValue(v float64) {
-	o.Value = v
+// SetV sets field value
+func (o *Point) SetV(v float64) {
+	o.V = v
 }
 
 func (o Point) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["timestamp"] = o.Timestamp
+		toSerialize["ts"] = o.Ts
 	}
 	if true {
-		toSerialize["value"] = o.Value
+		toSerialize["v"] = o.V
 	}
 	return json.Marshal(toSerialize)
 }
