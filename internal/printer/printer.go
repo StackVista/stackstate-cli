@@ -59,10 +59,10 @@ type StdPrinter struct {
 }
 
 func NewPrinter() Printer {
-	return newStdPrinter(runtime.GOOS, os.Stdout, os.Stderr)
+	return NewStdPrinter(runtime.GOOS, os.Stdout, os.Stderr)
 }
 
-func newStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
+func NewStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
 	x := &StdPrinter{
 		useColor:   true,
 		useSymbols: os != "windows", // windows does not do symbols

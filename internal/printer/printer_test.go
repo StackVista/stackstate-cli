@@ -16,7 +16,7 @@ import (
 
 func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	var stdOut, stdErr bytes.Buffer
-	p := newStdPrinter("linux", &stdOut, &stdErr)
+	p := NewStdPrinter("linux", &stdOut, &stdErr)
 	return p, &stdOut, &stdErr
 }
 
@@ -45,7 +45,7 @@ func TestPrintErrWithColorIsDefault(t *testing.T) {
 
 func TestPrintWithoutSymbolButWithColorOnWindows(t *testing.T) {
 	var stdOut, stdErr bytes.Buffer
-	p := newStdPrinter("windows", &stdOut, &stdErr)
+	p := NewStdPrinter("windows", &stdOut, &stdErr)
 	p.PrintErr(fmt.Errorf("test"))
 	assert.Equal(t, "\x1b[31m[ERROR]\x1b[0m Test\n", stdErr.String())
 }

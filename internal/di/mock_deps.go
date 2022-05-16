@@ -1,6 +1,7 @@
 package di
 
 import (
+	"bytes"
 	"context"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
@@ -11,11 +12,15 @@ type MockDeps struct {
 	Deps
 	MockClient  *MockStackStateClient
 	MockPrinter *printer.MockPrinter
+	StdOut      *bytes.Buffer
+	StdErr      *bytes.Buffer
 }
 
 func NewMockDeps() MockDeps {
+	stdOut := new(bytes.Buffer)
+	stdErr := new(bytes.Buffer)
 	mockClient := NewMockStackStateClient()
-	mockPrinter := printer.NewMockPrinter()
+	mockPrinter := printer.NewMockPrinter(printer.NewStdPrinter("linux", stdOut, stdErr))
 	return MockDeps{
 		Deps: Deps{
 			Client:    &mockClient,
@@ -29,5 +34,7 @@ func NewMockDeps() MockDeps {
 		},
 		MockClient:  &mockClient,
 		MockPrinter: &mockPrinter,
+		StdOut:      stdOut,
+		StdErr:      stdErr,
 	}
 }
