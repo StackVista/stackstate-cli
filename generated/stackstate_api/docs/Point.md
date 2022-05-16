@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Timestamp** | **float32** |  | 
-**Value** | **float64** |  | 
+**Ts** | **float32** |  | 
+**V** | **float64** |  | 
 
 ## Methods
 
 ### NewPoint
 
-`func NewPoint(timestamp float32, value float64, ) *Point`
+`func NewPoint(ts float32, v float64, ) *Point`
 
 NewPoint instantiates a new Point object
 This constructor will assign default values to properties that have it defined,
@@ -26,44 +26,44 @@ NewPointWithDefaults instantiates a new Point object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetTimestamp
+### GetTs
 
-`func (o *Point) GetTimestamp() float32`
+`func (o *Point) GetTs() float32`
 
-GetTimestamp returns the Timestamp field if non-nil, zero value otherwise.
+GetTs returns the Ts field if non-nil, zero value otherwise.
 
-### GetTimestampOk
+### GetTsOk
 
-`func (o *Point) GetTimestampOk() (*float32, bool)`
+`func (o *Point) GetTsOk() (*float32, bool)`
 
-GetTimestampOk returns a tuple with the Timestamp field if it's non-nil, zero value otherwise
+GetTsOk returns a tuple with the Ts field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTimestamp
+### SetTs
 
-`func (o *Point) SetTimestamp(v float32)`
+`func (o *Point) SetTs(v float32)`
 
-SetTimestamp sets Timestamp field to given value.
+SetTs sets Ts field to given value.
 
 
-### GetValue
+### GetV
 
-`func (o *Point) GetValue() float64`
+`func (o *Point) GetV() float64`
 
-GetValue returns the Value field if non-nil, zero value otherwise.
+GetV returns the V field if non-nil, zero value otherwise.
 
-### GetValueOk
+### GetVOk
 
-`func (o *Point) GetValueOk() (*float64, bool)`
+`func (o *Point) GetVOk() (*float64, bool)`
 
-GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
+GetVOk returns a tuple with the V field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetValue
+### SetV
 
-`func (o *Point) SetValue(v float64)`
+`func (o *Point) SetV(v float64)`
 
-SetValue sets Value field to given value.
+SetV sets V field to given value.
 
 
 

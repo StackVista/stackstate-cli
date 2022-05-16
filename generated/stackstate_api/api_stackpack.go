@@ -40,22 +40,6 @@ type StackpackApi interface {
 	ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error)
 
 	/*
-	ProvisionUninstall Provision API
-
-	Provision details
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param stackName
-	@param stackId
-	@return ApiProvisionUninstallRequest
-	*/
-	ProvisionUninstall(ctx context.Context, stackName string, stackId int64) ApiProvisionUninstallRequest
-
-	// ProvisionUninstallExecute executes the request
-	//  @return string
-	ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error)
-
-	/*
 	StackpackList StackPack API
 
 	list of stackpack
@@ -196,146 +180,6 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiProvisionUninstallRequest struct {
-	ctx context.Context
-	ApiService StackpackApi
-	stackName string
-	stackId int64
-}
-
-func (r ApiProvisionUninstallRequest) Execute() (string, *http.Response, error) {
-	return r.ApiService.ProvisionUninstallExecute(r)
-}
-
-/*
-ProvisionUninstall Provision API
-
-Provision details
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackName
- @param stackId
- @return ApiProvisionUninstallRequest
-*/
-func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackName string, stackId int64) ApiProvisionUninstallRequest {
-	return ApiProvisionUninstallRequest{
-		ApiService: a,
-		ctx: ctx,
-		stackName: stackName,
-		stackId: stackId,
-	}
-}
-
-// Execute executes the request
-//  @return string
-func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
-	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  string
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ProvisionUninstall")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/stackpack/{stackName}/deprovision/{stackId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"stackId"+"}", url.PathEscape(parameterToString(r.stackId, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Token"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v []string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
@@ -657,8 +501,6 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 type StackpackApiMock struct {
 	ProvisionDetailsCalls *[]ProvisionDetailsCall
 	ProvisionDetailsResponse ProvisionDetailsMockResponse
-	ProvisionUninstallCalls *[]ProvisionUninstallCall
-	ProvisionUninstallResponse ProvisionUninstallMockResponse
 	StackpackListCalls *[]StackpackListCall
 	StackpackListResponse StackpackListMockResponse
 	StackpackUploadCalls *[]StackpackUploadCall
@@ -667,12 +509,10 @@ type StackpackApiMock struct {
 
 func NewStackpackApiMock() StackpackApiMock {
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
-	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
 	xStackpackListCalls := make([]StackpackListCall, 0)
 	xStackpackUploadCalls := make([]StackpackUploadCall, 0)
 	return StackpackApiMock {
 		ProvisionDetailsCalls: &xProvisionDetailsCalls,
-		ProvisionUninstallCalls: &xProvisionUninstallCalls,
 		StackpackListCalls: &xStackpackListCalls,
 		StackpackUploadCalls: &xStackpackUploadCalls,
 	}
@@ -705,36 +545,6 @@ func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsReques
 	}
 	*mock.ProvisionDetailsCalls = append(*mock.ProvisionDetailsCalls, p)
 	return &mock.ProvisionDetailsResponse.Result, mock.ProvisionDetailsResponse.Response, mock.ProvisionDetailsResponse.Error
-}
-
-type ProvisionUninstallMockResponse struct {
-	Result string
-	Response *http.Response
-	Error error
-}
-
-type ProvisionUninstallCall struct {
-	PstackName string
-	PstackId int64
-}
-
-
-func (mock StackpackApiMock) ProvisionUninstall(ctx context.Context, stackName string, stackId int64) ApiProvisionUninstallRequest {
-	return ApiProvisionUninstallRequest{
-		ApiService: mock,
-		ctx: ctx,
-		stackName: stackName,
-		stackId: stackId,
-	}
-}
-
-func (mock StackpackApiMock) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
-	p := ProvisionUninstallCall {
-			PstackName: r.stackName,
-			PstackId: r.stackId,
-	}
-	*mock.ProvisionUninstallCalls = append(*mock.ProvisionUninstallCalls, p)
-	return mock.ProvisionUninstallResponse.Result, mock.ProvisionUninstallResponse.Response, mock.ProvisionUninstallResponse.Error
 }
 
 type StackpackListMockResponse struct {
