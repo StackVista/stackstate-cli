@@ -56,48 +56,65 @@ func WithNewLine(s string) string {
 	}
 }
 
+/**
+Best effort conversion from any type to a end-user readable string. Not a developer readable string.
+*/
 func ToString(x interface{}) string {
-	if x == nil {
-		return "nil"
+	r := reflect.ValueOf(x)
+	k := r.Kind()
+
+	// this is the only way to check whether `x == nill`, because nil is specific to the type in Golang :(
+	isPointer := k == reflect.Chan || k == reflect.Func || k == reflect.Map || k == reflect.Pointer ||
+		k == reflect.UnsafePointer || k == reflect.Slice || k == reflect.Interface
+	if k == reflect.Invalid || (isPointer && r.IsNil()) {
+		return "-"
 	}
-	if reflect.ValueOf(x).Type() == reflect.TypeOf(time.Time{}) {
-		return TimeToString(x)
+
+	// by this time we know that all null pointer are already handled
+	// so we can simply dereference any pointer we have
+	// if there is a more elegant way of dereferencing pointers you're welcome to do to
+	switch p := x.(type) {
+	case *int8:
+		x = *p
+	case *uint8:
+		x = *p
+	case *int16:
+		x = *p
+	case *uint16:
+		x = *p
+	case *int32:
+		x = *p
+	case *uint32:
+		x = *p
+	case *int64:
+		x = *p
+	case *uint64:
+		x = *p
+	case *float32:
+		x = *p
+	case *float64:
+		x = *p
+	case *time.Time:
+		x = *p
+	case *string:
+		x = *p
 	}
 
 	switch v := x.(type) {
-	case *string:
-		return SafeStringPtrToString(v)
-	case *int64:
-		return SafeIntPointerToString(v)
 	case float64:
-		i, err := safeConvertFloat64ToInt64(v)
-		if err != nil {
-			return fmt.Sprintf("%f", v)
+		if math.Floor(v)-v == 0.0 {
+			// print large decimal numbers without scientific notation
+			// this can be annoying because often ids in StackState are big numbers
+			// and these are often deserialized as float64
+			return fmt.Sprintf("%.0f", v)
 		} else {
-			return fmt.Sprintf("%d", i)
+			// %g = necessary digits only
+			return fmt.Sprintf("%g", v)
 		}
+	case time.Time:
+		return TimeToString(v)
 	default:
 		return fmt.Sprintf("%v", v)
-	}
-}
-
-func safeConvertFloat64ToInt64(f float64) (int64, error) {
-	if math.IsNaN(f) || math.IsInf(f, 0) {
-		return 0, fmt.Errorf("NaN or Inf")
-	}
-	v := int64(f)
-	if float64(v)-f != 0 {
-		return 0, fmt.Errorf("lost precision during conversion")
-	} else {
-		return v, nil
-	}
-}
-
-func SafeStringPtrToString(s *string) string {
-	if s == nil {
-		return "-"
-	} else {
-		return *s
 	}
 }
 

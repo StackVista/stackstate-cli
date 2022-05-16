@@ -3,10 +3,10 @@
 .travis.yml
 README.md
 api/openapi.yaml
-api_anomaly_feedback.go
 api_api_token.go
 api_event.go
 api_export.go
+api_export_anomaly.go
 api_health_synchronization.go
 api_import.go
 api_monitor.go
@@ -24,8 +24,8 @@ docs/Annotation.md
 docs/AnnotationData.md
 docs/AnnotationMetricQuery.md
 docs/AnnotationType.md
-docs/AnomalyFeedbackApi.md
 docs/AnomalySeverity.md
+docs/AnomalyWithContext.md
 docs/ApiToken.md
 docs/ApiTokenApi.md
 docs/DependencyDirection.md
@@ -54,10 +54,10 @@ docs/ExecuteScriptSyntaxErrorsErrors.md
 docs/ExecuteScriptTimeoutError.md
 docs/ExecuteScriptWrongReturnTypeError.md
 docs/Export.md
+docs/ExportAnomalyApi.md
 docs/ExportApi.md
 docs/FeedbackComment.md
 docs/FeedbackData.md
-docs/FeedbackWithContext.md
 docs/GenericAnnotationData.md
 docs/GenericApiError.md
 docs/GenericErrorsResponse.md
@@ -134,6 +134,7 @@ docs/SubStreamList.md
 docs/SubStreamListItem.md
 docs/TelemetryQueryCondition.md
 docs/TimeRange.md
+docs/TooManyAnomaliesError.md
 docs/TopologyEvent.md
 docs/TopologyMatchResult.md
 docs/TopologyOverflowError.md
@@ -160,6 +161,7 @@ model_annotation_data.go
 model_annotation_metric_query.go
 model_annotation_type.go
 model_anomaly_severity.go
+model_anomaly_with_context.go
 model_api_token.go
 model_dependency_direction.go
 model_downsampling_method.go
@@ -188,7 +190,6 @@ model_execute_script_wrong_return_type_error.go
 model_export.go
 model_feedback_comment.go
 model_feedback_data.go
-model_feedback_with_context.go
 model_generic_annotation_data.go
 model_generic_api_error.go
 model_generic_errors_response.go
@@ -256,6 +257,7 @@ model_sub_stream_list.go
 model_sub_stream_list_item.go
 model_telemetry_query_condition.go
 model_time_range.go
+model_too_many_anomalies_error.go
 model_topology_event.go
 model_topology_match_result.go
 model_topology_overflow_error.go

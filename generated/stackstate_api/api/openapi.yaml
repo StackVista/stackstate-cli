@@ -1686,47 +1686,69 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
-  /anomaly-feedback:
+  /anomalies/export:
     get:
       description: ""
-      operationId: collectAnomalyFeedback
+      operationId: exportAnomaly
       parameters:
-      - in: query
+      - description: Beginning of timerange of to be exported anomalies.  Timestamp
+          in unix millis.
+        in: query
         name: startTime
         required: true
         schema:
           format: int64
           type: integer
-      - in: query
+      - description: End of timerange of to be exported anomalies.  Timestamp in unix
+          millis.
+        in: query
         name: endTime
         required: false
         schema:
           format: int64
           type: integer
-      - in: query
+      - description: "Amount of historic data, leading up to the anomaly, to be exported.\
+          \  Duration in unix millis."
+        in: query
         name: history
         required: false
         schema:
           format: int64
           type: integer
+      - description: "Type of filtering to do on feedback.  Filtering on feedback\
+          \ is currently mandatory, with only the 'present' value being supporeted\
+          \ (feedback is available)."
+        in: query
+        name: feedback
+        required: true
+        schema:
+          enum:
+          - present
+          type: string
       responses:
         "200":
           content:
             application/json:
               schema:
                 items:
-                  $ref: '#/components/schemas/FeedbackWithContext'
+                  $ref: '#/components/schemas/AnomalyWithContext'
                 type: array
           description: Export feedback on anomalies.
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TooManyAnomaliesError'
+          description: Too many anomalies.
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
-      summary: Collect feedback on anomalies
+      summary: Export anomalies with metric history and feedback
       tags:
-      - anomalyFeedback
+      - exportAnomaly
 components:
   requestBodies:
     EventListBody:
@@ -3897,7 +3919,7 @@ components:
     ServiceTokenId:
       format: int64
       type: integer
-    FeedbackWithContext:
+    AnomalyWithContext:
       example:
         feedback:
           comments:
@@ -3945,10 +3967,10 @@ components:
           - tags
           - tags
         data:
-        - value: 2.3021358869347655
-          timestamp: 5.637376656633329
-        - value: 2.3021358869347655
-          timestamp: 5.637376656633329
+        - v: 2.3021358869347655
+          ts: 5.637376656633329
+        - v: 2.3021358869347655
+          ts: 5.637376656633329
       properties:
         anomaly:
           $ref: '#/components/schemas/Annotation'
@@ -3961,7 +3983,6 @@ components:
       required:
       - anomaly
       - data
-      - feedback
       type: object
     Annotation:
       example:
@@ -4293,18 +4314,31 @@ components:
       type: object
     Point:
       example:
-        value: 2.3021358869347655
-        timestamp: 5.637376656633329
+        v: 2.3021358869347655
+        ts: 5.637376656633329
       properties:
-        timestamp:
+        ts:
           format: int64
           type: number
-        value:
+        v:
           format: double
           type: number
       required:
-      - timestamp
-      - value
+      - ts
+      - v
+      type: object
+    TooManyAnomaliesError:
+      properties:
+        message:
+          type: string
+        numberOfMatches:
+          format: int64
+          type: integer
+        maxAllowed:
+          format: int64
+          type: integer
+      required:
+      - message
       type: object
     HealthStreamStatus_1:
       properties:
