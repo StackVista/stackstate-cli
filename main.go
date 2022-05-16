@@ -39,7 +39,7 @@ func main() {
 func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
 	common.AddPersistentFlags(sts)
 	common.AddRequiredFlagsToCmd(sts)
-	setUsageTemplates(sts, cli)
+	setUsageTemplates(sts)
 	throwErrorOnUnknownSubCommand(sts, cli)
 
 	if cli.Printer == nil {
@@ -138,7 +138,7 @@ func decapitalizeHelpCommand(root *cobra.Command) {
 /**
 For commands that have sub-commands we can show a simpler usage template.
 */
-func setUsageTemplates(sts *cobra.Command, cli *di.Deps) {
+func setUsageTemplates(sts *cobra.Command) {
 	cobraCommand := cobra.Command{}
 	fullTemplate := cobraCommand.UsageTemplate()
 	subCommandTemplate := `Usage:{{if .HasAvailableSubCommands}}
