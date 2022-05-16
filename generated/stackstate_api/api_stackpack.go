@@ -27,7 +27,7 @@ type StackpackApi interface {
 	/*
 	ConfirmManualSteps Confirm manual steps
 
-	Confirm manual steps oof the stackpack
+	Confirm manual steps of the stackpack
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param stackName
@@ -101,7 +101,7 @@ func (r ApiConfirmManualStepsRequest) Execute() (string, *http.Response, error) 
 /*
 ConfirmManualSteps Confirm manual steps
 
-Confirm manual steps oof the stackpack
+Confirm manual steps of the stackpack
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param stackName
