@@ -1,4 +1,4 @@
-package cli
+package cliconfig
 
 import (
 	"fmt"
@@ -15,14 +15,14 @@ const (
 	ApiPathFlag          = "api-path"
 )
 
-func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
+func SaveCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "save-config",
+		Use:   "save",
 		Short: "save CLI configuration",
 		Long:  "Save the configuration of this CLI to disk.",
 		Example: "# save a new API token to the config file" +
 			`sts cli save-config --url "https://my.stackstate.com --api-token l9x5g14cMcI97IS4785HWgwEpdPr3KJ4"`,
-		RunE: cli.CmdRunE(RunCliSaveConfig),
+		RunE: cli.CmdRunE(RunSave),
 	}
 	cmd.Flags().Bool(
 		SkipValidateFlagName,
@@ -34,7 +34,7 @@ func CliSaveConfigCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunCliSaveConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
+func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// get required --api-url and --api-token
 	apiURL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.APITokenFlag)
