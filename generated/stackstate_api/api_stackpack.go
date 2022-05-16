@@ -30,11 +30,11 @@ type StackpackApi interface {
 	Confirm manual steps of the stackpack
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param stackName
-	@param stackId
+	@param stackpackName
+	@param stackpackInstanceId
 	@return ApiConfirmManualStepsRequest
 	*/
-	ConfirmManualSteps(ctx context.Context, stackName string, stackId int64) ApiConfirmManualStepsRequest
+	ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest
 
 	// ConfirmManualStepsExecute executes the request
 	//  @return string
@@ -90,8 +90,8 @@ type StackpackApiService service
 type ApiConfirmManualStepsRequest struct {
 	ctx context.Context
 	ApiService StackpackApi
-	stackName string
-	stackId int64
+	stackpackName string
+	stackpackInstanceId int64
 }
 
 func (r ApiConfirmManualStepsRequest) Execute() (string, *http.Response, error) {
@@ -104,16 +104,16 @@ ConfirmManualSteps Confirm manual steps
 Confirm manual steps of the stackpack
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackName
- @param stackId
+ @param stackpackName
+ @param stackpackInstanceId
  @return ApiConfirmManualStepsRequest
 */
-func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackName string, stackId int64) ApiConfirmManualStepsRequest {
+func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
 		ApiService: a,
 		ctx: ctx,
-		stackName: stackName,
-		stackId: stackId,
+		stackpackName: stackpackName,
+		stackpackInstanceId: stackpackInstanceId,
 	}
 }
 
@@ -132,9 +132,9 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/stackpack/{stackName}/confirm-manual-step/{stackId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"stackId"+"}", url.PathEscape(parameterToString(r.stackId, "")), -1)
+	localVarPath := localBasePath + "/stackpack/{stackpackName}/confirm-manual-step/{stackpackInstanceId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackpackName"+"}", url.PathEscape(parameterToString(r.stackpackName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stackpackInstanceId"+"}", url.PathEscape(parameterToString(r.stackpackInstanceId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -675,24 +675,24 @@ type ConfirmManualStepsMockResponse struct {
 }
 
 type ConfirmManualStepsCall struct {
-	PstackName string
-	PstackId int64
+	PstackpackName string
+	PstackpackInstanceId int64
 }
 
 
-func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackName string, stackId int64) ApiConfirmManualStepsRequest {
+func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
 		ApiService: mock,
 		ctx: ctx,
-		stackName: stackName,
-		stackId: stackId,
+		stackpackName: stackpackName,
+		stackpackInstanceId: stackpackInstanceId,
 	}
 }
 
 func (mock StackpackApiMock) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
 	p := ConfirmManualStepsCall {
-			PstackName: r.stackName,
-			PstackId: r.stackId,
+			PstackpackName: r.stackpackName,
+			PstackpackInstanceId: r.stackpackInstanceId,
 	}
 	*mock.ConfirmManualStepsCalls = append(*mock.ConfirmManualStepsCalls, p)
 	return mock.ConfirmManualStepsResponse.Result, mock.ConfirmManualStepsResponse.Response, mock.ConfirmManualStepsResponse.Error

@@ -242,18 +242,18 @@ paths:
       summary: Provision API
       tags:
       - stackpack
-  /stackpack/{stackName}/confirm-manual-step/{stackId}:
+  /stackpack/{stackpackName}/confirm-manual-step/{stackpackInstanceId}:
     post:
       description: Confirm manual steps of the stackpack
       operationId: confirmManualSteps
       parameters:
       - in: path
-        name: stackName
+        name: stackpackName
         required: true
         schema:
           type: string
       - in: path
-        name: stackId
+        name: stackpackInstanceId
         required: true
         schema:
           format: int64

@@ -4,7 +4,7 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConfirmManualSteps**](StackpackApi.md#ConfirmManualSteps) | **Post** /stackpack/{stackName}/confirm-manual-step/{stackId} | Confirm manual steps
+[**ConfirmManualSteps**](StackpackApi.md#ConfirmManualSteps) | **Post** /stackpack/{stackpackName}/confirm-manual-step/{stackpackInstanceId} | Confirm manual steps
 [**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackName}/provision | Provision API
 [**StackpackList**](StackpackApi.md#StackpackList) | **Get** /stackpack | StackPack API
 [**StackpackUpload**](StackpackApi.md#StackpackUpload) | **Post** /stackpack | StackPack API
@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## ConfirmManualSteps
 
-> string ConfirmManualSteps(ctx, stackName, stackId).Execute()
+> string ConfirmManualSteps(ctx, stackpackName, stackpackInstanceId).Execute()
 
 Confirm manual steps
 
@@ -32,12 +32,12 @@ import (
 )
 
 func main() {
-    stackName := "stackName_example" // string | 
-    stackId := int64(789) // int64 | 
+    stackpackName := "stackpackName_example" // string | 
+    stackpackInstanceId := int64(789) // int64 | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ConfirmManualSteps(context.Background(), stackName, stackId).Execute()
+    resp, r, err := apiClient.StackpackApi.ConfirmManualSteps(context.Background(), stackpackName, stackpackInstanceId).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ConfirmManualSteps``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -53,8 +53,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**stackName** | **string** |  | 
-**stackId** | **int64** |  | 
+**stackpackName** | **string** |  | 
+**stackpackInstanceId** | **int64** |  | 
 
 ### Other Parameters
 
