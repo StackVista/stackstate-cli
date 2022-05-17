@@ -158,8 +158,20 @@ dockers:
   dockerfile: docker/Dockerfile.goreleaser
   build_flag_templates:
   - "--platform=linux/arm64/v8"
-# docker_manifests:
-# - name_template: stackstate/stackstate-cli2:{{ .Version }}
-#   image_templates:
-#   - stackstate/stackstate-cli:{{ .Version }}-amd64
-#   - stackstate/stackstate-cli:{{ .Version }}-arm64v8
+docker_manifests:
+- name_template: stackstate/stackstate-cli2:{{ .Version }}
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8
+- name_template: stackstate/stackstate-cli2:latest
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8
+- name_template: stackstate/stackstate-cli2:{{ .Version }}-saas
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64-saas
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8-saas
+- name_template: stackstate/stackstate-cli2:latest-saas
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64-saas
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8-saas  
