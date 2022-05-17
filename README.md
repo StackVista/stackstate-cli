@@ -2,6 +2,13 @@
 
 This project is hosted on Gitlab -> [https://gitlab.com/stackvista/stackstate-cli2](https://gitlab.com/stackvista/stackstate-cli2)
 
+## Documentation
+
+Documentation of this CLI is still under development:
+
+ * Development Branch - https://github.com/StackVista/stackstate-docs/tree/STAC-15294-cli2-docs
+ * Gitbook Preview - https://stackstate.gitbook.io/stackstate-docs-development/v/stac-15294-cli2-docs/setup/cli/
+
 ### Getting development started
 
 1. Install Nix package manager. See [Nix installation](#nix-installation)
