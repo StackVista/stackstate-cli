@@ -1,16 +1,13 @@
 package cmd
 
 import (
-	"context"
 	"regexp"
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -24,14 +21,8 @@ var (
 )
 
 func setupCmd() *cobra.Command {
-	mockPrinter := printer.NewMockPrinter()
-	cli := di.Deps{
-		Config:  &conf.Conf{},
-		Printer: &mockPrinter,
-		Context: context.Background(),
-		Client:  nil,
-	}
-	return STSCommand(&cli)
+	cli := di.NewMockDeps()
+	return STSCommand(&cli.Deps)
 }
 
 //--- cmd.Use ---

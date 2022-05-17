@@ -8,6 +8,7 @@ const (
 	IDFlag        = "id"
 	IDFlagShort   = "i"
 	NameFlag      = "name"
+	NameFlagShort = "n"
 )
 
 func AddFileFlag(cmd *cobra.Command, use string) {
@@ -29,7 +30,7 @@ func AddRequiredIDFlag(cmd *cobra.Command, use string) {
 }
 
 func AddNameFlag(cmd *cobra.Command, use string) {
-	cmd.Flags().String(NameFlag, "", use)
+	cmd.Flags().StringP(NameFlag, NameFlagShort, "", use)
 }
 
 func AddRequiredNameFlag(cmd *cobra.Command, use string) {

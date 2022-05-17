@@ -59,10 +59,10 @@ type StdPrinter struct {
 }
 
 func NewPrinter() Printer {
-	return newStdPrinter(runtime.GOOS, os.Stdout, os.Stderr)
+	return NewStdPrinter(runtime.GOOS, os.Stdout, os.Stderr)
 }
 
-func newStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
+func NewStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
 	x := &StdPrinter{
 		useColor:   true,
 		useSymbols: os != "windows", // windows does not do symbols
@@ -156,7 +156,7 @@ func (p *StdPrinter) PrintErr(err error) {
 	case common.CLIError:
 		p.printCLIError(e)
 	default:
-		color.Fprintf(p.stdErr, "%s %s\n", p.sprintSymbol("error"), color.Red.Render(util.UcFirst(err.Error())))
+		color.Fprintf(p.stdErr, "%s %s\n", p.sprintSymbol("error"), util.UcFirst(err.Error()))
 	}
 }
 
@@ -198,7 +198,7 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 	color.Fprintf(p.stdErr,
 		"%s %v\n%s",
 		p.sprintSymbol("error"),
-		color.Red.Render(errorStr),
+		errorStr,
 		util.WithNewLine(bodyStr),
 	)
 }

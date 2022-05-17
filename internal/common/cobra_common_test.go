@@ -24,5 +24,5 @@ func TestAddingRequiredFlagsToCmd(t *testing.T) {
 
 	AddRequiredFlagsToCmd(cmd)
 
-	assert.Equal(t, "test --a INT --b STRING { --c BOOL | --db INTSLICE } { --ef STRING | --ge STRING }", cmd.Use)
+	assert.Equal(t, "test --a A --b B { --c C | --db DB } { --ef EF | --ge GE }", cmd.Use)
 }
