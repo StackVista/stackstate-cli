@@ -69,13 +69,13 @@ lint:
   script:
     - scripts/lint.sh
 
-openapi-generate-check:
+check_stackstate_api_up-to-date:
   extends: .go-base
   stage: check
   rules:
     - when: always
   script:
-    - ./scripts/check-api-up-to-date.sh
+    - ./scripts/check_stackstate_api_up-to-date.sh
 
 license_scanning:
   stage: check

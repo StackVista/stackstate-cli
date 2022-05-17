@@ -75,4 +75,4 @@ This repository pulls the stackstate-api spec from the [openapi repository](http
 - Run `nix develop -x ./scripts/generate_stackstate_api.sh`
 - Commit the generated code
 
-The ci will check whether the requested api version and generated code are kep up to date.
+CI will check whether the requested api version and generated code are kep up to date.
