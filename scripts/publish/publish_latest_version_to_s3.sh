@@ -1,8 +1,8 @@
 #!/bin/sh
-set -e && cd "$(dirname "$0")" && cd ..
+set -e && cd "$(dirname "$0")" && cd ../..
 
 mkdir -p dist
-LATEST_VERSION=`./scripts/print_latest_version.sh`
+LATEST_VERSION=`./scripts/publish/print_latest_version.sh`
 echo $LATEST_VERSION > dist/LATEST_VERSION
 
 DEST="s3://cli-dl.stackstate.com/stackstate-cli/"
