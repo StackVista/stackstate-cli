@@ -24,7 +24,6 @@ type Monitor struct {
 	FunctionId int64 `json:"functionId"`
 	Arguments []map[string]interface{} `json:"arguments"`
 	RemediationHint *string `json:"remediationHint,omitempty"`
-	TopologyMapping string `json:"topologyMapping"`
 	IntervalSeconds int32 `json:"intervalSeconds"`
 }
 
@@ -32,13 +31,12 @@ type Monitor struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, topologyMapping string, intervalSeconds int32) *Monitor {
+func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32) *Monitor {
 	this := Monitor{}
 	this.Id = id
 	this.Name = name
 	this.FunctionId = functionId
 	this.Arguments = arguments
-	this.TopologyMapping = topologyMapping
 	this.IntervalSeconds = intervalSeconds
 	return &this
 }
@@ -243,30 +241,6 @@ func (o *Monitor) SetRemediationHint(v string) {
 	o.RemediationHint = &v
 }
 
-// GetTopologyMapping returns the TopologyMapping field value
-func (o *Monitor) GetTopologyMapping() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.TopologyMapping
-}
-
-// GetTopologyMappingOk returns a tuple with the TopologyMapping field value
-// and a boolean to check if the value has been set.
-func (o *Monitor) GetTopologyMappingOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.TopologyMapping, true
-}
-
-// SetTopologyMapping sets field value
-func (o *Monitor) SetTopologyMapping(v string) {
-	o.TopologyMapping = v
-}
-
 // GetIntervalSeconds returns the IntervalSeconds field value
 func (o *Monitor) GetIntervalSeconds() int32 {
 	if o == nil {
@@ -313,9 +287,6 @@ func (o Monitor) MarshalJSON() ([]byte, error) {
 	}
 	if o.RemediationHint != nil {
 		toSerialize["remediationHint"] = o.RemediationHint
-	}
-	if true {
-		toSerialize["topologyMapping"] = o.TopologyMapping
 	}
 	if true {
 		toSerialize["intervalSeconds"] = o.IntervalSeconds

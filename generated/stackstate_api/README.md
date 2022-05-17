@@ -79,7 +79,6 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AnomalyFeedbackApi* | [**CollectAnomalyFeedback**](docs/AnomalyFeedbackApi.md#collectanomalyfeedback) | **Get** /anomaly-feedback | Collect feedback on anomalies
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
@@ -87,6 +86,7 @@ Class | Method | HTTP request | Description
 *EventApi* | [**GetEventTypes**](docs/EventApi.md#geteventtypes) | **Get** /eventTypes | Get event types
 *EventApi* | [**GetEvents**](docs/EventApi.md#getevents) | **Post** /events | Get events
 *ExportApi* | [**ExportSettings**](docs/ExportApi.md#exportsettings) | **Post** /export | Export settings
+*ExportAnomalyApi* | [**ExportAnomaly**](docs/ExportAnomalyApi.md#exportanomaly) | **Get** /anomalies/export | Export anomalies with metric history and feedback
 *HealthSynchronizationApi* | [**DeleteHealthSynchronizationStream**](docs/HealthSynchronizationApi.md#deletehealthsynchronizationstream) | **Delete** /synchronization/health/stream/{healthStreamUrn} | Delete health sync stream
 *HealthSynchronizationApi* | [**GetHealthSynchronizationStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamstatus) | **Get** /synchronization/health/stream/{healthStreamUrn}/status | Get health sync stream status
 *HealthSynchronizationApi* | [**GetHealthSynchronizationStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamtopologymatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/topologyMatches | List health sync stream check-states
@@ -115,6 +115,7 @@ Class | Method | HTTP request | Description
 *ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/token/{serviceTokenId} | Delete service token
 *ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/token | Get service tokens
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
+*StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackName}/deprovision/{stackId} | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
@@ -133,6 +134,7 @@ Class | Method | HTTP request | Description
  - [AnnotationMetricQuery](docs/AnnotationMetricQuery.md)
  - [AnnotationType](docs/AnnotationType.md)
  - [AnomalySeverity](docs/AnomalySeverity.md)
+ - [AnomalyWithContext](docs/AnomalyWithContext.md)
  - [ApiToken](docs/ApiToken.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [DownsamplingMethod](docs/DownsamplingMethod.md)
@@ -161,23 +163,19 @@ Class | Method | HTTP request | Description
  - [Export](docs/Export.md)
  - [FeedbackComment](docs/FeedbackComment.md)
  - [FeedbackData](docs/FeedbackData.md)
- - [FeedbackWithContext](docs/FeedbackWithContext.md)
  - [GenericAnnotationData](docs/GenericAnnotationData.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
- - [HealthStreamMetrics1](docs/HealthStreamMetrics1.md)
  - [HealthStreamNotFound](docs/HealthStreamNotFound.md)
  - [HealthStreamStatus](docs/HealthStreamStatus.md)
- - [HealthStreamStatus1](docs/HealthStreamStatus1.md)
  - [HealthSubStreamConsistencyState](docs/HealthSubStreamConsistencyState.md)
  - [HealthSubStreamError](docs/HealthSubStreamError.md)
  - [HealthSubStreamExpiry](docs/HealthSubStreamExpiry.md)
  - [HealthSubStreamNotFound](docs/HealthSubStreamNotFound.md)
  - [HealthSubStreamSnapshot](docs/HealthSubStreamSnapshot.md)
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
- - [HealthSubStreamStatus1](docs/HealthSubStreamStatus1.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
@@ -190,8 +188,10 @@ Class | Method | HTTP request | Description
  - [Monitor](docs/Monitor.md)
  - [Monitor1](docs/Monitor1.md)
  - [MonitorApiError](docs/MonitorApiError.md)
+ - [MonitorError](docs/MonitorError.md)
  - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
  - [MonitorList](docs/MonitorList.md)
+ - [MonitorMetrics](docs/MonitorMetrics.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
@@ -229,6 +229,7 @@ Class | Method | HTTP request | Description
  - [SubStreamListItem](docs/SubStreamListItem.md)
  - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
  - [TimeRange](docs/TimeRange.md)
+ - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)

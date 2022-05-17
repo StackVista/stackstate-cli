@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"fmt"
 	"os"
 	"testing"
@@ -14,7 +13,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) {
+func setupSTSCmd() (*di.MockDeps, *cobra.Command) {
 	errorCmd := cobra.Command{
 		Use:   "test-error",
 		Short: "some short help text for ErrorCmd",
@@ -26,33 +25,33 @@ func setupSTSCmd() (*di.MockDeps, *cobra.Command, *bytes.Buffer, *bytes.Buffer) 
 	cli := di.NewMockDeps()
 	sts := cmd.STSCommand(&cli.Deps)
 	sts.AddCommand(&errorCmd)
-	stdOut := new(bytes.Buffer)
-	stdErr := new(bytes.Buffer)
-	sts.SetOut(stdOut)
-	sts.SetErr(stdErr)
-	return &cli, sts, stdOut, stdErr
+	sts.SetOut(cli.StdOut)
+	sts.SetErr(cli.StdErr)
+
+	return &cli, sts
 }
 
 func TestHelpWhenRunningWithoutArgs(t *testing.T) {
-	cli, cmd, stdOut, stdErr := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{""})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
-	assert.Contains(t, stdOut.String(), "Usage:")
-	assert.Equal(t, "", stdErr.String())
+	assert.Contains(t, cli.StdOut.String(), "Usage:")
+	assert.NotContains(t, cli.StdOut.String(), "flags")
+	assert.Equal(t, "", cli.StdErr.String())
 }
 
 func TestHelpWhenRunningHelp(t *testing.T) {
-	cli, cmd, stdOut, stdErr := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"help"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
-	assert.Contains(t, stdOut.String(), "Usage:")
-	assert.Equal(t, "", stdErr.String())
+	assert.Contains(t, cli.StdOut.String(), "Usage:")
+	assert.Equal(t, "", cli.StdErr.String())
 }
 
 func TestVersionRun(t *testing.T) {
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -63,7 +62,7 @@ func TestVersionRun(t *testing.T) {
 }
 
 func TestVersionJsonRun(t *testing.T) {
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 
 	cmd.SetArgs([]string{"version", "--json"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
@@ -75,7 +74,7 @@ func TestVersionJsonRun(t *testing.T) {
 }
 
 func TestWrongFlagError(t *testing.T) {
-	cli, sts, _, _ := setupSTSCmd()
+	cli, sts := setupSTSCmd()
 
 	sts.SetArgs([]string{"version", "--wrongflag"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
@@ -86,7 +85,7 @@ func TestWrongFlagError(t *testing.T) {
 }
 
 func TestErrHandling(t *testing.T) {
-	cli, sts, _, _ := setupSTSCmd()
+	cli, sts := setupSTSCmd()
 
 	sts.SetArgs([]string{"test-error"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
@@ -94,11 +93,11 @@ func TestErrHandling(t *testing.T) {
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
 	expectedErrCalls := []error{common.NewCLIArgParseError(fmt.Errorf("test error"))}
 	assert.Equal(t, &expectedErrCalls, cli.MockPrinter.PrintErrCalls)
-	assert.Contains(t, (*cli.MockPrinter.PrintLnCalls)[0], "Usage:\n  sts test-error [flags]") // show help
+	assert.Contains(t, cli.StdOut.String(), "Usage:\n  sts test-error [flags]") // show help
 }
 
 func TestErrToJson(t *testing.T) {
-	cli, sts, _, _ := setupSTSCmd()
+	cli, sts := setupSTSCmd()
 
 	sts.SetArgs([]string{"test-error", "--json"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
@@ -109,7 +108,7 @@ func TestErrToJson(t *testing.T) {
 }
 
 func TestColorUsedByDefault(t *testing.T) {
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
@@ -119,7 +118,7 @@ func TestColorUsedByDefault(t *testing.T) {
 }
 
 func TestNoColorFlag(t *testing.T) {
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--no-color"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -131,7 +130,7 @@ func TestNoColorWhenDumbTerminal(t *testing.T) {
 	defer os.Setenv("TERM", term)
 	os.Setenv("TERM", "Dumb")
 
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -143,7 +142,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 	// https://no-color.org says we need to check for existence, not a specific value
 	os.Setenv("NO_COLOR", "false")
 
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -151,7 +150,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 }
 
 func TestNoColorWhenJsonOutput(t *testing.T) {
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--json"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -159,8 +158,34 @@ func TestNoColorWhenJsonOutput(t *testing.T) {
 }
 
 func TestVerbose(t *testing.T) {
-	cli, cmd, _, _ := setupSTSCmd()
+	cli, cmd := setupSTSCmd()
 	cmd.SetArgs([]string{"version", "--verbose"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.True(t, cli.IsVerBose)
+}
+
+func TestErrorOnUnknownSubCommand(t *testing.T) {
+	cli, cmd := setupSTSCmd()
+	cmd.SetArgs([]string{"cli-config", "blaat"})
+	exitCode := execute(cli.Context, &cli.Deps, cmd)
+	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
+	assert.Contains(t, cli.StdErr.String(), "Unknown sub-command \"blaat\" for \"cli-config\"")
+}
+
+func TestErrorpOnUnknownSubCommand(t *testing.T) {
+	cli, cmd := setupSTSCmd()
+	cmd.SetArgs([]string{"cli-config", "blaat"})
+	exitCode := execute(cli.Context, &cli.Deps, cmd)
+	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
+	assert.Contains(t, cli.StdErr.String(), "Unknown sub-command \"blaat\" for \"cli-config\"")
+}
+
+func TestHelpOnMissingSubCommand(t *testing.T) {
+	cli, cmd := setupSTSCmd()
+	cmd.SetArgs([]string{"cli-config"})
+	exitCode := execute(cli.Context, &cli.Deps, cmd)
+	assert.Equal(t, common.OkExitCode, exitCode)
+	assert.Equal(t, "", cli.StdErr.String())
+	assert.Contains(t, cli.StdOut.String(), "Usage:")
+	assert.NotContains(t, cli.StdOut.String(), "flags")
 }

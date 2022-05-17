@@ -31,26 +31,27 @@ func TestAnomalyCollectEmpty(t *testing.T) {
 	referenceFeedback, err := ioutil.ReadFile("test_feedback.json")
 	assert.Nil(t, err)
 	expectedStr := string(referenceFeedback)
-	var feedback []stackstate_api.FeedbackWithContext
+	var feedback []stackstate_api.AnomalyWithContext
 	err = json.Unmarshal([]byte(expectedStr), &feedback)
 	assert.Nil(t, err)
 
 	cli, cmd := setupCommandCollect()
-	cli.MockClient.ApiMocks.AnomalyFeedbackApi.CollectAnomalyFeedbackResponse.Result = feedback
+	cli.MockClient.ApiMocks.AnomalyFeedbackApi.ExportAnomalyResponse.Result = feedback
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--start-time", "1652108645000", "--end-time", "1652108845000", "--file", filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, []string{fmt.Sprintf("Collected 2 anomalies to %s.", filePath)}, *cli.MockPrinter.SuccessCalls)
 
-	calls := *cli.MockClient.ApiMocks.AnomalyFeedbackApi.CollectAnomalyFeedbackCalls
+	calls := *cli.MockClient.ApiMocks.AnomalyFeedbackApi.ExportAnomalyCalls
 	assert.Equal(t, 1, len(calls))
+	assert.Equal(t, "present", *calls[0].Pfeedback)
 	assert.Equal(t, int64(1652108645000), *calls[0].PstartTime)
 	assert.Equal(t, int64(1652108845000), *calls[0].PendTime)
 	assert.Equal(t, int64(86400000), *calls[0].Phistory)
 
 	body, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)
-	var writtenFeedback []stackstate_api.FeedbackWithContext
+	var writtenFeedback []stackstate_api.AnomalyWithContext
 	err = json.Unmarshal(body, &writtenFeedback)
 	assert.Nil(t, err)
 	assert.Equal(t, feedback, writtenFeedback)

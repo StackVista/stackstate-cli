@@ -52,12 +52,12 @@ When you have an error related to the input of the CLI you should use a `CLIErro
 
 * **noun verb** level command: Any mutually exclusive or required flags should be included in this description, other flags will be covered under the general group `[flags]`, which is automatically added to the end of the `Usage:` text when printed in the CLI help. For example:
     ```text
-    # the `Use:` text for the `script execute` command
-        Use:   "execute {-s SCRIPT | -f FILE}"
+    # the `Use:` text for the `script run` command
+        Use:   "run {-s SCRIPT | -f FILE}"
 
     # will result in the following being printed in the CLI help
       Usage:
-        sts script execute {-s SCRIPT | -f FILE} [flags]
+        sts script run {-s SCRIPT | -f FILE} [flags]
     ```
   * REQUIRED flags are always shown as standard text without any brackets. Optional flags are not. For example:
     ```text
@@ -65,7 +65,7 @@ When you have an error related to the input of the CLI you should use a `CLIErro
     ```
   * REQUIRED, mutually exclusive flags are grouped inside curly brackets `{}` and separated by a pipe `|` - one of the options shown must be used. For example:
     ```text
-    sts script execute {-s SCRIPT | -f FILE} [flags]
+    sts script run {-s SCRIPT | -f FILE} [flags]
     ```
   * OPTIONAL, mutually exclusive flags are grouped inside square brackets `[]` and separated by a pipe `|` - only one of the options shown can be used
   * all other OPTIONAL flags are not included, these are covered by the general group `[flags]` that will be added automatically
@@ -92,27 +92,38 @@ When you have an error related to the input of the CLI you should use a `CLIErro
 * Try to stick to no more than 3 examples.
 * For example:
   ```text
-  # the Example: text for the `script execute` command
-    Example: "# execute a script from file\n"+
-      "sts execute --file \"path/to/my.script\"\n"+
+  # the Example: text for the `script run` command
+    Example: "# run a script from file\n"+
+      "sts script run --file \"path/to/my.script\"\n"+
       "\n"+
-      "# execute a script with variables provided by an arguments-script\n"+
-      "sts execute --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
+      "# run a script with variables provided by an arguments-script\n"+
+      "sts script run --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
 
   # will result in the following being printed in the CLI help
     Examples:
-    # execute a script from file
-    sts execute --file "path/to/my.script"
+    # run a script from file
+    sts script run --file "path/to/my.script"
 
-    # execute a script with variables provided by an arguments-script
-    sts execute --script "x+y" --arguments-script "[x: 1, y: 2]"
+    # run a script with variables provided by an arguments-script
+    sts script run --script "x+y" --arguments-script "[x: 1, y: 2]"
   ```
+
+## Rule: command nouns must be plural if it pertains to a set of entities
+
+If there are multiple of a type of entity in StackState, please use plural.
+
+## Rule: reuse command verbs as much as possible 
+
+ * apply - applies some entity to StackState.
+ * list - lists a set of entities in table form.
+ * describe - describes a single entity. Outputs directly to screen.
+ * export - descrbies a set of entities. Outputs to file.
 
 ## Rule: Flags short-hands must share meaning amongst all commands
 
 Short hands for flags (single letter flags) should have the same meaning amongst all commands.
 
-For example: `-f` is a short hand for the `--file` flag. That is true for `script execute` as well as for `monitor create`. If `-f` is usable in any other command is must be the short hand fo `--file`.
+For example: `-f` is a short hand for the `--file` flag. That is true for `script run` as well as for `monitor create`. If `-f` is usable in any other command is must be the short hand fo `--file`.
 
 If you want to introduce a shorthand for a flag, please do some research into other CLI's flag's shorthands and what they typically mean there.
 

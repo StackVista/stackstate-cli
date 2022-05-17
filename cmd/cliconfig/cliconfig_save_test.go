@@ -1,4 +1,4 @@
-package cli
+package cliconfig
 
 import (
 	"fmt"
@@ -13,9 +13,9 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func setupSaveConfigCmd(t *testing.T) (*di.MockDeps, *cobra.Command, string, func()) {
+func setupSaveCmd(t *testing.T) (*di.MockDeps, *cobra.Command, string, func()) {
 	cli := di.NewMockDeps()
-	cmd := CliSaveConfigCommand(&cli.Deps)
+	cmd := SaveCommand(&cli.Deps)
 
 	oldConfHome := os.Getenv("XDG_CONFIG_HOME")
 	tmpConfDir := t.TempDir()
@@ -27,8 +27,8 @@ func setupSaveConfigCmd(t *testing.T) (*di.MockDeps, *cobra.Command, string, fun
 	}
 }
 
-func TestSaveConfig(t *testing.T) {
-	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
+func TestSave(t *testing.T) {
+	cli, cmd, expectedFile, cleanup := setupSaveCmd(t)
 	defer cleanup()
 
 	di.ExecuteCommandWithContextUnsafe(
@@ -54,8 +54,8 @@ func TestSaveConfig(t *testing.T) {
 	)
 }
 
-func TestSaveConfigWithApiPath(t *testing.T) {
-	cli, cmd, _, cleanup := setupSaveConfigCmd(t)
+func TestSaveWithApiPath(t *testing.T) {
+	cli, cmd, _, cleanup := setupSaveCmd(t)
 	defer cleanup()
 
 	di.ExecuteCommandWithContextUnsafe(
@@ -71,8 +71,8 @@ func TestSaveConfigWithApiPath(t *testing.T) {
 	assert.Equal(t, "/api/v2", cli.Config.ApiPath)
 }
 
-func TestSaveConfigToJson(t *testing.T) {
-	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
+func TestSaveToJson(t *testing.T) {
+	cli, cmd, expectedFile, cleanup := setupSaveCmd(t)
 	defer cleanup()
 
 	di.ExecuteCommandWithContextUnsafe(
@@ -94,8 +94,8 @@ func TestSaveConfigToJson(t *testing.T) {
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
-func TestSaveConfigSkipValidate(t *testing.T) {
-	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
+func TestSaveSkipValidate(t *testing.T) {
+	cli, cmd, expectedFile, cleanup := setupSaveCmd(t)
 	defer cleanup()
 
 	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("should not have tried to connect, because --skip-validate was used"), nil)
@@ -116,8 +116,8 @@ func TestSaveConfigSkipValidate(t *testing.T) {
 	assert.Equal(t, "blaat", cli.Config.ApiToken)
 }
 
-func TestSaveConfigShouldNotSaveWhenFailedConnection(t *testing.T) {
-	cli, cmd, expectedFile, cleanup := setupSaveConfigCmd(t)
+func TestSaveShouldNotSaveWhenFailedConnection(t *testing.T) {
+	cli, cmd, expectedFile, cleanup := setupSaveCmd(t)
 	defer cleanup()
 
 	cli.MockClient.ConnectError = common.NewResponseError(fmt.Errorf("failed connection"), nil)

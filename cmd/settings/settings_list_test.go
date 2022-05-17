@@ -57,8 +57,8 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 	cli, cmd := setupSettingsListCmd()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType",
-		"-n", "component",
-		"-w", "urn:stackpack:stackstate-self-health:shared")
+		"--namespace", "component",
+		"--owned-by", "urn:stackpack:stackstate-self-health:shared")
 
 	expectedTableCall := []printer.TableData{
 		{

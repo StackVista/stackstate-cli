@@ -1,5 +1,7 @@
 # StackState CLI 
 
+This project is hosted on Gitlab -> [https://gitlab.com/stackvista/stackstate-cli2](https://gitlab.com/stackvista/stackstate-cli2)
+
 ### Getting development started
 
 1. Install Nix package manager. See [Nix installation](#nix-installation)
@@ -59,7 +61,7 @@ docker run -ti --rm stackstate-cli2-ci:latest go version
 
 ## Working with openapi
 
-This repository pulls the stackstate-api spec from the [openapi repository](gitlab.com/stackvista/platform/stackstate-openapi).
+This repository pulls the stackstate-api spec from the [openapi repository](https://gitlab.com/stackvista/platform/stackstate-openapi).
 
 ### Bumping the openapi version
 - Change the version/branch/commit sha in the `openapi_version` file

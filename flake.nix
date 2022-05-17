@@ -50,6 +50,7 @@
           coreutils-full
           goreleaser
           awscli
+          docker
         ]);
 
       in {

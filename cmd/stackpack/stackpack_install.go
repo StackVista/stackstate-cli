@@ -17,7 +17,7 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 		Use:   "install",
 		Short: "install a StackPack",
 		Long: "Install an instance of a StackPack. " +
-			"Be aware that each StackPack has a different set of parameters." +
+			"Be aware that each StackPack has a different set of parameters. " +
 			"Run \"sts stackpack list-parameters --name NAME\" to list all of them.",
 		Example: "# install an example StackPack with a full name and URL parameter\n" +
 			"sts stackpack install --name example -p \"full_name=First Last\" -p URL=https://stackstate.com",

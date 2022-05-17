@@ -1,4 +1,4 @@
-package cli
+package cliconfig
 
 import (
 	"github.com/spf13/cobra"
@@ -7,18 +7,18 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func CliDescribeConfigCommand(cli *di.Deps) *cobra.Command {
+func DescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "describe-config",
+		Use:   "describe",
 		Short: "describe the config of the CLI",
 		Long:  "Describes the config of the CLI as it is retrieved from the config file, environment variables and/or flags in YAML or JSON format.",
-		RunE:  cli.CmdRunE(RunCliDescribeConfig),
+		RunE:  cli.CmdRunE(RunDescribe),
 	}
 
 	return cmd
 }
 
-func RunCliDescribeConfig(cli *di.Deps, cmd *cobra.Command) common.CLIError {
+func RunDescribe(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	err := cli.LoadConfig(cmd)
 	if err != nil {
 		return err
