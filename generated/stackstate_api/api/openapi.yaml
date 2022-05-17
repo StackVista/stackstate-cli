@@ -6,8 +6,8 @@ info:
     url: https://stackstate.com
   description: StackState's API specification
   license:
-    name: Proprietary
-    url: https://stackstate.com
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: StackState API
   version: 0.0.1
 externalDocs:
