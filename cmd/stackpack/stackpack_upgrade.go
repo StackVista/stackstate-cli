@@ -10,6 +10,12 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
+const (
+	strategyWrite = "overwrite"
+	strategyFail  = "fail"
+	strategySkip  = "skip"
+)
+
 func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "upgrade",
@@ -38,7 +44,7 @@ func RunStackpackUpgradeCommand(
 		return common.NewCLIArgParseError(err)
 	}
 	if !isValidStrategy(unlockStrategy) {
-		return common.NewCLIArgParseError(errors.New("only one of {fail,overwrite,skip} is accepted"))
+		return common.NewCLIArgParseError(errors.New("invalid strategy"))
 	}
 	stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
 	if err != nil {
@@ -69,7 +75,7 @@ func RunStackpackUpgradeCommand(
 }
 
 func isValidStrategy(name string) bool {
-	return name == "fail" || name == "overwrite" || name == "skip"
+	return name == strategyFail || name == strategyWrite || name == strategySkip
 }
 
 func findStackName(stacks []stackstate_api.Sstackpack, name string) (stackstate_api.Sstackpack, error) {
