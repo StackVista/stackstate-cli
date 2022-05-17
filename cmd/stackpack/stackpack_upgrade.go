@@ -57,10 +57,12 @@ func RunStackpackUpgradeCommand(
 	}
 	if cli.IsJson {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"upgrade": fmt.Sprintf("Successfully triggered upgrade of StackPack %s", name),
+			"success":         true,
+			"current-version": stack.GetVersion(),
+			"next-version":    stack.NextVersion.GetVersion(),
 		})
 	} else {
-		cli.Printer.Success(fmt.Sprintf("Successfully triggered upgrade of StackPack %s", name))
+		cli.Printer.Success(fmt.Sprintf("Successfully triggered upgrade from %s to %s", stack.GetVersion(), stack.NextVersion.GetVersion()))
 	}
 
 	return nil

@@ -10,8 +10,9 @@ import (
 )
 
 var (
-	stackPackName        = "zabbix"
-	stackPackNextVersion = "1.0.0"
+	stackPackName           = "zabbix"
+	stackPackNextVersion    = "2.0.0"
+	stackPackCurrentVersion = "1.0.0"
 )
 
 func setupStackPackUpgradeCmd() (*di.MockDeps, *cobra.Command) {
@@ -23,6 +24,7 @@ func setupStackPackUpgradeCmd() (*di.MockDeps, *cobra.Command) {
 			NextVersion: &stackstate_api.SstackpackLatestVersion{
 				Version: &stackPackNextVersion,
 			},
+			Version: &stackPackCurrentVersion,
 		},
 	}
 	cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackResponse.Result = "successful"
@@ -30,22 +32,40 @@ func setupStackPackUpgradeCmd() (*di.MockDeps, *cobra.Command) {
 }
 
 func TestStackpackUpgradePrintToTable(t *testing.T) {
+	strategyFlag := "overwrite"
 	cli, cmd := setupStackPackUpgradeCmd()
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
-		"--unlocked-strategy", "overwrite",
+		"--unlocked-strategy", strategyFlag,
 	)
+
+	assert.Equal(t,
+		[]stackstate_api.UpgradeStackPackCall{{
+			PstackName: "zabbix",
+			Punlocked:  &strategyFlag,
+		}},
+		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
-	assert.Equal(t, []string{"Successfully triggered upgrade of StackPack zabbix"}, *cli.MockPrinter.SuccessCalls)
+	assert.Equal(t, []string{"Successfully triggered upgrade from 1.0.0 to 2.0.0"}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestStackpackUpgradePrintToJson(t *testing.T) {
+	strategyFlag := "overwrite"
 	cli, cmd := setupStackPackUpgradeCmd()
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
-		"--unlocked-strategy", "overwrite", "--json",
+		"--unlocked-strategy", strategyFlag, "--json",
 	)
 
+	assert.Equal(t,
+		[]stackstate_api.UpgradeStackPackCall{{
+			PstackName: "zabbix",
+			Punlocked:  &strategyFlag,
+		}},
+		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
+
 	expectedJsonCalls := []map[string]interface{}{{
-		"upgrade": "Successfully triggered upgrade of StackPack zabbix",
+		"success":         true,
+		"current-version": stackPackCurrentVersion,
+		"next-version":    stackPackNextVersion,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 }
