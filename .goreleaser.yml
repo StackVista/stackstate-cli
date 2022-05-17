@@ -125,7 +125,7 @@ brews:
   caveats: "Run `sts` to get going!"
 dockers:
 - image_templates:
-  - "stackstate/stackstate-cli-full:{{ .Version }}-amd64"
+  - "stackstate/stackstate-cli2:{{ .Version }}-x86_64"
   ids:
     - stackstate-cli-full
   use: buildx
@@ -133,7 +133,7 @@ dockers:
   build_flag_templates:
   - "--platform=linux/amd64"
 - image_templates:
-  - "stackstate/stackstate-cli-full:{{ .Version }}-arm64v8"
+  - "stackstate/stackstate-cli2:{{ .Version }}-arm64v8"
   ids:
     - stackstate-cli-full
   use: buildx
@@ -142,7 +142,7 @@ dockers:
   build_flag_templates:
   - "--platform=linux/arm64/v8"
 - image_templates:
-  - "stackstate/stackstate-cli-saas:{{ .Version }}-amd64"
+  - "stackstate/stackstate-cli2:{{ .Version }}-x86_64-saas"
   ids:
     - stackstate-cli-saas
   use: buildx
@@ -150,7 +150,7 @@ dockers:
   build_flag_templates:
   - "--platform=linux/amd64"
 - image_templates:
-  - "stackstate/stackstate-cli-saas:{{ .Version }}-arm64v8"
+  - "stackstate/stackstate-cli2:{{ .Version }}-arm64v8-saas"
   ids:
     - stackstate-cli-saas
   use: buildx
@@ -158,8 +158,8 @@ dockers:
   dockerfile: docker/Dockerfile.goreleaser
   build_flag_templates:
   - "--platform=linux/arm64/v8"
-docker_manifests:
-- name_template: stackstate/stackstate-cli:{{ .Version }}
-  image_templates:
-  - stackstate/stackstate-cli:{{ .Version }}-amd64
-  - stackstate/stackstate-cli:{{ .Version }}-arm64v8
+# docker_manifests:
+# - name_template: stackstate/stackstate-cli2:{{ .Version }}
+#   image_templates:
+#   - stackstate/stackstate-cli:{{ .Version }}-amd64
+#   - stackstate/stackstate-cli:{{ .Version }}-arm64v8
