@@ -11,6 +11,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 // Dependency Injection context for the CLI
@@ -19,6 +20,7 @@ type Deps struct {
 	Printer   printer.Printer
 	Context   context.Context
 	Client    client.StackStateClient
+	Clock     pflags.Clock
 	IsVerBose bool
 	IsJson    bool
 	NoColor   bool
@@ -33,6 +35,7 @@ func NewDeps() Deps {
 		Client:  nil,
 		Config:  nil,
 		Printer: printer.NewPrinter(),
+		Clock:   pflags.NewFixedTimeClock(),
 		Context: nil,
 	}
 }

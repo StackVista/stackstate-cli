@@ -6,6 +6,7 @@ import (
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 type MockDeps struct {
@@ -25,6 +26,7 @@ func NewMockDeps() MockDeps {
 		Deps: Deps{
 			Client:    &mockClient,
 			Printer:   &mockPrinter,
+			Clock:     pflags.NewTestClock(1652108645000), //nolint:gomnd
 			Context:   context.Background(),
 			Config:    &conf.Conf{},
 			Version:   "1.0.0",
