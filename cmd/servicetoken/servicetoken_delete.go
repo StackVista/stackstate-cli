@@ -11,41 +11,39 @@ import (
 )
 
 func DeleteCommand(deps *di.Deps) *cobra.Command {
+	args := &Args{}
 	cmd := &cobra.Command{
 		Use:   "delete",
 		Short: "delete a service token",
 		Long:  "Delete a service token.",
-		RunE:  deps.CmdRunEWithApi(RunServiceTokenDeleteCommand),
+		RunE:  deps.CmdRunEWithApi(RunServiceTokenDeleteCommand(args)),
 	}
 
-	common.AddRequiredIDFlag(cmd, "id")
+	common.AddRequiredIDFlagVar(cmd, &args.ID, "id")
 
 	return cmd
 }
 
-func RunServiceTokenDeleteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	sid, err := cmd.Flags().GetString("id")
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
+func RunServiceTokenDeleteCommand(args *Args) di.CmdWithApiFn {
+	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+		id, err := util.StringToInt64(args.ID)
+		if err != nil {
+			return common.NewCLIArgParseError(fmt.Errorf("invalid id: %s", args.ID))
+		}
 
-	id, err := util.StringToInt64(sid)
-	if err != nil {
-		return common.NewCLIArgParseError(fmt.Errorf("invalid id: %s", sid))
-	}
+		resp, err := api.ServiceTokenApi.DeleteServiceToken(cli.Context, id).Execute()
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
 
-	resp, err := api.ServiceTokenApi.DeleteServiceToken(cli.Context, id).Execute()
-	if err != nil {
-		return common.NewResponseError(err, resp)
-	}
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"deleted-service-token": args.ID,
+			})
+		} else {
+			cli.Printer.Success(fmt.Sprintf("Service token deleted: %s", args.ID))
+		}
 
-	if cli.IsJson {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"deleted-service-token": sid,
-		})
-	} else {
-		cli.Printer.Success(fmt.Sprintf("Service token deleted: %s", sid))
+		return nil
 	}
-
-	return nil
 }

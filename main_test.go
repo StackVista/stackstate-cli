@@ -80,7 +80,7 @@ func TestWrongFlagError(t *testing.T) {
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
-	assert.Equal(t, []error{fmt.Errorf("unknown flag: --wrongflag")}, *cli.MockPrinter.PrintErrCalls)
+	assert.Equal(t, []error{common.NewCLIArgParseError(fmt.Errorf("unknown flag: --wrongflag"))}, *cli.MockPrinter.PrintErrCalls)
 	assert.Contains(t, (*cli.MockPrinter.PrintLnCalls)[0], "Usage:") // show help
 }
 
