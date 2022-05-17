@@ -73,7 +73,7 @@ func TestVersionJsonRun(t *testing.T) {
 	}}, *cli.MockPrinter.PrintJsonCalls)
 }
 
-func TestWrongFlagError(t *testing.T) {
+func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
 	cli, sts := setupSTSCmd()
 
 	sts.SetArgs([]string{"version", "--wrongflag"})

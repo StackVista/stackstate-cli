@@ -15,8 +15,14 @@ const (
 	DateFormat = "2006-01-02"
 )
 
+type CreateArgs struct {
+	Name       string
+	Expiration time.Time
+	Roles      []string
+}
+
 func CreateCommand(deps *di.Deps) *cobra.Command {
-	args := &Args{}
+	args := &CreateArgs{}
 	cmd := &cobra.Command{
 		Use:   "create",
 		Short: "create a service token",
@@ -31,7 +37,7 @@ func CreateCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunServiceTokenCreateCommand(args *Args) di.CmdWithApiFn {
+func RunServiceTokenCreateCommand(args *CreateArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 		req := stackstate_api.NewServiceTokenRequest{
 			Name:  args.Name,

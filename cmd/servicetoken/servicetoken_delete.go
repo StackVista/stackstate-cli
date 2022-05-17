@@ -10,8 +10,12 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
+type DeleteArgs struct {
+	ID string
+}
+
 func DeleteCommand(deps *di.Deps) *cobra.Command {
-	args := &Args{}
+	args := &DeleteArgs{}
 	cmd := &cobra.Command{
 		Use:   "delete",
 		Short: "delete a service token",
@@ -24,7 +28,7 @@ func DeleteCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunServiceTokenDeleteCommand(args *Args) di.CmdWithApiFn {
+func RunServiceTokenDeleteCommand(args *DeleteArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 		id, err := util.StringToInt64(args.ID)
 		if err != nil {

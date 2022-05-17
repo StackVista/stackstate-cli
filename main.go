@@ -33,6 +33,7 @@ func main() {
 	}
 
 	cmd := cmd.STSCommand(cli)
+
 	execute(ctx, cli, cmd)
 }
 
@@ -41,6 +42,9 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	common.AddRequiredFlagsToCmd(sts)
 	setUsageTemplates(sts)
 	throwErrorOnUnknownSubCommand(sts, cli)
+	sts.SetFlagErrorFunc(func(cmd *cobra.Command, err error) error {
+		return common.NewCLIArgParseError(err)
+	})
 
 	if cli.Printer == nil {
 		cli.Printer = printer.NewPrinter()
