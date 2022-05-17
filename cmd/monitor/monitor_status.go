@@ -144,7 +144,7 @@ func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 
 func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
 	multipleMatchesCheckState []stackstate_api.MultipleMatchesCheckState,
-	) {
+) {
 	cli.Printer.PrintLn("")
 	cli.Printer.PrintLn("Monitor health  states with identifier which has multiple matching topology elements:")
 
