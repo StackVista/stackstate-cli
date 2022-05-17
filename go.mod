@@ -2,7 +2,7 @@ module gitlab.com/stackvista/stackstate-cli2
 
 go 1.17
 
-replace github.com/spf13/pflag => github.com/hierynomus/pflag v1.22.0
+replace github.com/spf13/pflag => github.com/stackvista/pflag v1.22.0
 
 require (
 	github.com/alecthomas/chroma v0.10.0
