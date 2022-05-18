@@ -14,7 +14,7 @@ func TestDeleteShouldFailOnNonIntID(t *testing.T) {
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "foo")
 
 	assert.NotNil(t, err)
-	assert.Equal(t, "invalid id: foo", err.Error())
+	assert.Contains(t, err.Error(), "invalid argument \"foo\" for \"-i, --id\"")
 }
 
 func TestDelete(t *testing.T) {

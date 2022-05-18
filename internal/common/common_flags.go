@@ -3,12 +3,13 @@ package common
 import "github.com/spf13/cobra"
 
 const (
-	FileFlag      = "file"
-	FileFlagShort = "f"
-	IDFlag        = "id"
-	IDFlagShort   = "i"
-	NameFlag      = "name"
-	NameFlagShort = "n"
+	FileFlag       = "file"
+	FileFlagShort  = "f"
+	IDFlag         = "id"
+	IdentifierFlag = "identifier"
+	IDFlagShort    = "i"
+	NameFlag       = "name"
+	NameFlagShort  = "n"
 )
 
 func AddFileFlagVar(cmd *cobra.Command, v *string, use string) {
@@ -20,23 +21,21 @@ func AddRequiredFileFlagVar(cmd *cobra.Command, v *string, use string) {
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 }
 
-func AddIDFlag(cmd *cobra.Command, use string) *string {
-	return cmd.Flags().StringP(IDFlag, IDFlagShort, "", use)
+func AddIDFlagVar(cmd *cobra.Command, v *int64, use string) {
+	cmd.Flags().Int64VarP(v, IDFlag, IDFlagShort, 0, use)
 }
 
-func AddIDFlagVar(cmd *cobra.Command, v *string, use string) {
-	cmd.Flags().StringVarP(v, IDFlag, IDFlagShort, "", use)
-}
-
-func AddRequiredIDFlag(cmd *cobra.Command, use string) *string {
-	s := AddIDFlag(cmd, use)
-	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
-
-	return s
-}
-
-func AddRequiredIDFlagVar(cmd *cobra.Command, v *string, use string) {
+func AddRequiredIDFlagVar(cmd *cobra.Command, v *int64, use string) {
 	AddIDFlagVar(cmd, v, use)
+	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
+}
+
+func AddIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
+	cmd.Flags().StringVar(v, IdentifierFlag, "", use)
+}
+
+func AddRequiredIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
+	AddIdentifierFlagVar(cmd, v, use)
 	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
 }
 
