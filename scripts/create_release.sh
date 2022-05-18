@@ -10,17 +10,17 @@ IDENT="$NAT|$ALPHANUM"
 FIELD='[0-9A-Za-z-]'
 
 SEMVER_REGEX="\
-^[vV]?\
+^\
 ($NAT)\\.($NAT)\\.($NAT)\
 (\\-(${IDENT})(\\.(${IDENT}))*)?\
 (\\+${FIELD}(\\.${FIELD})*)?$"
 
 USAGE="\
 Usage:
-  $PROG --version <version>
+  $PROG -v <version>
 
 Arguments:
-  <version>  A version must match the following regular expression:
+  -v  A version must match the following regular expression:
              \"${SEMVER_REGEX}\"
              In English:
              -- The version must match X.Y.Z[-PRERELEASE][+BUILD]
@@ -30,9 +30,6 @@ Arguments:
                 at least one non-digit). Numeric identifiers must not have leading
                 zeros. A hyphen (\"-\") introduces this optional part.
              -- BUILD is a dot separated sequence of identifiers composed of alphanumeric
-                characters and hyphens. A plus (\"+\") introduces this optional part.
-
-  <other_version>  See <version> definition.
 
 Options:
   -h, --help             Print this help message.

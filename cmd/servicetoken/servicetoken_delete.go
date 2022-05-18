@@ -7,45 +7,41 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
+type DeleteArgs struct {
+	ID int64
+}
+
 func DeleteCommand(deps *di.Deps) *cobra.Command {
+	args := &DeleteArgs{}
 	cmd := &cobra.Command{
 		Use:   "delete",
 		Short: "delete a service token",
 		Long:  "Delete a service token.",
-		RunE:  deps.CmdRunEWithApi(RunServiceTokenDeleteCommand),
+		RunE:  deps.CmdRunEWithApi(RunServiceTokenDeleteCommand(args)),
 	}
 
-	common.AddRequiredIDFlag(cmd, "id")
+	common.AddRequiredIDFlagVar(cmd, &args.ID, "id")
 
 	return cmd
 }
 
-func RunServiceTokenDeleteCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	sid, err := cmd.Flags().GetString("id")
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
+func RunServiceTokenDeleteCommand(args *DeleteArgs) di.CmdWithApiFn {
+	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+		resp, err := api.ServiceTokenApi.DeleteServiceToken(cli.Context, args.ID).Execute()
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
 
-	id, err := util.StringToInt64(sid)
-	if err != nil {
-		return common.NewCLIArgParseError(fmt.Errorf("invalid id: %s", sid))
-	}
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"deleted-service-token": args.ID,
+			})
+		} else {
+			cli.Printer.Success(fmt.Sprintf("Service token deleted: %d", args.ID))
+		}
 
-	resp, err := api.ServiceTokenApi.DeleteServiceToken(cli.Context, id).Execute()
-	if err != nil {
-		return common.NewResponseError(err, resp)
+		return nil
 	}
-
-	if cli.IsJson {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"deleted-service-token": sid,
-		})
-	} else {
-		cli.Printer.Success(fmt.Sprintf("Service token deleted: %s", sid))
-	}
-
-	return nil
 }

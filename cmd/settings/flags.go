@@ -1,11 +1,11 @@
 package settings
 
 const (
-	TypeName             = "type"
+	TypeNameFlag         = "type"
 	Namespace            = "namespace"
-	OwnedBy              = "owned-by"
-	Ids                  = "ids"
-	AllowReferences      = "allowed-namespace-refs"
+	OwnedByFlag          = "owned-by"
+	IdsFlag              = "ids"
+	AllowReferencesFlag  = "allowed-namespace-refs"
 	NamespaceFlag        = "namespace"
 	UnlockedStrategyFlag = "unlocked-strategy"
 	TimeoutFlag          = "timeout"

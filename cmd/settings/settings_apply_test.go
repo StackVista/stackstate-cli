@@ -70,6 +70,7 @@ func TestSetingsApplyNamespace(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--namespace", "urn:test")
 
 	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace, "urn:test")
+	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked)
 }
 
 func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
@@ -79,9 +80,8 @@ func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", file.Name(), "--unlocked-strategy", "woopz")
 
-	assert.Equal(t, common.NewCLIArgParseError(
-		fmt.Errorf("invalid 'unlocked-strategy' flag value 'woopz' (must be { fail | skip | overwrite })")),
-		err,
+	assert.Contains(t, err.Error(), common.NewCLIArgParseError(
+		fmt.Errorf("invalid enum value \"woopz\", allowed values are [fail, skip, overwrite]")).Error(),
 	)
 }
 

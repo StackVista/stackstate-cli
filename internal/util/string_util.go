@@ -153,3 +153,10 @@ func UniqueStrings(strSlice []string) []string {
 	}
 	return list
 }
+
+func StringNilP(s string) *string {
+	if s == "" {
+		return nil
+	}
+	return &s
+}

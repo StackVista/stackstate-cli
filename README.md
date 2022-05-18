@@ -1,6 +1,11 @@
 # StackState CLI 
 
-This project is hosted on Gitlab -> [https://gitlab.com/stackvista/stackstate-cli2](https://gitlab.com/stackvista/stackstate-cli2)
+## Documentation
+
+Documentation of this CLI is still under development:
+
+ * Development Branch - https://github.com/StackVista/stackstate-docs/tree/STAC-15294-cli2-docs
+ * Gitbook Preview - https://stackstate.gitbook.io/stackstate-docs-development/v/stac-15294-cli2-docs/setup/cli/
 
 ### Getting development started
 
@@ -18,7 +23,7 @@ It also possible to use nix phases to test `nix develop --check` and build the a
 
 ## How to create a new release
 
- 1. Check which version of the CLI is the latest by running `scripts/print_latest_version.sh`
+ 1. Check which version of the CLI is the latest by running `scripts/publish/print_latest_version.sh`
  2. Determine the semantic version number you want to use:
     - Breaking change? Major version! This should never happen after the initial release!
     - New commands and/or flags? Minor version.
@@ -64,8 +69,8 @@ docker run -ti --rm stackstate-cli2-ci:latest go version
 This repository pulls the stackstate-api spec from the [openapi repository](https://gitlab.com/stackvista/platform/stackstate-openapi).
 
 ### Bumping the openapi version
-- Change the version/branch/commit sha in the `openapi_version` file
+- Change the version/branch/commit sha in the `stackstate_openapi/openapi_version` file
 - Run `nix develop -x ./scripts/generate_stackstate_api.sh`
 - Commit the generated code
 
-The ci will check whether the requested api version and generated code are kep up to date.
+CI will check whether the requested api version and generated code are kep up to date.

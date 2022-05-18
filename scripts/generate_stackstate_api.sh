@@ -2,7 +2,7 @@
 
 set -e && cd "$(dirname "$0")" && cd ..
 
-OPENAPI_VERSION=$(cat openapi_version)
+OPENAPI_VERSION=$(cat stackstate_openapi/openapi_version)
 CHECKOUT_DIR="stackstate_openapi/checkout"
 OUTPUT_DIR="generated/stackstate_api"
 

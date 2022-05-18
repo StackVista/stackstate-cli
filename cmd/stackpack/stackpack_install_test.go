@@ -1,7 +1,6 @@
 package stackpack
 
 import (
-	"errors"
 	"testing"
 	"time"
 
@@ -64,6 +63,31 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
 }
 
+func TestStackpackInstallComplexParameters(t *testing.T) {
+	cli, cmd := setupStackPackInstallCmd()
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
+		"--parameter", "one=foo,two=bar",
+		"--parameter", "i=am=complex",
+		"--parameter", "empty=",
+		"--parameter", "comma=1,2",
+	)
+
+	assert.Equal(t,
+		stackstate_api.ProvisionDetailsCall{
+			PstackName: "zabbix",
+			PrequestBody: &map[string]string{
+				"one":   "foo",
+				"two":   "bar",
+				"empty": "",
+				"i":     "am=complex",
+				"comma": "1,2",
+			},
+		},
+		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
+	)
+}
+
 func TestStackpackInstallPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd()
 
@@ -76,52 +100,4 @@ func TestStackpackInstallPrintsToJson(t *testing.T) {
 		*cli.MockPrinter.PrintJsonCalls,
 	)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
-}
-
-func TestParseParameter(t *testing.T) {
-	testCase := []struct {
-		desc     string
-		input    string
-		expKey   string
-		expValue string
-		expErr   error
-	}{
-		{
-			desc:     "should parses successfully",
-			input:    "name=mr=jon",
-			expKey:   "name",
-			expValue: "mr=jon",
-			expErr:   nil,
-		},
-		{
-			desc:     "equal operator at the end",
-			input:    "name=",
-			expKey:   "",
-			expValue: "",
-			expErr:   errors.New("expected parameter format key=value"),
-		},
-		{
-			desc:     "no key",
-			input:    "=jon",
-			expKey:   "",
-			expValue: "",
-			expErr:   errors.New("expected parameter format key=value"),
-		},
-		{
-			desc:     "no value",
-			input:    "name=",
-			expKey:   "",
-			expValue: "",
-			expErr:   errors.New("expected parameter format key=value"),
-		},
-	}
-
-	for _, tc := range testCase {
-		t.Run(tc.desc, func(t *testing.T) {
-			key, value, err := parseParameter(tc.input)
-			assert.Equal(t, tc.expErr, err)
-			assert.Equal(t, tc.expKey, key)
-			assert.Equal(t, tc.expValue, value)
-		})
-	}
 }

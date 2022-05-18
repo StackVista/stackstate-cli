@@ -4,7 +4,6 @@ release:
     owner: stackvista
     name: stackstate-cli2
   name_template: '{{.Tag}}'
-  disable: true
 before:
   hooks:
     - go mod download

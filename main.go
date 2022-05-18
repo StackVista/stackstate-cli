@@ -15,6 +15,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
@@ -27,12 +28,14 @@ func main() {
 		Commit:    static_info.Commit,
 		CLIType:   static_info.CLIType,
 		BuildDate: static_info.BuildDate,
+		Clock:     pflags.NewFixedTimeClock(),
 	}
 	if cli.CLIType == "" {
 		cli.CLIType = "local"
 	}
 
 	cmd := cmd.STSCommand(cli)
+
 	execute(ctx, cli, cmd)
 }
 
@@ -41,6 +44,9 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	common.AddRequiredFlagsToCmd(sts)
 	setUsageTemplates(sts)
 	throwErrorOnUnknownSubCommand(sts, cli)
+	sts.SetFlagErrorFunc(func(cmd *cobra.Command, err error) error {
+		return common.NewCLIArgParseError(err)
+	})
 
 	if cli.Printer == nil {
 		cli.Printer = printer.NewPrinter()
@@ -110,9 +116,9 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 	verbosity, _ := cmd.Flags().GetCount(common.VerboseFlag)
 	cli.IsVerBose = verbosity > 0
 	switch verbosity {
-	case 0: //nolint:gomnd
+	case 0:
 		// Nothing to do
-	case 1: //nolint:gomnd
+	case 1:
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	case 2: //nolint:gomnd
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
