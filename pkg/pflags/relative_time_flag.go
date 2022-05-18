@@ -122,8 +122,9 @@ func (d *RelativeTimeValue) String() string { return d.Time.Format(time.RFC3339N
 
 // GetRelativeTime return the time value of a flag with the given name
 func GetRelativeTime(f *pflag.FlagSet, name string) (time.Time, error) {
-	val, err := GetFlagType(f, name, RelativeTimeFlagType, func(sval string) (interface{}, error) {
-		return ParseRelativeTime(NewFixedTimeClock(), sval)
+	val, err := GetFlagType(f, name, RelativeTimeFlagType, func(f *pflag.Flag, sval string) (interface{}, error) {
+		clock := f.Value.(*RelativeTimeValue).clock
+		return ParseRelativeTime(clock, sval)
 	})
 
 	if err != nil {

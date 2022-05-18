@@ -86,7 +86,7 @@ func newInvalidDurationValueError(strDuration string, parseFloatErr error) error
 }
 
 // Needed because ParseDuration returns a time.Duration and not an interface{}
-func durationConv(sval string) (interface{}, error) {
+func durationConv(f *pflag.Flag, sval string) (interface{}, error) {
 	// We should be using time.ParseDuration here, as our string is now rendered as a complex duration, and no longer includes the 'd' or 'w' unit
 	return time.ParseDuration(sval)
 }

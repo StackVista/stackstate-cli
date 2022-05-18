@@ -10,6 +10,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 var (
@@ -20,7 +21,7 @@ type ApplyArgs struct {
 	Filepath         string
 	Namespace        string
 	UnlockedStrategy string
-	Timeout          int
+	Timeout          int64
 }
 
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
@@ -34,28 +35,19 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	common.AddRequiredFileFlagVar(cmd, &args.Filepath, ".stj file to import")
 	cmd.Flags().StringVar(&args.Namespace, NamespaceFlag, "", "name of the namespace to overwrite"+
 		" - WARNING this will overwrite the entire namespace")
-	cmd.Flags().StringVar(&args.UnlockedStrategy,
+	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
 		UnlockedStrategyFlag,
 		"",
+		UnlockedStrategyChoices,
 		"strategy to use when encountering unlocked settings when applying settings to a namespace"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
-	cmd.Flags().IntVarP(&args.Timeout, TimeoutFlag, "t", 0, "timeout in seconds")
+	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "timeout in seconds")
 
 	return cmd
 }
 
 func RunSettingsApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if args.UnlockedStrategy != "" {
-			if err := common.CheckFlagIsValidChoice(UnlockedStrategyFlag, args.UnlockedStrategy, UnlockedStrategyChoices); err != nil {
-				return err
-			}
-		}
-		timeout, err := cmd.Flags().GetInt(TimeoutFlag)
-		if err != nil {
-			return common.NewCLIArgParseError(err)
-		}
-
 		fileBytes, err := os.ReadFile(args.Filepath)
 		if err != nil {
 			return common.NewReadFileError(err, args.Filepath)
@@ -68,8 +60,8 @@ func RunSettingsApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 		if args.UnlockedStrategy != "" {
 			request = request.Unlocked(args.UnlockedStrategy)
 		}
-		if timeout > 0 {
-			request = request.TimeoutSeconds(int64(timeout))
+		if args.Timeout > 0 {
+			request = request.TimeoutSeconds(args.Timeout)
 		}
 
 		nodes, resp, err := request.Execute()

@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-func GetFlagType(f *pflag.FlagSet, name string, ftype string, convFunc func(sval string) (interface{}, error)) (interface{}, error) {
+func GetFlagType(f *pflag.FlagSet, name string, ftype string, convFunc func(f *pflag.Flag, sval string) (interface{}, error)) (interface{}, error) {
 	flag := f.Lookup(name)
 	if flag == nil {
 		err := fmt.Errorf("flag accessed but not defined: %s", name)
@@ -19,7 +19,7 @@ func GetFlagType(f *pflag.FlagSet, name string, ftype string, convFunc func(sval
 	}
 
 	sval := flag.Value.String()
-	result, err := convFunc(sval)
+	result, err := convFunc(flag, sval)
 	if err != nil {
 		return nil, err
 	}
