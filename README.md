@@ -25,7 +25,7 @@ It also possible to use nix phases to test `nix develop --check` and build the a
 
 ## How to create a new release
 
- 1. Check which version of the CLI is the latest by running `scripts/print_latest_version.sh`
+ 1. Check which version of the CLI is the latest by running `scripts/publish/print_latest_version.sh`
  2. Determine the semantic version number you want to use:
     - Breaking change? Major version! This should never happen after the initial release!
     - New commands and/or flags? Minor version.
