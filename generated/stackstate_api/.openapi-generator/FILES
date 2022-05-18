@@ -94,6 +94,8 @@ docs/MonitorNotFoundError.md
 docs/MonitorRunResult.md
 docs/MonitorStatus.md
 docs/MonitorStatus1.md
+docs/MonitorStatusIdentifierNotFoundError.md
+docs/MonitorStatusNotFoundError.md
 docs/MonitorUrnApi.md
 docs/MultipleMatchesCheckState.md
 docs/NewServiceTokenRequest.md
@@ -222,6 +224,8 @@ model_monitor_not_found_error.go
 model_monitor_run_result.go
 model_monitor_status.go
 model_monitor_status_1.go
+model_monitor_status_identifier_not_found_error.go
+model_monitor_status_not_found_error.go
 model_multiple_matches_check_state.go
 model_new_service_token_request.go
 model_node.go
