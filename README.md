@@ -1,7 +1,5 @@
 # StackState CLI 
 
-This project is hosted on Gitlab -> [https://gitlab.com/stackvista/stackstate-cli2](https://gitlab.com/stackvista/stackstate-cli2)
-
 ## Documentation
 
 Documentation of this CLI is still under development:
