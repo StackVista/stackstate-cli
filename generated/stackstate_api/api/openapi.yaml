@@ -6,8 +6,8 @@ info:
     url: https://stackstate.com
   description: StackState's API specification
   license:
-    name: Proprietary
-    url: https://stackstate.com
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: StackState API
   version: 0.0.1
 externalDocs:
@@ -418,8 +418,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MonitorNotFoundError'
-          description: monitor was not found in the database
+                $ref: '#/components/schemas/MonitorStatusNotFoundError'
+          description: monitor status was not found in the database
         "500":
           content:
             application/json:
@@ -578,8 +578,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
-          description: monitor was not found in the database
+                $ref: '#/components/schemas/MonitorStatusIdentifierNotFoundError'
+          description: monitor status was not found in the database
         "500":
           content:
             application/json:
@@ -1808,12 +1808,24 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorStatus'
       description: Full representation of a monitor with status
+    monitorStatusNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorStatusNotFoundError'
+      description: monitor status was not found in the database
     monitorIdentifierNotFoundError:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
       description: monitor was not found in the database
+    monitorStatusIdentifierNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorStatusIdentifierNotFoundError'
+      description: monitor status was not found in the database
     userProfile:
       content:
         application/json:
@@ -2395,6 +2407,19 @@ components:
       required:
       - healthSyncServiceMetrics
       type: object
+    MonitorStatusNotFoundError:
+      properties:
+        _type:
+          enum:
+          - MonitorStatusNotFoundError
+          type: string
+        monitorId:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - monitorId
+      type: object
     MonitorUrnId:
       type: string
     Monitor_1:
@@ -2458,6 +2483,18 @@ components:
       - monitorHealthStateStateCount
       - status
       - topologyMatchResult
+      type: object
+    MonitorStatusIdentifierNotFoundError:
+      properties:
+        _type:
+          enum:
+          - MonitorStatusIdentifierNotFoundError
+          type: string
+        monitorIdentifier:
+          type: string
+      required:
+      - _type
+      - monitorIdentifier
       type: object
     UserNotFoundError:
       properties:
