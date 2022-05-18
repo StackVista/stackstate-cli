@@ -57,15 +57,7 @@ lint:
   extends: .go-base
   stage: check
   rules:
-    - changes:
-      - .gitlab-ci.yml
-      - go.mod
-      - go.sum
-      - flake.lock
-      - flake.nix
-      - cmd/**
-      - generated/**
-      - internal/**
+    - when: always
   script:
     - scripts/lint.sh
 
@@ -73,7 +65,8 @@ check_stackstate_api_up-to-date:
   extends: .go-base
   stage: check
   rules:
-    - when: always
+    - changes:
+      - stackstate_openapi/**
   script:
     - ./scripts/check_stackstate_api_up-to-date.sh
 
@@ -127,15 +120,7 @@ compile_test:
   extends: .go-base
   stage: check
   rules:
-    - changes:
-      - .gitlab-ci.yml
-      - go.mod
-      - go.sum
-      - flake.lock
-      - flake.nix
-      - cmd/**
-      - generated/**
-      - internal/**
+    - when: always
   script:
     - go test ./... -v
 
@@ -145,6 +130,7 @@ publish:
   script:
     - scripts/publish.sh
   rules:
-    - if: '$CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^v[0-9]*/'
-      when: always
-    - when: never
+    - if: $CI_COMMIT_TAG =~ /^v[0-9]*/'
+      when: on_success
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: on_success
