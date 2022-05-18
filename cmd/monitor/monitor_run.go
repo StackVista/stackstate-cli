@@ -48,13 +48,14 @@ func RunMonitorRunCommand(args *RunArgs) di.CmdWithApiFn {
 		var runResult *stackstate_api.MonitorRunResult
 		var err error
 
-		if args.DryRun && args.ID != 0 {
+		switch {
+		case args.ID != 0 && args.DryRun:
 			runResult, resp, err = api.MonitorApi.DryRunMonitor(cli.Context, args.ID).Execute()
-		} else if args.DryRun {
-			runResult, resp, err = api.MonitorUrnApi.DryRunMonitorByURN(cli.Context, args.Identifier).Execute()
-		} else if !args.DryRun && args.ID != 0 {
+		case args.ID != 0:
 			runResult, resp, err = api.MonitorApi.RunMonitor(cli.Context, args.ID).Execute()
-		} else {
+		case args.DryRun:
+			runResult, resp, err = api.MonitorUrnApi.DryRunMonitorByURN(cli.Context, args.Identifier).Execute()
+		default:
 			runResult, resp, err = api.MonitorUrnApi.RunMonitorByURN(cli.Context, args.Identifier).Execute()
 		}
 
