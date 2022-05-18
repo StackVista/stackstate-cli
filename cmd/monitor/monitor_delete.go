@@ -11,6 +11,10 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
+type DeleteArgs struct {
+	ID string
+}
+
 func MonitorDeleteCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete",

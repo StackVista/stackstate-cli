@@ -35,7 +35,6 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSliceVar(&args.AllowReferences, AllowReferencesFlag, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	common.AddFileFlagVar(cmd, &args.FilePath, "path to the output file")
 	mutex_flags.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", true)
-
 	return cmd
 }
 
