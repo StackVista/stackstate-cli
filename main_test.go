@@ -73,14 +73,14 @@ func TestVersionJsonRun(t *testing.T) {
 	}}, *cli.MockPrinter.PrintJsonCalls)
 }
 
-func TestWrongFlagError(t *testing.T) {
+func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
 	cli, sts := setupSTSCmd()
 
 	sts.SetArgs([]string{"version", "--wrongflag"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
-	assert.Equal(t, []error{fmt.Errorf("unknown flag: --wrongflag")}, *cli.MockPrinter.PrintErrCalls)
+	assert.Equal(t, []error{common.NewCLIArgParseError(fmt.Errorf("unknown flag: --wrongflag"))}, *cli.MockPrinter.PrintErrCalls)
 	assert.Contains(t, (*cli.MockPrinter.PrintLnCalls)[0], "Usage:") // show help
 }
 

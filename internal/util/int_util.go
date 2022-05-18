@@ -8,3 +8,10 @@ func SafeIntPointerToString(number *int64) string {
 	}
 	return fmt.Sprintf("%d", *number)
 }
+
+func Int32NilP(nr int32) *int32 {
+	if nr == 0 {
+		return nil
+	}
+	return &nr
+}

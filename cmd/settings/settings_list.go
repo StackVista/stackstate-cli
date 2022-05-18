@@ -11,76 +11,72 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
+type ListArgs struct {
+	TypeName  string
+	Namespace string
+	OwnedBy   string
+}
+
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
+	args := &ListArgs{}
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "list all settings",
 		Long:  "List all settings of a certain type. To list all types run \"sts settings list-types\".",
-		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand),
+		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand(args)),
 	}
-	cmd.Flags().String(TypeName, "", "name of the setting type to list")
-	cmd.MarkFlagRequired(TypeName) //nolint:errcheck
+	cmd.Flags().StringVar(&args.TypeName, TypeNameFlag, "", "name of the setting type to list")
+	cmd.MarkFlagRequired(TypeNameFlag) //nolint:errcheck
 
-	cmd.Flags().String(Namespace, "", "filter by namespace")
-	cmd.Flags().String(OwnedBy, "", "filter by owner")
+	cmd.Flags().StringVar(&args.Namespace, Namespace, "", "filter by namespace")
+	cmd.Flags().StringVar(&args.OwnedBy, OwnedByFlag, "", "filter by owner")
 
 	return cmd
 }
 
-func RunSettingsListCommand(
-	cmd *cobra.Command,
-	cli *di.Deps,
-	api *stackstate_api.APIClient,
-	serverInfo *stackstate_api.ServerInfo,
-) common.CLIError {
-	typeName, err := cmd.Flags().GetString(TypeName)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-	nameSpace, err := cmd.Flags().GetString(Namespace)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
-	ownedBy, err := cmd.Flags().GetString(OwnedBy)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
+func RunSettingsListCommand(args *ListArgs) di.CmdWithApiFn {
+	return func(
+		cmd *cobra.Command,
+		cli *di.Deps,
+		api *stackstate_api.APIClient,
+		serverInfo *stackstate_api.ServerInfo,
+	) common.CLIError {
+		apiClient := api.NodeApi.TypeList(cli.Context, args.TypeName)
+		if args.Namespace != "" {
+			apiClient = apiClient.Namespace(args.Namespace)
+		}
+		if args.OwnedBy != "" {
+			apiClient = apiClient.OwnedBy(args.OwnedBy)
+		}
 
-	apiClient := api.NodeApi.TypeList(cli.Context, typeName)
-	if nameSpace != "" {
-		apiClient = apiClient.Namespace(nameSpace)
-	}
-	if ownedBy != "" {
-		apiClient = apiClient.OwnedBy(ownedBy)
-	}
+		typeList, resp, err := apiClient.Execute()
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
 
-	typeList, resp, err := apiClient.Execute()
-	if err != nil {
-		return common.NewResponseError(err, resp)
-	}
-
-	if cli.IsJson {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"settings": typeList,
-		})
-	} else {
-		data := make([][]interface{}, 0)
-		for _, v := range typeList {
-			lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
-			data = append(data, []interface{}{
-				v.GetTypeName(),
-				v.GetId(),
-				v.GetIdentifier(),
-				v.GetName(),
-				v.GetOwnedBy(),
-				lastUpdateTime,
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"settings": typeList,
+			})
+		} else {
+			data := make([][]interface{}, 0)
+			for _, v := range typeList {
+				lastUpdateTime := time.UnixMilli(v.GetLastUpdateTimestamp())
+				data = append(data, []interface{}{
+					v.GetTypeName(),
+					v.GetId(),
+					v.GetIdentifier(),
+					v.GetName(),
+					v.GetOwnedBy(),
+					lastUpdateTime,
+				})
+			}
+			cli.Printer.Table(printer.TableData{
+				Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+				Data:                data,
+				MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("settings of type \"%s\"", args.TypeName)},
 			})
 		}
-		cli.Printer.Table(printer.TableData{
-			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:                data,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("settings of type \"%s\"", typeName)},
-		})
+		return nil
 	}
-	return nil
 }
