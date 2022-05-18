@@ -41,21 +41,21 @@ func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		if len(nodes) == 0 {
-			cli.Printer.PrintWarn("Nothing was imported.")
-			return nil
-		}
-
-		tableData := make([][]interface{}, 0)
-		for _, node := range nodes {
-			tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
-		}
-
 		if cli.IsJson {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"nodes": nodes,
 			})
 		} else {
+			if len(nodes) == 0 {
+				cli.Printer.PrintWarn("Nothing was imported.")
+				return nil
+			}
+
+			tableData := make([][]interface{}, 0)
+			for _, node := range nodes {
+				tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
+			}
+
 			cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> monitor(s).", len(nodes)))
 			if len(nodes) > 0 {
 				cli.Printer.Table(printer.TableData{
