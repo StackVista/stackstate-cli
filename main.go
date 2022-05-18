@@ -15,6 +15,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
@@ -27,6 +28,7 @@ func main() {
 		Commit:    static_info.Commit,
 		CLIType:   static_info.CLIType,
 		BuildDate: static_info.BuildDate,
+		Clock:     pflags.NewFixedTimeClock(),
 	}
 	if cli.CLIType == "" {
 		cli.CLIType = "local"

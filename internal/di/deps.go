@@ -30,16 +30,6 @@ type Deps struct {
 	CLIType   string
 }
 
-func NewDeps() Deps {
-	return Deps{
-		Client:  nil,
-		Config:  nil,
-		Printer: printer.NewPrinter(),
-		Clock:   pflags.NewFixedTimeClock(),
-		Context: nil,
-	}
-}
-
 func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		return runFn(cli, cmd)
