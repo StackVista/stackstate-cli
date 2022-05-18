@@ -110,9 +110,9 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 	verbosity, _ := cmd.Flags().GetCount(common.VerboseFlag)
 	cli.IsVerBose = verbosity > 0
 	switch verbosity {
-	case 0: //nolint:gomnd
+	case 0:
 		// Nothing to do
-	case 1: //nolint:gomnd
+	case 1:
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
 	case 2: //nolint:gomnd
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
