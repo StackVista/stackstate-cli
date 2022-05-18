@@ -11,19 +11,8 @@ const (
 	NameFlagShort = "n"
 )
 
-func AddFileFlag(cmd *cobra.Command, use string) *string {
-	return cmd.Flags().StringP(FileFlag, FileFlagShort, "", use)
-}
-
 func AddFileFlagVar(cmd *cobra.Command, v *string, use string) {
 	cmd.Flags().StringVarP(v, FileFlag, FileFlagShort, "", use)
-}
-
-func AddRequiredFileFlag(cmd *cobra.Command, use string) *string {
-	s := AddFileFlag(cmd, use)
-	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
-
-	return s
 }
 
 func AddRequiredFileFlagVar(cmd *cobra.Command, v *string, use string) {
@@ -51,19 +40,8 @@ func AddRequiredIDFlagVar(cmd *cobra.Command, v *string, use string) {
 	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
 }
 
-func AddNameFlag(cmd *cobra.Command, use string) *string {
-	return cmd.Flags().StringP(NameFlag, NameFlagShort, "", use)
-}
-
 func AddNameFlagVar(cmd *cobra.Command, v *string, use string) {
 	cmd.Flags().StringVar(v, NameFlag, "", use)
-}
-
-func AddRequiredNameFlag(cmd *cobra.Command, use string) *string {
-	s := AddNameFlag(cmd, use)
-	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
-
-	return s
 }
 
 func AddRequiredNameFlagVar(cmd *cobra.Command, v *string, use string) {
