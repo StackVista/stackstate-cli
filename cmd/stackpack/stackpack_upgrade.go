@@ -1,7 +1,6 @@
 package stackpack
 
 import (
-	"errors"
 	"fmt"
 	"strings"
 
@@ -47,9 +46,6 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		if !isValidStrategy(args.UnlockedStrategy) {
-			return common.NewCLIArgParseError(errors.New("invalid strategy"))
-		}
 		stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
@@ -77,15 +73,6 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 
 		return nil
 	}
-}
-
-func isValidStrategy(name string) bool {
-	for _, v := range UnlockedStrategyChoices {
-		if v == name {
-			return true
-		}
-	}
-	return false
 }
 
 func findStackName(stacks []stackstate_api.Sstackpack, name string) (stackstate_api.Sstackpack, error) {
