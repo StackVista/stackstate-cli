@@ -70,3 +70,12 @@ func CheckFlagIsValidChoice(flagName string, flagValue string, choices []string)
 		return nil
 	}
 }
+
+func NewNotFoundError(err error) CLIError {
+	return StdCLIError{
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      true,
+		exitCode:       NotFoundExitCode,
+	}
+}
