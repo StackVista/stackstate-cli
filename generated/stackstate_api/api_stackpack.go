@@ -24,6 +24,22 @@ import (
 type StackpackApi interface {
 
 	/*
+		ConfirmManualSteps Confirm manual steps
+
+		Confirm manual steps of the stackpack
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param stackpackName
+		@param stackpackInstanceId
+		@return ApiConfirmManualStepsRequest
+	*/
+	ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest
+
+	// ConfirmManualStepsExecute executes the request
+	//  @return string
+	ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error)
+
+	/*
 		ProvisionDetails Provision API
 
 		Provision details
@@ -85,6 +101,136 @@ type StackpackApi interface {
 
 // StackpackApiService StackpackApi service
 type StackpackApiService service
+
+type ApiConfirmManualStepsRequest struct {
+	ctx                 context.Context
+	ApiService          StackpackApi
+	stackpackName       string
+	stackpackInstanceId int64
+}
+
+func (r ApiConfirmManualStepsRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.ConfirmManualStepsExecute(r)
+}
+
+/*
+ConfirmManualSteps Confirm manual steps
+
+Confirm manual steps of the stackpack
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param stackpackName
+ @param stackpackInstanceId
+ @return ApiConfirmManualStepsRequest
+*/
+func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest {
+	return ApiConfirmManualStepsRequest{
+		ApiService:          a,
+		ctx:                 ctx,
+		stackpackName:       stackpackName,
+		stackpackInstanceId: stackpackInstanceId,
+	}
+}
+
+// Execute executes the request
+//  @return string
+func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ConfirmManualSteps")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/{stackpackName}/confirm-manual-steps/{stackpackInstanceId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackpackName"+"}", url.PathEscape(parameterToString(r.stackpackName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stackpackInstanceId"+"}", url.PathEscape(parameterToString(r.stackpackInstanceId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiProvisionDetailsRequest struct {
 	ctx         context.Context
@@ -652,6 +798,8 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 // ---------------------------------------------
 
 type StackpackApiMock struct {
+	ConfirmManualStepsCalls    *[]ConfirmManualStepsCall
+	ConfirmManualStepsResponse ConfirmManualStepsMockResponse
 	ProvisionDetailsCalls      *[]ProvisionDetailsCall
 	ProvisionDetailsResponse   ProvisionDetailsMockResponse
 	ProvisionUninstallCalls    *[]ProvisionUninstallCall
@@ -663,16 +811,47 @@ type StackpackApiMock struct {
 }
 
 func NewStackpackApiMock() StackpackApiMock {
+	xConfirmManualStepsCalls := make([]ConfirmManualStepsCall, 0)
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
 	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
 	xStackpackListCalls := make([]StackpackListCall, 0)
 	xStackpackUploadCalls := make([]StackpackUploadCall, 0)
 	return StackpackApiMock{
+		ConfirmManualStepsCalls: &xConfirmManualStepsCalls,
 		ProvisionDetailsCalls:   &xProvisionDetailsCalls,
 		ProvisionUninstallCalls: &xProvisionUninstallCalls,
 		StackpackListCalls:      &xStackpackListCalls,
 		StackpackUploadCalls:    &xStackpackUploadCalls,
 	}
+}
+
+type ConfirmManualStepsMockResponse struct {
+	Result   string
+	Response *http.Response
+	Error    error
+}
+
+type ConfirmManualStepsCall struct {
+	PstackpackName       string
+	PstackpackInstanceId int64
+}
+
+func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest {
+	return ApiConfirmManualStepsRequest{
+		ApiService:          mock,
+		ctx:                 ctx,
+		stackpackName:       stackpackName,
+		stackpackInstanceId: stackpackInstanceId,
+	}
+}
+
+func (mock StackpackApiMock) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
+	p := ConfirmManualStepsCall{
+		PstackpackName:       r.stackpackName,
+		PstackpackInstanceId: r.stackpackInstanceId,
+	}
+	*mock.ConfirmManualStepsCalls = append(*mock.ConfirmManualStepsCalls, p)
+	return mock.ConfirmManualStepsResponse.Result, mock.ConfirmManualStepsResponse.Response, mock.ConfirmManualStepsResponse.Error
 }
 
 type ProvisionDetailsMockResponse struct {
