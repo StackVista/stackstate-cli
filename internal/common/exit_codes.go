@@ -11,4 +11,5 @@ const (
 	ReadFileErrorExitCode
 	WriteFileErrorExitCode
 	UnknownSubCommmandExitCode
+	NotFoundExitCode
 )

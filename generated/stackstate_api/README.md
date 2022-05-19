@@ -118,6 +118,7 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackName}/deprovision/{stackId} | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
+*StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -195,8 +196,6 @@ Class | Method | HTTP request | Description
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatus1](docs/MonitorStatus1.md)
- - [MonitorStatusIdentifierNotFoundError](docs/MonitorStatusIdentifierNotFoundError.md)
- - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
