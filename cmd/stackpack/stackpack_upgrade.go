@@ -3,6 +3,9 @@ package stackpack
 import (
 	"errors"
 	"fmt"
+	"strings"
+
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
@@ -10,10 +13,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-const (
-	strategyWrite = "overwrite"
-	strategyFail  = "fail"
-	strategySkip  = "skip"
+var (
+	UnlockedStrategyChoices = []string{"fail", "skip", "overwrite"}
 )
 
 type UpgradeArgs struct {
@@ -30,8 +31,13 @@ func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 		RunE:  cli.CmdRunEWithApi(RunStackpackUpgradeCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "name of the StackPack")
-	cmd.Flags().StringVar(&args.UnlockedStrategy, UnlockedStrategyFlag, "", "unlocked-strategy flag must be one of {fail,overwrite,skip}")
-	cmd.MarkFlagRequired(UnlockedStrategyFlag) //nolint:errcheck
+	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
+		UnlockedStrategyFlag,
+		"",
+		UnlockedStrategyChoices,
+		"strategy use to upgrade StackPack instance"+
+			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
+	)
 	return cmd
 }
 func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
@@ -50,10 +56,10 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		}
 		stack, err := findStackName(stackpackList, args.TypeName)
 		if err != nil {
-			return common.NewCLIArgParseError(err)
+			return common.NewNotFoundError(err)
 		}
 		if !stack.HasNextVersion() {
-			return common.NewCLIArgParseError(fmt.Errorf("stackpack %s cannot be upgraded at this moment", args.TypeName))
+			return common.NewNotFoundError(fmt.Errorf("stackpack %s cannot be upgraded at this moment", args.TypeName))
 		}
 		_, resp, err = api.StackpackApi.UpgradeStackPack(cli.Context, args.TypeName).Unlocked(args.UnlockedStrategy).Execute()
 		if err != nil {
@@ -74,7 +80,12 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 }
 
 func isValidStrategy(name string) bool {
-	return name == strategyFail || name == strategyWrite || name == strategySkip
+	for _, v := range UnlockedStrategyChoices {
+		if v == name {
+			return true
+		}
+	}
+	return false
 }
 
 func findStackName(stacks []stackstate_api.Sstackpack, name string) (stackstate_api.Sstackpack, error) {
