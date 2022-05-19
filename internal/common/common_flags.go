@@ -3,36 +3,47 @@ package common
 import "github.com/spf13/cobra"
 
 const (
-	FileFlag      = "file"
-	FileFlagShort = "f"
-	IDFlag        = "id"
-	IDFlagShort   = "i"
-	NameFlag      = "name"
+	FileFlag       = "file"
+	FileFlagShort  = "f"
+	IDFlag         = "id"
+	IdentifierFlag = "identifier"
+	IDFlagShort    = "i"
+	NameFlag       = "name"
+	NameFlagShort  = "n"
 )
 
-func AddFileFlag(cmd *cobra.Command, use string) {
-	cmd.Flags().StringP(FileFlag, FileFlagShort, "", use)
+func AddFileFlagVar(cmd *cobra.Command, v *string, use string) {
+	cmd.Flags().StringVarP(v, FileFlag, FileFlagShort, "", use)
 }
 
-func AddRequiredFileFlag(cmd *cobra.Command, use string) {
-	AddFileFlag(cmd, use)
+func AddRequiredFileFlagVar(cmd *cobra.Command, v *string, use string) {
+	AddFileFlagVar(cmd, v, use)
 	cmd.MarkFlagRequired(FileFlag) //nolint:errcheck
 }
 
-func AddIDFlag(cmd *cobra.Command, use string) {
-	cmd.Flags().StringP(IDFlag, IDFlagShort, "", use)
+func AddIDFlagVar(cmd *cobra.Command, v *int64, use string) {
+	cmd.Flags().Int64VarP(v, IDFlag, IDFlagShort, 0, use)
 }
 
-func AddRequiredIDFlag(cmd *cobra.Command, use string) {
-	AddIDFlag(cmd, use)
+func AddRequiredIDFlagVar(cmd *cobra.Command, v *int64, use string) {
+	AddIDFlagVar(cmd, v, use)
 	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
 }
 
-func AddNameFlag(cmd *cobra.Command, use string) {
-	cmd.Flags().String(NameFlag, "", use)
+func AddIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
+	cmd.Flags().StringVar(v, IdentifierFlag, "", use)
 }
 
-func AddRequiredNameFlag(cmd *cobra.Command, use string) {
-	AddNameFlag(cmd, use)
+func AddRequiredIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
+	AddIdentifierFlagVar(cmd, v, use)
+	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
+}
+
+func AddNameFlagVar(cmd *cobra.Command, v *string, use string) {
+	cmd.Flags().StringVar(v, NameFlag, "", use)
+}
+
+func AddRequiredNameFlagVar(cmd *cobra.Command, v *string, use string) {
+	AddNameFlagVar(cmd, v, use)
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
 }

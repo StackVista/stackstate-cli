@@ -11,14 +11,13 @@ Name | Type | Description | Notes
 **FunctionId** | **int64** |  | 
 **Arguments** | **[]map[string]interface{}** |  | 
 **RemediationHint** | Pointer to **string** |  | [optional] 
-**TopologyMapping** | **string** |  | 
 **IntervalSeconds** | **int32** |  | 
 
 ## Methods
 
 ### NewMonitor1
 
-`func NewMonitor1(id int64, name string, functionId int64, arguments []map[string]interface{}, topologyMapping string, intervalSeconds int32, ) *Monitor1`
+`func NewMonitor1(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, ) *Monitor1`
 
 NewMonitor1 instantiates a new Monitor1 object
 This constructor will assign default values to properties that have it defined,
@@ -187,26 +186,6 @@ SetRemediationHint sets RemediationHint field to given value.
 `func (o *Monitor1) HasRemediationHint() bool`
 
 HasRemediationHint returns a boolean if a field has been set.
-
-### GetTopologyMapping
-
-`func (o *Monitor1) GetTopologyMapping() string`
-
-GetTopologyMapping returns the TopologyMapping field if non-nil, zero value otherwise.
-
-### GetTopologyMappingOk
-
-`func (o *Monitor1) GetTopologyMappingOk() (*string, bool)`
-
-GetTopologyMappingOk returns a tuple with the TopologyMapping field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTopologyMapping
-
-`func (o *Monitor1) SetTopologyMapping(v string)`
-
-SetTopologyMapping sets TopologyMapping field to given value.
-
 
 ### GetIntervalSeconds
 

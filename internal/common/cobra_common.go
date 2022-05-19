@@ -15,7 +15,7 @@ func AddRequiredFlagsToCmd(root *cobra.Command) {
 		required := ""
 		cmd.Flags().VisitAll(func(flag *pflag.Flag) {
 			if util.IsSingleRequiredFlag(flag) {
-				required += " " + fmt.Sprintf("--%s %s", flag.Name, strings.ToUpper(flag.Value.Type()))
+				required += " " + fmt.Sprintf("--%s %s", flag.Name, strings.ToUpper(flag.Name))
 			}
 		})
 
@@ -23,7 +23,7 @@ func AddRequiredFlagsToCmd(root *cobra.Command) {
 		for _, mutex := range requiredMutexFlags {
 			mutexFlagUses := make([]string, 0)
 			for _, mutexFlag := range mutex_flags.GetAllFlagsOfMutex(cmd, mutex) {
-				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Value.Type())))
+				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Name)))
 			}
 			required += " { " + strings.Join(mutexFlagUses, " | ") + " }"
 		}

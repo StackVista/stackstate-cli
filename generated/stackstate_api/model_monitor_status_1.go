@@ -18,7 +18,9 @@ import (
 // MonitorStatus1 struct for MonitorStatus1
 type MonitorStatus1 struct {
 	Monitor Monitor1 `json:"monitor"`
-	Status HealthStreamStatus1 `json:"status"`
+	Errors []MonitorError `json:"errors,omitempty"`
+	Metrics MonitorMetrics `json:"metrics"`
+	MonitorHealthStateStateCount int32 `json:"monitorHealthStateStateCount"`
 	TopologyMatchResult TopologyMatchResult `json:"topologyMatchResult"`
 }
 
@@ -26,10 +28,11 @@ type MonitorStatus1 struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStatus1(monitor Monitor1, status HealthStreamStatus1, topologyMatchResult TopologyMatchResult) *MonitorStatus1 {
+func NewMonitorStatus1(monitor Monitor1, metrics MonitorMetrics, monitorHealthStateStateCount int32, topologyMatchResult TopologyMatchResult) *MonitorStatus1 {
 	this := MonitorStatus1{}
 	this.Monitor = monitor
-	this.Status = status
+	this.Metrics = metrics
+	this.MonitorHealthStateStateCount = monitorHealthStateStateCount
 	this.TopologyMatchResult = topologyMatchResult
 	return &this
 }
@@ -66,28 +69,84 @@ func (o *MonitorStatus1) SetMonitor(v Monitor1) {
 	o.Monitor = v
 }
 
-// GetStatus returns the Status field value
-func (o *MonitorStatus1) GetStatus() HealthStreamStatus1 {
+// GetErrors returns the Errors field value if set, zero value otherwise.
+func (o *MonitorStatus1) GetErrors() []MonitorError {
+	if o == nil || o.Errors == nil {
+		var ret []MonitorError
+		return ret
+	}
+	return o.Errors
+}
+
+// GetErrorsOk returns a tuple with the Errors field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorStatus1) GetErrorsOk() ([]MonitorError, bool) {
+	if o == nil || o.Errors == nil {
+		return nil, false
+	}
+	return o.Errors, true
+}
+
+// HasErrors returns a boolean if a field has been set.
+func (o *MonitorStatus1) HasErrors() bool {
+	if o != nil && o.Errors != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetErrors gets a reference to the given []MonitorError and assigns it to the Errors field.
+func (o *MonitorStatus1) SetErrors(v []MonitorError) {
+	o.Errors = v
+}
+
+// GetMetrics returns the Metrics field value
+func (o *MonitorStatus1) GetMetrics() MonitorMetrics {
 	if o == nil {
-		var ret HealthStreamStatus1
+		var ret MonitorMetrics
 		return ret
 	}
 
-	return o.Status
+	return o.Metrics
 }
 
-// GetStatusOk returns a tuple with the Status field value
+// GetMetricsOk returns a tuple with the Metrics field value
 // and a boolean to check if the value has been set.
-func (o *MonitorStatus1) GetStatusOk() (*HealthStreamStatus1, bool) {
+func (o *MonitorStatus1) GetMetricsOk() (*MonitorMetrics, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Status, true
+	return &o.Metrics, true
 }
 
-// SetStatus sets field value
-func (o *MonitorStatus1) SetStatus(v HealthStreamStatus1) {
-	o.Status = v
+// SetMetrics sets field value
+func (o *MonitorStatus1) SetMetrics(v MonitorMetrics) {
+	o.Metrics = v
+}
+
+// GetMonitorHealthStateStateCount returns the MonitorHealthStateStateCount field value
+func (o *MonitorStatus1) GetMonitorHealthStateStateCount() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.MonitorHealthStateStateCount
+}
+
+// GetMonitorHealthStateStateCountOk returns a tuple with the MonitorHealthStateStateCount field value
+// and a boolean to check if the value has been set.
+func (o *MonitorStatus1) GetMonitorHealthStateStateCountOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.MonitorHealthStateStateCount, true
+}
+
+// SetMonitorHealthStateStateCount sets field value
+func (o *MonitorStatus1) SetMonitorHealthStateStateCount(v int32) {
+	o.MonitorHealthStateStateCount = v
 }
 
 // GetTopologyMatchResult returns the TopologyMatchResult field value
@@ -119,8 +178,14 @@ func (o MonitorStatus1) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["monitor"] = o.Monitor
 	}
+	if o.Errors != nil {
+		toSerialize["errors"] = o.Errors
+	}
 	if true {
-		toSerialize["status"] = o.Status
+		toSerialize["metrics"] = o.Metrics
+	}
+	if true {
+		toSerialize["monitorHealthStateStateCount"] = o.MonitorHealthStateStateCount
 	}
 	if true {
 		toSerialize["topologyMatchResult"] = o.TopologyMatchResult

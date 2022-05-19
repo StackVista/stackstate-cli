@@ -2,9 +2,8 @@ project_name: stackstate-cli
 release:
   gitlab:
     owner: stackvista
-    name: "{{ .ProjectName }}"
+    name: stackstate-cli2
   name_template: '{{.Tag}}'
-  disable: true
 before:
   hooks:
     - go mod download
@@ -56,7 +55,7 @@ builds:
   - -s -w -X gitlab.com/stackvista/stackstate-cli2/static_info.Version={{.Version}}
     -X gitlab.com/stackvista/stackstate-cli2/static_info.Commit={{.Commit}}
     -X gitlab.com/stackvista/stackstate-cli2/static_info.BuildDate={{.Date}}
-    -X gitlab.com/stackvista/stackstate-cli2/static_info.CLIType=full
+    -X gitlab.com/stackvista/stackstate-cli2/static_info.CLIType=saas
     -X main.builtBy=goreleaser
   binary: sts
   env:
@@ -123,3 +122,55 @@ brews:
   homepage: https://docs.stackstate.com
   url_template: https://dl.stackstate.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
   caveats: "Run `sts` to get going!"
+dockers:
+- image_templates:
+  - "stackstate/stackstate-cli2:{{ .Version }}-x86_64"
+  ids:
+    - stackstate-cli-full
+  use: buildx
+  dockerfile: docker/Dockerfile.goreleaser
+  build_flag_templates:
+  - "--platform=linux/amd64"
+- image_templates:
+  - "stackstate/stackstate-cli2:{{ .Version }}-arm64v8"
+  ids:
+    - stackstate-cli-full
+  use: buildx
+  goarch: arm64
+  dockerfile: docker/Dockerfile.goreleaser
+  build_flag_templates:
+  - "--platform=linux/arm64/v8"
+- image_templates:
+  - "stackstate/stackstate-cli2:{{ .Version }}-x86_64-saas"
+  ids:
+    - stackstate-cli-saas
+  use: buildx
+  dockerfile: docker/Dockerfile.goreleaser
+  build_flag_templates:
+  - "--platform=linux/amd64"
+- image_templates:
+  - "stackstate/stackstate-cli2:{{ .Version }}-arm64v8-saas"
+  ids:
+    - stackstate-cli-saas
+  use: buildx
+  goarch: arm64
+  dockerfile: docker/Dockerfile.goreleaser
+  build_flag_templates:
+  - "--platform=linux/arm64/v8"
+docker_manifests:
+- name_template: stackstate/stackstate-cli2:{{ .Version }}
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8
+- name_template: stackstate/stackstate-cli2:latest
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8
+- name_template: stackstate/stackstate-cli2:{{ .Version }}-saas
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64-saas
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8-saas
+- name_template: stackstate/stackstate-cli2:latest-saas
+  image_templates:
+  - stackstate/stackstate-cli2:{{ .Version }}-x86_64-saas
+  - stackstate/stackstate-cli2:{{ .Version }}-arm64v8-saas  

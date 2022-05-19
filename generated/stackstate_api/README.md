@@ -116,6 +116,7 @@ Class | Method | HTTP request | Description
 *ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/token | Get service tokens
 *StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackpackName}/confirm-manual-step/{stackpackInstanceId} | Confirm manual steps
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
+*StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackName}/deprovision/{stackId} | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
@@ -167,17 +168,14 @@ Class | Method | HTTP request | Description
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
- - [HealthStreamMetrics1](docs/HealthStreamMetrics1.md)
  - [HealthStreamNotFound](docs/HealthStreamNotFound.md)
  - [HealthStreamStatus](docs/HealthStreamStatus.md)
- - [HealthStreamStatus1](docs/HealthStreamStatus1.md)
  - [HealthSubStreamConsistencyState](docs/HealthSubStreamConsistencyState.md)
  - [HealthSubStreamError](docs/HealthSubStreamError.md)
  - [HealthSubStreamExpiry](docs/HealthSubStreamExpiry.md)
  - [HealthSubStreamNotFound](docs/HealthSubStreamNotFound.md)
  - [HealthSubStreamSnapshot](docs/HealthSubStreamSnapshot.md)
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
- - [HealthSubStreamStatus1](docs/HealthSubStreamStatus1.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
@@ -190,12 +188,16 @@ Class | Method | HTTP request | Description
  - [Monitor](docs/Monitor.md)
  - [Monitor1](docs/Monitor1.md)
  - [MonitorApiError](docs/MonitorApiError.md)
+ - [MonitorError](docs/MonitorError.md)
  - [MonitorIdentifierNotFoundError](docs/MonitorIdentifierNotFoundError.md)
  - [MonitorList](docs/MonitorList.md)
+ - [MonitorMetrics](docs/MonitorMetrics.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatus1](docs/MonitorStatus1.md)
+ - [MonitorStatusIdentifierNotFoundError](docs/MonitorStatusIdentifierNotFoundError.md)
+ - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)

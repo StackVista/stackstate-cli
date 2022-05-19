@@ -8,7 +8,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/time_flags"
 )
 
 func ListCommand(cli *di.Deps) *cobra.Command {
@@ -38,7 +37,7 @@ func RunServiceTokenListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 			sid := *serviceToken.Id
 			exp := ""
 			if serviceToken.Expiration != nil {
-				exp = time.UnixMilli(*serviceToken.Expiration).Format(time_flags.DateFormat)
+				exp = time.UnixMilli(*serviceToken.Expiration).Format(DateFormat)
 			}
 			data = append(data, []interface{}{sid, serviceToken.Name, exp, serviceToken.Roles})
 		}

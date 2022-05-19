@@ -7,19 +7,28 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
+type StatusArgs struct {
+	ID         int64
+	Identifier string
+}
+
 func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
+	args := &StatusArgs{}
 	cmd := &cobra.Command{
 		Use:   "status",
 		Short: "get the status of a monitor",
 		Long:  "Get the satus of a single monitor.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand),
+		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand(args)),
 	}
 
-	common.AddRequiredIDFlag(cmd, IDFlagUsage)
+	common.AddRequiredIDFlagVar(cmd, &args.ID, IDFlagUsage)
+	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
+	mutex_flags.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
 
 	return cmd
 }
@@ -30,104 +39,90 @@ const (
 	THREE    = 3
 )
 
-func RunMonitorStatusCommand(
-	cmd *cobra.Command,
-	cli *di.Deps,
-	api *stackstate_api.APIClient,
-	serverInfo *stackstate_api.ServerInfo,
-) common.CLIError {
-	identifier, err := cmd.Flags().GetString(common.IDFlag)
-	if err != nil {
-		return common.NewCLIArgParseError(err)
-	}
+func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
+	return func(
+		cmd *cobra.Command,
+		cli *di.Deps,
+		api *stackstate_api.APIClient,
+		serverInfo *stackstate_api.ServerInfo,
+	) common.CLIError {
+		var resp *http.Response
+		var monitorStatus *stackstate_api.MonitorStatus
+		var err error
 
-	id, err := util.StringToInt64(identifier)
-	var resp *http.Response
-	var monitorStatus *stackstate_api.MonitorStatus
-
-	if err == nil {
-		monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, id).Execute()
-	} else {
-		monitorStatus, resp, err = api.MonitorUrnApi.GetMonitorWithStatusByURN(cli.Context, identifier).Execute()
-	}
-
-	if err != nil {
-		return common.NewResponseError(err, resp)
-	}
-
-	if cli.IsJson {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"monitor-status": monitorStatus,
-		})
-	} else {
-		mainStreamStatus := monitorStatus.Status.MainStreamStatus
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Synchronized check state count: " + util.ToString(mainStreamStatus.CheckStateCount))
-		subStreamSnapshot := mainStreamStatus.SubStreamState.HealthSubStreamSnapshot
-		cli.Printer.PrintLn("Repeat interval (Seconds): " + util.ToString(subStreamSnapshot.GetRepeatIntervalMs()/THOUSAND))
-		if subStreamSnapshot.HasExpiryIntervalMs() {
-			cli.Printer.PrintLn("Expiry (Seconds): " + util.ToString(subStreamSnapshot.GetExpiryIntervalMs()/THOUSAND))
+		if args.ID != 0 {
+			monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, args.ID).Execute()
+		} else {
+			monitorStatus, resp, err = api.MonitorUrnApi.GetMonitorWithStatusByURN(cli.Context, args.Identifier).Execute()
 		}
 
-		if mainStreamStatus.HasErrors() {
-			PrintErrors(cli, mainStreamStatus.GetErrors(), monitorStatus)
+		if err != nil {
+			return common.NewResponseError(err, resp)
 		}
 
-		metricsData := make([][]interface{}, 0)
-		bucketSizeS := mainStreamStatus.GetMetrics().BucketSizeSeconds
-		bucketSizeSDouble := bucketSizeS * TWO
-		bucketSizeSTriple := bucketSizeS * THREE
-		metrics := mainStreamStatus.GetMetrics()
-		metricsData = append(metricsData, CreateMetricRows("latency (Seconds)", metrics.GetLatencySeconds()))
-		metricsData = append(metricsData, CreateMetricRows("messages processed (per second)", metrics.GetMessagePerSecond()))
-		metricsData = append(metricsData, CreateMetricRows("check states created (per second)", metrics.GetCreatesPerSecond()))
-		metricsData = append(metricsData, CreateMetricRows("check states updated (per second)", metrics.GetUpdatesPerSecond()))
-		metricsData = append(metricsData, CreateMetricRows("check states deleted (per second)", metrics.GetDeletesPerSecond()))
+		if cli.IsJson {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"monitor-status": monitorStatus,
+			})
+		} else {
+			cli.Printer.PrintLn("")
+			cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.MonitorHealthStateStateCount))
+			if monitorStatus.HasErrors() {
+				PrintErrors(cli, monitorStatus.GetErrors())
+			}
 
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Synchronization metrics:")
-		cli.Printer.Table(printer.TableData{
-			Header: []string{"metric",
-				"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
-				"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
-				"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
-			Data: metricsData,
-		})
+			metricsData := make([][]interface{}, 0)
+			bucketSizeS := monitorStatus.GetMetrics().HealthSyncServiceMetrics.BucketSizeSeconds
+			bucketSizeSDouble := bucketSizeS * TWO
+			bucketSizeSTriple := bucketSizeS * THREE
+			metrics := monitorStatus.GetMetrics().HealthSyncServiceMetrics
+			metricsData = append(metricsData, CreateMetricRows("latency (Seconds)", metrics.GetLatencySeconds()))
+			metricsData = append(metricsData, CreateMetricRows("messages processed (per second)", metrics.GetMessagePerSecond()))
+			metricsData = append(metricsData, CreateMetricRows("monitor health states created (per second)", metrics.GetCreatesPerSecond()))
+			metricsData = append(metricsData, CreateMetricRows("monitor health states updated (per second)", metrics.GetUpdatesPerSecond()))
+			metricsData = append(metricsData, CreateMetricRows("monitor health states deleted (per second)", metrics.GetDeletesPerSecond()))
 
-		topologyMatchResult := monitorStatus.TopologyMatchResult
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Check states with identifier matching exactly 1 topology element: " + util.ToString(topologyMatchResult.MatchedCheckStates))
+			cli.Printer.PrintLn("")
+			cli.Printer.PrintLn("Monitor Stream metrics:")
+			cli.Printer.Table(printer.TableData{
+				Header: []string{"metric",
+					"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
+					"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
+					"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
+				Data: metricsData,
+			})
 
-		if len(topologyMatchResult.GetUnmatchedCheckStates()) > 0 {
-			PrintTopologyMatchResultUnmatched(cli, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
+			topologyMatchResult := monitorStatus.TopologyMatchResult
+			cli.Printer.PrintLn("")
+			cli.Printer.PrintLn("Monitor health states with identifier matching exactly 1 topology element: " + util.ToString(topologyMatchResult.MatchedCheckStates))
+
+			if len(topologyMatchResult.GetUnmatchedCheckStates()) > 0 {
+				PrintTopologyMatchResultUnmatched(cli, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
+			}
+
+			if len(topologyMatchResult.GetMultipleMatchesCheckStates()) > 0 {
+				PrintTopologyMatchResultMultipleMatched(cli, topologyMatchResult.GetMultipleMatchesCheckStates())
+			}
 		}
 
-		if len(topologyMatchResult.GetMultipleMatchesCheckStates()) > 0 {
-			PrintTopologyMatchResultMultipleMatched(cli, topologyMatchResult.GetMultipleMatchesCheckStates(), monitorStatus)
-		}
+		return nil
 	}
-
-	return nil
 }
-
 func PrintErrors(cli *di.Deps,
-	errors []stackstate_api.HealthStreamError,
-	monitorStatus *stackstate_api.MonitorStatus,
+	errors []stackstate_api.MonitorError,
 ) {
 	cli.Printer.PrintLn("")
-	cli.Printer.PrintLn("Synchronization errors:")
+	cli.Printer.PrintLn("Monitor Stream errors:")
 	data := make([][]interface{}, 0)
 	for _, e := range errors {
 		data = append(data, []interface{}{
-			e.ErrorCode,
-			e.Level,
 			e.Error,
 			e.Count,
 		})
 	}
 
 	cli.Printer.Table(printer.TableData{
-		Header: []string{"code", "level", "message", "occurrence count"},
+		Header: []string{"message", "occurrence count"},
 		Data:   data,
 	})
 }
@@ -136,7 +131,7 @@ func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 	unmatchedCheckStates []stackstate_api.UnmatchedCheckState,
 	monitorStatus *stackstate_api.MonitorStatus) {
 	cli.Printer.PrintLn("")
-	cli.Printer.PrintLn("Check states with identifier which has no matching topology element:")
+	cli.Printer.PrintLn("Monitor health states with identifier which has no matching topology element:")
 
 	unmatchedData := make([][]interface{}, 0)
 	for _, u := range unmatchedCheckStates {
@@ -147,16 +142,16 @@ func PrintTopologyMatchResultUnmatched(cli *di.Deps,
 	}
 
 	cli.Printer.Table(printer.TableData{
-		Header: []string{"check state id", "topology element identifier"},
+		Header: []string{"monitor health state id", "topology element identifier"},
 		Data:   unmatchedData,
 	})
 }
 
 func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
 	multipleMatchesCheckState []stackstate_api.MultipleMatchesCheckState,
-	monitorStatus *stackstate_api.MonitorStatus) {
+) {
 	cli.Printer.PrintLn("")
-	cli.Printer.PrintLn("Check states with identifier which has multiple matching topology elements:")
+	cli.Printer.PrintLn("Monitor health  states with identifier which has multiple matching topology elements:")
 
 	multipleMatched := make([][]interface{}, 0)
 	for _, m := range multipleMatchesCheckState {
@@ -168,7 +163,7 @@ func PrintTopologyMatchResultMultipleMatched(cli *di.Deps,
 	}
 
 	cli.Printer.Table(printer.TableData{
-		Header: []string{"check state id", "topology element identifier", "number of matched topology elements"},
+		Header: []string{"monitor health state id", "topology element identifier", "number of matched topology elements"},
 		Data:   multipleMatched,
 	})
 }

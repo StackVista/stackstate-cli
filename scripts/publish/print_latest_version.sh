@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e && cd "$(dirname "$0")" && cd ..
+set -e && cd "$(dirname "$0")" && cd ../..
 
 # Make sure we've got all tags
 git remote update > /dev/null 2>&1

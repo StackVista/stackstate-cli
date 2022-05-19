@@ -1,25 +1,32 @@
 package di
 
 import (
+	"bytes"
 	"context"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 type MockDeps struct {
 	Deps
 	MockClient  *MockStackStateClient
 	MockPrinter *printer.MockPrinter
+	StdOut      *bytes.Buffer
+	StdErr      *bytes.Buffer
 }
 
 func NewMockDeps() MockDeps {
+	stdOut := new(bytes.Buffer)
+	stdErr := new(bytes.Buffer)
 	mockClient := NewMockStackStateClient()
-	mockPrinter := printer.NewMockPrinter()
+	mockPrinter := printer.NewMockPrinter(printer.NewStdPrinter("linux", stdOut, stdErr))
 	return MockDeps{
 		Deps: Deps{
 			Client:    &mockClient,
 			Printer:   &mockPrinter,
+			Clock:     pflags.NewTestClock(1652108645000), //nolint:gomnd
 			Context:   context.Background(),
 			Config:    &conf.Conf{},
 			Version:   "1.0.0",
@@ -29,5 +36,7 @@ func NewMockDeps() MockDeps {
 		},
 		MockClient:  &mockClient,
 		MockPrinter: &mockPrinter,
+		StdOut:      stdOut,
+		StdErr:      stdErr,
 	}
 }
