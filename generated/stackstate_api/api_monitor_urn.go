@@ -601,7 +601,7 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorW
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v MonitorStatusIdentifierNotFoundError
+			var v MonitorIdentifierNotFoundError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
