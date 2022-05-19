@@ -196,6 +196,8 @@ Class | Method | HTTP request | Description
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatus1](docs/MonitorStatus1.md)
+ - [MonitorStatusIdentifierNotFoundError](docs/MonitorStatusIdentifierNotFoundError.md)
+ - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
