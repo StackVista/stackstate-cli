@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 type MonitorUrnApi interface {
 
 	/*
-	DeleteMonitorByURN Delete a monitor
+		DeleteMonitorByURN Delete a monitor
 
-	Deletes existing monitor
+		Deletes existing monitor
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorUrnId The identifier of a monitor
-	@return ApiDeleteMonitorByURNRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorUrnId The identifier of a monitor
+		@return ApiDeleteMonitorByURNRequest
 	*/
 	DeleteMonitorByURN(ctx context.Context, monitorUrnId string) ApiDeleteMonitorByURNRequest
 
@@ -38,13 +37,13 @@ type MonitorUrnApi interface {
 	DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*http.Response, error)
 
 	/*
-	DryRunMonitorByURN Dry run a monitor and show a result
+		DryRunMonitorByURN Dry run a monitor and show a result
 
-	Performs a dry run of a monitor without topology state modification
+		Performs a dry run of a monitor without topology state modification
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorUrnId The identifier of a monitor
-	@return ApiDryRunMonitorByURNRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorUrnId The identifier of a monitor
+		@return ApiDryRunMonitorByURNRequest
 	*/
 	DryRunMonitorByURN(ctx context.Context, monitorUrnId string) ApiDryRunMonitorByURNRequest
 
@@ -53,13 +52,13 @@ type MonitorUrnApi interface {
 	DryRunMonitorByURNExecute(r ApiDryRunMonitorByURNRequest) (*MonitorRunResult, *http.Response, error)
 
 	/*
-	GetMonitorByURN Get a monitor
+		GetMonitorByURN Get a monitor
 
-	Returns a monitor full representation
+		Returns a monitor full representation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorUrnId The identifier of a monitor
-	@return ApiGetMonitorByURNRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorUrnId The identifier of a monitor
+		@return ApiGetMonitorByURNRequest
 	*/
 	GetMonitorByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorByURNRequest
 
@@ -68,13 +67,13 @@ type MonitorUrnApi interface {
 	GetMonitorByURNExecute(r ApiGetMonitorByURNRequest) (*Monitor, *http.Response, error)
 
 	/*
-	GetMonitorWithStatusByURN Get a monitor with stream information
+		GetMonitorWithStatusByURN Get a monitor with stream information
 
-	Returns a monitor full representation with the stream status information
+		Returns a monitor full representation with the stream status information
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorUrnId The identifier of a monitor
-	@return ApiGetMonitorWithStatusByURNRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorUrnId The identifier of a monitor
+		@return ApiGetMonitorWithStatusByURNRequest
 	*/
 	GetMonitorWithStatusByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest
 
@@ -83,13 +82,13 @@ type MonitorUrnApi interface {
 	GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (*MonitorStatus, *http.Response, error)
 
 	/*
-	RunMonitorByURN Run a monitor
+		RunMonitorByURN Run a monitor
 
-	Runs a monitor once
+		Runs a monitor once
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorUrnId The identifier of a monitor
-	@return ApiRunMonitorByURNRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorUrnId The identifier of a monitor
+		@return ApiRunMonitorByURNRequest
 	*/
 	RunMonitorByURN(ctx context.Context, monitorUrnId string) ApiRunMonitorByURNRequest
 
@@ -102,8 +101,8 @@ type MonitorUrnApi interface {
 type MonitorUrnApiService service
 
 type ApiDeleteMonitorByURNRequest struct {
-	ctx context.Context
-	ApiService MonitorUrnApi
+	ctx          context.Context
+	ApiService   MonitorUrnApi
 	monitorUrnId string
 }
 
@@ -122,8 +121,8 @@ Deletes existing monitor
 */
 func (a *MonitorUrnApiService) DeleteMonitorByURN(ctx context.Context, monitorUrnId string) ApiDeleteMonitorByURNRequest {
 	return ApiDeleteMonitorByURNRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:   a,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
@@ -131,9 +130,9 @@ func (a *MonitorUrnApiService) DeleteMonitorByURN(ctx context.Context, monitorUr
 // Execute executes the request
 func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.DeleteMonitorByURN")
@@ -227,8 +226,8 @@ func (a *MonitorUrnApiService) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURN
 }
 
 type ApiDryRunMonitorByURNRequest struct {
-	ctx context.Context
-	ApiService MonitorUrnApi
+	ctx          context.Context
+	ApiService   MonitorUrnApi
 	monitorUrnId string
 }
 
@@ -247,8 +246,8 @@ Performs a dry run of a monitor without topology state modification
 */
 func (a *MonitorUrnApiService) DryRunMonitorByURN(ctx context.Context, monitorUrnId string) ApiDryRunMonitorByURNRequest {
 	return ApiDryRunMonitorByURNRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:   a,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
@@ -257,10 +256,10 @@ func (a *MonitorUrnApiService) DryRunMonitorByURN(ctx context.Context, monitorUr
 //  @return MonitorRunResult
 func (a *MonitorUrnApiService) DryRunMonitorByURNExecute(r ApiDryRunMonitorByURNRequest) (*MonitorRunResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *MonitorRunResult
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorRunResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.DryRunMonitorByURN")
@@ -363,8 +362,8 @@ func (a *MonitorUrnApiService) DryRunMonitorByURNExecute(r ApiDryRunMonitorByURN
 }
 
 type ApiGetMonitorByURNRequest struct {
-	ctx context.Context
-	ApiService MonitorUrnApi
+	ctx          context.Context
+	ApiService   MonitorUrnApi
 	monitorUrnId string
 }
 
@@ -383,8 +382,8 @@ Returns a monitor full representation
 */
 func (a *MonitorUrnApiService) GetMonitorByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorByURNRequest {
 	return ApiGetMonitorByURNRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:   a,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
@@ -393,10 +392,10 @@ func (a *MonitorUrnApiService) GetMonitorByURN(ctx context.Context, monitorUrnId
 //  @return Monitor
 func (a *MonitorUrnApiService) GetMonitorByURNExecute(r ApiGetMonitorByURNRequest) (*Monitor, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Monitor
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Monitor
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.GetMonitorByURN")
@@ -499,8 +498,8 @@ func (a *MonitorUrnApiService) GetMonitorByURNExecute(r ApiGetMonitorByURNReques
 }
 
 type ApiGetMonitorWithStatusByURNRequest struct {
-	ctx context.Context
-	ApiService MonitorUrnApi
+	ctx          context.Context
+	ApiService   MonitorUrnApi
 	monitorUrnId string
 }
 
@@ -519,8 +518,8 @@ Returns a monitor full representation with the stream status information
 */
 func (a *MonitorUrnApiService) GetMonitorWithStatusByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest {
 	return ApiGetMonitorWithStatusByURNRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:   a,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
@@ -529,10 +528,10 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURN(ctx context.Context, mo
 //  @return MonitorStatus
 func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (*MonitorStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *MonitorStatus
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.GetMonitorWithStatusByURN")
@@ -601,7 +600,7 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorW
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v MonitorIdentifierNotFoundError
+			var v MonitorStatusIdentifierNotFoundError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -635,8 +634,8 @@ func (a *MonitorUrnApiService) GetMonitorWithStatusByURNExecute(r ApiGetMonitorW
 }
 
 type ApiRunMonitorByURNRequest struct {
-	ctx context.Context
-	ApiService MonitorUrnApi
+	ctx          context.Context
+	ApiService   MonitorUrnApi
 	monitorUrnId string
 }
 
@@ -655,8 +654,8 @@ Runs a monitor once
 */
 func (a *MonitorUrnApiService) RunMonitorByURN(ctx context.Context, monitorUrnId string) ApiRunMonitorByURNRequest {
 	return ApiRunMonitorByURNRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:   a,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
@@ -665,10 +664,10 @@ func (a *MonitorUrnApiService) RunMonitorByURN(ctx context.Context, monitorUrnId
 //  @return MonitorRunResult
 func (a *MonitorUrnApiService) RunMonitorByURNExecute(r ApiRunMonitorByURNRequest) (*MonitorRunResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *MonitorRunResult
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorRunResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorUrnApiService.RunMonitorByURN")
@@ -770,24 +769,22 @@ func (a *MonitorUrnApiService) RunMonitorByURNExecute(r ApiRunMonitorByURNReques
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type MonitorUrnApiMock struct {
-	DeleteMonitorByURNCalls *[]DeleteMonitorByURNCall
-	DeleteMonitorByURNResponse DeleteMonitorByURNMockResponse
-	DryRunMonitorByURNCalls *[]DryRunMonitorByURNCall
-	DryRunMonitorByURNResponse DryRunMonitorByURNMockResponse
-	GetMonitorByURNCalls *[]GetMonitorByURNCall
-	GetMonitorByURNResponse GetMonitorByURNMockResponse
-	GetMonitorWithStatusByURNCalls *[]GetMonitorWithStatusByURNCall
+	DeleteMonitorByURNCalls           *[]DeleteMonitorByURNCall
+	DeleteMonitorByURNResponse        DeleteMonitorByURNMockResponse
+	DryRunMonitorByURNCalls           *[]DryRunMonitorByURNCall
+	DryRunMonitorByURNResponse        DryRunMonitorByURNMockResponse
+	GetMonitorByURNCalls              *[]GetMonitorByURNCall
+	GetMonitorByURNResponse           GetMonitorByURNMockResponse
+	GetMonitorWithStatusByURNCalls    *[]GetMonitorWithStatusByURNCall
 	GetMonitorWithStatusByURNResponse GetMonitorWithStatusByURNMockResponse
-	RunMonitorByURNCalls *[]RunMonitorByURNCall
-	RunMonitorByURNResponse RunMonitorByURNMockResponse
-}	
+	RunMonitorByURNCalls              *[]RunMonitorByURNCall
+	RunMonitorByURNResponse           RunMonitorByURNMockResponse
+}
 
 func NewMonitorUrnApiMock() MonitorUrnApiMock {
 	xDeleteMonitorByURNCalls := make([]DeleteMonitorByURNCall, 0)
@@ -795,148 +792,140 @@ func NewMonitorUrnApiMock() MonitorUrnApiMock {
 	xGetMonitorByURNCalls := make([]GetMonitorByURNCall, 0)
 	xGetMonitorWithStatusByURNCalls := make([]GetMonitorWithStatusByURNCall, 0)
 	xRunMonitorByURNCalls := make([]RunMonitorByURNCall, 0)
-	return MonitorUrnApiMock {
-		DeleteMonitorByURNCalls: &xDeleteMonitorByURNCalls,
-		DryRunMonitorByURNCalls: &xDryRunMonitorByURNCalls,
-		GetMonitorByURNCalls: &xGetMonitorByURNCalls,
+	return MonitorUrnApiMock{
+		DeleteMonitorByURNCalls:        &xDeleteMonitorByURNCalls,
+		DryRunMonitorByURNCalls:        &xDryRunMonitorByURNCalls,
+		GetMonitorByURNCalls:           &xGetMonitorByURNCalls,
 		GetMonitorWithStatusByURNCalls: &xGetMonitorWithStatusByURNCalls,
-		RunMonitorByURNCalls: &xRunMonitorByURNCalls,
+		RunMonitorByURNCalls:           &xRunMonitorByURNCalls,
 	}
 }
 
 type DeleteMonitorByURNMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteMonitorByURNCall struct {
 	PmonitorUrnId string
 }
 
-
 func (mock MonitorUrnApiMock) DeleteMonitorByURN(ctx context.Context, monitorUrnId string) ApiDeleteMonitorByURNRequest {
 	return ApiDeleteMonitorByURNRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:   mock,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
 func (mock MonitorUrnApiMock) DeleteMonitorByURNExecute(r ApiDeleteMonitorByURNRequest) (*http.Response, error) {
-	p := DeleteMonitorByURNCall {
-			PmonitorUrnId: r.monitorUrnId,
+	p := DeleteMonitorByURNCall{
+		PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.DeleteMonitorByURNCalls = append(*mock.DeleteMonitorByURNCalls, p)
 	return mock.DeleteMonitorByURNResponse.Response, mock.DeleteMonitorByURNResponse.Error
 }
 
 type DryRunMonitorByURNMockResponse struct {
-	Result MonitorRunResult
+	Result   MonitorRunResult
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DryRunMonitorByURNCall struct {
 	PmonitorUrnId string
 }
 
-
 func (mock MonitorUrnApiMock) DryRunMonitorByURN(ctx context.Context, monitorUrnId string) ApiDryRunMonitorByURNRequest {
 	return ApiDryRunMonitorByURNRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:   mock,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
 func (mock MonitorUrnApiMock) DryRunMonitorByURNExecute(r ApiDryRunMonitorByURNRequest) (*MonitorRunResult, *http.Response, error) {
-	p := DryRunMonitorByURNCall {
-			PmonitorUrnId: r.monitorUrnId,
+	p := DryRunMonitorByURNCall{
+		PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.DryRunMonitorByURNCalls = append(*mock.DryRunMonitorByURNCalls, p)
 	return &mock.DryRunMonitorByURNResponse.Result, mock.DryRunMonitorByURNResponse.Response, mock.DryRunMonitorByURNResponse.Error
 }
 
 type GetMonitorByURNMockResponse struct {
-	Result Monitor
+	Result   Monitor
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetMonitorByURNCall struct {
 	PmonitorUrnId string
 }
 
-
 func (mock MonitorUrnApiMock) GetMonitorByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorByURNRequest {
 	return ApiGetMonitorByURNRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:   mock,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
 func (mock MonitorUrnApiMock) GetMonitorByURNExecute(r ApiGetMonitorByURNRequest) (*Monitor, *http.Response, error) {
-	p := GetMonitorByURNCall {
-			PmonitorUrnId: r.monitorUrnId,
+	p := GetMonitorByURNCall{
+		PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.GetMonitorByURNCalls = append(*mock.GetMonitorByURNCalls, p)
 	return &mock.GetMonitorByURNResponse.Result, mock.GetMonitorByURNResponse.Response, mock.GetMonitorByURNResponse.Error
 }
 
 type GetMonitorWithStatusByURNMockResponse struct {
-	Result MonitorStatus
+	Result   MonitorStatus
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetMonitorWithStatusByURNCall struct {
 	PmonitorUrnId string
 }
 
-
 func (mock MonitorUrnApiMock) GetMonitorWithStatusByURN(ctx context.Context, monitorUrnId string) ApiGetMonitorWithStatusByURNRequest {
 	return ApiGetMonitorWithStatusByURNRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:   mock,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
 func (mock MonitorUrnApiMock) GetMonitorWithStatusByURNExecute(r ApiGetMonitorWithStatusByURNRequest) (*MonitorStatus, *http.Response, error) {
-	p := GetMonitorWithStatusByURNCall {
-			PmonitorUrnId: r.monitorUrnId,
+	p := GetMonitorWithStatusByURNCall{
+		PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.GetMonitorWithStatusByURNCalls = append(*mock.GetMonitorWithStatusByURNCalls, p)
 	return &mock.GetMonitorWithStatusByURNResponse.Result, mock.GetMonitorWithStatusByURNResponse.Response, mock.GetMonitorWithStatusByURNResponse.Error
 }
 
 type RunMonitorByURNMockResponse struct {
-	Result MonitorRunResult
+	Result   MonitorRunResult
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type RunMonitorByURNCall struct {
 	PmonitorUrnId string
 }
 
-
 func (mock MonitorUrnApiMock) RunMonitorByURN(ctx context.Context, monitorUrnId string) ApiRunMonitorByURNRequest {
 	return ApiRunMonitorByURNRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:   mock,
+		ctx:          ctx,
 		monitorUrnId: monitorUrnId,
 	}
 }
 
 func (mock MonitorUrnApiMock) RunMonitorByURNExecute(r ApiRunMonitorByURNRequest) (*MonitorRunResult, *http.Response, error) {
-	p := RunMonitorByURNCall {
-			PmonitorUrnId: r.monitorUrnId,
+	p := RunMonitorByURNCall{
+		PmonitorUrnId: r.monitorUrnId,
 	}
 	*mock.RunMonitorByURNCalls = append(*mock.RunMonitorByURNCalls, p)
 	return &mock.RunMonitorByURNResponse.Result, mock.RunMonitorByURNResponse.Response, mock.RunMonitorByURNResponse.Error
 }
-
-

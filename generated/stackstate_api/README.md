@@ -114,6 +114,7 @@ Class | Method | HTTP request | Description
 *ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/token | Create new service token
 *ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/token/{serviceTokenId} | Delete service token
 *ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/token | Get service tokens
+*StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackpackName}/confirm-manual-steps/{stackpackInstanceId} | Confirm manual steps
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
 *StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackName}/deprovision/{stackId} | Provision API
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
@@ -196,6 +197,8 @@ Class | Method | HTTP request | Description
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatus1](docs/MonitorStatus1.md)
+ - [MonitorStatusIdentifierNotFoundError](docs/MonitorStatusIdentifierNotFoundError.md)
+ - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
