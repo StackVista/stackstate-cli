@@ -36,7 +36,7 @@ func main() {
 
 	cmd := cmd.STSCommand(cli)
 
-	execute(ctx, cli, cmd)
+	os.Exit(execute(ctx, cli, cmd))
 }
 
 func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
