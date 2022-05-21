@@ -24,7 +24,7 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 	)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 	assert.Equal(t,
-		[]string{"confirmation of manual steps of the provisioning StackPack Name: zabbix StackPack Id: 1234"},
+		[]string{"Confirmed manual step for StackPack 'zabbix' instance id '1234'"},
 		*cli.MockPrinter.SuccessCalls)
 	assert.Equal(t,
 		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,

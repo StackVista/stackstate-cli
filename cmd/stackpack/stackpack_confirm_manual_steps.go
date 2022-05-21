@@ -46,7 +46,7 @@ func RunStackpackConfirmManualStepsCommand(args *ManualStepsArgs) di.CmdWithApiF
 				"stackpack-instance-id": args.ID,
 			})
 		} else {
-			cli.Printer.Success(fmt.Sprintf("confirmation of manual steps of the provisioning StackPack Name: %s StackPack Id: %d", args.TypeName, args.ID))
+			cli.Printer.Success(fmt.Sprintf("Confirmed manual step for StackPack '%s' instance id '%d'", args.TypeName, args.ID))
 		}
 
 		return nil
