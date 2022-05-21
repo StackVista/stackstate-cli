@@ -56,7 +56,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 
 func TestStackpackListInstancePrintToTable(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn()
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "-n", testName)
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"id", "status", "version", "last updated"},

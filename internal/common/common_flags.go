@@ -40,7 +40,7 @@ func AddRequiredIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
 }
 
 func AddNameFlagVar(cmd *cobra.Command, v *string, use string) {
-	cmd.Flags().StringVar(v, NameFlag, "", use)
+	cmd.Flags().StringVarP(v, NameFlag, NameFlagShort, "", use)
 }
 
 func AddRequiredNameFlagVar(cmd *cobra.Command, v *string, use string) {
