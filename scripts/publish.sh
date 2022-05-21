@@ -19,3 +19,4 @@ echo "$docker_password" | docker login -u "$docker_user" --password-stdin docker
 
 goreleaser release
 scripts/publish/publish_latest_version_to_s3.sh
+scripts/publish/publish_installers_to_s3.sh

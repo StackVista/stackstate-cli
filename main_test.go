@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -188,4 +189,20 @@ func TestHelpOnMissingSubCommand(t *testing.T) {
 	assert.Equal(t, "", cli.StdErr.String())
 	assert.Contains(t, cli.StdOut.String(), "Usage:")
 	assert.NotContains(t, cli.StdOut.String(), "flags")
+}
+
+// thanks https://stackoverflow.com/a/33404435/1860591
+func TestExitCodeOnError(t *testing.T) {
+	if os.Getenv("BE_CRASHER") == "1" {
+		os.Args = []string{"unknown_cmd", "--unknown-flag"}
+		main()
+		return
+	}
+	cmd := exec.Command(os.Args[0], "-test.run=TestExitCodeOnError") //nolint:gosec
+	cmd.Env = append(os.Environ(), "BE_CRASHER=1")
+	err := cmd.Run()
+	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
+		return
+	}
+	t.Fatalf("process ran with err %v, want exit status 1", err)
 }
