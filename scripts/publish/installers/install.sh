@@ -1,5 +1,5 @@
-#!/usr/bin/env bash
-
+# To install:
+# curl -o- https://dl.stackstate.com/stackstate-cli/install.sh |STS_API_URL="url" STS_API_TOKEN="token" bash
 #-----------------------------------
 # Parameters to script
 #-----------------------------------
@@ -8,6 +8,7 @@
 # STS_API_TOKEN - API-TOKEN of the StackState instance to configure (empty means don't configure)
 #-----------------------------------
 
+#!/usr/bin/env bash
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 NO_COLOR='\033[0m'
@@ -41,7 +42,7 @@ curl $DL | tar xz --directory $TARGET_CLI_PATH
 # Verify that 'sts' works
 sts > /dev/null 2>&1
 if [ $? -ne 0 ]; then 
-  error "Can not find 'sts' on the path? Is /usr/local/bin on your path?"
+  error "Can not find 'sts' on the path or execute it?"
 fi
 
 # Configure the CLI if config parameters have been set

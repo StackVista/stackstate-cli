@@ -1,3 +1,7 @@
+# To install run:
+# . { iwr -useb https://dl.stackstate.com/stackstate-cli/install.ps1 } | iex; install -StsUrl "url" -StsApiToken "token"
+# To uninstall run:
+# . { iwr -useb https://dl.stackstate.com/stackstate-cli/install.ps1 } | iex; uninstall
 new-module -name "StsCliInstaller" -scriptblock {
 
   function Error {
