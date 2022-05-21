@@ -87,7 +87,7 @@ new-module -name "StsCliInstaller" -scriptblock {
       $Path = $Path.Remove($i, $CliPath.Length+1)
       (Set-ItemProperty -Path "Registry::HKEY_CURRENT_USER\Environment" -Name PATH -Value $Path) 
     } 
-    Write-Host "Uninstalled 'sts'. See you later!"
+    Write-Host "Uninstalled the StackState CLI. See you later!"
   }
 
   set-alias install -value Install-Cli

@@ -3,9 +3,9 @@
 #-----------------------------------
 # Parameters to script
 #-----------------------------------
-# STS_CLI_VERSION  - version of the CLI that should be installed (empty means latest)
-# STS_URL - url of the StackState instance the CLI should be configured to use (empty means don't configure)
-# STS_API_TOKEN - API-TOKEN of the StackState instance the CLI should be configured to use (empty means don't configure)
+# STS_CLI_VERSION  - version of the CLI to install (empty means latest)
+# STS_URL - url of the StackState instance to configure (empty means don't configure)
+# STS_API_TOKEN - API-TOKEN of the StackState instance to configure (empty means don't configure)
 #-----------------------------------
 
 GREEN='\033[0;32m'
