@@ -28,6 +28,7 @@ func ToOutput(s string) Output {
 		return JSONOutput
 	case "yaml":
 		return YAMLOutput
+	default:
+		return DefaultOutput
 	}
-	return DefaultOutput
 }
