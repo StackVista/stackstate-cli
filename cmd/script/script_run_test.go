@@ -44,7 +44,7 @@ func TestExecuteSuccessJson(t *testing.T) {
 		Result: map[string]interface{}{"value": "hello test"},
 	}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

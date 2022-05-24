@@ -81,7 +81,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 			return err
 		}
 
-		if !cli.IsJson {
+		if !cli.IsJson() {
 			PrintConnectionSuccess(cli.Printer, URL, serverInfo)
 		}
 	}
@@ -92,7 +92,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return common.NewReadFileError(err, filename)
 	}
 
-	if cli.IsJson {
+	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
 			"connection-tested": !skipValidate,
 			"config-file":       filename,

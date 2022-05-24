@@ -88,7 +88,7 @@ func RunScriptRunCommand(args *ScriptRunArgs) di.CmdWithApiFn {
 
 		// print response
 		value := scriptResponse.Result["value"]
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"result": scriptResponse.Result,
 			})

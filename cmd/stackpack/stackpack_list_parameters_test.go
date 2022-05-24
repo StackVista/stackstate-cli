@@ -54,7 +54,7 @@ func TestStackpackListParameterPrintToTable(t *testing.T) {
 
 func TestStackpackListParameterPrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListParametersFn()
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", "--name", parameterName, "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", "--name", parameterName, "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"parameters": []stackstate_api.StackPackStep{
 			{

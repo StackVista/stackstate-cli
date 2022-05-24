@@ -39,7 +39,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 func TestListTypesPrintsToJson(t *testing.T) {
 	cli, cmd := setupSettingListTypesCmd()
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
 		"setting-types": cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result,

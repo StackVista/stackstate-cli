@@ -55,7 +55,7 @@ func RunDeleteMonitorCommand(args *DeleteArgs) di.CmdWithApiFn {
 		if identifier == "" {
 			identifier = fmt.Sprintf("%d", args.ID)
 		}
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"deleted-monitor-identifier": identifier,
 			})

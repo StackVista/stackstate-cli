@@ -40,7 +40,7 @@ func RunStackpackUninstallCommand(args *UninstallArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"success": true,
 				"result":  result,

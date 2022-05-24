@@ -74,7 +74,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 func TestSettingsListPrintsToJson(t *testing.T) {
 	cli, cmd := setupSettingsListCmd()
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

@@ -110,7 +110,7 @@ func TestSetingsApplyJson(t *testing.T) {
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
 		"applied-settings": cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result,

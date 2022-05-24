@@ -91,7 +91,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 func TestStackpackInstallPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd()
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

@@ -22,7 +22,7 @@ type Deps struct {
 	Client    client.StackStateClient
 	Clock     pflags.Clock
 	IsVerBose bool
-	IsJson    bool
+	Output    common.Output
 	NoColor   bool
 	Version   string
 	Commit    string
@@ -84,4 +84,8 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken string) common.CLIError {
 	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, apiURL, apiPath, apiToken)
 	return nil
+}
+
+func (cli *Deps) IsJson() bool {
+	return cli.Output == common.JSONOutput
 }

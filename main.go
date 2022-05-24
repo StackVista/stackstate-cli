@@ -80,7 +80,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 			exitCode = common.CommandFailedRequirementExitCode
 		}
 
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintErrJson(err)
 		} else {
 			cli.Printer.PrintErr(err)
@@ -107,9 +107,13 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 		cli.NoColor = true
 	}
 
-	json, _ := cmd.Flags().GetBool(common.JsonFlag)
-	cli.IsJson = json
-	if json {
+	output, err := pflags.GetEnum(cmd.Flags(), common.OutputFlag)
+	if err != nil {
+		return err
+	}
+
+	cli.Output = common.ToOutput(output)
+	if cli.Output == common.JSONOutput {
 		cli.NoColor = true
 	}
 

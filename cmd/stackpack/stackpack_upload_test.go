@@ -67,7 +67,7 @@ func TestUploadStackPackPrintToJson(t *testing.T) {
 	}
 	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = *stackpack
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "-o", "json")
 
 	assert.Equal(
 		t,

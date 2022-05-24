@@ -76,7 +76,7 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			if _, err = file.Write([]byte(data)); err != nil {
 				return common.NewWriteFileError(err, args.FilePath)
 			}
-			if cli.IsJson {
+			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"filepath": args.FilePath,
 				})
@@ -86,7 +86,7 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 
 			return nil
 		} else {
-			if cli.IsJson {
+			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"data":   data,
 					"format": "stj",

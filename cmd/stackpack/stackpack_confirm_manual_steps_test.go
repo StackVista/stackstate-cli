@@ -38,7 +38,7 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPacConfirmManualStepsCmd()
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", "--name", "zabbix",
-		"--id", "1234", "--json",
+		"--id", "1234", "-o", "json",
 	)
 	expectedJsonCalls := []map[string]interface{}{{
 		"success":               true,

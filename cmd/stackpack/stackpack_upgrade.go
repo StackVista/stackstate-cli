@@ -61,7 +61,7 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"success":         true,
 				"current-version": stack.GetVersion(),
