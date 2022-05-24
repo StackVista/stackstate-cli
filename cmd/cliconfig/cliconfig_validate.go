@@ -27,7 +27,7 @@ func RunTestConnectConfig(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	if cli.IsJson {
+	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
 			"connected":   true,
 			"server-info": serverInfo,

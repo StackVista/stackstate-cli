@@ -52,7 +52,7 @@ func TestStackpackUpgradePrintToJson(t *testing.T) {
 	strategyFlag := "overwrite"
 	cli, cmd := setupStackPackUpgradeCmd()
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
-		"--unlocked-strategy", strategyFlag, "--json",
+		"--unlocked-strategy", strategyFlag, "-o", "json",
 	)
 
 	assert.Equal(t,

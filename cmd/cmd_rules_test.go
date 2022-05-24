@@ -44,7 +44,7 @@ func TestVerbCommandCheckForJsonOuput(t *testing.T) {
 			if err != nil {
 				t.Fatal(err)
 			}
-			if !strings.Contains(string(verbCmdGoCode), "if cli.IsJson {") {
+			if !strings.Contains(string(verbCmdGoCode), "if cli.IsJson() {") {
 				t.Fatalf("%s does not check whether to print to json!", verCmdGoFile)
 			}
 			if !strings.Contains(string(verbCmdGoCode), "cli.Printer.PrintJson(") {

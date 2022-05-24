@@ -14,7 +14,7 @@ To ensure consistent output we limit ourselves to printing to stdout and stderr 
 
 ## Rule: each command must have both a human readable as well as a machine ouput
 
-The `--json` flag is a persistent flag that allows our users to use the CLI for machine purposes. Please ensure that each commands supports both types of output.
+The `-o` flag is a persistent flag that allows our users to control the output format used by the CLI. If the user uses `json`, the CLI can be used with for instance `jq` to do further parsing of its output. Please ensure that each commands supports both types of output.
 
 ## Rule: noun, verb, flags
 
@@ -112,7 +112,7 @@ When you have an error related to the input of the CLI you should use a `CLIErro
 
 If there are multiple of a type of entity in StackState, please use plural.
 
-## Rule: reuse command verbs as much as possible 
+## Rule: reuse command verbs as much as possible
 
  * apply - applies some entity to StackState.
  * list - lists a set of entities in table form.

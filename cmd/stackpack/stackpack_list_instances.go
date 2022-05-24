@@ -52,7 +52,7 @@ func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
 			}
 		}
 
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"instances": instances,
 			})

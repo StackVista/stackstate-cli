@@ -67,7 +67,7 @@ func TestServiceTokenCreateJSON(t *testing.T) {
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = *r
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

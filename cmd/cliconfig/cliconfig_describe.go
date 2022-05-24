@@ -24,7 +24,7 @@ func RunDescribe(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		return err
 	}
 
-	if cli.IsJson {
+	if cli.IsJson() {
 		cli.Printer.PrintJson(viper.AllSettings())
 	} else {
 		cli.Printer.PrintStruct(viper.AllSettings())

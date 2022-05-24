@@ -28,7 +28,7 @@ func TestDescribe(t *testing.T) {
 func TestDescribeJson(t *testing.T) {
 	cli, cmd := setupDescribeCmd()
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "https://test", "--api-token", "bla", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--url", "https://test", "--api-token", "bla", "-o", "json")
 
 	config := (*cli.MockPrinter.PrintJsonCalls)[0]
 	assert.Equal(t, "bla", config["api-token"])

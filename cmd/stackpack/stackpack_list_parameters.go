@@ -45,7 +45,7 @@ func RunStackpackListParameterCommand(args *ListArgs) di.CmdWithApiFn {
 				steps = append(steps, step)
 			}
 		}
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"parameters": steps,
 			})

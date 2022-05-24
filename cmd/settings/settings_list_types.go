@@ -29,7 +29,7 @@ func RunSettingsListTypesCommand(cmd *cobra.Command,
 		return common.NewResponseError(err, resp)
 	}
 
-	if cli.IsJson {
+	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
 			"setting-types": *settingTypes,
 		})

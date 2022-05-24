@@ -27,7 +27,7 @@ func TestStackpackUninstallCommandPrintToConsole(t *testing.T) {
 
 func TestStackpackUninstallCommandPrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackUninstallFn()
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "uninstall", "--name", "zabbix", "-i", "39206337488300", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "uninstall", "--name", "zabbix", "-i", "39206337488300", "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
 		"success": true,

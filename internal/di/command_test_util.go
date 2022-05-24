@@ -5,7 +5,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (output string, err error) {
@@ -16,9 +15,13 @@ func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (o
 	if !cmd.PersistentFlags().HasAvailableFlags() { // to prevent double loading error on second call
 		common.AddPersistentFlags(cmd)
 	}
-	if util.StringInSlice("--json", args) {
-		cli.IsJson = true
+
+	for i, s := range args {
+		if s == "--output" || s == "-o" {
+			cli.Output = common.ToOutput(args[i+1])
+		}
 	}
+
 	err = cmd.ExecuteContext(cli.Context)
 	return buf.String(), err
 }

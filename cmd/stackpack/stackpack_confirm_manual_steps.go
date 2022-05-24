@@ -39,7 +39,7 @@ func RunStackpackConfirmManualStepsCommand(args *ManualStepsArgs) di.CmdWithApiF
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"success":               true,
 				"stackpack-name":        args.TypeName,

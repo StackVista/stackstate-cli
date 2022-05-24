@@ -53,7 +53,7 @@ func RunStackpackListCommand(
 		stackpacks = append(stackpacks, stackpack)
 	}
 
-	if cli.IsJson {
+	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
 			"stackpacks": stackpacks,
 		})

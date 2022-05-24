@@ -69,7 +69,7 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 
 func TestStackpackListInstancePrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn()
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"instances": []stackstate_api.SstackpackConfigurations{
 			{

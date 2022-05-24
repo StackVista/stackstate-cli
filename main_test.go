@@ -65,7 +65,7 @@ func TestVersionRun(t *testing.T) {
 func TestVersionJsonRun(t *testing.T) {
 	cli, cmd := setupSTSCmd()
 
-	cmd.SetArgs([]string{"version", "--json"})
+	cmd.SetArgs([]string{"version", "-o", "json"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 
 	assert.Equal(t, 0, exitCode)
@@ -100,7 +100,7 @@ func TestErrHandling(t *testing.T) {
 func TestErrToJson(t *testing.T) {
 	cli, sts := setupSTSCmd()
 
-	sts.SetArgs([]string{"test-error", "--json"})
+	sts.SetArgs([]string{"test-error", "-o", "json"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
@@ -152,7 +152,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 
 func TestNoColorWhenJsonOutput(t *testing.T) {
 	cli, cmd := setupSTSCmd()
-	cmd.SetArgs([]string{"version", "--json"})
+	cmd.SetArgs([]string{"version", "-o", "json"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
 	assert.True(t, cli.NoColor)

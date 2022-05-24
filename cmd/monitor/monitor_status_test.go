@@ -80,7 +80,7 @@ func TestSettingsStatusPrintsToJson(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd()
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "--json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

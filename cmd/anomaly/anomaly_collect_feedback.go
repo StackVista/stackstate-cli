@@ -78,7 +78,7 @@ func RunCollectFeedbackCommand(args *CollectFeedbackArgs) di.CmdWithApiFn {
 			return common.NewWriteFileError(err, args.File)
 		}
 
-		if cli.IsJson {
+		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"collected-anomalies": len(anomalies),
 				"filepath":            args.File,
