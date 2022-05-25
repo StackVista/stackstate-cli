@@ -17,10 +17,10 @@ import (
 
 // MonitorApiError struct for MonitorApiError
 type MonitorApiError struct {
-	MonitorId *string `json:"monitorId,omitempty"`
-	MonitorIdType *string `json:"monitorIdType,omitempty"`
 	StatusCode string `json:"statusCode"`
 	Message string `json:"message"`
+	MonitorId *string `json:"monitorId,omitempty"`
+	MonitorIdType *string `json:"monitorIdType,omitempty"`
 }
 
 // NewMonitorApiError instantiates a new MonitorApiError object
@@ -40,6 +40,54 @@ func NewMonitorApiError(statusCode string, message string) *MonitorApiError {
 func NewMonitorApiErrorWithDefaults() *MonitorApiError {
 	this := MonitorApiError{}
 	return &this
+}
+
+// GetStatusCode returns the StatusCode field value
+func (o *MonitorApiError) GetStatusCode() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.StatusCode
+}
+
+// GetStatusCodeOk returns a tuple with the StatusCode field value
+// and a boolean to check if the value has been set.
+func (o *MonitorApiError) GetStatusCodeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.StatusCode, true
+}
+
+// SetStatusCode sets field value
+func (o *MonitorApiError) SetStatusCode(v string) {
+	o.StatusCode = v
+}
+
+// GetMessage returns the Message field value
+func (o *MonitorApiError) GetMessage() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Message
+}
+
+// GetMessageOk returns a tuple with the Message field value
+// and a boolean to check if the value has been set.
+func (o *MonitorApiError) GetMessageOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Message, true
+}
+
+// SetMessage sets field value
+func (o *MonitorApiError) SetMessage(v string) {
+	o.Message = v
 }
 
 // GetMonitorId returns the MonitorId field value if set, zero value otherwise.
@@ -106,67 +154,19 @@ func (o *MonitorApiError) SetMonitorIdType(v string) {
 	o.MonitorIdType = &v
 }
 
-// GetStatusCode returns the StatusCode field value
-func (o *MonitorApiError) GetStatusCode() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.StatusCode
-}
-
-// GetStatusCodeOk returns a tuple with the StatusCode field value
-// and a boolean to check if the value has been set.
-func (o *MonitorApiError) GetStatusCodeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.StatusCode, true
-}
-
-// SetStatusCode sets field value
-func (o *MonitorApiError) SetStatusCode(v string) {
-	o.StatusCode = v
-}
-
-// GetMessage returns the Message field value
-func (o *MonitorApiError) GetMessage() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Message
-}
-
-// GetMessageOk returns a tuple with the Message field value
-// and a boolean to check if the value has been set.
-func (o *MonitorApiError) GetMessageOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Message, true
-}
-
-// SetMessage sets field value
-func (o *MonitorApiError) SetMessage(v string) {
-	o.Message = v
-}
-
 func (o MonitorApiError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.MonitorId != nil {
-		toSerialize["monitorId"] = o.MonitorId
-	}
-	if o.MonitorIdType != nil {
-		toSerialize["monitorIdType"] = o.MonitorIdType
-	}
 	if true {
 		toSerialize["statusCode"] = o.StatusCode
 	}
 	if true {
 		toSerialize["message"] = o.Message
+	}
+	if o.MonitorId != nil {
+		toSerialize["monitorId"] = o.MonitorId
+	}
+	if o.MonitorIdType != nil {
+		toSerialize["monitorIdType"] = o.MonitorIdType
 	}
 	return json.Marshal(toSerialize)
 }

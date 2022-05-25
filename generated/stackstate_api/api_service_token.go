@@ -114,7 +114,7 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/security/tokens"
+	localVarPath := localBasePath + "/security/token"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -252,7 +252,7 @@ func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTok
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/security/tokens/{serviceTokenId}"
+	localVarPath := localBasePath + "/security/token/{serviceTokenId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"serviceTokenId"+"}", url.PathEscape(parameterToString(r.serviceTokenId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -366,7 +366,7 @@ func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRe
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/security/tokens"
+	localVarPath := localBasePath + "/security/token"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}

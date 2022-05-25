@@ -1,21 +1,20 @@
-# \MonitorApi
+# \MonitorUrnApi
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteMonitor**](MonitorApi.md#DeleteMonitor) | **Delete** /monitor/{monitorId} | Delete a monitor
-[**DryRunMonitor**](MonitorApi.md#DryRunMonitor) | **Post** /monitor/{monitorId}/dryRun | Dry run a monitor and show a result
-[**GetAllMonitors**](MonitorApi.md#GetAllMonitors) | **Get** /monitors | List monitors
-[**GetMonitor**](MonitorApi.md#GetMonitor) | **Get** /monitor/{monitorId} | Get a monitor
-[**GetMonitorWithStatus**](MonitorApi.md#GetMonitorWithStatus) | **Get** /monitor/{monitorId}/status | Get a monitor with stream information
-[**RunMonitor**](MonitorApi.md#RunMonitor) | **Post** /monitor/{monitorId}/run | Run a monitor
+[**DeleteMonitorByURN**](MonitorUrnApi.md#DeleteMonitorByURN) | **Delete** /monitorUrn/{monitorUrnId} | Delete a monitor
+[**DryRunMonitorByURN**](MonitorUrnApi.md#DryRunMonitorByURN) | **Post** /monitorUrn/{monitorUrnId}/dryRun | Dry run a monitor and show a result
+[**GetMonitorByURN**](MonitorUrnApi.md#GetMonitorByURN) | **Get** /monitorUrn/{monitorUrnId} | Get a monitor
+[**GetMonitorWithStatusByURN**](MonitorUrnApi.md#GetMonitorWithStatusByURN) | **Get** /monitorUrn/{monitorUrnId}/status | Get a monitor with stream information
+[**RunMonitorByURN**](MonitorUrnApi.md#RunMonitorByURN) | **Post** /monitorUrn/{monitorUrnId}/run | Run a monitor
 
 
 
-## DeleteMonitor
+## DeleteMonitorByURN
 
-> DeleteMonitor(ctx, monitorId).Execute()
+> DeleteMonitorByURN(ctx, monitorUrnId).Execute()
 
 Delete a monitor
 
@@ -34,13 +33,13 @@ import (
 )
 
 func main() {
-    monitorId := int64(789) // int64 | The identifier of a monitor
+    monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.DeleteMonitor(context.Background(), monitorId).Execute()
+    resp, r, err := apiClient.MonitorUrnApi.DeleteMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.DeleteMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.DeleteMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -52,11 +51,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**monitorId** | **int64** | The identifier of a monitor | 
+**monitorUrnId** | **string** | The identifier of a monitor | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDeleteMonitorRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDeleteMonitorByURNRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -81,9 +80,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## DryRunMonitor
+## DryRunMonitorByURN
 
-> MonitorRunResult DryRunMonitor(ctx, monitorId).Execute()
+> MonitorRunResult DryRunMonitorByURN(ctx, monitorUrnId).Execute()
 
 Dry run a monitor and show a result
 
@@ -102,17 +101,17 @@ import (
 )
 
 func main() {
-    monitorId := int64(789) // int64 | The identifier of a monitor
+    monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.DryRunMonitor(context.Background(), monitorId).Execute()
+    resp, r, err := apiClient.MonitorUrnApi.DryRunMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.DryRunMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.DryRunMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `DryRunMonitor`: MonitorRunResult
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.DryRunMonitor`: %v\n", resp)
+    // response from `DryRunMonitorByURN`: MonitorRunResult
+    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.DryRunMonitorByURN`: %v\n", resp)
 }
 ```
 
@@ -122,11 +121,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**monitorId** | **int64** | The identifier of a monitor | 
+**monitorUrnId** | **string** | The identifier of a monitor | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiDryRunMonitorRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiDryRunMonitorByURNRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -151,70 +150,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetAllMonitors
+## GetMonitorByURN
 
-> MonitorList GetAllMonitors(ctx).Execute()
-
-List monitors
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetAllMonitors(context.Background()).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetAllMonitors``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetAllMonitors`: MonitorList
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetAllMonitors`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-This endpoint does not need any parameter.
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetAllMonitorsRequest struct via the builder pattern
-
-
-### Return type
-
-[**MonitorList**](MonitorList.md)
-
-### Authorization
-
-[ApiToken](../README.md#ApiToken)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## GetMonitor
-
-> Monitor GetMonitor(ctx, monitorId).Execute()
+> Monitor GetMonitorByURN(ctx, monitorUrnId).Execute()
 
 Get a monitor
 
@@ -233,17 +171,17 @@ import (
 )
 
 func main() {
-    monitorId := int64(789) // int64 | The identifier of a monitor
+    monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitor(context.Background(), monitorId).Execute()
+    resp, r, err := apiClient.MonitorUrnApi.GetMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.GetMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetMonitor`: Monitor
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitor`: %v\n", resp)
+    // response from `GetMonitorByURN`: Monitor
+    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.GetMonitorByURN`: %v\n", resp)
 }
 ```
 
@@ -253,11 +191,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**monitorId** | **int64** | The identifier of a monitor | 
+**monitorUrnId** | **string** | The identifier of a monitor | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetMonitorRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetMonitorByURNRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -282,9 +220,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetMonitorWithStatus
+## GetMonitorWithStatusByURN
 
-> MonitorStatus GetMonitorWithStatus(ctx, monitorId).Execute()
+> MonitorStatus GetMonitorWithStatusByURN(ctx, monitorUrnId).Execute()
 
 Get a monitor with stream information
 
@@ -303,17 +241,17 @@ import (
 )
 
 func main() {
-    monitorId := int64(789) // int64 | The identifier of a monitor
+    monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitorWithStatus(context.Background(), monitorId).Execute()
+    resp, r, err := apiClient.MonitorUrnApi.GetMonitorWithStatusByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorWithStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.GetMonitorWithStatusByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetMonitorWithStatus`: MonitorStatus
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitorWithStatus`: %v\n", resp)
+    // response from `GetMonitorWithStatusByURN`: MonitorStatus
+    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.GetMonitorWithStatusByURN`: %v\n", resp)
 }
 ```
 
@@ -323,11 +261,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**monitorId** | **int64** | The identifier of a monitor | 
+**monitorUrnId** | **string** | The identifier of a monitor | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiGetMonitorWithStatusRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiGetMonitorWithStatusByURNRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes
@@ -352,9 +290,9 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## RunMonitor
+## RunMonitorByURN
 
-> MonitorRunResult RunMonitor(ctx, monitorId).Execute()
+> MonitorRunResult RunMonitorByURN(ctx, monitorUrnId).Execute()
 
 Run a monitor
 
@@ -373,17 +311,17 @@ import (
 )
 
 func main() {
-    monitorId := int64(789) // int64 | The identifier of a monitor
+    monitorUrnId := "monitorUrnId_example" // string | The identifier of a monitor
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.RunMonitor(context.Background(), monitorId).Execute()
+    resp, r, err := apiClient.MonitorUrnApi.RunMonitorByURN(context.Background(), monitorUrnId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.RunMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorUrnApi.RunMonitorByURN``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `RunMonitor`: MonitorRunResult
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.RunMonitor`: %v\n", resp)
+    // response from `RunMonitorByURN`: MonitorRunResult
+    fmt.Fprintf(os.Stdout, "Response from `MonitorUrnApi.RunMonitorByURN`: %v\n", resp)
 }
 ```
 
@@ -393,11 +331,11 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**monitorId** | **int64** | The identifier of a monitor | 
+**monitorUrnId** | **string** | The identifier of a monitor | 
 
 ### Other Parameters
 
-Other parameters are passed through a pointer to a apiRunMonitorRequest struct via the builder pattern
+Other parameters are passed through a pointer to a apiRunMonitorByURNRequest struct via the builder pattern
 
 
 Name | Type | Description  | Notes

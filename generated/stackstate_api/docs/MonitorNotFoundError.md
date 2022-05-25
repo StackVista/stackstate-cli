@@ -4,15 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**MonitorId** | **string** |  | 
-**MonitorIdType** | **string** |  | 
 **Type** | **string** |  | 
+**MonitorId** | **int64** |  | 
 
 ## Methods
 
 ### NewMonitorNotFoundError
 
-`func NewMonitorNotFoundError(monitorId string, monitorIdType string, type_ string, ) *MonitorNotFoundError`
+`func NewMonitorNotFoundError(type_ string, monitorId int64, ) *MonitorNotFoundError`
 
 NewMonitorNotFoundError instantiates a new MonitorNotFoundError object
 This constructor will assign default values to properties that have it defined,
@@ -26,46 +25,6 @@ will change when the set of required properties is changed
 NewMonitorNotFoundErrorWithDefaults instantiates a new MonitorNotFoundError object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetMonitorId
-
-`func (o *MonitorNotFoundError) GetMonitorId() string`
-
-GetMonitorId returns the MonitorId field if non-nil, zero value otherwise.
-
-### GetMonitorIdOk
-
-`func (o *MonitorNotFoundError) GetMonitorIdOk() (*string, bool)`
-
-GetMonitorIdOk returns a tuple with the MonitorId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMonitorId
-
-`func (o *MonitorNotFoundError) SetMonitorId(v string)`
-
-SetMonitorId sets MonitorId field to given value.
-
-
-### GetMonitorIdType
-
-`func (o *MonitorNotFoundError) GetMonitorIdType() string`
-
-GetMonitorIdType returns the MonitorIdType field if non-nil, zero value otherwise.
-
-### GetMonitorIdTypeOk
-
-`func (o *MonitorNotFoundError) GetMonitorIdTypeOk() (*string, bool)`
-
-GetMonitorIdTypeOk returns a tuple with the MonitorIdType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMonitorIdType
-
-`func (o *MonitorNotFoundError) SetMonitorIdType(v string)`
-
-SetMonitorIdType sets MonitorIdType field to given value.
-
 
 ### GetType
 
@@ -85,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *MonitorNotFoundError) SetType(v string)`
 
 SetType sets Type field to given value.
+
+
+### GetMonitorId
+
+`func (o *MonitorNotFoundError) GetMonitorId() int64`
+
+GetMonitorId returns the MonitorId field if non-nil, zero value otherwise.
+
+### GetMonitorIdOk
+
+`func (o *MonitorNotFoundError) GetMonitorIdOk() (*int64, bool)`
+
+GetMonitorIdOk returns a tuple with the MonitorId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMonitorId
+
+`func (o *MonitorNotFoundError) SetMonitorId(v int64)`
+
+SetMonitorId sets MonitorId field to given value.
 
 
 

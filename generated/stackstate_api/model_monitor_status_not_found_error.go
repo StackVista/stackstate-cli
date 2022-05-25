@@ -17,20 +17,18 @@ import (
 
 // MonitorStatusNotFoundError struct for MonitorStatusNotFoundError
 type MonitorStatusNotFoundError struct {
-	MonitorId string `json:"monitorId"`
-	MonitorIdType string `json:"monitorIdType"`
 	Type string `json:"_type"`
+	MonitorId int64 `json:"monitorId"`
 }
 
 // NewMonitorStatusNotFoundError instantiates a new MonitorStatusNotFoundError object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStatusNotFoundError(monitorId string, monitorIdType string, type_ string) *MonitorStatusNotFoundError {
+func NewMonitorStatusNotFoundError(type_ string, monitorId int64) *MonitorStatusNotFoundError {
 	this := MonitorStatusNotFoundError{}
-	this.MonitorId = monitorId
-	this.MonitorIdType = monitorIdType
 	this.Type = type_
+	this.MonitorId = monitorId
 	return &this
 }
 
@@ -40,54 +38,6 @@ func NewMonitorStatusNotFoundError(monitorId string, monitorIdType string, type_
 func NewMonitorStatusNotFoundErrorWithDefaults() *MonitorStatusNotFoundError {
 	this := MonitorStatusNotFoundError{}
 	return &this
-}
-
-// GetMonitorId returns the MonitorId field value
-func (o *MonitorStatusNotFoundError) GetMonitorId() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.MonitorId
-}
-
-// GetMonitorIdOk returns a tuple with the MonitorId field value
-// and a boolean to check if the value has been set.
-func (o *MonitorStatusNotFoundError) GetMonitorIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.MonitorId, true
-}
-
-// SetMonitorId sets field value
-func (o *MonitorStatusNotFoundError) SetMonitorId(v string) {
-	o.MonitorId = v
-}
-
-// GetMonitorIdType returns the MonitorIdType field value
-func (o *MonitorStatusNotFoundError) GetMonitorIdType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.MonitorIdType
-}
-
-// GetMonitorIdTypeOk returns a tuple with the MonitorIdType field value
-// and a boolean to check if the value has been set.
-func (o *MonitorStatusNotFoundError) GetMonitorIdTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.MonitorIdType, true
-}
-
-// SetMonitorIdType sets field value
-func (o *MonitorStatusNotFoundError) SetMonitorIdType(v string) {
-	o.MonitorIdType = v
 }
 
 // GetType returns the Type field value
@@ -114,16 +64,37 @@ func (o *MonitorStatusNotFoundError) SetType(v string) {
 	o.Type = v
 }
 
+// GetMonitorId returns the MonitorId field value
+func (o *MonitorStatusNotFoundError) GetMonitorId() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+
+	return o.MonitorId
+}
+
+// GetMonitorIdOk returns a tuple with the MonitorId field value
+// and a boolean to check if the value has been set.
+func (o *MonitorStatusNotFoundError) GetMonitorIdOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.MonitorId, true
+}
+
+// SetMonitorId sets field value
+func (o *MonitorStatusNotFoundError) SetMonitorId(v int64) {
+	o.MonitorId = v
+}
+
 func (o MonitorStatusNotFoundError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["monitorId"] = o.MonitorId
-	}
-	if true {
-		toSerialize["monitorIdType"] = o.MonitorIdType
-	}
-	if true {
 		toSerialize["_type"] = o.Type
+	}
+	if true {
+		toSerialize["monitorId"] = o.MonitorId
 	}
 	return json.Marshal(toSerialize)
 }

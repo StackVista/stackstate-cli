@@ -366,17 +366,17 @@ paths:
       summary: List monitors
       tags:
       - monitor
-  /monitors/{monitorIdOrUrn}:
+  /monitor/{monitorId}:
     delete:
       description: Deletes existing monitor
       operationId: deleteMonitor
       parameters:
-      - description: The id or identifier (urn) of a monitor
+      - description: The identifier of a monitor
         in: path
-        name: monitorIdOrUrn
+        name: monitorId
         required: true
         schema:
-          $ref: '#/components/schemas/MonitorIdOrUrn'
+          $ref: '#/components/schemas/MonitorId'
       responses:
         "204":
           description: Return ok
@@ -399,12 +399,12 @@ paths:
       description: Returns a monitor full representation
       operationId: getMonitor
       parameters:
-      - description: The id or identifier (urn) of a monitor
+      - description: The identifier of a monitor
         in: path
-        name: monitorIdOrUrn
+        name: monitorId
         required: true
         schema:
-          $ref: '#/components/schemas/MonitorIdOrUrn'
+          $ref: '#/components/schemas/MonitorId'
       responses:
         "200":
           content:
@@ -427,23 +427,17 @@ paths:
       summary: Get a monitor
       tags:
       - monitor
-  /monitors/{monitorIdOrUrn}/run:
+  /monitor/{monitorId}/run:
     post:
-      description: "Performs a run of a monitor. If 'dryRun' is set, topology state\
-        \ will not be modified."
+      description: Runs a monitor once
       operationId: runMonitor
       parameters:
-      - description: The id or identifier (urn) of a monitor
+      - description: The identifier of a monitor
         in: path
-        name: monitorIdOrUrn
+        name: monitorId
         required: true
         schema:
-          $ref: '#/components/schemas/MonitorIdOrUrn'
-      - description: "If set, the topology state will not be modified"
-        in: query
-        name: dryRun
-        schema:
-          type: boolean
+          $ref: '#/components/schemas/MonitorId'
       responses:
         "200":
           content:
@@ -466,17 +460,17 @@ paths:
       summary: Run a monitor
       tags:
       - monitor
-  /monitors/{monitorIdOrUrn}/status:
+  /monitor/{monitorId}/status:
     get:
       description: Returns a monitor full representation with the stream status information
       operationId: getMonitorWithStatus
       parameters:
-      - description: The id or identifier (urn) of a monitor
+      - description: The identifier of a monitor
         in: path
-        name: monitorIdOrUrn
+        name: monitorId
         required: true
         schema:
-          $ref: '#/components/schemas/MonitorIdOrUrn'
+          $ref: '#/components/schemas/MonitorId'
       responses:
         "200":
           content:
@@ -499,6 +493,199 @@ paths:
       summary: Get a monitor with stream information
       tags:
       - monitor
+  /monitor/{monitorId}/dryRun:
+    post:
+      description: Performs a dry run of a monitor without topology state modification
+      operationId: dryRunMonitor
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Dry run a monitor and show a result
+      tags:
+      - monitor
+  /monitorUrn/{monitorUrnId}:
+    delete:
+      description: Deletes existing monitor
+      operationId: deleteMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Delete a monitor
+      tags:
+      - monitorUrn
+    get:
+      description: Returns a monitor full representation
+      operationId: getMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Monitor'
+          description: Full representation of a monitor
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/run:
+    post:
+      description: Runs a monitor once
+      operationId: runMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Run a monitor
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/status:
+    get:
+      description: Returns a monitor full representation with the stream status information
+      operationId: getMonitorWithStatusByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorStatus'
+          description: Full representation of a monitor with status
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorStatusIdentifierNotFoundError'
+          description: monitor status was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get a monitor with stream information
+      tags:
+      - monitorUrn
+  /monitorUrn/{monitorUrnId}/dryRun:
+    post:
+      description: Performs a dry run of a monitor without topology state modification
+      operationId: dryRunMonitorByURN
+      parameters:
+      - description: The identifier of a monitor
+        in: path
+        name: monitorUrnId
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorUrnId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorRunResult'
+          description: Full representation of the result of a monitor run
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Dry run a monitor and show a result
+      tags:
+      - monitorUrn
   /user/profile:
     get:
       description: Get current user profile.
@@ -1495,7 +1682,7 @@ paths:
       summary: Get server info
       tags:
       - server
-  /security/tokens:
+  /security/token:
     get:
       description: Get service tokens.
       operationId: getServiceTokens
@@ -1548,7 +1735,7 @@ paths:
       summary: Create new service token
       tags:
       - serviceToken
-  /security/tokens/{serviceTokenId}:
+  /security/token/{serviceTokenId}:
     delete:
       description: Delete service token.
       operationId: deleteServiceToken
@@ -1690,6 +1877,18 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/MonitorStatusNotFoundError'
+      description: monitor status was not found in the database
+    monitorIdentifierNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorIdentifierNotFoundError'
+      description: monitor was not found in the database
+    monitorStatusIdentifierNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorStatusIdentifierNotFoundError'
       description: monitor status was not found in the database
     userProfile:
       content:
@@ -2120,14 +2319,12 @@ components:
     MonitorId:
       format: int64
       type: integer
-    MonitorUrn:
-      type: string
     MonitorApiError:
-      allOf:
-      - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorApiError_allOf'
-    BaseMonitorError:
       properties:
+        statusCode:
+          type: string
+        message:
+          type: string
         monitorId:
           type: string
         monitorIdType:
@@ -2135,18 +2332,23 @@ components:
           - id
           - urn
           type: string
+      required:
+      - message
+      - statusCode
       type: object
-    MonitorIdOrUrn:
-      pattern: "^urn:[a-zA-Z0-9:-]+|[0-9]+$"
-      type: string
     MonitorNotFoundError:
-      allOf:
-      - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorNotFoundError_allOf'
+      properties:
+        _type:
+          enum:
+          - MonitorNotFoundError
+          type: string
+        monitorId:
+          format: int64
+          type: integer
       required:
       - _type
       - monitorId
-      - monitorIdType
+      type: object
     MonitorRunResult:
       example:
         result: "{}"
@@ -2270,13 +2472,94 @@ components:
       - healthSyncServiceMetrics
       type: object
     MonitorStatusNotFoundError:
-      allOf:
-      - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorStatusNotFoundError_allOf'
+      properties:
+        _type:
+          enum:
+          - MonitorStatusNotFoundError
+          type: string
+        monitorId:
+          format: int64
+          type: integer
       required:
       - _type
       - monitorId
-      - monitorIdType
+      type: object
+    MonitorUrnId:
+      type: string
+    Monitor_1:
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        functionId:
+          format: int64
+          type: integer
+        arguments:
+          items:
+            type: object
+          type: array
+        remediationHint:
+          type: string
+        intervalSeconds:
+          type: integer
+      required:
+      - arguments
+      - functionId
+      - id
+      - intervalSeconds
+      - name
+      type: object
+    MonitorIdentifierNotFoundError:
+      properties:
+        _type:
+          enum:
+          - MonitorIdentifierNotFoundError
+          type: string
+        monitorIdentifier:
+          type: string
+      required:
+      - _type
+      - monitorIdentifier
+      type: object
+    MonitorStatus_1:
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor_1'
+        errors:
+          items:
+            $ref: '#/components/schemas/MonitorError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/MonitorMetrics'
+        monitorHealthStateStateCount:
+          type: integer
+        topologyMatchResult:
+          $ref: '#/components/schemas/TopologyMatchResult'
+      required:
+      - metrics
+      - monitor
+      - monitorHealthStateStateCount
+      - status
+      - topologyMatchResult
+      type: object
+    MonitorStatusIdentifierNotFoundError:
+      properties:
+        _type:
+          enum:
+          - MonitorStatusIdentifierNotFoundError
+          type: string
+        monitorIdentifier:
+          type: string
+      required:
+      - _type
+      - monitorIdentifier
+      type: object
     UserNotFoundError:
       properties:
         _type:
@@ -4238,30 +4521,6 @@ components:
       required:
       - answer
       - question
-      type: object
-    MonitorApiError_allOf:
-      properties:
-        statusCode:
-          type: string
-        message:
-          type: string
-      required:
-      - message
-      - statusCode
-      type: object
-    MonitorNotFoundError_allOf:
-      properties:
-        _type:
-          enum:
-          - MonitorNotFoundError
-          type: string
-      type: object
-    MonitorStatusNotFoundError_allOf:
-      properties:
-        _type:
-          enum:
-          - MonitorStatusNotFoundError
-          type: string
       type: object
     ExecuteScriptSyntaxErrors_errors:
       properties:

@@ -19,6 +19,7 @@ type ApiMocks struct {
 	ImportApi                  *stackstate_api.ImportApiMock
 	ExportApi                  *stackstate_api.ExportApiMock
 	MonitorApi                 *stackstate_api.MonitorApiMock
+	MonitorUrnApi              *stackstate_api.MonitorUrnApiMock
 	NodeApi                    *stackstate_api.NodeApiMock
 	ScriptingApi               *stackstate_api.ScriptingApiMock
 	ServiceTokenApi            *stackstate_api.ServiceTokenApiMock
@@ -37,6 +38,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	importApi := stackstate_api.NewImportApiMock()
 	exportApi := stackstate_api.NewExportApiMock()
 	monitorApi := stackstate_api.NewMonitorApiMock()
+	monitorApiUrn := stackstate_api.NewMonitorUrnApiMock()
 	nodeApi := stackstate_api.NewNodeApiMock()
 	scriptingApi := stackstate_api.NewScriptingApiMock()
 	serviceTokenApi := stackstate_api.NewServiceTokenApiMock()
@@ -52,6 +54,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		ImportApi:                  &importApi,
 		ExportApi:                  &exportApi,
 		MonitorApi:                 &monitorApi,
+		MonitorUrnApi:              &monitorApiUrn,
 		NodeApi:                    &nodeApi,
 		ScriptingApi:               &scriptingApi,
 		ServiceTokenApi:            &serviceTokenApi,
@@ -69,6 +72,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		ImportApi:                  apiMocks.ImportApi,
 		ExportApi:                  apiMocks.ExportApi,
 		MonitorApi:                 apiMocks.MonitorApi,
+		MonitorUrnApi:              apiMocks.MonitorUrnApi,
 		NodeApi:                    apiMocks.NodeApi,
 		ServiceTokenApi:            apiMocks.ServiceTokenApi,
 		ScriptingApi:               apiMocks.ScriptingApi,
