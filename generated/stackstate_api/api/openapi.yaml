@@ -983,7 +983,7 @@ paths:
       summary: List health sync streams
       tags:
       - healthSynchronization
-  /synchronization/health/stream/{healthStreamUrn}/status:
+  /synchronization/health/streams/{healthStreamUrn}/status:
     get:
       description: Status overview of a single health synchronization stream
       operationId: getHealthSynchronizationStreamStatus
@@ -1023,7 +1023,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/stream/{healthStreamUrn}/clearErrors:
+  /synchronization/health/streams/{healthStreamUrn}/clearErrors:
     parameters:
     - description: Urn of the health stream.
       in: path
@@ -1059,7 +1059,7 @@ paths:
       summary: Clear health sync stream errors
       tags:
       - healthSynchronization
-  /synchronization/health/stream/{healthStreamUrn}:
+  /synchronization/health/streams/{healthStreamUrn}:
     delete:
       description: Delete a health synchronization stream. Deletion will not be immediate.
       operationId: deleteHealthSynchronizationStream
@@ -1095,7 +1095,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/stream/{healthStreamUrn}/substreams:
+  /synchronization/health/streams/{healthStreamUrn}/substreams:
     get:
       description: Overview of all sub-streams in a certain health stream.
       operationId: getHealthSynchronizationSubStreamOverview
@@ -1135,7 +1135,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/stream/{healthStreamUrn}/topologyMatches:
+  /synchronization/health/streams/{healthStreamUrn}/topologyMatches:
     get:
       description: Overview of check-states matched to topology on the main stream.
       operationId: getHealthSynchronizationStreamTopologyMatches
@@ -1175,7 +1175,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status:
+  /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status:
     get:
       description: Status overview of a single health synchronization sub stream
       operationId: getHealthSynchronizationSubStreamStatus
@@ -1227,7 +1227,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches:
+  /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches:
     get:
       description: Overview of check-states matched to topology on the main stream.
       operationId: getHealthSynchronizationSubStreamTopologyMatches

@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteHealthSynchronizationStream**](HealthSynchronizationApi.md#DeleteHealthSynchronizationStream) | **Delete** /synchronization/health/stream/{healthStreamUrn} | Delete health sync stream
-[**GetHealthSynchronizationStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamStatus) | **Get** /synchronization/health/stream/{healthStreamUrn}/status | Get health sync stream status
-[**GetHealthSynchronizationStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamTopologyMatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/topologyMatches | List health sync stream check-states
+[**DeleteHealthSynchronizationStream**](HealthSynchronizationApi.md#DeleteHealthSynchronizationStream) | **Delete** /synchronization/health/streams/{healthStreamUrn} | Delete health sync stream
+[**GetHealthSynchronizationStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/status | Get health sync stream status
+[**GetHealthSynchronizationStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
 [**GetHealthSynchronizationStreamsOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamsOverview) | **Get** /synchronization/health/streams | List health sync streams
-[**GetHealthSynchronizationSubStreamOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamOverview) | **Get** /synchronization/health/stream/{healthStreamUrn}/substreams | List health sync sub-streams
-[**GetHealthSynchronizationSubStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamStatus) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status | Get health sync sub-stream status
-[**GetHealthSynchronizationSubStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamTopologyMatches) | **Get** /synchronization/health/stream/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
-[**PostHealthSynchronizationStreamClearErrors**](HealthSynchronizationApi.md#PostHealthSynchronizationStreamClearErrors) | **Post** /synchronization/health/stream/{healthStreamUrn}/clearErrors | Clear health sync stream errors
+[**GetHealthSynchronizationSubStreamOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamOverview) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams | List health sync sub-streams
+[**GetHealthSynchronizationSubStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status | Get health sync sub-stream status
+[**GetHealthSynchronizationSubStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
+[**PostHealthSynchronizationStreamClearErrors**](HealthSynchronizationApi.md#PostHealthSynchronizationStreamClearErrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 
 
 
