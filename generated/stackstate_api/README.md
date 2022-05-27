@@ -174,6 +174,7 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
+ - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
  - [MessageLevel](docs/MessageLevel.md)

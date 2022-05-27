@@ -75,6 +75,7 @@ docs/HealthSubStreamTransactionalIncrements.md
 docs/HealthSynchronizationApi.md
 docs/IdentifierType.md
 docs/ImportApi.md
+docs/InvalidMonitorIdentifierError.md
 docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
 docs/MessageLevel.md
@@ -205,6 +206,7 @@ model_health_sub_stream_snapshot.go
 model_health_sub_stream_status.go
 model_health_sub_stream_transactional_increments.go
 model_identifier_type.go
+model_invalid_monitor_identifier_error.go
 model_invalid_sync_identifier.go
 model_invalid_urn.go
 model_message_level.go

@@ -380,6 +380,12 @@ paths:
       responses:
         "204":
           description: Return ok
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
         "404":
           content:
             application/json:
@@ -412,6 +418,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/Monitor'
           description: Full representation of a monitor
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
         "404":
           content:
             application/json:
@@ -451,6 +463,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonitorRunResult'
           description: Full representation of the result of a monitor run
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
         "404":
           content:
             application/json:
@@ -484,6 +502,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonitorStatus'
           description: Full representation of a monitor with status
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
         "404":
           content:
             application/json:
@@ -1667,6 +1691,12 @@ components:
           schema:
             $ref: '#/components/schemas/Monitor'
       description: Full representation of a monitor
+    invalidMonitorIdentifierError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+      description: Invalid monitor id or identifier
     monitorNotFoundError:
       content:
         application/json:
@@ -2139,6 +2169,18 @@ components:
     MonitorIdOrUrn:
       pattern: "^urn:[a-zA-Z0-9:-]+|[0-9]+$"
       type: string
+    InvalidMonitorIdentifierError:
+      properties:
+        monitorIdOrUrn:
+          type: string
+        _type:
+          enum:
+          - InvalidMonitorIdentifier
+          type: string
+      required:
+      - _type
+      - monitorIdOrUrn
+      type: object
     MonitorNotFoundError:
       allOf:
       - $ref: '#/components/schemas/BaseMonitorError'
