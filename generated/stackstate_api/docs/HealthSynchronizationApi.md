@@ -9,8 +9,8 @@ Method | HTTP request | Description
 [**GetHealthSynchronizationStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
 [**GetHealthSynchronizationStreamsOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamsOverview) | **Get** /synchronization/health/streams | List health sync streams
 [**GetHealthSynchronizationSubStreamOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamOverview) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams | List health sync sub-streams
-[**GetHealthSynchronizationSubStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status | Get health sync sub-stream status
-[**GetHealthSynchronizationSubStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
+[**GetHealthSynchronizationSubStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status | Get health sync sub-stream status
+[**GetHealthSynchronizationSubStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 [**PostHealthSynchronizationStreamClearErrors**](HealthSynchronizationApi.md#PostHealthSynchronizationStreamClearErrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 
 

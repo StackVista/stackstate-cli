@@ -837,7 +837,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status"
+	localVarPath := localBasePath + "/synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status"
 	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"healthSyncSubStreamId"+"}", url.PathEscape(parameterToString(r.healthSyncSubStreamId, "")), -1)
 
@@ -977,7 +977,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches"
+	localVarPath := localBasePath + "/synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches"
 	localVarPath = strings.Replace(localVarPath, "{"+"healthStreamUrn"+"}", url.PathEscape(parameterToString(r.healthStreamUrn, "")), -1)
 	localVarPath = strings.Replace(localVarPath, "{"+"healthSyncSubStreamId"+"}", url.PathEscape(parameterToString(r.healthSyncSubStreamId, "")), -1)
 

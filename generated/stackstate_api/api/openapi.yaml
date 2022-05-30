@@ -1199,7 +1199,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/status:
+  /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status:
     get:
       description: Status overview of a single health synchronization sub stream
       operationId: getHealthSynchronizationSubStreamStatus
@@ -1251,7 +1251,7 @@ paths:
       required: true
       schema:
         type: string
-  /synchronization/health/streams/{healthStreamUrn}/substream/{healthSyncSubStreamId}/topologyMatches:
+  /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches:
     get:
       description: Overview of check-states matched to topology on the main stream.
       operationId: getHealthSynchronizationSubStreamTopologyMatches
