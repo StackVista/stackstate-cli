@@ -50,11 +50,8 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		var monitorStatus *stackstate_api.MonitorStatus
 		var err error
 
-		if args.ID != 0 {
-			monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, args.ID).Execute()
-		} else {
-			monitorStatus, resp, err = api.MonitorUrnApi.GetMonitorWithStatusByURN(cli.Context, args.Identifier).Execute()
-		}
+		identifier := IdOrIdentifier(args.ID, args.Identifier)
+		monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, identifier).Execute()
 
 		if err != nil {
 			return common.NewResponseError(err, resp)
