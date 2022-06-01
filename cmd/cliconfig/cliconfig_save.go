@@ -38,7 +38,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// get required --url and --api-token
 	URL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.APITokenFlag)
-	serviceToken, missingServiceToken := cmd.Flags().GetString(common.APITokenFlag)
+	serviceToken, missingServiceToken := cmd.Flags().GetString(common.ServiceTokenFlag)
 	missing := make([]string, 0)
 	if URL == "" || missingApiURL != nil {
 		missing = append(missing, common.URLFlag)
