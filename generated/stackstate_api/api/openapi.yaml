@@ -3850,9 +3850,9 @@ components:
           - tags
         data:
         - v: 2.3021358869347655
-          ts: 5.637376656633329
+          ts: 5
         - v: 2.3021358869347655
-          ts: 5.637376656633329
+          ts: 5
       properties:
         anomaly:
           $ref: '#/components/schemas/Annotation'
@@ -4197,11 +4197,11 @@ components:
     Point:
       example:
         v: 2.3021358869347655
-        ts: 5.637376656633329
+        ts: 5
       properties:
         ts:
           format: int64
-          type: number
+          type: integer
         v:
           format: double
           type: number

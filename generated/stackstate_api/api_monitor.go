@@ -892,7 +892,7 @@ type MonitorApiMock struct {
 	GetMonitorWithStatusResponse GetMonitorWithStatusMockResponse
 	RunMonitorCalls *[]RunMonitorCall
 	RunMonitorResponse RunMonitorMockResponse
-}
+}	
 
 func NewMonitorApiMock() MonitorApiMock {
 	xDeleteMonitorCalls := make([]DeleteMonitorCall, 0)
@@ -910,7 +910,7 @@ func NewMonitorApiMock() MonitorApiMock {
 }
 
 type DeleteMonitorMockResponse struct {
-
+	
 	Response *http.Response
 	Error error
 }
