@@ -19,15 +19,16 @@ import (
 	"net/url"
 )
 
+
 type TopologySynchronizationApi interface {
 
 	/*
-		GetTopologySynchronizationStreamById Overview of a specific Topology Stream, queried by node id or sync identifier
+	GetTopologySynchronizationStreamById Overview of a specific Topology Stream, queried by node id or sync identifier
 
-		Overview of a specific Topology Stream, queried by node id or sync identifier
+	Overview of a specific Topology Stream, queried by node id or sync identifier
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetTopologySynchronizationStreamByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamByIdRequest
 	*/
 	GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest
 
@@ -36,12 +37,12 @@ type TopologySynchronizationApi interface {
 	GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error)
 
 	/*
-		GetTopologySynchronizationStreamStatusById Metrics of a specific Topology Stream, queried by node id
+	GetTopologySynchronizationStreamStatusById Metrics of a specific Topology Stream, queried by node id
 
-		Metrics of a specific Topology Stream, queried by node id
+	Metrics of a specific Topology Stream, queried by node id
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetTopologySynchronizationStreamStatusByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamStatusByIdRequest
 	*/
 	GetTopologySynchronizationStreamStatusById(ctx context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest
 
@@ -50,12 +51,12 @@ type TopologySynchronizationApi interface {
 	GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (*TopologyStreamMetrics, *http.Response, error)
 
 	/*
-		GetTopologySynchronizationStreams Overview of the topology synchronization streams
+	GetTopologySynchronizationStreams Overview of the topology synchronization streams
 
-		Overview of the topology synchronization streams
+	Overview of the topology synchronization streams
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetTopologySynchronizationStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamsRequest
 	*/
 	GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest
 
@@ -64,12 +65,12 @@ type TopologySynchronizationApi interface {
 	GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error)
 
 	/*
-		PostTopologySynchronizationStreamClearErrors Clear all the errors related to a specific sync
+	PostTopologySynchronizationStreamClearErrors Clear all the errors related to a specific sync
 
-		Clear all the errors related to a specific sync
+	Clear all the errors related to a specific sync
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiPostTopologySynchronizationStreamClearErrorsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostTopologySynchronizationStreamClearErrorsRequest
 	*/
 	PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest
 
@@ -81,9 +82,9 @@ type TopologySynchronizationApi interface {
 type TopologySynchronizationApiService service
 
 type ApiGetTopologySynchronizationStreamByIdRequest struct {
-	ctx            context.Context
-	ApiService     TopologySynchronizationApi
-	identifier     *string
+	ctx context.Context
+	ApiService TopologySynchronizationApi
+	identifier *string
 	identifierType *IdentifierType
 }
 
@@ -112,7 +113,7 @@ Overview of a specific Topology Stream, queried by node id or sync identifier
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
 	return ApiGetTopologySynchronizationStreamByIdRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -120,10 +121,10 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 //  @return TopologyStreamListItemWithErrorDetails
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *TopologyStreamListItemWithErrorDetails
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TopologyStreamListItemWithErrorDetails
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreamById")
@@ -247,7 +248,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 }
 
 type ApiGetTopologySynchronizationStreamStatusByIdRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService TopologySynchronizationApi
 	identifier *string
 }
@@ -272,7 +273,7 @@ Metrics of a specific Topology Stream, queried by node id
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStatusById(ctx context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
 	return ApiGetTopologySynchronizationStreamStatusByIdRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -280,10 +281,10 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 //  @return TopologyStreamMetrics
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (*TopologyStreamMetrics, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *TopologyStreamMetrics
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TopologyStreamMetrics
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreamStatusById")
@@ -403,7 +404,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 }
 
 type ApiGetTopologySynchronizationStreamsRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService TopologySynchronizationApi
 }
 
@@ -422,7 +423,7 @@ Overview of the topology synchronization streams
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest {
 	return ApiGetTopologySynchronizationStreamsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -430,10 +431,10 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ct
 //  @return TopologyStreamList
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *TopologyStreamList
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TopologyStreamList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.GetTopologySynchronizationStreams")
@@ -530,9 +531,9 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 }
 
 type ApiPostTopologySynchronizationStreamClearErrorsRequest struct {
-	ctx            context.Context
-	ApiService     TopologySynchronizationApi
-	identifier     *string
+	ctx context.Context
+	ApiService TopologySynchronizationApi
+	identifier *string
 	identifierType *IdentifierType
 }
 
@@ -561,16 +562,16 @@ Clear all the errors related to a specific sync
 func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
 	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
 func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopologySynchronizationApiService.PostTopologySynchronizationStreamClearErrors")
@@ -684,130 +685,140 @@ func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamCle
 	return localVarHTTPResponse, nil
 }
 
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type TopologySynchronizationApiMock struct {
-	GetTopologySynchronizationStreamByIdCalls            *[]GetTopologySynchronizationStreamByIdCall
-	GetTopologySynchronizationStreamByIdResponse         GetTopologySynchronizationStreamByIdMockResponse
-	GetTopologySynchronizationStreamStatusByIdCalls      *[]GetTopologySynchronizationStreamStatusByIdCall
-	GetTopologySynchronizationStreamStatusByIdResponse   GetTopologySynchronizationStreamStatusByIdMockResponse
-	GetTopologySynchronizationStreamsCalls               *[]GetTopologySynchronizationStreamsCall
-	GetTopologySynchronizationStreamsResponse            GetTopologySynchronizationStreamsMockResponse
-	PostTopologySynchronizationStreamClearErrorsCalls    *[]PostTopologySynchronizationStreamClearErrorsCall
+	GetTopologySynchronizationStreamByIdCalls *[]GetTopologySynchronizationStreamByIdCall
+	GetTopologySynchronizationStreamByIdResponse GetTopologySynchronizationStreamByIdMockResponse
+	GetTopologySynchronizationStreamStatusByIdCalls *[]GetTopologySynchronizationStreamStatusByIdCall
+	GetTopologySynchronizationStreamStatusByIdResponse GetTopologySynchronizationStreamStatusByIdMockResponse
+	GetTopologySynchronizationStreamsCalls *[]GetTopologySynchronizationStreamsCall
+	GetTopologySynchronizationStreamsResponse GetTopologySynchronizationStreamsMockResponse
+	PostTopologySynchronizationStreamClearErrorsCalls *[]PostTopologySynchronizationStreamClearErrorsCall
 	PostTopologySynchronizationStreamClearErrorsResponse PostTopologySynchronizationStreamClearErrorsMockResponse
-}
+}	
 
 func NewTopologySynchronizationApiMock() TopologySynchronizationApiMock {
 	xGetTopologySynchronizationStreamByIdCalls := make([]GetTopologySynchronizationStreamByIdCall, 0)
 	xGetTopologySynchronizationStreamStatusByIdCalls := make([]GetTopologySynchronizationStreamStatusByIdCall, 0)
 	xGetTopologySynchronizationStreamsCalls := make([]GetTopologySynchronizationStreamsCall, 0)
 	xPostTopologySynchronizationStreamClearErrorsCalls := make([]PostTopologySynchronizationStreamClearErrorsCall, 0)
-	return TopologySynchronizationApiMock{
-		GetTopologySynchronizationStreamByIdCalls:         &xGetTopologySynchronizationStreamByIdCalls,
-		GetTopologySynchronizationStreamStatusByIdCalls:   &xGetTopologySynchronizationStreamStatusByIdCalls,
-		GetTopologySynchronizationStreamsCalls:            &xGetTopologySynchronizationStreamsCalls,
+	return TopologySynchronizationApiMock {
+		GetTopologySynchronizationStreamByIdCalls: &xGetTopologySynchronizationStreamByIdCalls,
+		GetTopologySynchronizationStreamStatusByIdCalls: &xGetTopologySynchronizationStreamStatusByIdCalls,
+		GetTopologySynchronizationStreamsCalls: &xGetTopologySynchronizationStreamsCalls,
 		PostTopologySynchronizationStreamClearErrorsCalls: &xPostTopologySynchronizationStreamClearErrorsCalls,
 	}
 }
 
 type GetTopologySynchronizationStreamByIdMockResponse struct {
-	Result   TopologyStreamListItemWithErrorDetails
+	Result TopologyStreamListItemWithErrorDetails
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetTopologySynchronizationStreamByIdCall struct {
-	Pidentifier     *string
+	Pidentifier *string
 	PidentifierType *IdentifierType
 }
+
 
 func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
 	return ApiGetTopologySynchronizationStreamByIdRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error) {
-	p := GetTopologySynchronizationStreamByIdCall{
-		Pidentifier:     r.identifier,
-		PidentifierType: r.identifierType,
+	p := GetTopologySynchronizationStreamByIdCall {
+			Pidentifier: r.identifier,
+			PidentifierType: r.identifierType,
 	}
 	*mock.GetTopologySynchronizationStreamByIdCalls = append(*mock.GetTopologySynchronizationStreamByIdCalls, p)
 	return &mock.GetTopologySynchronizationStreamByIdResponse.Result, mock.GetTopologySynchronizationStreamByIdResponse.Response, mock.GetTopologySynchronizationStreamByIdResponse.Error
 }
 
 type GetTopologySynchronizationStreamStatusByIdMockResponse struct {
-	Result   TopologyStreamMetrics
+	Result TopologyStreamMetrics
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetTopologySynchronizationStreamStatusByIdCall struct {
 	Pidentifier *string
 }
 
+
 func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusById(ctx context.Context) ApiGetTopologySynchronizationStreamStatusByIdRequest {
 	return ApiGetTopologySynchronizationStreamStatusByIdRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamStatusByIdExecute(r ApiGetTopologySynchronizationStreamStatusByIdRequest) (*TopologyStreamMetrics, *http.Response, error) {
-	p := GetTopologySynchronizationStreamStatusByIdCall{
-		Pidentifier: r.identifier,
+	p := GetTopologySynchronizationStreamStatusByIdCall {
+			Pidentifier: r.identifier,
 	}
 	*mock.GetTopologySynchronizationStreamStatusByIdCalls = append(*mock.GetTopologySynchronizationStreamStatusByIdCalls, p)
 	return &mock.GetTopologySynchronizationStreamStatusByIdResponse.Result, mock.GetTopologySynchronizationStreamStatusByIdResponse.Response, mock.GetTopologySynchronizationStreamStatusByIdResponse.Error
 }
 
 type GetTopologySynchronizationStreamsMockResponse struct {
-	Result   TopologyStreamList
+	Result TopologyStreamList
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetTopologySynchronizationStreamsCall struct {
 }
 
+
 func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest {
 	return ApiGetTopologySynchronizationStreamsRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock TopologySynchronizationApiMock) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error) {
-	p := GetTopologySynchronizationStreamsCall{}
+	p := GetTopologySynchronizationStreamsCall {
+	}
 	*mock.GetTopologySynchronizationStreamsCalls = append(*mock.GetTopologySynchronizationStreamsCalls, p)
 	return &mock.GetTopologySynchronizationStreamsResponse.Result, mock.GetTopologySynchronizationStreamsResponse.Response, mock.GetTopologySynchronizationStreamsResponse.Error
 }
 
 type PostTopologySynchronizationStreamClearErrorsMockResponse struct {
+	
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type PostTopologySynchronizationStreamClearErrorsCall struct {
-	Pidentifier     *string
+	Pidentifier *string
 	PidentifierType *IdentifierType
 }
+
 
 func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
 	return ApiPostTopologySynchronizationStreamClearErrorsRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock TopologySynchronizationApiMock) PostTopologySynchronizationStreamClearErrorsExecute(r ApiPostTopologySynchronizationStreamClearErrorsRequest) (*http.Response, error) {
-	p := PostTopologySynchronizationStreamClearErrorsCall{
-		Pidentifier:     r.identifier,
-		PidentifierType: r.identifierType,
+	p := PostTopologySynchronizationStreamClearErrorsCall {
+			Pidentifier: r.identifier,
+			PidentifierType: r.identifierType,
 	}
 	*mock.PostTopologySynchronizationStreamClearErrorsCalls = append(*mock.PostTopologySynchronizationStreamClearErrorsCalls, p)
 	return mock.PostTopologySynchronizationStreamClearErrorsResponse.Response, mock.PostTopologySynchronizationStreamClearErrorsResponse.Error
 }
+
+
