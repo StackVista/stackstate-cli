@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type ScriptingApi interface {
 
 	/*
-	ScriptExecute Execute script
+		ScriptExecute Execute script
 
-	Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
+		Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiScriptExecuteRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiScriptExecuteRequest
 	*/
 	ScriptExecute(ctx context.Context) ApiScriptExecuteRequest
 
@@ -41,8 +40,8 @@ type ScriptingApi interface {
 type ScriptingApiService service
 
 type ApiScriptExecuteRequest struct {
-	ctx context.Context
-	ApiService ScriptingApi
+	ctx                  context.Context
+	ApiService           ScriptingApi
 	executeScriptRequest *ExecuteScriptRequest
 }
 
@@ -66,7 +65,7 @@ Execute a StackState Scripting Language or Template Language script with arbitra
 func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -74,10 +73,10 @@ func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecut
 //  @return ExecuteScriptResponse
 func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ExecuteScriptResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ExecuteScriptResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ScriptingApiService.ScriptExecute")
@@ -124,6 +123,20 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -193,48 +206,43 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ScriptingApiMock struct {
-	ScriptExecuteCalls *[]ScriptExecuteCall
+	ScriptExecuteCalls    *[]ScriptExecuteCall
 	ScriptExecuteResponse ScriptExecuteMockResponse
-}	
+}
 
 func NewScriptingApiMock() ScriptingApiMock {
 	xScriptExecuteCalls := make([]ScriptExecuteCall, 0)
-	return ScriptingApiMock {
+	return ScriptingApiMock{
 		ScriptExecuteCalls: &xScriptExecuteCalls,
 	}
 }
 
 type ScriptExecuteMockResponse struct {
-	Result ExecuteScriptResponse
+	Result   ExecuteScriptResponse
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type ScriptExecuteCall struct {
 	PexecuteScriptRequest *ExecuteScriptRequest
 }
 
-
 func (mock ScriptingApiMock) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
-	p := ScriptExecuteCall {
-			PexecuteScriptRequest: r.executeScriptRequest,
+	p := ScriptExecuteCall{
+		PexecuteScriptRequest: r.executeScriptRequest,
 	}
 	*mock.ScriptExecuteCalls = append(*mock.ScriptExecuteCalls, p)
 	return &mock.ScriptExecuteResponse.Result, mock.ScriptExecuteResponse.Response, mock.ScriptExecuteResponse.Error
 }
-
-

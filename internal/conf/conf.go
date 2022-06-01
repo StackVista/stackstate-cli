@@ -20,17 +20,18 @@ Note: when updating the config, please update:
  5. and last but not least, the tests!
 */
 type Conf struct {
-	URL      string
-	ApiToken string
-	ApiPath  string
+	URL          string
+	ApiToken     string
+	ServiceToken string
+	ApiPath      string
 }
 
 const (
 	XDGConfigSubPath       = "stackstate-cli"
 	ViperConfigName        = "config"
 	ViperConfigType        = "yaml"
-	MinimumRequiredEnvVars = "STS_CLI_URL, STS_CLI_API_TOKEN"
-	MinimumRequiredFlags   = "url, api-token"
+	MinimumRequiredEnvVars = "STS_CLI_URL, STS_CLI_API_TOKEN, STS_CLI_SERVICE_TOKEN"
+	MinimumRequiredFlags   = "url, api-token, service-token"
 )
 
 //nolint:golint,errcheck
@@ -41,18 +42,21 @@ func bind(cmd *cobra.Command, vp *viper.Viper) Conf {
 	// bind environment variables
 	vp.BindEnv("url", "STS_CLI_URL")
 	vp.BindEnv("api-token", "STS_CLI_API_TOKEN")
+	vp.BindEnv("service-token", "STS_CLI_SERVICE_TOKEN")
 	vp.BindEnv("api-path", "STS_CLI_API_PATH")
 
 	// bind flags
 	vp.BindPFlag("url", cmd.Flags().Lookup("url"))
 	vp.BindPFlag("api-token", cmd.Flags().Lookup("api-token"))
+	vp.BindPFlag("service-token", cmd.Flags().Lookup("service-token"))
 	vp.BindPFlag("api-path", cmd.Flags().Lookup("api-path"))
 
 	// bind YAML
 	return Conf{
-		URL:      vp.GetString("url"),
-		ApiToken: vp.GetString("api-token"),
-		ApiPath:  vp.GetString("api-path"),
+		URL:          vp.GetString("url"),
+		ApiToken:     vp.GetString("api-token"),
+		ServiceToken: vp.GetString("service-token"),
+		ApiPath:      vp.GetString("api-path"),
 	}
 }
 
@@ -66,8 +70,8 @@ func validate(conf Conf, errors *[]error) {
 		}
 	}
 
-	if conf.ApiToken == "" {
-		*errors = append(*errors, MissingFieldError{FieldName: "api-token"})
+	if (conf.ApiToken == "" && conf.ServiceToken == "") || (conf.ApiToken != "" && conf.ServiceToken != "") {
+		*errors = append(*errors, MissingFieldError{FieldName: "{api-token | service-token}"})
 	}
 }
 
@@ -77,7 +81,9 @@ func convertConfToYaml(conf Conf) string {
 url: %s
 # Your API token: visit https://<your stackstate url>#/cli to get your token
 api-token: %s
+# Your service token: visit https://<your stackstate url>#/cli to get your token
+service-token: %s
 # API path (defaults to /api)
 api-path: %s
-`, conf.URL, conf.ApiToken, conf.ApiPath)
+`, conf.URL, conf.ApiToken, conf.ServiceToken, conf.ApiPath)
 }

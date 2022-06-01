@@ -17,6 +17,7 @@ servers:
 - url: /
 security:
 - ApiToken: []
+- ServiceToken: []
 paths:
   /import:
     post:
@@ -4536,4 +4537,8 @@ components:
     ApiToken:
       in: header
       name: X-API-Token
+      type: apiKey
+    ServiceToken:
+      in: header
+      name: X-API-Key
       type: apiKey

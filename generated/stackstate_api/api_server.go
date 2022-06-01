@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type ServerApi interface {
 
 	/*
-	ServerInfo Get server info
+		ServerInfo Get server info
 
-	Get information of the StackState information, such as version, deployment mode, etc.
+		Get information of the StackState information, such as version, deployment mode, etc.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiServerInfoRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiServerInfoRequest
 	*/
 	ServerInfo(ctx context.Context) ApiServerInfoRequest
 
@@ -41,7 +40,7 @@ type ServerApi interface {
 type ServerApiService service
 
 type ApiServerInfoRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServerApi
 }
 
@@ -60,7 +59,7 @@ Get information of the StackState information, such as version, deployment mode,
 func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -68,10 +67,10 @@ func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest 
 //  @return ServerInfo
 func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ServerInfo
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ServerInfo
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServerApiService.ServerInfo")
@@ -113,6 +112,20 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -162,46 +175,40 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ServerApiMock struct {
-	ServerInfoCalls *[]ServerInfoCall
+	ServerInfoCalls    *[]ServerInfoCall
 	ServerInfoResponse ServerInfoMockResponse
-}	
+}
 
 func NewServerApiMock() ServerApiMock {
 	xServerInfoCalls := make([]ServerInfoCall, 0)
-	return ServerApiMock {
+	return ServerApiMock{
 		ServerInfoCalls: &xServerInfoCalls,
 	}
 }
 
 type ServerInfoMockResponse struct {
-	Result ServerInfo
+	Result   ServerInfo
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type ServerInfoCall struct {
 }
 
-
 func (mock ServerApiMock) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock ServerApiMock) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
-	p := ServerInfoCall {
-	}
+	p := ServerInfoCall{}
 	*mock.ServerInfoCalls = append(*mock.ServerInfoCalls, p)
 	return &mock.ServerInfoResponse.Result, mock.ServerInfoResponse.Response, mock.ServerInfoResponse.Error
 }
-
-

@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 type HealthSynchronizationApi interface {
 
 	/*
-	DeleteHealthSynchronizationStream Delete health sync stream
+		DeleteHealthSynchronizationStream Delete health sync stream
 
-	Delete a health synchronization stream. Deletion will not be immediate.
+		Delete a health synchronization stream. Deletion will not be immediate.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@return ApiDeleteHealthSynchronizationStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@return ApiDeleteHealthSynchronizationStreamRequest
 	*/
 	DeleteHealthSynchronizationStream(ctx context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest
 
@@ -38,13 +37,13 @@ type HealthSynchronizationApi interface {
 	DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*http.Response, error)
 
 	/*
-	GetHealthSynchronizationStreamStatus Get health sync stream status
+		GetHealthSynchronizationStreamStatus Get health sync stream status
 
-	Status overview of a single health synchronization stream
+		Status overview of a single health synchronization stream
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@return ApiGetHealthSynchronizationStreamStatusRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@return ApiGetHealthSynchronizationStreamStatusRequest
 	*/
 	GetHealthSynchronizationStreamStatus(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest
 
@@ -53,13 +52,13 @@ type HealthSynchronizationApi interface {
 	GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (*HealthStreamStatus, *http.Response, error)
 
 	/*
-	GetHealthSynchronizationStreamTopologyMatches List health sync stream check-states
+		GetHealthSynchronizationStreamTopologyMatches List health sync stream check-states
 
-	Overview of check-states matched to topology on the main stream.
+		Overview of check-states matched to topology on the main stream.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@return ApiGetHealthSynchronizationStreamTopologyMatchesRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@return ApiGetHealthSynchronizationStreamTopologyMatchesRequest
 	*/
 	GetHealthSynchronizationStreamTopologyMatches(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest
 
@@ -68,12 +67,12 @@ type HealthSynchronizationApi interface {
 	GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error)
 
 	/*
-	GetHealthSynchronizationStreamsOverview List health sync streams
+		GetHealthSynchronizationStreamsOverview List health sync streams
 
-	Status overview of the health synchronization streams.
+		Status overview of the health synchronization streams.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetHealthSynchronizationStreamsOverviewRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetHealthSynchronizationStreamsOverviewRequest
 	*/
 	GetHealthSynchronizationStreamsOverview(ctx context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest
 
@@ -82,13 +81,13 @@ type HealthSynchronizationApi interface {
 	GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (*StreamList, *http.Response, error)
 
 	/*
-	GetHealthSynchronizationSubStreamOverview List health sync sub-streams
+		GetHealthSynchronizationSubStreamOverview List health sync sub-streams
 
-	Overview of all sub-streams in a certain health stream.
+		Overview of all sub-streams in a certain health stream.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@return ApiGetHealthSynchronizationSubStreamOverviewRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@return ApiGetHealthSynchronizationSubStreamOverviewRequest
 	*/
 	GetHealthSynchronizationSubStreamOverview(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest
 
@@ -97,14 +96,14 @@ type HealthSynchronizationApi interface {
 	GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (*SubStreamList, *http.Response, error)
 
 	/*
-	GetHealthSynchronizationSubStreamStatus Get health sync sub-stream status
+		GetHealthSynchronizationSubStreamStatus Get health sync sub-stream status
 
-	Status overview of a single health synchronization sub stream
+		Status overview of a single health synchronization sub stream
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@param healthSyncSubStreamId Health synchronization sub stream id.
-	@return ApiGetHealthSynchronizationSubStreamStatusRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@param healthSyncSubStreamId Health synchronization sub stream id.
+		@return ApiGetHealthSynchronizationSubStreamStatusRequest
 	*/
 	GetHealthSynchronizationSubStreamStatus(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest
 
@@ -113,14 +112,14 @@ type HealthSynchronizationApi interface {
 	GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (*HealthSubStreamStatus, *http.Response, error)
 
 	/*
-	GetHealthSynchronizationSubStreamTopologyMatches List health sync sub-stream check-states
+		GetHealthSynchronizationSubStreamTopologyMatches List health sync sub-stream check-states
 
-	Overview of check-states matched to topology on the main stream.
+		Overview of check-states matched to topology on the main stream.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@param healthSyncSubStreamId Health synchronization sub stream id.
-	@return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@param healthSyncSubStreamId Health synchronization sub stream id.
+		@return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
 	*/
 	GetHealthSynchronizationSubStreamTopologyMatches(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest
 
@@ -129,13 +128,13 @@ type HealthSynchronizationApi interface {
 	GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error)
 
 	/*
-	PostHealthSynchronizationStreamClearErrors Clear health sync stream errors
+		PostHealthSynchronizationStreamClearErrors Clear health sync stream errors
 
-	Clear all errors for a stream and its sub-streams.
+		Clear all errors for a stream and its sub-streams.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param healthStreamUrn Urn of the health stream.
-	@return ApiPostHealthSynchronizationStreamClearErrorsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param healthStreamUrn Urn of the health stream.
+		@return ApiPostHealthSynchronizationStreamClearErrorsRequest
 	*/
 	PostHealthSynchronizationStreamClearErrors(ctx context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest
 
@@ -147,8 +146,8 @@ type HealthSynchronizationApi interface {
 type HealthSynchronizationApiService service
 
 type ApiDeleteHealthSynchronizationStreamRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
+	ctx             context.Context
+	ApiService      HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -167,8 +166,8 @@ Delete a health synchronization stream. Deletion will not be immediate.
 */
 func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStream(ctx context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
 	return ApiDeleteHealthSynchronizationStreamRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:      a,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
@@ -176,9 +175,9 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStream(ctx 
 // Execute executes the request
 func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.DeleteHealthSynchronizationStream")
@@ -221,6 +220,20 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -272,8 +285,8 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 }
 
 type ApiGetHealthSynchronizationStreamStatusRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
+	ctx             context.Context
+	ApiService      HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -292,8 +305,8 @@ Status overview of a single health synchronization stream
 */
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatus(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
 	return ApiGetHealthSynchronizationStreamStatusRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:      a,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
@@ -302,10 +315,10 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatus(c
 //  @return HealthStreamStatus
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (*HealthStreamStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *HealthStreamStatus
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *HealthStreamStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationStreamStatus")
@@ -348,6 +361,20 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -408,8 +435,8 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 }
 
 type ApiGetHealthSynchronizationStreamTopologyMatchesRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
+	ctx             context.Context
+	ApiService      HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -428,8 +455,8 @@ Overview of check-states matched to topology on the main stream.
 */
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopologyMatches(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationStreamTopologyMatchesRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:      a,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
@@ -438,10 +465,10 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 //  @return TopologyMatchResult
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TopologyMatchResult
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TopologyMatchResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationStreamTopologyMatches")
@@ -484,6 +511,20 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -544,7 +585,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 }
 
 type ApiGetHealthSynchronizationStreamsOverviewRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService HealthSynchronizationApi
 }
 
@@ -563,7 +604,7 @@ Status overview of the health synchronization streams.
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOverview(ctx context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
 	return ApiGetHealthSynchronizationStreamsOverviewRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -571,10 +612,10 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 //  @return StreamList
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (*StreamList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *StreamList
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *StreamList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationStreamsOverview")
@@ -619,6 +660,20 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 			}
 		}
 	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
@@ -657,8 +712,8 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 }
 
 type ApiGetHealthSynchronizationSubStreamOverviewRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
+	ctx             context.Context
+	ApiService      HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -677,8 +732,8 @@ Overview of all sub-streams in a certain health stream.
 */
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverview(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
 	return ApiGetHealthSynchronizationSubStreamOverviewRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:      a,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
@@ -687,10 +742,10 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 //  @return SubStreamList
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (*SubStreamList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SubStreamList
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *SubStreamList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationSubStreamOverview")
@@ -733,6 +788,20 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -793,9 +862,9 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 }
 
 type ApiGetHealthSynchronizationSubStreamStatusRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
-	healthStreamUrn string
+	ctx                   context.Context
+	ApiService            HealthSynchronizationApi
+	healthStreamUrn       string
 	healthSyncSubStreamId string
 }
 
@@ -815,9 +884,9 @@ Status overview of a single health synchronization sub stream
 */
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatus(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
 	return ApiGetHealthSynchronizationSubStreamStatusRequest{
-		ApiService: a,
-		ctx: ctx,
-		healthStreamUrn: healthStreamUrn,
+		ApiService:            a,
+		ctx:                   ctx,
+		healthStreamUrn:       healthStreamUrn,
 		healthSyncSubStreamId: healthSyncSubStreamId,
 	}
 }
@@ -826,10 +895,10 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 //  @return HealthSubStreamStatus
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (*HealthSubStreamStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *HealthSubStreamStatus
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *HealthSubStreamStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationSubStreamStatus")
@@ -873,6 +942,20 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -933,9 +1016,9 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 }
 
 type ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
-	healthStreamUrn string
+	ctx                   context.Context
+	ApiService            HealthSynchronizationApi
+	healthStreamUrn       string
 	healthSyncSubStreamId string
 }
 
@@ -955,9 +1038,9 @@ Overview of check-states matched to topology on the main stream.
 */
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopologyMatches(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest{
-		ApiService: a,
-		ctx: ctx,
-		healthStreamUrn: healthStreamUrn,
+		ApiService:            a,
+		ctx:                   ctx,
+		healthStreamUrn:       healthStreamUrn,
 		healthSyncSubStreamId: healthSyncSubStreamId,
 	}
 }
@@ -966,10 +1049,10 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 //  @return TopologyMatchResult
 func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TopologyMatchResult
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TopologyMatchResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.GetHealthSynchronizationSubStreamTopologyMatches")
@@ -1013,6 +1096,20 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1073,8 +1170,8 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 }
 
 type ApiPostHealthSynchronizationStreamClearErrorsRequest struct {
-	ctx context.Context
-	ApiService HealthSynchronizationApi
+	ctx             context.Context
+	ApiService      HealthSynchronizationApi
 	healthStreamUrn string
 }
 
@@ -1093,8 +1190,8 @@ Clear all errors for a stream and its sub-streams.
 */
 func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearErrors(ctx context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
 	return ApiPostHealthSynchronizationStreamClearErrorsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:      a,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
@@ -1102,9 +1199,9 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 // Execute executes the request
 func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "HealthSynchronizationApiService.PostHealthSynchronizationStreamClearErrors")
@@ -1147,6 +1244,20 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1197,30 +1308,28 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 	return localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type HealthSynchronizationApiMock struct {
-	DeleteHealthSynchronizationStreamCalls *[]DeleteHealthSynchronizationStreamCall
-	DeleteHealthSynchronizationStreamResponse DeleteHealthSynchronizationStreamMockResponse
-	GetHealthSynchronizationStreamStatusCalls *[]GetHealthSynchronizationStreamStatusCall
-	GetHealthSynchronizationStreamStatusResponse GetHealthSynchronizationStreamStatusMockResponse
-	GetHealthSynchronizationStreamTopologyMatchesCalls *[]GetHealthSynchronizationStreamTopologyMatchesCall
-	GetHealthSynchronizationStreamTopologyMatchesResponse GetHealthSynchronizationStreamTopologyMatchesMockResponse
-	GetHealthSynchronizationStreamsOverviewCalls *[]GetHealthSynchronizationStreamsOverviewCall
-	GetHealthSynchronizationStreamsOverviewResponse GetHealthSynchronizationStreamsOverviewMockResponse
-	GetHealthSynchronizationSubStreamOverviewCalls *[]GetHealthSynchronizationSubStreamOverviewCall
-	GetHealthSynchronizationSubStreamOverviewResponse GetHealthSynchronizationSubStreamOverviewMockResponse
-	GetHealthSynchronizationSubStreamStatusCalls *[]GetHealthSynchronizationSubStreamStatusCall
-	GetHealthSynchronizationSubStreamStatusResponse GetHealthSynchronizationSubStreamStatusMockResponse
-	GetHealthSynchronizationSubStreamTopologyMatchesCalls *[]GetHealthSynchronizationSubStreamTopologyMatchesCall
+	DeleteHealthSynchronizationStreamCalls                   *[]DeleteHealthSynchronizationStreamCall
+	DeleteHealthSynchronizationStreamResponse                DeleteHealthSynchronizationStreamMockResponse
+	GetHealthSynchronizationStreamStatusCalls                *[]GetHealthSynchronizationStreamStatusCall
+	GetHealthSynchronizationStreamStatusResponse             GetHealthSynchronizationStreamStatusMockResponse
+	GetHealthSynchronizationStreamTopologyMatchesCalls       *[]GetHealthSynchronizationStreamTopologyMatchesCall
+	GetHealthSynchronizationStreamTopologyMatchesResponse    GetHealthSynchronizationStreamTopologyMatchesMockResponse
+	GetHealthSynchronizationStreamsOverviewCalls             *[]GetHealthSynchronizationStreamsOverviewCall
+	GetHealthSynchronizationStreamsOverviewResponse          GetHealthSynchronizationStreamsOverviewMockResponse
+	GetHealthSynchronizationSubStreamOverviewCalls           *[]GetHealthSynchronizationSubStreamOverviewCall
+	GetHealthSynchronizationSubStreamOverviewResponse        GetHealthSynchronizationSubStreamOverviewMockResponse
+	GetHealthSynchronizationSubStreamStatusCalls             *[]GetHealthSynchronizationSubStreamStatusCall
+	GetHealthSynchronizationSubStreamStatusResponse          GetHealthSynchronizationSubStreamStatusMockResponse
+	GetHealthSynchronizationSubStreamTopologyMatchesCalls    *[]GetHealthSynchronizationSubStreamTopologyMatchesCall
 	GetHealthSynchronizationSubStreamTopologyMatchesResponse GetHealthSynchronizationSubStreamTopologyMatchesMockResponse
-	PostHealthSynchronizationStreamClearErrorsCalls *[]PostHealthSynchronizationStreamClearErrorsCall
-	PostHealthSynchronizationStreamClearErrorsResponse PostHealthSynchronizationStreamClearErrorsMockResponse
-}	
+	PostHealthSynchronizationStreamClearErrorsCalls          *[]PostHealthSynchronizationStreamClearErrorsCall
+	PostHealthSynchronizationStreamClearErrorsResponse       PostHealthSynchronizationStreamClearErrorsMockResponse
+}
 
 func NewHealthSynchronizationApiMock() HealthSynchronizationApiMock {
 	xDeleteHealthSynchronizationStreamCalls := make([]DeleteHealthSynchronizationStreamCall, 0)
@@ -1231,235 +1340,222 @@ func NewHealthSynchronizationApiMock() HealthSynchronizationApiMock {
 	xGetHealthSynchronizationSubStreamStatusCalls := make([]GetHealthSynchronizationSubStreamStatusCall, 0)
 	xGetHealthSynchronizationSubStreamTopologyMatchesCalls := make([]GetHealthSynchronizationSubStreamTopologyMatchesCall, 0)
 	xPostHealthSynchronizationStreamClearErrorsCalls := make([]PostHealthSynchronizationStreamClearErrorsCall, 0)
-	return HealthSynchronizationApiMock {
-		DeleteHealthSynchronizationStreamCalls: &xDeleteHealthSynchronizationStreamCalls,
-		GetHealthSynchronizationStreamStatusCalls: &xGetHealthSynchronizationStreamStatusCalls,
-		GetHealthSynchronizationStreamTopologyMatchesCalls: &xGetHealthSynchronizationStreamTopologyMatchesCalls,
-		GetHealthSynchronizationStreamsOverviewCalls: &xGetHealthSynchronizationStreamsOverviewCalls,
-		GetHealthSynchronizationSubStreamOverviewCalls: &xGetHealthSynchronizationSubStreamOverviewCalls,
-		GetHealthSynchronizationSubStreamStatusCalls: &xGetHealthSynchronizationSubStreamStatusCalls,
+	return HealthSynchronizationApiMock{
+		DeleteHealthSynchronizationStreamCalls:                &xDeleteHealthSynchronizationStreamCalls,
+		GetHealthSynchronizationStreamStatusCalls:             &xGetHealthSynchronizationStreamStatusCalls,
+		GetHealthSynchronizationStreamTopologyMatchesCalls:    &xGetHealthSynchronizationStreamTopologyMatchesCalls,
+		GetHealthSynchronizationStreamsOverviewCalls:          &xGetHealthSynchronizationStreamsOverviewCalls,
+		GetHealthSynchronizationSubStreamOverviewCalls:        &xGetHealthSynchronizationSubStreamOverviewCalls,
+		GetHealthSynchronizationSubStreamStatusCalls:          &xGetHealthSynchronizationSubStreamStatusCalls,
 		GetHealthSynchronizationSubStreamTopologyMatchesCalls: &xGetHealthSynchronizationSubStreamTopologyMatchesCalls,
-		PostHealthSynchronizationStreamClearErrorsCalls: &xPostHealthSynchronizationStreamClearErrorsCalls,
+		PostHealthSynchronizationStreamClearErrorsCalls:       &xPostHealthSynchronizationStreamClearErrorsCalls,
 	}
 }
 
 type DeleteHealthSynchronizationStreamMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteHealthSynchronizationStreamCall struct {
 	PhealthStreamUrn string
 }
 
-
 func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStream(ctx context.Context, healthStreamUrn string) ApiDeleteHealthSynchronizationStreamRequest {
 	return ApiDeleteHealthSynchronizationStreamRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:      mock,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) DeleteHealthSynchronizationStreamExecute(r ApiDeleteHealthSynchronizationStreamRequest) (*http.Response, error) {
-	p := DeleteHealthSynchronizationStreamCall {
-			PhealthStreamUrn: r.healthStreamUrn,
+	p := DeleteHealthSynchronizationStreamCall{
+		PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.DeleteHealthSynchronizationStreamCalls = append(*mock.DeleteHealthSynchronizationStreamCalls, p)
 	return mock.DeleteHealthSynchronizationStreamResponse.Response, mock.DeleteHealthSynchronizationStreamResponse.Error
 }
 
 type GetHealthSynchronizationStreamStatusMockResponse struct {
-	Result HealthStreamStatus
+	Result   HealthStreamStatus
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetHealthSynchronizationStreamStatusCall struct {
 	PhealthStreamUrn string
 }
 
-
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatus(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamStatusRequest {
 	return ApiGetHealthSynchronizationStreamStatusRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:      mock,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamStatusExecute(r ApiGetHealthSynchronizationStreamStatusRequest) (*HealthStreamStatus, *http.Response, error) {
-	p := GetHealthSynchronizationStreamStatusCall {
-			PhealthStreamUrn: r.healthStreamUrn,
+	p := GetHealthSynchronizationStreamStatusCall{
+		PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.GetHealthSynchronizationStreamStatusCalls = append(*mock.GetHealthSynchronizationStreamStatusCalls, p)
 	return &mock.GetHealthSynchronizationStreamStatusResponse.Result, mock.GetHealthSynchronizationStreamStatusResponse.Response, mock.GetHealthSynchronizationStreamStatusResponse.Error
 }
 
 type GetHealthSynchronizationStreamTopologyMatchesMockResponse struct {
-	Result TopologyMatchResult
+	Result   TopologyMatchResult
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetHealthSynchronizationStreamTopologyMatchesCall struct {
 	PhealthStreamUrn string
 }
 
-
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatches(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationStreamTopologyMatchesRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:      mock,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
-	p := GetHealthSynchronizationStreamTopologyMatchesCall {
-			PhealthStreamUrn: r.healthStreamUrn,
+	p := GetHealthSynchronizationStreamTopologyMatchesCall{
+		PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.GetHealthSynchronizationStreamTopologyMatchesCalls = append(*mock.GetHealthSynchronizationStreamTopologyMatchesCalls, p)
 	return &mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationStreamTopologyMatchesResponse.Error
 }
 
 type GetHealthSynchronizationStreamsOverviewMockResponse struct {
-	Result StreamList
+	Result   StreamList
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetHealthSynchronizationStreamsOverviewCall struct {
 }
 
-
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverview(ctx context.Context) ApiGetHealthSynchronizationStreamsOverviewRequest {
 	return ApiGetHealthSynchronizationStreamsOverviewRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationStreamsOverviewExecute(r ApiGetHealthSynchronizationStreamsOverviewRequest) (*StreamList, *http.Response, error) {
-	p := GetHealthSynchronizationStreamsOverviewCall {
-	}
+	p := GetHealthSynchronizationStreamsOverviewCall{}
 	*mock.GetHealthSynchronizationStreamsOverviewCalls = append(*mock.GetHealthSynchronizationStreamsOverviewCalls, p)
 	return &mock.GetHealthSynchronizationStreamsOverviewResponse.Result, mock.GetHealthSynchronizationStreamsOverviewResponse.Response, mock.GetHealthSynchronizationStreamsOverviewResponse.Error
 }
 
 type GetHealthSynchronizationSubStreamOverviewMockResponse struct {
-	Result SubStreamList
+	Result   SubStreamList
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetHealthSynchronizationSubStreamOverviewCall struct {
 	PhealthStreamUrn string
 }
 
-
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverview(ctx context.Context, healthStreamUrn string) ApiGetHealthSynchronizationSubStreamOverviewRequest {
 	return ApiGetHealthSynchronizationSubStreamOverviewRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:      mock,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamOverviewExecute(r ApiGetHealthSynchronizationSubStreamOverviewRequest) (*SubStreamList, *http.Response, error) {
-	p := GetHealthSynchronizationSubStreamOverviewCall {
-			PhealthStreamUrn: r.healthStreamUrn,
+	p := GetHealthSynchronizationSubStreamOverviewCall{
+		PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.GetHealthSynchronizationSubStreamOverviewCalls = append(*mock.GetHealthSynchronizationSubStreamOverviewCalls, p)
 	return &mock.GetHealthSynchronizationSubStreamOverviewResponse.Result, mock.GetHealthSynchronizationSubStreamOverviewResponse.Response, mock.GetHealthSynchronizationSubStreamOverviewResponse.Error
 }
 
 type GetHealthSynchronizationSubStreamStatusMockResponse struct {
-	Result HealthSubStreamStatus
+	Result   HealthSubStreamStatus
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetHealthSynchronizationSubStreamStatusCall struct {
-	PhealthStreamUrn string
+	PhealthStreamUrn       string
 	PhealthSyncSubStreamId string
 }
 
-
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatus(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamStatusRequest {
 	return ApiGetHealthSynchronizationSubStreamStatusRequest{
-		ApiService: mock,
-		ctx: ctx,
-		healthStreamUrn: healthStreamUrn,
+		ApiService:            mock,
+		ctx:                   ctx,
+		healthStreamUrn:       healthStreamUrn,
 		healthSyncSubStreamId: healthSyncSubStreamId,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamStatusExecute(r ApiGetHealthSynchronizationSubStreamStatusRequest) (*HealthSubStreamStatus, *http.Response, error) {
-	p := GetHealthSynchronizationSubStreamStatusCall {
-			PhealthStreamUrn: r.healthStreamUrn,
-			PhealthSyncSubStreamId: r.healthSyncSubStreamId,
+	p := GetHealthSynchronizationSubStreamStatusCall{
+		PhealthStreamUrn:       r.healthStreamUrn,
+		PhealthSyncSubStreamId: r.healthSyncSubStreamId,
 	}
 	*mock.GetHealthSynchronizationSubStreamStatusCalls = append(*mock.GetHealthSynchronizationSubStreamStatusCalls, p)
 	return &mock.GetHealthSynchronizationSubStreamStatusResponse.Result, mock.GetHealthSynchronizationSubStreamStatusResponse.Response, mock.GetHealthSynchronizationSubStreamStatusResponse.Error
 }
 
 type GetHealthSynchronizationSubStreamTopologyMatchesMockResponse struct {
-	Result TopologyMatchResult
+	Result   TopologyMatchResult
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetHealthSynchronizationSubStreamTopologyMatchesCall struct {
-	PhealthStreamUrn string
+	PhealthStreamUrn       string
 	PhealthSyncSubStreamId string
 }
 
-
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatches(ctx context.Context, healthStreamUrn string, healthSyncSubStreamId string) ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest {
 	return ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest{
-		ApiService: mock,
-		ctx: ctx,
-		healthStreamUrn: healthStreamUrn,
+		ApiService:            mock,
+		ctx:                   ctx,
+		healthStreamUrn:       healthStreamUrn,
 		healthSyncSubStreamId: healthSyncSubStreamId,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) GetHealthSynchronizationSubStreamTopologyMatchesExecute(r ApiGetHealthSynchronizationSubStreamTopologyMatchesRequest) (*TopologyMatchResult, *http.Response, error) {
-	p := GetHealthSynchronizationSubStreamTopologyMatchesCall {
-			PhealthStreamUrn: r.healthStreamUrn,
-			PhealthSyncSubStreamId: r.healthSyncSubStreamId,
+	p := GetHealthSynchronizationSubStreamTopologyMatchesCall{
+		PhealthStreamUrn:       r.healthStreamUrn,
+		PhealthSyncSubStreamId: r.healthSyncSubStreamId,
 	}
 	*mock.GetHealthSynchronizationSubStreamTopologyMatchesCalls = append(*mock.GetHealthSynchronizationSubStreamTopologyMatchesCalls, p)
 	return &mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Result, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Response, mock.GetHealthSynchronizationSubStreamTopologyMatchesResponse.Error
 }
 
 type PostHealthSynchronizationStreamClearErrorsMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PostHealthSynchronizationStreamClearErrorsCall struct {
 	PhealthStreamUrn string
 }
 
-
 func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrors(ctx context.Context, healthStreamUrn string) ApiPostHealthSynchronizationStreamClearErrorsRequest {
 	return ApiPostHealthSynchronizationStreamClearErrorsRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:      mock,
+		ctx:             ctx,
 		healthStreamUrn: healthStreamUrn,
 	}
 }
 
 func (mock HealthSynchronizationApiMock) PostHealthSynchronizationStreamClearErrorsExecute(r ApiPostHealthSynchronizationStreamClearErrorsRequest) (*http.Response, error) {
-	p := PostHealthSynchronizationStreamClearErrorsCall {
-			PhealthStreamUrn: r.healthStreamUrn,
+	p := PostHealthSynchronizationStreamClearErrorsCall{
+		PhealthStreamUrn: r.healthStreamUrn,
 	}
 	*mock.PostHealthSynchronizationStreamClearErrorsCalls = append(*mock.PostHealthSynchronizationStreamClearErrorsCalls, p)
 	return mock.PostHealthSynchronizationStreamClearErrorsResponse.Response, mock.PostHealthSynchronizationStreamClearErrorsResponse.Error
 }
-
-

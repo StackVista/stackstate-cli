@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken)
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
 
 ### HTTP request headers
 
@@ -133,7 +133,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken)
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
 
 ### HTTP request headers
 
@@ -194,7 +194,7 @@ Other parameters are passed through a pointer to a apiGetTopologySynchronization
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken)
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
 
 ### HTTP request headers
 
@@ -260,7 +260,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken)
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
 
 ### HTTP request headers
 

@@ -57,7 +57,7 @@ Other parameters are passed through a pointer to a apiServerInfoRequest struct v
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken)
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
 
 ### HTTP request headers
 

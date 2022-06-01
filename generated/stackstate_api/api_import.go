@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type ImportApi interface {
 
 	/*
-	ImportSettings Import settings
+		ImportSettings Import settings
 
-	Import StackState Templated JSON (STJ) setting nodes.
+		Import StackState Templated JSON (STJ) setting nodes.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiImportSettingsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiImportSettingsRequest
 	*/
 	ImportSettings(ctx context.Context) ApiImportSettingsRequest
 
@@ -41,12 +40,12 @@ type ImportApi interface {
 type ImportApiService service
 
 type ApiImportSettingsRequest struct {
-	ctx context.Context
-	ApiService ImportApi
-	body *string
+	ctx            context.Context
+	ApiService     ImportApi
+	body           *string
 	timeoutSeconds *int64
-	namespace *string
-	unlocked *string
+	namespace      *string
+	unlocked       *string
 }
 
 func (r ApiImportSettingsRequest) Body(body string) ApiImportSettingsRequest {
@@ -84,7 +83,7 @@ Import StackState Templated JSON (STJ) setting nodes.
 func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -92,10 +91,10 @@ func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettings
 //  @return []map[string]interface{}
 func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []map[string]interface{}
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []map[string]interface{}
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImportApiService.ImportSettings")
@@ -151,6 +150,20 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -210,54 +223,49 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ImportApiMock struct {
-	ImportSettingsCalls *[]ImportSettingsCall
+	ImportSettingsCalls    *[]ImportSettingsCall
 	ImportSettingsResponse ImportSettingsMockResponse
-}	
+}
 
 func NewImportApiMock() ImportApiMock {
 	xImportSettingsCalls := make([]ImportSettingsCall, 0)
-	return ImportApiMock {
+	return ImportApiMock{
 		ImportSettingsCalls: &xImportSettingsCalls,
 	}
 }
 
 type ImportSettingsMockResponse struct {
-	Result []map[string]interface{}
+	Result   []map[string]interface{}
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type ImportSettingsCall struct {
-	Pbody *string
+	Pbody           *string
 	PtimeoutSeconds *int64
-	Pnamespace *string
-	Punlocked *string
+	Pnamespace      *string
+	Punlocked       *string
 }
-
 
 func (mock ImportApiMock) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
-	p := ImportSettingsCall {
-			Pbody: r.body,
-			PtimeoutSeconds: r.timeoutSeconds,
-			Pnamespace: r.namespace,
-			Punlocked: r.unlocked,
+	p := ImportSettingsCall{
+		Pbody:           r.body,
+		PtimeoutSeconds: r.timeoutSeconds,
+		Pnamespace:      r.namespace,
+		Punlocked:       r.unlocked,
 	}
 	*mock.ImportSettingsCalls = append(*mock.ImportSettingsCalls, p)
 	return mock.ImportSettingsResponse.Result, mock.ImportSettingsResponse.Response, mock.ImportSettingsResponse.Error
 }
-
-
