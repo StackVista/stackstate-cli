@@ -149,7 +149,7 @@ func TestNothing(t *testing.T) {
 			RootCause: ValidateConfError{
 				ValidationErrors: []error{
 					MissingFieldError{FieldName: "url"},
-					MissingFieldError{FieldName: "{api-token | service-token}"},
+					MissingFieldError{FieldName: "can only specify one of api-token an service-token"},
 				},
 			},
 			IsMissingConfigFile: true,
