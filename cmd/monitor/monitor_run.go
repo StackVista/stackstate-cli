@@ -1,8 +1,6 @@
 package monitor
 
 import (
-	"net/http"
-
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -11,13 +9,14 @@ import (
 )
 
 const (
-	DryRunFlag = "dry-run"
+	YesFlag      = "yes"
+	YesFlagShort = "y"
 )
 
 type RunArgs struct {
 	ID         int64
 	Identifier string
-	DryRun     bool
+	DoRun      bool
 }
 
 func MonitorRunCommand(cli *di.Deps) *cobra.Command {
@@ -25,13 +24,13 @@ func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "run",
 		Short: "run a monitor",
-		Long:  "Run a monitor.",
+		Long:  "Run a monitor. Does not save the states of the monitor run, unless `--yes` is specified.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
-	cmd.Flags().BoolVar(&args.DryRun, DryRunFlag, false, "do not save the states of the monitor run")
+	cmd.Flags().BoolVarP(&args.DoRun, YesFlag, YesFlagShort, false, "save the state of the monitor run")
 	mutex_flags.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "idenfier", true)
 
 	return cmd
@@ -44,21 +43,8 @@ func RunMonitorRunCommand(args *RunArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		var resp *http.Response
-		var runResult *stackstate_api.MonitorRunResult
-		var err error
-
-		switch {
-		case args.ID != 0 && args.DryRun:
-			runResult, resp, err = api.MonitorApi.DryRunMonitor(cli.Context, args.ID).Execute()
-		case args.ID != 0:
-			runResult, resp, err = api.MonitorApi.RunMonitor(cli.Context, args.ID).Execute()
-		case args.DryRun:
-			runResult, resp, err = api.MonitorUrnApi.DryRunMonitorByURN(cli.Context, args.Identifier).Execute()
-		default:
-			runResult, resp, err = api.MonitorUrnApi.RunMonitorByURN(cli.Context, args.Identifier).Execute()
-		}
-
+		identifier := IdOrIdentifier(args.ID, args.Identifier)
+		runResult, resp, err := api.MonitorApi.RunMonitor(cli.Context, identifier).DryRun(!args.DoRun).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

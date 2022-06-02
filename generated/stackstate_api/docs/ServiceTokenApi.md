@@ -4,9 +4,9 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateNewServiceToken**](ServiceTokenApi.md#CreateNewServiceToken) | **Post** /security/token | Create new service token
-[**DeleteServiceToken**](ServiceTokenApi.md#DeleteServiceToken) | **Delete** /security/token/{serviceTokenId} | Delete service token
-[**GetServiceTokens**](ServiceTokenApi.md#GetServiceTokens) | **Get** /security/token | Get service tokens
+[**CreateNewServiceToken**](ServiceTokenApi.md#CreateNewServiceToken) | **Post** /security/tokens | Create new service token
+[**DeleteServiceToken**](ServiceTokenApi.md#DeleteServiceToken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
+[**GetServiceTokens**](ServiceTokenApi.md#GetServiceTokens) | **Get** /security/tokens | Get service tokens
 
 
 
