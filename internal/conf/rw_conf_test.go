@@ -149,6 +149,24 @@ func TestNothing(t *testing.T) {
 			RootCause: ValidateConfError{
 				ValidationErrors: []error{
 					MissingFieldError{FieldName: "url"},
+					MissingFieldError{FieldName: "{api-token | service-token}"},
+				},
+			},
+			IsMissingConfigFile: true,
+		}, err)
+}
+
+func TestMutualExclusiveToken(t *testing.T) {
+	viperConf := viper.New()
+	viperConf.Set("api-token", "bla")
+	viperConf.Set("service-token", "bla")
+	_, err := readConfWithPaths(newCmd(), viperConf, []string{})
+	assert.Equal(
+		t,
+		ReadConfError{
+			RootCause: ValidateConfError{
+				ValidationErrors: []error{
+					MissingFieldError{FieldName: "url"},
 					MissingFieldError{FieldName: "can only specify one of api-token an service-token"},
 				},
 			},

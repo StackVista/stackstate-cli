@@ -70,7 +70,11 @@ func validate(conf Conf, errors *[]error) {
 		}
 	}
 
-	if (conf.ApiToken == "" && conf.ServiceToken == "") || (conf.ApiToken != "" && conf.ServiceToken != "") {
+	if conf.ApiToken == "" && conf.ServiceToken == "" {
+		*errors = append(*errors, MissingFieldError{FieldName: "{api-token | service-token}"})
+	}
+
+	if conf.ApiToken != "" && conf.ServiceToken != "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "can only specify one of api-token an service-token"})
 	}
 }
