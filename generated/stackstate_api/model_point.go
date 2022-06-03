@@ -17,7 +17,7 @@ import (
 
 // Point struct for Point
 type Point struct {
-	Ts float32 `json:"ts"`
+	Ts int64 `json:"ts"`
 	V float64 `json:"v"`
 }
 
@@ -25,7 +25,7 @@ type Point struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPoint(ts float32, v float64) *Point {
+func NewPoint(ts int64, v float64) *Point {
 	this := Point{}
 	this.Ts = ts
 	this.V = v
@@ -41,9 +41,9 @@ func NewPointWithDefaults() *Point {
 }
 
 // GetTs returns the Ts field value
-func (o *Point) GetTs() float32 {
+func (o *Point) GetTs() int64 {
 	if o == nil {
-		var ret float32
+		var ret int64
 		return ret
 	}
 
@@ -52,7 +52,7 @@ func (o *Point) GetTs() float32 {
 
 // GetTsOk returns a tuple with the Ts field value
 // and a boolean to check if the value has been set.
-func (o *Point) GetTsOk() (*float32, bool) {
+func (o *Point) GetTsOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,7 +60,7 @@ func (o *Point) GetTsOk() (*float32, bool) {
 }
 
 // SetTs sets field value
-func (o *Point) SetTs(v float32) {
+func (o *Point) SetTs(v int64) {
 	o.Ts = v
 }
 
