@@ -259,6 +259,15 @@ Class | Method | HTTP request | Description
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Token and passed in as the auth context for each request.
 
 
+### ServiceToken
+
+- **Type**: API key
+- **API key parameter name**: X-API-Key
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Key and passed in as the auth context for each request.
+
+
 ## Documentation for Utility Methods
 
 Due to the fact that model structure members are all pointers, this package contains

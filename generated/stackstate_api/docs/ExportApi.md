@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken)
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
 
 ### HTTP request headers
 
