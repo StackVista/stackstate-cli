@@ -38,12 +38,13 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// get required --url and --api-token
 	URL, missingApiURL := cmd.Flags().GetString(common.URLFlag)
 	apiToken, missingApiToken := cmd.Flags().GetString(common.APITokenFlag)
+	serviceToken, missingServiceToken := cmd.Flags().GetString(common.ServiceTokenFlag)
 	missing := make([]string, 0)
 	if URL == "" || missingApiURL != nil {
 		missing = append(missing, common.URLFlag)
 	}
-	if apiToken == "" || missingApiToken != nil {
-		missing = append(missing, common.APITokenFlag)
+	if (apiToken == "" || missingApiToken != nil) && (serviceToken == "" || missingServiceToken != nil) {
+		missing = append(missing, common.APITokenFlag, common.ServiceTokenFlag)
 	}
 	if len(missing) > 0 {
 		return common.NewCLIArgParseError(fmt.Errorf("missing required flag(s): %v", strings.Join(missing, ", ")))
@@ -56,9 +57,10 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 
 	// set config
 	cli.Config = &conf.Conf{
-		URL:      URL,
-		ApiToken: apiToken,
-		ApiPath:  apiPath,
+		URL:          URL,
+		ApiToken:     apiToken,
+		ApiPath:      apiPath,
+		ServiceToken: serviceToken,
 	}
 
 	// get test-connect flag
@@ -70,7 +72,7 @@ func RunSave(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	// test connect
 	if !skipValidate {
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, URL, apiPath, apiToken)
+			err := cli.LoadClient(cmd, URL, apiPath, apiToken, serviceToken)
 			if err != nil {
 				return err
 			}

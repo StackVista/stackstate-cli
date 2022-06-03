@@ -127,7 +127,7 @@ func (p ReadTests) TestLoadSuccessFromMinimumRequiredEnvs(t *testing.T) {
 func (p ReadTests) TestLoadSuccessFromMinimumFlags(t *testing.T) {
 	cmd := newCmd()
 	flags := strings.Split(strings.ReplaceAll(MinimumRequiredFlags, " ", ""), ",")
-	assert.Equal(t, 2, len(flags))
+	assert.Equal(t, 3, len(flags))
 	cmd.Flags().String(flags[0], "", "")
 	cmd.Flags().String(flags[1], "", "")
 	cmd.Flags().Set(flags[0], "https://my.stackstate.com/api")
@@ -149,7 +149,25 @@ func TestNothing(t *testing.T) {
 			RootCause: ValidateConfError{
 				ValidationErrors: []error{
 					MissingFieldError{FieldName: "url"},
-					MissingFieldError{FieldName: "api-token"},
+					MissingFieldError{FieldName: "{api-token | service-token}"},
+				},
+			},
+			IsMissingConfigFile: true,
+		}, err)
+}
+
+func TestMutualExclusiveToken(t *testing.T) {
+	viperConf := viper.New()
+	viperConf.Set("api-token", "bla")
+	viperConf.Set("service-token", "bla")
+	_, err := readConfWithPaths(newCmd(), viperConf, []string{})
+	assert.Equal(
+		t,
+		ReadConfError{
+			RootCause: ValidateConfError{
+				ValidationErrors: []error{
+					MissingFieldError{FieldName: "url"},
+					MissingFieldError{FieldName: "can only specify one of api-token an service-token"},
 				},
 			},
 			IsMissingConfigFile: true,
