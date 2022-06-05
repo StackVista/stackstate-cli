@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"context"
 
-	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
@@ -24,15 +24,16 @@ func NewMockDeps() MockDeps {
 	mockPrinter := printer.NewMockPrinter(printer.NewStdPrinter("linux", stdOut, stdErr))
 	return MockDeps{
 		Deps: Deps{
-			Client:    &mockClient,
-			Printer:   &mockPrinter,
-			Clock:     pflags.NewTestClock(1652108645000), //nolint:gomnd
-			Context:   context.Background(),
-			Config:    &conf.Conf{},
-			Version:   "1.0.0",
-			Commit:    "123124",
-			BuildDate: "1-1-2022",
-			CLIType:   "full",
+			Client:         &mockClient,
+			Printer:        &mockPrinter,
+			Clock:          pflags.NewTestClock(1652108645000), //nolint:gomnd
+			Context:        context.Background(),
+			StsConfig:      &config.Config{},
+			CurrentContext: &config.StsContext{},
+			Version:        "1.0.0",
+			Commit:         "123124",
+			BuildDate:      "1-1-2022",
+			CLIType:        "full",
 		},
 		MockClient:  &mockClient,
 		MockPrinter: &mockPrinter,
