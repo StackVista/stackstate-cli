@@ -12,8 +12,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-func setupStackPackUploadCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackPackUploadCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackUploadCommand(&cli.Deps)
 	return &cli, cmd
 }
@@ -31,7 +31,7 @@ func createTempFile() *os.File {
 }
 
 func TestUploadStackPackPrintsToTable(t *testing.T) {
-	cli, cmd := setupStackPackUploadCmd()
+	cli, cmd := setupStackPackUploadCmd(t)
 	file := createTempFile()
 
 	name := "test"
@@ -57,7 +57,7 @@ func TestUploadStackPackPrintsToTable(t *testing.T) {
 }
 
 func TestUploadStackPackPrintToJson(t *testing.T) {
-	cli, cmd := setupStackPackUploadCmd()
+	cli, cmd := setupStackPackUploadCmd(t)
 	file := createTempFile()
 
 	stackpack := &sts.StackPack{

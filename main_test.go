@@ -14,7 +14,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-func setupSTSCmd() (*di.MockDeps, *cobra.Command) {
+func setupSTSCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	errorCmd := cobra.Command{
 		Use:   "test-error",
 		Short: "some short help text for ErrorCmd",
@@ -23,7 +23,7 @@ func setupSTSCmd() (*di.MockDeps, *cobra.Command) {
 			return common.NewCLIArgParseError(fmt.Errorf("test error"))
 		},
 	}
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	sts := cmd.STSCommand(&cli.Deps)
 	sts.AddCommand(&errorCmd)
 	sts.SetOut(cli.StdOut)
@@ -33,7 +33,7 @@ func setupSTSCmd() (*di.MockDeps, *cobra.Command) {
 }
 
 func TestHelpWhenRunningWithoutArgs(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{""})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -43,7 +43,7 @@ func TestHelpWhenRunningWithoutArgs(t *testing.T) {
 }
 
 func TestHelpWhenRunningHelp(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"help"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -52,7 +52,7 @@ func TestHelpWhenRunningHelp(t *testing.T) {
 }
 
 func TestVersionRun(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"version"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
@@ -63,7 +63,7 @@ func TestVersionRun(t *testing.T) {
 }
 
 func TestVersionJsonRun(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 
 	cmd.SetArgs([]string{"version", "-o", "json"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
@@ -75,7 +75,7 @@ func TestVersionJsonRun(t *testing.T) {
 }
 
 func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
-	cli, sts := setupSTSCmd()
+	cli, sts := setupSTSCmd(t)
 
 	sts.SetArgs([]string{"version", "--wrongflag"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
@@ -86,7 +86,7 @@ func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
 }
 
 func TestErrHandling(t *testing.T) {
-	cli, sts := setupSTSCmd()
+	cli, sts := setupSTSCmd(t)
 
 	sts.SetArgs([]string{"test-error"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
@@ -98,7 +98,7 @@ func TestErrHandling(t *testing.T) {
 }
 
 func TestErrToJson(t *testing.T) {
-	cli, sts := setupSTSCmd()
+	cli, sts := setupSTSCmd(t)
 
 	sts.SetArgs([]string{"test-error", "-o", "json"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
@@ -109,7 +109,7 @@ func TestErrToJson(t *testing.T) {
 }
 
 func TestColorUsedByDefault(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
@@ -119,7 +119,7 @@ func TestColorUsedByDefault(t *testing.T) {
 }
 
 func TestNoColorFlag(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"version", "--no-color"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -131,7 +131,7 @@ func TestNoColorWhenDumbTerminal(t *testing.T) {
 	defer os.Setenv("TERM", term)
 	os.Setenv("TERM", "Dumb")
 
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -143,7 +143,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 	// https://no-color.org says we need to check for existence, not a specific value
 	os.Setenv("NO_COLOR", "false")
 
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -151,7 +151,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 }
 
 func TestNoColorWhenJsonOutput(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"version", "-o", "json"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
@@ -159,14 +159,14 @@ func TestNoColorWhenJsonOutput(t *testing.T) {
 }
 
 func TestVerbose(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"version", "--verbose"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.True(t, cli.IsVerBose)
 }
 
 func TestErrorOnUnknownSubCommand(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"cli-config", "blaat"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
@@ -182,7 +182,7 @@ func TestErrorpOnUnknownSubCommand(t *testing.T) {
 }
 
 func TestHelpOnMissingSubCommand(t *testing.T) {
-	cli, cmd := setupSTSCmd()
+	cli, cmd := setupSTSCmd(t)
 	cmd.SetArgs([]string{"cli-config"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, common.OkExitCode, exitCode)

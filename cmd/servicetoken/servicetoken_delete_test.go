@@ -8,7 +8,7 @@ import (
 )
 
 func TestDeleteShouldFailOnNonIntID(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := DeleteCommand(&cli.Deps)
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "foo")
@@ -18,7 +18,7 @@ func TestDeleteShouldFailOnNonIntID(t *testing.T) {
 }
 
 func TestDelete(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := DeleteCommand(&cli.Deps)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1")

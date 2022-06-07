@@ -17,6 +17,7 @@ type Deps struct {
 	// Config    *conf.Conf
 	StsConfig      *config.Config
 	CurrentContext *config.StsContext
+	ConfigPath     string
 	Printer        printer.Printer
 	Context        context.Context
 	Client         client.StackStateClient
@@ -69,22 +70,15 @@ func (cli *Deps) CmdRunEWithApi(
 	}
 }
 
-// needs to happen before command run, but after cobra command execute
-// so flag-config bindings can take hold
-func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
-	nCfg, err := config.ReadConfig("")
+func (cli *Deps) LoadConfig(cmd *cobra.Command) error {
+	cfg, err := config.ReadConfig(cli.ConfigPath)
 	if err != nil {
 		return err
 	}
-	cli.StsConfig = nCfg
-	cli.CurrentContext = nCfg.GetCurrentContext()
 
-	// cfg, err := conf.ReadConf(cmd)
-	// if err != nil {
-	// 	return err
-	// }
-	// cli.Config = &cfg
-	// log.Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
+	cli.StsConfig = cfg
+	cli.CurrentContext = cfg.GetCurrentContext()
+
 	return nil
 }
 

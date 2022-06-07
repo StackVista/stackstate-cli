@@ -3,6 +3,8 @@ package di
 import (
 	"bytes"
 	"context"
+	"path/filepath"
+	"testing"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
@@ -17,7 +19,7 @@ type MockDeps struct {
 	StdErr      *bytes.Buffer
 }
 
-func NewMockDeps() MockDeps {
+func NewMockDeps(t *testing.T) MockDeps {
 	stdOut := new(bytes.Buffer)
 	stdErr := new(bytes.Buffer)
 	mockClient := NewMockStackStateClient()
@@ -30,6 +32,7 @@ func NewMockDeps() MockDeps {
 			Context:        context.Background(),
 			StsConfig:      &config.Config{},
 			CurrentContext: &config.StsContext{},
+			ConfigPath:     filepath.Join(t.TempDir(), config.ConfigFileName),
 			Version:        "1.0.0",
 			Commit:         "123124",
 			BuildDate:      "1-1-2022",

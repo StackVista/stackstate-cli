@@ -10,8 +10,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-func setupSettingListTypesCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupSettingListTypesCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := SettingsListTypesCommand(&cli.Deps)
 	nodeApiResult := sts.NodeTypes{
 		NodeTypes: []sts.NodeTypesNodeTypes{
@@ -23,7 +23,7 @@ func setupSettingListTypesCmd() (*di.MockDeps, *cobra.Command) {
 }
 
 func TestListTypesPrintsToTable(t *testing.T) {
-	cli, cmd := setupSettingListTypesCmd()
+	cli, cmd := setupSettingListTypesCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
@@ -37,7 +37,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 }
 
 func TestListTypesPrintsToJson(t *testing.T) {
-	cli, cmd := setupSettingListTypesCmd()
+	cli, cmd := setupSettingListTypesCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 

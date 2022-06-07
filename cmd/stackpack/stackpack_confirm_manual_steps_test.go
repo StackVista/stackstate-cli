@@ -10,15 +10,15 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func setupStackPacConfirmManualStepsCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackPacConfirmManualStepsCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackConfirmManualStepsCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsResponse.Result = "successful"
 	return &cli, cmd
 }
 
 func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
-	cli, cmd := setupStackPacConfirmManualStepsCmd()
+	cli, cmd := setupStackPacConfirmManualStepsCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", "--name", "zabbix",
 		"--id", "1234",
 	)
@@ -36,7 +36,7 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 }
 
 func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
-	cli, cmd := setupStackPacConfirmManualStepsCmd()
+	cli, cmd := setupStackPacConfirmManualStepsCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", "--name", "zabbix",
 		"--id", "1234", "-o", "json",
 	)

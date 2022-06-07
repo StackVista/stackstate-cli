@@ -15,8 +15,8 @@ var (
 	stackPackCurrentVersion = "1.0.0"
 )
 
-func setupStackPackUpgradeCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackPackUpgradeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackUpgradeCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = []stackstate_api.Sstackpack{
 		{
@@ -33,7 +33,7 @@ func setupStackPackUpgradeCmd() (*di.MockDeps, *cobra.Command) {
 
 func TestStackpackUpgradePrintToTable(t *testing.T) {
 	strategyFlag := "overwrite"
-	cli, cmd := setupStackPackUpgradeCmd()
+	cli, cmd := setupStackPackUpgradeCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
 		"--unlocked-strategy", strategyFlag,
 	)
@@ -50,7 +50,7 @@ func TestStackpackUpgradePrintToTable(t *testing.T) {
 
 func TestStackpackUpgradePrintToJson(t *testing.T) {
 	strategyFlag := "overwrite"
-	cli, cmd := setupStackPackUpgradeCmd()
+	cli, cmd := setupStackPackUpgradeCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
 		"--unlocked-strategy", strategyFlag, "-o", "json",
 	)

@@ -8,15 +8,15 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func setupStackpackUninstallFn() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackpackUninstallFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackUninstallCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.ProvisionUninstallResponse.Result = "Successfully uninstalled StackPack: name=zabbix id=39206337488300"
 	return &cli, cmd
 }
 
 func TestStackpackUninstallCommandPrintToConsole(t *testing.T) {
-	cli, cmd := setupStackpackUninstallFn()
+	cli, cmd := setupStackpackUninstallFn(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "uninstall", "--name", "zabbix", "--id", "39206337488300")
 
 	expectedSuccessMessage := []string{"Successfully uninstalled StackPack: name=zabbix id=39206337488300"}
@@ -26,7 +26,7 @@ func TestStackpackUninstallCommandPrintToConsole(t *testing.T) {
 }
 
 func TestStackpackUninstallCommandPrintToJson(t *testing.T) {
-	cli, cmd := setupStackpackUninstallFn()
+	cli, cmd := setupStackpackUninstallFn(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "uninstall", "--name", "zabbix", "-i", "39206337488300", "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{

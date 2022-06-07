@@ -13,8 +13,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func setupCommandCollect() (di.MockDeps, *cobra.Command) {
-	mockCli := di.NewMockDeps()
+func setupCommandCollect(t *testing.T) (di.MockDeps, *cobra.Command) {
+	mockCli := di.NewMockDeps(t)
 	cmd := AnomalyCollectFeedback(&mockCli.Deps)
 
 	return mockCli, cmd
@@ -35,7 +35,7 @@ func TestAnomalyCollectEmpty(t *testing.T) {
 	err = json.Unmarshal([]byte(expectedStr), &feedback)
 	assert.Nil(t, err)
 
-	cli, cmd := setupCommandCollect()
+	cli, cmd := setupCommandCollect(t)
 	cli.MockClient.ApiMocks.AnomalyFeedbackApi.ExportAnomalyResponse.Result = feedback
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--start-time", "1652108645000", "--end-time", "1652108845000", "--file", filePath)

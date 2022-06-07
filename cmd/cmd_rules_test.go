@@ -11,7 +11,7 @@ import (
 )
 
 func TestNounsAndVerbsExistAsFilesInDirectories(t *testing.T) {
-	root := setupCmd()
+	root := setupCmd(t)
 	for _, nounCmd := range root.Commands() {
 		// test noun
 		nounName := strings.ReplaceAll(nounCmd.Name(), "-", "")
@@ -34,7 +34,7 @@ func TestNounsAndVerbsExistAsFilesInDirectories(t *testing.T) {
 }
 
 func TestVerbCommandCheckForJsonOuput(t *testing.T) {
-	root := setupCmd()
+	root := setupCmd(t)
 	for _, nounCmd := range root.Commands() {
 		for _, verbCmd := range nounCmd.Commands() {
 			nounName := strings.ReplaceAll(nounCmd.Name(), "-", "")
@@ -45,10 +45,10 @@ func TestVerbCommandCheckForJsonOuput(t *testing.T) {
 				t.Fatal(err)
 			}
 			if !strings.Contains(string(verbCmdGoCode), "if cli.IsJson() {") {
-				t.Fatalf("%s does not check whether to print to json!", verCmdGoFile)
+				t.Errorf("%s does not check whether to print to json!", verCmdGoFile)
 			}
 			if !strings.Contains(string(verbCmdGoCode), "cli.Printer.PrintJson(") {
-				t.Fatalf("%s does not print json!", verCmdGoFile)
+				t.Errorf("%s does not print json!", verCmdGoFile)
 			}
 		}
 	}

@@ -9,7 +9,7 @@ import (
 )
 
 func TestServiceTokenCreate(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
@@ -25,7 +25,7 @@ func TestServiceTokenCreate(t *testing.T) {
 }
 
 func TestServiceTokenCreateExpirationOptional(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
@@ -41,7 +41,7 @@ func TestServiceTokenCreateExpirationOptional(t *testing.T) {
 }
 
 func TestServiceTokenCreateMultipleRoles(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
@@ -57,7 +57,7 @@ func TestServiceTokenCreateMultipleRoles(t *testing.T) {
 }
 
 func TestServiceTokenCreateJSON(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
 	r := &stackstate_api.ServiceTokenCreatedResponse{
