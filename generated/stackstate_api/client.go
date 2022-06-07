@@ -52,6 +52,8 @@ type APIClient struct {
 
 	ApiTokenApi ApiTokenApi
 
+	DefaultApi DefaultApi
+
 	EventApi EventApi
 
 	ExportApi ExportApi
@@ -73,6 +75,8 @@ type APIClient struct {
 	ServiceTokenApi ServiceTokenApi
 
 	StackpackApi StackpackApi
+
+	TopicApi TopicApi
 
 	TopologySynchronizationApi TopologySynchronizationApi
 
@@ -96,6 +100,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
+	c.DefaultApi = (*DefaultApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)
 	c.ExportApi = (*ExportApiService)(&c.common)
 	c.ExportAnomalyApi = (*ExportAnomalyApiService)(&c.common)
@@ -107,6 +112,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ServerApi = (*ServerApiService)(&c.common)
 	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
 	c.StackpackApi = (*StackpackApiService)(&c.common)
+	c.TopicApi = (*TopicApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 
@@ -239,9 +245,9 @@ func (c *APIClient) GetConfig() *Configuration {
 }
 
 type formFile struct {
-		fileBytes []byte
-		fileName string
-		formFileName string
+	fileBytes    []byte
+	fileName     string
+	formFileName string
 }
 
 // prepareRequest build the request
@@ -295,11 +301,11 @@ func (c *APIClient) prepareRequest(
 				w.Boundary()
 				part, err := w.CreateFormFile(formFile.formFileName, filepath.Base(formFile.fileName))
 				if err != nil {
-						return nil, err
+					return nil, err
 				}
 				_, err = part.Write(formFile.fileBytes)
 				if err != nil {
-						return nil, err
+					return nil, err
 				}
 			}
 		}

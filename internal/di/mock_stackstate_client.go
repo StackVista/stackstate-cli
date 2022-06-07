@@ -27,6 +27,7 @@ type ApiMocks struct {
 	ServerApi                  *stackstate_api.ServerApiMock
 	StackpackApi               *stackstate_api.StackpackApiMock
 	AnomalyFeedbackApi         *stackstate_api.ExportAnomalyApiMock
+	TopicApi                   *stackstate_api.TopicApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
@@ -45,6 +46,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	serverApi := stackstate_api.NewServerApiMock()
 	stackpackApi := stackstate_api.NewStackpackApiMock()
 	anomalyFeedbackApi := stackstate_api.NewExportAnomalyApiMock()
+	topicApi := stackstate_api.NewTopicApiMock()
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
 		EventApi:                   &eventApi,
@@ -60,6 +62,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		ServerApi:                  &serverApi,
 		StackpackApi:               &stackpackApi,
 		AnomalyFeedbackApi:         &anomalyFeedbackApi,
+		TopicApi:                   &topicApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
@@ -77,6 +80,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		ServerApi:                  apiMocks.ServerApi,
 		StackpackApi:               apiMocks.StackpackApi,
 		ExportAnomalyApi:           apiMocks.AnomalyFeedbackApi,
+		TopicApi:                   apiMocks.TopicApi,
 	}
 
 	return MockStackStateClient{

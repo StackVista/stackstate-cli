@@ -26,5 +26,6 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(AnomalyCommand(cli))
 
 	cmd.AddCommand(ServiceTokenCommand(cli))
+	cmd.AddCommand(TopicCommand(cli))
 	return cmd
 }

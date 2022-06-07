@@ -80,6 +80,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+*DefaultApi* | [**ComponentsComponentIdStreamsLatestGet**](docs/DefaultApi.md#componentscomponentidstreamslatestget) | **Get** /components/{componentId}/streams/latest | Get the latests metrics
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
 *EventApi* | [**GetEventTags**](docs/EventApi.md#geteventtags) | **Get** /eventTags | Get event tags
@@ -114,6 +115,7 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
+*TopicApi* | [**GetTopic**](docs/TopicApi.md#gettopic) | **Get** /topic | Topic API
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -174,9 +176,13 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
+ - [InlineResponse200](docs/InlineResponse200.md)
+ - [InlineResponse404](docs/InlineResponse404.md)
  - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
+ - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
+ - [LatestTelemetryStreamMetricsMetric](docs/LatestTelemetryStreamMetricsMetric.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
@@ -228,6 +234,7 @@ Class | Method | HTTP request | Description
  - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
  - [TimeRange](docs/TimeRange.md)
  - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
+ - [Topic](docs/Topic.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)
