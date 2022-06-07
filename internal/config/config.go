@@ -8,20 +8,20 @@ import (
 )
 
 type Config struct {
-	Contexts       []NamedContext `yaml:"contexts"`
-	CurrentContext string         `yaml:"current-context"`
+	Contexts       []*NamedContext `yaml:"contexts" json:"contexts"`
+	CurrentContext string          `yaml:"current-context" json:"current-context"`
 }
 
 type NamedContext struct {
-	Name    string     `yaml:"name"`
-	Context StsContext `yaml:"context"`
+	Name    string      `yaml:"name" json:"name"`
+	Context *StsContext `yaml:"context" json:"context"`
 }
 
 type StsContext struct {
 	URL          string `yaml:"url" json:"url"`
-	ApiToken     string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
+	APIToken     string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
 	ServiceToken string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
-	ApiPath      string `yaml:"api-path" default:"/api" json:"api-path"`
+	APIPath      string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
 func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -43,10 +43,10 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 		if err := unmarshal(ctx); err != nil {
 			return err
 		}
-		c.Contexts = []NamedContext{
+		c.Contexts = []*NamedContext{
 			{
 				Name:    "default",
-				Context: *ctx,
+				Context: ctx,
 			},
 		}
 		c.CurrentContext = "default"
@@ -55,15 +55,20 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
-// GetCurrentContext returns the current context
-func (c *Config) GetCurrentContext() *StsContext {
+// GetContext gets the context with the given name
+func (c *Config) GetContext(name string) *NamedContext {
 	for _, context := range c.Contexts {
-		if context.Name == c.CurrentContext {
-			return &context.Context
+		if context.Name == name {
+			return context
 		}
 	}
 
 	return nil
+}
+
+// GetCurrentContext returns the current context
+func (c *Config) GetCurrentContext() *StsContext {
+	return c.GetContext(c.CurrentContext).Context
 }
 
 // UnmarshalYAML unmarshals the StsContext YAML part into a struct, ensuring that any defaults are set.
@@ -83,25 +88,25 @@ func (s *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 func (c *StsContext) Merge(fallback StsContext) StsContext {
 	merged := StsContext{
 		URL:          c.URL,
-		ApiToken:     c.ApiToken,
+		APIToken:     c.APIToken,
 		ServiceToken: c.ServiceToken,
-		ApiPath:      c.ApiPath,
+		APIPath:      c.APIPath,
 	}
 
 	if merged.URL == "" {
 		merged.URL = fallback.URL
 	}
 
-	if merged.ApiToken == "" {
-		merged.ApiToken = fallback.ApiToken
+	if merged.APIToken == "" {
+		merged.APIToken = fallback.APIToken
 	}
 
 	if merged.ServiceToken == "" {
 		merged.ServiceToken = fallback.ServiceToken
 	}
 
-	if merged.ApiPath == "" {
-		merged.ApiPath = fallback.ApiPath
+	if merged.APIPath == "" {
+		merged.APIPath = fallback.APIPath
 	}
 
 	return merged
@@ -132,11 +137,11 @@ func (c StsContext) validate(errors *[]error) {
 		*errors = append(*errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
 	}
 
-	if c.ApiToken == "" && c.ServiceToken == "" {
+	if c.APIToken == "" && c.ServiceToken == "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "{api-token | service-token}"})
 	}
 
-	if c.ApiToken != "" && c.ServiceToken != "" {
+	if c.APIToken != "" && c.ServiceToken != "" {
 		*errors = append(*errors, MissingFieldError{FieldName: "can only specify one of api-token an service-token"})
 	}
 }

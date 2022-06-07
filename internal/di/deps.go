@@ -47,15 +47,8 @@ type CmdWithApiFn = func(
 func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		if cli.StsConfig == nil {
-			err := cli.LoadConfig(cmd)
-			if err != nil {
-				return err
-			}
-		}
-
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, cli.CurrentContext.URL, cli.CurrentContext.ApiPath, cli.CurrentContext.ApiToken, cli.CurrentContext.ServiceToken)
+			err := cli.LoadClient(cmd, cli.CurrentContext.URL, cli.CurrentContext.APIPath, cli.CurrentContext.APIToken, cli.CurrentContext.ServiceToken)
 			if err != nil {
 				return err
 			}
@@ -70,7 +63,8 @@ func (cli *Deps) CmdRunEWithApi(
 	}
 }
 
-func (cli *Deps) LoadConfig(cmd *cobra.Command) error {
+// Called from the PersistentPreRunE
+func (cli *Deps) LoadConfig() common.CLIError {
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	if err != nil {
 		return err

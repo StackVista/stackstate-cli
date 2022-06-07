@@ -29,13 +29,13 @@ current-context: prod
 	assert.Len(t, cfg.Contexts, 2)
 	assert.Equal(t, "prod", cfg.CurrentContext)
 	assert.Equal(t, "http://localhost:8080", cfg.Contexts[0].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[0].Context.ApiToken)
+	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
-	assert.Equal(t, "/api", cfg.Contexts[0].Context.ApiPath)
+	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
 	assert.Equal(t, "http://prod:8080", cfg.Contexts[1].Context.URL)
 	assert.Equal(t, "foo", cfg.Contexts[1].Context.ServiceToken)
-	assert.Equal(t, "/hidden/api", cfg.Contexts[1].Context.ApiPath)
-	assert.Empty(t, cfg.Contexts[1].Context.ApiToken)
+	assert.Equal(t, "/hidden/api", cfg.Contexts[1].Context.APIPath)
+	assert.Empty(t, cfg.Contexts[1].Context.APIToken)
 }
 
 func TestShouldUnmarshalOldConfigFormat(t *testing.T) {
@@ -49,7 +49,7 @@ api-token: foo
 	assert.Len(t, cfg.Contexts, 1)
 	assert.Equal(t, "default", cfg.CurrentContext)
 	assert.Equal(t, "http://localhost:8080", cfg.Contexts[0].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[0].Context.ApiToken)
+	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
-	assert.Equal(t, "/api", cfg.Contexts[0].Context.ApiPath)
+	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
 }

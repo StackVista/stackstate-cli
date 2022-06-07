@@ -28,15 +28,15 @@ var (
 	}
 )
 
-func setupStackPackInstallCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackPackInstallCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackInstallCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsResponse.Result = *mockProvisionResponse
 	return &cli, cmd
 }
 
 func TestStackpackInstallPrintsToTable(t *testing.T) {
-	cli, cmd := setupStackPackInstallCmd()
+	cli, cmd := setupStackPackInstallCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
 		"--parameter", "zabbix_instance_name=test_name",
@@ -64,7 +64,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 }
 
 func TestStackpackInstallComplexParameters(t *testing.T) {
-	cli, cmd := setupStackPackInstallCmd()
+	cli, cmd := setupStackPackInstallCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
 		"--parameter", "one=foo,two=bar",
@@ -89,7 +89,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 }
 
 func TestStackpackInstallPrintsToJson(t *testing.T) {
-	cli, cmd := setupStackPackInstallCmd()
+	cli, cmd := setupStackPackInstallCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix", "-o", "json")
 

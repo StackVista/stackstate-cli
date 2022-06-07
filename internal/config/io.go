@@ -19,14 +19,23 @@ const (
 
 )
 
+func DefaultConfigPath() (string, error) {
+	path, err := xdg.GetXDGConfigHome()
+	if err != nil {
+		return "", err
+	}
+
+	return filepath.Join(path, ConfigFileDir, ConfigFileName), nil
+}
+
 func ReadConfig(file string) (*Config, common.CLIError) {
 	if file == "" {
-		path, err := xdg.GetXDGConfigHome()
+		path, err := DefaultConfigPath()
 		if err != nil {
 			return nil, ReadConfError{err, false}
 		}
 
-		file = filepath.Join(path, ConfigFileDir, ConfigFileName)
+		file = path
 	}
 
 	b, err := ioutil.ReadFile(file)
@@ -48,12 +57,12 @@ func ReadConfig(file string) (*Config, common.CLIError) {
 
 func WriteConfig(file string, cfg *Config) error {
 	if file == "" {
-		path, err := xdg.GetXDGConfigHome()
+		path, err := DefaultConfigPath()
 		if err != nil {
 			return err
 		}
 
-		file = filepath.Join(path, ConfigFileDir, ConfigFileName)
+		file = path
 	}
 
 	if err := os.MkdirAll(filepath.Dir(file), ConfigFilePathPermission); err != nil {

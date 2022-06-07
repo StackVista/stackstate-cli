@@ -13,9 +13,11 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/cmd"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/term"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
@@ -95,15 +97,26 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 }
 
 func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
-	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
-		cli.NoColor = true
+	if err := mutex_flags.ValidateMutexFlags(cmd); err != nil {
+		return common.NewCLIArgParseError(err)
 	}
-	// Implementation of https://no-color.org/
-	if _, noColorEnvExists := os.LookupEnv("NO_COLOR"); noColorEnvExists {
-		cli.NoColor = true
+
+	configPath, err := cmd.Flags().GetString(common.ConfigFlag)
+	if err != nil {
+		return err
 	}
+	cli.ConfigPath = configPath
+
+	// First load the config
+	if cli.StsConfig == nil {
+		err := cli.LoadConfig()
+		if err != nil {
+			return err
+		}
+	}
+
 	noColorFlag, _ := cmd.Flags().GetBool(common.NoColorFlag)
-	if noColorFlag {
+	if noColorFlag || !term.SupportsColor() {
 		cli.NoColor = true
 	}
 

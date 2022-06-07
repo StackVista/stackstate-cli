@@ -2,7 +2,6 @@ package context
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
@@ -12,13 +11,13 @@ func ShowCommand(deps *di.Deps) *cobra.Command {
 		Use:   "show",
 		Short: "show the current context",
 		Long:  "Show the current context.",
-		RunE:  deps.CmdRunEWithApi(RunContextShowCommand),
+		RunE:  deps.CmdRunE(RunContextShowCommand),
 	}
 
 	return cmd
 }
 
-func RunContextShowCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+func RunContextShowCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	cfg := cli.StsConfig
 
 	if cli.IsJson() {

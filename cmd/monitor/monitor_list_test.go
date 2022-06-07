@@ -10,6 +10,7 @@ import (
 //nolint:deadcode,unused
 func setMonitorListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
+	cmd := MonitorListCommand(&cli.Deps)
 	return &cli, cmd
 }
 

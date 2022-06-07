@@ -19,8 +19,8 @@ func AddRequiredFlagsToCmd(root *cobra.Command) {
 			}
 		})
 
-		requiredMutexFlags := mutex_flags.GetAllMutexNames(cmd, true)
-		for _, mutex := range requiredMutexFlags {
+		mutexFlags := mutex_flags.GetAllMutexNames(cmd)
+		for mutex := range mutexFlags[true] {
 			mutexFlagUses := make([]string, 0)
 			for _, mutexFlag := range mutex_flags.GetAllFlagsOfMutex(cmd, mutex) {
 				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Name)))

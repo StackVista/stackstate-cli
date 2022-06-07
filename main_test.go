@@ -167,23 +167,15 @@ func TestVerbose(t *testing.T) {
 
 func TestErrorOnUnknownSubCommand(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{"cli-config", "blaat"})
+	cmd.SetArgs([]string{"context", "blaat"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
-	assert.Contains(t, cli.StdErr.String(), "Unknown sub-command \"blaat\" for \"cli-config\"")
-}
-
-func TestErrorpOnUnknownSubCommand(t *testing.T) {
-	cli, cmd := setupSTSCmd()
-	cmd.SetArgs([]string{"cli-config", "blaat"})
-	exitCode := execute(cli.Context, &cli.Deps, cmd)
-	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
-	assert.Contains(t, cli.StdErr.String(), "Unknown sub-command \"blaat\" for \"cli-config\"")
+	assert.Contains(t, cli.StdErr.String(), "Unknown sub-command \"blaat\" for \"context\"")
 }
 
 func TestHelpOnMissingSubCommand(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{"cli-config"})
+	cmd.SetArgs([]string{"context"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, common.OkExitCode, exitCode)
 	assert.Equal(t, "", cli.StdErr.String())
