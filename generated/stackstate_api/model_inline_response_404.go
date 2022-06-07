@@ -17,8 +17,8 @@ import (
 
 // InlineResponse404 struct for InlineResponse404
 type InlineResponse404 struct {
-	Type        string `json:"_type"`
-	ComponentId int64  `json:"componentId"`
+	Type string `json:"_type"`
+	ComponentId int64 `json:"componentId"`
 }
 
 // NewInlineResponse404 instantiates a new InlineResponse404 object
@@ -134,3 +134,5 @@ func (v *NullableInlineResponse404) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

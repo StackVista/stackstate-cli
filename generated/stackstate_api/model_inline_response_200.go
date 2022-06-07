@@ -17,7 +17,7 @@ import (
 
 // InlineResponse200 struct for InlineResponse200
 type InlineResponse200 struct {
-	Type           *string                        `json:"_type,omitempty"`
+	Type *string `json:"_type,omitempty"`
 	StreamSnaphots []LatestTelemetryStreamMetrics `json:"streamSnaphots,omitempty"`
 }
 
@@ -148,3 +148,5 @@ func (v *NullableInlineResponse200) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

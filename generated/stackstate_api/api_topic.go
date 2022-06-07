@@ -19,15 +19,16 @@ import (
 	"net/url"
 )
 
+
 type TopicApi interface {
 
 	/*
-		GetTopic Topic API
+	GetTopic Topic API
 
-		Get topic list
+	Get topic list
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetTopicRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopicRequest
 	*/
 	GetTopic(ctx context.Context) ApiGetTopicRequest
 
@@ -40,7 +41,7 @@ type TopicApi interface {
 type TopicApiService service
 
 type ApiGetTopicRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService TopicApi
 }
 
@@ -59,7 +60,7 @@ Get topic list
 func (a *TopicApiService) GetTopic(ctx context.Context) ApiGetTopicRequest {
 	return ApiGetTopicRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
@@ -67,10 +68,10 @@ func (a *TopicApiService) GetTopic(ctx context.Context) ApiGetTopicRequest {
 //  @return []Topic
 func (a *TopicApiService) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue []Topic
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []Topic
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.GetTopic")
@@ -175,40 +176,46 @@ func (a *TopicApiService) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type TopicApiMock struct {
-	GetTopicCalls    *[]GetTopicCall
+	GetTopicCalls *[]GetTopicCall
 	GetTopicResponse GetTopicMockResponse
-}
+}	
 
 func NewTopicApiMock() TopicApiMock {
 	xGetTopicCalls := make([]GetTopicCall, 0)
-	return TopicApiMock{
+	return TopicApiMock {
 		GetTopicCalls: &xGetTopicCalls,
 	}
 }
 
 type GetTopicMockResponse struct {
-	Result   []Topic
+	Result []Topic
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetTopicCall struct {
 }
 
+
 func (mock TopicApiMock) GetTopic(ctx context.Context) ApiGetTopicRequest {
 	return ApiGetTopicRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock TopicApiMock) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.Response, error) {
-	p := GetTopicCall{}
+	p := GetTopicCall {
+	}
 	*mock.GetTopicCalls = append(*mock.GetTopicCalls, p)
 	return mock.GetTopicResponse.Result, mock.GetTopicResponse.Response, mock.GetTopicResponse.Error
 }
+
+

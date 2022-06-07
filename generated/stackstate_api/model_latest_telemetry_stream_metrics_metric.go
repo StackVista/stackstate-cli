@@ -17,8 +17,8 @@ import (
 
 // LatestTelemetryStreamMetricsMetric struct for LatestTelemetryStreamMetricsMetric
 type LatestTelemetryStreamMetricsMetric struct {
-	Timestamp *int64   `json:"timestamp,omitempty"`
-	Value     *float32 `json:"value,omitempty"`
+	Timestamp *int64 `json:"timestamp,omitempty"`
+	Value *float32 `json:"value,omitempty"`
 }
 
 // NewLatestTelemetryStreamMetricsMetric instantiates a new LatestTelemetryStreamMetricsMetric object
@@ -148,3 +148,5 @@ func (v *NullableLatestTelemetryStreamMetricsMetric) UnmarshalJSON(src []byte) e
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+
