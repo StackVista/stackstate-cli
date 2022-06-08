@@ -58,7 +58,7 @@ func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command
 		}
 
 		if !args.SkipValidate {
-			if err := ValidateContext(cli, cmd, namedCtx.Context); err != nil {
+			if _, err := ValidateContext(cli, cmd, namedCtx.Context); err != nil {
 				return err
 			}
 		}

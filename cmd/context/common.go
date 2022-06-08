@@ -21,22 +21,22 @@ func PrintConnectionSuccess(pr printer.Printer, apiUrl string, serverInfo *stack
 	)
 }
 
-func ValidateContext(cli *di.Deps, cmd *cobra.Command, cfg *config.StsContext) common.CLIError {
+func ValidateContext(cli *di.Deps, cmd *cobra.Command, cfg *config.StsContext) (*stackstate_api.ServerInfo, common.CLIError) {
 	if cli.Client == nil {
 		err := cli.LoadClient(cmd, cfg.URL, cfg.APIPath, cfg.APIToken, cfg.ServiceToken)
 		if err != nil {
-			return err
+			return nil, err
 		}
 	}
 
 	_, serverInfo, err := cli.Client.Connect()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
 	if !cli.IsJson() {
 		PrintConnectionSuccess(cli.Printer, cfg.URL, serverInfo)
 	}
 
-	return nil
+	return serverInfo, nil
 }

@@ -36,14 +36,16 @@ func RunValidateCommand(args *ValidateArgs) func(cli *di.Deps, cmd *cobra.Comman
 			return common.NewNotFoundError(err)
 		}
 
-		if err := ValidateContext(cli, cmd, ctx.Context); err != nil {
-			return err
+		serverInfo, cerr := ValidateContext(cli, cmd, ctx.Context)
+		if cerr != nil {
+			return cerr
 		}
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"context": ctxName,
-				"valid":   true,
+				"context":     ctxName,
+				"server-info": serverInfo,
+				"connected":   true,
 			})
 		} else {
 			cli.Printer.Successf("Context %s is valid.\n", ctxName)
