@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -44,7 +44,7 @@ func ScriptRunCommand(cli *di.Deps) *cobra.Command {
 	)
 	cmd.Flags().Int32VarP(&args.TimeoutMs, TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
 	common.AddFileFlagVar(cmd, &args.ScriptFile, "path to a file containing the script to run")
-	mutex_flags.MarkMutexFlags(cmd, []string{ScriptFlag, common.FileFlag}, "input", true)
+	stscobra.MarkMutexFlags(cmd, []string{ScriptFlag, common.FileFlag}, "input", true)
 
 	return cmd
 }
@@ -57,11 +57,6 @@ func RunScriptRunCommand(args *ScriptRunArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		script := args.Script
-
-		err := mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{ScriptFlag, common.FileFlag}, true)
-		if err != nil {
-			return common.NewCLIArgParseError(err)
-		}
 
 		if args.ScriptFile != "" {
 			b, err := os.ReadFile(args.ScriptFile)

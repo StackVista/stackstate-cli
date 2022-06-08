@@ -11,11 +11,11 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/cmd"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
+
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/term"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
@@ -43,7 +43,7 @@ func main() {
 
 func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
 	common.AddPersistentFlags(sts)
-	common.AddRequiredFlagsToCmd(sts)
+	stscobra.AddRequiredFlagsToUseString(sts)
 	setUsageTemplates(sts)
 	throwErrorOnUnknownSubCommand(sts, cli)
 	sts.SetFlagErrorFunc(func(cmd *cobra.Command, err error) error {
@@ -97,7 +97,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 }
 
 func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
-	if err := mutex_flags.ValidateMutexFlags(cmd); err != nil {
+	if err := stscobra.ValidateMutexFlags(cmd); err != nil {
 		return common.NewCLIArgParseError(err)
 	}
 
@@ -187,7 +187,7 @@ Additional help topics:{{range .Commands}}{{if .IsAdditionalHelpTopicCommand}}
 Use "{{.CommandPath}} [command] --help" for more information about a command.{{end}}
 `
 
-	util.ForAllCmd(sts, func(c *cobra.Command) {
+	stscobra.ForAllCmd(sts, func(c *cobra.Command) {
 		c.SetUsageTemplate(fullTemplate)
 	})
 	sts.SetUsageTemplate(subCommandTemplate)

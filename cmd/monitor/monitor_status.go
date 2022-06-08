@@ -5,9 +5,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
@@ -28,7 +28,7 @@ func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 
 	common.AddRequiredIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
-	mutex_flags.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
+	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
 
 	return cmd
 }

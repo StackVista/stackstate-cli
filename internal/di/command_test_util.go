@@ -4,8 +4,8 @@ import (
 	"bytes"
 
 	"github.com/spf13/cobra"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
@@ -19,7 +19,7 @@ func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (o
 	}
 
 	cmd.PreRunE = func(cmd *cobra.Command, args []string) error {
-		if err := mutex_flags.ValidateMutexFlags(cmd); err != nil {
+		if err := stscobra.ValidateMutexFlags(cmd); err != nil {
 			return common.NewCLIArgParseError(err)
 		}
 

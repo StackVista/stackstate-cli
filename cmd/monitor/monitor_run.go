@@ -3,9 +3,9 @@ package monitor
 import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 const (
@@ -31,7 +31,7 @@ func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	cmd.Flags().BoolVarP(&args.DoRun, YesFlag, YesFlagShort, false, "save the state of the monitor run")
-	mutex_flags.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "idenfier", true)
+	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "idenfier", true)
 
 	return cmd
 }

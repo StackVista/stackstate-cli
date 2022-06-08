@@ -1,4 +1,4 @@
-package mutex_flags
+package cobra
 
 import (
 	"fmt"

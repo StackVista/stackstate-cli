@@ -2,10 +2,10 @@ package context
 
 import (
 	"github.com/spf13/cobra"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 const (
@@ -38,7 +38,7 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().BoolVar(&args.SkipValidate, "skip-validate", false, "skip validation of the context")
 
 	cmd.MarkFlagRequired(common.URLFlag) //nolint:errcheck
-	mutex_flags.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag}, "tokens", true)
+	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag}, "tokens", true)
 
 	return cmd
 }

@@ -10,9 +10,9 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 func setupScriptExecuteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
@@ -126,7 +126,7 @@ func TestScriptAndFileFlag(t *testing.T) {
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script", "-f", "file")
 
 	assert.Equal(t,
-		mutex_flags.NewMutuallyExclusiveFlagsMultipleError([]string{"script", "file"}, []string{"script", "file"}).Error(),
+		stscobra.NewMutuallyExclusiveFlagsMultipleError([]string{"script", "file"}, []string{"script", "file"}).Error(),
 		err.Error(),
 	)
 }
