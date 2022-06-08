@@ -1,8 +1,6 @@
 package context
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
@@ -31,9 +29,9 @@ func RunContextSetCommand(args *SetArgs, cli *di.Deps) func(cli *di.Deps, cmd *c
 	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		cfg := cli.StsConfig
 
-		ctx := cfg.GetContext(args.Name)
-		if ctx == nil {
-			return common.NewNotFoundError(fmt.Errorf("context with name '%s' not found", args.Name))
+		_, err := cfg.GetContext(args.Name)
+		if err != nil {
+			return common.NewNotFoundError(err)
 		}
 
 		cfg.CurrentContext = args.Name

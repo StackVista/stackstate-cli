@@ -18,7 +18,9 @@ func TestShowContextJSON(t *testing.T) {
 	calls := *cli.MockPrinter.PrintJsonCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, "foo", calls[0]["name"])
-	assert.Equal(t, cli.StsConfig.GetCurrentContext(), calls[0]["current-context"])
+	ctx, err := cli.StsConfig.GetContext(cli.StsConfig.CurrentContext)
+	assert.NoError(t, err)
+	assert.Equal(t, ctx.Context, calls[0]["current-context"])
 }
 
 func TestShowContextText(t *testing.T) {

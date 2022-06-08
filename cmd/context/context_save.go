@@ -63,8 +63,8 @@ func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command
 			}
 		}
 
-		existingCtx := cfg.GetContext(args.Name)
-		if existingCtx == nil {
+		existingCtx, err := cfg.GetContext(args.Name)
+		if err != nil {
 			cfg.Contexts = append(cfg.Contexts, namedCtx)
 		} else {
 			existingCtx.Context = namedCtx.Context

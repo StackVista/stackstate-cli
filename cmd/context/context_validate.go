@@ -27,13 +27,16 @@ func ValidateCommand(cli *di.Deps) *cobra.Command {
 func RunValidateCommand(args *ValidateArgs) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		ctxName := cli.StsConfig.CurrentContext
-		ctx := cli.CurrentContext
 		if args.Name != "" {
-			ctx = cli.StsConfig.GetContext(args.Name).Context
 			ctxName = args.Name
 		}
 
-		if err := ValidateContext(cli, cmd, ctx); err != nil {
+		ctx, err := cli.StsConfig.GetContext(ctxName)
+		if err != nil {
+			return common.NewNotFoundError(err)
+		}
+
+		if err := ValidateContext(cli, cmd, ctx.Context); err != nil {
 			return err
 		}
 

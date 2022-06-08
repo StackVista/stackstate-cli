@@ -10,6 +10,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
@@ -65,7 +66,7 @@ func (cli *Deps) CmdRunEWithApi(
 }
 
 // Called from the PersistentPreRunE
-func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
+func (cli *Deps) LoadConfig(cmd *cobra.Command, viper *viper.Viper) common.CLIError {
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	if err != nil {
 		return err
@@ -74,10 +75,23 @@ func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 	cli.StsConfig = cfg
 
 	// The Viper config is leading, i.e. it overrides the config file
-	vpConfig := config.Bind(cmd, viper.GetViper())
-	cli.Printer.PrintStruct(vpConfig)
-	merged := vpConfig.Merge(cfg.GetCurrentContext())
+	vpConfig := config.Bind(cmd, viper)
+	currCtx := util.DefaultIfEmpty(vpConfig.CurrentContext, cfg.CurrentContext)
+
+	ctx, errx := cfg.GetContext(currCtx)
+	if errx != nil {
+		return common.NewNotFoundError(errx)
+	}
+
+	merged := vpConfig.Context.Merge(ctx.Context)
 	cli.CurrentContext = merged
+
+	if err := cli.CurrentContext.Validate(); err != nil {
+		return config.ReadConfError{
+			RootCause:           err,
+			IsMissingConfigFile: false,
+		}
+	}
 
 	return nil
 }

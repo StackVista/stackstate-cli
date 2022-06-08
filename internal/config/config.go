@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/mcuadros/go-defaults"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 type Config struct {
@@ -56,19 +57,14 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // GetContext gets the context with the given name
-func (c *Config) GetContext(name string) *NamedContext {
+func (c *Config) GetContext(name string) (*NamedContext, error) {
 	for _, context := range c.Contexts {
 		if context.Name == name {
-			return context
+			return context, nil
 		}
 	}
 
-	return nil
-}
-
-// GetCurrentContext returns the current context
-func (c *Config) GetCurrentContext() *StsContext {
-	return c.GetContext(c.CurrentContext).Context
+	return nil, fmt.Errorf("Context with name '%s' not found", name)
 }
 
 // UnmarshalYAML unmarshals the StsContext YAML part into a struct, ensuring that any defaults are set.
@@ -86,41 +82,29 @@ func (s *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 
 // Merge merges the StsContext with a fallback object.
 func (c *StsContext) Merge(fallback *StsContext) *StsContext {
-	merged := &StsContext{
-		URL:          c.URL,
-		APIToken:     c.APIToken,
-		ServiceToken: c.ServiceToken,
-		APIPath:      c.APIPath,
+	return &StsContext{
+		URL:          util.DefaultIfEmpty(c.URL, fallback.URL),
+		APIToken:     util.DefaultIfEmpty(c.APIToken, fallback.APIToken),
+		ServiceToken: util.DefaultIfEmpty(c.ServiceToken, fallback.ServiceToken),
+		APIPath:      util.DefaultIfEmpty(c.APIPath, fallback.APIPath),
 	}
-
-	if merged.URL == "" {
-		merged.URL = fallback.URL
-	}
-
-	if merged.APIToken == "" {
-		merged.APIToken = fallback.APIToken
-	}
-
-	if merged.ServiceToken == "" {
-		merged.ServiceToken = fallback.ServiceToken
-	}
-
-	if merged.APIPath == "" {
-		merged.APIPath = fallback.APIPath
-	}
-
-	return merged
 }
 
-// Validate validates the Configuration
-func (c *Config) Validate() error {
+func (c *StsContext) Validate() error {
 	errors := []error{}
-	if c.CurrentContext == "" {
-		errors = append(errors, MissingFieldError{FieldName: "current-context"})
+
+	if c.URL == "" {
+		errors = append(errors, MissingFieldError{FieldName: "url"})
+	} else if !strings.HasPrefix(c.URL, "http://") && !strings.HasPrefix(c.URL, "https://") {
+		errors = append(errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
 	}
 
-	for _, context := range c.Contexts {
-		context.Context.validate(&errors)
+	if c.APIToken == "" && c.ServiceToken == "" {
+		errors = append(errors, MissingFieldError{FieldName: "{api-token | service-token}"})
+	}
+
+	if c.APIToken != "" && c.ServiceToken != "" {
+		errors = append(errors, MissingFieldError{FieldName: "can only specify one of api-token an service-token"})
 	}
 
 	if len(errors) > 0 {
@@ -128,20 +112,4 @@ func (c *Config) Validate() error {
 	}
 
 	return nil
-}
-
-func (c StsContext) validate(errors *[]error) {
-	if c.URL == "" {
-		*errors = append(*errors, MissingFieldError{FieldName: "url"})
-	} else if !strings.HasPrefix(c.URL, "http://") && !strings.HasPrefix(c.URL, "https://") {
-		*errors = append(*errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
-	}
-
-	if c.APIToken == "" && c.ServiceToken == "" {
-		*errors = append(*errors, MissingFieldError{FieldName: "{api-token | service-token}"})
-	}
-
-	if c.APIToken != "" && c.ServiceToken != "" {
-		*errors = append(*errors, MissingFieldError{FieldName: "can only specify one of api-token an service-token"})
-	}
 }

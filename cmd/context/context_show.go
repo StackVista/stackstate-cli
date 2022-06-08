@@ -20,9 +20,14 @@ func ShowCommand(deps *di.Deps) *cobra.Command {
 func RunContextShowCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	cfg := cli.StsConfig
 
+	ctx, err := cfg.GetContext(cfg.CurrentContext)
+	if err != nil {
+		return common.NewNotFoundError(err)
+	}
+
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"current-context": cfg.GetCurrentContext(),
+			"current-context": ctx.Context,
 			"name":            cfg.CurrentContext,
 		})
 	} else {
