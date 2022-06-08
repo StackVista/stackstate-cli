@@ -37,8 +37,8 @@ fi
 
 # Download and unpack the CLI to the target CLI path
 TARGET_CLI_PATH=/usr/local/bin
-if [[ -z "$STS_CLI_VERSION" ]]; then 
-  STS_CLI_VERSION=`curl https://dl.stackstate.com/stackstate-cli/LATEST_VERSION 2> /dev/null` 
+if [[ -z "$STS_CLI_VERSION" ]]; then
+  STS_CLI_VERSION=`curl https://dl.stackstate.com/stackstate-cli/LATEST_VERSION 2> /dev/null`
 fi
 DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-$STS_CLI_TYPE-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
 echo "Installing: $DL"
@@ -46,13 +46,13 @@ curl $DL | tar xz --directory $TARGET_CLI_PATH
 
 # Verify that 'sts' works
 sts > /dev/null 2>&1
-if [ $? -ne 0 ]; then 
+if [ $? -ne 0 ]; then
   error "Can not find 'sts' on the path or execute it?"
 fi
 
 # Configure the CLI if config parameters have been set
 if [[ -n "$STS_URL" && -n "$STS_API_TOKEN" ]]; then
-  sts cli-config save --url $STS_URL --api-token $STS_API_TOKEN
+  sts context save --url $STS_URL --api-token $STS_API_TOKEN
 fi
 
 printf "Success! Type ${GREEN}sts${NO_COLOR} to get started!\n"
