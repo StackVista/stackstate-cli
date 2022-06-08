@@ -2,6 +2,7 @@ package cobra
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -18,11 +19,16 @@ func AddRequiredFlagsToUseString(root *cobra.Command) {
 		})
 
 		mutexFlags := GetAllMutexNames(cmd)
-		for mutex := range mutexFlags[true] {
+		reqMutexFlags := mutexFlags[true].ToSlice()
+		sort.Strings(reqMutexFlags)
+
+		for _, mutex := range reqMutexFlags {
 			mutexFlagUses := make([]string, 0)
 			for _, mutexFlag := range GetAllFlagsOfMutex(cmd, mutex) {
 				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Name)))
 			}
+			sort.Strings(mutexFlagUses)
+
 			required += " { " + strings.Join(mutexFlagUses, " | ") + " }"
 		}
 

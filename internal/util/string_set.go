@@ -37,3 +37,12 @@ func (s StringSet) Copy() StringSet {
 
 	return n
 }
+
+func (s StringSet) ToSlice() []string {
+	rs := []string{}
+	for k := range s {
+		rs = append(rs, k)
+	}
+
+	return rs
+}
