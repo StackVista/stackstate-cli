@@ -109,7 +109,7 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 
 	// First load the config
 	if cli.StsConfig == nil {
-		err := cli.LoadConfig()
+		err := cli.LoadConfig(cmd)
 		if err != nil {
 			return err
 		}

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -64,14 +65,19 @@ func (cli *Deps) CmdRunEWithApi(
 }
 
 // Called from the PersistentPreRunE
-func (cli *Deps) LoadConfig() common.CLIError {
+func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	if err != nil {
 		return err
 	}
 
 	cli.StsConfig = cfg
-	cli.CurrentContext = cfg.GetCurrentContext()
+
+	// The Viper config is leading, i.e. it overrides the config file
+	vpConfig := config.Bind(cmd, viper.GetViper())
+	cli.Printer.PrintStruct(vpConfig)
+	merged := vpConfig.Merge(cfg.GetCurrentContext())
+	cli.CurrentContext = merged
 
 	return nil
 }

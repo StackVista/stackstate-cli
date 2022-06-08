@@ -85,8 +85,8 @@ func (s *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // Merge merges the StsContext with a fallback object.
-func (c *StsContext) Merge(fallback StsContext) StsContext {
-	merged := StsContext{
+func (c *StsContext) Merge(fallback *StsContext) *StsContext {
+	merged := &StsContext{
 		URL:          c.URL,
 		APIToken:     c.APIToken,
 		ServiceToken: c.ServiceToken,
