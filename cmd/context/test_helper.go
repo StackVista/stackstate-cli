@@ -8,6 +8,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
+//nolint:goconst
 func setupConfig(t *testing.T, cli *di.MockDeps) {
 	cli.StsConfig.CurrentContext = "foo"
 	cli.StsConfig.Contexts = []*config.NamedContext{

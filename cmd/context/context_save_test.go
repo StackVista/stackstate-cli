@@ -21,6 +21,7 @@ func setupSaveCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	return &cli, cmd
 }
 
+//nolint:dupl
 func TestSaveNewContext(t *testing.T) {
 	cli, cmd := setupSaveCmd(t)
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "baz", "--url", "http://baz.com", "--api-token", "my-token")
@@ -41,6 +42,7 @@ func TestSaveNewContext(t *testing.T) {
 	assert.Empty(t, curr.Context.ServiceToken)
 }
 
+//nolint:dupl
 func TestSaveExistingContext(t *testing.T) {
 	cli, cmd := setupSaveCmd(t)
 

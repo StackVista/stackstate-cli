@@ -1,6 +1,8 @@
 package context
 
 import (
+	"fmt"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
@@ -45,6 +47,7 @@ func RunContextSetCommand(args *SetArgs, cli *di.Deps) func(cli *di.Deps, cmd *c
 				"current-context": args.Name,
 			})
 		} else {
+			cli.Printer.PrintLn(fmt.Sprintf("Current context set to %s", args.Name))
 			// No output
 		}
 
