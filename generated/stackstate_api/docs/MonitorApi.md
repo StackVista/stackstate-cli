@@ -4,12 +4,85 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**ApplyMonitor**](MonitorApi.md#ApplyMonitor) | **Post** /monitors | Import and validate monitor settings
 [**DeleteMonitor**](MonitorApi.md#DeleteMonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 [**GetAllMonitors**](MonitorApi.md#GetAllMonitors) | **Get** /monitors | List monitors
 [**GetMonitor**](MonitorApi.md#GetMonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
 [**GetMonitorWithStatus**](MonitorApi.md#GetMonitorWithStatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
 [**RunMonitor**](MonitorApi.md#RunMonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 
+
+
+## ApplyMonitor
+
+> []map[string]interface{} ApplyMonitor(ctx).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
+
+Import and validate monitor settings
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    body := "body_example" // string | 
+    timeoutSeconds := int64(789) // int64 |  (optional)
+    namespace := "namespace_example" // string |  (optional)
+    unlocked := "unlocked_example" // string |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorApi.ApplyMonitor(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.ApplyMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `ApplyMonitor`: []map[string]interface{}
+    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.ApplyMonitor`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiApplyMonitorRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **body** | **string** |  | 
+ **timeoutSeconds** | **int64** |  | 
+ **namespace** | **string** |  | 
+ **unlocked** | **string** |  | 
+
+### Return type
+
+**[]map[string]interface{}**
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: plain/text
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## DeleteMonitor

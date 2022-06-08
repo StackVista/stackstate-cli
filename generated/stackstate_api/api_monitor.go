@@ -24,6 +24,20 @@ import (
 type MonitorApi interface {
 
 	/*
+	ApplyMonitor Import and validate monitor settings
+
+	Apply a StackState Templated JSON (STJ) file containing Monitors and MonitorFunctions
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiApplyMonitorRequest
+	*/
+	ApplyMonitor(ctx context.Context) ApiApplyMonitorRequest
+
+	// ApplyMonitorExecute executes the request
+	//  @return []map[string]interface{}
+	ApplyMonitorExecute(r ApiApplyMonitorRequest) ([]map[string]interface{}, *http.Response, error)
+
+	/*
 	DeleteMonitor Delete a monitor
 
 	Deletes existing monitor
@@ -99,6 +113,190 @@ type MonitorApi interface {
 
 // MonitorApiService MonitorApi service
 type MonitorApiService service
+
+type ApiApplyMonitorRequest struct {
+	ctx context.Context
+	ApiService MonitorApi
+	body *string
+	timeoutSeconds *int64
+	namespace *string
+	unlocked *string
+}
+
+func (r ApiApplyMonitorRequest) Body(body string) ApiApplyMonitorRequest {
+	r.body = &body
+	return r
+}
+
+func (r ApiApplyMonitorRequest) TimeoutSeconds(timeoutSeconds int64) ApiApplyMonitorRequest {
+	r.timeoutSeconds = &timeoutSeconds
+	return r
+}
+
+func (r ApiApplyMonitorRequest) Namespace(namespace string) ApiApplyMonitorRequest {
+	r.namespace = &namespace
+	return r
+}
+
+func (r ApiApplyMonitorRequest) Unlocked(unlocked string) ApiApplyMonitorRequest {
+	r.unlocked = &unlocked
+	return r
+}
+
+func (r ApiApplyMonitorRequest) Execute() ([]map[string]interface{}, *http.Response, error) {
+	return r.ApiService.ApplyMonitorExecute(r)
+}
+
+/*
+ApplyMonitor Import and validate monitor settings
+
+Apply a StackState Templated JSON (STJ) file containing Monitors and MonitorFunctions
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiApplyMonitorRequest
+*/
+func (a *MonitorApiService) ApplyMonitor(ctx context.Context) ApiApplyMonitorRequest {
+	return ApiApplyMonitorRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return []map[string]interface{}
+func (a *MonitorApiService) ApplyMonitorExecute(r ApiApplyMonitorRequest) ([]map[string]interface{}, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []map[string]interface{}
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.ApplyMonitor")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/monitors"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.body == nil {
+		return localVarReturnValue, nil, reportError("body is required and must be specified")
+	}
+
+	if r.timeoutSeconds != nil {
+		localVarQueryParams.Add("timeoutSeconds", parameterToString(*r.timeoutSeconds, ""))
+	}
+	if r.namespace != nil {
+		localVarQueryParams.Add("namespace", parameterToString(*r.namespace, ""))
+	}
+	if r.unlocked != nil {
+		localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"plain/text"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.body
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiDeleteMonitorRequest struct {
 	ctx context.Context
@@ -882,6 +1080,8 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 
 
 type MonitorApiMock struct {
+	ApplyMonitorCalls *[]ApplyMonitorCall
+	ApplyMonitorResponse ApplyMonitorMockResponse
 	DeleteMonitorCalls *[]DeleteMonitorCall
 	DeleteMonitorResponse DeleteMonitorMockResponse
 	GetAllMonitorsCalls *[]GetAllMonitorsCall
@@ -895,18 +1095,52 @@ type MonitorApiMock struct {
 }	
 
 func NewMonitorApiMock() MonitorApiMock {
+	xApplyMonitorCalls := make([]ApplyMonitorCall, 0)
 	xDeleteMonitorCalls := make([]DeleteMonitorCall, 0)
 	xGetAllMonitorsCalls := make([]GetAllMonitorsCall, 0)
 	xGetMonitorCalls := make([]GetMonitorCall, 0)
 	xGetMonitorWithStatusCalls := make([]GetMonitorWithStatusCall, 0)
 	xRunMonitorCalls := make([]RunMonitorCall, 0)
 	return MonitorApiMock {
+		ApplyMonitorCalls: &xApplyMonitorCalls,
 		DeleteMonitorCalls: &xDeleteMonitorCalls,
 		GetAllMonitorsCalls: &xGetAllMonitorsCalls,
 		GetMonitorCalls: &xGetMonitorCalls,
 		GetMonitorWithStatusCalls: &xGetMonitorWithStatusCalls,
 		RunMonitorCalls: &xRunMonitorCalls,
 	}
+}
+
+type ApplyMonitorMockResponse struct {
+	Result []map[string]interface{}
+	Response *http.Response
+	Error error
+}
+
+type ApplyMonitorCall struct {
+	Pbody *string
+	PtimeoutSeconds *int64
+	Pnamespace *string
+	Punlocked *string
+}
+
+
+func (mock MonitorApiMock) ApplyMonitor(ctx context.Context) ApiApplyMonitorRequest {
+	return ApiApplyMonitorRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MonitorApiMock) ApplyMonitorExecute(r ApiApplyMonitorRequest) ([]map[string]interface{}, *http.Response, error) {
+	p := ApplyMonitorCall {
+			Pbody: r.body,
+			PtimeoutSeconds: r.timeoutSeconds,
+			Pnamespace: r.namespace,
+			Punlocked: r.unlocked,
+	}
+	*mock.ApplyMonitorCalls = append(*mock.ApplyMonitorCalls, p)
+	return mock.ApplyMonitorResponse.Result, mock.ApplyMonitorResponse.Response, mock.ApplyMonitorResponse.Error
 }
 
 type DeleteMonitorMockResponse struct {

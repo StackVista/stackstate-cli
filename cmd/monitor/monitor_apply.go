@@ -30,13 +30,18 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
-	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+	return func(
+		cmd *cobra.Command,
+		cli *di.Deps,
+		api *stackstate_api.APIClient,
+		serverInfo *stackstate_api.ServerInfo,
+	) common.CLIError {
 		fileBytes, err := os.ReadFile(args.File)
 		if err != nil {
 			return common.NewCLIArgParseError(err)
 		}
 
-		nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
+		nodes, resp, err := api.MonitorApi.ApplyMonitor(cli.Context).Body(string(fileBytes)).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
