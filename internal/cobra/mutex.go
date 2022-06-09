@@ -1,13 +1,37 @@
-package mutex_flags
+package cobra
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
+
+type ValidationErrors []error
+
+func (v *ValidationErrors) Add(err error) {
+	*v = append(*v, err)
+}
+
+func (v *ValidationErrors) HasErrors() bool {
+	return len(*v) > 0
+}
+
+func (v *ValidationErrors) Error() string {
+	if len(*v) == 1 {
+		return (*v)[0].Error()
+	}
+
+	err := "Validation failed:\n"
+	for i, e := range *v {
+		err += fmt.Sprintf("\tError %d: %s\n", i, e.Error())
+	}
+
+	return fmt.Sprintf("%v", err)
+}
 
 func MarkMutexFlags(cmd *cobra.Command, flagNames []string, mutexName string, isRequired bool) {
 	for _, flagName := range flagNames {
@@ -21,17 +45,20 @@ func MarkMutexFlags(cmd *cobra.Command, flagNames []string, mutexName string, is
 	}
 }
 
-func GetAllMutexNames(cmd *cobra.Command, isRequired bool) []string {
-	mutexNames := make([]string, 0)
+func GetAllMutexNames(cmd *cobra.Command) map[bool]util.StringSet {
+	mutexNames := map[bool]util.StringSet{
+		true:  {},
+		false: {},
+	}
 	cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-		if isRequired && len(flag.Annotations["rmutex"]) > 0 {
-			mutexNames = append(mutexNames, flag.Annotations["rmutex"][0])
+		if len(flag.Annotations["rmutex"]) > 0 {
+			mutexNames[true].Add(flag.Annotations["rmutex"][0])
 		}
-		if !isRequired && len(flag.Annotations["mutex"]) > 0 {
-			mutexNames = append(mutexNames, flag.Annotations["mutex"][0])
+		if len(flag.Annotations["mutex"]) > 0 {
+			mutexNames[false].Add(flag.Annotations["rmutex"][0])
 		}
 	})
-	return util.UniqueStrings(mutexNames)
+	return mutexNames
 }
 
 func GetAllFlagsOfMutex(cmd *cobra.Command, mutexName string) []*pflag.Flag {
@@ -76,10 +103,32 @@ func CheckMutuallyExclusiveFlags(cmd *cobra.Command, flagNames []string, isRequi
 	return nil
 }
 
+func ValidateMutexFlags(cmd *cobra.Command) error {
+	errors := &ValidationErrors{}
+	mutexNames := GetAllMutexNames(cmd)
+	for required, mutexes := range mutexNames {
+		for mutex := range mutexes {
+			err := CheckMutuallyExclusiveFlags(cmd, GetAllFlagNamesOfMutex(cmd, mutex), required)
+			if err != nil {
+				errors.Add(err)
+			}
+		}
+	}
+
+	if errors.HasErrors() {
+		return errors
+	}
+
+	return nil
+}
+
 func NewMutuallyExclusiveFlagsRequiredError(flagNames []string) error {
+	sort.Strings(flagNames)
 	return fmt.Errorf("one of the required flags {%s} not set", strings.Join(flagNames, " | "))
 }
 
 func NewMutuallyExclusiveFlagsMultipleError(flagNames []string, flagsUsed []string) error {
+	sort.Strings(flagNames)
+	sort.Strings(flagsUsed)
 	return fmt.Errorf("only one of the required flags {%s} must be entered, but got: %s", strings.Join(flagNames, " | "), strings.Join(flagsUsed, " & "))
 }

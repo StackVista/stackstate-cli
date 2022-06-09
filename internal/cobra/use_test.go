@@ -1,11 +1,10 @@
-package common
+package cobra
 
 import (
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 func TestAddingRequiredFlagsToCmd(t *testing.T) {
@@ -19,10 +18,10 @@ func TestAddingRequiredFlagsToCmd(t *testing.T) {
 	cmd.Flags().String("ge", "", "")
 	cmd.MarkFlagRequired("a") //nolint:errcheck
 	cmd.MarkFlagRequired("b") //nolint:errcheck
-	mutex_flags.MarkMutexFlags(cmd, []string{"c", "db"}, "mutex1", true)
-	mutex_flags.MarkMutexFlags(cmd, []string{"ef", "ge"}, "mutex2", true)
+	MarkMutexFlags(cmd, []string{"c", "db"}, "mutex1", true)
+	MarkMutexFlags(cmd, []string{"ef", "ge"}, "mutex2", true)
 
-	AddRequiredFlagsToCmd(cmd)
+	AddRequiredFlagsToUseString(cmd)
 
 	assert.Equal(t, "test --a A --b B { --c C | --db DB } { --ef EF | --ge GE }", cmd.Use)
 }

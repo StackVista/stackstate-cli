@@ -10,7 +10,7 @@ import (
 )
 
 func TestServiceTokenList(t *testing.T) {
-	cli := di.NewMockDeps()
+	cli := di.NewMockDeps(t)
 	cmd := ListCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.GetServiceTokensResponse.Result = []stackstate_api.ServiceToken{

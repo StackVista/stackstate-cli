@@ -1,6 +1,7 @@
 package printer
 
 import (
+	"fmt"
 	"net/http"
 )
 
@@ -107,6 +108,10 @@ func (p *MockPrinter) Success(msg string) {
 	if p.DelegatePrinter != nil {
 		p.DelegatePrinter.Success(msg)
 	}
+}
+
+func (p *MockPrinter) Successf(format string, args ...interface{}) {
+	p.Success(fmt.Sprintf(format, args...))
 }
 
 func (p *MockPrinter) PrintWarn(msg string) {

@@ -7,12 +7,12 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
-func setupDescribeCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupDescribeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := SettingsDescribeCommand(&cli.Deps)
 	return &cli, cmd
 }
@@ -20,7 +20,7 @@ func setupDescribeCmd() (*di.MockDeps, *cobra.Command) {
 func TestSettingsDescribe(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common",
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214")
@@ -31,7 +31,7 @@ func TestSettingsDescribe(t *testing.T) {
 func TestSettingsDescribeJson(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common",
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
 	di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "-o", "json") //nolint:errcheck
@@ -51,7 +51,7 @@ func TestSettingsDescribeIds(t *testing.T) {
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}},
 { "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters":
 [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--ids", "314")
@@ -60,13 +60,13 @@ func TestSettingsDescribeIds(t *testing.T) {
 }
 
 func TestSettingsDescribeMutuallyExclusiveFlags(t *testing.T) {
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd)
 
-	assert.Equal(t, mutex_flags.NewMutuallyExclusiveFlagsRequiredError([]string{IdsFlag, Namespace, TypeNameFlag}).Error(), err.Error())
+	assert.Equal(t, stscobra.NewMutuallyExclusiveFlagsRequiredError([]string{IdsFlag, Namespace, TypeNameFlag}).Error(), err.Error())
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--namespace", "default")
-	assert.Equal(t, mutex_flags.NewMutuallyExclusiveFlagsMultipleError([]string{IdsFlag, Namespace, TypeNameFlag}, []string{IdsFlag, Namespace}).Error(), err.Error())
+	assert.Equal(t, stscobra.NewMutuallyExclusiveFlagsMultipleError([]string{IdsFlag, Namespace, TypeNameFlag}, []string{IdsFlag, Namespace}).Error(), err.Error())
 }
 
 func TestRunSettingsDescribeWithReferencePrintToTable(t *testing.T) {
@@ -74,7 +74,7 @@ func TestRunSettingsDescribeWithReferencePrintToTable(t *testing.T) {
 "identifier": "urn:stackpack:common:baseline-function:median-absolute-deviation", "name": "name-1",
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--namespace", "default",
@@ -94,7 +94,7 @@ func TestRunSettingsDescribeToFile(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "description": "description-1", "name": "name-1",
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--file", filePath)
 	assert.Nil(t, err)
@@ -109,7 +109,7 @@ func TestRunSettingsDescribeTypesPrintsToTable(t *testing.T) {
 "script": { "scriptBody": "script-bdy-1"}},{ "description": "Check function", "id": 314, "name": "name 314",
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "CheckFunction"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
-	cli, cmd := setupDescribeCmd()
+	cli, cmd := setupDescribeCmd(t)
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--type", "BaselineFunction", "--type", "CheckFunction")

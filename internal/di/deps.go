@@ -2,32 +2,35 @@ package di
 
 import (
 	"context"
-	"fmt"
 
-	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/conf"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 // Dependency Injection context for the CLI
 type Deps struct {
-	Config    *conf.Conf
-	Printer   printer.Printer
-	Context   context.Context
-	Client    client.StackStateClient
-	Clock     pflags.Clock
-	IsVerBose bool
-	Output    common.Output
-	NoColor   bool
-	Version   string
-	Commit    string
-	BuildDate string
-	CLIType   string
+	// Config    *conf.Conf
+	StsConfig      *config.Config
+	CurrentContext *config.StsContext
+	ConfigPath     string
+	Printer        printer.Printer
+	Context        context.Context
+	Client         client.StackStateClient
+	Clock          pflags.Clock
+	IsVerBose      bool
+	Output         common.Output
+	NoColor        bool
+	Version        string
+	Commit         string
+	BuildDate      string
+	CLIType        string
 }
 
 func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {
@@ -46,15 +49,8 @@ type CmdWithApiFn = func(
 func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		if cli.Config == nil {
-			err := cli.LoadConfig(cmd)
-			if err != nil {
-				return err
-			}
-		}
-
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, cli.Config.URL, cli.Config.ApiPath, cli.Config.ApiToken, cli.Config.ServiceToken)
+			err := cli.LoadClient(cmd, cli.CurrentContext.URL, cli.CurrentContext.APIPath, cli.CurrentContext.APIToken, cli.CurrentContext.ServiceToken)
 			if err != nil {
 				return err
 			}
@@ -69,15 +65,34 @@ func (cli *Deps) CmdRunEWithApi(
 	}
 }
 
-// needs to happen before command run, but after cobra command execute
-// so flag-config bindings can take hold
-func (cli *Deps) LoadConfig(cmd *cobra.Command) common.CLIError {
-	cfg, err := conf.ReadConf(cmd)
+// Called from the PersistentPreRunE
+func (cli *Deps) LoadConfig(cmd *cobra.Command, viper *viper.Viper) common.CLIError {
+	cfg, err := config.ReadConfig(cli.ConfigPath)
 	if err != nil {
 		return err
 	}
-	cli.Config = &cfg
-	log.Info().Msg(fmt.Sprintf("Loaded config %+v", cli.Config))
+
+	cli.StsConfig = cfg
+
+	// The Viper config is leading, i.e. it overrides the config file
+	vpConfig := config.Bind(cmd, viper)
+	currCtx := util.DefaultIfEmpty(vpConfig.CurrentContext, cfg.CurrentContext)
+
+	ctx, errx := cfg.GetContext(currCtx)
+	if errx != nil {
+		return common.NewNotFoundError(errx)
+	}
+
+	merged := vpConfig.Context.Merge(ctx.Context)
+	cli.CurrentContext = merged
+
+	if err := cli.CurrentContext.Validate(); err != nil {
+		return config.ReadConfError{
+			RootCause:           err,
+			IsMissingConfigFile: false,
+		}
+	}
+
 	return nil
 }
 

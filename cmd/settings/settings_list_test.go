@@ -30,15 +30,15 @@ var (
 	expectedUpdateTime = time.UnixMilli(1438167001716)
 )
 
-func setupSettingsListCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupSettingsListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := SettingsListCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
 	return &cli, cmd
 }
 
 func TestSettingsListPrintsToTable(t *testing.T) {
-	cli, cmd := setupSettingsListCmd()
+	cli, cmd := setupSettingsListCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType")
 
@@ -54,7 +54,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 }
 
 func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
-	cli, cmd := setupSettingsListCmd()
+	cli, cmd := setupSettingsListCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType",
 		"--namespace", "component",
@@ -72,7 +72,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 }
 
 func TestSettingsListPrintsToJson(t *testing.T) {
-	cli, cmd := setupSettingsListCmd()
+	cli, cmd := setupSettingsListCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType", "-o", "json")
 

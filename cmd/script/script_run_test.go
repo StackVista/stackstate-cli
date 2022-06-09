@@ -10,19 +10,19 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
-func setupScriptExecuteCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupScriptExecuteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := ScriptRunCommand(&cli.Deps)
 	return &cli, cmd
 }
 
 func TestExecuteSuccess(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
 		Result: map[string]interface{}{"value": "hello test"},
 	}
@@ -39,7 +39,7 @@ func TestExecuteSuccess(t *testing.T) {
 }
 
 func TestExecuteSuccessJson(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
 		Result: map[string]interface{}{"value": "hello test"},
 	}
@@ -56,7 +56,7 @@ func TestExecuteSuccessJson(t *testing.T) {
 }
 
 func TestExecuteFromScript(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 
 	tmpFile, err := ioutil.TempFile(os.TempDir(), "script-execute-test-")
 	if err != nil {
@@ -86,7 +86,7 @@ func TestExecuteFromScript(t *testing.T) {
 func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
 	fakeErrorResp := &http.Response{StatusCode: 403}
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Error = fakeError
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Response = fakeErrorResp
 
@@ -102,7 +102,7 @@ func TestExecuteResponseError(t *testing.T) {
 }
 
 func TestArgumentScriptFlag(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--arguments-script", "argscript", "--script", "test script")
 
 	assert.Equal(t,
@@ -112,7 +112,7 @@ func TestArgumentScriptFlag(t *testing.T) {
 }
 
 func TestTimeoutFlag(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-t", "10", "--script", "test script")
 
 	assert.Equal(t,
@@ -122,17 +122,17 @@ func TestTimeoutFlag(t *testing.T) {
 }
 
 func TestScriptAndFileFlag(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script", "-f", "file")
 
 	assert.Equal(t,
-		mutex_flags.NewMutuallyExclusiveFlagsMultipleError([]string{"script", "file"}, []string{"script", "file"}).Error(),
+		stscobra.NewMutuallyExclusiveFlagsMultipleError([]string{"script", "file"}, []string{"script", "file"}).Error(),
 		err.Error(),
 	)
 }
 
 func TestConnectionError(t *testing.T) {
-	cli, cmd := setupScriptExecuteCmd()
+	cli, cmd := setupScriptExecuteCmd(t)
 	respError := common.NewConnectError(fmt.Errorf("authentication error"), "https://test", &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = respError
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "script")

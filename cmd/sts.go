@@ -15,8 +15,8 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 		"For more information about this CLI visit https://l.stackstate.com/cli\n",
 	)
 
+	cmd.AddCommand(ContextCommand(cli))
 	cmd.AddCommand(VersionCommand(cli))
-	cmd.AddCommand(CliConfigCommand(cli))
 	if cli.CLIType != "saas" {
 		cmd.AddCommand(ScriptCommand(cli))
 		cmd.AddCommand(SettingsCommand(cli))
@@ -24,7 +24,6 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	}
 	cmd.AddCommand(MonitorCommand(cli))
 	cmd.AddCommand(AnomalyCommand(cli))
-
 	cmd.AddCommand(ServiceTokenCommand(cli))
 	return cmd
 }

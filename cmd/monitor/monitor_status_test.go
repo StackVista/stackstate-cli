@@ -44,14 +44,14 @@ var (
 	}
 )
 
-func setMonitorStatusCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setMonitorStatusCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := MonitorStatusCommand(&cli.Deps)
 	return &cli, cmd
 }
 
 func TestSettingsStatusPrintsToTable(t *testing.T) {
-	cli, cmd := setMonitorStatusCmd()
+	cli, cmd := setMonitorStatusCmd(t)
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
@@ -77,7 +77,7 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 }
 
 func TestSettingsStatusPrintsToJson(t *testing.T) {
-	cli, cmd := setMonitorStatusCmd()
+	cli, cmd := setMonitorStatusCmd(t)
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "-o", "json")

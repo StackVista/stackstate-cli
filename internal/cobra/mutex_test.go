@@ -1,4 +1,4 @@
-package mutex_flags
+package cobra
 
 import (
 	"testing"
@@ -17,6 +17,9 @@ func TestGettingAndSettingMutexFlags(t *testing.T) {
 
 	MarkMutexFlags(cmd, []string{"ra", "rb"}, "rints", true)
 	MarkMutexFlags(cmd, []string{"a", "b"}, "ints", true)
-	assert.Equal(t, []string{"ints", "rints"}, GetAllMutexNames(cmd, true))
+	mutexes := GetAllMutexNames(cmd)
+	assert.Equal(t, 2, len(mutexes))
+	assert.Contains(t, mutexes[true], "rints")
+	assert.Contains(t, mutexes[true], "ints")
 	assert.Equal(t, []string{"ra", "rb"}, GetAllFlagNamesOfMutex(cmd, "rints"))
 }

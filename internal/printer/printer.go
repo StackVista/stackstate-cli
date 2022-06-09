@@ -33,6 +33,7 @@ type Printer interface {
 	GetUseColor() bool
 	PrintWarn(msg string)
 	Success(msg string)
+	Successf(msg string, args ...interface{})
 	Table(t TableData)
 	PrintLn(text string)
 }
@@ -235,6 +236,10 @@ func (p *StdPrinter) GetUseColor() bool {
 
 func (p *StdPrinter) Success(msg string) {
 	color.Fprintf(p.stdOut, "%s %s\n", p.sprintSymbol("success"), util.UcFirst(msg))
+}
+
+func (p *StdPrinter) Successf(msg string, args ...interface{}) {
+	p.Success(fmt.Sprintf(msg, args...))
 }
 
 func (p *StdPrinter) PrintWarn(msg string) {

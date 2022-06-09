@@ -1,4 +1,4 @@
-package cliconfig
+package context
 
 import (
 	"fmt"
@@ -11,14 +11,15 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-func setupValidateCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupValidateCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
+	setupConfig(t, &cli)
 	cmd := ValidateCommand(&cli.Deps)
 	return &cli, cmd
 }
 
 func TestValidationFailure(t *testing.T) {
-	cli, cmd := setupValidateCmd()
+	cli, cmd := setupValidateCmd(t)
 	connectError := common.NewConnectError(fmt.Errorf("authentication error"), "https://test", &http.Response{StatusCode: 401})
 	cli.MockClient.ConnectError = connectError
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd)
@@ -26,7 +27,7 @@ func TestValidationFailure(t *testing.T) {
 }
 
 func TestValidationToJson(t *testing.T) {
-	cli, cmd := setupValidateCmd()
+	cli, cmd := setupValidateCmd(t)
 
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
@@ -40,6 +41,7 @@ func TestValidationToJson(t *testing.T) {
 	assert.Equal(t,
 		[]map[string]interface{}{{
 			"connected":   true,
+			"context":     "foo",
 			"server-info": cli.MockClient.ConnectServerInfo,
 		}},
 		*cli.MockPrinter.PrintJsonCalls,

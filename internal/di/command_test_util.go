@@ -4,7 +4,9 @@ import (
 	"bytes"
 
 	"github.com/spf13/cobra"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (output string, err error) {
@@ -16,10 +18,22 @@ func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (o
 		common.AddPersistentFlags(cmd)
 	}
 
-	for i, s := range args {
-		if s == "--output" || s == "-o" {
-			cli.Output = common.ToOutput(args[i+1])
+	cmd.PreRunE = func(cmd *cobra.Command, args []string) error {
+		if err := stscobra.ValidateMutexFlags(cmd); err != nil {
+			return common.NewCLIArgParseError(err)
 		}
+
+		output, err := pflags.GetEnum(cmd.Flags(), common.OutputFlag)
+		if err != nil {
+			return err
+		}
+
+		cli.Output = common.ToOutput(output)
+		if cli.Output == common.JSONOutput {
+			cli.NoColor = true
+		}
+
+		return nil
 	}
 
 	err = cmd.ExecuteContext(cli.Context)

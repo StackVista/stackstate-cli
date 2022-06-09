@@ -10,12 +10,15 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"gitlab.com/stackvista/stackstate-cli2/cmd"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	"gitlab.com/stackvista/stackstate-cli2/pkg/term"
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
@@ -41,7 +44,7 @@ func main() {
 
 func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitCode {
 	common.AddPersistentFlags(sts)
-	common.AddRequiredFlagsToCmd(sts)
+	stscobra.AddRequiredFlagsToUseString(sts)
 	setUsageTemplates(sts)
 	throwErrorOnUnknownSubCommand(sts, cli)
 	sts.SetFlagErrorFunc(func(cmd *cobra.Command, err error) error {
@@ -95,15 +98,26 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 }
 
 func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
-	if strings.ToLower(os.Getenv("TERM")) == "dumb" {
-		cli.NoColor = true
+	if err := stscobra.ValidateMutexFlags(cmd); err != nil {
+		return common.NewCLIArgParseError(err)
 	}
-	// Implementation of https://no-color.org/
-	if _, noColorEnvExists := os.LookupEnv("NO_COLOR"); noColorEnvExists {
-		cli.NoColor = true
+
+	configPath, err := cmd.Flags().GetString(common.ConfigFlag)
+	if err != nil {
+		return err
 	}
+	cli.ConfigPath = configPath
+
+	// First load the config
+	if cli.StsConfig == nil {
+		err := cli.LoadConfig(cmd, viper.GetViper())
+		if err != nil {
+			return err
+		}
+	}
+
 	noColorFlag, _ := cmd.Flags().GetBool(common.NoColorFlag)
-	if noColorFlag {
+	if noColorFlag || !term.SupportsColor() {
 		cli.NoColor = true
 	}
 
@@ -174,7 +188,7 @@ Additional help topics:{{range .Commands}}{{if .IsAdditionalHelpTopicCommand}}
 Use "{{.CommandPath}} [command] --help" for more information about a command.{{end}}
 `
 
-	util.ForAllCmd(sts, func(c *cobra.Command) {
+	stscobra.ForAllCmd(sts, func(c *cobra.Command) {
 		c.SetUsageTemplate(fullTemplate)
 	})
 	sts.SetUsageTemplate(subCommandTemplate)

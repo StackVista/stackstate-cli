@@ -1,30 +1,34 @@
-package common
+package cobra
 
 import (
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
-func AddRequiredFlagsToCmd(root *cobra.Command) {
-	util.ForAllCmd(root, func(cmd *cobra.Command) {
+func AddRequiredFlagsToUseString(root *cobra.Command) {
+	ForAllCmd(root, func(cmd *cobra.Command) {
 		required := ""
 		cmd.Flags().VisitAll(func(flag *pflag.Flag) {
-			if util.IsSingleRequiredFlag(flag) {
+			if IsSingleRequiredFlag(flag) {
 				required += " " + fmt.Sprintf("--%s %s", flag.Name, strings.ToUpper(flag.Name))
 			}
 		})
 
-		requiredMutexFlags := mutex_flags.GetAllMutexNames(cmd, true)
-		for _, mutex := range requiredMutexFlags {
+		mutexFlags := GetAllMutexNames(cmd)
+		reqMutexFlags := mutexFlags[true].ToSlice()
+		sort.Strings(reqMutexFlags)
+
+		for _, mutex := range reqMutexFlags {
 			mutexFlagUses := make([]string, 0)
-			for _, mutexFlag := range mutex_flags.GetAllFlagsOfMutex(cmd, mutex) {
+			for _, mutexFlag := range GetAllFlagsOfMutex(cmd, mutex) {
 				mutexFlagUses = append(mutexFlagUses, fmt.Sprintf("--%s %s", mutexFlag.Name, strings.ToUpper(mutexFlag.Name)))
 			}
+			sort.Strings(mutexFlagUses)
+
 			required += " { " + strings.Join(mutexFlagUses, " | ") + " }"
 		}
 

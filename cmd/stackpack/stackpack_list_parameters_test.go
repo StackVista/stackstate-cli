@@ -18,8 +18,8 @@ var (
 	stepType        = "Text"
 )
 
-func setupStackpackListParametersFn() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackListParameterCommand(&cli.Deps)
 	mockResponse := []stackstate_api.Sstackpack{
 		{
@@ -40,7 +40,7 @@ func setupStackpackListParametersFn() (*di.MockDeps, *cobra.Command) {
 }
 
 func TestStackpackListParameterPrintToTable(t *testing.T) {
-	cli, cmd := setupStackpackListParametersFn()
+	cli, cmd := setupStackpackListParametersFn(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", "--name", parameterName)
 	expectedTableCall := []printer.TableData{
 		{
@@ -53,7 +53,7 @@ func TestStackpackListParameterPrintToTable(t *testing.T) {
 }
 
 func TestStackpackListParameterPrintToJson(t *testing.T) {
-	cli, cmd := setupStackpackListParametersFn()
+	cli, cmd := setupStackpackListParametersFn(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", "--name", parameterName, "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"parameters": []stackstate_api.StackPackStep{

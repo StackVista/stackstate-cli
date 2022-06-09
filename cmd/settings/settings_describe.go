@@ -6,9 +6,9 @@ import (
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/mutex_flags"
 )
 
 var fileMode = 0644
@@ -34,13 +34,13 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSliceVar(&args.NodeTypes, TypeNameFlag, nil, "list of types to describe")
 	cmd.Flags().StringSliceVar(&args.AllowReferences, AllowReferencesFlag, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	common.AddFileFlagVar(cmd, &args.FilePath, "path to the output file")
-	mutex_flags.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", true)
+	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", true)
 	return cmd
 }
 
 func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if err := mutex_flags.CheckMutuallyExclusiveFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, true); err != nil {
+		if err := stscobra.CheckMutuallyExclusiveFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, true); err != nil {
 			return common.NewCLIArgParseError(err)
 		}
 

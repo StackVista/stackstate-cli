@@ -15,6 +15,13 @@ const (
 	StringToInt64Base = 0
 )
 
+func DefaultIfEmpty(val, def string) string {
+	if val == "" {
+		return def
+	}
+	return val
+}
+
 // Find string in list of strings
 // From https://stackoverflow.com/a/15323988/1860591
 func StringInSlice(a string, list []string) bool {

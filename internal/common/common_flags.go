@@ -43,6 +43,10 @@ func AddNameFlagVar(cmd *cobra.Command, v *string, use string) {
 	cmd.Flags().StringVarP(v, NameFlag, NameFlagShort, "", use)
 }
 
+func AddNameFlagVarVal(cmd *cobra.Command, v *string, val string, use string) {
+	cmd.Flags().StringVarP(v, NameFlag, NameFlagShort, val, use)
+}
+
 func AddRequiredNameFlagVar(cmd *cobra.Command, v *string, use string) {
 	AddNameFlagVar(cmd, v, use)
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck

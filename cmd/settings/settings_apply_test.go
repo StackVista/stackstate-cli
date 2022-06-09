@@ -15,8 +15,8 @@ import (
 
 type Filename = string
 
-func setupSettingsApplyCmd() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupSettingsApplyCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := SettingsApplyCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result = []map[string]interface{}{
@@ -43,7 +43,7 @@ func createTempFile() *os.File {
 }
 
 func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
-	cli, cmd := setupSettingsApplyCmd()
+	cli, cmd := setupSettingsApplyCmd(t)
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
@@ -63,7 +63,7 @@ func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
 }
 
 func TestSetingsApplyNamespace(t *testing.T) {
-	cli, cmd := setupSettingsApplyCmd()
+	cli, cmd := setupSettingsApplyCmd(t)
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
@@ -74,7 +74,7 @@ func TestSetingsApplyNamespace(t *testing.T) {
 }
 
 func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
-	cli, cmd := setupSettingsApplyCmd()
+	cli, cmd := setupSettingsApplyCmd(t)
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
@@ -86,7 +86,7 @@ func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
 }
 
 func TestSetingsApplyUnlockedStrategyFail(t *testing.T) {
-	cli, cmd := setupSettingsApplyCmd()
+	cli, cmd := setupSettingsApplyCmd(t)
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
@@ -96,7 +96,7 @@ func TestSetingsApplyUnlockedStrategyFail(t *testing.T) {
 }
 
 func TestSetingsApplyUnlockedTimeout(t *testing.T) {
-	cli, cmd := setupSettingsApplyCmd()
+	cli, cmd := setupSettingsApplyCmd(t)
 	file := createTempFile()
 	defer os.Remove(file.Name())
 
@@ -106,7 +106,7 @@ func TestSetingsApplyUnlockedTimeout(t *testing.T) {
 }
 
 func TestSetingsApplyJson(t *testing.T) {
-	cli, cmd := setupSettingsApplyCmd()
+	cli, cmd := setupSettingsApplyCmd(t)
 	file := createTempFile()
 	defer os.Remove(file.Name())
 

@@ -21,8 +21,8 @@ var (
 	expectedUpdateTimeLi = time.UnixMilli(1438167001716)
 )
 
-func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
-	cli := di.NewMockDeps()
+func setupStackpackListInstanceFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
+	cli := di.NewMockDeps(t)
 	cmd := StackpackListInstanceCommand(&cli.Deps)
 
 	mockResponse := []stackstate_api.Sstackpack{
@@ -55,7 +55,7 @@ func setupStackpackListInstanceFn() (*di.MockDeps, *cobra.Command) {
 }
 
 func TestStackpackListInstancePrintToTable(t *testing.T) {
-	cli, cmd := setupStackpackListInstanceFn()
+	cli, cmd := setupStackpackListInstanceFn(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "-n", testName)
 	expectedTableCall := []printer.TableData{
 		{
@@ -68,7 +68,7 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 }
 
 func TestStackpackListInstancePrintToJson(t *testing.T) {
-	cli, cmd := setupStackpackListInstanceFn()
+	cli, cmd := setupStackpackListInstanceFn(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"instances": []stackstate_api.SstackpackConfigurations{
