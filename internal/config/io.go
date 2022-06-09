@@ -46,6 +46,10 @@ func ReadConfig(file string) (*Config, common.CLIError) {
 		return nil, ReadConfError{err, false}
 	}
 
+	return unmarshalYAMLConfig(b)
+}
+
+func unmarshalYAMLConfig(b []byte) (*Config, common.CLIError) {
 	dec := yaml.NewDecoder(bytes.NewBuffer(b))
 	cfg := &Config{}
 	if err := dec.Decode(&cfg); err != nil {

@@ -69,7 +69,7 @@ func (s ValidateConfError) Error() string {
 	}
 	//nolint:gocritic
 	if len(strs) > 1 {
-		return "Validation errors:\n * " + strings.Join(strs, "\n * ")
+		return "Validation errors:\n* " + strings.Join(strs, "\n* ")
 	} else if len(strs) == 1 {
 		return "Validation error: " + strs[0]
 	} else {
