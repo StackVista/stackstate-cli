@@ -23,42 +23,42 @@ import (
 type TopicApi interface {
 
 	/*
-	GetTopic Topic API
+	ListTopics Topic API
 
 	Get topic list
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetTopicRequest
+	@return ApiListTopicsRequest
 	*/
-	GetTopic(ctx context.Context) ApiGetTopicRequest
+	ListTopics(ctx context.Context) ApiListTopicsRequest
 
-	// GetTopicExecute executes the request
+	// ListTopicsExecute executes the request
 	//  @return []Topic
-	GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.Response, error)
+	ListTopicsExecute(r ApiListTopicsRequest) ([]Topic, *http.Response, error)
 }
 
 // TopicApiService TopicApi service
 type TopicApiService service
 
-type ApiGetTopicRequest struct {
+type ApiListTopicsRequest struct {
 	ctx context.Context
 	ApiService TopicApi
 }
 
-func (r ApiGetTopicRequest) Execute() ([]Topic, *http.Response, error) {
-	return r.ApiService.GetTopicExecute(r)
+func (r ApiListTopicsRequest) Execute() ([]Topic, *http.Response, error) {
+	return r.ApiService.ListTopicsExecute(r)
 }
 
 /*
-GetTopic Topic API
+ListTopics Topic API
 
 Get topic list
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetTopicRequest
+ @return ApiListTopicsRequest
 */
-func (a *TopicApiService) GetTopic(ctx context.Context) ApiGetTopicRequest {
-	return ApiGetTopicRequest{
+func (a *TopicApiService) ListTopics(ctx context.Context) ApiListTopicsRequest {
+	return ApiListTopicsRequest{
 		ApiService: a,
 		ctx: ctx,
 	}
@@ -66,7 +66,7 @@ func (a *TopicApiService) GetTopic(ctx context.Context) ApiGetTopicRequest {
 
 // Execute executes the request
 //  @return []Topic
-func (a *TopicApiService) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.Response, error) {
+func (a *TopicApiService) ListTopicsExecute(r ApiListTopicsRequest) ([]Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -74,7 +74,7 @@ func (a *TopicApiService) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.
 		localVarReturnValue  []Topic
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.GetTopic")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.ListTopics")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -183,39 +183,39 @@ func (a *TopicApiService) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.
 
 
 type TopicApiMock struct {
-	GetTopicCalls *[]GetTopicCall
-	GetTopicResponse GetTopicMockResponse
+	ListTopicsCalls *[]ListTopicsCall
+	ListTopicsResponse ListTopicsMockResponse
 }	
 
 func NewTopicApiMock() TopicApiMock {
-	xGetTopicCalls := make([]GetTopicCall, 0)
+	xListTopicsCalls := make([]ListTopicsCall, 0)
 	return TopicApiMock {
-		GetTopicCalls: &xGetTopicCalls,
+		ListTopicsCalls: &xListTopicsCalls,
 	}
 }
 
-type GetTopicMockResponse struct {
+type ListTopicsMockResponse struct {
 	Result []Topic
 	Response *http.Response
 	Error error
 }
 
-type GetTopicCall struct {
+type ListTopicsCall struct {
 }
 
 
-func (mock TopicApiMock) GetTopic(ctx context.Context) ApiGetTopicRequest {
-	return ApiGetTopicRequest{
+func (mock TopicApiMock) ListTopics(ctx context.Context) ApiListTopicsRequest {
+	return ApiListTopicsRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock TopicApiMock) GetTopicExecute(r ApiGetTopicRequest) ([]Topic, *http.Response, error) {
-	p := GetTopicCall {
+func (mock TopicApiMock) ListTopicsExecute(r ApiListTopicsRequest) ([]Topic, *http.Response, error) {
+	p := ListTopicsCall {
 	}
-	*mock.GetTopicCalls = append(*mock.GetTopicCalls, p)
-	return mock.GetTopicResponse.Result, mock.GetTopicResponse.Response, mock.GetTopicResponse.Error
+	*mock.ListTopicsCalls = append(*mock.ListTopicsCalls, p)
+	return mock.ListTopicsResponse.Result, mock.ListTopicsResponse.Response, mock.ListTopicsResponse.Error
 }
 
 

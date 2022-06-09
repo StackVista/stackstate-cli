@@ -1706,7 +1706,7 @@ paths:
   /topic:
     get:
       description: Get topic list
-      operationId: getTopic
+      operationId: listTopics
       responses:
         "200":
           content:

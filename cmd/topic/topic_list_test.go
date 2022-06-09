@@ -27,7 +27,7 @@ func setupTopicListCmd() (*di.MockDeps, *cobra.Command) {
 
 func TestTopicListPrintToTable(t *testing.T) {
 	cli, cmd := setupTopicListCmd()
-	cli.MockClient.ApiMocks.TopicApi.GetTopicResponse.Result = mockTopicListResponse
+	cli.MockClient.ApiMocks.TopicApi.ListTopicsResponse.Result = mockTopicListResponse
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
@@ -42,7 +42,7 @@ func TestTopicListPrintToTable(t *testing.T) {
 
 func TestTopicListPrintToJson(t *testing.T) {
 	cli, cmd := setupTopicListCmd()
-	cli.MockClient.ApiMocks.TopicApi.GetTopicResponse.Result = mockTopicListResponse
+	cli.MockClient.ApiMocks.TopicApi.ListTopicsResponse.Result = mockTopicListResponse
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "-o", "json")
 	expectedJsonCall := []map[string]interface{}{{
 		"topics": [][]interface{}{{topicName}},

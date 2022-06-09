@@ -24,7 +24,7 @@ func RunTopicListCommand(
 	api *stackstate_api.APIClient,
 	serverInfo *stackstate_api.ServerInfo,
 ) common.CLIError {
-	topicList, resp, err := api.TopicApi.GetTopic(cli.Context).Execute()
+	topicList, resp, err := api.TopicApi.ListTopics(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
