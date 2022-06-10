@@ -29,12 +29,8 @@ func main() {
 	cli := &di.Deps{
 		Version:   static_info.Version,
 		Commit:    static_info.Commit,
-		CLIType:   static_info.CLIType,
 		BuildDate: static_info.BuildDate,
 		Clock:     pflags.NewFixedTimeClock(),
-	}
-	if cli.CLIType == "" {
-		cli.CLIType = "local"
 	}
 
 	cmd := cmd.STSCommand(cli)
@@ -56,9 +52,6 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	}
 
 	decapitalizeHelpCommand(sts)
-	if cli.CLIType != "saas" && cli.CLIType != "full" && cli.CLIType != "local" {
-		panic("Type must either 'full', 'local' or 'saas'.")
-	}
 
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	sts.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
@@ -150,7 +143,6 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 		Str("version", cli.Version).
 		Str("commit", cli.Commit).
 		Str("date", cli.BuildDate).
-		Str("CLIType", cli.CLIType).
 		Msg("starting CLI")
 
 	cli.Printer.SetUseColor(!cli.NoColor)
