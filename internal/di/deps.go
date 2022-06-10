@@ -10,13 +10,11 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
 // Dependency Injection context for the CLI
 type Deps struct {
-	// Config    *conf.Conf
 	StsConfig      *config.Config
 	CurrentContext *config.StsContext
 	ConfigPath     string
@@ -39,6 +37,19 @@ func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func
 	}
 }
 
+func (cli *Deps) CmdRunEWithConfig(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		if cli.StsConfig == nil {
+			err := cli.LoadConfig(cmd, viper.GetViper())
+			if err != nil {
+				return err
+			}
+		}
+
+		return runFn(cli, cmd)
+	}
+}
+
 type CmdWithApiFn = func(
 	*cobra.Command,
 	*Deps,
@@ -49,6 +60,13 @@ type CmdWithApiFn = func(
 func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
+		if cli.StsConfig == nil {
+			err := cli.LoadConfig(cmd, viper.GetViper())
+			if err != nil {
+				return err
+			}
+		}
+
 		if cli.Client == nil {
 			err := cli.LoadClient(cmd, cli.CurrentContext.URL, cli.CurrentContext.APIPath, cli.CurrentContext.APIToken, cli.CurrentContext.ServiceToken)
 			if err != nil {
@@ -67,31 +85,13 @@ func (cli *Deps) CmdRunEWithApi(
 
 // Called from the PersistentPreRunE
 func (cli *Deps) LoadConfig(cmd *cobra.Command, viper *viper.Viper) common.CLIError {
-	cfg, err := config.ReadConfig(cli.ConfigPath)
+	loaded, err := config.LoadCLIConfig(cmd, viper, cli.ConfigPath)
 	if err != nil {
 		return err
 	}
 
-	cli.StsConfig = cfg
-
-	// The Viper config is leading, i.e. it overrides the config file
-	vpConfig := config.Bind(cmd, viper)
-	currCtx := util.DefaultIfEmpty(vpConfig.CurrentContext, cfg.CurrentContext)
-
-	ctx, errx := cfg.GetContext(currCtx)
-	if errx != nil {
-		return common.NewNotFoundError(errx)
-	}
-
-	merged := vpConfig.Context.Merge(ctx.Context)
-	cli.CurrentContext = merged
-
-	if err := cli.CurrentContext.Validate(); err != nil {
-		return config.ReadConfError{
-			RootCause:           err,
-			IsMissingConfigFile: false,
-		}
-	}
+	cli.StsConfig = loaded.StsConfig
+	cli.CurrentContext = loaded.CurrentContext
 
 	return nil
 }

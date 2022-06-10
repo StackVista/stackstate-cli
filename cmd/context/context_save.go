@@ -46,6 +46,9 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		cfg := cli.StsConfig
+		if cfg == nil {
+			cfg = config.EmptyConfig()
+		}
 
 		namedCtx := &config.NamedContext{
 			Name: args.Name,

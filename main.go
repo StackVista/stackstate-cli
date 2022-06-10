@@ -10,7 +10,6 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	"gitlab.com/stackvista/stackstate-cli2/cmd"
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -107,14 +106,6 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 		return err
 	}
 	cli.ConfigPath = configPath
-
-	// First load the config
-	if cli.StsConfig == nil {
-		err := cli.LoadConfig(cmd, viper.GetViper())
-		if err != nil {
-			return err
-		}
-	}
 
 	noColorFlag, _ := cmd.Flags().GetBool(common.NoColorFlag)
 	if noColorFlag || !term.SupportsColor() {

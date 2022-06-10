@@ -25,6 +25,12 @@ type StsContext struct {
 	APIPath      string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
+func EmptyConfig() *Config {
+	return &Config{
+		Contexts: []*NamedContext{},
+	}
+}
+
 func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	m := map[string]interface{}{}
 	type cfg Config
@@ -68,12 +74,12 @@ func (c *Config) GetContext(name string) (*NamedContext, error) {
 }
 
 // UnmarshalYAML unmarshals the StsContext YAML part into a struct, ensuring that any defaults are set.
-func (s *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	defaults.SetDefaults(s)
+func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	defaults.SetDefaults(c)
 
 	type cfg StsContext
 
-	if err := unmarshal((*cfg)(s)); err != nil {
+	if err := unmarshal((*cfg)(c)); err != nil {
 		return err
 	}
 

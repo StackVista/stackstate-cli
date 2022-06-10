@@ -12,7 +12,7 @@ func ListCommand(deps *di.Deps) *cobra.Command {
 		Use:   "list",
 		Short: "list available contexts",
 		Long:  "List available contexts in the config file.",
-		RunE:  deps.CmdRunE(RunContextListCommand),
+		RunE:  deps.CmdRunEWithConfig(RunContextListCommand),
 	}
 
 	return cmd

@@ -11,7 +11,7 @@ func ShowCommand(deps *di.Deps) *cobra.Command {
 		Use:   "show",
 		Short: "show the current context",
 		Long:  "Show the current context.",
-		RunE:  deps.CmdRunE(RunContextShowCommand),
+		RunE:  deps.CmdRunEWithConfig(RunContextShowCommand),
 	}
 
 	return cmd

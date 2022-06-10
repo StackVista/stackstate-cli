@@ -16,7 +16,7 @@ func ValidateCommand(cli *di.Deps) *cobra.Command {
 		Use:   "validate",
 		Short: "validate context",
 		Long:  "Validate a context.",
-		RunE:  cli.CmdRunE(RunValidateCommand(args)),
+		RunE:  cli.CmdRunEWithConfig(RunValidateCommand(args)),
 	}
 
 	common.AddNameFlagVar(cmd, &args.Name, "name of the context")
