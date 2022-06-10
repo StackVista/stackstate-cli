@@ -36,7 +36,6 @@ func NewMockDeps(t *testing.T) MockDeps {
 			Version:        "1.0.0",
 			Commit:         "123124",
 			BuildDate:      "1-1-2022",
-			CLIType:        "full",
 		},
 		MockClient:  &mockClient,
 		MockPrinter: &mockPrinter,

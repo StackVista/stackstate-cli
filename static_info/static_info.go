@@ -6,5 +6,4 @@ var (
 	Version   string
 	Commit    string
 	BuildDate string
-	CLIType   string
 )

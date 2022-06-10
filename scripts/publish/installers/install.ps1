@@ -17,7 +17,6 @@ new-module -name "StsCliInstaller" -scriptblock {
         [string]$StsUrl, # url of the StackState instance to configure (empty means don't configure)
         [string]$StsApiToken, # API-TOKEN of the StackState instance to configure (empty means don't configure)
         [string]$StsCliVersion, # version of the CLI to install (empty means latest)
-        [string]$StsCliType # type of the CLI to install, either full or saas (empty means full)
     )
     # Stop on first error
     $ErrorActionPreference = "Stop"
@@ -33,15 +32,7 @@ new-module -name "StsCliInstaller" -scriptblock {
       $StsCliVersion=type $CliPath\VERSION
       rm $CliPath\VERSION
     }
-    if (!$StsCliType) {
-      $StsCliType = "full"
-    } else {
-      if ($StsCliType -ne  "saas") {
-        Error "Unknown CLI type: $StsCliType"
-        return
-      }
-    }
-    $CliDl = "https://dl.stackstate.com/stackstate-cli/v$StsCliVersion/stackstate-cli-$StsCliType-$StsCliVersion.windows-x86_64.zip"
+    $CliDl = "https://dl.stackstate.com/stackstate-cli/v$StsCliVersion/stackstate-cli-$StsCliVersion.windows-x86_64.zip"
 
     # Download and unpack the CLI to the target CLI path. Remove remaining artifacts.
     Write-Host "Downloading $CliDl"

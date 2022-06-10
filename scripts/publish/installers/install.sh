@@ -29,18 +29,13 @@ ARCH=`uname -m`
 if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64" ]]; then
   error "Unsupported architecture: $ARCH. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
 fi
-if [[ -z "$STS_CLI_TYPE" ]]; then
-  STS_CLI_TYPE="full"
-elif [[ "$STS_CLI_TYPE" != "saas" ]]; then
-  error "Unknown CLI type: $STS_CLI_TYPE"
-fi
 
 # Download and unpack the CLI to the target CLI path
 TARGET_CLI_PATH=/usr/local/bin
 if [[ -z "$STS_CLI_VERSION" ]]; then
   STS_CLI_VERSION=`curl https://dl.stackstate.com/stackstate-cli/LATEST_VERSION 2> /dev/null`
 fi
-DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-$STS_CLI_TYPE-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
+DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
 echo "Installing: $DL"
 curl $DL | tar xz --directory $TARGET_CLI_PATH
 

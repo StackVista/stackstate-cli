@@ -30,7 +30,6 @@ type Deps struct {
 	Version        string
 	Commit         string
 	BuildDate      string
-	CLIType        string
 }
 
 func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {

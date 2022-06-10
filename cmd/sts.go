@@ -17,11 +17,9 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(ContextCommand(cli))
 	cmd.AddCommand(VersionCommand(cli))
-	if cli.CLIType != "saas" {
-		cmd.AddCommand(ScriptCommand(cli))
-		cmd.AddCommand(SettingsCommand(cli))
-		cmd.AddCommand(StackPackCommand(cli))
-	}
+	cmd.AddCommand(ScriptCommand(cli))
+	cmd.AddCommand(SettingsCommand(cli))
+	cmd.AddCommand(StackPackCommand(cli))
 	cmd.AddCommand(MonitorCommand(cli))
 	cmd.AddCommand(AnomalyCommand(cli))
 	cmd.AddCommand(ServiceTokenCommand(cli))
