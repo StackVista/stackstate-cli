@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
@@ -18,9 +19,13 @@ func TestShowContextJSON(t *testing.T) {
 	calls := *cli.MockPrinter.PrintJsonCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, "foo", calls[0]["name"])
-	ctx, err := cli.StsConfig.GetContext(cli.StsConfig.CurrentContext)
+
 	assert.NoError(t, err)
-	assert.Equal(t, ctx.Context, calls[0]["current-context"])
+	assert.Equal(t, &config.StsContext{
+		URL:      "http://foo.com",
+		APIToken: "apiToken",
+		APIPath:  "/api",
+	}, calls[0]["current-context"])
 }
 
 func TestShowContextText(t *testing.T) {

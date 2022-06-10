@@ -3,6 +3,7 @@ package context
 import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
@@ -12,14 +13,14 @@ func ListCommand(deps *di.Deps) *cobra.Command {
 		Use:   "list",
 		Short: "list available contexts",
 		Long:  "List available contexts in the config file.",
-		RunE:  deps.CmdRunE(RunContextListCommand),
+		RunE:  deps.CmdRunEWithConfig(RunContextListCommand),
 	}
 
 	return cmd
 }
 
-func RunContextListCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	ctxs := cli.StsConfig.Contexts
+func RunContextListCommand(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
+	ctxs := cfg.Contexts
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{

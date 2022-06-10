@@ -11,29 +11,22 @@ import (
 
 func setupSaveCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
-	cli.StsConfig.CurrentContext = "foo"
-	cli.StsConfig.Contexts = []*config.NamedContext{
-		{Name: "foo", Context: newContext("http://foo.com", "apiToken", "", "/api")},
-		{Name: "bar", Context: newContext("http://bar.com", "apiToken", "", "/api")},
-	}
 	cmd := SaveCommand(&cli.Deps)
 
 	return &cli, cmd
 }
 
-//nolint:dupl
 func TestSaveNewContext(t *testing.T) {
 	cli, cmd := setupSaveCmd(t)
+	setupConfig(t, cli)
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "baz", "--url", "http://baz.com", "--api-token", "my-token")
 	assert.NoError(t, err)
-
-	assert.Equal(t, "baz", cli.StsConfig.CurrentContext)
-	assert.Len(t, cli.StsConfig.Contexts, 3)
 
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	assert.NoError(t, err)
 	assert.Equal(t, "baz", cfg.CurrentContext)
 	assert.Len(t, cfg.Contexts, 3)
+
 	curr, err := cfg.GetContext(cfg.CurrentContext)
 	assert.NoError(t, err)
 	assert.Equal(t, "my-token", curr.Context.APIToken)
@@ -42,15 +35,12 @@ func TestSaveNewContext(t *testing.T) {
 	assert.Empty(t, curr.Context.ServiceToken)
 }
 
-//nolint:dupl
 func TestSaveExistingContext(t *testing.T) {
 	cli, cmd := setupSaveCmd(t)
+	setupConfig(t, cli)
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "bar", "--url", "http://bar.com", "--service-token", "my-token")
 	assert.NoError(t, err)
-
-	assert.Equal(t, "bar", cli.StsConfig.CurrentContext)
-	assert.Len(t, cli.StsConfig.Contexts, 2)
 
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	assert.NoError(t, err)
@@ -69,9 +59,6 @@ func TestNoSaveOnMissingTokens(t *testing.T) {
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "bar", "--url", "http://my-bar.com")
 	assert.Errorf(t, err, "missing required argument: --api-token")
-
-	assert.Equal(t, "foo", cli.StsConfig.CurrentContext)
-	assert.Len(t, cli.StsConfig.Contexts, 2)
 
 	// Should not have written config file
 	assert.NoFileExists(t, cli.ConfigPath)

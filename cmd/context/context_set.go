@@ -19,7 +19,7 @@ func SetCommand(cli *di.Deps) *cobra.Command {
 		Use:   "set",
 		Short: "set the current context",
 		Long:  "Set the current context.",
-		RunE:  cli.CmdRunE(RunContextSetCommand(args, cli)),
+		RunE:  cli.CmdRunEWithConfig(RunContextSetCommand(args, cli)),
 	}
 
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the context")
@@ -27,10 +27,8 @@ func SetCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunContextSetCommand(args *SetArgs, cli *di.Deps) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-		cfg := cli.StsConfig
-
+func RunContextSetCommand(args *SetArgs, cli *di.Deps) func(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
+	return func(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
 		_, err := cfg.GetContext(args.Name)
 		if err != nil {
 			return common.NewNotFoundError(err)

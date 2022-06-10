@@ -10,17 +10,11 @@ import (
 
 func TestSetContext(t *testing.T) {
 	cli := di.NewMockDeps(t)
-	cli.StsConfig.CurrentContext = "foo"
-	cli.StsConfig.Contexts = []*config.NamedContext{
-		{Name: "foo", Context: newContext("http://foo.com", "apiToken", "", "/api")},
-		{Name: "bar", Context: newContext("http://bar.com", "apiToken", "", "/api")},
-	}
+	setupConfig(t, &cli)
 	cmd := SetCommand(&cli.Deps)
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "bar")
 	assert.NoError(t, err)
-
-	assert.Equal(t, "bar", cli.StsConfig.CurrentContext)
 
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	assert.NoError(t, err)
@@ -29,15 +23,13 @@ func TestSetContext(t *testing.T) {
 
 func TestSetUnknownContext(t *testing.T) {
 	cli := di.NewMockDeps(t)
-	cli.StsConfig.CurrentContext = "foo"
-	cli.StsConfig.Contexts = []*config.NamedContext{
-		{Name: "foo", Context: newContext("http://foo.com", "apiToken", "", "/api")},
-		{Name: "bar", Context: newContext("http://bar.com", "apiToken", "", "/api")},
-	}
+	setupConfig(t, &cli)
 	cmd := SetCommand(&cli.Deps)
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "x")
 	assert.Errorf(t, err, "context with name 'x' not found")
 
-	assert.Equal(t, "foo", cli.StsConfig.CurrentContext)
+	cfg, err := config.ReadConfig(cli.ConfigPath)
+	assert.NoError(t, err)
+	assert.Equal(t, "foo", cfg.CurrentContext)
 }

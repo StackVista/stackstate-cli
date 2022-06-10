@@ -3,6 +3,7 @@ package context
 import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
@@ -16,7 +17,7 @@ func ValidateCommand(cli *di.Deps) *cobra.Command {
 		Use:   "validate",
 		Short: "validate context",
 		Long:  "Validate a context.",
-		RunE:  cli.CmdRunE(RunValidateCommand(args)),
+		RunE:  cli.CmdRunEWithConfig(RunValidateCommand(args)),
 	}
 
 	common.AddNameFlagVar(cmd, &args.Name, "name of the context")
@@ -24,14 +25,14 @@ func ValidateCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunValidateCommand(args *ValidateArgs) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-		ctxName := cli.StsConfig.CurrentContext
+func RunValidateCommand(args *ValidateArgs) func(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
+	return func(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
+		ctxName := cfg.CurrentContext
 		if args.Name != "" {
 			ctxName = args.Name
 		}
 
-		ctx, err := cli.StsConfig.GetContext(ctxName)
+		ctx, err := cfg.GetContext(ctxName)
 		if err != nil {
 			return common.NewNotFoundError(err)
 		}

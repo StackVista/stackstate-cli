@@ -19,7 +19,7 @@ func DeleteCommand(cli *di.Deps) *cobra.Command {
 		Use:   "delete",
 		Short: "delete a context",
 		Long:  "Delete a context from the local config file.",
-		RunE:  cli.CmdRunE(RunContextDeleteCommand(args)),
+		RunE:  cli.CmdRunEWithConfig(RunContextDeleteCommand(args)),
 	}
 
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the context")
@@ -27,10 +27,8 @@ func DeleteCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunContextDeleteCommand(args *DeleteArgs) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-		cfg := cli.StsConfig
-
+func RunContextDeleteCommand(args *DeleteArgs) func(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
+	return func(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
 		if args.Name == cfg.CurrentContext {
 			return common.NewCLIArgParseError(fmt.Errorf("cannot delete the current context (%s)", args.Name))
 		}

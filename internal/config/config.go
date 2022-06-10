@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/mcuadros/go-defaults"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -23,6 +24,12 @@ type StsContext struct {
 	APIToken     string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
 	ServiceToken string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
 	APIPath      string `yaml:"api-path" default:"/api" json:"api-path"`
+}
+
+func EmptyConfig() *Config {
+	return &Config{
+		Contexts: []*NamedContext{},
+	}
 }
 
 func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
@@ -57,23 +64,23 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // GetContext gets the context with the given name
-func (c *Config) GetContext(name string) (*NamedContext, error) {
+func (c *Config) GetContext(name string) (*NamedContext, common.CLIError) {
 	for _, context := range c.Contexts {
 		if context.Name == name {
 			return context, nil
 		}
 	}
 
-	return nil, fmt.Errorf("Context with name '%s' not found", name)
+	return nil, common.NewNotFoundError(fmt.Errorf("Context with name '%s' not found", name))
 }
 
 // UnmarshalYAML unmarshals the StsContext YAML part into a struct, ensuring that any defaults are set.
-func (s *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
-	defaults.SetDefaults(s)
+func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
+	defaults.SetDefaults(c)
 
 	type cfg StsContext
 
-	if err := unmarshal((*cfg)(s)); err != nil {
+	if err := unmarshal((*cfg)(c)); err != nil {
 		return err
 	}
 

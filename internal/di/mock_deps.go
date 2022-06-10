@@ -30,7 +30,6 @@ func NewMockDeps(t *testing.T) MockDeps {
 			Printer:        &mockPrinter,
 			Clock:          pflags.NewTestClock(1652108645000), //nolint:gomnd
 			Context:        context.Background(),
-			StsConfig:      &config.Config{},
 			CurrentContext: &config.StsContext{},
 			ConfigPath:     filepath.Join(t.TempDir(), config.ConfigFileName),
 			Version:        "1.0.0",

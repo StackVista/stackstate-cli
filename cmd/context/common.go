@@ -23,7 +23,7 @@ func PrintConnectionSuccess(pr printer.Printer, apiUrl string, serverInfo *stack
 
 func ValidateContext(cli *di.Deps, cmd *cobra.Command, cfg *config.StsContext) (*stackstate_api.ServerInfo, common.CLIError) {
 	if cli.Client == nil {
-		err := cli.LoadClient(cmd, cfg.URL, cfg.APIPath, cfg.APIToken, cfg.ServiceToken)
+		err := cli.LoadClient(cmd, cfg)
 		if err != nil {
 			return nil, err
 		}
