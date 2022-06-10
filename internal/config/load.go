@@ -12,33 +12,31 @@ type LoadedConfiguration struct {
 	CurrentContext *StsContext
 }
 
-func LoadCLIConfig(cmd *cobra.Command, viper *viper.Viper, configPath string) (*LoadedConfiguration, common.CLIError) {
-	cfg, err := ReadConfig(configPath)
-	if err != nil {
-		return nil, err
-	}
+func LoadCurrentContext(cmd *cobra.Command, viper *viper.Viper, configPath string) (*StsContext, common.CLIError) {
+	cfg, loadError := ReadConfig(configPath)
 
-	// The Viper config is leading, i.e. it overrides the config file
 	vpConfig := Bind(cmd, viper)
-	currCtx := util.DefaultIfEmpty(vpConfig.CurrentContext, cfg.CurrentContext)
+	currCtx := vpConfig.CurrentContext
+	currentContext := vpConfig.Context
 
-	ctx, errx := cfg.GetContext(currCtx)
-	if errx != nil {
-		return nil, common.NewNotFoundError(errx)
+	if cfg != nil { // Potentially nog config file was found
+		currCtx = util.DefaultIfEmpty(currCtx, cfg.CurrentContext)
+
+		ctx, errx := cfg.GetContext(currCtx)
+		if errx != nil {
+			return nil, common.NewNotFoundError(errx)
+		}
+
+		// The Viper config is leading, i.e. it overrides the config file
+		currentContext = currentContext.Merge(ctx.Context)
 	}
-
-	merged := vpConfig.Context.Merge(ctx.Context)
-	currentContext := merged
 
 	if err := currentContext.Validate(); err != nil {
 		return nil, ReadConfError{
 			RootCause:           err,
-			IsMissingConfigFile: false,
+			IsMissingConfigFile: loadError != nil,
 		}
 	}
 
-	return &LoadedConfiguration{
-		StsConfig:      cfg,
-		CurrentContext: currentContext,
-	}, nil
+	return currentContext, nil
 }

@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/mcuadros/go-defaults"
+	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -63,14 +64,14 @@ func (c *Config) UnmarshalYAML(unmarshal func(interface{}) error) error {
 }
 
 // GetContext gets the context with the given name
-func (c *Config) GetContext(name string) (*NamedContext, error) {
+func (c *Config) GetContext(name string) (*NamedContext, common.CLIError) {
 	for _, context := range c.Contexts {
 		if context.Name == name {
 			return context, nil
 		}
 	}
 
-	return nil, fmt.Errorf("Context with name '%s' not found", name)
+	return nil, common.NewNotFoundError(fmt.Errorf("Context with name '%s' not found", name))
 }
 
 // UnmarshalYAML unmarshals the StsContext YAML part into a struct, ensuring that any defaults are set.

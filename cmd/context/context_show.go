@@ -3,6 +3,7 @@ package context
 import (
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/internal/config"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
@@ -17,9 +18,7 @@ func ShowCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunContextShowCommand(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	cfg := cli.StsConfig
-
+func RunContextShowCommand(cli *di.Deps, cmd *cobra.Command, cfg *config.Config) common.CLIError {
 	ctx, err := cfg.GetContext(cfg.CurrentContext)
 	if err != nil {
 		return common.NewNotFoundError(err)

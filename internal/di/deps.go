@@ -15,7 +15,6 @@ import (
 
 // Dependency Injection context for the CLI
 type Deps struct {
-	StsConfig      *config.Config
 	CurrentContext *config.StsContext
 	ConfigPath     string
 	Printer        printer.Printer
@@ -37,16 +36,14 @@ func (cli *Deps) CmdRunE(runFn func(*Deps, *cobra.Command) common.CLIError) func
 	}
 }
 
-func (cli *Deps) CmdRunEWithConfig(runFn func(*Deps, *cobra.Command) common.CLIError) func(*cobra.Command, []string) error {
+func (cli *Deps) CmdRunEWithConfig(runFn func(*Deps, *cobra.Command, *config.Config) common.CLIError) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		if cli.StsConfig == nil {
-			err := cli.LoadConfig(cmd, viper.GetViper())
-			if err != nil {
-				return err
-			}
+		cfg, err := config.ReadConfig(cli.ConfigPath)
+		if err != nil {
+			return err
 		}
 
-		return runFn(cli, cmd)
+		return runFn(cli, cmd, cfg)
 	}
 }
 
@@ -60,15 +57,17 @@ type CmdWithApiFn = func(
 func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
-		if cli.StsConfig == nil {
-			err := cli.LoadConfig(cmd, viper.GetViper())
+		if cli.CurrentContext == nil {
+			currCtx, err := config.LoadCurrentContext(cmd, viper.GetViper(), cli.ConfigPath)
 			if err != nil {
 				return err
 			}
+
+			cli.CurrentContext = currCtx
 		}
 
 		if cli.Client == nil {
-			err := cli.LoadClient(cmd, cli.CurrentContext.URL, cli.CurrentContext.APIPath, cli.CurrentContext.APIToken, cli.CurrentContext.ServiceToken)
+			err := cli.LoadClient(cmd, cli.CurrentContext)
 			if err != nil {
 				return err
 			}
@@ -83,21 +82,8 @@ func (cli *Deps) CmdRunEWithApi(
 	}
 }
 
-// Called from the PersistentPreRunE
-func (cli *Deps) LoadConfig(cmd *cobra.Command, viper *viper.Viper) common.CLIError {
-	loaded, err := config.LoadCLIConfig(cmd, viper, cli.ConfigPath)
-	if err != nil {
-		return err
-	}
-
-	cli.StsConfig = loaded.StsConfig
-	cli.CurrentContext = loaded.CurrentContext
-
-	return nil
-}
-
-func (cli *Deps) LoadClient(cmd *cobra.Command, apiURL string, apiPath string, apiToken, serviceToken string) common.CLIError {
-	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, apiURL, apiPath, apiToken, serviceToken)
+func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) common.CLIError {
+	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, context.URL, context.APIPath, context.APIToken, context.ServiceToken)
 	return nil
 }
 
