@@ -32,6 +32,13 @@ fi
 
 # Download and unpack the CLI to the target CLI path
 TARGET_CLI_PATH=/usr/local/bin
+# Check if the user has writting permissions
+if [ ! -w TARGET_CLI_PATH ]; then 
+  # Check if the user is root
+  if [ "$EUID" -ne 0 ]; then 
+    error "Can not write to the defined path : $TARGET_CLI_PATH. Please re-run the command prefixed with sudo"
+  fi
+fi
 if [[ -z "$STS_CLI_VERSION" ]]; then
   STS_CLI_VERSION=`curl https://dl.stackstate.com/stackstate-cli/LATEST_VERSION 2> /dev/null`
 fi
@@ -42,7 +49,7 @@ curl $DL | tar xz --directory $TARGET_CLI_PATH
 # Verify that 'sts' works
 sts > /dev/null 2>&1
 if [ $? -ne 0 ]; then
-  error "Can not find 'sts' on the path or execute it?"
+  error "Can not find 'sts' on the path or execute it"
 fi
 
 # Configure the CLI if config parameters have been set
