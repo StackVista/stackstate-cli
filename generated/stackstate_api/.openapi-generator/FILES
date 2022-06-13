@@ -4,6 +4,7 @@
 README.md
 api/openapi.yaml
 api_api_token.go
+api_component.go
 api_event.go
 api_export.go
 api_export_anomaly.go
@@ -28,6 +29,7 @@ docs/AnomalyWithContext.md
 docs/ApiToken.md
 docs/ApiTokenApi.md
 docs/BaseMonitorError.md
+docs/ComponentApi.md
 docs/DependencyDirection.md
 docs/DownsamplingMethod.md
 docs/EventApi.md
@@ -75,9 +77,13 @@ docs/HealthSubStreamTransactionalIncrements.md
 docs/HealthSynchronizationApi.md
 docs/IdentifierType.md
 docs/ImportApi.md
+docs/InlineResponse200.md
+docs/InlineResponse404.md
 docs/InvalidMonitorIdentifierError.md
 docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
+docs/LatestTelemetryStreamMetrics.md
+docs/LatestTelemetryStreamMetricsMetric.md
 docs/MessageLevel.md
 docs/MetricBucketValue.md
 docs/MetricStreamAnomalyData.md
@@ -206,9 +212,13 @@ model_health_sub_stream_snapshot.go
 model_health_sub_stream_status.go
 model_health_sub_stream_transactional_increments.go
 model_identifier_type.go
+model_inline_response_200.go
+model_inline_response_404.go
 model_invalid_monitor_identifier_error.go
 model_invalid_sync_identifier.go
 model_invalid_urn.go
+model_latest_telemetry_stream_metrics.go
+model_latest_telemetry_stream_metrics_metric.go
 model_message_level.go
 model_metric_bucket_value.go
 model_metric_stream_anomaly_data.go

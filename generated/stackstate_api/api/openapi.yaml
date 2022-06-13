@@ -10,6 +10,9 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: StackState API
   version: 0.0.1
+  x-logo:
+    url: https://raw.githubusercontent.com/StackVista/stackstate-docs/master/resources/logo/StackState-Color-padding.png
+    href: '#top'
 externalDocs:
   description: Documentation
   url: https://docs.stackstate.com/
@@ -1659,6 +1662,52 @@ paths:
       summary: Export anomalies with metric history and feedback
       tags:
       - exportAnomaly
+  /components/{componentId}/streams/latest:
+    get:
+      description: "Gets a top 3 metrics for a datapoint, always takes the last 15\
+        \ minutes before provided timepoint"
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      - description: Ids of streams to query for
+        in: query
+        name: streamIds
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamIds'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+          description: the latest 3 metrics
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+          description: Component not found error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get the latests metrics
+      tags:
+      - component
 components:
   requestBodies:
     EventListBody:
@@ -1798,6 +1847,18 @@ components:
               $ref: '#/components/schemas/ServiceToken'
             type: array
       description: Service Tokens
+    latestSnapshots:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_200'
+      description: the latest 3 metrics
+    notFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_404'
+      description: Component not found error
   schemas:
     GenericErrorsResponse:
       properties:
@@ -2168,7 +2229,7 @@ components:
           type: string
       type: object
     MonitorIdOrUrn:
-      pattern: "^urn:[a-zA-Z0-9:-]+|[0-9]+$"
+      pattern: "^urn:.+|[0-9]+$"
       type: string
     InvalidMonitorIdentifierError:
       properties:
@@ -4222,6 +4283,79 @@ components:
       required:
       - message
       type: object
+    ComponentId:
+      format: int64
+      type: integer
+    QueryTime:
+      format: instant
+      type: integer
+    StreamIds:
+      items:
+        format: int64
+        type: integer
+      type: array
+    LatestTelemetryStreamMetrics:
+      example:
+        streamId: 0
+        metric:
+          value: 1.4658129805029452
+          timestamp: 6
+        _type: LatestTelemetryStreamMetrics
+      properties:
+        _type:
+          enum:
+          - LatestTelemetryStreamMetrics
+          type: string
+        streamId:
+          format: int64
+          type: integer
+        metric:
+          $ref: '#/components/schemas/LatestTelemetryStreamMetrics_metric'
+      required:
+      - _type
+      - streamId
+      type: object
+    inline_response_200:
+      discriminator:
+        propertyName: _type
+      example:
+        _type: TelemetryLatestSnapshotsResponse
+        streamSnaphots:
+        - streamId: 0
+          metric:
+            value: 1.4658129805029452
+            timestamp: 6
+          _type: LatestTelemetryStreamMetrics
+        - streamId: 0
+          metric:
+            value: 1.4658129805029452
+            timestamp: 6
+          _type: LatestTelemetryStreamMetrics
+      properties:
+        _type:
+          enum:
+          - TelemetryLatestSnapshotsResponse
+          type: string
+        streamSnaphots:
+          items:
+            $ref: '#/components/schemas/LatestTelemetryStreamMetrics'
+          type: array
+      type: object
+    inline_response_404:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - ComponentNotFoundError
+          type: string
+        componentId:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - componentId
+      type: object
     NodeTypes_nodeTypes:
       example:
         typeName: typeName
@@ -4315,6 +4449,17 @@ components:
       required:
       - location
       - message
+      type: object
+    LatestTelemetryStreamMetrics_metric:
+      example:
+        value: 1.4658129805029452
+        timestamp: 6
+      properties:
+        timestamp:
+          format: int64
+          type: integer
+        value:
+          type: number
       type: object
   securitySchemes:
     ApiToken:

@@ -80,6 +80,7 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+*ComponentApi* | [**ComponentsComponentIdStreamsLatestGet**](docs/ComponentApi.md#componentscomponentidstreamslatestget) | **Get** /components/{componentId}/streams/latest | Get the latests metrics
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
 *EventApi* | [**GetEventTags**](docs/EventApi.md#geteventtags) | **Get** /eventTags | Get event tags
@@ -174,9 +175,13 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
+ - [InlineResponse200](docs/InlineResponse200.md)
+ - [InlineResponse404](docs/InlineResponse404.md)
  - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
+ - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
+ - [LatestTelemetryStreamMetricsMetric](docs/LatestTelemetryStreamMetricsMetric.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
