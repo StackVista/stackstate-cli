@@ -17,12 +17,12 @@ func SetCommand(cli *di.Deps) *cobra.Command {
 	args := &SetArgs{}
 	cmd := &cobra.Command{
 		Use:   "set",
-		Short: "set the current context",
+		Short: "Set the current context",
 		Long:  "Set the current context.",
 		RunE:  cli.CmdRunEWithConfig(RunContextSetCommand(args, cli)),
 	}
 
-	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the context")
+	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the context")
 
 	return cmd
 }

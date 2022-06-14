@@ -10,7 +10,7 @@ import (
 func VersionCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
-		Short: "display version info",
+		Short: "Display version info",
 		Long:  "Display the version of this StackState CLI.",
 		RunE:  cli.CmdRunE(RunVersionCommand),
 	}

@@ -50,8 +50,6 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 		cli.Printer = printer.NewPrinter()
 	}
 
-	decapitalizeHelpCommand(sts)
-
 	zerolog.SetGlobalLevel(zerolog.Disabled)
 	sts.PersistentPreRunE = func(cmd *cobra.Command, args []string) error {
 		return PreRunCommand(cli, cmd)
@@ -139,15 +137,6 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 	cli.Printer.SetUseColor(!cli.NoColor)
 
 	return nil
-}
-
-// we do this to be consistent with the styling rules
-func decapitalizeHelpCommand(root *cobra.Command) {
-	root.InitDefaultHelpCmd()
-	help, _, _ := root.Find([]string{"help"})
-	if help != nil {
-		help.Short = "help about any command"
-	}
 }
 
 /**

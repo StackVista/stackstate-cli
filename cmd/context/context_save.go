@@ -25,17 +25,17 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 	args := &SaveArgs{}
 	cmd := &cobra.Command{
 		Use:   "save",
-		Short: "save a context",
+		Short: "Save a context",
 		Long:  "Save a context to the local config file.",
 		RunE:  cli.CmdRunE(RunContextSaveCommand(args)),
 	}
 
-	common.AddNameFlagVarVal(cmd, &args.Name, "default", "name of the context")
+	common.AddNameFlagVarVal(cmd, &args.Name, "default", "Name of the context")
 	cmd.Flags().StringVar(&args.URL, common.URLFlag, "", common.URLFlagUse)
 	cmd.Flags().StringVar(&args.APIToken, common.APITokenFlag, "", common.APITokenFlagUse)
 	cmd.Flags().StringVar(&args.ServiceToken, common.ServiceTokenFlag, "", common.ServiceTokenFlagUse)
-	cmd.Flags().StringVar(&args.APIPath, APIPathFlag, "/api", "specify the path of the API end-point, e.g. the part that comes after the URL")
-	cmd.Flags().BoolVar(&args.SkipValidate, "skip-validate", false, "skip validation of the context")
+	cmd.Flags().StringVar(&args.APIPath, APIPathFlag, "/api", "Specify the path of the API end-point, e.g. the part that comes after the URL")
+	cmd.Flags().BoolVar(&args.SkipValidate, "skip-validate", false, "Skip validation of the context")
 
 	cmd.MarkFlagRequired(common.URLFlag) //nolint:errcheck
 	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag}, "tokens", true)

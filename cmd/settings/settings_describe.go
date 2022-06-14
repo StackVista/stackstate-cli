@@ -25,15 +25,15 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe",
-		Short: "describe settings in STJ format",
+		Short: "Describe settings in STJ format",
 		Long:  "Describe settings in StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand(args)),
 	}
-	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "list of ids to describe")
-	cmd.Flags().StringVar(&args.Namespace, Namespace, "", "namespace to describe")
-	cmd.Flags().StringSliceVar(&args.NodeTypes, TypeNameFlag, nil, "list of types to describe")
-	cmd.Flags().StringSliceVar(&args.AllowReferences, AllowReferencesFlag, nil, "white list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
-	common.AddFileFlagVar(cmd, &args.FilePath, "path to the output file")
+	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "List of ids to describe")
+	cmd.Flags().StringVar(&args.Namespace, Namespace, "", "Namespace to describe")
+	cmd.Flags().StringSliceVar(&args.NodeTypes, TypeNameFlag, nil, "List of types to describe")
+	cmd.Flags().StringSliceVar(&args.AllowReferences, AllowReferencesFlag, nil, "White list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
+	common.AddFileFlagVar(cmd, &args.FilePath, "Path to the output file")
 	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", true)
 	return cmd
 }

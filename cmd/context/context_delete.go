@@ -17,12 +17,12 @@ func DeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "delete a context",
+		Short: "Delete a context",
 		Long:  "Delete a context from the local config file.",
 		RunE:  cli.CmdRunEWithConfig(RunContextDeleteCommand(args)),
 	}
 
-	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the context")
+	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the context")
 
 	return cmd
 }

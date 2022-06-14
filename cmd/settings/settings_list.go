@@ -21,15 +21,15 @@ func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	args := &ListArgs{}
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "list all settings",
+		Short: "List all settings",
 		Long:  "List all settings of a certain type. To list all types run \"sts settings list-types\".",
 		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand(args)),
 	}
-	cmd.Flags().StringVar(&args.TypeName, TypeNameFlag, "", "name of the setting type to list")
+	cmd.Flags().StringVar(&args.TypeName, TypeNameFlag, "", "Name of the setting type to list")
 	cmd.MarkFlagRequired(TypeNameFlag) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Namespace, Namespace, "", "filter by namespace")
-	cmd.Flags().StringVar(&args.OwnedBy, OwnedByFlag, "", "filter by owner")
+	cmd.Flags().StringVar(&args.Namespace, Namespace, "", "Filter by namespace")
+	cmd.Flags().StringVar(&args.OwnedBy, OwnedByFlag, "", "Filter by owner")
 
 	return cmd
 }

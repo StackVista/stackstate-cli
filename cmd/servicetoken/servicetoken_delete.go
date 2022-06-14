@@ -17,12 +17,12 @@ func DeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
 		Use:   "delete",
-		Short: "delete a service token",
+		Short: "Delete a service token",
 		Long:  "Delete a service token.",
 		RunE:  deps.CmdRunEWithApi(RunServiceTokenDeleteCommand(args)),
 	}
 
-	common.AddRequiredIDFlagVar(cmd, &args.ID, "id")
+	common.AddRequiredIDFlagVar(cmd, &args.ID, "ID of the service token to delete")
 
 	return cmd
 }

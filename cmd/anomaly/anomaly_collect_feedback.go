@@ -30,17 +30,17 @@ func AnomalyCollectFeedback(cli *di.Deps) *cobra.Command {
 	args := &CollectFeedbackArgs{}
 	cmd := &cobra.Command{
 		Use:   "collect-feedback",
-		Short: "collect anomalies that have user feedback",
+		Short: "Collect anomalies that have user feedback",
 		Long:  "Collect anomalies that users have given feedback on, as thumbs-up/-down and/or comments.",
 		Example: "# Collect anomalies with feedback in the last 8 days, include 2 days of metric data for each anomaly" +
 			`sts anomaly collect --start-time -8d --history 2d --file anomaly-feedback.json`,
 		RunE: cli.CmdRunEWithApi(RunCollectFeedbackCommand(args)),
 	}
-	pflags.RelativeTimeVar(cmd.Flags(), &args.StartTime, StartTimeFlag, "-7d", cli.Clock, "start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
+	pflags.RelativeTimeVar(cmd.Flags(), &args.StartTime, StartTimeFlag, "-7d", cli.Clock, "Start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
 	cmd.MarkFlagRequired(StartTimeFlag) //nolint:errcheck
-	common.AddRequiredFileFlagVar(cmd, &args.File, "path to output file")
-	pflags.RelativeTimeVar(cmd.Flags(), &args.EndTime, EndTimeFlag, "-0h", cli.Clock, "end time of interval with anomalies")
-	pflags.DurationVar(cmd.Flags(), &args.History, HistoryFlag, pflags.Day, "length of metric data history preceding the anomaly")
+	common.AddRequiredFileFlagVar(cmd, &args.File, "Path to output file")
+	pflags.RelativeTimeVar(cmd.Flags(), &args.EndTime, EndTimeFlag, "-0h", cli.Clock, "End time of interval with anomalies")
+	pflags.DurationVar(cmd.Flags(), &args.History, HistoryFlag, pflags.Day, "Length of metric data history preceding the anomaly")
 
 	return cmd
 }

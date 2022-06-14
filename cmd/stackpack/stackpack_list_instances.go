@@ -14,11 +14,11 @@ func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 	args := &ListArgs{}
 	cmd := &cobra.Command{
 		Use:   "list-instances",
-		Short: "list installed instances of a StackPack",
+		Short: "List installed instances of a StackPack",
 		Long:  "List all installed instances of a StackPack.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackListInstanceCommand(args)),
 	}
-	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the instance")
+	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the instance")
 	return cmd
 }
 

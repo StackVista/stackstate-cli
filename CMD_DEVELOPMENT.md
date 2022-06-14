@@ -71,7 +71,7 @@ When you have an error related to the input of the CLI you should use a `CLIErro
   * all other OPTIONAL flags are not included, these are covered by the general group `[flags]` that will be added automatically
 
 `Short:` - a concise description of the command:
-* Start with a lower case letter
+* Start with upper case
 * Maximum one sentence in length
 * No full stop (`.`) at the end
 * Start with a verb and then describe what that verb works on. This should provide more info than the command.

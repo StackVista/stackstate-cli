@@ -28,20 +28,20 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
 		Use:   "apply",
-		Short: "apply saved settings",
+		Short: "Apply saved settings",
 		Long:  "Apply saved settings with StackState Templated JSON.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand(args)),
 	}
-	common.AddRequiredFileFlagVar(cmd, &args.Filepath, ".stj file to import")
-	cmd.Flags().StringVar(&args.Namespace, NamespaceFlag, "", "name of the namespace to overwrite"+
+	common.AddRequiredFileFlagVar(cmd, &args.Filepath, "Settings file file to import (.stj file)")
+	cmd.Flags().StringVar(&args.Namespace, NamespaceFlag, "", "Name of the namespace to overwrite"+
 		" - WARNING this will overwrite the entire namespace")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
 		UnlockedStrategyFlag,
 		"",
 		UnlockedStrategyChoices,
-		"strategy to use when encountering unlocked settings when applying settings to a namespace"+
+		"Strategy to use when encountering unlocked settings when applying settings to a namespace"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
-	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "timeout in seconds")
+	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "Timeout in seconds")
 
 	return cmd
 }

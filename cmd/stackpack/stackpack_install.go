@@ -21,7 +21,7 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 	}
 	cmd := &cobra.Command{
 		Use:   "install",
-		Short: "install a StackPack",
+		Short: "Install a StackPack",
 		Long: "Install an instance of a StackPack. " +
 			"Be aware that each StackPack has a different set of parameters. " +
 			"Run \"sts stackpack list-parameters --name NAME\" to list all of them.",
@@ -29,8 +29,8 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 			"sts stackpack install --name example -p \"full_name=First Last\" -p URL=https://stackstate.com",
 		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
 	}
-	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the StackPack")
-	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", nil, "list of parameters of the form \"key=value\"")
+	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
+	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", nil, "List of parameters of the form \"key=value\"")
 	return cmd
 }
 
