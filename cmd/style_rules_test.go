@@ -65,7 +65,7 @@ func TestShortShouldExist(t *testing.T) {
 	})
 }
 
-func TestShortShouldStartLowerCase(t *testing.T) {
+func TestShortShouldStartUpperCase(t *testing.T) {
 	root := setupCmd(t)
 	stscobra.ForAllCmd(root, func(cmd *cobra.Command) {
 		if !startWithUpperCaseWord.MatchString(cmd.Short) {
@@ -127,7 +127,7 @@ func TestFlagUsageShouldStartWithUpperCase(t *testing.T) {
 	root := setupCmd(t)
 	stscobra.ForAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
 		if !startWithUpperCaseWord.MatchString(flag.Usage) {
-			assert.Fail(t, flag.Name+" flag of command "+cmd.Use+" should start with lowercase: "+cmd.Short)
+			assert.Fail(t, flag.Name+" flag of command "+cmd.Use+" should start with uppercase: "+cmd.Short)
 		}
 	})
 }
