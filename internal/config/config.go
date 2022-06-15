@@ -100,12 +100,13 @@ func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 func (c *StsContext) Validate() error {
 	errors := []error{}
 
-	if c.URL == "" {
+	switch {
+	case c.URL == "":
 		errors = append(errors, MissingFieldError{FieldName: "url"})
-	} else if !strings.HasPrefix(c.URL, "http://") && !strings.HasPrefix(c.URL, "https://") {
+	case !strings.HasPrefix(c.URL, "http://") && !strings.HasPrefix(c.URL, "https://"):
 		errors = append(errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
-	} else if strings.HasSuffix(c.URL, "/") {
-		errors = append(errors, fmt.Errorf("URL %s must not end with a slash", c.URL))
+	case strings.HasSuffix(c.URL, "/"):
+		errors = append(errors, fmt.Errorf("URL %s must not end with '/'", c.URL))
 	}
 
 	if c.APIToken == "" && c.ServiceToken == "" {
