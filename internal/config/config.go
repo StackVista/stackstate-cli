@@ -93,7 +93,7 @@ func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 		URL:          util.DefaultIfEmpty(c.URL, fallback.URL),
 		APIToken:     util.DefaultIfEmpty(c.APIToken, fallback.APIToken),
 		ServiceToken: util.DefaultIfEmpty(c.ServiceToken, fallback.ServiceToken),
-		APIPath:      util.DefaultIfEmpty(c.APIPath, fallback.APIPath),
+		APIPath:      util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
 	}
 }
 
@@ -104,6 +104,8 @@ func (c *StsContext) Validate() error {
 		errors = append(errors, MissingFieldError{FieldName: "url"})
 	} else if !strings.HasPrefix(c.URL, "http://") && !strings.HasPrefix(c.URL, "https://") {
 		errors = append(errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
+	} else if strings.HasSuffix(c.URL, "/") {
+		errors = append(errors, fmt.Errorf("URL %s must not end with a slash", c.URL))
 	}
 
 	if c.APIToken == "" && c.ServiceToken == "" {

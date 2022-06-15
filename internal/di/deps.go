@@ -3,6 +3,7 @@ package di
 import (
 	"context"
 
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
@@ -64,6 +65,8 @@ func (cli *Deps) CmdRunEWithApi(
 
 			cli.CurrentContext = currCtx
 		}
+
+		log.Debug().Interface("context", cli.CurrentContext).Msg("Using context")
 
 		if cli.Client == nil {
 			err := cli.LoadClient(cmd, cli.CurrentContext)

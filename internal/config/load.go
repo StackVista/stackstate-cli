@@ -19,7 +19,7 @@ func LoadCurrentContext(cmd *cobra.Command, viper *viper.Viper, configPath strin
 	currCtx := vpConfig.CurrentContext
 	currentContext := vpConfig.Context
 
-	if cfg != nil { // Potentially nog config file was found
+	if cfg != nil { // Potentially no config file was found
 		currCtx = util.DefaultIfEmpty(currCtx, cfg.CurrentContext)
 
 		ctx, errx := cfg.GetContext(currCtx)
@@ -29,6 +29,9 @@ func LoadCurrentContext(cmd *cobra.Command, viper *viper.Viper, configPath strin
 
 		// The Viper config is leading, i.e. it overrides the config file
 		currentContext = currentContext.Merge(ctx.Context)
+	} else {
+		// Ensure default api-path is set
+		currentContext.APIPath = util.DefaultIfEmpty(currentContext.APIPath, "/api")
 	}
 
 	if err := currentContext.Validate(); err != nil {
