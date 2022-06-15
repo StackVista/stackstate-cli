@@ -18,13 +18,13 @@ func StackpackConfirmManualStepsCommand(cli *di.Deps) *cobra.Command {
 	args := &ManualStepsArgs{}
 	cmd := &cobra.Command{
 		Use:   "confirm-manual-steps",
-		Short: "confirm manual steps of StackPack",
-		Long: "During some installation of StackPacks manual actions/step must be taken by the user in order for the installation to complete. " +
+		Short: "Confirm manual steps of StackPack",
+		Long: "During some installation of StackPacks manual actions/steps must be taken by the user in order for the installation to complete. " +
 			"These steps can not be verified by the system and only require a confirmation from the user. This command sends such a confirmation.",
 		RunE: cli.CmdRunEWithApi(RunStackpackConfirmManualStepsCommand(args)),
 	}
-	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "name of the StackPack")
-	common.AddRequiredIDFlagVar(cmd, &args.ID, "id of the StackPack instance")
+	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
+	common.AddRequiredIDFlagVar(cmd, &args.ID, "ID of the StackPack instance")
 	return cmd
 }
 

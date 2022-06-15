@@ -25,16 +25,16 @@ func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 	args := &UpgradeArgs{}
 	cmd := &cobra.Command{
 		Use:   "upgrade",
-		Short: "upgrade a StackPack",
+		Short: "Upgrade a StackPack",
 		Long:  "Upgrade a StackPack instance to the next version.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUpgradeCommand(args)),
 	}
-	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "name of the StackPack")
+	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
 		UnlockedStrategyFlag,
 		"",
 		UnlockedStrategyChoices,
-		"strategy use to upgrade StackPack instance"+
+		"Strategy use to upgrade StackPack instance"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
 	)
 	return cmd

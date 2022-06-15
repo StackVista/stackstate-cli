@@ -23,14 +23,14 @@ func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	args := &RunArgs{}
 	cmd := &cobra.Command{
 		Use:   "run",
-		Short: "run a monitor",
+		Short: "Run a monitor",
 		Long:  "Run a monitor. Does not save the states of the monitor run, unless `--yes` is specified.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
-	cmd.Flags().BoolVarP(&args.DoRun, YesFlag, YesFlagShort, false, "save the state of the monitor run")
+	cmd.Flags().BoolVarP(&args.DoRun, YesFlag, YesFlagShort, false, "Save the state of the monitor run")
 	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "idenfier", true)
 
 	return cmd

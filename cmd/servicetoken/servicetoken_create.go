@@ -25,14 +25,14 @@ func CreateCommand(deps *di.Deps) *cobra.Command {
 	args := &CreateArgs{}
 	cmd := &cobra.Command{
 		Use:   "create",
-		Short: "create a service token",
+		Short: "Create a service token",
 		Long:  "Create a new service token for authentication with StackState.",
 		RunE:  deps.CmdRunEWithApi(RunServiceTokenCreateCommand(args)),
 	}
 
-	common.AddRequiredNameFlagVar(cmd, &args.Name, "name of the service token")
-	cmd.Flags().TimeVar(&args.Expiration, "expiration", time.Time{}, []string{DateFormat}, "expiration date of the service token")
-	cmd.Flags().StringSliceVar(&args.Roles, "roles", []string{}, "roles assigned to the service token")
+	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the service token")
+	cmd.Flags().TimeVar(&args.Expiration, "expiration", time.Time{}, []string{DateFormat}, "Expiration date of the service token")
+	cmd.Flags().StringSliceVar(&args.Roles, "roles", []string{}, "Roles assigned to the service token")
 	cmd.MarkFlagRequired("roles") //nolint:errcheck
 	return cmd
 }

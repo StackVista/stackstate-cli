@@ -13,11 +13,11 @@ import (
 
 var (
 	startWithLowerCaseWordExceptions = `StackState`
-	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`)
+	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`) //nolint:deadcode,unused,varcheck
 	startWithUpperCaseWord           = regexp.MustCompile(`^[A-Z0-9]`)
 	endsWithFullStop                 = regexp.MustCompile(`\s*\.\s*$`)
 	startsLowerCaseExceptions        = `\.stj`
-	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`)
+	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`) //nolint:deadcode,unused,varcheck
 )
 
 func setupCmd(t *testing.T) *cobra.Command {
@@ -65,11 +65,11 @@ func TestShortShouldExist(t *testing.T) {
 	})
 }
 
-func TestShortShouldStartLowerCase(t *testing.T) {
+func TestShortShouldStartUpperCase(t *testing.T) {
 	root := setupCmd(t)
 	stscobra.ForAllCmd(root, func(cmd *cobra.Command) {
-		if !startWithLowerCaseWord.MatchString(cmd.Short) {
-			assert.Fail(t, cmd.Use+" short should start with lower-case: "+cmd.Short)
+		if !startWithUpperCaseWord.MatchString(cmd.Short) {
+			assert.Fail(t, cmd.Use+" short should start with upper-case: "+cmd.Short)
 		}
 	})
 }
@@ -123,11 +123,11 @@ func TestFlagUsageShouldNotEndWithFullStop(t *testing.T) {
 	})
 }
 
-func TestFlagUsageShouldStartWithLowerCase(t *testing.T) {
+func TestFlagUsageShouldStartWithUpperCase(t *testing.T) {
 	root := setupCmd(t)
 	stscobra.ForAllFlags(root, func(cmd *cobra.Command, flag *pflag.Flag) {
-		if !startsLowerCase.MatchString(flag.Usage) {
-			assert.Fail(t, flag.Name+" flag of command "+cmd.Use+" should start with lowercase: "+cmd.Short)
+		if !startWithUpperCaseWord.MatchString(flag.Usage) {
+			assert.Fail(t, flag.Name+" flag of command "+cmd.Use+" should start with uppercase: "+cmd.Short)
 		}
 	})
 }

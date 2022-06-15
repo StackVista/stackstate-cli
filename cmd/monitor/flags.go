@@ -1,7 +1,7 @@
 package monitor
 
 const (
-	IDFlagUsage         = "id of the monitor"
-	IdentifierFlagUsage = "identifier (URN) of the monitor"
-	FileFlagUsage       = "path to a file with a monitor (must be a.stj file)"
+	IDFlagUsage         = "ID of the monitor"
+	IdentifierFlagUsage = "Identifier (URN) of the monitor"
+	FileFlagUsage       = "Path to a file with a monitor (must be a.stj file)"
 )

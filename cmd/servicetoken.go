@@ -9,7 +9,7 @@ import (
 func ServiceTokenCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "service-token",
-		Short: "manage service tokens",
+		Short: "Manage service tokens",
 		Long:  "Manage service tokens.",
 	}
 	cmd.AddCommand(servicetoken.CreateCommand(deps))

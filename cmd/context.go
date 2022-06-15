@@ -9,7 +9,7 @@ import (
 func ContextCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "context",
-		Short: "manage StackState contexts",
+		Short: "Manage StackState contexts",
 		Long:  "Manage connections to different StackState servers.",
 	}
 

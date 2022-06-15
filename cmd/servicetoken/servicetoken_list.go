@@ -13,7 +13,7 @@ import (
 func ListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "list service tokens",
+		Short: "List service tokens",
 		Long:  "List all service tokens.",
 		RunE:  cli.CmdRunEWithApi(RunServiceTokenListCommand),
 	}

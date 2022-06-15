@@ -28,7 +28,7 @@ func ScriptRunCommand(cli *di.Deps) *cobra.Command {
 	args := &ScriptRunArgs{}
 	cmd := &cobra.Command{
 		Use:   "run",
-		Short: "run a STSL script",
+		Short: "Run an STSL script",
 		Long:  "Run an STSL script.",
 		Example: "# run a script from file\n" +
 			"sts script run --file \"path/to/my.script\"\n" +
@@ -38,12 +38,12 @@ func ScriptRunCommand(cli *di.Deps) *cobra.Command {
 		RunE: cli.CmdRunEWithApi(RunScriptRunCommand(args)),
 	}
 
-	cmd.Flags().StringVar(&args.Script, ScriptFlag, "", "a script to run")
+	cmd.Flags().StringVar(&args.Script, ScriptFlag, "", "A script to run")
 	cmd.Flags().StringVar(&args.ArgumentsScript, ArgumentsScriptFlag, "",
-		"an extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map",
+		"An extra script that generates arguments to be used as variables when the main script is executed, return format: java.util.Map",
 	)
-	cmd.Flags().Int32VarP(&args.TimeoutMs, TimeoutFlag, "t", 0, "timeout in milli-seconds for script execution")
-	common.AddFileFlagVar(cmd, &args.ScriptFile, "path to a file containing the script to run")
+	cmd.Flags().Int32VarP(&args.TimeoutMs, TimeoutFlag, "t", 0, "Timeout in milli-seconds for script execution")
+	common.AddFileFlagVar(cmd, &args.ScriptFile, "Path to a file containing the script to run")
 	stscobra.MarkMutexFlags(cmd, []string{ScriptFlag, common.FileFlag}, "input", true)
 
 	return cmd

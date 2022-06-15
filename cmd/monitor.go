@@ -9,7 +9,7 @@ import (
 func MonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "monitor",
-		Short: "manage monitors",
+		Short: "Manage monitors",
 		Long:  "Manage, test and develop monitors.",
 	}
 	cmd.AddCommand(monitor.MonitorListCommand(cli))

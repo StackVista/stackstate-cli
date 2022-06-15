@@ -19,11 +19,11 @@ func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 	args := &UploadArgs{}
 	cmd := &cobra.Command{
 		Use:   "upload",
-		Short: "upload a stackpack",
+		Short: "Upload a stackpack",
 		Long:  "Upload a StackPack file to StackState.",
 		RunE:  cli.CmdRunEWithApi(RunStackpackUploadCommand(args)),
 	}
-	common.AddRequiredFileFlagVar(cmd, &args.FilePath, "stackpack file to upload (.sts file)")
+	common.AddRequiredFileFlagVar(cmd, &args.FilePath, "Stackpack file to upload (.sts file)")
 
 	return cmd
 }

@@ -10,7 +10,7 @@ import (
 func ShowCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show",
-		Short: "show the current context",
+		Short: "Show the current context",
 		Long:  "Show the current context.",
 		RunE:  deps.CmdRunEWithConfig(RunContextShowCommand),
 	}

@@ -21,7 +21,7 @@ func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 	args := &StatusArgs{}
 	cmd := &cobra.Command{
 		Use:   "status",
-		Short: "get the status of a monitor",
+		Short: "Get the status of a monitor",
 		Long:  "Get the satus of a single monitor.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand(args)),
 	}
