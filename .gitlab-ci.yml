@@ -125,13 +125,20 @@ compile_test:
     - go test ./... -v
 
 generate-release-notes:
-  image: quay.io/stackstate/go-rk:v0.1.1
+  image:
+    name: quay.io/stackstate/go-rk:v0.1.2
+    entrypoint: ["/bin/sh"]
   stage: deploy
   script:
-    - release-notes --fix-version 5.0.0 --output-file /tmp/release-notes.md
+    - /go-rk release-notes --fix-version 5.0.0 --output-file release-notes.md
+  variables:
+    RK_JIRA_PROJECT: STAC
+    RK_JIRA_URL: https://stackstate.atlassian.net
+    RK_JIRA_USER: $jira_username
+    RK_JIRA_TOKEN: $jira_token
   artifacts:
     paths:
-      - /tmp/release-notes.md
+      - release-notes.md
 
 publish:
   stage: deploy
