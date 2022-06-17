@@ -124,9 +124,20 @@ compile_test:
   script:
     - go test ./... -v
 
+generate-release-notes:
+  image: quay.io/stackstate/go-rk:v0.1.1
+  stage: build
+  script:
+    - release-notes --fix-version 5.0.0 --output-file /tmp/release-notes.md
+  artifacts:
+    paths:
+      - /tmp/release-notes.md
+
 publish:
   stage: deploy
   extends: .go-base
+  dependencies:
+    - generate-release-notes
   services:
     - name: docker:20.10.14-dind
   variables:
@@ -138,4 +149,4 @@ publish:
   rules:
     - if: '$CI_COMMIT_TAG && $CI_COMMIT_TAG =~ /^v[0-9]*/'
       when: on_success
-    - when: never      
+    - when: never

@@ -17,6 +17,6 @@ checkForVariable docker_password
 # Login to docker hub, so Goreleaser can push its docker images there.
 echo "$docker_password" | docker login -u "$docker_user" --password-stdin docker.io
 
-goreleaser release
+goreleaser release --release-notes /tmp/release-notes.md
 scripts/publish/publish_latest_version_to_s3.sh
 scripts/publish/publish_installers_to_s3.sh
