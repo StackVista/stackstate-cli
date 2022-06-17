@@ -126,7 +126,7 @@ compile_test:
 
 generate-release-notes:
   image: quay.io/stackstate/go-rk:v0.1.1
-  stage: build
+  stage: deploy
   script:
     - release-notes --fix-version 5.0.0 --output-file /tmp/release-notes.md
   artifacts:
