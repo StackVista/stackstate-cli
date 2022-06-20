@@ -143,8 +143,6 @@ generate-release-notes:
 publish:
   stage: deploy
   extends: .go-base
-  dependencies:
-    - generate-release-notes
   services:
     - name: docker:20.10.14-dind
   variables:
