@@ -36,7 +36,7 @@ TARGET_CLI_PATH=/usr/local/bin
 if [ ! -w TARGET_CLI_PATH ]; then 
   # Check if the user is root
   if [ "$EUID" -ne 0 ]; then 
-    error "Can not write to the defined path : $TARGET_CLI_PATH. Please re-run the command prefixed with sudo"
+    error "Can not write to the defined path : $TARGET_CLI_PATH. Please add sudo before bash in the command previously executed."
   fi
 fi
 if [[ -z "$STS_CLI_VERSION" ]]; then
