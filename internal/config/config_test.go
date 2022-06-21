@@ -61,7 +61,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.NoError(t, c.Contexts[0].Context.Validate())
+	assert.NoError(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name))
 }
 
 func TestValidateStsContextWithMissingTokens(t *testing.T) {
@@ -74,7 +74,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(), "Validation error: Missing field: {api-token | service-token}")
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token}'")
 }
 
 func TestValidateStsContextWithMissingURL(t *testing.T) {
@@ -87,7 +87,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(), "Validation error: Missing field: url")
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field 'url'")
 }
 
 func TestValidateStsContextWithMalformedURL(t *testing.T) {
@@ -101,7 +101,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(), "Validation error: URL localhost:8080 must start with \"https://\" or \"http://\"")
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* URL localhost:8080 must start with \"https://\" or \"http://\"")
 }
 
 func TestValidateWithMultipleErrors(t *testing.T) {
@@ -116,7 +116,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(), `Validation errors:
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), `Failed to validate the 'default' context:
 * URL localhost:8080 must start with "https://" or "http://"
-* Missing field: can only specify one of api-token an service-token`)
+* Can only specify one of {api-token | service-token}`)
 }

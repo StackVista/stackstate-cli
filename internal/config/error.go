@@ -8,7 +8,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
-var _ common.CLIError = (*ReadConfError)(nil) // Compile time check for interface implementation
+var _ common.CLIError = (*ReadConfError)(nil)        // Compile time check for interface implementation
+var _ common.CLIError = (*ValidateContextError)(nil) // Compile time check for interface implementation
 
 type ReadConfError struct {
 	RootCause           error
@@ -40,7 +41,7 @@ type MissingFieldError struct {
 }
 
 func (s MissingFieldError) Error() string {
-	return fmt.Sprintf("Missing field: %v", s.FieldName)
+	return fmt.Sprintf("Missing field '%v'", s.FieldName)
 }
 
 type MustBeOneOfError struct {
@@ -51,28 +52,45 @@ type MustBeOneOfError struct {
 
 func (s MustBeOneOfError) Error() string {
 	return fmt.Sprintf(
-		"Field %s cannot be '%s'. Must be one of: [%s]",
+		"Field '%s' cannot be '%s'. Must be one of [%s]",
 		s.FieldName,
 		s.Value,
 		strings.Join(s.Choices, ", "),
 	)
 }
 
-type ValidateConfError struct {
+type ValidateContextError struct {
+	ContextName      string
 	ValidationErrors []error
 }
 
-func (s ValidateConfError) Error() string {
+func (s ValidateContextError) Error() string {
 	strs := make([]string, 0)
 	for _, e := range s.ValidationErrors {
 		strs = append(strs, e.Error())
 	}
-	//nolint:gocritic
-	if len(strs) > 1 {
-		return "Validation errors:\n* " + strings.Join(strs, "\n* ")
-	} else if len(strs) == 1 {
-		return "Validation error: " + strs[0]
-	} else {
-		return "Validation error (unknown)"
+
+	contextName := "current"
+	if s.ContextName != "" {
+		contextName = fmt.Sprintf("'%s'", s.ContextName)
 	}
+
+	msg := fmt.Sprintf("Failed to validate the %s context:", contextName)
+	for _, str := range strs {
+		msg += fmt.Sprintf("\n* %s", str)
+	}
+
+	return msg
+}
+
+func (p ValidateContextError) ExitCode() common.ExitCode {
+	return common.ConfigErrorExitCode
+}
+
+func (p ValidateContextError) ShowUsage() bool {
+	return false
+}
+
+func (p ValidateContextError) GetServerResponse() *http.Response {
+	return nil
 }
