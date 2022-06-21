@@ -49,5 +49,5 @@ func TestCombineURLAndApi(t *testing.T) {
 	assert.Equal(t, combineURLandPath("https://bla", "api"), "https://bla/api")
 	assert.Equal(t, combineURLandPath("https://bla///", "///api"), "https://bla/api")
 	assert.Equal(t, combineURLandPath("https://bla", "/api"), "https://bla/api")
-	assert.Equal(t, combineURLandPath("/https://bla", "api/"), "/https://bla/api/")
+	assert.Equal(t, combineURLandPath("/https://bla", "api/"), "https://bla/api")
 }

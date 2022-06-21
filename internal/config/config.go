@@ -105,8 +105,6 @@ func (c *StsContext) Validate() error {
 		errors = append(errors, MissingFieldError{FieldName: "url"})
 	case !strings.HasPrefix(c.URL, "http://") && !strings.HasPrefix(c.URL, "https://"):
 		errors = append(errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
-	case strings.HasSuffix(c.URL, "/"):
-		errors = append(errors, fmt.Errorf("URL %s must not end with '/'", c.URL))
 	}
 
 	if c.APIToken == "" && c.ServiceToken == "" {

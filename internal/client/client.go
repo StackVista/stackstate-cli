@@ -79,6 +79,7 @@ func (c StdStackStateClient) Connect() (*stackstate_api.APIClient, *stackstate_a
 	return c.client, serverInfo, nil
 }
 
+// Returns the concatenated URL and path, stripping any leading and trailing slashes from the result.
 func combineURLandPath(url string, apiPath string) string {
-	return fmt.Sprintf("%s/%s", strings.TrimRight(url, "/"), strings.TrimLeft(apiPath, "/"))
+	return strings.Trim(fmt.Sprintf("%s/%s", strings.TrimRight(url, "/"), strings.TrimLeft(apiPath, "/")), "/")
 }
