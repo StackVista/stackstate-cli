@@ -97,7 +97,7 @@ func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 	}
 }
 
-func (c *StsContext) Validate() error {
+func (c *StsContext) Validate(contextName string) common.CLIError {
 	errors := []error{}
 
 	switch {
@@ -112,11 +112,14 @@ func (c *StsContext) Validate() error {
 	}
 
 	if c.APIToken != "" && c.ServiceToken != "" {
-		errors = append(errors, MissingFieldError{FieldName: "can only specify one of api-token an service-token"})
+		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token}"))
 	}
 
 	if len(errors) > 0 {
-		return ValidateConfError{ValidationErrors: errors}
+		return ValidateContextError{
+			ContextName:      contextName,
+			ValidationErrors: errors,
+		}
 	}
 
 	return nil

@@ -32,7 +32,7 @@ func ReadConfig(file string) (*Config, common.CLIError) {
 	if file == "" {
 		path, err := DefaultConfigPath()
 		if err != nil {
-			return nil, ReadConfError{err, false}
+			return nil, ReadConfError{err, true}
 		}
 
 		file = path

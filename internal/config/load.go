@@ -34,10 +34,11 @@ func LoadCurrentContext(cmd *cobra.Command, viper *viper.Viper, configPath strin
 		currentContext.APIPath = util.DefaultIfEmpty(currentContext.APIPath, "/api")
 	}
 
-	if err := currentContext.Validate(); err != nil {
-		return nil, ReadConfError{
-			RootCause:           err,
-			IsMissingConfigFile: loadError != nil,
+	if err := currentContext.Validate(currCtx); err != nil {
+		if loadError != nil {
+			return nil, loadError
+		} else {
+			return nil, err
 		}
 	}
 
