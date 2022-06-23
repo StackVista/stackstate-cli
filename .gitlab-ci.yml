@@ -126,7 +126,7 @@ compile_test:
 
 generate-release-notes:
   image:
-    name: quay.io/stackstate/go-rk:v0.2.0
+    name: quay.io/stackstate/go-rk:v0.2.1
     entrypoint: ["/bin/sh"]
   stage: check
   script:
