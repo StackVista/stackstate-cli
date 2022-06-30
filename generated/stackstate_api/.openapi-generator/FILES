@@ -79,6 +79,7 @@ docs/HealthSynchronizationApi.md
 docs/IdentifierType.md
 docs/ImportApi.md
 docs/InlineResponse200.md
+docs/InlineResponse2001.md
 docs/InlineResponse404.md
 docs/InvalidMonitorIdentifierError.md
 docs/InvalidSyncIdentifier.md
@@ -144,6 +145,7 @@ docs/TimeRange.md
 docs/TooManyAnomaliesError.md
 docs/Topic.md
 docs/TopicApi.md
+docs/TopicMessage.md
 docs/TopologyEvent.md
 docs/TopologyMatchResult.md
 docs/TopologyOverflowError.md
@@ -216,6 +218,7 @@ model_health_sub_stream_status.go
 model_health_sub_stream_transactional_increments.go
 model_identifier_type.go
 model_inline_response_200.go
+model_inline_response_200_1.go
 model_inline_response_404.go
 model_invalid_monitor_identifier_error.go
 model_invalid_sync_identifier.go
@@ -274,6 +277,7 @@ model_telemetry_query_condition.go
 model_time_range.go
 model_too_many_anomalies_error.go
 model_topic.go
+model_topic_message.go
 model_topology_event.go
 model_topology_match_result.go
 model_topology_overflow_error.go

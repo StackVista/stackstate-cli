@@ -1722,7 +1722,34 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
-      summary: Topic API
+      summary: Topic list API
+      tags:
+      - topic
+  /topic/{topicName}:
+    get:
+      description: Get topic details
+      operationId: getTopic
+      parameters:
+      - description: Name of the topic
+        in: path
+        name: topicName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+          description: details of the topic
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: topic details API
       tags:
       - topic
 components:
@@ -4350,6 +4377,16 @@ components:
       required:
       - name
       type: object
+    TopicMessage:
+      example:
+        message:
+          key: "{}"
+      properties:
+        message:
+          additionalProperties:
+            type: object
+          type: object
+      type: object
     inline_response_200:
       discriminator:
         propertyName: _type
@@ -4390,6 +4427,19 @@ components:
       required:
       - _type
       - componentId
+      type: object
+    inline_response_200_1:
+      example:
+        messages:
+        - message:
+            key: "{}"
+        - message:
+            key: "{}"
+      properties:
+        messages:
+          items:
+            $ref: '#/components/schemas/TopicMessage'
+          type: array
       type: object
     NodeTypes_nodeTypes:
       example:

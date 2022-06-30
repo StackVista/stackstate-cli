@@ -13,6 +13,7 @@ func TopicCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Manage and details of topic.",
 	}
 	cmd.AddCommand(topic.TopicListCommand(cli))
+	cmd.AddCommand(topic.TopicShowCommand(cli))
 
 	return cmd
 }

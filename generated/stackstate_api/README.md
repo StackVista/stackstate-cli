@@ -115,7 +115,8 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
-*TopicApi* | [**ListTopics**](docs/TopicApi.md#listtopics) | **Get** /topic | Topic API
+*TopicApi* | [**GetTopic**](docs/TopicApi.md#gettopic) | **Get** /topic/{topicName} | topic details API
+*TopicApi* | [**ListTopics**](docs/TopicApi.md#listtopics) | **Get** /topic | Topic list API
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -177,6 +178,7 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
  - [InlineResponse200](docs/InlineResponse200.md)
+ - [InlineResponse2001](docs/InlineResponse2001.md)
  - [InlineResponse404](docs/InlineResponse404.md)
  - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
@@ -235,6 +237,7 @@ Class | Method | HTTP request | Description
  - [TimeRange](docs/TimeRange.md)
  - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
  - [Topic](docs/Topic.md)
+ - [TopicMessage](docs/TopicMessage.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)

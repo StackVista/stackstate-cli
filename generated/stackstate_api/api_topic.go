@@ -17,18 +17,33 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
 )
-
 
 type TopicApi interface {
 
 	/*
-	ListTopics Topic API
+		GetTopic topic details API
 
-	Get topic list
+		Get topic details
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiListTopicsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param topicName Name of the topic
+		@return ApiGetTopicRequest
+	*/
+	GetTopic(ctx context.Context, topicName string) ApiGetTopicRequest
+
+	// GetTopicExecute executes the request
+	//  @return InlineResponse2001
+	GetTopicExecute(r ApiGetTopicRequest) (*InlineResponse2001, *http.Response, error)
+
+	/*
+		ListTopics Topic list API
+
+		Get topic list
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiListTopicsRequest
 	*/
 	ListTopics(ctx context.Context) ApiListTopicsRequest
 
@@ -40,8 +55,148 @@ type TopicApi interface {
 // TopicApiService TopicApi service
 type TopicApiService service
 
+type ApiGetTopicRequest struct {
+	ctx        context.Context
+	ApiService TopicApi
+	topicName  string
+}
+
+func (r ApiGetTopicRequest) Execute() (*InlineResponse2001, *http.Response, error) {
+	return r.ApiService.GetTopicExecute(r)
+}
+
+/*
+GetTopic topic details API
+
+Get topic details
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param topicName Name of the topic
+ @return ApiGetTopicRequest
+*/
+func (a *TopicApiService) GetTopic(ctx context.Context, topicName string) ApiGetTopicRequest {
+	return ApiGetTopicRequest{
+		ApiService: a,
+		ctx:        ctx,
+		topicName:  topicName,
+	}
+}
+
+// Execute executes the request
+//  @return InlineResponse2001
+func (a *TopicApiService) GetTopicExecute(r ApiGetTopicRequest) (*InlineResponse2001, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *InlineResponse2001
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.GetTopic")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/topic/{topicName}"
+	localVarPath = strings.Replace(localVarPath, "{"+"topicName"+"}", url.PathEscape(parameterToString(r.topicName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiListTopicsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService TopicApi
 }
 
@@ -50,7 +205,7 @@ func (r ApiListTopicsRequest) Execute() ([]Topic, *http.Response, error) {
 }
 
 /*
-ListTopics Topic API
+ListTopics Topic list API
 
 Get topic list
 
@@ -60,7 +215,7 @@ Get topic list
 func (a *TopicApiService) ListTopics(ctx context.Context) ApiListTopicsRequest {
 	return ApiListTopicsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -68,10 +223,10 @@ func (a *TopicApiService) ListTopics(ctx context.Context) ApiListTopicsRequest {
 //  @return []Topic
 func (a *TopicApiService) ListTopicsExecute(r ApiListTopicsRequest) ([]Topic, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Topic
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Topic
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.ListTopics")
@@ -176,46 +331,70 @@ func (a *TopicApiService) ListTopicsExecute(r ApiListTopicsRequest) ([]Topic, *h
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type TopicApiMock struct {
-	ListTopicsCalls *[]ListTopicsCall
+	GetTopicCalls      *[]GetTopicCall
+	GetTopicResponse   GetTopicMockResponse
+	ListTopicsCalls    *[]ListTopicsCall
 	ListTopicsResponse ListTopicsMockResponse
-}	
+}
 
 func NewTopicApiMock() TopicApiMock {
+	xGetTopicCalls := make([]GetTopicCall, 0)
 	xListTopicsCalls := make([]ListTopicsCall, 0)
-	return TopicApiMock {
+	return TopicApiMock{
+		GetTopicCalls:   &xGetTopicCalls,
 		ListTopicsCalls: &xListTopicsCalls,
 	}
 }
 
-type ListTopicsMockResponse struct {
-	Result []Topic
+type GetTopicMockResponse struct {
+	Result   InlineResponse2001
 	Response *http.Response
-	Error error
+	Error    error
+}
+
+type GetTopicCall struct {
+	PtopicName string
+}
+
+func (mock TopicApiMock) GetTopic(ctx context.Context, topicName string) ApiGetTopicRequest {
+	return ApiGetTopicRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		topicName:  topicName,
+	}
+}
+
+func (mock TopicApiMock) GetTopicExecute(r ApiGetTopicRequest) (*InlineResponse2001, *http.Response, error) {
+	p := GetTopicCall{
+		PtopicName: r.topicName,
+	}
+	*mock.GetTopicCalls = append(*mock.GetTopicCalls, p)
+	return &mock.GetTopicResponse.Result, mock.GetTopicResponse.Response, mock.GetTopicResponse.Error
+}
+
+type ListTopicsMockResponse struct {
+	Result   []Topic
+	Response *http.Response
+	Error    error
 }
 
 type ListTopicsCall struct {
 }
 
-
 func (mock TopicApiMock) ListTopics(ctx context.Context) ApiListTopicsRequest {
 	return ApiListTopicsRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock TopicApiMock) ListTopicsExecute(r ApiListTopicsRequest) ([]Topic, *http.Response, error) {
-	p := ListTopicsCall {
-	}
+	p := ListTopicsCall{}
 	*mock.ListTopicsCalls = append(*mock.ListTopicsCalls, p)
 	return mock.ListTopicsResponse.Result, mock.ListTopicsResponse.Response, mock.ListTopicsResponse.Error
 }
-
-
