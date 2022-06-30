@@ -12,7 +12,7 @@ func HealthListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List all streams",
-		Long:  "List all health streams",
+		Long:  "List all health streams.",
 		RunE:  cli.CmdRunEWithApi(RunHealthListCommand()),
 	}
 
