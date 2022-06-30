@@ -6,6 +6,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"sort"
 )
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
@@ -33,6 +34,10 @@ func RunStackpackListCommand(
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
+
+	sort.SliceStable(stackpackList[:], func(i, j int) bool {
+		return *stackpackList[i].Name < *stackpackList[j].Name
+	})
 
 	data := make([][]interface{}, 0)
 	stackpacks := make([]stackstate_api.Sstackpack, 0)
