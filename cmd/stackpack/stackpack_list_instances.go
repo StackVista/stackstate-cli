@@ -43,7 +43,7 @@ func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
 			}
 
 			sort.SliceStable(v.GetConfigurations(), func(i, j int) bool {
-				return *&v.GetConfigurations()[i].LastUpdateTimestamp > *&v.GetConfigurations()[j].LastUpdateTimestamp
+				return v.GetConfigurations()[i].LastUpdateTimestamp > v.GetConfigurations()[j].LastUpdateTimestamp
 			})
 
 			for _, instance := range v.GetConfigurations() {

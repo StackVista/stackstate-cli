@@ -32,7 +32,7 @@ func RunSettingsListTypesCommand(cmd *cobra.Command,
 	}
 
 	sort.SliceStable(settingTypes.NodeTypes, func(i, j int) bool {
-		return *&settingTypes.NodeTypes[i].TypeName < *&settingTypes.NodeTypes[j].TypeName
+		return settingTypes.NodeTypes[i].TypeName < settingTypes.NodeTypes[j].TypeName
 	})
 
 	if cli.IsJson() {

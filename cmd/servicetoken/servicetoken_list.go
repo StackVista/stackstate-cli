@@ -29,7 +29,7 @@ func RunServiceTokenListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 	}
 
 	sort.SliceStable(serviceTokens, func(i, j int) bool {
-		return *&serviceTokens[i].Name < *&serviceTokens[j].Name
+		return serviceTokens[i].Name < serviceTokens[j].Name
 	})
 
 	if cli.IsJson() {

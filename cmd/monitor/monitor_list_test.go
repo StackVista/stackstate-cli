@@ -57,14 +57,11 @@ var (
 	}
 )
 
-//nolint:deadcode,unused
 func setMonitorListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := MonitorListCommand(&cli.Deps)
 	return &cli, cmd
 }
-
-// PLEASE WRITE TESTS!
 
 func TestMonitorListPrintToTable(t *testing.T) {
 	cli, cmd := setMonitorListCmd(t)
