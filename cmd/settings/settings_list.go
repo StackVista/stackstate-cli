@@ -2,6 +2,7 @@ package settings
 
 import (
 	"fmt"
+	"sort"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -53,6 +54,10 @@ func RunSettingsListCommand(args *ListArgs) di.CmdWithApiFn {
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
+
+		sort.SliceStable(typeList, func(i, j int) bool {
+			return *typeList[i].Name < *typeList[j].Name
+		})
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{

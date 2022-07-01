@@ -14,9 +14,25 @@ var (
 	ucmdbName       = "ucmdb"
 	ucmdDisplayName = "HP UCMDB"
 	ucmdbVersion    = "0.1.1"
+	awsName         = "aws"
 	mockResponse    = []stackstate_api.Sstackpack{
 		{
 			Name:        &ucmdbName,
+			DisplayName: &ucmdDisplayName,
+			Version:     &ucmdbVersion,
+			Configurations: []stackstate_api.SstackpackConfigurations{
+				{
+					StackPackVersion: &ucmdbVersion,
+				},
+			},
+			NextVersion: &stackstate_api.SstackpackLatestVersion{
+				Version: &ucmdbVersion,
+			},
+			LatestVersion: &stackstate_api.SstackpackLatestVersion{
+				Version: &ucmdbVersion,
+			},
+		}, {
+			Name:        &awsName,
 			DisplayName: &ucmdDisplayName,
 			Version:     &ucmdbVersion,
 			Configurations: []stackstate_api.SstackpackConfigurations{
@@ -46,8 +62,9 @@ func TestStackpackListPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
-			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
-			Data:                [][]interface{}{{&ucmdbName, &ucmdDisplayName, &ucmdbVersion, ucmdbVersion, ucmdbVersion, 1}},
+			Header: []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+			Data: [][]interface{}{{&awsName, &ucmdDisplayName, &ucmdbVersion, ucmdbVersion, ucmdbVersion, 1},
+				{&ucmdbName, &ucmdDisplayName, &ucmdbVersion, ucmdbVersion, ucmdbVersion, 1}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},
 	}

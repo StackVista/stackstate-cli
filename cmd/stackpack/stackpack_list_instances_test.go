@@ -19,6 +19,7 @@ var (
 
 	unknownName          = "unknown"
 	expectedUpdateTimeLi = time.UnixMilli(1438167001716)
+	beforeUpdateTimeLi   = time.UnixMilli(1418167001716)
 )
 
 func setupStackpackListInstanceFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
@@ -34,6 +35,12 @@ func setupStackpackListInstanceFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
 					Status:              &statusInstalled,
 					StackPackVersion:    &testVersion,
 					LastUpdateTimestamp: 1438167001716,
+				},
+				{
+					Id:                  &id,
+					Status:              &statusInstalled,
+					StackPackVersion:    &testVersion,
+					LastUpdateTimestamp: 1418167001716,
 				},
 			},
 		},
@@ -60,7 +67,7 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"id", "status", "version", "last updated"},
-			Data:                [][]interface{}{{&id, &statusInstalled, &testVersion, expectedUpdateTimeLi}},
+			Data:                [][]interface{}{{&id, &statusInstalled, &testVersion, expectedUpdateTimeLi}, {&id, &statusInstalled, &testVersion, beforeUpdateTimeLi}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 		},
 	}
@@ -77,6 +84,11 @@ func TestStackpackListInstancePrintToJson(t *testing.T) {
 				Status:              &statusInstalled,
 				StackPackVersion:    &testVersion,
 				LastUpdateTimestamp: 1438167001716,
+			}, {
+				Id:                  &id,
+				Status:              &statusInstalled,
+				StackPackVersion:    &testVersion,
+				LastUpdateTimestamp: 1418167001716,
 			}}},
 	}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
