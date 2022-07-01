@@ -1,12 +1,13 @@
 package stackpack
 
 import (
+	"sort"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"sort"
 )
 
 func StackpackListCommand(cli *di.Deps) *cobra.Command {
@@ -35,7 +36,7 @@ func RunStackpackListCommand(
 		return common.NewResponseError(err, resp)
 	}
 
-	sort.SliceStable(stackpackList[:], func(i, j int) bool {
+	sort.SliceStable(stackpackList, func(i, j int) bool {
 		return *stackpackList[i].Name < *stackpackList[j].Name
 	})
 

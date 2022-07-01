@@ -1,6 +1,7 @@
 package stackpack
 
 import (
+	"sort"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -40,6 +41,11 @@ func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
 			if v.GetName() != args.Name {
 				continue
 			}
+
+			sort.SliceStable(v.GetConfigurations(), func(i, j int) bool {
+				return *&v.GetConfigurations()[i].LastUpdateTimestamp > *&v.GetConfigurations()[j].LastUpdateTimestamp
+			})
+
 			for _, instance := range v.GetConfigurations() {
 				row := []interface{}{
 					instance.Id,

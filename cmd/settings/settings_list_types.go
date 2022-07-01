@@ -1,6 +1,8 @@
 package settings
 
 import (
+	"sort"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -28,6 +30,10 @@ func RunSettingsListTypesCommand(cmd *cobra.Command,
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
+
+	sort.SliceStable(settingTypes.NodeTypes, func(i, j int) bool {
+		return *&settingTypes.NodeTypes[i].TypeName < *&settingTypes.NodeTypes[j].TypeName
+	})
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{

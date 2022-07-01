@@ -2,6 +2,7 @@ package stackpack
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
@@ -40,6 +41,11 @@ func RunStackpackListParameterCommand(args *ListArgs) di.CmdWithApiFn {
 			if stack.GetName() != args.Name {
 				continue
 			}
+
+			sort.SliceStable(stack.GetSteps(), func(i, j int) bool {
+				return *stack.GetSteps()[i].Name < *stack.GetSteps()[j].Name
+			})
+
 			for _, step := range stack.GetSteps() {
 				data = append(data, []interface{}{step.Name, step.Display, step.GetValue().Type})
 				steps = append(steps, step)

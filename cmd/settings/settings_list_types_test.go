@@ -15,6 +15,7 @@ func setupSettingListTypesCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cmd := SettingsListTypesCommand(&cli.Deps)
 	nodeApiResult := sts.NodeTypes{
 		NodeTypes: []sts.NodeTypesNodeTypes{
+			{TypeName: "world", Description: "hello"},
 			{TypeName: "hello", Description: "world"},
 		},
 	}
@@ -29,7 +30,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 
 	expectedTableCall := []printer.TableData{{
 		Header:              []string{"name", "description"},
-		Data:                [][]interface{}{{"hello", "world"}},
+		Data:                [][]interface{}{{"hello", "world"}, {"world", "hello"}},
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "setting types"},
 	}}
 
@@ -41,8 +42,15 @@ func TestListTypesPrintsToJson(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
+	ordered := sts.NodeTypes{
+		NodeTypes: []sts.NodeTypesNodeTypes{
+			{TypeName: "hello", Description: "world"},
+			{TypeName: "world", Description: "hello"},
+		},
+	}
+
 	expectedJsonCalls := []map[string]interface{}{{
-		"setting-types": cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result,
+		"setting-types": ordered,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
