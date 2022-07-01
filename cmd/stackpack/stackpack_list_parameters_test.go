@@ -16,6 +16,8 @@ var (
 	stepName        = "zabbix_instance_name"
 	stepDisplayName = "Zabbix Instance Name"
 	stepType        = "Text"
+
+	firstStepName = "abbix_instance_name"
 )
 
 func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
@@ -27,6 +29,13 @@ func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command)
 			Steps: []stackstate_api.StackPackStep{
 				{
 					Name:    &stepName,
+					Display: &stepDisplayName,
+					Value: &stackstate_api.StackPackStepValue{
+						Type: &stepType,
+					},
+				},
+				{
+					Name:    &firstStepName,
 					Display: &stepDisplayName,
 					Value: &stackstate_api.StackPackStepValue{
 						Type: &stepType,
@@ -45,7 +54,7 @@ func TestStackpackListParameterPrintToTable(t *testing.T) {
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"name", "display name", "type"},
-			Data:                [][]interface{}{{&stepName, &stepDisplayName, &stepType}},
+			Data:                [][]interface{}{{&firstStepName, &stepDisplayName, &stepType}, {&stepName, &stepDisplayName, &stepType}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack \"%s\"", parameterName)},
 		},
 	}
@@ -58,6 +67,12 @@ func TestStackpackListParameterPrintToJson(t *testing.T) {
 	expectedJsonCalls := []map[string]interface{}{{
 		"parameters": []stackstate_api.StackPackStep{
 			{
+				Name:    &firstStepName,
+				Display: &stepDisplayName,
+				Value: &stackstate_api.StackPackStepValue{
+					Type: &stepType,
+				},
+			}, {
 				Name:    &stepName,
 				Display: &stepDisplayName,
 				Value: &stackstate_api.StackPackStepValue{

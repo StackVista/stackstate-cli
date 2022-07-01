@@ -22,12 +22,12 @@ func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "status",
 		Short: "Get the status of a monitor",
-		Long:  "Get the satus of a single monitor.",
+		Long:  "Get the status of a single monitor.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand(args)),
 	}
 
-	common.AddRequiredIDFlagVar(cmd, &args.ID, IDFlagUsage)
-	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
+	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
+	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
 
 	return cmd

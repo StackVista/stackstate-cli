@@ -1,6 +1,8 @@
 package monitor
 
 import (
+	"sort"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -28,6 +30,10 @@ func RunMonitorListCommand(
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
+
+	sort.SliceStable(monitors.Monitors, func(i, j int) bool {
+		return *monitors.Monitors[i].Identifier < *monitors.Monitors[j].Identifier
+	})
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{

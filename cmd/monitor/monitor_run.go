@@ -31,7 +31,7 @@ func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	cmd.Flags().BoolVarP(&args.DoRun, YesFlag, YesFlagShort, false, "Save the state of the monitor run")
-	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "idenfier", true)
+	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
 
 	return cmd
 }

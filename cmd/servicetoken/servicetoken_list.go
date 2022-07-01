@@ -1,6 +1,7 @@
 package servicetoken
 
 import (
+	"sort"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -26,6 +27,10 @@ func RunServiceTokenListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
+
+	sort.SliceStable(serviceTokens, func(i, j int) bool {
+		return serviceTokens[i].Name < serviceTokens[j].Name
+	})
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{

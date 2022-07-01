@@ -12,16 +12,27 @@ import (
 )
 
 var (
-	name          = "One"
-	description   = "First component"
-	owner         = "owner-1"
-	identifier    = "identifier-1"
-	nodeApiResult = []sts.Node{
+	name            = "One"
+	otherName       = "Two"
+	description     = "First component"
+	owner           = "owner-1"
+	identifier      = "identifier-1"
+	otherIdentifier = "identifier-2"
+	nodeApiResult   = []sts.Node{
 		{
 			Id:                  1,
 			TypeName:            "ComponentType",
 			Identifier:          &identifier,
 			Name:                &name,
+			Description:         &description,
+			OwnedBy:             &owner,
+			LastUpdateTimestamp: 1438167001716,
+		},
+		{
+			Id:                  2,
+			TypeName:            "ComponentType",
+			Identifier:          &otherIdentifier,
+			Name:                &otherName,
 			Description:         &description,
 			OwnedBy:             &owner,
 			LastUpdateTimestamp: 1438167001716,
@@ -45,7 +56,7 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}},
+			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}, {"ComponentType", int64(2), otherIdentifier, otherName, owner, expectedUpdateTime}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type \"ComponentType\""},
 		},
 	}
@@ -63,7 +74,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}},
+			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}, {"ComponentType", int64(2), otherIdentifier, otherName, owner, expectedUpdateTime}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type \"ComponentType\""},
 		},
 	}
