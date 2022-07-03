@@ -13,6 +13,7 @@ func HealthCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Health synchronization related commands.",
 	}
 	cmd.AddCommand(health.HealthListCommand(cli))
+	cmd.AddCommand(health.HealthSubListCommand(cli))
 
 	return cmd
 }
