@@ -20,8 +20,7 @@ func HealthSubListCommand(cli *di.Deps) *cobra.Command {
 		Long:  "List active health synchronization sub streams of a stream.",
 		RunE:  cli.CmdRunEWithApi(RunHealthSubListCommand(args)),
 	}
-	cmd.Flags().StringVar(&args.Urn, UrnFlag, "", UrnFlagUsage)
-	cmd.MarkFlagRequired(UrnFlag) //nolint:errcheck
+	common.AddRequiredUrnFlagVar(cmd, &args.Urn, "Urn of the health synchronization stream")
 
 	return cmd
 }
