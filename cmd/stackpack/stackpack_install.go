@@ -30,7 +30,7 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
-	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", nil, "List of parameters of the form \"key=value\"")
+	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", args.Params, "List of parameters of the form \"key=value\"")
 	return cmd
 }
 
