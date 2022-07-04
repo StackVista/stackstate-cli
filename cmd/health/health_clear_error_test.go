@@ -21,13 +21,14 @@ func TestHealthClearErrorPrintToTable(t *testing.T) {
 	cli, cmd := setupHealthClearErrorCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "clear-error", "--urn", "urn:health:dummy_error")
 
-	assert.Equal(t, []string{"Stream error clear: urn:health:self_monitoring:dummy_error"}, *cli.MockPrinter.SuccessCalls)
+	expectedSuccessCalls := []string{"Stream error clear: urn:health:dummy_error"}
+	assert.Equal(t, expectedSuccessCalls, *cli.MockPrinter.SuccessCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestHealthClearErrorPrintToJson(t *testing.T) {
 	cli, cmd := setupHealthClearErrorCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "clear-error", "--urn", "urn:health:self_monitoring:dummy_error", "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "clear-error", "--urn", "urn:health:dummy_error", "-o", "json")
 	assert.Equal(t,
 		[]map[string]interface{}{{
 			"stream-error-clear": "urn:health:dummy_error",

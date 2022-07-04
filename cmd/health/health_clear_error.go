@@ -41,7 +41,8 @@ func RunHealthClearErrorCommand(args *ClearErrorArgs) di.CmdWithApiFn {
 				"stream-error-clear": args.Urn,
 			})
 		} else {
-			cli.Printer.Success(fmt.Sprintf("Stream error clear: %s", args.Urn))
+			msg := fmt.Sprintf("Stream error clear: %s", args.Urn)
+			cli.Printer.Success(msg)
 		}
 
 		return nil
