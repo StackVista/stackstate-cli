@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ComponentsComponentIdStreamsLatestGet
 
-> InlineResponse200 ComponentsComponentIdStreamsLatestGet(ctx, componentId).QueryTime(queryTime).StreamIds(streamIds).Execute()
+> TelemetryLatestSnapshotsResponse ComponentsComponentIdStreamsLatestGet(ctx, componentId).QueryTime(queryTime).StreamIds(streamIds).Execute()
 
 Get the latests metrics
 
@@ -40,7 +40,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `ComponentApi.ComponentsComponentIdStreamsLatestGet``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ComponentsComponentIdStreamsLatestGet`: InlineResponse200
+    // response from `ComponentsComponentIdStreamsLatestGet`: TelemetryLatestSnapshotsResponse
     fmt.Fprintf(os.Stdout, "Response from `ComponentApi.ComponentsComponentIdStreamsLatestGet`: %v\n", resp)
 }
 ```
@@ -66,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse200**](InlineResponse200.md)
+[**TelemetryLatestSnapshotsResponse**](TelemetryLatestSnapshotsResponse.md)
 
 ### Authorization
 

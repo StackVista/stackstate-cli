@@ -17,9 +17,9 @@ import (
 
 // LatestTelemetryStreamMetrics struct for LatestTelemetryStreamMetrics
 type LatestTelemetryStreamMetrics struct {
-	Type string `json:"_type"`
-	StreamId int64 `json:"streamId"`
-	Metric *LatestTelemetryStreamMetricsMetric `json:"metric,omitempty"`
+	Type     string        `json:"_type"`
+	StreamId int64         `json:"streamId"`
+	Metric   *SingleMetric `json:"metric,omitempty"`
 }
 
 // NewLatestTelemetryStreamMetrics instantiates a new LatestTelemetryStreamMetrics object
@@ -90,9 +90,9 @@ func (o *LatestTelemetryStreamMetrics) SetStreamId(v int64) {
 }
 
 // GetMetric returns the Metric field value if set, zero value otherwise.
-func (o *LatestTelemetryStreamMetrics) GetMetric() LatestTelemetryStreamMetricsMetric {
+func (o *LatestTelemetryStreamMetrics) GetMetric() SingleMetric {
 	if o == nil || o.Metric == nil {
-		var ret LatestTelemetryStreamMetricsMetric
+		var ret SingleMetric
 		return ret
 	}
 	return *o.Metric
@@ -100,7 +100,7 @@ func (o *LatestTelemetryStreamMetrics) GetMetric() LatestTelemetryStreamMetricsM
 
 // GetMetricOk returns a tuple with the Metric field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *LatestTelemetryStreamMetrics) GetMetricOk() (*LatestTelemetryStreamMetricsMetric, bool) {
+func (o *LatestTelemetryStreamMetrics) GetMetricOk() (*SingleMetric, bool) {
 	if o == nil || o.Metric == nil {
 		return nil, false
 	}
@@ -116,8 +116,8 @@ func (o *LatestTelemetryStreamMetrics) HasMetric() bool {
 	return false
 }
 
-// SetMetric gets a reference to the given LatestTelemetryStreamMetricsMetric and assigns it to the Metric field.
-func (o *LatestTelemetryStreamMetrics) SetMetric(v LatestTelemetryStreamMetricsMetric) {
+// SetMetric gets a reference to the given SingleMetric and assigns it to the Metric field.
+func (o *LatestTelemetryStreamMetrics) SetMetric(v SingleMetric) {
 	o.Metric = &v
 }
 
@@ -170,5 +170,3 @@ func (v *NullableLatestTelemetryStreamMetrics) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

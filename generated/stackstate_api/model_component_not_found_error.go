@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// InlineResponse404 struct for InlineResponse404
-type InlineResponse404 struct {
-	Type string `json:"_type"`
-	ComponentId int64 `json:"componentId"`
+// ComponentNotFoundError struct for ComponentNotFoundError
+type ComponentNotFoundError struct {
+	Type        string `json:"_type"`
+	ComponentId int64  `json:"componentId"`
 }
 
-// NewInlineResponse404 instantiates a new InlineResponse404 object
+// NewComponentNotFoundError instantiates a new ComponentNotFoundError object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewInlineResponse404(type_ string, componentId int64) *InlineResponse404 {
-	this := InlineResponse404{}
+func NewComponentNotFoundError(type_ string, componentId int64) *ComponentNotFoundError {
+	this := ComponentNotFoundError{}
 	this.Type = type_
 	this.ComponentId = componentId
 	return &this
 }
 
-// NewInlineResponse404WithDefaults instantiates a new InlineResponse404 object
+// NewComponentNotFoundErrorWithDefaults instantiates a new ComponentNotFoundError object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewInlineResponse404WithDefaults() *InlineResponse404 {
-	this := InlineResponse404{}
+func NewComponentNotFoundErrorWithDefaults() *ComponentNotFoundError {
+	this := ComponentNotFoundError{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *InlineResponse404) GetType() string {
+func (o *ComponentNotFoundError) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *InlineResponse404) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *InlineResponse404) GetTypeOk() (*string, bool) {
+func (o *ComponentNotFoundError) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *InlineResponse404) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *InlineResponse404) SetType(v string) {
+func (o *ComponentNotFoundError) SetType(v string) {
 	o.Type = v
 }
 
 // GetComponentId returns the ComponentId field value
-func (o *InlineResponse404) GetComponentId() int64 {
+func (o *ComponentNotFoundError) GetComponentId() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -76,7 +76,7 @@ func (o *InlineResponse404) GetComponentId() int64 {
 
 // GetComponentIdOk returns a tuple with the ComponentId field value
 // and a boolean to check if the value has been set.
-func (o *InlineResponse404) GetComponentIdOk() (*int64, bool) {
+func (o *ComponentNotFoundError) GetComponentIdOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,11 +84,11 @@ func (o *InlineResponse404) GetComponentIdOk() (*int64, bool) {
 }
 
 // SetComponentId sets field value
-func (o *InlineResponse404) SetComponentId(v int64) {
+func (o *ComponentNotFoundError) SetComponentId(v int64) {
 	o.ComponentId = v
 }
 
-func (o InlineResponse404) MarshalJSON() ([]byte, error) {
+func (o ComponentNotFoundError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["_type"] = o.Type
@@ -99,40 +99,38 @@ func (o InlineResponse404) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableInlineResponse404 struct {
-	value *InlineResponse404
+type NullableComponentNotFoundError struct {
+	value *ComponentNotFoundError
 	isSet bool
 }
 
-func (v NullableInlineResponse404) Get() *InlineResponse404 {
+func (v NullableComponentNotFoundError) Get() *ComponentNotFoundError {
 	return v.value
 }
 
-func (v *NullableInlineResponse404) Set(val *InlineResponse404) {
+func (v *NullableComponentNotFoundError) Set(val *ComponentNotFoundError) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableInlineResponse404) IsSet() bool {
+func (v NullableComponentNotFoundError) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableInlineResponse404) Unset() {
+func (v *NullableComponentNotFoundError) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableInlineResponse404(val *InlineResponse404) *NullableInlineResponse404 {
-	return &NullableInlineResponse404{value: val, isSet: true}
+func NewNullableComponentNotFoundError(val *ComponentNotFoundError) *NullableComponentNotFoundError {
+	return &NullableComponentNotFoundError{value: val, isSet: true}
 }
 
-func (v NullableInlineResponse404) MarshalJSON() ([]byte, error) {
+func (v NullableComponentNotFoundError) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableInlineResponse404) UnmarshalJSON(src []byte) error {
+func (v *NullableComponentNotFoundError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

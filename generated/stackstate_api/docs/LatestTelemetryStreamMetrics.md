@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **StreamId** | **int64** |  | 
-**Metric** | Pointer to [**LatestTelemetryStreamMetricsMetric**](LatestTelemetryStreamMetricsMetric.md) |  | [optional] 
+**Metric** | Pointer to [**SingleMetric**](SingleMetric.md) |  | [optional] 
 
 ## Methods
 
@@ -69,20 +69,20 @@ SetStreamId sets StreamId field to given value.
 
 ### GetMetric
 
-`func (o *LatestTelemetryStreamMetrics) GetMetric() LatestTelemetryStreamMetricsMetric`
+`func (o *LatestTelemetryStreamMetrics) GetMetric() SingleMetric`
 
 GetMetric returns the Metric field if non-nil, zero value otherwise.
 
 ### GetMetricOk
 
-`func (o *LatestTelemetryStreamMetrics) GetMetricOk() (*LatestTelemetryStreamMetricsMetric, bool)`
+`func (o *LatestTelemetryStreamMetrics) GetMetricOk() (*SingleMetric, bool)`
 
 GetMetricOk returns a tuple with the Metric field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetric
 
-`func (o *LatestTelemetryStreamMetrics) SetMetric(v LatestTelemetryStreamMetricsMetric)`
+`func (o *LatestTelemetryStreamMetrics) SetMetric(v SingleMetric)`
 
 SetMetric sets Metric field to given value.
 
