@@ -17,8 +17,8 @@ import (
 
 // ComponentNotFoundError struct for ComponentNotFoundError
 type ComponentNotFoundError struct {
-	Type        string `json:"_type"`
-	ComponentId int64  `json:"componentId"`
+	Type string `json:"_type"`
+	ComponentId int64 `json:"componentId"`
 }
 
 // NewComponentNotFoundError instantiates a new ComponentNotFoundError object
@@ -134,3 +134,5 @@ func (v *NullableComponentNotFoundError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

@@ -20,16 +20,17 @@ import (
 	"strings"
 )
 
+
 type ComponentApi interface {
 
 	/*
-		ComponentsComponentIdStreamsLatestGet Get the latests metrics
+	ComponentsComponentIdStreamsLatestGet Get the latests metrics
 
-		Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
+	Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentId The Identifier of a component
-		@return ApiComponentsComponentIdStreamsLatestGetRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiComponentsComponentIdStreamsLatestGetRequest
 	*/
 	ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest
 
@@ -42,11 +43,11 @@ type ComponentApi interface {
 type ComponentApiService service
 
 type ApiComponentsComponentIdStreamsLatestGetRequest struct {
-	ctx         context.Context
-	ApiService  ComponentApi
+	ctx context.Context
+	ApiService ComponentApi
 	componentId int64
-	queryTime   *int32
-	streamIds   *[]int64
+	queryTime *int32
+	streamIds *[]int64
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -76,8 +77,8 @@ Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before pr
 */
 func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest {
 	return ApiComponentsComponentIdStreamsLatestGetRequest{
-		ApiService:  a,
-		ctx:         ctx,
+		ApiService: a,
+		ctx: ctx,
 		componentId: componentId,
 	}
 }
@@ -86,10 +87,10 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGet(ctx context.
 //  @return TelemetryLatestSnapshotsResponse
 func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *TelemetryLatestSnapshotsResponse
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TelemetryLatestSnapshotsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.ComponentsComponentIdStreamsLatestGet")
@@ -213,48 +214,53 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r Api
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type ComponentApiMock struct {
-	ComponentsComponentIdStreamsLatestGetCalls    *[]ComponentsComponentIdStreamsLatestGetCall
+	ComponentsComponentIdStreamsLatestGetCalls *[]ComponentsComponentIdStreamsLatestGetCall
 	ComponentsComponentIdStreamsLatestGetResponse ComponentsComponentIdStreamsLatestGetMockResponse
-}
+}	
 
 func NewComponentApiMock() ComponentApiMock {
 	xComponentsComponentIdStreamsLatestGetCalls := make([]ComponentsComponentIdStreamsLatestGetCall, 0)
-	return ComponentApiMock{
+	return ComponentApiMock {
 		ComponentsComponentIdStreamsLatestGetCalls: &xComponentsComponentIdStreamsLatestGetCalls,
 	}
 }
 
 type ComponentsComponentIdStreamsLatestGetMockResponse struct {
-	Result   TelemetryLatestSnapshotsResponse
+	Result TelemetryLatestSnapshotsResponse
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type ComponentsComponentIdStreamsLatestGetCall struct {
 	PcomponentId int64
-	PqueryTime   *int32
-	PstreamIds   *[]int64
+	PqueryTime *int32
+	PstreamIds *[]int64
 }
+
 
 func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest {
 	return ApiComponentsComponentIdStreamsLatestGetRequest{
-		ApiService:  mock,
-		ctx:         ctx,
+		ApiService: mock,
+		ctx: ctx,
 		componentId: componentId,
 	}
 }
 
 func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
-	p := ComponentsComponentIdStreamsLatestGetCall{
-		PcomponentId: r.componentId,
-		PqueryTime:   r.queryTime,
-		PstreamIds:   r.streamIds,
+	p := ComponentsComponentIdStreamsLatestGetCall {
+			PcomponentId: r.componentId,
+			PqueryTime: r.queryTime,
+			PstreamIds: r.streamIds,
 	}
 	*mock.ComponentsComponentIdStreamsLatestGetCalls = append(*mock.ComponentsComponentIdStreamsLatestGetCalls, p)
 	return &mock.ComponentsComponentIdStreamsLatestGetResponse.Result, mock.ComponentsComponentIdStreamsLatestGetResponse.Response, mock.ComponentsComponentIdStreamsLatestGetResponse.Error
 }
+
+

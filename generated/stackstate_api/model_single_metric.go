@@ -17,8 +17,8 @@ import (
 
 // SingleMetric struct for SingleMetric
 type SingleMetric struct {
-	Timestamp int64   `json:"timestamp"`
-	Value     float32 `json:"value"`
+	Timestamp int64 `json:"timestamp"`
+	Value float32 `json:"value"`
 }
 
 // NewSingleMetric instantiates a new SingleMetric object
@@ -134,3 +134,5 @@ func (v *NullableSingleMetric) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+
