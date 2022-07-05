@@ -35,8 +35,8 @@ type ComponentApi interface {
 	ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest
 
 	// ComponentsComponentIdStreamsLatestGetExecute executes the request
-	//  @return InlineResponse200
-	ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*InlineResponse200, *http.Response, error)
+	//  @return TelemetryLatestSnapshotsResponse
+	ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error)
 }
 
 // ComponentApiService ComponentApi service
@@ -62,7 +62,7 @@ func (r ApiComponentsComponentIdStreamsLatestGetRequest) StreamIds(streamIds []i
 	return r
 }
 
-func (r ApiComponentsComponentIdStreamsLatestGetRequest) Execute() (*InlineResponse200, *http.Response, error) {
+func (r ApiComponentsComponentIdStreamsLatestGetRequest) Execute() (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	return r.ApiService.ComponentsComponentIdStreamsLatestGetExecute(r)
 }
 
@@ -84,13 +84,13 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGet(ctx context.
 }
 
 // Execute executes the request
-//  @return InlineResponse200
-func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*InlineResponse200, *http.Response, error) {
+//  @return TelemetryLatestSnapshotsResponse
+func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *InlineResponse200
+		localVarReturnValue  *TelemetryLatestSnapshotsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.ComponentsComponentIdStreamsLatestGet")
@@ -181,7 +181,7 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r Api
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
-			var v InlineResponse404
+			var v ComponentNotFoundError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -233,7 +233,7 @@ func NewComponentApiMock() ComponentApiMock {
 }
 
 type ComponentsComponentIdStreamsLatestGetMockResponse struct {
-	Result InlineResponse200
+	Result TelemetryLatestSnapshotsResponse
 	Response *http.Response
 	Error error
 }
@@ -253,7 +253,7 @@ func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGet(ctx context.C
 	}
 }
 
-func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*InlineResponse200, *http.Response, error) {
+func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	p := ComponentsComponentIdStreamsLatestGetCall {
 			PcomponentId: r.componentId,
 			PqueryTime: r.queryTime,

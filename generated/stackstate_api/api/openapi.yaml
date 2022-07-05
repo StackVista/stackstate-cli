@@ -1691,13 +1691,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_200'
-          description: the latest 3 metrics
+                $ref: '#/components/schemas/TelemetryLatestSnapshotsResponse'
+          description: the latest metrics for provided stream ids
         "404":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/inline_response_404'
+                $ref: '#/components/schemas/ComponentNotFoundError'
           description: Component not found error
         "500":
           content:
@@ -1847,17 +1847,17 @@ components:
               $ref: '#/components/schemas/ServiceToken'
             type: array
       description: Service Tokens
-    latestSnapshots:
+    telemetryLatestSnapshotsResponse:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_response_200'
-      description: the latest 3 metrics
-    notFoundError:
+            $ref: '#/components/schemas/TelemetryLatestSnapshotsResponse'
+      description: the latest metrics for provided stream ids
+    componentNotFoundError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/inline_response_404'
+            $ref: '#/components/schemas/ComponentNotFoundError'
       description: Component not found error
   schemas:
     GenericErrorsResponse:
@@ -4294,7 +4294,38 @@ components:
         format: int64
         type: integer
       type: array
+    TelemetryLatestSnapshotsResponse:
+      discriminator:
+        propertyName: _type
+      example:
+        streamSnapshots:
+        - streamId: 0
+          metric:
+            value: 1.4658129805029452
+            timestamp: 6
+          _type: LatestTelemetryStreamMetrics
+        - streamId: 0
+          metric:
+            value: 1.4658129805029452
+            timestamp: 6
+          _type: LatestTelemetryStreamMetrics
+        _type: TelemetryLatestSnapshotsResponse
+      properties:
+        _type:
+          enum:
+          - TelemetryLatestSnapshotsResponse
+          type: string
+        streamSnapshots:
+          items:
+            $ref: '#/components/schemas/LatestTelemetryStreamMetrics'
+          type: array
+      required:
+      - _type
+      - streamSnapshots
+      type: object
     LatestTelemetryStreamMetrics:
+      discriminator:
+        propertyName: _type
       example:
         streamId: 0
         metric:
@@ -4310,38 +4341,26 @@ components:
           format: int64
           type: integer
         metric:
-          $ref: '#/components/schemas/LatestTelemetryStreamMetrics_metric'
+          $ref: '#/components/schemas/SingleMetric'
       required:
       - _type
       - streamId
       type: object
-    inline_response_200:
-      discriminator:
-        propertyName: _type
+    SingleMetric:
       example:
-        _type: TelemetryLatestSnapshotsResponse
-        streamSnaphots:
-        - streamId: 0
-          metric:
-            value: 1.4658129805029452
-            timestamp: 6
-          _type: LatestTelemetryStreamMetrics
-        - streamId: 0
-          metric:
-            value: 1.4658129805029452
-            timestamp: 6
-          _type: LatestTelemetryStreamMetrics
+        value: 1.4658129805029452
+        timestamp: 6
       properties:
-        _type:
-          enum:
-          - TelemetryLatestSnapshotsResponse
-          type: string
-        streamSnaphots:
-          items:
-            $ref: '#/components/schemas/LatestTelemetryStreamMetrics'
-          type: array
+        timestamp:
+          format: int64
+          type: integer
+        value:
+          type: number
+      required:
+      - timestamp
+      - value
       type: object
-    inline_response_404:
+    ComponentNotFoundError:
       discriminator:
         propertyName: _type
       properties:
@@ -4449,17 +4468,6 @@ components:
       required:
       - location
       - message
-      type: object
-    LatestTelemetryStreamMetrics_metric:
-      example:
-        value: 1.4658129805029452
-        timestamp: 6
-      properties:
-        timestamp:
-          format: int64
-          type: integer
-        value:
-          type: number
       type: object
   securitySchemes:
     ApiToken:
