@@ -78,20 +78,20 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 					return common.NewResponseError(err, resp)
 				}
 				if streamStatus.GetRecoverMessage() != "" {
-					cli.Printer.Successf("This stream is in recovery mode.\n"+
+					cli.Printer.PrintLn(fmt.Sprintf("This stream is in recovery mode.\n"+
 						"This means stackstate is reconstructing the state of the health streams. "+
 						"In this period no errors will be reported for the stream,\n"+
 						"incoming data will be processed as usual.\n"+
-						"The reason recovery mode was entered was because: %s", streamStatus.GetRecoverMessage())
+						"The reason recovery mode was entered was because: %s", streamStatus.GetRecoverMessage()))
 				}
-				cli.Printer.Successf("Consistency model for the stream and all substreams: %s", streamStatus.GetConsistencyModel())
+				cli.Printer.PrintLn(fmt.Sprintf("Consistency model for the stream and all substreams: %s", streamStatus.GetConsistencyModel()))
 				if mainStream, ok := streamStatus.GetMainStreamStatusOk(); ok {
 					cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", mainStream.CheckStateCount))
 
 					printSubStream(cli.Printer, &mainStream.SubStreamState)
 
 					cli.Printer.PrintLn(fmt.Sprintf("\nSynchronization errors:\n %v", mainStream.GetErrors()))
-					cli.Printer.PrintLn(fmt.Sprintf("\nSynchronization metrics::\n %v", mainStream.GetMetrics()))
+					cli.Printer.PrintLn(fmt.Sprintf("\nSynchronization metrics:\n %v", mainStream.GetMetrics()))
 				} else {
 					cli.Printer.PrintLn("Synchronized check state count: -")
 				}
@@ -103,7 +103,7 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 					return common.NewResponseError(err, resp)
 				}
 				if count, ok := subSteamStatus.GetCheckStateCountOk(); ok {
-					cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", count))
+					cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", *count))
 					printSubStream(cli.Printer, &subSteamStatus.SubStreamState)
 				} else {
 					cli.Printer.PrintLn("Synchronized check state count: -")
