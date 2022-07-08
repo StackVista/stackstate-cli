@@ -88,6 +88,20 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 	)
 }
 
+func TestStackpackInstallNoParameters(t *testing.T) {
+	cli, cmd := setupStackPackInstallCmd(t)
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix")
+
+	assert.Equal(t,
+		stackstate_api.ProvisionDetailsCall{
+			PstackName:   "zabbix",
+			PrequestBody: &map[string]string{},
+		},
+		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
+	)
+}
+
 func TestStackpackInstallPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
