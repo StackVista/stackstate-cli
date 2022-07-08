@@ -16,6 +16,7 @@ func HealthCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(health.HealthSubListCommand(cli))
 	cmd.AddCommand(health.HealthDeleteCommand(cli))
 	cmd.AddCommand(health.HealthClearErrorCommand(cli))
+	cmd.AddCommand(health.HealthStatusCommand(cli))
 
 	return cmd
 }
