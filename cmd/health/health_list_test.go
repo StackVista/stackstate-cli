@@ -20,6 +20,12 @@ func setupHealthListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 			SubStreams:       1,
 		}},
 	}
+	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverviewResponse.Result = stackstate_api.SubStreamList{
+		SubStreams: []stackstate_api.SubStreamListItem{{
+			SubStreamId:     "StackState Server",
+			CheckStateCount: 36,
+		}},
+	}
 	return &cli, cmd
 }
 
@@ -44,6 +50,32 @@ func TestHealthListPrintToJson(t *testing.T) {
 	assert.Equal(t,
 		[]map[string]interface{}{{
 			"streams": [][]interface{}{{"urn:health:self_monitoring:self_monitoring_scraper", "REPEAT_SNAPSHOTS", int32(1)}},
+		}},
+		*cli.MockPrinter.PrintJsonCalls,
+	)
+}
+
+func TestHealthListUrnPrintToTable(t *testing.T) {
+	cli, cmd := setupHealthListCmd(t)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--urn", "dummy:urn")
+
+	expectedTableCall := []printer.TableData{
+		{
+			Header:              []string{"Sub stream id", "Check state count"},
+			Data:                [][]interface{}{{"StackState Server", int32(36)}},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "health sub-stream"},
+		},
+	}
+	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
+	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
+}
+
+func TestHealthListUrnPrintToJson(t *testing.T) {
+	cli, cmd := setupHealthListCmd(t)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--urn", "dummy:urn", "-o", "json")
+	assert.Equal(t,
+		[]map[string]interface{}{{
+			"sub-stream": [][]interface{}{{"StackState Server", int32(36)}},
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)
