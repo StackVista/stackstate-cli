@@ -83,7 +83,7 @@ func TestHealthStatusTopologyPrintToJson(t *testing.T) {
 	)
 }
 
-func TestHealthStatusWithSubStream(t *testing.T) {
+func TestHealthStatusWithSubStreamPrintToText(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "--sub-stream-urn", "dummy-sub-stream")
 	expectedSuccessCalls := []string{"Synchronized check state count: 12", "Repeat interval (Seconds): 2", "Expiry (Seconds): 2"}
@@ -91,7 +91,17 @@ func TestHealthStatusWithSubStream(t *testing.T) {
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
-func TestHealthStatusStream(t *testing.T) {
+func TestHealthStatusWithSubStreamPrintToJson(t *testing.T) {
+	cli, cmd := setupHealthStatusCmd(t)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "--sub-stream-urn", "dummy-sub-stream", "-o", "json")
+	assert.Equal(t, []map[string]interface{}{{
+		"state_check_count": "Synchronized check state count: 12",
+		"repeat_interval":   "Repeat interval (Seconds): 2",
+		"expiry":            "Expiry (Seconds): 2",
+	}}, *cli.MockPrinter.PrintJsonCalls)
+}
+
+func TestHealthStatusStreamPrintToText(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn")
 	expectedSuccessCalls := []string{"This stream is in recovery mode.\n" +
@@ -110,4 +120,24 @@ func TestHealthStatusStream(t *testing.T) {
 	}
 	assert.Equal(t, expectedSuccessCalls, *cli.MockPrinter.PrintLnCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
+}
+
+func TestHealthStatusStreamPrintToJson(t *testing.T) {
+	cli, cmd := setupHealthStatusCmd(t)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "-o", "json")
+	assert.Equal(t, []map[string]interface{}{{
+		"recovery_message": "This stream is in recovery mode.\n" +
+			"This means stackstate is reconstructing the state of the health streams. " +
+			"In this period no errors will be reported for the stream,\n" +
+			"incoming data will be processed as usual.\n" +
+			"The reason recovery mode was entered was because: status recovery message",
+		"stream_consistency_model": "Consistency model for the stream and all substreams: stream consistency model",
+		"state_check_count":        "Synchronized check state count: 2",
+		"repeat_interval":          "Repeat interval (Seconds): 2",
+		"expiry":                   "Expiry (Seconds): 2",
+		"errors":                   "\nSynchronization errors:\n [{  health stream error 0}]",
+		"metrics":                  "\nSynchronization metrics:\n {10 [] [] [] [] []}",
+		"aggregate_metrics":        "\nAggregate metrics for the stream and all substreams:\n {0 [] [] [] [] []}",
+		"non_existing_error":       "\nErrors for non-existing sub streams:\n []",
+	}}, *cli.MockPrinter.PrintJsonCalls)
 }
