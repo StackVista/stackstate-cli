@@ -95,7 +95,7 @@ func TestHealthStatusWithSubStreamPrintToJson(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "--sub-stream-urn", "dummy-sub-stream", "-o", "json")
 	assert.Equal(t, []map[string]interface{}{{
-		"state_check_count": "Synchronized check state count: 12",
+		"state_check_count": "12",
 		"repeat_interval":   "Repeat interval (Seconds): 2",
 		"expiry":            "Expiry (Seconds): 2",
 	}}, *cli.MockPrinter.PrintJsonCalls)
@@ -132,12 +132,12 @@ func TestHealthStatusStreamPrintToJson(t *testing.T) {
 			"incoming data will be processed as usual.\n" +
 			"The reason recovery mode was entered was because: status recovery message",
 		"stream_consistency_model": "Consistency model for the stream and all substreams: stream consistency model",
-		"state_check_count":        "Synchronized check state count: 2",
+		"state_check_count":        "2",
 		"repeat_interval":          "Repeat interval (Seconds): 2",
 		"expiry":                   "Expiry (Seconds): 2",
-		"errors":                   "\nSynchronization errors:\n [{  health stream error 0}]",
-		"metrics":                  "\nSynchronization metrics:\n {10 [] [] [] [] []}",
-		"aggregate_metrics":        "\nAggregate metrics for the stream and all substreams:\n {0 [] [] [] [] []}",
-		"non_existing_error":       "\nErrors for non-existing sub streams:\n []",
+		"errors":                   "Synchronization errors: [{  health stream error 0}]",
+		"metrics":                  "Synchronization metrics: {10 [] [] [] [] []}",
+		"aggregate_metrics":        "Aggregate metrics for the stream and all substreams: {0 [] [] [] [] []}",
+		"non_existing_error":       "Errors for non-existing sub streams: []",
 	}}, *cli.MockPrinter.PrintJsonCalls)
 }
