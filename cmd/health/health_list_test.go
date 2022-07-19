@@ -49,7 +49,11 @@ func TestHealthListPrintToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "-o", "json")
 	assert.Equal(t,
 		[]map[string]interface{}{{
-			"streams": [][]interface{}{{"urn:health:self_monitoring:self_monitoring_scraper", "REPEAT_SNAPSHOTS", int32(1)}},
+			"streams": []map[string]interface{}{{
+				"stream_urn":               "urn:health:self_monitoring:self_monitoring_scraper",
+				"stream_consistency_model": "REPEAT_SNAPSHOTS",
+				"sub_stream_count":         int32(1),
+			}},
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)
@@ -75,7 +79,10 @@ func TestHealthListUrnPrintToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--urn", "dummy:urn", "-o", "json")
 	assert.Equal(t,
 		[]map[string]interface{}{{
-			"sub-stream": [][]interface{}{{"StackState Server", int32(36)}},
+			"sub-stream": []map[string]interface{}{{
+				"sub_stream_id":     "StackState Server",
+				"check_state_count": int32(36),
+			}},
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)

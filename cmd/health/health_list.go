@@ -38,12 +38,17 @@ func RunHealthListCommand(args *ListArgs) di.CmdWithApiFn {
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}
+			jsonMap := make([]map[string]interface{}, 0)
 			for _, v := range subList.GetSubStreams() {
 				data = append(data, []interface{}{v.GetSubStreamId(), v.GetCheckStateCount()})
+				jsonMap = append(jsonMap, map[string]interface{}{
+					"sub_stream_id":     v.GetSubStreamId(),
+					"check_state_count": v.GetCheckStateCount(),
+				})
 			}
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"sub-stream": data,
+					"sub-stream": jsonMap,
 				})
 			} else {
 				cli.Printer.Table(printer.TableData{
@@ -57,16 +62,18 @@ func RunHealthListCommand(args *ListArgs) di.CmdWithApiFn {
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}
+			jsonMap := make([]map[string]interface{}, 0)
 			for _, v := range streamList.GetItems() {
-				data = append(data, []interface{}{
-					v.GetUrn(),
-					v.GetConsistencyModel(),
-					v.GetSubStreams(),
+				data = append(data, []interface{}{v.GetUrn(), v.GetConsistencyModel(), v.GetSubStreams()})
+				jsonMap = append(jsonMap, map[string]interface{}{
+					"stream_urn":               v.GetUrn(),
+					"stream_consistency_model": v.GetConsistencyModel(),
+					"sub_stream_count":         v.GetSubStreams(),
 				})
 			}
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"streams": data,
+					"streams": jsonMap,
 				})
 			} else {
 				cli.Printer.Table(printer.TableData{
