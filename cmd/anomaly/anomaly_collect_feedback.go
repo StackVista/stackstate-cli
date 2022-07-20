@@ -33,7 +33,7 @@ func AnomalyCollectFeedback(cli *di.Deps) *cobra.Command {
 		Short: "Collect anomalies that have user feedback",
 		Long:  "Collect anomalies that users have given feedback on, as thumbs-up/-down and/or comments.",
 		Example: "# Collect anomalies with feedback in the last 8 days, include 2 days of metric data for each anomaly\n" +
-			`sts anomaly collect --start-time -8d --history 2d --file anomaly-feedback.json`,
+			`sts anomaly collect-feedback --start-time -8d --history 2d --file anomaly-feedback.json`,
 		RunE: cli.CmdRunEWithApi(RunCollectFeedbackCommand(args)),
 	}
 	pflags.RelativeTimeVar(cmd.Flags(), &args.StartTime, StartTimeFlag, "-7d", cli.Clock, "Start time of interval with anomalies.  Format is ISO8601, milliseconds since epoch or relative (-12h)")
