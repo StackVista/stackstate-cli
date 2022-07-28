@@ -74,38 +74,7 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 				if err != nil {
 					return common.NewResponseError(err, resp)
 				}
-				if streamStatus.GetRecoverMessage() != "" {
-					str := fmt.Sprintf("This stream is in recovery mode.\n"+
-						"This means stackstate is reconstructing the state of the health streams. "+
-						"In this period no errors will be reported for the stream,\n"+
-						"incoming data will be processed as usual.\n"+
-						"The reason recovery mode was entered was because: %s", streamStatus.GetRecoverMessage())
-					jsonMap["recovery_message"] = str
-					strValue = append(strValue, str)
-				}
-				str := fmt.Sprintf("Consistency model for the stream and all substreams: %s", streamStatus.GetConsistencyModel())
-				jsonMap["stream_consistency_model"] = str
-				strValue = append(strValue, str)
-				if mainStream, ok := streamStatus.GetMainStreamStatusOk(); ok {
-					jsonMap["state_check_count"] = fmt.Sprintf("%d", mainStream.CheckStateCount)
-					strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", mainStream.CheckStateCount))
-
-					strOutput, jsonOutput := printSubStream(&mainStream.SubStreamState)
-					strValue = append(strValue, strOutput...)
-					util.ConcatMap(jsonMap, jsonOutput)
-
-					jsonMap["errors"] = fmt.Sprintf("Synchronization errors: %v", mainStream.GetErrors())
-					jsonMap["metrics"] = fmt.Sprintf("Synchronization metrics: %v", mainStream.GetMetrics())
-					strValue = append(strValue, fmt.Sprintf("\nSynchronization errors:\n %v", mainStream.GetErrors()),
-						fmt.Sprintf("\nSynchronization metrics:\n %v", mainStream.GetMetrics()))
-				} else {
-					jsonMap["synchronized_state_count"] = "-"
-					strValue = append(strValue, "Synchronized check state count: -")
-				}
-				jsonMap["aggregate_metrics"] = fmt.Sprintf("Aggregate metrics for the stream and all substreams: %v", streamStatus.GetAggregateMetrics())
-				jsonMap["non_existing_error"] = fmt.Sprintf("Errors for non-existing sub streams: %v", streamStatus.GetGlobalErrors())
-				strValue = append(strValue, fmt.Sprintf("\nAggregate metrics for the stream and all substreams:\n %v", streamStatus.GetAggregateMetrics()),
-					fmt.Sprintf("\nErrors for non-existing sub streams:\n %v", streamStatus.GetGlobalErrors()))
+				jsonMap, strValue = processSubStream(streamStatus)
 			} else {
 				subSteamStatus, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(cli.Context, args.Urn, args.SubStream).Execute()
 				if err != nil {
@@ -122,6 +91,7 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 					strValue = append(strValue, "Synchronized check state count: -")
 				}
 			}
+
 			if cli.IsJson() {
 				cli.Printer.PrintJson(jsonMap)
 			} else {
@@ -132,6 +102,44 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		}
 		return nil
 	}
+}
+
+func processSubStream(streamStatus *stackstate_api.HealthStreamStatus) (map[string]interface{}, []string) {
+	jsonMap := make(map[string]interface{})
+	strValue := make([]string, 0)
+	if streamStatus.GetRecoverMessage() != "" {
+		str := fmt.Sprintf("This stream is in recovery mode.\n"+
+			"This means stackstate is reconstructing the state of the health streams. "+
+			"In this period no errors will be reported for the stream,\n"+
+			"incoming data will be processed as usual.\n"+
+			"The reason recovery mode was entered was because: %s", streamStatus.GetRecoverMessage())
+		jsonMap["recovery_message"] = str
+		strValue = append(strValue, str)
+	}
+	str := fmt.Sprintf("Consistency model for the stream and all substreams: %s", streamStatus.GetConsistencyModel())
+	jsonMap["stream_consistency_model"] = str
+	strValue = append(strValue, str)
+	if mainStream, ok := streamStatus.GetMainStreamStatusOk(); ok {
+		jsonMap["state_check_count"] = fmt.Sprintf("%d", mainStream.CheckStateCount)
+		strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", mainStream.CheckStateCount))
+
+		strOutput, jsonOutput := printSubStream(&mainStream.SubStreamState)
+		strValue = append(strValue, strOutput...)
+		util.ConcatMap(jsonMap, jsonOutput)
+
+		jsonMap["errors"] = fmt.Sprintf("Synchronization errors: %v", mainStream.GetErrors())
+		jsonMap["metrics"] = fmt.Sprintf("Synchronization metrics: %v", mainStream.GetMetrics())
+		strValue = append(strValue, fmt.Sprintf("\nSynchronization errors:\n %v", mainStream.GetErrors()),
+			fmt.Sprintf("\nSynchronization metrics:\n %v", mainStream.GetMetrics()))
+	} else {
+		jsonMap["synchronized_state_count"] = "-"
+		strValue = append(strValue, "Synchronized check state count: -")
+	}
+	jsonMap["aggregate_metrics"] = fmt.Sprintf("Aggregate metrics for the stream and all substreams: %v", streamStatus.GetAggregateMetrics())
+	jsonMap["non_existing_error"] = fmt.Sprintf("Errors for non-existing sub streams: %v", streamStatus.GetGlobalErrors())
+	strValue = append(strValue, fmt.Sprintf("\nAggregate metrics for the stream and all substreams:\n %v", streamStatus.GetAggregateMetrics()),
+		fmt.Sprintf("\nErrors for non-existing sub streams:\n %v", streamStatus.GetGlobalErrors()))
+	return jsonMap, strValue
 }
 
 func printSubStream(subStream *stackstate_api.HealthSubStreamConsistencyState) ([]string, map[string]interface{}) {
