@@ -10,6 +10,8 @@ const (
 	IDFlagShort    = "i"
 	NameFlag       = "name"
 	NameFlagShort  = "n"
+	UrnFlag        = "urn"
+	UrnFlagShort   = "u"
 )
 
 func AddFileFlagVar(cmd *cobra.Command, v *string, use string) {
@@ -50,4 +52,13 @@ func AddNameFlagVarVal(cmd *cobra.Command, v *string, val string, use string) {
 func AddRequiredNameFlagVar(cmd *cobra.Command, v *string, use string) {
 	AddNameFlagVar(cmd, v, use)
 	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
+}
+
+func AddUrnFlagVar(cmd *cobra.Command, v *string, use string) {
+	cmd.Flags().StringVarP(v, UrnFlag, UrnFlagShort, "", use)
+}
+
+func AddRequiredUrnFlagVar(cmd *cobra.Command, v *string, use string) {
+	AddUrnFlagVar(cmd, v, use)
+	cmd.MarkFlagRequired(UrnFlag) //nolint:errcheck
 }
