@@ -70,7 +70,7 @@
         packages = {
           sts = pkgs.buildGoModule {
             pname = "sts";
-            version = "0.0.1";
+            version = "2.0.0";
 
             src = ./.;
 
@@ -83,7 +83,7 @@
             # you will get a new real hash which can be used here.
             #
             # vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-MBsjDNYZUclHxtDM+sboZc7IsomwQHuvErnRJ5Wey4s=";
+            vendorSha256 = "sha256-uORIriWxJpakUuXdzbEA3CGTarjKqRcGWd2Qdm2f8BI=";
 
             postInstall = ''
               mv $out/bin/stackstate-cli2 $out/bin/sts
