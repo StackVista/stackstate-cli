@@ -13,6 +13,11 @@ contexts:
   context:
     url: http://localhost:8080
     api-token: foo
+- name: nightly
+  context:
+    url: http://nightly:8080
+    service-bearer: foobar
+    api-path: /hidden/api
 - name: prod
   context:
     url: http://prod:8080
@@ -23,14 +28,17 @@ current-context: prod
 
 	cfg, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.Len(t, cfg.Contexts, 2)
+	assert.Len(t, cfg.Contexts, 3)
 	assert.Equal(t, "prod", cfg.CurrentContext)
 	assert.Equal(t, "http://localhost:8080", cfg.Contexts[0].Context.URL)
 	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
-	assert.Equal(t, "http://prod:8080", cfg.Contexts[1].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[1].Context.ServiceToken)
+	assert.Equal(t, "http://nightly:8080", cfg.Contexts[1].Context.URL)
+	assert.Equal(t, "foobar", cfg.Contexts[1].Context.ServiceBearer)
+	assert.Equal(t, "/hidden/api", cfg.Contexts[2].Context.APIPath)
+	assert.Equal(t, "http://prod:8080", cfg.Contexts[2].Context.URL)
+	assert.Equal(t, "foo", cfg.Contexts[2].Context.ServiceToken)
 	assert.Equal(t, "/hidden/api", cfg.Contexts[1].Context.APIPath)
 	assert.Empty(t, cfg.Contexts[1].Context.APIToken)
 }
@@ -74,7 +82,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token}'")
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token | service-bearer}'")
 }
 
 func TestValidateStsContextWithMissingURL(t *testing.T) {
@@ -118,5 +126,5 @@ current-context: default
 	assert.NoError(t, err)
 	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), `Failed to validate the 'default' context:
 * URL localhost:8080 must start with "https://" or "http://"
-* Can only specify one of {api-token | service-token}`)
+* Can only specify one of {api-token | service-token | service-bearer}`)
 }

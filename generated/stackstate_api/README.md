@@ -336,6 +336,15 @@ Class | Method | HTTP request | Description
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Token and passed in as the auth context for each request.
 
 
+### ServiceBearer
+
+- **Type**: API key
+- **API key parameter name**: X-API-Service-Bearer
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Service-Bearer and passed in as the auth context for each request.
+
+
 ### ServiceToken
 
 - **Type**: API key

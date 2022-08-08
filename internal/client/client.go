@@ -16,7 +16,7 @@ type StackStateClient interface {
 	Connect() (*stackstate_api.APIClient, *stackstate_api.ServerInfo, common.CLIError)
 }
 
-func NewStackStateClient(ctx context.Context, isVerBose bool, pr printer.Printer, url string, apiPath string, apiToken, serviceToken string) (StackStateClient, context.Context) {
+func NewStackStateClient(ctx context.Context, isVerBose bool, pr printer.Printer, url string, apiPath string, apiToken, serviceToken string, serviceBearer string) (StackStateClient, context.Context) {
 	apiURL := combineURLandPath(url, apiPath)
 
 	configuration := stackstate_api.NewConfiguration()
@@ -46,6 +46,12 @@ func NewStackStateClient(ctx context.Context, isVerBose bool, pr printer.Printer
 	if serviceToken != "" {
 		auth["ServiceToken"] = stackstate_api.APIKey{
 			Key:    serviceToken,
+			Prefix: "",
+		}
+	}
+	if serviceBearer != "" {
+		auth["ServiceBearer"] = stackstate_api.APIKey{
+			Key:    serviceBearer,
 			Prefix: "",
 		}
 	}

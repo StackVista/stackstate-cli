@@ -67,7 +67,7 @@ func TestToString(t *testing.T) {
 		"float64":       {input: float64(3.14), expected: "3.14"},
 		"pfloat64":      {input: &f64, expected: "3.14"},
 		"float64 round": {input: float64(3), expected: "3"},
-		"float64 round large no scientific notiation": {
+		"float64 round large no scientific notation": {
 			input: float64(107915343054010.0), expected: "107915343054010",
 		},
 		"positive infinity": {input: math.Inf(1), expected: "+Inf"},

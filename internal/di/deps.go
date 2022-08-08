@@ -85,7 +85,7 @@ func (cli *Deps) CmdRunEWithApi(
 }
 
 func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) common.CLIError {
-	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, context.URL, context.APIPath, context.APIToken, context.ServiceToken)
+	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, context.URL, context.APIPath, context.APIToken, context.ServiceToken, context.ServiceBearer)
 	return nil
 }
 

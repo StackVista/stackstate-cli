@@ -291,6 +291,20 @@ func (a *ComponentApiService) CreateComponentCheckExecute(r ApiCreateComponentCh
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -453,6 +467,20 @@ func (a *ComponentApiService) CreateComponentStreamsExecute(r ApiCreateComponent
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -605,6 +633,20 @@ func (a *ComponentApiService) DeleteComponentCheckExecute(r ApiDeleteComponentCh
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -742,6 +784,20 @@ func (a *ComponentApiService) DeleteComponentStreamExecute(r ApiDeleteComponentS
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}
@@ -904,6 +960,20 @@ func (a *ComponentApiService) GetComponentCheckExecute(r ApiGetComponentCheckReq
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1059,6 +1129,20 @@ func (a *ComponentApiService) GetComponentChecksExecute(r ApiGetComponentChecksR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}
@@ -1230,6 +1314,20 @@ func (a *ComponentApiService) GetComponentStreamExecute(r ApiGetComponentStreamR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1385,6 +1483,20 @@ func (a *ComponentApiService) GetComponentStreamsExecute(r ApiGetComponentStream
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}
@@ -1563,6 +1675,20 @@ func (a *ComponentApiService) GetLatestMetricsExecute(r ApiGetLatestMetricsReque
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1729,6 +1855,20 @@ func (a *ComponentApiService) UpdateComponentCheckExecute(r ApiUpdateComponentCh
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1889,6 +2029,20 @@ func (a *ComponentApiService) UpdateComponentStreamExecute(r ApiUpdateComponentS
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}

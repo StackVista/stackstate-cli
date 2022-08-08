@@ -205,6 +205,20 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -347,6 +361,20 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}
@@ -497,6 +525,20 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -637,6 +679,20 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}
@@ -812,6 +868,20 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ServiceToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -966,6 +1036,20 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Service-Bearer"] = key
 			}
 		}
 	}

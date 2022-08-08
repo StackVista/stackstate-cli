@@ -21,6 +21,7 @@ servers:
 security:
 - ApiToken: []
 - ServiceToken: []
+- ServiceBearer: []
 paths:
   /import:
     post:
@@ -6539,4 +6540,8 @@ components:
     ServiceToken:
       in: header
       name: X-API-Key
+      type: apiKey
+    ServiceBearer:
+      in: header
+      name: X-API-Service-Bearer
       type: apiKey

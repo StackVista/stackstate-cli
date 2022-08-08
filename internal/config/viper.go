@@ -16,6 +16,7 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	vp.BindEnv("url", "STS_CLI_URL")
 	vp.BindEnv("api-token", "STS_CLI_API_TOKEN")
 	vp.BindEnv("service-token", "STS_CLI_SERVICE_TOKEN")
+	vp.BindEnv("service-bearer", "STS_CLI_SERVICE_BEARER")
 	vp.BindEnv("api-path", "STS_CLI_API_PATH")
 	vp.BindEnv("context", "STS_CLI_CONTEXT")
 
@@ -23,6 +24,7 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	vp.BindPFlag("url", cmd.Flags().Lookup("url"))
 	vp.BindPFlag("api-token", cmd.Flags().Lookup("api-token"))
 	vp.BindPFlag("service-token", cmd.Flags().Lookup("service-token"))
+	vp.BindPFlag("service-bearer", cmd.Flags().Lookup("service-bearer"))
 	vp.BindPFlag("api-path", cmd.Flags().Lookup("api-path"))
 	vp.BindPFlag("context", cmd.Flags().Lookup("context"))
 
@@ -30,10 +32,11 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	return &ViperConfig{
 		CurrentContext: vp.GetString("context"),
 		Context: &StsContext{
-			URL:          vp.GetString("url"),
-			APIToken:     vp.GetString("api-token"),
-			ServiceToken: vp.GetString("service-token"),
-			APIPath:      vp.GetString("api-path"),
+			URL:           vp.GetString("url"),
+			APIToken:      vp.GetString("api-token"),
+			ServiceToken:  vp.GetString("service-token"),
+			ServiceBearer: vp.GetString("service-bearer"),
+			APIPath:       vp.GetString("api-path"),
 		},
 	}
 }

@@ -20,10 +20,11 @@ type NamedContext struct {
 }
 
 type StsContext struct {
-	URL          string `yaml:"url" json:"url"`
-	APIToken     string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
-	ServiceToken string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
-	APIPath      string `yaml:"api-path" default:"/api" json:"api-path"`
+	URL           string `yaml:"url" json:"url"`
+	APIToken      string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
+	ServiceToken  string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
+	ServiceBearer string `yaml:"service-bearer,omitempty" json:"service-bearer,omitempty"`
+	APIPath       string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
 func EmptyConfig() *Config {
@@ -90,10 +91,11 @@ func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 // Merge merges the StsContext with a fallback object.
 func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 	return &StsContext{
-		URL:          util.DefaultIfEmpty(c.URL, fallback.URL),
-		APIToken:     util.DefaultIfEmpty(c.APIToken, fallback.APIToken),
-		ServiceToken: util.DefaultIfEmpty(c.ServiceToken, fallback.ServiceToken),
-		APIPath:      util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+		URL:           util.DefaultIfEmpty(c.URL, fallback.URL),
+		APIToken:      util.DefaultIfEmpty(c.APIToken, fallback.APIToken),
+		ServiceToken:  util.DefaultIfEmpty(c.ServiceToken, fallback.ServiceToken),
+		ServiceBearer: util.DefaultIfEmpty(c.ServiceBearer, fallback.ServiceBearer),
+		APIPath:       util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
 	}
 }
 
@@ -107,12 +109,13 @@ func (c *StsContext) Validate(contextName string) common.CLIError {
 		errors = append(errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
 	}
 
-	if c.APIToken == "" && c.ServiceToken == "" {
-		errors = append(errors, MissingFieldError{FieldName: "{api-token | service-token}"})
+	if c.APIToken == "" && c.ServiceToken == "" && c.ServiceBearer == "" {
+		errors = append(errors, MissingFieldError{FieldName: "{api-token | service-token | service-bearer}"})
 	}
 
-	if c.APIToken != "" && c.ServiceToken != "" {
-		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token}"))
+	authenticationTokens := util.Remove_empty([]string{c.APIToken, c.ServiceToken, c.ServiceBearer})
+	if len(authenticationTokens) > 1 {
+		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token | service-bearer}"))
 	}
 
 	if len(errors) > 0 {
