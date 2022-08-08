@@ -21,9 +21,9 @@ type MessageLevel string
 
 // List of MessageLevel
 const (
-	WARN MessageLevel = "Warn"
-	ERROR MessageLevel = "Error"
-	INFO MessageLevel = "Info"
+	MESSAGELEVEL_WARN MessageLevel = "Warn"
+	MESSAGELEVEL_ERROR MessageLevel = "Error"
+	MESSAGELEVEL_INFO MessageLevel = "Info"
 )
 
 // All allowed values of MessageLevel enum

@@ -68,6 +68,8 @@ type APIClient struct {
 
 	NodeApi NodeApi
 
+	RelationApi RelationApi
+
 	ScriptingApi ScriptingApi
 
 	ServerApi ServerApi
@@ -106,6 +108,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ImportApi = (*ImportApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.NodeApi = (*NodeApiService)(&c.common)
+	c.RelationApi = (*RelationApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)
 	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)

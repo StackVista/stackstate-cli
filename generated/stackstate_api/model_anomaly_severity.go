@@ -21,9 +21,9 @@ type AnomalySeverity string
 
 // List of AnomalySeverity
 const (
-	LOW AnomalySeverity = "LOW"
-	MEDIUM AnomalySeverity = "MEDIUM"
-	HIGH AnomalySeverity = "HIGH"
+	ANOMALYSEVERITY_LOW AnomalySeverity = "LOW"
+	ANOMALYSEVERITY_MEDIUM AnomalySeverity = "MEDIUM"
+	ANOMALYSEVERITY_HIGH AnomalySeverity = "HIGH"
 )
 
 // All allowed values of AnomalySeverity enum

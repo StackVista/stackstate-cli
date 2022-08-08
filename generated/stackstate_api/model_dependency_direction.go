@@ -21,9 +21,9 @@ type DependencyDirection string
 
 // List of DependencyDirection
 const (
-	ONE_WAY DependencyDirection = "one-way"
-	NONE DependencyDirection = "none"
-	BOTH DependencyDirection = "both"
+	DEPENDENCYDIRECTION_ONE_WAY DependencyDirection = "one-way"
+	DEPENDENCYDIRECTION_NONE DependencyDirection = "none"
+	DEPENDENCYDIRECTION_BOTH DependencyDirection = "both"
 )
 
 // All allowed values of DependencyDirection enum

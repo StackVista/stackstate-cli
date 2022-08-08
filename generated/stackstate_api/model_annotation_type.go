@@ -21,9 +21,9 @@ type AnnotationType string
 
 // List of AnnotationType
 const (
-	METRIC_STREAM_ANOMALY AnnotationType = "MetricStreamAnomaly"
-	METRIC_STREAM_NO_ANOMALY AnnotationType = "MetricStreamNoAnomaly"
-	ANOMALY_FEEDBACK AnnotationType = "AnomalyFeedback"
+	ANNOTATIONTYPE_METRIC_STREAM_ANOMALY AnnotationType = "MetricStreamAnomaly"
+	ANNOTATIONTYPE_METRIC_STREAM_NO_ANOMALY AnnotationType = "MetricStreamNoAnomaly"
+	ANNOTATIONTYPE_ANOMALY_FEEDBACK AnnotationType = "AnomalyFeedback"
 )
 
 // All allowed values of AnnotationType enum

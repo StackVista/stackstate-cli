@@ -24,25 +24,1441 @@ import (
 type ComponentApi interface {
 
 	/*
-	ComponentsComponentIdStreamsLatestGet Get the latests metrics
+	CreateComponentCheck Create the Checks on the component
+
+	Adds a Check on the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiCreateComponentCheckRequest
+	*/
+	CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest
+
+	// CreateComponentCheckExecute executes the request
+	//  @return Check
+	CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error)
+
+	/*
+	CreateComponentStreams Create the Stream on the component
+
+	Adds a DataStream/TelemetryStreamDefinition on the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiCreateComponentStreamsRequest
+	*/
+	CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest
+
+	// CreateComponentStreamsExecute executes the request
+	//  @return TelemetryStreamDefinition
+	CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error)
+
+	/*
+	DeleteComponentCheck Delete the check from the component
+
+	Delete a Specific check from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param checkId The Identifier of a Check
+	@return ApiDeleteComponentCheckRequest
+	*/
+	DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest
+
+	// DeleteComponentCheckExecute executes the request
+	DeleteComponentCheckExecute(r ApiDeleteComponentCheckRequest) (*http.Response, error)
+
+	/*
+	DeleteComponentStream Delete the stream from the component
+
+	Delete a Specific stream from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param streamId The Identifier of a stream
+	@return ApiDeleteComponentStreamRequest
+	*/
+	DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest
+
+	// DeleteComponentStreamExecute executes the request
+	DeleteComponentStreamExecute(r ApiDeleteComponentStreamRequest) (*http.Response, error)
+
+	/*
+	GetComponentCheck Get the check from the component
+
+	Get a Specific check from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param checkId The Identifier of a Check
+	@return ApiGetComponentCheckRequest
+	*/
+	GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest
+
+	// GetComponentCheckExecute executes the request
+	//  @return Check
+	GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error)
+
+	/*
+	GetComponentChecks List all checks from the component
+
+	List all checks from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiGetComponentChecksRequest
+	*/
+	GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest
+
+	// GetComponentChecksExecute executes the request
+	//  @return []Check
+	GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error)
+
+	/*
+	GetComponentStream Get the stream from the component
+
+	Get a Specific stream from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param streamId The Identifier of a stream
+	@return ApiGetComponentStreamRequest
+	*/
+	GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest
+
+	// GetComponentStreamExecute executes the request
+	//  @return TelemetryStreamDefinition
+	GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error)
+
+	/*
+	GetComponentStreams List all streams from the component
+
+	List all streams from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiGetComponentStreamsRequest
+	*/
+	GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest
+
+	// GetComponentStreamsExecute executes the request
+	//  @return []TelemetryStreamDefinition
+	GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error)
+
+	/*
+	GetLatestMetrics Get the latests metrics
 
 	Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param componentId The Identifier of a component
-	@return ApiComponentsComponentIdStreamsLatestGetRequest
+	@return ApiGetLatestMetricsRequest
 	*/
-	ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest
+	GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest
 
-	// ComponentsComponentIdStreamsLatestGetExecute executes the request
+	// GetLatestMetricsExecute executes the request
 	//  @return TelemetryLatestSnapshotsResponse
-	ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error)
+	GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error)
+
+	/*
+	UpdateComponentCheck Update the check on the component
+
+	Update a Specific check from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param checkId The Identifier of a Check
+	@return ApiUpdateComponentCheckRequest
+	*/
+	UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest
+
+	// UpdateComponentCheckExecute executes the request
+	//  @return Check
+	UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error)
+
+	/*
+	UpdateComponentStream Update the stream on the component
+
+	Update a Specific stream from the component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param streamId The Identifier of a stream
+	@return ApiUpdateComponentStreamRequest
+	*/
+	UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest
+
+	// UpdateComponentStreamExecute executes the request
+	//  @return TelemetryStreamDefinition
+	UpdateComponentStreamExecute(r ApiUpdateComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error)
 }
 
 // ComponentApiService ComponentApi service
 type ComponentApiService service
 
-type ApiComponentsComponentIdStreamsLatestGetRequest struct {
+type ApiCreateComponentCheckRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	check *Check
+}
+
+// Single Check
+func (r ApiCreateComponentCheckRequest) Check(check Check) ApiCreateComponentCheckRequest {
+	r.check = &check
+	return r
+}
+
+func (r ApiCreateComponentCheckRequest) Execute() (*Check, *http.Response, error) {
+	return r.ApiService.CreateComponentCheckExecute(r)
+}
+
+/*
+CreateComponentCheck Create the Checks on the component
+
+Adds a Check on the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @return ApiCreateComponentCheckRequest
+*/
+func (a *ComponentApiService) CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest {
+	return ApiCreateComponentCheckRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+// Execute executes the request
+//  @return Check
+func (a *ComponentApiService) CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *Check
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.CreateComponentCheck")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/checks"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.check == nil {
+		return localVarReturnValue, nil, reportError("check is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.check
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCreateComponentStreamsRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	dataStream *DataStream
+}
+
+// Single telemetry stream definition
+func (r ApiCreateComponentStreamsRequest) DataStream(dataStream DataStream) ApiCreateComponentStreamsRequest {
+	r.dataStream = &dataStream
+	return r
+}
+
+func (r ApiCreateComponentStreamsRequest) Execute() (*TelemetryStreamDefinition, *http.Response, error) {
+	return r.ApiService.CreateComponentStreamsExecute(r)
+}
+
+/*
+CreateComponentStreams Create the Stream on the component
+
+Adds a DataStream/TelemetryStreamDefinition on the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @return ApiCreateComponentStreamsRequest
+*/
+func (a *ComponentApiService) CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest {
+	return ApiCreateComponentStreamsRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+// Execute executes the request
+//  @return TelemetryStreamDefinition
+func (a *ComponentApiService) CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TelemetryStreamDefinition
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.CreateComponentStreams")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/streams"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.dataStream == nil {
+		return localVarReturnValue, nil, reportError("dataStream is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.dataStream
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDeleteComponentCheckRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	checkId int64
+}
+
+func (r ApiDeleteComponentCheckRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteComponentCheckExecute(r)
+}
+
+/*
+DeleteComponentCheck Delete the check from the component
+
+Delete a Specific check from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @param checkId The Identifier of a Check
+ @return ApiDeleteComponentCheckRequest
+*/
+func (a *ComponentApiService) DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest {
+	return ApiDeleteComponentCheckRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+		checkId: checkId,
+	}
+}
+
+// Execute executes the request
+func (a *ComponentApiService) DeleteComponentCheckExecute(r ApiDeleteComponentCheckRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.DeleteComponentCheck")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/checks/{checkId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkId"+"}", url.PathEscape(parameterToString(r.checkId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiDeleteComponentStreamRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	streamId int64
+}
+
+func (r ApiDeleteComponentStreamRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteComponentStreamExecute(r)
+}
+
+/*
+DeleteComponentStream Delete the stream from the component
+
+Delete a Specific stream from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @param streamId The Identifier of a stream
+ @return ApiDeleteComponentStreamRequest
+*/
+func (a *ComponentApiService) DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest {
+	return ApiDeleteComponentStreamRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+		streamId: streamId,
+	}
+}
+
+// Execute executes the request
+func (a *ComponentApiService) DeleteComponentStreamExecute(r ApiDeleteComponentStreamRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.DeleteComponentStream")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/streams/{streamId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"streamId"+"}", url.PathEscape(parameterToString(r.streamId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiGetComponentCheckRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	queryTime *int32
+	checkId int64
+}
+
+// A Data point for a query either point from timeline or &#39;now&#39; if livemode
+func (r ApiGetComponentCheckRequest) QueryTime(queryTime int32) ApiGetComponentCheckRequest {
+	r.queryTime = &queryTime
+	return r
+}
+
+func (r ApiGetComponentCheckRequest) Execute() (*Check, *http.Response, error) {
+	return r.ApiService.GetComponentCheckExecute(r)
+}
+
+/*
+GetComponentCheck Get the check from the component
+
+Get a Specific check from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @param checkId The Identifier of a Check
+ @return ApiGetComponentCheckRequest
+*/
+func (a *ComponentApiService) GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest {
+	return ApiGetComponentCheckRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+		checkId: checkId,
+	}
+}
+
+// Execute executes the request
+//  @return Check
+func (a *ComponentApiService) GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *Check
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentCheck")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/checks/{checkId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkId"+"}", url.PathEscape(parameterToString(r.checkId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.queryTime == nil {
+		return localVarReturnValue, nil, reportError("queryTime is required and must be specified")
+	}
+
+	localVarQueryParams.Add("queryTime", parameterToString(*r.queryTime, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetComponentChecksRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	queryTime *int32
+}
+
+// A Data point for a query either point from timeline or &#39;now&#39; if livemode
+func (r ApiGetComponentChecksRequest) QueryTime(queryTime int32) ApiGetComponentChecksRequest {
+	r.queryTime = &queryTime
+	return r
+}
+
+func (r ApiGetComponentChecksRequest) Execute() ([]Check, *http.Response, error) {
+	return r.ApiService.GetComponentChecksExecute(r)
+}
+
+/*
+GetComponentChecks List all checks from the component
+
+List all checks from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @return ApiGetComponentChecksRequest
+*/
+func (a *ComponentApiService) GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest {
+	return ApiGetComponentChecksRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+// Execute executes the request
+//  @return []Check
+func (a *ComponentApiService) GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []Check
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentChecks")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/checks"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.queryTime == nil {
+		return localVarReturnValue, nil, reportError("queryTime is required and must be specified")
+	}
+
+	localVarQueryParams.Add("queryTime", parameterToString(*r.queryTime, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetComponentStreamRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	queryTime *int32
+	streamId int64
+}
+
+// A Data point for a query either point from timeline or &#39;now&#39; if livemode
+func (r ApiGetComponentStreamRequest) QueryTime(queryTime int32) ApiGetComponentStreamRequest {
+	r.queryTime = &queryTime
+	return r
+}
+
+func (r ApiGetComponentStreamRequest) Execute() (*TelemetryStreamDefinition, *http.Response, error) {
+	return r.ApiService.GetComponentStreamExecute(r)
+}
+
+/*
+GetComponentStream Get the stream from the component
+
+Get a Specific stream from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @param streamId The Identifier of a stream
+ @return ApiGetComponentStreamRequest
+*/
+func (a *ComponentApiService) GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest {
+	return ApiGetComponentStreamRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+		streamId: streamId,
+	}
+}
+
+// Execute executes the request
+//  @return TelemetryStreamDefinition
+func (a *ComponentApiService) GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TelemetryStreamDefinition
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentStream")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/streams/{streamId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"streamId"+"}", url.PathEscape(parameterToString(r.streamId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.queryTime == nil {
+		return localVarReturnValue, nil, reportError("queryTime is required and must be specified")
+	}
+
+	localVarQueryParams.Add("queryTime", parameterToString(*r.queryTime, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetComponentStreamsRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	queryTime *int32
+}
+
+// A Data point for a query either point from timeline or &#39;now&#39; if livemode
+func (r ApiGetComponentStreamsRequest) QueryTime(queryTime int32) ApiGetComponentStreamsRequest {
+	r.queryTime = &queryTime
+	return r
+}
+
+func (r ApiGetComponentStreamsRequest) Execute() ([]TelemetryStreamDefinition, *http.Response, error) {
+	return r.ApiService.GetComponentStreamsExecute(r)
+}
+
+/*
+GetComponentStreams List all streams from the component
+
+List all streams from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @return ApiGetComponentStreamsRequest
+*/
+func (a *ComponentApiService) GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest {
+	return ApiGetComponentStreamsRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+// Execute executes the request
+//  @return []TelemetryStreamDefinition
+func (a *ComponentApiService) GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []TelemetryStreamDefinition
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentStreams")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/streams"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.queryTime == nil {
+		return localVarReturnValue, nil, reportError("queryTime is required and must be specified")
+	}
+
+	localVarQueryParams.Add("queryTime", parameterToString(*r.queryTime, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetLatestMetricsRequest struct {
 	ctx context.Context
 	ApiService ComponentApi
 	componentId int64
@@ -51,32 +1467,32 @@ type ApiComponentsComponentIdStreamsLatestGetRequest struct {
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
-func (r ApiComponentsComponentIdStreamsLatestGetRequest) QueryTime(queryTime int32) ApiComponentsComponentIdStreamsLatestGetRequest {
+func (r ApiGetLatestMetricsRequest) QueryTime(queryTime int32) ApiGetLatestMetricsRequest {
 	r.queryTime = &queryTime
 	return r
 }
 
 // Ids of streams to query for
-func (r ApiComponentsComponentIdStreamsLatestGetRequest) StreamIds(streamIds []int64) ApiComponentsComponentIdStreamsLatestGetRequest {
+func (r ApiGetLatestMetricsRequest) StreamIds(streamIds []int64) ApiGetLatestMetricsRequest {
 	r.streamIds = &streamIds
 	return r
 }
 
-func (r ApiComponentsComponentIdStreamsLatestGetRequest) Execute() (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
-	return r.ApiService.ComponentsComponentIdStreamsLatestGetExecute(r)
+func (r ApiGetLatestMetricsRequest) Execute() (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
+	return r.ApiService.GetLatestMetricsExecute(r)
 }
 
 /*
-ComponentsComponentIdStreamsLatestGet Get the latests metrics
+GetLatestMetrics Get the latests metrics
 
 Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param componentId The Identifier of a component
- @return ApiComponentsComponentIdStreamsLatestGetRequest
+ @return ApiGetLatestMetricsRequest
 */
-func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest {
-	return ApiComponentsComponentIdStreamsLatestGetRequest{
+func (a *ComponentApiService) GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest {
+	return ApiGetLatestMetricsRequest{
 		ApiService: a,
 		ctx: ctx,
 		componentId: componentId,
@@ -85,7 +1501,7 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGet(ctx context.
 
 // Execute executes the request
 //  @return TelemetryLatestSnapshotsResponse
-func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
+func (a *ComponentApiService) GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -93,7 +1509,7 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r Api
 		localVarReturnValue  *TelemetryLatestSnapshotsResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.ComponentsComponentIdStreamsLatestGet")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetLatestMetrics")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -214,6 +1630,338 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r Api
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiUpdateComponentCheckRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	checkId int64
+	check *Check
+}
+
+// Single Check
+func (r ApiUpdateComponentCheckRequest) Check(check Check) ApiUpdateComponentCheckRequest {
+	r.check = &check
+	return r
+}
+
+func (r ApiUpdateComponentCheckRequest) Execute() (*Check, *http.Response, error) {
+	return r.ApiService.UpdateComponentCheckExecute(r)
+}
+
+/*
+UpdateComponentCheck Update the check on the component
+
+Update a Specific check from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @param checkId The Identifier of a Check
+ @return ApiUpdateComponentCheckRequest
+*/
+func (a *ComponentApiService) UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest {
+	return ApiUpdateComponentCheckRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+		checkId: checkId,
+	}
+}
+
+// Execute executes the request
+//  @return Check
+func (a *ComponentApiService) UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *Check
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.UpdateComponentCheck")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/checks/{checkId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"checkId"+"}", url.PathEscape(parameterToString(r.checkId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.check == nil {
+		return localVarReturnValue, nil, reportError("check is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.check
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpdateComponentStreamRequest struct {
+	ctx context.Context
+	ApiService ComponentApi
+	componentId int64
+	streamId int64
+	dataStream *DataStream
+}
+
+// Single telemetry stream definition
+func (r ApiUpdateComponentStreamRequest) DataStream(dataStream DataStream) ApiUpdateComponentStreamRequest {
+	r.dataStream = &dataStream
+	return r
+}
+
+func (r ApiUpdateComponentStreamRequest) Execute() (*TelemetryStreamDefinition, *http.Response, error) {
+	return r.ApiService.UpdateComponentStreamExecute(r)
+}
+
+/*
+UpdateComponentStream Update the stream on the component
+
+Update a Specific stream from the component
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param componentId The Identifier of a component
+ @param streamId The Identifier of a stream
+ @return ApiUpdateComponentStreamRequest
+*/
+func (a *ComponentApiService) UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest {
+	return ApiUpdateComponentStreamRequest{
+		ApiService: a,
+		ctx: ctx,
+		componentId: componentId,
+		streamId: streamId,
+	}
+}
+
+// Execute executes the request
+//  @return TelemetryStreamDefinition
+func (a *ComponentApiService) UpdateComponentStreamExecute(r ApiUpdateComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *TelemetryStreamDefinition
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.UpdateComponentStream")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentId}/streams/{streamId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentId"+"}", url.PathEscape(parameterToString(r.componentId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"streamId"+"}", url.PathEscape(parameterToString(r.streamId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.dataStream == nil {
+		return localVarReturnValue, nil, reportError("dataStream is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.dataStream
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v StackElementNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
@@ -221,46 +1969,390 @@ func (a *ComponentApiService) ComponentsComponentIdStreamsLatestGetExecute(r Api
 
 
 type ComponentApiMock struct {
-	ComponentsComponentIdStreamsLatestGetCalls *[]ComponentsComponentIdStreamsLatestGetCall
-	ComponentsComponentIdStreamsLatestGetResponse ComponentsComponentIdStreamsLatestGetMockResponse
+	CreateComponentCheckCalls *[]CreateComponentCheckCall
+	CreateComponentCheckResponse CreateComponentCheckMockResponse
+	CreateComponentStreamsCalls *[]CreateComponentStreamsCall
+	CreateComponentStreamsResponse CreateComponentStreamsMockResponse
+	DeleteComponentCheckCalls *[]DeleteComponentCheckCall
+	DeleteComponentCheckResponse DeleteComponentCheckMockResponse
+	DeleteComponentStreamCalls *[]DeleteComponentStreamCall
+	DeleteComponentStreamResponse DeleteComponentStreamMockResponse
+	GetComponentCheckCalls *[]GetComponentCheckCall
+	GetComponentCheckResponse GetComponentCheckMockResponse
+	GetComponentChecksCalls *[]GetComponentChecksCall
+	GetComponentChecksResponse GetComponentChecksMockResponse
+	GetComponentStreamCalls *[]GetComponentStreamCall
+	GetComponentStreamResponse GetComponentStreamMockResponse
+	GetComponentStreamsCalls *[]GetComponentStreamsCall
+	GetComponentStreamsResponse GetComponentStreamsMockResponse
+	GetLatestMetricsCalls *[]GetLatestMetricsCall
+	GetLatestMetricsResponse GetLatestMetricsMockResponse
+	UpdateComponentCheckCalls *[]UpdateComponentCheckCall
+	UpdateComponentCheckResponse UpdateComponentCheckMockResponse
+	UpdateComponentStreamCalls *[]UpdateComponentStreamCall
+	UpdateComponentStreamResponse UpdateComponentStreamMockResponse
 }	
 
 func NewComponentApiMock() ComponentApiMock {
-	xComponentsComponentIdStreamsLatestGetCalls := make([]ComponentsComponentIdStreamsLatestGetCall, 0)
+	xCreateComponentCheckCalls := make([]CreateComponentCheckCall, 0)
+	xCreateComponentStreamsCalls := make([]CreateComponentStreamsCall, 0)
+	xDeleteComponentCheckCalls := make([]DeleteComponentCheckCall, 0)
+	xDeleteComponentStreamCalls := make([]DeleteComponentStreamCall, 0)
+	xGetComponentCheckCalls := make([]GetComponentCheckCall, 0)
+	xGetComponentChecksCalls := make([]GetComponentChecksCall, 0)
+	xGetComponentStreamCalls := make([]GetComponentStreamCall, 0)
+	xGetComponentStreamsCalls := make([]GetComponentStreamsCall, 0)
+	xGetLatestMetricsCalls := make([]GetLatestMetricsCall, 0)
+	xUpdateComponentCheckCalls := make([]UpdateComponentCheckCall, 0)
+	xUpdateComponentStreamCalls := make([]UpdateComponentStreamCall, 0)
 	return ComponentApiMock {
-		ComponentsComponentIdStreamsLatestGetCalls: &xComponentsComponentIdStreamsLatestGetCalls,
+		CreateComponentCheckCalls: &xCreateComponentCheckCalls,
+		CreateComponentStreamsCalls: &xCreateComponentStreamsCalls,
+		DeleteComponentCheckCalls: &xDeleteComponentCheckCalls,
+		DeleteComponentStreamCalls: &xDeleteComponentStreamCalls,
+		GetComponentCheckCalls: &xGetComponentCheckCalls,
+		GetComponentChecksCalls: &xGetComponentChecksCalls,
+		GetComponentStreamCalls: &xGetComponentStreamCalls,
+		GetComponentStreamsCalls: &xGetComponentStreamsCalls,
+		GetLatestMetricsCalls: &xGetLatestMetricsCalls,
+		UpdateComponentCheckCalls: &xUpdateComponentCheckCalls,
+		UpdateComponentStreamCalls: &xUpdateComponentStreamCalls,
 	}
 }
 
-type ComponentsComponentIdStreamsLatestGetMockResponse struct {
-	Result TelemetryLatestSnapshotsResponse
+type CreateComponentCheckMockResponse struct {
+	Result Check
 	Response *http.Response
 	Error error
 }
 
-type ComponentsComponentIdStreamsLatestGetCall struct {
+type CreateComponentCheckCall struct {
 	PcomponentId int64
-	PqueryTime *int32
-	PstreamIds *[]int64
+	Pcheck *Check
 }
 
 
-func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGet(ctx context.Context, componentId int64) ApiComponentsComponentIdStreamsLatestGetRequest {
-	return ApiComponentsComponentIdStreamsLatestGetRequest{
+func (mock ComponentApiMock) CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest {
+	return ApiCreateComponentCheckRequest{
 		ApiService: mock,
 		ctx: ctx,
 		componentId: componentId,
 	}
 }
 
-func (mock ComponentApiMock) ComponentsComponentIdStreamsLatestGetExecute(r ApiComponentsComponentIdStreamsLatestGetRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
-	p := ComponentsComponentIdStreamsLatestGetCall {
+func (mock ComponentApiMock) CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error) {
+	p := CreateComponentCheckCall {
+			PcomponentId: r.componentId,
+			Pcheck: r.check,
+	}
+	*mock.CreateComponentCheckCalls = append(*mock.CreateComponentCheckCalls, p)
+	return &mock.CreateComponentCheckResponse.Result, mock.CreateComponentCheckResponse.Response, mock.CreateComponentCheckResponse.Error
+}
+
+type CreateComponentStreamsMockResponse struct {
+	Result TelemetryStreamDefinition
+	Response *http.Response
+	Error error
+}
+
+type CreateComponentStreamsCall struct {
+	PcomponentId int64
+	PdataStream *DataStream
+}
+
+
+func (mock ComponentApiMock) CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest {
+	return ApiCreateComponentStreamsRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+func (mock ComponentApiMock) CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error) {
+	p := CreateComponentStreamsCall {
+			PcomponentId: r.componentId,
+			PdataStream: r.dataStream,
+	}
+	*mock.CreateComponentStreamsCalls = append(*mock.CreateComponentStreamsCalls, p)
+	return &mock.CreateComponentStreamsResponse.Result, mock.CreateComponentStreamsResponse.Response, mock.CreateComponentStreamsResponse.Error
+}
+
+type DeleteComponentCheckMockResponse struct {
+	
+	Response *http.Response
+	Error error
+}
+
+type DeleteComponentCheckCall struct {
+	PcomponentId int64
+	PcheckId int64
+}
+
+
+func (mock ComponentApiMock) DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest {
+	return ApiDeleteComponentCheckRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+		checkId: checkId,
+	}
+}
+
+func (mock ComponentApiMock) DeleteComponentCheckExecute(r ApiDeleteComponentCheckRequest) (*http.Response, error) {
+	p := DeleteComponentCheckCall {
+			PcomponentId: r.componentId,
+			PcheckId: r.checkId,
+	}
+	*mock.DeleteComponentCheckCalls = append(*mock.DeleteComponentCheckCalls, p)
+	return mock.DeleteComponentCheckResponse.Response, mock.DeleteComponentCheckResponse.Error
+}
+
+type DeleteComponentStreamMockResponse struct {
+	
+	Response *http.Response
+	Error error
+}
+
+type DeleteComponentStreamCall struct {
+	PcomponentId int64
+	PstreamId int64
+}
+
+
+func (mock ComponentApiMock) DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest {
+	return ApiDeleteComponentStreamRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+		streamId: streamId,
+	}
+}
+
+func (mock ComponentApiMock) DeleteComponentStreamExecute(r ApiDeleteComponentStreamRequest) (*http.Response, error) {
+	p := DeleteComponentStreamCall {
+			PcomponentId: r.componentId,
+			PstreamId: r.streamId,
+	}
+	*mock.DeleteComponentStreamCalls = append(*mock.DeleteComponentStreamCalls, p)
+	return mock.DeleteComponentStreamResponse.Response, mock.DeleteComponentStreamResponse.Error
+}
+
+type GetComponentCheckMockResponse struct {
+	Result Check
+	Response *http.Response
+	Error error
+}
+
+type GetComponentCheckCall struct {
+	PcomponentId int64
+	PqueryTime *int32
+	PcheckId int64
+}
+
+
+func (mock ComponentApiMock) GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest {
+	return ApiGetComponentCheckRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+		checkId: checkId,
+	}
+}
+
+func (mock ComponentApiMock) GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error) {
+	p := GetComponentCheckCall {
+			PcomponentId: r.componentId,
+			PqueryTime: r.queryTime,
+			PcheckId: r.checkId,
+	}
+	*mock.GetComponentCheckCalls = append(*mock.GetComponentCheckCalls, p)
+	return &mock.GetComponentCheckResponse.Result, mock.GetComponentCheckResponse.Response, mock.GetComponentCheckResponse.Error
+}
+
+type GetComponentChecksMockResponse struct {
+	Result []Check
+	Response *http.Response
+	Error error
+}
+
+type GetComponentChecksCall struct {
+	PcomponentId int64
+	PqueryTime *int32
+}
+
+
+func (mock ComponentApiMock) GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest {
+	return ApiGetComponentChecksRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+func (mock ComponentApiMock) GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error) {
+	p := GetComponentChecksCall {
+			PcomponentId: r.componentId,
+			PqueryTime: r.queryTime,
+	}
+	*mock.GetComponentChecksCalls = append(*mock.GetComponentChecksCalls, p)
+	return mock.GetComponentChecksResponse.Result, mock.GetComponentChecksResponse.Response, mock.GetComponentChecksResponse.Error
+}
+
+type GetComponentStreamMockResponse struct {
+	Result TelemetryStreamDefinition
+	Response *http.Response
+	Error error
+}
+
+type GetComponentStreamCall struct {
+	PcomponentId int64
+	PqueryTime *int32
+	PstreamId int64
+}
+
+
+func (mock ComponentApiMock) GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest {
+	return ApiGetComponentStreamRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+		streamId: streamId,
+	}
+}
+
+func (mock ComponentApiMock) GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
+	p := GetComponentStreamCall {
+			PcomponentId: r.componentId,
+			PqueryTime: r.queryTime,
+			PstreamId: r.streamId,
+	}
+	*mock.GetComponentStreamCalls = append(*mock.GetComponentStreamCalls, p)
+	return &mock.GetComponentStreamResponse.Result, mock.GetComponentStreamResponse.Response, mock.GetComponentStreamResponse.Error
+}
+
+type GetComponentStreamsMockResponse struct {
+	Result []TelemetryStreamDefinition
+	Response *http.Response
+	Error error
+}
+
+type GetComponentStreamsCall struct {
+	PcomponentId int64
+	PqueryTime *int32
+}
+
+
+func (mock ComponentApiMock) GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest {
+	return ApiGetComponentStreamsRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+func (mock ComponentApiMock) GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
+	p := GetComponentStreamsCall {
+			PcomponentId: r.componentId,
+			PqueryTime: r.queryTime,
+	}
+	*mock.GetComponentStreamsCalls = append(*mock.GetComponentStreamsCalls, p)
+	return mock.GetComponentStreamsResponse.Result, mock.GetComponentStreamsResponse.Response, mock.GetComponentStreamsResponse.Error
+}
+
+type GetLatestMetricsMockResponse struct {
+	Result TelemetryLatestSnapshotsResponse
+	Response *http.Response
+	Error error
+}
+
+type GetLatestMetricsCall struct {
+	PcomponentId int64
+	PqueryTime *int32
+	PstreamIds *[]int64
+}
+
+
+func (mock ComponentApiMock) GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest {
+	return ApiGetLatestMetricsRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+	}
+}
+
+func (mock ComponentApiMock) GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
+	p := GetLatestMetricsCall {
 			PcomponentId: r.componentId,
 			PqueryTime: r.queryTime,
 			PstreamIds: r.streamIds,
 	}
-	*mock.ComponentsComponentIdStreamsLatestGetCalls = append(*mock.ComponentsComponentIdStreamsLatestGetCalls, p)
-	return &mock.ComponentsComponentIdStreamsLatestGetResponse.Result, mock.ComponentsComponentIdStreamsLatestGetResponse.Response, mock.ComponentsComponentIdStreamsLatestGetResponse.Error
+	*mock.GetLatestMetricsCalls = append(*mock.GetLatestMetricsCalls, p)
+	return &mock.GetLatestMetricsResponse.Result, mock.GetLatestMetricsResponse.Response, mock.GetLatestMetricsResponse.Error
+}
+
+type UpdateComponentCheckMockResponse struct {
+	Result Check
+	Response *http.Response
+	Error error
+}
+
+type UpdateComponentCheckCall struct {
+	PcomponentId int64
+	PcheckId int64
+	Pcheck *Check
+}
+
+
+func (mock ComponentApiMock) UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest {
+	return ApiUpdateComponentCheckRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+		checkId: checkId,
+	}
+}
+
+func (mock ComponentApiMock) UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error) {
+	p := UpdateComponentCheckCall {
+			PcomponentId: r.componentId,
+			PcheckId: r.checkId,
+			Pcheck: r.check,
+	}
+	*mock.UpdateComponentCheckCalls = append(*mock.UpdateComponentCheckCalls, p)
+	return &mock.UpdateComponentCheckResponse.Result, mock.UpdateComponentCheckResponse.Response, mock.UpdateComponentCheckResponse.Error
+}
+
+type UpdateComponentStreamMockResponse struct {
+	Result TelemetryStreamDefinition
+	Response *http.Response
+	Error error
+}
+
+type UpdateComponentStreamCall struct {
+	PcomponentId int64
+	PstreamId int64
+	PdataStream *DataStream
+}
+
+
+func (mock ComponentApiMock) UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest {
+	return ApiUpdateComponentStreamRequest{
+		ApiService: mock,
+		ctx: ctx,
+		componentId: componentId,
+		streamId: streamId,
+	}
+}
+
+func (mock ComponentApiMock) UpdateComponentStreamExecute(r ApiUpdateComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
+	p := UpdateComponentStreamCall {
+			PcomponentId: r.componentId,
+			PstreamId: r.streamId,
+			PdataStream: r.dataStream,
+	}
+	*mock.UpdateComponentStreamCalls = append(*mock.UpdateComponentStreamCalls, p)
+	return &mock.UpdateComponentStreamResponse.Result, mock.UpdateComponentStreamResponse.Response, mock.UpdateComponentStreamResponse.Error
 }
 
 

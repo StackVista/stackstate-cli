@@ -1,0 +1,27 @@
+# StsEventStreamFilter
+
+## Enum
+
+
+* `STATE_CHANGES_OR_CREATED_DELETED` (value: `"STATE_CHANGES_OR_CREATED_DELETED"`)
+
+* `STATE_CHANGES_OR_CREATED_UPDATED_DELETED` (value: `"STATE_CHANGES_OR_CREATED_UPDATED_DELETED"`)
+
+* `LIFE_CYCLE_EVENTS` (value: `"LIFE_CYCLE_EVENTS"`)
+
+* `STATE_CHANGES` (value: `"STATE_CHANGES"`)
+
+* `HEALTH_STATE_CHANGES` (value: `"HEALTH_STATE_CHANGES"`)
+
+* `PROPAGATED_HEALTH_STATE_CHANGES` (value: `"PROPAGATED_HEALTH_STATE_CHANGES"`)
+
+* `VIEW_HEALTH_STATE_CHANGES` (value: `"VIEW_HEALTH_STATE_CHANGES"`)
+
+* `ANOMALY_EVENT` (value: `"ANOMALY_EVENT"`)
+
+* `PROBLEM_EVENT` (value: `"PROBLEM_EVENT"`)
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

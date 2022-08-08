@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Key** | **string** |  | 
-**Value** | Pointer to **string** |  | [optional] 
+**Value** | **string** |  | 
 
 ## Methods
 
 ### NewTelemetryQueryCondition
 
-`func NewTelemetryQueryCondition(key string, ) *TelemetryQueryCondition`
+`func NewTelemetryQueryCondition(key string, value string, ) *TelemetryQueryCondition`
 
 NewTelemetryQueryCondition instantiates a new TelemetryQueryCondition object
 This constructor will assign default values to properties that have it defined,
@@ -65,11 +65,6 @@ and a boolean to check if the value has been set.
 
 SetValue sets Value field to given value.
 
-### HasValue
-
-`func (o *TelemetryQueryCondition) HasValue() bool`
-
-HasValue returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

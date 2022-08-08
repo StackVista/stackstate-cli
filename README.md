@@ -70,7 +70,7 @@ This repository pulls the stackstate-api spec from the [openapi repository](http
 
 ### Bumping the openapi version
 - Change the version/branch/commit sha in the `stackstate_openapi/openapi_version` file
-- Run `nix develop -x ./scripts/generate_stackstate_api.sh`
+- Run `nix develop -c ./scripts/generate_stackstate_api.sh`
 - Commit the generated code
 
 CI will check whether the requested api version and generated code are kep up to date.

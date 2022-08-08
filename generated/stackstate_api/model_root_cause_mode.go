@@ -21,9 +21,9 @@ type RootCauseMode string
 
 // List of RootCauseMode
 const (
-	NO_CAUSE RootCauseMode = "no-cause"
-	CAUSE_ONLY RootCauseMode = "cause-only"
-	FULL_CAUSE_TREE RootCauseMode = "full-cause-tree"
+	ROOTCAUSEMODE_NO_CAUSE RootCauseMode = "no-cause"
+	ROOTCAUSEMODE_CAUSE_ONLY RootCauseMode = "cause-only"
+	ROOTCAUSEMODE_FULL_CAUSE_TREE RootCauseMode = "full-cause-tree"
 )
 
 // All allowed values of RootCauseMode enum
