@@ -18,16 +18,17 @@ import (
 // TelemetryQueryCondition struct for TelemetryQueryCondition
 type TelemetryQueryCondition struct {
 	Key string `json:"key"`
-	Value *string `json:"value,omitempty"`
+	Value string `json:"value"`
 }
 
 // NewTelemetryQueryCondition instantiates a new TelemetryQueryCondition object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTelemetryQueryCondition(key string) *TelemetryQueryCondition {
+func NewTelemetryQueryCondition(key string, value string) *TelemetryQueryCondition {
 	this := TelemetryQueryCondition{}
 	this.Key = key
+	this.Value = value
 	return &this
 }
 
@@ -63,36 +64,28 @@ func (o *TelemetryQueryCondition) SetKey(v string) {
 	o.Key = v
 }
 
-// GetValue returns the Value field value if set, zero value otherwise.
+// GetValue returns the Value field value
 func (o *TelemetryQueryCondition) GetValue() string {
-	if o == nil || o.Value == nil {
+	if o == nil {
 		var ret string
 		return ret
 	}
-	return *o.Value
+
+	return o.Value
 }
 
-// GetValueOk returns a tuple with the Value field value if set, nil otherwise
+// GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
 func (o *TelemetryQueryCondition) GetValueOk() (*string, bool) {
-	if o == nil || o.Value == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Value, true
+	return &o.Value, true
 }
 
-// HasValue returns a boolean if a field has been set.
-func (o *TelemetryQueryCondition) HasValue() bool {
-	if o != nil && o.Value != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetValue gets a reference to the given string and assigns it to the Value field.
+// SetValue sets field value
 func (o *TelemetryQueryCondition) SetValue(v string) {
-	o.Value = &v
+	o.Value = v
 }
 
 func (o TelemetryQueryCondition) MarshalJSON() ([]byte, error) {
@@ -100,7 +93,7 @@ func (o TelemetryQueryCondition) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["key"] = o.Key
 	}
-	if o.Value != nil {
+	if true {
 		toSerialize["value"] = o.Value
 	}
 	return json.Marshal(toSerialize)

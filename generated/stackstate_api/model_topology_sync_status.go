@@ -21,10 +21,10 @@ type TopologySyncStatus string
 
 // List of TopologySyncStatus
 const (
-	RUNNING TopologySyncStatus = "Running"
-	RESETTING TopologySyncStatus = "Resetting"
-	DELETING TopologySyncStatus = "Deleting"
-	DELETE_FAILED TopologySyncStatus = "DeleteFailed"
+	TOPOLOGYSYNCSTATUS_RUNNING TopologySyncStatus = "Running"
+	TOPOLOGYSYNCSTATUS_RESETTING TopologySyncStatus = "Resetting"
+	TOPOLOGYSYNCSTATUS_DELETING TopologySyncStatus = "Deleting"
+	TOPOLOGYSYNCSTATUS_DELETE_FAILED TopologySyncStatus = "DeleteFailed"
 )
 
 // All allowed values of TopologySyncStatus enum

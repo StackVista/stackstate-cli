@@ -4,6 +4,7 @@ gitRepoId: stackstate-cli2
 packageName: stackstate_api
 useOneOfDiscriminatorLookup: true # needed for polymorphic types (using _type discriminator)
 generateInterfaces: true # needed for testing
+enumClassPrefix	: true # needed to keep enum uniques
 additionalProperties:
   # All customizations made by StackState to the templates are gated with these properties
   # so we can more easily upgrade the templates lateron.

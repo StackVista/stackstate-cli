@@ -1662,10 +1662,207 @@ paths:
       summary: Export anomalies with metric history and feedback
       tags:
       - exportAnomaly
+  /components/{componentId}/streams:
+    get:
+      description: List all streams from the component
+      operationId: getComponentStreams
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TelemetryStreamDefinition'
+                type: array
+          description: Multiple telemetry stream definitions
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List all streams from the component
+      tags:
+      - component
+    post:
+      description: Adds a DataStream/TelemetryStreamDefinition on the component
+      operationId: createComponentStreams
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      requestBody:
+        $ref: '#/components/requestBodies/dataStream'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryStreamDefinition'
+          description: Single telemetry stream definition
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create the Stream on the component
+      tags:
+      - component
+  /components/{componentId}/streams/{streamId}:
+    delete:
+      description: Delete a Specific stream from the component
+      operationId: deleteComponentStream
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: The Identifier of a stream
+        in: path
+        name: streamId
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete the stream from the component
+      tags:
+      - component
+    get:
+      description: Get a Specific stream from the component
+      operationId: getComponentStream
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      - description: The Identifier of a stream
+        in: path
+        name: streamId
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryStreamDefinition'
+          description: Single telemetry stream definition
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get the stream from the component
+      tags:
+      - component
+    put:
+      description: Update a Specific stream from the component
+      operationId: updateComponentStream
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: The Identifier of a stream
+        in: path
+        name: streamId
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamId'
+      requestBody:
+        $ref: '#/components/requestBodies/dataStream'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryStreamDefinition'
+          description: Single telemetry stream definition
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Update the stream on the component
+      tags:
+      - component
   /components/{componentId}/streams/latest:
     get:
       description: "Gets a top 3 metrics for a datapoint, always takes the last 15\
         \ minutes before provided timepoint"
+      operationId: getLatestMetrics
       parameters:
       - description: The Identifier of a component
         in: path
@@ -1708,6 +1905,594 @@ paths:
       summary: Get the latests metrics
       tags:
       - component
+  /components/{componentId}/checks:
+    get:
+      description: List all checks from the component
+      operationId: getComponentChecks
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Check'
+                type: array
+          description: Multiple Checks
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List all checks from the component
+      tags:
+      - component
+    post:
+      description: Adds a Check on the component
+      operationId: createComponentCheck
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      requestBody:
+        $ref: '#/components/requestBodies/elementCheck'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Check'
+          description: Single check
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create the Checks on the component
+      tags:
+      - component
+  /components/{componentId}/checks/{checkId}:
+    delete:
+      description: Delete a Specific check from the component
+      operationId: deleteComponentCheck
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: The Identifier of a Check
+        in: path
+        name: checkId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CheckId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete the check from the component
+      tags:
+      - component
+    get:
+      description: Get a Specific check from the component
+      operationId: getComponentCheck
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      - description: The Identifier of a Check
+        in: path
+        name: checkId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CheckId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Check'
+          description: Single check
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get the check from the component
+      tags:
+      - component
+    put:
+      description: Update a Specific check from the component
+      operationId: updateComponentCheck
+      parameters:
+      - description: The Identifier of a component
+        in: path
+        name: componentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentId'
+      - description: The Identifier of a Check
+        in: path
+        name: checkId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CheckId'
+      requestBody:
+        $ref: '#/components/requestBodies/elementCheck'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Check'
+          description: Single check
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Update the check on the component
+      tags:
+      - component
+  /relations/{relationId}/streams:
+    get:
+      description: List all streams from the relation
+      operationId: getRelationStreams
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/TelemetryStreamDefinition'
+                type: array
+          description: Multiple telemetry stream definitions
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List all streams from the relation
+      tags:
+      - relation
+    post:
+      description: Adds a DataStream/TelemetryStreamDefinition on the relation
+      operationId: createRelationStream
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      requestBody:
+        $ref: '#/components/requestBodies/dataStream'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryStreamDefinition'
+          description: Single telemetry stream definition
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create the Stream on the relation
+      tags:
+      - relation
+  /relations/{relationId}/streams/{streamId}:
+    delete:
+      description: Delete a Specific stream from the relation
+      operationId: deleteRelationStream
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: The Identifier of a stream
+        in: path
+        name: streamId
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete the stream from the relation
+      tags:
+      - relation
+    get:
+      description: Get a Specific stream from the relation
+      operationId: getRelationStream
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      - description: The Identifier of a stream
+        in: path
+        name: streamId
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryStreamDefinition'
+          description: Single telemetry stream definition
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get the stream from the relation
+      tags:
+      - relation
+    put:
+      description: Update a Specific stream from the relation
+      operationId: putRelationStream
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: The Identifier of a stream
+        in: path
+        name: streamId
+        required: true
+        schema:
+          $ref: '#/components/schemas/StreamId'
+      requestBody:
+        $ref: '#/components/requestBodies/dataStream'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TelemetryStreamDefinition'
+          description: Single telemetry stream definition
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Update the stream on the relation
+      tags:
+      - relation
+  /relations/{relationId}/checks:
+    get:
+      description: List all checks from the relation
+      operationId: getRelationChecks
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/Check'
+                type: array
+          description: Multiple Checks
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List all checks from the relation
+      tags:
+      - relation
+    post:
+      description: Adds a Check on the relation
+      operationId: createRelationCheck
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      requestBody:
+        $ref: '#/components/requestBodies/elementCheck'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Check'
+          description: Single check
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create the Checks on the relation
+      tags:
+      - relation
+  /relations/{relationId}/checks/{checkId}:
+    delete:
+      description: Delete a Specific check from the relation
+      operationId: deleteRelationCheck
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: The Identifier of a Check
+        in: path
+        name: checkId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CheckId'
+      responses:
+        "204":
+          description: Return ok
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete the check from the relation
+      tags:
+      - relation
+    get:
+      description: Get a Specific check from the relation
+      operationId: getRelationCheck
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: A Data point for a query either point from timeline or 'now'
+          if livemode
+        in: query
+        name: queryTime
+        required: true
+        schema:
+          $ref: '#/components/schemas/QueryTime'
+      - description: The Identifier of a Check
+        in: path
+        name: checkId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CheckId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Check'
+          description: Single check
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get the check from the relation
+      tags:
+      - relation
+    put:
+      description: Update a Specific check from the relation
+      operationId: putRelationCheck
+      parameters:
+      - description: The Identifier of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          $ref: '#/components/schemas/RelationId'
+      - description: The Identifier of a Check
+        in: path
+        name: checkId
+        required: true
+        schema:
+          $ref: '#/components/schemas/CheckId'
+      requestBody:
+        $ref: '#/components/requestBodies/elementCheck'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Check'
+          description: Single check
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Update the check on the relation
+      tags:
+      - relation
 components:
   requestBodies:
     EventListBody:
@@ -1715,6 +2500,20 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EventListRequest'
+      required: true
+    dataStream:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DataStream'
+      description: Single telemetry stream definition
+      required: true
+    elementCheck:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Check'
+      description: Single Check
       required: true
   responses:
     genericErrorsResponse:
@@ -1847,7 +2646,27 @@ components:
               $ref: '#/components/schemas/ServiceToken'
             type: array
       description: Service Tokens
-    telemetryLatestSnapshotsResponse:
+    telemetryStreamDefinitionCollection:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/TelemetryStreamDefinition'
+            type: array
+      description: Multiple telemetry stream definitions
+    stackElementNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StackElementNotFound'
+      description: Error when handling an element which cannot be found.
+    telemetryStreamDefinition:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TelemetryStreamDefinition'
+      description: Single telemetry stream definition
+    telemetryLatestSnapshots:
       content:
         application/json:
           schema:
@@ -1859,6 +2678,20 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentNotFoundError'
       description: Component not found error
+    elementCheckCollection:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/Check'
+            type: array
+      description: Multiple Checks
+    elementCheck:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Check'
+      description: Single check
   schemas:
     GenericErrorsResponse:
       properties:
@@ -4120,35 +4953,6 @@ components:
       - dataSourceId
       - queryHash
       type: object
-    TelemetryQueryCondition:
-      example:
-        value: value
-        key: key
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-      required:
-      - key
-      type: object
-    DownsamplingMethod:
-      enum:
-      - MEAN
-      - PERCENTILE_25
-      - PERCENTILE_50
-      - PERCENTILE_75
-      - PERCENTILE_90
-      - PERCENTILE_95
-      - PERCENTILE_98
-      - PERCENTILE_99
-      - MAX
-      - MIN
-      - SUM
-      - EVENT_COUNT
-      - SUM_NO_ZEROS
-      - EVENT_COUNT_NO_ZEROS
-      type: string
     MetricStreamNoAnomalyData:
       properties:
         _type:
@@ -4289,6 +5093,366 @@ components:
     QueryTime:
       format: instant
       type: integer
+    TelemetryStreamDefinition:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricTelemetryStreamDefinition'
+      - $ref: '#/components/schemas/EventTelemetryStreamDefinition'
+      required:
+      - _type
+      type: object
+    MetricTelemetryStreamDefinition:
+      properties:
+        _type:
+          enum:
+          - MetricTelemetryStreamDefinition
+          type: string
+        bindQuery:
+          type: string
+        dataSourceId:
+          format: int64
+          type: integer
+        description:
+          type: string
+        id:
+          format: int64
+          type: integer
+        identifier:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        metricValuation:
+          $ref: '#/components/schemas/MetricValuation'
+        name:
+          type: string
+        ownedBy:
+          type: string
+        priority:
+          $ref: '#/components/schemas/TelemetryStreamPriority'
+        telemetryQuery:
+          $ref: '#/components/schemas/MetricTelemetryQuery'
+        topologyMapping:
+          items:
+            $ref: '#/components/schemas/TopologyMapping'
+          type: array
+      required:
+      - _type
+      - bindQuery
+      - dataSourceId
+      - labels
+      - metricValuation
+      - name
+      - priority
+      - telemetryQuery
+      - topologyMapping
+      type: object
+    MetricValuation:
+      enum:
+      - higher-is-better
+      - lower-is-better
+      type: string
+    TelemetryStreamPriority:
+      enum:
+      - None
+      - High
+      - Medium
+      - Low
+      type: string
+    MetricTelemetryQuery:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - MetricTelemetryQuery
+          type: string
+        aggregation:
+          $ref: '#/components/schemas/DownsamplingMethod'
+        baseline:
+          $ref: '#/components/schemas/Baseline'
+        conditions:
+          items:
+            $ref: '#/components/schemas/TelemetryQueryCondition'
+          type: array
+        groupBy:
+          items:
+            type: string
+          type: array
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        metricField:
+          type: string
+      required:
+      - _type
+      - aggregation
+      - conditions
+      type: object
+    DownsamplingMethod:
+      enum:
+      - MEAN
+      - PERCENTILE_25
+      - PERCENTILE_50
+      - PERCENTILE_75
+      - PERCENTILE_90
+      - PERCENTILE_95
+      - PERCENTILE_98
+      - PERCENTILE_99
+      - MAX
+      - MIN
+      - SUM
+      - EVENT_COUNT
+      - SUM_NO_ZEROS
+      - EVENT_COUNT_NO_ZEROS
+      type: string
+    Baseline:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - Baseline
+          type: string
+        arguments:
+          items:
+            $ref: '#/components/schemas/Argument'
+          type: array
+        description:
+          type: string
+        function:
+          format: int64
+          type: integer
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        name:
+          type: string
+      required:
+      - _type
+      - arguments
+      - function
+      - name
+      type: object
+    TelemetryQueryCondition:
+      example:
+        value: value
+        key: key
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+      required:
+      - key
+      - value
+      type: object
+    TopologyMapping:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/FieldMapping'
+      required:
+      - _type
+      type: object
+    FieldMapping:
+      properties:
+        _type:
+          enum:
+          - FieldMapping
+          type: string
+        eventField:
+          type: string
+        tagKey:
+          type: string
+      required:
+      - _type
+      - eventField
+      - tagKey
+      type: object
+    EventTelemetryStreamDefinition:
+      properties:
+        _type:
+          enum:
+          - EventTelemetryStreamDefinition
+          type: string
+        bindQuery:
+          type: string
+        dataSourceId:
+          format: int64
+          type: integer
+        description:
+          type: string
+        id:
+          format: int64
+          type: integer
+        identifier:
+          type: string
+        labels:
+          items:
+            type: string
+          type: array
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        name:
+          type: string
+        ownedBy:
+          type: string
+        priority:
+          $ref: '#/components/schemas/TelemetryStreamPriority'
+        telemetryQuery:
+          $ref: '#/components/schemas/EventTelemetryQuery'
+        topologyMapping:
+          items:
+            $ref: '#/components/schemas/TopologyMapping'
+          type: array
+      required:
+      - _type
+      - bindQuery
+      - dataSourceId
+      - labels
+      - name
+      - priority
+      - telemetryQuery
+      - topologyMapping
+      type: object
+    EventTelemetryQuery:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - EventTelemetryQuery
+          type: string
+        conditions:
+          items:
+            $ref: '#/components/schemas/TelemetryQueryCondition'
+          type: array
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - conditions
+      type: object
+    StackElementNotFound:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - StackElementNotFound
+          type: string
+        objectType:
+          type: string
+        objectId:
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      - objectId
+      - objectType
+      type: object
+    DataStream:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/EventStream'
+      - $ref: '#/components/schemas/MetricStream'
+      type: object
+    EventStream:
+      properties:
+        _type:
+          enum:
+          - EventStream
+          type: string
+        dataSource:
+          format: int64
+          type: integer
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        description:
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        name:
+          type: string
+        priority:
+          $ref: '#/components/schemas/StreamPriority'
+        query:
+          $ref: '#/components/schemas/EventTelemetryQuery'
+        syncCreated:
+          type: boolean
+      required:
+      - _type
+      - dataSource
+      - dataType
+      - name
+      - query
+      - syncCreated
+      type: object
+    MetricStream:
+      properties:
+        _type:
+          enum:
+          - MetricStream
+          type: string
+        dataSource:
+          format: int64
+          type: integer
+        dataType:
+          $ref: '#/components/schemas/DataType'
+        description:
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        name:
+          type: string
+        priority:
+          $ref: '#/components/schemas/StreamPriority'
+        query:
+          $ref: '#/components/schemas/MetricTelemetryQuery'
+        staleAfter:
+          format: int64
+          type: integer
+        syncCreated:
+          type: boolean
+      required:
+      - _type
+      - dataSource
+      - dataType
+      - name
+      - query
+      - syncCreated
+      type: object
+    StreamId:
+      format: int64
+      type: integer
     StreamIds:
       items:
         format: int64
@@ -4375,6 +5539,904 @@ components:
       - _type
       - componentId
       type: object
+    Check:
+      discriminator:
+        propertyName: _type
+      example:
+        lastUpdateTimestamp: 1
+        remediationHint: remediationHint
+        function: 0
+        _type: Check
+        name: name
+        syncCreated: true
+        description: description
+        arguments:
+        - null
+        - null
+        id: 6
+        state:
+          detailedMessage: detailedMessage
+          lastUpdateTimestamp: 5
+          activeErrors:
+          - detailedMessage: detailedMessage
+            lastUpdateTimeStamp: 9
+            _type: CheckError
+            id: 7
+            state: null
+            message: message
+          - detailedMessage: detailedMessage
+            lastUpdateTimeStamp: 9
+            _type: CheckError
+            id: 7
+            state: null
+            message: message
+          data: "{}"
+          lastHealthStateChangeTimestamp: 2
+          stateAcknowledgement:
+            lastUpdateTimeStamp: 4
+            _type: CheckStateAcknowledgement
+            id: 2
+            acknowledgedTimestamp: 7
+            message: message
+          _type: CheckState
+          shortMessage: shortMessage
+          id: 5
+          state: null
+          source: 3
+          causingEvents:
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 1
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 1
+      properties:
+        _type:
+          enum:
+          - Check
+          type: string
+        arguments:
+          items:
+            $ref: '#/components/schemas/Argument'
+          type: array
+        description:
+          type: string
+        function:
+          format: int64
+          type: integer
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        name:
+          type: string
+        remediationHint:
+          type: string
+        state:
+          $ref: '#/components/schemas/CheckState'
+        syncCreated:
+          type: boolean
+      required:
+      - _type
+      - arguments
+      - function
+      - name
+      - syncCreated
+      type: object
+    CheckState:
+      discriminator:
+        propertyName: _type
+      example:
+        detailedMessage: detailedMessage
+        lastUpdateTimestamp: 5
+        activeErrors:
+        - detailedMessage: detailedMessage
+          lastUpdateTimeStamp: 9
+          _type: CheckError
+          id: 7
+          state: null
+          message: message
+        - detailedMessage: detailedMessage
+          lastUpdateTimeStamp: 9
+          _type: CheckError
+          id: 7
+          state: null
+          message: message
+        data: "{}"
+        lastHealthStateChangeTimestamp: 2
+        stateAcknowledgement:
+          lastUpdateTimeStamp: 4
+          _type: CheckStateAcknowledgement
+          id: 2
+          acknowledgedTimestamp: 7
+          message: message
+        _type: CheckState
+        shortMessage: shortMessage
+        id: 5
+        state: null
+        source: 3
+        causingEvents:
+        - eventId: eventId
+          eventType: eventType
+          title: title
+          eventTimestamp: 1
+        - eventId: eventId
+          eventType: eventType
+          title: title
+          eventTimestamp: 1
+      properties:
+        _type:
+          enum:
+          - CheckState
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        state:
+          $ref: '#/components/schemas/HealthStateValue'
+        lastHealthStateChangeTimestamp:
+          format: int64
+          type: integer
+        activeErrors:
+          items:
+            $ref: '#/components/schemas/CheckError'
+          type: array
+        source:
+          format: int64
+          type: integer
+        stateAcknowledgement:
+          $ref: '#/components/schemas/CheckStateAcknowledgement'
+        detailedMessage:
+          type: string
+        shortMessage:
+          type: string
+        causingEvents:
+          items:
+            $ref: '#/components/schemas/EventRef'
+          type: array
+        data:
+          nullable: false
+          type: object
+      required:
+      - _type
+      - activeErrors
+      - causingEvents
+      - lastHealthStateChangeTimestamp
+      - source
+      - state
+      type: object
+    HealthStateValue:
+      enum:
+      - UNKNOWN
+      - CLEAR
+      - DISABLED
+      - DEVIATING
+      - FLAPPING
+      - CRITICAL
+      type: string
+    CheckError:
+      discriminator:
+        propertyName: _type
+      example:
+        detailedMessage: detailedMessage
+        lastUpdateTimeStamp: 9
+        _type: CheckError
+        id: 7
+        state: null
+        message: message
+      properties:
+        _type:
+          enum:
+          - CheckError
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimeStamp:
+          format: int64
+          type: integer
+        message:
+          type: string
+        detailedMessage:
+          type: string
+        state:
+          $ref: '#/components/schemas/ErrorStateValue'
+      required:
+      - _type
+      - detailedMessage
+      - message
+      - state
+      type: object
+    ErrorStateValue:
+      enum:
+      - UNKNOWN
+      - STALE_DATA_STREAM
+      - STREAM_DATA_NOT_FOUND
+      - DATA_SOURCE_UNREACHABLE
+      - DATA_STREAM_ERROR
+      - CHECK_ERROR
+      - CHECK_LIMITED
+      - BASELINES_ARE_DEPRECATED
+      type: string
+    CheckStateAcknowledgement:
+      discriminator:
+        propertyName: _type
+      example:
+        lastUpdateTimeStamp: 4
+        _type: CheckStateAcknowledgement
+        id: 2
+        acknowledgedTimestamp: 7
+        message: message
+      properties:
+        _type:
+          enum:
+          - CheckStateAcknowledgement
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimeStamp:
+          format: int64
+          type: integer
+        acknowledgedTimestamp:
+          format: int64
+          type: integer
+        message:
+          type: string
+      required:
+      - _type
+      - acknowledgedTimestamp
+      - message
+      type: object
+    CheckId:
+      format: int64
+      type: integer
+    RelationId:
+      format: int64
+      type: integer
+    Argument:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ArgumentAnomalyDirectionVal'
+      - $ref: '#/components/schemas/ArgumentBooleanVal'
+      - $ref: '#/components/schemas/ArgumentComponentTypeRef'
+      - $ref: '#/components/schemas/ArgumentBaselineMetricStreamRef'
+      - $ref: '#/components/schemas/ArgumentRelationTypeRef'
+      - $ref: '#/components/schemas/ArgumentExtTopoRelation'
+      - $ref: '#/components/schemas/ArgumentStsEventStreamVal'
+      - $ref: '#/components/schemas/ArgumentMetricStreamId'
+      - $ref: '#/components/schemas/ArgumentQueryViewRef'
+      - $ref: '#/components/schemas/ArgumentRunStateVal'
+      - $ref: '#/components/schemas/ArgumentLongVal'
+      - $ref: '#/components/schemas/ArgumentStructTypeVal'
+      - $ref: '#/components/schemas/ArgumentDoubleVal'
+      - $ref: '#/components/schemas/ArgumentStateVal'
+      - $ref: '#/components/schemas/ArgumentNodeIdVal'
+      - $ref: '#/components/schemas/ArgumentExtTopoComponent'
+      - $ref: '#/components/schemas/ArgumentEventStreamRef'
+      - $ref: '#/components/schemas/ArgumentPropagatedHealthStateVal'
+      - $ref: '#/components/schemas/ArgumentSimpleTrainingPeriodicityVal'
+      - $ref: '#/components/schemas/ArgumentDurationVal'
+      - $ref: '#/components/schemas/ArgumentStringVal'
+      - $ref: '#/components/schemas/ArgumentMetricStreamRef'
+      - $ref: '#/components/schemas/ArgumentScriptMetricQueryVal'
+      required:
+      - _type
+      type: object
+    ArgumentAnomalyDirectionVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentAnomalyDirectionVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/AnomalyDirection'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    AnomalyDirection:
+      enum:
+      - RISE
+      - DROP
+      - RUNNING
+      - ANY
+      type: string
+    ArgumentBooleanVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentBooleanVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          type: boolean
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentComponentTypeRef:
+      properties:
+        _type:
+          enum:
+          - ArgumentComponentTypeRef
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        componentType:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - componentType
+      - parameter
+      type: object
+    ArgumentBaselineMetricStreamRef:
+      properties:
+        _type:
+          enum:
+          - ArgumentBaselineMetricStreamRef
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        stream:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - stream
+      type: object
+    ArgumentRelationTypeRef:
+      properties:
+        _type:
+          enum:
+          - ArgumentRelationTypeRef
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        relationType:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - relationType
+      type: object
+    ArgumentExtTopoRelation:
+      properties:
+        _type:
+          enum:
+          - ArgumentExtTopoRelation
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        extTopoElement:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - extTopoElement
+      - parameter
+      type: object
+    ArgumentStsEventStreamVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentStsEventStreamVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        filter:
+          $ref: '#/components/schemas/StsEventStreamFilter'
+      required:
+      - _type
+      - filter
+      - parameter
+      type: object
+    StsEventStreamFilter:
+      enum:
+      - STATE_CHANGES_OR_CREATED_DELETED
+      - STATE_CHANGES_OR_CREATED_UPDATED_DELETED
+      - LIFE_CYCLE_EVENTS
+      - STATE_CHANGES
+      - HEALTH_STATE_CHANGES
+      - PROPAGATED_HEALTH_STATE_CHANGES
+      - VIEW_HEALTH_STATE_CHANGES
+      - ANOMALY_EVENT
+      - PROBLEM_EVENT
+      type: string
+    ArgumentMetricStreamId:
+      properties:
+        _type:
+          enum:
+          - ArgumentMetricStreamId
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        stream:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - stream
+      type: object
+    ArgumentQueryViewRef:
+      properties:
+        _type:
+          enum:
+          - ArgumentQueryViewRef
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        queryView:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - queryView
+      type: object
+    ArgumentRunStateVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentRunStateVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/RunStateValue'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    RunStateValue:
+      enum:
+      - UNKNOWN
+      - STARTING
+      - RUNNING
+      - STOPPING
+      - STOPPED
+      - DEPLOYED
+      - DEPLOYING
+      type: string
+    ArgumentLongVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentLongVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentStructTypeVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentStructTypeVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          type: string
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentDoubleVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentDoubleVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          format: double
+          type: number
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentStateVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentStateVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentNodeIdVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentNodeIdVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentExtTopoComponent:
+      properties:
+        _type:
+          enum:
+          - ArgumentExtTopoComponent
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        extTopoElement:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - extTopoElement
+      - parameter
+      type: object
+    ArgumentEventStreamRef:
+      properties:
+        _type:
+          enum:
+          - ArgumentEventStreamRef
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        stream:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - stream
+      type: object
+    ArgumentPropagatedHealthStateVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentPropagatedHealthStateVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/PropagatedHealthStateValue'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    PropagatedHealthStateValue:
+      enum:
+      - UNKNOWN
+      - PROPAGATION_ERROR
+      - DEVIATING
+      - FLAPPING
+      - CRITICAL
+      type: string
+    ArgumentSimpleTrainingPeriodicityVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentSimpleTrainingPeriodicityVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/SimpleTrainingPeriodicity'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    SimpleTrainingPeriodicity:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - SimpleTrainingPeriodicity
+          type: string
+        id:
+          format: int64
+          type: integer
+        fundamentalPeriod:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        trainingWindowPeriods:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - fundamentalPeriod
+      - trainingWindowPeriods
+      type: object
+    ArgumentDurationVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentDurationVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentStringVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentStringVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          type: string
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ArgumentMetricStreamRef:
+      properties:
+        _type:
+          enum:
+          - ArgumentMetricStreamRef
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        maxWindow:
+          format: int64
+          type: integer
+        stream:
+          format: int64
+          type: integer
+        downsamplingMethod:
+          $ref: '#/components/schemas/DownsamplingMethod'
+        windowingMethod:
+          $ref: '#/components/schemas/WindowingMethod'
+      required:
+      - _type
+      - parameter
+      - stream
+      type: object
+    WindowingMethod:
+      enum:
+      - SLIDING
+      - BATCHING
+      type: string
+    ArgumentScriptMetricQueryVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentScriptMetricQueryVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        script:
+          type: string
+      required:
+      - _type
+      - function
+      - parameter
+      - script
+      type: object
+    DataType:
+      enum:
+      - METRICS
+      - TOPOLOGY_ELEMENTS
+      - EVENTS
+      type: string
+    StreamPriority:
+      enum:
+      - HIGH
+      - MEDIUM
+      - LOW
+      type: string
     NodeTypes_nodeTypes:
       example:
         typeName: typeName

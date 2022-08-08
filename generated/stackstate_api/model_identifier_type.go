@@ -21,8 +21,8 @@ type IdentifierType string
 
 // List of IdentifierType
 const (
-	NODE_ID IdentifierType = "NodeId"
-	IDENTIFIER IdentifierType = "Identifier"
+	IDENTIFIERTYPE_NODE_ID IdentifierType = "NodeId"
+	IDENTIFIERTYPE_IDENTIFIER IdentifierType = "Identifier"
 )
 
 // All allowed values of IdentifierType enum

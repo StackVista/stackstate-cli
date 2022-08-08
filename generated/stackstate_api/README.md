@@ -80,7 +80,17 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
-*ComponentApi* | [**ComponentsComponentIdStreamsLatestGet**](docs/ComponentApi.md#componentscomponentidstreamslatestget) | **Get** /components/{componentId}/streams/latest | Get the latests metrics
+*ComponentApi* | [**CreateComponentCheck**](docs/ComponentApi.md#createcomponentcheck) | **Post** /components/{componentId}/checks | Create the Checks on the component
+*ComponentApi* | [**CreateComponentStreams**](docs/ComponentApi.md#createcomponentstreams) | **Post** /components/{componentId}/streams | Create the Stream on the component
+*ComponentApi* | [**DeleteComponentCheck**](docs/ComponentApi.md#deletecomponentcheck) | **Delete** /components/{componentId}/checks/{checkId} | Delete the check from the component
+*ComponentApi* | [**DeleteComponentStream**](docs/ComponentApi.md#deletecomponentstream) | **Delete** /components/{componentId}/streams/{streamId} | Delete the stream from the component
+*ComponentApi* | [**GetComponentCheck**](docs/ComponentApi.md#getcomponentcheck) | **Get** /components/{componentId}/checks/{checkId} | Get the check from the component
+*ComponentApi* | [**GetComponentChecks**](docs/ComponentApi.md#getcomponentchecks) | **Get** /components/{componentId}/checks | List all checks from the component
+*ComponentApi* | [**GetComponentStream**](docs/ComponentApi.md#getcomponentstream) | **Get** /components/{componentId}/streams/{streamId} | Get the stream from the component
+*ComponentApi* | [**GetComponentStreams**](docs/ComponentApi.md#getcomponentstreams) | **Get** /components/{componentId}/streams | List all streams from the component
+*ComponentApi* | [**GetLatestMetrics**](docs/ComponentApi.md#getlatestmetrics) | **Get** /components/{componentId}/streams/latest | Get the latests metrics
+*ComponentApi* | [**UpdateComponentCheck**](docs/ComponentApi.md#updatecomponentcheck) | **Put** /components/{componentId}/checks/{checkId} | Update the check on the component
+*ComponentApi* | [**UpdateComponentStream**](docs/ComponentApi.md#updatecomponentstream) | **Put** /components/{componentId}/streams/{streamId} | Update the stream on the component
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
 *EventApi* | [**GetEventTags**](docs/EventApi.md#geteventtags) | **Get** /eventTags | Get event tags
@@ -104,6 +114,16 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
+*RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
+*RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
+*RelationApi* | [**DeleteRelationCheck**](docs/RelationApi.md#deleterelationcheck) | **Delete** /relations/{relationId}/checks/{checkId} | Delete the check from the relation
+*RelationApi* | [**DeleteRelationStream**](docs/RelationApi.md#deleterelationstream) | **Delete** /relations/{relationId}/streams/{streamId} | Delete the stream from the relation
+*RelationApi* | [**GetRelationCheck**](docs/RelationApi.md#getrelationcheck) | **Get** /relations/{relationId}/checks/{checkId} | Get the check from the relation
+*RelationApi* | [**GetRelationChecks**](docs/RelationApi.md#getrelationchecks) | **Get** /relations/{relationId}/checks | List all checks from the relation
+*RelationApi* | [**GetRelationStream**](docs/RelationApi.md#getrelationstream) | **Get** /relations/{relationId}/streams/{streamId} | Get the stream from the relation
+*RelationApi* | [**GetRelationStreams**](docs/RelationApi.md#getrelationstreams) | **Get** /relations/{relationId}/streams | List all streams from the relation
+*RelationApi* | [**PutRelationCheck**](docs/RelationApi.md#putrelationcheck) | **Put** /relations/{relationId}/checks/{checkId} | Update the check on the relation
+*RelationApi* | [**PutRelationStream**](docs/RelationApi.md#putrelationstream) | **Put** /relations/{relationId}/streams/{streamId} | Update the stream on the relation
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
 *ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/tokens | Create new service token
@@ -129,13 +149,46 @@ Class | Method | HTTP request | Description
  - [AnnotationData](docs/AnnotationData.md)
  - [AnnotationMetricQuery](docs/AnnotationMetricQuery.md)
  - [AnnotationType](docs/AnnotationType.md)
+ - [AnomalyDirection](docs/AnomalyDirection.md)
  - [AnomalySeverity](docs/AnomalySeverity.md)
  - [AnomalyWithContext](docs/AnomalyWithContext.md)
  - [ApiToken](docs/ApiToken.md)
+ - [Argument](docs/Argument.md)
+ - [ArgumentAnomalyDirectionVal](docs/ArgumentAnomalyDirectionVal.md)
+ - [ArgumentBaselineMetricStreamRef](docs/ArgumentBaselineMetricStreamRef.md)
+ - [ArgumentBooleanVal](docs/ArgumentBooleanVal.md)
+ - [ArgumentComponentTypeRef](docs/ArgumentComponentTypeRef.md)
+ - [ArgumentDoubleVal](docs/ArgumentDoubleVal.md)
+ - [ArgumentDurationVal](docs/ArgumentDurationVal.md)
+ - [ArgumentEventStreamRef](docs/ArgumentEventStreamRef.md)
+ - [ArgumentExtTopoComponent](docs/ArgumentExtTopoComponent.md)
+ - [ArgumentExtTopoRelation](docs/ArgumentExtTopoRelation.md)
+ - [ArgumentLongVal](docs/ArgumentLongVal.md)
+ - [ArgumentMetricStreamId](docs/ArgumentMetricStreamId.md)
+ - [ArgumentMetricStreamRef](docs/ArgumentMetricStreamRef.md)
+ - [ArgumentNodeIdVal](docs/ArgumentNodeIdVal.md)
+ - [ArgumentPropagatedHealthStateVal](docs/ArgumentPropagatedHealthStateVal.md)
+ - [ArgumentQueryViewRef](docs/ArgumentQueryViewRef.md)
+ - [ArgumentRelationTypeRef](docs/ArgumentRelationTypeRef.md)
+ - [ArgumentRunStateVal](docs/ArgumentRunStateVal.md)
+ - [ArgumentScriptMetricQueryVal](docs/ArgumentScriptMetricQueryVal.md)
+ - [ArgumentSimpleTrainingPeriodicityVal](docs/ArgumentSimpleTrainingPeriodicityVal.md)
+ - [ArgumentStateVal](docs/ArgumentStateVal.md)
+ - [ArgumentStringVal](docs/ArgumentStringVal.md)
+ - [ArgumentStructTypeVal](docs/ArgumentStructTypeVal.md)
+ - [ArgumentStsEventStreamVal](docs/ArgumentStsEventStreamVal.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
+ - [Baseline](docs/Baseline.md)
+ - [Check](docs/Check.md)
+ - [CheckError](docs/CheckError.md)
+ - [CheckState](docs/CheckState.md)
+ - [CheckStateAcknowledgement](docs/CheckStateAcknowledgement.md)
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
+ - [DataStream](docs/DataStream.md)
+ - [DataType](docs/DataType.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [DownsamplingMethod](docs/DownsamplingMethod.md)
+ - [ErrorStateValue](docs/ErrorStateValue.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
  - [EventCursor](docs/EventCursor.md)
@@ -145,7 +198,10 @@ Class | Method | HTTP request | Description
  - [EventNotFoundError](docs/EventNotFoundError.md)
  - [EventRef](docs/EventRef.md)
  - [EventRelation](docs/EventRelation.md)
+ - [EventStream](docs/EventStream.md)
  - [EventTag](docs/EventTag.md)
+ - [EventTelemetryQuery](docs/EventTelemetryQuery.md)
+ - [EventTelemetryStreamDefinition](docs/EventTelemetryStreamDefinition.md)
  - [ExecuteScriptArgumentsScriptError](docs/ExecuteScriptArgumentsScriptError.md)
  - [ExecuteScriptError](docs/ExecuteScriptError.md)
  - [ExecuteScriptExceptionError](docs/ExecuteScriptExceptionError.md)
@@ -161,9 +217,11 @@ Class | Method | HTTP request | Description
  - [Export](docs/Export.md)
  - [FeedbackComment](docs/FeedbackComment.md)
  - [FeedbackData](docs/FeedbackData.md)
+ - [FieldMapping](docs/FieldMapping.md)
  - [GenericAnnotationData](docs/GenericAnnotationData.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
+ - [HealthStateValue](docs/HealthStateValue.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
  - [HealthStreamNotFound](docs/HealthStreamNotFound.md)
@@ -182,9 +240,13 @@ Class | Method | HTTP request | Description
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
+ - [MetricStream](docs/MetricStream.md)
  - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
  - [MetricStreamNoAnomalyData](docs/MetricStreamNoAnomalyData.md)
  - [MetricStreamReference](docs/MetricStreamReference.md)
+ - [MetricTelemetryQuery](docs/MetricTelemetryQuery.md)
+ - [MetricTelemetryStreamDefinition](docs/MetricTelemetryStreamDefinition.md)
+ - [MetricValuation](docs/MetricValuation.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
@@ -203,11 +265,13 @@ Class | Method | HTTP request | Description
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
  - [Point](docs/Point.md)
+ - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [Reference](docs/Reference.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
+ - [RunStateValue](docs/RunStateValue.md)
  - [ScriptLocation](docs/ScriptLocation.md)
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
@@ -215,25 +279,32 @@ Class | Method | HTTP request | Description
  - [ServiceTokenCreateError](docs/ServiceTokenCreateError.md)
  - [ServiceTokenCreatedResponse](docs/ServiceTokenCreatedResponse.md)
  - [ServiceTokenInvalidExpiryError](docs/ServiceTokenInvalidExpiryError.md)
+ - [SimpleTrainingPeriodicity](docs/SimpleTrainingPeriodicity.md)
  - [SingleMetric](docs/SingleMetric.md)
  - [SourceLink](docs/SourceLink.md)
  - [Sstackpack](docs/Sstackpack.md)
  - [SstackpackConfigurations](docs/SstackpackConfigurations.md)
  - [SstackpackLatestVersion](docs/SstackpackLatestVersion.md)
+ - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
  - [StackPackFaqs](docs/StackPackFaqs.md)
  - [StackPackStep](docs/StackPackStep.md)
  - [StackPackStepValue](docs/StackPackStepValue.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
+ - [StreamPriority](docs/StreamPriority.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)
+ - [StsEventStreamFilter](docs/StsEventStreamFilter.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
  - [TelemetryLatestSnapshotsResponse](docs/TelemetryLatestSnapshotsResponse.md)
  - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
+ - [TelemetryStreamDefinition](docs/TelemetryStreamDefinition.md)
+ - [TelemetryStreamPriority](docs/TelemetryStreamPriority.md)
  - [TimeRange](docs/TimeRange.md)
  - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
  - [TopologyEvent](docs/TopologyEvent.md)
+ - [TopologyMapping](docs/TopologyMapping.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)
  - [TopologyStreamError](docs/TopologyStreamError.md)
@@ -249,6 +320,7 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
+ - [WindowingMethod](docs/WindowingMethod.md)
 
 
 ## Documentation For Authorization
