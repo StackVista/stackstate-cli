@@ -35,7 +35,7 @@ current-context: prod
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
 	assert.Equal(t, "http://nightly:8080", cfg.Contexts[1].Context.URL)
-	assert.Equal(t, "foobar", cfg.Contexts[1].Context.ServiceBearer)
+	assert.Equal(t, "foobar", cfg.Contexts[1].Context.K8sSAToken)
 	assert.Equal(t, "/hidden/api", cfg.Contexts[2].Context.APIPath)
 	assert.Equal(t, "http://prod:8080", cfg.Contexts[2].Context.URL)
 	assert.Equal(t, "foo", cfg.Contexts[2].Context.ServiceToken)
@@ -82,7 +82,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token | service-bearer}'")
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token | k8s-sa-token}'")
 }
 
 func TestValidateStsContextWithMissingURL(t *testing.T) {
@@ -126,5 +126,5 @@ current-context: default
 	assert.NoError(t, err)
 	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), `Failed to validate the 'default' context:
 * URL localhost:8080 must start with "https://" or "http://"
-* Can only specify one of {api-token | service-token | service-bearer}`)
+* Can only specify one of {api-token | service-token | k8s-sa-token}`)
 }
