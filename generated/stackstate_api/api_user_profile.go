@@ -140,7 +140,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -311,7 +311,7 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

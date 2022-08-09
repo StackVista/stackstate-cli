@@ -137,7 +137,7 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

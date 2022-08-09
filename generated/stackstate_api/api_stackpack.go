@@ -212,7 +212,7 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -374,7 +374,7 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -532,7 +532,7 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -692,7 +692,7 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -875,7 +875,7 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1049,7 +1049,7 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

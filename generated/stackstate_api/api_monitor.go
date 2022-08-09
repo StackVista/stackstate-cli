@@ -188,7 +188,7 @@ func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*ht
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -349,7 +349,7 @@ func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -503,7 +503,7 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -677,7 +677,7 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -861,7 +861,7 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

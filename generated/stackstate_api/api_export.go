@@ -137,7 +137,7 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

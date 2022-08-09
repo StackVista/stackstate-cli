@@ -339,10 +339,10 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 ### ServiceBearer
 
 - **Type**: API key
-- **API key parameter name**: X-API-Service-Bearer
+- **API key parameter name**: X-API-ServiceBearer
 - **Location**: HTTP header
 
-Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Service-Bearer and passed in as the auth context for each request.
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-ServiceBearer and passed in as the auth context for each request.
 
 
 ### ServiceToken

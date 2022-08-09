@@ -187,7 +187,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -357,7 +357,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamStat
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -517,7 +517,7 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExe
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -676,7 +676,7 @@ func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamCle
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

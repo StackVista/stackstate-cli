@@ -168,7 +168,7 @@ func (a *ExportAnomalyApiService) ExportAnomalyExecute(r ApiExportAnomalyRequest
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

@@ -126,7 +126,7 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

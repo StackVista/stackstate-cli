@@ -164,7 +164,7 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

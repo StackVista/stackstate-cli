@@ -234,7 +234,7 @@ func (a *HealthSynchronizationApiService) DeleteHealthSynchronizationStreamExecu
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -389,7 +389,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamStatusEx
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -553,7 +553,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamTopology
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -713,7 +713,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationStreamsOvervie
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -858,7 +858,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamOverv
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1026,7 +1026,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamStatu
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1194,7 +1194,7 @@ func (a *HealthSynchronizationApiService) GetHealthSynchronizationSubStreamTopol
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1356,7 +1356,7 @@ func (a *HealthSynchronizationApiService) PostHealthSynchronizationStreamClearEr
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

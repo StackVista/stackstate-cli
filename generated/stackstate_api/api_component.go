@@ -298,7 +298,7 @@ func (a *ComponentApiService) CreateComponentCheckExecute(r ApiCreateComponentCh
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -474,7 +474,7 @@ func (a *ComponentApiService) CreateComponentStreamsExecute(r ApiCreateComponent
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -640,7 +640,7 @@ func (a *ComponentApiService) DeleteComponentCheckExecute(r ApiDeleteComponentCh
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -797,7 +797,7 @@ func (a *ComponentApiService) DeleteComponentStreamExecute(r ApiDeleteComponentS
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -967,7 +967,7 @@ func (a *ComponentApiService) GetComponentCheckExecute(r ApiGetComponentCheckReq
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1142,7 +1142,7 @@ func (a *ComponentApiService) GetComponentChecksExecute(r ApiGetComponentChecksR
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1321,7 +1321,7 @@ func (a *ComponentApiService) GetComponentStreamExecute(r ApiGetComponentStreamR
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1496,7 +1496,7 @@ func (a *ComponentApiService) GetComponentStreamsExecute(r ApiGetComponentStream
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1682,7 +1682,7 @@ func (a *ComponentApiService) GetLatestMetricsExecute(r ApiGetLatestMetricsReque
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1862,7 +1862,7 @@ func (a *ComponentApiService) UpdateComponentCheckExecute(r ApiUpdateComponentCh
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -2042,7 +2042,7 @@ func (a *ComponentApiService) UpdateComponentStreamExecute(r ApiUpdateComponentS
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

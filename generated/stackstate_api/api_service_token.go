@@ -166,7 +166,7 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -328,7 +328,7 @@ func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTok
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -469,7 +469,7 @@ func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRe
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

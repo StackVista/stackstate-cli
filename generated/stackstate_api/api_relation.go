@@ -283,7 +283,7 @@ func (a *RelationApiService) CreateRelationCheckExecute(r ApiCreateRelationCheck
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -459,7 +459,7 @@ func (a *RelationApiService) CreateRelationStreamExecute(r ApiCreateRelationStre
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -625,7 +625,7 @@ func (a *RelationApiService) DeleteRelationCheckExecute(r ApiDeleteRelationCheck
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -782,7 +782,7 @@ func (a *RelationApiService) DeleteRelationStreamExecute(r ApiDeleteRelationStre
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -952,7 +952,7 @@ func (a *RelationApiService) GetRelationCheckExecute(r ApiGetRelationCheckReques
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1127,7 +1127,7 @@ func (a *RelationApiService) GetRelationChecksExecute(r ApiGetRelationChecksRequ
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1306,7 +1306,7 @@ func (a *RelationApiService) GetRelationStreamExecute(r ApiGetRelationStreamRequ
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1481,7 +1481,7 @@ func (a *RelationApiService) GetRelationStreamsExecute(r ApiGetRelationStreamsRe
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1661,7 +1661,7 @@ func (a *RelationApiService) PutRelationCheckExecute(r ApiPutRelationCheckReques
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1841,7 +1841,7 @@ func (a *RelationApiService) PutRelationStreamExecute(r ApiPutRelationStreamRequ
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

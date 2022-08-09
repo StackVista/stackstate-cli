@@ -126,7 +126,7 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

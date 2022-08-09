@@ -217,7 +217,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent,
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -491,7 +491,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -755,7 +755,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1019,7 +1019,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*Stri
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -1190,7 +1190,7 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWi
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

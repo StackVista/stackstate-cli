@@ -142,7 +142,7 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeT
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}
@@ -314,7 +314,7 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Re
 				} else {
 					key = apiKey.Key
 				}
-				localVarHeaderParams["X-API-Service-Bearer"] = key
+				localVarHeaderParams["X-API-ServiceBearer"] = key
 			}
 		}
 	}

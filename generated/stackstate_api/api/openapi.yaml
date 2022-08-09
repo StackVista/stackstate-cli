@@ -6543,5 +6543,5 @@ components:
       type: apiKey
     ServiceBearer:
       in: header
-      name: X-API-Service-Bearer
+      name: X-API-ServiceBearer
       type: apiKey
