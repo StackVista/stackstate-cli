@@ -23,7 +23,7 @@ type StsContext struct {
 	URL           string `yaml:"url" json:"url"`
 	APIToken      string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
 	ServiceToken  string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
-	ServiceBearer string `yaml:"service-bearer,omitempty" json:"service-bearer,omitempty"`
+	ServiceBearer string `yaml:"k8s-sa-token,omitempty" json:"k8s-sa-token,omitempty"`
 	APIPath       string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
@@ -113,7 +113,7 @@ func (c *StsContext) Validate(contextName string) common.CLIError {
 		errors = append(errors, MissingFieldError{FieldName: "{api-token | service-token | service-bearer}"})
 	}
 
-	authenticationTokens := util.Remove_empty([]string{c.APIToken, c.ServiceToken, c.ServiceBearer})
+	authenticationTokens := util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.ServiceBearer})
 	if len(authenticationTokens) > 1 {
 		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token | service-bearer}"))
 	}

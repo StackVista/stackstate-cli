@@ -1,6 +1,6 @@
 package util
 
-func Remove_empty(s []string) []string {
+func RemoveEmpty(s []string) []string {
 	var r []string
 	for _, str := range s {
 		if str != "" {

@@ -16,7 +16,7 @@ contexts:
 - name: nightly
   context:
     url: http://nightly:8080
-    service-bearer: foobar
+    k8s-sa-token: foobar
     api-path: /hidden/api
 - name: prod
   context:
