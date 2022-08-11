@@ -21,7 +21,8 @@ func NewStackStateClient(ctx context.Context,
 	pr printer.Printer,
 	url string,
 	apiPath string,
-	apiToken, serviceToken string,
+	apiToken string,
+	serviceToken string,
 	k8sServiceAccountToken string) (StackStateClient, context.Context) {
 	apiURL := combineURLandPath(url, apiPath)
 

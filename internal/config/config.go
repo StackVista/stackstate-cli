@@ -88,7 +88,7 @@ func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
-// Merge merges the StsContext with a fallback object.
+// Merges the StsContext with a fallback object.
 func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 	return &StsContext{
 		URL:          util.DefaultIfEmpty(c.URL, fallback.URL),

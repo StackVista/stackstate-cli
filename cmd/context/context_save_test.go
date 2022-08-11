@@ -25,7 +25,7 @@ func TestSaveNewContext(t *testing.T) {
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	assert.NoError(t, err)
 	assert.Equal(t, "baz", cfg.CurrentContext)
-	assert.Len(t, cfg.Contexts, 3)
+	assert.Len(t, cfg.Contexts, 4)
 
 	curr, err := cfg.GetContext(cfg.CurrentContext)
 	assert.NoError(t, err)
@@ -33,6 +33,7 @@ func TestSaveNewContext(t *testing.T) {
 	assert.Equal(t, "http://baz.com", curr.Context.URL)
 	assert.Equal(t, "/api", curr.Context.APIPath)
 	assert.Empty(t, curr.Context.ServiceToken)
+	assert.Empty(t, curr.Context.K8sSAToken)
 }
 
 func TestSaveExistingContext(t *testing.T) {
@@ -45,13 +46,14 @@ func TestSaveExistingContext(t *testing.T) {
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	assert.NoError(t, err)
 	assert.Equal(t, "bar", cfg.CurrentContext)
-	assert.Len(t, cfg.Contexts, 2)
+	assert.Len(t, cfg.Contexts, 3)
 	curr, err := cfg.GetContext(cfg.CurrentContext)
 	assert.NoError(t, err)
 	assert.Equal(t, "my-token", curr.Context.ServiceToken)
 	assert.Equal(t, "http://bar.com", curr.Context.URL)
 	assert.Equal(t, "/api", curr.Context.APIPath)
 	assert.Empty(t, curr.Context.APIToken)
+	assert.Empty(t, curr.Context.K8sSAToken)
 }
 
 func TestNoSaveOnMissingTokens(t *testing.T) {

@@ -17,6 +17,7 @@ type SaveArgs struct {
 	URL          string
 	APIToken     string
 	ServiceToken string
+	K8sSAToken   string
 	APIPath      string
 	SkipValidate bool
 }
@@ -34,11 +35,12 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.URL, common.URLFlag, "", common.URLFlagUse)
 	cmd.Flags().StringVar(&args.APIToken, common.APITokenFlag, "", common.APITokenFlagUse)
 	cmd.Flags().StringVar(&args.ServiceToken, common.ServiceTokenFlag, "", common.ServiceTokenFlagUse)
+	cmd.Flags().StringVar(&args.K8sSAToken, common.K8sSATokenFlag, "", common.K8sSATokenFlagUse)
 	cmd.Flags().StringVar(&args.APIPath, APIPathFlag, "/api", "Specify the path of the API end-point, e.g. the part that comes after the URL")
 	cmd.Flags().BoolVar(&args.SkipValidate, "skip-validate", false, "Skip validation of the context")
 
 	cmd.MarkFlagRequired(common.URLFlag) //nolint:errcheck
-	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag}, "tokens", true)
+	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag, common.K8sSATokenFlag}, "tokens", true)
 
 	return cmd
 }
@@ -56,6 +58,7 @@ func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command
 				URL:          args.URL,
 				APIToken:     args.APIToken,
 				ServiceToken: args.ServiceToken,
+				K8sSAToken:   args.K8sSAToken,
 				APIPath:      args.APIPath,
 			},
 		}
