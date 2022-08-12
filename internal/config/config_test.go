@@ -13,11 +13,6 @@ contexts:
   context:
     url: http://localhost:8080
     api-token: foo
-- name: nightly
-  context:
-    url: http://nightly:8080
-    k8s-sa-token: foobar
-    api-path: /hidden/api
 - name: prod
   context:
     url: http://prod:8080
@@ -28,19 +23,35 @@ current-context: prod
 
 	cfg, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.Len(t, cfg.Contexts, 3)
+	assert.Len(t, cfg.Contexts, 2)
 	assert.Equal(t, "prod", cfg.CurrentContext)
 	assert.Equal(t, "http://localhost:8080", cfg.Contexts[0].Context.URL)
 	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
-	assert.Equal(t, "http://nightly:8080", cfg.Contexts[1].Context.URL)
-	assert.Equal(t, "foobar", cfg.Contexts[1].Context.K8sSAToken)
-	assert.Equal(t, "/hidden/api", cfg.Contexts[2].Context.APIPath)
-	assert.Equal(t, "http://prod:8080", cfg.Contexts[2].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[2].Context.ServiceToken)
+	assert.Equal(t, "http://prod:8080", cfg.Contexts[1].Context.URL)
+	assert.Equal(t, "foo", cfg.Contexts[1].Context.ServiceToken)
 	assert.Equal(t, "/hidden/api", cfg.Contexts[1].Context.APIPath)
 	assert.Empty(t, cfg.Contexts[1].Context.APIToken)
+}
+
+func TestShouldNotReadK8sSaTokenFromConfig(t *testing.T) {
+	config := `
+contexts:
+- name: nightly
+  context:
+    url: http://nightly:8080
+    k8s-sa-token: foobar
+    api-path: /hidden/api
+current-context: nightly
+`
+
+	cfg, err := unmarshalYAMLConfig([]byte(config))
+	assert.NoError(t, err)
+	assert.Len(t, cfg.Contexts, 1)
+	assert.Equal(t, "nightly", cfg.CurrentContext)
+	assert.Equal(t, "http://nightly:8080", cfg.Contexts[0].Context.URL)
+	assert.Equal(t, "", cfg.Contexts[0].Context.K8sSAToken)
 }
 
 func TestShouldUnmarshalOldConfigFormat(t *testing.T) {

@@ -23,8 +23,8 @@ type StsContext struct {
 	URL            string `yaml:"url" json:"url"`
 	APIToken       string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
 	ServiceToken   string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
-	K8sSAToken     string `yaml:"k8s-sa-token,omitempty" json:"k8s-sa-token,omitempty"`
-	K8sSATokenPath string `yaml:"k8s-sa-token-path,omitempty" json:"k8s-sa-token-path,omitempty"`
+	K8sSAToken     string `yaml:"-" json:"-"` // This should only be passed from command line or env variables
+	K8sSATokenPath string `yaml:"-" json:"-"` // This should only be passed from command line or env variables
 	APIPath        string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
