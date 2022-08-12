@@ -20,11 +20,12 @@ type NamedContext struct {
 }
 
 type StsContext struct {
-	URL          string `yaml:"url" json:"url"`
-	APIToken     string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
-	ServiceToken string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
-	K8sSAToken   string `yaml:"k8s-sa-token,omitempty" json:"k8s-sa-token,omitempty"`
-	APIPath      string `yaml:"api-path" default:"/api" json:"api-path"`
+	URL            string `yaml:"url" json:"url"`
+	APIToken       string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
+	ServiceToken   string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
+	K8sSAToken     string `yaml:"k8s-sa-token,omitempty" json:"k8s-sa-token,omitempty"`
+	K8sSATokenPath string `yaml:"k8s-sa-token-path,omitempty" json:"k8s-sa-token-path,omitempty"`
+	APIPath        string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
 func EmptyConfig() *Config {
@@ -91,12 +92,12 @@ func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 // Merges the StsContext with a fallback object.
 func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 	newCtx := &StsContext{
-		URL:     util.DefaultIfEmpty(c.URL, fallback.URL),
-		APIPath: util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+		URL:            util.DefaultIfEmpty(c.URL, fallback.URL),
+		APIPath:        util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+		K8sSATokenPath: util.DefaultIfEmpty(c.K8sSATokenPath, fallback.K8sSATokenPath),
 	}
 
-	tokenFromOverride := len(util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.K8sSAToken})) > 0
-	if !tokenFromOverride {
+	if !c.HasAuthenticationTokenSet() {
 		newCtx.APIToken = fallback.APIToken
 		newCtx.ServiceToken = fallback.ServiceToken
 		newCtx.K8sSAToken = fallback.K8sSAToken
@@ -107,6 +108,10 @@ func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 	}
 
 	return newCtx
+}
+
+func (c *StsContext) HasAuthenticationTokenSet() bool {
+	return len(util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.K8sSAToken})) > 0
 }
 
 func (c *StsContext) Validate(contextName string) common.CLIError {

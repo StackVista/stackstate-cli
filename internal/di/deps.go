@@ -58,7 +58,7 @@ func (cli *Deps) CmdRunEWithApi(
 	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if cli.CurrentContext == nil {
-			currCtx, err := config.LoadCurrentContext(cmd, viper.GetViper(), cli.ConfigPath)
+			currCtx, err := config.LoadCurrentContext(cmd.Context(), cmd, viper.GetViper(), cli.ConfigPath)
 			if err != nil {
 				return err
 			}

@@ -1,9 +1,13 @@
 package config
 
 import (
+	"context"
+
+	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"gitlab.com/stackvista/stackstate-cli2/internal/kubernetes"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
@@ -12,7 +16,8 @@ type LoadedConfiguration struct {
 	CurrentContext *StsContext
 }
 
-func LoadCurrentContext(cmd *cobra.Command, viper *viper.Viper, configPath string) (*StsContext, common.CLIError) {
+func LoadCurrentContext(ctx context.Context, cmd *cobra.Command, viper *viper.Viper, configPath string) (*StsContext, common.CLIError) {
+	logger := log.Ctx(ctx)
 	cfg, loadError := ReadConfig(configPath)
 
 	vpConfig := Bind(cmd, viper)
@@ -30,8 +35,20 @@ func LoadCurrentContext(cmd *cobra.Command, viper *viper.Viper, configPath strin
 		// The Viper config is leading, i.e. it overrides the config file
 		currentContext = currentContext.Merge(ctx.Context)
 	} else {
-		// Ensure default api-path is set
+		// Ensure default api-path is set, we don't wan to specify the default in viper, as that would then always override the config file
 		currentContext.APIPath = util.DefaultIfEmpty(currentContext.APIPath, "/api")
+	}
+
+	if !currentContext.HasAuthenticationTokenSet() {
+		logger.Debug().Msg("Checking if running in Kubernetes")
+		token, err := kubernetes.GetServiceAccountToken("")
+		if err != nil {
+			logger.Warn().Msg("Could not get Kubernetes ServiceAccount token")
+		} else {
+			currentContext.K8sSAToken = token
+
+			logger.Info().Msg("Using Kubernetes ServiceAccount token for authentication")
+		}
 	}
 
 	if err := currentContext.Validate(currCtx); err != nil {
