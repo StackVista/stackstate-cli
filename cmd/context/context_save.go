@@ -17,7 +17,6 @@ type SaveArgs struct {
 	URL          string
 	APIToken     string
 	ServiceToken string
-	K8sSAToken   string
 	APIPath      string
 	SkipValidate bool
 }
@@ -57,7 +56,6 @@ func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command
 				URL:          args.URL,
 				APIToken:     args.APIToken,
 				ServiceToken: args.ServiceToken,
-				K8sSAToken:   args.K8sSAToken,
 				APIPath:      args.APIPath,
 			},
 		}

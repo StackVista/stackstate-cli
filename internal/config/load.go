@@ -35,7 +35,7 @@ func LoadCurrentContext(ctx context.Context, cmd *cobra.Command, viper *viper.Vi
 		// The Viper config is leading, i.e. it overrides the config file
 		currentContext = currentContext.Merge(ctx.Context)
 	} else {
-		// Ensure default api-path is set, we don't wan to specify the default in viper, as that would then always override the config file
+		// Ensure default api-path is set, we don't want to specify the default in viper, as that would then always override the config file
 		currentContext.APIPath = util.DefaultIfEmpty(currentContext.APIPath, "/api")
 	}
 
