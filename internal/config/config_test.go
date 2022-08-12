@@ -35,6 +35,25 @@ current-context: prod
 	assert.Empty(t, cfg.Contexts[1].Context.APIToken)
 }
 
+func TestShouldNotReadK8sSaTokenFromConfig(t *testing.T) {
+	config := `
+contexts:
+- name: nightly
+  context:
+    url: http://nightly:8080
+    k8s-sa-token: foobar
+    api-path: /hidden/api
+current-context: nightly
+`
+
+	cfg, err := unmarshalYAMLConfig([]byte(config))
+	assert.NoError(t, err)
+	assert.Len(t, cfg.Contexts, 1)
+	assert.Equal(t, "nightly", cfg.CurrentContext)
+	assert.Equal(t, "http://nightly:8080", cfg.Contexts[0].Context.URL)
+	assert.Equal(t, "", cfg.Contexts[0].Context.K8sSAToken)
+}
+
 func TestShouldUnmarshalOldConfigFormat(t *testing.T) {
 	config := `
 url: http://localhost:8080
@@ -74,7 +93,7 @@ current-context: default
 `
 	c, err := unmarshalYAMLConfig([]byte(config))
 	assert.NoError(t, err)
-	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token}'")
+	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), "Failed to validate the 'default' context:\n* Missing field '{api-token | service-token | k8s-sa-token}'")
 }
 
 func TestValidateStsContextWithMissingURL(t *testing.T) {
@@ -118,5 +137,50 @@ current-context: default
 	assert.NoError(t, err)
 	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), `Failed to validate the 'default' context:
 * URL localhost:8080 must start with "https://" or "http://"
-* Can only specify one of {api-token | service-token}`)
+* Can only specify one of {api-token | service-token | k8s-sa-token}`)
+}
+
+func TestMergeWithNoTokenOverride(t *testing.T) {
+	c := &StsContext{
+		URL: "http://localhost:8080",
+	}
+	f := &StsContext{
+		URL:      "http://other:8080",
+		APIToken: "foo",
+	}
+
+	n := c.Merge(f)
+	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, "foo", n.APIToken)
+}
+
+func TestMergeWithSameTokenOverride(t *testing.T) {
+	c := &StsContext{
+		URL:      "http://localhost:8080",
+		APIToken: "bar",
+	}
+	f := &StsContext{
+		URL:      "http://other:8080",
+		APIToken: "foo",
+	}
+
+	n := c.Merge(f)
+	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, "bar", n.APIToken)
+}
+
+func TestMergeWithOtherTokenOverride(t *testing.T) {
+	c := &StsContext{
+		URL:          "http://localhost:8080",
+		ServiceToken: "bar",
+	}
+	f := &StsContext{
+		URL:      "http://other:8080",
+		APIToken: "foo",
+	}
+
+	n := c.Merge(f)
+	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, "bar", n.ServiceToken)
+	assert.Equal(t, "", n.APIToken)
 }

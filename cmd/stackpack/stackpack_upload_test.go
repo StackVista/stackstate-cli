@@ -1,7 +1,6 @@
 package stackpack
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -19,7 +18,7 @@ func setupStackPackUploadCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 }
 
 func createTempFile() *os.File {
-	file, err := ioutil.TempFile(os.TempDir(), "test_")
+	file, err := os.CreateTemp(os.TempDir(), "test_")
 	if err != nil {
 		panic(err)
 	}

@@ -27,11 +27,9 @@ func NewTestClock(now int64) Clock {
 	}
 }
 
-/**
-This clock is useful when parsing multiple time flags. In that case you do not want
-a clock that still ticks, because the two or more flags could both be in relative time
-and we should not want a situation where they both flags are relative to a moving target.
-*/
+// This clock is useful when parsing multiple time flags. In that case you do not want
+// a clock that still ticks, because the two or more flags could both be in relative time
+// and we should not want a situation where they both flags are relative to a moving target.
 func NewFixedTimeClock() Clock {
 	return &FixedTimeClock{
 		now: time.Now(),

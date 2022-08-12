@@ -9,20 +9,24 @@ import (
 )
 
 const (
-	VerboseFlag         = "verbose"
-	VerboseFlagShort    = "v"
-	URLFlag             = "url"
-	URLFlagUse          = "Specify the URL of the StackState server"
-	APITokenFlag        = "api-token"
-	APITokenFlagUse     = "Specify the API token of the StackState server" //nolint:gosec
-	ServiceTokenFlag    = "service-token"
-	ServiceTokenFlagUse = "Specify the Service token of the StackState server" //nolint:gosec
-	NoColorFlag         = "no-color"
-	OutputFlag          = "output"
-	OutputFlagShort     = "o"
-	ConfigFlag          = "config"
-	ContextFlag         = "context"
-	ContextFlagShort    = "c"
+	VerboseFlag           = "verbose"
+	VerboseFlagShort      = "v"
+	URLFlag               = "url"
+	URLFlagUse            = "Specify the URL of the StackState server"
+	APITokenFlag          = "api-token"
+	APITokenFlagUse       = "Specify the API token of the StackState server" //nolint:gosec
+	ServiceTokenFlag      = "service-token"
+	ServiceTokenFlagUse   = "Specify the Service token of the StackState server" //nolint:gosec
+	K8sSATokenFlag        = "k8s-sa-token"                                       //nolint:gosec
+	K8sSATokenFlagUse     = "Specify the Kubernetes Service Account Token"
+	K8sSATokenPathFlag    = "k8s-sa-token-path" //nolint:gosec
+	K8sSATokenPathFlagUse = "Specify the path to the Kubernetes Service Account Token"
+	NoColorFlag           = "no-color"
+	OutputFlag            = "output"
+	OutputFlagShort       = "o"
+	ConfigFlag            = "config"
+	ContextFlag           = "context"
+	ContextFlagShort      = "c"
 )
 
 var AllowedOutputs = []string{JSONOutput.String(), TextOutput.String()}
@@ -31,6 +35,8 @@ func AddPersistentFlags(cmd *cobra.Command) {
 	cmd.PersistentFlags().String(URLFlag, "", URLFlagUse)
 	cmd.PersistentFlags().String(APITokenFlag, "", APITokenFlagUse)
 	cmd.PersistentFlags().String(ServiceTokenFlag, "", ServiceTokenFlagUse)
+	cmd.PersistentFlags().String(K8sSATokenFlag, "", K8sSATokenFlagUse)
+	cmd.PersistentFlags().String(K8sSATokenPathFlag, "", K8sSATokenPathFlagUse)
 	cmd.PersistentFlags().CountP(VerboseFlag, VerboseFlagShort, "Print verbose logging to the terminal to track what the CLI is doing (use multiple times to increase verbosity)")
 	cmd.PersistentFlags().Bool(NoColorFlag, false, "Disable color when printing to the terminal")
 	cmd.PersistentFlags().String(ConfigFlag, "", "Override the path to the config file")

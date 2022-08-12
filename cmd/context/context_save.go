@@ -38,7 +38,7 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().BoolVar(&args.SkipValidate, "skip-validate", false, "Skip validation of the context")
 
 	cmd.MarkFlagRequired(common.URLFlag) //nolint:errcheck
-	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag}, "tokens", true)
+	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag, common.K8sSATokenFlag}, "tokens", true)
 
 	return cmd
 }

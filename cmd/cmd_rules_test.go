@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"testing"
 
@@ -40,7 +40,7 @@ func TestVerbCommandCheckForJsonOuput(t *testing.T) {
 			nounName := strings.ReplaceAll(nounCmd.Name(), "-", "")
 			verbName := strings.ReplaceAll(verbCmd.Name(), "-", "_")
 			verCmdGoFile := fmt.Sprintf("%s/%s_%s.go", nounName, nounName, verbName)
-			verbCmdGoCode, err := ioutil.ReadFile(verCmdGoFile)
+			verbCmdGoCode, err := os.ReadFile(verCmdGoFile)
 			if err != nil {
 				t.Fatal(err)
 			}

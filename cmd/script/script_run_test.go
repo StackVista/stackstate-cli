@@ -2,7 +2,6 @@ package script
 
 import (
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"testing"
@@ -58,7 +57,7 @@ func TestExecuteSuccessJson(t *testing.T) {
 func TestExecuteFromScript(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd(t)
 
-	tmpFile, err := ioutil.TempFile(os.TempDir(), "script-execute-test-")
+	tmpFile, err := os.CreateTemp(os.TempDir(), "script-execute-test-")
 	if err != nil {
 		t.Fatal("Cannot create temporary file", err)
 	}

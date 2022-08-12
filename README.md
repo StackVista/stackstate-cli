@@ -74,3 +74,7 @@ This repository pulls the stackstate-api spec from the [openapi repository](http
 - Commit the generated code
 
 CI will check whether the requested api version and generated code are kep up to date.
+
+### For development: Updating generated code without a OpenApi commit
+- Run `nix develop -c ./scripts/run_openapi_local.sh {path to your open api folder}`
+   - example : `nix develop -c ./scripts/run_openapi_local.sh /Users/projects/stackstate-openapi`

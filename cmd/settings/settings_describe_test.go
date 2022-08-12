@@ -1,7 +1,6 @@
 package settings
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -84,7 +83,7 @@ func TestRunSettingsDescribeWithReferencePrintToTable(t *testing.T) {
 }
 
 func TestRunSettingsDescribeToFile(t *testing.T) {
-	file, err := ioutil.TempFile(os.TempDir(), "test_")
+	file, err := os.CreateTemp(os.TempDir(), "test_")
 	if err != nil {
 		panic(err)
 	}
@@ -98,7 +97,7 @@ func TestRunSettingsDescribeToFile(t *testing.T) {
 	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--file", filePath)
 	assert.Nil(t, err)
-	body, err := ioutil.ReadFile(filePath)
+	body, err := os.ReadFile(filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, expectedStr, string(body))
 }

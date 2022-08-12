@@ -20,10 +20,12 @@ type NamedContext struct {
 }
 
 type StsContext struct {
-	URL          string `yaml:"url" json:"url"`
-	APIToken     string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
-	ServiceToken string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
-	APIPath      string `yaml:"api-path" default:"/api" json:"api-path"`
+	URL            string `yaml:"url" json:"url"`
+	APIToken       string `yaml:"api-token,omitempty" json:"api-token,omitempty"`
+	ServiceToken   string `yaml:"service-token,omitempty" json:"service-token,omitempty"`
+	K8sSAToken     string `yaml:"-" json:"-"` // This should only be passed from command line or env variables
+	K8sSATokenPath string `yaml:"-" json:"-"` // This should only be passed from command line or env variables
+	APIPath        string `yaml:"api-path" default:"/api" json:"api-path"`
 }
 
 func EmptyConfig() *Config {
@@ -87,14 +89,29 @@ func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 	return nil
 }
 
-// Merge merges the StsContext with a fallback object.
+// Merges the StsContext with a fallback object.
 func (c *StsContext) Merge(fallback *StsContext) *StsContext {
-	return &StsContext{
-		URL:          util.DefaultIfEmpty(c.URL, fallback.URL),
-		APIToken:     util.DefaultIfEmpty(c.APIToken, fallback.APIToken),
-		ServiceToken: util.DefaultIfEmpty(c.ServiceToken, fallback.ServiceToken),
-		APIPath:      util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+	newCtx := &StsContext{
+		URL:            util.DefaultIfEmpty(c.URL, fallback.URL),
+		APIPath:        util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+		K8sSATokenPath: util.DefaultIfEmpty(c.K8sSATokenPath, fallback.K8sSATokenPath),
 	}
+
+	if !c.HasAuthenticationTokenSet() {
+		newCtx.APIToken = fallback.APIToken
+		newCtx.ServiceToken = fallback.ServiceToken
+		newCtx.K8sSAToken = fallback.K8sSAToken
+	} else {
+		newCtx.APIToken = c.APIToken
+		newCtx.ServiceToken = c.ServiceToken
+		newCtx.K8sSAToken = c.K8sSAToken
+	}
+
+	return newCtx
+}
+
+func (c *StsContext) HasAuthenticationTokenSet() bool {
+	return len(util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.K8sSAToken})) > 0
 }
 
 func (c *StsContext) Validate(contextName string) common.CLIError {
@@ -107,12 +124,13 @@ func (c *StsContext) Validate(contextName string) common.CLIError {
 		errors = append(errors, fmt.Errorf("URL %s must start with \"https://\" or \"http://\"", c.URL))
 	}
 
-	if c.APIToken == "" && c.ServiceToken == "" {
-		errors = append(errors, MissingFieldError{FieldName: "{api-token | service-token}"})
+	if c.APIToken == "" && c.ServiceToken == "" && c.K8sSAToken == "" {
+		errors = append(errors, MissingFieldError{FieldName: "{api-token | service-token | k8s-sa-token}"})
 	}
 
-	if c.APIToken != "" && c.ServiceToken != "" {
-		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token}"))
+	authenticationTokens := util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.K8sSAToken})
+	if len(authenticationTokens) > 1 {
+		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token | k8s-sa-token}"))
 	}
 
 	if len(errors) > 0 {

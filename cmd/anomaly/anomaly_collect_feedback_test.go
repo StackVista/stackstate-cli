@@ -3,7 +3,6 @@ package anomaly
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -21,14 +20,14 @@ func setupCommandCollect(t *testing.T) (di.MockDeps, *cobra.Command) {
 }
 
 func TestAnomalyCollectEmpty(t *testing.T) {
-	file, err := ioutil.TempFile(os.TempDir(), "test_")
+	file, err := os.CreateTemp(os.TempDir(), "test_")
 	if err != nil {
 		panic(err)
 	}
 	filePath := file.Name()
 	file.Close()
 
-	referenceFeedback, err := ioutil.ReadFile("test_feedback.json")
+	referenceFeedback, err := os.ReadFile("test_feedback.json")
 	assert.Nil(t, err)
 	expectedStr := string(referenceFeedback)
 	var feedback []stackstate_api.AnomalyWithContext
@@ -49,7 +48,7 @@ func TestAnomalyCollectEmpty(t *testing.T) {
 	assert.Equal(t, int64(1652108845000), *calls[0].PendTime)
 	assert.Equal(t, int64(86400000), *calls[0].Phistory)
 
-	body, err := ioutil.ReadFile(filePath)
+	body, err := os.ReadFile(filePath)
 	assert.Nil(t, err)
 	var writtenFeedback []stackstate_api.AnomalyWithContext
 	err = json.Unmarshal(body, &writtenFeedback)

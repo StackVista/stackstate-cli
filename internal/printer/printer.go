@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"runtime"
 	"strings"
@@ -184,7 +183,7 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 	// did server repond with JSON? Then show that as an error string!
 	if isErrorResponse && resp.Header.Get("Content-Type") == "application/json" {
 		var bodyStruct interface{}
-		bodyb, err := ioutil.ReadAll(resp.Body)
+		bodyb, err := io.ReadAll(resp.Body)
 		if err == nil {
 			err := json.Unmarshal(bodyb, &bodyStruct)
 			if err == nil {

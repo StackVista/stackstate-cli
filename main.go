@@ -139,9 +139,7 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 	return nil
 }
 
-/**
-For commands that have sub-commands we can show a simpler usage template.
-*/
+// For commands that have sub-commands we can show a simpler usage template.
 func setUsageTemplates(sts *cobra.Command) {
 	cobraCommand := cobra.Command{}
 	fullTemplate := cobraCommand.UsageTemplate()
@@ -178,10 +176,8 @@ Use "{{.CommandPath}} [command] --help" for more information about a command.{{e
 	}
 }
 
-/**
-By default Cobra does not provide an error when a wrong sub-command is entered.
-We got some customer feedback that this was missing.
-*/
+// By default Cobra does not provide an error when a wrong sub-command is entered.
+// We got some customer feedback that this was missing.
 func throwErrorOnUnknownSubCommand(sts *cobra.Command, cli *di.Deps) {
 	for _, c := range sts.Commands() {
 		if c.HasSubCommands() {
