@@ -90,13 +90,23 @@ func (c *StsContext) UnmarshalYAML(unmarshal func(interface{}) error) error {
 
 // Merges the StsContext with a fallback object.
 func (c *StsContext) Merge(fallback *StsContext) *StsContext {
-	return &StsContext{
-		URL:          util.DefaultIfEmpty(c.URL, fallback.URL),
-		APIToken:     util.DefaultIfEmpty(c.APIToken, fallback.APIToken),
-		ServiceToken: util.DefaultIfEmpty(c.ServiceToken, fallback.ServiceToken),
-		K8sSAToken:   util.DefaultIfEmpty(c.K8sSAToken, fallback.K8sSAToken),
-		APIPath:      util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+	newCtx := &StsContext{
+		URL:     util.DefaultIfEmpty(c.URL, fallback.URL),
+		APIPath: util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
 	}
+
+	tokenFromOverride := len(util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.K8sSAToken})) > 0
+	if !tokenFromOverride {
+		newCtx.APIToken = fallback.APIToken
+		newCtx.ServiceToken = fallback.ServiceToken
+		newCtx.K8sSAToken = fallback.K8sSAToken
+	} else {
+		newCtx.APIToken = c.APIToken
+		newCtx.ServiceToken = c.ServiceToken
+		newCtx.K8sSAToken = c.K8sSAToken
+	}
+
+	return newCtx
 }
 
 func (c *StsContext) Validate(contextName string) common.CLIError {

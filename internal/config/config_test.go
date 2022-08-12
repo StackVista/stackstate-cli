@@ -128,3 +128,48 @@ current-context: default
 * URL localhost:8080 must start with "https://" or "http://"
 * Can only specify one of {api-token | service-token | k8s-sa-token}`)
 }
+
+func TestMergeWithNoTokenOverride(t *testing.T) {
+	c := &StsContext{
+		URL: "http://localhost:8080",
+	}
+	f := &StsContext{
+		URL:      "http://other:8080",
+		APIToken: "foo",
+	}
+
+	n := c.Merge(f)
+	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, "foo", n.APIToken)
+}
+
+func TestMergeWithSameTokenOverride(t *testing.T) {
+	c := &StsContext{
+		URL:      "http://localhost:8080",
+		APIToken: "bar",
+	}
+	f := &StsContext{
+		URL:      "http://other:8080",
+		APIToken: "foo",
+	}
+
+	n := c.Merge(f)
+	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, "bar", n.APIToken)
+}
+
+func TestMergeWithOtherTokenOverride(t *testing.T) {
+	c := &StsContext{
+		URL:          "http://localhost:8080",
+		ServiceToken: "bar",
+	}
+	f := &StsContext{
+		URL:      "http://other:8080",
+		APIToken: "foo",
+	}
+
+	n := c.Merge(f)
+	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, "bar", n.ServiceToken)
+	assert.Equal(t, "", n.APIToken)
+}
