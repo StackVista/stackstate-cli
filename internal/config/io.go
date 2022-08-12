@@ -2,7 +2,6 @@ package config
 
 import (
 	"bytes"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -38,7 +37,7 @@ func ReadConfig(file string) (*Config, common.CLIError) {
 		file = path
 	}
 
-	b, err := ioutil.ReadFile(file)
+	b, err := os.ReadFile(file)
 	if err != nil {
 		if os.IsNotExist(err) {
 			return nil, ReadConfError{err, true}
@@ -78,5 +77,5 @@ func WriteConfig(file string, cfg *Config) error {
 		return err
 	}
 
-	return ioutil.WriteFile(file, b, ConfigFilePermission)
+	return os.WriteFile(file, b, ConfigFilePermission)
 }

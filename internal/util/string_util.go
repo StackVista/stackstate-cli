@@ -63,9 +63,7 @@ func WithNewLine(s string) string {
 	}
 }
 
-/**
-Best effort conversion from any type to a end-user readable string. Not a developer readable string.
-*/
+// Best effort conversion from any type to a end-user readable string. Not a developer readable string.
 func ToString(x interface{}) string {
 	r := reflect.ValueOf(x)
 	k := r.Kind()
