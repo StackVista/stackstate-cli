@@ -2985,6 +2985,9 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
+          tags:
+          - tags
+          - tags
         - identifier: identifier
           functionId: 6
           remediationHint: remediationHint
@@ -2995,6 +2998,9 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
+          tags:
+          - tags
+          - tags
       properties:
         monitors:
           items:
@@ -3015,6 +3021,9 @@ components:
         - "{}"
         id: 0
         intervalSeconds: 1
+        tags:
+        - tags
+        - tags
       properties:
         id:
           format: int64
@@ -3036,12 +3045,17 @@ components:
           type: string
         intervalSeconds:
           type: integer
+        tags:
+          items:
+            type: string
+          type: array
       required:
       - arguments
       - functionId
       - id
       - intervalSeconds
       - name
+      - tags
       type: object
     MonitorId:
       format: int64
@@ -3107,6 +3121,9 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
+          tags:
+          - tags
+          - tags
         metrics:
           healthSyncServiceMetrics:
             createsPerSecond:
