@@ -15,3 +15,16 @@ func DoesFileExist(filepath string) (bool, error) {
 		return false, err
 	}
 }
+
+func WriteFile(filepath string, data []byte) error {
+	file, err := os.Create(filepath)
+	if err != nil {
+		return err
+	}
+
+	defer file.Close()
+
+	_, err = file.Write(data)
+
+	return err
+}
