@@ -25,19 +25,21 @@ type Monitor struct {
 	Arguments []map[string]interface{} `json:"arguments"`
 	RemediationHint *string `json:"remediationHint,omitempty"`
 	IntervalSeconds int32 `json:"intervalSeconds"`
+	Tags []string `json:"tags"`
 }
 
 // NewMonitor instantiates a new Monitor object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32) *Monitor {
+func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string) *Monitor {
 	this := Monitor{}
 	this.Id = id
 	this.Name = name
 	this.FunctionId = functionId
 	this.Arguments = arguments
 	this.IntervalSeconds = intervalSeconds
+	this.Tags = tags
 	return &this
 }
 
@@ -265,6 +267,30 @@ func (o *Monitor) SetIntervalSeconds(v int32) {
 	o.IntervalSeconds = v
 }
 
+// GetTags returns the Tags field value
+func (o *Monitor) GetTags() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.Tags
+}
+
+// GetTagsOk returns a tuple with the Tags field value
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetTagsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Tags, true
+}
+
+// SetTags sets field value
+func (o *Monitor) SetTags(v []string) {
+	o.Tags = v
+}
+
 func (o Monitor) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -290,6 +316,9 @@ func (o Monitor) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["intervalSeconds"] = o.IntervalSeconds
+	}
+	if true {
+		toSerialize["tags"] = o.Tags
 	}
 	return json.Marshal(toSerialize)
 }

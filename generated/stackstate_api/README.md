@@ -114,6 +114,7 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
+*ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
 *RelationApi* | [**DeleteRelationCheck**](docs/RelationApi.md#deleterelationcheck) | **Delete** /relations/{relationId}/checks/{checkId} | Delete the check from the relation
@@ -179,6 +180,8 @@ Class | Method | HTTP request | Description
  - [ArgumentStsEventStreamVal](docs/ArgumentStsEventStreamVal.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
  - [Baseline](docs/Baseline.md)
+ - [CausingEventsAreNotAvailableForTheTime](docs/CausingEventsAreNotAvailableForTheTime.md)
+ - [CausingEventsResult](docs/CausingEventsResult.md)
  - [Check](docs/Check.md)
  - [CheckError](docs/CheckError.md)
  - [CheckState](docs/CheckState.md)
@@ -186,6 +189,7 @@ Class | Method | HTTP request | Description
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
  - [DataStream](docs/DataStream.md)
  - [DataType](docs/DataType.md)
+ - [DataUnavailable](docs/DataUnavailable.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [DownsamplingMethod](docs/DownsamplingMethod.md)
  - [ErrorStateValue](docs/ErrorStateValue.md)
@@ -221,6 +225,11 @@ Class | Method | HTTP request | Description
  - [GenericAnnotationData](docs/GenericAnnotationData.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
+ - [GetCausingEventsBadRequest](docs/GetCausingEventsBadRequest.md)
+ - [GetCausingEventsNotFound](docs/GetCausingEventsNotFound.md)
+ - [GetCausingEventsResult](docs/GetCausingEventsResult.md)
+ - [GetCausingEventsServiceUnaivailable](docs/GetCausingEventsServiceUnaivailable.md)
+ - [GetTopologyTimeout](docs/GetTopologyTimeout.md)
  - [HealthStateValue](docs/HealthStateValue.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
@@ -238,6 +247,7 @@ Class | Method | HTTP request | Description
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
+ - [LimitOutOfRange](docs/LimitOutOfRange.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricStream](docs/MetricStream.md)
@@ -265,6 +275,7 @@ Class | Method | HTTP request | Description
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
  - [Point](docs/Point.md)
+ - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [Reference](docs/Reference.md)
@@ -302,7 +313,9 @@ Class | Method | HTTP request | Description
  - [TelemetryStreamDefinition](docs/TelemetryStreamDefinition.md)
  - [TelemetryStreamPriority](docs/TelemetryStreamPriority.md)
  - [TimeRange](docs/TimeRange.md)
+ - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
  - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
+ - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMapping](docs/TopologyMapping.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
@@ -314,6 +327,7 @@ Class | Method | HTTP request | Description
  - [TopologyStreamMetrics](docs/TopologyStreamMetrics.md)
  - [TopologySyncError](docs/TopologySyncError.md)
  - [TopologySyncStatus](docs/TopologySyncStatus.md)
+ - [TopologyTimeOutOfRange](docs/TopologyTimeOutOfRange.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)
  - [UserNotFoundError](docs/UserNotFoundError.md)

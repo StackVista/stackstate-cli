@@ -12,12 +12,13 @@ Name | Type | Description | Notes
 **Arguments** | **[]map[string]interface{}** |  | 
 **RemediationHint** | Pointer to **string** |  | [optional] 
 **IntervalSeconds** | **int32** |  | 
+**Tags** | **[]string** |  | 
 
 ## Methods
 
 ### NewMonitor
 
-`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, ) *Monitor`
+`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, ) *Monitor`
 
 NewMonitor instantiates a new Monitor object
 This constructor will assign default values to properties that have it defined,
@@ -205,6 +206,26 @@ and a boolean to check if the value has been set.
 `func (o *Monitor) SetIntervalSeconds(v int32)`
 
 SetIntervalSeconds sets IntervalSeconds field to given value.
+
+
+### GetTags
+
+`func (o *Monitor) GetTags() []string`
+
+GetTags returns the Tags field if non-nil, zero value otherwise.
+
+### GetTagsOk
+
+`func (o *Monitor) GetTagsOk() (*[]string, bool)`
+
+GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTags
+
+`func (o *Monitor) SetTags(v []string)`
+
+SetTags sets Tags field to given value.
 
 
 

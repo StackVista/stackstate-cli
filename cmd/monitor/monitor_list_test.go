@@ -14,9 +14,11 @@ var (
 	firstMonitorName        = "aMonitor"
 	firstMonitorId          = int64(1)
 	firstMonitorIdentifier  = "urn:monitor:aMonitor"
+	firstMonitorTags        = []string{"app", "namespace:prod"}
 	secondMonitorName       = "zMonitor"
 	secondMonitorId         = int64(2)
 	secondMonitorIdentifier = "urn:monitor:zMonitor"
+	secondMonitorTags       []string
 	monitorArray            = []sts.Monitor{
 		{Id: secondMonitorId,
 			Name:            secondMonitorName,
@@ -25,7 +27,8 @@ var (
 			FunctionId:      237346485409361,
 			Arguments:       nil,
 			RemediationHint: nil,
-			IntervalSeconds: 2},
+			IntervalSeconds: 2,
+			Tags:            secondMonitorTags},
 		{Id: firstMonitorId,
 			Name:            firstMonitorName,
 			Identifier:      &firstMonitorIdentifier,
@@ -33,7 +36,8 @@ var (
 			FunctionId:      237346485409361,
 			Arguments:       nil,
 			RemediationHint: nil,
-			IntervalSeconds: 2},
+			IntervalSeconds: 2,
+			Tags:            firstMonitorTags},
 	}
 	monitorList = sts.MonitorList{Monitors: monitorArray}
 
@@ -45,7 +49,8 @@ var (
 			FunctionId:      237346485409361,
 			Arguments:       nil,
 			RemediationHint: nil,
-			IntervalSeconds: 2},
+			IntervalSeconds: 2,
+			Tags:            firstMonitorTags},
 		{Id: secondMonitorId,
 			Name:            secondMonitorName,
 			Identifier:      &secondMonitorIdentifier,
@@ -53,7 +58,8 @@ var (
 			FunctionId:      237346485409361,
 			Arguments:       nil,
 			RemediationHint: nil,
-			IntervalSeconds: 2},
+			IntervalSeconds: 2,
+			Tags:            secondMonitorTags},
 	}
 )
 
@@ -70,10 +76,10 @@ func TestMonitorListPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"Id", "Identifier", "Name"},
+			Header: []string{"Id", "Identifier", "Name", "Tags"},
 			Data: [][]interface{}{
-				{firstMonitorId, firstMonitorIdentifier, firstMonitorName},
-				{secondMonitorId, secondMonitorIdentifier, secondMonitorName}},
+				{firstMonitorId, firstMonitorIdentifier, firstMonitorName, firstMonitorTags},
+				{secondMonitorId, secondMonitorIdentifier, secondMonitorName, secondMonitorTags}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
 		},
 	}

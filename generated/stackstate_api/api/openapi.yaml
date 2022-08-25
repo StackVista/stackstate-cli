@@ -2494,6 +2494,68 @@ paths:
       summary: Update the check on the relation
       tags:
       - relation
+  /problems/{problemId}/causing-events:
+    get:
+      description: Resulting events are ordered by likeness to be an actual problem
+        cause
+      operationId: getProblemCausingEvents
+      parameters:
+      - description: The problem id number.
+        in: path
+        name: problemId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ProblemId'
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are quired for current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Maximum number of resources to be returned in result.
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCausingEventsResult'
+          description: Get events causing a problem successfull result
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCausingEventsBadRequest'
+          description: Events causing a problem can not be got because of the bad
+            request
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCausingEventsNotFound'
+          description: Events causing a problem can not be got because some elements
+            cannot be found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCausingEventsServiceUnaivailable'
+          description: Events causing a problem can not be got because of the problems
+            with one of the services
+      summary: List possible events which led to the problem
+      tags:
+      - problem
 components:
   requestBodies:
     EventListBody:
@@ -2693,6 +2755,32 @@ components:
           schema:
             $ref: '#/components/schemas/Check'
       description: Single check
+    GetCausingEventsResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetCausingEventsResult'
+      description: Get events causing a problem successfull result
+    GetCausingEventsBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetCausingEventsBadRequest'
+      description: Events causing a problem can not be got because of the bad request
+    GetCausingEventsNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetCausingEventsNotFound'
+      description: Events causing a problem can not be got because some elements cannot
+        be found
+    GetCausingEventsServiceUnaivailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetCausingEventsServiceUnaivailable'
+      description: Events causing a problem can not be got because of the problems
+        with one of the services
   schemas:
     GenericErrorsResponse:
       properties:
@@ -2985,6 +3073,9 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
+          tags:
+          - tags
+          - tags
         - identifier: identifier
           functionId: 6
           remediationHint: remediationHint
@@ -2995,6 +3086,9 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
+          tags:
+          - tags
+          - tags
       properties:
         monitors:
           items:
@@ -3015,6 +3109,9 @@ components:
         - "{}"
         id: 0
         intervalSeconds: 1
+        tags:
+        - tags
+        - tags
       properties:
         id:
           format: int64
@@ -3036,12 +3133,17 @@ components:
           type: string
         intervalSeconds:
           type: integer
+        tags:
+          items:
+            type: string
+          type: array
       required:
       - arguments
       - functionId
       - id
       - intervalSeconds
       - name
+      - tags
       type: object
     MonitorId:
       format: int64
@@ -3107,6 +3209,9 @@ components:
           - "{}"
           id: 0
           intervalSeconds: 1
+          tags:
+          - tags
+          - tags
         metrics:
           healthSyncServiceMetrics:
             createsPerSecond:
@@ -5802,6 +5907,195 @@ components:
     RelationId:
       format: int64
       type: integer
+    ProblemId:
+      format: int64
+      type: integer
+    Instant:
+      format: instant
+      type: integer
+    Limit:
+      format: int32
+      minimum: 1
+      type: integer
+    GetCausingEventsResult:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/CausingEventsResult'
+      - $ref: '#/components/schemas/TooManyTopologyResults'
+      - $ref: '#/components/schemas/CausingEventsAreNotAvailableForTheTime'
+      required:
+      - _type
+    CausingEventsResult:
+      properties:
+        _type:
+          enum:
+          - CausingEventsResult
+          type: string
+        items:
+          items:
+            $ref: '#/components/schemas/TopologyEvent'
+          type: array
+      required:
+      - _type
+      - items
+      type: object
+    TooManyTopologyResults:
+      properties:
+        _type:
+          enum:
+          - TooManyTopologyResults
+          type: string
+      required:
+      - _type
+      type: object
+    CausingEventsAreNotAvailableForTheTime:
+      properties:
+        _type:
+          enum:
+          - TooManyTopologyResults
+          type: string
+      required:
+      - _type
+      type: object
+    GetCausingEventsBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/LimitOutOfRange'
+      - $ref: '#/components/schemas/TopologyTimeOutOfRange'
+      required:
+      - _type
+    LimitOutOfRange:
+      properties:
+        _type:
+          enum:
+          - LimitOutOfRange
+          type: string
+        message:
+          type: string
+        limit:
+          format: int32
+          type: integer
+        lowerBound:
+          format: int32
+          type: integer
+        upperBound:
+          format: int32
+          type: integer
+      required:
+      - _type
+      - limit
+      - lowerBound
+      - message
+      - upperBound
+      type: object
+    TopologyTimeOutOfRange:
+      properties:
+        _type:
+          enum:
+          - TopologyTimeOutOfRange
+          type: string
+        message:
+          type: string
+        topologyTimeMs:
+          format: instant
+          type: integer
+        lowerBoundMs:
+          format: instant
+          type: integer
+        upperBound:
+          type: string
+      required:
+      - _type
+      - lowerBoundMs
+      - message
+      - topologyTimeMs
+      - upperBound
+      type: object
+    GetCausingEventsNotFound:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ProblemNotFound'
+      - $ref: '#/components/schemas/DataUnavailable'
+      required:
+      - _type
+    ProblemNotFound:
+      properties:
+        _type:
+          enum:
+          - ProblemNotFound
+          type: string
+        message:
+          type: string
+        problemId:
+          format: int64
+          type: integer
+        requestTimeMs:
+          format: instant
+          type: integer
+      required:
+      - _type
+      - message
+      - problemId
+      - requestTimeMs
+      type: object
+    DataUnavailable:
+      properties:
+        _type:
+          enum:
+          - DataUnavailable
+          type: string
+        message:
+          type: string
+        requestTimeMs:
+          format: instant
+          type: integer
+        availableSinceMs:
+          format: instant
+          type: integer
+      required:
+      - _type
+      - availableSinceMs
+      - message
+      - requestTimeMs
+      type: object
+    GetCausingEventsServiceUnaivailable:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TooManyActiveQueries'
+      - $ref: '#/components/schemas/GetTopologyTimeout'
+      required:
+      - _type
+    TooManyActiveQueries:
+      properties:
+        _type:
+          enum:
+          - TooManyActiveQueries
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    GetTopologyTimeout:
+      properties:
+        _type:
+          enum:
+          - GetTopologyTimeout
+          type: string
+        message:
+          type: string
+        timeoutSeconds:
+          type: integer
+      required:
+      - _type
+      - message
+      - timeoutSeconds
+      type: object
     Argument:
       discriminator:
         propertyName: _type

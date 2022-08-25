@@ -9,7 +9,7 @@ OUTPUT_DIR="generated/stackstate_api"
 rm -rf "$CHECKOUT_DIR"
 
 # In gitlab we authenticate with the job token when cloning
-if [[ -z "${CI_JOB_TOKEN}" ]]; then
+if [ -z "${CI_JOB_TOKEN}" ]; then
   git clone git@gitlab.com:stackvista/platform/stackstate-openapi.git "$CHECKOUT_DIR"
 else
   git clone "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.com/stackvista/platform/stackstate-openapi.git" "$CHECKOUT_DIR"
