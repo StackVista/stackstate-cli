@@ -2,16 +2,14 @@ package settings
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
-
-var fileMode = 0644
 
 type DescribeArgs struct {
 	Ids             []int64
@@ -67,15 +65,10 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		}
 
 		if args.FilePath != "" {
-			file, err := os.OpenFile(args.FilePath, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
-			if err != nil {
+			if err := util.WriteFile(args.FilePath, []byte(data)); err != nil {
 				return common.NewWriteFileError(err, args.FilePath)
 			}
-			defer file.Close()
 
-			if _, err = file.Write([]byte(data)); err != nil {
-				return common.NewWriteFileError(err, args.FilePath)
-			}
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"filepath": args.FilePath,
