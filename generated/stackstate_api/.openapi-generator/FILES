@@ -12,6 +12,7 @@ api_health_synchronization.go
 api_import.go
 api_monitor.go
 api_node.go
+api_problem.go
 api_relation.go
 api_scripting.go
 api_server.go
@@ -56,6 +57,8 @@ docs/ArgumentStructTypeVal.md
 docs/ArgumentStsEventStreamVal.md
 docs/BaseMonitorError.md
 docs/Baseline.md
+docs/CausingEventsAreNotAvailableForTheTime.md
+docs/CausingEventsResult.md
 docs/Check.md
 docs/CheckError.md
 docs/CheckState.md
@@ -64,6 +67,7 @@ docs/ComponentApi.md
 docs/ComponentNotFoundError.md
 docs/DataStream.md
 docs/DataType.md
+docs/DataUnavailable.md
 docs/DependencyDirection.md
 docs/DownsamplingMethod.md
 docs/ErrorStateValue.md
@@ -102,6 +106,11 @@ docs/FieldMapping.md
 docs/GenericAnnotationData.md
 docs/GenericApiError.md
 docs/GenericErrorsResponse.md
+docs/GetCausingEventsBadRequest.md
+docs/GetCausingEventsNotFound.md
+docs/GetCausingEventsResult.md
+docs/GetCausingEventsServiceUnaivailable.md
+docs/GetTopologyTimeout.md
 docs/HealthStateValue.md
 docs/HealthStreamError.md
 docs/HealthStreamMetrics.md
@@ -121,6 +130,7 @@ docs/InvalidMonitorIdentifierError.md
 docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
 docs/LatestTelemetryStreamMetrics.md
+docs/LimitOutOfRange.md
 docs/MessageLevel.md
 docs/MetricBucketValue.md
 docs/MetricStream.md
@@ -150,6 +160,8 @@ docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypes.md
 docs/Point.md
+docs/ProblemApi.md
+docs/ProblemNotFound.md
 docs/PropagatedHealthStateValue.md
 docs/ProvisionResponse.md
 docs/Reference.md
@@ -192,7 +204,9 @@ docs/TelemetryQueryCondition.md
 docs/TelemetryStreamDefinition.md
 docs/TelemetryStreamPriority.md
 docs/TimeRange.md
+docs/TooManyActiveQueries.md
 docs/TooManyAnomaliesError.md
+docs/TooManyTopologyResults.md
 docs/TopologyEvent.md
 docs/TopologyMapping.md
 docs/TopologyMatchResult.md
@@ -205,6 +219,7 @@ docs/TopologyStreamMetrics.md
 docs/TopologySyncError.md
 docs/TopologySyncStatus.md
 docs/TopologySynchronizationApi.md
+docs/TopologyTimeOutOfRange.md
 docs/UnmatchedCheckState.md
 docs/UserNameMismatchError.md
 docs/UserNotFoundError.md
@@ -250,6 +265,8 @@ model_argument_struct_type_val.go
 model_argument_sts_event_stream_val.go
 model_base_monitor_error.go
 model_baseline.go
+model_causing_events_are_not_available_for_the_time.go
+model_causing_events_result.go
 model_check.go
 model_check_error.go
 model_check_state.go
@@ -257,6 +274,7 @@ model_check_state_acknowledgement.go
 model_component_not_found_error.go
 model_data_stream.go
 model_data_type.go
+model_data_unavailable.go
 model_dependency_direction.go
 model_downsampling_method.go
 model_error_state_value.go
@@ -292,6 +310,11 @@ model_field_mapping.go
 model_generic_annotation_data.go
 model_generic_api_error.go
 model_generic_errors_response.go
+model_get_causing_events_bad_request.go
+model_get_causing_events_not_found.go
+model_get_causing_events_result.go
+model_get_causing_events_service_unaivailable.go
+model_get_topology_timeout.go
 model_health_state_value.go
 model_health_stream_error.go
 model_health_stream_metrics.go
@@ -309,6 +332,7 @@ model_invalid_monitor_identifier_error.go
 model_invalid_sync_identifier.go
 model_invalid_urn.go
 model_latest_telemetry_stream_metrics.go
+model_limit_out_of_range.go
 model_message_level.go
 model_metric_bucket_value.go
 model_metric_stream.go
@@ -336,6 +360,7 @@ model_node.go
 model_node_types.go
 model_node_types_node_types.go
 model_point.go
+model_problem_not_found.go
 model_propagated_health_state_value.go
 model_provision_response.go
 model_reference.go
@@ -373,7 +398,9 @@ model_telemetry_query_condition.go
 model_telemetry_stream_definition.go
 model_telemetry_stream_priority.go
 model_time_range.go
+model_too_many_active_queries.go
 model_too_many_anomalies_error.go
+model_too_many_topology_results.go
 model_topology_event.go
 model_topology_mapping.go
 model_topology_match_result.go
@@ -385,6 +412,7 @@ model_topology_stream_list_item_with_error_details.go
 model_topology_stream_metrics.go
 model_topology_sync_error.go
 model_topology_sync_status.go
+model_topology_time_out_of_range.go
 model_unmatched_check_state.go
 model_user_name_mismatch_error.go
 model_user_not_found_error.go
