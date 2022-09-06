@@ -1,6 +1,6 @@
 module gitlab.com/stackvista/stackstate-cli2
 
-go 1.17
+go 1.19
 
 replace github.com/spf13/pflag => github.com/stackvista/pflag v1.22.0
 
