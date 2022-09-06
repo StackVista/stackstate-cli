@@ -33,25 +33,27 @@ fi
 
 # Check if custom location was defined
 if [[ -z "$STS_CLI_LOCATION" ]]; then
-  # Use default instalation location
+  # Use default installation location
   TARGET_CLI_PATH=/usr/local/bin
   # check if the user has permissions to write on default location
   if [[ -w "$TARGET_CLI_PATH" ]]; then 
-    # user has writting permissions, so no need to use sudo
+    # user has writing permissions, so no need to use sudo
     NO_SUDO=true
   fi
 else
-  # Check if the custom instalation location is valid
+  # Check if the custom installation location is valid
   if [[ ! -d "$STS_CLI_LOCATION" ]]; then
     error "Provided directory does not exist: $STS_CLI_LOCATION."
-  # Check if the user has writting permissions on custom location
+  # Check if the user has writing permissions on custom location
   elif [[ ! -w "$STS_CLI_LOCATION" ]]; then 
-    error "User doesn't have writting permission on `$STS_CLI_LOCATION`."
+    # Location exists but user doesn't have writing permission.
+    echo "Sudo will be used on the provided location $STS_CLI_LOCATION."
   else
-    # Set instalation location as defined by the input
+    # Location exists and user has writing permission
     NO_SUDO=true
-    TARGET_CLI_PATH="$STS_CLI_LOCATION"
   fi
+  # Set installation location as defined by the input
+  TARGET_CLI_PATH="$STS_CLI_LOCATION"
 fi
 
 # Download and unpack the CLI to the target CLI path
@@ -62,9 +64,12 @@ DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-
 echo "Installing: $DL"
 
 if [[ -z "$NO_SUDO" ]]; then
-  echo "STS requires sudo permission to install."
-  echo "Alternativelly, you can provide a custom location with STS_CLI_LOCATION="
-  echo "Make sure that the provided 'STS_CLI_LOCATION' is in your OS Path."
+  # check if custom location was passed to avoid redundant printing
+  if [[ -z "$STS_CLI_LOCATION" ]]; then
+    echo "STS requires sudo permission to install."
+    echo "Alternatively, you can provide a custom location with STS_CLI_LOCATION="
+    echo "Make sure that the provided 'STS_CLI_LOCATION' is in your OS Path."
+  fi
 
   # sudo password will be asked when executing the command.
   curl $DL | sudo tar xz --directory $TARGET_CLI_PATH
