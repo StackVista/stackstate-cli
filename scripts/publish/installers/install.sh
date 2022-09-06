@@ -36,16 +36,16 @@ if [[ -z "$STS_CLI_LOCATION" ]]; then
   # Use default instalation location
   TARGET_CLI_PATH=/usr/local/bin
   # check if the user has permissions to write on default location
-  if [ ! -w "$TARGET_CLI_PATH" ]; then 
+  if [[ -w "$TARGET_CLI_PATH" ]]; then 
     # user has writting permissions, so no need to use sudo
     NO_SUDO=true
   fi
 else
   # Check if the custom instalation location is valid
-  if [ ! -d "$STS_CLI_LOCATION" ]; then
+  if [[ ! -d "$STS_CLI_LOCATION" ]]; then
     error "Provided directory does not exist: $STS_CLI_LOCATION."
   # Check if the user has writting permissions on custom location
-  elif [ ! -w "$STS_CLI_LOCATION" ]; then 
+  elif [[ ! -w "$STS_CLI_LOCATION" ]]; then 
     error "User doesn't have writting permission on `$STS_CLI_LOCATION`."
   else
     # Set instalation location as defined by the input
