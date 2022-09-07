@@ -27,8 +27,13 @@ else
   error "Unsupported operating system: $OSTYPE. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
 fi
 ARCH=`uname -m`
-if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64" ]]; then
+if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64"  && "$ARCH" != "aarch64" ]]; then
   error "Unsupported architecture: $ARCH. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
+fi
+
+# binaries are only published for arm64
+if [[ "$ARCH" == "aarch64" ]]; then
+  ARCH="arm64"
 fi
 
 # Check if custom location was defined
