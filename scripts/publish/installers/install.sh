@@ -6,6 +6,7 @@
 # STS_CLI_VERSION  - version of the CLI to install (empty means latest)
 # STS_URL - url of the StackState instance to configure (empty means don't configure)
 # STS_API_TOKEN - API-TOKEN of the StackState instance to configure (empty means don't configure)
+# STS_CLI_LOCATION - Path you want to install CLI (empty means `/usr/local/bin`)
 #-----------------------------------
 
 #!/usr/bin/env bash
@@ -26,25 +27,60 @@ else
   error "Unsupported operating system: $OSTYPE. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
 fi
 ARCH=`uname -m`
-if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64" ]]; then
+if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64"  && "$ARCH" != "aarch64" ]]; then
   error "Unsupported architecture: $ARCH. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
 fi
 
-# Download and unpack the CLI to the target CLI path
-TARGET_CLI_PATH=/usr/local/bin
-# Check if the user has writting permissions
-if [ ! -w TARGET_CLI_PATH ]; then 
-  # Check if the user is root
-  if [ "$EUID" -ne 0 ]; then 
-    error "Can not write to the defined path : $TARGET_CLI_PATH. Please add sudo before bash in the command previously executed."
-  fi
+# binaries are only published for arm64
+if [[ "$ARCH" == "aarch64" ]]; then
+  ARCH="arm64"
 fi
+
+# Check if custom location was defined
+if [[ -z "$STS_CLI_LOCATION" ]]; then
+  # Use default installation location
+  TARGET_CLI_PATH=/usr/local/bin
+  # check if the user has permissions to write on default location
+  if [[ -w "$TARGET_CLI_PATH" ]]; then 
+    # user has writing permissions, so no need to use sudo
+    NO_SUDO=true
+  fi
+else
+  # Check if the custom installation location is valid
+  if [[ ! -d "$STS_CLI_LOCATION" ]]; then
+    error "Provided directory does not exist: $STS_CLI_LOCATION."
+  # Check if the user has writing permissions on custom location
+  elif [[ ! -w "$STS_CLI_LOCATION" ]]; then 
+    # Location exists but user doesn't have writing permission.
+    echo "Sudo will be used on the provided location $STS_CLI_LOCATION."
+  else
+    # Location exists and user has writing permission
+    NO_SUDO=true
+  fi
+  # Set installation location as defined by the input
+  TARGET_CLI_PATH="$STS_CLI_LOCATION"
+fi
+
+# Download and unpack the CLI to the target CLI path
 if [[ -z "$STS_CLI_VERSION" ]]; then
   STS_CLI_VERSION=`curl https://dl.stackstate.com/stackstate-cli/LATEST_VERSION 2> /dev/null`
 fi
 DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
 echo "Installing: $DL"
-curl $DL | tar xz --directory $TARGET_CLI_PATH
+
+if [[ -z "$NO_SUDO" ]]; then
+  # check if custom location was passed to avoid redundant printing
+  if [[ -z "$STS_CLI_LOCATION" ]]; then
+    echo "STS requires sudo permission to install."
+    echo "Alternatively, you can provide a custom location with STS_CLI_LOCATION="
+    echo "Make sure that the provided 'STS_CLI_LOCATION' is in your OS Path."
+  fi
+
+  # sudo password will be asked when executing the command.
+  curl $DL | sudo tar xz --directory $TARGET_CLI_PATH
+else
+  curl $DL | tar xz --directory $TARGET_CLI_PATH
+fi
 
 # Verify that 'sts' works
 sts > /dev/null 2>&1
