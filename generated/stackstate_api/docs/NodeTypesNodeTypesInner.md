@@ -1,4 +1,4 @@
-# NodeTypesNodeTypes
+# NodeTypesNodeTypesInner
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewNodeTypesNodeTypes
+### NewNodeTypesNodeTypesInner
 
-`func NewNodeTypesNodeTypes(typeName string, description string, ) *NodeTypesNodeTypes`
+`func NewNodeTypesNodeTypesInner(typeName string, description string, ) *NodeTypesNodeTypesInner`
 
-NewNodeTypesNodeTypes instantiates a new NodeTypesNodeTypes object
+NewNodeTypesNodeTypesInner instantiates a new NodeTypesNodeTypesInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewNodeTypesNodeTypesWithDefaults
+### NewNodeTypesNodeTypesInnerWithDefaults
 
-`func NewNodeTypesNodeTypesWithDefaults() *NodeTypesNodeTypes`
+`func NewNodeTypesNodeTypesInnerWithDefaults() *NodeTypesNodeTypesInner`
 
-NewNodeTypesNodeTypesWithDefaults instantiates a new NodeTypesNodeTypes object
+NewNodeTypesNodeTypesInnerWithDefaults instantiates a new NodeTypesNodeTypesInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetTypeName
 
-`func (o *NodeTypesNodeTypes) GetTypeName() string`
+`func (o *NodeTypesNodeTypesInner) GetTypeName() string`
 
 GetTypeName returns the TypeName field if non-nil, zero value otherwise.
 
 ### GetTypeNameOk
 
-`func (o *NodeTypesNodeTypes) GetTypeNameOk() (*string, bool)`
+`func (o *NodeTypesNodeTypesInner) GetTypeNameOk() (*string, bool)`
 
 GetTypeNameOk returns a tuple with the TypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTypeName
 
-`func (o *NodeTypesNodeTypes) SetTypeName(v string)`
+`func (o *NodeTypesNodeTypesInner) SetTypeName(v string)`
 
 SetTypeName sets TypeName field to given value.
 
 
 ### GetDescription
 
-`func (o *NodeTypesNodeTypes) GetDescription() string`
+`func (o *NodeTypesNodeTypesInner) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *NodeTypesNodeTypes) GetDescriptionOk() (*string, bool)`
+`func (o *NodeTypesNodeTypesInner) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *NodeTypesNodeTypes) SetDescription(v string)`
+`func (o *NodeTypesNodeTypesInner) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 

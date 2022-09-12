@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// StackPackFaqs struct for StackPackFaqs
-type StackPackFaqs struct {
+// StackPackFaqsInner struct for StackPackFaqsInner
+type StackPackFaqsInner struct {
 	Question string `json:"question"`
 	Answer string `json:"answer"`
 }
 
-// NewStackPackFaqs instantiates a new StackPackFaqs object
+// NewStackPackFaqsInner instantiates a new StackPackFaqsInner object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStackPackFaqs(question string, answer string) *StackPackFaqs {
-	this := StackPackFaqs{}
+func NewStackPackFaqsInner(question string, answer string) *StackPackFaqsInner {
+	this := StackPackFaqsInner{}
 	this.Question = question
 	this.Answer = answer
 	return &this
 }
 
-// NewStackPackFaqsWithDefaults instantiates a new StackPackFaqs object
+// NewStackPackFaqsInnerWithDefaults instantiates a new StackPackFaqsInner object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewStackPackFaqsWithDefaults() *StackPackFaqs {
-	this := StackPackFaqs{}
+func NewStackPackFaqsInnerWithDefaults() *StackPackFaqsInner {
+	this := StackPackFaqsInner{}
 	return &this
 }
 
 // GetQuestion returns the Question field value
-func (o *StackPackFaqs) GetQuestion() string {
+func (o *StackPackFaqsInner) GetQuestion() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *StackPackFaqs) GetQuestion() string {
 
 // GetQuestionOk returns a tuple with the Question field value
 // and a boolean to check if the value has been set.
-func (o *StackPackFaqs) GetQuestionOk() (*string, bool) {
+func (o *StackPackFaqsInner) GetQuestionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *StackPackFaqs) GetQuestionOk() (*string, bool) {
 }
 
 // SetQuestion sets field value
-func (o *StackPackFaqs) SetQuestion(v string) {
+func (o *StackPackFaqsInner) SetQuestion(v string) {
 	o.Question = v
 }
 
 // GetAnswer returns the Answer field value
-func (o *StackPackFaqs) GetAnswer() string {
+func (o *StackPackFaqsInner) GetAnswer() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -76,7 +76,7 @@ func (o *StackPackFaqs) GetAnswer() string {
 
 // GetAnswerOk returns a tuple with the Answer field value
 // and a boolean to check if the value has been set.
-func (o *StackPackFaqs) GetAnswerOk() (*string, bool) {
+func (o *StackPackFaqsInner) GetAnswerOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,11 +84,11 @@ func (o *StackPackFaqs) GetAnswerOk() (*string, bool) {
 }
 
 // SetAnswer sets field value
-func (o *StackPackFaqs) SetAnswer(v string) {
+func (o *StackPackFaqsInner) SetAnswer(v string) {
 	o.Answer = v
 }
 
-func (o StackPackFaqs) MarshalJSON() ([]byte, error) {
+func (o StackPackFaqsInner) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["question"] = o.Question
@@ -99,38 +99,38 @@ func (o StackPackFaqs) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableStackPackFaqs struct {
-	value *StackPackFaqs
+type NullableStackPackFaqsInner struct {
+	value *StackPackFaqsInner
 	isSet bool
 }
 
-func (v NullableStackPackFaqs) Get() *StackPackFaqs {
+func (v NullableStackPackFaqsInner) Get() *StackPackFaqsInner {
 	return v.value
 }
 
-func (v *NullableStackPackFaqs) Set(val *StackPackFaqs) {
+func (v *NullableStackPackFaqsInner) Set(val *StackPackFaqsInner) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableStackPackFaqs) IsSet() bool {
+func (v NullableStackPackFaqsInner) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableStackPackFaqs) Unset() {
+func (v *NullableStackPackFaqsInner) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableStackPackFaqs(val *StackPackFaqs) *NullableStackPackFaqs {
-	return &NullableStackPackFaqs{value: val, isSet: true}
+func NewNullableStackPackFaqsInner(val *StackPackFaqsInner) *NullableStackPackFaqsInner {
+	return &NullableStackPackFaqsInner{value: val, isSet: true}
 }
 
-func (v NullableStackPackFaqs) MarshalJSON() ([]byte, error) {
+func (v NullableStackPackFaqsInner) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableStackPackFaqs) UnmarshalJSON(src []byte) error {
+func (v *NullableStackPackFaqsInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Message** | **string** |  | 
-**Errors** | [**[]ExecuteScriptSyntaxErrorsErrors**](ExecuteScriptSyntaxErrorsErrors.md) |  | 
+**Errors** | [**[]ExecuteScriptSyntaxErrorsErrorsInner**](ExecuteScriptSyntaxErrorsErrorsInner.md) |  | 
 
 ## Methods
 
 ### NewExecuteScriptSyntaxErrors
 
-`func NewExecuteScriptSyntaxErrors(type_ string, message string, errors []ExecuteScriptSyntaxErrorsErrors, ) *ExecuteScriptSyntaxErrors`
+`func NewExecuteScriptSyntaxErrors(type_ string, message string, errors []ExecuteScriptSyntaxErrorsErrorsInner, ) *ExecuteScriptSyntaxErrors`
 
 NewExecuteScriptSyntaxErrors instantiates a new ExecuteScriptSyntaxErrors object
 This constructor will assign default values to properties that have it defined,
@@ -69,20 +69,20 @@ SetMessage sets Message field to given value.
 
 ### GetErrors
 
-`func (o *ExecuteScriptSyntaxErrors) GetErrors() []ExecuteScriptSyntaxErrorsErrors`
+`func (o *ExecuteScriptSyntaxErrors) GetErrors() []ExecuteScriptSyntaxErrorsErrorsInner`
 
 GetErrors returns the Errors field if non-nil, zero value otherwise.
 
 ### GetErrorsOk
 
-`func (o *ExecuteScriptSyntaxErrors) GetErrorsOk() (*[]ExecuteScriptSyntaxErrorsErrors, bool)`
+`func (o *ExecuteScriptSyntaxErrors) GetErrorsOk() (*[]ExecuteScriptSyntaxErrorsErrorsInner, bool)`
 
 GetErrorsOk returns a tuple with the Errors field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetErrors
 
-`func (o *ExecuteScriptSyntaxErrors) SetErrors(v []ExecuteScriptSyntaxErrorsErrors)`
+`func (o *ExecuteScriptSyntaxErrors) SetErrors(v []ExecuteScriptSyntaxErrorsErrorsInner)`
 
 SetErrors sets Errors field to given value.
 

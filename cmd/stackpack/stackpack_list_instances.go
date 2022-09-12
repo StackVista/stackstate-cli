@@ -36,7 +36,7 @@ func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
 		}
 
 		data := make([][]interface{}, 0)
-		instances := make([]stackstate_api.SstackpackConfigurations, 0)
+		instances := make([]stackstate_api.SstackpackConfigurationsInner, 0)
 		for _, v := range stackpackList {
 			if v.GetName() != args.Name {
 				continue

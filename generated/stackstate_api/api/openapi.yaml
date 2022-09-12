@@ -2556,6 +2556,288 @@ paths:
       summary: List possible events which led to the problem
       tags:
       - problem
+  /v1alpha1/query:
+    get:
+      description: The endpoint evaluates an instant query at a single point in time
+      operationId: getInstantQuery
+      parameters:
+      - description: Prometheus expression query string
+        in: query
+        name: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Query'
+      - description: Evaluation timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: time
+        required: false
+        schema:
+          $ref: '#/components/schemas/Time'
+      - description: Evaluation timeout
+        in: query
+        name: timeout
+        required: false
+        schema:
+          $ref: '#/components/schemas/Timeout'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Expression can't be executed (RFC4918)
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Instant query at a single point in time
+      tags:
+      - query
+    post:
+      description: The endpoint evaluates an instant query at a single point in time
+      operationId: postInstantQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueryRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Expression can't be executed (RFC4918)
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Instant query at a single point in time
+      tags:
+      - query
+  /v1alpha1/query_range:
+    get:
+      description: The endpoint evaluates an expression query over a range of time
+      operationId: getRangeQuery
+      parameters:
+      - description: Prometheus expression query string
+        in: query
+        name: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Query'
+      - description: Start timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: start
+        required: true
+        schema:
+          $ref: '#/components/schemas/Time'
+      - description: End timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: end
+        required: true
+        schema:
+          $ref: '#/components/schemas/Time'
+      - description: Query resolution step width in duration format or float number
+          of seconds.
+        example: 5m or 300
+        in: query
+        name: step
+        required: true
+        schema:
+          $ref: '#/components/schemas/Step'
+      - description: Evaluation timeout
+        in: query
+        name: timeout
+        required: false
+        schema:
+          $ref: '#/components/schemas/Timeout'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Expression can't be executed (RFC4918)
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Query over a range of time
+      tags:
+      - query
+    post:
+      description: The endpoint evaluates an expression query over a range of time
+      operationId: postRangeQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueryRangeRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Expression can't be executed (RFC4918)
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Query over a range of time
+      tags:
+      - query
+  /v1alpha1/query_exemplars:
+    get:
+      description: "Experimental: The returns a list of exemplars for a valid PromQL\
+        \ query for a specific time range"
+      operationId: getExemplarsQuery
+      parameters:
+      - description: Prometheus expression query string
+        in: query
+        name: query
+        required: true
+        schema:
+          $ref: '#/components/schemas/Query'
+      - description: Start timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: start
+        required: true
+        schema:
+          $ref: '#/components/schemas/Time'
+      - description: End timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: end
+        required: true
+        schema:
+          $ref: '#/components/schemas/Time'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Expression can't be executed (RFC4918)
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: "Experimental: Exemplars for a specific time range"
+      tags:
+      - query
+    post:
+      description: "Experimental: The returns a list of exemplars for a valid PromQL\
+        \ query for a specific time range"
+      operationId: postExemplarsQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/QueryExemplarRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Envelope'
+          description: Expression can't be executed (RFC4918)
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: "Experimental: Exemplars for a specific time range"
+      tags:
+      - query
 components:
   requestBodies:
     EventListBody:
@@ -2781,6 +3063,30 @@ components:
             $ref: '#/components/schemas/GetCausingEventsServiceUnaivailable'
       description: Events causing a problem can not be got because of the problems
         with one of the services
+    successEnvelope:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Envelope'
+      description: JSON response envelope
+    invalidParameters:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Envelope'
+      description: Parameters are missing or incorrect
+    unprocessableEntity:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Envelope'
+      description: Expression can't be executed (RFC4918)
+    successExemplarEnvelope:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Envelope'
+      description: JSON response envelope
   schemas:
     GenericErrorsResponse:
       properties:
@@ -2845,7 +3151,7 @@ components:
       properties:
         nodeTypes:
           items:
-            $ref: '#/components/schemas/NodeTypes_nodeTypes'
+            $ref: '#/components/schemas/NodeTypes_nodeTypes_inner'
           type: array
       required:
       - nodeTypes
@@ -2931,7 +3237,7 @@ components:
           type: string
         configurations:
           items:
-            $ref: '#/components/schemas/Sstackpack_configurations'
+            $ref: '#/components/schemas/Sstackpack_configurations_inner'
           type: array
         latestVersion:
           $ref: '#/components/schemas/Sstackpack_latestVersion'
@@ -3004,7 +3310,7 @@ components:
           type: string
         faqs:
           items:
-            $ref: '#/components/schemas/StackPack_faqs'
+            $ref: '#/components/schemas/StackPack_faqs_inner'
           type: array
         configurationUrls:
           items:
@@ -4520,7 +4826,7 @@ components:
           type: string
         errors:
           items:
-            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors'
+            $ref: '#/components/schemas/ExecuteScriptSyntaxErrors_errors_inner'
           type: array
       required:
       - _type
@@ -6096,6 +6402,185 @@ components:
       - message
       - timeoutSeconds
       type: object
+    Query:
+      type: string
+    Time:
+      pattern: "(^((?:(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?))(Z|[\\\
+        +-]\\d{2}:\\d{2})?)$)|(^[0-9]{10}$)"
+      type: string
+    Timeout:
+      pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
+      type: string
+    Envelope:
+      example:
+        data: null
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          $ref: '#/components/schemas/Data'
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    Data:
+      discriminator:
+        propertyName: resultType
+      oneOf:
+      - $ref: '#/components/schemas/Matrix'
+      - $ref: '#/components/schemas/Vector'
+      - $ref: '#/components/schemas/Scalar'
+      - $ref: '#/components/schemas/DataString'
+      required:
+      - resultType
+      type: object
+    Matrix:
+      properties:
+        resultType:
+          enum:
+          - matrix
+          type: string
+        result:
+          items:
+            $ref: '#/components/schemas/DataResult'
+          type: array
+      required:
+      - result
+      - resultType
+      type: object
+    DataResult:
+      properties:
+        metric:
+          items:
+            $ref: '#/components/schemas/ValueTuple'
+          type: array
+        values:
+          items:
+            $ref: '#/components/schemas/ValueTuple'
+          type: array
+      required:
+      - metric
+      - values
+      type: object
+    ValueTuple:
+      properties:
+        time:
+          format: int64
+          type: integer
+        value:
+          type: string
+      required:
+      - time
+      - value
+      type: object
+    Vector:
+      properties:
+        resultType:
+          enum:
+          - vector
+          type: string
+        result:
+          items:
+            $ref: '#/components/schemas/VectorResult'
+          type: array
+      required:
+      - result
+      - resultType
+      type: object
+    VectorResult:
+      properties:
+        metric:
+          items:
+            $ref: '#/components/schemas/ValueTuple'
+          type: array
+        values:
+          $ref: '#/components/schemas/ValueTuple'
+      required:
+      - metric
+      - values
+      type: object
+    Scalar:
+      properties:
+        resultType:
+          enum:
+          - scalar
+          type: string
+        result:
+          $ref: '#/components/schemas/ValueTuple'
+      required:
+      - result
+      - resultType
+      type: object
+    DataString:
+      properties:
+        resultType:
+          enum:
+          - string
+          type: string
+        result:
+          $ref: '#/components/schemas/ValueTuple'
+      required:
+      - result
+      - resultType
+      type: object
+    QueryRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/Query'
+        time:
+          $ref: '#/components/schemas/Time'
+        timeout:
+          $ref: '#/components/schemas/Timeout'
+      required:
+      - query
+      type: object
+    Step:
+      pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
+      type: string
+    QueryRangeRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/Query'
+        start:
+          $ref: '#/components/schemas/Time'
+        end:
+          $ref: '#/components/schemas/Time'
+        step:
+          $ref: '#/components/schemas/Step'
+        timeout:
+          $ref: '#/components/schemas/Timeout'
+      required:
+      - end
+      - query
+      - start
+      - step
+      type: object
+    QueryExemplarRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/Query'
+        start:
+          $ref: '#/components/schemas/Time'
+        end:
+          $ref: '#/components/schemas/Time'
+      required:
+      - end
+      - query
+      - start
+      type: object
     Argument:
       discriminator:
         propertyName: _type
@@ -6732,7 +7217,7 @@ components:
       - MEDIUM
       - LOW
       type: string
-    NodeTypes_nodeTypes:
+    NodeTypes_nodeTypes_inner:
       example:
         typeName: typeName
         description: description
@@ -6745,7 +7230,7 @@ components:
       - description
       - typeName
       type: object
-    Sstackpack_configurations:
+    Sstackpack_configurations_inner:
       example:
         lastUpdateTimestamp: 6
         stackPackVersion: stackPackVersion
@@ -6779,7 +7264,7 @@ components:
         _type:
           type: string
       type: object
-    StackPack_faqs:
+    StackPack_faqs_inner:
       example:
         question: question
         answer: answer
@@ -6816,7 +7301,7 @@ components:
           - MonitorStatusNotFoundError
           type: string
       type: object
-    ExecuteScriptSyntaxErrors_errors:
+    ExecuteScriptSyntaxErrors_errors_inner:
       properties:
         message:
           type: string
