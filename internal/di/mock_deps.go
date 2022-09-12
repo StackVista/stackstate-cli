@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/editor"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
@@ -28,6 +29,7 @@ func NewMockDeps(t *testing.T) MockDeps {
 		Deps: Deps{
 			Client:         &mockClient,
 			Printer:        &mockPrinter,
+			Editor:         &editor.ReverseEditor{},
 			Clock:          pflags.NewTestClock(1652108645000), //nolint:gomnd
 			Context:        context.Background(),
 			CurrentContext: &config.StsContext{},

@@ -2,7 +2,6 @@ package monitor
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -11,8 +10,14 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"k8s.io/kubectl/pkg/cmd/util/editor"
 )
+
+const LongDescription = `Edit a monitor.
+
+The edit command allows you to directly edit any StackState Monitor. It will open
+the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
+Windows.
+`
 
 type EditArgs struct {
 	ID         int64
@@ -24,7 +29,7 @@ func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "edit",
 		Short: "Edit a monitor",
-		Long:  "Edit a monitor.",
+		Long:  LongDescription,
 		RunE:  cli.CmdRunEWithApi(RunMonitorEditCommand(args)),
 	}
 
@@ -60,15 +65,10 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		e := editor.NewDefaultEditor([]string{"VISUAL", "EDITOR"})
-
-		c, f, err := e.LaunchTempFile("monitor-", ".json", resp.Body)
+		c, err := cli.Editor.Edit("monitor-", ".json", resp.Body)
 		if err != nil {
-			os.Remove(f)
 			return common.NewResponseError(err, resp)
 		}
-
-		defer os.Remove(f)
 
 		if strings.Compare(orig, string(c)) == 0 {
 			if cli.IsJson() {
