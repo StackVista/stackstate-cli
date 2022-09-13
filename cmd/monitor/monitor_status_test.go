@@ -108,7 +108,8 @@ func TestSettingsStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor last run: 2022-09-13 16:34:35.007 +0200 CEST", "", "Monitor Stream errors:", "", "Monitor health states mapped to topology:", "",
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor last run: 2022-09-13 14:34:35.007 +0000 UTC",
+		"", "Monitor Stream errors:", "", "Monitor health states mapped to topology:", "",
 		"Monitor Stream metrics:", "", "Monitor health states with identifier matching exactly 1 topology element: 0"}
 
 	expectedTableCall := []printer.TableData{

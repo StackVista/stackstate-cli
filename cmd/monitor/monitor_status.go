@@ -1,6 +1,9 @@
 package monitor
 
 import (
+	"net/http"
+	"time"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
@@ -8,8 +11,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
-	"net/http"
-	"time"
 )
 
 type StatusArgs struct {
@@ -88,7 +89,6 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 					Header: []string{"HealthState", "count"},
 					Data:   topologyMappedMetricsData,
 				})
-
 			}
 
 			healthSyncMetricsData := make([][]interface{}, 0)
