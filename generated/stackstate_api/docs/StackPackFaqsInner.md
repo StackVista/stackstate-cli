@@ -1,4 +1,4 @@
-# StackPackFaqs
+# StackPackFaqsInner
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewStackPackFaqs
+### NewStackPackFaqsInner
 
-`func NewStackPackFaqs(question string, answer string, ) *StackPackFaqs`
+`func NewStackPackFaqsInner(question string, answer string, ) *StackPackFaqsInner`
 
-NewStackPackFaqs instantiates a new StackPackFaqs object
+NewStackPackFaqsInner instantiates a new StackPackFaqsInner object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewStackPackFaqsWithDefaults
+### NewStackPackFaqsInnerWithDefaults
 
-`func NewStackPackFaqsWithDefaults() *StackPackFaqs`
+`func NewStackPackFaqsInnerWithDefaults() *StackPackFaqsInner`
 
-NewStackPackFaqsWithDefaults instantiates a new StackPackFaqs object
+NewStackPackFaqsInnerWithDefaults instantiates a new StackPackFaqsInner object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetQuestion
 
-`func (o *StackPackFaqs) GetQuestion() string`
+`func (o *StackPackFaqsInner) GetQuestion() string`
 
 GetQuestion returns the Question field if non-nil, zero value otherwise.
 
 ### GetQuestionOk
 
-`func (o *StackPackFaqs) GetQuestionOk() (*string, bool)`
+`func (o *StackPackFaqsInner) GetQuestionOk() (*string, bool)`
 
 GetQuestionOk returns a tuple with the Question field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetQuestion
 
-`func (o *StackPackFaqs) SetQuestion(v string)`
+`func (o *StackPackFaqsInner) SetQuestion(v string)`
 
 SetQuestion sets Question field to given value.
 
 
 ### GetAnswer
 
-`func (o *StackPackFaqs) GetAnswer() string`
+`func (o *StackPackFaqsInner) GetAnswer() string`
 
 GetAnswer returns the Answer field if non-nil, zero value otherwise.
 
 ### GetAnswerOk
 
-`func (o *StackPackFaqs) GetAnswerOk() (*string, bool)`
+`func (o *StackPackFaqsInner) GetAnswerOk() (*string, bool)`
 
 GetAnswerOk returns a tuple with the Answer field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAnswer
 
-`func (o *StackPackFaqs) SetAnswer(v string)`
+`func (o *StackPackFaqsInner) SetAnswer(v string)`
 
 SetAnswer sets Answer field to given value.
 

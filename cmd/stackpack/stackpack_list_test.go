@@ -20,7 +20,7 @@ var (
 			Name:        &ucmdbName,
 			DisplayName: &ucmdDisplayName,
 			Version:     &ucmdbVersion,
-			Configurations: []stackstate_api.SstackpackConfigurations{
+			Configurations: []stackstate_api.SstackpackConfigurationsInner{
 				{
 					StackPackVersion: &ucmdbVersion,
 				},
@@ -35,7 +35,7 @@ var (
 			Name:        &awsName,
 			DisplayName: &ucmdDisplayName,
 			Version:     &ucmdbVersion,
-			Configurations: []stackstate_api.SstackpackConfigurations{
+			Configurations: []stackstate_api.SstackpackConfigurationsInner{
 				{
 					StackPackVersion: &ucmdbVersion,
 				},
@@ -93,7 +93,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		Name:        &name,
 		DisplayName: &displayName,
 		Version:     &version,
-		Configurations: []stackstate_api.SstackpackConfigurations{
+		Configurations: []stackstate_api.SstackpackConfigurationsInner{
 			{
 				StackPackVersion: &version,
 			},
