@@ -14,7 +14,7 @@ func setupSettingListTypesCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := SettingsListTypesCommand(&cli.Deps)
 	nodeApiResult := sts.NodeTypes{
-		NodeTypes: []sts.NodeTypesNodeTypes{
+		NodeTypes: []sts.NodeTypesNodeTypesInner{
 			{TypeName: "world", Description: "hello"},
 			{TypeName: "hello", Description: "world"},
 		},
@@ -43,7 +43,7 @@ func TestListTypesPrintsToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
 	ordered := sts.NodeTypes{
-		NodeTypes: []sts.NodeTypesNodeTypes{
+		NodeTypes: []sts.NodeTypesNodeTypesInner{
 			{TypeName: "hello", Description: "world"},
 			{TypeName: "world", Description: "hello"},
 		},

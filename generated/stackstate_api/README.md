@@ -115,6 +115,9 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
+*QueryApi* | [**GetExemplarsQuery**](docs/QueryApi.md#getexemplarsquery) | **Get** /v1alpha1/query_exemplars | Experimental: Exemplars for a specific time range
+*QueryApi* | [**GetInstantQuery**](docs/QueryApi.md#getinstantquery) | **Get** /v1alpha1/query | Instant query at a single point in time
+*QueryApi* | [**GetRangeQuery**](docs/QueryApi.md#getrangequery) | **Get** /v1alpha1/query_range | Query over a range of time
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
 *RelationApi* | [**DeleteRelationCheck**](docs/RelationApi.md#deleterelationcheck) | **Delete** /relations/{relationId}/checks/{checkId} | Delete the check from the relation
@@ -187,11 +190,15 @@ Class | Method | HTTP request | Description
  - [CheckState](docs/CheckState.md)
  - [CheckStateAcknowledgement](docs/CheckStateAcknowledgement.md)
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
+ - [Data](docs/Data.md)
+ - [DataResult](docs/DataResult.md)
  - [DataStream](docs/DataStream.md)
+ - [DataString](docs/DataString.md)
  - [DataType](docs/DataType.md)
  - [DataUnavailable](docs/DataUnavailable.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [DownsamplingMethod](docs/DownsamplingMethod.md)
+ - [Envelope](docs/Envelope.md)
  - [ErrorStateValue](docs/ErrorStateValue.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
@@ -215,7 +222,7 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptResponse](docs/ExecuteScriptResponse.md)
  - [ExecuteScriptSecurityError](docs/ExecuteScriptSecurityError.md)
  - [ExecuteScriptSyntaxErrors](docs/ExecuteScriptSyntaxErrors.md)
- - [ExecuteScriptSyntaxErrorsErrors](docs/ExecuteScriptSyntaxErrorsErrors.md)
+ - [ExecuteScriptSyntaxErrorsErrorsInner](docs/ExecuteScriptSyntaxErrorsErrorsInner.md)
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
  - [Export](docs/Export.md)
@@ -248,6 +255,7 @@ Class | Method | HTTP request | Description
  - [InvalidUrn](docs/InvalidUrn.md)
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
+ - [Matrix](docs/Matrix.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricStream](docs/MetricStream.md)
@@ -273,7 +281,7 @@ Class | Method | HTTP request | Description
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
- - [NodeTypesNodeTypes](docs/NodeTypesNodeTypes.md)
+ - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
  - [Point](docs/Point.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
@@ -283,6 +291,7 @@ Class | Method | HTTP request | Description
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
  - [RunStateValue](docs/RunStateValue.md)
+ - [Scalar](docs/Scalar.md)
  - [ScriptLocation](docs/ScriptLocation.md)
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
@@ -294,11 +303,11 @@ Class | Method | HTTP request | Description
  - [SingleMetric](docs/SingleMetric.md)
  - [SourceLink](docs/SourceLink.md)
  - [Sstackpack](docs/Sstackpack.md)
- - [SstackpackConfigurations](docs/SstackpackConfigurations.md)
+ - [SstackpackConfigurationsInner](docs/SstackpackConfigurationsInner.md)
  - [SstackpackLatestVersion](docs/SstackpackLatestVersion.md)
  - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
- - [StackPackFaqs](docs/StackPackFaqs.md)
+ - [StackPackFaqsInner](docs/StackPackFaqsInner.md)
  - [StackPackStep](docs/StackPackStep.md)
  - [StackPackStepValue](docs/StackPackStepValue.md)
  - [StreamList](docs/StreamList.md)
@@ -334,6 +343,9 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
+ - [ValueTuple](docs/ValueTuple.md)
+ - [Vector](docs/Vector.md)
+ - [VectorResult](docs/VectorResult.md)
  - [WindowingMethod](docs/WindowingMethod.md)
 
 
