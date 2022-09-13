@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **HealthSyncServiceMetrics** | [**HealthStreamMetrics**](HealthStreamMetrics.md) |  | 
+**RuntimeMetrics** | [**MonitorRuntimeMetrics**](MonitorRuntimeMetrics.md) |  | 
 
 ## Methods
 
 ### NewMonitorMetrics
 
-`func NewMonitorMetrics(healthSyncServiceMetrics HealthStreamMetrics, ) *MonitorMetrics`
+`func NewMonitorMetrics(healthSyncServiceMetrics HealthStreamMetrics, runtimeMetrics MonitorRuntimeMetrics, ) *MonitorMetrics`
 
 NewMonitorMetrics instantiates a new MonitorMetrics object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *MonitorMetrics) SetHealthSyncServiceMetrics(v HealthStreamMetrics)`
 
 SetHealthSyncServiceMetrics sets HealthSyncServiceMetrics field to given value.
+
+
+### GetRuntimeMetrics
+
+`func (o *MonitorMetrics) GetRuntimeMetrics() MonitorRuntimeMetrics`
+
+GetRuntimeMetrics returns the RuntimeMetrics field if non-nil, zero value otherwise.
+
+### GetRuntimeMetricsOk
+
+`func (o *MonitorMetrics) GetRuntimeMetricsOk() (*MonitorRuntimeMetrics, bool)`
+
+GetRuntimeMetricsOk returns a tuple with the RuntimeMetrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRuntimeMetrics
+
+`func (o *MonitorMetrics) SetRuntimeMetrics(v MonitorRuntimeMetrics)`
+
+SetRuntimeMetrics sets RuntimeMetrics field to given value.
 
 
 

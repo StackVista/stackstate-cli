@@ -1,8 +1,6 @@
 package monitor
 
 import (
-	"net/http"
-
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
@@ -10,6 +8,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"net/http"
+	"time"
 )
 
 type StatusArgs struct {
@@ -64,20 +64,43 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		} else {
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.MonitorHealthStateStateCount))
+			monitorMetrics := monitorStatus.GetMetrics()
+			monitorRuntimeMetrics := monitorMetrics.GetRuntimeMetrics()
+			lastRunTimestamp, lastRunTimestampOk := monitorRuntimeMetrics.GetLastRunTimestampOk()
+			if lastRunTimestampOk {
+				cli.Printer.PrintLn("Monitor last run: " + time.UnixMilli(*lastRunTimestamp).String())
+			}
+
 			if monitorStatus.HasErrors() {
 				PrintErrors(cli, monitorStatus.GetErrors())
 			}
 
-			metricsData := make([][]interface{}, 0)
-			bucketSizeS := monitorStatus.GetMetrics().HealthSyncServiceMetrics.BucketSizeSeconds
+			if lastRunTimestampOk {
+				cli.Printer.PrintLn("")
+				cli.Printer.PrintLn("Monitor health states mapped to topology:")
+				topologyMappedMetricsData := make([][]interface{}, 0)
+				topologyMappedMetricsData = append(topologyMappedMetricsData, []interface{}{"CLEAR", monitorRuntimeMetrics.GetClearCount()})
+				topologyMappedMetricsData = append(topologyMappedMetricsData, []interface{}{"DEVIATING", monitorRuntimeMetrics.GetDeviatingCount()})
+				topologyMappedMetricsData = append(topologyMappedMetricsData, []interface{}{"CRITICAL", monitorRuntimeMetrics.GetCriticalCount()})
+				topologyMappedMetricsData = append(topologyMappedMetricsData, []interface{}{"UNKNOWN", monitorRuntimeMetrics.GetUnknownCount()})
+
+				cli.Printer.Table(printer.TableData{
+					Header: []string{"HealthState", "count"},
+					Data:   topologyMappedMetricsData,
+				})
+
+			}
+
+			healthSyncMetricsData := make([][]interface{}, 0)
+			healthSyncMetrics := monitorMetrics.HealthSyncServiceMetrics
+			bucketSizeS := healthSyncMetrics.BucketSizeSeconds
 			bucketSizeSDouble := bucketSizeS * TWO
 			bucketSizeSTriple := bucketSizeS * THREE
-			metrics := monitorStatus.GetMetrics().HealthSyncServiceMetrics
-			metricsData = append(metricsData, CreateMetricRows("latency (Seconds)", metrics.GetLatencySeconds()))
-			metricsData = append(metricsData, CreateMetricRows("messages processed (per second)", metrics.GetMessagePerSecond()))
-			metricsData = append(metricsData, CreateMetricRows("monitor health states created (per second)", metrics.GetCreatesPerSecond()))
-			metricsData = append(metricsData, CreateMetricRows("monitor health states updated (per second)", metrics.GetUpdatesPerSecond()))
-			metricsData = append(metricsData, CreateMetricRows("monitor health states deleted (per second)", metrics.GetDeletesPerSecond()))
+			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("latency (Seconds)", healthSyncMetrics.GetLatencySeconds()))
+			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("messages processed (per second)", healthSyncMetrics.GetMessagePerSecond()))
+			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states created (per second)", healthSyncMetrics.GetCreatesPerSecond()))
+			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states updated (per second)", healthSyncMetrics.GetUpdatesPerSecond()))
+			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states deleted (per second)", healthSyncMetrics.GetDeletesPerSecond()))
 
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn("Monitor Stream metrics:")
@@ -86,7 +109,7 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 					"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
 					"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
 					"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
-				Data: metricsData,
+				Data: healthSyncMetricsData,
 			})
 
 			topologyMatchResult := monitorStatus.TopologyMatchResult

@@ -11,7 +11,9 @@ import (
 )
 
 var (
-	monitor = sts.Monitor{
+	count            = int32(3)
+	lastRunTimestamp = int64(1663079675007)
+	monitor          = sts.Monitor{
 		Id:              211684343791306,
 		Name:            "CPU Usage",
 		Identifier:      nil,
@@ -29,6 +31,22 @@ var (
 	metrics = sts.MonitorMetrics{
 		HealthSyncServiceMetrics: sts.HealthStreamMetrics{},
 	}
+
+	monitorRuntimeMetrics = sts.MonitorRuntimeMetrics{
+		UnknownCount:               &count,
+		ClearCount:                 &count,
+		DeviatingCount:             &count,
+		CriticalCount:              &count,
+		LastRunTimestamp:           &lastRunTimestamp,
+		LastFailedRunTimestamp:     &lastRunTimestamp,
+		LastSuccessfulRunTimestamp: &lastRunTimestamp,
+	}
+
+	metricsWithHealthStateCounts = sts.MonitorMetrics{
+		HealthSyncServiceMetrics: sts.HealthStreamMetrics{},
+		RuntimeMetrics:           monitorRuntimeMetrics,
+	}
+
 	topologyMatchResult = sts.TopologyMatchResult{
 		MatchedCheckStates:         0,
 		UnmatchedCheckStates:       nil,
@@ -39,6 +57,14 @@ var (
 		Monitor:                      monitor,
 		Errors:                       []sts.MonitorError{monitorError},
 		Metrics:                      metrics,
+		MonitorHealthStateStateCount: monitorHealthStateCount,
+		TopologyMatchResult:          topologyMatchResult,
+	}
+
+	monitorStatusResultWithHealthCounts = &sts.MonitorStatus{
+		Monitor:                      monitor,
+		Errors:                       []sts.MonitorError{monitorError},
+		Metrics:                      metricsWithHealthStateCounts,
 		MonitorHealthStateStateCount: monitorHealthStateCount,
 		TopologyMatchResult:          topologyMatchResult,
 	}
@@ -62,6 +88,37 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 		{
 			Header: []string{"message", "occurrence count"},
 			Data:   [][]interface{}{{"Error", int32(11)}},
+		},
+		{
+			Header: []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
+				"value between 0 and 0 seconds ago"},
+			Data: [][]interface{}{{"latency (Seconds)"}, {"messages processed (per second)"},
+				{"monitor health states created (per second)"}, {"monitor health states updated (per second)"},
+				{"monitor health states deleted (per second)"}},
+		},
+	}
+
+	assert.Equal(t, expectedPrintlnCalls, *cli.MockPrinter.PrintLnCalls)
+	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
+}
+
+func TestSettingsStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
+	cli, cmd := setMonitorStatusCmd(t)
+	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResultWithHealthCounts
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
+
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor last run: 2022-09-13 16:34:35.007 +0200 CEST", "", "Monitor Stream errors:", "", "Monitor health states mapped to topology:", "",
+		"Monitor Stream metrics:", "", "Monitor health states with identifier matching exactly 1 topology element: 0"}
+
+	expectedTableCall := []printer.TableData{
+		{
+			Header: []string{"message", "occurrence count"},
+			Data:   [][]interface{}{{"Error", int32(11)}},
+		},
+		{
+			Header: []string{"HealthState", "count"},
+			Data:   [][]interface{}{{"CLEAR", count}, {"DEVIATING", count}, {"CRITICAL", count}, {"UNKNOWN", count}},
 		},
 		{
 			Header: []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",

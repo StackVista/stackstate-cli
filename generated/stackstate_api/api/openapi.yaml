@@ -3427,21 +3427,29 @@ components:
             updatesPerSecond:
             - value: 1.4658129805029452
             - value: 1.4658129805029452
-        monitorHealthStateStateCount: 5
+          runtimeMetrics:
+            lastRunTimestamp: 9
+            unknownCount: 5
+            clearCount: 5
+            lastSuccessfulRunTimestamp: 3
+            lastFailedRunTimestamp: 2
+            criticalCount: 7
+            deviatingCount: 2
+        monitorHealthStateStateCount: 4
         topologyMatchResult:
           unmatchedCheckStates:
           - topologyElementIdentifier: topologyElementIdentifier
             checkStateId: checkStateId
           - topologyElementIdentifier: topologyElementIdentifier
             checkStateId: checkStateId
-          matchedCheckStates: 5
+          matchedCheckStates: 7
           multipleMatchesCheckStates:
           - topologyElementIdentifier: topologyElementIdentifier
             checkStateId: checkStateId
-            matchCount: 2
+            matchCount: 1
           - topologyElementIdentifier: topologyElementIdentifier
             checkStateId: checkStateId
-            matchCount: 2
+            matchCount: 1
         errors:
         - count: 0
           error: error
@@ -3503,11 +3511,62 @@ components:
           updatesPerSecond:
           - value: 1.4658129805029452
           - value: 1.4658129805029452
+        runtimeMetrics:
+          lastRunTimestamp: 9
+          unknownCount: 5
+          clearCount: 5
+          lastSuccessfulRunTimestamp: 3
+          lastFailedRunTimestamp: 2
+          criticalCount: 7
+          deviatingCount: 2
       properties:
         healthSyncServiceMetrics:
           $ref: '#/components/schemas/HealthStreamMetrics'
+        runtimeMetrics:
+          $ref: '#/components/schemas/MonitorRuntimeMetrics'
       required:
       - healthSyncServiceMetrics
+      - runtimeMetrics
+      type: object
+    MonitorRuntimeMetrics:
+      example:
+        lastRunTimestamp: 9
+        unknownCount: 5
+        clearCount: 5
+        lastSuccessfulRunTimestamp: 3
+        lastFailedRunTimestamp: 2
+        criticalCount: 7
+        deviatingCount: 2
+      properties:
+        unknownCount:
+          description: Representing the count of the monitors results that are UNKNOWN
+            and are mapped to topology.
+          type: integer
+        clearCount:
+          description: Representing the count of the monitors results that are CLEAR
+            and are mapped to topology.
+          type: integer
+        deviatingCount:
+          description: Representing the count of the monitors results that are DEVIATING
+            and are mapped to topology.
+          type: integer
+        criticalCount:
+          description: Representing the count of the monitors results that are CRITICAL
+            and are mapped to topology.
+          type: integer
+        lastRunTimestamp:
+          description: Representing the epoch millis of the last monitor run.
+          format: int64
+          type: integer
+        lastSuccessfulRunTimestamp:
+          description: Representing the epoch millis of the last monitor successful
+            run.
+          format: int64
+          type: integer
+        lastFailedRunTimestamp:
+          description: Representing the epoch millis of the last monitor failed run.
+          format: int64
+          type: integer
       type: object
     MonitorStatusNotFoundError:
       allOf:
@@ -4426,14 +4485,14 @@ components:
           checkStateId: checkStateId
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-        matchedCheckStates: 5
+        matchedCheckStates: 7
         multipleMatchesCheckStates:
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-          matchCount: 2
+          matchCount: 1
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-          matchCount: 2
+          matchCount: 1
       properties:
         matchedCheckStates:
           type: integer
@@ -4467,7 +4526,7 @@ components:
       example:
         topologyElementIdentifier: topologyElementIdentifier
         checkStateId: checkStateId
-        matchCount: 2
+        matchCount: 1
       properties:
         checkStateId:
           type: string
