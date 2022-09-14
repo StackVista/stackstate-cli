@@ -42,24 +42,13 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			return common.NewCLIArgParseError(err)
 		}
 
-		exportArgs := stackstate_api.NewExport()
-		if len(args.Ids) != 0 {
-			exportArgs.NodesWithIds = args.Ids
-		}
-		if len(args.Namespace) != 0 {
-			exportArgs.Namespace = &args.Namespace
-		}
-		if len(args.NodeTypes) != 0 {
-			exportArgs.AllNodesOfTypes = args.NodeTypes
-		}
 		if len(args.AllowReferences) != 0 {
 			if len(args.Namespace) == 0 {
 				return common.NewCLIArgParseError(fmt.Errorf("\"%s\" flag is required for use of the \"%s\" flag", Namespace, AllowReferencesFlag))
 			}
-			exportArgs.AllowReferences = args.AllowReferences
 		}
 
-		data, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*exportArgs).Execute()
+		data, resp, err := doExport(cli.Context, api, args.Ids, args.Namespace, args.NodeTypes, args.AllowReferences)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

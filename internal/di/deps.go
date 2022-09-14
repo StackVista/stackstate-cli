@@ -10,6 +10,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
+	"gitlab.com/stackvista/stackstate-cli2/internal/editor"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
@@ -19,6 +20,7 @@ type Deps struct {
 	CurrentContext *config.StsContext
 	ConfigPath     string
 	Printer        printer.Printer
+	Editor         editor.Editor
 	Context        context.Context
 	Client         client.StackStateClient
 	Clock          pflags.Clock

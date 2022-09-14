@@ -1,6 +1,8 @@
 package monitor
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func IdOrIdentifier(id int64, identifier string) string {
 	if id == 0 {

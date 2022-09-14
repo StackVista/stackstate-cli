@@ -53,18 +53,7 @@ func RunSettingsApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 			return common.NewReadFileError(err, args.Filepath)
 		}
 
-		request := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes))
-		if args.Namespace != "" {
-			request = request.Namespace(args.Namespace)
-		}
-		if args.UnlockedStrategy != "" {
-			request = request.Unlocked(args.UnlockedStrategy)
-		}
-		if args.Timeout > 0 {
-			request = request.TimeoutSeconds(args.Timeout)
-		}
-
-		nodes, resp, err := request.Execute()
+		nodes, resp, err := doImport(cli.Context, api, string(fileBytes), args.Namespace, args.UnlockedStrategy, args.Timeout)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

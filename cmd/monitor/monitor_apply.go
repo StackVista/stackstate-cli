@@ -64,6 +64,7 @@ func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 				})
 			}
 		}
+
 		return nil
 	}
 }
