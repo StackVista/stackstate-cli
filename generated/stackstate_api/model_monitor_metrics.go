@@ -18,15 +18,17 @@ import (
 // MonitorMetrics struct for MonitorMetrics
 type MonitorMetrics struct {
 	HealthSyncServiceMetrics HealthStreamMetrics `json:"healthSyncServiceMetrics"`
+	RuntimeMetrics MonitorRuntimeMetrics `json:"runtimeMetrics"`
 }
 
 // NewMonitorMetrics instantiates a new MonitorMetrics object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorMetrics(healthSyncServiceMetrics HealthStreamMetrics) *MonitorMetrics {
+func NewMonitorMetrics(healthSyncServiceMetrics HealthStreamMetrics, runtimeMetrics MonitorRuntimeMetrics) *MonitorMetrics {
 	this := MonitorMetrics{}
 	this.HealthSyncServiceMetrics = healthSyncServiceMetrics
+	this.RuntimeMetrics = runtimeMetrics
 	return &this
 }
 
@@ -62,10 +64,37 @@ func (o *MonitorMetrics) SetHealthSyncServiceMetrics(v HealthStreamMetrics) {
 	o.HealthSyncServiceMetrics = v
 }
 
+// GetRuntimeMetrics returns the RuntimeMetrics field value
+func (o *MonitorMetrics) GetRuntimeMetrics() MonitorRuntimeMetrics {
+	if o == nil {
+		var ret MonitorRuntimeMetrics
+		return ret
+	}
+
+	return o.RuntimeMetrics
+}
+
+// GetRuntimeMetricsOk returns a tuple with the RuntimeMetrics field value
+// and a boolean to check if the value has been set.
+func (o *MonitorMetrics) GetRuntimeMetricsOk() (*MonitorRuntimeMetrics, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.RuntimeMetrics, true
+}
+
+// SetRuntimeMetrics sets field value
+func (o *MonitorMetrics) SetRuntimeMetrics(v MonitorRuntimeMetrics) {
+	o.RuntimeMetrics = v
+}
+
 func (o MonitorMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["healthSyncServiceMetrics"] = o.HealthSyncServiceMetrics
+	}
+	if true {
+		toSerialize["runtimeMetrics"] = o.RuntimeMetrics
 	}
 	return json.Marshal(toSerialize)
 }

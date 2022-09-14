@@ -156,6 +156,7 @@ docs/MonitorMetrics.md
 docs/MonitorNotFoundError.md
 docs/MonitorNotFoundErrorAllOf.md
 docs/MonitorRunResult.md
+docs/MonitorRuntimeMetrics.md
 docs/MonitorStatus.md
 docs/MonitorStatusNotFoundError.md
 docs/MonitorStatusNotFoundErrorAllOf.md
@@ -367,6 +368,7 @@ model_monitor_metrics.go
 model_monitor_not_found_error.go
 model_monitor_not_found_error_all_of.go
 model_monitor_run_result.go
+model_monitor_runtime_metrics.go
 model_monitor_status.go
 model_monitor_status_not_found_error.go
 model_monitor_status_not_found_error_all_of.go
