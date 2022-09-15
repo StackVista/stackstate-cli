@@ -44,7 +44,8 @@ archives:
   - goos: windows
     format: zip
   files:
-  - none*
+  - release-notes.md
+  - release-notes.json
   replacements:
     amd64: x86_64
 blobs:
