@@ -126,11 +126,12 @@ compile_test:
 
 generate-release-notes:
   image:
-    name: quay.io/stackstate/go-rk:v0.2.1
+    name: quay.io/stackstate/go-rk:v0.2.2
     entrypoint: ["/bin/sh"]
   stage: check
   script:
     - /go-rk release-notes --fix-version cli2-$CI_COMMIT_TAG --output-file release-notes.md --title "CLI $CI_COMMIT_TAG"
+    - /go-rk release-notes --fix-version cli2-$CI_COMMIT_TAG -o json --output-file release-notes.json --title "CLI $CI_COMMIT_TAG"
   variables:
     RK_JIRA_PROJECT: STAC
     RK_JIRA_URL: https://stackstate.atlassian.net
