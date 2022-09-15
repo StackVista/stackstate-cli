@@ -82,6 +82,8 @@ type APIClient struct {
 
 	StackpackApi StackpackApi
 
+	SubscriptionApi SubscriptionApi
+
 	TopologySynchronizationApi TopologySynchronizationApi
 
 	UserProfileApi UserProfileApi
@@ -119,6 +121,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ServerApi = (*ServerApiService)(&c.common)
 	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
 	c.StackpackApi = (*StackpackApiService)(&c.common)
+	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 

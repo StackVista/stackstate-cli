@@ -19,6 +19,7 @@ api_scripting.go
 api_server.go
 api_service_token.go
 api_stackpack.go
+api_subscription.go
 api_topology_synchronization.go
 api_user_profile.go
 client.go
@@ -102,6 +103,7 @@ docs/ExecuteScriptSyntaxErrors.md
 docs/ExecuteScriptSyntaxErrorsErrorsInner.md
 docs/ExecuteScriptTimeoutError.md
 docs/ExecuteScriptWrongReturnTypeError.md
+docs/ExpiredSubscription.md
 docs/Export.md
 docs/ExportAnomalyApi.md
 docs/ExportApi.md
@@ -135,6 +137,7 @@ docs/InvalidMonitorIdentifierError.md
 docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
 docs/LatestTelemetryStreamMetrics.md
+docs/LicensedSubscription.md
 docs/LimitOutOfRange.md
 docs/Matrix.md
 docs/MessageLevel.md
@@ -161,6 +164,7 @@ docs/MonitorStatus.md
 docs/MonitorStatusNotFoundError.md
 docs/MonitorStatusNotFoundErrorAllOf.md
 docs/MultipleMatchesCheckState.md
+docs/NewLicense.md
 docs/NewServiceTokenRequest.md
 docs/Node.md
 docs/NodeApi.md
@@ -208,6 +212,9 @@ docs/StringItemsWithTotal.md
 docs/StsEventStreamFilter.md
 docs/SubStreamList.md
 docs/SubStreamListItem.md
+docs/Subscription.md
+docs/SubscriptionApi.md
+docs/SubscriptionState.md
 docs/TelemetryLatestSnapshotsResponse.md
 docs/TelemetryQueryCondition.md
 docs/TelemetryStreamDefinition.md
@@ -229,6 +236,7 @@ docs/TopologySyncError.md
 docs/TopologySyncStatus.md
 docs/TopologySynchronizationApi.md
 docs/TopologyTimeOutOfRange.md
+docs/UnlicensedSubscription.md
 docs/UnmatchedCheckState.md
 docs/UserNameMismatchError.md
 docs/UserNotFoundError.md
@@ -319,6 +327,7 @@ model_execute_script_syntax_errors.go
 model_execute_script_syntax_errors_errors_inner.go
 model_execute_script_timeout_error.go
 model_execute_script_wrong_return_type_error.go
+model_expired_subscription.go
 model_export.go
 model_feedback_comment.go
 model_feedback_data.go
@@ -348,6 +357,7 @@ model_invalid_monitor_identifier_error.go
 model_invalid_sync_identifier.go
 model_invalid_urn.go
 model_latest_telemetry_stream_metrics.go
+model_licensed_subscription.go
 model_limit_out_of_range.go
 model_matrix.go
 model_message_level.go
@@ -373,6 +383,7 @@ model_monitor_status.go
 model_monitor_status_not_found_error.go
 model_monitor_status_not_found_error_all_of.go
 model_multiple_matches_check_state.go
+model_new_license.go
 model_new_service_token_request.go
 model_node.go
 model_node_types.go
@@ -412,6 +423,8 @@ model_string_items_with_total.go
 model_sts_event_stream_filter.go
 model_sub_stream_list.go
 model_sub_stream_list_item.go
+model_subscription.go
+model_subscription_state.go
 model_telemetry_latest_snapshots_response.go
 model_telemetry_query_condition.go
 model_telemetry_stream_definition.go
@@ -432,6 +445,7 @@ model_topology_stream_metrics.go
 model_topology_sync_error.go
 model_topology_sync_status.go
 model_topology_time_out_of_range.go
+model_unlicensed_subscription.go
 model_unmatched_check_state.go
 model_user_name_mismatch_error.go
 model_user_not_found_error.go

@@ -1600,6 +1600,52 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
+  /subscription:
+    get:
+      description: Get the state of the StackState license
+      operationId: getSubscription
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionState'
+          description: Subscription information
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get subscription info
+      tags:
+      - subscription
+    post:
+      description: Update the StackState license
+      operationId: postSubscription
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewLicense'
+        description: The new license
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionState'
+          description: Subscription information
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Submit a new license to update the subscription
+      tags:
+      - subscription
   /anomalies/export:
     get:
       description: ""
@@ -5057,6 +5103,76 @@ components:
     ServiceTokenId:
       format: int64
       type: integer
+    SubscriptionState:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ExpiredSubscription'
+      - $ref: '#/components/schemas/UnlicensedSubscription'
+      - $ref: '#/components/schemas/LicensedSubscription'
+      required:
+      - _type
+      type: object
+    ExpiredSubscription:
+      properties:
+        _type:
+          enum:
+          - ExpiredSubscription
+          type: string
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+      required:
+      - _type
+      - subscription
+      type: object
+    Subscription:
+      properties:
+        tenant:
+          type: string
+        expiryTimestampMs:
+          format: int64
+          type: integer
+        plan:
+          type: string
+      required:
+      - plan
+      - tenant
+    UnlicensedSubscription:
+      properties:
+        _type:
+          enum:
+          - UnlicensedSubscription
+          type: string
+        reason:
+          enum:
+          - Missin
+          - Invalid
+          type: string
+      required:
+      - _type
+      - reason
+      type: object
+    LicensedSubscription:
+      properties:
+        _type:
+          enum:
+          - LicensedSubscription
+          type: string
+        subscription:
+          $ref: '#/components/schemas/Subscription'
+      required:
+      - _type
+      - subscription
+      type: object
+    NewLicense:
+      example:
+        key: key
+      properties:
+        key:
+          type: string
+      required:
+      - key
+      type: object
     AnomalyWithContext:
       example:
         feedback:
