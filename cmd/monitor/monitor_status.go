@@ -69,7 +69,7 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 			monitorRuntimeMetrics := monitorMetrics.GetRuntimeMetrics()
 			lastRunTimestamp, lastRunTimestampOk := monitorRuntimeMetrics.GetLastRunTimestampOk()
 			if lastRunTimestampOk {
-				cli.Printer.PrintLn("Monitor last run: " + time.UnixMilli(*lastRunTimestamp).String())
+				cli.Printer.PrintLn("Monitor last run: " + time.UnixMilli(*lastRunTimestamp).UTC().String())
 			}
 
 			if monitorStatus.HasErrors() {
