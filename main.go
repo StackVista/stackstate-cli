@@ -14,6 +14,7 @@ import (
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"gitlab.com/stackvista/stackstate-cli2/internal/editor"
 
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
@@ -29,6 +30,7 @@ func main() {
 		Version:   static_info.Version,
 		Commit:    static_info.Commit,
 		BuildDate: static_info.BuildDate,
+		Editor:    editor.NewEditor(),
 		Clock:     pflags.NewFixedTimeClock(),
 	}
 
