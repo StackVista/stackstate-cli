@@ -139,6 +139,8 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
+*SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
+*SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -225,6 +227,7 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptSyntaxErrorsErrorsInner](docs/ExecuteScriptSyntaxErrorsErrorsInner.md)
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
+ - [ExpiredSubscription](docs/ExpiredSubscription.md)
  - [Export](docs/Export.md)
  - [FeedbackComment](docs/FeedbackComment.md)
  - [FeedbackData](docs/FeedbackData.md)
@@ -254,6 +257,7 @@ Class | Method | HTTP request | Description
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
+ - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
  - [Matrix](docs/Matrix.md)
  - [MessageLevel](docs/MessageLevel.md)
@@ -279,6 +283,7 @@ Class | Method | HTTP request | Description
  - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
  - [MonitorStatusNotFoundErrorAllOf](docs/MonitorStatusNotFoundErrorAllOf.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
+ - [NewLicense](docs/NewLicense.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
@@ -318,6 +323,8 @@ Class | Method | HTTP request | Description
  - [StsEventStreamFilter](docs/StsEventStreamFilter.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
+ - [Subscription](docs/Subscription.md)
+ - [SubscriptionState](docs/SubscriptionState.md)
  - [TelemetryLatestSnapshotsResponse](docs/TelemetryLatestSnapshotsResponse.md)
  - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
  - [TelemetryStreamDefinition](docs/TelemetryStreamDefinition.md)
@@ -338,6 +345,7 @@ Class | Method | HTTP request | Description
  - [TopologySyncError](docs/TopologySyncError.md)
  - [TopologySyncStatus](docs/TopologySyncStatus.md)
  - [TopologyTimeOutOfRange](docs/TopologyTimeOutOfRange.md)
+ - [UnlicensedSubscription](docs/UnlicensedSubscription.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)
  - [UserNotFoundError](docs/UserNotFoundError.md)
