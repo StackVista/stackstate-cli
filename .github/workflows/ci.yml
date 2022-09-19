@@ -32,6 +32,7 @@ jobs:
           DOCKER_TLS_CERTDIR: ""
           CI_BASE_IMAGE_PUSH: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
         run: |
+          echo "${{ secrets.QUAY_PASSWORD }}" | docker login --username=${{ secrets.QUAY_USER }} --password-stdin quay.io
           docker load < result
           docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
           docker push $CI_BASE_IMAGE_PUSH
