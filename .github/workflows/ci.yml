@@ -39,6 +39,9 @@ jobs:
 
       - name: Go base
         run: echo "TODO"
+    outputs:
+      nixChecksum: ${{ env.NIX_CHECKSUM }}
+      ciImageName: stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
 
   check:
     needs: setup
@@ -47,14 +50,25 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Test
-        run: echo "${{env.NIX_CHECKSUM}}"
-
       - name: Lint
-        run: ./scripts/lint.sh
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USER }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: |
+            cd /github/workspace
+            ./scripts/lint.sh
 
       - name: Check StackState API up to date
-        run: ./scripts/check_stackstate_api_up-to-date.sh
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USER }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: ./scripts/check_stackstate_api_up-to-date.sh
 
       - name: License scanning
         run: echo "TODO"
