@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  test:
+  setup:
     runs-on: ubuntu-latest
 
     steps:
@@ -17,10 +17,19 @@ jobs:
         run: echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> $GITHUB_ENV
 
       - name: Publish base image
-        run: echo "$env.NIX_CHECKSUM"
+        run: echo "${{env.NIX_CHECKSUM}}"
 
       - name: Go base
         run: echo "TODO"
+
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Test
+        run: echo "${{env.NIX_CHECKSUM}}"
 
       - name: Lint
         run: ./scripts/lint.sh
@@ -39,6 +48,12 @@ jobs:
 
       - name: Compile test
         run: go test ./... -v
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Generate release notes
         run: echo "TODO"
