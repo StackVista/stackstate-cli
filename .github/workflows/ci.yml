@@ -22,6 +22,7 @@ jobs:
           image: "nixos/nix:2.8.0"
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
+          registry: quay.io
           options: >-
             -e NIX_CONFIG="experimental-features = nix-command flakes"
             -e DOCKER_DRIVER="overlay2"
@@ -32,9 +33,10 @@ jobs:
             cd /github/workspace
             nix profile install nixpkgs#docker
             nix build .#ci-image
-            docker load < result
-            docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
-            docker push $CI_BASE_IMAGE_PUSH
+            echo "$CI_BASE_IMAGE_PUSH"
+            #docker load < result
+            #docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
+            #docker push $CI_BASE_IMAGE_PUSH
 
       - name: Go base
         run: echo "TODO"
