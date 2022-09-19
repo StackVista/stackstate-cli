@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Time** | **int64** |  | 
+**Time** | **float32** |  | 
 **Value** | **string** |  | 
 
 ## Methods
 
 ### NewValueTuple
 
-`func NewValueTuple(time int64, value string, ) *ValueTuple`
+`func NewValueTuple(time float32, value string, ) *ValueTuple`
 
 NewValueTuple instantiates a new ValueTuple object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetTime
 
-`func (o *ValueTuple) GetTime() int64`
+`func (o *ValueTuple) GetTime() float32`
 
 GetTime returns the Time field if non-nil, zero value otherwise.
 
 ### GetTimeOk
 
-`func (o *ValueTuple) GetTimeOk() (*int64, bool)`
+`func (o *ValueTuple) GetTimeOk() (*float32, bool)`
 
 GetTimeOk returns a tuple with the Time field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTime
 
-`func (o *ValueTuple) SetTime(v int64)`
+`func (o *ValueTuple) SetTime(v float32)`
 
 SetTime sets Time field to given value.
 

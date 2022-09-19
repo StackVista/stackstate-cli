@@ -2752,7 +2752,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/ExemplarEnvelope'
           description: JSON response envelope
         "400":
           content:
@@ -3022,7 +3022,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Envelope'
+            $ref: '#/components/schemas/ExemplarEnvelope'
       description: JSON response envelope
   schemas:
     GenericErrorsResponse:
@@ -6530,9 +6530,9 @@ components:
     DataResult:
       properties:
         metric:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
+          additionalProperties:
+            type: string
+          type: object
         values:
           items:
             $ref: '#/components/schemas/ValueTuple'
@@ -6542,10 +6542,13 @@ components:
       - values
       type: object
     ValueTuple:
+      example:
+        time: 0.8008282
+        value: value
       properties:
         time:
-          format: int64
-          type: integer
+          format: float
+          type: number
         value:
           type: string
       required:
@@ -6569,9 +6572,9 @@ components:
     VectorResult:
       properties:
         metric:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
+          additionalProperties:
+            type: string
+          type: object
         values:
           $ref: '#/components/schemas/ValueTuple'
       required:
@@ -6605,6 +6608,98 @@ components:
     Step:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
+    ExemplarEnvelope:
+      example:
+        data:
+          seriesLabels:
+          - time: 0.8008282
+            value: value
+          - time: 0.8008282
+            value: value
+          exemplars:
+          - value: value
+            labels:
+              time: 0.8008282
+              value: value
+            timestamp: 6
+          - value: value
+            labels:
+              time: 0.8008282
+              value: value
+            timestamp: 6
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          $ref: '#/components/schemas/ExemplarData'
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    ExemplarData:
+      example:
+        seriesLabels:
+        - time: 0.8008282
+          value: value
+        - time: 0.8008282
+          value: value
+        exemplars:
+        - value: value
+          labels:
+            time: 0.8008282
+            value: value
+          timestamp: 6
+        - value: value
+          labels:
+            time: 0.8008282
+            value: value
+          timestamp: 6
+      properties:
+        seriesLabels:
+          items:
+            $ref: '#/components/schemas/ValueTuple'
+          type: array
+        exemplars:
+          items:
+            $ref: '#/components/schemas/Exemplar'
+          type: array
+      required:
+      - exemplars
+      - seriesLabels
+      type: object
+    Exemplar:
+      example:
+        value: value
+        labels:
+          time: 0.8008282
+          value: value
+        timestamp: 6
+      properties:
+        labels:
+          $ref: '#/components/schemas/ValueTuple'
+        value:
+          type: string
+        timestamp:
+          format: int64
+          type: integer
+      required:
+      - labels
+      - timestamp
+      - value
+      type: object
     Argument:
       discriminator:
         propertyName: _type
