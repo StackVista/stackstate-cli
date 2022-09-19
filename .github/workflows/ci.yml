@@ -41,6 +41,7 @@ jobs:
         run: echo "TODO"
 
   check:
+    needs: setup
     runs-on: ubuntu-latest
 
     steps:
@@ -68,6 +69,7 @@ jobs:
         run: go test ./... -v
 
   deploy:
+    needs: [setup, check]
     runs-on: ubuntu-latest
 
     steps:
