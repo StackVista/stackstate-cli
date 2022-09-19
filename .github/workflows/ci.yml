@@ -17,7 +17,24 @@ jobs:
         run: echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> $GITHUB_ENV
 
       - name: Publish base image
-        run: echo "${{env.NIX_CHECKSUM}}"
+        uses: addnab/docker-run-action@v3
+        with:
+          image: "nixos/nix:2.8.0"
+          username: ${{ secrets.QUAY_USER }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          options: >-
+            -e NIX_CONFIG="experimental-features = nix-command flakes"
+            -e DOCKER_DRIVER="overlay2"
+            -e DOCKER_HOST="tcp://docker:2375"
+            -e DOCKER_TLS_CERTDIR=""
+            -e CI_BASE_IMAGE_PUSH="quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}"
+          run: |
+            cd /github/workspace
+            nix profile install nixpkgs#docker
+            nix build .#ci-image
+            docker load < result
+            docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
+            docker push $CI_BASE_IMAGE_PUSH
 
       - name: Go base
         run: echo "TODO"
