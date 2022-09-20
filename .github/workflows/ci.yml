@@ -65,7 +65,10 @@ jobs:
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          run: ./scripts/lint.sh
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            cd /workspace
+            ./scripts/lint.sh
 
       - name: Check StackState API up to date
         uses: addnab/docker-run-action@v3
@@ -74,7 +77,10 @@ jobs:
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          run: ./scripts/check_stackstate_api_up-to-date.sh
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            cd /workspace
+            ./scripts/check_stackstate_api_up-to-date.sh
 
       - name: License scanning
         run: echo "TODO"
@@ -83,10 +89,28 @@ jobs:
         run: echo "TODO"
 
       - name: Go releaser check
-        run: goreleaser check
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USER }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          image: ${{ needs.setup.outputs.ciImageName }}
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            cd /workspace
+            goreleaser check
 
       - name: Compile test
-        run: go test ./... -v
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: quay.io
+          username: ${{ secrets.QUAY_USER }}
+          password: ${{ secrets.QUAY_PASSWORD }}
+          image: ${{ needs.setup.outputs.ciImageName }}
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            cd /workspace
+            go test ./... -v
 
   deploy:
     needs: [setup, check]
