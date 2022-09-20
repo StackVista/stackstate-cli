@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Metric** | **map[string]string** |  | 
-**Values** | [**ValueTuple**](ValueTuple.md) |  | 
+**Value** | [**ValueTuple**](ValueTuple.md) |  | 
 
 ## Methods
 
 ### NewVectorResult
 
-`func NewVectorResult(metric map[string]string, values ValueTuple, ) *VectorResult`
+`func NewVectorResult(metric map[string]string, value ValueTuple, ) *VectorResult`
 
 NewVectorResult instantiates a new VectorResult object
 This constructor will assign default values to properties that have it defined,
@@ -46,24 +46,24 @@ and a boolean to check if the value has been set.
 SetMetric sets Metric field to given value.
 
 
-### GetValues
+### GetValue
 
-`func (o *VectorResult) GetValues() ValueTuple`
+`func (o *VectorResult) GetValue() ValueTuple`
 
-GetValues returns the Values field if non-nil, zero value otherwise.
+GetValue returns the Value field if non-nil, zero value otherwise.
 
-### GetValuesOk
+### GetValueOk
 
-`func (o *VectorResult) GetValuesOk() (*ValueTuple, bool)`
+`func (o *VectorResult) GetValueOk() (*ValueTuple, bool)`
 
-GetValuesOk returns a tuple with the Values field if it's non-nil, zero value otherwise
+GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetValues
+### SetValue
 
-`func (o *VectorResult) SetValues(v ValueTuple)`
+`func (o *VectorResult) SetValue(v ValueTuple)`
 
-SetValues sets Values field to given value.
+SetValue sets Value field to given value.
 
 
 

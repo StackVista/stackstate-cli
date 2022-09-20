@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Status** | **string** |  | 
-**Data** | Pointer to [**ExemplarData**](ExemplarData.md) |  | [optional] 
+**Data** | Pointer to [**[]ExemplarData**](ExemplarData.md) |  | [optional] 
 **ErrorType** | Pointer to **string** |  | [optional] 
 **Error** | Pointer to **string** |  | [optional] 
 **Warnings** | Pointer to **[]string** |  | [optional] 
@@ -51,20 +51,20 @@ SetStatus sets Status field to given value.
 
 ### GetData
 
-`func (o *ExemplarEnvelope) GetData() ExemplarData`
+`func (o *ExemplarEnvelope) GetData() []ExemplarData`
 
 GetData returns the Data field if non-nil, zero value otherwise.
 
 ### GetDataOk
 
-`func (o *ExemplarEnvelope) GetDataOk() (*ExemplarData, bool)`
+`func (o *ExemplarEnvelope) GetDataOk() (*[]ExemplarData, bool)`
 
 GetDataOk returns a tuple with the Data field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetData
 
-`func (o *ExemplarEnvelope) SetData(v ExemplarData)`
+`func (o *ExemplarEnvelope) SetData(v []ExemplarData)`
 
 SetData sets Data field to given value.
 

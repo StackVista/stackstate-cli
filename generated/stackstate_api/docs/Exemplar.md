@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Labels** | [**ValueTuple**](ValueTuple.md) |  | 
+**Labels** | **map[string]string** |  | 
 **Value** | **string** |  | 
-**Timestamp** | **int64** |  | 
+**Timestamp** | **float32** |  | 
 
 ## Methods
 
 ### NewExemplar
 
-`func NewExemplar(labels ValueTuple, value string, timestamp int64, ) *Exemplar`
+`func NewExemplar(labels map[string]string, value string, timestamp float32, ) *Exemplar`
 
 NewExemplar instantiates a new Exemplar object
 This constructor will assign default values to properties that have it defined,
@@ -29,20 +29,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetLabels
 
-`func (o *Exemplar) GetLabels() ValueTuple`
+`func (o *Exemplar) GetLabels() map[string]string`
 
 GetLabels returns the Labels field if non-nil, zero value otherwise.
 
 ### GetLabelsOk
 
-`func (o *Exemplar) GetLabelsOk() (*ValueTuple, bool)`
+`func (o *Exemplar) GetLabelsOk() (*map[string]string, bool)`
 
 GetLabelsOk returns a tuple with the Labels field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetLabels
 
-`func (o *Exemplar) SetLabels(v ValueTuple)`
+`func (o *Exemplar) SetLabels(v map[string]string)`
 
 SetLabels sets Labels field to given value.
 
@@ -69,20 +69,20 @@ SetValue sets Value field to given value.
 
 ### GetTimestamp
 
-`func (o *Exemplar) GetTimestamp() int64`
+`func (o *Exemplar) GetTimestamp() float32`
 
 GetTimestamp returns the Timestamp field if non-nil, zero value otherwise.
 
 ### GetTimestampOk
 
-`func (o *Exemplar) GetTimestampOk() (*int64, bool)`
+`func (o *Exemplar) GetTimestampOk() (*float32, bool)`
 
 GetTimestampOk returns a tuple with the Timestamp field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTimestamp
 
-`func (o *Exemplar) SetTimestamp(v int64)`
+`func (o *Exemplar) SetTimestamp(v float32)`
 
 SetTimestamp sets Timestamp field to given value.
 

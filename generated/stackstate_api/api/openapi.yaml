@@ -6325,7 +6325,7 @@ components:
       properties:
         _type:
           enum:
-          - TooManyTopologyResults
+          - CausingEventsAreNotAvailableForTheTime
           type: string
       required:
       - _type
@@ -6504,6 +6504,11 @@ components:
       type: object
     Data:
       discriminator:
+        mapping:
+          matrix: '#/components/schemas/Matrix'
+          vector: '#/components/schemas/Vector'
+          scalar: '#/components/schemas/Scalar'
+          string: '#/components/schemas/DataString'
         propertyName: resultType
       oneOf:
       - $ref: '#/components/schemas/Matrix'
@@ -6542,9 +6547,6 @@ components:
       - values
       type: object
     ValueTuple:
-      example:
-        time: 0.8008282
-        value: value
       properties:
         time:
           format: float
@@ -6575,11 +6577,11 @@ components:
           additionalProperties:
             type: string
           type: object
-        values:
+        value:
           $ref: '#/components/schemas/ValueTuple'
       required:
       - metric
-      - values
+      - value
       type: object
     Scalar:
       properties:
@@ -6611,22 +6613,28 @@ components:
     ExemplarEnvelope:
       example:
         data:
-          seriesLabels:
-          - time: 0.8008282
-            value: value
-          - time: 0.8008282
-            value: value
+        - seriesLabels:
+            key: seriesLabels
           exemplars:
           - value: value
             labels:
-              time: 0.8008282
-              value: value
-            timestamp: 6
+              key: labels
+            timestamp: 0.8008282
           - value: value
             labels:
-              time: 0.8008282
-              value: value
-            timestamp: 6
+              key: labels
+            timestamp: 0.8008282
+        - seriesLabels:
+            key: seriesLabels
+          exemplars:
+          - value: value
+            labels:
+              key: labels
+            timestamp: 0.8008282
+          - value: value
+            labels:
+              key: labels
+            timestamp: 0.8008282
         errorType: errorType
         warnings:
         - warnings
@@ -6637,7 +6645,9 @@ components:
         status:
           type: string
         data:
-          $ref: '#/components/schemas/ExemplarData'
+          items:
+            $ref: '#/components/schemas/ExemplarData'
+          type: array
         errorType:
           type: string
         error:
@@ -6652,26 +6662,21 @@ components:
     ExemplarData:
       example:
         seriesLabels:
-        - time: 0.8008282
-          value: value
-        - time: 0.8008282
-          value: value
+          key: seriesLabels
         exemplars:
         - value: value
           labels:
-            time: 0.8008282
-            value: value
-          timestamp: 6
+            key: labels
+          timestamp: 0.8008282
         - value: value
           labels:
-            time: 0.8008282
-            value: value
-          timestamp: 6
+            key: labels
+          timestamp: 0.8008282
       properties:
         seriesLabels:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
+          additionalProperties:
+            type: string
+          type: object
         exemplars:
           items:
             $ref: '#/components/schemas/Exemplar'
@@ -6684,17 +6689,18 @@ components:
       example:
         value: value
         labels:
-          time: 0.8008282
-          value: value
-        timestamp: 6
+          key: labels
+        timestamp: 0.8008282
       properties:
         labels:
-          $ref: '#/components/schemas/ValueTuple'
+          additionalProperties:
+            type: string
+          type: object
         value:
           type: string
         timestamp:
-          format: int64
-          type: integer
+          format: float
+          type: number
       required:
       - labels
       - timestamp

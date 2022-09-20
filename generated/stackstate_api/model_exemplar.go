@@ -17,16 +17,16 @@ import (
 
 // Exemplar struct for Exemplar
 type Exemplar struct {
-	Labels ValueTuple `json:"labels"`
+	Labels map[string]string `json:"labels"`
 	Value string `json:"value"`
-	Timestamp int64 `json:"timestamp"`
+	Timestamp float32 `json:"timestamp"`
 }
 
 // NewExemplar instantiates a new Exemplar object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExemplar(labels ValueTuple, value string, timestamp int64) *Exemplar {
+func NewExemplar(labels map[string]string, value string, timestamp float32) *Exemplar {
 	this := Exemplar{}
 	this.Labels = labels
 	this.Value = value
@@ -43,9 +43,9 @@ func NewExemplarWithDefaults() *Exemplar {
 }
 
 // GetLabels returns the Labels field value
-func (o *Exemplar) GetLabels() ValueTuple {
+func (o *Exemplar) GetLabels() map[string]string {
 	if o == nil {
-		var ret ValueTuple
+		var ret map[string]string
 		return ret
 	}
 
@@ -54,7 +54,7 @@ func (o *Exemplar) GetLabels() ValueTuple {
 
 // GetLabelsOk returns a tuple with the Labels field value
 // and a boolean to check if the value has been set.
-func (o *Exemplar) GetLabelsOk() (*ValueTuple, bool) {
+func (o *Exemplar) GetLabelsOk() (*map[string]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,7 +62,7 @@ func (o *Exemplar) GetLabelsOk() (*ValueTuple, bool) {
 }
 
 // SetLabels sets field value
-func (o *Exemplar) SetLabels(v ValueTuple) {
+func (o *Exemplar) SetLabels(v map[string]string) {
 	o.Labels = v
 }
 
@@ -91,9 +91,9 @@ func (o *Exemplar) SetValue(v string) {
 }
 
 // GetTimestamp returns the Timestamp field value
-func (o *Exemplar) GetTimestamp() int64 {
+func (o *Exemplar) GetTimestamp() float32 {
 	if o == nil {
-		var ret int64
+		var ret float32
 		return ret
 	}
 
@@ -102,7 +102,7 @@ func (o *Exemplar) GetTimestamp() int64 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
-func (o *Exemplar) GetTimestampOk() (*int64, bool) {
+func (o *Exemplar) GetTimestampOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,7 +110,7 @@ func (o *Exemplar) GetTimestampOk() (*int64, bool) {
 }
 
 // SetTimestamp sets field value
-func (o *Exemplar) SetTimestamp(v int64) {
+func (o *Exemplar) SetTimestamp(v float32) {
 	o.Timestamp = v
 }
 

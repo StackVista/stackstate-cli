@@ -18,17 +18,17 @@ import (
 // VectorResult struct for VectorResult
 type VectorResult struct {
 	Metric map[string]string `json:"metric"`
-	Values ValueTuple `json:"values"`
+	Value ValueTuple `json:"value"`
 }
 
 // NewVectorResult instantiates a new VectorResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewVectorResult(metric map[string]string, values ValueTuple) *VectorResult {
+func NewVectorResult(metric map[string]string, value ValueTuple) *VectorResult {
 	this := VectorResult{}
 	this.Metric = metric
-	this.Values = values
+	this.Value = value
 	return &this
 }
 
@@ -64,28 +64,28 @@ func (o *VectorResult) SetMetric(v map[string]string) {
 	o.Metric = v
 }
 
-// GetValues returns the Values field value
-func (o *VectorResult) GetValues() ValueTuple {
+// GetValue returns the Value field value
+func (o *VectorResult) GetValue() ValueTuple {
 	if o == nil {
 		var ret ValueTuple
 		return ret
 	}
 
-	return o.Values
+	return o.Value
 }
 
-// GetValuesOk returns a tuple with the Values field value
+// GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *VectorResult) GetValuesOk() (*ValueTuple, bool) {
+func (o *VectorResult) GetValueOk() (*ValueTuple, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Values, true
+	return &o.Value, true
 }
 
-// SetValues sets field value
-func (o *VectorResult) SetValues(v ValueTuple) {
-	o.Values = v
+// SetValue sets field value
+func (o *VectorResult) SetValue(v ValueTuple) {
+	o.Value = v
 }
 
 func (o VectorResult) MarshalJSON() ([]byte, error) {
@@ -94,7 +94,7 @@ func (o VectorResult) MarshalJSON() ([]byte, error) {
 		toSerialize["metric"] = o.Metric
 	}
 	if true {
-		toSerialize["values"] = o.Values
+		toSerialize["value"] = o.Value
 	}
 	return json.Marshal(toSerialize)
 }

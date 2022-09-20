@@ -17,7 +17,7 @@ import (
 
 // ExemplarData struct for ExemplarData
 type ExemplarData struct {
-	SeriesLabels []ValueTuple `json:"seriesLabels"`
+	SeriesLabels map[string]string `json:"seriesLabels"`
 	Exemplars []Exemplar `json:"exemplars"`
 }
 
@@ -25,7 +25,7 @@ type ExemplarData struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExemplarData(seriesLabels []ValueTuple, exemplars []Exemplar) *ExemplarData {
+func NewExemplarData(seriesLabels map[string]string, exemplars []Exemplar) *ExemplarData {
 	this := ExemplarData{}
 	this.SeriesLabels = seriesLabels
 	this.Exemplars = exemplars
@@ -41,9 +41,9 @@ func NewExemplarDataWithDefaults() *ExemplarData {
 }
 
 // GetSeriesLabels returns the SeriesLabels field value
-func (o *ExemplarData) GetSeriesLabels() []ValueTuple {
+func (o *ExemplarData) GetSeriesLabels() map[string]string {
 	if o == nil {
-		var ret []ValueTuple
+		var ret map[string]string
 		return ret
 	}
 
@@ -52,15 +52,15 @@ func (o *ExemplarData) GetSeriesLabels() []ValueTuple {
 
 // GetSeriesLabelsOk returns a tuple with the SeriesLabels field value
 // and a boolean to check if the value has been set.
-func (o *ExemplarData) GetSeriesLabelsOk() ([]ValueTuple, bool) {
+func (o *ExemplarData) GetSeriesLabelsOk() (*map[string]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.SeriesLabels, true
+	return &o.SeriesLabels, true
 }
 
 // SetSeriesLabels sets field value
-func (o *ExemplarData) SetSeriesLabels(v []ValueTuple) {
+func (o *ExemplarData) SetSeriesLabels(v map[string]string) {
 	o.SeriesLabels = v
 }
 

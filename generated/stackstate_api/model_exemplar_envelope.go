@@ -18,7 +18,7 @@ import (
 // ExemplarEnvelope struct for ExemplarEnvelope
 type ExemplarEnvelope struct {
 	Status string `json:"status"`
-	Data *ExemplarData `json:"data,omitempty"`
+	Data []ExemplarData `json:"data,omitempty"`
 	ErrorType *string `json:"errorType,omitempty"`
 	Error *string `json:"error,omitempty"`
 	Warnings []string `json:"warnings,omitempty"`
@@ -67,17 +67,17 @@ func (o *ExemplarEnvelope) SetStatus(v string) {
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *ExemplarEnvelope) GetData() ExemplarData {
+func (o *ExemplarEnvelope) GetData() []ExemplarData {
 	if o == nil || o.Data == nil {
-		var ret ExemplarData
+		var ret []ExemplarData
 		return ret
 	}
-	return *o.Data
+	return o.Data
 }
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ExemplarEnvelope) GetDataOk() (*ExemplarData, bool) {
+func (o *ExemplarEnvelope) GetDataOk() ([]ExemplarData, bool) {
 	if o == nil || o.Data == nil {
 		return nil, false
 	}
@@ -93,9 +93,9 @@ func (o *ExemplarEnvelope) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given ExemplarData and assigns it to the Data field.
-func (o *ExemplarEnvelope) SetData(v ExemplarData) {
-	o.Data = &v
+// SetData gets a reference to the given []ExemplarData and assigns it to the Data field.
+func (o *ExemplarEnvelope) SetData(v []ExemplarData) {
+	o.Data = v
 }
 
 // GetErrorType returns the ErrorType field value if set, zero value otherwise.

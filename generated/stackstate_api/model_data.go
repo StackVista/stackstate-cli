@@ -111,6 +111,54 @@ func (dst *Data) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'matrix'
+	if jsonDict["resultType"] == "matrix" {
+		// try to unmarshal JSON data into Matrix
+		err = json.Unmarshal(data, &dst.Matrix)
+		if err == nil {
+			return nil // data stored in dst.Matrix, return on the first match
+		} else {
+			dst.Matrix = nil
+			return fmt.Errorf("Failed to unmarshal Data as Matrix: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'scalar'
+	if jsonDict["resultType"] == "scalar" {
+		// try to unmarshal JSON data into Scalar
+		err = json.Unmarshal(data, &dst.Scalar)
+		if err == nil {
+			return nil // data stored in dst.Scalar, return on the first match
+		} else {
+			dst.Scalar = nil
+			return fmt.Errorf("Failed to unmarshal Data as Scalar: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'string'
+	if jsonDict["resultType"] == "string" {
+		// try to unmarshal JSON data into DataString
+		err = json.Unmarshal(data, &dst.DataString)
+		if err == nil {
+			return nil // data stored in dst.DataString, return on the first match
+		} else {
+			dst.DataString = nil
+			return fmt.Errorf("Failed to unmarshal Data as DataString: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'vector'
+	if jsonDict["resultType"] == "vector" {
+		// try to unmarshal JSON data into Vector
+		err = json.Unmarshal(data, &dst.Vector)
+		if err == nil {
+			return nil // data stored in dst.Vector, return on the first match
+		} else {
+			dst.Vector = nil
+			return fmt.Errorf("Failed to unmarshal Data as Vector: %s", err.Error())
+		}
+	}
+
 	return nil
 }
 
