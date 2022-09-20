@@ -70,7 +70,9 @@ jobs:
             cd /workspace
             ./scripts/lint.sh
 
+      # TODO Needs the open-api repo to be available.
       - name: Check StackState API up to date
+        if: false
         uses: addnab/docker-run-action@v3
         with:
           registry: quay.io
