@@ -41,7 +41,7 @@ jobs:
         run: echo "TODO"
     outputs:
       nixChecksum: ${{ env.NIX_CHECKSUM }}
-      ciImageName: stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
+      ciImageName: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
 
   check:
     needs: setup
