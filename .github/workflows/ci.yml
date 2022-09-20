@@ -54,35 +54,26 @@ jobs:
   check:
     needs: setup
     runs-on: ubuntu-latest
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Lint
-        uses: addnab/docker-run-action@v3
+        uses: ./.github/actions/gobase
         with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USER }}
-          password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            cd /workspace
-            ./scripts/lint.sh
+          run: ./scripts/lint.sh
 
       # TODO Needs the open-api repo to be available.
       - name: Check StackState API up to date
         if: false
-        uses: addnab/docker-run-action@v3
+        uses: ./.github/actions/gobase
         with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USER }}
-          password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            cd /workspace
-            ./scripts/check_stackstate_api_up-to-date.sh
+          run: ./scripts/check_stackstate_api_up-to-date.sh
 
       - name: License scanning
         run: echo "TODO"
@@ -91,28 +82,16 @@ jobs:
         run: echo "TODO"
 
       - name: Go releaser check
-        uses: addnab/docker-run-action@v3
+        uses: ./.github/actions/gobase
         with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USER }}
-          password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            cd /workspace
-            goreleaser check
+          run: goreleaser check
 
       - name: Compile test
-        uses: addnab/docker-run-action@v3
+        uses: ./.github/actions/gobase
         with:
-          registry: quay.io
-          username: ${{ secrets.QUAY_USER }}
-          password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          options: -v ${{ github.workspace }}:/workspace
-          run: |
-            cd /workspace
-            go test ./... -v
+          run: go test ./... -v
 
   deploy:
     needs: [setup, check]
