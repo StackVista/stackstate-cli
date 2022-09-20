@@ -54,6 +54,7 @@ jobs:
   check:
     needs: setup
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     env:
       QUAY_USER: ${{ secrets.QUAY_USER }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
