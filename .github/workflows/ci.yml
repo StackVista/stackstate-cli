@@ -37,8 +37,6 @@ jobs:
           docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
           docker push $CI_BASE_IMAGE_PUSH
 
-      - name: Go base
-        run: echo "TODO"
     outputs:
       nixChecksum: ${{ env.NIX_CHECKSUM }}
       ciImageName: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
@@ -57,9 +55,7 @@ jobs:
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
           image: ${{ needs.setup.outputs.ciImageName }}
-          run: |
-            cd /github/workspace
-            ./scripts/lint.sh
+          run: ./scripts/lint.sh
 
       - name: Check StackState API up to date
         uses: addnab/docker-run-action@v3
