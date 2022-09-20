@@ -13,21 +13,31 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Compute Image Checksum
+        run: echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> $GITHUB_ENV
+
+      - name: Cache Image
+        id: cache-image
+        uses: actions/cache@v3
+        with:
+          path: result
+          key: cli-ci-image-${{ env.NIX_CHECKSUM }}
+
       - name: Install Nix
+        if: steps.cache-image.outputs.cache-hit != 'true'
         uses: nixbuild/nix-quick-install-action@v17
         with:
           nix_conf:
             experimental-features = nix-command flakes
 
-      - name: Compute Image Checksum
-        run: echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> $GITHUB_ENV
-
       - name: Run Nix
+        if: steps.cache-image.outputs.cache-hit != 'true'
         run: |
           nix profile install nixpkgs#docker
           nix build .#ci-image
 
       - name: Publish base image
+        if: steps.cache-image.outputs.cache-hit != 'true'
         env:
           DOCKER_TLS_CERTDIR: ""
           CI_BASE_IMAGE_PUSH: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
