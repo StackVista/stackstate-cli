@@ -18,6 +18,6 @@ runs:
         image: ${{ inputs.image }}
         options: -v ${{ github.workspace }}:/workspace          # NOTE: Assumes the repo is checked out beforehand.
         run: |
-          git config --global --add safe.directory '/workspace' # Needed for goreleaser.
+          git config --global --add safe.directory /workspace   # Needed for goreleaser.
           cd /workspace
           ${{ inputs.run }}

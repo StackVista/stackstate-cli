@@ -9,6 +9,7 @@ on:
 
 jobs:
   setup:
+    name: Prepare CI image
     runs-on: ubuntu-latest
 
     steps:
@@ -171,6 +172,7 @@ jobs:
   test:
     name: Tests
     needs:
+      - setup
       - lint
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -185,7 +187,7 @@ jobs:
         uses: ./.github/actions/gobase
         with:
           image: ${{ needs.setup.outputs.ciImageName }}
-          run: go test ./... -v
+          run: ./scripts/test.sh
 
   deploy:
     needs:
