@@ -1,7 +1,8 @@
 name: CI
 on:
   pull_request:
-    branches: [ main ]
+    branches:
+      - main
 
   # Allows to run this via the Actions tab
   workflow_dispatch:
@@ -93,10 +94,7 @@ jobs:
     name: License scan
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v3
@@ -106,11 +104,10 @@ jobs:
         with:
           registry: registry.gitlab.com
           image: registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3
-          options: -v ${{ github.workspace }}:/workspace -e LM_REPORT_VERSION:'2.1'
+          options: -v ${{ github.workspace }}:/workspace -e LM_REPORT_VERSION=2.1 -e CI_PROJECT_DIR=/workspace
           run: |
-            cd /workspace
-            /run.sh analyze .
-            echo 'GENERATED_LICENSE_SCAN=true' >> $GITHUB_ENV
+            git config --global --add safe.directory ${CI_PROJECT_DIR}
+            /run.sh analyze && echo 'GENERATED_LICENSE_SCAN=true' >> $GITHUB_ENV
 
       - name: Save license scan report
         if: ${{ env.GENERATED_LICENSE_SCAN == 'true' }}
@@ -123,16 +120,27 @@ jobs:
     name: Dependency scan
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-    env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Dependency scanning
-        run: echo "TODO"
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: registry.gitlab.com
+          image: registry.gitlab.com/gitlab-org/security-products/analyzers/gemnasium:2
+          options: -v ${{ github.workspace }}:/workspace  -e CI_PROJECT_DIR=/workspace
+          run: |
+            git config --global --add safe.directory ${CI_PROJECT_DIR}
+            /analyzer run && echo 'GENERATED_DEPENDENCY_SCAN=true' >> $GITHUB_ENV
+
+      - name: Save dependency scan report
+        if: ${{ env.GENERATED_DEPENDENCY_SCAN == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependency_scanning
+          path: gl-dependency-scanning-report.json
 
   check-go-releaser:
     name: Go releaser check
