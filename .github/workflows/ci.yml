@@ -94,38 +94,46 @@ jobs:
     name: License scan
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
+    env:
+      REPORT_FILE: gl-license-scanning-report.json
 
     steps:
       - uses: actions/checkout@v3
 
       - name: License scanning
+        continue-on-error: true
+        id: run-scan
         uses: addnab/docker-run-action@v3
         with:
           registry: registry.gitlab.com
           image: registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3
-          options: -v ${{ github.workspace }}:/workspace -e LM_REPORT_VERSION=2.1 -e CI_PROJECT_DIR=/workspace
+          options: -v ${{ github.workspace }}:/workspace -e LM_REPORT_VERSION=2.1 -e CI_PROJECT_DIR=/workspace -e LM_REPORT_FILE=${{ env.REPORT_FILE }}
           run: |
             git config --global --add safe.directory ${CI_PROJECT_DIR}
-            /run.sh analyze && echo 'GENERATED_LICENSE_SCAN=true' >> $GITHUB_ENV
+            /run.sh analyze
 
       - name: Save license scan report
-        if: ${{ env.GENERATED_LICENSE_SCAN == 'true' }}
+        if: steps.run-scan.outcome == 'success'
         uses: actions/upload-artifact@v3
         with:
           name: license_scanning
-          path: gl-license-scanning-report.json
+          path: ${{ env.REPORT_FILE }}
 
   check-dependencies:
     name: Dependency scan
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 5
+    env:
+      REPORT_FILE: gl-dependency-scanning-report.json
 
     steps:
       - uses: actions/checkout@v3
 
       - name: Dependency scanning
+        continue-on-error: true
+        id: run-scan
         uses: addnab/docker-run-action@v3
         with:
           registry: registry.gitlab.com
@@ -133,14 +141,14 @@ jobs:
           options: -v ${{ github.workspace }}:/workspace  -e CI_PROJECT_DIR=/workspace
           run: |
             git config --global --add safe.directory ${CI_PROJECT_DIR}
-            /analyzer run && echo 'GENERATED_DEPENDENCY_SCAN=true' >> $GITHUB_ENV
+            /analyzer run
 
       - name: Save dependency scan report
-        if: ${{ env.GENERATED_DEPENDENCY_SCAN == 'true' }}
+        if: steps.run-scan.outcome == 'success'
         uses: actions/upload-artifact@v3
         with:
           name: dependency_scanning
-          path: gl-dependency-scanning-report.json
+          path: ${{ env.REPORT_FILE }}
 
   check-go-releaser:
     name: Go releaser check
