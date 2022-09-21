@@ -17,7 +17,7 @@ import (
 
 // ValueTuple struct for ValueTuple
 type ValueTuple struct {
-	Time int64 `json:"time"`
+	Time float32 `json:"time"`
 	Value string `json:"value"`
 }
 
@@ -25,7 +25,7 @@ type ValueTuple struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewValueTuple(time int64, value string) *ValueTuple {
+func NewValueTuple(time float32, value string) *ValueTuple {
 	this := ValueTuple{}
 	this.Time = time
 	this.Value = value
@@ -41,9 +41,9 @@ func NewValueTupleWithDefaults() *ValueTuple {
 }
 
 // GetTime returns the Time field value
-func (o *ValueTuple) GetTime() int64 {
+func (o *ValueTuple) GetTime() float32 {
 	if o == nil {
-		var ret int64
+		var ret float32
 		return ret
 	}
 
@@ -52,7 +52,7 @@ func (o *ValueTuple) GetTime() int64 {
 
 // GetTimeOk returns a tuple with the Time field value
 // and a boolean to check if the value has been set.
-func (o *ValueTuple) GetTimeOk() (*int64, bool) {
+func (o *ValueTuple) GetTimeOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,7 +60,7 @@ func (o *ValueTuple) GetTimeOk() (*int64, bool) {
 }
 
 // SetTime sets field value
-func (o *ValueTuple) SetTime(v int64) {
+func (o *ValueTuple) SetTime(v float32) {
 	o.Time = v
 }
 

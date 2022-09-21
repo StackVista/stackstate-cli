@@ -13,12 +13,13 @@ Name | Type | Description | Notes
 **RemediationHint** | Pointer to **string** |  | [optional] 
 **IntervalSeconds** | **int32** |  | 
 **Tags** | **[]string** |  | 
+**Status** | [**MonitorStatusValue**](MonitorStatusValue.md) |  | 
 
 ## Methods
 
 ### NewMonitor
 
-`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, ) *Monitor`
+`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, ) *Monitor`
 
 NewMonitor instantiates a new Monitor object
 This constructor will assign default values to properties that have it defined,
@@ -226,6 +227,26 @@ and a boolean to check if the value has been set.
 `func (o *Monitor) SetTags(v []string)`
 
 SetTags sets Tags field to given value.
+
+
+### GetStatus
+
+`func (o *Monitor) GetStatus() MonitorStatusValue`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *Monitor) GetStatusOk() (*MonitorStatusValue, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *Monitor) SetStatus(v MonitorStatusValue)`
+
+SetStatus sets Status field to given value.
 
 
 

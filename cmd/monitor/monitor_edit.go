@@ -92,13 +92,13 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 		} else {
 			tableData := make([][]interface{}, 0)
 			for _, node := range nodes {
-				tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"]})
+				tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"], node["status"]})
 			}
 
 			cli.Printer.Success(fmt.Sprintf("Updated <bold>%d</> monitor(s).", len(nodes)))
 			if len(nodes) > 0 {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Type", "Id", "Identifier", "Name"},
+					Header: []string{"Type", "Id", "Identifier", "Name", "Status"},
 					Data:   tableData,
 				})
 			}

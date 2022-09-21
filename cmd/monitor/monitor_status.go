@@ -65,6 +65,7 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		} else {
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.MonitorHealthStateStateCount))
+			cli.Printer.PrintLn("Monitor Status: " + util.ToString(monitorStatus.Monitor.Status))
 			monitorMetrics := monitorStatus.GetMetrics()
 			monitorRuntimeMetrics := monitorMetrics.GetRuntimeMetrics()
 			lastRunTimestamp, lastRunTimestampOk := monitorRuntimeMetrics.GetLastRunTimestampOk()
@@ -92,36 +93,41 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 			}
 
 			healthSyncMetricsData := make([][]interface{}, 0)
-			healthSyncMetrics := monitorMetrics.HealthSyncServiceMetrics
-			bucketSizeS := healthSyncMetrics.BucketSizeSeconds
-			bucketSizeSDouble := bucketSizeS * TWO
-			bucketSizeSTriple := bucketSizeS * THREE
-			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("latency (Seconds)", healthSyncMetrics.GetLatencySeconds()))
-			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("messages processed (per second)", healthSyncMetrics.GetMessagePerSecond()))
-			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states created (per second)", healthSyncMetrics.GetCreatesPerSecond()))
-			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states updated (per second)", healthSyncMetrics.GetUpdatesPerSecond()))
-			healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states deleted (per second)", healthSyncMetrics.GetDeletesPerSecond()))
+			healthSyncMetrics, healthSyncMetricsOk := monitorMetrics.GetHealthSyncServiceMetricsOk()
 
-			cli.Printer.PrintLn("")
-			cli.Printer.PrintLn("Monitor Stream metrics:")
-			cli.Printer.Table(printer.TableData{
-				Header: []string{"metric",
-					"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
-					"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
-					"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
-				Data: healthSyncMetricsData,
-			})
+			if healthSyncMetricsOk {
+				bucketSizeS := healthSyncMetrics.BucketSizeSeconds
+				bucketSizeSDouble := bucketSizeS * TWO
+				bucketSizeSTriple := bucketSizeS * THREE
+				healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("latency (Seconds)", healthSyncMetrics.GetLatencySeconds()))
+				healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("messages processed (per second)", healthSyncMetrics.GetMessagePerSecond()))
+				healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states created (per second)", healthSyncMetrics.GetCreatesPerSecond()))
+				healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states updated (per second)", healthSyncMetrics.GetUpdatesPerSecond()))
+				healthSyncMetricsData = append(healthSyncMetricsData, CreateMetricRows("monitor health states deleted (per second)", healthSyncMetrics.GetDeletesPerSecond()))
 
-			topologyMatchResult := monitorStatus.TopologyMatchResult
-			cli.Printer.PrintLn("")
-			cli.Printer.PrintLn("Monitor health states with identifier matching exactly 1 topology element: " + util.ToString(topologyMatchResult.MatchedCheckStates))
-
-			if len(topologyMatchResult.GetUnmatchedCheckStates()) > 0 {
-				PrintTopologyMatchResultUnmatched(cli, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
+				cli.Printer.PrintLn("")
+				cli.Printer.PrintLn("Monitor Stream metrics:")
+				cli.Printer.Table(printer.TableData{
+					Header: []string{"metric",
+						"value between now and " + util.ToString(bucketSizeS) + " seconds ago",
+						"value between " + util.ToString(bucketSizeS) + " and " + util.ToString(bucketSizeSDouble) + " seconds ago",
+						"value between " + util.ToString(bucketSizeSDouble) + " and " + util.ToString(bucketSizeSTriple) + " seconds ago"},
+					Data: healthSyncMetricsData,
+				})
 			}
 
-			if len(topologyMatchResult.GetMultipleMatchesCheckStates()) > 0 {
-				PrintTopologyMatchResultMultipleMatched(cli, topologyMatchResult.GetMultipleMatchesCheckStates())
+			topologyMatchResult, topologyMatchResultOk := monitorStatus.GetTopologyMatchResultOk()
+			if topologyMatchResultOk {
+				cli.Printer.PrintLn("")
+				cli.Printer.PrintLn("Monitor health states with identifier matching exactly 1 topology element: " + util.ToString(topologyMatchResult.MatchedCheckStates))
+
+				if len(topologyMatchResult.GetUnmatchedCheckStates()) > 0 {
+					PrintTopologyMatchResultUnmatched(cli, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
+				}
+
+				if len(topologyMatchResult.GetMultipleMatchesCheckStates()) > 0 {
+					PrintTopologyMatchResultMultipleMatched(cli, topologyMatchResult.GetMultipleMatchesCheckStates())
+				}
 			}
 		}
 

@@ -444,6 +444,47 @@ paths:
       summary: Get a monitor
       tags:
       - monitor
+    patch:
+      description: Performs an update on the monitor base properties. If a monitor
+        status is set to DISABLED it won't produce health states
+      operationId: patchMonitor
+      parameters:
+      - description: The id or identifier (urn) of a monitor
+        in: path
+        name: monitorIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/monitorPatch'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Monitor'
+          description: Full representation of a monitor
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorSaveError'
+          description: monitor could not be saved in the database
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Update some monitor properties
+      tags:
+      - monitor
   /monitors/{monitorIdOrUrn}/run:
     post:
       description: "Performs a run of a monitor. If 'dryRun' is set, topology state\
@@ -2752,7 +2793,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/ExemplarEnvelope'
           description: JSON response envelope
         "400":
           content:
@@ -2777,6 +2818,13 @@ paths:
       - query
 components:
   requestBodies:
+    monitorPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorPatch'
+      description: Monitor base properties
+      required: true
     EventListBody:
       content:
         application/json:
@@ -2834,6 +2882,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorNotFoundError'
       description: monitor was not found in the database
+    monitorSaveError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorSaveError'
+      description: monitor could not be saved in the database
     monitorRunResult:
       content:
         application/json:
@@ -3022,7 +3076,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Envelope'
+            $ref: '#/components/schemas/ExemplarEnvelope'
       description: JSON response envelope
   schemas:
     GenericErrorsResponse:
@@ -3319,6 +3373,7 @@ components:
           tags:
           - tags
           - tags
+          status: null
         - identifier: identifier
           functionId: 6
           remediationHint: remediationHint
@@ -3332,6 +3387,7 @@ components:
           tags:
           - tags
           - tags
+          status: null
       properties:
         monitors:
           items:
@@ -3355,6 +3411,7 @@ components:
         tags:
         - tags
         - tags
+        status: null
       properties:
         id:
           format: int64
@@ -3380,18 +3437,26 @@ components:
           items:
             type: string
           type: array
+        status:
+          $ref: '#/components/schemas/MonitorStatusValue'
       required:
       - arguments
       - functionId
       - id
       - intervalSeconds
       - name
+      - status
       - tags
       type: object
     MonitorId:
       format: int64
       type: integer
     MonitorUrn:
+      type: string
+    MonitorStatusValue:
+      enum:
+      - ENABLED
+      - DISABLED
       type: string
     MonitorApiError:
       allOf:
@@ -3430,6 +3495,53 @@ components:
       - _type
       - monitorId
       - monitorIdType
+    MonitorPatch:
+      example:
+        identifier: identifier
+        remediationHint: remediationHint
+        name: name
+        description: description
+        intervalSeconds: 0
+        tags:
+        - tags
+        - tags
+        status: null
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        remediationHint:
+          type: string
+        intervalSeconds:
+          type: integer
+        tags:
+          items:
+            type: string
+          type: array
+        status:
+          $ref: '#/components/schemas/MonitorStatusValue'
+      type: object
+    MonitorSaveError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MonitorInvalidIntervalError'
+      - $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+      required:
+      - _type
+    MonitorInvalidIntervalError:
+      properties:
+        intervalSeconds:
+          type: integer
+        _type:
+          type: string
+      required:
+      - _type
+      - intervalSeconds
+      type: object
     MonitorRunResult:
       example:
         result: "{}"
@@ -3455,6 +3567,7 @@ components:
           tags:
           - tags
           - tags
+          status: null
         metrics:
           healthSyncServiceMetrics:
             createsPerSecond:
@@ -3517,9 +3630,7 @@ components:
       required:
       - metrics
       - monitor
-      - monitorHealthStateStateCount
       - status
-      - topologyMatchResult
       type: object
     MonitorErrors:
       items:
@@ -3571,7 +3682,6 @@ components:
         runtimeMetrics:
           $ref: '#/components/schemas/MonitorRuntimeMetrics'
       required:
-      - healthSyncServiceMetrics
       - runtimeMetrics
       type: object
     MonitorRuntimeMetrics:
@@ -6530,9 +6640,9 @@ components:
     DataResult:
       properties:
         metric:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
+          additionalProperties:
+            type: string
+          type: object
         values:
           items:
             $ref: '#/components/schemas/ValueTuple'
@@ -6542,10 +6652,13 @@ components:
       - values
       type: object
     ValueTuple:
+      example:
+        time: 0.8008282
+        value: value
       properties:
         time:
-          format: int64
-          type: integer
+          format: float
+          type: number
         value:
           type: string
       required:
@@ -6569,9 +6682,9 @@ components:
     VectorResult:
       properties:
         metric:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
+          additionalProperties:
+            type: string
+          type: object
         values:
           $ref: '#/components/schemas/ValueTuple'
       required:
@@ -6605,6 +6718,98 @@ components:
     Step:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
+    ExemplarEnvelope:
+      example:
+        data:
+          seriesLabels:
+          - time: 0.8008282
+            value: value
+          - time: 0.8008282
+            value: value
+          exemplars:
+          - value: value
+            labels:
+              time: 0.8008282
+              value: value
+            timestamp: 6
+          - value: value
+            labels:
+              time: 0.8008282
+              value: value
+            timestamp: 6
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          $ref: '#/components/schemas/ExemplarData'
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    ExemplarData:
+      example:
+        seriesLabels:
+        - time: 0.8008282
+          value: value
+        - time: 0.8008282
+          value: value
+        exemplars:
+        - value: value
+          labels:
+            time: 0.8008282
+            value: value
+          timestamp: 6
+        - value: value
+          labels:
+            time: 0.8008282
+            value: value
+          timestamp: 6
+      properties:
+        seriesLabels:
+          items:
+            $ref: '#/components/schemas/ValueTuple'
+          type: array
+        exemplars:
+          items:
+            $ref: '#/components/schemas/Exemplar'
+          type: array
+      required:
+      - exemplars
+      - seriesLabels
+      type: object
+    Exemplar:
+      example:
+        value: value
+        labels:
+          time: 0.8008282
+          value: value
+        timestamp: 6
+      properties:
+        labels:
+          $ref: '#/components/schemas/ValueTuple'
+        value:
+          type: string
+        timestamp:
+          format: int64
+          type: integer
+      required:
+      - labels
+      - timestamp
+      - value
+      type: object
     Argument:
       discriminator:
         propertyName: _type

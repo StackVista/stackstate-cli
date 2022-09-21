@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Metric** | [**[]ValueTuple**](ValueTuple.md) |  | 
+**Metric** | **map[string]string** |  | 
 **Values** | [**ValueTuple**](ValueTuple.md) |  | 
 
 ## Methods
 
 ### NewVectorResult
 
-`func NewVectorResult(metric []ValueTuple, values ValueTuple, ) *VectorResult`
+`func NewVectorResult(metric map[string]string, values ValueTuple, ) *VectorResult`
 
 NewVectorResult instantiates a new VectorResult object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetMetric
 
-`func (o *VectorResult) GetMetric() []ValueTuple`
+`func (o *VectorResult) GetMetric() map[string]string`
 
 GetMetric returns the Metric field if non-nil, zero value otherwise.
 
 ### GetMetricOk
 
-`func (o *VectorResult) GetMetricOk() (*[]ValueTuple, bool)`
+`func (o *VectorResult) GetMetricOk() (*map[string]string, bool)`
 
 GetMetricOk returns a tuple with the Metric field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetric
 
-`func (o *VectorResult) SetMetric(v []ValueTuple)`
+`func (o *VectorResult) SetMetric(v map[string]string)`
 
 SetMetric sets Metric field to given value.
 

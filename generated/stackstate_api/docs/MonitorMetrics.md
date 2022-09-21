@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**HealthSyncServiceMetrics** | [**HealthStreamMetrics**](HealthStreamMetrics.md) |  | 
+**HealthSyncServiceMetrics** | Pointer to [**HealthStreamMetrics**](HealthStreamMetrics.md) |  | [optional] 
 **RuntimeMetrics** | [**MonitorRuntimeMetrics**](MonitorRuntimeMetrics.md) |  | 
 
 ## Methods
 
 ### NewMonitorMetrics
 
-`func NewMonitorMetrics(healthSyncServiceMetrics HealthStreamMetrics, runtimeMetrics MonitorRuntimeMetrics, ) *MonitorMetrics`
+`func NewMonitorMetrics(runtimeMetrics MonitorRuntimeMetrics, ) *MonitorMetrics`
 
 NewMonitorMetrics instantiates a new MonitorMetrics object
 This constructor will assign default values to properties that have it defined,
@@ -45,6 +45,11 @@ and a boolean to check if the value has been set.
 
 SetHealthSyncServiceMetrics sets HealthSyncServiceMetrics field to given value.
 
+### HasHealthSyncServiceMetrics
+
+`func (o *MonitorMetrics) HasHealthSyncServiceMetrics() bool`
+
+HasHealthSyncServiceMetrics returns a boolean if a field has been set.
 
 ### GetRuntimeMetrics
 

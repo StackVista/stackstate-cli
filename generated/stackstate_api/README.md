@@ -111,6 +111,7 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
 *MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
+*MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
@@ -227,6 +228,9 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptSyntaxErrorsErrorsInner](docs/ExecuteScriptSyntaxErrorsErrorsInner.md)
  - [ExecuteScriptTimeoutError](docs/ExecuteScriptTimeoutError.md)
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
+ - [Exemplar](docs/Exemplar.md)
+ - [ExemplarData](docs/ExemplarData.md)
+ - [ExemplarEnvelope](docs/ExemplarEnvelope.md)
  - [ExpiredSubscription](docs/ExpiredSubscription.md)
  - [Export](docs/Export.md)
  - [FeedbackComment](docs/FeedbackComment.md)
@@ -273,15 +277,19 @@ Class | Method | HTTP request | Description
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
  - [MonitorError](docs/MonitorError.md)
+ - [MonitorInvalidIntervalError](docs/MonitorInvalidIntervalError.md)
  - [MonitorList](docs/MonitorList.md)
  - [MonitorMetrics](docs/MonitorMetrics.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorNotFoundErrorAllOf](docs/MonitorNotFoundErrorAllOf.md)
+ - [MonitorPatch](docs/MonitorPatch.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorRuntimeMetrics](docs/MonitorRuntimeMetrics.md)
+ - [MonitorSaveError](docs/MonitorSaveError.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
  - [MonitorStatusNotFoundErrorAllOf](docs/MonitorStatusNotFoundErrorAllOf.md)
+ - [MonitorStatusValue](docs/MonitorStatusValue.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [NewLicense](docs/NewLicense.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
