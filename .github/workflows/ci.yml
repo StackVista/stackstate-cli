@@ -77,7 +77,25 @@ jobs:
           run: ./scripts/check_stackstate_api_up-to-date.sh
 
       - name: License scanning
-        run: echo "TODO"
+        id: license-scanning
+        uses: addnab/docker-run-action@v3
+        env:
+          LM_REPORT_VERSION: '2.1'
+        with:
+          registry: registry.gitlab.com
+          image: registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3
+          options: -v ${{ github.workspace }}:/workspace
+          run: |
+            cd /workspace
+            /run.sh analyze .
+            echo 'GENERATED_LICENSE_SCAN=true' >> $GITHUB_ENV
+
+      - name: Save license scan report
+        if: ${{ env.GENERATED_LICENSE_SCAN == 'true' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: license_scanning
+          path: gl-license-scanning-report.json
 
       - name: Dependency scanning
         run: echo "TODO"
