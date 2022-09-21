@@ -51,10 +51,11 @@ jobs:
       nixChecksum: ${{ env.NIX_CHECKSUM }}
       ciImageName: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
 
-  check:
+  lint:
+    name: Linter
     needs: setup
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     env:
       QUAY_USER: ${{ secrets.QUAY_USER }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
@@ -68,6 +69,18 @@ jobs:
           image: ${{ needs.setup.outputs.ciImageName }}
           run: ./scripts/lint.sh
 
+  check-open-api:
+    name: OpenAPI check
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
       # TODO Needs the open-api repo to be available.
       - name: Check StackState API up to date
         if: false
@@ -76,8 +89,19 @@ jobs:
           image: ${{ needs.setup.outputs.ciImageName }}
           run: ./scripts/check_stackstate_api_up-to-date.sh
 
+  check-license:
+    name: License scan
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
       - name: License scanning
-        id: license-scanning
         uses: addnab/docker-run-action@v3
         env:
           LM_REPORT_VERSION: '2.1'
@@ -97,14 +121,52 @@ jobs:
           name: license_scanning
           path: gl-license-scanning-report.json
 
+  check-dependencies:
+    name: Dependency scan
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
       - name: Dependency scanning
         run: echo "TODO"
+
+  check-go-releaser:
+    name: Go releaser check
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Go releaser check
         uses: ./.github/actions/gobase
         with:
           image: ${{ needs.setup.outputs.ciImageName }}
           run: goreleaser check
+
+  test:
+    name: Tests
+    needs:
+      - setup
+      - lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Compile test
         uses: ./.github/actions/gobase
@@ -113,7 +175,9 @@ jobs:
           run: go test ./... -v
 
   deploy:
-    needs: [setup, check]
+    needs:
+      - setup
+      - test
     runs-on: ubuntu-latest
 
     steps:
