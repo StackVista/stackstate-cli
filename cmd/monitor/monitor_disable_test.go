@@ -15,6 +15,22 @@ func TestMonitorDisableById(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "1")
 
 	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
+	assert.Equal(t, []string{"Monitor 1 has been disabled"}, *cli.MockPrinter.SuccessCalls)
+}
+
+func TestMonitorDisableByIdJson(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := MonitorDisableCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.MonitorApi.PatchMonitorResponse.Result = monitor
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "1", "-o", "json")
+
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
+	expectedJsonCalls := []map[string]interface{}{{
+		"monitor": &monitor,
+	}}
+	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestMonitorDisableByIdentifier(t *testing.T) {
@@ -24,6 +40,23 @@ func TestMonitorDisableByIdentifier(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "1")
 
 	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
+	assert.Equal(t, []string{"Monitor 1 has been disabled"}, *cli.MockPrinter.SuccessCalls)
+}
+
+func TestMonitorDisableByIdentifierJson(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := MonitorDisableCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.MonitorApi.PatchMonitorResponse.Result = monitor
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "1", "-o", "json")
+
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
+	expectedJsonCalls := []map[string]interface{}{{
+		"monitor": &monitor,
+	}}
+	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
+	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func checkMonitorPatchStatusCall(t *testing.T, calls *[]sts.PatchMonitorCall, status *sts.MonitorStatusValue) {
