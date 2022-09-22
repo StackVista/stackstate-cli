@@ -5,33 +5,11 @@ import (
 
 	"github.com/spf13/cobra"
 	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-type EnableDisableArgs struct {
-	ID         int64
-	Identifier string
-}
-
-func MonitorEnableDisableCommand(cli *di.Deps, use string, description string, status *sts.MonitorStatusValue, message string) *cobra.Command {
-	args := &EnableDisableArgs{}
-	cmd := &cobra.Command{
-		Use:   use,
-		Short: description,
-		Long:  description,
-		RunE:  cli.CmdRunEWithApi(RunMonitorEnableDisableCommand(args, status, message)),
-	}
-
-	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
-	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
-	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
-
-	return cmd
-}
-
-func RunMonitorEnableDisableCommand(args *EnableDisableArgs, status *sts.MonitorStatusValue, message string) di.CmdWithApiFn {
+func RunMonitorEnableDisableCommand(args *IdArgs, status *sts.MonitorStatusValue, message string) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,

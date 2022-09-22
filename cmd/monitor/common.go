@@ -10,3 +10,8 @@ func IdOrIdentifier(id int64, identifier string) string {
 	}
 	return fmt.Sprintf("%d", id)
 }
+
+type IdArgs struct {
+	ID         int64
+	Identifier string
+}
