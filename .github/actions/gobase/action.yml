@@ -1,0 +1,23 @@
+name: 'Base Go CI Image'
+description: 'Run a command in a Go CI container'
+inputs:
+  image:
+    description: 'CI Image'
+    required: true
+  run:
+    description: 'Run command in the container'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - uses: addnab/docker-run-action@v3
+      with:
+        registry: quay.io
+        username: ${{ env.QUAY_USER }}
+        password: ${{ env.QUAY_PASSWORD }}
+        image: ${{ inputs.image }}
+        options: -v ${{ github.workspace }}:/workspace          # NOTE: Assumes the repo is checked out beforehand.
+        run: |
+          git config --global --add safe.directory /workspace   # Needed for goreleaser.
+          cd /workspace
+          ${{ inputs.run }}
