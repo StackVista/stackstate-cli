@@ -287,8 +287,6 @@ Class | Method | HTTP request | Description
  - [MonitorRuntimeMetrics](docs/MonitorRuntimeMetrics.md)
  - [MonitorSaveError](docs/MonitorSaveError.md)
  - [MonitorStatus](docs/MonitorStatus.md)
- - [MonitorStatusNotFoundError](docs/MonitorStatusNotFoundError.md)
- - [MonitorStatusNotFoundErrorAllOf](docs/MonitorStatusNotFoundErrorAllOf.md)
  - [MonitorStatusValue](docs/MonitorStatusValue.md)
  - [MultipleMatchesCheckState](docs/MultipleMatchesCheckState.md)
  - [NewLicense](docs/NewLicense.md)

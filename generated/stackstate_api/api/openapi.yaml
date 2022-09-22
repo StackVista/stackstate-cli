@@ -558,8 +558,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MonitorStatusNotFoundError'
-          description: monitor status was not found in the database
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
         "500":
           content:
             application/json:
@@ -2900,12 +2900,6 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorStatus'
       description: Full representation of a monitor with status
-    monitorStatusNotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MonitorStatusNotFoundError'
-      description: monitor status was not found in the database
     userProfile:
       content:
         application/json:
@@ -3724,14 +3718,6 @@ components:
           format: int64
           type: integer
       type: object
-    MonitorStatusNotFoundError:
-      allOf:
-      - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorStatusNotFoundError_allOf'
-      required:
-      - _type
-      - monitorId
-      - monitorIdType
     UserNotFoundError:
       properties:
         _type:
@@ -7521,13 +7507,6 @@ components:
         _type:
           enum:
           - MonitorNotFoundError
-          type: string
-      type: object
-    MonitorStatusNotFoundError_allOf:
-      properties:
-        _type:
-          enum:
-          - MonitorStatusNotFoundError
           type: string
       type: object
     ExecuteScriptSyntaxErrors_errors_inner:
