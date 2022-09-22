@@ -1,5 +1,5 @@
 name: 'Base Go CI Image'
-description: 'Run a command in a Go CI conatiner'
+description: 'Run a command in a Go CI container'
 inputs:
   image:
     description: 'CI Image'
