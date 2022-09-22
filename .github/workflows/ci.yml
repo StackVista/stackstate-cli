@@ -1,0 +1,242 @@
+name: CI
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    tags:
+      - v*
+
+  # Allows to run this via the Actions tab
+  workflow_dispatch:
+
+jobs:
+  setup:
+    name: Prepare CI image
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Compute Image Checksum
+        run: echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> $GITHUB_ENV
+
+      - name: Cache Image
+        id: cache-image
+        uses: actions/cache@v3
+        with:
+          path: result
+          key: cli-ci-image-${{ env.NIX_CHECKSUM }}
+
+      - name: Install Nix
+        if: steps.cache-image.outputs.cache-hit != 'true'
+        uses: nixbuild/nix-quick-install-action@v17
+        with:
+          nix_conf:
+            experimental-features = nix-command flakes
+
+      - name: Run Nix
+        if: steps.cache-image.outputs.cache-hit != 'true'
+        run: |
+          nix profile install nixpkgs#docker
+          nix build .#ci-image
+
+      - name: Publish base image
+        if: steps.cache-image.outputs.cache-hit != 'true'
+        env:
+          DOCKER_TLS_CERTDIR: ""
+          CI_BASE_IMAGE_PUSH: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
+        run: |
+          echo "${{ secrets.QUAY_PASSWORD }}" | docker login --username=${{ secrets.QUAY_USER }} --password-stdin quay.io
+          docker load < result
+          docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
+          docker push $CI_BASE_IMAGE_PUSH
+
+    outputs:
+      nixChecksum: ${{ env.NIX_CHECKSUM }}
+      ciImageName: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
+
+  lint:
+    name: Linter
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Lint
+        uses: ./.github/actions/gobase
+        with:
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: ./scripts/lint.sh
+
+  check-open-api:
+    name: OpenAPI check
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      # TODO Needs the open-api repo to be available.
+      - name: Check StackState API up to date
+        if: false
+        uses: ./.github/actions/gobase
+        with:
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: ./scripts/check_stackstate_api_up-to-date.sh
+
+  check-license:
+    name: License scan
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      REPORT_FILE: gl-license-scanning-report.json
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: License scanning
+        continue-on-error: true
+        id: run-scan
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: registry.gitlab.com
+          image: registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3
+          options: -v ${{ github.workspace }}:/workspace -e LM_REPORT_VERSION=2.1 -e CI_PROJECT_DIR=/workspace -e LM_REPORT_FILE=${{ env.REPORT_FILE }}
+          run: |
+            git config --global --add safe.directory ${CI_PROJECT_DIR}
+            /run.sh analyze
+
+      - name: Save license scan report
+        if: steps.run-scan.outcome == 'success'
+        uses: actions/upload-artifact@v3
+        with:
+          name: license_scanning
+          path: ${{ env.REPORT_FILE }}
+
+  check-dependencies:
+    name: Dependency scan
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      REPORT_FILE: gl-dependency-scanning-report.json
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Dependency scanning
+        continue-on-error: true
+        id: run-scan
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: registry.gitlab.com
+          image: registry.gitlab.com/gitlab-org/security-products/analyzers/gemnasium:2
+          options: -v ${{ github.workspace }}:/workspace  -e CI_PROJECT_DIR=/workspace
+          run: |
+            git config --global --add safe.directory ${CI_PROJECT_DIR}
+            /analyzer run
+
+      - name: Save dependency scan report
+        if: steps.run-scan.outcome == 'success'
+        uses: actions/upload-artifact@v3
+        with:
+          name: dependency_scanning
+          path: ${{ env.REPORT_FILE }}
+
+  check-go-releaser:
+    name: Go releaser check
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Go releaser check
+        uses: ./.github/actions/gobase
+        with:
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: goreleaser check
+
+  test:
+    name: Tests
+    needs:
+      - setup
+      - lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Compile test
+        uses: ./.github/actions/gobase
+        with:
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: ./scripts/test.sh
+
+  publish:
+    name: Publish the binary
+    if: startsWith(github.ref, '/refs/tags/')
+    needs:
+      - setup
+      - test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      QUAY_USER: ${{ secrets.QUAY_USER }}
+      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
+      TAG: ${{ github.ref }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Generate release notes
+        id: release-notes
+        uses: addnab/docker-run-action@v3
+        with:
+          registry: registry.gitlab.com
+          image: quay.io/stackstate/go-rk:v0.2.2
+          options: >
+            -v ${{ github.workspace }}:/workspace
+            -e RK_JIRA_PROJECT=STAC
+            -e RK_JIRA_URL=https://stackstate.atlassian.net
+            -e RK_JIRA_USER:${{ secrets.JIRA_USERNAME }}
+            -e RK_JIRA_TOKEN:${{ secrets.JIRA_TOKEN }}
+          run: |
+            git config --global --add safe.directory /workspace
+            cd /workspace
+            /go-rk release-notes --fix-version cli2-${{ env.TAG }} --output-file release-notes.md --title "CLI ${{ env.TAG }}"
+            /go-rk release-notes --fix-version cli2-${{ env.TAG }} -o json --output-file release-notes.json --title "CLI ${{ env.TAG }}"
+
+      - name: Save release notes
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-notes
+          path: release-notes.md
+
+      - name: Publish
+        uses: ./.github/actions/gobase
+        with:
+          image: ${{ needs.setup.outputs.ciImageName }}
+          run: ./scripts/publish.sh
+
