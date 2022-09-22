@@ -1,6 +1,7 @@
 package monitor
 
 import (
+	"fmt"
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
@@ -51,7 +52,7 @@ func RunMonitorDisableCommand(args *EnableArgs) di.CmdWithApiFn {
 				"monitor": monitorPatchResult,
 			})
 		} else {
-			cli.Printer.PrintStruct(monitorPatchResult)
+			cli.Printer.Success(fmt.Sprintf("Monitor %s has been disabled", identifier))
 		}
 
 		return nil
