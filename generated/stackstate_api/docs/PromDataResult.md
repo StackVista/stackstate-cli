@@ -1,69 +1,69 @@
-# VectorResult
+# PromDataResult
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Metric** | **map[string]string** |  | 
-**Value** | [**ValueTuple**](ValueTuple.md) |  | 
+**Values** | [**[][]PromSampleInner**]([]PromSampleInner.md) |  | 
 
 ## Methods
 
-### NewVectorResult
+### NewPromDataResult
 
-`func NewVectorResult(metric map[string]string, value ValueTuple, ) *VectorResult`
+`func NewPromDataResult(metric map[string]string, values [][]PromSampleInner, ) *PromDataResult`
 
-NewVectorResult instantiates a new VectorResult object
+NewPromDataResult instantiates a new PromDataResult object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewVectorResultWithDefaults
+### NewPromDataResultWithDefaults
 
-`func NewVectorResultWithDefaults() *VectorResult`
+`func NewPromDataResultWithDefaults() *PromDataResult`
 
-NewVectorResultWithDefaults instantiates a new VectorResult object
+NewPromDataResultWithDefaults instantiates a new PromDataResult object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetMetric
 
-`func (o *VectorResult) GetMetric() map[string]string`
+`func (o *PromDataResult) GetMetric() map[string]string`
 
 GetMetric returns the Metric field if non-nil, zero value otherwise.
 
 ### GetMetricOk
 
-`func (o *VectorResult) GetMetricOk() (*map[string]string, bool)`
+`func (o *PromDataResult) GetMetricOk() (*map[string]string, bool)`
 
 GetMetricOk returns a tuple with the Metric field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetric
 
-`func (o *VectorResult) SetMetric(v map[string]string)`
+`func (o *PromDataResult) SetMetric(v map[string]string)`
 
 SetMetric sets Metric field to given value.
 
 
-### GetValue
+### GetValues
 
-`func (o *VectorResult) GetValue() ValueTuple`
+`func (o *PromDataResult) GetValues() [][]PromSampleInner`
 
-GetValue returns the Value field if non-nil, zero value otherwise.
+GetValues returns the Values field if non-nil, zero value otherwise.
 
-### GetValueOk
+### GetValuesOk
 
-`func (o *VectorResult) GetValueOk() (*ValueTuple, bool)`
+`func (o *PromDataResult) GetValuesOk() (*[][]PromSampleInner, bool)`
 
-GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
+GetValuesOk returns a tuple with the Values field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetValue
+### SetValues
 
-`func (o *VectorResult) SetValue(v ValueTuple)`
+`func (o *PromDataResult) SetValues(v [][]PromSampleInner)`
 
-SetValue sets Value field to given value.
+SetValues sets Values field to given value.
 
 
 

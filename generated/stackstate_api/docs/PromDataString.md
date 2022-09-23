@@ -1,67 +1,67 @@
-# Vector
+# PromDataString
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ResultType** | **string** |  | 
-**Result** | [**[]VectorResult**](VectorResult.md) |  | 
+**Result** | [**[]PromSampleInner**](PromSampleInner.md) | This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string.  | 
 
 ## Methods
 
-### NewVector
+### NewPromDataString
 
-`func NewVector(resultType string, result []VectorResult, ) *Vector`
+`func NewPromDataString(resultType string, result []PromSampleInner, ) *PromDataString`
 
-NewVector instantiates a new Vector object
+NewPromDataString instantiates a new PromDataString object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewVectorWithDefaults
+### NewPromDataStringWithDefaults
 
-`func NewVectorWithDefaults() *Vector`
+`func NewPromDataStringWithDefaults() *PromDataString`
 
-NewVectorWithDefaults instantiates a new Vector object
+NewPromDataStringWithDefaults instantiates a new PromDataString object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetResultType
 
-`func (o *Vector) GetResultType() string`
+`func (o *PromDataString) GetResultType() string`
 
 GetResultType returns the ResultType field if non-nil, zero value otherwise.
 
 ### GetResultTypeOk
 
-`func (o *Vector) GetResultTypeOk() (*string, bool)`
+`func (o *PromDataString) GetResultTypeOk() (*string, bool)`
 
 GetResultTypeOk returns a tuple with the ResultType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResultType
 
-`func (o *Vector) SetResultType(v string)`
+`func (o *PromDataString) SetResultType(v string)`
 
 SetResultType sets ResultType field to given value.
 
 
 ### GetResult
 
-`func (o *Vector) GetResult() []VectorResult`
+`func (o *PromDataString) GetResult() []PromSampleInner`
 
 GetResult returns the Result field if non-nil, zero value otherwise.
 
 ### GetResultOk
 
-`func (o *Vector) GetResultOk() (*[]VectorResult, bool)`
+`func (o *PromDataString) GetResultOk() (*[]PromSampleInner, bool)`
 
 GetResultOk returns a tuple with the Result field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResult
 
-`func (o *Vector) SetResult(v []VectorResult)`
+`func (o *PromDataString) SetResult(v []PromSampleInner)`
 
 SetResult sets Result field to given value.
 

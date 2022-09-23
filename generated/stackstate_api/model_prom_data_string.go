@@ -15,33 +15,34 @@ import (
 	"encoding/json"
 )
 
-// Scalar struct for Scalar
-type Scalar struct {
+// PromDataString struct for PromDataString
+type PromDataString struct {
 	ResultType string `json:"resultType"`
-	Result ValueTuple `json:"result"`
+	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string. 
+	Result []PromSampleInner `json:"result"`
 }
 
-// NewScalar instantiates a new Scalar object
+// NewPromDataString instantiates a new PromDataString object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewScalar(resultType string, result ValueTuple) *Scalar {
-	this := Scalar{}
+func NewPromDataString(resultType string, result []PromSampleInner) *PromDataString {
+	this := PromDataString{}
 	this.ResultType = resultType
 	this.Result = result
 	return &this
 }
 
-// NewScalarWithDefaults instantiates a new Scalar object
+// NewPromDataStringWithDefaults instantiates a new PromDataString object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewScalarWithDefaults() *Scalar {
-	this := Scalar{}
+func NewPromDataStringWithDefaults() *PromDataString {
+	this := PromDataString{}
 	return &this
 }
 
 // GetResultType returns the ResultType field value
-func (o *Scalar) GetResultType() string {
+func (o *PromDataString) GetResultType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +53,7 @@ func (o *Scalar) GetResultType() string {
 
 // GetResultTypeOk returns a tuple with the ResultType field value
 // and a boolean to check if the value has been set.
-func (o *Scalar) GetResultTypeOk() (*string, bool) {
+func (o *PromDataString) GetResultTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,14 +61,14 @@ func (o *Scalar) GetResultTypeOk() (*string, bool) {
 }
 
 // SetResultType sets field value
-func (o *Scalar) SetResultType(v string) {
+func (o *PromDataString) SetResultType(v string) {
 	o.ResultType = v
 }
 
 // GetResult returns the Result field value
-func (o *Scalar) GetResult() ValueTuple {
+func (o *PromDataString) GetResult() []PromSampleInner {
 	if o == nil {
-		var ret ValueTuple
+		var ret []PromSampleInner
 		return ret
 	}
 
@@ -76,19 +77,19 @@ func (o *Scalar) GetResult() ValueTuple {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-func (o *Scalar) GetResultOk() (*ValueTuple, bool) {
+func (o *PromDataString) GetResultOk() ([]PromSampleInner, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Result, true
+	return o.Result, true
 }
 
 // SetResult sets field value
-func (o *Scalar) SetResult(v ValueTuple) {
+func (o *PromDataString) SetResult(v []PromSampleInner) {
 	o.Result = v
 }
 
-func (o Scalar) MarshalJSON() ([]byte, error) {
+func (o PromDataString) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["resultType"] = o.ResultType
@@ -99,38 +100,38 @@ func (o Scalar) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableScalar struct {
-	value *Scalar
+type NullablePromDataString struct {
+	value *PromDataString
 	isSet bool
 }
 
-func (v NullableScalar) Get() *Scalar {
+func (v NullablePromDataString) Get() *PromDataString {
 	return v.value
 }
 
-func (v *NullableScalar) Set(val *Scalar) {
+func (v *NullablePromDataString) Set(val *PromDataString) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableScalar) IsSet() bool {
+func (v NullablePromDataString) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableScalar) Unset() {
+func (v *NullablePromDataString) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableScalar(val *Scalar) *NullableScalar {
-	return &NullableScalar{value: val, isSet: true}
+func NewNullablePromDataString(val *PromDataString) *NullablePromDataString {
+	return &NullablePromDataString{value: val, isSet: true}
 }
 
-func (v NullableScalar) MarshalJSON() ([]byte, error) {
+func (v NullablePromDataString) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableScalar) UnmarshalJSON(src []byte) error {
+func (v *NullablePromDataString) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
