@@ -7,14 +7,14 @@ Name | Type | Description | Notes
 **Monitor** | [**Monitor**](Monitor.md) |  | 
 **Errors** | Pointer to [**[]MonitorError**](MonitorError.md) |  | [optional] 
 **Metrics** | [**MonitorMetrics**](MonitorMetrics.md) |  | 
-**MonitorHealthStateStateCount** | **int32** |  | 
-**TopologyMatchResult** | [**TopologyMatchResult**](TopologyMatchResult.md) |  | 
+**MonitorHealthStateStateCount** | Pointer to **int32** |  | [optional] 
+**TopologyMatchResult** | Pointer to [**TopologyMatchResult**](TopologyMatchResult.md) |  | [optional] 
 
 ## Methods
 
 ### NewMonitorStatus
 
-`func NewMonitorStatus(monitor Monitor, metrics MonitorMetrics, monitorHealthStateStateCount int32, topologyMatchResult TopologyMatchResult, ) *MonitorStatus`
+`func NewMonitorStatus(monitor Monitor, metrics MonitorMetrics, ) *MonitorStatus`
 
 NewMonitorStatus instantiates a new MonitorStatus object
 This constructor will assign default values to properties that have it defined,
@@ -113,6 +113,11 @@ and a boolean to check if the value has been set.
 
 SetMonitorHealthStateStateCount sets MonitorHealthStateStateCount field to given value.
 
+### HasMonitorHealthStateStateCount
+
+`func (o *MonitorStatus) HasMonitorHealthStateStateCount() bool`
+
+HasMonitorHealthStateStateCount returns a boolean if a field has been set.
 
 ### GetTopologyMatchResult
 
@@ -133,6 +138,11 @@ and a boolean to check if the value has been set.
 
 SetTopologyMatchResult sets TopologyMatchResult field to given value.
 
+### HasTopologyMatchResult
+
+`func (o *MonitorStatus) HasTopologyMatchResult() bool`
+
+HasTopologyMatchResult returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

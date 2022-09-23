@@ -20,20 +20,18 @@ type MonitorStatus struct {
 	Monitor Monitor `json:"monitor"`
 	Errors []MonitorError `json:"errors,omitempty"`
 	Metrics MonitorMetrics `json:"metrics"`
-	MonitorHealthStateStateCount int32 `json:"monitorHealthStateStateCount"`
-	TopologyMatchResult TopologyMatchResult `json:"topologyMatchResult"`
+	MonitorHealthStateStateCount *int32 `json:"monitorHealthStateStateCount,omitempty"`
+	TopologyMatchResult *TopologyMatchResult `json:"topologyMatchResult,omitempty"`
 }
 
 // NewMonitorStatus instantiates a new MonitorStatus object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStatus(monitor Monitor, metrics MonitorMetrics, monitorHealthStateStateCount int32, topologyMatchResult TopologyMatchResult) *MonitorStatus {
+func NewMonitorStatus(monitor Monitor, metrics MonitorMetrics) *MonitorStatus {
 	this := MonitorStatus{}
 	this.Monitor = monitor
 	this.Metrics = metrics
-	this.MonitorHealthStateStateCount = monitorHealthStateStateCount
-	this.TopologyMatchResult = topologyMatchResult
 	return &this
 }
 
@@ -125,52 +123,68 @@ func (o *MonitorStatus) SetMetrics(v MonitorMetrics) {
 	o.Metrics = v
 }
 
-// GetMonitorHealthStateStateCount returns the MonitorHealthStateStateCount field value
+// GetMonitorHealthStateStateCount returns the MonitorHealthStateStateCount field value if set, zero value otherwise.
 func (o *MonitorStatus) GetMonitorHealthStateStateCount() int32 {
-	if o == nil {
+	if o == nil || o.MonitorHealthStateStateCount == nil {
 		var ret int32
 		return ret
 	}
-
-	return o.MonitorHealthStateStateCount
+	return *o.MonitorHealthStateStateCount
 }
 
-// GetMonitorHealthStateStateCountOk returns a tuple with the MonitorHealthStateStateCount field value
+// GetMonitorHealthStateStateCountOk returns a tuple with the MonitorHealthStateStateCount field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MonitorStatus) GetMonitorHealthStateStateCountOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.MonitorHealthStateStateCount == nil {
 		return nil, false
 	}
-	return &o.MonitorHealthStateStateCount, true
+	return o.MonitorHealthStateStateCount, true
 }
 
-// SetMonitorHealthStateStateCount sets field value
+// HasMonitorHealthStateStateCount returns a boolean if a field has been set.
+func (o *MonitorStatus) HasMonitorHealthStateStateCount() bool {
+	if o != nil && o.MonitorHealthStateStateCount != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMonitorHealthStateStateCount gets a reference to the given int32 and assigns it to the MonitorHealthStateStateCount field.
 func (o *MonitorStatus) SetMonitorHealthStateStateCount(v int32) {
-	o.MonitorHealthStateStateCount = v
+	o.MonitorHealthStateStateCount = &v
 }
 
-// GetTopologyMatchResult returns the TopologyMatchResult field value
+// GetTopologyMatchResult returns the TopologyMatchResult field value if set, zero value otherwise.
 func (o *MonitorStatus) GetTopologyMatchResult() TopologyMatchResult {
-	if o == nil {
+	if o == nil || o.TopologyMatchResult == nil {
 		var ret TopologyMatchResult
 		return ret
 	}
-
-	return o.TopologyMatchResult
+	return *o.TopologyMatchResult
 }
 
-// GetTopologyMatchResultOk returns a tuple with the TopologyMatchResult field value
+// GetTopologyMatchResultOk returns a tuple with the TopologyMatchResult field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MonitorStatus) GetTopologyMatchResultOk() (*TopologyMatchResult, bool) {
-	if o == nil {
+	if o == nil || o.TopologyMatchResult == nil {
 		return nil, false
 	}
-	return &o.TopologyMatchResult, true
+	return o.TopologyMatchResult, true
 }
 
-// SetTopologyMatchResult sets field value
+// HasTopologyMatchResult returns a boolean if a field has been set.
+func (o *MonitorStatus) HasTopologyMatchResult() bool {
+	if o != nil && o.TopologyMatchResult != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetTopologyMatchResult gets a reference to the given TopologyMatchResult and assigns it to the TopologyMatchResult field.
 func (o *MonitorStatus) SetTopologyMatchResult(v TopologyMatchResult) {
-	o.TopologyMatchResult = v
+	o.TopologyMatchResult = &v
 }
 
 func (o MonitorStatus) MarshalJSON() ([]byte, error) {
@@ -184,10 +198,10 @@ func (o MonitorStatus) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["metrics"] = o.Metrics
 	}
-	if true {
+	if o.MonitorHealthStateStateCount != nil {
 		toSerialize["monitorHealthStateStateCount"] = o.MonitorHealthStateStateCount
 	}
-	if true {
+	if o.TopologyMatchResult != nil {
 		toSerialize["topologyMatchResult"] = o.TopologyMatchResult
 	}
 	return json.Marshal(toSerialize)

@@ -8,6 +8,7 @@ Method | HTTP request | Description
 [**GetAllMonitors**](MonitorApi.md#GetAllMonitors) | **Get** /monitors | List monitors
 [**GetMonitor**](MonitorApi.md#GetMonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
 [**GetMonitorWithStatus**](MonitorApi.md#GetMonitorWithStatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
+[**PatchMonitor**](MonitorApi.md#PatchMonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 [**RunMonitor**](MonitorApi.md#RunMonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 
 
@@ -274,6 +275,78 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PatchMonitor
+
+> Monitor PatchMonitor(ctx, monitorIdOrUrn).MonitorPatch(monitorPatch).Execute()
+
+Update some monitor properties
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    monitorIdOrUrn := "monitorIdOrUrn_example" // string | The id or identifier (urn) of a monitor
+    monitorPatch := *openapiclient.NewMonitorPatch() // MonitorPatch | Monitor base properties
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorApi.PatchMonitor(context.Background(), monitorIdOrUrn).MonitorPatch(monitorPatch).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.PatchMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PatchMonitor`: Monitor
+    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.PatchMonitor`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**monitorIdOrUrn** | **string** | The id or identifier (urn) of a monitor | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPatchMonitorRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **monitorPatch** | [**MonitorPatch**](MonitorPatch.md) | Monitor base properties | 
+
+### Return type
+
+[**Monitor**](Monitor.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

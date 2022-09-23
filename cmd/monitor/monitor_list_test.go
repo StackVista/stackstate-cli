@@ -28,7 +28,8 @@ var (
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
-			Tags:            secondMonitorTags},
+			Tags:            secondMonitorTags,
+			Status:          sts.MONITORSTATUSVALUE_ENABLED},
 		{Id: firstMonitorId,
 			Name:            firstMonitorName,
 			Identifier:      &firstMonitorIdentifier,
@@ -37,7 +38,8 @@ var (
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
-			Tags:            firstMonitorTags},
+			Tags:            firstMonitorTags,
+			Status:          sts.MONITORSTATUSVALUE_ENABLED},
 	}
 	monitorList = sts.MonitorList{Monitors: monitorArray}
 
@@ -50,7 +52,8 @@ var (
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
-			Tags:            firstMonitorTags},
+			Tags:            firstMonitorTags,
+			Status:          sts.MONITORSTATUSVALUE_ENABLED},
 		{Id: secondMonitorId,
 			Name:            secondMonitorName,
 			Identifier:      &secondMonitorIdentifier,
@@ -59,7 +62,8 @@ var (
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
-			Tags:            secondMonitorTags},
+			Tags:            secondMonitorTags,
+			Status:          sts.MONITORSTATUSVALUE_ENABLED},
 	}
 )
 
@@ -76,10 +80,10 @@ func TestMonitorListPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"Id", "Identifier", "Name", "Tags"},
+			Header: []string{"Id", "Status", "Identifier", "Name", "Tags"},
 			Data: [][]interface{}{
-				{firstMonitorId, firstMonitorIdentifier, firstMonitorName, firstMonitorTags},
-				{secondMonitorId, secondMonitorIdentifier, secondMonitorName, secondMonitorTags}},
+				{firstMonitorId, sts.MONITORSTATUSVALUE_ENABLED, firstMonitorIdentifier, firstMonitorName, firstMonitorTags},
+				{secondMonitorId, sts.MONITORSTATUSVALUE_ENABLED, secondMonitorIdentifier, secondMonitorName, secondMonitorTags}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
 		},
 	}

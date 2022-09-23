@@ -17,7 +17,7 @@ import (
 
 // MonitorMetrics struct for MonitorMetrics
 type MonitorMetrics struct {
-	HealthSyncServiceMetrics HealthStreamMetrics `json:"healthSyncServiceMetrics"`
+	HealthSyncServiceMetrics *HealthStreamMetrics `json:"healthSyncServiceMetrics,omitempty"`
 	RuntimeMetrics MonitorRuntimeMetrics `json:"runtimeMetrics"`
 }
 
@@ -25,9 +25,8 @@ type MonitorMetrics struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorMetrics(healthSyncServiceMetrics HealthStreamMetrics, runtimeMetrics MonitorRuntimeMetrics) *MonitorMetrics {
+func NewMonitorMetrics(runtimeMetrics MonitorRuntimeMetrics) *MonitorMetrics {
 	this := MonitorMetrics{}
-	this.HealthSyncServiceMetrics = healthSyncServiceMetrics
 	this.RuntimeMetrics = runtimeMetrics
 	return &this
 }
@@ -40,28 +39,36 @@ func NewMonitorMetricsWithDefaults() *MonitorMetrics {
 	return &this
 }
 
-// GetHealthSyncServiceMetrics returns the HealthSyncServiceMetrics field value
+// GetHealthSyncServiceMetrics returns the HealthSyncServiceMetrics field value if set, zero value otherwise.
 func (o *MonitorMetrics) GetHealthSyncServiceMetrics() HealthStreamMetrics {
-	if o == nil {
+	if o == nil || o.HealthSyncServiceMetrics == nil {
 		var ret HealthStreamMetrics
 		return ret
 	}
-
-	return o.HealthSyncServiceMetrics
+	return *o.HealthSyncServiceMetrics
 }
 
-// GetHealthSyncServiceMetricsOk returns a tuple with the HealthSyncServiceMetrics field value
+// GetHealthSyncServiceMetricsOk returns a tuple with the HealthSyncServiceMetrics field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MonitorMetrics) GetHealthSyncServiceMetricsOk() (*HealthStreamMetrics, bool) {
-	if o == nil {
+	if o == nil || o.HealthSyncServiceMetrics == nil {
 		return nil, false
 	}
-	return &o.HealthSyncServiceMetrics, true
+	return o.HealthSyncServiceMetrics, true
 }
 
-// SetHealthSyncServiceMetrics sets field value
+// HasHealthSyncServiceMetrics returns a boolean if a field has been set.
+func (o *MonitorMetrics) HasHealthSyncServiceMetrics() bool {
+	if o != nil && o.HealthSyncServiceMetrics != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetHealthSyncServiceMetrics gets a reference to the given HealthStreamMetrics and assigns it to the HealthSyncServiceMetrics field.
 func (o *MonitorMetrics) SetHealthSyncServiceMetrics(v HealthStreamMetrics) {
-	o.HealthSyncServiceMetrics = v
+	o.HealthSyncServiceMetrics = &v
 }
 
 // GetRuntimeMetrics returns the RuntimeMetrics field value
@@ -90,7 +97,7 @@ func (o *MonitorMetrics) SetRuntimeMetrics(v MonitorRuntimeMetrics) {
 
 func (o MonitorMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
+	if o.HealthSyncServiceMetrics != nil {
 		toSerialize["healthSyncServiceMetrics"] = o.HealthSyncServiceMetrics
 	}
 	if true {

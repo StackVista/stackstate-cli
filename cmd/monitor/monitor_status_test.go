@@ -22,6 +22,7 @@ var (
 		Arguments:       nil,
 		RemediationHint: nil,
 		IntervalSeconds: 2,
+		Status:          sts.MONITORSTATUSVALUE_ENABLED,
 	}
 	monitorHealthStateCount int32 = 10
 	monitorError                  = sts.MonitorError{
@@ -29,7 +30,7 @@ var (
 		Count: 11,
 	}
 	metrics = sts.MonitorMetrics{
-		HealthSyncServiceMetrics: sts.HealthStreamMetrics{},
+		HealthSyncServiceMetrics: &sts.HealthStreamMetrics{},
 	}
 
 	monitorRuntimeMetrics = sts.MonitorRuntimeMetrics{
@@ -43,7 +44,7 @@ var (
 	}
 
 	metricsWithHealthStateCounts = sts.MonitorMetrics{
-		HealthSyncServiceMetrics: sts.HealthStreamMetrics{},
+		HealthSyncServiceMetrics: &sts.HealthStreamMetrics{},
 		RuntimeMetrics:           monitorRuntimeMetrics,
 	}
 
@@ -57,16 +58,26 @@ var (
 		Monitor:                      monitor,
 		Errors:                       []sts.MonitorError{monitorError},
 		Metrics:                      metrics,
-		MonitorHealthStateStateCount: monitorHealthStateCount,
-		TopologyMatchResult:          topologyMatchResult,
+		MonitorHealthStateStateCount: &monitorHealthStateCount,
+		TopologyMatchResult:          &topologyMatchResult,
 	}
 
 	monitorStatusResultWithHealthCounts = &sts.MonitorStatus{
 		Monitor:                      monitor,
 		Errors:                       []sts.MonitorError{monitorError},
 		Metrics:                      metricsWithHealthStateCounts,
-		MonitorHealthStateStateCount: monitorHealthStateCount,
-		TopologyMatchResult:          topologyMatchResult,
+		MonitorHealthStateStateCount: &monitorHealthStateCount,
+		TopologyMatchResult:          &topologyMatchResult,
+	}
+
+	emptyMonitorRuntimeMetrics = sts.MonitorRuntimeMetrics{}
+
+	emptyHealthStreamMetrics = sts.MonitorMetrics{
+		RuntimeMetrics: emptyMonitorRuntimeMetrics,
+	}
+	monitorStatusEmpty = &sts.MonitorStatus{
+		Monitor: monitor,
+		Metrics: emptyHealthStreamMetrics,
 	}
 )
 
@@ -76,13 +87,13 @@ func setMonitorStatusCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	return &cli, cmd
 }
 
-func TestSettingsStatusPrintsToTable(t *testing.T) {
+func TestMonitorStatusPrintsToTable(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd(t)
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "", "Monitor Stream errors:", "", "Monitor Stream metrics:", "",
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor Status: ENABLED", "", "Monitor Stream errors:", "", "Monitor Stream metrics:", "",
 		"Monitor health states with identifier matching exactly 1 topology element: 0"}
 	expectedTableCall := []printer.TableData{
 		{
@@ -102,13 +113,13 @@ func TestSettingsStatusPrintsToTable(t *testing.T) {
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
 }
 
-func TestSettingsStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
+func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd(t)
 	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResultWithHealthCounts
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor last run: 2022-09-13 14:34:35.007 +0000 UTC",
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor Status: ENABLED", "Monitor last run: 2022-09-13 14:34:35.007 +0000 UTC",
 		"", "Monitor Stream errors:", "", "Monitor health states mapped to topology:", "",
 		"Monitor Stream metrics:", "", "Monitor health states with identifier matching exactly 1 topology element: 0"}
 
@@ -129,6 +140,19 @@ func TestSettingsStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 				{"monitor health states deleted (per second)"}},
 		},
 	}
+
+	assert.Equal(t, expectedPrintlnCalls, *cli.MockPrinter.PrintLnCalls)
+	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
+}
+
+func TestMonitorStatusForDisabled(t *testing.T) {
+	cli, cmd := setMonitorStatusCmd(t)
+	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusEmpty
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
+
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: -", "Monitor Status: ENABLED"}
+	expectedTableCall := []printer.TableData{}
 
 	assert.Equal(t, expectedPrintlnCalls, *cli.MockPrinter.PrintLnCalls)
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)

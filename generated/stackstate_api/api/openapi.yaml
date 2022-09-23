@@ -444,6 +444,46 @@ paths:
       summary: Get a monitor
       tags:
       - monitor
+    patch:
+      description: Performs a patch on the monitor base properties.
+      operationId: patchMonitor
+      parameters:
+      - description: The id or identifier (urn) of a monitor
+        in: path
+        name: monitorIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/monitorPatch'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Monitor'
+          description: Full representation of a monitor
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorSaveError'
+          description: monitor could not be saved in the database
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Update some monitor properties
+      tags:
+      - monitor
   /monitors/{monitorIdOrUrn}/run:
     post:
       description: "Performs a run of a monitor. If 'dryRun' is set, topology state\
@@ -517,8 +557,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MonitorStatusNotFoundError'
-          description: monitor status was not found in the database
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
         "500":
           content:
             application/json:
@@ -2777,6 +2817,13 @@ paths:
       - query
 components:
   requestBodies:
+    monitorPatch:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorPatch'
+      description: Monitor base properties
+      required: true
     EventListBody:
       content:
         application/json:
@@ -2834,6 +2881,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorNotFoundError'
       description: monitor was not found in the database
+    monitorSaveError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorSaveError'
+      description: monitor could not be saved in the database
     monitorRunResult:
       content:
         application/json:
@@ -2846,12 +2899,6 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorStatus'
       description: Full representation of a monitor with status
-    monitorStatusNotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MonitorStatusNotFoundError'
-      description: monitor status was not found in the database
     userProfile:
       content:
         application/json:
@@ -3319,6 +3366,7 @@ components:
           tags:
           - tags
           - tags
+          status: null
         - identifier: identifier
           functionId: 6
           remediationHint: remediationHint
@@ -3332,6 +3380,7 @@ components:
           tags:
           - tags
           - tags
+          status: null
       properties:
         monitors:
           items:
@@ -3355,6 +3404,7 @@ components:
         tags:
         - tags
         - tags
+        status: null
       properties:
         id:
           format: int64
@@ -3380,18 +3430,28 @@ components:
           items:
             type: string
           type: array
+        status:
+          $ref: '#/components/schemas/MonitorStatusValue'
       required:
       - arguments
       - functionId
       - id
       - intervalSeconds
       - name
+      - status
       - tags
       type: object
     MonitorId:
       format: int64
       type: integer
     MonitorUrn:
+      type: string
+    MonitorStatusValue:
+      description: If a monitor status is set to DISABLED it won't produce any health
+        states but it can still be run manually to inspect it's output
+      enum:
+      - ENABLED
+      - DISABLED
       type: string
     MonitorApiError:
       allOf:
@@ -3430,6 +3490,53 @@ components:
       - _type
       - monitorId
       - monitorIdType
+    MonitorPatch:
+      example:
+        identifier: identifier
+        remediationHint: remediationHint
+        name: name
+        description: description
+        intervalSeconds: 0
+        tags:
+        - tags
+        - tags
+        status: null
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        remediationHint:
+          type: string
+        intervalSeconds:
+          type: integer
+        tags:
+          items:
+            type: string
+          type: array
+        status:
+          $ref: '#/components/schemas/MonitorStatusValue'
+      type: object
+    MonitorSaveError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MonitorInvalidIntervalError'
+      - $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+      required:
+      - _type
+    MonitorInvalidIntervalError:
+      properties:
+        intervalSeconds:
+          type: integer
+        _type:
+          type: string
+      required:
+      - _type
+      - intervalSeconds
+      type: object
     MonitorRunResult:
       example:
         result: "{}"
@@ -3455,6 +3562,7 @@ components:
           tags:
           - tags
           - tags
+          status: null
         metrics:
           healthSyncServiceMetrics:
             createsPerSecond:
@@ -3517,9 +3625,7 @@ components:
       required:
       - metrics
       - monitor
-      - monitorHealthStateStateCount
       - status
-      - topologyMatchResult
       type: object
     MonitorErrors:
       items:
@@ -3571,7 +3677,6 @@ components:
         runtimeMetrics:
           $ref: '#/components/schemas/MonitorRuntimeMetrics'
       required:
-      - healthSyncServiceMetrics
       - runtimeMetrics
       type: object
     MonitorRuntimeMetrics:
@@ -3614,14 +3719,6 @@ components:
           format: int64
           type: integer
       type: object
-    MonitorStatusNotFoundError:
-      allOf:
-      - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorStatusNotFoundError_allOf'
-      required:
-      - _type
-      - monitorId
-      - monitorIdType
     UserNotFoundError:
       properties:
         _type:
@@ -7440,13 +7537,6 @@ components:
         _type:
           enum:
           - MonitorNotFoundError
-          type: string
-      type: object
-    MonitorStatusNotFoundError_allOf:
-      properties:
-        _type:
-          enum:
-          - MonitorStatusNotFoundError
           type: string
       type: object
     ExecuteScriptSyntaxErrors_errors_inner:
