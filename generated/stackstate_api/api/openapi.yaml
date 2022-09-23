@@ -2612,38 +2612,38 @@ paths:
         name: query
         required: true
         schema:
-          $ref: '#/components/schemas/Query'
+          $ref: '#/components/schemas/PromQuery'
       - description: Evaluation timestamp in rfc3339 format or unix format
         example: 2015-07-01T20:10:51.781Z or 1660817432
         in: query
         name: time
         required: false
         schema:
-          $ref: '#/components/schemas/Time'
+          $ref: '#/components/schemas/PromTime'
       - description: Evaluation timeout
         in: query
         name: timeout
         required: false
         schema:
-          $ref: '#/components/schemas/Timeout'
+          $ref: '#/components/schemas/PromTimeout'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: JSON response envelope
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: Parameters are missing or incorrect
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
         "503":
           content:
@@ -2664,21 +2664,21 @@ paths:
         name: query
         required: true
         schema:
-          $ref: '#/components/schemas/Query'
+          $ref: '#/components/schemas/PromQuery'
       - description: Start timestamp in rfc3339 format or unix format
         example: 2015-07-01T20:10:51.781Z or 1660817432
         in: query
         name: start
         required: true
         schema:
-          $ref: '#/components/schemas/Time'
+          $ref: '#/components/schemas/PromTime'
       - description: End timestamp in rfc3339 format or unix format
         example: 2015-07-01T20:10:51.781Z or 1660817432
         in: query
         name: end
         required: true
         schema:
-          $ref: '#/components/schemas/Time'
+          $ref: '#/components/schemas/PromTime'
       - description: Query resolution step width in duration format or float number
           of seconds.
         example: 5m or 300
@@ -2686,31 +2686,31 @@ paths:
         name: step
         required: true
         schema:
-          $ref: '#/components/schemas/Step'
+          $ref: '#/components/schemas/PromStep'
       - description: Evaluation timeout
         in: query
         name: timeout
         required: false
         schema:
-          $ref: '#/components/schemas/Timeout'
+          $ref: '#/components/schemas/PromTimeout'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: JSON response envelope
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: Parameters are missing or incorrect
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
         "503":
           content:
@@ -2732,39 +2732,39 @@ paths:
         name: query
         required: true
         schema:
-          $ref: '#/components/schemas/Query'
+          $ref: '#/components/schemas/PromQuery'
       - description: Start timestamp in rfc3339 format or unix format
         example: 2015-07-01T20:10:51.781Z or 1660817432
         in: query
         name: start
         required: true
         schema:
-          $ref: '#/components/schemas/Time'
+          $ref: '#/components/schemas/PromTime'
       - description: End timestamp in rfc3339 format or unix format
         example: 2015-07-01T20:10:51.781Z or 1660817432
         in: query
         name: end
         required: true
         schema:
-          $ref: '#/components/schemas/Time'
+          $ref: '#/components/schemas/PromTime'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ExemplarEnvelope'
+                $ref: '#/components/schemas/PromExemplarEnvelope'
           description: JSON response envelope
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: Parameters are missing or incorrect
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
         "503":
           content:
@@ -3004,25 +3004,25 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Envelope'
+            $ref: '#/components/schemas/PromEnvelope'
       description: JSON response envelope
     invalidParameters:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Envelope'
+            $ref: '#/components/schemas/PromEnvelope'
       description: Parameters are missing or incorrect
     unprocessableEntity:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Envelope'
+            $ref: '#/components/schemas/PromEnvelope'
       description: Expression can't be executed (RFC4918)
     successExemplarEnvelope:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ExemplarEnvelope'
+            $ref: '#/components/schemas/PromExemplarEnvelope'
       description: JSON response envelope
   schemas:
     GenericErrorsResponse:
@@ -6468,16 +6468,16 @@ components:
       - message
       - timeoutSeconds
       type: object
-    Query:
+    PromQuery:
       type: string
-    Time:
+    PromTime:
       pattern: "(^((?:(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?))(Z|[\\\
         +-]\\d{2}:\\d{2})?)$)|(^[0-9]{10}$)"
       type: string
-    Timeout:
+    PromTimeout:
       pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
       type: string
-    Envelope:
+    PromEnvelope:
       example:
         data: null
         errorType: errorType
@@ -6490,7 +6490,7 @@ components:
         status:
           type: string
         data:
-          $ref: '#/components/schemas/Data'
+          $ref: '#/components/schemas/PromData'
         errorType:
           type: string
         error:
@@ -6502,23 +6502,23 @@ components:
       required:
       - status
       type: object
-    Data:
+    PromData:
       discriminator:
         mapping:
-          matrix: '#/components/schemas/Matrix'
-          vector: '#/components/schemas/Vector'
-          scalar: '#/components/schemas/Scalar'
-          string: '#/components/schemas/DataString'
+          matrix: '#/components/schemas/PromMatrix'
+          vector: '#/components/schemas/PromVector'
+          scalar: '#/components/schemas/PromScalar'
+          string: '#/components/schemas/PromDataString'
         propertyName: resultType
       oneOf:
-      - $ref: '#/components/schemas/Matrix'
-      - $ref: '#/components/schemas/Vector'
-      - $ref: '#/components/schemas/Scalar'
-      - $ref: '#/components/schemas/DataString'
+      - $ref: '#/components/schemas/PromMatrix'
+      - $ref: '#/components/schemas/PromVector'
+      - $ref: '#/components/schemas/PromScalar'
+      - $ref: '#/components/schemas/PromDataString'
       required:
       - resultType
       type: object
-    Matrix:
+    PromMatrix:
       properties:
         resultType:
           enum:
@@ -6526,13 +6526,13 @@ components:
           type: string
         result:
           items:
-            $ref: '#/components/schemas/DataResult'
+            $ref: '#/components/schemas/PromDataResult'
           type: array
       required:
       - result
       - resultType
       type: object
-    DataResult:
+    PromDataResult:
       properties:
         metric:
           additionalProperties:
@@ -6540,24 +6540,23 @@ components:
           type: object
         values:
           items:
-            $ref: '#/components/schemas/ValueTuple'
+            $ref: '#/components/schemas/PromSample'
           type: array
       required:
       - metric
       - values
       type: object
-    ValueTuple:
-      properties:
-        time:
-          format: float
-          type: number
-        value:
-          type: string
-      required:
-      - time
-      - value
-      type: object
-    Vector:
+    PromSample:
+      description: "This is always a tuple represented as an array with in first position\
+        \ the unix timestamp as \na float with precision 3 in seconds) and in second\
+        \ position the sample value as a string.\n"
+      items:
+        $ref: '#/components/schemas/PromSample_inner'
+      maxItems: 2
+      minItems: 2
+      type: array
+      x-as-tuple: true
+    PromVector:
       properties:
         resultType:
           enum:
@@ -6565,52 +6564,76 @@ components:
           type: string
         result:
           items:
-            $ref: '#/components/schemas/VectorResult'
+            $ref: '#/components/schemas/PromVectorResult'
           type: array
       required:
       - result
       - resultType
       type: object
-    VectorResult:
+    PromVectorResult:
       properties:
         metric:
           additionalProperties:
             type: string
           type: object
         value:
-          $ref: '#/components/schemas/ValueTuple'
+          description: "This is always a tuple represented as an array with in first\
+            \ position the unix timestamp as \na float with precision 3 in seconds)\
+            \ and in second position the sample value as a string.\n"
+          items:
+            $ref: '#/components/schemas/PromSample_inner'
+          maxItems: 2
+          minItems: 2
+          type: array
+          x-as-tuple: true
       required:
       - metric
       - value
       type: object
-    Scalar:
+    PromScalar:
       properties:
         resultType:
           enum:
           - scalar
           type: string
         result:
-          $ref: '#/components/schemas/ValueTuple'
+          description: "This is always a tuple represented as an array with in first\
+            \ position the unix timestamp as \na float with precision 3 in seconds)\
+            \ and in second position the sample value as a string.\n"
+          items:
+            $ref: '#/components/schemas/PromSample_inner'
+          maxItems: 2
+          minItems: 2
+          type: array
+          x-as-tuple: true
       required:
       - result
       - resultType
       type: object
-    DataString:
+    PromDataString:
       properties:
         resultType:
           enum:
           - string
           type: string
         result:
-          $ref: '#/components/schemas/ValueTuple'
+          description: "This is always a tuple represented as an array with in first\
+            \ position the unix timestamp as \na float with precision 3 in seconds)\
+            \ and in second position the sample value as a string.\n"
+          items:
+            $ref: '#/components/schemas/PromSample_inner'
+          maxItems: 2
+          minItems: 2
+          type: array
+          x-as-tuple: true
       required:
       - result
       - resultType
       type: object
-    Step:
+    PromStep:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
-    ExemplarEnvelope:
+    PromExemplarEnvelope:
       example:
         data:
         - seriesLabels:
@@ -6646,7 +6669,7 @@ components:
           type: string
         data:
           items:
-            $ref: '#/components/schemas/ExemplarData'
+            $ref: '#/components/schemas/PromExemplarData'
           type: array
         errorType:
           type: string
@@ -6659,7 +6682,7 @@ components:
       required:
       - status
       type: object
-    ExemplarData:
+    PromExemplarData:
       example:
         seriesLabels:
           key: seriesLabels
@@ -6679,13 +6702,13 @@ components:
           type: object
         exemplars:
           items:
-            $ref: '#/components/schemas/Exemplar'
+            $ref: '#/components/schemas/PromExemplar'
           type: array
       required:
       - exemplars
       - seriesLabels
       type: object
-    Exemplar:
+    PromExemplar:
       example:
         value: value
         labels:
@@ -7436,6 +7459,13 @@ components:
       - location
       - message
       type: object
+    PromSample_inner:
+      description: Unix timestamp with sample value (as a string)
+      oneOf:
+      - format: unix_timestamp
+        type: number
+      - format: sample_value
+        type: string
   securitySchemes:
     ApiToken:
       in: header

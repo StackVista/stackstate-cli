@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// DataString struct for DataString
-type DataString struct {
+// PromMatrix struct for PromMatrix
+type PromMatrix struct {
 	ResultType string `json:"resultType"`
-	Result ValueTuple `json:"result"`
+	Result []PromDataResult `json:"result"`
 }
 
-// NewDataString instantiates a new DataString object
+// NewPromMatrix instantiates a new PromMatrix object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDataString(resultType string, result ValueTuple) *DataString {
-	this := DataString{}
+func NewPromMatrix(resultType string, result []PromDataResult) *PromMatrix {
+	this := PromMatrix{}
 	this.ResultType = resultType
 	this.Result = result
 	return &this
 }
 
-// NewDataStringWithDefaults instantiates a new DataString object
+// NewPromMatrixWithDefaults instantiates a new PromMatrix object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewDataStringWithDefaults() *DataString {
-	this := DataString{}
+func NewPromMatrixWithDefaults() *PromMatrix {
+	this := PromMatrix{}
 	return &this
 }
 
 // GetResultType returns the ResultType field value
-func (o *DataString) GetResultType() string {
+func (o *PromMatrix) GetResultType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *DataString) GetResultType() string {
 
 // GetResultTypeOk returns a tuple with the ResultType field value
 // and a boolean to check if the value has been set.
-func (o *DataString) GetResultTypeOk() (*string, bool) {
+func (o *PromMatrix) GetResultTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,14 +60,14 @@ func (o *DataString) GetResultTypeOk() (*string, bool) {
 }
 
 // SetResultType sets field value
-func (o *DataString) SetResultType(v string) {
+func (o *PromMatrix) SetResultType(v string) {
 	o.ResultType = v
 }
 
 // GetResult returns the Result field value
-func (o *DataString) GetResult() ValueTuple {
+func (o *PromMatrix) GetResult() []PromDataResult {
 	if o == nil {
-		var ret ValueTuple
+		var ret []PromDataResult
 		return ret
 	}
 
@@ -76,19 +76,19 @@ func (o *DataString) GetResult() ValueTuple {
 
 // GetResultOk returns a tuple with the Result field value
 // and a boolean to check if the value has been set.
-func (o *DataString) GetResultOk() (*ValueTuple, bool) {
+func (o *PromMatrix) GetResultOk() ([]PromDataResult, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Result, true
+	return o.Result, true
 }
 
 // SetResult sets field value
-func (o *DataString) SetResult(v ValueTuple) {
+func (o *PromMatrix) SetResult(v []PromDataResult) {
 	o.Result = v
 }
 
-func (o DataString) MarshalJSON() ([]byte, error) {
+func (o PromMatrix) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["resultType"] = o.ResultType
@@ -99,38 +99,38 @@ func (o DataString) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableDataString struct {
-	value *DataString
+type NullablePromMatrix struct {
+	value *PromMatrix
 	isSet bool
 }
 
-func (v NullableDataString) Get() *DataString {
+func (v NullablePromMatrix) Get() *PromMatrix {
 	return v.value
 }
 
-func (v *NullableDataString) Set(val *DataString) {
+func (v *NullablePromMatrix) Set(val *PromMatrix) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDataString) IsSet() bool {
+func (v NullablePromMatrix) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDataString) Unset() {
+func (v *NullablePromMatrix) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDataString(val *DataString) *NullableDataString {
-	return &NullableDataString{value: val, isSet: true}
+func NewNullablePromMatrix(val *PromMatrix) *NullablePromMatrix {
+	return &NullablePromMatrix{value: val, isSet: true}
 }
 
-func (v NullableDataString) MarshalJSON() ([]byte, error) {
+func (v NullablePromMatrix) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDataString) UnmarshalJSON(src []byte) error {
+func (v *NullablePromMatrix) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

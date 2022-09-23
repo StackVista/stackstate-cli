@@ -1,67 +1,67 @@
-# Scalar
+# PromVector
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ResultType** | **string** |  | 
-**Result** | [**ValueTuple**](ValueTuple.md) |  | 
+**Result** | [**[]PromVectorResult**](PromVectorResult.md) |  | 
 
 ## Methods
 
-### NewScalar
+### NewPromVector
 
-`func NewScalar(resultType string, result ValueTuple, ) *Scalar`
+`func NewPromVector(resultType string, result []PromVectorResult, ) *PromVector`
 
-NewScalar instantiates a new Scalar object
+NewPromVector instantiates a new PromVector object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewScalarWithDefaults
+### NewPromVectorWithDefaults
 
-`func NewScalarWithDefaults() *Scalar`
+`func NewPromVectorWithDefaults() *PromVector`
 
-NewScalarWithDefaults instantiates a new Scalar object
+NewPromVectorWithDefaults instantiates a new PromVector object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetResultType
 
-`func (o *Scalar) GetResultType() string`
+`func (o *PromVector) GetResultType() string`
 
 GetResultType returns the ResultType field if non-nil, zero value otherwise.
 
 ### GetResultTypeOk
 
-`func (o *Scalar) GetResultTypeOk() (*string, bool)`
+`func (o *PromVector) GetResultTypeOk() (*string, bool)`
 
 GetResultTypeOk returns a tuple with the ResultType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResultType
 
-`func (o *Scalar) SetResultType(v string)`
+`func (o *PromVector) SetResultType(v string)`
 
 SetResultType sets ResultType field to given value.
 
 
 ### GetResult
 
-`func (o *Scalar) GetResult() ValueTuple`
+`func (o *PromVector) GetResult() []PromVectorResult`
 
 GetResult returns the Result field if non-nil, zero value otherwise.
 
 ### GetResultOk
 
-`func (o *Scalar) GetResultOk() (*ValueTuple, bool)`
+`func (o *PromVector) GetResultOk() (*[]PromVectorResult, bool)`
 
 GetResultOk returns a tuple with the Result field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResult
 
-`func (o *Scalar) SetResult(v ValueTuple)`
+`func (o *PromVector) SetResult(v []PromVectorResult)`
 
 SetResult sets Result field to given value.
 

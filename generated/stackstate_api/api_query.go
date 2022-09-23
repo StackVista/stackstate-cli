@@ -33,8 +33,8 @@ type QueryApi interface {
 	GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest
 
 	// GetExemplarsQueryExecute executes the request
-	//  @return ExemplarEnvelope
-	GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*ExemplarEnvelope, *http.Response, error)
+	//  @return PromExemplarEnvelope
+	GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error)
 
 	/*
 	GetInstantQuery Instant query at a single point in time
@@ -47,8 +47,8 @@ type QueryApi interface {
 	GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest
 
 	// GetInstantQueryExecute executes the request
-	//  @return Envelope
-	GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*Envelope, *http.Response, error)
+	//  @return PromEnvelope
+	GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
 	GetRangeQuery Query over a range of time
@@ -61,8 +61,8 @@ type QueryApi interface {
 	GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest
 
 	// GetRangeQueryExecute executes the request
-	//  @return Envelope
-	GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Envelope, *http.Response, error)
+	//  @return PromEnvelope
+	GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error)
 }
 
 // QueryApiService QueryApi service
@@ -94,7 +94,7 @@ func (r ApiGetExemplarsQueryRequest) End(end string) ApiGetExemplarsQueryRequest
 	return r
 }
 
-func (r ApiGetExemplarsQueryRequest) Execute() (*ExemplarEnvelope, *http.Response, error) {
+func (r ApiGetExemplarsQueryRequest) Execute() (*PromExemplarEnvelope, *http.Response, error) {
 	return r.ApiService.GetExemplarsQueryExecute(r)
 }
 
@@ -114,13 +114,13 @@ func (a *QueryApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplars
 }
 
 // Execute executes the request
-//  @return ExemplarEnvelope
-func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*ExemplarEnvelope, *http.Response, error) {
+//  @return PromExemplarEnvelope
+func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *ExemplarEnvelope
+		localVarReturnValue  *PromExemplarEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetExemplarsQuery")
@@ -228,7 +228,7 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v Envelope
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -238,7 +238,7 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
-			var v Envelope
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -297,7 +297,7 @@ func (r ApiGetInstantQueryRequest) Timeout(timeout string) ApiGetInstantQueryReq
 	return r
 }
 
-func (r ApiGetInstantQueryRequest) Execute() (*Envelope, *http.Response, error) {
+func (r ApiGetInstantQueryRequest) Execute() (*PromEnvelope, *http.Response, error) {
 	return r.ApiService.GetInstantQueryExecute(r)
 }
 
@@ -317,13 +317,13 @@ func (a *QueryApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQuer
 }
 
 // Execute executes the request
-//  @return Envelope
-func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*Envelope, *http.Response, error) {
+//  @return PromEnvelope
+func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Envelope
+		localVarReturnValue  *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetInstantQuery")
@@ -429,7 +429,7 @@ func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v Envelope
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -439,7 +439,7 @@ func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
-			var v Envelope
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -512,7 +512,7 @@ func (r ApiGetRangeQueryRequest) Timeout(timeout string) ApiGetRangeQueryRequest
 	return r
 }
 
-func (r ApiGetRangeQueryRequest) Execute() (*Envelope, *http.Response, error) {
+func (r ApiGetRangeQueryRequest) Execute() (*PromEnvelope, *http.Response, error) {
 	return r.ApiService.GetRangeQueryExecute(r)
 }
 
@@ -532,13 +532,13 @@ func (a *QueryApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryReq
 }
 
 // Execute executes the request
-//  @return Envelope
-func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Envelope, *http.Response, error) {
+//  @return PromEnvelope
+func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Envelope
+		localVarReturnValue  *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetRangeQuery")
@@ -653,7 +653,7 @@ func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Enve
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v Envelope
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -663,7 +663,7 @@ func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Enve
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
-			var v Envelope
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -723,7 +723,7 @@ func NewQueryApiMock() QueryApiMock {
 }
 
 type GetExemplarsQueryMockResponse struct {
-	Result ExemplarEnvelope
+	Result PromExemplarEnvelope
 	Response *http.Response
 	Error error
 }
@@ -742,7 +742,7 @@ func (mock QueryApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQ
 	}
 }
 
-func (mock QueryApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*ExemplarEnvelope, *http.Response, error) {
+func (mock QueryApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	p := GetExemplarsQueryCall {
 			Pquery: r.query,
 			Pstart: r.start,
@@ -753,7 +753,7 @@ func (mock QueryApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest)
 }
 
 type GetInstantQueryMockResponse struct {
-	Result Envelope
+	Result PromEnvelope
 	Response *http.Response
 	Error error
 }
@@ -772,7 +772,7 @@ func (mock QueryApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQuery
 	}
 }
 
-func (mock QueryApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*Envelope, *http.Response, error) {
+func (mock QueryApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetInstantQueryCall {
 			Pquery: r.query,
 			Ptime: r.time,
@@ -783,7 +783,7 @@ func (mock QueryApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*E
 }
 
 type GetRangeQueryMockResponse struct {
-	Result Envelope
+	Result PromEnvelope
 	Response *http.Response
 	Error error
 }
@@ -804,7 +804,7 @@ func (mock QueryApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequ
 	}
 }
 
-func (mock QueryApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Envelope, *http.Response, error) {
+func (mock QueryApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetRangeQueryCall {
 			Pquery: r.query,
 			Pstart: r.start,

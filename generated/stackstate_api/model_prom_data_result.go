@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// DataResult struct for DataResult
-type DataResult struct {
+// PromDataResult struct for PromDataResult
+type PromDataResult struct {
 	Metric map[string]string `json:"metric"`
-	Values []ValueTuple `json:"values"`
+	Values [][]PromSampleInner `json:"values"`
 }
 
-// NewDataResult instantiates a new DataResult object
+// NewPromDataResult instantiates a new PromDataResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDataResult(metric map[string]string, values []ValueTuple) *DataResult {
-	this := DataResult{}
+func NewPromDataResult(metric map[string]string, values [][]PromSampleInner) *PromDataResult {
+	this := PromDataResult{}
 	this.Metric = metric
 	this.Values = values
 	return &this
 }
 
-// NewDataResultWithDefaults instantiates a new DataResult object
+// NewPromDataResultWithDefaults instantiates a new PromDataResult object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewDataResultWithDefaults() *DataResult {
-	this := DataResult{}
+func NewPromDataResultWithDefaults() *PromDataResult {
+	this := PromDataResult{}
 	return &this
 }
 
 // GetMetric returns the Metric field value
-func (o *DataResult) GetMetric() map[string]string {
+func (o *PromDataResult) GetMetric() map[string]string {
 	if o == nil {
 		var ret map[string]string
 		return ret
@@ -52,7 +52,7 @@ func (o *DataResult) GetMetric() map[string]string {
 
 // GetMetricOk returns a tuple with the Metric field value
 // and a boolean to check if the value has been set.
-func (o *DataResult) GetMetricOk() (*map[string]string, bool) {
+func (o *PromDataResult) GetMetricOk() (*map[string]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,14 +60,14 @@ func (o *DataResult) GetMetricOk() (*map[string]string, bool) {
 }
 
 // SetMetric sets field value
-func (o *DataResult) SetMetric(v map[string]string) {
+func (o *PromDataResult) SetMetric(v map[string]string) {
 	o.Metric = v
 }
 
 // GetValues returns the Values field value
-func (o *DataResult) GetValues() []ValueTuple {
+func (o *PromDataResult) GetValues() [][]PromSampleInner {
 	if o == nil {
-		var ret []ValueTuple
+		var ret [][]PromSampleInner
 		return ret
 	}
 
@@ -76,7 +76,7 @@ func (o *DataResult) GetValues() []ValueTuple {
 
 // GetValuesOk returns a tuple with the Values field value
 // and a boolean to check if the value has been set.
-func (o *DataResult) GetValuesOk() ([]ValueTuple, bool) {
+func (o *PromDataResult) GetValuesOk() ([][]PromSampleInner, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,11 +84,11 @@ func (o *DataResult) GetValuesOk() ([]ValueTuple, bool) {
 }
 
 // SetValues sets field value
-func (o *DataResult) SetValues(v []ValueTuple) {
+func (o *PromDataResult) SetValues(v [][]PromSampleInner) {
 	o.Values = v
 }
 
-func (o DataResult) MarshalJSON() ([]byte, error) {
+func (o PromDataResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["metric"] = o.Metric
@@ -99,38 +99,38 @@ func (o DataResult) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableDataResult struct {
-	value *DataResult
+type NullablePromDataResult struct {
+	value *PromDataResult
 	isSet bool
 }
 
-func (v NullableDataResult) Get() *DataResult {
+func (v NullablePromDataResult) Get() *PromDataResult {
 	return v.value
 }
 
-func (v *NullableDataResult) Set(val *DataResult) {
+func (v *NullablePromDataResult) Set(val *PromDataResult) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableDataResult) IsSet() bool {
+func (v NullablePromDataResult) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableDataResult) Unset() {
+func (v *NullablePromDataResult) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableDataResult(val *DataResult) *NullableDataResult {
-	return &NullableDataResult{value: val, isSet: true}
+func NewNullablePromDataResult(val *PromDataResult) *NullablePromDataResult {
+	return &NullablePromDataResult{value: val, isSet: true}
 }
 
-func (v NullableDataResult) MarshalJSON() ([]byte, error) {
+func (v NullablePromDataResult) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableDataResult) UnmarshalJSON(src []byte) error {
+func (v *NullablePromDataResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

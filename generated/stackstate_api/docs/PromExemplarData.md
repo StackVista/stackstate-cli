@@ -1,67 +1,67 @@
-# ExemplarData
+# PromExemplarData
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SeriesLabels** | **map[string]string** |  | 
-**Exemplars** | [**[]Exemplar**](Exemplar.md) |  | 
+**Exemplars** | [**[]PromExemplar**](PromExemplar.md) |  | 
 
 ## Methods
 
-### NewExemplarData
+### NewPromExemplarData
 
-`func NewExemplarData(seriesLabels map[string]string, exemplars []Exemplar, ) *ExemplarData`
+`func NewPromExemplarData(seriesLabels map[string]string, exemplars []PromExemplar, ) *PromExemplarData`
 
-NewExemplarData instantiates a new ExemplarData object
+NewPromExemplarData instantiates a new PromExemplarData object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewExemplarDataWithDefaults
+### NewPromExemplarDataWithDefaults
 
-`func NewExemplarDataWithDefaults() *ExemplarData`
+`func NewPromExemplarDataWithDefaults() *PromExemplarData`
 
-NewExemplarDataWithDefaults instantiates a new ExemplarData object
+NewPromExemplarDataWithDefaults instantiates a new PromExemplarData object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetSeriesLabels
 
-`func (o *ExemplarData) GetSeriesLabels() map[string]string`
+`func (o *PromExemplarData) GetSeriesLabels() map[string]string`
 
 GetSeriesLabels returns the SeriesLabels field if non-nil, zero value otherwise.
 
 ### GetSeriesLabelsOk
 
-`func (o *ExemplarData) GetSeriesLabelsOk() (*map[string]string, bool)`
+`func (o *PromExemplarData) GetSeriesLabelsOk() (*map[string]string, bool)`
 
 GetSeriesLabelsOk returns a tuple with the SeriesLabels field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSeriesLabels
 
-`func (o *ExemplarData) SetSeriesLabels(v map[string]string)`
+`func (o *PromExemplarData) SetSeriesLabels(v map[string]string)`
 
 SetSeriesLabels sets SeriesLabels field to given value.
 
 
 ### GetExemplars
 
-`func (o *ExemplarData) GetExemplars() []Exemplar`
+`func (o *PromExemplarData) GetExemplars() []PromExemplar`
 
 GetExemplars returns the Exemplars field if non-nil, zero value otherwise.
 
 ### GetExemplarsOk
 
-`func (o *ExemplarData) GetExemplarsOk() (*[]Exemplar, bool)`
+`func (o *PromExemplarData) GetExemplarsOk() (*[]PromExemplar, bool)`
 
 GetExemplarsOk returns a tuple with the Exemplars field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetExemplars
 
-`func (o *ExemplarData) SetExemplars(v []Exemplar)`
+`func (o *PromExemplarData) SetExemplars(v []PromExemplar)`
 
 SetExemplars sets Exemplars field to given value.
 
