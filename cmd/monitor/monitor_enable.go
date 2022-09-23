@@ -15,7 +15,7 @@ func MonitorEnableCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "enable",
 		Short: "Enable a monitor",
-		Long:  "Enable a monitor.",
+		Long:  "Enables a monitor to run based on its `intervalSeconds` schedule.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorEnableCommand(args)),
 	}
 
