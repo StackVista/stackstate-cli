@@ -2752,7 +2752,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Envelope'
+                $ref: '#/components/schemas/ExemplarEnvelope'
           description: JSON response envelope
         "400":
           content:
@@ -3022,7 +3022,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Envelope'
+            $ref: '#/components/schemas/ExemplarEnvelope'
       description: JSON response envelope
   schemas:
     GenericErrorsResponse:
@@ -6325,7 +6325,7 @@ components:
       properties:
         _type:
           enum:
-          - TooManyTopologyResults
+          - CausingEventsAreNotAvailableForTheTime
           type: string
       required:
       - _type
@@ -6504,6 +6504,11 @@ components:
       type: object
     Data:
       discriminator:
+        mapping:
+          matrix: '#/components/schemas/Matrix'
+          vector: '#/components/schemas/Vector'
+          scalar: '#/components/schemas/Scalar'
+          string: '#/components/schemas/DataString'
         propertyName: resultType
       oneOf:
       - $ref: '#/components/schemas/Matrix'
@@ -6530,9 +6535,9 @@ components:
     DataResult:
       properties:
         metric:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
+          additionalProperties:
+            type: string
+          type: object
         values:
           items:
             $ref: '#/components/schemas/ValueTuple'
@@ -6544,8 +6549,8 @@ components:
     ValueTuple:
       properties:
         time:
-          format: int64
-          type: integer
+          format: float
+          type: number
         value:
           type: string
       required:
@@ -6569,14 +6574,14 @@ components:
     VectorResult:
       properties:
         metric:
-          items:
-            $ref: '#/components/schemas/ValueTuple'
-          type: array
-        values:
+          additionalProperties:
+            type: string
+          type: object
+        value:
           $ref: '#/components/schemas/ValueTuple'
       required:
       - metric
-      - values
+      - value
       type: object
     Scalar:
       properties:
@@ -6605,6 +6610,102 @@ components:
     Step:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
+    ExemplarEnvelope:
+      example:
+        data:
+        - seriesLabels:
+            key: seriesLabels
+          exemplars:
+          - value: value
+            labels:
+              key: labels
+            timestamp: 0.8008282
+          - value: value
+            labels:
+              key: labels
+            timestamp: 0.8008282
+        - seriesLabels:
+            key: seriesLabels
+          exemplars:
+          - value: value
+            labels:
+              key: labels
+            timestamp: 0.8008282
+          - value: value
+            labels:
+              key: labels
+            timestamp: 0.8008282
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          items:
+            $ref: '#/components/schemas/ExemplarData'
+          type: array
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    ExemplarData:
+      example:
+        seriesLabels:
+          key: seriesLabels
+        exemplars:
+        - value: value
+          labels:
+            key: labels
+          timestamp: 0.8008282
+        - value: value
+          labels:
+            key: labels
+          timestamp: 0.8008282
+      properties:
+        seriesLabels:
+          additionalProperties:
+            type: string
+          type: object
+        exemplars:
+          items:
+            $ref: '#/components/schemas/Exemplar'
+          type: array
+      required:
+      - exemplars
+      - seriesLabels
+      type: object
+    Exemplar:
+      example:
+        value: value
+        labels:
+          key: labels
+        timestamp: 0.8008282
+      properties:
+        labels:
+          additionalProperties:
+            type: string
+          type: object
+        value:
+          type: string
+        timestamp:
+          format: float
+          type: number
+      required:
+      - labels
+      - timestamp
+      - value
+      type: object
     Argument:
       discriminator:
         propertyName: _type

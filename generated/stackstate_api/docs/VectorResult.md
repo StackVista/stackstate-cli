@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Metric** | [**[]ValueTuple**](ValueTuple.md) |  | 
-**Values** | [**ValueTuple**](ValueTuple.md) |  | 
+**Metric** | **map[string]string** |  | 
+**Value** | [**ValueTuple**](ValueTuple.md) |  | 
 
 ## Methods
 
 ### NewVectorResult
 
-`func NewVectorResult(metric []ValueTuple, values ValueTuple, ) *VectorResult`
+`func NewVectorResult(metric map[string]string, value ValueTuple, ) *VectorResult`
 
 NewVectorResult instantiates a new VectorResult object
 This constructor will assign default values to properties that have it defined,
@@ -28,42 +28,42 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetMetric
 
-`func (o *VectorResult) GetMetric() []ValueTuple`
+`func (o *VectorResult) GetMetric() map[string]string`
 
 GetMetric returns the Metric field if non-nil, zero value otherwise.
 
 ### GetMetricOk
 
-`func (o *VectorResult) GetMetricOk() (*[]ValueTuple, bool)`
+`func (o *VectorResult) GetMetricOk() (*map[string]string, bool)`
 
 GetMetricOk returns a tuple with the Metric field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMetric
 
-`func (o *VectorResult) SetMetric(v []ValueTuple)`
+`func (o *VectorResult) SetMetric(v map[string]string)`
 
 SetMetric sets Metric field to given value.
 
 
-### GetValues
+### GetValue
 
-`func (o *VectorResult) GetValues() ValueTuple`
+`func (o *VectorResult) GetValue() ValueTuple`
 
-GetValues returns the Values field if non-nil, zero value otherwise.
+GetValue returns the Value field if non-nil, zero value otherwise.
 
-### GetValuesOk
+### GetValueOk
 
-`func (o *VectorResult) GetValuesOk() (*ValueTuple, bool)`
+`func (o *VectorResult) GetValueOk() (*ValueTuple, bool)`
 
-GetValuesOk returns a tuple with the Values field if it's non-nil, zero value otherwise
+GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetValues
+### SetValue
 
-`func (o *VectorResult) SetValues(v ValueTuple)`
+`func (o *VectorResult) SetValue(v ValueTuple)`
 
-SetValues sets Values field to given value.
+SetValue sets Value field to given value.
 
 
 

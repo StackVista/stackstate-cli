@@ -33,8 +33,8 @@ type QueryApi interface {
 	GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest
 
 	// GetExemplarsQueryExecute executes the request
-	//  @return Envelope
-	GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*Envelope, *http.Response, error)
+	//  @return ExemplarEnvelope
+	GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*ExemplarEnvelope, *http.Response, error)
 
 	/*
 	GetInstantQuery Instant query at a single point in time
@@ -94,7 +94,7 @@ func (r ApiGetExemplarsQueryRequest) End(end string) ApiGetExemplarsQueryRequest
 	return r
 }
 
-func (r ApiGetExemplarsQueryRequest) Execute() (*Envelope, *http.Response, error) {
+func (r ApiGetExemplarsQueryRequest) Execute() (*ExemplarEnvelope, *http.Response, error) {
 	return r.ApiService.GetExemplarsQueryExecute(r)
 }
 
@@ -114,13 +114,13 @@ func (a *QueryApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplars
 }
 
 // Execute executes the request
-//  @return Envelope
-func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*Envelope, *http.Response, error) {
+//  @return ExemplarEnvelope
+func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*ExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
 		formFiles            []formFile
-		localVarReturnValue  *Envelope
+		localVarReturnValue  *ExemplarEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetExemplarsQuery")
@@ -723,7 +723,7 @@ func NewQueryApiMock() QueryApiMock {
 }
 
 type GetExemplarsQueryMockResponse struct {
-	Result Envelope
+	Result ExemplarEnvelope
 	Response *http.Response
 	Error error
 }
@@ -742,7 +742,7 @@ func (mock QueryApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQ
 	}
 }
 
-func (mock QueryApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*Envelope, *http.Response, error) {
+func (mock QueryApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*ExemplarEnvelope, *http.Response, error) {
 	p := GetExemplarsQueryCall {
 			Pquery: r.query,
 			Pstart: r.start,

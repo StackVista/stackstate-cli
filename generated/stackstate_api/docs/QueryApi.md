@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## GetExemplarsQuery
 
-> Envelope GetExemplarsQuery(ctx).Query(query).Start(start).End(end).Execute()
+> ExemplarEnvelope GetExemplarsQuery(ctx).Query(query).Start(start).End(end).Execute()
 
 Experimental: Exemplars for a specific time range
 
@@ -42,7 +42,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetExemplarsQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetExemplarsQuery`: Envelope
+    // response from `GetExemplarsQuery`: ExemplarEnvelope
     fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetExemplarsQuery`: %v\n", resp)
 }
 ```
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Envelope**](Envelope.md)
+[**ExemplarEnvelope**](ExemplarEnvelope.md)
 
 ### Authorization
 

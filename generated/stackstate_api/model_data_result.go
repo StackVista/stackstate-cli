@@ -17,7 +17,7 @@ import (
 
 // DataResult struct for DataResult
 type DataResult struct {
-	Metric []ValueTuple `json:"metric"`
+	Metric map[string]string `json:"metric"`
 	Values []ValueTuple `json:"values"`
 }
 
@@ -25,7 +25,7 @@ type DataResult struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDataResult(metric []ValueTuple, values []ValueTuple) *DataResult {
+func NewDataResult(metric map[string]string, values []ValueTuple) *DataResult {
 	this := DataResult{}
 	this.Metric = metric
 	this.Values = values
@@ -41,9 +41,9 @@ func NewDataResultWithDefaults() *DataResult {
 }
 
 // GetMetric returns the Metric field value
-func (o *DataResult) GetMetric() []ValueTuple {
+func (o *DataResult) GetMetric() map[string]string {
 	if o == nil {
-		var ret []ValueTuple
+		var ret map[string]string
 		return ret
 	}
 
@@ -52,15 +52,15 @@ func (o *DataResult) GetMetric() []ValueTuple {
 
 // GetMetricOk returns a tuple with the Metric field value
 // and a boolean to check if the value has been set.
-func (o *DataResult) GetMetricOk() ([]ValueTuple, bool) {
+func (o *DataResult) GetMetricOk() (*map[string]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Metric, true
+	return &o.Metric, true
 }
 
 // SetMetric sets field value
-func (o *DataResult) SetMetric(v []ValueTuple) {
+func (o *DataResult) SetMetric(v map[string]string) {
 	o.Metric = v
 }
 
