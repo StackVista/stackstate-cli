@@ -53,13 +53,13 @@ func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 
 			tableData := make([][]interface{}, 0)
 			for _, node := range nodes {
-				tableData = append(tableData, []interface{}{node["_type"], node["id"], node["identifier"], node["name"], node["status"]})
+				tableData = append(tableData, []interface{}{node["_type"], node["id"], node["status"], node["identifier"], node["name"]})
 			}
 
 			cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> monitor(s).", len(nodes)))
 			if len(nodes) > 0 {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Type", "Id", "Identifier", "Name", "Status"},
+					Header: []string{"Type", "Id", "Status", "Identifier", "Name"},
 					Data:   tableData,
 				})
 			}

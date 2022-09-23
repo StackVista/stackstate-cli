@@ -13,9 +13,9 @@ import (
 func MonitorEnableCommand(cli *di.Deps) *cobra.Command {
 	args := &IdArgs{}
 	cmd := &cobra.Command{
-		Use:   "disable",
-		Short: "Disable a monitor",
-		Long:  "Disable a monitor.",
+		Use:   "enable",
+		Short: "Enable a monitor",
+		Long:  "Enable a monitor.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorEnableCommand(args)),
 	}
 

@@ -80,10 +80,10 @@ func TestMonitorListPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"Id", "Identifier", "Name", "Tags", "Status"},
+			Header: []string{"Id", "Status", "Identifier", "Name", "Tags"},
 			Data: [][]interface{}{
-				{firstMonitorId, firstMonitorIdentifier, firstMonitorName, firstMonitorTags, sts.MONITORSTATUSVALUE_ENABLED},
-				{secondMonitorId, secondMonitorIdentifier, secondMonitorName, secondMonitorTags, sts.MONITORSTATUSVALUE_ENABLED}},
+				{firstMonitorId, sts.MONITORSTATUSVALUE_ENABLED, firstMonitorIdentifier, firstMonitorName, firstMonitorTags},
+				{secondMonitorId, sts.MONITORSTATUSVALUE_ENABLED, secondMonitorIdentifier, secondMonitorName, secondMonitorTags}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
 		},
 	}
