@@ -15,37 +15,37 @@ import (
 	"encoding/json"
 )
 
-// Exemplar struct for Exemplar
-type Exemplar struct {
-	Labels ValueTuple `json:"labels"`
+// PromExemplar struct for PromExemplar
+type PromExemplar struct {
+	Labels map[string]string `json:"labels"`
 	Value string `json:"value"`
-	Timestamp int64 `json:"timestamp"`
+	Timestamp float32 `json:"timestamp"`
 }
 
-// NewExemplar instantiates a new Exemplar object
+// NewPromExemplar instantiates a new PromExemplar object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExemplar(labels ValueTuple, value string, timestamp int64) *Exemplar {
-	this := Exemplar{}
+func NewPromExemplar(labels map[string]string, value string, timestamp float32) *PromExemplar {
+	this := PromExemplar{}
 	this.Labels = labels
 	this.Value = value
 	this.Timestamp = timestamp
 	return &this
 }
 
-// NewExemplarWithDefaults instantiates a new Exemplar object
+// NewPromExemplarWithDefaults instantiates a new PromExemplar object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewExemplarWithDefaults() *Exemplar {
-	this := Exemplar{}
+func NewPromExemplarWithDefaults() *PromExemplar {
+	this := PromExemplar{}
 	return &this
 }
 
 // GetLabels returns the Labels field value
-func (o *Exemplar) GetLabels() ValueTuple {
+func (o *PromExemplar) GetLabels() map[string]string {
 	if o == nil {
-		var ret ValueTuple
+		var ret map[string]string
 		return ret
 	}
 
@@ -54,7 +54,7 @@ func (o *Exemplar) GetLabels() ValueTuple {
 
 // GetLabelsOk returns a tuple with the Labels field value
 // and a boolean to check if the value has been set.
-func (o *Exemplar) GetLabelsOk() (*ValueTuple, bool) {
+func (o *PromExemplar) GetLabelsOk() (*map[string]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,12 +62,12 @@ func (o *Exemplar) GetLabelsOk() (*ValueTuple, bool) {
 }
 
 // SetLabels sets field value
-func (o *Exemplar) SetLabels(v ValueTuple) {
+func (o *PromExemplar) SetLabels(v map[string]string) {
 	o.Labels = v
 }
 
 // GetValue returns the Value field value
-func (o *Exemplar) GetValue() string {
+func (o *PromExemplar) GetValue() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -78,7 +78,7 @@ func (o *Exemplar) GetValue() string {
 
 // GetValueOk returns a tuple with the Value field value
 // and a boolean to check if the value has been set.
-func (o *Exemplar) GetValueOk() (*string, bool) {
+func (o *PromExemplar) GetValueOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -86,14 +86,14 @@ func (o *Exemplar) GetValueOk() (*string, bool) {
 }
 
 // SetValue sets field value
-func (o *Exemplar) SetValue(v string) {
+func (o *PromExemplar) SetValue(v string) {
 	o.Value = v
 }
 
 // GetTimestamp returns the Timestamp field value
-func (o *Exemplar) GetTimestamp() int64 {
+func (o *PromExemplar) GetTimestamp() float32 {
 	if o == nil {
-		var ret int64
+		var ret float32
 		return ret
 	}
 
@@ -102,7 +102,7 @@ func (o *Exemplar) GetTimestamp() int64 {
 
 // GetTimestampOk returns a tuple with the Timestamp field value
 // and a boolean to check if the value has been set.
-func (o *Exemplar) GetTimestampOk() (*int64, bool) {
+func (o *PromExemplar) GetTimestampOk() (*float32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -110,11 +110,11 @@ func (o *Exemplar) GetTimestampOk() (*int64, bool) {
 }
 
 // SetTimestamp sets field value
-func (o *Exemplar) SetTimestamp(v int64) {
+func (o *PromExemplar) SetTimestamp(v float32) {
 	o.Timestamp = v
 }
 
-func (o Exemplar) MarshalJSON() ([]byte, error) {
+func (o PromExemplar) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["labels"] = o.Labels
@@ -128,38 +128,38 @@ func (o Exemplar) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableExemplar struct {
-	value *Exemplar
+type NullablePromExemplar struct {
+	value *PromExemplar
 	isSet bool
 }
 
-func (v NullableExemplar) Get() *Exemplar {
+func (v NullablePromExemplar) Get() *PromExemplar {
 	return v.value
 }
 
-func (v *NullableExemplar) Set(val *Exemplar) {
+func (v *NullablePromExemplar) Set(val *PromExemplar) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableExemplar) IsSet() bool {
+func (v NullablePromExemplar) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableExemplar) Unset() {
+func (v *NullablePromExemplar) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableExemplar(val *Exemplar) *NullableExemplar {
-	return &NullableExemplar{value: val, isSet: true}
+func NewNullablePromExemplar(val *PromExemplar) *NullablePromExemplar {
+	return &NullablePromExemplar{value: val, isSet: true}
 }
 
-func (v NullableExemplar) MarshalJSON() ([]byte, error) {
+func (v NullablePromExemplar) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableExemplar) UnmarshalJSON(src []byte) error {
+func (v *NullablePromExemplar) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

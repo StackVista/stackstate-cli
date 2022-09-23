@@ -16,7 +16,7 @@ import (
 	"fmt"
 )
 
-// MonitorStatusValue the model 'MonitorStatusValue'
+// MonitorStatusValue If a monitor status is set to DISABLED it won't produce any health states but it can still be run manually to inspect it's output
 type MonitorStatusValue string
 
 // List of MonitorStatusValue

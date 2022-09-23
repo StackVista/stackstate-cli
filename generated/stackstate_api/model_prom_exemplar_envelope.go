@@ -15,35 +15,35 @@ import (
 	"encoding/json"
 )
 
-// Envelope struct for Envelope
-type Envelope struct {
+// PromExemplarEnvelope struct for PromExemplarEnvelope
+type PromExemplarEnvelope struct {
 	Status string `json:"status"`
-	Data *Data `json:"data,omitempty"`
+	Data []PromExemplarData `json:"data,omitempty"`
 	ErrorType *string `json:"errorType,omitempty"`
 	Error *string `json:"error,omitempty"`
 	Warnings []string `json:"warnings,omitempty"`
 }
 
-// NewEnvelope instantiates a new Envelope object
+// NewPromExemplarEnvelope instantiates a new PromExemplarEnvelope object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEnvelope(status string) *Envelope {
-	this := Envelope{}
+func NewPromExemplarEnvelope(status string) *PromExemplarEnvelope {
+	this := PromExemplarEnvelope{}
 	this.Status = status
 	return &this
 }
 
-// NewEnvelopeWithDefaults instantiates a new Envelope object
+// NewPromExemplarEnvelopeWithDefaults instantiates a new PromExemplarEnvelope object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewEnvelopeWithDefaults() *Envelope {
-	this := Envelope{}
+func NewPromExemplarEnvelopeWithDefaults() *PromExemplarEnvelope {
+	this := PromExemplarEnvelope{}
 	return &this
 }
 
 // GetStatus returns the Status field value
-func (o *Envelope) GetStatus() string {
+func (o *PromExemplarEnvelope) GetStatus() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -54,7 +54,7 @@ func (o *Envelope) GetStatus() string {
 
 // GetStatusOk returns a tuple with the Status field value
 // and a boolean to check if the value has been set.
-func (o *Envelope) GetStatusOk() (*string, bool) {
+func (o *PromExemplarEnvelope) GetStatusOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -62,22 +62,22 @@ func (o *Envelope) GetStatusOk() (*string, bool) {
 }
 
 // SetStatus sets field value
-func (o *Envelope) SetStatus(v string) {
+func (o *PromExemplarEnvelope) SetStatus(v string) {
 	o.Status = v
 }
 
 // GetData returns the Data field value if set, zero value otherwise.
-func (o *Envelope) GetData() Data {
+func (o *PromExemplarEnvelope) GetData() []PromExemplarData {
 	if o == nil || o.Data == nil {
-		var ret Data
+		var ret []PromExemplarData
 		return ret
 	}
-	return *o.Data
+	return o.Data
 }
 
 // GetDataOk returns a tuple with the Data field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Envelope) GetDataOk() (*Data, bool) {
+func (o *PromExemplarEnvelope) GetDataOk() ([]PromExemplarData, bool) {
 	if o == nil || o.Data == nil {
 		return nil, false
 	}
@@ -85,7 +85,7 @@ func (o *Envelope) GetDataOk() (*Data, bool) {
 }
 
 // HasData returns a boolean if a field has been set.
-func (o *Envelope) HasData() bool {
+func (o *PromExemplarEnvelope) HasData() bool {
 	if o != nil && o.Data != nil {
 		return true
 	}
@@ -93,13 +93,13 @@ func (o *Envelope) HasData() bool {
 	return false
 }
 
-// SetData gets a reference to the given Data and assigns it to the Data field.
-func (o *Envelope) SetData(v Data) {
-	o.Data = &v
+// SetData gets a reference to the given []PromExemplarData and assigns it to the Data field.
+func (o *PromExemplarEnvelope) SetData(v []PromExemplarData) {
+	o.Data = v
 }
 
 // GetErrorType returns the ErrorType field value if set, zero value otherwise.
-func (o *Envelope) GetErrorType() string {
+func (o *PromExemplarEnvelope) GetErrorType() string {
 	if o == nil || o.ErrorType == nil {
 		var ret string
 		return ret
@@ -109,7 +109,7 @@ func (o *Envelope) GetErrorType() string {
 
 // GetErrorTypeOk returns a tuple with the ErrorType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Envelope) GetErrorTypeOk() (*string, bool) {
+func (o *PromExemplarEnvelope) GetErrorTypeOk() (*string, bool) {
 	if o == nil || o.ErrorType == nil {
 		return nil, false
 	}
@@ -117,7 +117,7 @@ func (o *Envelope) GetErrorTypeOk() (*string, bool) {
 }
 
 // HasErrorType returns a boolean if a field has been set.
-func (o *Envelope) HasErrorType() bool {
+func (o *PromExemplarEnvelope) HasErrorType() bool {
 	if o != nil && o.ErrorType != nil {
 		return true
 	}
@@ -126,12 +126,12 @@ func (o *Envelope) HasErrorType() bool {
 }
 
 // SetErrorType gets a reference to the given string and assigns it to the ErrorType field.
-func (o *Envelope) SetErrorType(v string) {
+func (o *PromExemplarEnvelope) SetErrorType(v string) {
 	o.ErrorType = &v
 }
 
 // GetError returns the Error field value if set, zero value otherwise.
-func (o *Envelope) GetError() string {
+func (o *PromExemplarEnvelope) GetError() string {
 	if o == nil || o.Error == nil {
 		var ret string
 		return ret
@@ -141,7 +141,7 @@ func (o *Envelope) GetError() string {
 
 // GetErrorOk returns a tuple with the Error field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Envelope) GetErrorOk() (*string, bool) {
+func (o *PromExemplarEnvelope) GetErrorOk() (*string, bool) {
 	if o == nil || o.Error == nil {
 		return nil, false
 	}
@@ -149,7 +149,7 @@ func (o *Envelope) GetErrorOk() (*string, bool) {
 }
 
 // HasError returns a boolean if a field has been set.
-func (o *Envelope) HasError() bool {
+func (o *PromExemplarEnvelope) HasError() bool {
 	if o != nil && o.Error != nil {
 		return true
 	}
@@ -158,12 +158,12 @@ func (o *Envelope) HasError() bool {
 }
 
 // SetError gets a reference to the given string and assigns it to the Error field.
-func (o *Envelope) SetError(v string) {
+func (o *PromExemplarEnvelope) SetError(v string) {
 	o.Error = &v
 }
 
 // GetWarnings returns the Warnings field value if set, zero value otherwise.
-func (o *Envelope) GetWarnings() []string {
+func (o *PromExemplarEnvelope) GetWarnings() []string {
 	if o == nil || o.Warnings == nil {
 		var ret []string
 		return ret
@@ -173,7 +173,7 @@ func (o *Envelope) GetWarnings() []string {
 
 // GetWarningsOk returns a tuple with the Warnings field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *Envelope) GetWarningsOk() ([]string, bool) {
+func (o *PromExemplarEnvelope) GetWarningsOk() ([]string, bool) {
 	if o == nil || o.Warnings == nil {
 		return nil, false
 	}
@@ -181,7 +181,7 @@ func (o *Envelope) GetWarningsOk() ([]string, bool) {
 }
 
 // HasWarnings returns a boolean if a field has been set.
-func (o *Envelope) HasWarnings() bool {
+func (o *PromExemplarEnvelope) HasWarnings() bool {
 	if o != nil && o.Warnings != nil {
 		return true
 	}
@@ -190,11 +190,11 @@ func (o *Envelope) HasWarnings() bool {
 }
 
 // SetWarnings gets a reference to the given []string and assigns it to the Warnings field.
-func (o *Envelope) SetWarnings(v []string) {
+func (o *PromExemplarEnvelope) SetWarnings(v []string) {
 	o.Warnings = v
 }
 
-func (o Envelope) MarshalJSON() ([]byte, error) {
+func (o PromExemplarEnvelope) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["status"] = o.Status
@@ -214,38 +214,38 @@ func (o Envelope) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableEnvelope struct {
-	value *Envelope
+type NullablePromExemplarEnvelope struct {
+	value *PromExemplarEnvelope
 	isSet bool
 }
 
-func (v NullableEnvelope) Get() *Envelope {
+func (v NullablePromExemplarEnvelope) Get() *PromExemplarEnvelope {
 	return v.value
 }
 
-func (v *NullableEnvelope) Set(val *Envelope) {
+func (v *NullablePromExemplarEnvelope) Set(val *PromExemplarEnvelope) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableEnvelope) IsSet() bool {
+func (v NullablePromExemplarEnvelope) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableEnvelope) Unset() {
+func (v *NullablePromExemplarEnvelope) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableEnvelope(val *Envelope) *NullableEnvelope {
-	return &NullableEnvelope{value: val, isSet: true}
+func NewNullablePromExemplarEnvelope(val *PromExemplarEnvelope) *NullablePromExemplarEnvelope {
+	return &NullablePromExemplarEnvelope{value: val, isSet: true}
 }
 
-func (v NullableEnvelope) MarshalJSON() ([]byte, error) {
+func (v NullablePromExemplarEnvelope) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableEnvelope) UnmarshalJSON(src []byte) error {
+func (v *NullablePromExemplarEnvelope) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

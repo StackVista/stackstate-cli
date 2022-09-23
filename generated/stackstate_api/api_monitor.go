@@ -84,7 +84,7 @@ type MonitorApi interface {
 	/*
 	PatchMonitor Update some monitor properties
 
-	Performs an update on the monitor base properties. If a monitor status is set to DISABLED it won't produce health states
+	Performs a patch on the monitor base properties.
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param monitorIdOrUrn The id or identifier (urn) of a monitor
@@ -796,7 +796,7 @@ func (r ApiPatchMonitorRequest) Execute() (*Monitor, *http.Response, error) {
 /*
 PatchMonitor Update some monitor properties
 
-Performs an update on the monitor base properties. If a monitor status is set to DISABLED it won't produce health states
+Performs a patch on the monitor base properties.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param monitorIdOrUrn The id or identifier (urn) of a monitor

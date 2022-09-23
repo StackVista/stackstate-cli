@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## GetExemplarsQuery
 
-> ExemplarEnvelope GetExemplarsQuery(ctx).Query(query).Start(start).End(end).Execute()
+> PromExemplarEnvelope GetExemplarsQuery(ctx).Query(query).Start(start).End(end).Execute()
 
 Experimental: Exemplars for a specific time range
 
@@ -42,7 +42,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetExemplarsQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetExemplarsQuery`: ExemplarEnvelope
+    // response from `GetExemplarsQuery`: PromExemplarEnvelope
     fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetExemplarsQuery`: %v\n", resp)
 }
 ```
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ExemplarEnvelope**](ExemplarEnvelope.md)
+[**PromExemplarEnvelope**](PromExemplarEnvelope.md)
 
 ### Authorization
 
@@ -82,7 +82,7 @@ Name | Type | Description  | Notes
 
 ## GetInstantQuery
 
-> Envelope GetInstantQuery(ctx).Query(query).Time(time).Timeout(timeout).Execute()
+> PromEnvelope GetInstantQuery(ctx).Query(query).Time(time).Timeout(timeout).Execute()
 
 Instant query at a single point in time
 
@@ -112,7 +112,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetInstantQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetInstantQuery`: Envelope
+    // response from `GetInstantQuery`: PromEnvelope
     fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetInstantQuery`: %v\n", resp)
 }
 ```
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Envelope**](Envelope.md)
+[**PromEnvelope**](PromEnvelope.md)
 
 ### Authorization
 
@@ -152,7 +152,7 @@ Name | Type | Description  | Notes
 
 ## GetRangeQuery
 
-> Envelope GetRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+> PromEnvelope GetRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
 
 Query over a range of time
 
@@ -184,7 +184,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetRangeQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetRangeQuery`: Envelope
+    // response from `GetRangeQuery`: PromEnvelope
     fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetRangeQuery`: %v\n", resp)
 }
 ```
@@ -208,7 +208,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Envelope**](Envelope.md)
+[**PromEnvelope**](PromEnvelope.md)
 
 ### Authorization
 

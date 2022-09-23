@@ -1,67 +1,67 @@
-# Data
+# PromMatrix
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ResultType** | **string** |  | 
-**Result** | [**ValueTuple**](ValueTuple.md) |  | 
+**Result** | [**[]PromDataResult**](PromDataResult.md) |  | 
 
 ## Methods
 
-### NewData
+### NewPromMatrix
 
-`func NewData(resultType string, result ValueTuple, ) *Data`
+`func NewPromMatrix(resultType string, result []PromDataResult, ) *PromMatrix`
 
-NewData instantiates a new Data object
+NewPromMatrix instantiates a new PromMatrix object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewDataWithDefaults
+### NewPromMatrixWithDefaults
 
-`func NewDataWithDefaults() *Data`
+`func NewPromMatrixWithDefaults() *PromMatrix`
 
-NewDataWithDefaults instantiates a new Data object
+NewPromMatrixWithDefaults instantiates a new PromMatrix object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetResultType
 
-`func (o *Data) GetResultType() string`
+`func (o *PromMatrix) GetResultType() string`
 
 GetResultType returns the ResultType field if non-nil, zero value otherwise.
 
 ### GetResultTypeOk
 
-`func (o *Data) GetResultTypeOk() (*string, bool)`
+`func (o *PromMatrix) GetResultTypeOk() (*string, bool)`
 
 GetResultTypeOk returns a tuple with the ResultType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResultType
 
-`func (o *Data) SetResultType(v string)`
+`func (o *PromMatrix) SetResultType(v string)`
 
 SetResultType sets ResultType field to given value.
 
 
 ### GetResult
 
-`func (o *Data) GetResult() ValueTuple`
+`func (o *PromMatrix) GetResult() []PromDataResult`
 
 GetResult returns the Result field if non-nil, zero value otherwise.
 
 ### GetResultOk
 
-`func (o *Data) GetResultOk() (*ValueTuple, bool)`
+`func (o *PromMatrix) GetResultOk() (*[]PromDataResult, bool)`
 
 GetResultOk returns a tuple with the Result field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResult
 
-`func (o *Data) SetResult(v ValueTuple)`
+`func (o *PromMatrix) SetResult(v []PromDataResult)`
 
 SetResult sets Result field to given value.
 
