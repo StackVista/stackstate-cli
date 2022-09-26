@@ -27,7 +27,7 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "retention",
 		Short: "Manage the StackState Graph data retention.",
-		Long:  "Manage the StackState Graph data retention.",
+		Long:  "Fetch and set the StackState Graph data retention.",
 		RunE:  deps.CmdRunEWithApi(RunRetentionCommand(args)),
 	}
 

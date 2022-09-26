@@ -7,28 +7,46 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
+const (
+	Immediate = "immediate"
+)
+
+type DeleteExpiredDataArgs struct {
+	Immediate bool
+}
+
 func DeleteExpiredDataCommand(deps *di.Deps) *cobra.Command {
+	args := &DeleteExpiredDataArgs{}
 	cmd := &cobra.Command{
 		Use:   "delete-expired-data",
 		Short: "Delete expired data from StackState.",
-		Long:  "Delete expired data from StackState.",
-		RunE:  deps.CmdRunEWithApi(runDeleteExpiredDataCommand),
+		Long:  "Schedule deletion of expired data from StackState. If --immediate is specified, removes data immediately and restarts StackState.",
+		RunE:  deps.CmdRunEWithApi(RunDeleteExpiredDataCommand(args)),
 	}
+
+	cmd.Flags().BoolVar(&args.Immediate, Immediate, false, "Remove expired data immediately and restart StackState.")
 
 	return cmd
 }
 
-func runDeleteExpiredDataCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+func RunDeleteExpiredDataCommand(args *DeleteExpiredDataArgs) di.CmdWithApiFn {
+	return func(
+		cmd *cobra.Command,
+		cli *di.Deps,
+		api *stackstate_api.APIClient,
+		serverInfo *stackstate_api.ServerInfo,
+	) common.CLIError {
 
-	progress := "RemovalInProgress" // TODO
+		progress := "RemovalInProgress" // TODO
 
-	if cli.IsJson() {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"progress": progress,
-		})
-	} else {
-		cli.Printer.Success("Command executed successfully.")
+		if cli.IsJson() {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"progress": progress,
+			})
+		} else {
+			cli.Printer.Success("Command executed successfully.")
+		}
+
+		return nil
 	}
-
-	return nil
 }
