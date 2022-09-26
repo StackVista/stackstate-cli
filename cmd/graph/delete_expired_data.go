@@ -24,7 +24,7 @@ func DeleteExpiredDataCommand(deps *di.Deps) *cobra.Command {
 		RunE:  deps.CmdRunEWithApi(RunDeleteExpiredDataCommand(args)),
 	}
 
-	cmd.Flags().BoolVar(&args.Immediate, Immediate, false, "Remove expired data immediately and restart StackState.")
+	cmd.Flags().BoolVar(&args.Immediate, Immediate, false, "Remove expired data immediately and restart StackState")
 
 	return cmd
 }
@@ -36,7 +36,6 @@ func RunDeleteExpiredDataCommand(args *DeleteExpiredDataArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-
 		progress := "RemovalInProgress" // TODO
 
 		if cli.IsJson() {

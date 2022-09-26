@@ -12,13 +12,13 @@ import (
 )
 
 const (
-	Set = "set"
-	SetShort = "s"
+	Set             = "set"
+	SetShort        = "s"
 	ScheduleRemoval = "schedule-removal"
 )
 
 type RetentionArgs struct {
-	Set time.Duration
+	Set             time.Duration
 	ScheduleRemoval bool
 }
 
@@ -27,13 +27,13 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "retention",
 		Short: "Manage the StackState Graph data retention.",
-		Long:  "View and configure how long the StackState data graph retains data.\n" +
-			"More info can ben found at http://docs.stackstate.com/setup/retention/",
-		RunE:  deps.CmdRunEWithApi(RunRetentionCommand(args)),
+		Long: "View and configure how long the StackState data graph retains data.\n" +
+			"More info can ben found at http://docs.stackstate.com/setup/retention/.",
+		RunE: deps.CmdRunEWithApi(RunRetentionCommand(args)),
 	}
 
-	pflags.DurationVarP(cmd.Flags(), &args.Set, Set, SetShort, pflags.Week, "New data retention window.")
-	cmd.Flags().BoolVar(&args.ScheduleRemoval, ScheduleRemoval, false, "Schedule removal of expired data.")
+	pflags.DurationVarP(cmd.Flags(), &args.Set, Set, SetShort, pflags.Week, "New data retention window")
+	cmd.Flags().BoolVar(&args.ScheduleRemoval, ScheduleRemoval, false, "Schedule removal of expired data")
 
 	return cmd
 }
@@ -45,7 +45,6 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-
 		// TODO
 		window := 691200000
 		epoch := 1663493504140000000
@@ -53,7 +52,7 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithApiFn {
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"retention-window": window,
-				"epoch": epoch,
+				"epoch":            epoch,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("Retention window: %d milliseconds", window))
