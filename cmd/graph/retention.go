@@ -27,7 +27,8 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "retention",
 		Short: "Manage the StackState Graph data retention.",
-		Long:  "Fetch and set the StackState Graph data retention.",
+		Long:  "View and configure how long the StackState data graph retains data.\n" +
+			"More info can ben found at http://docs.stackstate.com/setup/retention/",
 		RunE:  deps.CmdRunEWithApi(RunRetentionCommand(args)),
 	}
 
@@ -51,7 +52,7 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"window": window,
+				"retention-window": window,
 				"epoch": epoch,
 			})
 		} else {
