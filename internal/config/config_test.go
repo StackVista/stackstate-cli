@@ -18,6 +18,7 @@ contexts:
     url: http://prod:8080
     service-token: foo
     api-path: /hidden/api
+    admin-api-apth: /admin/api
 current-context: prod
 `
 
@@ -29,9 +30,11 @@ current-context: prod
 	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
+	assert.Equal(t, "/admin", cfg.Contexts[0].Context.AdminAPIPath)
 	assert.Equal(t, "http://prod:8080", cfg.Contexts[1].Context.URL)
 	assert.Equal(t, "foo", cfg.Contexts[1].Context.ServiceToken)
 	assert.Equal(t, "/hidden/api", cfg.Contexts[1].Context.APIPath)
+	assert.Equal(t, "/admin/api", cfg.Contexts[1].Context.AdminAPIPath)
 	assert.Empty(t, cfg.Contexts[1].Context.APIToken)
 }
 
@@ -67,6 +70,7 @@ api-token: foo
 	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
+	assert.Equal(t, "/admin", cfg.Contexts[0].Context.AdminAPIPath)
 }
 
 func TestValidateValidStsContext(t *testing.T) {

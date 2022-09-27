@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
@@ -29,7 +29,7 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 		Short: "Manage the StackState Graph data retention.",
 		Long: "View and configure how long the StackState data graph retains data.\n" +
 			"More info can ben found at http://docs.stackstate.com/setup/retention/.",
-		RunE: deps.CmdRunEWithApi(RunRetentionCommand(args)),
+		RunE: deps.CmdRunEWithAdminApi(RunRetentionCommand(args)),
 	}
 
 	pflags.DurationVarP(cmd.Flags(), &args.Set, Set, SetShort, pflags.Week, "New data retention window")
@@ -38,12 +38,11 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunRetentionCommand(args *RetentionArgs) di.CmdWithApiFn {
+func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
 		api *stackstate_api.APIClient,
-		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		window, resp, err := api.AdminApi.GetRetentionWindow(cli.Context).Execute()
 		if err != nil {
