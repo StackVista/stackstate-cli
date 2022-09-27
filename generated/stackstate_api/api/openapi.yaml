@@ -6652,7 +6652,12 @@ components:
       maxItems: 2
       minItems: 2
       type: array
-      x-as-tuple: true
+      x-as-tuple:
+        values:
+        - type: number
+          format: unix_timestamp
+        - type: string
+          format: sample_value
     PromVector:
       properties:
         resultType:
@@ -6682,7 +6687,12 @@ components:
           maxItems: 2
           minItems: 2
           type: array
-          x-as-tuple: true
+          x-as-tuple:
+            values:
+            - type: number
+              format: unix_timestamp
+            - type: string
+              format: sample_value
       required:
       - metric
       - value
@@ -6702,7 +6712,12 @@ components:
           maxItems: 2
           minItems: 2
           type: array
-          x-as-tuple: true
+          x-as-tuple:
+            values:
+            - type: number
+              format: unix_timestamp
+            - type: string
+              format: sample_value
       required:
       - result
       - resultType
@@ -6722,7 +6737,12 @@ components:
           maxItems: 2
           minItems: 2
           type: array
-          x-as-tuple: true
+          x-as-tuple:
+            values:
+            - type: number
+              format: unix_timestamp
+            - type: string
+              format: sample_value
       required:
       - result
       - resultType
@@ -6739,22 +6759,22 @@ components:
           - value: value
             labels:
               key: labels
-            timestamp: 0.8008282
+            timestamp: 0.8008281904610115
           - value: value
             labels:
               key: labels
-            timestamp: 0.8008282
+            timestamp: 0.8008281904610115
         - seriesLabels:
             key: seriesLabels
           exemplars:
           - value: value
             labels:
               key: labels
-            timestamp: 0.8008282
+            timestamp: 0.8008281904610115
           - value: value
             labels:
               key: labels
-            timestamp: 0.8008282
+            timestamp: 0.8008281904610115
         errorType: errorType
         warnings:
         - warnings
@@ -6787,11 +6807,11 @@ components:
         - value: value
           labels:
             key: labels
-          timestamp: 0.8008282
+          timestamp: 0.8008281904610115
         - value: value
           labels:
             key: labels
-          timestamp: 0.8008282
+          timestamp: 0.8008281904610115
       properties:
         seriesLabels:
           additionalProperties:
@@ -6810,7 +6830,7 @@ components:
         value: value
         labels:
           key: labels
-        timestamp: 0.8008282
+        timestamp: 0.8008281904610115
       properties:
         labels:
           additionalProperties:
@@ -6819,7 +6839,7 @@ components:
         value:
           type: string
         timestamp:
-          format: float
+          format: unix_timestamp
           type: number
       required:
       - labels
