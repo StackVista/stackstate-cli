@@ -3355,6 +3355,7 @@ components:
         monitors:
         - identifier: identifier
           functionId: 6
+          lastUpdateTimestamp: 5
           remediationHint: remediationHint
           name: name
           description: description
@@ -3369,6 +3370,7 @@ components:
           status: null
         - identifier: identifier
           functionId: 6
+          lastUpdateTimestamp: 5
           remediationHint: remediationHint
           name: name
           description: description
@@ -3393,6 +3395,7 @@ components:
       example:
         identifier: identifier
         functionId: 6
+        lastUpdateTimestamp: 5
         remediationHint: remediationHint
         name: name
         description: description
@@ -3432,11 +3435,15 @@ components:
           type: array
         status:
           $ref: '#/components/schemas/MonitorStatusValue'
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
       required:
       - arguments
       - functionId
       - id
       - intervalSeconds
+      - lastUpdateTimestamp
       - name
       - status
       - tags
@@ -3551,6 +3558,7 @@ components:
         monitor:
           identifier: identifier
           functionId: 6
+          lastUpdateTimestamp: 5
           remediationHint: remediationHint
           name: name
           description: description
