@@ -45,18 +45,23 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		// TODO
-		window := 691200000
-		epoch := 1663493504140000000
+		window, resp, err := api.AdminApi.GetRetentionWindow(cli.Context).Execute()
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
+
+		epoch, resp, err := api.AdminApi.GetRetentionEpoch(cli.Context).Execute()
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"retention-window": window,
+				"retention-window": window.WindowMs,
 				"epoch":            epoch,
 			})
 		} else {
-			cli.Printer.Success(fmt.Sprintf("Retention window: %d milliseconds", window))
-			cli.Printer.Success(fmt.Sprintf("Epoch transactionId: %d", epoch))
+			cli.Printer.Success(fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", window.WindowMs, epoch))
 		}
 
 		return nil
