@@ -23,7 +23,7 @@ security:
 - ServiceToken: []
 - ServiceBearer: []
 paths:
-  /admin/retention/window:
+  /retention/window:
     get:
       description: Get StackGraph retention window.
       operationId: getRetentionWindow
@@ -48,7 +48,7 @@ paths:
           description: Error when handling the request on the server side.
       summary: Get retention window
       tags:
-      - admin
+      - retention
     post:
       description: Set StackGraph retention window and optionally schedule data removal.
       operationId: setRetentionWindow
@@ -87,8 +87,8 @@ paths:
           description: Error when handling the request on the server side.
       summary: Set retention window
       tags:
-      - admin
-  /admin/retention/currentEpoch:
+      - retention
+  /retention/currentEpoch:
     get:
       description: Get StackGraph retention epoch.
       operationId: getRetentionEpoch
@@ -113,8 +113,8 @@ paths:
           description: Error when handling the request on the server side.
       summary: Get retention epoch
       tags:
-      - admin
-  /admin/retention/removeExpiredData:
+      - retention
+  /retention/removeExpiredData:
     post:
       description: Either schedule removal or immediately remove expired data from
         StackGraph
@@ -147,7 +147,7 @@ paths:
           description: Error when handling the request on the server side.
       summary: Remove expired data from StackGraph
       tags:
-      - admin
+      - retention
 components:
   parameters:
     scheduleRemoval:

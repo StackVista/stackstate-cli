@@ -44,12 +44,12 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 		cli *di.Deps,
 		api *stackstate_api.APIClient,
 	) common.CLIError {
-		window, resp, err := api.AdminApi.GetRetentionWindow(cli.Context).Execute()
+		window, resp, err := api.RetentionApi.GetRetentionWindow(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
 
-		epoch, resp, err := api.AdminApi.GetRetentionEpoch(cli.Context).Execute()
+		epoch, resp, err := api.RetentionApi.GetRetentionEpoch(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

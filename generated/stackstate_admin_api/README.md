@@ -79,10 +79,10 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*AdminApi* | [**GetRetentionEpoch**](docs/AdminApi.md#getretentionepoch) | **Get** /admin/retention/currentEpoch | Get retention epoch
-*AdminApi* | [**GetRetentionWindow**](docs/AdminApi.md#getretentionwindow) | **Get** /admin/retention/window | Get retention window
-*AdminApi* | [**RemoveExpiredData**](docs/AdminApi.md#removeexpireddata) | **Post** /admin/retention/removeExpiredData | Remove expired data from StackGraph
-*AdminApi* | [**SetRetentionWindow**](docs/AdminApi.md#setretentionwindow) | **Post** /admin/retention/window | Set retention window
+*RetentionApi* | [**GetRetentionEpoch**](docs/RetentionApi.md#getretentionepoch) | **Get** /retention/currentEpoch | Get retention epoch
+*RetentionApi* | [**GetRetentionWindow**](docs/RetentionApi.md#getretentionwindow) | **Get** /retention/window | Get retention window
+*RetentionApi* | [**RemoveExpiredData**](docs/RetentionApi.md#removeexpireddata) | **Post** /retention/removeExpiredData | Remove expired data from StackGraph
+*RetentionApi* | [**SetRetentionWindow**](docs/RetentionApi.md#setretentionwindow) | **Post** /retention/window | Set retention window
 
 
 ## Documentation For Models

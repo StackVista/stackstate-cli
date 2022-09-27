@@ -3,15 +3,15 @@
 .travis.yml
 README.md
 api/openapi.yaml
-api_admin.go
+api_retention.go
 client.go
 configuration.go
-docs/AdminApi.md
 docs/EpochTx.md
 docs/GenericApiError.md
 docs/GenericErrorsResponse.md
 docs/RemovalProgress.md
 docs/RemovalProgressProgress.md
+docs/RetentionApi.md
 docs/WindowMs.md
 git_push.sh
 go.mod

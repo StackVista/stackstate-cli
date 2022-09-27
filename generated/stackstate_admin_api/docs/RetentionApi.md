@@ -1,13 +1,13 @@
-# \AdminApi
+# \RetentionApi
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetRetentionEpoch**](AdminApi.md#GetRetentionEpoch) | **Get** /admin/retention/currentEpoch | Get retention epoch
-[**GetRetentionWindow**](AdminApi.md#GetRetentionWindow) | **Get** /admin/retention/window | Get retention window
-[**RemoveExpiredData**](AdminApi.md#RemoveExpiredData) | **Post** /admin/retention/removeExpiredData | Remove expired data from StackGraph
-[**SetRetentionWindow**](AdminApi.md#SetRetentionWindow) | **Post** /admin/retention/window | Set retention window
+[**GetRetentionEpoch**](RetentionApi.md#GetRetentionEpoch) | **Get** /retention/currentEpoch | Get retention epoch
+[**GetRetentionWindow**](RetentionApi.md#GetRetentionWindow) | **Get** /retention/window | Get retention window
+[**RemoveExpiredData**](RetentionApi.md#RemoveExpiredData) | **Post** /retention/removeExpiredData | Remove expired data from StackGraph
+[**SetRetentionWindow**](RetentionApi.md#SetRetentionWindow) | **Post** /retention/window | Set retention window
 
 
 
@@ -35,13 +35,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.GetRetentionEpoch(context.Background()).Execute()
+    resp, r, err := apiClient.RetentionApi.GetRetentionEpoch(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.GetRetentionEpoch``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.GetRetentionEpoch``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetRetentionEpoch`: EpochTx
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.GetRetentionEpoch`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.GetRetentionEpoch`: %v\n", resp)
 }
 ```
 
@@ -96,13 +96,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.GetRetentionWindow(context.Background()).Execute()
+    resp, r, err := apiClient.RetentionApi.GetRetentionWindow(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.GetRetentionWindow``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.GetRetentionWindow``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetRetentionWindow`: WindowMs
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.GetRetentionWindow`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.GetRetentionWindow`: %v\n", resp)
 }
 ```
 
@@ -158,13 +158,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.RemoveExpiredData(context.Background()).ExpireImmediatelyAndRestart(expireImmediatelyAndRestart).Execute()
+    resp, r, err := apiClient.RetentionApi.RemoveExpiredData(context.Background()).ExpireImmediatelyAndRestart(expireImmediatelyAndRestart).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.RemoveExpiredData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.RemoveExpiredData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `RemoveExpiredData`: RemovalProgress
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.RemoveExpiredData`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.RemoveExpiredData`: %v\n", resp)
 }
 ```
 
@@ -225,13 +225,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.AdminApi.SetRetentionWindow(context.Background()).WindowMs(windowMs).ScheduleRemoval(scheduleRemoval).Execute()
+    resp, r, err := apiClient.RetentionApi.SetRetentionWindow(context.Background()).WindowMs(windowMs).ScheduleRemoval(scheduleRemoval).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `AdminApi.SetRetentionWindow``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.SetRetentionWindow``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SetRetentionWindow`: WindowMs
-    fmt.Fprintf(os.Stdout, "Response from `AdminApi.SetRetentionWindow`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.SetRetentionWindow`: %v\n", resp)
 }
 ```
 
