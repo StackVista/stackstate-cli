@@ -1,7 +1,7 @@
 /*
-StackState API
+StackState Admin API
 
-StackState's API specification
+StackState's Admin API specification
 
 API version: 0.0.1
 Contact: info@stackstate.com
@@ -42,7 +42,7 @@ var (
 	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
 )
 
-// APIClient manages communication with the StackState API API v0.0.1
+// APIClient manages communication with the StackState Admin API API v0.0.1
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration
@@ -50,43 +50,7 @@ type APIClient struct {
 
 	// API Services
 
-	ApiTokenApi ApiTokenApi
-
-	ComponentApi ComponentApi
-
-	EventApi EventApi
-
-	ExportApi ExportApi
-
-	ExportAnomalyApi ExportAnomalyApi
-
-	HealthSynchronizationApi HealthSynchronizationApi
-
-	ImportApi ImportApi
-
-	MonitorApi MonitorApi
-
-	NodeApi NodeApi
-
-	ProblemApi ProblemApi
-
-	QueryApi QueryApi
-
-	RelationApi RelationApi
-
-	ScriptingApi ScriptingApi
-
-	ServerApi ServerApi
-
-	ServiceTokenApi ServiceTokenApi
-
-	StackpackApi StackpackApi
-
-	SubscriptionApi SubscriptionApi
-
-	TopologySynchronizationApi TopologySynchronizationApi
-
-	UserProfileApi UserProfileApi
+	AdminApi AdminApi
 }
 
 type service struct {
@@ -105,25 +69,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
-	c.ComponentApi = (*ComponentApiService)(&c.common)
-	c.EventApi = (*EventApiService)(&c.common)
-	c.ExportApi = (*ExportApiService)(&c.common)
-	c.ExportAnomalyApi = (*ExportAnomalyApiService)(&c.common)
-	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
-	c.ImportApi = (*ImportApiService)(&c.common)
-	c.MonitorApi = (*MonitorApiService)(&c.common)
-	c.NodeApi = (*NodeApiService)(&c.common)
-	c.ProblemApi = (*ProblemApiService)(&c.common)
-	c.QueryApi = (*QueryApiService)(&c.common)
-	c.RelationApi = (*RelationApiService)(&c.common)
-	c.ScriptingApi = (*ScriptingApiService)(&c.common)
-	c.ServerApi = (*ServerApiService)(&c.common)
-	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
-	c.StackpackApi = (*StackpackApiService)(&c.common)
-	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
-	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
-	c.UserProfileApi = (*UserProfileApiService)(&c.common)
+	c.AdminApi = (*AdminApiService)(&c.common)
 
 	return c
 }

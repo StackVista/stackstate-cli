@@ -1,7 +1,7 @@
 /*
-StackState API
+StackState Admin API
 
-StackState's API specification
+StackState's Admin API specification
 
 API version: 0.0.1
 Contact: info@stackstate.com
