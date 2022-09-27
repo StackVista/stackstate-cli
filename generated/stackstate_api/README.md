@@ -79,6 +79,10 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AdminApi* | [**GetRetentionEpoch**](docs/AdminApi.md#getretentionepoch) | **Get** /admin/retention/currentEpoch | Get retention epoch
+*AdminApi* | [**GetRetentionWindow**](docs/AdminApi.md#getretentionwindow) | **Get** /admin/retention/window | Get retention window
+*AdminApi* | [**RemoveExpiredData**](docs/AdminApi.md#removeexpireddata) | **Post** /admin/retention/removeExpiredData | Remove expired data from StackGraph
+*AdminApi* | [**SetRetentionWindow**](docs/AdminApi.md#setretentionwindow) | **Post** /admin/retention/window | Set retention window
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 *ComponentApi* | [**CreateComponentCheck**](docs/ComponentApi.md#createcomponentcheck) | **Post** /components/{componentId}/checks | Create the Checks on the component
 *ComponentApi* | [**CreateComponentStreams**](docs/ComponentApi.md#createcomponentstreams) | **Post** /components/{componentId}/streams | Create the Stream on the component
@@ -198,6 +202,7 @@ Class | Method | HTTP request | Description
  - [DataUnavailable](docs/DataUnavailable.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [DownsamplingMethod](docs/DownsamplingMethod.md)
+ - [EpochTx](docs/EpochTx.md)
  - [ErrorStateValue](docs/ErrorStateValue.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventComponent](docs/EventComponent.md)
@@ -303,6 +308,8 @@ Class | Method | HTTP request | Description
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [Reference](docs/Reference.md)
+ - [RemovalProgress](docs/RemovalProgress.md)
+ - [RemovalProgressProgress](docs/RemovalProgressProgress.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
@@ -361,6 +368,7 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
+ - [WindowMs](docs/WindowMs.md)
  - [WindowingMethod](docs/WindowingMethod.md)
 
 

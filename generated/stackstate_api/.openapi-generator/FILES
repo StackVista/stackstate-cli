@@ -3,6 +3,7 @@
 .travis.yml
 README.md
 api/openapi.yaml
+api_admin.go
 api_api_token.go
 api_component.go
 api_event.go
@@ -24,6 +25,7 @@ api_topology_synchronization.go
 api_user_profile.go
 client.go
 configuration.go
+docs/AdminApi.md
 docs/Annotation.md
 docs/AnnotationData.md
 docs/AnnotationMetricQuery.md
@@ -72,6 +74,7 @@ docs/DataType.md
 docs/DataUnavailable.md
 docs/DependencyDirection.md
 docs/DownsamplingMethod.md
+docs/EpochTx.md
 docs/ErrorStateValue.md
 docs/EventApi.md
 docs/EventCategory.md
@@ -187,6 +190,8 @@ docs/ProvisionResponse.md
 docs/QueryApi.md
 docs/Reference.md
 docs/RelationApi.md
+docs/RemovalProgress.md
+docs/RemovalProgressProgress.md
 docs/RequestError.md
 docs/RequestValidationError.md
 docs/RootCauseMode.md
@@ -252,6 +257,7 @@ docs/UserNotLoggedInError.md
 docs/UserProfile.md
 docs/UserProfileApi.md
 docs/UserProfileSaveError.md
+docs/WindowMs.md
 docs/WindowingMethod.md
 git_push.sh
 go.mod
@@ -302,6 +308,7 @@ model_data_type.go
 model_data_unavailable.go
 model_dependency_direction.go
 model_downsampling_method.go
+model_epoch_tx.go
 model_error_state_value.go
 model_event_category.go
 model_event_component.go
@@ -407,6 +414,8 @@ model_prom_vector_result.go
 model_propagated_health_state_value.go
 model_provision_response.go
 model_reference.go
+model_removal_progress.go
+model_removal_progress_progress.go
 model_request_error.go
 model_request_validation_error.go
 model_root_cause_mode.go
@@ -465,6 +474,7 @@ model_user_not_found_error.go
 model_user_not_logged_in_error.go
 model_user_profile.go
 model_user_profile_save_error.go
+model_window_ms.go
 model_windowing_method.go
 response.go
 utils.go
