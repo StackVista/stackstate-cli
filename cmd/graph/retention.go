@@ -60,7 +60,7 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 				"epoch":            epoch,
 			})
 		} else {
-			cli.Printer.Success(fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", window.WindowMs, epoch))
+			cli.Printer.Success(fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", *window.WindowMs, *epoch.EpochTx))
 		}
 
 		return nil
