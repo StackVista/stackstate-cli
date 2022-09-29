@@ -1,14 +1,14 @@
 package di
 
 import (
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stackstate_admin_api "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
 type MockStackStateClient struct {
 	apiClient         *stackstate_api.APIClient
-	adminApiClient	  *stackstate_admin_api.APIClient
+	adminApiClient    *stackstate_admin_api.APIClient
 	ConnectServerInfo *stackstate_api.ServerInfo
 	ConnectError      common.CLIError
 	ApiMocks          ApiMocks
@@ -30,7 +30,7 @@ type ApiMocks struct {
 	StackpackApi               *stackstate_api.StackpackApiMock
 	AnomalyFeedbackApi         *stackstate_api.ExportAnomalyApiMock
 	SubscriptionApi            *stackstate_api.SubscriptionApiMock
-	RetentionApi		   *stackstate_admin_api.RetentionApiMock
+	RetentionApi               *stackstate_admin_api.RetentionApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
@@ -68,7 +68,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		StackpackApi:               &stackpackApi,
 		AnomalyFeedbackApi:         &anomalyFeedbackApi,
 		SubscriptionApi:            &subscriptionApi,
-		RetentionApi:		    &retentionApi,
+		RetentionApi:               &retentionApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
@@ -95,7 +95,7 @@ func NewMockStackStateClient() MockStackStateClient {
 
 	return MockStackStateClient{
 		apiClient:         apiClient,
-		adminApiClient:	   adminApiClient,
+		adminApiClient:    adminApiClient,
 		ApiMocks:          apiMocks,
 		ConnectServerInfo: &stackstate_api.ServerInfo{},
 		ConnectError:      nil,

@@ -1,11 +1,11 @@
 package graph
 
 import (
-	"time"
 	"net/http"
+	"time"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
+	stackstate_admin_api "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
@@ -38,12 +38,12 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func getOrSetRetentionWindow(cli *di.Deps, api *stackstate_api.APIClient, args *RetentionArgs) (*stackstate_api.WindowMs, *http.Response, error) {
+func getOrSetRetentionWindow(cli *di.Deps, api *stackstate_admin_api.APIClient, args *RetentionArgs) (*stackstate_admin_api.WindowMs, *http.Response, error) {
 	if args.Set == 0 {
 		return api.RetentionApi.GetRetentionWindow(cli.Context).Execute()
 	} else {
 		duration := args.Set.Milliseconds()
-		newWindow := stackstate_api.WindowMs {
+		newWindow := stackstate_admin_api.WindowMs{
 			WindowMs: &duration,
 		}
 
@@ -58,7 +58,7 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
-		api *stackstate_api.APIClient,
+		api *stackstate_admin_api.APIClient,
 	) common.CLIError {
 		window, resp, err := getOrSetRetentionWindow(cli, api, args)
 		if err != nil {

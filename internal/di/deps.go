@@ -6,8 +6,8 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stackstate_admin_api "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/client"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/config"
@@ -95,7 +95,17 @@ func (cli *Deps) LoadContext(cmd *cobra.Command) common.CLIError {
 }
 
 func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) common.CLIError {
-	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, context.URL, context.APIPath, context.AdminAPIPath, context.APIToken, context.ServiceToken, context.K8sSAToken)
+	cli.Client, cli.Context = client.NewStackStateClient(
+		cmd.Context(),
+		cli.IsVerBose,
+		cli.Printer,
+		context.URL,
+		context.APIPath,
+		context.AdminAPIPath,
+		context.APIToken,
+		context.ServiceToken,
+		context.K8sSAToken,
+	)
 	return nil
 }
 

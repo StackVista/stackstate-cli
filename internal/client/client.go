@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/rs/zerolog/log"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stackstate_admin_api "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
+	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
@@ -27,7 +27,6 @@ func NewStackStateClient(ctx context.Context,
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string) (StackStateClient, context.Context) {
-
 	apiURL := combineURLandPath(url, apiPath)
 	client, clientAuth := NewApiClient(isVerbose, pr, apiURL, apiToken, serviceToken, k8sServiceAccountToken)
 
@@ -46,7 +45,7 @@ func NewStackStateClient(ctx context.Context,
 	)
 
 	return StdStackStateClient{
-		client:	     client,
+		client:      client,
 		adminClient: adminClient,
 		Context:     newCtx,
 		apiURL:      apiURL,
@@ -54,6 +53,7 @@ func NewStackStateClient(ctx context.Context,
 	}, newCtx
 }
 
+//nolint:dupl
 func NewApiClient(
 	isVerbose bool,
 	pr printer.Printer,
@@ -102,6 +102,7 @@ func NewApiClient(
 	return client, auth
 }
 
+//nolint:dupl
 func NewAdminApiClient(
 	isVerbose bool,
 	pr printer.Printer,
