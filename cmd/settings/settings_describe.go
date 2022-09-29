@@ -48,7 +48,7 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			}
 		}
 
-		data, resp, err := doExport(cli.Context, api, args.Ids, args.Namespace, args.NodeTypes, args.AllowReferences)
+		data, resp, err := DoExport(cli.Context, api, args.Ids, args.Namespace, args.NodeTypes, args.AllowReferences)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
