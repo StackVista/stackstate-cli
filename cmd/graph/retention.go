@@ -1,7 +1,6 @@
 package graph
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -56,11 +55,11 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"retention-window": window.WindowMs,
-				"epoch":            epoch,
+				"retention-window": *window.WindowMs,
+				"epoch":            *epoch.EpochTx,
 			})
 		} else {
-			cli.Printer.Success(fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", *window.WindowMs, *epoch.EpochTx))
+			cli.Printer.Successf("Retention window: %d milliseconds\nEpoch transactionId: %d", *window.WindowMs, *epoch.EpochTx)
 		}
 
 		return nil

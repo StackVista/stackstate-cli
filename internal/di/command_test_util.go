@@ -9,7 +9,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
 )
 
-func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (output string, err error) {
+func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (string, common.CLIError) {
 	buf := new(bytes.Buffer)
 	cmd.SetOut(buf)
 	cmd.SetErr(buf)
@@ -36,8 +36,12 @@ func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (o
 		return nil
 	}
 
-	err = cmd.ExecuteContext(cli.Context)
-	return buf.String(), err
+	err := cmd.ExecuteContext(cli.Context)
+	if err != nil {
+		return buf.String(), common.NewExecutionError(err)
+	}
+
+	return buf.String(), nil
 }
 
 func ExecuteCommandWithContextUnsafe(cli *Deps, cmd *cobra.Command, args ...string) string {
