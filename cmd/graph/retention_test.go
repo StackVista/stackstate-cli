@@ -12,11 +12,16 @@ import (
 var (
 	transactionId = int64(123)
 	timestamp = int64(321)
+	duration = "5h"
+	newTimestamp = int64(5 * 3600 * 1000)
 	epochTx = stackstate_admin_api.EpochTx {
 		EpochTx: &transactionId,
 	}
 	windowMs = stackstate_admin_api.WindowMs {
 		WindowMs: &timestamp,
+	}
+	newWindowMs = stackstate_admin_api.WindowMs {
+		WindowMs: &newTimestamp,
 	}
 )
 
@@ -33,7 +38,7 @@ func TestRetentionFetchesWindowAndEpoch(t *testing.T) {
 	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.GetRetentionWindowCalls, 1)
 
 	expectedStrings := []string {
-		"Retention window: 321 milliseconds\nEpoch transactionId: 123",
+		fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", timestamp, transactionId),
 	}
 	assert.Equal(t, expectedStrings, *cli.MockPrinter.SuccessCalls)
 
@@ -80,6 +85,38 @@ func TestRetentionHandlesErrorsWhenFetching(t *testing.T) {
 	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.GetRetentionEpochCalls, 1)
 
 	assert.Equal(t, epochError.Error(), resp2.Error())
+}
+
+func TestRetentionSetsWindow(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := RetentionCommand(&cli.Deps)
+
+	cli.MockClient.ApiMocks.RetentionApi.GetRetentionWindowResponse.Result = windowMs
+	cli.MockClient.ApiMocks.RetentionApi.SetRetentionWindowResponse.Result = newWindowMs
+	cli.MockClient.ApiMocks.RetentionApi.GetRetentionEpochResponse.Result = epochTx
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
+
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.GetRetentionEpochCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.SetRetentionWindowCalls, 0)
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.GetRetentionWindowCalls, 1)
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-s", duration, "--schedule-removal")
+
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.GetRetentionEpochCalls, 2)
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.SetRetentionWindowCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.GetRetentionWindowCalls, 1)
+
+	setCalls := *cli.MockClient.ApiMocks.RetentionApi.SetRetentionWindowCalls
+
+	assert.Equal(t, true, *setCalls[0].PscheduleRemoval)
+	assert.Equal(t, newWindowMs, *setCalls[0].PwindowMs)
+
+	expectedStrings := []string {
+		fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", timestamp, transactionId),
+		fmt.Sprintf("Retention window: %d milliseconds\nEpoch transactionId: %d", newTimestamp, transactionId),
+	}
+	assert.Equal(t, expectedStrings, *cli.MockPrinter.SuccessCalls)
 }
 
 func err(info string) error {

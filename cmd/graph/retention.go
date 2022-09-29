@@ -2,6 +2,7 @@ package graph
 
 import (
 	"time"
+	"net/http"
 
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
@@ -31,10 +32,26 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 		RunE: deps.CmdRunEWithAdminApi(RunRetentionCommand(args)),
 	}
 
-	pflags.DurationVarP(cmd.Flags(), &args.Set, Set, SetShort, pflags.Week, "New data retention window")
+	pflags.DurationVarP(cmd.Flags(), &args.Set, Set, SetShort, (time.Duration)(0), "New data retention window")
 	cmd.Flags().BoolVar(&args.ScheduleRemoval, ScheduleRemoval, false, "Schedule removal of expired data")
 
 	return cmd
+}
+
+func getOrSetRetentionWindow(cli *di.Deps, api *stackstate_api.APIClient, args *RetentionArgs) (*stackstate_api.WindowMs, *http.Response, error) {
+	if args.Set == 0 {
+		return api.RetentionApi.GetRetentionWindow(cli.Context).Execute()
+	} else {
+		duration := args.Set.Milliseconds()
+		newWindow := stackstate_api.WindowMs {
+			WindowMs: &duration,
+		}
+
+		return api.RetentionApi.SetRetentionWindow(cli.Context).
+			WindowMs(newWindow).
+			ScheduleRemoval(args.ScheduleRemoval).
+			Execute()
+	}
 }
 
 func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
@@ -43,7 +60,7 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 		cli *di.Deps,
 		api *stackstate_api.APIClient,
 	) common.CLIError {
-		window, resp, err := api.RetentionApi.GetRetentionWindow(cli.Context).Execute()
+		window, resp, err := getOrSetRetentionWindow(cli, api, args)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
