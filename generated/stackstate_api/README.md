@@ -107,6 +107,9 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
+*MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+*MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
+*MetricApi* | [**GetRangeQuery**](docs/MetricApi.md#getrangequery) | **Get** /metrics/query_range | Query over a range of time
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
@@ -116,9 +119,6 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
-*QueryApi* | [**GetExemplarsQuery**](docs/QueryApi.md#getexemplarsquery) | **Get** /v1alpha1/query_exemplars | Experimental: Exemplars for a specific time range
-*QueryApi* | [**GetInstantQuery**](docs/QueryApi.md#getinstantquery) | **Get** /v1alpha1/query | Instant query at a single point in time
-*QueryApi* | [**GetRangeQuery**](docs/QueryApi.md#getrangequery) | **Get** /v1alpha1/query_range | Query over a range of time
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
 *RelationApi* | [**DeleteRelationCheck**](docs/RelationApi.md#deleterelationcheck) | **Delete** /relations/{relationId}/checks/{checkId} | Delete the check from the relation

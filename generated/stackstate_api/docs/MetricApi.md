@@ -1,12 +1,12 @@
-# \QueryApi
+# \MetricApi
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetExemplarsQuery**](QueryApi.md#GetExemplarsQuery) | **Get** /v1alpha1/query_exemplars | Experimental: Exemplars for a specific time range
-[**GetInstantQuery**](QueryApi.md#GetInstantQuery) | **Get** /v1alpha1/query | Instant query at a single point in time
-[**GetRangeQuery**](QueryApi.md#GetRangeQuery) | **Get** /v1alpha1/query_range | Query over a range of time
+[**GetExemplarsQuery**](MetricApi.md#GetExemplarsQuery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+[**GetInstantQuery**](MetricApi.md#GetInstantQuery) | **Get** /metrics/query | Instant query at a single point in time
+[**GetRangeQuery**](MetricApi.md#GetRangeQuery) | **Get** /metrics/query_range | Query over a range of time
 
 
 
@@ -37,13 +37,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryApi.GetExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
+    resp, r, err := apiClient.MetricApi.GetExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetExemplarsQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetExemplarsQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetExemplarsQuery`: PromExemplarEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetExemplarsQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetExemplarsQuery`: %v\n", resp)
 }
 ```
 
@@ -107,13 +107,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryApi.GetInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).Execute()
+    resp, r, err := apiClient.MetricApi.GetInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetInstantQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetInstantQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetInstantQuery`: PromEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetInstantQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetInstantQuery`: %v\n", resp)
 }
 ```
 
@@ -179,13 +179,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.QueryApi.GetRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+    resp, r, err := apiClient.MetricApi.GetRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `QueryApi.GetRangeQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetRangeQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetRangeQuery`: PromEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `QueryApi.GetRangeQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetRangeQuery`: %v\n", resp)
 }
 ```
 

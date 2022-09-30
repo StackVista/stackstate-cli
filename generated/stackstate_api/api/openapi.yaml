@@ -2642,7 +2642,7 @@ paths:
       summary: List possible events which led to the problem
       tags:
       - problem
-  /v1alpha1/query:
+  /metrics/query:
     get:
       description: The endpoint evaluates an instant query at a single point in time
       operationId: getInstantQuery
@@ -2685,16 +2685,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
-        "503":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
       summary: Instant query at a single point in time
       tags:
-      - query
-  /v1alpha1/query_range:
+      - metric
+  /metrics/query_range:
     get:
       description: The endpoint evaluates an expression query over a range of time
       operationId: getRangeQuery
@@ -2752,16 +2758,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
-        "503":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
       summary: Query over a range of time
       tags:
-      - query
-  /v1alpha1/query_exemplars:
+      - metric
+  /metrics/query_exemplars:
     get:
       description: "Experimental: The returns a list of exemplars for a valid PromQL\
         \ query for a specific time range"
@@ -2798,23 +2810,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromEnvelope'
+                $ref: '#/components/schemas/PromExemplarEnvelope'
           description: Parameters are missing or incorrect
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromEnvelope'
+                $ref: '#/components/schemas/PromExemplarEnvelope'
           description: Expression can't be executed (RFC4918)
-        "503":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: when queries time out or abort
       summary: "Experimental: Exemplars for a specific time range"
       tags:
-      - query
+      - metric
 components:
   requestBodies:
     monitorPatch:
@@ -3065,12 +3083,36 @@ components:
           schema:
             $ref: '#/components/schemas/PromEnvelope'
       description: Expression can't be executed (RFC4918)
+    serviceUnavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromEnvelope'
+      description: when queries time out or abort
     successExemplarEnvelope:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/PromExemplarEnvelope'
       description: JSON response envelope
+    invalidParametersExemplar:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromExemplarEnvelope'
+      description: Parameters are missing or incorrect
+    unprocessableEntityExemplar:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromExemplarEnvelope'
+      description: Expression can't be executed (RFC4918)
+    serviceUnavailableExemplar:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromExemplarEnvelope'
+      description: when queries time out or abort
   schemas:
     GenericErrorsResponse:
       properties:
@@ -3476,7 +3518,7 @@ components:
           type: string
         _type:
           enum:
-          - InvalidMonitorIdentifier
+          - InvalidMonitorIdentifierError
           type: string
       required:
       - _type
@@ -3532,6 +3574,8 @@ components:
         intervalSeconds:
           type: integer
         _type:
+          enum:
+          - MonitorInvalidIntervalError
           type: string
       required:
       - _type
