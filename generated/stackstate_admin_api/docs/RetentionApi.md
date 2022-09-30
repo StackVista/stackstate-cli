@@ -220,7 +220,7 @@ import (
 )
 
 func main() {
-    windowMs := *openapiclient.NewWindowMs() // WindowMs | The new retention window value.
+    windowMs := *openapiclient.NewWindowMs(int64(123)) // WindowMs | The new retention window value.
     scheduleRemoval := true // bool | If set, makes StackState schedule removal of expired data according to the set retention window. (optional)
 
     configuration := openapiclient.NewConfiguration()

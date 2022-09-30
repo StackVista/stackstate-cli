@@ -53,10 +53,10 @@ func RunDeleteExpiredDataCommand(args *DeleteExpiredDataArgs) di.CmdWithAdminApi
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"progress": *progress.Progress,
+				"progress": progress.Progress,
 			})
 		} else {
-			pp := *progress.Progress
+			pp := progress.Progress
 			response, ok := responses[pp.Type]
 
 			if ok {

@@ -17,15 +17,16 @@ import (
 
 // EpochTx struct for EpochTx
 type EpochTx struct {
-	EpochTx *int64 `json:"epochTx,omitempty"`
+	EpochTx int64 `json:"epochTx"`
 }
 
 // NewEpochTx instantiates a new EpochTx object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEpochTx() *EpochTx {
+func NewEpochTx(epochTx int64) *EpochTx {
 	this := EpochTx{}
+	this.EpochTx = epochTx
 	return &this
 }
 
@@ -37,41 +38,33 @@ func NewEpochTxWithDefaults() *EpochTx {
 	return &this
 }
 
-// GetEpochTx returns the EpochTx field value if set, zero value otherwise.
+// GetEpochTx returns the EpochTx field value
 func (o *EpochTx) GetEpochTx() int64 {
-	if o == nil || o.EpochTx == nil {
+	if o == nil {
 		var ret int64
 		return ret
 	}
-	return *o.EpochTx
+
+	return o.EpochTx
 }
 
-// GetEpochTxOk returns a tuple with the EpochTx field value if set, nil otherwise
+// GetEpochTxOk returns a tuple with the EpochTx field value
 // and a boolean to check if the value has been set.
 func (o *EpochTx) GetEpochTxOk() (*int64, bool) {
-	if o == nil || o.EpochTx == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.EpochTx, true
+	return &o.EpochTx, true
 }
 
-// HasEpochTx returns a boolean if a field has been set.
-func (o *EpochTx) HasEpochTx() bool {
-	if o != nil && o.EpochTx != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetEpochTx gets a reference to the given int64 and assigns it to the EpochTx field.
+// SetEpochTx sets field value
 func (o *EpochTx) SetEpochTx(v int64) {
-	o.EpochTx = &v
+	o.EpochTx = v
 }
 
 func (o EpochTx) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.EpochTx != nil {
+	if true {
 		toSerialize["epochTx"] = o.EpochTx
 	}
 	return json.Marshal(toSerialize)

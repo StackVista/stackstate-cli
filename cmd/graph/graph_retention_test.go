@@ -14,15 +14,9 @@ var (
 	timestamp     = int64(321)
 	duration      = "5h"
 	newTimestamp  = int64(5 * 3600 * 1000)
-	epochTx       = stackstate_admin_api.EpochTx{
-		EpochTx: &transactionId,
-	}
-	windowMs = stackstate_admin_api.WindowMs{
-		WindowMs: &timestamp,
-	}
-	newWindowMs = stackstate_admin_api.WindowMs{
-		WindowMs: &newTimestamp,
-	}
+	epochTx       = *stackstate_admin_api.NewEpochTx(transactionId)
+	windowMs      = *stackstate_admin_api.NewWindowMs(timestamp)
+	newWindowMs   = *stackstate_admin_api.NewWindowMs(newTimestamp)
 )
 
 func TestRetentionFetchesWindowAndEpoch(t *testing.T) {

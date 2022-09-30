@@ -11,15 +11,12 @@ import (
 func TestDeleteExpiredData(t *testing.T) {
 	for n, e := range responses {
 		t.Run(n, func(t *testing.T) {
-			progress := stackstate_admin_api.NewRemovalProgressProgress(n)
-			result := stackstate_admin_api.RemovalProgress{
-				Progress: progress,
-			}
+			result := stackstate_admin_api.NewRemovalProgress(*stackstate_admin_api.NewRemovalProgressProgress(n))
 
 			cli := di.NewMockDeps(t)
 			cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-			cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = result
+			cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
 
 			di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
@@ -35,15 +32,12 @@ func TestDeleteExpiredData(t *testing.T) {
 }
 
 func TestDeleteExpiredDataDefaultResponse(t *testing.T) {
-	progress := stackstate_admin_api.NewRemovalProgressProgress("Some Other Type")
-	result := stackstate_admin_api.RemovalProgress{
-		Progress: progress,
-	}
+	result := stackstate_admin_api.NewRemovalProgress(*stackstate_admin_api.NewRemovalProgressProgress("Some Other Type"))
 
 	cli := di.NewMockDeps(t)
 	cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = result
+	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
@@ -60,14 +54,12 @@ func TestDeleteExpiredDataJSON(t *testing.T) {
 	for n := range responses {
 		t.Run(n, func(t *testing.T) {
 			progress := stackstate_admin_api.NewRemovalProgressProgress(n)
-			result := stackstate_admin_api.RemovalProgress{
-				Progress: progress,
-			}
+			result := stackstate_admin_api.NewRemovalProgress(*progress)
 
 			cli := di.NewMockDeps(t)
 			cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-			cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = result
+			cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
 
 			di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
@@ -85,15 +77,12 @@ func TestDeleteExpiredDataJSON(t *testing.T) {
 }
 
 func TestDeleteExpiredDataImmediately(t *testing.T) {
-	progress := stackstate_admin_api.NewRemovalProgressProgress("RemovalInProgress")
-	result := stackstate_admin_api.RemovalProgress{
-		Progress: progress,
-	}
+	result := stackstate_admin_api.NewRemovalProgress(*stackstate_admin_api.NewRemovalProgressProgress("RemovalInProgress"))
 
 	cli := di.NewMockDeps(t)
 	cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = result
+	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--immediate")
 

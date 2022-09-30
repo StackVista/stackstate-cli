@@ -17,15 +17,16 @@ import (
 
 // RemovalProgress struct for RemovalProgress
 type RemovalProgress struct {
-	Progress *RemovalProgressProgress `json:"progress,omitempty"`
+	Progress RemovalProgressProgress `json:"progress"`
 }
 
 // NewRemovalProgress instantiates a new RemovalProgress object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRemovalProgress() *RemovalProgress {
+func NewRemovalProgress(progress RemovalProgressProgress) *RemovalProgress {
 	this := RemovalProgress{}
+	this.Progress = progress
 	return &this
 }
 
@@ -37,41 +38,33 @@ func NewRemovalProgressWithDefaults() *RemovalProgress {
 	return &this
 }
 
-// GetProgress returns the Progress field value if set, zero value otherwise.
+// GetProgress returns the Progress field value
 func (o *RemovalProgress) GetProgress() RemovalProgressProgress {
-	if o == nil || o.Progress == nil {
+	if o == nil {
 		var ret RemovalProgressProgress
 		return ret
 	}
-	return *o.Progress
+
+	return o.Progress
 }
 
-// GetProgressOk returns a tuple with the Progress field value if set, nil otherwise
+// GetProgressOk returns a tuple with the Progress field value
 // and a boolean to check if the value has been set.
 func (o *RemovalProgress) GetProgressOk() (*RemovalProgressProgress, bool) {
-	if o == nil || o.Progress == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.Progress, true
+	return &o.Progress, true
 }
 
-// HasProgress returns a boolean if a field has been set.
-func (o *RemovalProgress) HasProgress() bool {
-	if o != nil && o.Progress != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetProgress gets a reference to the given RemovalProgressProgress and assigns it to the Progress field.
+// SetProgress sets field value
 func (o *RemovalProgress) SetProgress(v RemovalProgressProgress) {
-	o.Progress = &v
+	o.Progress = v
 }
 
 func (o RemovalProgress) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Progress != nil {
+	if true {
 		toSerialize["progress"] = o.Progress
 	}
 	return json.Marshal(toSerialize)

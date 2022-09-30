@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Progress** | Pointer to [**RemovalProgressProgress**](RemovalProgressProgress.md) |  | [optional] 
+**Progress** | [**RemovalProgressProgress**](RemovalProgressProgress.md) |  | 
 
 ## Methods
 
 ### NewRemovalProgress
 
-`func NewRemovalProgress() *RemovalProgress`
+`func NewRemovalProgress(progress RemovalProgressProgress, ) *RemovalProgress`
 
 NewRemovalProgress instantiates a new RemovalProgress object
 This constructor will assign default values to properties that have it defined,
@@ -44,11 +44,6 @@ and a boolean to check if the value has been set.
 
 SetProgress sets Progress field to given value.
 
-### HasProgress
-
-`func (o *RemovalProgress) HasProgress() bool`
-
-HasProgress returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

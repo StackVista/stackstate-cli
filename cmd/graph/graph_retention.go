@@ -42,9 +42,8 @@ func getOrSetRetentionWindow(cli *di.Deps, api *stackstate_admin_api.APIClient, 
 	if args.Set == 0 {
 		return api.RetentionApi.GetRetentionWindow(cli.Context).Execute()
 	} else {
-		duration := args.Set.Milliseconds()
 		newWindow := stackstate_admin_api.WindowMs{
-			WindowMs: &duration,
+			WindowMs: args.Set.Milliseconds(),
 		}
 
 		return api.RetentionApi.SetRetentionWindow(cli.Context).
@@ -72,11 +71,11 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"retention-window": *window.WindowMs,
-				"epoch":            *epoch.EpochTx,
+				"retention-window": window.WindowMs,
+				"epoch":            epoch.EpochTx,
 			})
 		} else {
-			cli.Printer.Successf("Retention window: %d milliseconds\nEpoch transactionId: %d", *window.WindowMs, *epoch.EpochTx)
+			cli.Printer.Successf("Retention window: %d milliseconds\nEpoch transactionId: %d", window.WindowMs, epoch.EpochTx)
 		}
 
 		return nil

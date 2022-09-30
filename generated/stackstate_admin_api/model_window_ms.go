@@ -17,15 +17,16 @@ import (
 
 // WindowMs struct for WindowMs
 type WindowMs struct {
-	WindowMs *int64 `json:"windowMs,omitempty"`
+	WindowMs int64 `json:"windowMs"`
 }
 
 // NewWindowMs instantiates a new WindowMs object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewWindowMs() *WindowMs {
+func NewWindowMs(windowMs int64) *WindowMs {
 	this := WindowMs{}
+	this.WindowMs = windowMs
 	return &this
 }
 
@@ -37,41 +38,33 @@ func NewWindowMsWithDefaults() *WindowMs {
 	return &this
 }
 
-// GetWindowMs returns the WindowMs field value if set, zero value otherwise.
+// GetWindowMs returns the WindowMs field value
 func (o *WindowMs) GetWindowMs() int64 {
-	if o == nil || o.WindowMs == nil {
+	if o == nil {
 		var ret int64
 		return ret
 	}
-	return *o.WindowMs
+
+	return o.WindowMs
 }
 
-// GetWindowMsOk returns a tuple with the WindowMs field value if set, nil otherwise
+// GetWindowMsOk returns a tuple with the WindowMs field value
 // and a boolean to check if the value has been set.
 func (o *WindowMs) GetWindowMsOk() (*int64, bool) {
-	if o == nil || o.WindowMs == nil {
+	if o == nil {
 		return nil, false
 	}
-	return o.WindowMs, true
+	return &o.WindowMs, true
 }
 
-// HasWindowMs returns a boolean if a field has been set.
-func (o *WindowMs) HasWindowMs() bool {
-	if o != nil && o.WindowMs != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetWindowMs gets a reference to the given int64 and assigns it to the WindowMs field.
+// SetWindowMs sets field value
 func (o *WindowMs) SetWindowMs(v int64) {
-	o.WindowMs = &v
+	o.WindowMs = v
 }
 
 func (o WindowMs) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.WindowMs != nil {
+	if true {
 		toSerialize["windowMs"] = o.WindowMs
 	}
 	return json.Marshal(toSerialize)

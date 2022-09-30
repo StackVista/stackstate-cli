@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**EpochTx** | Pointer to **int64** |  | [optional] 
+**EpochTx** | **int64** |  | 
 
 ## Methods
 
 ### NewEpochTx
 
-`func NewEpochTx() *EpochTx`
+`func NewEpochTx(epochTx int64, ) *EpochTx`
 
 NewEpochTx instantiates a new EpochTx object
 This constructor will assign default values to properties that have it defined,
@@ -44,11 +44,6 @@ and a boolean to check if the value has been set.
 
 SetEpochTx sets EpochTx field to given value.
 
-### HasEpochTx
-
-`func (o *EpochTx) HasEpochTx() bool`
-
-HasEpochTx returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
