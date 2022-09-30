@@ -12,4 +12,5 @@ const (
 	WriteFileErrorExitCode
 	UnknownSubCommmandExitCode
 	NotFoundExitCode
+	ExecutionErrorCode
 )

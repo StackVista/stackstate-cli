@@ -79,3 +79,12 @@ func NewNotFoundError(err error) CLIError {
 		exitCode:       NotFoundExitCode,
 	}
 }
+
+func NewExecutionError(err error) CLIError {
+	return StdCLIError{
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      true,
+		exitCode:       ExecutionErrorCode,
+	}
+}

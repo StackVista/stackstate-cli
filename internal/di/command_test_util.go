@@ -37,6 +37,7 @@ func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (o
 	}
 
 	err = cmd.ExecuteContext(cli.Context)
+
 	return buf.String(), err
 }
 
