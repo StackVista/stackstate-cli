@@ -15,6 +15,14 @@ type DeleteExpiredDataArgs struct {
 	Immediate bool
 }
 
+var (
+	responses = map[string]string{
+		"RemovalInProgress": "Removal in progress.",
+		"RemovalSucceeded":  "Removal succeeded.",
+		"RemovalFailed":     "Command succeeded but the removal failed. Please consult the logs for more information.",
+	}
+)
+
 func DeleteExpiredDataCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteExpiredDataArgs{}
 	cmd := &cobra.Command{
@@ -49,18 +57,11 @@ func RunDeleteExpiredDataCommand(args *DeleteExpiredDataArgs) di.CmdWithAdminApi
 			})
 		} else {
 			pp := *progress.Progress
+			response, ok := responses[pp.Type]
 
-			switch pp.Type {
-			case "RemovalInProgress":
-				cli.Printer.Success("Removal in progress.")
-
-			case "RemovalSucceeded":
-				cli.Printer.Success("Removal succeeded.")
-
-			case "RemovalFailed":
-				cli.Printer.Success("Command succeeded but the removal failed. Please consult the logs for more information.")
-
-			default:
+			if ok {
+				cli.Printer.Success(response)
+			} else {
 				cli.Printer.Success("Command executed successfully.")
 			}
 		}

@@ -8,17 +8,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-var (
-	results = map[string]string{
-		"RemovalInProgress": "Removal in progress.",
-		"RemovalSucceeded":  "Removal succeeded.",
-		"RemovalFailed":     "Command succeeded but the removal failed. Please consult the logs for more information.",
-		"SomeOtherType":     "Command executed successfully.",
-	}
-)
-
 func TestDeleteExpiredData(t *testing.T) {
-	for n, e := range results {
+	for n, e := range responses {
 		t.Run(n, func(t *testing.T) {
 			progress := stackstate_admin_api.NewRemovalProgressProgress(n)
 			result := stackstate_admin_api.RemovalProgress{
@@ -43,8 +34,30 @@ func TestDeleteExpiredData(t *testing.T) {
 	}
 }
 
+func TestDeleteExpiredDataDefaultResponse(t *testing.T) {
+	progress := stackstate_admin_api.NewRemovalProgressProgress("Some Other Type")
+	result := stackstate_admin_api.RemovalProgress{
+		Progress: progress,
+	}
+
+	cli := di.NewMockDeps(t)
+	cmd := DeleteExpiredDataCommand(&cli.Deps)
+
+	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = result
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
+
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataCalls, 1)
+
+	expected := []string{
+		"Command executed successfully.",
+	}
+
+	assert.Equal(t, expected, *cli.MockPrinter.SuccessCalls)
+}
+
 func TestDeleteExpiredDataJSON(t *testing.T) {
-	for n := range results {
+	for n := range responses {
 		t.Run(n, func(t *testing.T) {
 			progress := stackstate_admin_api.NewRemovalProgressProgress(n)
 			result := stackstate_admin_api.RemovalProgress{
