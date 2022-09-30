@@ -64,13 +64,13 @@ type APIClient struct {
 
 	ImportApi ImportApi
 
+	MetricApi MetricApi
+
 	MonitorApi MonitorApi
 
 	NodeApi NodeApi
 
 	ProblemApi ProblemApi
-
-	QueryApi QueryApi
 
 	RelationApi RelationApi
 
@@ -112,10 +112,10 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ExportAnomalyApi = (*ExportAnomalyApiService)(&c.common)
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
 	c.ImportApi = (*ImportApiService)(&c.common)
+	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.NodeApi = (*NodeApiService)(&c.common)
 	c.ProblemApi = (*ProblemApiService)(&c.common)
-	c.QueryApi = (*QueryApiService)(&c.common)
 	c.RelationApi = (*RelationApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)

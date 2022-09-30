@@ -20,7 +20,7 @@ import (
 )
 
 
-type QueryApi interface {
+type MetricApi interface {
 
 	/*
 	GetExemplarsQuery Experimental: Exemplars for a specific time range
@@ -65,12 +65,12 @@ type QueryApi interface {
 	GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error)
 }
 
-// QueryApiService QueryApi service
-type QueryApiService service
+// MetricApiService MetricApi service
+type MetricApiService service
 
 type ApiGetExemplarsQueryRequest struct {
 	ctx context.Context
-	ApiService QueryApi
+	ApiService MetricApi
 	query *string
 	start *string
 	end *string
@@ -106,7 +106,7 @@ Experimental: The returns a list of exemplars for a valid PromQL query for a spe
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetExemplarsQueryRequest
 */
-func (a *QueryApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
+func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -115,7 +115,7 @@ func (a *QueryApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplars
 
 // Execute executes the request
 //  @return PromExemplarEnvelope
-func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
+func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -123,12 +123,12 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 		localVarReturnValue  *PromExemplarEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetExemplarsQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetExemplarsQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1alpha1/query_exemplars"
+	localVarPath := localBasePath + "/metrics/query_exemplars"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -228,7 +228,7 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v PromEnvelope
+			var v PromExemplarEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -238,7 +238,17 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 422 {
-			var v PromEnvelope
+			var v PromExemplarEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -248,7 +258,7 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 503 {
-			var v GenericErrorsResponse
+			var v PromExemplarEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -273,7 +283,7 @@ func (a *QueryApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest
 
 type ApiGetInstantQueryRequest struct {
 	ctx context.Context
-	ApiService QueryApi
+	ApiService MetricApi
 	query *string
 	time *string
 	timeout *string
@@ -309,7 +319,7 @@ The endpoint evaluates an instant query at a single point in time
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetInstantQueryRequest
 */
-func (a *QueryApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
+func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -318,7 +328,7 @@ func (a *QueryApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQuer
 
 // Execute executes the request
 //  @return PromEnvelope
-func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -326,12 +336,12 @@ func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*
 		localVarReturnValue  *PromEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetInstantQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetInstantQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1alpha1/query"
+	localVarPath := localBasePath + "/metrics/query"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -448,8 +458,18 @@ func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 503 {
+		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -474,7 +494,7 @@ func (a *QueryApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*
 
 type ApiGetRangeQueryRequest struct {
 	ctx context.Context
-	ApiService QueryApi
+	ApiService MetricApi
 	query *string
 	start *string
 	end *string
@@ -524,7 +544,7 @@ The endpoint evaluates an expression query over a range of time
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetRangeQueryRequest
 */
-func (a *QueryApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
+func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -533,7 +553,7 @@ func (a *QueryApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryReq
 
 // Execute executes the request
 //  @return PromEnvelope
-func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod   = http.MethodGet
 		localVarPostBody     interface{}
@@ -541,12 +561,12 @@ func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Prom
 		localVarReturnValue  *PromEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "QueryApiService.GetRangeQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetRangeQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/v1alpha1/query_range"
+	localVarPath := localBasePath + "/metrics/query_range"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -672,8 +692,18 @@ func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Prom
 			newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
-		if localVarHTTPResponse.StatusCode == 503 {
+		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromEnvelope
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -702,7 +732,7 @@ func (a *QueryApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Prom
 // ---------------------------------------------
 
 
-type QueryApiMock struct {
+type MetricApiMock struct {
 	GetExemplarsQueryCalls *[]GetExemplarsQueryCall
 	GetExemplarsQueryResponse GetExemplarsQueryMockResponse
 	GetInstantQueryCalls *[]GetInstantQueryCall
@@ -711,11 +741,11 @@ type QueryApiMock struct {
 	GetRangeQueryResponse GetRangeQueryMockResponse
 }	
 
-func NewQueryApiMock() QueryApiMock {
+func NewMetricApiMock() MetricApiMock {
 	xGetExemplarsQueryCalls := make([]GetExemplarsQueryCall, 0)
 	xGetInstantQueryCalls := make([]GetInstantQueryCall, 0)
 	xGetRangeQueryCalls := make([]GetRangeQueryCall, 0)
-	return QueryApiMock {
+	return MetricApiMock {
 		GetExemplarsQueryCalls: &xGetExemplarsQueryCalls,
 		GetInstantQueryCalls: &xGetInstantQueryCalls,
 		GetRangeQueryCalls: &xGetRangeQueryCalls,
@@ -735,14 +765,14 @@ type GetExemplarsQueryCall struct {
 }
 
 
-func (mock QueryApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
+func (mock MetricApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock QueryApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
+func (mock MetricApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	p := GetExemplarsQueryCall {
 			Pquery: r.query,
 			Pstart: r.start,
@@ -765,14 +795,14 @@ type GetInstantQueryCall struct {
 }
 
 
-func (mock QueryApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
+func (mock MetricApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock QueryApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (mock MetricApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetInstantQueryCall {
 			Pquery: r.query,
 			Ptime: r.time,
@@ -797,14 +827,14 @@ type GetRangeQueryCall struct {
 }
 
 
-func (mock QueryApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
+func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: mock,
 		ctx: ctx,
 	}
 }
 
-func (mock QueryApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetRangeQueryCall {
 			Pquery: r.query,
 			Pstart: r.start,

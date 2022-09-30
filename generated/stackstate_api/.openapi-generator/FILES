@@ -10,10 +10,10 @@ api_export.go
 api_export_anomaly.go
 api_health_synchronization.go
 api_import.go
+api_metric.go
 api_monitor.go
 api_node.go
 api_problem.go
-api_query.go
 api_relation.go
 api_scripting.go
 api_server.go
@@ -136,6 +136,7 @@ docs/LatestTelemetryStreamMetrics.md
 docs/LicensedSubscription.md
 docs/LimitOutOfRange.md
 docs/MessageLevel.md
+docs/MetricApi.md
 docs/MetricBucketValue.md
 docs/MetricStream.md
 docs/MetricStreamAnomalyData.md
@@ -184,7 +185,6 @@ docs/PromVector.md
 docs/PromVectorResult.md
 docs/PropagatedHealthStateValue.md
 docs/ProvisionResponse.md
-docs/QueryApi.md
 docs/Reference.md
 docs/RelationApi.md
 docs/RequestError.md
