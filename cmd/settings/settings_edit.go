@@ -56,7 +56,7 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 			return common.NewCLIArgParseError(err)
 		}
 
-		orig, resp, err := doExport(cli.Context, api, args.Ids, "", args.NodeTypes, args.AllowReferences)
+		orig, resp, err := DoExport(cli.Context, api, args.Ids, "", args.NodeTypes, args.AllowReferences)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

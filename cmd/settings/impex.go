@@ -7,7 +7,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 )
 
-func doExport(ctx context.Context, api *stackstate_api.APIClient, ids []int64, namespace string, nodeTypes []string, allowReferences []string) (string, *http.Response, error) {
+func DoExport(ctx context.Context, api *stackstate_api.APIClient, ids []int64, namespace string, nodeTypes []string, allowReferences []string) (string, *http.Response, error) {
 	exportArgs := stackstate_api.NewExport()
 
 	if len(ids) != 0 {

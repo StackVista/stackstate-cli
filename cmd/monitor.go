@@ -20,6 +20,7 @@ func MonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(monitor.MonitorEditCommand(cli))
 	cmd.AddCommand(monitor.MonitorDisableCommand(cli))
 	cmd.AddCommand(monitor.MonitorEnableCommand(cli))
+	cmd.AddCommand(monitor.MonitorDescribeCommand(cli))
 
 	return cmd
 }
