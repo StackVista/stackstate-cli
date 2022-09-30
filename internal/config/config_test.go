@@ -18,7 +18,7 @@ contexts:
     url: http://prod:8080
     service-token: foo
     api-path: /hidden/api
-    admin-api-apth: /admin/api
+    admin-api-path: /admin/api
 current-context: prod
 `
 

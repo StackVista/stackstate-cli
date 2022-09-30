@@ -9,7 +9,7 @@ import (
 func GraphCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "graph",
-		Short: "Manage the StackState Graph.",
+		Short: "Manage the StackState Graph",
 		Long:  "Manage the StackState Graph.",
 	}
 
