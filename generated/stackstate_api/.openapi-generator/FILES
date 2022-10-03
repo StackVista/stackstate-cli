@@ -13,6 +13,7 @@ api_import.go
 api_metric.go
 api_monitor.go
 api_node.go
+api_permissions.go
 api_problem.go
 api_relation.go
 api_scripting.go
@@ -168,6 +169,8 @@ docs/Node.md
 docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypesInner.md
+docs/Permissions.md
+docs/PermissionsApi.md
 docs/Point.md
 docs/ProblemApi.md
 docs/ProblemNotFound.md
@@ -390,6 +393,7 @@ model_new_service_token_request.go
 model_node.go
 model_node_types.go
 model_node_types_node_types_inner.go
+model_permissions.go
 model_point.go
 model_problem_not_found.go
 model_prom_data.go

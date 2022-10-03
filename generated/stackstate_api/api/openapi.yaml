@@ -1672,6 +1672,20 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
+  /security/permissions/list:
+    get:
+      description: Get a list of available permissions
+      operationId: getPermissions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permissions'
+          description: A list of permissions
+      summary: List permissions
+      tags:
+      - permissions
   /subscription:
     get:
       description: Get the state of the StackState license
@@ -5431,6 +5445,19 @@ components:
     ServiceTokenId:
       format: int64
       type: integer
+    Permissions:
+      example:
+        permissions:
+        - permissions
+        - permissions
+      properties:
+        permissions:
+          items:
+            type: string
+          type: array
+      required:
+      - permissions
+      type: object
     SubscriptionState:
       discriminator:
         propertyName: _type

@@ -119,6 +119,7 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+*PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
@@ -287,6 +288,7 @@ Class | Method | HTTP request | Description
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
+ - [Permissions](docs/Permissions.md)
  - [Point](docs/Point.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromData](docs/PromData.md)
