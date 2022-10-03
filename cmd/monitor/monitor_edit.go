@@ -21,7 +21,6 @@ When '--unlock' is specified, the CLI will always unlock the Monitor when editin
 This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
 `
 
-const Unlock = "unlock"
 const MonitorNodeType = "Monitor"
 
 type EditArgs struct {
@@ -42,7 +41,7 @@ func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
-	cmd.Flags().BoolVar(&args.Unlock, Unlock, false, "Unlocks the monitor before saving if needed")
+	cmd.Flags().BoolVar(&args.Unlock, Unlock, false, UnlockFlagUsage)
 
 	return cmd
 }
