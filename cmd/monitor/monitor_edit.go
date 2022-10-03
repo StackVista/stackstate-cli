@@ -17,7 +17,8 @@ const LongDescription = `Edit a monitor.
 The edit command allows you to directly edit any StackState Monitor. It will open
 the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
 Windows.
-When '--unlock' is specified, the CLI will always unlock the Monitor when editing it. This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
+When '--unlock' is specified, the CLI will always unlock the Monitor when editing it.
+This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
 `
 
 const Unlock = "unlock"
