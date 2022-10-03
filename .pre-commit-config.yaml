@@ -13,4 +13,4 @@ repos:
     hooks:
     -   id: go-fmt
     # NOTE: This is pretty slow, so it's disabled by default in favour of running lint during CI.
-    #-   id: golangci-lint
+    -   id: golangci-lint
