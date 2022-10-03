@@ -6,6 +6,7 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**NodeListTypes**](NodeApi.md#NodeListTypes) | **Get** /node | Node API
 [**TypeList**](NodeApi.md#TypeList) | **Get** /node/{nodeType} | Node type API
+[**Unlock**](NodeApi.md#Unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
 
 
 
@@ -91,7 +92,7 @@ import (
 )
 
 func main() {
-    nodeType := "nodeType_example" // string | 
+    nodeType := "nodeType_example" // string |
     namespace := "namespace_example" // string |  (optional)
     ownedBy := "ownedBy_example" // string |  (optional)
 
@@ -113,7 +114,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**nodeType** | **string** |  | 
+**nodeType** | **string** |  |
 
 ### Other Parameters
 
@@ -123,8 +124,8 @@ Other parameters are passed through a pointer to a apiTypeListRequest struct via
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **namespace** | **string** |  | 
- **ownedBy** | **string** |  | 
+ **namespace** | **string** |  |
+ **ownedBy** | **string** |  |
 
 ### Return type
 
@@ -143,3 +144,75 @@ Name | Type | Description  | Notes
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
+## Unlock
+
+> Node Unlock(ctx, nodeType, nodeId).Execute()
+
+Node unlock API
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    nodeType := "nodeType_example" // string |
+    nodeId := int64(789) // int64 |
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NodeApi.Unlock(context.Background(), nodeType, nodeId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.Unlock``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `Unlock`: Node
+    fmt.Fprintf(os.Stdout, "Response from `NodeApi.Unlock`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**nodeType** | **string** |  |
+**nodeId** | **int64** |  |
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUnlockRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**Node**](Node.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
