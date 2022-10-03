@@ -17,11 +17,16 @@ const LongDescription = `Edit a monitor.
 The edit command allows you to directly edit any StackState Monitor. It will open
 the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
 Windows.
+When '--unlock' is specified, the CLI will always unlock the Monitor when editing it.
+This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
 `
+
+const MonitorNodeType = "Monitor"
 
 type EditArgs struct {
 	ID         int64
 	Identifier string
+	Unlock     bool
 }
 
 func MonitorEditCommand(cli *di.Deps) *cobra.Command {
@@ -36,6 +41,7 @@ func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
+	cmd.Flags().BoolVar(&args.Unlock, Unlock, false, UnlockFlagUsage)
 
 	return cmd
 }
@@ -78,6 +84,13 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 			}
 
 			return nil
+		}
+
+		if args.Unlock {
+			_, resp, err := api.NodeApi.Unlock(cli.Context, MonitorNodeType, id).Execute()
+			if err != nil {
+				return common.NewResponseError(err, resp)
+			}
 		}
 
 		nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(c)).Execute()

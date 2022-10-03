@@ -154,6 +154,38 @@ paths:
       summary: Node type API
       tags:
       - node
+  /node/{nodeType}/{nodeId}/unlock:
+    post:
+      description: Unlock a locked node
+      operationId: unlock
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: Unlocked node
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node unlock API
+      tags:
+      - node
   /stackpack:
     get:
       description: list of stackpack

@@ -18,6 +18,8 @@ const LongDescription = `Edit settings in StackState Templated JSON.
 The edit command allows you to directly edit any StackState type you can retrieve via the API. It will open
 the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
 Windows.
+When '--unlock' is specified, the CLI will always unlock the settings node when editing it.
+This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
 `
 
 type EditArgs struct {
@@ -26,6 +28,7 @@ type EditArgs struct {
 	AllowReferences  []string
 	UnlockedStrategy string
 	Timeout          int64
+	Unlock           bool
 }
 
 func SettingsEditCommand(cli *di.Deps) *cobra.Command {
@@ -47,6 +50,8 @@ func SettingsEditCommand(cli *di.Deps) *cobra.Command {
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
 	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "Timeout in seconds")
 	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, TypeNameFlag}, "filter", true)
+	cmd.Flags().BoolVar(&args.Unlock, UnlockFlag, false, "Unlocks the settings node before saving if needed")
+
 	return cmd
 }
 
@@ -74,6 +79,16 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 			}
 
 			return nil
+		}
+
+		if args.Unlock {
+			// NOTE Uses the wildcard type "_" to unlock all the nodes identified with ids.
+			for _, id := range args.Ids {
+				_, resp, err := api.NodeApi.Unlock(cli.Context, "_", id).Execute()
+				if err != nil {
+					return common.NewResponseError(err, resp)
+				}
+			}
 		}
 
 		nodes, resp, err := doImport(cli.Context, api, string(c), "", args.UnlockedStrategy, args.Timeout)
