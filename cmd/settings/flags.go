@@ -9,4 +9,5 @@ const (
 	NamespaceFlag        = "namespace"
 	UnlockedStrategyFlag = "unlocked-strategy"
 	TimeoutFlag          = "timeout"
+	UnlockFlag           = "unlock"
 )
