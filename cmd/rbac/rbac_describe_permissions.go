@@ -19,6 +19,8 @@ type DescribePermissionsArgs struct {
 	Resource   string
 }
 
+type Permissions map[string][]string
+
 func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribePermissionsArgs{}
 	cmd := &cobra.Command{
@@ -50,17 +52,16 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 			return common.NewResponseError(err, resp)
 		}
 
-		// TODO Filter
-		filtered := description
+		filtered := filterPermissions(description.Permissions, args)
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"subject":     filtered.SubjectHandle,
-				"permissions": filtered.Permissions,
+				"subject":     description.SubjectHandle,
+				"permissions": filtered,
 			})
 		} else {
 			data := make([][]interface{}, 0)
-			for resource, permissions := range filtered.Permissions {
+			for resource, permissions := range filtered {
 				for _, permission := range permissions {
 					data = append(data, []interface{}{permission, resource})
 				}
@@ -69,10 +70,38 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 			cli.Printer.Table(printer.TableData{
 				Header:              []string{"permission", "resource"},
 				Data:                data,
-				MissingTableDataMsg: printer.NotFoundMsg{Types: "permissions"},
+				MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
 			})
 		}
 
 		return nil
 	}
+}
+
+func filterPermissions(permissionsList Permissions, args *DescribePermissionsArgs) Permissions {
+	filteredResources := make(Permissions, 0)
+	if args.Resource != "" {
+		for resource, permissions := range permissionsList {
+			if resource == args.Resource {
+				filteredResources[resource] = permissions
+			}
+		}
+	} else {
+		filteredResources = permissionsList
+	}
+
+	filteredPermissions := make(Permissions, 0)
+	if args.Permission != "" {
+		for resource, permissions := range filteredResources {
+			for _, permission := range permissions {
+				if permission == args.Permission {
+					filteredPermissions[resource] = []string{permission}
+				}
+			}
+		}
+	} else {
+		filteredPermissions = filteredResources
+	}
+
+	return filteredPermissions
 }
