@@ -14,5 +14,6 @@ func RbacCommand(deps *di.Deps) *cobra.Command {
 	}
 
 	cmd.AddCommand(rbac.ListPermissionsCommand(deps))
+	cmd.AddCommand(rbac.DescribePermissionsCommand(deps))
 	return cmd
 }

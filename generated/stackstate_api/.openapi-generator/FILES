@@ -169,6 +169,7 @@ docs/Node.md
 docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypesInner.md
+docs/PermissionDescription.md
 docs/Permissions.md
 docs/PermissionsApi.md
 docs/Point.md
@@ -393,6 +394,7 @@ model_new_service_token_request.go
 model_node.go
 model_node_types.go
 model_node_types_node_types_inner.go
+model_permission_description.go
 model_permissions.go
 model_point.go
 model_problem_not_found.go

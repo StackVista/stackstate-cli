@@ -92,7 +92,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		StackpackApi:               apiMocks.StackpackApi,
 		ExportAnomalyApi:           apiMocks.AnomalyFeedbackApi,
 		SubscriptionApi:            apiMocks.SubscriptionApi,
-		PermissionsApi:             &permissionsApi,
+		PermissionsApi:             apiMocks.PermissionsApi,
 	}
 
 	adminApiClient := &stackstate_admin_api.APIClient{

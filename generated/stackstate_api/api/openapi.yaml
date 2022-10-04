@@ -1683,7 +1683,39 @@ paths:
               schema:
                 $ref: '#/components/schemas/Permissions'
           description: A list of permissions
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
       summary: List permissions
+      tags:
+      - permissions
+  /security/permissions/{subject}:
+    get:
+      description: Describe permissions granted to a subject
+      operationId: describePermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionDescription'
+          description: A permission description for a subject
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Describe permissions
       tags:
       - permissions
   /subscription:
@@ -2925,6 +2957,12 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/ServiceTokenId'
+    subject:
+      in: path
+      name: subject
+      required: true
+      schema:
+        $ref: '#/components/schemas/Subject'
     componentId:
       description: The Identifier of a component
       in: path
@@ -5448,16 +5486,40 @@ components:
     Permissions:
       example:
         permissions:
-        - permissions
-        - permissions
+        - null
+        - null
       properties:
         permissions:
           items:
-            type: string
+            $ref: '#/components/schemas/Permission'
           type: array
       required:
       - permissions
       type: object
+    PermissionList:
+      items:
+        $ref: '#/components/schemas/Permission'
+      type: array
+    Permission:
+      type: string
+    PermissionDescription:
+      example:
+        subjectHandle: subjectHandle
+        permissions:
+          key: null
+      properties:
+        subjectHandle:
+          type: string
+        permissions:
+          additionalProperties:
+            $ref: '#/components/schemas/PermissionList'
+          type: object
+      required:
+      - permissions
+      - subjectHandle
+      type: object
+    Subject:
+      type: string
     SubscriptionState:
       discriminator:
         propertyName: _type
