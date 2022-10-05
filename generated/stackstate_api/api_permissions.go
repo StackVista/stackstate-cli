@@ -63,8 +63,7 @@ type PermissionsApi interface {
 	GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest
 
 	// GrantPermissionsExecute executes the request
-	//  @return PermissionDescription
-	GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*PermissionDescription, *http.Response, error)
+	GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error)
 
 	/*
 		RevokePermissions Revoke permissions
@@ -403,7 +402,7 @@ func (r ApiGrantPermissionsRequest) GrantPermission(grantPermission GrantPermiss
 	return r
 }
 
-func (r ApiGrantPermissionsRequest) Execute() (*PermissionDescription, *http.Response, error) {
+func (r ApiGrantPermissionsRequest) Execute() (*http.Response, error) {
 	return r.ApiService.GrantPermissionsExecute(r)
 }
 
@@ -425,19 +424,16 @@ func (a *PermissionsApiService) GrantPermissions(ctx context.Context, subject st
 }
 
 // Execute executes the request
-//
-//	@return PermissionDescription
-func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*PermissionDescription, *http.Response, error) {
+func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PermissionDescription
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.GrantPermissions")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/security/permissions/{subject}"
@@ -447,7 +443,7 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 	if r.grantPermission == nil {
-		return localVarReturnValue, nil, reportError("grantPermission is required and must be specified")
+		return nil, reportError("grantPermission is required and must be specified")
 	}
 
 	// to determine the Content-Type header
@@ -513,19 +509,19 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -533,28 +529,29 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.model = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 type ApiRevokePermissionsRequest struct {
@@ -699,6 +696,16 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
@@ -800,7 +807,6 @@ func (mock PermissionsApiMock) GetPermissionsExecute(r ApiGetPermissionsRequest)
 }
 
 type GrantPermissionsMockResponse struct {
-	Result   PermissionDescription
 	Response *http.Response
 	Error    error
 }
@@ -818,13 +824,13 @@ func (mock PermissionsApiMock) GrantPermissions(ctx context.Context, subject str
 	}
 }
 
-func (mock PermissionsApiMock) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*PermissionDescription, *http.Response, error) {
+func (mock PermissionsApiMock) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error) {
 	p := GrantPermissionsCall{
 		Psubject:         r.subject,
 		PgrantPermission: r.grantPermission,
 	}
 	*mock.GrantPermissionsCalls = append(*mock.GrantPermissionsCalls, p)
-	return &mock.GrantPermissionsResponse.Result, mock.GrantPermissionsResponse.Response, mock.GrantPermissionsResponse.Error
+	return mock.GrantPermissionsResponse.Response, mock.GrantPermissionsResponse.Error
 }
 
 type RevokePermissionsMockResponse struct {

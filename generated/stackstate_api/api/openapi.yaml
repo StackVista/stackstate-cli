@@ -1715,6 +1715,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PermissionDescription'
           description: A permission description for a subject
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
         "500":
           content:
             application/json:
@@ -1766,11 +1772,13 @@ paths:
         required: true
       responses:
         "200":
+          description: Permission was granted.
+        "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PermissionDescription'
-          description: A permission description for a subject
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
         "500":
           content:
             application/json:
@@ -1780,6 +1788,40 @@ paths:
       summary: Grant permissions
       tags:
       - permissions
+  /security/subjects/{subject}:
+    put:
+      description: Create a new security subject
+      operationId: createSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubject'
+        required: true
+      responses:
+        "200":
+          description: Subject created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create a subject
+      tags:
+      - subject
   /subscription:
     get:
       description: Get the state of the StackState license
@@ -5610,6 +5652,25 @@ components:
       - permission
       - resource
       type: object
+    CreateSubject:
+      example:
+        query: query
+        version: null
+      properties:
+        query:
+          type: string
+        version:
+          $ref: '#/components/schemas/Version'
+      required:
+      - query
+      - version
+      type: object
+    Query:
+      type: string
+    Version:
+      enum:
+      - 0.0.1
+      type: string
     SubscriptionState:
       discriminator:
         propertyName: _type

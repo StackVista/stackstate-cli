@@ -16,8 +16,7 @@ type GrantPermissionsArgs struct {
 func GrantPermissionsCommand(deps *di.Deps) *cobra.Command {
 	const (
 		PermissionUsage = "The permission to grant"
-		ResourceUsage   = "The resource to grant the permission to (e.g. \"system\" or a view name)." +
-			"If this is omitted, the default of \"system\" is applied."
+		ResourceUsage   = "The resource to grant the permission to (e.g. \"system\" or a view name)"
 		DefaultResource = "system"
 	)
 
@@ -48,22 +47,28 @@ func RunGrantPermissionsCommand(args *GrantPermissionsArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		permission := stackstate_api.NewGrantPermission(args.Permission, args.Resource)
-		granted, resp, err := api.PermissionsApi.GrantPermissions(cli.Context, args.Subject).
+		grantResp, grantErr := api.PermissionsApi.GrantPermissions(cli.Context, args.Subject).
 			GrantPermission(*permission).
 			Execute()
 
-		if err != nil {
-			return common.NewResponseError(err, resp)
+		if grantErr != nil {
+			return common.NewResponseError(grantErr, grantResp)
+		}
+
+		description, descrResp, descrErr := api.PermissionsApi.DescribePermissions(cli.Context, args.Subject).Execute()
+
+		if descrErr != nil {
+			return common.NewResponseError(descrErr, descrResp)
 		}
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"subject":     granted.SubjectHandle,
-				"permissions": granted.Permissions,
+				"subject":     description.SubjectHandle,
+				"permissions": description.Permissions,
 			})
 		} else {
 			cli.Printer.Successf("Granted permission '%s' on '%s' to subject '%s'", args.Permission, args.Resource, args.Subject)
-			printPermissionsTable(cli, granted.Permissions)
+			printPermissionsTable(cli, description.Permissions)
 		}
 
 		return nil

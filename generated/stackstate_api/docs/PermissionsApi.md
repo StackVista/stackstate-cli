@@ -144,7 +144,7 @@ Other parameters are passed through a pointer to a apiGetPermissionsRequest stru
 
 ## GrantPermissions
 
-> PermissionDescription GrantPermissions(ctx, subject).GrantPermission(grantPermission).Execute()
+> GrantPermissions(ctx, subject).GrantPermission(grantPermission).Execute()
 
 Grant permissions
 
@@ -173,8 +173,6 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.GrantPermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GrantPermissions`: PermissionDescription
-    fmt.Fprintf(os.Stdout, "Response from `PermissionsApi.GrantPermissions`: %v\n", resp)
 }
 ```
 
@@ -198,7 +196,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**PermissionDescription**](PermissionDescription.md)
+ (empty response body)
 
 ### Authorization
 
