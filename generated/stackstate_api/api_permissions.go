@@ -50,6 +50,36 @@ type PermissionsApi interface {
 	// GetPermissionsExecute executes the request
 	//  @return Permissions
 	GetPermissionsExecute(r ApiGetPermissionsRequest) (*Permissions, *http.Response, error)
+
+	/*
+		GrantPermissions Grant permissions
+
+		Grant permissions to a subject
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param subject
+		@return ApiGrantPermissionsRequest
+	*/
+	GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest
+
+	// GrantPermissionsExecute executes the request
+	//  @return PermissionDescription
+	GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*PermissionDescription, *http.Response, error)
+
+	/*
+		RevokePermissions Revoke permissions
+
+		Revoke permissions of a subject
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param subject
+		@return ApiRevokePermissionsRequest
+	*/
+	RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest
+
+	// RevokePermissionsExecute executes the request
+	//  @return PermissionDescription
+	RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*PermissionDescription, *http.Response, error)
 }
 
 // PermissionsApiService PermissionsApi service
@@ -361,6 +391,338 @@ func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGrantPermissionsRequest struct {
+	ctx             context.Context
+	ApiService      PermissionsApi
+	subject         string
+	grantPermission *GrantPermission
+}
+
+func (r ApiGrantPermissionsRequest) GrantPermission(grantPermission GrantPermission) ApiGrantPermissionsRequest {
+	r.grantPermission = &grantPermission
+	return r
+}
+
+func (r ApiGrantPermissionsRequest) Execute() (*PermissionDescription, *http.Response, error) {
+	return r.ApiService.GrantPermissionsExecute(r)
+}
+
+/*
+GrantPermissions Grant permissions
+
+Grant permissions to a subject
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiGrantPermissionsRequest
+*/
+func (a *PermissionsApiService) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
+	return ApiGrantPermissionsRequest{
+		ApiService: a,
+		ctx:        ctx,
+		subject:    subject,
+	}
+}
+
+// Execute executes the request
+//
+//	@return PermissionDescription
+func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*PermissionDescription, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PermissionDescription
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.GrantPermissions")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/security/permissions/{subject}"
+	localVarPath = strings.Replace(localVarPath, "{"+"subject"+"}", url.PathEscape(parameterToString(r.subject, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.grantPermission == nil {
+		return localVarReturnValue, nil, reportError("grantPermission is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.grantPermission
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiRevokePermissionsRequest struct {
+	ctx              context.Context
+	ApiService       PermissionsApi
+	subject          string
+	revokePermission *RevokePermission
+}
+
+func (r ApiRevokePermissionsRequest) RevokePermission(revokePermission RevokePermission) ApiRevokePermissionsRequest {
+	r.revokePermission = &revokePermission
+	return r
+}
+
+func (r ApiRevokePermissionsRequest) Execute() (*PermissionDescription, *http.Response, error) {
+	return r.ApiService.RevokePermissionsExecute(r)
+}
+
+/*
+RevokePermissions Revoke permissions
+
+Revoke permissions of a subject
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiRevokePermissionsRequest
+*/
+func (a *PermissionsApiService) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
+	return ApiRevokePermissionsRequest{
+		ApiService: a,
+		ctx:        ctx,
+		subject:    subject,
+	}
+}
+
+// Execute executes the request
+//
+//	@return PermissionDescription
+func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*PermissionDescription, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PermissionDescription
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.RevokePermissions")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/security/permissions/{subject}"
+	localVarPath = strings.Replace(localVarPath, "{"+"subject"+"}", url.PathEscape(parameterToString(r.subject, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.revokePermission == nil {
+		return localVarReturnValue, nil, reportError("revokePermission is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.revokePermission
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
@@ -370,14 +732,22 @@ type PermissionsApiMock struct {
 	DescribePermissionsResponse DescribePermissionsMockResponse
 	GetPermissionsCalls         *[]GetPermissionsCall
 	GetPermissionsResponse      GetPermissionsMockResponse
+	GrantPermissionsCalls       *[]GrantPermissionsCall
+	GrantPermissionsResponse    GrantPermissionsMockResponse
+	RevokePermissionsCalls      *[]RevokePermissionsCall
+	RevokePermissionsResponse   RevokePermissionsMockResponse
 }
 
 func NewPermissionsApiMock() PermissionsApiMock {
 	xDescribePermissionsCalls := make([]DescribePermissionsCall, 0)
 	xGetPermissionsCalls := make([]GetPermissionsCall, 0)
+	xGrantPermissionsCalls := make([]GrantPermissionsCall, 0)
+	xRevokePermissionsCalls := make([]RevokePermissionsCall, 0)
 	return PermissionsApiMock{
 		DescribePermissionsCalls: &xDescribePermissionsCalls,
 		GetPermissionsCalls:      &xGetPermissionsCalls,
+		GrantPermissionsCalls:    &xGrantPermissionsCalls,
+		RevokePermissionsCalls:   &xRevokePermissionsCalls,
 	}
 }
 
@@ -427,4 +797,60 @@ func (mock PermissionsApiMock) GetPermissionsExecute(r ApiGetPermissionsRequest)
 	p := GetPermissionsCall{}
 	*mock.GetPermissionsCalls = append(*mock.GetPermissionsCalls, p)
 	return &mock.GetPermissionsResponse.Result, mock.GetPermissionsResponse.Response, mock.GetPermissionsResponse.Error
+}
+
+type GrantPermissionsMockResponse struct {
+	Result   PermissionDescription
+	Response *http.Response
+	Error    error
+}
+
+type GrantPermissionsCall struct {
+	Psubject         string
+	PgrantPermission *GrantPermission
+}
+
+func (mock PermissionsApiMock) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
+	return ApiGrantPermissionsRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		subject:    subject,
+	}
+}
+
+func (mock PermissionsApiMock) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*PermissionDescription, *http.Response, error) {
+	p := GrantPermissionsCall{
+		Psubject:         r.subject,
+		PgrantPermission: r.grantPermission,
+	}
+	*mock.GrantPermissionsCalls = append(*mock.GrantPermissionsCalls, p)
+	return &mock.GrantPermissionsResponse.Result, mock.GrantPermissionsResponse.Response, mock.GrantPermissionsResponse.Error
+}
+
+type RevokePermissionsMockResponse struct {
+	Result   PermissionDescription
+	Response *http.Response
+	Error    error
+}
+
+type RevokePermissionsCall struct {
+	Psubject          string
+	PrevokePermission *RevokePermission
+}
+
+func (mock PermissionsApiMock) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
+	return ApiRevokePermissionsRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		subject:    subject,
+	}
+}
+
+func (mock PermissionsApiMock) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*PermissionDescription, *http.Response, error) {
+	p := RevokePermissionsCall{
+		Psubject:          r.subject,
+		PrevokePermission: r.revokePermission,
+	}
+	*mock.RevokePermissionsCalls = append(*mock.RevokePermissionsCalls, p)
+	return &mock.RevokePermissionsResponse.Result, mock.RevokePermissionsResponse.Response, mock.RevokePermissionsResponse.Error
 }

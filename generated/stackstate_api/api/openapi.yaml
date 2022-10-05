@@ -1693,6 +1693,37 @@ paths:
       tags:
       - permissions
   /security/permissions/{subject}:
+    delete:
+      description: Revoke permissions of a subject
+      operationId: revokePermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RevokePermission'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionDescription'
+          description: A permission description for a subject
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Revoke permissions
+      tags:
+      - permissions
     get:
       description: Describe permissions granted to a subject
       operationId: describePermissions
@@ -1716,6 +1747,37 @@ paths:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
       summary: Describe permissions
+      tags:
+      - permissions
+    post:
+      description: Grant permissions to a subject
+      operationId: grantPermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrantPermission'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionDescription'
+          description: A permission description for a subject
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Grant permissions
       tags:
       - permissions
   /subscription:
@@ -5520,6 +5582,34 @@ components:
       type: object
     Subject:
       type: string
+    GrantPermission:
+      example:
+        permission: permission
+        resourceName: resourceName
+      properties:
+        permission:
+          type: string
+        resourceName:
+          type: string
+      required:
+      - permission
+      - resourceName
+      type: object
+    Resource:
+      type: string
+    RevokePermission:
+      example:
+        resource: resource
+        permission: permission
+      properties:
+        permission:
+          type: string
+        resource:
+          type: string
+      required:
+      - permission
+      - resource
+      type: object
     SubscriptionState:
       discriminator:
         propertyName: _type

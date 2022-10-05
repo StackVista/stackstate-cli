@@ -115,6 +115,7 @@ docs/GetCausingEventsNotFound.md
 docs/GetCausingEventsResult.md
 docs/GetCausingEventsServiceUnaivailable.md
 docs/GetTopologyTimeout.md
+docs/GrantPermission.md
 docs/HealthStateValue.md
 docs/HealthStreamError.md
 docs/HealthStreamMetrics.md
@@ -193,6 +194,7 @@ docs/Reference.md
 docs/RelationApi.md
 docs/RequestError.md
 docs/RequestValidationError.md
+docs/RevokePermission.md
 docs/RootCauseMode.md
 docs/RunStateValue.md
 docs/ScriptLocation.md
@@ -345,6 +347,7 @@ model_get_causing_events_not_found.go
 model_get_causing_events_result.go
 model_get_causing_events_service_unaivailable.go
 model_get_topology_timeout.go
+model_grant_permission.go
 model_health_state_value.go
 model_health_stream_error.go
 model_health_stream_metrics.go
@@ -415,6 +418,7 @@ model_provision_response.go
 model_reference.go
 model_request_error.go
 model_request_validation_error.go
+model_revoke_permission.go
 model_root_cause_mode.go
 model_run_state_value.go
 model_script_location.go

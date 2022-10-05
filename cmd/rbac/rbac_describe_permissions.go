@@ -8,11 +8,6 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
-const (
-	PermissionUsage = "Filter the permissions by permission name"
-	ResourceUsage   = "Filter the permissions by a resource identifier (e.g. system or a view name)"
-)
-
 type DescribePermissionsArgs struct {
 	Subject    string
 	Permission string
@@ -22,6 +17,11 @@ type DescribePermissionsArgs struct {
 type Permissions map[string][]string
 
 func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
+	const (
+		PermissionUsage = "Filter the permissions by permission name"
+		ResourceUsage   = "Filter the permissions by a resource identifier (e.g. system or a view name)"
+	)
+
 	args := &DescribePermissionsArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe-permissions",
@@ -60,22 +60,26 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 				"permissions": filtered,
 			})
 		} else {
-			data := make([][]interface{}, 0)
-			for resource, permissions := range filtered {
-				for _, permission := range permissions {
-					data = append(data, []interface{}{permission, resource})
-				}
-			}
-
-			cli.Printer.Table(printer.TableData{
-				Header:              []string{"permission", "resource"},
-				Data:                data,
-				MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
-			})
+			printPermissionsTable(cli, filtered)
 		}
 
 		return nil
 	}
+}
+
+func printPermissionsTable(cli *di.Deps, permissionsList Permissions) {
+	data := make([][]interface{}, 0)
+	for resource, permissions := range permissionsList {
+		for _, permission := range permissions {
+			data = append(data, []interface{}{permission, resource})
+		}
+	}
+
+	cli.Printer.Table(printer.TableData{
+		Header:              []string{"permission", "resource"},
+		Data:                data,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
+	})
 }
 
 func filterPermissions(permissionsList Permissions, args *DescribePermissionsArgs) Permissions {

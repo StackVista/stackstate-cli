@@ -121,6 +121,8 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
 *PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
 *PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
+*PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
+*PermissionsApi* | [**RevokePermissions**](docs/PermissionsApi.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
@@ -240,6 +242,7 @@ Class | Method | HTTP request | Description
  - [GetCausingEventsResult](docs/GetCausingEventsResult.md)
  - [GetCausingEventsServiceUnaivailable](docs/GetCausingEventsServiceUnaivailable.md)
  - [GetTopologyTimeout](docs/GetTopologyTimeout.md)
+ - [GrantPermission](docs/GrantPermission.md)
  - [HealthStateValue](docs/HealthStateValue.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
@@ -310,6 +313,7 @@ Class | Method | HTTP request | Description
  - [Reference](docs/Reference.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
+ - [RevokePermission](docs/RevokePermission.md)
  - [RootCauseMode](docs/RootCauseMode.md)
  - [RunStateValue](docs/RunStateValue.md)
  - [ScriptLocation](docs/ScriptLocation.md)
