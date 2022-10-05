@@ -13,9 +13,10 @@ func RbacCommand(deps *di.Deps) *cobra.Command {
 		Long:  "Manage the StackState rule-based access control configuration.",
 	}
 
+	cmd.AddCommand(rbac.CreateSubjectCommand(deps))
 	cmd.AddCommand(rbac.ListPermissionsCommand(deps))
 	cmd.AddCommand(rbac.DescribePermissionsCommand(deps))
 	cmd.AddCommand(rbac.GrantPermissionsCommand(deps))
-	cmd.AddCommand(rbac.CreateSubjectCommand(deps))
+	cmd.AddCommand(rbac.RevokePermissionsCommand(deps))
 	return cmd
 }

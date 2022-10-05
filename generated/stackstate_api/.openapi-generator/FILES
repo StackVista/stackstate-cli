@@ -196,7 +196,6 @@ docs/Reference.md
 docs/RelationApi.md
 docs/RequestError.md
 docs/RequestValidationError.md
-docs/RevokePermission.md
 docs/RootCauseMode.md
 docs/RunStateValue.md
 docs/ScriptLocation.md
@@ -423,7 +422,6 @@ model_provision_response.go
 model_reference.go
 model_request_error.go
 model_request_validation_error.go
-model_revoke_permission.go
 model_root_cause_mode.go
 model_run_state_value.go
 model_script_location.go

@@ -77,8 +77,7 @@ type PermissionsApi interface {
 	RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest
 
 	// RevokePermissionsExecute executes the request
-	//  @return PermissionDescription
-	RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*PermissionDescription, *http.Response, error)
+	RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error)
 }
 
 // PermissionsApiService PermissionsApi service
@@ -555,18 +554,24 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 }
 
 type ApiRevokePermissionsRequest struct {
-	ctx              context.Context
-	ApiService       PermissionsApi
-	subject          string
-	revokePermission *RevokePermission
+	ctx        context.Context
+	ApiService PermissionsApi
+	subject    string
+	resource   *string
+	permission *string
 }
 
-func (r ApiRevokePermissionsRequest) RevokePermission(revokePermission RevokePermission) ApiRevokePermissionsRequest {
-	r.revokePermission = &revokePermission
+func (r ApiRevokePermissionsRequest) Resource(resource string) ApiRevokePermissionsRequest {
+	r.resource = &resource
 	return r
 }
 
-func (r ApiRevokePermissionsRequest) Execute() (*PermissionDescription, *http.Response, error) {
+func (r ApiRevokePermissionsRequest) Permission(permission string) ApiRevokePermissionsRequest {
+	r.permission = &permission
+	return r
+}
+
+func (r ApiRevokePermissionsRequest) Execute() (*http.Response, error) {
 	return r.ApiService.RevokePermissionsExecute(r)
 }
 
@@ -588,19 +593,16 @@ func (a *PermissionsApiService) RevokePermissions(ctx context.Context, subject s
 }
 
 // Execute executes the request
-//
-//	@return PermissionDescription
-func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*PermissionDescription, *http.Response, error) {
+func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodDelete
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PermissionDescription
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.RevokePermissions")
 	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/security/permissions/{subject}"
@@ -609,12 +611,17 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.revokePermission == nil {
-		return localVarReturnValue, nil, reportError("revokePermission is required and must be specified")
+	if r.resource == nil {
+		return nil, reportError("resource is required and must be specified")
+	}
+	if r.permission == nil {
+		return nil, reportError("permission is required and must be specified")
 	}
 
+	localVarQueryParams.Add("resource", parameterToString(*r.resource, ""))
+	localVarQueryParams.Add("permission", parameterToString(*r.permission, ""))
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
+	localVarHTTPContentTypes := []string{}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -630,8 +637,6 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	// body params
-	localVarPostBody = r.revokePermission
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -676,19 +681,19 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 	}
 	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
-		return localVarReturnValue, nil, err
+		return nil, err
 	}
 
 	localVarHTTPResponse, err := a.client.callAPI(req)
 	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
 	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
+		return localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
@@ -701,33 +706,24 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
+			return localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v GenericErrorsResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
+				return localVarHTTPResponse, newErr
 			}
 			newErr.model = v
 		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
+		return localVarHTTPResponse, newErr
 	}
 
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
+	return localVarHTTPResponse, nil
 }
 
 // ---------------------------------------------
@@ -834,14 +830,14 @@ func (mock PermissionsApiMock) GrantPermissionsExecute(r ApiGrantPermissionsRequ
 }
 
 type RevokePermissionsMockResponse struct {
-	Result   PermissionDescription
 	Response *http.Response
 	Error    error
 }
 
 type RevokePermissionsCall struct {
-	Psubject          string
-	PrevokePermission *RevokePermission
+	Psubject    string
+	Presource   *string
+	Ppermission *string
 }
 
 func (mock PermissionsApiMock) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
@@ -852,11 +848,12 @@ func (mock PermissionsApiMock) RevokePermissions(ctx context.Context, subject st
 	}
 }
 
-func (mock PermissionsApiMock) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*PermissionDescription, *http.Response, error) {
+func (mock PermissionsApiMock) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error) {
 	p := RevokePermissionsCall{
-		Psubject:          r.subject,
-		PrevokePermission: r.revokePermission,
+		Psubject:    r.subject,
+		Presource:   r.resource,
+		Ppermission: r.permission,
 	}
 	*mock.RevokePermissionsCalls = append(*mock.RevokePermissionsCalls, p)
-	return &mock.RevokePermissionsResponse.Result, mock.RevokePermissionsResponse.Response, mock.RevokePermissionsResponse.Error
+	return mock.RevokePermissionsResponse.Response, mock.RevokePermissionsResponse.Error
 }

@@ -315,7 +315,6 @@ Class | Method | HTTP request | Description
  - [Reference](docs/Reference.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
- - [RevokePermission](docs/RevokePermission.md)
  - [RootCauseMode](docs/RootCauseMode.md)
  - [RunStateValue](docs/RunStateValue.md)
  - [ScriptLocation](docs/ScriptLocation.md)

@@ -1702,19 +1702,19 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Subject'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RevokePermission'
+      - in: query
+        name: resource
         required: true
+        schema:
+          $ref: '#/components/schemas/Resource'
+      - in: query
+        name: permission
+        required: true
+        schema:
+          $ref: '#/components/schemas/Permission'
       responses:
         "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PermissionDescription'
-          description: A permission description for a subject
+          description: Permission was revoked.
         "400":
           content:
             application/json:
@@ -3067,6 +3067,18 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/Subject'
+    resource:
+      in: query
+      name: resource
+      required: true
+      schema:
+        $ref: '#/components/schemas/Resource'
+    permission:
+      in: query
+      name: permission
+      required: true
+      schema:
+        $ref: '#/components/schemas/Permission'
     componentId:
       description: The Identifier of a component
       in: path
@@ -5639,19 +5651,6 @@ components:
       type: object
     Resource:
       type: string
-    RevokePermission:
-      example:
-        resource: resource
-        permission: permission
-      properties:
-        permission:
-          type: string
-        resource:
-          type: string
-      required:
-      - permission
-      - resource
-      type: object
     CreateSubject:
       example:
         query: query

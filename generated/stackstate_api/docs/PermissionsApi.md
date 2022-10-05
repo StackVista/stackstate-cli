@@ -214,7 +214,7 @@ Name | Type | Description  | Notes
 
 ## RevokePermissions
 
-> PermissionDescription RevokePermissions(ctx, subject).RevokePermission(revokePermission).Execute()
+> RevokePermissions(ctx, subject).Resource(resource).Permission(permission).Execute()
 
 Revoke permissions
 
@@ -234,17 +234,16 @@ import (
 
 func main() {
     subject := "subject_example" // string |
-    revokePermission := *openapiclient.NewRevokePermission("Permission_example", "Resource_example") // RevokePermission |
+    resource := "resource_example" // string |
+    permission := "permission_example" // string |
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PermissionsApi.RevokePermissions(context.Background(), subject).RevokePermission(revokePermission).Execute()
+    resp, r, err := apiClient.PermissionsApi.RevokePermissions(context.Background(), subject).Resource(resource).Permission(permission).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.RevokePermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `RevokePermissions`: PermissionDescription
-    fmt.Fprintf(os.Stdout, "Response from `PermissionsApi.RevokePermissions`: %v\n", resp)
 }
 ```
 
@@ -264,11 +263,12 @@ Other parameters are passed through a pointer to a apiRevokePermissionsRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **revokePermission** | [**RevokePermission**](RevokePermission.md) |  |
+ **resource** | **string** |  |
+ **permission** | **string** |  |
 
 ### Return type
 
-[**PermissionDescription**](PermissionDescription.md)
+ (empty response body)
 
 ### Authorization
 
@@ -276,7 +276,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: application/json
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
