@@ -17,11 +17,6 @@ type DescribePermissionsArgs struct {
 type Permissions map[string][]string
 
 func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
-	const (
-		PermissionUsage = "Filter the permissions by permission name"
-		ResourceUsage   = "Filter the permissions by a resource identifier (e.g. system or a view name)"
-	)
-
 	args := &DescribePermissionsArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe-permissions",
@@ -33,8 +28,8 @@ func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)
 	cmd.MarkFlagRequired(Subject) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Permission, Permission, "", PermissionUsage)
-	cmd.Flags().StringVar(&args.Resource, Resource, "", ResourceUsage)
+	cmd.Flags().StringVar(&args.Permission, Permission, "", PermissionDescribeUsage)
+	cmd.Flags().StringVar(&args.Resource, Resource, "", ResourceDescribeUsage)
 
 	return cmd
 }

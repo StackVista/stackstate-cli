@@ -7,18 +7,12 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
-const STQLVersion = "0.0.1"
-
 type CreateSubjectArgs struct {
 	Subject string
 	Scope   string
 }
 
 func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
-	const ScopeUsage = "The query in STQL that will be prepended to every topology element retrieved in StackState. " +
-		"For example, if your scope is \"label = 'A'\", then all STQL executed in StackState" +
-		" (e.g. Retrieving topology) will only return elements that have the label A"
-
 	args := &CreateSubjectArgs{}
 	cmd := &cobra.Command{
 		Use:   "create-subject",
@@ -30,7 +24,7 @@ func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)
 	cmd.MarkFlagRequired(Subject) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Scope, Scope, ScopeDefault, ScopeUsage)
+	cmd.Flags().StringVar(&args.Scope, Scope, DefaultScope, ScopeUsage)
 
 	return cmd
 }
@@ -42,7 +36,7 @@ func RunCreateSubjectCommand(args *CreateSubjectArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		subject := stackstate_api.NewCreateSubject(args.Scope, STQLVersion)
+		subject := stackstate_api.NewCreateSubject(args.Scope, DefaultSTQLVersion)
 		resp, err := api.SubjectApi.CreateSubject(cli.Context, args.Subject).
 			CreateSubject(*subject).
 			Execute()

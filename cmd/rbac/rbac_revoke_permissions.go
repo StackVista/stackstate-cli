@@ -14,12 +14,6 @@ type RevokePermissionsArgs struct {
 }
 
 func RevokePermissionsCommand(deps *di.Deps) *cobra.Command {
-	const (
-		PermissionUsage = "The permission to revoke"
-		ResourceUsage   = "The resource to revoke the permission to (e.g. \"system\" or a view name)"
-		DefaultResource = "system"
-	)
-
 	args := &RevokePermissionsArgs{}
 	cmd := &cobra.Command{
 		Use:   "revoke",
@@ -31,10 +25,10 @@ func RevokePermissionsCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)
 	cmd.MarkFlagRequired(Subject) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Permission, Permission, "", PermissionUsage)
+	cmd.Flags().StringVar(&args.Permission, Permission, "", PermissionRevokeUsage)
 	cmd.MarkFlagRequired(Permission) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Resource, Resource, DefaultResource, ResourceUsage)
+	cmd.Flags().StringVar(&args.Resource, Resource, DefaultResource, ResourceRevokeUsage)
 
 	return cmd
 }

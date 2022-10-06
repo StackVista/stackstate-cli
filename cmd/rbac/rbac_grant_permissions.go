@@ -14,12 +14,6 @@ type GrantPermissionsArgs struct {
 }
 
 func GrantPermissionsCommand(deps *di.Deps) *cobra.Command {
-	const (
-		PermissionUsage = "The permission to grant"
-		ResourceUsage   = "The resource to grant the permission to (e.g. \"system\" or a view name)"
-		DefaultResource = "system"
-	)
-
 	args := &GrantPermissionsArgs{}
 	cmd := &cobra.Command{
 		Use:   "grant",
@@ -31,10 +25,10 @@ func GrantPermissionsCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)
 	cmd.MarkFlagRequired(Subject) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Permission, Permission, "", PermissionUsage)
+	cmd.Flags().StringVar(&args.Permission, Permission, "", PermissionGrantUsage)
 	cmd.MarkFlagRequired(Permission) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Resource, Resource, DefaultResource, ResourceUsage)
+	cmd.Flags().StringVar(&args.Resource, Resource, DefaultResource, ResourceGrantUsage)
 
 	return cmd
 }
