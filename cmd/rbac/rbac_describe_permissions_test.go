@@ -28,6 +28,22 @@ var (
 	}
 	SubjectHandle = "some-handle"
 	Description   = stackstate_api.NewPermissionDescription(SubjectHandle, AllPermissions)
+	ExpectedTable = printer.TableData{
+		Header: []string{"permission", "resource"},
+		Data: [][]interface{}{
+			{"foo", Resource1},
+			{"bar", Resource1},
+			{"baz", Resource1},
+			{"foo", Resource2},
+			{"fai", Resource2},
+			{"fum", Resource2},
+		},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
+	}
+	ExpectedJson = map[string]interface{}{
+		"subject":     SubjectHandle,
+		"permissions": AllPermissions,
+	}
 )
 
 func TestPermissionsDescribeJson(t *testing.T) {
@@ -44,10 +60,7 @@ func TestPermissionsDescribeJson(t *testing.T) {
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
 
 	expected := []map[string]interface{}{
-		{
-			"subject":     SubjectHandle,
-			"permissions": AllPermissions,
-		},
+		ExpectedJson,
 	}
 	assert.Equal(t, expected, *cli.MockPrinter.PrintJsonCalls)
 }
@@ -63,18 +76,7 @@ func TestPermissionsDescribeTable(t *testing.T) {
 	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
 
 	expected := []printer.TableData{
-		{
-			Header: []string{"permission", "resource"},
-			Data: [][]interface{}{
-				{"foo", Resource1},
-				{"bar", Resource1},
-				{"baz", Resource1},
-				{"foo", Resource2},
-				{"fai", Resource2},
-				{"fum", Resource2},
-			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
-		},
+		ExpectedTable,
 	}
 
 	assert.Equal(t, expected, *cli.MockPrinter.TableCalls)
