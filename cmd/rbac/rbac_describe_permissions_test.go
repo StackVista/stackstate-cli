@@ -46,7 +46,7 @@ func TestPermissionsDescribeJson(t *testing.T) {
 	expected := []map[string]interface{}{
 		{
 			"subject":     SubjectHandle,
-			"permissions": (Permissions)(AllPermissions),
+			"permissions": AllPermissions,
 		},
 	}
 	assert.Equal(t, expected, *cli.MockPrinter.PrintJsonCalls)
@@ -88,40 +88,11 @@ func TestPermissionsDescribeFilterResource(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource1)
 
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
-
-	expected := []printer.TableData{
-		{
-			Header: []string{"permission", "resource"},
-			Data: [][]interface{}{
-				{"foo", Resource1},
-				{"bar", Resource1},
-				{"baz", Resource1},
-			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
-		},
-	}
-
-	assert.Equal(t, expected, *cli.MockPrinter.TableCalls)
-}
-
-func TestPermissionsDescribeFilterResourceJson(t *testing.T) {
-	cli := di.NewMockDeps(t)
-	cmd := DescribePermissionsCommand(&cli.Deps)
-
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
-
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource2, "-o", "json")
-
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
-
-	expected := []map[string]interface{}{
-		{
-			"subject":     SubjectHandle,
-			"permissions": (Permissions)(Permissions2),
-		},
-	}
-	assert.Equal(t, expected, *cli.MockPrinter.PrintJsonCalls)
+	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	assert.Len(t, calls, 1)
+	assert.Equal(t, SubjectHandle, calls[0].Psubject)
+	assert.Nil(t, calls[0].Ppermission)
+	assert.Equal(t, Resource1, *calls[0].Presource)
 }
 
 func TestPermissionsDescribeFilterPermission(t *testing.T) {
@@ -132,41 +103,11 @@ func TestPermissionsDescribeFilterPermission(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", "foo")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
-
-	expected := []printer.TableData{
-		{
-			Header: []string{"permission", "resource"},
-			Data: [][]interface{}{
-				{"foo", Resource1},
-				{"foo", Resource2},
-			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
-		},
-	}
-
-	assert.Equal(t, expected, *cli.MockPrinter.TableCalls)
-}
-
-func TestPermissionsDescribeFilterPermissionJson(t *testing.T) {
-	cli := di.NewMockDeps(t)
-	cmd := DescribePermissionsCommand(&cli.Deps)
-
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
-
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", "bar", "-o", "json")
-
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
-
-	expected := []map[string]interface{}{
-		{
-			"subject": SubjectHandle,
-			"permissions": (Permissions)(map[string][]string{
-				Resource1: {"bar"},
-			}),
-		},
-	}
-	assert.Equal(t, expected, *cli.MockPrinter.PrintJsonCalls)
+	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	assert.Len(t, calls, 1)
+	assert.Equal(t, SubjectHandle, calls[0].Psubject)
+	assert.Equal(t, "foo", *calls[0].Ppermission)
+	assert.Nil(t, calls[0].Presource)
 }
 
 func TestPermissionsDescribeFilterResourceAndPermission(t *testing.T) {
@@ -177,38 +118,9 @@ func TestPermissionsDescribeFilterResourceAndPermission(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource1, "--permission", "foo")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
-
-	expected := []printer.TableData{
-		{
-			Header: []string{"permission", "resource"},
-			Data: [][]interface{}{
-				{"foo", Resource1},
-			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
-		},
-	}
-
-	assert.Equal(t, expected, *cli.MockPrinter.TableCalls)
-}
-
-func TestPermissionsDescribeFilterNothingRemains(t *testing.T) {
-	cli := di.NewMockDeps(t)
-	cmd := DescribePermissionsCommand(&cli.Deps)
-
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
-
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource2, "--permission", "bar")
-
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
-
-	expected := []printer.TableData{
-		{
-			Header:              []string{"permission", "resource"},
-			Data:                [][]interface{}{},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
-		},
-	}
-
-	assert.Equal(t, expected, *cli.MockPrinter.TableCalls)
+	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	assert.Len(t, calls, 1)
+	assert.Equal(t, SubjectHandle, calls[0].Psubject)
+	assert.Equal(t, "foo", *calls[0].Ppermission)
+	assert.Equal(t, Resource1, *calls[0].Presource)
 }

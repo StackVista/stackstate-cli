@@ -14,8 +14,6 @@ type DescribePermissionsArgs struct {
 	Resource   string
 }
 
-type Permissions map[string][]string
-
 func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribePermissionsArgs{}
 	cmd := &cobra.Command{
@@ -71,7 +69,7 @@ func describePermissions(cli *di.Deps, api *stackstate_api.APIClient, subject st
 	return request
 }
 
-func printPermissionsTable(cli *di.Deps, permissionsList Permissions) {
+func printPermissionsTable(cli *di.Deps, permissionsList map[string][]string) {
 	data := make([][]interface{}, 0)
 	for resource, permissions := range permissionsList {
 		for _, permission := range permissions {
