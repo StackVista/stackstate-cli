@@ -41,15 +41,7 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		request := api.PermissionsApi.DescribePermissions(cli.Context, args.Subject)
-		if args.Permission != "" {
-			request = request.Permission(args.Permission)
-		}
-		if args.Resource != "" {
-			request = request.Resource(args.Resource)
-		}
-
-		description, resp, err := request.Execute()
+		description, resp, err := describePermissions(cli, api, args.Subject, args.Permission, args.Resource).Execute()
 
 		if err != nil {
 			return common.NewResponseError(err, resp)
@@ -66,6 +58,17 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 
 		return nil
 	}
+}
+
+func describePermissions(cli *di.Deps, api *stackstate_api.APIClient, subject string, permission string, resource string) stackstate_api.ApiDescribePermissionsRequest {
+	request := api.PermissionsApi.DescribePermissions(cli.Context, subject)
+	if permission != "" {
+		request = request.Permission(permission)
+	}
+	if resource != "" {
+		request = request.Resource(resource)
+	}
+	return request
 }
 
 func printPermissionsTable(cli *di.Deps, permissionsList Permissions) {

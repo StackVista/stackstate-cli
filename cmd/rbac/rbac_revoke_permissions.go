@@ -49,7 +49,7 @@ func RunRevokePermissionsCommand(args *RevokePermissionsArgs) di.CmdWithApiFn {
 			return common.NewResponseError(revokeErr, revokeResp)
 		}
 
-		description, descrResp, descrErr := api.PermissionsApi.DescribePermissions(cli.Context, args.Subject).Execute()
+		description, descrResp, descrErr := describePermissions(cli, api, args.Subject, args.Permission, args.Resource).Execute()
 
 		if descrErr != nil {
 			return common.NewResponseError(descrErr, descrResp)
