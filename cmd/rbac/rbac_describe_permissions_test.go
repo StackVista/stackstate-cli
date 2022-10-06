@@ -31,11 +31,11 @@ var (
 	ExpectedTable = printer.TableData{
 		Header: []string{"permission", "resource"},
 		Data: [][]interface{}{
-			{"foo", Resource1},
 			{"bar", Resource1},
 			{"baz", Resource1},
-			{"foo", Resource2},
+			{"foo", Resource1},
 			{"fai", Resource2},
+			{"foo", Resource2},
 			{"fum", Resource2},
 		},
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},

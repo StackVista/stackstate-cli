@@ -1,6 +1,8 @@
 package rbac
 
 import (
+	"sort"
+
 	"github.com/spf13/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -70,8 +72,21 @@ func describePermissions(cli *di.Deps, api *stackstate_api.APIClient, subject st
 }
 
 func printPermissionsTable(cli *di.Deps, permissionsList map[string][]string) {
+	keys := make([]string, len(permissionsList))
+	for key := range permissionsList {
+		keys = append(keys, key)
+	}
+
+	sort.SliceStable(keys, func(i, j int) bool {
+		return keys[i] < keys[j]
+	})
+
 	data := make([][]interface{}, 0)
-	for resource, permissions := range permissionsList {
+	for _, resource := range keys {
+		permissions := permissionsList[resource]
+		sort.SliceStable(permissions, func(i, j int) bool {
+			return permissions[i] < permissions[j]
+		})
 		for _, permission := range permissions {
 			data = append(data, []interface{}{permission, resource})
 		}
