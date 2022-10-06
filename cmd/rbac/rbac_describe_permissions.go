@@ -41,21 +41,27 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		description, resp, err := api.PermissionsApi.DescribePermissions(cli.Context, args.Subject).Execute()
+		request := api.PermissionsApi.DescribePermissions(cli.Context, args.Subject)
+		if args.Permission != "" {
+			request = request.Permission(args.Permission)
+		}
+		if args.Resource != "" {
+			request = request.Resource(args.Resource)
+		}
+
+		description, resp, err := request.Execute()
 
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
 
-		filtered := filterPermissions(description.Permissions, args)
-
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
 				"subject":     description.SubjectHandle,
-				"permissions": filtered,
+				"permissions": description.Permissions,
 			})
 		} else {
-			printPermissionsTable(cli, filtered)
+			printPermissionsTable(cli, description.Permissions)
 		}
 
 		return nil
@@ -75,32 +81,4 @@ func printPermissionsTable(cli *di.Deps, permissionsList Permissions) {
 		Data:                data,
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
 	})
-}
-
-func filterPermissions(permissionsList Permissions, args *DescribePermissionsArgs) Permissions {
-	filteredResources := make(Permissions, 0)
-	if args.Resource != "" {
-		for resource, permissions := range permissionsList {
-			if resource == args.Resource {
-				filteredResources[resource] = permissions
-			}
-		}
-	} else {
-		filteredResources = permissionsList
-	}
-
-	filteredPermissions := make(Permissions, 0)
-	if args.Permission != "" {
-		for resource, permissions := range filteredResources {
-			for _, permission := range permissions {
-				if permission == args.Permission {
-					filteredPermissions[resource] = []string{permission}
-				}
-			}
-		}
-	} else {
-		filteredPermissions = filteredResources
-	}
-
-	return filteredPermissions
 }

@@ -87,6 +87,18 @@ type ApiDescribePermissionsRequest struct {
 	ctx        context.Context
 	ApiService PermissionsApi
 	subject    string
+	resource   *string
+	permission *string
+}
+
+func (r ApiDescribePermissionsRequest) Resource(resource string) ApiDescribePermissionsRequest {
+	r.resource = &resource
+	return r
+}
+
+func (r ApiDescribePermissionsRequest) Permission(permission string) ApiDescribePermissionsRequest {
+	r.permission = &permission
+	return r
 }
 
 func (r ApiDescribePermissionsRequest) Execute() (*PermissionDescription, *http.Response, error) {
@@ -133,6 +145,12 @@ func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissi
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.resource != nil {
+		localVarQueryParams.Add("resource", parameterToString(*r.resource, ""))
+	}
+	if r.permission != nil {
+		localVarQueryParams.Add("permission", parameterToString(*r.permission, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -611,15 +629,13 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.resource == nil {
-		return nil, reportError("resource is required and must be specified")
-	}
-	if r.permission == nil {
-		return nil, reportError("permission is required and must be specified")
-	}
 
-	localVarQueryParams.Add("resource", parameterToString(*r.resource, ""))
-	localVarQueryParams.Add("permission", parameterToString(*r.permission, ""))
+	if r.resource != nil {
+		localVarQueryParams.Add("resource", parameterToString(*r.resource, ""))
+	}
+	if r.permission != nil {
+		localVarQueryParams.Add("permission", parameterToString(*r.permission, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -761,7 +777,9 @@ type DescribePermissionsMockResponse struct {
 }
 
 type DescribePermissionsCall struct {
-	Psubject string
+	Psubject    string
+	Presource   *string
+	Ppermission *string
 }
 
 func (mock PermissionsApiMock) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
@@ -774,7 +792,9 @@ func (mock PermissionsApiMock) DescribePermissions(ctx context.Context, subject 
 
 func (mock PermissionsApiMock) DescribePermissionsExecute(r ApiDescribePermissionsRequest) (*PermissionDescription, *http.Response, error) {
 	p := DescribePermissionsCall{
-		Psubject: r.subject,
+		Psubject:    r.subject,
+		Presource:   r.resource,
+		Ppermission: r.permission,
 	}
 	*mock.DescribePermissionsCalls = append(*mock.DescribePermissionsCalls, p)
 	return &mock.DescribePermissionsResponse.Result, mock.DescribePermissionsResponse.Response, mock.DescribePermissionsResponse.Error

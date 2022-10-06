@@ -1704,12 +1704,10 @@ paths:
           $ref: '#/components/schemas/Subject'
       - in: query
         name: resource
-        required: true
         schema:
           $ref: '#/components/schemas/Resource'
       - in: query
         name: permission
-        required: true
         schema:
           $ref: '#/components/schemas/Permission'
       responses:
@@ -1739,6 +1737,14 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Subject'
+      - in: query
+        name: resource
+        schema:
+          $ref: '#/components/schemas/Resource'
+      - in: query
+        name: permission
+        schema:
+          $ref: '#/components/schemas/Permission'
       responses:
         "200":
           content:
@@ -3070,13 +3076,11 @@ components:
     resource:
       in: query
       name: resource
-      required: true
       schema:
         $ref: '#/components/schemas/Resource'
     permission:
       in: query
       name: permission
-      required: true
       schema:
         $ref: '#/components/schemas/Permission'
     componentId:
