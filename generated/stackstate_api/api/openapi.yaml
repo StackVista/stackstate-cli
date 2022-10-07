@@ -1719,6 +1719,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
         "500":
           content:
             application/json:
@@ -1752,6 +1758,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/PermissionDescription'
           description: A permission description for a subject
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
         "500":
           content:
             application/json:
@@ -1780,6 +1792,12 @@ paths:
         "200":
           description: Permission was granted.
         "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
           content:
             application/json:
               schema:
@@ -2888,6 +2906,48 @@ paths:
       summary: Instant query at a single point in time
       tags:
       - metric
+    post:
+      description: The endpoint evaluates an instant query at a single point in time
+      operationId: postInstantQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromQueryRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
+      summary: Instant query at a single point in time
+      tags:
+      - metric
   /metrics/query_range:
     get:
       description: The endpoint evaluates an expression query over a range of time
@@ -2961,6 +3021,48 @@ paths:
       summary: Query over a range of time
       tags:
       - metric
+    post:
+      description: The endpoint evaluates an expression query over a range of time
+      operationId: postRangeQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromQueryRangeRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
+      summary: Query over a range of time
+      tags:
+      - metric
   /metrics/query_exemplars:
     get:
       description: "Experimental: The returns a list of exemplars for a valid PromQL\
@@ -2987,6 +3089,49 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/PromTime'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: when queries time out or abort
+      summary: "Experimental: Exemplars for a specific time range"
+      tags:
+      - metric
+    post:
+      description: "Experimental: The returns a list of exemplars for a valid PromQL\
+        \ query for a specific time range"
+      operationId: postExemplarsQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromQueryExemplarRequest'
       responses:
         "200":
           content:
@@ -7221,9 +7366,38 @@ components:
       - result
       - resultType
       type: object
+    PromQueryRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/PromQuery'
+        time:
+          $ref: '#/components/schemas/PromTime'
+        timeout:
+          $ref: '#/components/schemas/PromTimeout'
+      required:
+      - query
+      type: object
     PromStep:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
+    PromQueryRangeRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/PromQuery'
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+        step:
+          $ref: '#/components/schemas/PromStep'
+        timeout:
+          $ref: '#/components/schemas/PromTimeout'
+      required:
+      - end
+      - query
+      - start
+      - step
+      type: object
     PromExemplarEnvelope:
       example:
         data:
@@ -7319,6 +7493,19 @@ components:
       - labels
       - timestamp
       - value
+      type: object
+    PromQueryExemplarRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/PromQuery'
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+      required:
+      - end
+      - query
+      - start
       type: object
     Argument:
       discriminator:

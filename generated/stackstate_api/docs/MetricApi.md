@@ -7,6 +7,9 @@ Method | HTTP request | Description
 [**GetExemplarsQuery**](MetricApi.md#GetExemplarsQuery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 [**GetInstantQuery**](MetricApi.md#GetInstantQuery) | **Get** /metrics/query | Instant query at a single point in time
 [**GetRangeQuery**](MetricApi.md#GetRangeQuery) | **Get** /metrics/query_range | Query over a range of time
+[**PostExemplarsQuery**](MetricApi.md#PostExemplarsQuery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+[**PostInstantQuery**](MetricApi.md#PostInstantQuery) | **Post** /metrics/query | Instant query at a single point in time
+[**PostRangeQuery**](MetricApi.md#PostRangeQuery) | **Post** /metrics/query_range | Query over a range of time
 
 
 
@@ -58,9 +61,9 @@ Other parameters are passed through a pointer to a apiGetExemplarsQueryRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string | 
- **start** | **string** | Start timestamp in rfc3339 format or unix format | 
- **end** | **string** | End timestamp in rfc3339 format or unix format | 
+ **query** | **string** | Prometheus expression query string |
+ **start** | **string** | Start timestamp in rfc3339 format or unix format |
+ **end** | **string** | End timestamp in rfc3339 format or unix format |
 
 ### Return type
 
@@ -128,9 +131,9 @@ Other parameters are passed through a pointer to a apiGetInstantQueryRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string | 
- **time** | **string** | Evaluation timestamp in rfc3339 format or unix format | 
- **timeout** | **string** | Evaluation timeout | 
+ **query** | **string** | Prometheus expression query string |
+ **time** | **string** | Evaluation timestamp in rfc3339 format or unix format |
+ **timeout** | **string** | Evaluation timeout |
 
 ### Return type
 
@@ -200,11 +203,11 @@ Other parameters are passed through a pointer to a apiGetRangeQueryRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string | 
- **start** | **string** | Start timestamp in rfc3339 format or unix format | 
- **end** | **string** | End timestamp in rfc3339 format or unix format | 
- **step** | **string** | Query resolution step width in duration format or float number of seconds. | 
- **timeout** | **string** | Evaluation timeout | 
+ **query** | **string** | Prometheus expression query string |
+ **start** | **string** | Start timestamp in rfc3339 format or unix format |
+ **end** | **string** | End timestamp in rfc3339 format or unix format |
+ **step** | **string** | Query resolution step width in duration format or float number of seconds. |
+ **timeout** | **string** | Evaluation timeout |
 
 ### Return type
 
@@ -223,3 +226,216 @@ Name | Type | Description  | Notes
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
 
+
+## PostExemplarsQuery
+
+> PromExemplarEnvelope PostExemplarsQuery(ctx).Query(query).Start(start).End(end).Execute()
+
+Experimental: Exemplars for a specific time range
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    query := "query_example" // string |
+    start := "start_example" // string |
+    end := "end_example" // string |
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MetricApi.PostExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostExemplarsQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PostExemplarsQuery`: PromExemplarEnvelope
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostExemplarsQuery`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostExemplarsQueryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **string** |  |
+ **start** | **string** |  |
+ **end** | **string** |  |
+
+### Return type
+
+[**PromExemplarEnvelope**](PromExemplarEnvelope.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostInstantQuery
+
+> PromEnvelope PostInstantQuery(ctx).Query(query).Time(time).Timeout(timeout).Execute()
+
+Instant query at a single point in time
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    query := "query_example" // string |
+    time := "time_example" // string |  (optional)
+    timeout := "timeout_example" // string |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MetricApi.PostInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostInstantQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PostInstantQuery`: PromEnvelope
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostInstantQuery`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostInstantQueryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **string** |  |
+ **time** | **string** |  |
+ **timeout** | **string** |  |
+
+### Return type
+
+[**PromEnvelope**](PromEnvelope.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostRangeQuery
+
+> PromEnvelope PostRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+
+Query over a range of time
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    query := "query_example" // string |
+    start := "start_example" // string |
+    end := "end_example" // string |
+    step := "step_example" // string |
+    timeout := "timeout_example" // string |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MetricApi.PostRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostRangeQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PostRangeQuery`: PromEnvelope
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostRangeQuery`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostRangeQueryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **query** | **string** |  |
+ **start** | **string** |  |
+ **end** | **string** |  |
+ **step** | **string** |  |
+ **timeout** | **string** |  |
+
+### Return type
+
+[**PromEnvelope**](PromEnvelope.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
