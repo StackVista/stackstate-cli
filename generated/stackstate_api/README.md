@@ -110,9 +110,6 @@ Class | Method | HTTP request | Description
 *MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 *MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
 *MetricApi* | [**GetRangeQuery**](docs/MetricApi.md#getrangequery) | **Get** /metrics/query_range | Query over a range of time
-*MetricApi* | [**PostExemplarsQuery**](docs/MetricApi.md#postexemplarsquery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
-*MetricApi* | [**PostInstantQuery**](docs/MetricApi.md#postinstantquery) | **Post** /metrics/query | Instant query at a single point in time
-*MetricApi* | [**PostRangeQuery**](docs/MetricApi.md#postrangequery) | **Post** /metrics/query_range | Query over a range of time
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
@@ -418,4 +415,3 @@ Each of these functions takes a value of the given basic type and returns a poin
 ## Author
 
 info@stackstate.com
-

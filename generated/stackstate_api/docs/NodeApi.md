@@ -92,7 +92,7 @@ import (
 )
 
 func main() {
-    nodeType := "nodeType_example" // string | 
+    nodeType := "nodeType_example" // string |
     namespace := "namespace_example" // string |  (optional)
     ownedBy := "ownedBy_example" // string |  (optional)
 
@@ -114,7 +114,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**nodeType** | **string** |  | 
+**nodeType** | **string** |  |
 
 ### Other Parameters
 
@@ -124,8 +124,8 @@ Other parameters are passed through a pointer to a apiTypeListRequest struct via
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **namespace** | **string** |  | 
- **ownedBy** | **string** |  | 
+ **namespace** | **string** |  |
+ **ownedBy** | **string** |  |
 
 ### Return type
 
@@ -166,8 +166,8 @@ import (
 )
 
 func main() {
-    nodeType := "nodeType_example" // string | 
-    nodeId := int64(789) // int64 | 
+    nodeType := "nodeType_example" // string |
+    nodeId := int64(789) // int64 |
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -187,8 +187,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**nodeType** | **string** |  | 
-**nodeId** | **int64** |  | 
+**nodeType** | **string** |  |
+**nodeId** | **int64** |  |
 
 ### Other Parameters
 
@@ -216,4 +216,3 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

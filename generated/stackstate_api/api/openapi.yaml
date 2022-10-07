@@ -2732,48 +2732,6 @@ paths:
       summary: Instant query at a single point in time
       tags:
       - metric
-    post:
-      description: The endpoint evaluates an instant query at a single point in time
-      operationId: postInstantQuery
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PromQueryRequest'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: JSON response envelope
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: Parameters are missing or incorrect
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: Expression can't be executed (RFC4918)
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: when queries time out or abort
-      summary: Instant query at a single point in time
-      tags:
-      - metric
   /metrics/query_range:
     get:
       description: The endpoint evaluates an expression query over a range of time
@@ -2813,48 +2771,6 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/PromTimeout'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: JSON response envelope
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: Parameters are missing or incorrect
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: Expression can't be executed (RFC4918)
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromEnvelope'
-          description: when queries time out or abort
-      summary: Query over a range of time
-      tags:
-      - metric
-    post:
-      description: The endpoint evaluates an expression query over a range of time
-      operationId: postRangeQuery
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PromQueryRangeRequest'
       responses:
         "200":
           content:
@@ -2949,50 +2865,164 @@ paths:
       summary: "Experimental: Exemplars for a specific time range"
       tags:
       - metric
-    post:
-      description: "Experimental: The returns a list of exemplars for a valid PromQL\
-        \ query for a specific time range"
-      operationId: postExemplarsQuery
-      requestBody:
-        content:
-          application/x-www-form-urlencoded:
-            schema:
-              $ref: '#/components/schemas/PromQueryExemplarRequest'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromExemplarEnvelope'
-          description: JSON response envelope
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromExemplarEnvelope'
-          description: Parameters are missing or incorrect
-        "422":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromExemplarEnvelope'
-          description: Expression can't be executed (RFC4918)
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-        "503":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PromExemplarEnvelope'
-          description: when queries time out or abort
-      summary: "Experimental: Exemplars for a specific time range"
-      tags:
-      - metric
 components:
+  parameters:
+    stackName:
+      in: path
+      name: stackName
+      required: true
+      schema:
+        $ref: '#/components/schemas/stackName'
+    monitorIdOrUrn:
+      description: The id or identifier (urn) of a monitor
+      in: path
+      name: monitorIdOrUrn
+      required: true
+      schema:
+        $ref: '#/components/schemas/MonitorIdOrUrn'
+    dryRun:
+      description: "If set, the topology state will not be modified"
+      in: query
+      name: dryRun
+      schema:
+        type: boolean
+    eventId:
+      description: The Identifier of an event.
+      in: path
+      name: eventId
+      required: true
+      schema:
+        $ref: '#/components/schemas/EventId'
+    eventCategories:
+      description: The category labels of an event.
+      explode: false
+      in: query
+      name: eventCategories
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/EventCategory'
+        type: array
+      style: pipeDelimited
+    serviceTokenId:
+      description: The identifier of a service token
+      in: path
+      name: serviceTokenId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ServiceTokenId'
+    componentId:
+      description: The Identifier of a component
+      in: path
+      name: componentId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ComponentId'
+    queryTime:
+      description: A Data point for a query either point from timeline or 'now' if
+        livemode
+      in: query
+      name: queryTime
+      required: true
+      schema:
+        $ref: '#/components/schemas/QueryTime'
+    streamId:
+      description: The Identifier of a stream
+      in: path
+      name: streamId
+      required: true
+      schema:
+        $ref: '#/components/schemas/StreamId'
+    streamIds:
+      description: Ids of streams to query for
+      in: query
+      name: streamIds
+      required: true
+      schema:
+        $ref: '#/components/schemas/StreamIds'
+    checkId:
+      description: The Identifier of a Check
+      in: path
+      name: checkId
+      required: true
+      schema:
+        $ref: '#/components/schemas/CheckId'
+    relationId:
+      description: The Identifier of a relation
+      in: path
+      name: relationId
+      required: true
+      schema:
+        $ref: '#/components/schemas/RelationId'
+    problemId:
+      description: The problem id number.
+      in: path
+      name: problemId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ProblemId'
+    topologyTime:
+      description: A timestamp at which resources will be queried. If not given the
+        resources are quired for current time.
+      in: query
+      name: topologyTime
+      required: false
+      schema:
+        $ref: '#/components/schemas/Instant'
+    limit:
+      description: Maximum number of resources to be returned in result.
+      in: query
+      name: limit
+      required: false
+      schema:
+        $ref: '#/components/schemas/Limit'
+    query:
+      description: Prometheus expression query string
+      in: query
+      name: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromQuery'
+    time:
+      description: Evaluation timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: time
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    timeout:
+      description: Evaluation timeout
+      in: query
+      name: timeout
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTimeout'
+    start:
+      description: Start timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: start
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    end:
+      description: End timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: end
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    step:
+      description: Query resolution step width in duration format or float number
+        of seconds.
+      example: 5m or 300
+      in: query
+      name: step
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromStep'
   requestBodies:
     monitorPatch:
       content:
@@ -5086,14 +5116,12 @@ components:
         result: "{}"
       properties:
         result:
-          description: "Contains a `value` and `_type` property. This is described\
-            \ this way, because `value` can hold any\nJSON type and most open api\
-            \ generators (but not all) have problems with such types or are inconsistent\
-            \ with the OpenAPI spec.\nThe `_type` property describes the original\
-            \ type of the result value during script execution.\nThe `value` property\
-            \ holds the resulting value serialized to JSON.\nThe `value` property\
-            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
-            \ array or object.\n"
+          description: |
+            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
+            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
+            The `_type` property describes the original type of the result value during script execution.
+            The `value` property holds the resulting value serialized to JSON.
+            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
           nullable: true
           type: object
       required:
@@ -6950,38 +6978,9 @@ components:
       - result
       - resultType
       type: object
-    PromQueryRequest:
-      properties:
-        query:
-          $ref: '#/components/schemas/PromQuery'
-        time:
-          $ref: '#/components/schemas/PromTime'
-        timeout:
-          $ref: '#/components/schemas/PromTimeout'
-      required:
-      - query
-      type: object
     PromStep:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
-    PromQueryRangeRequest:
-      properties:
-        query:
-          $ref: '#/components/schemas/PromQuery'
-        start:
-          $ref: '#/components/schemas/PromTime'
-        end:
-          $ref: '#/components/schemas/PromTime'
-        step:
-          $ref: '#/components/schemas/PromStep'
-        timeout:
-          $ref: '#/components/schemas/PromTimeout'
-      required:
-      - end
-      - query
-      - start
-      - step
-      type: object
     PromExemplarEnvelope:
       example:
         data:
@@ -7077,19 +7076,6 @@ components:
       - labels
       - timestamp
       - value
-      type: object
-    PromQueryExemplarRequest:
-      properties:
-        query:
-          $ref: '#/components/schemas/PromQuery'
-        start:
-          $ref: '#/components/schemas/PromTime'
-        end:
-          $ref: '#/components/schemas/PromTime'
-      required:
-      - end
-      - query
-      - start
       type: object
     Argument:
       discriminator:
@@ -7797,6 +7783,7 @@ components:
       - message
       - statusCode
       type: object
+      example: null
     MonitorNotFoundError_allOf:
       properties:
         _type:
@@ -7804,6 +7791,7 @@ components:
           - MonitorNotFoundError
           type: string
       type: object
+      example: null
     ExecuteScriptSyntaxErrors_errors_inner:
       properties:
         message:
