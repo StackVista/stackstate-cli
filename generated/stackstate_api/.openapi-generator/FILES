@@ -13,12 +13,14 @@ api_import.go
 api_metric.go
 api_monitor.go
 api_node.go
+api_permissions.go
 api_problem.go
 api_relation.go
 api_scripting.go
 api_server.go
 api_service_token.go
 api_stackpack.go
+api_subject.go
 api_subscription.go
 api_topology_synchronization.go
 api_user_profile.go
@@ -67,6 +69,7 @@ docs/CheckState.md
 docs/CheckStateAcknowledgement.md
 docs/ComponentApi.md
 docs/ComponentNotFoundError.md
+docs/CreateSubject.md
 docs/DataStream.md
 docs/DataType.md
 docs/DataUnavailable.md
@@ -114,6 +117,7 @@ docs/GetCausingEventsNotFound.md
 docs/GetCausingEventsResult.md
 docs/GetCausingEventsServiceUnaivailable.md
 docs/GetTopologyTimeout.md
+docs/GrantPermission.md
 docs/HealthStateValue.md
 docs/HealthStreamError.md
 docs/HealthStreamMetrics.md
@@ -168,6 +172,9 @@ docs/Node.md
 docs/NodeApi.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypesInner.md
+docs/PermissionDescription.md
+docs/Permissions.md
+docs/PermissionsApi.md
 docs/Point.md
 docs/ProblemApi.md
 docs/ProblemNotFound.md
@@ -220,6 +227,7 @@ docs/StringItemsWithTotal.md
 docs/StsEventStreamFilter.md
 docs/SubStreamList.md
 docs/SubStreamListItem.md
+docs/SubjectApi.md
 docs/Subscription.md
 docs/SubscriptionApi.md
 docs/SubscriptionState.md
@@ -252,6 +260,7 @@ docs/UserNotLoggedInError.md
 docs/UserProfile.md
 docs/UserProfileApi.md
 docs/UserProfileSaveError.md
+docs/Version.md
 docs/WindowingMethod.md
 git_push.sh
 go.mod
@@ -297,6 +306,7 @@ model_check_error.go
 model_check_state.go
 model_check_state_acknowledgement.go
 model_component_not_found_error.go
+model_create_subject.go
 model_data_stream.go
 model_data_type.go
 model_data_unavailable.go
@@ -341,6 +351,7 @@ model_get_causing_events_not_found.go
 model_get_causing_events_result.go
 model_get_causing_events_service_unaivailable.go
 model_get_topology_timeout.go
+model_grant_permission.go
 model_health_state_value.go
 model_health_stream_error.go
 model_health_stream_metrics.go
@@ -390,6 +401,8 @@ model_new_service_token_request.go
 model_node.go
 model_node_types.go
 model_node_types_node_types_inner.go
+model_permission_description.go
+model_permissions.go
 model_point.go
 model_problem_not_found.go
 model_prom_data.go
@@ -465,6 +478,7 @@ model_user_not_found_error.go
 model_user_not_logged_in_error.go
 model_user_profile.go
 model_user_profile_save_error.go
+model_version.go
 model_windowing_method.go
 response.go
 utils.go

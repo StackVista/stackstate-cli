@@ -1672,6 +1672,180 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
+  /security/permissions/list:
+    get:
+      description: Get a list of available permissions
+      operationId: getPermissions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permissions'
+          description: A list of permissions
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List permissions
+      tags:
+      - permissions
+  /security/permissions/{subject}:
+    delete:
+      description: Revoke permissions of a subject
+      operationId: revokePermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      - in: query
+        name: resource
+        schema:
+          $ref: '#/components/schemas/Resource'
+      - in: query
+        name: permission
+        schema:
+          $ref: '#/components/schemas/Permission'
+      responses:
+        "200":
+          description: Permission was revoked.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Revoke permissions
+      tags:
+      - permissions
+    get:
+      description: Describe permissions granted to a subject
+      operationId: describePermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      - in: query
+        name: resource
+        schema:
+          $ref: '#/components/schemas/Resource'
+      - in: query
+        name: permission
+        schema:
+          $ref: '#/components/schemas/Permission'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionDescription'
+          description: A permission description for a subject
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Describe permissions
+      tags:
+      - permissions
+    post:
+      description: Grant permissions to a subject
+      operationId: grantPermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrantPermission'
+        required: true
+      responses:
+        "200":
+          description: Permission was granted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Grant permissions
+      tags:
+      - permissions
+  /security/subjects/{subject}:
+    put:
+      description: Create a new security subject
+      operationId: createSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubject'
+        required: true
+      responses:
+        "200":
+          description: Subject created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create a subject
+      tags:
+      - subject
   /subscription:
     get:
       description: Get the state of the StackState license
@@ -2993,6 +3167,179 @@ paths:
       tags:
       - metric
 components:
+  parameters:
+    stackName:
+      in: path
+      name: stackName
+      required: true
+      schema:
+        $ref: '#/components/schemas/stackName'
+    monitorIdOrUrn:
+      description: The id or identifier (urn) of a monitor
+      in: path
+      name: monitorIdOrUrn
+      required: true
+      schema:
+        $ref: '#/components/schemas/MonitorIdOrUrn'
+    dryRun:
+      description: "If set, the topology state will not be modified"
+      in: query
+      name: dryRun
+      schema:
+        type: boolean
+    eventId:
+      description: The Identifier of an event.
+      in: path
+      name: eventId
+      required: true
+      schema:
+        $ref: '#/components/schemas/EventId'
+    eventCategories:
+      description: The category labels of an event.
+      explode: false
+      in: query
+      name: eventCategories
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/EventCategory'
+        type: array
+      style: pipeDelimited
+    serviceTokenId:
+      description: The identifier of a service token
+      in: path
+      name: serviceTokenId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ServiceTokenId'
+    subject:
+      in: path
+      name: subject
+      required: true
+      schema:
+        $ref: '#/components/schemas/Subject'
+    resource:
+      in: query
+      name: resource
+      schema:
+        $ref: '#/components/schemas/Resource'
+    permission:
+      in: query
+      name: permission
+      schema:
+        $ref: '#/components/schemas/Permission'
+    componentId:
+      description: The Identifier of a component
+      in: path
+      name: componentId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ComponentId'
+    queryTime:
+      description: A Data point for a query either point from timeline or 'now' if
+        livemode
+      in: query
+      name: queryTime
+      required: true
+      schema:
+        $ref: '#/components/schemas/QueryTime'
+    streamId:
+      description: The Identifier of a stream
+      in: path
+      name: streamId
+      required: true
+      schema:
+        $ref: '#/components/schemas/StreamId'
+    streamIds:
+      description: Ids of streams to query for
+      in: query
+      name: streamIds
+      required: true
+      schema:
+        $ref: '#/components/schemas/StreamIds'
+    checkId:
+      description: The Identifier of a Check
+      in: path
+      name: checkId
+      required: true
+      schema:
+        $ref: '#/components/schemas/CheckId'
+    relationId:
+      description: The Identifier of a relation
+      in: path
+      name: relationId
+      required: true
+      schema:
+        $ref: '#/components/schemas/RelationId'
+    problemId:
+      description: The problem id number.
+      in: path
+      name: problemId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ProblemId'
+    topologyTime:
+      description: A timestamp at which resources will be queried. If not given the
+        resources are quired for current time.
+      in: query
+      name: topologyTime
+      required: false
+      schema:
+        $ref: '#/components/schemas/Instant'
+    limit:
+      description: Maximum number of resources to be returned in result.
+      in: query
+      name: limit
+      required: false
+      schema:
+        $ref: '#/components/schemas/Limit'
+    query:
+      description: Prometheus expression query string
+      in: query
+      name: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromQuery'
+    time:
+      description: Evaluation timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: time
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    timeout:
+      description: Evaluation timeout
+      in: query
+      name: timeout
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTimeout'
+    start:
+      description: Start timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: start
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    end:
+      description: End timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: end
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    step:
+      description: Query resolution step width in duration format or float number
+        of seconds.
+      example: 5m or 300
+      in: query
+      name: step
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromStep'
   requestBodies:
     monitorPatch:
       content:
@@ -5086,14 +5433,12 @@ components:
         result: "{}"
       properties:
         result:
-          description: "Contains a `value` and `_type` property. This is described\
-            \ this way, because `value` can hold any\nJSON type and most open api\
-            \ generators (but not all) have problems with such types or are inconsistent\
-            \ with the OpenAPI spec.\nThe `_type` property describes the original\
-            \ type of the result value during script execution.\nThe `value` property\
-            \ holds the resulting value serialized to JSON.\nThe `value` property\
-            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
-            \ array or object.\n"
+          description: |
+            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
+            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
+            The `_type` property describes the original type of the result value during script execution.
+            The `value` property holds the resulting value serialized to JSON.
+            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
           nullable: true
           type: object
       required:
@@ -5403,6 +5748,77 @@ components:
     ServiceTokenId:
       format: int64
       type: integer
+    Permissions:
+      example:
+        permissions:
+        - null
+        - null
+      properties:
+        permissions:
+          items:
+            $ref: '#/components/schemas/Permission'
+          type: array
+      required:
+      - permissions
+      type: object
+    PermissionList:
+      items:
+        $ref: '#/components/schemas/Permission'
+      type: array
+    Permission:
+      type: string
+    PermissionDescription:
+      example:
+        subjectHandle: subjectHandle
+        permissions:
+          key: null
+      properties:
+        subjectHandle:
+          type: string
+        permissions:
+          additionalProperties:
+            $ref: '#/components/schemas/PermissionList'
+          type: object
+      required:
+      - permissions
+      - subjectHandle
+      type: object
+    Subject:
+      type: string
+    GrantPermission:
+      example:
+        permission: permission
+        resourceName: resourceName
+      properties:
+        permission:
+          type: string
+        resourceName:
+          type: string
+      required:
+      - permission
+      - resourceName
+      type: object
+    Resource:
+      type: string
+    CreateSubject:
+      example:
+        query: query
+        version: null
+      properties:
+        query:
+          type: string
+        version:
+          $ref: '#/components/schemas/Version'
+      required:
+      - query
+      - version
+      type: object
+    Query:
+      type: string
+    Version:
+      enum:
+      - 0.0.1
+      type: string
     SubscriptionState:
       discriminator:
         propertyName: _type
@@ -7797,6 +8213,7 @@ components:
       - message
       - statusCode
       type: object
+      example: null
     MonitorNotFoundError_allOf:
       properties:
         _type:
@@ -7804,6 +8221,7 @@ components:
           - MonitorNotFoundError
           type: string
       type: object
+      example: null
     ExecuteScriptSyntaxErrors_errors_inner:
       properties:
         message:

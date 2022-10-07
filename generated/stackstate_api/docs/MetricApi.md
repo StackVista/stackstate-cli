@@ -61,9 +61,9 @@ Other parameters are passed through a pointer to a apiGetExemplarsQueryRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string | 
- **start** | **string** | Start timestamp in rfc3339 format or unix format | 
- **end** | **string** | End timestamp in rfc3339 format or unix format | 
+ **query** | **string** | Prometheus expression query string |
+ **start** | **string** | Start timestamp in rfc3339 format or unix format |
+ **end** | **string** | End timestamp in rfc3339 format or unix format |
 
 ### Return type
 
@@ -131,9 +131,9 @@ Other parameters are passed through a pointer to a apiGetInstantQueryRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string | 
- **time** | **string** | Evaluation timestamp in rfc3339 format or unix format | 
- **timeout** | **string** | Evaluation timeout | 
+ **query** | **string** | Prometheus expression query string |
+ **time** | **string** | Evaluation timestamp in rfc3339 format or unix format |
+ **timeout** | **string** | Evaluation timeout |
 
 ### Return type
 
@@ -203,11 +203,11 @@ Other parameters are passed through a pointer to a apiGetRangeQueryRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string | 
- **start** | **string** | Start timestamp in rfc3339 format or unix format | 
- **end** | **string** | End timestamp in rfc3339 format or unix format | 
- **step** | **string** | Query resolution step width in duration format or float number of seconds. | 
- **timeout** | **string** | Evaluation timeout | 
+ **query** | **string** | Prometheus expression query string |
+ **start** | **string** | Start timestamp in rfc3339 format or unix format |
+ **end** | **string** | End timestamp in rfc3339 format or unix format |
+ **step** | **string** | Query resolution step width in duration format or float number of seconds. |
+ **timeout** | **string** | Evaluation timeout |
 
 ### Return type
 
@@ -248,9 +248,9 @@ import (
 )
 
 func main() {
-    query := "query_example" // string | 
-    start := "start_example" // string | 
-    end := "end_example" // string | 
+    query := "query_example" // string |
+    start := "start_example" // string |
+    end := "end_example" // string |
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -275,9 +275,9 @@ Other parameters are passed through a pointer to a apiPostExemplarsQueryRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** |  | 
- **start** | **string** |  | 
- **end** | **string** |  | 
+ **query** | **string** |  |
+ **start** | **string** |  |
+ **end** | **string** |  |
 
 ### Return type
 
@@ -318,7 +318,7 @@ import (
 )
 
 func main() {
-    query := "query_example" // string | 
+    query := "query_example" // string |
     time := "time_example" // string |  (optional)
     timeout := "timeout_example" // string |  (optional)
 
@@ -345,9 +345,9 @@ Other parameters are passed through a pointer to a apiPostInstantQueryRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** |  | 
- **time** | **string** |  | 
- **timeout** | **string** |  | 
+ **query** | **string** |  |
+ **time** | **string** |  |
+ **timeout** | **string** |  |
 
 ### Return type
 
@@ -388,10 +388,10 @@ import (
 )
 
 func main() {
-    query := "query_example" // string | 
-    start := "start_example" // string | 
-    end := "end_example" // string | 
-    step := "step_example" // string | 
+    query := "query_example" // string |
+    start := "start_example" // string |
+    end := "end_example" // string |
+    step := "step_example" // string |
     timeout := "timeout_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -417,11 +417,11 @@ Other parameters are passed through a pointer to a apiPostRangeQueryRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** |  | 
- **start** | **string** |  | 
- **end** | **string** |  | 
- **step** | **string** |  | 
- **timeout** | **string** |  | 
+ **query** | **string** |  |
+ **start** | **string** |  |
+ **end** | **string** |  |
+ **step** | **string** |  |
+ **timeout** | **string** |  |
 
 ### Return type
 
@@ -439,4 +439,3 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-

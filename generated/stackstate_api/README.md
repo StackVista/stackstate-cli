@@ -122,6 +122,10 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+*PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
+*PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
+*PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
+*PermissionsApi* | [**RevokePermissions**](docs/PermissionsApi.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
@@ -144,6 +148,7 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
+*SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
 *SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
@@ -197,6 +202,7 @@ Class | Method | HTTP request | Description
  - [CheckState](docs/CheckState.md)
  - [CheckStateAcknowledgement](docs/CheckStateAcknowledgement.md)
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
+ - [CreateSubject](docs/CreateSubject.md)
  - [DataStream](docs/DataStream.md)
  - [DataType](docs/DataType.md)
  - [DataUnavailable](docs/DataUnavailable.md)
@@ -241,6 +247,7 @@ Class | Method | HTTP request | Description
  - [GetCausingEventsResult](docs/GetCausingEventsResult.md)
  - [GetCausingEventsServiceUnaivailable](docs/GetCausingEventsServiceUnaivailable.md)
  - [GetTopologyTimeout](docs/GetTopologyTimeout.md)
+ - [GrantPermission](docs/GrantPermission.md)
  - [HealthStateValue](docs/HealthStateValue.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
@@ -290,6 +297,8 @@ Class | Method | HTTP request | Description
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
+ - [PermissionDescription](docs/PermissionDescription.md)
+ - [Permissions](docs/Permissions.md)
  - [Point](docs/Point.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromData](docs/PromData.md)
@@ -365,6 +374,7 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
+ - [Version](docs/Version.md)
  - [WindowingMethod](docs/WindowingMethod.md)
 
 
@@ -418,4 +428,3 @@ Each of these functions takes a value of the given basic type and returns a poin
 ## Author
 
 info@stackstate.com
-

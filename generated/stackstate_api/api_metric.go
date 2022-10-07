@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type MetricApi interface {
 
 	/*
-	GetExemplarsQuery Experimental: Exemplars for a specific time range
+		GetExemplarsQuery Experimental: Exemplars for a specific time range
 
-	Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
+		Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetExemplarsQueryRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetExemplarsQueryRequest
 	*/
 	GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest
 
@@ -37,12 +36,12 @@ type MetricApi interface {
 	GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error)
 
 	/*
-	GetInstantQuery Instant query at a single point in time
+		GetInstantQuery Instant query at a single point in time
 
-	The endpoint evaluates an instant query at a single point in time
+		The endpoint evaluates an instant query at a single point in time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetInstantQueryRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetInstantQueryRequest
 	*/
 	GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest
 
@@ -51,12 +50,12 @@ type MetricApi interface {
 	GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
-	GetRangeQuery Query over a range of time
+		GetRangeQuery Query over a range of time
 
-	The endpoint evaluates an expression query over a range of time
+		The endpoint evaluates an expression query over a range of time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRangeQueryRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetRangeQueryRequest
 	*/
 	GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest
 
@@ -65,12 +64,12 @@ type MetricApi interface {
 	GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
-	PostExemplarsQuery Experimental: Exemplars for a specific time range
+		PostExemplarsQuery Experimental: Exemplars for a specific time range
 
-	Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
+		Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostExemplarsQueryRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiPostExemplarsQueryRequest
 	*/
 	PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest
 
@@ -79,12 +78,12 @@ type MetricApi interface {
 	PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error)
 
 	/*
-	PostInstantQuery Instant query at a single point in time
+		PostInstantQuery Instant query at a single point in time
 
-	The endpoint evaluates an instant query at a single point in time
+		The endpoint evaluates an instant query at a single point in time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostInstantQueryRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiPostInstantQueryRequest
 	*/
 	PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest
 
@@ -93,12 +92,12 @@ type MetricApi interface {
 	PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
-	PostRangeQuery Query over a range of time
+		PostRangeQuery Query over a range of time
 
-	The endpoint evaluates an expression query over a range of time
+		The endpoint evaluates an expression query over a range of time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostRangeQueryRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiPostRangeQueryRequest
 	*/
 	PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest
 
@@ -111,11 +110,11 @@ type MetricApi interface {
 type MetricApiService service
 
 type ApiGetExemplarsQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MetricApi
-	query *string
-	start *string
-	end *string
+	query      *string
+	start      *string
+	end        *string
 }
 
 // Prometheus expression query string
@@ -145,24 +144,25 @@ GetExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetExemplarsQueryRequest
 */
 func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PromExemplarEnvelope
+//
+//	@return PromExemplarEnvelope
 func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromExemplarEnvelope
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromExemplarEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetExemplarsQuery")
@@ -324,11 +324,11 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 }
 
 type ApiGetInstantQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MetricApi
-	query *string
-	time *string
-	timeout *string
+	query      *string
+	time       *string
+	timeout    *string
 }
 
 // Prometheus expression query string
@@ -358,24 +358,25 @@ GetInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetInstantQueryRequest
 */
 func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromEnvelope
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetInstantQuery")
@@ -535,13 +536,13 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 }
 
 type ApiGetRangeQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MetricApi
-	query *string
-	start *string
-	end *string
-	step *string
-	timeout *string
+	query      *string
+	start      *string
+	end        *string
+	step       *string
+	timeout    *string
 }
 
 // Prometheus expression query string
@@ -583,24 +584,25 @@ GetRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRangeQueryRequest
 */
 func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromEnvelope
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetRangeQuery")
@@ -769,11 +771,11 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 }
 
 type ApiPostExemplarsQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MetricApi
-	query *string
-	start *string
-	end *string
+	query      *string
+	start      *string
+	end        *string
 }
 
 func (r ApiPostExemplarsQueryRequest) Query(query string) ApiPostExemplarsQueryRequest {
@@ -800,24 +802,25 @@ PostExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostExemplarsQueryRequest
 */
 func (a *MetricApiService) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PromExemplarEnvelope
+//
+//	@return PromExemplarEnvelope
 func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromExemplarEnvelope
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromExemplarEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostExemplarsQuery")
@@ -979,11 +982,11 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 }
 
 type ApiPostInstantQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MetricApi
-	query *string
-	time *string
-	timeout *string
+	query      *string
+	time       *string
+	timeout    *string
 }
 
 func (r ApiPostInstantQueryRequest) Query(query string) ApiPostInstantQueryRequest {
@@ -1010,24 +1013,25 @@ PostInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostInstantQueryRequest
 */
 func (a *MetricApiService) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromEnvelope
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostInstantQuery")
@@ -1187,13 +1191,13 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 }
 
 type ApiPostRangeQueryRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MetricApi
-	query *string
-	start *string
-	end *string
-	step *string
-	timeout *string
+	query      *string
+	start      *string
+	end        *string
+	step       *string
+	timeout    *string
 }
 
 func (r ApiPostRangeQueryRequest) Query(query string) ApiPostRangeQueryRequest {
@@ -1230,24 +1234,25 @@ PostRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostRangeQueryRequest
 */
 func (a *MetricApiService) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *PromEnvelope
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostRangeQuery")
@@ -1415,26 +1420,24 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type MetricApiMock struct {
-	GetExemplarsQueryCalls *[]GetExemplarsQueryCall
-	GetExemplarsQueryResponse GetExemplarsQueryMockResponse
-	GetInstantQueryCalls *[]GetInstantQueryCall
-	GetInstantQueryResponse GetInstantQueryMockResponse
-	GetRangeQueryCalls *[]GetRangeQueryCall
-	GetRangeQueryResponse GetRangeQueryMockResponse
-	PostExemplarsQueryCalls *[]PostExemplarsQueryCall
+	GetExemplarsQueryCalls     *[]GetExemplarsQueryCall
+	GetExemplarsQueryResponse  GetExemplarsQueryMockResponse
+	GetInstantQueryCalls       *[]GetInstantQueryCall
+	GetInstantQueryResponse    GetInstantQueryMockResponse
+	GetRangeQueryCalls         *[]GetRangeQueryCall
+	GetRangeQueryResponse      GetRangeQueryMockResponse
+	PostExemplarsQueryCalls    *[]PostExemplarsQueryCall
 	PostExemplarsQueryResponse PostExemplarsQueryMockResponse
-	PostInstantQueryCalls *[]PostInstantQueryCall
-	PostInstantQueryResponse PostInstantQueryMockResponse
-	PostRangeQueryCalls *[]PostRangeQueryCall
-	PostRangeQueryResponse PostRangeQueryMockResponse
-}	
+	PostInstantQueryCalls      *[]PostInstantQueryCall
+	PostInstantQueryResponse   PostInstantQueryMockResponse
+	PostRangeQueryCalls        *[]PostRangeQueryCall
+	PostRangeQueryResponse     PostRangeQueryMockResponse
+}
 
 func NewMetricApiMock() MetricApiMock {
 	xGetExemplarsQueryCalls := make([]GetExemplarsQueryCall, 0)
@@ -1443,202 +1446,194 @@ func NewMetricApiMock() MetricApiMock {
 	xPostExemplarsQueryCalls := make([]PostExemplarsQueryCall, 0)
 	xPostInstantQueryCalls := make([]PostInstantQueryCall, 0)
 	xPostRangeQueryCalls := make([]PostRangeQueryCall, 0)
-	return MetricApiMock {
-		GetExemplarsQueryCalls: &xGetExemplarsQueryCalls,
-		GetInstantQueryCalls: &xGetInstantQueryCalls,
-		GetRangeQueryCalls: &xGetRangeQueryCalls,
+	return MetricApiMock{
+		GetExemplarsQueryCalls:  &xGetExemplarsQueryCalls,
+		GetInstantQueryCalls:    &xGetInstantQueryCalls,
+		GetRangeQueryCalls:      &xGetRangeQueryCalls,
 		PostExemplarsQueryCalls: &xPostExemplarsQueryCalls,
-		PostInstantQueryCalls: &xPostInstantQueryCalls,
-		PostRangeQueryCalls: &xPostRangeQueryCalls,
+		PostInstantQueryCalls:   &xPostInstantQueryCalls,
+		PostRangeQueryCalls:     &xPostRangeQueryCalls,
 	}
 }
 
 type GetExemplarsQueryMockResponse struct {
-	Result PromExemplarEnvelope
+	Result   PromExemplarEnvelope
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetExemplarsQueryCall struct {
 	Pquery *string
 	Pstart *string
-	Pend *string
+	Pend   *string
 }
-
 
 func (mock MetricApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MetricApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
-	p := GetExemplarsQueryCall {
-			Pquery: r.query,
-			Pstart: r.start,
-			Pend: r.end,
+	p := GetExemplarsQueryCall{
+		Pquery: r.query,
+		Pstart: r.start,
+		Pend:   r.end,
 	}
 	*mock.GetExemplarsQueryCalls = append(*mock.GetExemplarsQueryCalls, p)
 	return &mock.GetExemplarsQueryResponse.Result, mock.GetExemplarsQueryResponse.Response, mock.GetExemplarsQueryResponse.Error
 }
 
 type GetInstantQueryMockResponse struct {
-	Result PromEnvelope
+	Result   PromEnvelope
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetInstantQueryCall struct {
-	Pquery *string
-	Ptime *string
+	Pquery   *string
+	Ptime    *string
 	Ptimeout *string
 }
-
 
 func (mock MetricApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MetricApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := GetInstantQueryCall {
-			Pquery: r.query,
-			Ptime: r.time,
-			Ptimeout: r.timeout,
+	p := GetInstantQueryCall{
+		Pquery:   r.query,
+		Ptime:    r.time,
+		Ptimeout: r.timeout,
 	}
 	*mock.GetInstantQueryCalls = append(*mock.GetInstantQueryCalls, p)
 	return &mock.GetInstantQueryResponse.Result, mock.GetInstantQueryResponse.Response, mock.GetInstantQueryResponse.Error
 }
 
 type GetRangeQueryMockResponse struct {
-	Result PromEnvelope
+	Result   PromEnvelope
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRangeQueryCall struct {
-	Pquery *string
-	Pstart *string
-	Pend *string
-	Pstep *string
+	Pquery   *string
+	Pstart   *string
+	Pend     *string
+	Pstep    *string
 	Ptimeout *string
 }
-
 
 func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := GetRangeQueryCall {
-			Pquery: r.query,
-			Pstart: r.start,
-			Pend: r.end,
-			Pstep: r.step,
-			Ptimeout: r.timeout,
+	p := GetRangeQueryCall{
+		Pquery:   r.query,
+		Pstart:   r.start,
+		Pend:     r.end,
+		Pstep:    r.step,
+		Ptimeout: r.timeout,
 	}
 	*mock.GetRangeQueryCalls = append(*mock.GetRangeQueryCalls, p)
 	return &mock.GetRangeQueryResponse.Result, mock.GetRangeQueryResponse.Response, mock.GetRangeQueryResponse.Error
 }
 
 type PostExemplarsQueryMockResponse struct {
-	Result PromExemplarEnvelope
+	Result   PromExemplarEnvelope
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PostExemplarsQueryCall struct {
 	Pquery *string
 	Pstart *string
-	Pend *string
+	Pend   *string
 }
-
 
 func (mock MetricApiMock) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MetricApiMock) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
-	p := PostExemplarsQueryCall {
-			Pquery: r.query,
-			Pstart: r.start,
-			Pend: r.end,
+	p := PostExemplarsQueryCall{
+		Pquery: r.query,
+		Pstart: r.start,
+		Pend:   r.end,
 	}
 	*mock.PostExemplarsQueryCalls = append(*mock.PostExemplarsQueryCalls, p)
 	return &mock.PostExemplarsQueryResponse.Result, mock.PostExemplarsQueryResponse.Response, mock.PostExemplarsQueryResponse.Error
 }
 
 type PostInstantQueryMockResponse struct {
-	Result PromEnvelope
+	Result   PromEnvelope
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PostInstantQueryCall struct {
-	Pquery *string
-	Ptime *string
+	Pquery   *string
+	Ptime    *string
 	Ptimeout *string
 }
-
 
 func (mock MetricApiMock) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MetricApiMock) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := PostInstantQueryCall {
-			Pquery: r.query,
-			Ptime: r.time,
-			Ptimeout: r.timeout,
+	p := PostInstantQueryCall{
+		Pquery:   r.query,
+		Ptime:    r.time,
+		Ptimeout: r.timeout,
 	}
 	*mock.PostInstantQueryCalls = append(*mock.PostInstantQueryCalls, p)
 	return &mock.PostInstantQueryResponse.Result, mock.PostInstantQueryResponse.Response, mock.PostInstantQueryResponse.Error
 }
 
 type PostRangeQueryMockResponse struct {
-	Result PromEnvelope
+	Result   PromEnvelope
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PostRangeQueryCall struct {
-	Pquery *string
-	Pstart *string
-	Pend *string
-	Pstep *string
+	Pquery   *string
+	Pstart   *string
+	Pend     *string
+	Pstep    *string
 	Ptimeout *string
 }
-
 
 func (mock MetricApiMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MetricApiMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := PostRangeQueryCall {
-			Pquery: r.query,
-			Pstart: r.start,
-			Pend: r.end,
-			Pstep: r.step,
-			Ptimeout: r.timeout,
+	p := PostRangeQueryCall{
+		Pquery:   r.query,
+		Pstart:   r.start,
+		Pend:     r.end,
+		Pstep:    r.step,
+		Ptimeout: r.timeout,
 	}
 	*mock.PostRangeQueryCalls = append(*mock.PostRangeQueryCalls, p)
 	return &mock.PostRangeQueryResponse.Result, mock.PostRangeQueryResponse.Response, mock.PostRangeQueryResponse.Error
 }
-
-
