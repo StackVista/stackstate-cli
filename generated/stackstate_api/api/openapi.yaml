@@ -1833,6 +1833,33 @@ paths:
       tags:
       - subject
   /security/subjects/{subject}:
+    delete:
+      description: Remove a security subject
+      operationId: deleteSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      responses:
+        "200":
+          description: Subject deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete a subject
+      tags:
+      - subject
     get:
       description: Describe a subject and its scope
       operationId: getSubject

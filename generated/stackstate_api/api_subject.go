@@ -37,6 +37,20 @@ type SubjectApi interface {
 	CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error)
 
 	/*
+		DeleteSubject Delete a subject
+
+		Remove a security subject
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param subject
+		@return ApiDeleteSubjectRequest
+	*/
+	DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest
+
+	// DeleteSubjectExecute executes the request
+	DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error)
+
+	/*
 		GetSubject Get subject
 
 		Describe a subject and its scope
@@ -209,6 +223,159 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiDeleteSubjectRequest struct {
+	ctx        context.Context
+	ApiService SubjectApi
+	subject    string
+}
+
+func (r ApiDeleteSubjectRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteSubjectExecute(r)
+}
+
+/*
+DeleteSubject Delete a subject
+
+Remove a security subject
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiDeleteSubjectRequest
+*/
+func (a *SubjectApiService) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
+	return ApiDeleteSubjectRequest{
+		ApiService: a,
+		ctx:        ctx,
+		subject:    subject,
+	}
+}
+
+// Execute executes the request
+func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.DeleteSubject")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/security/subjects/{subject}"
+	localVarPath = strings.Replace(localVarPath, "{"+"subject"+"}", url.PathEscape(parameterToString(r.subject, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
 			var v GenericErrorsResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -556,6 +723,8 @@ func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]Sub
 type SubjectApiMock struct {
 	CreateSubjectCalls    *[]CreateSubjectCall
 	CreateSubjectResponse CreateSubjectMockResponse
+	DeleteSubjectCalls    *[]DeleteSubjectCall
+	DeleteSubjectResponse DeleteSubjectMockResponse
 	GetSubjectCalls       *[]GetSubjectCall
 	GetSubjectResponse    GetSubjectMockResponse
 	ListSubjectsCalls     *[]ListSubjectsCall
@@ -564,10 +733,12 @@ type SubjectApiMock struct {
 
 func NewSubjectApiMock() SubjectApiMock {
 	xCreateSubjectCalls := make([]CreateSubjectCall, 0)
+	xDeleteSubjectCalls := make([]DeleteSubjectCall, 0)
 	xGetSubjectCalls := make([]GetSubjectCall, 0)
 	xListSubjectsCalls := make([]ListSubjectsCall, 0)
 	return SubjectApiMock{
 		CreateSubjectCalls: &xCreateSubjectCalls,
+		DeleteSubjectCalls: &xDeleteSubjectCalls,
 		GetSubjectCalls:    &xGetSubjectCalls,
 		ListSubjectsCalls:  &xListSubjectsCalls,
 	}
@@ -598,6 +769,31 @@ func (mock SubjectApiMock) CreateSubjectExecute(r ApiCreateSubjectRequest) (*htt
 	}
 	*mock.CreateSubjectCalls = append(*mock.CreateSubjectCalls, p)
 	return mock.CreateSubjectResponse.Response, mock.CreateSubjectResponse.Error
+}
+
+type DeleteSubjectMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type DeleteSubjectCall struct {
+	Psubject string
+}
+
+func (mock SubjectApiMock) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
+	return ApiDeleteSubjectRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		subject:    subject,
+	}
+}
+
+func (mock SubjectApiMock) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
+	p := DeleteSubjectCall{
+		Psubject: r.subject,
+	}
+	*mock.DeleteSubjectCalls = append(*mock.DeleteSubjectCalls, p)
+	return mock.DeleteSubjectResponse.Response, mock.DeleteSubjectResponse.Error
 }
 
 type GetSubjectMockResponse struct {

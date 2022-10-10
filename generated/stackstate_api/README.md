@@ -149,6 +149,7 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
 *SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
+*SubjectApi* | [**DeleteSubject**](docs/SubjectApi.md#deletesubject) | **Delete** /security/subjects/{subject} | Delete a subject
 *SubjectApi* | [**GetSubject**](docs/SubjectApi.md#getsubject) | **Get** /security/subjects/{subject} | Get subject
 *SubjectApi* | [**ListSubjects**](docs/SubjectApi.md#listsubjects) | **Get** /security/subjects | List subjects
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
