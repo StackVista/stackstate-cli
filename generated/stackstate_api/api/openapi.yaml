@@ -1812,7 +1812,85 @@ paths:
       summary: Grant permissions
       tags:
       - permissions
+  /security/subjects:
+    get:
+      description: List all subjects and their scopes
+      operationId: listSubjects
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectList'
+          description: Subject list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List subjects
+      tags:
+      - subject
   /security/subjects/{subject}:
+    delete:
+      description: Remove a security subject
+      operationId: deleteSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      responses:
+        "200":
+          description: Subject deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete a subject
+      tags:
+      - subject
+    get:
+      description: Describe a subject and its scope
+      operationId: getSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectConfig'
+          description: Subject config
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get subject
+      tags:
+      - subject
     put:
       description: Create a new security subject
       operationId: createSubject
@@ -5800,6 +5878,24 @@ components:
       type: object
     Resource:
       type: string
+    SubjectList:
+      items:
+        $ref: '#/components/schemas/SubjectConfig'
+      type: array
+    SubjectConfig:
+      example:
+        scopeQuery: scopeQuery
+        handle: handle
+      properties:
+        handle:
+          type: string
+        scopeQuery:
+          type: string
+      required:
+      - handle
+      type: object
+    Query:
+      type: string
     CreateSubject:
       example:
         query: query
@@ -5813,8 +5909,6 @@ components:
       - query
       - version
       type: object
-    Query:
-      type: string
     Version:
       enum:
       - 0.0.1

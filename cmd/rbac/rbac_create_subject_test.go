@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -13,7 +14,7 @@ const (
 	SomeScope   = "withNeighboursOf(components = (id = '*'), levels = '14534564576475675671', direction = 'both')"
 )
 
-func TestCreateSubject(t *testing.T) {
+func TestCreateSubjectJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateSubjectCommand(&cli.Deps)
 
@@ -29,19 +30,30 @@ func TestCreateSubject(t *testing.T) {
 
 	expectedJson := []map[string]interface{}{
 		{
-			"create-subject": SomeSubject,
+			"created-subject": SomeSubject,
 		},
 	}
 
 	assert.Equal(t, expectedJson, *cli.MockPrinter.PrintJsonCalls)
+}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "--scope", SomeScope)
+func TestCreateSubject(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := CreateSubjectCommand(&cli.Deps)
 
-	calls = *cli.MockClient.ApiMocks.SubjectApi.CreateSubjectCalls
-	assert.Len(t, calls, 2)
-	assert.Equal(t, SomeSubject, calls[0].Psubject)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeOtherSubject, "--scope", SomeScope)
+
+	calls := *cli.MockClient.ApiMocks.SubjectApi.CreateSubjectCalls
+	assert.Len(t, calls, 1)
+	assert.Equal(t, SomeOtherSubject, calls[0].Psubject)
 
 	otherExpectedSubject := stackstate_api.NewCreateSubject(SomeScope, DefaultSTQLVersion)
 
-	assert.Equal(t, otherExpectedSubject, calls[1].PcreateSubject)
+	assert.Equal(t, otherExpectedSubject, calls[0].PcreateSubject)
+
+	expectedStrings := []string{
+		fmt.Sprintf("Created subject '%s'", SomeOtherSubject),
+	}
+
+	assert.Equal(t, expectedStrings, *cli.MockPrinter.SuccessCalls)
 }

@@ -47,7 +47,7 @@ func RunCreateSubjectCommand(args *CreateSubjectArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"create-subject": args.Subject,
+				"created-subject": args.Subject,
 			})
 		} else {
 			cli.Printer.Successf("Created subject '%s'", args.Subject)
