@@ -149,6 +149,8 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
 *SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
+*SubjectApi* | [**GetSubject**](docs/SubjectApi.md#getsubject) | **Get** /security/subjects/{subject} | Get subject
+*SubjectApi* | [**ListSubjects**](docs/SubjectApi.md#listsubjects) | **Get** /security/subjects | List subjects
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
 *SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
@@ -345,6 +347,7 @@ Class | Method | HTTP request | Description
  - [StsEventStreamFilter](docs/StsEventStreamFilter.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
+ - [SubjectConfig](docs/SubjectConfig.md)
  - [Subscription](docs/Subscription.md)
  - [SubscriptionState](docs/SubscriptionState.md)
  - [TelemetryLatestSnapshotsResponse](docs/TelemetryLatestSnapshotsResponse.md)
