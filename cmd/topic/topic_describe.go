@@ -2,6 +2,7 @@ package topic
 
 import (
 	"encoding/json"
+	"os"
 	"sort"
 
 	"github.com/spf13/cobra"
@@ -109,26 +110,52 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			return messages[i].Offset < messages[j].Offset
 		})
 
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"messages": messages,
-			})
-		} else {
-			data := make([][]interface{}, len(messages))
-			for i, message := range messages {
-				json, err := json.Marshal(message.Message)
-				if err != nil {
-					return common.NewExecutionError(err)
-				}
-				data[i] = []interface{}{message.Key, message.Partition, message.Offset, string(json)}
+		if args.File != "" {
+			const fileMode = 0644
+			file, err := os.OpenFile(args.File, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
+			if err != nil {
+				return common.NewWriteFileError(err, args.File)
 			}
-			cli.Printer.Table(printer.TableData{
-				Header:              []string{"Key", "Partition", "Offset", "Message"},
-				Data:                data,
-				MissingTableDataMsg: printer.NotFoundMsg{Types: "messages"},
-			})
-		}
+			defer file.Close()
 
+			json, err := json.Marshal(messages)
+			if err != nil {
+				return common.NewExecutionError(err)
+			}
+
+			_, err = file.Write(json)
+			if err != nil {
+				return common.NewWriteFileError(err, args.File)
+			}
+
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"filepath": args.File,
+				})
+			} else {
+				cli.Printer.Successf("Messages saved to '%s'", args.File)
+			}
+		} else {
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"messages": messages,
+				})
+			} else {
+				data := make([][]interface{}, len(messages))
+				for i, message := range messages {
+					json, err := json.Marshal(message.Message)
+					if err != nil {
+						return common.NewExecutionError(err)
+					}
+					data[i] = []interface{}{message.Key, message.Partition, message.Offset, string(json)}
+				}
+				cli.Printer.Table(printer.TableData{
+					Header:              []string{"Key", "Partition", "Offset", "Message"},
+					Data:                data,
+					MissingTableDataMsg: printer.NotFoundMsg{Types: "messages"},
+				})
+			}
+		}
 		return nil
 	}
 }
