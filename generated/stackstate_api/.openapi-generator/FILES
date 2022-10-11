@@ -22,6 +22,7 @@ api_service_token.go
 api_stackpack.go
 api_subject.go
 api_subscription.go
+api_topic.go
 api_topology_synchronization.go
 api_user_profile.go
 client.go
@@ -240,6 +241,8 @@ docs/TimeRange.md
 docs/TooManyActiveQueries.md
 docs/TooManyAnomaliesError.md
 docs/TooManyTopologyResults.md
+docs/Topic.md
+docs/TopicApi.md
 docs/TopologyEvent.md
 docs/TopologyMapping.md
 docs/TopologyMatchResult.md
@@ -461,6 +464,7 @@ model_time_range.go
 model_too_many_active_queries.go
 model_too_many_anomalies_error.go
 model_too_many_topology_results.go
+model_topic.go
 model_topology_event.go
 model_topology_mapping.go
 model_topology_match_result.go

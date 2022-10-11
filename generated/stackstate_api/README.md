@@ -154,6 +154,7 @@ Class | Method | HTTP request | Description
 *SubjectApi* | [**ListSubjects**](docs/SubjectApi.md#listsubjects) | **Get** /security/subjects | List subjects
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
 *SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
+*TopicApi* | [**List**](docs/TopicApi.md#list) | **Get** /topic | List topics
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -359,6 +360,7 @@ Class | Method | HTTP request | Description
  - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
  - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
  - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
+ - [Topic](docs/Topic.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMapping](docs/TopologyMapping.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)

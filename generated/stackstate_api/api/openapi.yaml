@@ -3244,6 +3244,26 @@ paths:
       summary: "Experimental: Exemplars for a specific time range"
       tags:
       - metric
+  /topic:
+    get:
+      description: List all Kafka topics available in StackState
+      operationId: list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicList'
+          description: Topic list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List topics
+      tags:
+      - topic
 components:
   parameters:
     stackName:
@@ -7600,6 +7620,19 @@ components:
       - end
       - query
       - start
+      type: object
+    TopicList:
+      items:
+        $ref: '#/components/schemas/Topic'
+      type: array
+    Topic:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      required:
+      - name
       type: object
     Argument:
       discriminator:
