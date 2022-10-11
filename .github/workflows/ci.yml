@@ -215,7 +215,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
           registry: registry.gitlab.com
-          image: quay.io/stackstate/go-rk:v0.2.2
+          image: quay.io/stackstate/go-rk:v0.2.3
           options: >
             -v ${{ github.workspace }}:/workspace
             -e RK_JIRA_PROJECT=STAC
