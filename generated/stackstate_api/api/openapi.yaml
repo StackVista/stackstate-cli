@@ -3264,6 +3264,58 @@ paths:
       summary: List topics
       tags:
       - topic
+  /topic/{topic}:
+    get:
+      description: List Kafka messages on the topic of choice
+      operationId: describe
+      parameters:
+      - in: path
+        name: topic
+        required: true
+        schema:
+          $ref: '#/components/schemas/TopicName'
+      - description: Maximum number of resources to be returned in result.
+        in: query
+        name: limit
+        required: false
+        schema:
+          $ref: '#/components/schemas/Limit'
+      - in: query
+        name: offset
+        schema:
+          type: integer
+      - in: query
+        name: partition
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
+          description: Message list
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Describe a topic
+      tags:
+      - topic
 components:
   parameters:
     stackName:
@@ -3438,6 +3490,22 @@ components:
       required: true
       schema:
         $ref: '#/components/schemas/PromStep'
+    topic:
+      in: path
+      name: topic
+      required: true
+      schema:
+        $ref: '#/components/schemas/TopicName'
+    offset:
+      in: query
+      name: offset
+      schema:
+        type: integer
+    partition:
+      in: query
+      name: partition
+      schema:
+        type: integer
   requestBodies:
     monitorPatch:
       content:
@@ -7633,6 +7701,52 @@ components:
           type: string
       required:
       - name
+      type: object
+    TopicName:
+      type: string
+    Messages:
+      example:
+        messages:
+        - partition: 0
+          offset: 6
+          message: "{}"
+          key: key
+        - partition: 0
+          offset: 6
+          message: "{}"
+          key: key
+      properties:
+        messages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+      required:
+      - messages
+      type: object
+    MessageList:
+      items:
+        $ref: '#/components/schemas/Message'
+      type: array
+    Message:
+      example:
+        partition: 0
+        offset: 6
+        message: "{}"
+        key: key
+      properties:
+        key:
+          type: string
+        partition:
+          type: integer
+        offset:
+          type: integer
+        message:
+          type: object
+      required:
+      - key
+      - message
+      - offset
+      - partition
       type: object
     Argument:
       discriminator:

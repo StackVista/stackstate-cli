@@ -140,7 +140,9 @@ docs/InvalidUrn.md
 docs/LatestTelemetryStreamMetrics.md
 docs/LicensedSubscription.md
 docs/LimitOutOfRange.md
+docs/Message.md
 docs/MessageLevel.md
+docs/Messages.md
 docs/MetricApi.md
 docs/MetricBucketValue.md
 docs/MetricStream.md
@@ -375,7 +377,9 @@ model_invalid_urn.go
 model_latest_telemetry_stream_metrics.go
 model_licensed_subscription.go
 model_limit_out_of_range.go
+model_message.go
 model_message_level.go
+model_messages.go
 model_metric_bucket_value.go
 model_metric_stream.go
 model_metric_stream_anomaly_data.go

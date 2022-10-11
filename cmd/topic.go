@@ -14,5 +14,6 @@ func TopicCommand(deps *di.Deps) *cobra.Command {
 	}
 
 	cmd.AddCommand(topic.ListCommand(deps))
+	cmd.AddCommand(topic.DescribeCommand(deps))
 	return cmd
 }
