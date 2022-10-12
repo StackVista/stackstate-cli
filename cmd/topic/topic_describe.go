@@ -3,7 +3,6 @@ package topic
 import (
 	"encoding/json"
 	"fmt"
-	"os"
 	"sort"
 
 	"github.com/spf13/cobra"
@@ -11,6 +10,7 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 const (
@@ -19,8 +19,6 @@ const (
 	Number    = "nr"
 	PageSize  = "pagesize"
 	Partition = "partition"
-	File      = "file"
-	FileShort = "f"
 
 	NameUsage      = "Topic name"
 	OffsetUsage    = "The starting offset"
@@ -59,7 +57,7 @@ func DescribeCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().Int32Var(&args.Number, Number, DefaultNumber, NumberUsage)
 	cmd.Flags().Int32Var(&args.PageSize, PageSize, DefaultPageSize, PageSizeUsage)
 	cmd.Flags().Int32Var(&args.Partition, Partition, -1, PartitionUsage)
-	cmd.Flags().StringVarP(&args.File, File, FileShort, "", FileUsage)
+	common.AddFileFlagVar(cmd, &args.File, FileUsage)
 
 	return cmd
 }
@@ -135,19 +133,12 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		}
 
 		if args.File != "" {
-			const fileMode = 0644
-			file, err := os.OpenFile(args.File, os.O_CREATE|os.O_WRONLY, os.FileMode(fileMode))
-			if err != nil {
-				return common.NewWriteFileError(err, args.File)
-			}
-			defer file.Close()
-
 			json, err := json.Marshal(messages)
 			if err != nil {
 				return common.NewExecutionError(err)
 			}
 
-			_, err = file.Write(json)
+			err = util.WriteFile(args.File, json)
 			if err != nil {
 				return common.NewWriteFileError(err, args.File)
 			}
