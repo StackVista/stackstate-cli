@@ -2,6 +2,7 @@ package topic
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"sort"
 
@@ -28,9 +29,9 @@ const (
 	PartitionUsage = "The Kafka partition to query"
 	FileUsage      = "The JSON output file to save the messages to"
 
-	DefaultOffset   = 0
-	DefaultNumber   = 10
-	DefaultPageSize = 10000
+	DefaultOffset   = int32(0)
+	DefaultNumber   = int32(10)
+	DefaultPageSize = int32(10000)
 )
 
 type DescribeArgs struct {
@@ -63,6 +64,48 @@ func DescribeCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
+func argValueError(name string, value int32) common.CLIError {
+	return common.NewCLIArgParseError(fmt.Errorf("invalid value for argument '%s' specified: %d", name, value))
+}
+
+func fetchMessages(request stackstate_api.ApiDescribeRequest, args *DescribeArgs) ([]stackstate_api.Message, common.CLIError) {
+	// NOTE Fetch up to args.Number messages from the topic, at most args.PageSize at a time starting at args.Offset.
+	remaining := args.Number
+	offset := args.Offset
+	messages := make([]stackstate_api.Message, 0)
+
+	for remaining > 0 {
+		pageSize := args.PageSize
+
+		if remaining < args.PageSize {
+			pageSize = remaining
+		}
+
+		result, resp, err := request.Offset(offset).Limit(pageSize).Execute()
+
+		if err != nil {
+			return nil, common.NewResponseError(err, resp)
+		}
+
+		messages = append(messages, result.Messages...)
+
+		if int32(len(result.Messages)) < pageSize {
+			// Exhausted the topic.
+			remaining = 0
+		} else {
+			// Prepare to fetch the next page.
+			offset += pageSize
+			remaining -= pageSize
+		}
+	}
+
+	sort.SliceStable(messages, func(i, j int) bool {
+		return messages[i].Offset < messages[j].Offset
+	})
+
+	return messages, nil
+}
+
 func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
@@ -70,45 +113,26 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
+		if args.Offset < 0 {
+			return argValueError(Offset, args.Offset)
+		}
+		if args.Number < 1 {
+			return argValueError(Number, args.Number)
+		}
+		if args.PageSize < 1 {
+			return argValueError(PageSize, args.PageSize)
+		}
+
 		request := api.TopicApi.Describe(cli.Context, args.Name)
 
 		if args.Partition != -1 {
 			request = request.Partition(args.Partition)
 		}
 
-		// NOTE Fetch up to args.Number messages from the topic, at most args.PageSize at a time starting at args.Offset.
-		remaining := args.Number
-		offset := args.Offset
-		messages := make([]stackstate_api.Message, 0)
-
-		for remaining > 0 {
-			pageSize := args.PageSize
-
-			if remaining < args.PageSize {
-				pageSize = remaining
-			}
-
-			result, resp, err := request.Offset(offset).Limit(pageSize).Execute()
-
-			if err != nil {
-				return common.NewResponseError(err, resp)
-			}
-
-			messages = append(messages, result.Messages...)
-
-			if int32(len(result.Messages)) < pageSize {
-				// Exhausted the topic.
-				remaining = 0
-			} else {
-				// Prepare to fetch the next page.
-				offset += pageSize
-				remaining -= pageSize
-			}
+		messages, err := fetchMessages(request, args)
+		if err != nil {
+			return err
 		}
-
-		sort.SliceStable(messages, func(i, j int) bool {
-			return messages[i].Offset < messages[j].Offset
-		})
 
 		if args.File != "" {
 			const fileMode = 0644
