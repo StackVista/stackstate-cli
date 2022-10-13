@@ -88,3 +88,12 @@ func NewExecutionError(err error) CLIError {
 		exitCode:       ExecutionErrorCode,
 	}
 }
+
+func NewAPIVersionError(err error) CLIError {
+	return StdCLIError{
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      true,
+		exitCode:       APIVersionErrorCode,
+	}
+}

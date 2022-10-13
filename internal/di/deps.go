@@ -80,6 +80,11 @@ func (cli *Deps) CmdRunEWithApi(runFn CmdWithApiFn) func(*cobra.Command, []strin
 			return err
 		}
 
+		err = client.CheckVersionCompatibility(serverInfo.Version, cmd.Version)
+		if err != nil {
+			return err
+		}
+
 		return runFn(cmd, cli, api, serverInfo)
 	}
 }
@@ -137,6 +142,8 @@ func (cli *Deps) CmdRunEWithAdminApi(runFn CmdWithAdminApiFn) func(*cobra.Comman
 		if err != nil {
 			return err
 		}
+
+		// NOTE Can't validate whether the server version is compatible.
 
 		return runFn(cmd, cli, api)
 	}

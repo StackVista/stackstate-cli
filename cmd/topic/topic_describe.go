@@ -44,10 +44,11 @@ type DescribeArgs struct {
 func DescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Describe a given topic",
-		Long:  "Describe a given topic.",
-		RunE:  deps.CmdRunEWithApi(RunDescribeCommand(args)),
+		Use:     "describe",
+		Short:   "Describe a given topic",
+		Long:    "Describe a given topic.",
+		RunE:    deps.CmdRunEWithApi(RunDescribeCommand(args)),
+		Version: "5.1.0",
 	}
 
 	cmd.Flags().StringVar(&args.Name, Name, "", NameUsage)
