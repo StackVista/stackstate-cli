@@ -16,7 +16,7 @@ import (
 type StatusArgs struct {
 	Urn       string
 	SubStream string
-	Topology  string
+	Topology  bool
 }
 
 func HealthStatusCommand(cli *di.Deps) *cobra.Command {
@@ -29,7 +29,7 @@ func HealthStatusCommand(cli *di.Deps) *cobra.Command {
 	}
 	common.AddRequiredUrnFlagVar(cmd, &args.Urn, "Urn of the stream")
 	cmd.Flags().StringVar(&args.SubStream, SubStreamFlag, "", SubStreamFlagUsage)
-	cmd.Flags().StringVar(&args.Topology, TopologyFlag, "", TopologyFlagUsage)
+	cmd.Flags().BoolVar(&args.Topology, TopologyFlag, false, TopologyFlagUsage)
 
 	return cmd
 }
@@ -43,7 +43,7 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 	) common.CLIError {
 		var resp *http.Response
 		var err error
-		if args.Topology != "" {
+		if args.Topology {
 			data := make([][]interface{}, 0)
 			var topologies *stackstate_api.TopologyMatchResult
 			if args.SubStream == "" {
