@@ -22,6 +22,7 @@ api_service_token.go
 api_stackpack.go
 api_subject.go
 api_subscription.go
+api_topic.go
 api_topology_synchronization.go
 api_user_profile.go
 client.go
@@ -139,7 +140,9 @@ docs/InvalidUrn.md
 docs/LatestTelemetryStreamMetrics.md
 docs/LicensedSubscription.md
 docs/LimitOutOfRange.md
+docs/Message.md
 docs/MessageLevel.md
+docs/Messages.md
 docs/MetricApi.md
 docs/MetricBucketValue.md
 docs/MetricStream.md
@@ -240,6 +243,8 @@ docs/TimeRange.md
 docs/TooManyActiveQueries.md
 docs/TooManyAnomaliesError.md
 docs/TooManyTopologyResults.md
+docs/Topic.md
+docs/TopicApi.md
 docs/TopologyEvent.md
 docs/TopologyMapping.md
 docs/TopologyMatchResult.md
@@ -372,7 +377,9 @@ model_invalid_urn.go
 model_latest_telemetry_stream_metrics.go
 model_licensed_subscription.go
 model_limit_out_of_range.go
+model_message.go
 model_message_level.go
+model_messages.go
 model_metric_bucket_value.go
 model_metric_stream.go
 model_metric_stream_anomaly_data.go
@@ -461,6 +468,7 @@ model_time_range.go
 model_too_many_active_queries.go
 model_too_many_anomalies_error.go
 model_too_many_topology_results.go
+model_topic.go
 model_topology_event.go
 model_topology_mapping.go
 model_topology_match_result.go

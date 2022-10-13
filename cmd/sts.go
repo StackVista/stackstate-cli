@@ -27,6 +27,7 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(LicenseCommand(cli))
 	cmd.AddCommand(GraphCommand(cli))
 	cmd.AddCommand(RbacCommand(cli))
+	cmd.AddCommand(TopicCommand(cli))
 
 	return cmd
 }
