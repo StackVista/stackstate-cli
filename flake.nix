@@ -11,13 +11,8 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let  
-        gopkg = builtins.fetchTarball {
-                  url = "https://github.com/NixOS/nixpkgs/archive/73994921df2b89021c1cbded66e8f057a41568c1.tar.gz";
-                  sha256 = "1l2nzpm6yk3svgrkiii4r4zl3fxgx0hqwmy2y4cdvaq6s1c8qjq4";
-                };
-
-        pkgs = import nixpkgs { inherit system; overlays = [  ]; };
-        pkgs-linux = import nixpkgs { system = "x86_64-linux"; overlays = [  ]; };
+        pkgs = import nixpkgs { inherit system; overlays = [ ]; };
+        pkgs-linux = import nixpkgs { system = "x86_64-linux"; overlays = [ ]; };
 
         # Dependencies used for both development and CI/CD
         sharedDeps = pkgs: (with pkgs; [
@@ -40,11 +35,14 @@
           docker
         ]);
 
+        darwinDevShellExtraDeps = pkgs: pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk_11_0; [
+          Libsystem
+        ]);
       in {
 
         devShells = {
           dev = pkgs.mkShell {
-            buildInputs = sharedDeps(pkgs);
+            buildInputs = sharedDeps(pkgs) ++ darwinDevShellExtraDeps(pkgs);
           };
 
           ci = pkgs.mkShell {
@@ -55,7 +53,7 @@
         devShell = self.devShells."${system}".dev;
 
         packages = {
-          sts = pkgs.buildGoModule {
+          sts = pkgs.buildGo119Module {
             pname = "sts";
             version = "2.0.0";
 
@@ -70,7 +68,7 @@
             # you will get a new real hash which can be used here.
             #
             # vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-uORIriWxJpakUuXdzbEA3CGTarjKqRcGWd2Qdm2f8BI=";
+            vendorSha256 = "sha256-aXTDHT1N+4Qpkuxb8vvBvP2VPyS5ofCgX6XFhJ5smUQ=";
 
             postInstall = ''
               mv $out/bin/stackstate-cli2 $out/bin/sts
