@@ -14,12 +14,20 @@ func VersionToString(version stackstate_api.ServerVersion) string {
 	if version.IsDev {
 		dev = "-dev"
 	}
-	return fmt.Sprintf("%d.%d.%d+%s-%s%s",
+	diff := ""
+	if version.Diff != "" {
+		diff = "+" + version.Diff
+	}
+	commit := ""
+	if version.Commit != "" {
+		commit = "-" + version.Commit
+	}
+	return fmt.Sprintf("%d.%d.%d%s%s%s",
 		version.Major,
 		version.Minor,
 		version.Patch,
-		version.Diff,
-		version.Commit,
+		diff,
+		commit,
 		dev,
 	)
 }
@@ -48,8 +56,12 @@ func CheckVersionCompatibility(version stackstate_api.ServerVersion, minVersion 
 	}
 
 	if parsed.Major != curr.Major || !curr.GTE(parsed) {
-		return common.NewAPIVersionError(fmt.Errorf("Incompatible API version: got '%s', but need '%s'-compatible version", curr.String(), parsed.String()))
+		return NewAPIVersionMismatchError(curr.String(), parsed.String())
 	}
 
 	return nil
+}
+
+func NewAPIVersionMismatchError(got string, expected string) common.CLIError {
+	return common.NewAPIVersionError(fmt.Errorf("Incompatible API version: got '%s', but need '%s'-compatible version", got, expected))
 }
