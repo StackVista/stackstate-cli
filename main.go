@@ -22,6 +22,8 @@ import (
 	"gitlab.com/stackvista/stackstate-cli2/static_info"
 )
 
+const MinSTSVersion = "5.0.0"
+
 func main() {
 	ctx := log.Logger.WithContext(context.Background())
 	log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
@@ -43,6 +45,7 @@ func execute(ctx context.Context, cli *di.Deps, sts *cobra.Command) common.ExitC
 	common.AddPersistentFlags(sts)
 	stscobra.AddRequiredFlagsToUseString(sts)
 	setUsageTemplates(sts)
+	setMinSupportedSTSVersion(sts, MinSTSVersion)
 	throwErrorOnUnknownSubCommand(sts, cli)
 	sts.SetFlagErrorFunc(func(cmd *cobra.Command, err error) error {
 		return common.NewCLIArgParseError(err)
@@ -144,7 +147,7 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 // For commands that have sub-commands we can show a simpler usage template.
 func setUsageTemplates(sts *cobra.Command) {
 	cobraCommand := cobra.Command{}
-	fullTemplate := cobraCommand.UsageTemplate()
+	fullTemplate := "{{if .Version}}Minimum supported StackState version: {{.Version}}\n\n{{end}}" + cobraCommand.UsageTemplate()
 	subCommandTemplate := `Usage:{{if .HasAvailableSubCommands}}
   {{.CommandPath}} [command]{{end}}{{if gt (len .Aliases) 0}}
 
@@ -159,6 +162,8 @@ Additional help topics:{{range .Commands}}{{if .IsAdditionalHelpTopicCommand}}
 
 Use "{{.CommandPath}} [command] --help" for more information about a command.{{end}}
 `
+	versionTemplate := "minimum supported StackState version: {{.Version}}"
+	sts.SetVersionTemplate(versionTemplate)
 
 	stscobra.ForAllCmd(sts, func(c *cobra.Command) {
 		c.SetUsageTemplate(fullTemplate)
@@ -176,6 +181,15 @@ Use "{{.CommandPath}} [command] --help" for more information about a command.{{e
 			}
 		}
 	}
+}
+
+// Sets the minimum supported StackState version (unless specified
+func setMinSupportedSTSVersion(sts *cobra.Command, version string) {
+	stscobra.ForAllCmd(sts, func(c *cobra.Command) {
+		if c.Version == "" {
+			c.Version = version
+		}
+	})
 }
 
 // By default Cobra does not provide an error when a wrong sub-command is entered.

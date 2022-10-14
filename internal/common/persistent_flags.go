@@ -11,6 +11,8 @@ import (
 const (
 	VerboseFlag           = "verbose"
 	VerboseFlagShort      = "v"
+	VersionFlag           = "version"
+	VersionFlagUse        = "Prints the minimum StackState version supported by the command"
 	URLFlag               = "url"
 	URLFlagUse            = "Specify the URL of the StackState server"
 	APITokenFlag          = "api-token"
@@ -42,4 +44,8 @@ func AddPersistentFlags(cmd *cobra.Command) {
 	cmd.PersistentFlags().String(ConfigFlag, "", "Override the path to the config file")
 	cmd.PersistentFlags().StringP(ContextFlag, ContextFlagShort, "", "Override the context to use")
 	pflags.EnumP(cmd.PersistentFlags(), OutputFlag, OutputFlagShort, "text", AllowedOutputs, fmt.Sprintf("Specify the output format (must be { %s })", strings.Join(AllowedOutputs, " | ")))
+
+	// NOTE Add as a dummy `--version` flag and hides it, so that we omit the auto-generated Cobra flag on each versioned command.
+	cmd.PersistentFlags().Bool(VersionFlag, false, VersionFlagUse)
+	cmd.PersistentFlags().MarkHidden(VersionFlag) //nolint:errcheck
 }

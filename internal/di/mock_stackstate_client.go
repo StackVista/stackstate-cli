@@ -107,11 +107,15 @@ func NewMockStackStateClient() MockStackStateClient {
 		RetentionApi: apiMocks.RetentionApi,
 	}
 
+	// NOTE Used for min version checks.
+	mockAPIVersion := stackstate_api.ServerVersion{Major: 5, Minor: 1, Patch: 0} //nolint:gomnd
+	mockServerInfo := stackstate_api.NewServerInfo(mockAPIVersion, "SaaS")
+
 	return MockStackStateClient{
 		apiClient:         apiClient,
 		adminApiClient:    adminApiClient,
 		ApiMocks:          apiMocks,
-		ConnectServerInfo: &stackstate_api.ServerInfo{},
+		ConnectServerInfo: mockServerInfo,
 		ConnectError:      nil,
 	}
 }
