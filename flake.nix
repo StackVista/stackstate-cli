@@ -36,9 +36,8 @@
         ]);
 
         darwinDevShellExtraDeps = pkgs: pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk_11_0; [
-          #Libsystem
-          #libnetwork
-          Libsystem LibsystemCross libcharset libunwind objc4 configd IOKit frameworks.Security
+          Libsystem 
+          IOKit
         ]);
       in {
 
