@@ -36,7 +36,9 @@
         ]);
 
         darwinDevShellExtraDeps = pkgs: pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk_11_0; [
-          Libsystem
+          #Libsystem
+          #libnetwork
+          Libsystem LibsystemCross libcharset libunwind objc4 configd IOKit frameworks.Security
         ]);
       in {
 
@@ -94,18 +96,17 @@
               };
             };
           };
-        };
 
-        defaultPackage = self.packages."${system}".sts;
+          default = self.packages."${system}".sts;
+        };
 
         apps = {
           sts = {
             type = "app";
             program = "${self.packages."${system}".sts}/bin/sts";
           };
+
+          default = self.apps."${system}".sts;
         };
-
-        defaultApp = self.apps."${system}".sts;
-
       });
 }
