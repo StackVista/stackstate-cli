@@ -32,7 +32,6 @@ func SettingsUnlockCommand(cli *di.Deps) *cobra.Command {
 }
 
 func UnlockNodes(cli *di.Deps, api *stackstate_api.APIClient, ids []int64, nodeType string) common.CLIError {
-	// NOTE Uses the wildcard type "_" to unlock all the nodes identified with ids.
 	for _, id := range ids {
 		_, resp, err := api.NodeApi.Unlock(cli.Context, nodeType, id).Execute()
 		if err != nil {
@@ -49,6 +48,7 @@ func RunSettingsUnlockCommand(args *UnlockArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
+		// NOTE Uses the wildcard type "_" to unlock all the nodes identified with ids.
 		err := UnlockNodes(cli, api, args.Ids, WildCardType)
 		if err != nil {
 			return err
