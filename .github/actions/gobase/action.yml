@@ -4,6 +4,9 @@ inputs:
   image:
     description: 'CI Image'
     required: true
+  options:
+    description: 'Extra options for the container'
+    required: false
   run:
     description: 'Run command in the container'
     required: false
@@ -16,8 +19,8 @@ runs:
         username: ${{ env.QUAY_USER }}
         password: ${{ env.QUAY_PASSWORD }}
         image: ${{ inputs.image }}
-        options: -v ${{ github.workspace }}:/workspace          # NOTE: Assumes the repo is checked out beforehand.
+        options: -v ${{ github.workspace }}:/workspace ${{ inputs.options }} # NOTE: Assumes the repo is checked out beforehand.
         run: |
-          git config --global --add safe.directory /workspace   # Needed for goreleaser.
+          git config --global --add safe.directory /workspace                # Needed for goreleaser.
           cd /workspace
           ${{ inputs.run }}
