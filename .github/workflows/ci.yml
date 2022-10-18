@@ -196,7 +196,7 @@ jobs:
 
   publish:
     name: Publish the binary
-    if: ${{ contains(github.ref, '/refs/tags/v') }}
+    if: ${{ github.ref_type == 'tag' }}
     needs:
       - setup
       - test
@@ -205,7 +205,7 @@ jobs:
     env:
       QUAY_USER: ${{ secrets.QUAY_USER }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-      TAG: ${{ github.ref }}
+      TAG: ${{ github.ref_name }}
 
     steps:
       - uses: actions/checkout@v3
