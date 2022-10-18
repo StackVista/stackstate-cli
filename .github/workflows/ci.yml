@@ -216,6 +216,8 @@ jobs:
         with:
           registry: quay.io
           image: quay.io/stackstate/go-rk:v0.2.3
+          username: ${{ env.QUAY_USER }}
+          password: ${{ env.QUAY_PASSWORD }}
           options: >
             -v ${{ github.workspace }}:/workspace
             -e RK_JIRA_PROJECT=STAC
