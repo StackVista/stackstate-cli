@@ -41,7 +41,7 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		UnlockedStrategyChoices,
 		"Strategy to use when encountering unlocked settings when applying settings to a namespace"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
-	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "Timeout in seconds")
+	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, TimeoutFlagShort, 0, TimeoutUsage)
 
 	return cmd
 }

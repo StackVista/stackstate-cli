@@ -18,5 +18,6 @@ func SettingsCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(settings.SettingsDescribeCommand(cli))
 	cmd.AddCommand(settings.SettingsEditCommand(cli))
 	cmd.AddCommand(settings.SettingsUnlockCommand(cli))
+	cmd.AddCommand(settings.SettingsDeleteCommand(cli))
 	return cmd
 }
