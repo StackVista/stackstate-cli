@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/rbac"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/rbac"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func RbacCommand(deps *di.Deps) *cobra.Command {

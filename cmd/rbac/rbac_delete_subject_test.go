@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
 func TestDeleteSubjectJson(t *testing.T) {

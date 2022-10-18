@@ -4,7 +4,7 @@ import (
 	"context"
 	"net/http"
 
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 )
 
 func DoExport(ctx context.Context, api *stackstate_api.APIClient, ids []int64, namespace string, nodeTypes []string, allowReferences []string) (string, *http.Response, error) {

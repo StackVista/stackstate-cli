@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/stackpack"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/stackpack"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func StackPackCommand(cli *di.Deps) *cobra.Command {

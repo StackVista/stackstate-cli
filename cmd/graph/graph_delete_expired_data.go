@@ -2,9 +2,9 @@ package graph
 
 import (
 	"github.com/spf13/cobra"
-	stackstate_admin_api "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	stackstate_admin_api "github.com/stackvista/stackstate-cli/generated/stackstate_admin_api"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 const (

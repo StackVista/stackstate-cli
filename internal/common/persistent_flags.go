@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 const (

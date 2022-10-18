@@ -3,9 +3,9 @@ package graph
 import (
 	"testing"
 
+	stackstate_admin_api "github.com/stackvista/stackstate-cli/generated/stackstate_admin_api"
+	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
-	stackstate_admin_api "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_admin_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
 func TestDeleteExpiredData(t *testing.T) {

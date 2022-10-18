@@ -6,10 +6,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
-	"gitlab.com/stackvista/stackstate-cli2/internal/editor"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	"github.com/stackvista/stackstate-cli/internal/config"
+	"github.com/stackvista/stackstate-cli/internal/editor"
+	"github.com/stackvista/stackstate-cli/internal/printer"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 type MockDeps struct {

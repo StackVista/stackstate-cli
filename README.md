@@ -43,14 +43,14 @@ Install Nix package manager by following the [official installation instructions
 To install the package to the current profile you need to register the current repository
 
 ```sh
-nix registry add stackstate-cli "git+ssh://git@gitlab.com/stackvista/stackstate-cli2"
+nix registry add stackstate-cli "git+ssh://git@github.com/stackvista/stackstate-cli"
 nix profile install stackstate-cli#sts
 ```
 
 Alternatively temporary shell environment with `sts` binary in $PATH can be started using
 
 ```
-nix shell "git+ssh://git@gitlab.com/stackvista/stackstate-cli2?ref=master"
+nix shell "git+ssh://git@github.com/stackvista/stackstate-cli?ref=master"
 ```
 
 Where `ref=` can reference to any branch name

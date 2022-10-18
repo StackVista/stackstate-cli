@@ -6,9 +6,9 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
 )
 
 func setupClient() (StackStateClient, *stackstate_api.ServerApiMock) {

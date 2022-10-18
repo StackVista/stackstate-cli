@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/mcuadros/go-defaults"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
 type Config struct {

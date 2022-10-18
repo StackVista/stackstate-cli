@@ -9,9 +9,9 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/util"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
@@ -211,15 +211,8 @@ func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 		},
 	})
 
-	expected := `HELLO  | FOO    | WORLD 
-1      | 2      | 3     
-hello  | I've c | Becaus
-darkne | ome to | e a vi
-ss my  |  talk  | sion s
-old fr | to you | oftly 
-iend   |  again | creepi
-       |        | ng    
-`
+	//nolint:lll
+	expected := "HELLO  | FOO    | WORLD \n1      | 2      | 3     \nhello  | I've c | Becaus\ndarkne | ome to | e a vi\nss my  |  talk  | sion s\nold fr | to you | oftly \niend   |  again | creepi\n       |        | ng    \n"
 	assert.Equal(t, expected, stdOut.String())
 }
 
@@ -234,12 +227,8 @@ func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 		},
 	})
 
-	expected := `HELLO | FOO       | WORLD    
-hello | darkness  | Because a
-      | my old fr |  vision s
-      | iend      | oftly cre
-      |           | eping    
-`
+	expected := "HELLO | FOO       | WORLD    \nhello | darkness  | Because a\n      | my old fr |  vision s\n      | iend      | oftly cre\n      |           | eping    \n"
+
 	assert.Equal(t, expected, stdOut.String())
 }
 
