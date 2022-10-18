@@ -4,12 +4,12 @@ import (
 	"fmt"
 	"strings"
 
-	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 var (

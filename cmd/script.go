@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/script"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/script"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func ScriptCommand(cli *di.Deps) *cobra.Command {

@@ -5,8 +5,8 @@ import (
 
 	"github.com/blang/semver/v4"
 	"github.com/rs/zerolog/log"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/common"
 )
 
 func VersionToString(version stackstate_api.ServerVersion) string {

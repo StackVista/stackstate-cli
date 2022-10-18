@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/graph"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/graph"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func GraphCommand(deps *di.Deps) *cobra.Command {

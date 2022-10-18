@@ -3,9 +3,9 @@ package context
 import (
 	"testing"
 
+	"github.com/stackvista/stackstate-cli/internal/config"
+	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
 func TestSetContext(t *testing.T) {

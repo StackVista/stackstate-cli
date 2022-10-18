@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/health"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/health"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func HealthCommand(cli *di.Deps) *cobra.Command {

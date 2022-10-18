@@ -4,9 +4,9 @@ import (
 	"bytes"
 
 	"github.com/spf13/cobra"
-	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 func ExecuteCommandWithContext(cli *Deps, cmd *cobra.Command, args ...string) (output string, err error) {

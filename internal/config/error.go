@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/common"
 )
 
 var _ common.CLIError = (*ReadConfError)(nil)        // Compile time check for interface implementation

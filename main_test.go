@@ -7,11 +7,11 @@ import (
 	"testing"
 
 	"github.com/spf13/cobra"
+	"github.com/stackvista/stackstate-cli/cmd"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/cmd"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
 func setupSTSCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {

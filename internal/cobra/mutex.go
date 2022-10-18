@@ -7,7 +7,7 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/pflag"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
 type ValidationErrors []error

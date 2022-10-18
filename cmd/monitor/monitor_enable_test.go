@@ -3,9 +3,9 @@ package monitor
 import (
 	"testing"
 
+	sts "github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
-	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
 func TestMonitorEnableById(t *testing.T) {

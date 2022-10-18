@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
 const (

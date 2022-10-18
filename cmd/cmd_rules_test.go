@@ -6,8 +6,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/stackvista/stackstate-cli/internal/util"
 	"github.com/stretchr/testify/assert"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
 )
 
 func TestNounsAndVerbsExistAsFilesInDirectories(t *testing.T) {

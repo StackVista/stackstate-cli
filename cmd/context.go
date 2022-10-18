@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/context"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/context"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func ContextCommand(cli *di.Deps) *cobra.Command {

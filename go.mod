@@ -1,4 +1,4 @@
-module gitlab.com/stackvista/stackstate-cli2
+module github.com/stackvista/stackstate-cli
 
 go 1.19
 
@@ -19,6 +19,7 @@ require (
 )
 
 require (
+	github.com/blang/semver/v4 v4.0.0
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/spf13/pflag v1.0.5
 	k8s.io/kubectl v0.25.0
@@ -80,7 +81,6 @@ require (
 
 require (
 	github.com/atomicgo/cursor v0.0.1 // indirect
-	github.com/blang/semver/v4 v4.0.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dlclark/regexp2 v1.4.0 // indirect
 	github.com/fsnotify/fsnotify v1.5.3 // indirect
