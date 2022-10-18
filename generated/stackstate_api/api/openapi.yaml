@@ -154,6 +154,45 @@ paths:
       summary: Node type API
       tags:
       - node
+  /node/{nodeType}/{nodeId}:
+    delete:
+      description: Delete a locked node
+      operationId: delete
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: timeoutSeconds
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          description: Node deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node deletion API
+      tags:
+      - node
   /node/{nodeType}/{nodeId}/unlock:
     post:
       description: Unlock a locked node
@@ -3318,6 +3357,19 @@ paths:
       - topic
 components:
   parameters:
+    nodeType:
+      in: path
+      name: nodeType
+      required: true
+      schema:
+        type: string
+    nodeId:
+      in: path
+      name: nodeId
+      required: true
+      schema:
+        format: int64
+        type: integer
     stackName:
       in: path
       name: stackName

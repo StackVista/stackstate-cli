@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
+	"gitlab.com/stackvista/stackstate-cli2/cmd/settings"
 	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
 	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
 	"gitlab.com/stackvista/stackstate-cli2/internal/common"
@@ -87,9 +88,9 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 		}
 
 		if args.Unlock {
-			_, resp, err := api.NodeApi.Unlock(cli.Context, MonitorNodeType, id).Execute()
+			err := settings.UnlockNodes(cli, api, []int64{id}, MonitorNodeType)
 			if err != nil {
-				return common.NewResponseError(err, resp)
+				return err
 			}
 		}
 

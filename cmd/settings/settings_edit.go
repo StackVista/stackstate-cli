@@ -82,12 +82,9 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 		}
 
 		if args.Unlock {
-			// NOTE Uses the wildcard type "_" to unlock all the nodes identified with ids.
-			for _, id := range args.Ids {
-				_, resp, err := api.NodeApi.Unlock(cli.Context, "_", id).Execute()
-				if err != nil {
-					return common.NewResponseError(err, resp)
-				}
+			err := UnlockNodes(cli, api, args.Ids, WildCardType)
+			if err != nil {
+				return err
 			}
 		}
 

@@ -9,5 +9,10 @@ const (
 	NamespaceFlag        = "namespace"
 	UnlockedStrategyFlag = "unlocked-strategy"
 	TimeoutFlag          = "timeout"
+	TimeoutFlagShort     = "t"
 	UnlockFlag           = "unlock"
+
+	TimeoutUsage = "Timeout in seconds"
+
+	DefaultTimeout = 15
 )
