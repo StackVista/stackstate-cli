@@ -214,7 +214,7 @@ jobs:
         id: release-notes
         uses: ./.github/actions/gobase
         with:
-          image: quay.io/stackstate/go-rk:v0.2.3
+          image: quay.io/stackstate/go-rk:v0.2.2
           options: >
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
