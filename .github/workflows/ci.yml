@@ -218,8 +218,8 @@ jobs:
           options: >
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
-            -e RK_JIRA_USER:${{ secrets.JIRA_USERNAME }}
-            -e RK_JIRA_TOKEN:${{ secrets.JIRA_TOKEN }}
+            -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
+            -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           run: |
             /go-rk release-notes --fix-version cli2-${{ env.TAG }} --output-file release-notes.md --title "CLI ${{ env.TAG }}"
             /go-rk release-notes --fix-version cli2-${{ env.TAG }} -o json --output-file release-notes.json --title "CLI ${{ env.TAG }}"
