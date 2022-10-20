@@ -263,7 +263,7 @@ jobs:
           run: |
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username=${{ secrets.DOCKER_USER }} --password-stdin docker.io
             goreleaser release --release-notes release-notes.md
-            echo ${{ env.TAG }} > dist/LATEST_VERSION
+            echo "${{ env.TAG }}" > dist/LATEST_VERSION
 
       - name: Publish latest version to S3
         uses: keithweaver/aws-s3-github-action@v1.0.0

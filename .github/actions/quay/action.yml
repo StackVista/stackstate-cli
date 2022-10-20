@@ -32,7 +32,8 @@ runs:
         if [[ $ENTRYPOINT == '' ]]; then
            ENTRYPOINT='sh'
            COMMAND_PREFIX='-c'
-           COMMAND=${COMMAND//$'\n'/; }
+           COMMAND=$(echo "$COMMAND" | sed -r '/^\s*$/d')
+           COMMAND=${COMMAND//$'\n'/ ; }
         fi
 
         # Strip newlines in options.
