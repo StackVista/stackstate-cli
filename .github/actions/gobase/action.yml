@@ -13,14 +13,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - uses: addnab/docker-run-action@v3
+    - uses: ./.github/actions/quay
       with:
-        registry: quay.io
-        username: ${{ env.QUAY_USER }}
-        password: ${{ env.QUAY_PASSWORD }}
         image: ${{ inputs.image }}
-        options: -v ${{ github.workspace }}:/workspace ${{ inputs.options }} # NOTE: Assumes the repo is checked out beforehand.
+        options: ${{ inputs.options }} # NOTE: Assumes the repo is checked out beforehand.
+        entrypoint: sh
         run: |
-          git config --global --add safe.directory /workspace                # Needed for goreleaser.
+          git config --global --add safe.directory /workspace # Needed for goreleaser.
           cd /workspace
           ${{ inputs.run }}

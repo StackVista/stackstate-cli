@@ -1,0 +1,28 @@
+name: 'Run command in Quay image'
+description: 'Run a command in a quay.io container'
+inputs:
+  image:
+    description: 'Image'
+    required: true
+  options:
+    description: 'Options for the container'
+    required: false
+  run:
+    description: 'Args for the container entrypoint'
+    required: false
+  entrypoint:
+    description: 'Container entrypoint to use'
+    required: false
+    default: sh
+runs:
+  using: 'composite'
+  steps:
+    - uses: addnab/docker-run-action@v3
+      with:
+        registry: quay.io
+        username: ${{ env.QUAY_USER }}
+        password: ${{ env.QUAY_PASSWORD }}
+        image: ${{ inputs.image }}
+        options: -v ${{ github.workspace }}:/workspace ${{ inputs.options }}
+        run: ${{ inputs.run }}
+        shell: ${{ inputs.shell }}

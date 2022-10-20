@@ -211,8 +211,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Generate release notes
-        id: release-notes
-        uses: ./.github/actions/gobase
+        uses: ./.github/actions/quay
         with:
           image: quay.io/stackstate/go-rk:v0.2.4
           options: >
@@ -220,15 +219,33 @@ jobs:
             -e RK_JIRA_URL=https://stackstate.atlassian.net
             -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
-          run: |
-            /go-rk release-notes --fix-version cli2-${{ env.TAG }} --output-file release-notes.md --title "CLI ${{ env.TAG }}"
-            /go-rk release-notes --fix-version cli2-${{ env.TAG }} -o json --output-file release-notes.json --title "CLI ${{ env.TAG }}"
+          entrypoint: go-rk
+          run: >
+            release-notes --fix-version cli2-${{ env.TAG }}
+                          --output-file /workspace/release-notes.md
+                          --title "CLI ${{ env.TAG }}"
 
       - name: Save release notes
         uses: actions/upload-artifact@v3
         with:
           name: release-notes
           path: release-notes.md
+
+      - name: Generate JSON release notes
+        uses: ./.github/actions/quay
+        with:
+          image: quay.io/stackstate/go-rk:v0.2.4
+          options: >
+            -e RK_JIRA_PROJECT=STAC
+            -e RK_JIRA_URL=https://stackstate.atlassian.net
+            -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
+            -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
+          entrypoint: go-rk
+          run: >
+            release-notes --fix-version cli2-${{ env.TAG }}
+                          -o json
+                          --output-file /workspace/release-notes.json
+                          --title "CLI ${{ env.TAG }}"
 
       - name: Save JSON release notes
         uses: actions/upload-artifact@v3
