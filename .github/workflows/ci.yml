@@ -180,7 +180,7 @@ jobs:
       - setup
       - lint
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     env:
       QUAY_USER: ${{ secrets.QUAY_USER }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
@@ -201,7 +201,7 @@ jobs:
       - setup
       - test
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     env:
       QUAY_USER: ${{ secrets.QUAY_USER }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
