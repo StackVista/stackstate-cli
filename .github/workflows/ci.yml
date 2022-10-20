@@ -221,7 +221,11 @@ jobs:
             -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
-          run: release-notes --fix-version cli2-${{ env.TAG }} --output-file /workspace/release-notes.md --title "CLI ${{ env.TAG }}"
+          run: >
+            release-notes
+            --fix-version cli2-${{ env.TAG }}
+            --output-file /workspace/release-notes.md
+            --title "CLI ${{ env.TAG }}"
 
       - name: Save release notes
         uses: actions/upload-artifact@v3
@@ -239,7 +243,12 @@ jobs:
             -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
-          run: release-notes --fix-version cli2-${{ env.TAG }} -o json --output-file /workspace/release-notes.json --title "CLI ${{ env.TAG }}"
+          run: >
+            release-notes
+            --fix-version cli2-${{ env.TAG }}
+            -o json
+            --output-file /workspace/release-notes.json
+            --title "CLI ${{ env.TAG }}"
 
       - name: Save JSON release notes
         uses: actions/upload-artifact@v3

@@ -17,8 +17,8 @@ runs:
       with:
         image: ${{ inputs.image }}
         options: ${{ inputs.options }} # NOTE: Assumes the repo is checked out beforehand.
-        entrypoint: sh
+        # NOTE: The git safe.directory is needed for goreleaser to work correctly.
         run: |
-          git config --global --add safe.directory /workspace # Needed for goreleaser.
+          git config --global --add safe.directory /workspace
           cd /workspace
           ${{ inputs.run }}

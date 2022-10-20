@@ -13,16 +13,43 @@ inputs:
   entrypoint:
     description: 'Container entrypoint to use'
     required: false
-    default: sh
 runs:
   using: 'composite'
   steps:
-    - uses: addnab/docker-run-action@v3
-      with:
-        registry: quay.io
-        username: ${{ env.QUAY_USER }}
-        password: ${{ env.QUAY_PASSWORD }}
-        image: ${{ inputs.image }}
-        options: -v ${{ github.workspace }}:/workspace ${{ inputs.options }}
-        shell: ${{ inputs.entrypoint }}
-        run: ${{ inputs.run }}
+    - name: Log in
+      shell: bash
+      run: |
+        echo "${{ env.QUAY_PASSWORD }}" | docker login --username=${{ env.QUAY_USER }} --password-stdin quay.io
+
+    - name: Run command
+      shell: bash
+      run: |
+        export ENTRYPOINT='${{ inputs.entrypoint }}'
+        export COMMAND='${{ inputs.run }}'
+        export COMMAND_PREFIX=''
+
+        # Prep for a shell script.
+        if [[ $ENTRYPOINT == '' ]]; then
+           ENTRYPOINT='sh'
+           COMMAND_PREFIX='-c'
+           COMMAND=${COMMAND//$'\n'/; }
+        fi
+
+        # Strip newlines in options.
+        export OPTIONS='${{ inputs.options }}'
+        OPTIONS=${OPTIONS//$'\n'/ }
+
+        # Sanitize the image name.
+        export IMAGE='${{ inputs.image }}'
+        IMAGE=${IMAGE//$'\n'/}
+
+        # Prep the workspace.
+        export WORKSPACE='${{ github.workspace }}'
+        WORKSPACE=${WORKSPACE//$'\n'/}
+
+        # Run the command in docker.
+        if [[ $COMMAND == *\;* ]]; then
+          docker run -v $WORKSPACE:/workspace $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX "$COMMAND"
+        else
+          docker run -v $WORKSPACE:/workspace $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX $COMMAND
+        fi
