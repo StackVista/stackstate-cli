@@ -195,7 +195,7 @@ jobs:
           run: ./scripts/test.sh
 
   publish:
-    name: Publish the binary
+    name: Publish the release
     if: ${{ github.ref_type == 'tag' }}
     needs:
       - setup
@@ -206,6 +206,7 @@ jobs:
       QUAY_USER: ${{ secrets.QUAY_USER }}
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       TAG: ${{ github.ref_name }}
+      S3_BUCKET: "s3://cli-dl.stackstate.com/stackstate-cli/"
 
     steps:
       - uses: actions/checkout@v3
@@ -220,10 +221,7 @@ jobs:
             -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
-          run: >
-            release-notes --fix-version cli2-${{ env.TAG }}
-                          --output-file /workspace/release-notes.md
-                          --title "CLI ${{ env.TAG }}"
+          run: release-notes --fix-version cli2-${{ env.TAG }} --output-file /workspace/release-notes.md --title "CLI ${{ env.TAG }}"
 
       - name: Save release notes
         uses: actions/upload-artifact@v3
@@ -241,11 +239,7 @@ jobs:
             -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
-          run: >
-            release-notes --fix-version cli2-${{ env.TAG }}
-                          -o json
-                          --output-file /workspace/release-notes.json
-                          --title "CLI ${{ env.TAG }}"
+          run: release-notes --fix-version cli2-${{ env.TAG }} -o json --output-file /workspace/release-notes.json --title "CLI ${{ env.TAG }}"
 
       - name: Save JSON release notes
         uses: actions/upload-artifact@v3
@@ -253,8 +247,32 @@ jobs:
           name: release-notes-json
           path: release-notes.json
 
-      - name: Publish
+      - name: Go releaser publish
         uses: ./.github/actions/gobase
         with:
           image: ${{ needs.setup.outputs.ciImageName }}
-          run: ./scripts/publish.sh
+          run: |
+            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username=${{ secrets.DOCKER_USER }} --password-stdin docker.io
+            goreleaser release --release-notes release-notes.md
+            echo ${{ env.TAG }} > dist/LATEST_VERSION
+
+      - name: Publish latest version to S3
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_DEFAULT_REGION }}
+          command: cp
+          source: dist/LATEST_VERSION
+          destination: ${{ env.S3_BUCKET}}
+
+      - name: Publish installers to S3
+        uses: keithweaver/aws-s3-github-action@v1.0.0
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_DEFAULT_REGION }}
+          command: cp
+          source: scripts/publish/installers/
+          destination: ${{ env.S3_BUCKET}}
+          flags: --recursive
