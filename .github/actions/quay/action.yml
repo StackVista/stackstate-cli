@@ -48,9 +48,12 @@ runs:
         export WORKSPACE='${{ github.workspace }}'
         WORKSPACE=${WORKSPACE//$'\n'/}
 
+        # Prep volumes.
+        export VOLUMES="-v /var/run/docker.sock:/var/run/docker.sock -v $WORKSPACE:/workspace"
+
         # Run the command in docker.
         if [[ $COMMAND == *\;* ]]; then
-          docker run -v $WORKSPACE:/workspace $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX "$COMMAND"
+          docker run $VOLUMES $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX "$COMMAND"
         else
-          docker run -v $WORKSPACE:/workspace $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX $COMMAND
+          docker run $VOLUMES $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX $COMMAND
         fi
