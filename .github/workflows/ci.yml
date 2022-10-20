@@ -260,6 +260,8 @@ jobs:
         uses: ./.github/actions/gobase
         with:
           image: ${{ needs.setup.outputs.ciImageName }}
+          options: >
+            -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           run: |
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username=${{ secrets.DOCKER_USER }} --password-stdin docker.io
             goreleaser release --release-notes release-notes.md
