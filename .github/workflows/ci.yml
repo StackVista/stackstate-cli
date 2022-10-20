@@ -218,7 +218,7 @@ jobs:
           options: >
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
-            -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
+            -e RK_JIRA_USER=${{ secrets.JIRA_USER }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
           run: >
@@ -240,7 +240,7 @@ jobs:
           options: >
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
-            -e RK_JIRA_USER=${{ secrets.JIRA_USERNAME }}
+            -e RK_JIRA_USER=${{ secrets.JIRA_USER }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
           run: >
