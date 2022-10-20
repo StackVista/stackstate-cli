@@ -262,20 +262,24 @@ jobs:
           image: ${{ needs.setup.outputs.ciImageName }}
           options: >
             -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
+            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            -e AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }}
           run: |
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username=${{ secrets.DOCKER_USER }} --password-stdin docker.io
             goreleaser release --release-notes release-notes.md
+            mkdir -p dist
             echo "${{ env.TAG }}" > dist/LATEST_VERSION
 
       - name: Publish latest version to S3
         uses: keithweaver/aws-s3-github-action@v1.0.0
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ${{ secrets.AWS_DEFAULT_REGION }}
           command: cp
           source: dist/LATEST_VERSION
-          destination: ${{ env.S3_BUCKET}}
+          destination: ${{ env.S3_BUCKET }}
 
       - name: Publish installers to S3
         uses: keithweaver/aws-s3-github-action@v1.0.0
@@ -285,5 +289,5 @@ jobs:
           aws_region: ${{ secrets.AWS_DEFAULT_REGION }}
           command: cp
           source: scripts/publish/installers/
-          destination: ${{ env.S3_BUCKET}}
+          destination: ${{ env.S3_BUCKET }}
           flags: --recursive
