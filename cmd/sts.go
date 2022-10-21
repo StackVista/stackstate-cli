@@ -28,6 +28,7 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(GraphCommand(cli))
 	cmd.AddCommand(RbacCommand(cli))
 	cmd.AddCommand(TopicCommand(cli))
+	cmd.AddCommand(TopologySyncCommand(cli))
 
 	return cmd
 }
