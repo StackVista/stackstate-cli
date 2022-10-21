@@ -4,20 +4,21 @@ inputs:
   image:
     description: 'CI Image'
     required: true
+  options:
+    description: 'Extra options for the container'
+    required: false
   run:
     description: 'Run command in the container'
     required: false
 runs:
   using: 'composite'
   steps:
-    - uses: addnab/docker-run-action@v3
+    - uses: ./.github/actions/quay
       with:
-        registry: quay.io
-        username: ${{ env.QUAY_USER }}
-        password: ${{ env.QUAY_PASSWORD }}
         image: ${{ inputs.image }}
-        options: -v ${{ github.workspace }}:/workspace          # NOTE: Assumes the repo is checked out beforehand.
-        run: |
-          git config --global --add safe.directory /workspace   # Needed for goreleaser.
+        options: ${{ inputs.options }} # NOTE: Assumes the repo is checked out beforehand.
+        # NOTE: The git safe.directory is needed for goreleaser to work correctly.
+        run: |-
+          git config --global --add safe.directory /workspace
           cd /workspace
           ${{ inputs.run }}
