@@ -1,6 +1,7 @@
 package topology_sync
 
 import (
+	"fmt"
 	"sort"
 
 	"github.com/spf13/cobra"
@@ -49,16 +50,14 @@ func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APICli
 				stream.Name,
 				identifier,
 				stream.Status,
-				stream.CreatedComponents,
-				stream.DeletedComponents,
-				stream.CreatedRelations,
-				stream.DeletedRelations,
+				fmt.Sprintf("+%-4d %5s", stream.CreatedComponents, fmt.Sprintf("-%d", stream.DeletedComponents)),
+				fmt.Sprintf("+%-4d %5s", stream.CreatedRelations, fmt.Sprintf("-%d", stream.DeletedRelations)),
 				stream.Errors,
 			}
 		}
 
 		cli.Printer.Table(printer.TableData{
-			Header:              []string{"Id", "Name", "Identifier", "Status", "Components created", "Components Deleted", "Relations created", "Relations deleted", "Errors"},
+			Header:              []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
 			Data:                data,
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
 		})
