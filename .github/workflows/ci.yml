@@ -54,13 +54,31 @@ jobs:
           docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
           docker push $CI_BASE_IMAGE_PUSH
 
+      - name: Check if source is affected
+        id: source-affected
+        uses: dorny/paths-filter@v2
+        with:
+          filters: |
+            src:
+              - 'cmd/**'
+              - 'internal/**'
+              - 'pkg/**'
+              - 'stackstate_openapi/**'
+              - 'generated/**'
+              - '*.go'
+              - 'go.mod'
+              - 'go.sum'
+              - 'flake.*'
+
     outputs:
       nixChecksum: ${{ env.NIX_CHECKSUM }}
       ciImageName: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
+      sourceAffected: ${{ steps.source-affected.outputs.src }}
 
   lint:
     name: Linter
     needs: setup
+    if: ${{ needs.setup.outputs.sourceAffected  == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
@@ -179,6 +197,7 @@ jobs:
     needs:
       - setup
       - lint
+    if: ${{ needs.setup.outputs.sourceAffected == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 10
     env:
