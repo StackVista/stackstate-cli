@@ -174,8 +174,8 @@ Use "{{.CommandPath}} [command] --help" for more information about a command.{{e
 		if c.HasSubCommands() {
 			c.SetUsageTemplate(subCommandTemplate)
 
-			// we need to set verb command to the full template,
-			// because otherwise they will inherit the simple template from their noun command parent
+			// We need to set verb command to the full template,
+			// because otherwise they will inherit the simple template from their noun command parent.
 			for _, verbCommands := range c.Commands() {
 				verbCommands.SetUsageTemplate(fullTemplate)
 			}
