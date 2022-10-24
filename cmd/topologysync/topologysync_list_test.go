@@ -1,4 +1,4 @@
-package topology_sync
+package topologysync
 
 import (
 	"testing"

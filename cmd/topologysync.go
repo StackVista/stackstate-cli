@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/stackvista/stackstate-cli/cmd/topology_sync"
+	"github.com/stackvista/stackstate-cli/cmd/topologysync"
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
@@ -13,6 +13,6 @@ func TopologySyncCommand(deps *di.Deps) *cobra.Command {
 		Long:  "Manage the StackState Topology Synchronization.",
 	}
 
-	cmd.AddCommand(topology_sync.ListCommand(deps))
+	cmd.AddCommand(topologysync.ListCommand(deps))
 	return cmd
 }
