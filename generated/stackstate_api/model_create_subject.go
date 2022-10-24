@@ -17,15 +17,15 @@ import (
 
 // CreateSubject struct for CreateSubject
 type CreateSubject struct {
-	Query   string  `json:"query"`
-	Version Version `json:"version"`
+	Query string `json:"query"`
+	Version string `json:"version"`
 }
 
 // NewCreateSubject instantiates a new CreateSubject object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateSubject(query string, version Version) *CreateSubject {
+func NewCreateSubject(query string, version string) *CreateSubject {
 	this := CreateSubject{}
 	this.Query = query
 	this.Version = version
@@ -65,9 +65,9 @@ func (o *CreateSubject) SetQuery(v string) {
 }
 
 // GetVersion returns the Version field value
-func (o *CreateSubject) GetVersion() Version {
+func (o *CreateSubject) GetVersion() string {
 	if o == nil {
-		var ret Version
+		var ret string
 		return ret
 	}
 
@@ -76,7 +76,7 @@ func (o *CreateSubject) GetVersion() Version {
 
 // GetVersionOk returns a tuple with the Version field value
 // and a boolean to check if the value has been set.
-func (o *CreateSubject) GetVersionOk() (*Version, bool) {
+func (o *CreateSubject) GetVersionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,7 +84,7 @@ func (o *CreateSubject) GetVersionOk() (*Version, bool) {
 }
 
 // SetVersion sets field value
-func (o *CreateSubject) SetVersion(v Version) {
+func (o *CreateSubject) SetVersion(v string) {
 	o.Version = v
 }
 
@@ -134,3 +134,5 @@ func (v *NullableCreateSubject) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

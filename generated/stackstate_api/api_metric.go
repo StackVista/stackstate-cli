@@ -17,17 +17,20 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"strings"
+	"reflect"
 )
+
 
 type MetricApi interface {
 
 	/*
-		GetExemplarsQuery Experimental: Exemplars for a specific time range
+	GetExemplarsQuery Experimental: Exemplars for a specific time range
 
-		Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
+	Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetExemplarsQueryRequest
 	*/
 	GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest
 
@@ -36,12 +39,12 @@ type MetricApi interface {
 	GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error)
 
 	/*
-		GetInstantQuery Instant query at a single point in time
+	GetInstantQuery Instant query at a single point in time
 
-		The endpoint evaluates an instant query at a single point in time
+	The endpoint evaluates an instant query at a single point in time
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetInstantQueryRequest
 	*/
 	GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest
 
@@ -50,12 +53,55 @@ type MetricApi interface {
 	GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
-		GetRangeQuery Query over a range of time
+	GetLabelValues List of label values for a provided label name
 
-		The endpoint evaluates an expression query over a range of time
+	The endpoint returns a list of label values for a provided label name
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiGetRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param label Prometheus query label
+	@return ApiGetLabelValuesRequest
+	*/
+	GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest
+
+	// GetLabelValuesExecute executes the request
+	//  @return PromLabelsEnvelope
+	GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error)
+
+	/*
+	GetLabels List of label names
+
+	The endpoint returns a list of label names
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetLabelsRequest
+	*/
+	GetLabels(ctx context.Context) ApiGetLabelsRequest
+
+	// GetLabelsExecute executes the request
+	//  @return PromLabelsEnvelope
+	GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error)
+
+	/*
+	GetMetadata Metadata about metrics currently scraped from targets
+
+	The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMetadataRequest
+	*/
+	GetMetadata(ctx context.Context) ApiGetMetadataRequest
+
+	// GetMetadataExecute executes the request
+	//  @return PromMetadataEnvelope
+	GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error)
+
+	/*
+	GetRangeQuery Query over a range of time
+
+	The endpoint evaluates an expression query over a range of time
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRangeQueryRequest
 	*/
 	GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest
 
@@ -64,12 +110,26 @@ type MetricApi interface {
 	GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
-		PostExemplarsQuery Experimental: Exemplars for a specific time range
+	GetSeries List of time series that match a certain label set
 
-		Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
+	The endpoint returns the list of time series that match a certain label set
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiPostExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetSeriesRequest
+	*/
+	GetSeries(ctx context.Context) ApiGetSeriesRequest
+
+	// GetSeriesExecute executes the request
+	//  @return PromSeriesEnvelope
+	GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error)
+
+	/*
+	PostExemplarsQuery Experimental: Exemplars for a specific time range
+
+	Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostExemplarsQueryRequest
 	*/
 	PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest
 
@@ -78,12 +138,12 @@ type MetricApi interface {
 	PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error)
 
 	/*
-		PostInstantQuery Instant query at a single point in time
+	PostInstantQuery Instant query at a single point in time
 
-		The endpoint evaluates an instant query at a single point in time
+	The endpoint evaluates an instant query at a single point in time
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiPostInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostInstantQueryRequest
 	*/
 	PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest
 
@@ -92,29 +152,86 @@ type MetricApi interface {
 	PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error)
 
 	/*
-		PostRangeQuery Query over a range of time
+	PostLabelValues List of label values for a provided label name
 
-		The endpoint evaluates an expression query over a range of time
+	The endpoint returns a list of label values for a provided label name
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiPostRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param label Prometheus query label
+	@return ApiPostLabelValuesRequest
+	*/
+	PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest
+
+	// PostLabelValuesExecute executes the request
+	//  @return PromLabelsEnvelope
+	PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error)
+
+	/*
+	PostLabels List of label names
+
+	The endpoint returns a list of label names
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostLabelsRequest
+	*/
+	PostLabels(ctx context.Context) ApiPostLabelsRequest
+
+	// PostLabelsExecute executes the request
+	//  @return PromLabelsEnvelope
+	PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error)
+
+	/*
+	PostMetadata Metadata about metrics currently scraped from targets
+
+	The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostMetadataRequest
+	*/
+	PostMetadata(ctx context.Context) ApiPostMetadataRequest
+
+	// PostMetadataExecute executes the request
+	//  @return PromMetadataEnvelope
+	PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error)
+
+	/*
+	PostRangeQuery Query over a range of time
+
+	The endpoint evaluates an expression query over a range of time
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostRangeQueryRequest
 	*/
 	PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest
 
 	// PostRangeQueryExecute executes the request
 	//  @return PromEnvelope
 	PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error)
+
+	/*
+	PostSeries List of time series that match a certain label set
+
+	The endpoint returns the list of time series that match a certain label set
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostSeriesRequest
+	*/
+	PostSeries(ctx context.Context) ApiPostSeriesRequest
+
+	// PostSeriesExecute executes the request
+	//  @return PromSeriesEnvelope
+	PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error)
 }
 
 // MetricApiService MetricApi service
 type MetricApiService service
 
 type ApiGetExemplarsQueryRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService MetricApi
-	query      *string
-	start      *string
-	end        *string
+	query *string
+	start *string
+	end *string
 }
 
 // Prometheus expression query string
@@ -144,25 +261,24 @@ GetExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetExemplarsQueryRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetExemplarsQueryRequest
 */
 func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return PromExemplarEnvelope
+//  @return PromExemplarEnvelope
 func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PromExemplarEnvelope
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromExemplarEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetExemplarsQuery")
@@ -324,11 +440,11 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 }
 
 type ApiGetInstantQueryRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService MetricApi
-	query      *string
-	time       *string
-	timeout    *string
+	query *string
+	time *string
+	timeout *string
 }
 
 // Prometheus expression query string
@@ -358,25 +474,24 @@ GetInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetInstantQueryRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetInstantQueryRequest
 */
 func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return PromEnvelope
+//  @return PromEnvelope
 func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PromEnvelope
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetInstantQuery")
@@ -535,14 +650,639 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetRangeQueryRequest struct {
-	ctx        context.Context
+type ApiGetLabelValuesRequest struct {
+	ctx context.Context
 	ApiService MetricApi
-	query      *string
-	start      *string
-	end        *string
-	step       *string
-	timeout    *string
+	label string
+	start *string
+	end *string
+	match *[]string
+}
+
+// Start timestamp in rfc3339 format or unix format
+func (r ApiGetLabelValuesRequest) Start(start string) ApiGetLabelValuesRequest {
+	r.start = &start
+	return r
+}
+
+// End timestamp in rfc3339 format or unix format
+func (r ApiGetLabelValuesRequest) End(end string) ApiGetLabelValuesRequest {
+	r.end = &end
+	return r
+}
+
+// Repeated series selector argument that selects the series from which to read the label names. Optional.
+func (r ApiGetLabelValuesRequest) Match(match []string) ApiGetLabelValuesRequest {
+	r.match = &match
+	return r
+}
+
+func (r ApiGetLabelValuesRequest) Execute() (*PromLabelsEnvelope, *http.Response, error) {
+	return r.ApiService.GetLabelValuesExecute(r)
+}
+
+/*
+GetLabelValues List of label values for a provided label name
+
+The endpoint returns a list of label values for a provided label name
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param label Prometheus query label
+ @return ApiGetLabelValuesRequest
+*/
+func (a *MetricApiService) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
+	return ApiGetLabelValuesRequest{
+		ApiService: a,
+		ctx: ctx,
+		label: label,
+	}
+}
+
+// Execute executes the request
+//  @return PromLabelsEnvelope
+func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromLabelsEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetLabelValues")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/label/{label}/values"
+	localVarPath = strings.Replace(localVarPath, "{"+"label"+"}", url.PathEscape(parameterToString(r.label, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.start != nil {
+		localVarQueryParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	}
+	if r.match != nil {
+		localVarQueryParams.Add("match[]", parameterToString(*r.match, "csv"))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetLabelsRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	start *string
+	end *string
+	match *[]string
+}
+
+// Start timestamp in rfc3339 format or unix format
+func (r ApiGetLabelsRequest) Start(start string) ApiGetLabelsRequest {
+	r.start = &start
+	return r
+}
+
+// End timestamp in rfc3339 format or unix format
+func (r ApiGetLabelsRequest) End(end string) ApiGetLabelsRequest {
+	r.end = &end
+	return r
+}
+
+// Repeated series selector argument that selects the series from which to read the label names. Optional.
+func (r ApiGetLabelsRequest) Match(match []string) ApiGetLabelsRequest {
+	r.match = &match
+	return r
+}
+
+func (r ApiGetLabelsRequest) Execute() (*PromLabelsEnvelope, *http.Response, error) {
+	return r.ApiService.GetLabelsExecute(r)
+}
+
+/*
+GetLabels List of label names
+
+The endpoint returns a list of label names
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetLabelsRequest
+*/
+func (a *MetricApiService) GetLabels(ctx context.Context) ApiGetLabelsRequest {
+	return ApiGetLabelsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PromLabelsEnvelope
+func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromLabelsEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetLabels")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/labels"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.start != nil {
+		localVarQueryParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	}
+	if r.match != nil {
+		localVarQueryParams.Add("match[]", parameterToString(*r.match, "csv"))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetMetadataRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	limit *int64
+	metric *string
+}
+
+// Maximum number of metrics to return.
+func (r ApiGetMetadataRequest) Limit(limit int64) ApiGetMetadataRequest {
+	r.limit = &limit
+	return r
+}
+
+// A metric name to filter metadata for. All metric metadata is retrieved if left empty.
+func (r ApiGetMetadataRequest) Metric(metric string) ApiGetMetadataRequest {
+	r.metric = &metric
+	return r
+}
+
+func (r ApiGetMetadataRequest) Execute() (*PromMetadataEnvelope, *http.Response, error) {
+	return r.ApiService.GetMetadataExecute(r)
+}
+
+/*
+GetMetadata Metadata about metrics currently scraped from targets
+
+The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetMetadataRequest
+*/
+func (a *MetricApiService) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
+	return ApiGetMetadataRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PromMetadataEnvelope
+func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromMetadataEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetMetadata")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/metadata"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.limit == nil {
+		return localVarReturnValue, nil, reportError("limit is required and must be specified")
+	}
+
+	localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	if r.metric != nil {
+		localVarQueryParams.Add("metric", parameterToString(*r.metric, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromMetadataEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromMetadataEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromMetadataEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetRangeQueryRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	query *string
+	start *string
+	end *string
+	step *string
+	timeout *string
 }
 
 // Prometheus expression query string
@@ -584,25 +1324,24 @@ GetRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRangeQueryRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetRangeQueryRequest
 */
 func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return PromEnvelope
+//  @return PromEnvelope
 func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PromEnvelope
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetRangeQuery")
@@ -770,12 +1509,228 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPostExemplarsQueryRequest struct {
-	ctx        context.Context
+type ApiGetSeriesRequest struct {
+	ctx context.Context
 	ApiService MetricApi
-	query      *string
-	start      *string
-	end        *string
+	match *[]string
+	start *string
+	end *string
+}
+
+// Repeated series selector argument that selects the series to return. At least one match[] argument must be provided.
+func (r ApiGetSeriesRequest) Match(match []string) ApiGetSeriesRequest {
+	r.match = &match
+	return r
+}
+
+// Start timestamp in rfc3339 format or unix format
+func (r ApiGetSeriesRequest) Start(start string) ApiGetSeriesRequest {
+	r.start = &start
+	return r
+}
+
+// End timestamp in rfc3339 format or unix format
+func (r ApiGetSeriesRequest) End(end string) ApiGetSeriesRequest {
+	r.end = &end
+	return r
+}
+
+func (r ApiGetSeriesRequest) Execute() (*PromSeriesEnvelope, *http.Response, error) {
+	return r.ApiService.GetSeriesExecute(r)
+}
+
+/*
+GetSeries List of time series that match a certain label set
+
+The endpoint returns the list of time series that match a certain label set
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetSeriesRequest
+*/
+func (a *MetricApiService) GetSeries(ctx context.Context) ApiGetSeriesRequest {
+	return ApiGetSeriesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PromSeriesEnvelope
+func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromSeriesEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetSeries")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/series"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.match == nil {
+		return localVarReturnValue, nil, reportError("match is required and must be specified")
+	}
+	if len(*r.match) < 1 {
+		return localVarReturnValue, nil, reportError("match must have at least 1 elements")
+	}
+	if r.start == nil {
+		return localVarReturnValue, nil, reportError("start is required and must be specified")
+	}
+	if r.end == nil {
+		return localVarReturnValue, nil, reportError("end is required and must be specified")
+	}
+
+	localVarQueryParams.Add("match[]", parameterToString(*r.match, "csv"))
+	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
+	localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromSeriesEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromSeriesEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromSeriesEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostExemplarsQueryRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	query *string
+	start *string
+	end *string
 }
 
 func (r ApiPostExemplarsQueryRequest) Query(query string) ApiPostExemplarsQueryRequest {
@@ -802,25 +1757,24 @@ PostExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostExemplarsQueryRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostExemplarsQueryRequest
 */
 func (a *MetricApiService) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return PromExemplarEnvelope
+//  @return PromExemplarEnvelope
 func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PromExemplarEnvelope
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromExemplarEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostExemplarsQuery")
@@ -982,11 +1936,11 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 }
 
 type ApiPostInstantQueryRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService MetricApi
-	query      *string
-	time       *string
-	timeout    *string
+	query *string
+	time *string
+	timeout *string
 }
 
 func (r ApiPostInstantQueryRequest) Query(query string) ApiPostInstantQueryRequest {
@@ -1013,25 +1967,24 @@ PostInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostInstantQueryRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostInstantQueryRequest
 */
 func (a *MetricApiService) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return PromEnvelope
+//  @return PromEnvelope
 func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PromEnvelope
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostInstantQuery")
@@ -1190,14 +2143,631 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiPostRangeQueryRequest struct {
-	ctx        context.Context
+type ApiPostLabelValuesRequest struct {
+	ctx context.Context
 	ApiService MetricApi
-	query      *string
-	start      *string
-	end        *string
-	step       *string
-	timeout    *string
+	label string
+	start *string
+	end *string
+	match *[]string
+}
+
+func (r ApiPostLabelValuesRequest) Start(start string) ApiPostLabelValuesRequest {
+	r.start = &start
+	return r
+}
+
+func (r ApiPostLabelValuesRequest) End(end string) ApiPostLabelValuesRequest {
+	r.end = &end
+	return r
+}
+
+func (r ApiPostLabelValuesRequest) Match(match []string) ApiPostLabelValuesRequest {
+	r.match = &match
+	return r
+}
+
+func (r ApiPostLabelValuesRequest) Execute() (*PromLabelsEnvelope, *http.Response, error) {
+	return r.ApiService.PostLabelValuesExecute(r)
+}
+
+/*
+PostLabelValues List of label values for a provided label name
+
+The endpoint returns a list of label values for a provided label name
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param label Prometheus query label
+ @return ApiPostLabelValuesRequest
+*/
+func (a *MetricApiService) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
+	return ApiPostLabelValuesRequest{
+		ApiService: a,
+		ctx: ctx,
+		label: label,
+	}
+}
+
+// Execute executes the request
+//  @return PromLabelsEnvelope
+func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromLabelsEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostLabelValues")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/label/{label}/values"
+	localVarPath = strings.Replace(localVarPath, "{"+"label"+"}", url.PathEscape(parameterToString(r.label, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.start != nil {
+		localVarFormParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	}
+	if r.match != nil {
+		localVarFormParams.Add("match[]", parameterToString(*r.match, "multi"))
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostLabelsRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	start *string
+	end *string
+	match *[]string
+}
+
+func (r ApiPostLabelsRequest) Start(start string) ApiPostLabelsRequest {
+	r.start = &start
+	return r
+}
+
+func (r ApiPostLabelsRequest) End(end string) ApiPostLabelsRequest {
+	r.end = &end
+	return r
+}
+
+func (r ApiPostLabelsRequest) Match(match []string) ApiPostLabelsRequest {
+	r.match = &match
+	return r
+}
+
+func (r ApiPostLabelsRequest) Execute() (*PromLabelsEnvelope, *http.Response, error) {
+	return r.ApiService.PostLabelsExecute(r)
+}
+
+/*
+PostLabels List of label names
+
+The endpoint returns a list of label names
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostLabelsRequest
+*/
+func (a *MetricApiService) PostLabels(ctx context.Context) ApiPostLabelsRequest {
+	return ApiPostLabelsRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PromLabelsEnvelope
+func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromLabelsEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostLabels")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/labels"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.start != nil {
+		localVarFormParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	}
+	if r.match != nil {
+		localVarFormParams.Add("match[]", parameterToString(*r.match, "multi"))
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromLabelsEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostMetadataRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	limit *int64
+	metric *string
+}
+
+func (r ApiPostMetadataRequest) Limit(limit int64) ApiPostMetadataRequest {
+	r.limit = &limit
+	return r
+}
+
+func (r ApiPostMetadataRequest) Metric(metric string) ApiPostMetadataRequest {
+	r.metric = &metric
+	return r
+}
+
+func (r ApiPostMetadataRequest) Execute() (*PromMetadataEnvelope, *http.Response, error) {
+	return r.ApiService.PostMetadataExecute(r)
+}
+
+/*
+PostMetadata Metadata about metrics currently scraped from targets
+
+The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostMetadataRequest
+*/
+func (a *MetricApiService) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
+	return ApiPostMetadataRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PromMetadataEnvelope
+func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromMetadataEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostMetadata")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/metadata"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.limit == nil {
+		return localVarReturnValue, nil, reportError("limit is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarFormParams.Add("limit", parameterToString(*r.limit, ""))
+	if r.metric != nil {
+		localVarFormParams.Add("metric", parameterToString(*r.metric, ""))
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromMetadataEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromMetadataEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromMetadataEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPostRangeQueryRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	query *string
+	start *string
+	end *string
+	step *string
+	timeout *string
 }
 
 func (r ApiPostRangeQueryRequest) Query(query string) ApiPostRangeQueryRequest {
@@ -1234,25 +2804,24 @@ PostRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostRangeQueryRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostRangeQueryRequest
 */
 func (a *MetricApiService) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return PromEnvelope
+//  @return PromEnvelope
 func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *PromEnvelope
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromEnvelope
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostRangeQuery")
@@ -1420,220 +2989,717 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiPostSeriesRequest struct {
+	ctx context.Context
+	ApiService MetricApi
+	match *[]string
+	start *string
+	end *string
+}
+
+func (r ApiPostSeriesRequest) Match(match []string) ApiPostSeriesRequest {
+	r.match = &match
+	return r
+}
+
+func (r ApiPostSeriesRequest) Start(start string) ApiPostSeriesRequest {
+	r.start = &start
+	return r
+}
+
+func (r ApiPostSeriesRequest) End(end string) ApiPostSeriesRequest {
+	r.end = &end
+	return r
+}
+
+func (r ApiPostSeriesRequest) Execute() (*PromSeriesEnvelope, *http.Response, error) {
+	return r.ApiService.PostSeriesExecute(r)
+}
+
+/*
+PostSeries List of time series that match a certain label set
+
+The endpoint returns the list of time series that match a certain label set
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostSeriesRequest
+*/
+func (a *MetricApiService) PostSeries(ctx context.Context) ApiPostSeriesRequest {
+	return ApiPostSeriesRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return PromSeriesEnvelope
+func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod   = http.MethodPost
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *PromSeriesEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostSeries")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/series"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.match == nil {
+		return localVarReturnValue, nil, reportError("match is required and must be specified")
+	}
+	if len(*r.match) < 1 {
+		return localVarReturnValue, nil, reportError("match must have at least 1 elements")
+	}
+	if r.start == nil {
+		return localVarReturnValue, nil, reportError("start is required and must be specified")
+	}
+	if r.end == nil {
+		return localVarReturnValue, nil, reportError("end is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	localVarFormParams.Add("match[]", parameterToString(*r.match, "multi"))
+	localVarFormParams.Add("start", parameterToString(*r.start, ""))
+	localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromSeriesEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 422 {
+			var v PromSeriesEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromSeriesEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type MetricApiMock struct {
-	GetExemplarsQueryCalls     *[]GetExemplarsQueryCall
-	GetExemplarsQueryResponse  GetExemplarsQueryMockResponse
-	GetInstantQueryCalls       *[]GetInstantQueryCall
-	GetInstantQueryResponse    GetInstantQueryMockResponse
-	GetRangeQueryCalls         *[]GetRangeQueryCall
-	GetRangeQueryResponse      GetRangeQueryMockResponse
-	PostExemplarsQueryCalls    *[]PostExemplarsQueryCall
+	GetExemplarsQueryCalls *[]GetExemplarsQueryCall
+	GetExemplarsQueryResponse GetExemplarsQueryMockResponse
+	GetInstantQueryCalls *[]GetInstantQueryCall
+	GetInstantQueryResponse GetInstantQueryMockResponse
+	GetLabelValuesCalls *[]GetLabelValuesCall
+	GetLabelValuesResponse GetLabelValuesMockResponse
+	GetLabelsCalls *[]GetLabelsCall
+	GetLabelsResponse GetLabelsMockResponse
+	GetMetadataCalls *[]GetMetadataCall
+	GetMetadataResponse GetMetadataMockResponse
+	GetRangeQueryCalls *[]GetRangeQueryCall
+	GetRangeQueryResponse GetRangeQueryMockResponse
+	GetSeriesCalls *[]GetSeriesCall
+	GetSeriesResponse GetSeriesMockResponse
+	PostExemplarsQueryCalls *[]PostExemplarsQueryCall
 	PostExemplarsQueryResponse PostExemplarsQueryMockResponse
-	PostInstantQueryCalls      *[]PostInstantQueryCall
-	PostInstantQueryResponse   PostInstantQueryMockResponse
-	PostRangeQueryCalls        *[]PostRangeQueryCall
-	PostRangeQueryResponse     PostRangeQueryMockResponse
-}
+	PostInstantQueryCalls *[]PostInstantQueryCall
+	PostInstantQueryResponse PostInstantQueryMockResponse
+	PostLabelValuesCalls *[]PostLabelValuesCall
+	PostLabelValuesResponse PostLabelValuesMockResponse
+	PostLabelsCalls *[]PostLabelsCall
+	PostLabelsResponse PostLabelsMockResponse
+	PostMetadataCalls *[]PostMetadataCall
+	PostMetadataResponse PostMetadataMockResponse
+	PostRangeQueryCalls *[]PostRangeQueryCall
+	PostRangeQueryResponse PostRangeQueryMockResponse
+	PostSeriesCalls *[]PostSeriesCall
+	PostSeriesResponse PostSeriesMockResponse
+}	
 
 func NewMetricApiMock() MetricApiMock {
 	xGetExemplarsQueryCalls := make([]GetExemplarsQueryCall, 0)
 	xGetInstantQueryCalls := make([]GetInstantQueryCall, 0)
+	xGetLabelValuesCalls := make([]GetLabelValuesCall, 0)
+	xGetLabelsCalls := make([]GetLabelsCall, 0)
+	xGetMetadataCalls := make([]GetMetadataCall, 0)
 	xGetRangeQueryCalls := make([]GetRangeQueryCall, 0)
+	xGetSeriesCalls := make([]GetSeriesCall, 0)
 	xPostExemplarsQueryCalls := make([]PostExemplarsQueryCall, 0)
 	xPostInstantQueryCalls := make([]PostInstantQueryCall, 0)
+	xPostLabelValuesCalls := make([]PostLabelValuesCall, 0)
+	xPostLabelsCalls := make([]PostLabelsCall, 0)
+	xPostMetadataCalls := make([]PostMetadataCall, 0)
 	xPostRangeQueryCalls := make([]PostRangeQueryCall, 0)
-	return MetricApiMock{
-		GetExemplarsQueryCalls:  &xGetExemplarsQueryCalls,
-		GetInstantQueryCalls:    &xGetInstantQueryCalls,
-		GetRangeQueryCalls:      &xGetRangeQueryCalls,
+	xPostSeriesCalls := make([]PostSeriesCall, 0)
+	return MetricApiMock {
+		GetExemplarsQueryCalls: &xGetExemplarsQueryCalls,
+		GetInstantQueryCalls: &xGetInstantQueryCalls,
+		GetLabelValuesCalls: &xGetLabelValuesCalls,
+		GetLabelsCalls: &xGetLabelsCalls,
+		GetMetadataCalls: &xGetMetadataCalls,
+		GetRangeQueryCalls: &xGetRangeQueryCalls,
+		GetSeriesCalls: &xGetSeriesCalls,
 		PostExemplarsQueryCalls: &xPostExemplarsQueryCalls,
-		PostInstantQueryCalls:   &xPostInstantQueryCalls,
-		PostRangeQueryCalls:     &xPostRangeQueryCalls,
+		PostInstantQueryCalls: &xPostInstantQueryCalls,
+		PostLabelValuesCalls: &xPostLabelValuesCalls,
+		PostLabelsCalls: &xPostLabelsCalls,
+		PostMetadataCalls: &xPostMetadataCalls,
+		PostRangeQueryCalls: &xPostRangeQueryCalls,
+		PostSeriesCalls: &xPostSeriesCalls,
 	}
 }
 
 type GetExemplarsQueryMockResponse struct {
-	Result   PromExemplarEnvelope
+	Result PromExemplarEnvelope
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetExemplarsQueryCall struct {
 	Pquery *string
 	Pstart *string
-	Pend   *string
+	Pend *string
 }
+
 
 func (mock MetricApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock MetricApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
-	p := GetExemplarsQueryCall{
-		Pquery: r.query,
-		Pstart: r.start,
-		Pend:   r.end,
+	p := GetExemplarsQueryCall {
+			Pquery: r.query,
+			Pstart: r.start,
+			Pend: r.end,
 	}
 	*mock.GetExemplarsQueryCalls = append(*mock.GetExemplarsQueryCalls, p)
 	return &mock.GetExemplarsQueryResponse.Result, mock.GetExemplarsQueryResponse.Response, mock.GetExemplarsQueryResponse.Error
 }
 
 type GetInstantQueryMockResponse struct {
-	Result   PromEnvelope
+	Result PromEnvelope
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetInstantQueryCall struct {
-	Pquery   *string
-	Ptime    *string
+	Pquery *string
+	Ptime *string
 	Ptimeout *string
 }
+
 
 func (mock MetricApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock MetricApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := GetInstantQueryCall{
-		Pquery:   r.query,
-		Ptime:    r.time,
-		Ptimeout: r.timeout,
+	p := GetInstantQueryCall {
+			Pquery: r.query,
+			Ptime: r.time,
+			Ptimeout: r.timeout,
 	}
 	*mock.GetInstantQueryCalls = append(*mock.GetInstantQueryCalls, p)
 	return &mock.GetInstantQueryResponse.Result, mock.GetInstantQueryResponse.Response, mock.GetInstantQueryResponse.Error
 }
 
-type GetRangeQueryMockResponse struct {
-	Result   PromEnvelope
+type GetLabelValuesMockResponse struct {
+	Result PromLabelsEnvelope
 	Response *http.Response
-	Error    error
+	Error error
+}
+
+type GetLabelValuesCall struct {
+	Plabel string
+	Pstart *string
+	Pend *string
+	Pmatch *[]string
+}
+
+
+func (mock MetricApiMock) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
+	return ApiGetLabelValuesRequest{
+		ApiService: mock,
+		ctx: ctx,
+		label: label,
+	}
+}
+
+func (mock MetricApiMock) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	p := GetLabelValuesCall {
+			Plabel: r.label,
+			Pstart: r.start,
+			Pend: r.end,
+			Pmatch: r.match,
+	}
+	*mock.GetLabelValuesCalls = append(*mock.GetLabelValuesCalls, p)
+	return &mock.GetLabelValuesResponse.Result, mock.GetLabelValuesResponse.Response, mock.GetLabelValuesResponse.Error
+}
+
+type GetLabelsMockResponse struct {
+	Result PromLabelsEnvelope
+	Response *http.Response
+	Error error
+}
+
+type GetLabelsCall struct {
+	Pstart *string
+	Pend *string
+	Pmatch *[]string
+}
+
+
+func (mock MetricApiMock) GetLabels(ctx context.Context) ApiGetLabelsRequest {
+	return ApiGetLabelsRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MetricApiMock) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	p := GetLabelsCall {
+			Pstart: r.start,
+			Pend: r.end,
+			Pmatch: r.match,
+	}
+	*mock.GetLabelsCalls = append(*mock.GetLabelsCalls, p)
+	return &mock.GetLabelsResponse.Result, mock.GetLabelsResponse.Response, mock.GetLabelsResponse.Error
+}
+
+type GetMetadataMockResponse struct {
+	Result PromMetadataEnvelope
+	Response *http.Response
+	Error error
+}
+
+type GetMetadataCall struct {
+	Plimit *int64
+	Pmetric *string
+}
+
+
+func (mock MetricApiMock) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
+	return ApiGetMetadataRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MetricApiMock) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+	p := GetMetadataCall {
+			Plimit: r.limit,
+			Pmetric: r.metric,
+	}
+	*mock.GetMetadataCalls = append(*mock.GetMetadataCalls, p)
+	return &mock.GetMetadataResponse.Result, mock.GetMetadataResponse.Response, mock.GetMetadataResponse.Error
+}
+
+type GetRangeQueryMockResponse struct {
+	Result PromEnvelope
+	Response *http.Response
+	Error error
 }
 
 type GetRangeQueryCall struct {
-	Pquery   *string
-	Pstart   *string
-	Pend     *string
-	Pstep    *string
+	Pquery *string
+	Pstart *string
+	Pend *string
+	Pstep *string
 	Ptimeout *string
 }
+
 
 func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := GetRangeQueryCall{
-		Pquery:   r.query,
-		Pstart:   r.start,
-		Pend:     r.end,
-		Pstep:    r.step,
-		Ptimeout: r.timeout,
+	p := GetRangeQueryCall {
+			Pquery: r.query,
+			Pstart: r.start,
+			Pend: r.end,
+			Pstep: r.step,
+			Ptimeout: r.timeout,
 	}
 	*mock.GetRangeQueryCalls = append(*mock.GetRangeQueryCalls, p)
 	return &mock.GetRangeQueryResponse.Result, mock.GetRangeQueryResponse.Response, mock.GetRangeQueryResponse.Error
 }
 
-type PostExemplarsQueryMockResponse struct {
-	Result   PromExemplarEnvelope
+type GetSeriesMockResponse struct {
+	Result PromSeriesEnvelope
 	Response *http.Response
-	Error    error
+	Error error
+}
+
+type GetSeriesCall struct {
+	Pmatch *[]string
+	Pstart *string
+	Pend *string
+}
+
+
+func (mock MetricApiMock) GetSeries(ctx context.Context) ApiGetSeriesRequest {
+	return ApiGetSeriesRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MetricApiMock) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+	p := GetSeriesCall {
+			Pmatch: r.match,
+			Pstart: r.start,
+			Pend: r.end,
+	}
+	*mock.GetSeriesCalls = append(*mock.GetSeriesCalls, p)
+	return &mock.GetSeriesResponse.Result, mock.GetSeriesResponse.Response, mock.GetSeriesResponse.Error
+}
+
+type PostExemplarsQueryMockResponse struct {
+	Result PromExemplarEnvelope
+	Response *http.Response
+	Error error
 }
 
 type PostExemplarsQueryCall struct {
 	Pquery *string
 	Pstart *string
-	Pend   *string
+	Pend *string
 }
+
 
 func (mock MetricApiMock) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock MetricApiMock) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
-	p := PostExemplarsQueryCall{
-		Pquery: r.query,
-		Pstart: r.start,
-		Pend:   r.end,
+	p := PostExemplarsQueryCall {
+			Pquery: r.query,
+			Pstart: r.start,
+			Pend: r.end,
 	}
 	*mock.PostExemplarsQueryCalls = append(*mock.PostExemplarsQueryCalls, p)
 	return &mock.PostExemplarsQueryResponse.Result, mock.PostExemplarsQueryResponse.Response, mock.PostExemplarsQueryResponse.Error
 }
 
 type PostInstantQueryMockResponse struct {
-	Result   PromEnvelope
+	Result PromEnvelope
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type PostInstantQueryCall struct {
-	Pquery   *string
-	Ptime    *string
+	Pquery *string
+	Ptime *string
 	Ptimeout *string
 }
+
 
 func (mock MetricApiMock) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock MetricApiMock) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := PostInstantQueryCall{
-		Pquery:   r.query,
-		Ptime:    r.time,
-		Ptimeout: r.timeout,
+	p := PostInstantQueryCall {
+			Pquery: r.query,
+			Ptime: r.time,
+			Ptimeout: r.timeout,
 	}
 	*mock.PostInstantQueryCalls = append(*mock.PostInstantQueryCalls, p)
 	return &mock.PostInstantQueryResponse.Result, mock.PostInstantQueryResponse.Response, mock.PostInstantQueryResponse.Error
 }
 
-type PostRangeQueryMockResponse struct {
-	Result   PromEnvelope
+type PostLabelValuesMockResponse struct {
+	Result PromLabelsEnvelope
 	Response *http.Response
-	Error    error
+	Error error
+}
+
+type PostLabelValuesCall struct {
+	Plabel string
+	Pstart *string
+	Pend *string
+	Pmatch *[]string
+}
+
+
+func (mock MetricApiMock) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
+	return ApiPostLabelValuesRequest{
+		ApiService: mock,
+		ctx: ctx,
+		label: label,
+	}
+}
+
+func (mock MetricApiMock) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	p := PostLabelValuesCall {
+			Plabel: r.label,
+			Pstart: r.start,
+			Pend: r.end,
+			Pmatch: r.match,
+	}
+	*mock.PostLabelValuesCalls = append(*mock.PostLabelValuesCalls, p)
+	return &mock.PostLabelValuesResponse.Result, mock.PostLabelValuesResponse.Response, mock.PostLabelValuesResponse.Error
+}
+
+type PostLabelsMockResponse struct {
+	Result PromLabelsEnvelope
+	Response *http.Response
+	Error error
+}
+
+type PostLabelsCall struct {
+	Pstart *string
+	Pend *string
+	Pmatch *[]string
+}
+
+
+func (mock MetricApiMock) PostLabels(ctx context.Context) ApiPostLabelsRequest {
+	return ApiPostLabelsRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MetricApiMock) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+	p := PostLabelsCall {
+			Pstart: r.start,
+			Pend: r.end,
+			Pmatch: r.match,
+	}
+	*mock.PostLabelsCalls = append(*mock.PostLabelsCalls, p)
+	return &mock.PostLabelsResponse.Result, mock.PostLabelsResponse.Response, mock.PostLabelsResponse.Error
+}
+
+type PostMetadataMockResponse struct {
+	Result PromMetadataEnvelope
+	Response *http.Response
+	Error error
+}
+
+type PostMetadataCall struct {
+	Plimit *int64
+	Pmetric *string
+}
+
+
+func (mock MetricApiMock) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
+	return ApiPostMetadataRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MetricApiMock) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+	p := PostMetadataCall {
+			Plimit: r.limit,
+			Pmetric: r.metric,
+	}
+	*mock.PostMetadataCalls = append(*mock.PostMetadataCalls, p)
+	return &mock.PostMetadataResponse.Result, mock.PostMetadataResponse.Response, mock.PostMetadataResponse.Error
+}
+
+type PostRangeQueryMockResponse struct {
+	Result PromEnvelope
+	Response *http.Response
+	Error error
 }
 
 type PostRangeQueryCall struct {
-	Pquery   *string
-	Pstart   *string
-	Pend     *string
-	Pstep    *string
+	Pquery *string
+	Pstart *string
+	Pend *string
+	Pstep *string
 	Ptimeout *string
 }
+
 
 func (mock MetricApiMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock MetricApiMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
-	p := PostRangeQueryCall{
-		Pquery:   r.query,
-		Pstart:   r.start,
-		Pend:     r.end,
-		Pstep:    r.step,
-		Ptimeout: r.timeout,
+	p := PostRangeQueryCall {
+			Pquery: r.query,
+			Pstart: r.start,
+			Pend: r.end,
+			Pstep: r.step,
+			Ptimeout: r.timeout,
 	}
 	*mock.PostRangeQueryCalls = append(*mock.PostRangeQueryCalls, p)
 	return &mock.PostRangeQueryResponse.Result, mock.PostRangeQueryResponse.Response, mock.PostRangeQueryResponse.Error
 }
+
+type PostSeriesMockResponse struct {
+	Result PromSeriesEnvelope
+	Response *http.Response
+	Error error
+}
+
+type PostSeriesCall struct {
+	Pmatch *[]string
+	Pstart *string
+	Pend *string
+}
+
+
+func (mock MetricApiMock) PostSeries(ctx context.Context) ApiPostSeriesRequest {
+	return ApiPostSeriesRequest{
+		ApiService: mock,
+		ctx: ctx,
+	}
+}
+
+func (mock MetricApiMock) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+	p := PostSeriesCall {
+			Pmatch: r.match,
+			Pstart: r.start,
+			Pend: r.end,
+	}
+	*mock.PostSeriesCalls = append(*mock.PostSeriesCalls, p)
+	return &mock.PostSeriesResponse.Result, mock.PostSeriesResponse.Response, mock.PostSeriesResponse.Error
+}
+
+

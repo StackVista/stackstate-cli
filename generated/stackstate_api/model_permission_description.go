@@ -17,8 +17,8 @@ import (
 
 // PermissionDescription struct for PermissionDescription
 type PermissionDescription struct {
-	SubjectHandle string              `json:"subjectHandle"`
-	Permissions   map[string][]string `json:"permissions"`
+	SubjectHandle string `json:"subjectHandle"`
+	Permissions map[string][]string `json:"permissions"`
 }
 
 // NewPermissionDescription instantiates a new PermissionDescription object
@@ -134,3 +134,5 @@ func (v *NullablePermissionDescription) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

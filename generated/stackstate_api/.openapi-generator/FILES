@@ -188,9 +188,12 @@ docs/PromEnvelope.md
 docs/PromExemplar.md
 docs/PromExemplarData.md
 docs/PromExemplarEnvelope.md
+docs/PromLabelsEnvelope.md
 docs/PromMatrix.md
+docs/PromMetadataEnvelope.md
 docs/PromSampleInner.md
 docs/PromScalar.md
+docs/PromSeriesEnvelope.md
 docs/PromVector.md
 docs/PromVectorResult.md
 docs/PropagatedHealthStateValue.md
@@ -266,7 +269,6 @@ docs/UserNotLoggedInError.md
 docs/UserProfile.md
 docs/UserProfileApi.md
 docs/UserProfileSaveError.md
-docs/Version.md
 docs/WindowingMethod.md
 git_push.sh
 go.mod
@@ -420,9 +422,12 @@ model_prom_envelope.go
 model_prom_exemplar.go
 model_prom_exemplar_data.go
 model_prom_exemplar_envelope.go
+model_prom_labels_envelope.go
 model_prom_matrix.go
+model_prom_metadata_envelope.go
 model_prom_sample_inner.go
 model_prom_scalar.go
+model_prom_series_envelope.go
 model_prom_vector.go
 model_prom_vector_result.go
 model_propagated_health_state_value.go
@@ -488,7 +493,6 @@ model_user_not_found_error.go
 model_user_not_logged_in_error.go
 model_user_profile.go
 model_user_profile_save_error.go
-model_version.go
 model_windowing_method.go
 response.go
 utils.go

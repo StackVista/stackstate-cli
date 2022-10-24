@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-    subject := "subject_example" // string |
+    subject := "subject_example" // string | 
     resource := "resource_example" // string |  (optional)
     permission := "permission_example" // string |  (optional)
 
@@ -54,7 +54,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**subject** | **string** |  |
+**subject** | **string** |  | 
 
 ### Other Parameters
 
@@ -64,8 +64,8 @@ Other parameters are passed through a pointer to a apiDescribePermissionsRequest
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **resource** | **string** |  |
- **permission** | **string** |  |
+ **resource** | **string** |  | 
+ **permission** | **string** |  | 
 
 ### Return type
 
@@ -167,8 +167,8 @@ import (
 )
 
 func main() {
-    subject := "subject_example" // string |
-    grantPermission := *openapiclient.NewGrantPermission("Permission_example", "ResourceName_example") // GrantPermission |
+    subject := "subject_example" // string | 
+    grantPermission := *openapiclient.NewGrantPermission("Permission_example", "ResourceName_example") // GrantPermission | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -186,7 +186,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**subject** | **string** |  |
+**subject** | **string** |  | 
 
 ### Other Parameters
 
@@ -196,7 +196,7 @@ Other parameters are passed through a pointer to a apiGrantPermissionsRequest st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **grantPermission** | [**GrantPermission**](GrantPermission.md) |  |
+ **grantPermission** | [**GrantPermission**](GrantPermission.md) |  | 
 
 ### Return type
 
@@ -237,7 +237,7 @@ import (
 )
 
 func main() {
-    subject := "subject_example" // string |
+    subject := "subject_example" // string | 
     resource := "resource_example" // string |  (optional)
     permission := "permission_example" // string |  (optional)
 
@@ -257,7 +257,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**subject** | **string** |  |
+**subject** | **string** |  | 
 
 ### Other Parameters
 
@@ -267,8 +267,8 @@ Other parameters are passed through a pointer to a apiRevokePermissionsRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **resource** | **string** |  |
- **permission** | **string** |  |
+ **resource** | **string** |  | 
+ **permission** | **string** |  | 
 
 ### Return type
 
@@ -286,3 +286,4 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

@@ -23,7 +23,7 @@ go get golang.org/x/net/context
 Put the package under your project folder and add the following in import:
 
 ```golang
-import stackstate_api "github.com/stackvista/stackstate-cli"
+import stackstate_api "gitlab.com/stackvista/stackstate-cli2"
 ```
 
 To use a proxy, set the environment variable `HTTP_PROXY`:
@@ -109,10 +109,18 @@ Class | Method | HTTP request | Description
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
 *MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 *MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
+*MetricApi* | [**GetLabelValues**](docs/MetricApi.md#getlabelvalues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
+*MetricApi* | [**GetLabels**](docs/MetricApi.md#getlabels) | **Get** /metrics/labels | List of label names
+*MetricApi* | [**GetMetadata**](docs/MetricApi.md#getmetadata) | **Get** /metrics/metadata | Metadata about metrics currently scraped from targets
 *MetricApi* | [**GetRangeQuery**](docs/MetricApi.md#getrangequery) | **Get** /metrics/query_range | Query over a range of time
+*MetricApi* | [**GetSeries**](docs/MetricApi.md#getseries) | **Get** /metrics/series | List of time series that match a certain label set
 *MetricApi* | [**PostExemplarsQuery**](docs/MetricApi.md#postexemplarsquery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 *MetricApi* | [**PostInstantQuery**](docs/MetricApi.md#postinstantquery) | **Post** /metrics/query | Instant query at a single point in time
+*MetricApi* | [**PostLabelValues**](docs/MetricApi.md#postlabelvalues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
+*MetricApi* | [**PostLabels**](docs/MetricApi.md#postlabels) | **Post** /metrics/labels | List of label names
+*MetricApi* | [**PostMetadata**](docs/MetricApi.md#postmetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
 *MetricApi* | [**PostRangeQuery**](docs/MetricApi.md#postrangequery) | **Post** /metrics/query_range | Query over a range of time
+*MetricApi* | [**PostSeries**](docs/MetricApi.md#postseries) | **Post** /metrics/series | List of time series that match a certain label set
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
@@ -316,9 +324,12 @@ Class | Method | HTTP request | Description
  - [PromExemplar](docs/PromExemplar.md)
  - [PromExemplarData](docs/PromExemplarData.md)
  - [PromExemplarEnvelope](docs/PromExemplarEnvelope.md)
+ - [PromLabelsEnvelope](docs/PromLabelsEnvelope.md)
  - [PromMatrix](docs/PromMatrix.md)
+ - [PromMetadataEnvelope](docs/PromMetadataEnvelope.md)
  - [PromSampleInner](docs/PromSampleInner.md)
  - [PromScalar](docs/PromScalar.md)
+ - [PromSeriesEnvelope](docs/PromSeriesEnvelope.md)
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
@@ -384,7 +395,6 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
- - [Version](docs/Version.md)
  - [WindowingMethod](docs/WindowingMethod.md)
 
 
@@ -438,3 +448,4 @@ Each of these functions takes a value of the given basic type and returns a poin
 ## Author
 
 info@stackstate.com
+

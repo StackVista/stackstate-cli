@@ -17,10 +17,10 @@ import (
 
 // Message struct for Message
 type Message struct {
-	Key       string                 `json:"key"`
-	Partition int32                  `json:"partition"`
-	Offset    int32                  `json:"offset"`
-	Message   map[string]interface{} `json:"message"`
+	Key string `json:"key"`
+	Partition int32 `json:"partition"`
+	Offset int32 `json:"offset"`
+	Message map[string]interface{} `json:"message"`
 }
 
 // NewMessage instantiates a new Message object
@@ -192,3 +192,5 @@ func (v *NullableMessage) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

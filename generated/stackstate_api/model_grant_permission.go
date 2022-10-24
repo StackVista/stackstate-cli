@@ -17,7 +17,7 @@ import (
 
 // GrantPermission struct for GrantPermission
 type GrantPermission struct {
-	Permission   string `json:"permission"`
+	Permission string `json:"permission"`
 	ResourceName string `json:"resourceName"`
 }
 
@@ -134,3 +134,5 @@ func (v *NullableGrantPermission) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

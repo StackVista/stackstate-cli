@@ -17,7 +17,7 @@ import (
 
 // SubjectConfig struct for SubjectConfig
 type SubjectConfig struct {
-	Handle     string  `json:"handle"`
+	Handle string `json:"handle"`
 	ScopeQuery *string `json:"scopeQuery,omitempty"`
 }
 
@@ -141,3 +141,5 @@ func (v *NullableSubjectConfig) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
+
+

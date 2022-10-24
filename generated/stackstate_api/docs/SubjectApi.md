@@ -32,8 +32,8 @@ import (
 )
 
 func main() {
-    subject := "subject_example" // string |
-    createSubject := *openapiclient.NewCreateSubject("Query_example", openapiclient.Version("0.0.1")) // CreateSubject |
+    subject := "subject_example" // string | 
+    createSubject := *openapiclient.NewCreateSubject("Query_example", "Version_example") // CreateSubject | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -51,7 +51,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**subject** | **string** |  |
+**subject** | **string** |  | 
 
 ### Other Parameters
 
@@ -61,7 +61,7 @@ Other parameters are passed through a pointer to a apiCreateSubjectRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **createSubject** | [**CreateSubject**](CreateSubject.md) |  |
+ **createSubject** | [**CreateSubject**](CreateSubject.md) |  | 
 
 ### Return type
 
@@ -102,7 +102,7 @@ import (
 )
 
 func main() {
-    subject := "subject_example" // string |
+    subject := "subject_example" // string | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -120,7 +120,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**subject** | **string** |  |
+**subject** | **string** |  | 
 
 ### Other Parameters
 
@@ -170,7 +170,7 @@ import (
 )
 
 func main() {
-    subject := "subject_example" // string |
+    subject := "subject_example" // string | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -190,7 +190,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**subject** | **string** |  |
+**subject** | **string** |  | 
 
 ### Other Parameters
 
@@ -278,3 +278,4 @@ Other parameters are passed through a pointer to a apiListSubjectsRequest struct
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

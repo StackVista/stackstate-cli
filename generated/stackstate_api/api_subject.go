@@ -20,16 +20,17 @@ import (
 	"strings"
 )
 
+
 type SubjectApi interface {
 
 	/*
-		CreateSubject Create a subject
+	CreateSubject Create a subject
 
-		Create a new security subject
+	Create a new security subject
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param subject
-		@return ApiCreateSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiCreateSubjectRequest
 	*/
 	CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest
 
@@ -37,13 +38,13 @@ type SubjectApi interface {
 	CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error)
 
 	/*
-		DeleteSubject Delete a subject
+	DeleteSubject Delete a subject
 
-		Remove a security subject
+	Remove a security subject
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param subject
-		@return ApiDeleteSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiDeleteSubjectRequest
 	*/
 	DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest
 
@@ -51,13 +52,13 @@ type SubjectApi interface {
 	DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error)
 
 	/*
-		GetSubject Get subject
+	GetSubject Get subject
 
-		Describe a subject and its scope
+	Describe a subject and its scope
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param subject
-		@return ApiGetSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiGetSubjectRequest
 	*/
 	GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest
 
@@ -66,12 +67,12 @@ type SubjectApi interface {
 	GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error)
 
 	/*
-		ListSubjects List subjects
+	ListSubjects List subjects
 
-		List all subjects and their scopes
+	List all subjects and their scopes
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiListSubjectsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSubjectsRequest
 	*/
 	ListSubjects(ctx context.Context) ApiListSubjectsRequest
 
@@ -84,9 +85,9 @@ type SubjectApi interface {
 type SubjectApiService service
 
 type ApiCreateSubjectRequest struct {
-	ctx           context.Context
-	ApiService    SubjectApi
-	subject       string
+	ctx context.Context
+	ApiService SubjectApi
+	subject string
 	createSubject *CreateSubject
 }
 
@@ -104,24 +105,24 @@ CreateSubject Create a subject
 
 Create a new security subject
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param subject
-	@return ApiCreateSubjectRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param subject
+ @return ApiCreateSubjectRequest
 */
 func (a *SubjectApiService) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
 	return ApiCreateSubjectRequest{
 		ApiService: a,
-		ctx:        ctx,
-		subject:    subject,
+		ctx: ctx,
+		subject: subject,
 	}
 }
 
 // Execute executes the request
 func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodPut
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod   = http.MethodPut
+		localVarPostBody     interface{}
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.CreateSubject")
@@ -248,9 +249,9 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 }
 
 type ApiDeleteSubjectRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService SubjectApi
-	subject    string
+	subject string
 }
 
 func (r ApiDeleteSubjectRequest) Execute() (*http.Response, error) {
@@ -262,24 +263,24 @@ DeleteSubject Delete a subject
 
 Remove a security subject
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param subject
-	@return ApiDeleteSubjectRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param subject
+ @return ApiDeleteSubjectRequest
 */
 func (a *SubjectApiService) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
 	return ApiDeleteSubjectRequest{
 		ApiService: a,
-		ctx:        ctx,
-		subject:    subject,
+		ctx: ctx,
+		subject: subject,
 	}
 }
 
 // Execute executes the request
 func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod = http.MethodDelete
-		localVarPostBody   interface{}
-		formFiles          []formFile
+		localVarHTTPMethod   = http.MethodDelete
+		localVarPostBody     interface{}
+		formFiles            []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.DeleteSubject")
@@ -401,9 +402,9 @@ func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*ht
 }
 
 type ApiGetSubjectRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService SubjectApi
-	subject    string
+	subject string
 }
 
 func (r ApiGetSubjectRequest) Execute() (*SubjectConfig, *http.Response, error) {
@@ -415,27 +416,26 @@ GetSubject Get subject
 
 Describe a subject and its scope
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param subject
-	@return ApiGetSubjectRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param subject
+ @return ApiGetSubjectRequest
 */
 func (a *SubjectApiService) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
 	return ApiGetSubjectRequest{
 		ApiService: a,
-		ctx:        ctx,
-		subject:    subject,
+		ctx: ctx,
+		subject: subject,
 	}
 }
 
 // Execute executes the request
-//
-//	@return SubjectConfig
+//  @return SubjectConfig
 func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *SubjectConfig
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  *SubjectConfig
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.GetSubject")
@@ -566,7 +566,7 @@ func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectC
 }
 
 type ApiListSubjectsRequest struct {
-	ctx        context.Context
+	ctx context.Context
 	ApiService SubjectApi
 }
 
@@ -579,25 +579,24 @@ ListSubjects List subjects
 
 List all subjects and their scopes
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiListSubjectsRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiListSubjectsRequest
 */
 func (a *SubjectApiService) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
 	return ApiListSubjectsRequest{
 		ApiService: a,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 // Execute executes the request
-//
-//	@return []SubjectConfig
+//  @return []SubjectConfig
 func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
 	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue []SubjectConfig
+		localVarHTTPMethod   = http.MethodGet
+		localVarPostBody     interface{}
+		formFiles            []formFile
+		localVarReturnValue  []SubjectConfig
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.ListSubjects")
@@ -716,130 +715,141 @@ func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]Sub
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
+
 type SubjectApiMock struct {
-	CreateSubjectCalls    *[]CreateSubjectCall
+	CreateSubjectCalls *[]CreateSubjectCall
 	CreateSubjectResponse CreateSubjectMockResponse
-	DeleteSubjectCalls    *[]DeleteSubjectCall
+	DeleteSubjectCalls *[]DeleteSubjectCall
 	DeleteSubjectResponse DeleteSubjectMockResponse
-	GetSubjectCalls       *[]GetSubjectCall
-	GetSubjectResponse    GetSubjectMockResponse
-	ListSubjectsCalls     *[]ListSubjectsCall
-	ListSubjectsResponse  ListSubjectsMockResponse
-}
+	GetSubjectCalls *[]GetSubjectCall
+	GetSubjectResponse GetSubjectMockResponse
+	ListSubjectsCalls *[]ListSubjectsCall
+	ListSubjectsResponse ListSubjectsMockResponse
+}	
 
 func NewSubjectApiMock() SubjectApiMock {
 	xCreateSubjectCalls := make([]CreateSubjectCall, 0)
 	xDeleteSubjectCalls := make([]DeleteSubjectCall, 0)
 	xGetSubjectCalls := make([]GetSubjectCall, 0)
 	xListSubjectsCalls := make([]ListSubjectsCall, 0)
-	return SubjectApiMock{
+	return SubjectApiMock {
 		CreateSubjectCalls: &xCreateSubjectCalls,
 		DeleteSubjectCalls: &xDeleteSubjectCalls,
-		GetSubjectCalls:    &xGetSubjectCalls,
-		ListSubjectsCalls:  &xListSubjectsCalls,
+		GetSubjectCalls: &xGetSubjectCalls,
+		ListSubjectsCalls: &xListSubjectsCalls,
 	}
 }
 
 type CreateSubjectMockResponse struct {
+	
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type CreateSubjectCall struct {
-	Psubject       string
+	Psubject string
 	PcreateSubject *CreateSubject
 }
+
 
 func (mock SubjectApiMock) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
 	return ApiCreateSubjectRequest{
 		ApiService: mock,
-		ctx:        ctx,
-		subject:    subject,
+		ctx: ctx,
+		subject: subject,
 	}
 }
 
 func (mock SubjectApiMock) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
-	p := CreateSubjectCall{
-		Psubject:       r.subject,
-		PcreateSubject: r.createSubject,
+	p := CreateSubjectCall {
+			Psubject: r.subject,
+			PcreateSubject: r.createSubject,
 	}
 	*mock.CreateSubjectCalls = append(*mock.CreateSubjectCalls, p)
 	return mock.CreateSubjectResponse.Response, mock.CreateSubjectResponse.Error
 }
 
 type DeleteSubjectMockResponse struct {
+	
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type DeleteSubjectCall struct {
 	Psubject string
 }
 
+
 func (mock SubjectApiMock) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
 	return ApiDeleteSubjectRequest{
 		ApiService: mock,
-		ctx:        ctx,
-		subject:    subject,
+		ctx: ctx,
+		subject: subject,
 	}
 }
 
 func (mock SubjectApiMock) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
-	p := DeleteSubjectCall{
-		Psubject: r.subject,
+	p := DeleteSubjectCall {
+			Psubject: r.subject,
 	}
 	*mock.DeleteSubjectCalls = append(*mock.DeleteSubjectCalls, p)
 	return mock.DeleteSubjectResponse.Response, mock.DeleteSubjectResponse.Error
 }
 
 type GetSubjectMockResponse struct {
-	Result   SubjectConfig
+	Result SubjectConfig
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type GetSubjectCall struct {
 	Psubject string
 }
 
+
 func (mock SubjectApiMock) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
 	return ApiGetSubjectRequest{
 		ApiService: mock,
-		ctx:        ctx,
-		subject:    subject,
+		ctx: ctx,
+		subject: subject,
 	}
 }
 
 func (mock SubjectApiMock) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
-	p := GetSubjectCall{
-		Psubject: r.subject,
+	p := GetSubjectCall {
+			Psubject: r.subject,
 	}
 	*mock.GetSubjectCalls = append(*mock.GetSubjectCalls, p)
 	return &mock.GetSubjectResponse.Result, mock.GetSubjectResponse.Response, mock.GetSubjectResponse.Error
 }
 
 type ListSubjectsMockResponse struct {
-	Result   []SubjectConfig
+	Result []SubjectConfig
 	Response *http.Response
-	Error    error
+	Error error
 }
 
 type ListSubjectsCall struct {
 }
 
+
 func (mock SubjectApiMock) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
 	return ApiListSubjectsRequest{
 		ApiService: mock,
-		ctx:        ctx,
+		ctx: ctx,
 	}
 }
 
 func (mock SubjectApiMock) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
-	p := ListSubjectsCall{}
+	p := ListSubjectsCall {
+	}
 	*mock.ListSubjectsCalls = append(*mock.ListSubjectsCalls, p)
 	return mock.ListSubjectsResponse.Result, mock.ListSubjectsResponse.Response, mock.ListSubjectsResponse.Error
 }
+
+
