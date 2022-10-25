@@ -17,8 +17,8 @@ import (
 
 // ServiceTokenCreatedResponse struct for ServiceTokenCreatedResponse
 type ServiceTokenCreatedResponse struct {
-	Name string `json:"name"`
-	Token string `json:"token"`
+	Name       string `json:"name"`
+	Token      string `json:"token"`
 	Expiration *int64 `json:"expiration,omitempty"`
 }
 
@@ -170,5 +170,3 @@ func (v *NullableServiceTokenCreatedResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

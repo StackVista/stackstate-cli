@@ -17,11 +17,11 @@ import (
 
 // ArgumentAnomalyDirectionVal struct for ArgumentAnomalyDirectionVal
 type ArgumentAnomalyDirectionVal struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Value AnomalyDirection `json:"value"`
+	Type                string           `json:"_type"`
+	Id                  *int64           `json:"id,omitempty"`
+	LastUpdateTimestamp *int64           `json:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64            `json:"parameter"`
+	Value               AnomalyDirection `json:"value"`
 }
 
 // NewArgumentAnomalyDirectionVal instantiates a new ArgumentAnomalyDirectionVal object
@@ -235,5 +235,3 @@ func (v *NullableArgumentAnomalyDirectionVal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

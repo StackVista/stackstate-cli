@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptWrongReturnTypeError struct for ExecuteScriptWrongReturnTypeError
 type ExecuteScriptWrongReturnTypeError struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	ActualReturnType string `json:"actualReturnType"`
+	Type               string `json:"_type"`
+	Message            string `json:"message"`
+	ActualReturnType   string `json:"actualReturnType"`
 	ExpectedReturnType string `json:"expectedReturnType"`
 }
 
@@ -192,5 +192,3 @@ func (v *NullableExecuteScriptWrongReturnTypeError) UnmarshalJSON(src []byte) er
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

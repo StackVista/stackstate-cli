@@ -21,9 +21,9 @@ type DataType string
 
 // List of DataType
 const (
-	DATATYPE_METRICS DataType = "METRICS"
+	DATATYPE_METRICS           DataType = "METRICS"
 	DATATYPE_TOPOLOGY_ELEMENTS DataType = "TOPOLOGY_ELEMENTS"
-	DATATYPE_EVENTS DataType = "EVENTS"
+	DATATYPE_EVENTS            DataType = "EVENTS"
 )
 
 // All allowed values of DataType enum
@@ -111,4 +111,3 @@ func (v *NullableDataType) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

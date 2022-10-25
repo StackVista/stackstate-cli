@@ -17,8 +17,8 @@ import (
 
 // ServerInfo struct for ServerInfo
 type ServerInfo struct {
-	Version ServerVersion `json:"version"`
-	DeploymentMode string `json:"deploymentMode"`
+	Version        ServerVersion `json:"version"`
+	DeploymentMode string        `json:"deploymentMode"`
 }
 
 // NewServerInfo instantiates a new ServerInfo object
@@ -134,5 +134,3 @@ func (v *NullableServerInfo) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

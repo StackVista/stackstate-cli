@@ -17,17 +17,17 @@ import (
 
 // Annotation struct for Annotation
 type Annotation struct {
-	Id string `json:"id"`
-	Name string `json:"name"`
-	Reference Reference `json:"reference"`
-	Identifiers []string `json:"identifiers"`
-	Description string `json:"description"`
-	AnnotationType AnnotationType `json:"annotationType"`
-	EventTimeInterval TimeRange `json:"eventTimeInterval"`
-	ProcessedTime int64 `json:"processedTime"`
-	CreatedTime int64 `json:"createdTime"`
-	Tags []string `json:"tags"`
-	Data *AnnotationData `json:"data,omitempty"`
+	Id                string          `json:"id"`
+	Name              string          `json:"name"`
+	Reference         Reference       `json:"reference"`
+	Identifiers       []string        `json:"identifiers"`
+	Description       string          `json:"description"`
+	AnnotationType    AnnotationType  `json:"annotationType"`
+	EventTimeInterval TimeRange       `json:"eventTimeInterval"`
+	ProcessedTime     int64           `json:"processedTime"`
+	CreatedTime       int64           `json:"createdTime"`
+	Tags              []string        `json:"tags"`
+	Data              *AnnotationData `json:"data,omitempty"`
 }
 
 // NewAnnotation instantiates a new Annotation object
@@ -402,5 +402,3 @@ func (v *NullableAnnotation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

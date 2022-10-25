@@ -17,16 +17,16 @@ import (
 
 // EventStream struct for EventStream
 type EventStream struct {
-	Type string `json:"_type"`
-	DataSource int64 `json:"dataSource"`
-	DataType DataType `json:"dataType"`
-	Description *string `json:"description,omitempty"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	Priority *StreamPriority `json:"priority,omitempty"`
-	Query EventTelemetryQuery `json:"query"`
-	SyncCreated bool `json:"syncCreated"`
+	Type                string              `json:"_type"`
+	DataSource          int64               `json:"dataSource"`
+	DataType            DataType            `json:"dataType"`
+	Description         *string             `json:"description,omitempty"`
+	Id                  *int64              `json:"id,omitempty"`
+	LastUpdateTimestamp *int64              `json:"lastUpdateTimestamp,omitempty"`
+	Name                string              `json:"name"`
+	Priority            *StreamPriority     `json:"priority,omitempty"`
+	Query               EventTelemetryQuery `json:"query"`
+	SyncCreated         bool                `json:"syncCreated"`
 }
 
 // NewEventStream instantiates a new EventStream object
@@ -394,5 +394,3 @@ func (v *NullableEventStream) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

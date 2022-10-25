@@ -17,19 +17,19 @@ import (
 
 // StackPack struct for StackPack
 type StackPack struct {
-	Name string `json:"name"`
-	DisplayName string `json:"displayName"`
-	Version string `json:"version"`
-	Logo *string `json:"logo,omitempty"`
-	Categories []string `json:"categories"`
-	IsNew bool `json:"isNew"`
-	OverviewUrl *string `json:"overviewUrl,omitempty"`
-	DetailedOverviewUrl *string `json:"detailedOverviewUrl,omitempty"`
-	ResourcesUrl *string `json:"resourcesUrl,omitempty"`
-	Faqs []StackPackFaqsInner `json:"faqs,omitempty"`
-	ConfigurationUrls [][]string `json:"configurationUrls,omitempty"`
-	ReleaseStatus string `json:"releaseStatus"`
-	IsCompatible bool `json:"isCompatible"`
+	Name                string               `json:"name"`
+	DisplayName         string               `json:"displayName"`
+	Version             string               `json:"version"`
+	Logo                *string              `json:"logo,omitempty"`
+	Categories          []string             `json:"categories"`
+	IsNew               bool                 `json:"isNew"`
+	OverviewUrl         *string              `json:"overviewUrl,omitempty"`
+	DetailedOverviewUrl *string              `json:"detailedOverviewUrl,omitempty"`
+	ResourcesUrl        *string              `json:"resourcesUrl,omitempty"`
+	Faqs                []StackPackFaqsInner `json:"faqs,omitempty"`
+	ConfigurationUrls   [][]string           `json:"configurationUrls,omitempty"`
+	ReleaseStatus       string               `json:"releaseStatus"`
+	IsCompatible        bool                 `json:"isCompatible"`
 }
 
 // NewStackPack instantiates a new StackPack object
@@ -495,5 +495,3 @@ func (v *NullableStackPack) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

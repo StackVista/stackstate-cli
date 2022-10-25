@@ -17,11 +17,11 @@ import (
 
 // ArgumentExtTopoRelation struct for ArgumentExtTopoRelation
 type ArgumentExtTopoRelation struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
+	Type                string `json:"_type"`
+	Id                  *int64 `json:"id,omitempty"`
 	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	ExtTopoElement int64 `json:"extTopoElement"`
+	Parameter           int64  `json:"parameter"`
+	ExtTopoElement      int64  `json:"extTopoElement"`
 }
 
 // NewArgumentExtTopoRelation instantiates a new ArgumentExtTopoRelation object
@@ -235,5 +235,3 @@ func (v *NullableArgumentExtTopoRelation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

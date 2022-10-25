@@ -17,11 +17,11 @@ import (
 
 // PromEnvelope struct for PromEnvelope
 type PromEnvelope struct {
-	Status string `json:"status"`
-	Data *PromData `json:"data,omitempty"`
-	ErrorType *string `json:"errorType,omitempty"`
-	Error *string `json:"error,omitempty"`
-	Warnings []string `json:"warnings,omitempty"`
+	Status    string    `json:"status"`
+	Data      *PromData `json:"data,omitempty"`
+	ErrorType *string   `json:"errorType,omitempty"`
+	Error     *string   `json:"error,omitempty"`
+	Warnings  []string  `json:"warnings,omitempty"`
 }
 
 // NewPromEnvelope instantiates a new PromEnvelope object
@@ -249,5 +249,3 @@ func (v *NullablePromEnvelope) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

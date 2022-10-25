@@ -18,7 +18,7 @@ import (
 
 // GetCausingEventsBadRequest - struct for GetCausingEventsBadRequest
 type GetCausingEventsBadRequest struct {
-	LimitOutOfRange *LimitOutOfRange
+	LimitOutOfRange        *LimitOutOfRange
 	TopologyTimeOutOfRange *TopologyTimeOutOfRange
 }
 
@@ -35,7 +35,6 @@ func TopologyTimeOutOfRangeAsGetCausingEventsBadRequest(v *TopologyTimeOutOfRang
 		TopologyTimeOutOfRange: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetCausingEventsBadRequest) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src GetCausingEventsBadRequest) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *GetCausingEventsBadRequest) GetActualInstance() (interface{}) {
+func (obj *GetCausingEventsBadRequest) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableGetCausingEventsBadRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

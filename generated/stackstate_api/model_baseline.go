@@ -17,13 +17,13 @@ import (
 
 // Baseline struct for Baseline
 type Baseline struct {
-	Type string `json:"_type"`
-	Arguments []Argument `json:"arguments"`
-	Description *string `json:"description,omitempty"`
-	Function int64 `json:"function"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
+	Type                string     `json:"_type"`
+	Arguments           []Argument `json:"arguments"`
+	Description         *string    `json:"description,omitempty"`
+	Function            int64      `json:"function"`
+	Id                  *int64     `json:"id,omitempty"`
+	LastUpdateTimestamp *int64     `json:"lastUpdateTimestamp,omitempty"`
+	Name                string     `json:"name"`
 }
 
 // NewBaseline instantiates a new Baseline object
@@ -300,5 +300,3 @@ func (v *NullableBaseline) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

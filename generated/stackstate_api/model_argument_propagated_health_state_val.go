@@ -17,11 +17,11 @@ import (
 
 // ArgumentPropagatedHealthStateVal struct for ArgumentPropagatedHealthStateVal
 type ArgumentPropagatedHealthStateVal struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Value PropagatedHealthStateValue `json:"value"`
+	Type                string                     `json:"_type"`
+	Id                  *int64                     `json:"id,omitempty"`
+	LastUpdateTimestamp *int64                     `json:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64                      `json:"parameter"`
+	Value               PropagatedHealthStateValue `json:"value"`
 }
 
 // NewArgumentPropagatedHealthStateVal instantiates a new ArgumentPropagatedHealthStateVal object
@@ -235,5 +235,3 @@ func (v *NullableArgumentPropagatedHealthStateVal) UnmarshalJSON(src []byte) err
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -17,14 +17,14 @@ import (
 
 // ArgumentMetricStreamRef struct for ArgumentMetricStreamRef
 type ArgumentMetricStreamRef struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	MaxWindow *int64 `json:"maxWindow,omitempty"`
-	Stream int64 `json:"stream"`
-	DownsamplingMethod *DownsamplingMethod `json:"downsamplingMethod,omitempty"`
-	WindowingMethod *WindowingMethod `json:"windowingMethod,omitempty"`
+	Type                string              `json:"_type"`
+	Id                  *int64              `json:"id,omitempty"`
+	LastUpdateTimestamp *int64              `json:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64               `json:"parameter"`
+	MaxWindow           *int64              `json:"maxWindow,omitempty"`
+	Stream              int64               `json:"stream"`
+	DownsamplingMethod  *DownsamplingMethod `json:"downsamplingMethod,omitempty"`
+	WindowingMethod     *WindowingMethod    `json:"windowingMethod,omitempty"`
 }
 
 // NewArgumentMetricStreamRef instantiates a new ArgumentMetricStreamRef object
@@ -343,5 +343,3 @@ func (v *NullableArgumentMetricStreamRef) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

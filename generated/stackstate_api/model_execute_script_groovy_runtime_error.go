@@ -17,8 +17,8 @@ import (
 
 // ExecuteScriptGroovyRuntimeError struct for ExecuteScriptGroovyRuntimeError
 type ExecuteScriptGroovyRuntimeError struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
+	Type     string          `json:"_type"`
+	Message  string          `json:"message"`
 	Location *ScriptLocation `json:"location,omitempty"`
 }
 
@@ -170,5 +170,3 @@ func (v *NullableExecuteScriptGroovyRuntimeError) UnmarshalJSON(src []byte) erro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

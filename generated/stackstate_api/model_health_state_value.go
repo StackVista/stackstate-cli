@@ -21,12 +21,12 @@ type HealthStateValue string
 
 // List of HealthStateValue
 const (
-	HEALTHSTATEVALUE_UNKNOWN HealthStateValue = "UNKNOWN"
-	HEALTHSTATEVALUE_CLEAR HealthStateValue = "CLEAR"
-	HEALTHSTATEVALUE_DISABLED HealthStateValue = "DISABLED"
+	HEALTHSTATEVALUE_UNKNOWN   HealthStateValue = "UNKNOWN"
+	HEALTHSTATEVALUE_CLEAR     HealthStateValue = "CLEAR"
+	HEALTHSTATEVALUE_DISABLED  HealthStateValue = "DISABLED"
 	HEALTHSTATEVALUE_DEVIATING HealthStateValue = "DEVIATING"
-	HEALTHSTATEVALUE_FLAPPING HealthStateValue = "FLAPPING"
-	HEALTHSTATEVALUE_CRITICAL HealthStateValue = "CRITICAL"
+	HEALTHSTATEVALUE_FLAPPING  HealthStateValue = "FLAPPING"
+	HEALTHSTATEVALUE_CRITICAL  HealthStateValue = "CRITICAL"
 )
 
 // All allowed values of HealthStateValue enum
@@ -117,4 +117,3 @@ func (v *NullableHealthStateValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

@@ -17,12 +17,12 @@ import (
 
 // CheckError struct for CheckError
 type CheckError struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimeStamp *int64 `json:"lastUpdateTimeStamp,omitempty"`
-	Message string `json:"message"`
-	DetailedMessage string `json:"detailedMessage"`
-	State ErrorStateValue `json:"state"`
+	Type                string          `json:"_type"`
+	Id                  *int64          `json:"id,omitempty"`
+	LastUpdateTimeStamp *int64          `json:"lastUpdateTimeStamp,omitempty"`
+	Message             string          `json:"message"`
+	DetailedMessage     string          `json:"detailedMessage"`
+	State               ErrorStateValue `json:"state"`
 }
 
 // NewCheckError instantiates a new CheckError object
@@ -264,5 +264,3 @@ func (v *NullableCheckError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

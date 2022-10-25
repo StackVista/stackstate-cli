@@ -19,7 +19,7 @@ import (
 // RequestError - struct for RequestError
 type RequestError struct {
 	RequestValidationError *RequestValidationError
-	TopologyOverflowError *TopologyOverflowError
+	TopologyOverflowError  *TopologyOverflowError
 }
 
 // RequestValidationErrorAsRequestError is a convenience function that returns RequestValidationError wrapped in RequestError
@@ -35,7 +35,6 @@ func TopologyOverflowErrorAsRequestError(v *TopologyOverflowError) RequestError 
 		TopologyOverflowError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *RequestError) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src RequestError) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *RequestError) GetActualInstance() (interface{}) {
+func (obj *RequestError) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableRequestError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

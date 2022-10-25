@@ -17,10 +17,10 @@ import (
 
 // EventComponent struct for EventComponent
 type EventComponent struct {
-	Type string `json:"_type"`
-	Id int64 `json:"id"`
-	ComponentTypeId int64 `json:"componentTypeId"`
-	Name string `json:"name"`
+	Type            string `json:"_type"`
+	Id              int64  `json:"id"`
+	ComponentTypeId int64  `json:"componentTypeId"`
+	Name            string `json:"name"`
 }
 
 // NewEventComponent instantiates a new EventComponent object
@@ -192,5 +192,3 @@ func (v *NullableEventComponent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

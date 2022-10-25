@@ -17,12 +17,12 @@ import (
 
 // HealthStreamMetrics struct for HealthStreamMetrics
 type HealthStreamMetrics struct {
-	BucketSizeSeconds int32 `json:"bucketSizeSeconds"`
-	LatencySeconds []MetricBucketValue `json:"latencySeconds,omitempty"`
-	MessagePerSecond []MetricBucketValue `json:"messagePerSecond,omitempty"`
-	CreatesPerSecond []MetricBucketValue `json:"createsPerSecond,omitempty"`
-	UpdatesPerSecond []MetricBucketValue `json:"updatesPerSecond,omitempty"`
-	DeletesPerSecond []MetricBucketValue `json:"deletesPerSecond,omitempty"`
+	BucketSizeSeconds int32               `json:"bucketSizeSeconds"`
+	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty"`
+	MessagePerSecond  []MetricBucketValue `json:"messagePerSecond,omitempty"`
+	CreatesPerSecond  []MetricBucketValue `json:"createsPerSecond,omitempty"`
+	UpdatesPerSecond  []MetricBucketValue `json:"updatesPerSecond,omitempty"`
+	DeletesPerSecond  []MetricBucketValue `json:"deletesPerSecond,omitempty"`
 }
 
 // NewHealthStreamMetrics instantiates a new HealthStreamMetrics object
@@ -285,5 +285,3 @@ func (v *NullableHealthStreamMetrics) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

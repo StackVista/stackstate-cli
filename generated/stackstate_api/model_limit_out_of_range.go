@@ -17,11 +17,11 @@ import (
 
 // LimitOutOfRange struct for LimitOutOfRange
 type LimitOutOfRange struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	Limit int32 `json:"limit"`
-	LowerBound int32 `json:"lowerBound"`
-	UpperBound int32 `json:"upperBound"`
+	Type       string `json:"_type"`
+	Message    string `json:"message"`
+	Limit      int32  `json:"limit"`
+	LowerBound int32  `json:"lowerBound"`
+	UpperBound int32  `json:"upperBound"`
 }
 
 // NewLimitOutOfRange instantiates a new LimitOutOfRange object
@@ -221,5 +221,3 @@ func (v *NullableLimitOutOfRange) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

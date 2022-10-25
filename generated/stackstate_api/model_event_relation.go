@@ -17,12 +17,12 @@ import (
 
 // EventRelation struct for EventRelation
 type EventRelation struct {
-	Type string `json:"_type"`
-	Id int64 `json:"id"`
-	RelationTypeId int64 `json:"relationTypeId"`
-	Name *string `json:"name,omitempty"`
-	Source EventComponent `json:"source"`
-	Target EventComponent `json:"target"`
+	Type                string              `json:"_type"`
+	Id                  int64               `json:"id"`
+	RelationTypeId      int64               `json:"relationTypeId"`
+	Name                *string             `json:"name,omitempty"`
+	Source              EventComponent      `json:"source"`
+	Target              EventComponent      `json:"target"`
 	DependencyDirection DependencyDirection `json:"dependencyDirection"`
 }
 
@@ -286,5 +286,3 @@ func (v *NullableEventRelation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

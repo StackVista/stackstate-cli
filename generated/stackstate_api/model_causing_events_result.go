@@ -17,7 +17,7 @@ import (
 
 // CausingEventsResult struct for CausingEventsResult
 type CausingEventsResult struct {
-	Type string `json:"_type"`
+	Type  string          `json:"_type"`
 	Items []TopologyEvent `json:"items"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableCausingEventsResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

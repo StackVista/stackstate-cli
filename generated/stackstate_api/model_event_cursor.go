@@ -17,8 +17,8 @@ import (
 
 // EventCursor struct for EventCursor
 type EventCursor struct {
-	LastEventTimestampMs int64 `json:"lastEventTimestampMs"`
-	LastEventId string `json:"lastEventId"`
+	LastEventTimestampMs int64  `json:"lastEventTimestampMs"`
+	LastEventId          string `json:"lastEventId"`
 }
 
 // NewEventCursor instantiates a new EventCursor object
@@ -134,5 +134,3 @@ func (v *NullableEventCursor) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

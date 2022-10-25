@@ -18,7 +18,7 @@ import (
 // MonitorApiErrorAllOf struct for MonitorApiErrorAllOf
 type MonitorApiErrorAllOf struct {
 	StatusCode string `json:"statusCode"`
-	Message string `json:"message"`
+	Message    string `json:"message"`
 }
 
 // NewMonitorApiErrorAllOf instantiates a new MonitorApiErrorAllOf object
@@ -134,5 +134,3 @@ func (v *NullableMonitorApiErrorAllOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

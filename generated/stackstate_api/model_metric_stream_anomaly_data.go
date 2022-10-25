@@ -17,15 +17,15 @@ import (
 
 // MetricStreamAnomalyData struct for MetricStreamAnomalyData
 type MetricStreamAnomalyData struct {
-	Type string `json:"_type"`
-	Severity AnomalySeverity `json:"severity"`
-	SeverityScore float64 `json:"severityScore"`
-	CheckedInterval TimeRange `json:"checkedInterval"`
-	Explanation string `json:"explanation"`
-	ModelInfo map[string]interface{} `json:"modelInfo"`
-	ElementName string `json:"elementName"`
-	StreamName string `json:"streamName"`
-	Query *AnnotationMetricQuery `json:"query,omitempty"`
+	Type            string                 `json:"_type"`
+	Severity        AnomalySeverity        `json:"severity"`
+	SeverityScore   float64                `json:"severityScore"`
+	CheckedInterval TimeRange              `json:"checkedInterval"`
+	Explanation     string                 `json:"explanation"`
+	ModelInfo       map[string]interface{} `json:"modelInfo"`
+	ElementName     string                 `json:"elementName"`
+	StreamName      string                 `json:"streamName"`
+	Query           *AnnotationMetricQuery `json:"query,omitempty"`
 }
 
 // NewMetricStreamAnomalyData instantiates a new MetricStreamAnomalyData object
@@ -344,5 +344,3 @@ func (v *NullableMetricStreamAnomalyData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

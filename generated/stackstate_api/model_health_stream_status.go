@@ -17,11 +17,11 @@ import (
 
 // HealthStreamStatus struct for HealthStreamStatus
 type HealthStreamStatus struct {
-	Partition int32 `json:"partition"`
-	ConsistencyModel string `json:"consistencyModel"`
-	RecoverMessage *string `json:"recoverMessage,omitempty"`
-	GlobalErrors []HealthStreamError `json:"globalErrors,omitempty"`
-	AggregateMetrics HealthStreamMetrics `json:"aggregateMetrics"`
+	Partition        int32                  `json:"partition"`
+	ConsistencyModel string                 `json:"consistencyModel"`
+	RecoverMessage   *string                `json:"recoverMessage,omitempty"`
+	GlobalErrors     []HealthStreamError    `json:"globalErrors,omitempty"`
+	AggregateMetrics HealthStreamMetrics    `json:"aggregateMetrics"`
 	MainStreamStatus *HealthSubStreamStatus `json:"mainStreamStatus,omitempty"`
 }
 
@@ -271,5 +271,3 @@ func (v *NullableHealthStreamStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

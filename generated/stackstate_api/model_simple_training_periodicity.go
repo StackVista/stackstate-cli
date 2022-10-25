@@ -17,11 +17,11 @@ import (
 
 // SimpleTrainingPeriodicity struct for SimpleTrainingPeriodicity
 type SimpleTrainingPeriodicity struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	FundamentalPeriod int64 `json:"fundamentalPeriod"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	TrainingWindowPeriods int64 `json:"trainingWindowPeriods"`
+	Type                  string `json:"_type"`
+	Id                    *int64 `json:"id,omitempty"`
+	FundamentalPeriod     int64  `json:"fundamentalPeriod"`
+	LastUpdateTimestamp   *int64 `json:"lastUpdateTimestamp,omitempty"`
+	TrainingWindowPeriods int64  `json:"trainingWindowPeriods"`
 }
 
 // NewSimpleTrainingPeriodicity instantiates a new SimpleTrainingPeriodicity object
@@ -235,5 +235,3 @@ func (v *NullableSimpleTrainingPeriodicity) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

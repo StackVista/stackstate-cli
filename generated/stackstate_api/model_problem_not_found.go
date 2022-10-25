@@ -17,10 +17,10 @@ import (
 
 // ProblemNotFound struct for ProblemNotFound
 type ProblemNotFound struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	ProblemId int64 `json:"problemId"`
-	RequestTimeMs int32 `json:"requestTimeMs"`
+	Type          string `json:"_type"`
+	Message       string `json:"message"`
+	ProblemId     int64  `json:"problemId"`
+	RequestTimeMs int32  `json:"requestTimeMs"`
 }
 
 // NewProblemNotFound instantiates a new ProblemNotFound object
@@ -192,5 +192,3 @@ func (v *NullableProblemNotFound) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

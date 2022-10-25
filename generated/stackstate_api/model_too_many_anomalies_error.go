@@ -17,9 +17,9 @@ import (
 
 // TooManyAnomaliesError struct for TooManyAnomaliesError
 type TooManyAnomaliesError struct {
-	Message string `json:"message"`
+	Message         string `json:"message"`
 	NumberOfMatches *int64 `json:"numberOfMatches,omitempty"`
-	MaxAllowed *int64 `json:"maxAllowed,omitempty"`
+	MaxAllowed      *int64 `json:"maxAllowed,omitempty"`
 }
 
 // NewTooManyAnomaliesError instantiates a new TooManyAnomaliesError object
@@ -177,5 +177,3 @@ func (v *NullableTooManyAnomaliesError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -17,12 +17,12 @@ import (
 
 // FeedbackData struct for FeedbackData
 type FeedbackData struct {
-	Type string `json:"_type"`
-	Subject string `json:"subject"`
-	Thumbsup []string `json:"thumbsup"`
-	Thumbsdown []string `json:"thumbsdown"`
-	Comments []FeedbackComment `json:"comments"`
-	Query *AnnotationMetricQuery `json:"query,omitempty"`
+	Type       string                 `json:"_type"`
+	Subject    string                 `json:"subject"`
+	Thumbsup   []string               `json:"thumbsup"`
+	Thumbsdown []string               `json:"thumbsdown"`
+	Comments   []FeedbackComment      `json:"comments"`
+	Query      *AnnotationMetricQuery `json:"query,omitempty"`
 }
 
 // NewFeedbackData instantiates a new FeedbackData object
@@ -257,5 +257,3 @@ func (v *NullableFeedbackData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

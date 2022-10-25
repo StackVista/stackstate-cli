@@ -21,11 +21,11 @@ type EventCategory string
 
 // List of EventCategory
 const (
-	EVENTCATEGORY_CHANGES EventCategory = "Changes"
-	EVENTCATEGORY_ALERTS EventCategory = "Alerts"
-	EVENTCATEGORY_ANOMALIES EventCategory = "Anomalies"
+	EVENTCATEGORY_CHANGES    EventCategory = "Changes"
+	EVENTCATEGORY_ALERTS     EventCategory = "Alerts"
+	EVENTCATEGORY_ANOMALIES  EventCategory = "Anomalies"
 	EVENTCATEGORY_ACTIVITIES EventCategory = "Activities"
-	EVENTCATEGORY_OTHERS EventCategory = "Others"
+	EVENTCATEGORY_OTHERS     EventCategory = "Others"
 )
 
 // All allowed values of EventCategory enum
@@ -115,4 +115,3 @@ func (v *NullableEventCategory) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

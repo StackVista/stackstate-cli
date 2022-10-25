@@ -18,9 +18,9 @@ import (
 // HealthStreamError struct for HealthStreamError
 type HealthStreamError struct {
 	ErrorCode string `json:"errorCode"`
-	Level string `json:"level"`
-	Error string `json:"error"`
-	Count int32 `json:"count"`
+	Level     string `json:"level"`
+	Error     string `json:"error"`
+	Count     int32  `json:"count"`
 }
 
 // NewHealthStreamError instantiates a new HealthStreamError object
@@ -192,5 +192,3 @@ func (v *NullableHealthStreamError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

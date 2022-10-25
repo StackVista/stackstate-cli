@@ -19,9 +19,9 @@ import (
 // PromData - struct for PromData
 type PromData struct {
 	PromDataString *PromDataString
-	PromMatrix *PromMatrix
-	PromScalar *PromScalar
-	PromVector *PromVector
+	PromMatrix     *PromMatrix
+	PromScalar     *PromScalar
+	PromVector     *PromVector
 }
 
 // PromDataStringAsPromData is a convenience function that returns PromDataString wrapped in PromData
@@ -51,7 +51,6 @@ func PromVectorAsPromData(v *PromVector) PromData {
 		PromVector: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *PromData) UnmarshalJSON(data []byte) error {
@@ -184,7 +183,7 @@ func (src PromData) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *PromData) GetActualInstance() (interface{}) {
+func (obj *PromData) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -243,5 +242,3 @@ func (v *NullablePromData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

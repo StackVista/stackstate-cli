@@ -19,7 +19,7 @@ import (
 // MonitorSaveError - struct for MonitorSaveError
 type MonitorSaveError struct {
 	InvalidMonitorIdentifierError *InvalidMonitorIdentifierError
-	MonitorInvalidIntervalError *MonitorInvalidIntervalError
+	MonitorInvalidIntervalError   *MonitorInvalidIntervalError
 }
 
 // InvalidMonitorIdentifierErrorAsMonitorSaveError is a convenience function that returns InvalidMonitorIdentifierError wrapped in MonitorSaveError
@@ -35,7 +35,6 @@ func MonitorInvalidIntervalErrorAsMonitorSaveError(v *MonitorInvalidIntervalErro
 		MonitorInvalidIntervalError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *MonitorSaveError) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src MonitorSaveError) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *MonitorSaveError) GetActualInstance() (interface{}) {
+func (obj *MonitorSaveError) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableMonitorSaveError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

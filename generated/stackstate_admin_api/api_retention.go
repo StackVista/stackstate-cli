@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type RetentionApi interface {
 
 	/*
-	GetRetentionEpoch Get retention epoch
+		GetRetentionEpoch Get retention epoch
 
-	Get StackGraph retention epoch.
+		Get StackGraph retention epoch.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRetentionEpochRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetRetentionEpochRequest
 	*/
 	GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest
 
@@ -37,12 +36,12 @@ type RetentionApi interface {
 	GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error)
 
 	/*
-	GetRetentionWindow Get retention window
+		GetRetentionWindow Get retention window
 
-	Get StackGraph retention window.
+		Get StackGraph retention window.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetRetentionWindowRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetRetentionWindowRequest
 	*/
 	GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest
 
@@ -51,12 +50,12 @@ type RetentionApi interface {
 	GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error)
 
 	/*
-	RemoveExpiredData Remove expired data from StackGraph
+		RemoveExpiredData Remove expired data from StackGraph
 
-	Either schedule removal or immediately remove expired data from StackGraph
+		Either schedule removal or immediately remove expired data from StackGraph
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiRemoveExpiredDataRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiRemoveExpiredDataRequest
 	*/
 	RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest
 
@@ -65,12 +64,12 @@ type RetentionApi interface {
 	RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error)
 
 	/*
-	SetRetentionWindow Set retention window
+		SetRetentionWindow Set retention window
 
-	Set StackGraph retention window and optionally schedule data removal.
+		Set StackGraph retention window and optionally schedule data removal.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiSetRetentionWindowRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiSetRetentionWindowRequest
 	*/
 	SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest
 
@@ -83,7 +82,7 @@ type RetentionApi interface {
 type RetentionApiService service
 
 type ApiGetRetentionEpochRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RetentionApi
 }
 
@@ -102,7 +101,7 @@ Get StackGraph retention epoch.
 func (a *RetentionApiService) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
 	return ApiGetRetentionEpochRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -110,10 +109,10 @@ func (a *RetentionApiService) GetRetentionEpoch(ctx context.Context) ApiGetReten
 //  @return EpochTx
 func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *EpochTx
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *EpochTx
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.GetRetentionEpoch")
@@ -243,7 +242,7 @@ func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochReq
 }
 
 type ApiGetRetentionWindowRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RetentionApi
 }
 
@@ -262,7 +261,7 @@ Get StackGraph retention window.
 func (a *RetentionApiService) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
 	return ApiGetRetentionWindowRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -270,10 +269,10 @@ func (a *RetentionApiService) GetRetentionWindow(ctx context.Context) ApiGetRete
 //  @return WindowMs
 func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *WindowMs
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *WindowMs
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.GetRetentionWindow")
@@ -403,8 +402,8 @@ func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowR
 }
 
 type ApiRemoveExpiredDataRequest struct {
-	ctx context.Context
-	ApiService RetentionApi
+	ctx                         context.Context
+	ApiService                  RetentionApi
 	expireImmediatelyAndRestart *bool
 }
 
@@ -429,7 +428,7 @@ Either schedule removal or immediately remove expired data from StackGraph
 func (a *RetentionApiService) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
 	return ApiRemoveExpiredDataRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -437,10 +436,10 @@ func (a *RetentionApiService) RemoveExpiredData(ctx context.Context) ApiRemoveEx
 //  @return RemovalProgress
 func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *RemovalProgress
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *RemovalProgress
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.RemoveExpiredData")
@@ -573,9 +572,9 @@ func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataReq
 }
 
 type ApiSetRetentionWindowRequest struct {
-	ctx context.Context
-	ApiService RetentionApi
-	windowMs *WindowMs
+	ctx             context.Context
+	ApiService      RetentionApi
+	windowMs        *WindowMs
 	scheduleRemoval *bool
 }
 
@@ -606,7 +605,7 @@ Set StackGraph retention window and optionally schedule data removal.
 func (a *RetentionApiService) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
 	return ApiSetRetentionWindowRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -614,10 +613,10 @@ func (a *RetentionApiService) SetRetentionWindow(ctx context.Context) ApiSetRete
 //  @return WindowMs
 func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *WindowMs
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *WindowMs
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.SetRetentionWindow")
@@ -754,136 +753,126 @@ func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type RetentionApiMock struct {
-	GetRetentionEpochCalls *[]GetRetentionEpochCall
-	GetRetentionEpochResponse GetRetentionEpochMockResponse
-	GetRetentionWindowCalls *[]GetRetentionWindowCall
+	GetRetentionEpochCalls     *[]GetRetentionEpochCall
+	GetRetentionEpochResponse  GetRetentionEpochMockResponse
+	GetRetentionWindowCalls    *[]GetRetentionWindowCall
 	GetRetentionWindowResponse GetRetentionWindowMockResponse
-	RemoveExpiredDataCalls *[]RemoveExpiredDataCall
-	RemoveExpiredDataResponse RemoveExpiredDataMockResponse
-	SetRetentionWindowCalls *[]SetRetentionWindowCall
+	RemoveExpiredDataCalls     *[]RemoveExpiredDataCall
+	RemoveExpiredDataResponse  RemoveExpiredDataMockResponse
+	SetRetentionWindowCalls    *[]SetRetentionWindowCall
 	SetRetentionWindowResponse SetRetentionWindowMockResponse
-}	
+}
 
 func NewRetentionApiMock() RetentionApiMock {
 	xGetRetentionEpochCalls := make([]GetRetentionEpochCall, 0)
 	xGetRetentionWindowCalls := make([]GetRetentionWindowCall, 0)
 	xRemoveExpiredDataCalls := make([]RemoveExpiredDataCall, 0)
 	xSetRetentionWindowCalls := make([]SetRetentionWindowCall, 0)
-	return RetentionApiMock {
-		GetRetentionEpochCalls: &xGetRetentionEpochCalls,
+	return RetentionApiMock{
+		GetRetentionEpochCalls:  &xGetRetentionEpochCalls,
 		GetRetentionWindowCalls: &xGetRetentionWindowCalls,
-		RemoveExpiredDataCalls: &xRemoveExpiredDataCalls,
+		RemoveExpiredDataCalls:  &xRemoveExpiredDataCalls,
 		SetRetentionWindowCalls: &xSetRetentionWindowCalls,
 	}
 }
 
 type GetRetentionEpochMockResponse struct {
-	Result EpochTx
+	Result   EpochTx
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRetentionEpochCall struct {
 }
 
-
 func (mock RetentionApiMock) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
 	return ApiGetRetentionEpochRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock RetentionApiMock) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
-	p := GetRetentionEpochCall {
-	}
+	p := GetRetentionEpochCall{}
 	*mock.GetRetentionEpochCalls = append(*mock.GetRetentionEpochCalls, p)
 	return &mock.GetRetentionEpochResponse.Result, mock.GetRetentionEpochResponse.Response, mock.GetRetentionEpochResponse.Error
 }
 
 type GetRetentionWindowMockResponse struct {
-	Result WindowMs
+	Result   WindowMs
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRetentionWindowCall struct {
 }
 
-
 func (mock RetentionApiMock) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
 	return ApiGetRetentionWindowRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock RetentionApiMock) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
-	p := GetRetentionWindowCall {
-	}
+	p := GetRetentionWindowCall{}
 	*mock.GetRetentionWindowCalls = append(*mock.GetRetentionWindowCalls, p)
 	return &mock.GetRetentionWindowResponse.Result, mock.GetRetentionWindowResponse.Response, mock.GetRetentionWindowResponse.Error
 }
 
 type RemoveExpiredDataMockResponse struct {
-	Result RemovalProgress
+	Result   RemovalProgress
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type RemoveExpiredDataCall struct {
 	PexpireImmediatelyAndRestart *bool
 }
 
-
 func (mock RetentionApiMock) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
 	return ApiRemoveExpiredDataRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock RetentionApiMock) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
-	p := RemoveExpiredDataCall {
-			PexpireImmediatelyAndRestart: r.expireImmediatelyAndRestart,
+	p := RemoveExpiredDataCall{
+		PexpireImmediatelyAndRestart: r.expireImmediatelyAndRestart,
 	}
 	*mock.RemoveExpiredDataCalls = append(*mock.RemoveExpiredDataCalls, p)
 	return &mock.RemoveExpiredDataResponse.Result, mock.RemoveExpiredDataResponse.Response, mock.RemoveExpiredDataResponse.Error
 }
 
 type SetRetentionWindowMockResponse struct {
-	Result WindowMs
+	Result   WindowMs
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type SetRetentionWindowCall struct {
-	PwindowMs *WindowMs
+	PwindowMs        *WindowMs
 	PscheduleRemoval *bool
 }
-
 
 func (mock RetentionApiMock) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
 	return ApiSetRetentionWindowRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock RetentionApiMock) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
-	p := SetRetentionWindowCall {
-			PwindowMs: r.windowMs,
-			PscheduleRemoval: r.scheduleRemoval,
+	p := SetRetentionWindowCall{
+		PwindowMs:        r.windowMs,
+		PscheduleRemoval: r.scheduleRemoval,
 	}
 	*mock.SetRetentionWindowCalls = append(*mock.SetRetentionWindowCalls, p)
 	return &mock.SetRetentionWindowResponse.Result, mock.SetRetentionWindowResponse.Response, mock.SetRetentionWindowResponse.Error
 }
-
-

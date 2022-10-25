@@ -19,8 +19,8 @@ import (
 // GetCausingEventsResult - struct for GetCausingEventsResult
 type GetCausingEventsResult struct {
 	CausingEventsAreNotAvailableForTheTime *CausingEventsAreNotAvailableForTheTime
-	CausingEventsResult *CausingEventsResult
-	TooManyTopologyResults *TooManyTopologyResults
+	CausingEventsResult                    *CausingEventsResult
+	TooManyTopologyResults                 *TooManyTopologyResults
 }
 
 // CausingEventsAreNotAvailableForTheTimeAsGetCausingEventsResult is a convenience function that returns CausingEventsAreNotAvailableForTheTime wrapped in GetCausingEventsResult
@@ -43,7 +43,6 @@ func TooManyTopologyResultsAsGetCausingEventsResult(v *TooManyTopologyResults) G
 		TooManyTopologyResults: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetCausingEventsResult) UnmarshalJSON(data []byte) error {
@@ -112,7 +111,7 @@ func (src GetCausingEventsResult) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *GetCausingEventsResult) GetActualInstance() (interface{}) {
+func (obj *GetCausingEventsResult) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -167,5 +166,3 @@ func (v *NullableGetCausingEventsResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

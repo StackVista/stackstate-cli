@@ -17,10 +17,10 @@ import (
 
 // DataUnavailable struct for DataUnavailable
 type DataUnavailable struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	RequestTimeMs int32 `json:"requestTimeMs"`
-	AvailableSinceMs int32 `json:"availableSinceMs"`
+	Type             string `json:"_type"`
+	Message          string `json:"message"`
+	RequestTimeMs    int32  `json:"requestTimeMs"`
+	AvailableSinceMs int32  `json:"availableSinceMs"`
 }
 
 // NewDataUnavailable instantiates a new DataUnavailable object
@@ -192,5 +192,3 @@ func (v *NullableDataUnavailable) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

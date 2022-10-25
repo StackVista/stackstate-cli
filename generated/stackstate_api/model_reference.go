@@ -28,7 +28,6 @@ func MetricStreamReferenceAsReference(v *MetricStreamReference) Reference {
 	}
 }
 
-
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Reference) UnmarshalJSON(data []byte) error {
 	var err error
@@ -64,7 +63,7 @@ func (src Reference) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Reference) GetActualInstance() (interface{}) {
+func (obj *Reference) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -111,5 +110,3 @@ func (v *NullableReference) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

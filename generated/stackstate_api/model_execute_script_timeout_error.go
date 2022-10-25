@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptTimeoutError struct for ExecuteScriptTimeoutError
 type ExecuteScriptTimeoutError struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	TimeoutMs int32 `json:"timeoutMs"`
+	Type      string `json:"_type"`
+	Message   string `json:"message"`
+	TimeoutMs int32  `json:"timeoutMs"`
 }
 
 // NewExecuteScriptTimeoutError instantiates a new ExecuteScriptTimeoutError object
@@ -163,5 +163,3 @@ func (v *NullableExecuteScriptTimeoutError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

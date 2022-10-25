@@ -17,14 +17,14 @@ import (
 
 // MetricTelemetryQuery struct for MetricTelemetryQuery
 type MetricTelemetryQuery struct {
-	Type string `json:"_type"`
-	Aggregation DownsamplingMethod `json:"aggregation"`
-	Baseline *Baseline `json:"baseline,omitempty"`
-	Conditions []TelemetryQueryCondition `json:"conditions"`
-	GroupBy []string `json:"groupBy,omitempty"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	MetricField *string `json:"metricField,omitempty"`
+	Type                string                    `json:"_type"`
+	Aggregation         DownsamplingMethod        `json:"aggregation"`
+	Baseline            *Baseline                 `json:"baseline,omitempty"`
+	Conditions          []TelemetryQueryCondition `json:"conditions"`
+	GroupBy             []string                  `json:"groupBy,omitempty"`
+	Id                  *int64                    `json:"id,omitempty"`
+	LastUpdateTimestamp *int64                    `json:"lastUpdateTimestamp,omitempty"`
+	MetricField         *string                   `json:"metricField,omitempty"`
 }
 
 // NewMetricTelemetryQuery instantiates a new MetricTelemetryQuery object
@@ -343,5 +343,3 @@ func (v *NullableMetricTelemetryQuery) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

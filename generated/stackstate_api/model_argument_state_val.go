@@ -17,11 +17,11 @@ import (
 
 // ArgumentStateVal struct for ArgumentStateVal
 type ArgumentStateVal struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Value HealthStateValue `json:"value"`
+	Type                string           `json:"_type"`
+	Id                  *int64           `json:"id,omitempty"`
+	LastUpdateTimestamp *int64           `json:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64            `json:"parameter"`
+	Value               HealthStateValue `json:"value"`
 }
 
 // NewArgumentStateVal instantiates a new ArgumentStateVal object
@@ -235,5 +235,3 @@ func (v *NullableArgumentStateVal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

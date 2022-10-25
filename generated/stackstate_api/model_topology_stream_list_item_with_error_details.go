@@ -17,8 +17,8 @@ import (
 
 // TopologyStreamListItemWithErrorDetails struct for TopologyStreamListItemWithErrorDetails
 type TopologyStreamListItemWithErrorDetails struct {
-	Item TopologyStreamListItem `json:"item"`
-	ErrorDetails []TopologyStreamError `json:"errorDetails"`
+	Item         TopologyStreamListItem `json:"item"`
+	ErrorDetails []TopologyStreamError  `json:"errorDetails"`
 }
 
 // NewTopologyStreamListItemWithErrorDetails instantiates a new TopologyStreamListItemWithErrorDetails object
@@ -134,5 +134,3 @@ func (v *NullableTopologyStreamListItemWithErrorDetails) UnmarshalJSON(src []byt
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -17,9 +17,9 @@ import (
 
 // Export struct for Export
 type Export struct {
-	NodesWithIds []int64 `json:"nodesWithIds,omitempty"`
+	NodesWithIds    []int64  `json:"nodesWithIds,omitempty"`
 	AllNodesOfTypes []string `json:"allNodesOfTypes,omitempty"`
-	Namespace *string `json:"namespace,omitempty"`
+	Namespace       *string  `json:"namespace,omitempty"`
 	AllowReferences []string `json:"allowReferences,omitempty"`
 }
 
@@ -220,5 +220,3 @@ func (v *NullableExport) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

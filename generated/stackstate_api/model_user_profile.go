@@ -17,13 +17,13 @@ import (
 
 // UserProfile struct for UserProfile
 type UserProfile struct {
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	Description *string `json:"description,omitempty"`
-	Identifier *string `json:"identifier,omitempty"`
-	StarredViews []int64 `json:"starredViews,omitempty"`
-	OwnedBy *string `json:"ownedBy,omitempty"`
+	Id                  *int64  `json:"id,omitempty"`
+	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
+	Name                string  `json:"name"`
+	Description         *string `json:"description,omitempty"`
+	Identifier          *string `json:"identifier,omitempty"`
+	StarredViews        []int64 `json:"starredViews,omitempty"`
+	OwnedBy             *string `json:"ownedBy,omitempty"`
 }
 
 // NewUserProfile instantiates a new UserProfile object
@@ -321,5 +321,3 @@ func (v *NullableUserProfile) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

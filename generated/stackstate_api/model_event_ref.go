@@ -17,10 +17,10 @@ import (
 
 // EventRef struct for EventRef
 type EventRef struct {
-	Title string `json:"title"`
-	EventId string `json:"eventId"`
-	EventTimestamp int64 `json:"eventTimestamp"`
-	EventType string `json:"eventType"`
+	Title          string `json:"title"`
+	EventId        string `json:"eventId"`
+	EventTimestamp int64  `json:"eventTimestamp"`
+	EventType      string `json:"eventType"`
 }
 
 // NewEventRef instantiates a new EventRef object
@@ -192,5 +192,3 @@ func (v *NullableEventRef) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

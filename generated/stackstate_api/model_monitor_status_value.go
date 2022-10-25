@@ -21,7 +21,7 @@ type MonitorStatusValue string
 
 // List of MonitorStatusValue
 const (
-	MONITORSTATUSVALUE_ENABLED MonitorStatusValue = "ENABLED"
+	MONITORSTATUSVALUE_ENABLED  MonitorStatusValue = "ENABLED"
 	MONITORSTATUSVALUE_DISABLED MonitorStatusValue = "DISABLED"
 )
 
@@ -109,4 +109,3 @@ func (v *NullableMonitorStatusValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

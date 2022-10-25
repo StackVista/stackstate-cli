@@ -17,12 +17,12 @@ import (
 
 // ServiceToken struct for ServiceToken
 type ServiceToken struct {
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	Description *string `json:"description,omitempty"`
-	Expiration *int64 `json:"expiration,omitempty"`
-	Roles []string `json:"roles"`
+	Id                  *int64   `json:"id,omitempty"`
+	LastUpdateTimestamp *int64   `json:"lastUpdateTimestamp,omitempty"`
+	Name                string   `json:"name"`
+	Description         *string  `json:"description,omitempty"`
+	Expiration          *int64   `json:"expiration,omitempty"`
+	Roles               []string `json:"roles"`
 }
 
 // NewServiceToken instantiates a new ServiceToken object
@@ -278,5 +278,3 @@ func (v *NullableServiceToken) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

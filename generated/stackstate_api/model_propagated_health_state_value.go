@@ -21,11 +21,11 @@ type PropagatedHealthStateValue string
 
 // List of PropagatedHealthStateValue
 const (
-	PROPAGATEDHEALTHSTATEVALUE_UNKNOWN PropagatedHealthStateValue = "UNKNOWN"
+	PROPAGATEDHEALTHSTATEVALUE_UNKNOWN           PropagatedHealthStateValue = "UNKNOWN"
 	PROPAGATEDHEALTHSTATEVALUE_PROPAGATION_ERROR PropagatedHealthStateValue = "PROPAGATION_ERROR"
-	PROPAGATEDHEALTHSTATEVALUE_DEVIATING PropagatedHealthStateValue = "DEVIATING"
-	PROPAGATEDHEALTHSTATEVALUE_FLAPPING PropagatedHealthStateValue = "FLAPPING"
-	PROPAGATEDHEALTHSTATEVALUE_CRITICAL PropagatedHealthStateValue = "CRITICAL"
+	PROPAGATEDHEALTHSTATEVALUE_DEVIATING         PropagatedHealthStateValue = "DEVIATING"
+	PROPAGATEDHEALTHSTATEVALUE_FLAPPING          PropagatedHealthStateValue = "FLAPPING"
+	PROPAGATEDHEALTHSTATEVALUE_CRITICAL          PropagatedHealthStateValue = "CRITICAL"
 )
 
 // All allowed values of PropagatedHealthStateValue enum
@@ -115,4 +115,3 @@ func (v *NullablePropagatedHealthStateValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

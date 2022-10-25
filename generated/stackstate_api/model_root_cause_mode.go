@@ -21,8 +21,8 @@ type RootCauseMode string
 
 // List of RootCauseMode
 const (
-	ROOTCAUSEMODE_NO_CAUSE RootCauseMode = "no-cause"
-	ROOTCAUSEMODE_CAUSE_ONLY RootCauseMode = "cause-only"
+	ROOTCAUSEMODE_NO_CAUSE        RootCauseMode = "no-cause"
+	ROOTCAUSEMODE_CAUSE_ONLY      RootCauseMode = "cause-only"
 	ROOTCAUSEMODE_FULL_CAUSE_TREE RootCauseMode = "full-cause-tree"
 )
 
@@ -111,4 +111,3 @@ func (v *NullableRootCauseMode) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

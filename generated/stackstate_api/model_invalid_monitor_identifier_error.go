@@ -18,7 +18,7 @@ import (
 // InvalidMonitorIdentifierError struct for InvalidMonitorIdentifierError
 type InvalidMonitorIdentifierError struct {
 	MonitorIdOrUrn string `json:"monitorIdOrUrn"`
-	Type string `json:"_type"`
+	Type           string `json:"_type"`
 }
 
 // NewInvalidMonitorIdentifierError instantiates a new InvalidMonitorIdentifierError object
@@ -134,5 +134,3 @@ func (v *NullableInvalidMonitorIdentifierError) UnmarshalJSON(src []byte) error 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

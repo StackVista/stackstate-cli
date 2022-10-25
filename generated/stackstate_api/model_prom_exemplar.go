@@ -17,9 +17,9 @@ import (
 
 // PromExemplar struct for PromExemplar
 type PromExemplar struct {
-	Labels map[string]string `json:"labels"`
-	Value string `json:"value"`
-	Timestamp float32 `json:"timestamp"`
+	Labels    map[string]string `json:"labels"`
+	Value     string            `json:"value"`
+	Timestamp float32           `json:"timestamp"`
 }
 
 // NewPromExemplar instantiates a new PromExemplar object
@@ -163,5 +163,3 @@ func (v *NullablePromExemplar) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

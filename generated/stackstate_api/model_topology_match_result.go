@@ -17,8 +17,8 @@ import (
 
 // TopologyMatchResult struct for TopologyMatchResult
 type TopologyMatchResult struct {
-	MatchedCheckStates int32 `json:"matchedCheckStates"`
-	UnmatchedCheckStates []UnmatchedCheckState `json:"unmatchedCheckStates"`
+	MatchedCheckStates         int32                       `json:"matchedCheckStates"`
+	UnmatchedCheckStates       []UnmatchedCheckState       `json:"unmatchedCheckStates"`
 	MultipleMatchesCheckStates []MultipleMatchesCheckState `json:"multipleMatchesCheckStates"`
 }
 
@@ -163,5 +163,3 @@ func (v *NullableTopologyMatchResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

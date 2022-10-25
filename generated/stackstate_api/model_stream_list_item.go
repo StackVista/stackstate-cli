@@ -17,9 +17,9 @@ import (
 
 // StreamListItem struct for StreamListItem
 type StreamListItem struct {
-	Urn string `json:"urn"`
+	Urn              string `json:"urn"`
 	ConsistencyModel string `json:"consistencyModel"`
-	SubStreams int32 `json:"subStreams"`
+	SubStreams       int32  `json:"subStreams"`
 }
 
 // NewStreamListItem instantiates a new StreamListItem object
@@ -163,5 +163,3 @@ func (v *NullableStreamListItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

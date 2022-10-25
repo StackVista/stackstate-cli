@@ -17,8 +17,8 @@ import (
 
 // MonitorMetrics struct for MonitorMetrics
 type MonitorMetrics struct {
-	HealthSyncServiceMetrics *HealthStreamMetrics `json:"healthSyncServiceMetrics,omitempty"`
-	RuntimeMetrics MonitorRuntimeMetrics `json:"runtimeMetrics"`
+	HealthSyncServiceMetrics *HealthStreamMetrics  `json:"healthSyncServiceMetrics,omitempty"`
+	RuntimeMetrics           MonitorRuntimeMetrics `json:"runtimeMetrics"`
 }
 
 // NewMonitorMetrics instantiates a new MonitorMetrics object
@@ -141,5 +141,3 @@ func (v *NullableMonitorMetrics) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -17,8 +17,8 @@ import (
 
 // HealthSubStreamTransactionalIncrements struct for HealthSubStreamTransactionalIncrements
 type HealthSubStreamTransactionalIncrements struct {
-	Type string `json:"_type"`
-	Offset int64 `json:"offset"`
+	Type       string `json:"_type"`
+	Offset     int64  `json:"offset"`
 	BatchIndex *int64 `json:"batchIndex,omitempty"`
 }
 
@@ -170,5 +170,3 @@ func (v *NullableHealthSubStreamTransactionalIncrements) UnmarshalJSON(src []byt
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

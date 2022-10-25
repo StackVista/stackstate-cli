@@ -17,9 +17,9 @@ import (
 
 // FieldMapping struct for FieldMapping
 type FieldMapping struct {
-	Type string `json:"_type"`
+	Type       string `json:"_type"`
 	EventField string `json:"eventField"`
-	TagKey string `json:"tagKey"`
+	TagKey     string `json:"tagKey"`
 }
 
 // NewFieldMapping instantiates a new FieldMapping object
@@ -163,5 +163,3 @@ func (v *NullableFieldMapping) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

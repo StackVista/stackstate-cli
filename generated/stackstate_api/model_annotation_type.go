@@ -21,9 +21,9 @@ type AnnotationType string
 
 // List of AnnotationType
 const (
-	ANNOTATIONTYPE_METRIC_STREAM_ANOMALY AnnotationType = "MetricStreamAnomaly"
+	ANNOTATIONTYPE_METRIC_STREAM_ANOMALY    AnnotationType = "MetricStreamAnomaly"
 	ANNOTATIONTYPE_METRIC_STREAM_NO_ANOMALY AnnotationType = "MetricStreamNoAnomaly"
-	ANNOTATIONTYPE_ANOMALY_FEEDBACK AnnotationType = "AnomalyFeedback"
+	ANNOTATIONTYPE_ANOMALY_FEEDBACK         AnnotationType = "AnomalyFeedback"
 )
 
 // All allowed values of AnnotationType enum
@@ -111,4 +111,3 @@ func (v *NullableAnnotationType) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

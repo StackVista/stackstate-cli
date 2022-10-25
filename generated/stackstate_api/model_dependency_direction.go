@@ -22,8 +22,8 @@ type DependencyDirection string
 // List of DependencyDirection
 const (
 	DEPENDENCYDIRECTION_ONE_WAY DependencyDirection = "one-way"
-	DEPENDENCYDIRECTION_NONE DependencyDirection = "none"
-	DEPENDENCYDIRECTION_BOTH DependencyDirection = "both"
+	DEPENDENCYDIRECTION_NONE    DependencyDirection = "none"
+	DEPENDENCYDIRECTION_BOTH    DependencyDirection = "both"
 )
 
 // All allowed values of DependencyDirection enum
@@ -111,4 +111,3 @@ func (v *NullableDependencyDirection) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

@@ -17,8 +17,8 @@ import (
 
 // ExecuteScriptExecutionError struct for ExecuteScriptExecutionError
 type ExecuteScriptExecutionError struct {
-	Type string `json:"_type"`
-	Reason string `json:"reason"`
+	Type    string `json:"_type"`
+	Reason  string `json:"reason"`
 	Message string `json:"message"`
 }
 
@@ -163,5 +163,3 @@ func (v *NullableExecuteScriptExecutionError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

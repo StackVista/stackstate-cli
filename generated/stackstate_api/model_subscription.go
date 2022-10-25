@@ -17,9 +17,9 @@ import (
 
 // Subscription struct for Subscription
 type Subscription struct {
-	Tenant string `json:"tenant"`
+	Tenant            string `json:"tenant"`
 	ExpiryTimestampMs *int64 `json:"expiryTimestampMs,omitempty"`
-	Plan string `json:"plan"`
+	Plan              string `json:"plan"`
 }
 
 // NewSubscription instantiates a new Subscription object
@@ -170,5 +170,3 @@ func (v *NullableSubscription) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

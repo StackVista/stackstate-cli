@@ -17,11 +17,11 @@ import (
 
 // CheckStateAcknowledgement struct for CheckStateAcknowledgement
 type CheckStateAcknowledgement struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimeStamp *int64 `json:"lastUpdateTimeStamp,omitempty"`
-	AcknowledgedTimestamp int64 `json:"acknowledgedTimestamp"`
-	Message string `json:"message"`
+	Type                  string `json:"_type"`
+	Id                    *int64 `json:"id,omitempty"`
+	LastUpdateTimeStamp   *int64 `json:"lastUpdateTimeStamp,omitempty"`
+	AcknowledgedTimestamp int64  `json:"acknowledgedTimestamp"`
+	Message               string `json:"message"`
 }
 
 // NewCheckStateAcknowledgement instantiates a new CheckStateAcknowledgement object
@@ -235,5 +235,3 @@ func (v *NullableCheckStateAcknowledgement) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

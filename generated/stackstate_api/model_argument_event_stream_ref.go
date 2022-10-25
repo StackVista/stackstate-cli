@@ -17,11 +17,11 @@ import (
 
 // ArgumentEventStreamRef struct for ArgumentEventStreamRef
 type ArgumentEventStreamRef struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
+	Type                string `json:"_type"`
+	Id                  *int64 `json:"id,omitempty"`
 	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Stream int64 `json:"stream"`
+	Parameter           int64  `json:"parameter"`
+	Stream              int64  `json:"stream"`
 }
 
 // NewArgumentEventStreamRef instantiates a new ArgumentEventStreamRef object
@@ -235,5 +235,3 @@ func (v *NullableArgumentEventStreamRef) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

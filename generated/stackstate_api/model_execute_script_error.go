@@ -19,12 +19,12 @@ import (
 // ExecuteScriptError - struct for ExecuteScriptError
 type ExecuteScriptError struct {
 	ExecuteScriptArgumentsScriptError *ExecuteScriptArgumentsScriptError
-	ExecuteScriptExceptionError *ExecuteScriptExceptionError
-	ExecuteScriptExecutionError *ExecuteScriptExecutionError
-	ExecuteScriptGroovyRuntimeError *ExecuteScriptGroovyRuntimeError
-	ExecuteScriptSecurityError *ExecuteScriptSecurityError
-	ExecuteScriptSyntaxErrors *ExecuteScriptSyntaxErrors
-	ExecuteScriptTimeoutError *ExecuteScriptTimeoutError
+	ExecuteScriptExceptionError       *ExecuteScriptExceptionError
+	ExecuteScriptExecutionError       *ExecuteScriptExecutionError
+	ExecuteScriptGroovyRuntimeError   *ExecuteScriptGroovyRuntimeError
+	ExecuteScriptSecurityError        *ExecuteScriptSecurityError
+	ExecuteScriptSyntaxErrors         *ExecuteScriptSyntaxErrors
+	ExecuteScriptTimeoutError         *ExecuteScriptTimeoutError
 	ExecuteScriptWrongReturnTypeError *ExecuteScriptWrongReturnTypeError
 }
 
@@ -83,7 +83,6 @@ func ExecuteScriptWrongReturnTypeErrorAsExecuteScriptError(v *ExecuteScriptWrong
 		ExecuteScriptWrongReturnTypeError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *ExecuteScriptError) UnmarshalJSON(data []byte) error {
@@ -232,7 +231,7 @@ func (src ExecuteScriptError) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *ExecuteScriptError) GetActualInstance() (interface{}) {
+func (obj *ExecuteScriptError) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -307,5 +306,3 @@ func (v *NullableExecuteScriptError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
