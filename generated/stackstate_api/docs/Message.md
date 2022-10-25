@@ -4,10 +4,10 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Key** | **string** |  |
-**Partition** | **int32** |  |
-**Offset** | **int32** |  |
-**Message** | **map[string]interface{}** |  |
+**Key** | **string** |  | 
+**Partition** | **int32** |  | 
+**Offset** | **int32** |  | 
+**Message** | **map[string]interface{}** |  | 
 
 ## Methods
 
@@ -110,3 +110,5 @@ SetMessage sets Message field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+
