@@ -18,7 +18,7 @@ import (
 
 // DataStream - struct for DataStream
 type DataStream struct {
-	EventStream *EventStream
+	EventStream  *EventStream
 	MetricStream *MetricStream
 }
 
@@ -35,7 +35,6 @@ func MetricStreamAsDataStream(v *MetricStream) DataStream {
 		MetricStream: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *DataStream) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src DataStream) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *DataStream) GetActualInstance() (interface{}) {
+func (obj *DataStream) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableDataStream) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -21,9 +21,9 @@ type TopologySyncStatus string
 
 // List of TopologySyncStatus
 const (
-	TOPOLOGYSYNCSTATUS_RUNNING TopologySyncStatus = "Running"
-	TOPOLOGYSYNCSTATUS_RESETTING TopologySyncStatus = "Resetting"
-	TOPOLOGYSYNCSTATUS_DELETING TopologySyncStatus = "Deleting"
+	TOPOLOGYSYNCSTATUS_RUNNING       TopologySyncStatus = "Running"
+	TOPOLOGYSYNCSTATUS_RESETTING     TopologySyncStatus = "Resetting"
+	TOPOLOGYSYNCSTATUS_DELETING      TopologySyncStatus = "Deleting"
 	TOPOLOGYSYNCSTATUS_DELETE_FAILED TopologySyncStatus = "DeleteFailed"
 )
 
@@ -113,4 +113,3 @@ func (v *NullableTopologySyncStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

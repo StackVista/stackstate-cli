@@ -18,7 +18,7 @@ import (
 // StackPackFaqsInner struct for StackPackFaqsInner
 type StackPackFaqsInner struct {
 	Question string `json:"question"`
-	Answer string `json:"answer"`
+	Answer   string `json:"answer"`
 }
 
 // NewStackPackFaqsInner instantiates a new StackPackFaqsInner object
@@ -134,5 +134,3 @@ func (v *NullableStackPackFaqsInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

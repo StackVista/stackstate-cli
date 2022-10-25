@@ -17,12 +17,12 @@ import (
 
 // AnnotationMetricQuery struct for AnnotationMetricQuery
 type AnnotationMetricQuery struct {
-	DataSourceId int64 `json:"dataSourceId"`
-	Conditions []TelemetryQueryCondition `json:"conditions"`
-	AggregationMethod DownsamplingMethod `json:"aggregationMethod"`
-	BucketSize int64 `json:"bucketSize"`
-	MetricField *string `json:"metricField,omitempty"`
-	QueryHash string `json:"queryHash"`
+	DataSourceId      int64                     `json:"dataSourceId"`
+	Conditions        []TelemetryQueryCondition `json:"conditions"`
+	AggregationMethod DownsamplingMethod        `json:"aggregationMethod"`
+	BucketSize        int64                     `json:"bucketSize"`
+	MetricField       *string                   `json:"metricField,omitempty"`
+	QueryHash         string                    `json:"queryHash"`
 }
 
 // NewAnnotationMetricQuery instantiates a new AnnotationMetricQuery object
@@ -257,5 +257,3 @@ func (v *NullableAnnotationMetricQuery) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

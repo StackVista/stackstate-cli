@@ -18,7 +18,7 @@ import (
 // EventItemsWithTotal struct for EventItemsWithTotal
 type EventItemsWithTotal struct {
 	Items []TopologyEvent `json:"items"`
-	Total int64 `json:"total"`
+	Total int64           `json:"total"`
 }
 
 // NewEventItemsWithTotal instantiates a new EventItemsWithTotal object
@@ -134,5 +134,3 @@ func (v *NullableEventItemsWithTotal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

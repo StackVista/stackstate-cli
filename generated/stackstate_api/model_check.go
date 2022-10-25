@@ -17,16 +17,16 @@ import (
 
 // Check struct for Check
 type Check struct {
-	Type string `json:"_type"`
-	Arguments []Argument `json:"arguments"`
-	Description *string `json:"description,omitempty"`
-	Function int64 `json:"function"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	RemediationHint *string `json:"remediationHint,omitempty"`
-	State *CheckState `json:"state,omitempty"`
-	SyncCreated bool `json:"syncCreated"`
+	Type                string      `json:"_type"`
+	Arguments           []Argument  `json:"arguments"`
+	Description         *string     `json:"description,omitempty"`
+	Function            int64       `json:"function"`
+	Id                  *int64      `json:"id,omitempty"`
+	LastUpdateTimestamp *int64      `json:"lastUpdateTimestamp,omitempty"`
+	Name                string      `json:"name"`
+	RemediationHint     *string     `json:"remediationHint,omitempty"`
+	State               *CheckState `json:"state,omitempty"`
+	SyncCreated         bool        `json:"syncCreated"`
 }
 
 // NewCheck instantiates a new Check object
@@ -401,5 +401,3 @@ func (v *NullableCheck) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

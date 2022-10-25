@@ -17,17 +17,17 @@ import (
 
 // MetricStream struct for MetricStream
 type MetricStream struct {
-	Type string `json:"_type"`
-	DataSource int64 `json:"dataSource"`
-	DataType DataType `json:"dataType"`
-	Description *string `json:"description,omitempty"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	Priority *StreamPriority `json:"priority,omitempty"`
-	Query MetricTelemetryQuery `json:"query"`
-	StaleAfter *int64 `json:"staleAfter,omitempty"`
-	SyncCreated bool `json:"syncCreated"`
+	Type                string               `json:"_type"`
+	DataSource          int64                `json:"dataSource"`
+	DataType            DataType             `json:"dataType"`
+	Description         *string              `json:"description,omitempty"`
+	Id                  *int64               `json:"id,omitempty"`
+	LastUpdateTimestamp *int64               `json:"lastUpdateTimestamp,omitempty"`
+	Name                string               `json:"name"`
+	Priority            *StreamPriority      `json:"priority,omitempty"`
+	Query               MetricTelemetryQuery `json:"query"`
+	StaleAfter          *int64               `json:"staleAfter,omitempty"`
+	SyncCreated         bool                 `json:"syncCreated"`
 }
 
 // NewMetricStream instantiates a new MetricStream object
@@ -430,5 +430,3 @@ func (v *NullableMetricStream) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

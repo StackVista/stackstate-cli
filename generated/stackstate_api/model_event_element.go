@@ -19,7 +19,7 @@ import (
 // EventElement - struct for EventElement
 type EventElement struct {
 	EventComponent *EventComponent
-	EventRelation *EventRelation
+	EventRelation  *EventRelation
 }
 
 // EventComponentAsEventElement is a convenience function that returns EventComponent wrapped in EventElement
@@ -35,7 +35,6 @@ func EventRelationAsEventElement(v *EventRelation) EventElement {
 		EventRelation: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *EventElement) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src EventElement) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *EventElement) GetActualInstance() (interface{}) {
+func (obj *EventElement) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableEventElement) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

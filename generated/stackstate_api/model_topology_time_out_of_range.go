@@ -17,11 +17,11 @@ import (
 
 // TopologyTimeOutOfRange struct for TopologyTimeOutOfRange
 type TopologyTimeOutOfRange struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	TopologyTimeMs int32 `json:"topologyTimeMs"`
-	LowerBoundMs int32 `json:"lowerBoundMs"`
-	UpperBound string `json:"upperBound"`
+	Type           string `json:"_type"`
+	Message        string `json:"message"`
+	TopologyTimeMs int32  `json:"topologyTimeMs"`
+	LowerBoundMs   int32  `json:"lowerBoundMs"`
+	UpperBound     string `json:"upperBound"`
 }
 
 // NewTopologyTimeOutOfRange instantiates a new TopologyTimeOutOfRange object
@@ -221,5 +221,3 @@ func (v *NullableTopologyTimeOutOfRange) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

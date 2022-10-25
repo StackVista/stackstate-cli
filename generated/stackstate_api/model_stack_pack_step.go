@@ -17,9 +17,9 @@ import (
 
 // StackPackStep struct for StackPackStep
 type StackPackStep struct {
-	Display *string `json:"display,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Value *StackPackStepValue `json:"value,omitempty"`
+	Display *string             `json:"display,omitempty"`
+	Name    *string             `json:"name,omitempty"`
+	Value   *StackPackStepValue `json:"value,omitempty"`
 }
 
 // NewStackPackStep instantiates a new StackPackStep object
@@ -184,5 +184,3 @@ func (v *NullableStackPackStep) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

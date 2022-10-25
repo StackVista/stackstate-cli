@@ -17,8 +17,8 @@ import (
 
 // PromVector struct for PromVector
 type PromVector struct {
-	ResultType string `json:"resultType"`
-	Result []PromVectorResult `json:"result"`
+	ResultType string             `json:"resultType"`
+	Result     []PromVectorResult `json:"result"`
 }
 
 // NewPromVector instantiates a new PromVector object
@@ -134,5 +134,3 @@ func (v *NullablePromVector) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

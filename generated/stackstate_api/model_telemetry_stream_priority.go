@@ -21,10 +21,10 @@ type TelemetryStreamPriority string
 
 // List of TelemetryStreamPriority
 const (
-	TELEMETRYSTREAMPRIORITY_NONE TelemetryStreamPriority = "None"
-	TELEMETRYSTREAMPRIORITY_HIGH TelemetryStreamPriority = "High"
+	TELEMETRYSTREAMPRIORITY_NONE   TelemetryStreamPriority = "None"
+	TELEMETRYSTREAMPRIORITY_HIGH   TelemetryStreamPriority = "High"
 	TELEMETRYSTREAMPRIORITY_MEDIUM TelemetryStreamPriority = "Medium"
-	TELEMETRYSTREAMPRIORITY_LOW TelemetryStreamPriority = "Low"
+	TELEMETRYSTREAMPRIORITY_LOW    TelemetryStreamPriority = "Low"
 )
 
 // All allowed values of TelemetryStreamPriority enum
@@ -113,4 +113,3 @@ func (v *NullableTelemetryStreamPriority) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

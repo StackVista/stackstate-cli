@@ -21,9 +21,9 @@ type StreamPriority string
 
 // List of StreamPriority
 const (
-	STREAMPRIORITY_HIGH StreamPriority = "HIGH"
+	STREAMPRIORITY_HIGH   StreamPriority = "HIGH"
 	STREAMPRIORITY_MEDIUM StreamPriority = "MEDIUM"
-	STREAMPRIORITY_LOW StreamPriority = "LOW"
+	STREAMPRIORITY_LOW    StreamPriority = "LOW"
 )
 
 // All allowed values of StreamPriority enum
@@ -111,4 +111,3 @@ func (v *NullableStreamPriority) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

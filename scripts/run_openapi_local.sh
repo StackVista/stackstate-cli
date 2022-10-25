@@ -24,6 +24,9 @@ openapi-generator-cli generate -i "$OPENAPIPATH/spec/openapi.yaml" -g go  -c sta
 rm "${OUTPUT_DIR}"/go.mod
 rm "${OUTPUT_DIR}"/go.sum
 
+# format code and clear unused imports
+goimports -w $OUTPUT_DIR
+
 # Admin API
 ADMIN_OUTPUT_DIR="generated/stackstate_admin_api"
 
@@ -34,3 +37,6 @@ openapi-generator-cli generate -i "$OPENAPIPATH/spec/openapi_admin.yaml" -g go  
 # we need to throw these files away, otherwise go gets upset
 rm "${ADMIN_OUTPUT_DIR}"/go.mod
 rm "${ADMIN_OUTPUT_DIR}"/go.sum
+
+# format code and clear unused imports
+goimports -w $ADMIN_OUTPUT_DIR

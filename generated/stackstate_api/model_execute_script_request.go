@@ -17,8 +17,8 @@ import (
 
 // ExecuteScriptRequest struct for ExecuteScriptRequest
 type ExecuteScriptRequest struct {
-	TimeoutMs *int32 `json:"timeoutMs,omitempty"`
-	Script string `json:"script"`
+	TimeoutMs       *int32  `json:"timeoutMs,omitempty"`
+	Script          string  `json:"script"`
 	ArgumentsScript *string `json:"argumentsScript,omitempty"`
 }
 
@@ -177,5 +177,3 @@ func (v *NullableExecuteScriptRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

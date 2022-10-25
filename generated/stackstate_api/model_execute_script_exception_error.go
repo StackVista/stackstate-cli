@@ -17,7 +17,7 @@ import (
 
 // ExecuteScriptExceptionError struct for ExecuteScriptExceptionError
 type ExecuteScriptExceptionError struct {
-	Type string `json:"_type"`
+	Type    string `json:"_type"`
 	Message string `json:"message"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableExecuteScriptExceptionError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

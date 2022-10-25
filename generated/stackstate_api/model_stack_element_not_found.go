@@ -17,10 +17,10 @@ import (
 
 // StackElementNotFound struct for StackElementNotFound
 type StackElementNotFound struct {
-	Type string `json:"_type"`
+	Type       string `json:"_type"`
 	ObjectType string `json:"objectType"`
-	ObjectId string `json:"objectId"`
-	Message string `json:"message"`
+	ObjectId   string `json:"objectId"`
+	Message    string `json:"message"`
 }
 
 // NewStackElementNotFound instantiates a new StackElementNotFound object
@@ -192,5 +192,3 @@ func (v *NullableStackElementNotFound) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

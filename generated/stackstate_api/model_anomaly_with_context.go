@@ -17,8 +17,8 @@ import (
 
 // AnomalyWithContext struct for AnomalyWithContext
 type AnomalyWithContext struct {
-	Anomaly Annotation `json:"anomaly"`
-	Data []Point `json:"data"`
+	Anomaly  Annotation    `json:"anomaly"`
+	Data     []Point       `json:"data"`
 	Feedback *FeedbackData `json:"feedback,omitempty"`
 }
 
@@ -170,5 +170,3 @@ func (v *NullableAnomalyWithContext) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

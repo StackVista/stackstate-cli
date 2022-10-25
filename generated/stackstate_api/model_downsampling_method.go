@@ -21,19 +21,19 @@ type DownsamplingMethod string
 
 // List of DownsamplingMethod
 const (
-	DOWNSAMPLINGMETHOD_MEAN DownsamplingMethod = "MEAN"
-	DOWNSAMPLINGMETHOD_PERCENTILE_25 DownsamplingMethod = "PERCENTILE_25"
-	DOWNSAMPLINGMETHOD_PERCENTILE_50 DownsamplingMethod = "PERCENTILE_50"
-	DOWNSAMPLINGMETHOD_PERCENTILE_75 DownsamplingMethod = "PERCENTILE_75"
-	DOWNSAMPLINGMETHOD_PERCENTILE_90 DownsamplingMethod = "PERCENTILE_90"
-	DOWNSAMPLINGMETHOD_PERCENTILE_95 DownsamplingMethod = "PERCENTILE_95"
-	DOWNSAMPLINGMETHOD_PERCENTILE_98 DownsamplingMethod = "PERCENTILE_98"
-	DOWNSAMPLINGMETHOD_PERCENTILE_99 DownsamplingMethod = "PERCENTILE_99"
-	DOWNSAMPLINGMETHOD_MAX DownsamplingMethod = "MAX"
-	DOWNSAMPLINGMETHOD_MIN DownsamplingMethod = "MIN"
-	DOWNSAMPLINGMETHOD_SUM DownsamplingMethod = "SUM"
-	DOWNSAMPLINGMETHOD_EVENT_COUNT DownsamplingMethod = "EVENT_COUNT"
-	DOWNSAMPLINGMETHOD_SUM_NO_ZEROS DownsamplingMethod = "SUM_NO_ZEROS"
+	DOWNSAMPLINGMETHOD_MEAN                 DownsamplingMethod = "MEAN"
+	DOWNSAMPLINGMETHOD_PERCENTILE_25        DownsamplingMethod = "PERCENTILE_25"
+	DOWNSAMPLINGMETHOD_PERCENTILE_50        DownsamplingMethod = "PERCENTILE_50"
+	DOWNSAMPLINGMETHOD_PERCENTILE_75        DownsamplingMethod = "PERCENTILE_75"
+	DOWNSAMPLINGMETHOD_PERCENTILE_90        DownsamplingMethod = "PERCENTILE_90"
+	DOWNSAMPLINGMETHOD_PERCENTILE_95        DownsamplingMethod = "PERCENTILE_95"
+	DOWNSAMPLINGMETHOD_PERCENTILE_98        DownsamplingMethod = "PERCENTILE_98"
+	DOWNSAMPLINGMETHOD_PERCENTILE_99        DownsamplingMethod = "PERCENTILE_99"
+	DOWNSAMPLINGMETHOD_MAX                  DownsamplingMethod = "MAX"
+	DOWNSAMPLINGMETHOD_MIN                  DownsamplingMethod = "MIN"
+	DOWNSAMPLINGMETHOD_SUM                  DownsamplingMethod = "SUM"
+	DOWNSAMPLINGMETHOD_EVENT_COUNT          DownsamplingMethod = "EVENT_COUNT"
+	DOWNSAMPLINGMETHOD_SUM_NO_ZEROS         DownsamplingMethod = "SUM_NO_ZEROS"
 	DOWNSAMPLINGMETHOD_EVENT_COUNT_NO_ZEROS DownsamplingMethod = "EVENT_COUNT_NO_ZEROS"
 )
 
@@ -133,4 +133,3 @@ func (v *NullableDownsamplingMethod) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

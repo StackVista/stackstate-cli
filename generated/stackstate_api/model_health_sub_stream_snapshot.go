@@ -17,9 +17,9 @@ import (
 
 // HealthSubStreamSnapshot struct for HealthSubStreamSnapshot
 type HealthSubStreamSnapshot struct {
-	Type string `json:"_type"`
+	Type             string `json:"_type"`
 	ExpiryIntervalMs *int32 `json:"expiryIntervalMs,omitempty"`
-	RepeatIntervalMs int32 `json:"repeatIntervalMs"`
+	RepeatIntervalMs int32  `json:"repeatIntervalMs"`
 }
 
 // NewHealthSubStreamSnapshot instantiates a new HealthSubStreamSnapshot object
@@ -170,5 +170,3 @@ func (v *NullableHealthSubStreamSnapshot) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

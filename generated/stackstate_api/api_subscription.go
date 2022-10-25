@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type SubscriptionApi interface {
 
 	/*
-	GetSubscription Get subscription info
+		GetSubscription Get subscription info
 
-	Get the state of the StackState license
+		Get the state of the StackState license
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetSubscriptionRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetSubscriptionRequest
 	*/
 	GetSubscription(ctx context.Context) ApiGetSubscriptionRequest
 
@@ -37,12 +36,12 @@ type SubscriptionApi interface {
 	GetSubscriptionExecute(r ApiGetSubscriptionRequest) (*SubscriptionState, *http.Response, error)
 
 	/*
-	PostSubscription Submit a new license to update the subscription
+		PostSubscription Submit a new license to update the subscription
 
-	Update the StackState license
+		Update the StackState license
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostSubscriptionRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiPostSubscriptionRequest
 	*/
 	PostSubscription(ctx context.Context) ApiPostSubscriptionRequest
 
@@ -55,7 +54,7 @@ type SubscriptionApi interface {
 type SubscriptionApiService service
 
 type ApiGetSubscriptionRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService SubscriptionApi
 }
 
@@ -74,7 +73,7 @@ Get the state of the StackState license
 func (a *SubscriptionApiService) GetSubscription(ctx context.Context) ApiGetSubscriptionRequest {
 	return ApiGetSubscriptionRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -82,10 +81,10 @@ func (a *SubscriptionApiService) GetSubscription(ctx context.Context) ApiGetSubs
 //  @return SubscriptionState
 func (a *SubscriptionApiService) GetSubscriptionExecute(r ApiGetSubscriptionRequest) (*SubscriptionState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SubscriptionState
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *SubscriptionState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubscriptionApiService.GetSubscription")
@@ -205,7 +204,7 @@ func (a *SubscriptionApiService) GetSubscriptionExecute(r ApiGetSubscriptionRequ
 }
 
 type ApiPostSubscriptionRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService SubscriptionApi
 	newLicense *NewLicense
 }
@@ -231,7 +230,7 @@ Update the StackState license
 func (a *SubscriptionApiService) PostSubscription(ctx context.Context) ApiPostSubscriptionRequest {
 	return ApiPostSubscriptionRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -239,10 +238,10 @@ func (a *SubscriptionApiService) PostSubscription(ctx context.Context) ApiPostSu
 //  @return SubscriptionState
 func (a *SubscriptionApiService) PostSubscriptionExecute(r ApiPostSubscriptionRequest) (*SubscriptionState, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *SubscriptionState
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *SubscriptionState
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubscriptionApiService.PostSubscription")
@@ -366,76 +365,69 @@ func (a *SubscriptionApiService) PostSubscriptionExecute(r ApiPostSubscriptionRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type SubscriptionApiMock struct {
-	GetSubscriptionCalls *[]GetSubscriptionCall
-	GetSubscriptionResponse GetSubscriptionMockResponse
-	PostSubscriptionCalls *[]PostSubscriptionCall
+	GetSubscriptionCalls     *[]GetSubscriptionCall
+	GetSubscriptionResponse  GetSubscriptionMockResponse
+	PostSubscriptionCalls    *[]PostSubscriptionCall
 	PostSubscriptionResponse PostSubscriptionMockResponse
-}	
+}
 
 func NewSubscriptionApiMock() SubscriptionApiMock {
 	xGetSubscriptionCalls := make([]GetSubscriptionCall, 0)
 	xPostSubscriptionCalls := make([]PostSubscriptionCall, 0)
-	return SubscriptionApiMock {
-		GetSubscriptionCalls: &xGetSubscriptionCalls,
+	return SubscriptionApiMock{
+		GetSubscriptionCalls:  &xGetSubscriptionCalls,
 		PostSubscriptionCalls: &xPostSubscriptionCalls,
 	}
 }
 
 type GetSubscriptionMockResponse struct {
-	Result SubscriptionState
+	Result   SubscriptionState
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetSubscriptionCall struct {
 }
 
-
 func (mock SubscriptionApiMock) GetSubscription(ctx context.Context) ApiGetSubscriptionRequest {
 	return ApiGetSubscriptionRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock SubscriptionApiMock) GetSubscriptionExecute(r ApiGetSubscriptionRequest) (*SubscriptionState, *http.Response, error) {
-	p := GetSubscriptionCall {
-	}
+	p := GetSubscriptionCall{}
 	*mock.GetSubscriptionCalls = append(*mock.GetSubscriptionCalls, p)
 	return &mock.GetSubscriptionResponse.Result, mock.GetSubscriptionResponse.Response, mock.GetSubscriptionResponse.Error
 }
 
 type PostSubscriptionMockResponse struct {
-	Result SubscriptionState
+	Result   SubscriptionState
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PostSubscriptionCall struct {
 	PnewLicense *NewLicense
 }
 
-
 func (mock SubscriptionApiMock) PostSubscription(ctx context.Context) ApiPostSubscriptionRequest {
 	return ApiPostSubscriptionRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock SubscriptionApiMock) PostSubscriptionExecute(r ApiPostSubscriptionRequest) (*SubscriptionState, *http.Response, error) {
-	p := PostSubscriptionCall {
-			PnewLicense: r.newLicense,
+	p := PostSubscriptionCall{
+		PnewLicense: r.newLicense,
 	}
 	*mock.PostSubscriptionCalls = append(*mock.PostSubscriptionCalls, p)
 	return &mock.PostSubscriptionResponse.Result, mock.PostSubscriptionResponse.Response, mock.PostSubscriptionResponse.Error
 }
-
-

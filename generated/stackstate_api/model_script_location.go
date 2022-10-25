@@ -17,7 +17,7 @@ import (
 
 // ScriptLocation struct for ScriptLocation
 type ScriptLocation struct {
-	Line int32 `json:"line"`
+	Line   int32 `json:"line"`
 	Column int32 `json:"column"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableScriptLocation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

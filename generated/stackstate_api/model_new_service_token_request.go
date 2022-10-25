@@ -17,9 +17,9 @@ import (
 
 // NewServiceTokenRequest struct for NewServiceTokenRequest
 type NewServiceTokenRequest struct {
-	Name string `json:"name"`
-	ExpiryDate *int64 `json:"expiryDate,omitempty"`
-	Roles []string `json:"roles"`
+	Name       string   `json:"name"`
+	ExpiryDate *int64   `json:"expiryDate,omitempty"`
+	Roles      []string `json:"roles"`
 }
 
 // NewNewServiceTokenRequest instantiates a new NewServiceTokenRequest object
@@ -170,5 +170,3 @@ func (v *NullableNewServiceTokenRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

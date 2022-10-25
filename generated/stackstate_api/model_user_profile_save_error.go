@@ -19,8 +19,8 @@ import (
 // UserProfileSaveError - struct for UserProfileSaveError
 type UserProfileSaveError struct {
 	UserNameMismatchError *UserNameMismatchError
-	UserNotFoundError *UserNotFoundError
-	UserNotLoggedInError *UserNotLoggedInError
+	UserNotFoundError     *UserNotFoundError
+	UserNotLoggedInError  *UserNotLoggedInError
 }
 
 // UserNameMismatchErrorAsUserProfileSaveError is a convenience function that returns UserNameMismatchError wrapped in UserProfileSaveError
@@ -43,7 +43,6 @@ func UserNotLoggedInErrorAsUserProfileSaveError(v *UserNotLoggedInError) UserPro
 		UserNotLoggedInError: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *UserProfileSaveError) UnmarshalJSON(data []byte) error {
@@ -112,7 +111,7 @@ func (src UserProfileSaveError) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *UserProfileSaveError) GetActualInstance() (interface{}) {
+func (obj *UserProfileSaveError) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -167,5 +166,3 @@ func (v *NullableUserProfileSaveError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

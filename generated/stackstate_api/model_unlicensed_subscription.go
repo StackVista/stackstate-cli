@@ -17,7 +17,7 @@ import (
 
 // UnlicensedSubscription struct for UnlicensedSubscription
 type UnlicensedSubscription struct {
-	Type string `json:"_type"`
+	Type   string `json:"_type"`
 	Reason string `json:"reason"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableUnlicensedSubscription) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

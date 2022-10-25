@@ -17,10 +17,10 @@ import (
 
 // MonitorApiError struct for MonitorApiError
 type MonitorApiError struct {
-	MonitorId *string `json:"monitorId,omitempty"`
+	MonitorId     *string `json:"monitorId,omitempty"`
 	MonitorIdType *string `json:"monitorIdType,omitempty"`
-	StatusCode string `json:"statusCode"`
-	Message string `json:"message"`
+	StatusCode    string  `json:"statusCode"`
+	Message       string  `json:"message"`
 }
 
 // NewMonitorApiError instantiates a new MonitorApiError object
@@ -206,5 +206,3 @@ func (v *NullableMonitorApiError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

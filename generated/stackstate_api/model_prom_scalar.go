@@ -18,7 +18,7 @@ import (
 // PromScalar struct for PromScalar
 type PromScalar struct {
 	ResultType string `json:"resultType"`
-	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string. 
+	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string.
 	Result []PromSampleInner `json:"result"`
 }
 
@@ -135,5 +135,3 @@ func (v *NullablePromScalar) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

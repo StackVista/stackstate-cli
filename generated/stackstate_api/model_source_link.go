@@ -18,7 +18,7 @@ import (
 // SourceLink struct for SourceLink
 type SourceLink struct {
 	Title string `json:"title"`
-	Url string `json:"url"`
+	Url   string `json:"url"`
 }
 
 // NewSourceLink instantiates a new SourceLink object
@@ -134,5 +134,3 @@ func (v *NullableSourceLink) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

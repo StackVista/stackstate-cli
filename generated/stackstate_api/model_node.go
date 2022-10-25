@@ -17,15 +17,15 @@ import (
 
 // Node struct for Node
 type Node struct {
-	TypeName string `json:"typeName"`
-	Id int64 `json:"id"`
-	LastUpdateTimestamp int64 `json:"lastUpdateTimestamp"`
-	Identifier *string `json:"identifier,omitempty"`
-	Name *string `json:"name,omitempty"`
-	Description *string `json:"description,omitempty"`
-	OwnedBy *string `json:"ownedBy,omitempty"`
-	Manual *bool `json:"manual,omitempty"`
-	IsSettingsNode *bool `json:"isSettingsNode,omitempty"`
+	TypeName            string  `json:"typeName"`
+	Id                  int64   `json:"id"`
+	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp"`
+	Identifier          *string `json:"identifier,omitempty"`
+	Name                *string `json:"name,omitempty"`
+	Description         *string `json:"description,omitempty"`
+	OwnedBy             *string `json:"ownedBy,omitempty"`
+	Manual              *bool   `json:"manual,omitempty"`
+	IsSettingsNode      *bool   `json:"isSettingsNode,omitempty"`
 }
 
 // NewNode instantiates a new Node object
@@ -379,5 +379,3 @@ func (v *NullableNode) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

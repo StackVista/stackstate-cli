@@ -17,8 +17,8 @@ import (
 
 // TopologyOverflowError struct for TopologyOverflowError
 type TopologyOverflowError struct {
-	Type string `json:"_type"`
-	MaxSize int32 `json:"maxSize"`
+	Type    string `json:"_type"`
+	MaxSize int32  `json:"maxSize"`
 }
 
 // NewTopologyOverflowError instantiates a new TopologyOverflowError object
@@ -134,5 +134,3 @@ func (v *NullableTopologyOverflowError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -19,16 +19,15 @@ import (
 	"net/url"
 )
 
-
 type ExportAnomalyApi interface {
 
 	/*
-	ExportAnomaly Export anomalies with metric history and feedback
+		ExportAnomaly Export anomalies with metric history and feedback
 
-	
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiExportAnomalyRequest
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiExportAnomalyRequest
 	*/
 	ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest
 
@@ -41,12 +40,12 @@ type ExportAnomalyApi interface {
 type ExportAnomalyApiService service
 
 type ApiExportAnomalyRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ExportAnomalyApi
-	startTime *int64
-	feedback *string
-	endTime *int64
-	history *int64
+	startTime  *int64
+	feedback   *string
+	endTime    *int64
+	history    *int64
 }
 
 // Beginning of timerange of to be exported anomalies.  Timestamp in unix millis.
@@ -88,7 +87,7 @@ ExportAnomaly Export anomalies with metric history and feedback
 func (a *ExportAnomalyApiService) ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest {
 	return ApiExportAnomalyRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -96,10 +95,10 @@ func (a *ExportAnomalyApiService) ExportAnomaly(ctx context.Context) ApiExportAn
 //  @return []AnomalyWithContext
 func (a *ExportAnomalyApiService) ExportAnomalyExecute(r ApiExportAnomalyRequest) ([]AnomalyWithContext, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []AnomalyWithContext
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []AnomalyWithContext
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExportAnomalyApiService.ExportAnomaly")
@@ -242,54 +241,49 @@ func (a *ExportAnomalyApiService) ExportAnomalyExecute(r ApiExportAnomalyRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ExportAnomalyApiMock struct {
-	ExportAnomalyCalls *[]ExportAnomalyCall
+	ExportAnomalyCalls    *[]ExportAnomalyCall
 	ExportAnomalyResponse ExportAnomalyMockResponse
-}	
+}
 
 func NewExportAnomalyApiMock() ExportAnomalyApiMock {
 	xExportAnomalyCalls := make([]ExportAnomalyCall, 0)
-	return ExportAnomalyApiMock {
+	return ExportAnomalyApiMock{
 		ExportAnomalyCalls: &xExportAnomalyCalls,
 	}
 }
 
 type ExportAnomalyMockResponse struct {
-	Result []AnomalyWithContext
+	Result   []AnomalyWithContext
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type ExportAnomalyCall struct {
 	PstartTime *int64
-	Pfeedback *string
-	PendTime *int64
-	Phistory *int64
+	Pfeedback  *string
+	PendTime   *int64
+	Phistory   *int64
 }
-
 
 func (mock ExportAnomalyApiMock) ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest {
 	return ApiExportAnomalyRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock ExportAnomalyApiMock) ExportAnomalyExecute(r ApiExportAnomalyRequest) ([]AnomalyWithContext, *http.Response, error) {
-	p := ExportAnomalyCall {
-			PstartTime: r.startTime,
-			Pfeedback: r.feedback,
-			PendTime: r.endTime,
-			Phistory: r.history,
+	p := ExportAnomalyCall{
+		PstartTime: r.startTime,
+		Pfeedback:  r.feedback,
+		PendTime:   r.endTime,
+		Phistory:   r.history,
 	}
 	*mock.ExportAnomalyCalls = append(*mock.ExportAnomalyCalls, p)
 	return mock.ExportAnomalyResponse.Result, mock.ExportAnomalyResponse.Response, mock.ExportAnomalyResponse.Error
 }
-
-

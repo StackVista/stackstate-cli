@@ -17,8 +17,8 @@ import (
 
 // HealthSubStreamNotFound struct for HealthSubStreamNotFound
 type HealthSubStreamNotFound struct {
-	Type string `json:"_type"`
-	Urn string `json:"urn"`
+	Type        string  `json:"_type"`
+	Urn         string  `json:"urn"`
 	SubStreamId *string `json:"subStreamId,omitempty"`
 }
 
@@ -170,5 +170,3 @@ func (v *NullableHealthSubStreamNotFound) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

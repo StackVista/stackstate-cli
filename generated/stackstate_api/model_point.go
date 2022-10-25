@@ -17,8 +17,8 @@ import (
 
 // Point struct for Point
 type Point struct {
-	Ts int64 `json:"ts"`
-	V float64 `json:"v"`
+	Ts int64   `json:"ts"`
+	V  float64 `json:"v"`
 }
 
 // NewPoint instantiates a new Point object
@@ -134,5 +134,3 @@ func (v *NullablePoint) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

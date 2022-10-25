@@ -17,11 +17,11 @@ import (
 
 // ArgumentDoubleVal struct for ArgumentDoubleVal
 type ArgumentDoubleVal struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Value float64 `json:"value"`
+	Type                string  `json:"_type"`
+	Id                  *int64  `json:"id,omitempty"`
+	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64   `json:"parameter"`
+	Value               float64 `json:"value"`
 }
 
 // NewArgumentDoubleVal instantiates a new ArgumentDoubleVal object
@@ -235,5 +235,3 @@ func (v *NullableArgumentDoubleVal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

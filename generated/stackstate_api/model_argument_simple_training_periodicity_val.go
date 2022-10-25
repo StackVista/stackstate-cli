@@ -17,11 +17,11 @@ import (
 
 // ArgumentSimpleTrainingPeriodicityVal struct for ArgumentSimpleTrainingPeriodicityVal
 type ArgumentSimpleTrainingPeriodicityVal struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Value SimpleTrainingPeriodicity `json:"value"`
+	Type                string                    `json:"_type"`
+	Id                  *int64                    `json:"id,omitempty"`
+	LastUpdateTimestamp *int64                    `json:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64                     `json:"parameter"`
+	Value               SimpleTrainingPeriodicity `json:"value"`
 }
 
 // NewArgumentSimpleTrainingPeriodicityVal instantiates a new ArgumentSimpleTrainingPeriodicityVal object
@@ -235,5 +235,3 @@ func (v *NullableArgumentSimpleTrainingPeriodicityVal) UnmarshalJSON(src []byte)
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

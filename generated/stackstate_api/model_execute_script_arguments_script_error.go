@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptArgumentsScriptError struct for ExecuteScriptArgumentsScriptError
 type ExecuteScriptArgumentsScriptError struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	Error ExecuteScriptError `json:"error"`
+	Type    string             `json:"_type"`
+	Message string             `json:"message"`
+	Error   ExecuteScriptError `json:"error"`
 }
 
 // NewExecuteScriptArgumentsScriptError instantiates a new ExecuteScriptArgumentsScriptError object
@@ -163,5 +163,3 @@ func (v *NullableExecuteScriptArgumentsScriptError) UnmarshalJSON(src []byte) er
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

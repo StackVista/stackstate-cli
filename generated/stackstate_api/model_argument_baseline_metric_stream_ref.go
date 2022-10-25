@@ -17,11 +17,11 @@ import (
 
 // ArgumentBaselineMetricStreamRef struct for ArgumentBaselineMetricStreamRef
 type ArgumentBaselineMetricStreamRef struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
+	Type                string `json:"_type"`
+	Id                  *int64 `json:"id,omitempty"`
 	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Stream int64 `json:"stream"`
+	Parameter           int64  `json:"parameter"`
+	Stream              int64  `json:"stream"`
 }
 
 // NewArgumentBaselineMetricStreamRef instantiates a new ArgumentBaselineMetricStreamRef object
@@ -235,5 +235,3 @@ func (v *NullableArgumentBaselineMetricStreamRef) UnmarshalJSON(src []byte) erro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

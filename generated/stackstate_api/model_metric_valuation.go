@@ -22,7 +22,7 @@ type MetricValuation string
 // List of MetricValuation
 const (
 	METRICVALUATION_HIGHER_IS_BETTER MetricValuation = "higher-is-better"
-	METRICVALUATION_LOWER_IS_BETTER MetricValuation = "lower-is-better"
+	METRICVALUATION_LOWER_IS_BETTER  MetricValuation = "lower-is-better"
 )
 
 // All allowed values of MetricValuation enum
@@ -109,4 +109,3 @@ func (v *NullableMetricValuation) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

@@ -17,16 +17,16 @@ import (
 
 // Monitor struct for Monitor
 type Monitor struct {
-	Id int64 `json:"id"`
-	Name string `json:"name"`
-	Identifier *string `json:"identifier,omitempty"`
-	Description *string `json:"description,omitempty"`
-	FunctionId int64 `json:"functionId"`
-	Arguments []map[string]interface{} `json:"arguments"`
-	RemediationHint *string `json:"remediationHint,omitempty"`
-	IntervalSeconds int32 `json:"intervalSeconds"`
-	Tags []string `json:"tags"`
-	Status MonitorStatusValue `json:"status"`
+	Id              int64                    `json:"id"`
+	Name            string                   `json:"name"`
+	Identifier      *string                  `json:"identifier,omitempty"`
+	Description     *string                  `json:"description,omitempty"`
+	FunctionId      int64                    `json:"functionId"`
+	Arguments       []map[string]interface{} `json:"arguments"`
+	RemediationHint *string                  `json:"remediationHint,omitempty"`
+	IntervalSeconds int32                    `json:"intervalSeconds"`
+	Tags            []string                 `json:"tags"`
+	Status          MonitorStatusValue       `json:"status"`
 }
 
 // NewMonitor instantiates a new Monitor object
@@ -387,5 +387,3 @@ func (v *NullableMonitor) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

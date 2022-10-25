@@ -23,3 +23,6 @@ openapi-generator-cli generate -i "$CHECKOUT_DIR/spec/openapi.yaml" -g go  -c st
 # we need to throw these files away, otherwise go gets upset
 rm "${OUTPUT_DIR}"/go.mod
 rm "${OUTPUT_DIR}"/go.sum
+
+# format code and clear unused imports
+goimports -w $OUTPUT_DIR

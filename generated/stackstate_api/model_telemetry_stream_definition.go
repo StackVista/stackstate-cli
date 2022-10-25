@@ -18,7 +18,7 @@ import (
 
 // TelemetryStreamDefinition - struct for TelemetryStreamDefinition
 type TelemetryStreamDefinition struct {
-	EventTelemetryStreamDefinition *EventTelemetryStreamDefinition
+	EventTelemetryStreamDefinition  *EventTelemetryStreamDefinition
 	MetricTelemetryStreamDefinition *MetricTelemetryStreamDefinition
 }
 
@@ -35,7 +35,6 @@ func MetricTelemetryStreamDefinitionAsTelemetryStreamDefinition(v *MetricTelemet
 		MetricTelemetryStreamDefinition: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *TelemetryStreamDefinition) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src TelemetryStreamDefinition) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *TelemetryStreamDefinition) GetActualInstance() (interface{}) {
+func (obj *TelemetryStreamDefinition) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableTelemetryStreamDefinition) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

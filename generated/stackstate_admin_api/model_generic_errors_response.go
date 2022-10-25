@@ -17,10 +17,10 @@ import (
 
 // GenericErrorsResponse struct for GenericErrorsResponse
 type GenericErrorsResponse struct {
-	Type *string `json:"_type,omitempty"`
-	TrackingKey string `json:"trackingKey"`
-	ServerTimestamp int64 `json:"serverTimestamp"`
-	Errors []GenericApiError `json:"errors"`
+	Type            *string           `json:"_type,omitempty"`
+	TrackingKey     string            `json:"trackingKey"`
+	ServerTimestamp int64             `json:"serverTimestamp"`
+	Errors          []GenericApiError `json:"errors"`
 }
 
 // NewGenericErrorsResponse instantiates a new GenericErrorsResponse object
@@ -199,5 +199,3 @@ func (v *NullableGenericErrorsResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

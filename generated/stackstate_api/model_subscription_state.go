@@ -18,8 +18,8 @@ import (
 
 // SubscriptionState - struct for SubscriptionState
 type SubscriptionState struct {
-	ExpiredSubscription *ExpiredSubscription
-	LicensedSubscription *LicensedSubscription
+	ExpiredSubscription    *ExpiredSubscription
+	LicensedSubscription   *LicensedSubscription
 	UnlicensedSubscription *UnlicensedSubscription
 }
 
@@ -43,7 +43,6 @@ func UnlicensedSubscriptionAsSubscriptionState(v *UnlicensedSubscription) Subscr
 		UnlicensedSubscription: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *SubscriptionState) UnmarshalJSON(data []byte) error {
@@ -112,7 +111,7 @@ func (src SubscriptionState) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *SubscriptionState) GetActualInstance() (interface{}) {
+func (obj *SubscriptionState) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -167,5 +166,3 @@ func (v *NullableSubscriptionState) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

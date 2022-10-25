@@ -17,19 +17,19 @@ import (
 
 // EventTelemetryStreamDefinition struct for EventTelemetryStreamDefinition
 type EventTelemetryStreamDefinition struct {
-	Type string `json:"_type"`
-	BindQuery string `json:"bindQuery"`
-	DataSourceId int64 `json:"dataSourceId"`
-	Description *string `json:"description,omitempty"`
-	Id *int64 `json:"id,omitempty"`
-	Identifier *string `json:"identifier,omitempty"`
-	Labels []string `json:"labels"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	OwnedBy *string `json:"ownedBy,omitempty"`
-	Priority TelemetryStreamPriority `json:"priority"`
-	TelemetryQuery EventTelemetryQuery `json:"telemetryQuery"`
-	TopologyMapping []TopologyMapping `json:"topologyMapping"`
+	Type                string                  `json:"_type"`
+	BindQuery           string                  `json:"bindQuery"`
+	DataSourceId        int64                   `json:"dataSourceId"`
+	Description         *string                 `json:"description,omitempty"`
+	Id                  *int64                  `json:"id,omitempty"`
+	Identifier          *string                 `json:"identifier,omitempty"`
+	Labels              []string                `json:"labels"`
+	LastUpdateTimestamp *int64                  `json:"lastUpdateTimestamp,omitempty"`
+	Name                string                  `json:"name"`
+	OwnedBy             *string                 `json:"ownedBy,omitempty"`
+	Priority            TelemetryStreamPriority `json:"priority"`
+	TelemetryQuery      EventTelemetryQuery     `json:"telemetryQuery"`
+	TopologyMapping     []TopologyMapping       `json:"topologyMapping"`
 }
 
 // NewEventTelemetryStreamDefinition instantiates a new EventTelemetryStreamDefinition object
@@ -488,5 +488,3 @@ func (v *NullableEventTelemetryStreamDefinition) UnmarshalJSON(src []byte) error
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

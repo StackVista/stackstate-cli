@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Permission** | **string** |  |
-**ResourceName** | **string** |  |
+**Permission** | **string** |  | 
+**ResourceName** | **string** |  | 
 
 ## Methods
 
@@ -68,3 +68,5 @@ SetResourceName sets ResourceName field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

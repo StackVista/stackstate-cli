@@ -17,9 +17,9 @@ import (
 
 // FeedbackComment struct for FeedbackComment
 type FeedbackComment struct {
-	Author string `json:"author"`
-	Text string `json:"text"`
-	Timestamp int64 `json:"timestamp"`
+	Author    string `json:"author"`
+	Text      string `json:"text"`
+	Timestamp int64  `json:"timestamp"`
 }
 
 // NewFeedbackComment instantiates a new FeedbackComment object
@@ -163,5 +163,3 @@ func (v *NullableFeedbackComment) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
