@@ -125,6 +125,7 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
 *MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
+*MonitorApi* | [**GetMonitorsOverview**](docs/MonitorApi.md#getmonitorsoverview) | **Get** /monitors/overview | List monitors overview
 *MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
@@ -296,11 +297,13 @@ Class | Method | HTTP request | Description
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
  - [MonitorError](docs/MonitorError.md)
+ - [MonitorFunction](docs/MonitorFunction.md)
  - [MonitorInvalidIntervalError](docs/MonitorInvalidIntervalError.md)
  - [MonitorList](docs/MonitorList.md)
  - [MonitorMetrics](docs/MonitorMetrics.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorNotFoundErrorAllOf](docs/MonitorNotFoundErrorAllOf.md)
+ - [MonitorOverview](docs/MonitorOverview.md)
  - [MonitorPatch](docs/MonitorPatch.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorRuntimeMetrics](docs/MonitorRuntimeMetrics.md)
