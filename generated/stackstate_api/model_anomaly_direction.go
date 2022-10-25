@@ -21,10 +21,10 @@ type AnomalyDirection string
 
 // List of AnomalyDirection
 const (
-	ANOMALYDIRECTION_RISE AnomalyDirection = "RISE"
-	ANOMALYDIRECTION_DROP AnomalyDirection = "DROP"
+	ANOMALYDIRECTION_RISE    AnomalyDirection = "RISE"
+	ANOMALYDIRECTION_DROP    AnomalyDirection = "DROP"
 	ANOMALYDIRECTION_RUNNING AnomalyDirection = "RUNNING"
-	ANOMALYDIRECTION_ANY AnomalyDirection = "ANY"
+	ANOMALYDIRECTION_ANY     AnomalyDirection = "ANY"
 )
 
 // All allowed values of AnomalyDirection enum
@@ -113,4 +113,3 @@ func (v *NullableAnomalyDirection) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

@@ -19,7 +19,7 @@ import (
 // PromSampleInner - Unix timestamp with sample value (as a string)
 type PromSampleInner struct {
 	Float32 *float32
-	String *string
+	String  *string
 }
 
 // float32AsPromSampleInner is a convenience function that returns float32 wrapped in PromSampleInner
@@ -36,48 +36,47 @@ func StringAsPromSampleInner(v *string) PromSampleInner {
 	}
 }
 
-
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *PromSampleInner) UnmarshalJSON(data []byte) error {
 	var err error
-        match := 0
-        // try to unmarshal data into Float32
-        err = json.Unmarshal(data, &dst.Float32)
-        if err == nil {
-                jsonfloat32, _ := json.Marshal(dst.Float32)
-                if string(jsonfloat32) == "{}" { // empty struct
-                        dst.Float32 = nil
-                } else {
-                        match++
-                }
-        } else {
-                dst.Float32 = nil
-        }
+	match := 0
+	// try to unmarshal data into Float32
+	err = json.Unmarshal(data, &dst.Float32)
+	if err == nil {
+		jsonfloat32, _ := json.Marshal(dst.Float32)
+		if string(jsonfloat32) == "{}" { // empty struct
+			dst.Float32 = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.Float32 = nil
+	}
 
-        // try to unmarshal data into String
-        err = json.Unmarshal(data, &dst.String)
-        if err == nil {
-                jsonstring, _ := json.Marshal(dst.String)
-                if string(jsonstring) == "{}" { // empty struct
-                        dst.String = nil
-                } else {
-                        match++
-                }
-        } else {
-                dst.String = nil
-        }
+	// try to unmarshal data into String
+	err = json.Unmarshal(data, &dst.String)
+	if err == nil {
+		jsonstring, _ := json.Marshal(dst.String)
+		if string(jsonstring) == "{}" { // empty struct
+			dst.String = nil
+		} else {
+			match++
+		}
+	} else {
+		dst.String = nil
+	}
 
-        if match > 1 { // more than 1 match
-                // reset to nil
-                dst.Float32 = nil
-                dst.String = nil
+	if match > 1 { // more than 1 match
+		// reset to nil
+		dst.Float32 = nil
+		dst.String = nil
 
-                return fmt.Errorf("Data matches more than one schema in oneOf(PromSampleInner)")
-        } else if match == 1 {
-                return nil // exactly one match
-        } else { // no match
-                return fmt.Errorf("Data failed to match schemas in oneOf(PromSampleInner)")
-        }
+		return fmt.Errorf("Data matches more than one schema in oneOf(PromSampleInner)")
+	} else if match == 1 {
+		return nil // exactly one match
+	} else { // no match
+		return fmt.Errorf("Data failed to match schemas in oneOf(PromSampleInner)")
+	}
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
@@ -94,7 +93,7 @@ func (src PromSampleInner) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *PromSampleInner) GetActualInstance() (interface{}) {
+func (obj *PromSampleInner) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -145,5 +144,3 @@ func (v *NullablePromSampleInner) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

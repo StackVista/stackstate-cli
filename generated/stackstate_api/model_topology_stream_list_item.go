@@ -17,15 +17,15 @@ import (
 
 // TopologyStreamListItem struct for TopologyStreamListItem
 type TopologyStreamListItem struct {
-	SyncIdentifier NullableString `json:"syncIdentifier,omitempty"`
-	NodeId int64 `json:"nodeId"`
-	Name string `json:"name"`
-	CreatedRelations int64 `json:"createdRelations"`
-	DeletedRelations int64 `json:"deletedRelations"`
-	CreatedComponents int64 `json:"createdComponents"`
-	DeletedComponents int64 `json:"deletedComponents"`
-	Errors int64 `json:"errors"`
-	Status TopologySyncStatus `json:"status"`
+	SyncIdentifier    NullableString     `json:"syncIdentifier,omitempty"`
+	NodeId            int64              `json:"nodeId"`
+	Name              string             `json:"name"`
+	CreatedRelations  int64              `json:"createdRelations"`
+	DeletedRelations  int64              `json:"deletedRelations"`
+	CreatedComponents int64              `json:"createdComponents"`
+	DeletedComponents int64              `json:"deletedComponents"`
+	Errors            int64              `json:"errors"`
+	Status            TopologySyncStatus `json:"status"`
 }
 
 // NewTopologyStreamListItem instantiates a new TopologyStreamListItem object
@@ -85,6 +85,7 @@ func (o *TopologyStreamListItem) HasSyncIdentifier() bool {
 func (o *TopologyStreamListItem) SetSyncIdentifier(v string) {
 	o.SyncIdentifier.Set(&v)
 }
+
 // SetSyncIdentifierNil sets the value for SyncIdentifier to be an explicit nil
 func (o *TopologyStreamListItem) SetSyncIdentifierNil() {
 	o.SyncIdentifier.Set(nil)
@@ -354,5 +355,3 @@ func (v *NullableTopologyStreamListItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

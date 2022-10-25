@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/config"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 type DeleteArgs struct {

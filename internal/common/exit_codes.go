@@ -12,4 +12,6 @@ const (
 	WriteFileErrorExitCode
 	UnknownSubCommmandExitCode
 	NotFoundExitCode
+	ExecutionErrorCode
+	APIVersionErrorCode
 )

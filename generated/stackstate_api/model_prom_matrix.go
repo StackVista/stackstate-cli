@@ -17,8 +17,8 @@ import (
 
 // PromMatrix struct for PromMatrix
 type PromMatrix struct {
-	ResultType string `json:"resultType"`
-	Result []PromDataResult `json:"result"`
+	ResultType string           `json:"resultType"`
+	Result     []PromDataResult `json:"result"`
 }
 
 // NewPromMatrix instantiates a new PromMatrix object
@@ -134,5 +134,3 @@ func (v *NullablePromMatrix) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

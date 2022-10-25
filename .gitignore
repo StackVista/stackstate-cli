@@ -20,3 +20,4 @@ result
 .go/
 .gocache/
 release-notes.md
+release-notes.json

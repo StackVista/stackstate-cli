@@ -17,10 +17,10 @@ import (
 
 // EventTelemetryQuery struct for EventTelemetryQuery
 type EventTelemetryQuery struct {
-	Type string `json:"_type"`
-	Conditions []TelemetryQueryCondition `json:"conditions"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
+	Type                string                    `json:"_type"`
+	Conditions          []TelemetryQueryCondition `json:"conditions"`
+	Id                  *int64                    `json:"id,omitempty"`
+	LastUpdateTimestamp *int64                    `json:"lastUpdateTimestamp,omitempty"`
 }
 
 // NewEventTelemetryQuery instantiates a new EventTelemetryQuery object
@@ -206,5 +206,3 @@ func (v *NullableEventTelemetryQuery) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -4,10 +4,10 @@ import (
 	"testing"
 
 	"github.com/spf13/cobra"
+	sts "github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 	"github.com/stretchr/testify/assert"
-	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
 )
 
 var (
@@ -18,13 +18,14 @@ var (
 	secondMonitorName       = "zMonitor"
 	secondMonitorId         = int64(2)
 	secondMonitorIdentifier = "urn:monitor:zMonitor"
+	functionId              = int64(237346485409361)
 	secondMonitorTags       []string
 	monitorArray            = []sts.Monitor{
 		{Id: secondMonitorId,
 			Name:            secondMonitorName,
 			Identifier:      &secondMonitorIdentifier,
 			Description:     nil,
-			FunctionId:      237346485409361,
+			FunctionId:      functionId,
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
@@ -34,7 +35,7 @@ var (
 			Name:            firstMonitorName,
 			Identifier:      &firstMonitorIdentifier,
 			Description:     nil,
-			FunctionId:      237346485409361,
+			FunctionId:      functionId,
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
@@ -48,7 +49,7 @@ var (
 			Name:            firstMonitorName,
 			Identifier:      &firstMonitorIdentifier,
 			Description:     nil,
-			FunctionId:      237346485409361,
+			FunctionId:      functionId,
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
@@ -58,7 +59,7 @@ var (
 			Name:            secondMonitorName,
 			Identifier:      &secondMonitorIdentifier,
 			Description:     nil,
-			FunctionId:      237346485409361,
+			FunctionId:      functionId,
 			Arguments:       nil,
 			RemediationHint: nil,
 			IntervalSeconds: 2,
@@ -80,10 +81,10 @@ func TestMonitorListPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"Id", "Status", "Identifier", "Name", "Tags"},
+			Header: []string{"Id", "Status", "Identifier", "Name", "Function Id", "Tags"},
 			Data: [][]interface{}{
-				{firstMonitorId, sts.MONITORSTATUSVALUE_ENABLED, firstMonitorIdentifier, firstMonitorName, firstMonitorTags},
-				{secondMonitorId, sts.MONITORSTATUSVALUE_ENABLED, secondMonitorIdentifier, secondMonitorName, secondMonitorTags}},
+				{firstMonitorId, sts.MONITORSTATUSVALUE_ENABLED, firstMonitorIdentifier, firstMonitorName, functionId, firstMonitorTags},
+				{secondMonitorId, sts.MONITORSTATUSVALUE_ENABLED, secondMonitorIdentifier, secondMonitorName, functionId, secondMonitorTags}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
 		},
 	}

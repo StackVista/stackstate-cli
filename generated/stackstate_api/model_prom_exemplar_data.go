@@ -18,7 +18,7 @@ import (
 // PromExemplarData struct for PromExemplarData
 type PromExemplarData struct {
 	SeriesLabels map[string]string `json:"seriesLabels"`
-	Exemplars []PromExemplar `json:"exemplars"`
+	Exemplars    []PromExemplar    `json:"exemplars"`
 }
 
 // NewPromExemplarData instantiates a new PromExemplarData object
@@ -134,5 +134,3 @@ func (v *NullablePromExemplarData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

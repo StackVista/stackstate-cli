@@ -17,13 +17,13 @@ import (
 
 // Sstackpack struct for Sstackpack
 type Sstackpack struct {
-	Name *string `json:"name,omitempty"`
-	DisplayName *string `json:"displayName,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Name           *string                         `json:"name,omitempty"`
+	DisplayName    *string                         `json:"displayName,omitempty"`
+	Version        *string                         `json:"version,omitempty"`
 	Configurations []SstackpackConfigurationsInner `json:"configurations,omitempty"`
-	LatestVersion *SstackpackLatestVersion `json:"latestVersion,omitempty"`
-	NextVersion *SstackpackLatestVersion `json:"nextVersion,omitempty"`
-	Steps []StackPackStep `json:"steps,omitempty"`
+	LatestVersion  *SstackpackLatestVersion        `json:"latestVersion,omitempty"`
+	NextVersion    *SstackpackLatestVersion        `json:"nextVersion,omitempty"`
+	Steps          []StackPackStep                 `json:"steps,omitempty"`
 }
 
 // NewSstackpack instantiates a new Sstackpack object
@@ -328,5 +328,3 @@ func (v *NullableSstackpack) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -17,7 +17,7 @@ import (
 
 // ExecuteScriptSyntaxErrorsErrorsInner struct for ExecuteScriptSyntaxErrorsErrorsInner
 type ExecuteScriptSyntaxErrorsErrorsInner struct {
-	Message string `json:"message"`
+	Message  string         `json:"message"`
 	Location ScriptLocation `json:"location"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableExecuteScriptSyntaxErrorsErrorsInner) UnmarshalJSON(src []byte)
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

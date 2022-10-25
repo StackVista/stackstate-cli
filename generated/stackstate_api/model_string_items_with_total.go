@@ -18,7 +18,7 @@ import (
 // StringItemsWithTotal struct for StringItemsWithTotal
 type StringItemsWithTotal struct {
 	Items []string `json:"items"`
-	Total int64 `json:"total"`
+	Total int64    `json:"total"`
 }
 
 // NewStringItemsWithTotal instantiates a new StringItemsWithTotal object
@@ -134,5 +134,3 @@ func (v *NullableStringItemsWithTotal) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

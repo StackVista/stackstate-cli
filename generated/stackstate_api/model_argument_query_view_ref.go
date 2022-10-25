@@ -17,11 +17,11 @@ import (
 
 // ArgumentQueryViewRef struct for ArgumentQueryViewRef
 type ArgumentQueryViewRef struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
+	Type                string `json:"_type"`
+	Id                  *int64 `json:"id,omitempty"`
 	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	QueryView int64 `json:"queryView"`
+	Parameter           int64  `json:"parameter"`
+	QueryView           int64  `json:"queryView"`
 }
 
 // NewArgumentQueryViewRef instantiates a new ArgumentQueryViewRef object
@@ -235,5 +235,3 @@ func (v *NullableArgumentQueryViewRef) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

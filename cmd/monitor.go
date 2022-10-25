@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/monitor"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/monitor"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func MonitorCommand(cli *di.Deps) *cobra.Command {
@@ -20,6 +20,7 @@ func MonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(monitor.MonitorEditCommand(cli))
 	cmd.AddCommand(monitor.MonitorDisableCommand(cli))
 	cmd.AddCommand(monitor.MonitorEnableCommand(cli))
+	cmd.AddCommand(monitor.MonitorDescribeCommand(cli))
 
 	return cmd
 }

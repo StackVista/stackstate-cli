@@ -17,9 +17,9 @@ import (
 
 // MonitorNotFoundError struct for MonitorNotFoundError
 type MonitorNotFoundError struct {
-	MonitorId string `json:"monitorId"`
+	MonitorId     string `json:"monitorId"`
 	MonitorIdType string `json:"monitorIdType"`
-	Type string `json:"_type"`
+	Type          string `json:"_type"`
 }
 
 // NewMonitorNotFoundError instantiates a new MonitorNotFoundError object
@@ -163,5 +163,3 @@ func (v *NullableMonitorNotFoundError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

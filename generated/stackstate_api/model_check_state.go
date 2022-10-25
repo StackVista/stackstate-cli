@@ -17,18 +17,18 @@ import (
 
 // CheckState struct for CheckState
 type CheckState struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	State HealthStateValue `json:"state"`
-	LastHealthStateChangeTimestamp int64 `json:"lastHealthStateChangeTimestamp"`
-	ActiveErrors []CheckError `json:"activeErrors"`
-	Source int64 `json:"source"`
-	StateAcknowledgement *CheckStateAcknowledgement `json:"stateAcknowledgement,omitempty"`
-	DetailedMessage *string `json:"detailedMessage,omitempty"`
-	ShortMessage *string `json:"shortMessage,omitempty"`
-	CausingEvents []EventRef `json:"causingEvents"`
-	Data map[string]interface{} `json:"data,omitempty"`
+	Type                           string                     `json:"_type"`
+	Id                             *int64                     `json:"id,omitempty"`
+	LastUpdateTimestamp            *int64                     `json:"lastUpdateTimestamp,omitempty"`
+	State                          HealthStateValue           `json:"state"`
+	LastHealthStateChangeTimestamp int64                      `json:"lastHealthStateChangeTimestamp"`
+	ActiveErrors                   []CheckError               `json:"activeErrors"`
+	Source                         int64                      `json:"source"`
+	StateAcknowledgement           *CheckStateAcknowledgement `json:"stateAcknowledgement,omitempty"`
+	DetailedMessage                *string                    `json:"detailedMessage,omitempty"`
+	ShortMessage                   *string                    `json:"shortMessage,omitempty"`
+	CausingEvents                  []EventRef                 `json:"causingEvents"`
+	Data                           map[string]interface{}     `json:"data,omitempty"`
 }
 
 // NewCheckState instantiates a new CheckState object
@@ -466,5 +466,3 @@ func (v *NullableCheckState) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

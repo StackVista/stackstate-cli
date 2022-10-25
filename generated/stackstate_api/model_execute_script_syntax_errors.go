@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptSyntaxErrors struct for ExecuteScriptSyntaxErrors
 type ExecuteScriptSyntaxErrors struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	Errors []ExecuteScriptSyntaxErrorsErrorsInner `json:"errors"`
+	Type    string                                 `json:"_type"`
+	Message string                                 `json:"message"`
+	Errors  []ExecuteScriptSyntaxErrorsErrorsInner `json:"errors"`
 }
 
 // NewExecuteScriptSyntaxErrors instantiates a new ExecuteScriptSyntaxErrors object
@@ -163,5 +163,3 @@ func (v *NullableExecuteScriptSyntaxErrors) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

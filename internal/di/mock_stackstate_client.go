@@ -1,18 +1,21 @@
 package di
 
 import (
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
+	stackstate_admin_api "github.com/stackvista/stackstate-cli/generated/stackstate_admin_api"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/common"
 )
 
 type MockStackStateClient struct {
 	apiClient         *stackstate_api.APIClient
+	adminApiClient    *stackstate_admin_api.APIClient
 	ConnectServerInfo *stackstate_api.ServerInfo
 	ConnectError      common.CLIError
 	ApiMocks          ApiMocks
 }
 
 type ApiMocks struct {
+	// Main API:
 	ApiTokenApi                *stackstate_api.ApiTokenApiMock
 	EventApi                   *stackstate_api.EventApiMock
 	HealthSynchronizationApi   *stackstate_api.HealthSynchronizationApiMock
@@ -28,6 +31,11 @@ type ApiMocks struct {
 	StackpackApi               *stackstate_api.StackpackApiMock
 	AnomalyFeedbackApi         *stackstate_api.ExportAnomalyApiMock
 	SubscriptionApi            *stackstate_api.SubscriptionApiMock
+	PermissionsApi             *stackstate_api.PermissionsApiMock
+	SubjectApi                 *stackstate_api.SubjectApiMock
+	TopicApi                   *stackstate_api.TopicApiMock
+	// Admin API:
+	RetentionApi *stackstate_admin_api.RetentionApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
@@ -47,6 +55,10 @@ func NewMockStackStateClient() MockStackStateClient {
 	stackpackApi := stackstate_api.NewStackpackApiMock()
 	anomalyFeedbackApi := stackstate_api.NewExportAnomalyApiMock()
 	subscriptionApi := stackstate_api.NewSubscriptionApiMock()
+	permissionsApi := stackstate_api.NewPermissionsApiMock()
+	subjectApi := stackstate_api.NewSubjectApiMock()
+	topicApi := stackstate_api.NewTopicApiMock()
+	retentionApi := stackstate_admin_api.NewRetentionApiMock()
 
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
@@ -64,6 +76,10 @@ func NewMockStackStateClient() MockStackStateClient {
 		StackpackApi:               &stackpackApi,
 		AnomalyFeedbackApi:         &anomalyFeedbackApi,
 		SubscriptionApi:            &subscriptionApi,
+		PermissionsApi:             &permissionsApi,
+		SubjectApi:                 &subjectApi,
+		TopicApi:                   &topicApi,
+		RetentionApi:               &retentionApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
@@ -82,16 +98,32 @@ func NewMockStackStateClient() MockStackStateClient {
 		StackpackApi:               apiMocks.StackpackApi,
 		ExportAnomalyApi:           apiMocks.AnomalyFeedbackApi,
 		SubscriptionApi:            apiMocks.SubscriptionApi,
+		PermissionsApi:             apiMocks.PermissionsApi,
+		SubjectApi:                 apiMocks.SubjectApi,
+		TopicApi:                   apiMocks.TopicApi,
 	}
+
+	adminApiClient := &stackstate_admin_api.APIClient{
+		RetentionApi: apiMocks.RetentionApi,
+	}
+
+	// NOTE Used for min version checks.
+	mockAPIVersion := stackstate_api.ServerVersion{Major: 5, Minor: 1, Patch: 0} //nolint:gomnd
+	mockServerInfo := stackstate_api.NewServerInfo(mockAPIVersion, "SaaS")
 
 	return MockStackStateClient{
 		apiClient:         apiClient,
+		adminApiClient:    adminApiClient,
 		ApiMocks:          apiMocks,
-		ConnectServerInfo: &stackstate_api.ServerInfo{},
+		ConnectServerInfo: mockServerInfo,
 		ConnectError:      nil,
 	}
 }
 
 func (c *MockStackStateClient) Connect() (*stackstate_api.APIClient, *stackstate_api.ServerInfo, common.CLIError) {
 	return c.apiClient, c.ConnectServerInfo, c.ConnectError
+}
+
+func (c *MockStackStateClient) AdminConnect() (*stackstate_admin_api.APIClient, common.CLIError) {
+	return c.adminApiClient, c.ConnectError
 }

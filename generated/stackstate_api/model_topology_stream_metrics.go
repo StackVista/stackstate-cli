@@ -17,8 +17,8 @@ import (
 
 // TopologyStreamMetrics struct for TopologyStreamMetrics
 type TopologyStreamMetrics struct {
-	BucketSizeSeconds int32 `json:"bucketSizeSeconds"`
-	LatencySeconds []MetricBucketValue `json:"latencySeconds,omitempty"`
+	BucketSizeSeconds int32               `json:"bucketSizeSeconds"`
+	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty"`
 }
 
 // NewTopologyStreamMetrics instantiates a new TopologyStreamMetrics object
@@ -141,5 +141,3 @@ func (v *NullableTopologyStreamMetrics) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

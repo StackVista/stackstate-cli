@@ -17,10 +17,10 @@ import (
 
 // HealthSubStreamStatus struct for HealthSubStreamStatus
 type HealthSubStreamStatus struct {
-	Errors []HealthStreamError `json:"errors,omitempty"`
-	Metrics HealthStreamMetrics `json:"metrics"`
-	SubStreamState HealthSubStreamConsistencyState `json:"subStreamState"`
-	CheckStateCount int32 `json:"checkStateCount"`
+	Errors          []HealthStreamError             `json:"errors,omitempty"`
+	Metrics         HealthStreamMetrics             `json:"metrics"`
+	SubStreamState  HealthSubStreamConsistencyState `json:"subStreamState"`
+	CheckStateCount int32                           `json:"checkStateCount"`
 }
 
 // NewHealthSubStreamStatus instantiates a new HealthSubStreamStatus object
@@ -199,5 +199,3 @@ func (v *NullableHealthSubStreamStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

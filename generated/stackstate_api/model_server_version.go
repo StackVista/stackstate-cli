@@ -17,12 +17,12 @@ import (
 
 // ServerVersion struct for ServerVersion
 type ServerVersion struct {
-	Major int32 `json:"major"`
-	Minor int32 `json:"minor"`
-	Patch int32 `json:"patch"`
-	Diff string `json:"diff"`
+	Major  int32  `json:"major"`
+	Minor  int32  `json:"minor"`
+	Patch  int32  `json:"patch"`
+	Diff   string `json:"diff"`
 	Commit string `json:"commit"`
-	IsDev bool `json:"isDev"`
+	IsDev  bool   `json:"isDev"`
 }
 
 // NewServerVersion instantiates a new ServerVersion object
@@ -250,5 +250,3 @@ func (v *NullableServerVersion) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

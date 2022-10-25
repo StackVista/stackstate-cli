@@ -17,9 +17,9 @@ import (
 
 // TopologyStreamError struct for TopologyStreamError
 type TopologyStreamError struct {
-	Level MessageLevel `json:"level"`
-	Message string `json:"message"`
-	ExternalId *string `json:"externalId,omitempty"`
+	Level      MessageLevel `json:"level"`
+	Message    string       `json:"message"`
+	ExternalId *string      `json:"externalId,omitempty"`
 }
 
 // NewTopologyStreamError instantiates a new TopologyStreamError object
@@ -170,5 +170,3 @@ func (v *NullableTopologyStreamError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

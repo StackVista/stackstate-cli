@@ -17,11 +17,11 @@ import (
 
 // ApiToken struct for ApiToken
 type ApiToken struct {
-	Id *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Name string `json:"name"`
-	Description *string `json:"description,omitempty"`
-	Token string `json:"token"`
+	Id                  *int64  `json:"id,omitempty"`
+	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
+	Name                string  `json:"name"`
+	Description         *string `json:"description,omitempty"`
+	Token               string  `json:"token"`
 }
 
 // NewApiToken instantiates a new ApiToken object
@@ -242,5 +242,3 @@ func (v *NullableApiToken) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

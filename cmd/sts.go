@@ -2,7 +2,7 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func STSCommand(cli *di.Deps) *cobra.Command {
@@ -25,6 +25,10 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(ServiceTokenCommand(cli))
 	cmd.AddCommand(HealthCommand(cli))
 	cmd.AddCommand(LicenseCommand(cli))
+	cmd.AddCommand(GraphCommand(cli))
+	cmd.AddCommand(RbacCommand(cli))
+	cmd.AddCommand(TopicCommand(cli))
+	cmd.AddCommand(TopologySyncCommand(cli))
 
 	return cmd
 }

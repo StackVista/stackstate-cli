@@ -17,9 +17,9 @@ import (
 
 // SubStreamListItem struct for SubStreamListItem
 type SubStreamListItem struct {
-	SubStreamId string `json:"subStreamId"`
-	SubStreamState HealthSubStreamConsistencyState `json:"subStreamState"`
-	CheckStateCount int32 `json:"checkStateCount"`
+	SubStreamId     string                          `json:"subStreamId"`
+	SubStreamState  HealthSubStreamConsistencyState `json:"subStreamState"`
+	CheckStateCount int32                           `json:"checkStateCount"`
 }
 
 // NewSubStreamListItem instantiates a new SubStreamListItem object
@@ -163,5 +163,3 @@ func (v *NullableSubStreamListItem) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

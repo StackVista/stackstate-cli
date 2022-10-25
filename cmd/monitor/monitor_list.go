@@ -4,10 +4,10 @@ import (
 	"sort"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 func MonitorListCommand(cli *di.Deps) *cobra.Command {
@@ -42,10 +42,10 @@ func RunMonitorListCommand(
 	} else {
 		tableData := [][]interface{}{}
 		for _, monitor := range monitors.Monitors {
-			tableData = append(tableData, []interface{}{monitor.Id, monitor.Status, *monitor.Identifier, monitor.Name, monitor.Tags})
+			tableData = append(tableData, []interface{}{monitor.Id, monitor.Status, *monitor.Identifier, monitor.Name, monitor.FunctionId, monitor.Tags})
 		}
 		cli.Printer.Table(printer.TableData{
-			Header:              []string{"Id", "Status", "Identifier", "Name", "Tags"},
+			Header:              []string{"Id", "Status", "Identifier", "Name", "Function Id", "Tags"},
 			Data:                tableData,
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
 		})

@@ -1,4 +1,4 @@
-# StackState CLI 
+# StackState CLI
 
 ## Documentation
 
@@ -9,17 +9,21 @@ Documentation of this CLI is still under development:
 
 ### Getting development started
 
-1. Install Nix package manager. See [Nix installation](#nix-installation)
-2. Enable Nix Flakes support
+1. Install [`pre-commit`](https://pre-commit.com/) and install all the hooks:
+```
+pre-commit install
+```
+2. Install Nix package manager. See [Nix installation](#nix-installation)
+3. Enable Nix Flakes support
 ```
 mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
 ```
-3. Enter development shell `nix develop`
-4. Run `go run main.go`
+4. Enter development shell `nix develop`
+5. Run `go run main.go`
 
 It also possible to use nix phases to test `nix develop --check` and build the application `nix develop --build`, as specified in the Makefile, without entering the shell.
 
-5. Read the [command development guide](CMD_DEVELOPMENT.md).
+6. Read the [command development guide](CMD_DEVELOPMENT.md).
 
 ## How to create a new release
 
@@ -39,14 +43,14 @@ Install Nix package manager by following the [official installation instructions
 To install the package to the current profile you need to register the current repository
 
 ```sh
-nix registry add stackstate-cli "git+ssh://git@gitlab.com/stackvista/stackstate-cli2"
+nix registry add stackstate-cli "git+ssh://git@github.com/stackvista/stackstate-cli"
 nix profile install stackstate-cli#sts
 ```
 
 Alternatively temporary shell environment with `sts` binary in $PATH can be started using
 
 ```
-nix shell "git+ssh://git@gitlab.com/stackvista/stackstate-cli2?ref=master"
+nix shell "git+ssh://git@github.com/stackvista/stackstate-cli?ref=master"
 ```
 
 Where `ref=` can reference to any branch name
@@ -77,4 +81,4 @@ CI will check whether the requested api version and generated code are kep up to
 
 ### For development: Updating generated code without a OpenApi commit
 - Run `nix develop -c ./scripts/run_openapi_local.sh {path to your open api folder}`
-   - example : `nix develop -c ./scripts/run_openapi_local.sh /Users/projects/stackstate-openapi`
+- example: `nix develop -c ./scripts/run_openapi_local.sh /Users/projects/stackstate-openapi`

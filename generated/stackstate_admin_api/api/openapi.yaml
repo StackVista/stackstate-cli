@@ -1,0 +1,265 @@
+openapi: 3.0.3
+info:
+  contact:
+    email: info@stackstate.com
+    name: StackState
+    url: https://stackstate.com
+  description: StackState's Admin API specification
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  title: StackState Admin API
+  version: 0.0.1
+  x-logo:
+    url: https://raw.githubusercontent.com/StackVista/stackstate-docs/master/resources/logo/StackState-Color-padding.png
+    href: '#top'
+externalDocs:
+  description: Documentation
+  url: https://docs.stackstate.com/
+servers:
+- url: /
+security:
+- ApiToken: []
+- ServiceToken: []
+- ServiceBearer: []
+paths:
+  /retention/window:
+    get:
+      description: Get StackGraph retention window.
+      operationId: getRetentionWindow
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WindowMs'
+          description: Currently set retention window.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get retention window
+      tags:
+      - retention
+    post:
+      description: Set StackGraph retention window and optionally schedule data removal.
+      operationId: setRetentionWindow
+      parameters:
+      - description: "If set, makes StackState schedule removal of expired data according\
+          \ to the set retention window."
+        in: query
+        name: scheduleRemoval
+        schema:
+          type: boolean
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WindowMs'
+        description: The new retention window value.
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WindowMs'
+          description: Currently set retention window.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Set retention window
+      tags:
+      - retention
+  /retention/currentEpoch:
+    get:
+      description: Get StackGraph retention epoch.
+      operationId: getRetentionEpoch
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EpochTx'
+          description: Currently set retention transaction epoch.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get retention epoch
+      tags:
+      - retention
+  /retention/removeExpiredData:
+    post:
+      description: Either schedule removal or immediately remove expired data from
+        StackGraph
+      operationId: removeExpiredData
+      parameters:
+      - description: "If set, makes StackState remove expired data immediately and\
+          \ restart afterwards."
+        in: query
+        name: expireImmediatelyAndRestart
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemovalProgress'
+          description: Removal progress.
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Remove expired data from StackGraph
+      tags:
+      - retention
+components:
+  parameters:
+    scheduleRemoval:
+      description: "If set, makes StackState schedule removal of expired data according\
+        \ to the set retention window."
+      in: query
+      name: scheduleRemoval
+      schema:
+        type: boolean
+    immediately:
+      description: "If set, makes StackState remove expired data immediately and restart\
+        \ afterwards."
+      in: query
+      name: expireImmediatelyAndRestart
+      schema:
+        type: boolean
+  responses:
+    genericErrorsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenericErrorsResponse'
+      description: Error when handling the request on the server side.
+  schemas:
+    WindowMs:
+      example:
+        windowMs: 0
+      properties:
+        windowMs:
+          format: int64
+          type: integer
+      required:
+      - windowMs
+      type: object
+    GenericErrorsResponse:
+      properties:
+        _type:
+          enum:
+          - ErrorsResponse
+          type: string
+        trackingKey:
+          type: string
+        serverTimestamp:
+          format: int64
+          type: integer
+        errors:
+          items:
+            $ref: '#/components/schemas/GenericApiError'
+          type: array
+      required:
+      - errors
+      - serverTimestamp
+      - trackingKey
+      type: object
+    GenericApiError:
+      properties:
+        _type:
+          enum:
+          - InternalError
+          type: string
+        message:
+          type: string
+        errorCode:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - message
+      type: object
+    EpochTx:
+      example:
+        epochTx: 0
+      properties:
+        epochTx:
+          format: int64
+          type: integer
+      required:
+      - epochTx
+      type: object
+    RemovalProgress:
+      example:
+        progress:
+          _type: RemovalInProgress
+      properties:
+        progress:
+          $ref: '#/components/schemas/RemovalProgress_progress'
+      required:
+      - progress
+      type: object
+    RemovalProgress_progress:
+      example:
+        _type: RemovalInProgress
+      properties:
+        _type:
+          enum:
+          - RemovalInProgress
+          - RemovalSucceeded
+          - RemovalFailed
+          type: string
+      required:
+      - _type
+      type: object
+  securitySchemes:
+    ApiToken:
+      in: header
+      name: X-API-Token
+      type: apiKey
+    ServiceToken:
+      in: header
+      name: X-API-Key
+      type: apiKey
+    ServiceBearer:
+      in: header
+      name: X-API-ServiceBearer
+      type: apiKey

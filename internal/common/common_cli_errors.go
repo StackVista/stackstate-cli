@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
 const (
@@ -77,5 +77,23 @@ func NewNotFoundError(err error) CLIError {
 		ServerResponse: nil,
 		showUsage:      true,
 		exitCode:       NotFoundExitCode,
+	}
+}
+
+func NewExecutionError(err error) CLIError {
+	return StdCLIError{
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      true,
+		exitCode:       ExecutionErrorCode,
+	}
+}
+
+func NewAPIVersionError(err error) CLIError {
+	return StdCLIError{
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      true,
+		exitCode:       APIVersionErrorCode,
 	}
 }

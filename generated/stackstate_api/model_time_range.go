@@ -18,7 +18,7 @@ import (
 // TimeRange struct for TimeRange
 type TimeRange struct {
 	Start int64 `json:"start"`
-	End int64 `json:"end"`
+	End   int64 `json:"end"`
 }
 
 // NewTimeRange instantiates a new TimeRange object
@@ -134,5 +134,3 @@ func (v *NullableTimeRange) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

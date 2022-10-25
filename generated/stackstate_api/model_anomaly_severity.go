@@ -21,9 +21,9 @@ type AnomalySeverity string
 
 // List of AnomalySeverity
 const (
-	ANOMALYSEVERITY_LOW AnomalySeverity = "LOW"
+	ANOMALYSEVERITY_LOW    AnomalySeverity = "LOW"
 	ANOMALYSEVERITY_MEDIUM AnomalySeverity = "MEDIUM"
-	ANOMALYSEVERITY_HIGH AnomalySeverity = "HIGH"
+	ANOMALYSEVERITY_HIGH   AnomalySeverity = "HIGH"
 )
 
 // All allowed values of AnomalySeverity enum
@@ -111,4 +111,3 @@ func (v *NullableAnomalySeverity) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

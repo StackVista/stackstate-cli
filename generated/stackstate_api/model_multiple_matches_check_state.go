@@ -17,9 +17,9 @@ import (
 
 // MultipleMatchesCheckState struct for MultipleMatchesCheckState
 type MultipleMatchesCheckState struct {
-	CheckStateId string `json:"checkStateId"`
+	CheckStateId              string `json:"checkStateId"`
 	TopologyElementIdentifier string `json:"topologyElementIdentifier"`
-	MatchCount int32 `json:"matchCount"`
+	MatchCount                int32  `json:"matchCount"`
 }
 
 // NewMultipleMatchesCheckState instantiates a new MultipleMatchesCheckState object
@@ -163,5 +163,3 @@ func (v *NullableMultipleMatchesCheckState) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

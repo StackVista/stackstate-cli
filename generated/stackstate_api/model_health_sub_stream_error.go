@@ -18,7 +18,7 @@ import (
 
 // HealthSubStreamError - struct for HealthSubStreamError
 type HealthSubStreamError struct {
-	HealthStreamNotFound *HealthStreamNotFound
+	HealthStreamNotFound    *HealthStreamNotFound
 	HealthSubStreamNotFound *HealthSubStreamNotFound
 }
 
@@ -35,7 +35,6 @@ func HealthSubStreamNotFoundAsHealthSubStreamError(v *HealthSubStreamNotFound) H
 		HealthSubStreamNotFound: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *HealthSubStreamError) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src HealthSubStreamError) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *HealthSubStreamError) GetActualInstance() (interface{}) {
+func (obj *HealthSubStreamError) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableHealthSubStreamError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

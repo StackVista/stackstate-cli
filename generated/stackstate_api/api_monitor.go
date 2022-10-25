@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 type MonitorApi interface {
 
 	/*
-	DeleteMonitor Delete a monitor
+		DeleteMonitor Delete a monitor
 
-	Deletes existing monitor
+		Deletes existing monitor
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiDeleteMonitorRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiDeleteMonitorRequest
 	*/
 	DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest
 
@@ -38,12 +37,12 @@ type MonitorApi interface {
 	DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error)
 
 	/*
-	GetAllMonitors List monitors
+		GetAllMonitors List monitors
 
-	List all available monitor in the system
+		List all available monitor in the system
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetAllMonitorsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetAllMonitorsRequest
 	*/
 	GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest
 
@@ -52,13 +51,13 @@ type MonitorApi interface {
 	GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error)
 
 	/*
-	GetMonitor Get a monitor
+		GetMonitor Get a monitor
 
-	Returns a monitor full representation
+		Returns a monitor full representation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiGetMonitorRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiGetMonitorRequest
 	*/
 	GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest
 
@@ -67,13 +66,13 @@ type MonitorApi interface {
 	GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error)
 
 	/*
-	GetMonitorWithStatus Get a monitor with stream information
+		GetMonitorWithStatus Get a monitor with stream information
 
-	Returns a monitor full representation with the stream status information
+		Returns a monitor full representation with the stream status information
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiGetMonitorWithStatusRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiGetMonitorWithStatusRequest
 	*/
 	GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest
 
@@ -82,13 +81,13 @@ type MonitorApi interface {
 	GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error)
 
 	/*
-	PatchMonitor Update some monitor properties
+		PatchMonitor Update some monitor properties
 
-	Performs a patch on the monitor base properties.
+		Performs a patch on the monitor base properties.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiPatchMonitorRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiPatchMonitorRequest
 	*/
 	PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest
 
@@ -97,13 +96,13 @@ type MonitorApi interface {
 	PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error)
 
 	/*
-	RunMonitor Run a monitor
+		RunMonitor Run a monitor
 
-	Performs a run of a monitor. If 'dryRun' is set, topology state will not be modified.
+		Performs a run of a monitor. If 'dryRun' is set, topology state will not be modified.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiRunMonitorRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiRunMonitorRequest
 	*/
 	RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest
 
@@ -116,8 +115,8 @@ type MonitorApi interface {
 type MonitorApiService service
 
 type ApiDeleteMonitorRequest struct {
-	ctx context.Context
-	ApiService MonitorApi
+	ctx            context.Context
+	ApiService     MonitorApi
 	monitorIdOrUrn string
 }
 
@@ -136,8 +135,8 @@ Deletes existing monitor
 */
 func (a *MonitorApiService) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
 	return ApiDeleteMonitorRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:     a,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
@@ -145,9 +144,9 @@ func (a *MonitorApiService) DeleteMonitor(ctx context.Context, monitorIdOrUrn st
 // Execute executes the request
 func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.DeleteMonitor")
@@ -279,7 +278,7 @@ func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*ht
 }
 
 type ApiGetAllMonitorsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService MonitorApi
 }
 
@@ -298,7 +297,7 @@ List all available monitor in the system
 func (a *MonitorApiService) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
 	return ApiGetAllMonitorsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -306,10 +305,10 @@ func (a *MonitorApiService) GetAllMonitors(ctx context.Context) ApiGetAllMonitor
 //  @return MonitorList
 func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *MonitorList
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetAllMonitors")
@@ -429,8 +428,8 @@ func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*
 }
 
 type ApiGetMonitorRequest struct {
-	ctx context.Context
-	ApiService MonitorApi
+	ctx            context.Context
+	ApiService     MonitorApi
 	monitorIdOrUrn string
 }
 
@@ -449,8 +448,8 @@ Returns a monitor full representation
 */
 func (a *MonitorApiService) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
 	return ApiGetMonitorRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:     a,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
@@ -459,10 +458,10 @@ func (a *MonitorApiService) GetMonitor(ctx context.Context, monitorIdOrUrn strin
 //  @return Monitor
 func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Monitor
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Monitor
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitor")
@@ -603,8 +602,8 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 }
 
 type ApiGetMonitorWithStatusRequest struct {
-	ctx context.Context
-	ApiService MonitorApi
+	ctx            context.Context
+	ApiService     MonitorApi
 	monitorIdOrUrn string
 }
 
@@ -623,8 +622,8 @@ Returns a monitor full representation with the stream status information
 */
 func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:     a,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
@@ -633,10 +632,10 @@ func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorIdO
 //  @return MonitorStatus
 func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *MonitorStatus
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorStatus
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitorWithStatus")
@@ -777,10 +776,10 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 }
 
 type ApiPatchMonitorRequest struct {
-	ctx context.Context
-	ApiService MonitorApi
+	ctx            context.Context
+	ApiService     MonitorApi
 	monitorIdOrUrn string
-	monitorPatch *MonitorPatch
+	monitorPatch   *MonitorPatch
 }
 
 // Monitor base properties
@@ -804,8 +803,8 @@ Performs a patch on the monitor base properties.
 */
 func (a *MonitorApiService) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
 	return ApiPatchMonitorRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:     a,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
@@ -814,10 +813,10 @@ func (a *MonitorApiService) PatchMonitor(ctx context.Context, monitorIdOrUrn str
 //  @return Monitor
 func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPatch
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Monitor
+		localVarHTTPMethod  = http.MethodPatch
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Monitor
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.PatchMonitor")
@@ -963,10 +962,10 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 }
 
 type ApiRunMonitorRequest struct {
-	ctx context.Context
-	ApiService MonitorApi
+	ctx            context.Context
+	ApiService     MonitorApi
 	monitorIdOrUrn string
-	dryRun *bool
+	dryRun         *bool
 }
 
 // If set, the topology state will not be modified
@@ -990,8 +989,8 @@ Performs a run of a monitor. If 'dryRun' is set, topology state will not be modi
 */
 func (a *MonitorApiService) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
 	return ApiRunMonitorRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:     a,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
@@ -1000,10 +999,10 @@ func (a *MonitorApiService) RunMonitor(ctx context.Context, monitorIdOrUrn strin
 //  @return MonitorRunResult
 func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *MonitorRunResult
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorRunResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.RunMonitor")
@@ -1146,26 +1145,24 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type MonitorApiMock struct {
-	DeleteMonitorCalls *[]DeleteMonitorCall
-	DeleteMonitorResponse DeleteMonitorMockResponse
-	GetAllMonitorsCalls *[]GetAllMonitorsCall
-	GetAllMonitorsResponse GetAllMonitorsMockResponse
-	GetMonitorCalls *[]GetMonitorCall
-	GetMonitorResponse GetMonitorMockResponse
-	GetMonitorWithStatusCalls *[]GetMonitorWithStatusCall
+	DeleteMonitorCalls           *[]DeleteMonitorCall
+	DeleteMonitorResponse        DeleteMonitorMockResponse
+	GetAllMonitorsCalls          *[]GetAllMonitorsCall
+	GetAllMonitorsResponse       GetAllMonitorsMockResponse
+	GetMonitorCalls              *[]GetMonitorCall
+	GetMonitorResponse           GetMonitorMockResponse
+	GetMonitorWithStatusCalls    *[]GetMonitorWithStatusCall
 	GetMonitorWithStatusResponse GetMonitorWithStatusMockResponse
-	PatchMonitorCalls *[]PatchMonitorCall
-	PatchMonitorResponse PatchMonitorMockResponse
-	RunMonitorCalls *[]RunMonitorCall
-	RunMonitorResponse RunMonitorMockResponse
-}	
+	PatchMonitorCalls            *[]PatchMonitorCall
+	PatchMonitorResponse         PatchMonitorMockResponse
+	RunMonitorCalls              *[]RunMonitorCall
+	RunMonitorResponse           RunMonitorMockResponse
+}
 
 func NewMonitorApiMock() MonitorApiMock {
 	xDeleteMonitorCalls := make([]DeleteMonitorCall, 0)
@@ -1174,177 +1171,167 @@ func NewMonitorApiMock() MonitorApiMock {
 	xGetMonitorWithStatusCalls := make([]GetMonitorWithStatusCall, 0)
 	xPatchMonitorCalls := make([]PatchMonitorCall, 0)
 	xRunMonitorCalls := make([]RunMonitorCall, 0)
-	return MonitorApiMock {
-		DeleteMonitorCalls: &xDeleteMonitorCalls,
-		GetAllMonitorsCalls: &xGetAllMonitorsCalls,
-		GetMonitorCalls: &xGetMonitorCalls,
+	return MonitorApiMock{
+		DeleteMonitorCalls:        &xDeleteMonitorCalls,
+		GetAllMonitorsCalls:       &xGetAllMonitorsCalls,
+		GetMonitorCalls:           &xGetMonitorCalls,
 		GetMonitorWithStatusCalls: &xGetMonitorWithStatusCalls,
-		PatchMonitorCalls: &xPatchMonitorCalls,
-		RunMonitorCalls: &xRunMonitorCalls,
+		PatchMonitorCalls:         &xPatchMonitorCalls,
+		RunMonitorCalls:           &xRunMonitorCalls,
 	}
 }
 
 type DeleteMonitorMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteMonitorCall struct {
 	PmonitorIdOrUrn string
 }
 
-
 func (mock MonitorApiMock) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
 	return ApiDeleteMonitorRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:     mock,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
 
 func (mock MonitorApiMock) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error) {
-	p := DeleteMonitorCall {
-			PmonitorIdOrUrn: r.monitorIdOrUrn,
+	p := DeleteMonitorCall{
+		PmonitorIdOrUrn: r.monitorIdOrUrn,
 	}
 	*mock.DeleteMonitorCalls = append(*mock.DeleteMonitorCalls, p)
 	return mock.DeleteMonitorResponse.Response, mock.DeleteMonitorResponse.Error
 }
 
 type GetAllMonitorsMockResponse struct {
-	Result MonitorList
+	Result   MonitorList
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetAllMonitorsCall struct {
 }
 
-
 func (mock MonitorApiMock) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
 	return ApiGetAllMonitorsRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock MonitorApiMock) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
-	p := GetAllMonitorsCall {
-	}
+	p := GetAllMonitorsCall{}
 	*mock.GetAllMonitorsCalls = append(*mock.GetAllMonitorsCalls, p)
 	return &mock.GetAllMonitorsResponse.Result, mock.GetAllMonitorsResponse.Response, mock.GetAllMonitorsResponse.Error
 }
 
 type GetMonitorMockResponse struct {
-	Result Monitor
+	Result   Monitor
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetMonitorCall struct {
 	PmonitorIdOrUrn string
 }
 
-
 func (mock MonitorApiMock) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
 	return ApiGetMonitorRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:     mock,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
 
 func (mock MonitorApiMock) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
-	p := GetMonitorCall {
-			PmonitorIdOrUrn: r.monitorIdOrUrn,
+	p := GetMonitorCall{
+		PmonitorIdOrUrn: r.monitorIdOrUrn,
 	}
 	*mock.GetMonitorCalls = append(*mock.GetMonitorCalls, p)
 	return &mock.GetMonitorResponse.Result, mock.GetMonitorResponse.Response, mock.GetMonitorResponse.Error
 }
 
 type GetMonitorWithStatusMockResponse struct {
-	Result MonitorStatus
+	Result   MonitorStatus
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetMonitorWithStatusCall struct {
 	PmonitorIdOrUrn string
 }
 
-
 func (mock MonitorApiMock) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:     mock,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
 
 func (mock MonitorApiMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
-	p := GetMonitorWithStatusCall {
-			PmonitorIdOrUrn: r.monitorIdOrUrn,
+	p := GetMonitorWithStatusCall{
+		PmonitorIdOrUrn: r.monitorIdOrUrn,
 	}
 	*mock.GetMonitorWithStatusCalls = append(*mock.GetMonitorWithStatusCalls, p)
 	return &mock.GetMonitorWithStatusResponse.Result, mock.GetMonitorWithStatusResponse.Response, mock.GetMonitorWithStatusResponse.Error
 }
 
 type PatchMonitorMockResponse struct {
-	Result Monitor
+	Result   Monitor
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PatchMonitorCall struct {
 	PmonitorIdOrUrn string
-	PmonitorPatch *MonitorPatch
+	PmonitorPatch   *MonitorPatch
 }
-
 
 func (mock MonitorApiMock) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
 	return ApiPatchMonitorRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:     mock,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
 
 func (mock MonitorApiMock) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
-	p := PatchMonitorCall {
-			PmonitorIdOrUrn: r.monitorIdOrUrn,
-			PmonitorPatch: r.monitorPatch,
+	p := PatchMonitorCall{
+		PmonitorIdOrUrn: r.monitorIdOrUrn,
+		PmonitorPatch:   r.monitorPatch,
 	}
 	*mock.PatchMonitorCalls = append(*mock.PatchMonitorCalls, p)
 	return &mock.PatchMonitorResponse.Result, mock.PatchMonitorResponse.Response, mock.PatchMonitorResponse.Error
 }
 
 type RunMonitorMockResponse struct {
-	Result MonitorRunResult
+	Result   MonitorRunResult
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type RunMonitorCall struct {
 	PmonitorIdOrUrn string
-	PdryRun *bool
+	PdryRun         *bool
 }
-
 
 func (mock MonitorApiMock) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
 	return ApiRunMonitorRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:     mock,
+		ctx:            ctx,
 		monitorIdOrUrn: monitorIdOrUrn,
 	}
 }
 
 func (mock MonitorApiMock) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
-	p := RunMonitorCall {
-			PmonitorIdOrUrn: r.monitorIdOrUrn,
-			PdryRun: r.dryRun,
+	p := RunMonitorCall{
+		PmonitorIdOrUrn: r.monitorIdOrUrn,
+		PdryRun:         r.dryRun,
 	}
 	*mock.RunMonitorCalls = append(*mock.RunMonitorCalls, p)
 	return &mock.RunMonitorResponse.Result, mock.RunMonitorResponse.Response, mock.RunMonitorResponse.Error
 }
-
-

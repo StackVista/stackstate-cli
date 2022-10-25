@@ -17,7 +17,7 @@ import (
 
 // UnmatchedCheckState struct for UnmatchedCheckState
 type UnmatchedCheckState struct {
-	CheckStateId string `json:"checkStateId"`
+	CheckStateId              string `json:"checkStateId"`
 	TopologyElementIdentifier string `json:"topologyElementIdentifier"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableUnmatchedCheckState) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

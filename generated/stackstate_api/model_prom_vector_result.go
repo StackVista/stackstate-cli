@@ -18,7 +18,7 @@ import (
 // PromVectorResult struct for PromVectorResult
 type PromVectorResult struct {
 	Metric map[string]string `json:"metric"`
-	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string. 
+	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string.
 	Value []PromSampleInner `json:"value"`
 }
 
@@ -135,5 +135,3 @@ func (v *NullablePromVectorResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

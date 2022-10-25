@@ -17,8 +17,8 @@ import (
 
 // MonitorInvalidIntervalError struct for MonitorInvalidIntervalError
 type MonitorInvalidIntervalError struct {
-	IntervalSeconds int32 `json:"intervalSeconds"`
-	Type string `json:"_type"`
+	IntervalSeconds int32  `json:"intervalSeconds"`
+	Type            string `json:"_type"`
 }
 
 // NewMonitorInvalidIntervalError instantiates a new MonitorInvalidIntervalError object
@@ -134,5 +134,3 @@ func (v *NullableMonitorInvalidIntervalError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

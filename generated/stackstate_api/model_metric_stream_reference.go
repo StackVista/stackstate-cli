@@ -17,8 +17,8 @@ import (
 
 // MetricStreamReference struct for MetricStreamReference
 type MetricStreamReference struct {
-	Type string `json:"_type"`
-	StreamNodeId int64 `json:"streamNodeId"`
+	Type               string   `json:"_type"`
+	StreamNodeId       int64    `json:"streamNodeId"`
 	ElementIdentifiers []string `json:"elementIdentifiers"`
 }
 
@@ -163,5 +163,3 @@ func (v *NullableMetricStreamReference) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

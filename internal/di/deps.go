@@ -6,13 +6,14 @@ import (
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	"gitlab.com/stackvista/stackstate-cli2/internal/client"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/config"
-	"gitlab.com/stackvista/stackstate-cli2/internal/editor"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	stackstate_admin_api "github.com/stackvista/stackstate-cli/generated/stackstate_admin_api"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	"github.com/stackvista/stackstate-cli/internal/client"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/config"
+	"github.com/stackvista/stackstate-cli/internal/editor"
+	"github.com/stackvista/stackstate-cli/internal/printer"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 // Dependency Injection context for the CLI
@@ -56,16 +57,13 @@ type CmdWithApiFn = func(
 	*stackstate_api.ServerInfo,
 ) common.CLIError
 
-func (cli *Deps) CmdRunEWithApi(
-	runFn CmdWithApiFn) func(*cobra.Command, []string) error {
+func (cli *Deps) CmdRunEWithApi(runFn CmdWithApiFn) func(*cobra.Command, []string) error {
 	return func(cmd *cobra.Command, args []string) error {
 		if cli.CurrentContext == nil {
-			currCtx, err := config.LoadCurrentContext(cmd.Context(), cmd, viper.GetViper(), cli.ConfigPath)
+			err := cli.LoadContext(cmd)
 			if err != nil {
 				return err
 			}
-
-			cli.CurrentContext = currCtx
 		}
 
 		log.Debug().Interface("context", cli.CurrentContext).Msg("Using context")
@@ -82,13 +80,73 @@ func (cli *Deps) CmdRunEWithApi(
 			return err
 		}
 
+		err = client.CheckVersionCompatibility(serverInfo.Version, cmd.Version)
+		if err != nil {
+			return err
+		}
+
 		return runFn(cmd, cli, api, serverInfo)
 	}
 }
 
-func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) common.CLIError {
-	cli.Client, cli.Context = client.NewStackStateClient(cmd.Context(), cli.IsVerBose, cli.Printer, context.URL, context.APIPath, context.APIToken, context.ServiceToken, context.K8sSAToken)
+func (cli *Deps) LoadContext(cmd *cobra.Command) common.CLIError {
+	currCtx, err := config.LoadCurrentContext(cmd.Context(), cmd, viper.GetViper(), cli.ConfigPath)
+	if err != nil {
+		return err
+	}
+
+	cli.CurrentContext = currCtx
 	return nil
+}
+
+func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) common.CLIError {
+	cli.Client, cli.Context = client.NewStackStateClient(
+		cmd.Context(),
+		cli.IsVerBose,
+		cli.Printer,
+		context.URL,
+		context.APIPath,
+		context.AdminAPIPath,
+		context.APIToken,
+		context.ServiceToken,
+		context.K8sSAToken,
+	)
+	return nil
+}
+
+type CmdWithAdminApiFn = func(
+	*cobra.Command,
+	*Deps,
+	*stackstate_admin_api.APIClient,
+) common.CLIError
+
+func (cli *Deps) CmdRunEWithAdminApi(runFn CmdWithAdminApiFn) func(*cobra.Command, []string) error {
+	return func(cmd *cobra.Command, args []string) error {
+		if cli.CurrentContext == nil {
+			err := cli.LoadContext(cmd)
+			if err != nil {
+				return err
+			}
+		}
+
+		log.Debug().Interface("context", cli.CurrentContext).Msg("Using context")
+
+		if cli.Client == nil {
+			err := cli.LoadClient(cmd, cli.CurrentContext)
+			if err != nil {
+				return err
+			}
+		}
+
+		api, err := cli.Client.AdminConnect()
+		if err != nil {
+			return err
+		}
+
+		// NOTE Can't validate whether the server version is compatible.
+
+		return runFn(cmd, cli, api)
+	}
 }
 
 func (cli *Deps) IsJson() bool {

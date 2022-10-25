@@ -18,7 +18,7 @@ import (
 // MonitorError struct for MonitorError
 type MonitorError struct {
 	Error string `json:"error"`
-	Count int32 `json:"count"`
+	Count int32  `json:"count"`
 }
 
 // NewMonitorError instantiates a new MonitorError object
@@ -134,5 +134,3 @@ func (v *NullableMonitorError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

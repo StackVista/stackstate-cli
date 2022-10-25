@@ -154,6 +154,77 @@ paths:
       summary: Node type API
       tags:
       - node
+  /node/{nodeType}/{nodeId}:
+    delete:
+      description: Delete a locked node
+      operationId: delete
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - in: query
+        name: timeoutSeconds
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          description: Node deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node deletion API
+      tags:
+      - node
+  /node/{nodeType}/{nodeId}/unlock:
+    post:
+      description: Unlock a locked node
+      operationId: unlock
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: Unlocked node
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Node unlock API
+      tags:
+      - node
   /stackpack:
     get:
       description: list of stackpack
@@ -1640,6 +1711,258 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
+  /security/permissions/list:
+    get:
+      description: Get a list of available permissions
+      operationId: getPermissions
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Permissions'
+          description: A list of permissions
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List permissions
+      tags:
+      - permissions
+  /security/permissions/{subject}:
+    delete:
+      description: Revoke permissions of a subject
+      operationId: revokePermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      - in: query
+        name: resource
+        schema:
+          $ref: '#/components/schemas/Resource'
+      - in: query
+        name: permission
+        schema:
+          $ref: '#/components/schemas/Permission'
+      responses:
+        "200":
+          description: Permission was revoked.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Revoke permissions
+      tags:
+      - permissions
+    get:
+      description: Describe permissions granted to a subject
+      operationId: describePermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      - in: query
+        name: resource
+        schema:
+          $ref: '#/components/schemas/Resource'
+      - in: query
+        name: permission
+        schema:
+          $ref: '#/components/schemas/Permission'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionDescription'
+          description: A permission description for a subject
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Describe permissions
+      tags:
+      - permissions
+    post:
+      description: Grant permissions to a subject
+      operationId: grantPermissions
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GrantPermission'
+        required: true
+      responses:
+        "200":
+          description: Permission was granted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Grant permissions
+      tags:
+      - permissions
+  /security/subjects:
+    get:
+      description: List all subjects and their scopes
+      operationId: listSubjects
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectList'
+          description: Subject list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List subjects
+      tags:
+      - subject
+  /security/subjects/{subject}:
+    delete:
+      description: Remove a security subject
+      operationId: deleteSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      responses:
+        "200":
+          description: Subject deleted
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete a subject
+      tags:
+      - subject
+    get:
+      description: Describe a subject and its scope
+      operationId: getSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubjectConfig'
+          description: Subject config
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get subject
+      tags:
+      - subject
+    put:
+      description: Create a new security subject
+      operationId: createSubject
+      parameters:
+      - in: path
+        name: subject
+        required: true
+        schema:
+          $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubject'
+        required: true
+      responses:
+        "200":
+          description: Subject created
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create a subject
+      tags:
+      - subject
   /subscription:
     get:
       description: Get the state of the StackState license
@@ -2642,7 +2965,7 @@ paths:
       summary: List possible events which led to the problem
       tags:
       - problem
-  /v1alpha1/query:
+  /metrics/query:
     get:
       description: The endpoint evaluates an instant query at a single point in time
       operationId: getInstantQuery
@@ -2685,16 +3008,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
-        "503":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
       summary: Instant query at a single point in time
       tags:
-      - query
-  /v1alpha1/query_range:
+      - metric
+    post:
+      description: The endpoint evaluates an instant query at a single point in time
+      operationId: postInstantQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromQueryRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
+      summary: Instant query at a single point in time
+      tags:
+      - metric
+  /metrics/query_range:
     get:
       description: The endpoint evaluates an expression query over a range of time
       operationId: getRangeQuery
@@ -2752,16 +3123,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/PromEnvelope'
           description: Expression can't be executed (RFC4918)
-        "503":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
       summary: Query over a range of time
       tags:
-      - query
-  /v1alpha1/query_exemplars:
+      - metric
+    post:
+      description: The endpoint evaluates an expression query over a range of time
+      operationId: postRangeQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromQueryRangeRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
+      summary: Query over a range of time
+      tags:
+      - metric
+  /metrics/query_exemplars:
     get:
       description: "Experimental: The returns a list of exemplars for a valid PromQL\
         \ query for a specific time range"
@@ -2798,23 +3217,583 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromEnvelope'
+                $ref: '#/components/schemas/PromExemplarEnvelope'
           description: Parameters are missing or incorrect
         "422":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PromEnvelope'
+                $ref: '#/components/schemas/PromExemplarEnvelope'
           description: Expression can't be executed (RFC4918)
-        "503":
+        "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: when queries time out or abort
       summary: "Experimental: Exemplars for a specific time range"
       tags:
-      - query
+      - metric
+    post:
+      description: "Experimental: The returns a list of exemplars for a valid PromQL\
+        \ query for a specific time range"
+      operationId: postExemplarsQuery
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromQueryExemplarRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: JSON response envelope
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromExemplarEnvelope'
+          description: when queries time out or abort
+      summary: "Experimental: Exemplars for a specific time range"
+      tags:
+      - metric
+  /metrics/labels:
+    get:
+      description: The endpoint returns a list of label names
+      operationId: getLabels
+      parameters:
+      - description: Start timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: start
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromTime'
+      - description: End timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: end
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromTime'
+      - description: Repeated series selector argument that selects the series from
+          which to read the label names. Optional.
+        example: "process_start_time_seconds{job='prometheus'}"
+        explode: true
+        in: query
+        name: "match[]"
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromMatch'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: JSON response envelope for labels
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: When requests time out or abort
+      summary: List of label names
+      tags:
+      - metric
+    post:
+      description: The endpoint returns a list of label names
+      operationId: postLabels
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              match[]:
+                explode: true
+                style: form
+            schema:
+              $ref: '#/components/schemas/PromLabelsRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: JSON response envelope for labels
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: When requests time out or abort
+      summary: List of label names
+      tags:
+      - metric
+  /metrics/label/{label}/values:
+    get:
+      description: The endpoint returns a list of label values for a provided label
+        name
+      operationId: getLabelValues
+      parameters:
+      - description: Prometheus query label
+        in: path
+        name: label
+        required: true
+        schema:
+          $ref: '#/components/schemas/PromLabel'
+      - description: Start timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: start
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromTime'
+      - description: End timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: end
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromTime'
+      - description: Repeated series selector argument that selects the series from
+          which to read the label names. Optional.
+        example: "process_start_time_seconds{job='prometheus'}"
+        explode: true
+        in: query
+        name: "match[]"
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromMatch'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: JSON response envelope for labels
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: When requests time out or abort
+      summary: List of label values for a provided label name
+      tags:
+      - metric
+    post:
+      description: The endpoint returns a list of label values for a provided label
+        name
+      operationId: postLabelValues
+      parameters:
+      - description: Prometheus query label
+        in: path
+        name: label
+        required: true
+        schema:
+          $ref: '#/components/schemas/PromLabel'
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              match[]:
+                explode: true
+                style: form
+            schema:
+              $ref: '#/components/schemas/PromLabelValuesRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: JSON response envelope for labels
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromLabelsEnvelope'
+          description: When requests time out or abort
+      summary: List of label values for a provided label name
+      tags:
+      - metric
+  /metrics/series:
+    get:
+      description: The endpoint returns the list of time series that match a certain
+        label set
+      operationId: getSeries
+      parameters:
+      - description: "Repeated series selector argument that selects the series to\
+          \ return. At least one match[] argument must be provided."
+        example: "process_start_time_seconds{job='prometheus'}"
+        explode: true
+        in: query
+        name: "match[]"
+        required: true
+        schema:
+          $ref: '#/components/schemas/PromMatch'
+      - description: Start timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: start
+        required: true
+        schema:
+          $ref: '#/components/schemas/PromTime'
+      - description: End timestamp in rfc3339 format or unix format
+        example: 2015-07-01T20:10:51.781Z or 1660817432
+        in: query
+        name: end
+        required: true
+        schema:
+          $ref: '#/components/schemas/PromTime'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: JSON response envelope for series
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: When requests time out or abort
+      summary: List of time series that match a certain label set
+      tags:
+      - metric
+    post:
+      description: The endpoint returns the list of time series that match a certain
+        label set
+      operationId: postSeries
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding:
+              match[]:
+                explode: true
+                style: form
+            schema:
+              $ref: '#/components/schemas/PromSeriesRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: JSON response envelope for series
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromSeriesEnvelope'
+          description: When requests time out or abort
+      summary: List of time series that match a certain label set
+      tags:
+      - metric
+  /metrics/metadata:
+    get:
+      description: "The endpoint returns metadata about metrics currently scraped\
+        \ from targets. However, it does not provide any target information. This\
+        \ is considered experimental and might change in the future"
+      operationId: getMetadata
+      parameters:
+      - description: Maximum number of metrics to return.
+        example: "2"
+        in: query
+        name: limit
+        required: true
+        schema:
+          $ref: '#/components/schemas/PromLimit'
+      - description: A metric name to filter metadata for. All metric metadata is
+          retrieved if left empty.
+        example: http_requests_total
+        in: query
+        name: metric
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromMetric'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: JSON response envelope for metadata
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: When requests time out or abort
+      summary: Metadata about metrics currently scraped from targets
+      tags:
+      - metric
+    post:
+      description: "The endpoint returns metadata about metrics currently scraped\
+        \ from targets. However, it does not provide any target information. This\
+        \ is considered experimental and might change in the future"
+      operationId: postMetadata
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PromMetadataRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: JSON response envelope for metadata
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: Parameters are missing or incorrect
+        "422":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: Expression can't be executed (RFC4918)
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromMetadataEnvelope'
+          description: When requests time out or abort
+      summary: Metadata about metrics currently scraped from targets
+      tags:
+      - metric
+  /topic:
+    get:
+      description: List all Kafka topics available in StackState
+      operationId: list
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TopicList'
+          description: Topic list
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List topics
+      tags:
+      - topic
+  /topic/{topic}:
+    get:
+      description: List Kafka messages on the topic of choice
+      operationId: describe
+      parameters:
+      - in: path
+        name: topic
+        required: true
+        schema:
+          $ref: '#/components/schemas/TopicName'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      - in: query
+        name: offset
+        schema:
+          type: integer
+      - in: query
+        name: partition
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Messages'
+          description: Message list
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Describe a topic
+      tags:
+      - topic
 components:
   requestBodies:
     monitorPatch:
@@ -3065,12 +4044,108 @@ components:
           schema:
             $ref: '#/components/schemas/PromEnvelope'
       description: Expression can't be executed (RFC4918)
+    serviceUnavailable:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromEnvelope'
+      description: when queries time out or abort
     successExemplarEnvelope:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/PromExemplarEnvelope'
       description: JSON response envelope
+    invalidParametersExemplar:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromExemplarEnvelope'
+      description: Parameters are missing or incorrect
+    unprocessableEntityExemplar:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromExemplarEnvelope'
+      description: Expression can't be executed (RFC4918)
+    serviceUnavailableExemplar:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromExemplarEnvelope'
+      description: when queries time out or abort
+    successLabelEnvelope:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromLabelsEnvelope'
+      description: JSON response envelope for labels
+    invalidParametersLabel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromLabelsEnvelope'
+      description: Parameters are missing or incorrect
+    unprocessableEntityLabel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromLabelsEnvelope'
+      description: Expression can't be executed (RFC4918)
+    serviceUnavailableLabel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromLabelsEnvelope'
+      description: When requests time out or abort
+    successSeriesEnvelope:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromSeriesEnvelope'
+      description: JSON response envelope for series
+    invalidParametersSeries:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromSeriesEnvelope'
+      description: Parameters are missing or incorrect
+    unprocessableEntitySeries:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromSeriesEnvelope'
+      description: Expression can't be executed (RFC4918)
+    serviceUnavailableSeries:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromSeriesEnvelope'
+      description: When requests time out or abort
+    successMetadataEnvelope:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromMetadataEnvelope'
+      description: JSON response envelope for metadata
+    invalidParametersMetadata:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromMetadataEnvelope'
+      description: Parameters are missing or incorrect
+    unprocessableEntityMetadata:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromMetadataEnvelope'
+      description: Expression can't be executed (RFC4918)
+    serviceUnavailableMetadata:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromMetadataEnvelope'
+      description: When requests time out or abort
   schemas:
     GenericErrorsResponse:
       properties:
@@ -3483,7 +4558,7 @@ components:
           type: string
         _type:
           enum:
-          - InvalidMonitorIdentifier
+          - InvalidMonitorIdentifierError
           type: string
       required:
       - _type
@@ -3539,6 +4614,8 @@ components:
         intervalSeconds:
           type: integer
         _type:
+          enum:
+          - MonitorInvalidIntervalError
           type: string
       required:
       - _type
@@ -3633,7 +4710,6 @@ components:
       required:
       - metrics
       - monitor
-      - status
       type: object
     MonitorErrors:
       items:
@@ -4238,7 +5314,6 @@ components:
         eventType:
           type: string
       required:
-      - _type
       - eventId
       - eventTimestamp
       - eventType
@@ -5208,6 +6283,91 @@ components:
     ServiceTokenId:
       format: int64
       type: integer
+    Permissions:
+      example:
+        permissions:
+        - null
+        - null
+      properties:
+        permissions:
+          items:
+            $ref: '#/components/schemas/Permission'
+          type: array
+      required:
+      - permissions
+      type: object
+    PermissionList:
+      items:
+        $ref: '#/components/schemas/Permission'
+      type: array
+    Permission:
+      type: string
+    PermissionDescription:
+      example:
+        subjectHandle: subjectHandle
+        permissions:
+          key: null
+      properties:
+        subjectHandle:
+          type: string
+        permissions:
+          additionalProperties:
+            $ref: '#/components/schemas/PermissionList'
+          type: object
+      required:
+      - permissions
+      - subjectHandle
+      type: object
+    Subject:
+      type: string
+    GrantPermission:
+      example:
+        permission: permission
+        resourceName: resourceName
+      properties:
+        permission:
+          type: string
+        resourceName:
+          type: string
+      required:
+      - permission
+      - resourceName
+      type: object
+    Resource:
+      type: string
+    SubjectList:
+      items:
+        $ref: '#/components/schemas/SubjectConfig'
+      type: array
+    SubjectConfig:
+      example:
+        scopeQuery: scopeQuery
+        handle: handle
+      properties:
+        handle:
+          type: string
+        scopeQuery:
+          type: string
+      required:
+      - handle
+      type: object
+    Query:
+      type: string
+    CreateSubject:
+      example:
+        query: query
+        version: version
+      properties:
+        query:
+          type: string
+        version:
+          type: string
+      required:
+      - query
+      - version
+      type: object
+    Version:
+      type: string
     SubscriptionState:
       discriminator:
         propertyName: _type
@@ -6755,9 +7915,38 @@ components:
       - result
       - resultType
       type: object
+    PromQueryRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/PromQuery'
+        time:
+          $ref: '#/components/schemas/PromTime'
+        timeout:
+          $ref: '#/components/schemas/PromTimeout'
+      required:
+      - query
+      type: object
     PromStep:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
+    PromQueryRangeRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/PromQuery'
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+        step:
+          $ref: '#/components/schemas/PromStep'
+        timeout:
+          $ref: '#/components/schemas/PromTimeout'
+      required:
+      - end
+      - query
+      - start
+      - step
+      type: object
     PromExemplarEnvelope:
       example:
         data:
@@ -6853,6 +8042,232 @@ components:
       - labels
       - timestamp
       - value
+      type: object
+    PromQueryExemplarRequest:
+      properties:
+        query:
+          $ref: '#/components/schemas/PromQuery'
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+      required:
+      - end
+      - query
+      - start
+      type: object
+    PromMatch:
+      items:
+        type: string
+      minItems: 1
+      type: array
+    PromLabelsEnvelope:
+      example:
+        data:
+        - data
+        - data
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          items:
+            type: string
+          type: array
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    PromLabelsRequest:
+      properties:
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+        match[]:
+          $ref: '#/components/schemas/PromMatch'
+      type: object
+    PromLabel:
+      type: string
+    PromLabelValuesRequest:
+      properties:
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+        match[]:
+          $ref: '#/components/schemas/PromMatch'
+      type: object
+    PromSeriesEnvelope:
+      example:
+        data:
+        - key: data
+        - key: data
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          items:
+            additionalProperties:
+              type: string
+            type: object
+          type: array
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    PromSeriesRequest:
+      properties:
+        match[]:
+          $ref: '#/components/schemas/PromMatch'
+        start:
+          $ref: '#/components/schemas/PromTime'
+        end:
+          $ref: '#/components/schemas/PromTime'
+      required:
+      - end
+      - "match[]"
+      - start
+      type: object
+    PromLimit:
+      format: int64
+      type: integer
+    PromMetric:
+      type: string
+    PromMetadataEnvelope:
+      example:
+        data:
+          key:
+          - key: data
+          - key: data
+        errorType: errorType
+        warnings:
+        - warnings
+        - warnings
+        error: error
+        status: status
+      properties:
+        status:
+          type: string
+        data:
+          additionalProperties:
+            items:
+              additionalProperties:
+                type: string
+              type: object
+            type: array
+          type: object
+        errorType:
+          type: string
+        error:
+          type: string
+        warnings:
+          items:
+            type: string
+          type: array
+      required:
+      - status
+      type: object
+    PromMetadata:
+      additionalProperties:
+        items:
+          additionalProperties:
+            type: string
+          type: object
+        type: array
+      type: object
+    PromMetadataRequest:
+      properties:
+        limit:
+          $ref: '#/components/schemas/PromLimit'
+        metric:
+          $ref: '#/components/schemas/PromMetric'
+      required:
+      - limit
+      type: object
+    TopicList:
+      items:
+        $ref: '#/components/schemas/Topic'
+      type: array
+    Topic:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    TopicName:
+      type: string
+    Messages:
+      example:
+        messages:
+        - partition: 0
+          offset: 6
+          message: "{}"
+          key: key
+        - partition: 0
+          offset: 6
+          message: "{}"
+          key: key
+      properties:
+        messages:
+          items:
+            $ref: '#/components/schemas/Message'
+          type: array
+      required:
+      - messages
+      type: object
+    MessageList:
+      items:
+        $ref: '#/components/schemas/Message'
+      type: array
+    Message:
+      example:
+        partition: 0
+        offset: 6
+        message: "{}"
+        key: key
+      properties:
+        key:
+          type: string
+        partition:
+          type: integer
+        offset:
+          type: integer
+        message:
+          type: object
+      required:
+      - key
+      - message
+      - offset
+      - partition
       type: object
     Argument:
       discriminator:
@@ -7474,7 +8889,6 @@ components:
           type: string
       required:
       - _type
-      - function
       - parameter
       - script
       type: object

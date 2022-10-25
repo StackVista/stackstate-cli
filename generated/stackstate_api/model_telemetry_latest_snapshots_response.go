@@ -17,7 +17,7 @@ import (
 
 // TelemetryLatestSnapshotsResponse struct for TelemetryLatestSnapshotsResponse
 type TelemetryLatestSnapshotsResponse struct {
-	Type string `json:"_type"`
+	Type            string                         `json:"_type"`
 	StreamSnapshots []LatestTelemetryStreamMetrics `json:"streamSnapshots"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableTelemetryLatestSnapshotsResponse) UnmarshalJSON(src []byte) err
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

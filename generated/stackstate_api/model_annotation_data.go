@@ -18,9 +18,9 @@ import (
 
 // AnnotationData - struct for AnnotationData
 type AnnotationData struct {
-	FeedbackData *FeedbackData
-	GenericAnnotationData *GenericAnnotationData
-	MetricStreamAnomalyData *MetricStreamAnomalyData
+	FeedbackData              *FeedbackData
+	GenericAnnotationData     *GenericAnnotationData
+	MetricStreamAnomalyData   *MetricStreamAnomalyData
 	MetricStreamNoAnomalyData *MetricStreamNoAnomalyData
 }
 
@@ -51,7 +51,6 @@ func MetricStreamNoAnomalyDataAsAnnotationData(v *MetricStreamNoAnomalyData) Ann
 		MetricStreamNoAnomalyData: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *AnnotationData) UnmarshalJSON(data []byte) error {
@@ -136,7 +135,7 @@ func (src AnnotationData) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *AnnotationData) GetActualInstance() (interface{}) {
+func (obj *AnnotationData) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -195,5 +194,3 @@ func (v *NullableAnnotationData) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

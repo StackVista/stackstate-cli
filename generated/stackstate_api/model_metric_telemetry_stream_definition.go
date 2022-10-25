@@ -17,20 +17,20 @@ import (
 
 // MetricTelemetryStreamDefinition struct for MetricTelemetryStreamDefinition
 type MetricTelemetryStreamDefinition struct {
-	Type string `json:"_type"`
-	BindQuery string `json:"bindQuery"`
-	DataSourceId int64 `json:"dataSourceId"`
-	Description *string `json:"description,omitempty"`
-	Id *int64 `json:"id,omitempty"`
-	Identifier *string `json:"identifier,omitempty"`
-	Labels []string `json:"labels"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	MetricValuation MetricValuation `json:"metricValuation"`
-	Name string `json:"name"`
-	OwnedBy *string `json:"ownedBy,omitempty"`
-	Priority TelemetryStreamPriority `json:"priority"`
-	TelemetryQuery MetricTelemetryQuery `json:"telemetryQuery"`
-	TopologyMapping []TopologyMapping `json:"topologyMapping"`
+	Type                string                  `json:"_type"`
+	BindQuery           string                  `json:"bindQuery"`
+	DataSourceId        int64                   `json:"dataSourceId"`
+	Description         *string                 `json:"description,omitempty"`
+	Id                  *int64                  `json:"id,omitempty"`
+	Identifier          *string                 `json:"identifier,omitempty"`
+	Labels              []string                `json:"labels"`
+	LastUpdateTimestamp *int64                  `json:"lastUpdateTimestamp,omitempty"`
+	MetricValuation     MetricValuation         `json:"metricValuation"`
+	Name                string                  `json:"name"`
+	OwnedBy             *string                 `json:"ownedBy,omitempty"`
+	Priority            TelemetryStreamPriority `json:"priority"`
+	TelemetryQuery      MetricTelemetryQuery    `json:"telemetryQuery"`
+	TopologyMapping     []TopologyMapping       `json:"topologyMapping"`
 }
 
 // NewMetricTelemetryStreamDefinition instantiates a new MetricTelemetryStreamDefinition object
@@ -517,5 +517,3 @@ func (v *NullableMetricTelemetryStreamDefinition) UnmarshalJSON(src []byte) erro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

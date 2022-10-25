@@ -17,7 +17,7 @@ import (
 
 // BaseMonitorError struct for BaseMonitorError
 type BaseMonitorError struct {
-	MonitorId *string `json:"monitorId,omitempty"`
+	MonitorId     *string `json:"monitorId,omitempty"`
 	MonitorIdType *string `json:"monitorIdType,omitempty"`
 }
 
@@ -148,5 +148,3 @@ func (v *NullableBaseMonitorError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -18,29 +18,29 @@ import (
 
 // Argument - struct for Argument
 type Argument struct {
-	ArgumentAnomalyDirectionVal *ArgumentAnomalyDirectionVal
-	ArgumentBaselineMetricStreamRef *ArgumentBaselineMetricStreamRef
-	ArgumentBooleanVal *ArgumentBooleanVal
-	ArgumentComponentTypeRef *ArgumentComponentTypeRef
-	ArgumentDoubleVal *ArgumentDoubleVal
-	ArgumentDurationVal *ArgumentDurationVal
-	ArgumentEventStreamRef *ArgumentEventStreamRef
-	ArgumentExtTopoComponent *ArgumentExtTopoComponent
-	ArgumentExtTopoRelation *ArgumentExtTopoRelation
-	ArgumentLongVal *ArgumentLongVal
-	ArgumentMetricStreamId *ArgumentMetricStreamId
-	ArgumentMetricStreamRef *ArgumentMetricStreamRef
-	ArgumentNodeIdVal *ArgumentNodeIdVal
-	ArgumentPropagatedHealthStateVal *ArgumentPropagatedHealthStateVal
-	ArgumentQueryViewRef *ArgumentQueryViewRef
-	ArgumentRelationTypeRef *ArgumentRelationTypeRef
-	ArgumentRunStateVal *ArgumentRunStateVal
-	ArgumentScriptMetricQueryVal *ArgumentScriptMetricQueryVal
+	ArgumentAnomalyDirectionVal          *ArgumentAnomalyDirectionVal
+	ArgumentBaselineMetricStreamRef      *ArgumentBaselineMetricStreamRef
+	ArgumentBooleanVal                   *ArgumentBooleanVal
+	ArgumentComponentTypeRef             *ArgumentComponentTypeRef
+	ArgumentDoubleVal                    *ArgumentDoubleVal
+	ArgumentDurationVal                  *ArgumentDurationVal
+	ArgumentEventStreamRef               *ArgumentEventStreamRef
+	ArgumentExtTopoComponent             *ArgumentExtTopoComponent
+	ArgumentExtTopoRelation              *ArgumentExtTopoRelation
+	ArgumentLongVal                      *ArgumentLongVal
+	ArgumentMetricStreamId               *ArgumentMetricStreamId
+	ArgumentMetricStreamRef              *ArgumentMetricStreamRef
+	ArgumentNodeIdVal                    *ArgumentNodeIdVal
+	ArgumentPropagatedHealthStateVal     *ArgumentPropagatedHealthStateVal
+	ArgumentQueryViewRef                 *ArgumentQueryViewRef
+	ArgumentRelationTypeRef              *ArgumentRelationTypeRef
+	ArgumentRunStateVal                  *ArgumentRunStateVal
+	ArgumentScriptMetricQueryVal         *ArgumentScriptMetricQueryVal
 	ArgumentSimpleTrainingPeriodicityVal *ArgumentSimpleTrainingPeriodicityVal
-	ArgumentStateVal *ArgumentStateVal
-	ArgumentStringVal *ArgumentStringVal
-	ArgumentStructTypeVal *ArgumentStructTypeVal
-	ArgumentStsEventStreamVal *ArgumentStsEventStreamVal
+	ArgumentStateVal                     *ArgumentStateVal
+	ArgumentStringVal                    *ArgumentStringVal
+	ArgumentStructTypeVal                *ArgumentStructTypeVal
+	ArgumentStsEventStreamVal            *ArgumentStsEventStreamVal
 }
 
 // ArgumentAnomalyDirectionValAsArgument is a convenience function that returns ArgumentAnomalyDirectionVal wrapped in Argument
@@ -203,7 +203,6 @@ func ArgumentStsEventStreamValAsArgument(v *ArgumentStsEventStreamVal) Argument 
 		ArgumentStsEventStreamVal: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *Argument) UnmarshalJSON(data []byte) error {
@@ -592,7 +591,7 @@ func (src Argument) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *Argument) GetActualInstance() (interface{}) {
+func (obj *Argument) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -727,5 +726,3 @@ func (v *NullableArgument) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

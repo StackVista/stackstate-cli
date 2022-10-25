@@ -17,7 +17,7 @@ import (
 
 // InvalidUrn struct for InvalidUrn
 type InvalidUrn struct {
-	Urn string `json:"urn"`
+	Urn     string `json:"urn"`
 	Message string `json:"message"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullableInvalidUrn) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

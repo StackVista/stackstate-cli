@@ -17,8 +17,8 @@ import (
 
 // GenericApiError struct for GenericApiError
 type GenericApiError struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
+	Type      string `json:"_type"`
+	Message   string `json:"message"`
 	ErrorCode *int64 `json:"errorCode,omitempty"`
 }
 
@@ -170,5 +170,3 @@ func (v *NullableGenericApiError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

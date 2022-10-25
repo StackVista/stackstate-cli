@@ -17,7 +17,7 @@ import (
 
 // ExecuteScriptResponse struct for ExecuteScriptResponse
 type ExecuteScriptResponse struct {
-	// Contains a `value` and `_type` property. This is described this way, because `value` can hold any JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec. The `_type` property describes the original type of the result value during script execution. The `value` property holds the resulting value serialized to JSON. The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object. 
+	// Contains a `value` and `_type` property. This is described this way, because `value` can hold any JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec. The `_type` property describes the original type of the result value during script execution. The `value` property holds the resulting value serialized to JSON. The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
 	Result map[string]interface{} `json:"result"`
 }
 
@@ -108,5 +108,3 @@ func (v *NullableExecuteScriptResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

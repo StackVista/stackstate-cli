@@ -21,7 +21,7 @@ type IdentifierType string
 
 // List of IdentifierType
 const (
-	IDENTIFIERTYPE_NODE_ID IdentifierType = "NodeId"
+	IDENTIFIERTYPE_NODE_ID    IdentifierType = "NodeId"
 	IDENTIFIERTYPE_IDENTIFIER IdentifierType = "Identifier"
 )
 
@@ -109,4 +109,3 @@ func (v *NullableIdentifierType) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

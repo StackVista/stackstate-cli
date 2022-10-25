@@ -17,10 +17,10 @@ import (
 
 // SstackpackConfigurationsInner struct for SstackpackConfigurationsInner
 type SstackpackConfigurationsInner struct {
-	Id *int64 `json:"id,omitempty"`
-	Status *string `json:"status,omitempty"`
-	LastUpdateTimestamp int64 `json:"lastUpdateTimestamp"`
-	StackPackVersion *string `json:"stackPackVersion,omitempty"`
+	Id                  *int64  `json:"id,omitempty"`
+	Status              *string `json:"status,omitempty"`
+	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp"`
+	StackPackVersion    *string `json:"stackPackVersion,omitempty"`
 }
 
 // NewSstackpackConfigurationsInner instantiates a new SstackpackConfigurationsInner object
@@ -213,5 +213,3 @@ func (v *NullableSstackpackConfigurationsInner) UnmarshalJSON(src []byte) error 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 type RelationApi interface {
 
 	/*
-	CreateRelationCheck Create the Checks on the relation
+		CreateRelationCheck Create the Checks on the relation
 
-	Adds a Check on the relation
+		Adds a Check on the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@return ApiCreateRelationCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@return ApiCreateRelationCheckRequest
 	*/
 	CreateRelationCheck(ctx context.Context, relationId int64) ApiCreateRelationCheckRequest
 
@@ -39,13 +38,13 @@ type RelationApi interface {
 	CreateRelationCheckExecute(r ApiCreateRelationCheckRequest) (*Check, *http.Response, error)
 
 	/*
-	CreateRelationStream Create the Stream on the relation
+		CreateRelationStream Create the Stream on the relation
 
-	Adds a DataStream/TelemetryStreamDefinition on the relation
+		Adds a DataStream/TelemetryStreamDefinition on the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@return ApiCreateRelationStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@return ApiCreateRelationStreamRequest
 	*/
 	CreateRelationStream(ctx context.Context, relationId int64) ApiCreateRelationStreamRequest
 
@@ -54,14 +53,14 @@ type RelationApi interface {
 	CreateRelationStreamExecute(r ApiCreateRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error)
 
 	/*
-	DeleteRelationCheck Delete the check from the relation
+		DeleteRelationCheck Delete the check from the relation
 
-	Delete a Specific check from the relation
+		Delete a Specific check from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@param checkId The Identifier of a Check
-	@return ApiDeleteRelationCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@param checkId The Identifier of a Check
+		@return ApiDeleteRelationCheckRequest
 	*/
 	DeleteRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiDeleteRelationCheckRequest
 
@@ -69,14 +68,14 @@ type RelationApi interface {
 	DeleteRelationCheckExecute(r ApiDeleteRelationCheckRequest) (*http.Response, error)
 
 	/*
-	DeleteRelationStream Delete the stream from the relation
+		DeleteRelationStream Delete the stream from the relation
 
-	Delete a Specific stream from the relation
+		Delete a Specific stream from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@param streamId The Identifier of a stream
-	@return ApiDeleteRelationStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@param streamId The Identifier of a stream
+		@return ApiDeleteRelationStreamRequest
 	*/
 	DeleteRelationStream(ctx context.Context, relationId int64, streamId int64) ApiDeleteRelationStreamRequest
 
@@ -84,14 +83,14 @@ type RelationApi interface {
 	DeleteRelationStreamExecute(r ApiDeleteRelationStreamRequest) (*http.Response, error)
 
 	/*
-	GetRelationCheck Get the check from the relation
+		GetRelationCheck Get the check from the relation
 
-	Get a Specific check from the relation
+		Get a Specific check from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@param checkId The Identifier of a Check
-	@return ApiGetRelationCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@param checkId The Identifier of a Check
+		@return ApiGetRelationCheckRequest
 	*/
 	GetRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiGetRelationCheckRequest
 
@@ -100,13 +99,13 @@ type RelationApi interface {
 	GetRelationCheckExecute(r ApiGetRelationCheckRequest) (*Check, *http.Response, error)
 
 	/*
-	GetRelationChecks List all checks from the relation
+		GetRelationChecks List all checks from the relation
 
-	List all checks from the relation
+		List all checks from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@return ApiGetRelationChecksRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@return ApiGetRelationChecksRequest
 	*/
 	GetRelationChecks(ctx context.Context, relationId int64) ApiGetRelationChecksRequest
 
@@ -115,14 +114,14 @@ type RelationApi interface {
 	GetRelationChecksExecute(r ApiGetRelationChecksRequest) ([]Check, *http.Response, error)
 
 	/*
-	GetRelationStream Get the stream from the relation
+		GetRelationStream Get the stream from the relation
 
-	Get a Specific stream from the relation
+		Get a Specific stream from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@param streamId The Identifier of a stream
-	@return ApiGetRelationStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@param streamId The Identifier of a stream
+		@return ApiGetRelationStreamRequest
 	*/
 	GetRelationStream(ctx context.Context, relationId int64, streamId int64) ApiGetRelationStreamRequest
 
@@ -131,13 +130,13 @@ type RelationApi interface {
 	GetRelationStreamExecute(r ApiGetRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error)
 
 	/*
-	GetRelationStreams List all streams from the relation
+		GetRelationStreams List all streams from the relation
 
-	List all streams from the relation
+		List all streams from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@return ApiGetRelationStreamsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@return ApiGetRelationStreamsRequest
 	*/
 	GetRelationStreams(ctx context.Context, relationId int64) ApiGetRelationStreamsRequest
 
@@ -146,14 +145,14 @@ type RelationApi interface {
 	GetRelationStreamsExecute(r ApiGetRelationStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error)
 
 	/*
-	PutRelationCheck Update the check on the relation
+		PutRelationCheck Update the check on the relation
 
-	Update a Specific check from the relation
+		Update a Specific check from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@param checkId The Identifier of a Check
-	@return ApiPutRelationCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@param checkId The Identifier of a Check
+		@return ApiPutRelationCheckRequest
 	*/
 	PutRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiPutRelationCheckRequest
 
@@ -162,14 +161,14 @@ type RelationApi interface {
 	PutRelationCheckExecute(r ApiPutRelationCheckRequest) (*Check, *http.Response, error)
 
 	/*
-	PutRelationStream Update the stream on the relation
+		PutRelationStream Update the stream on the relation
 
-	Update a Specific stream from the relation
+		Update a Specific stream from the relation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param relationId The Identifier of a relation
-	@param streamId The Identifier of a stream
-	@return ApiPutRelationStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param relationId The Identifier of a relation
+		@param streamId The Identifier of a stream
+		@return ApiPutRelationStreamRequest
 	*/
 	PutRelationStream(ctx context.Context, relationId int64, streamId int64) ApiPutRelationStreamRequest
 
@@ -182,10 +181,10 @@ type RelationApi interface {
 type RelationApiService service
 
 type ApiCreateRelationCheckRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	check *Check
+	check      *Check
 }
 
 // Single Check
@@ -210,7 +209,7 @@ Adds a Check on the relation
 func (a *RelationApiService) CreateRelationCheck(ctx context.Context, relationId int64) ApiCreateRelationCheckRequest {
 	return ApiCreateRelationCheckRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
@@ -219,10 +218,10 @@ func (a *RelationApiService) CreateRelationCheck(ctx context.Context, relationId
 //  @return Check
 func (a *RelationApiService) CreateRelationCheckExecute(r ApiCreateRelationCheckRequest) (*Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Check
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.CreateRelationCheck")
@@ -358,7 +357,7 @@ func (a *RelationApiService) CreateRelationCheckExecute(r ApiCreateRelationCheck
 }
 
 type ApiCreateRelationStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
 	dataStream *DataStream
@@ -386,7 +385,7 @@ Adds a DataStream/TelemetryStreamDefinition on the relation
 func (a *RelationApiService) CreateRelationStream(ctx context.Context, relationId int64) ApiCreateRelationStreamRequest {
 	return ApiCreateRelationStreamRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
@@ -395,10 +394,10 @@ func (a *RelationApiService) CreateRelationStream(ctx context.Context, relationI
 //  @return TelemetryStreamDefinition
 func (a *RelationApiService) CreateRelationStreamExecute(r ApiCreateRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.CreateRelationStream")
@@ -534,10 +533,10 @@ func (a *RelationApiService) CreateRelationStreamExecute(r ApiCreateRelationStre
 }
 
 type ApiDeleteRelationCheckRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	checkId int64
+	checkId    int64
 }
 
 func (r ApiDeleteRelationCheckRequest) Execute() (*http.Response, error) {
@@ -557,18 +556,18 @@ Delete a Specific check from the relation
 func (a *RelationApiService) DeleteRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiDeleteRelationCheckRequest {
 	return ApiDeleteRelationCheckRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		checkId: checkId,
+		checkId:    checkId,
 	}
 }
 
 // Execute executes the request
 func (a *RelationApiService) DeleteRelationCheckExecute(r ApiDeleteRelationCheckRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.DeleteRelationCheck")
@@ -691,10 +690,10 @@ func (a *RelationApiService) DeleteRelationCheckExecute(r ApiDeleteRelationCheck
 }
 
 type ApiDeleteRelationStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	streamId int64
+	streamId   int64
 }
 
 func (r ApiDeleteRelationStreamRequest) Execute() (*http.Response, error) {
@@ -714,18 +713,18 @@ Delete a Specific stream from the relation
 func (a *RelationApiService) DeleteRelationStream(ctx context.Context, relationId int64, streamId int64) ApiDeleteRelationStreamRequest {
 	return ApiDeleteRelationStreamRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		streamId: streamId,
+		streamId:   streamId,
 	}
 }
 
 // Execute executes the request
 func (a *RelationApiService) DeleteRelationStreamExecute(r ApiDeleteRelationStreamRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.DeleteRelationStream")
@@ -848,11 +847,11 @@ func (a *RelationApiService) DeleteRelationStreamExecute(r ApiDeleteRelationStre
 }
 
 type ApiGetRelationCheckRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	queryTime *int32
-	checkId int64
+	queryTime  *int32
+	checkId    int64
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -878,9 +877,9 @@ Get a Specific check from the relation
 func (a *RelationApiService) GetRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiGetRelationCheckRequest {
 	return ApiGetRelationCheckRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		checkId: checkId,
+		checkId:    checkId,
 	}
 }
 
@@ -888,10 +887,10 @@ func (a *RelationApiService) GetRelationCheck(ctx context.Context, relationId in
 //  @return Check
 func (a *RelationApiService) GetRelationCheckExecute(r ApiGetRelationCheckRequest) (*Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Check
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.GetRelationCheck")
@@ -1027,10 +1026,10 @@ func (a *RelationApiService) GetRelationCheckExecute(r ApiGetRelationCheckReques
 }
 
 type ApiGetRelationChecksRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	queryTime *int32
+	queryTime  *int32
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1055,7 +1054,7 @@ List all checks from the relation
 func (a *RelationApiService) GetRelationChecks(ctx context.Context, relationId int64) ApiGetRelationChecksRequest {
 	return ApiGetRelationChecksRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
@@ -1064,10 +1063,10 @@ func (a *RelationApiService) GetRelationChecks(ctx context.Context, relationId i
 //  @return []Check
 func (a *RelationApiService) GetRelationChecksExecute(r ApiGetRelationChecksRequest) ([]Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Check
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.GetRelationChecks")
@@ -1202,11 +1201,11 @@ func (a *RelationApiService) GetRelationChecksExecute(r ApiGetRelationChecksRequ
 }
 
 type ApiGetRelationStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	queryTime *int32
-	streamId int64
+	queryTime  *int32
+	streamId   int64
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1232,9 +1231,9 @@ Get a Specific stream from the relation
 func (a *RelationApiService) GetRelationStream(ctx context.Context, relationId int64, streamId int64) ApiGetRelationStreamRequest {
 	return ApiGetRelationStreamRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		streamId: streamId,
+		streamId:   streamId,
 	}
 }
 
@@ -1242,10 +1241,10 @@ func (a *RelationApiService) GetRelationStream(ctx context.Context, relationId i
 //  @return TelemetryStreamDefinition
 func (a *RelationApiService) GetRelationStreamExecute(r ApiGetRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.GetRelationStream")
@@ -1381,10 +1380,10 @@ func (a *RelationApiService) GetRelationStreamExecute(r ApiGetRelationStreamRequ
 }
 
 type ApiGetRelationStreamsRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	queryTime *int32
+	queryTime  *int32
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1409,7 +1408,7 @@ List all streams from the relation
 func (a *RelationApiService) GetRelationStreams(ctx context.Context, relationId int64) ApiGetRelationStreamsRequest {
 	return ApiGetRelationStreamsRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
@@ -1418,10 +1417,10 @@ func (a *RelationApiService) GetRelationStreams(ctx context.Context, relationId 
 //  @return []TelemetryStreamDefinition
 func (a *RelationApiService) GetRelationStreamsExecute(r ApiGetRelationStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.GetRelationStreams")
@@ -1556,11 +1555,11 @@ func (a *RelationApiService) GetRelationStreamsExecute(r ApiGetRelationStreamsRe
 }
 
 type ApiPutRelationCheckRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	checkId int64
-	check *Check
+	checkId    int64
+	check      *Check
 }
 
 // Single Check
@@ -1586,9 +1585,9 @@ Update a Specific check from the relation
 func (a *RelationApiService) PutRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiPutRelationCheckRequest {
 	return ApiPutRelationCheckRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		checkId: checkId,
+		checkId:    checkId,
 	}
 }
 
@@ -1596,10 +1595,10 @@ func (a *RelationApiService) PutRelationCheck(ctx context.Context, relationId in
 //  @return Check
 func (a *RelationApiService) PutRelationCheckExecute(r ApiPutRelationCheckRequest) (*Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Check
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.PutRelationCheck")
@@ -1736,10 +1735,10 @@ func (a *RelationApiService) PutRelationCheckExecute(r ApiPutRelationCheckReques
 }
 
 type ApiPutRelationStreamRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService RelationApi
 	relationId int64
-	streamId int64
+	streamId   int64
 	dataStream *DataStream
 }
 
@@ -1766,9 +1765,9 @@ Update a Specific stream from the relation
 func (a *RelationApiService) PutRelationStream(ctx context.Context, relationId int64, streamId int64) ApiPutRelationStreamRequest {
 	return ApiPutRelationStreamRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		streamId: streamId,
+		streamId:   streamId,
 	}
 }
 
@@ -1776,10 +1775,10 @@ func (a *RelationApiService) PutRelationStream(ctx context.Context, relationId i
 //  @return TelemetryStreamDefinition
 func (a *RelationApiService) PutRelationStreamExecute(r ApiPutRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RelationApiService.PutRelationStream")
@@ -1915,34 +1914,32 @@ func (a *RelationApiService) PutRelationStreamExecute(r ApiPutRelationStreamRequ
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type RelationApiMock struct {
-	CreateRelationCheckCalls *[]CreateRelationCheckCall
-	CreateRelationCheckResponse CreateRelationCheckMockResponse
-	CreateRelationStreamCalls *[]CreateRelationStreamCall
+	CreateRelationCheckCalls     *[]CreateRelationCheckCall
+	CreateRelationCheckResponse  CreateRelationCheckMockResponse
+	CreateRelationStreamCalls    *[]CreateRelationStreamCall
 	CreateRelationStreamResponse CreateRelationStreamMockResponse
-	DeleteRelationCheckCalls *[]DeleteRelationCheckCall
-	DeleteRelationCheckResponse DeleteRelationCheckMockResponse
-	DeleteRelationStreamCalls *[]DeleteRelationStreamCall
+	DeleteRelationCheckCalls     *[]DeleteRelationCheckCall
+	DeleteRelationCheckResponse  DeleteRelationCheckMockResponse
+	DeleteRelationStreamCalls    *[]DeleteRelationStreamCall
 	DeleteRelationStreamResponse DeleteRelationStreamMockResponse
-	GetRelationCheckCalls *[]GetRelationCheckCall
-	GetRelationCheckResponse GetRelationCheckMockResponse
-	GetRelationChecksCalls *[]GetRelationChecksCall
-	GetRelationChecksResponse GetRelationChecksMockResponse
-	GetRelationStreamCalls *[]GetRelationStreamCall
-	GetRelationStreamResponse GetRelationStreamMockResponse
-	GetRelationStreamsCalls *[]GetRelationStreamsCall
-	GetRelationStreamsResponse GetRelationStreamsMockResponse
-	PutRelationCheckCalls *[]PutRelationCheckCall
-	PutRelationCheckResponse PutRelationCheckMockResponse
-	PutRelationStreamCalls *[]PutRelationStreamCall
-	PutRelationStreamResponse PutRelationStreamMockResponse
-}	
+	GetRelationCheckCalls        *[]GetRelationCheckCall
+	GetRelationCheckResponse     GetRelationCheckMockResponse
+	GetRelationChecksCalls       *[]GetRelationChecksCall
+	GetRelationChecksResponse    GetRelationChecksMockResponse
+	GetRelationStreamCalls       *[]GetRelationStreamCall
+	GetRelationStreamResponse    GetRelationStreamMockResponse
+	GetRelationStreamsCalls      *[]GetRelationStreamsCall
+	GetRelationStreamsResponse   GetRelationStreamsMockResponse
+	PutRelationCheckCalls        *[]PutRelationCheckCall
+	PutRelationCheckResponse     PutRelationCheckMockResponse
+	PutRelationStreamCalls       *[]PutRelationStreamCall
+	PutRelationStreamResponse    PutRelationStreamMockResponse
+}
 
 func NewRelationApiMock() RelationApiMock {
 	xCreateRelationCheckCalls := make([]CreateRelationCheckCall, 0)
@@ -1955,53 +1952,52 @@ func NewRelationApiMock() RelationApiMock {
 	xGetRelationStreamsCalls := make([]GetRelationStreamsCall, 0)
 	xPutRelationCheckCalls := make([]PutRelationCheckCall, 0)
 	xPutRelationStreamCalls := make([]PutRelationStreamCall, 0)
-	return RelationApiMock {
-		CreateRelationCheckCalls: &xCreateRelationCheckCalls,
+	return RelationApiMock{
+		CreateRelationCheckCalls:  &xCreateRelationCheckCalls,
 		CreateRelationStreamCalls: &xCreateRelationStreamCalls,
-		DeleteRelationCheckCalls: &xDeleteRelationCheckCalls,
+		DeleteRelationCheckCalls:  &xDeleteRelationCheckCalls,
 		DeleteRelationStreamCalls: &xDeleteRelationStreamCalls,
-		GetRelationCheckCalls: &xGetRelationCheckCalls,
-		GetRelationChecksCalls: &xGetRelationChecksCalls,
-		GetRelationStreamCalls: &xGetRelationStreamCalls,
-		GetRelationStreamsCalls: &xGetRelationStreamsCalls,
-		PutRelationCheckCalls: &xPutRelationCheckCalls,
-		PutRelationStreamCalls: &xPutRelationStreamCalls,
+		GetRelationCheckCalls:     &xGetRelationCheckCalls,
+		GetRelationChecksCalls:    &xGetRelationChecksCalls,
+		GetRelationStreamCalls:    &xGetRelationStreamCalls,
+		GetRelationStreamsCalls:   &xGetRelationStreamsCalls,
+		PutRelationCheckCalls:     &xPutRelationCheckCalls,
+		PutRelationStreamCalls:    &xPutRelationStreamCalls,
 	}
 }
 
 type CreateRelationCheckMockResponse struct {
-	Result Check
+	Result   Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type CreateRelationCheckCall struct {
 	PrelationId int64
-	Pcheck *Check
+	Pcheck      *Check
 }
-
 
 func (mock RelationApiMock) CreateRelationCheck(ctx context.Context, relationId int64) ApiCreateRelationCheckRequest {
 	return ApiCreateRelationCheckRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
 
 func (mock RelationApiMock) CreateRelationCheckExecute(r ApiCreateRelationCheckRequest) (*Check, *http.Response, error) {
-	p := CreateRelationCheckCall {
-			PrelationId: r.relationId,
-			Pcheck: r.check,
+	p := CreateRelationCheckCall{
+		PrelationId: r.relationId,
+		Pcheck:      r.check,
 	}
 	*mock.CreateRelationCheckCalls = append(*mock.CreateRelationCheckCalls, p)
 	return &mock.CreateRelationCheckResponse.Result, mock.CreateRelationCheckResponse.Response, mock.CreateRelationCheckResponse.Error
 }
 
 type CreateRelationStreamMockResponse struct {
-	Result TelemetryStreamDefinition
+	Result   TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type CreateRelationStreamCall struct {
@@ -2009,268 +2005,255 @@ type CreateRelationStreamCall struct {
 	PdataStream *DataStream
 }
 
-
 func (mock RelationApiMock) CreateRelationStream(ctx context.Context, relationId int64) ApiCreateRelationStreamRequest {
 	return ApiCreateRelationStreamRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
 
 func (mock RelationApiMock) CreateRelationStreamExecute(r ApiCreateRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
-	p := CreateRelationStreamCall {
-			PrelationId: r.relationId,
-			PdataStream: r.dataStream,
+	p := CreateRelationStreamCall{
+		PrelationId: r.relationId,
+		PdataStream: r.dataStream,
 	}
 	*mock.CreateRelationStreamCalls = append(*mock.CreateRelationStreamCalls, p)
 	return &mock.CreateRelationStreamResponse.Result, mock.CreateRelationStreamResponse.Response, mock.CreateRelationStreamResponse.Error
 }
 
 type DeleteRelationCheckMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteRelationCheckCall struct {
 	PrelationId int64
-	PcheckId int64
+	PcheckId    int64
 }
-
 
 func (mock RelationApiMock) DeleteRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiDeleteRelationCheckRequest {
 	return ApiDeleteRelationCheckRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		checkId: checkId,
+		checkId:    checkId,
 	}
 }
 
 func (mock RelationApiMock) DeleteRelationCheckExecute(r ApiDeleteRelationCheckRequest) (*http.Response, error) {
-	p := DeleteRelationCheckCall {
-			PrelationId: r.relationId,
-			PcheckId: r.checkId,
+	p := DeleteRelationCheckCall{
+		PrelationId: r.relationId,
+		PcheckId:    r.checkId,
 	}
 	*mock.DeleteRelationCheckCalls = append(*mock.DeleteRelationCheckCalls, p)
 	return mock.DeleteRelationCheckResponse.Response, mock.DeleteRelationCheckResponse.Error
 }
 
 type DeleteRelationStreamMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteRelationStreamCall struct {
 	PrelationId int64
-	PstreamId int64
+	PstreamId   int64
 }
-
 
 func (mock RelationApiMock) DeleteRelationStream(ctx context.Context, relationId int64, streamId int64) ApiDeleteRelationStreamRequest {
 	return ApiDeleteRelationStreamRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		streamId: streamId,
+		streamId:   streamId,
 	}
 }
 
 func (mock RelationApiMock) DeleteRelationStreamExecute(r ApiDeleteRelationStreamRequest) (*http.Response, error) {
-	p := DeleteRelationStreamCall {
-			PrelationId: r.relationId,
-			PstreamId: r.streamId,
+	p := DeleteRelationStreamCall{
+		PrelationId: r.relationId,
+		PstreamId:   r.streamId,
 	}
 	*mock.DeleteRelationStreamCalls = append(*mock.DeleteRelationStreamCalls, p)
 	return mock.DeleteRelationStreamResponse.Response, mock.DeleteRelationStreamResponse.Error
 }
 
 type GetRelationCheckMockResponse struct {
-	Result Check
+	Result   Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRelationCheckCall struct {
 	PrelationId int64
-	PqueryTime *int32
-	PcheckId int64
+	PqueryTime  *int32
+	PcheckId    int64
 }
-
 
 func (mock RelationApiMock) GetRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiGetRelationCheckRequest {
 	return ApiGetRelationCheckRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		checkId: checkId,
+		checkId:    checkId,
 	}
 }
 
 func (mock RelationApiMock) GetRelationCheckExecute(r ApiGetRelationCheckRequest) (*Check, *http.Response, error) {
-	p := GetRelationCheckCall {
-			PrelationId: r.relationId,
-			PqueryTime: r.queryTime,
-			PcheckId: r.checkId,
+	p := GetRelationCheckCall{
+		PrelationId: r.relationId,
+		PqueryTime:  r.queryTime,
+		PcheckId:    r.checkId,
 	}
 	*mock.GetRelationCheckCalls = append(*mock.GetRelationCheckCalls, p)
 	return &mock.GetRelationCheckResponse.Result, mock.GetRelationCheckResponse.Response, mock.GetRelationCheckResponse.Error
 }
 
 type GetRelationChecksMockResponse struct {
-	Result []Check
+	Result   []Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRelationChecksCall struct {
 	PrelationId int64
-	PqueryTime *int32
+	PqueryTime  *int32
 }
-
 
 func (mock RelationApiMock) GetRelationChecks(ctx context.Context, relationId int64) ApiGetRelationChecksRequest {
 	return ApiGetRelationChecksRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
 
 func (mock RelationApiMock) GetRelationChecksExecute(r ApiGetRelationChecksRequest) ([]Check, *http.Response, error) {
-	p := GetRelationChecksCall {
-			PrelationId: r.relationId,
-			PqueryTime: r.queryTime,
+	p := GetRelationChecksCall{
+		PrelationId: r.relationId,
+		PqueryTime:  r.queryTime,
 	}
 	*mock.GetRelationChecksCalls = append(*mock.GetRelationChecksCalls, p)
 	return mock.GetRelationChecksResponse.Result, mock.GetRelationChecksResponse.Response, mock.GetRelationChecksResponse.Error
 }
 
 type GetRelationStreamMockResponse struct {
-	Result TelemetryStreamDefinition
+	Result   TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRelationStreamCall struct {
 	PrelationId int64
-	PqueryTime *int32
-	PstreamId int64
+	PqueryTime  *int32
+	PstreamId   int64
 }
-
 
 func (mock RelationApiMock) GetRelationStream(ctx context.Context, relationId int64, streamId int64) ApiGetRelationStreamRequest {
 	return ApiGetRelationStreamRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		streamId: streamId,
+		streamId:   streamId,
 	}
 }
 
 func (mock RelationApiMock) GetRelationStreamExecute(r ApiGetRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
-	p := GetRelationStreamCall {
-			PrelationId: r.relationId,
-			PqueryTime: r.queryTime,
-			PstreamId: r.streamId,
+	p := GetRelationStreamCall{
+		PrelationId: r.relationId,
+		PqueryTime:  r.queryTime,
+		PstreamId:   r.streamId,
 	}
 	*mock.GetRelationStreamCalls = append(*mock.GetRelationStreamCalls, p)
 	return &mock.GetRelationStreamResponse.Result, mock.GetRelationStreamResponse.Response, mock.GetRelationStreamResponse.Error
 }
 
 type GetRelationStreamsMockResponse struct {
-	Result []TelemetryStreamDefinition
+	Result   []TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetRelationStreamsCall struct {
 	PrelationId int64
-	PqueryTime *int32
+	PqueryTime  *int32
 }
-
 
 func (mock RelationApiMock) GetRelationStreams(ctx context.Context, relationId int64) ApiGetRelationStreamsRequest {
 	return ApiGetRelationStreamsRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
 	}
 }
 
 func (mock RelationApiMock) GetRelationStreamsExecute(r ApiGetRelationStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
-	p := GetRelationStreamsCall {
-			PrelationId: r.relationId,
-			PqueryTime: r.queryTime,
+	p := GetRelationStreamsCall{
+		PrelationId: r.relationId,
+		PqueryTime:  r.queryTime,
 	}
 	*mock.GetRelationStreamsCalls = append(*mock.GetRelationStreamsCalls, p)
 	return mock.GetRelationStreamsResponse.Result, mock.GetRelationStreamsResponse.Response, mock.GetRelationStreamsResponse.Error
 }
 
 type PutRelationCheckMockResponse struct {
-	Result Check
+	Result   Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PutRelationCheckCall struct {
 	PrelationId int64
-	PcheckId int64
-	Pcheck *Check
+	PcheckId    int64
+	Pcheck      *Check
 }
-
 
 func (mock RelationApiMock) PutRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiPutRelationCheckRequest {
 	return ApiPutRelationCheckRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		checkId: checkId,
+		checkId:    checkId,
 	}
 }
 
 func (mock RelationApiMock) PutRelationCheckExecute(r ApiPutRelationCheckRequest) (*Check, *http.Response, error) {
-	p := PutRelationCheckCall {
-			PrelationId: r.relationId,
-			PcheckId: r.checkId,
-			Pcheck: r.check,
+	p := PutRelationCheckCall{
+		PrelationId: r.relationId,
+		PcheckId:    r.checkId,
+		Pcheck:      r.check,
 	}
 	*mock.PutRelationCheckCalls = append(*mock.PutRelationCheckCalls, p)
 	return &mock.PutRelationCheckResponse.Result, mock.PutRelationCheckResponse.Response, mock.PutRelationCheckResponse.Error
 }
 
 type PutRelationStreamMockResponse struct {
-	Result TelemetryStreamDefinition
+	Result   TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type PutRelationStreamCall struct {
 	PrelationId int64
-	PstreamId int64
+	PstreamId   int64
 	PdataStream *DataStream
 }
-
 
 func (mock RelationApiMock) PutRelationStream(ctx context.Context, relationId int64, streamId int64) ApiPutRelationStreamRequest {
 	return ApiPutRelationStreamRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 		relationId: relationId,
-		streamId: streamId,
+		streamId:   streamId,
 	}
 }
 
 func (mock RelationApiMock) PutRelationStreamExecute(r ApiPutRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
-	p := PutRelationStreamCall {
-			PrelationId: r.relationId,
-			PstreamId: r.streamId,
-			PdataStream: r.dataStream,
+	p := PutRelationStreamCall{
+		PrelationId: r.relationId,
+		PstreamId:   r.streamId,
+		PdataStream: r.dataStream,
 	}
 	*mock.PutRelationStreamCalls = append(*mock.PutRelationStreamCalls, p)
 	return &mock.PutRelationStreamResponse.Result, mock.PutRelationStreamResponse.Response, mock.PutRelationStreamResponse.Error
 }
-
-

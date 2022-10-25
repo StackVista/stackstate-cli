@@ -4,11 +4,11 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
 type DescribeArgs struct {
@@ -48,7 +48,7 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			}
 		}
 
-		data, resp, err := doExport(cli.Context, api, args.Ids, args.Namespace, args.NodeTypes, args.AllowReferences)
+		data, resp, err := DoExport(cli.Context, api, args.Ids, args.Namespace, args.NodeTypes, args.AllowReferences)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

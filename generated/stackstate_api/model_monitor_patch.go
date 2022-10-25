@@ -17,13 +17,13 @@ import (
 
 // MonitorPatch struct for MonitorPatch
 type MonitorPatch struct {
-	Name *string `json:"name,omitempty"`
-	Identifier *string `json:"identifier,omitempty"`
-	Description *string `json:"description,omitempty"`
-	RemediationHint *string `json:"remediationHint,omitempty"`
-	IntervalSeconds *int32 `json:"intervalSeconds,omitempty"`
-	Tags []string `json:"tags,omitempty"`
-	Status *MonitorStatusValue `json:"status,omitempty"`
+	Name            *string             `json:"name,omitempty"`
+	Identifier      *string             `json:"identifier,omitempty"`
+	Description     *string             `json:"description,omitempty"`
+	RemediationHint *string             `json:"remediationHint,omitempty"`
+	IntervalSeconds *int32              `json:"intervalSeconds,omitempty"`
+	Tags            []string            `json:"tags,omitempty"`
+	Status          *MonitorStatusValue `json:"status,omitempty"`
 }
 
 // NewMonitorPatch instantiates a new MonitorPatch object
@@ -328,5 +328,3 @@ func (v *NullableMonitorPatch) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

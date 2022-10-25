@@ -7,11 +7,11 @@ import (
 	"testing"
 
 	"github.com/spf13/cobra"
+	sts "github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
-	sts "gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
 )
 
 func setupScriptExecuteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {

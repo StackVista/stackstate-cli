@@ -5,12 +5,12 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
-	"gitlab.com/stackvista/stackstate-cli2/pkg/pflags"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 const LongDescription = `Edit settings in StackState Templated JSON.
@@ -18,6 +18,8 @@ const LongDescription = `Edit settings in StackState Templated JSON.
 The edit command allows you to directly edit any StackState type you can retrieve via the API. It will open
 the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
 Windows.
+When '--unlock' is specified, the CLI will always unlock the settings node when editing it.
+This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
 `
 
 type EditArgs struct {
@@ -26,6 +28,7 @@ type EditArgs struct {
 	AllowReferences  []string
 	UnlockedStrategy string
 	Timeout          int64
+	Unlock           bool
 }
 
 func SettingsEditCommand(cli *di.Deps) *cobra.Command {
@@ -47,6 +50,8 @@ func SettingsEditCommand(cli *di.Deps) *cobra.Command {
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
 	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "Timeout in seconds")
 	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, TypeNameFlag}, "filter", true)
+	cmd.Flags().BoolVar(&args.Unlock, UnlockFlag, false, "Unlocks the settings node before saving if needed")
+
 	return cmd
 }
 
@@ -56,7 +61,7 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 			return common.NewCLIArgParseError(err)
 		}
 
-		orig, resp, err := doExport(cli.Context, api, args.Ids, "", args.NodeTypes, args.AllowReferences)
+		orig, resp, err := DoExport(cli.Context, api, args.Ids, "", args.NodeTypes, args.AllowReferences)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
@@ -74,6 +79,13 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 			}
 
 			return nil
+		}
+
+		if args.Unlock {
+			err := UnlockNodes(cli, api, args.Ids, WildCardType)
+			if err != nil {
+				return err
+			}
 		}
 
 		nodes, resp, err := doImport(cli.Context, api, string(c), "", args.UnlockedStrategy, args.Timeout)

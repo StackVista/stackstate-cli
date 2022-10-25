@@ -17,11 +17,11 @@ import (
 
 // ArgumentMetricStreamId struct for ArgumentMetricStreamId
 type ArgumentMetricStreamId struct {
-	Type string `json:"_type"`
-	Id *int64 `json:"id,omitempty"`
+	Type                string `json:"_type"`
+	Id                  *int64 `json:"id,omitempty"`
 	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter int64 `json:"parameter"`
-	Stream int64 `json:"stream"`
+	Parameter           int64  `json:"parameter"`
+	Stream              int64  `json:"stream"`
 }
 
 // NewArgumentMetricStreamId instantiates a new ArgumentMetricStreamId object
@@ -235,5 +235,3 @@ func (v *NullableArgumentMetricStreamId) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

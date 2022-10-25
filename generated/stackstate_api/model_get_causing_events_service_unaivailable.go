@@ -18,7 +18,7 @@ import (
 
 // GetCausingEventsServiceUnaivailable - struct for GetCausingEventsServiceUnaivailable
 type GetCausingEventsServiceUnaivailable struct {
-	GetTopologyTimeout *GetTopologyTimeout
+	GetTopologyTimeout   *GetTopologyTimeout
 	TooManyActiveQueries *TooManyActiveQueries
 }
 
@@ -35,7 +35,6 @@ func TooManyActiveQueriesAsGetCausingEventsServiceUnaivailable(v *TooManyActiveQ
 		TooManyActiveQueries: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *GetCausingEventsServiceUnaivailable) UnmarshalJSON(data []byte) error {
@@ -88,7 +87,7 @@ func (src GetCausingEventsServiceUnaivailable) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *GetCausingEventsServiceUnaivailable) GetActualInstance() (interface{}) {
+func (obj *GetCausingEventsServiceUnaivailable) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -139,5 +138,3 @@ func (v *NullableGetCausingEventsServiceUnaivailable) UnmarshalJSON(src []byte) 
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

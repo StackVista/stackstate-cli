@@ -18,7 +18,7 @@ import (
 // HealthStreamNotFound struct for HealthStreamNotFound
 type HealthStreamNotFound struct {
 	Type string `json:"_type"`
-	Urn string `json:"urn"`
+	Urn  string `json:"urn"`
 }
 
 // NewHealthStreamNotFound instantiates a new HealthStreamNotFound object
@@ -134,5 +134,3 @@ func (v *NullableHealthStreamNotFound) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

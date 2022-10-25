@@ -20,16 +20,15 @@ import (
 	"strings"
 )
 
-
 type ServiceTokenApi interface {
 
 	/*
-	CreateNewServiceToken Create new service token
+		CreateNewServiceToken Create new service token
 
-	Create new service token.
+		Create new service token.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateNewServiceTokenRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiCreateNewServiceTokenRequest
 	*/
 	CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest
 
@@ -38,13 +37,13 @@ type ServiceTokenApi interface {
 	CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error)
 
 	/*
-	DeleteServiceToken Delete service token
+		DeleteServiceToken Delete service token
 
-	Delete service token.
+		Delete service token.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param serviceTokenId The identifier of a service token
-	@return ApiDeleteServiceTokenRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param serviceTokenId The identifier of a service token
+		@return ApiDeleteServiceTokenRequest
 	*/
 	DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest
 
@@ -52,12 +51,12 @@ type ServiceTokenApi interface {
 	DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*http.Response, error)
 
 	/*
-	GetServiceTokens Get service tokens
+		GetServiceTokens Get service tokens
 
-	Get service tokens.
+		Get service tokens.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetServiceTokensRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetServiceTokensRequest
 	*/
 	GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest
 
@@ -70,8 +69,8 @@ type ServiceTokenApi interface {
 type ServiceTokenApiService service
 
 type ApiCreateNewServiceTokenRequest struct {
-	ctx context.Context
-	ApiService ServiceTokenApi
+	ctx                    context.Context
+	ApiService             ServiceTokenApi
 	newServiceTokenRequest *NewServiceTokenRequest
 }
 
@@ -95,7 +94,7 @@ Create new service token.
 func (a *ServiceTokenApiService) CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest {
 	return ApiCreateNewServiceTokenRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -103,10 +102,10 @@ func (a *ServiceTokenApiService) CreateNewServiceToken(ctx context.Context) ApiC
 //  @return ServiceTokenCreatedResponse
 func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *ServiceTokenCreatedResponse
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *ServiceTokenCreatedResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceTokenApiService.CreateNewServiceToken")
@@ -241,8 +240,8 @@ func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServ
 }
 
 type ApiDeleteServiceTokenRequest struct {
-	ctx context.Context
-	ApiService ServiceTokenApi
+	ctx            context.Context
+	ApiService     ServiceTokenApi
 	serviceTokenId int64
 }
 
@@ -261,8 +260,8 @@ Delete service token.
 */
 func (a *ServiceTokenApiService) DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
 	return ApiDeleteServiceTokenRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:     a,
+		ctx:            ctx,
 		serviceTokenId: serviceTokenId,
 	}
 }
@@ -270,9 +269,9 @@ func (a *ServiceTokenApiService) DeleteServiceToken(ctx context.Context, service
 // Execute executes the request
 func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceTokenApiService.DeleteServiceToken")
@@ -384,7 +383,7 @@ func (a *ServiceTokenApiService) DeleteServiceTokenExecute(r ApiDeleteServiceTok
 }
 
 type ApiGetServiceTokensRequest struct {
-	ctx context.Context
+	ctx        context.Context
 	ApiService ServiceTokenApi
 }
 
@@ -403,7 +402,7 @@ Get service tokens.
 func (a *ServiceTokenApiService) GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest {
 	return ApiGetServiceTokensRequest{
 		ApiService: a,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
@@ -411,10 +410,10 @@ func (a *ServiceTokenApiService) GetServiceTokens(ctx context.Context) ApiGetSer
 //  @return []ServiceToken
 func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []ServiceToken
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []ServiceToken
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServiceTokenApiService.GetServiceTokens")
@@ -533,107 +532,98 @@ func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRe
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ServiceTokenApiMock struct {
-	CreateNewServiceTokenCalls *[]CreateNewServiceTokenCall
+	CreateNewServiceTokenCalls    *[]CreateNewServiceTokenCall
 	CreateNewServiceTokenResponse CreateNewServiceTokenMockResponse
-	DeleteServiceTokenCalls *[]DeleteServiceTokenCall
-	DeleteServiceTokenResponse DeleteServiceTokenMockResponse
-	GetServiceTokensCalls *[]GetServiceTokensCall
-	GetServiceTokensResponse GetServiceTokensMockResponse
-}	
+	DeleteServiceTokenCalls       *[]DeleteServiceTokenCall
+	DeleteServiceTokenResponse    DeleteServiceTokenMockResponse
+	GetServiceTokensCalls         *[]GetServiceTokensCall
+	GetServiceTokensResponse      GetServiceTokensMockResponse
+}
 
 func NewServiceTokenApiMock() ServiceTokenApiMock {
 	xCreateNewServiceTokenCalls := make([]CreateNewServiceTokenCall, 0)
 	xDeleteServiceTokenCalls := make([]DeleteServiceTokenCall, 0)
 	xGetServiceTokensCalls := make([]GetServiceTokensCall, 0)
-	return ServiceTokenApiMock {
+	return ServiceTokenApiMock{
 		CreateNewServiceTokenCalls: &xCreateNewServiceTokenCalls,
-		DeleteServiceTokenCalls: &xDeleteServiceTokenCalls,
-		GetServiceTokensCalls: &xGetServiceTokensCalls,
+		DeleteServiceTokenCalls:    &xDeleteServiceTokenCalls,
+		GetServiceTokensCalls:      &xGetServiceTokensCalls,
 	}
 }
 
 type CreateNewServiceTokenMockResponse struct {
-	Result ServiceTokenCreatedResponse
+	Result   ServiceTokenCreatedResponse
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type CreateNewServiceTokenCall struct {
 	PnewServiceTokenRequest *NewServiceTokenRequest
 }
 
-
 func (mock ServiceTokenApiMock) CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest {
 	return ApiCreateNewServiceTokenRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock ServiceTokenApiMock) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error) {
-	p := CreateNewServiceTokenCall {
-			PnewServiceTokenRequest: r.newServiceTokenRequest,
+	p := CreateNewServiceTokenCall{
+		PnewServiceTokenRequest: r.newServiceTokenRequest,
 	}
 	*mock.CreateNewServiceTokenCalls = append(*mock.CreateNewServiceTokenCalls, p)
 	return &mock.CreateNewServiceTokenResponse.Result, mock.CreateNewServiceTokenResponse.Response, mock.CreateNewServiceTokenResponse.Error
 }
 
 type DeleteServiceTokenMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteServiceTokenCall struct {
 	PserviceTokenId int64
 }
 
-
 func (mock ServiceTokenApiMock) DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
 	return ApiDeleteServiceTokenRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:     mock,
+		ctx:            ctx,
 		serviceTokenId: serviceTokenId,
 	}
 }
 
 func (mock ServiceTokenApiMock) DeleteServiceTokenExecute(r ApiDeleteServiceTokenRequest) (*http.Response, error) {
-	p := DeleteServiceTokenCall {
-			PserviceTokenId: r.serviceTokenId,
+	p := DeleteServiceTokenCall{
+		PserviceTokenId: r.serviceTokenId,
 	}
 	*mock.DeleteServiceTokenCalls = append(*mock.DeleteServiceTokenCalls, p)
 	return mock.DeleteServiceTokenResponse.Response, mock.DeleteServiceTokenResponse.Error
 }
 
 type GetServiceTokensMockResponse struct {
-	Result []ServiceToken
+	Result   []ServiceToken
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetServiceTokensCall struct {
 }
 
-
 func (mock ServiceTokenApiMock) GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest {
 	return ApiGetServiceTokensRequest{
 		ApiService: mock,
-		ctx: ctx,
+		ctx:        ctx,
 	}
 }
 
 func (mock ServiceTokenApiMock) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *http.Response, error) {
-	p := GetServiceTokensCall {
-	}
+	p := GetServiceTokensCall{}
 	*mock.GetServiceTokensCalls = append(*mock.GetServiceTokensCalls, p)
 	return mock.GetServiceTokensResponse.Result, mock.GetServiceTokensResponse.Response, mock.GetServiceTokensResponse.Error
 }
-
-

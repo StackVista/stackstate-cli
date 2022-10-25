@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/mcuadros/go-defaults"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/util"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
 type Config struct {
@@ -26,6 +26,7 @@ type StsContext struct {
 	K8sSAToken     string `yaml:"-" json:"-"` // This should only be passed from command line or env variables
 	K8sSATokenPath string `yaml:"-" json:"-"` // This should only be passed from command line or env variables
 	APIPath        string `yaml:"api-path" default:"/api" json:"api-path"`
+	AdminAPIPath   string `yaml:"admin-api-path" default:"/admin" json:"admin-api-path"`
 }
 
 func EmptyConfig() *Config {
@@ -94,6 +95,7 @@ func (c *StsContext) Merge(fallback *StsContext) *StsContext {
 	newCtx := &StsContext{
 		URL:            util.DefaultIfEmpty(c.URL, fallback.URL),
 		APIPath:        util.DefaultIfEmpty(util.DefaultIfEmpty(c.APIPath, fallback.APIPath), "/api"),
+		AdminAPIPath:   util.DefaultIfEmpty(util.DefaultIfEmpty(c.AdminAPIPath, fallback.AdminAPIPath), "/admin"),
 		K8sSATokenPath: util.DefaultIfEmpty(c.K8sSATokenPath, fallback.K8sSATokenPath),
 	}
 

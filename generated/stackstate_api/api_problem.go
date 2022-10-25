@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 type ProblemApi interface {
 
 	/*
-	GetProblemCausingEvents List possible events which led to the problem
+		GetProblemCausingEvents List possible events which led to the problem
 
-	Resulting events are ordered by likeness to be an actual problem cause
+		Resulting events are ordered by likeness to be an actual problem cause
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param problemId The problem id number.
-	@return ApiGetProblemCausingEventsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param problemId The problem id number.
+		@return ApiGetProblemCausingEventsRequest
 	*/
 	GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest
 
@@ -43,11 +42,11 @@ type ProblemApi interface {
 type ProblemApiService service
 
 type ApiGetProblemCausingEventsRequest struct {
-	ctx context.Context
-	ApiService ProblemApi
-	problemId int64
+	ctx          context.Context
+	ApiService   ProblemApi
+	problemId    int64
 	topologyTime *int32
-	limit *int32
+	limit        *int32
 }
 
 // A timestamp at which resources will be queried. If not given the resources are quired for current time.
@@ -78,8 +77,8 @@ Resulting events are ordered by likeness to be an actual problem cause
 func (a *ProblemApiService) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
 	return ApiGetProblemCausingEventsRequest{
 		ApiService: a,
-		ctx: ctx,
-		problemId: problemId,
+		ctx:        ctx,
+		problemId:  problemId,
 	}
 }
 
@@ -87,10 +86,10 @@ func (a *ProblemApiService) GetProblemCausingEvents(ctx context.Context, problem
 //  @return GetCausingEventsResult
 func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *GetCausingEventsResult
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *GetCausingEventsResult
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemApiService.GetProblemCausingEvents")
@@ -246,53 +245,48 @@ func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausin
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ProblemApiMock struct {
-	GetProblemCausingEventsCalls *[]GetProblemCausingEventsCall
+	GetProblemCausingEventsCalls    *[]GetProblemCausingEventsCall
 	GetProblemCausingEventsResponse GetProblemCausingEventsMockResponse
-}	
+}
 
 func NewProblemApiMock() ProblemApiMock {
 	xGetProblemCausingEventsCalls := make([]GetProblemCausingEventsCall, 0)
-	return ProblemApiMock {
+	return ProblemApiMock{
 		GetProblemCausingEventsCalls: &xGetProblemCausingEventsCalls,
 	}
 }
 
 type GetProblemCausingEventsMockResponse struct {
-	Result GetCausingEventsResult
+	Result   GetCausingEventsResult
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetProblemCausingEventsCall struct {
-	PproblemId int64
+	PproblemId    int64
 	PtopologyTime *int32
-	Plimit *int32
+	Plimit        *int32
 }
-
 
 func (mock ProblemApiMock) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
 	return ApiGetProblemCausingEventsRequest{
 		ApiService: mock,
-		ctx: ctx,
-		problemId: problemId,
+		ctx:        ctx,
+		problemId:  problemId,
 	}
 }
 
 func (mock ProblemApiMock) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
-	p := GetProblemCausingEventsCall {
-			PproblemId: r.problemId,
-			PtopologyTime: r.topologyTime,
-			Plimit: r.limit,
+	p := GetProblemCausingEventsCall{
+		PproblemId:    r.problemId,
+		PtopologyTime: r.topologyTime,
+		Plimit:        r.limit,
 	}
 	*mock.GetProblemCausingEventsCalls = append(*mock.GetProblemCausingEventsCalls, p)
 	return &mock.GetProblemCausingEventsResponse.Result, mock.GetProblemCausingEventsResponse.Response, mock.GetProblemCausingEventsResponse.Error
 }
-
-

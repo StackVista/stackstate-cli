@@ -17,21 +17,21 @@ import (
 
 // TopologyEvent struct for TopologyEvent
 type TopologyEvent struct {
-	Identifier string `json:"identifier"`
-	SourceIdentifier *string `json:"sourceIdentifier,omitempty"`
-	ElementIdentifiers []string `json:"elementIdentifiers"`
-	Elements []EventElement `json:"elements"`
-	Source string `json:"source"`
-	Category EventCategory `json:"category"`
-	Description *string `json:"description,omitempty"`
-	Name string `json:"name"`
-	SourceLinks []SourceLink `json:"sourceLinks"`
-	Data map[string]interface{} `json:"data"`
-	EventType string `json:"eventType"`
-	EventTime int64 `json:"eventTime"`
-	ProcessedTime int64 `json:"processedTime"`
-	Tags []EventTag `json:"tags"`
-	CausingEvents []EventRef `json:"causingEvents"`
+	Identifier         string                 `json:"identifier"`
+	SourceIdentifier   *string                `json:"sourceIdentifier,omitempty"`
+	ElementIdentifiers []string               `json:"elementIdentifiers"`
+	Elements           []EventElement         `json:"elements"`
+	Source             string                 `json:"source"`
+	Category           EventCategory          `json:"category"`
+	Description        *string                `json:"description,omitempty"`
+	Name               string                 `json:"name"`
+	SourceLinks        []SourceLink           `json:"sourceLinks"`
+	Data               map[string]interface{} `json:"data"`
+	EventType          string                 `json:"eventType"`
+	EventTime          int64                  `json:"eventTime"`
+	ProcessedTime      int64                  `json:"processedTime"`
+	Tags               []EventTag             `json:"tags"`
+	CausingEvents      []EventRef             `json:"causingEvents"`
 }
 
 // NewTopologyEvent instantiates a new TopologyEvent object
@@ -525,5 +525,3 @@ func (v *NullableTopologyEvent) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

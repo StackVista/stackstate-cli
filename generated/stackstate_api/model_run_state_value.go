@@ -21,12 +21,12 @@ type RunStateValue string
 
 // List of RunStateValue
 const (
-	RUNSTATEVALUE_UNKNOWN RunStateValue = "UNKNOWN"
-	RUNSTATEVALUE_STARTING RunStateValue = "STARTING"
-	RUNSTATEVALUE_RUNNING RunStateValue = "RUNNING"
-	RUNSTATEVALUE_STOPPING RunStateValue = "STOPPING"
-	RUNSTATEVALUE_STOPPED RunStateValue = "STOPPED"
-	RUNSTATEVALUE_DEPLOYED RunStateValue = "DEPLOYED"
+	RUNSTATEVALUE_UNKNOWN   RunStateValue = "UNKNOWN"
+	RUNSTATEVALUE_STARTING  RunStateValue = "STARTING"
+	RUNSTATEVALUE_RUNNING   RunStateValue = "RUNNING"
+	RUNSTATEVALUE_STOPPING  RunStateValue = "STOPPING"
+	RUNSTATEVALUE_STOPPED   RunStateValue = "STOPPED"
+	RUNSTATEVALUE_DEPLOYED  RunStateValue = "DEPLOYED"
 	RUNSTATEVALUE_DEPLOYING RunStateValue = "DEPLOYING"
 )
 
@@ -119,4 +119,3 @@ func (v *NullableRunStateValue) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-

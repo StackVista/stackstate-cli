@@ -1,0 +1,59 @@
+name: 'Run command in Quay image'
+description: 'Run a command in a quay.io container'
+inputs:
+  image:
+    description: 'Image'
+    required: true
+  options:
+    description: 'Options for the container'
+    required: false
+  run:
+    description: 'Args for the container entrypoint'
+    required: false
+  entrypoint:
+    description: 'Container entrypoint to use'
+    required: false
+runs:
+  using: 'composite'
+  steps:
+    - name: Log in
+      shell: bash
+      run: |
+        echo "${{ env.QUAY_PASSWORD }}" | docker login --username=${{ env.QUAY_USER }} --password-stdin quay.io
+
+    - name: Run command
+      shell: bash
+      run: |
+        export ENTRYPOINT='${{ inputs.entrypoint }}'
+        export COMMAND='${{ inputs.run }}'
+        export COMMAND_PREFIX=''
+
+        # Prep for a shell script.
+        if [[ $ENTRYPOINT == '' ]]; then
+           ENTRYPOINT='sh'
+           COMMAND_PREFIX='-c'
+           COMMAND=$(echo "$COMMAND" | sed -r '/^\s*$/d')
+           COMMAND=${COMMAND//$'\n'/ ; }
+        fi
+
+        # Strip newlines in options.
+        export OPTIONS='${{ inputs.options }}'
+        OPTIONS=${OPTIONS//$'\n'/ }
+
+        # Sanitize the image name.
+        export IMAGE='${{ inputs.image }}'
+        IMAGE=${IMAGE//$'\n'/}
+
+        # Prep the workspace.
+        export WORKSPACE='${{ github.workspace }}'
+        WORKSPACE=${WORKSPACE//$'\n'/}
+
+        # Prep volumes.
+        export VOLUMES="-v /var/run/docker.sock:/var/run/docker.sock -v $WORKSPACE:/workspace"
+
+        # Run the command in docker.
+        if [[ $COMMAND == *\;* ]]; then
+          docker run $VOLUMES $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX "$COMMAND"
+        else
+          docker run $VOLUMES $OPTIONS --entrypoint=$ENTRYPOINT $IMAGE $COMMAND_PREFIX $COMMAND
+        fi

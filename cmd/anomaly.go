@@ -2,8 +2,8 @@ package cmd
 
 import (
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/cmd/anomaly"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
+	"github.com/stackvista/stackstate-cli/cmd/anomaly"
+	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 func AnomalyCommand(cli *di.Deps) *cobra.Command {

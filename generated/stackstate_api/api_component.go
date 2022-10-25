@@ -20,17 +20,16 @@ import (
 	"strings"
 )
 
-
 type ComponentApi interface {
 
 	/*
-	CreateComponentCheck Create the Checks on the component
+		CreateComponentCheck Create the Checks on the component
 
-	Adds a Check on the component
+		Adds a Check on the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@return ApiCreateComponentCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@return ApiCreateComponentCheckRequest
 	*/
 	CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest
 
@@ -39,13 +38,13 @@ type ComponentApi interface {
 	CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error)
 
 	/*
-	CreateComponentStreams Create the Stream on the component
+		CreateComponentStreams Create the Stream on the component
 
-	Adds a DataStream/TelemetryStreamDefinition on the component
+		Adds a DataStream/TelemetryStreamDefinition on the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@return ApiCreateComponentStreamsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@return ApiCreateComponentStreamsRequest
 	*/
 	CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest
 
@@ -54,14 +53,14 @@ type ComponentApi interface {
 	CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error)
 
 	/*
-	DeleteComponentCheck Delete the check from the component
+		DeleteComponentCheck Delete the check from the component
 
-	Delete a Specific check from the component
+		Delete a Specific check from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@param checkId The Identifier of a Check
-	@return ApiDeleteComponentCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@param checkId The Identifier of a Check
+		@return ApiDeleteComponentCheckRequest
 	*/
 	DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest
 
@@ -69,14 +68,14 @@ type ComponentApi interface {
 	DeleteComponentCheckExecute(r ApiDeleteComponentCheckRequest) (*http.Response, error)
 
 	/*
-	DeleteComponentStream Delete the stream from the component
+		DeleteComponentStream Delete the stream from the component
 
-	Delete a Specific stream from the component
+		Delete a Specific stream from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@param streamId The Identifier of a stream
-	@return ApiDeleteComponentStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@param streamId The Identifier of a stream
+		@return ApiDeleteComponentStreamRequest
 	*/
 	DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest
 
@@ -84,14 +83,14 @@ type ComponentApi interface {
 	DeleteComponentStreamExecute(r ApiDeleteComponentStreamRequest) (*http.Response, error)
 
 	/*
-	GetComponentCheck Get the check from the component
+		GetComponentCheck Get the check from the component
 
-	Get a Specific check from the component
+		Get a Specific check from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@param checkId The Identifier of a Check
-	@return ApiGetComponentCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@param checkId The Identifier of a Check
+		@return ApiGetComponentCheckRequest
 	*/
 	GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest
 
@@ -100,13 +99,13 @@ type ComponentApi interface {
 	GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error)
 
 	/*
-	GetComponentChecks List all checks from the component
+		GetComponentChecks List all checks from the component
 
-	List all checks from the component
+		List all checks from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@return ApiGetComponentChecksRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@return ApiGetComponentChecksRequest
 	*/
 	GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest
 
@@ -115,14 +114,14 @@ type ComponentApi interface {
 	GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error)
 
 	/*
-	GetComponentStream Get the stream from the component
+		GetComponentStream Get the stream from the component
 
-	Get a Specific stream from the component
+		Get a Specific stream from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@param streamId The Identifier of a stream
-	@return ApiGetComponentStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@param streamId The Identifier of a stream
+		@return ApiGetComponentStreamRequest
 	*/
 	GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest
 
@@ -131,13 +130,13 @@ type ComponentApi interface {
 	GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error)
 
 	/*
-	GetComponentStreams List all streams from the component
+		GetComponentStreams List all streams from the component
 
-	List all streams from the component
+		List all streams from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@return ApiGetComponentStreamsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@return ApiGetComponentStreamsRequest
 	*/
 	GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest
 
@@ -146,13 +145,13 @@ type ComponentApi interface {
 	GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error)
 
 	/*
-	GetLatestMetrics Get the latests metrics
+		GetLatestMetrics Get the latests metrics
 
-	Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
+		Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@return ApiGetLatestMetricsRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@return ApiGetLatestMetricsRequest
 	*/
 	GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest
 
@@ -161,14 +160,14 @@ type ComponentApi interface {
 	GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error)
 
 	/*
-	UpdateComponentCheck Update the check on the component
+		UpdateComponentCheck Update the check on the component
 
-	Update a Specific check from the component
+		Update a Specific check from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@param checkId The Identifier of a Check
-	@return ApiUpdateComponentCheckRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@param checkId The Identifier of a Check
+		@return ApiUpdateComponentCheckRequest
 	*/
 	UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest
 
@@ -177,14 +176,14 @@ type ComponentApi interface {
 	UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error)
 
 	/*
-	UpdateComponentStream Update the stream on the component
+		UpdateComponentStream Update the stream on the component
 
-	Update a Specific stream from the component
+		Update a Specific stream from the component
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentId The Identifier of a component
-	@param streamId The Identifier of a stream
-	@return ApiUpdateComponentStreamRequest
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentId The Identifier of a component
+		@param streamId The Identifier of a stream
+		@return ApiUpdateComponentStreamRequest
 	*/
 	UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest
 
@@ -197,10 +196,10 @@ type ComponentApi interface {
 type ComponentApiService service
 
 type ApiCreateComponentCheckRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	check *Check
+	check       *Check
 }
 
 // Single Check
@@ -224,8 +223,8 @@ Adds a Check on the component
 */
 func (a *ComponentApiService) CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest {
 	return ApiCreateComponentCheckRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
@@ -234,10 +233,10 @@ func (a *ComponentApiService) CreateComponentCheck(ctx context.Context, componen
 //  @return Check
 func (a *ComponentApiService) CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Check
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.CreateComponentCheck")
@@ -373,10 +372,10 @@ func (a *ComponentApiService) CreateComponentCheckExecute(r ApiCreateComponentCh
 }
 
 type ApiCreateComponentStreamsRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	dataStream *DataStream
+	dataStream  *DataStream
 }
 
 // Single telemetry stream definition
@@ -400,8 +399,8 @@ Adds a DataStream/TelemetryStreamDefinition on the component
 */
 func (a *ComponentApiService) CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest {
 	return ApiCreateComponentStreamsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
@@ -410,10 +409,10 @@ func (a *ComponentApiService) CreateComponentStreams(ctx context.Context, compon
 //  @return TelemetryStreamDefinition
 func (a *ComponentApiService) CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPost
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.CreateComponentStreams")
@@ -549,10 +548,10 @@ func (a *ComponentApiService) CreateComponentStreamsExecute(r ApiCreateComponent
 }
 
 type ApiDeleteComponentCheckRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	checkId int64
+	checkId     int64
 }
 
 func (r ApiDeleteComponentCheckRequest) Execute() (*http.Response, error) {
@@ -571,19 +570,19 @@ Delete a Specific check from the component
 */
 func (a *ComponentApiService) DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest {
 	return ApiDeleteComponentCheckRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
-		checkId: checkId,
+		checkId:     checkId,
 	}
 }
 
 // Execute executes the request
 func (a *ComponentApiService) DeleteComponentCheckExecute(r ApiDeleteComponentCheckRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.DeleteComponentCheck")
@@ -706,10 +705,10 @@ func (a *ComponentApiService) DeleteComponentCheckExecute(r ApiDeleteComponentCh
 }
 
 type ApiDeleteComponentStreamRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	streamId int64
+	streamId    int64
 }
 
 func (r ApiDeleteComponentStreamRequest) Execute() (*http.Response, error) {
@@ -728,19 +727,19 @@ Delete a Specific stream from the component
 */
 func (a *ComponentApiService) DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest {
 	return ApiDeleteComponentStreamRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
-		streamId: streamId,
+		streamId:    streamId,
 	}
 }
 
 // Execute executes the request
 func (a *ComponentApiService) DeleteComponentStreamExecute(r ApiDeleteComponentStreamRequest) (*http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodDelete
-		localVarPostBody     interface{}
-		formFiles            []formFile
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.DeleteComponentStream")
@@ -863,11 +862,11 @@ func (a *ComponentApiService) DeleteComponentStreamExecute(r ApiDeleteComponentS
 }
 
 type ApiGetComponentCheckRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	queryTime *int32
-	checkId int64
+	queryTime   *int32
+	checkId     int64
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -892,10 +891,10 @@ Get a Specific check from the component
 */
 func (a *ComponentApiService) GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest {
 	return ApiGetComponentCheckRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
-		checkId: checkId,
+		checkId:     checkId,
 	}
 }
 
@@ -903,10 +902,10 @@ func (a *ComponentApiService) GetComponentCheck(ctx context.Context, componentId
 //  @return Check
 func (a *ComponentApiService) GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Check
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentCheck")
@@ -1042,10 +1041,10 @@ func (a *ComponentApiService) GetComponentCheckExecute(r ApiGetComponentCheckReq
 }
 
 type ApiGetComponentChecksRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	queryTime *int32
+	queryTime   *int32
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1069,8 +1068,8 @@ List all checks from the component
 */
 func (a *ComponentApiService) GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest {
 	return ApiGetComponentChecksRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
@@ -1079,10 +1078,10 @@ func (a *ComponentApiService) GetComponentChecks(ctx context.Context, componentI
 //  @return []Check
 func (a *ComponentApiService) GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []Check
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentChecks")
@@ -1217,11 +1216,11 @@ func (a *ComponentApiService) GetComponentChecksExecute(r ApiGetComponentChecksR
 }
 
 type ApiGetComponentStreamRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	queryTime *int32
-	streamId int64
+	queryTime   *int32
+	streamId    int64
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1246,10 +1245,10 @@ Get a Specific stream from the component
 */
 func (a *ComponentApiService) GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest {
 	return ApiGetComponentStreamRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
-		streamId: streamId,
+		streamId:    streamId,
 	}
 }
 
@@ -1257,10 +1256,10 @@ func (a *ComponentApiService) GetComponentStream(ctx context.Context, componentI
 //  @return TelemetryStreamDefinition
 func (a *ComponentApiService) GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentStream")
@@ -1396,10 +1395,10 @@ func (a *ComponentApiService) GetComponentStreamExecute(r ApiGetComponentStreamR
 }
 
 type ApiGetComponentStreamsRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	queryTime *int32
+	queryTime   *int32
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1423,8 +1422,8 @@ List all streams from the component
 */
 func (a *ComponentApiService) GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest {
 	return ApiGetComponentStreamsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
@@ -1433,10 +1432,10 @@ func (a *ComponentApiService) GetComponentStreams(ctx context.Context, component
 //  @return []TelemetryStreamDefinition
 func (a *ComponentApiService) GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  []TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentStreams")
@@ -1571,11 +1570,11 @@ func (a *ComponentApiService) GetComponentStreamsExecute(r ApiGetComponentStream
 }
 
 type ApiGetLatestMetricsRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	queryTime *int32
-	streamIds *[]int64
+	queryTime   *int32
+	streamIds   *[]int64
 }
 
 // A Data point for a query either point from timeline or &#39;now&#39; if livemode
@@ -1605,8 +1604,8 @@ Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before pr
 */
 func (a *ComponentApiService) GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest {
 	return ApiGetLatestMetricsRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
@@ -1615,10 +1614,10 @@ func (a *ComponentApiService) GetLatestMetrics(ctx context.Context, componentId 
 //  @return TelemetryLatestSnapshotsResponse
 func (a *ComponentApiService) GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodGet
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryLatestSnapshotsResponse
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryLatestSnapshotsResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetLatestMetrics")
@@ -1757,11 +1756,11 @@ func (a *ComponentApiService) GetLatestMetricsExecute(r ApiGetLatestMetricsReque
 }
 
 type ApiUpdateComponentCheckRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	checkId int64
-	check *Check
+	checkId     int64
+	check       *Check
 }
 
 // Single Check
@@ -1786,10 +1785,10 @@ Update a Specific check from the component
 */
 func (a *ComponentApiService) UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest {
 	return ApiUpdateComponentCheckRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
-		checkId: checkId,
+		checkId:     checkId,
 	}
 }
 
@@ -1797,10 +1796,10 @@ func (a *ComponentApiService) UpdateComponentCheck(ctx context.Context, componen
 //  @return Check
 func (a *ComponentApiService) UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *Check
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Check
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.UpdateComponentCheck")
@@ -1937,11 +1936,11 @@ func (a *ComponentApiService) UpdateComponentCheckExecute(r ApiUpdateComponentCh
 }
 
 type ApiUpdateComponentStreamRequest struct {
-	ctx context.Context
-	ApiService ComponentApi
+	ctx         context.Context
+	ApiService  ComponentApi
 	componentId int64
-	streamId int64
-	dataStream *DataStream
+	streamId    int64
+	dataStream  *DataStream
 }
 
 // Single telemetry stream definition
@@ -1966,10 +1965,10 @@ Update a Specific stream from the component
 */
 func (a *ComponentApiService) UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest {
 	return ApiUpdateComponentStreamRequest{
-		ApiService: a,
-		ctx: ctx,
+		ApiService:  a,
+		ctx:         ctx,
 		componentId: componentId,
-		streamId: streamId,
+		streamId:    streamId,
 	}
 }
 
@@ -1977,10 +1976,10 @@ func (a *ComponentApiService) UpdateComponentStream(ctx context.Context, compone
 //  @return TelemetryStreamDefinition
 func (a *ComponentApiService) UpdateComponentStreamExecute(r ApiUpdateComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = http.MethodPut
-		localVarPostBody     interface{}
-		formFiles            []formFile
-		localVarReturnValue  *TelemetryStreamDefinition
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TelemetryStreamDefinition
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.UpdateComponentStream")
@@ -2116,36 +2115,34 @@ func (a *ComponentApiService) UpdateComponentStreamExecute(r ApiUpdateComponentS
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-
 type ComponentApiMock struct {
-	CreateComponentCheckCalls *[]CreateComponentCheckCall
-	CreateComponentCheckResponse CreateComponentCheckMockResponse
-	CreateComponentStreamsCalls *[]CreateComponentStreamsCall
+	CreateComponentCheckCalls      *[]CreateComponentCheckCall
+	CreateComponentCheckResponse   CreateComponentCheckMockResponse
+	CreateComponentStreamsCalls    *[]CreateComponentStreamsCall
 	CreateComponentStreamsResponse CreateComponentStreamsMockResponse
-	DeleteComponentCheckCalls *[]DeleteComponentCheckCall
-	DeleteComponentCheckResponse DeleteComponentCheckMockResponse
-	DeleteComponentStreamCalls *[]DeleteComponentStreamCall
-	DeleteComponentStreamResponse DeleteComponentStreamMockResponse
-	GetComponentCheckCalls *[]GetComponentCheckCall
-	GetComponentCheckResponse GetComponentCheckMockResponse
-	GetComponentChecksCalls *[]GetComponentChecksCall
-	GetComponentChecksResponse GetComponentChecksMockResponse
-	GetComponentStreamCalls *[]GetComponentStreamCall
-	GetComponentStreamResponse GetComponentStreamMockResponse
-	GetComponentStreamsCalls *[]GetComponentStreamsCall
-	GetComponentStreamsResponse GetComponentStreamsMockResponse
-	GetLatestMetricsCalls *[]GetLatestMetricsCall
-	GetLatestMetricsResponse GetLatestMetricsMockResponse
-	UpdateComponentCheckCalls *[]UpdateComponentCheckCall
-	UpdateComponentCheckResponse UpdateComponentCheckMockResponse
-	UpdateComponentStreamCalls *[]UpdateComponentStreamCall
-	UpdateComponentStreamResponse UpdateComponentStreamMockResponse
-}	
+	DeleteComponentCheckCalls      *[]DeleteComponentCheckCall
+	DeleteComponentCheckResponse   DeleteComponentCheckMockResponse
+	DeleteComponentStreamCalls     *[]DeleteComponentStreamCall
+	DeleteComponentStreamResponse  DeleteComponentStreamMockResponse
+	GetComponentCheckCalls         *[]GetComponentCheckCall
+	GetComponentCheckResponse      GetComponentCheckMockResponse
+	GetComponentChecksCalls        *[]GetComponentChecksCall
+	GetComponentChecksResponse     GetComponentChecksMockResponse
+	GetComponentStreamCalls        *[]GetComponentStreamCall
+	GetComponentStreamResponse     GetComponentStreamMockResponse
+	GetComponentStreamsCalls       *[]GetComponentStreamsCall
+	GetComponentStreamsResponse    GetComponentStreamsMockResponse
+	GetLatestMetricsCalls          *[]GetLatestMetricsCall
+	GetLatestMetricsResponse       GetLatestMetricsMockResponse
+	UpdateComponentCheckCalls      *[]UpdateComponentCheckCall
+	UpdateComponentCheckResponse   UpdateComponentCheckMockResponse
+	UpdateComponentStreamCalls     *[]UpdateComponentStreamCall
+	UpdateComponentStreamResponse  UpdateComponentStreamMockResponse
+}
 
 func NewComponentApiMock() ComponentApiMock {
 	xCreateComponentCheckCalls := make([]CreateComponentCheckCall, 0)
@@ -2159,354 +2156,339 @@ func NewComponentApiMock() ComponentApiMock {
 	xGetLatestMetricsCalls := make([]GetLatestMetricsCall, 0)
 	xUpdateComponentCheckCalls := make([]UpdateComponentCheckCall, 0)
 	xUpdateComponentStreamCalls := make([]UpdateComponentStreamCall, 0)
-	return ComponentApiMock {
-		CreateComponentCheckCalls: &xCreateComponentCheckCalls,
+	return ComponentApiMock{
+		CreateComponentCheckCalls:   &xCreateComponentCheckCalls,
 		CreateComponentStreamsCalls: &xCreateComponentStreamsCalls,
-		DeleteComponentCheckCalls: &xDeleteComponentCheckCalls,
-		DeleteComponentStreamCalls: &xDeleteComponentStreamCalls,
-		GetComponentCheckCalls: &xGetComponentCheckCalls,
-		GetComponentChecksCalls: &xGetComponentChecksCalls,
-		GetComponentStreamCalls: &xGetComponentStreamCalls,
-		GetComponentStreamsCalls: &xGetComponentStreamsCalls,
-		GetLatestMetricsCalls: &xGetLatestMetricsCalls,
-		UpdateComponentCheckCalls: &xUpdateComponentCheckCalls,
-		UpdateComponentStreamCalls: &xUpdateComponentStreamCalls,
+		DeleteComponentCheckCalls:   &xDeleteComponentCheckCalls,
+		DeleteComponentStreamCalls:  &xDeleteComponentStreamCalls,
+		GetComponentCheckCalls:      &xGetComponentCheckCalls,
+		GetComponentChecksCalls:     &xGetComponentChecksCalls,
+		GetComponentStreamCalls:     &xGetComponentStreamCalls,
+		GetComponentStreamsCalls:    &xGetComponentStreamsCalls,
+		GetLatestMetricsCalls:       &xGetLatestMetricsCalls,
+		UpdateComponentCheckCalls:   &xUpdateComponentCheckCalls,
+		UpdateComponentStreamCalls:  &xUpdateComponentStreamCalls,
 	}
 }
 
 type CreateComponentCheckMockResponse struct {
-	Result Check
+	Result   Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type CreateComponentCheckCall struct {
 	PcomponentId int64
-	Pcheck *Check
+	Pcheck       *Check
 }
-
 
 func (mock ComponentApiMock) CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest {
 	return ApiCreateComponentCheckRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
 
 func (mock ComponentApiMock) CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error) {
-	p := CreateComponentCheckCall {
-			PcomponentId: r.componentId,
-			Pcheck: r.check,
+	p := CreateComponentCheckCall{
+		PcomponentId: r.componentId,
+		Pcheck:       r.check,
 	}
 	*mock.CreateComponentCheckCalls = append(*mock.CreateComponentCheckCalls, p)
 	return &mock.CreateComponentCheckResponse.Result, mock.CreateComponentCheckResponse.Response, mock.CreateComponentCheckResponse.Error
 }
 
 type CreateComponentStreamsMockResponse struct {
-	Result TelemetryStreamDefinition
+	Result   TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type CreateComponentStreamsCall struct {
 	PcomponentId int64
-	PdataStream *DataStream
+	PdataStream  *DataStream
 }
-
 
 func (mock ComponentApiMock) CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest {
 	return ApiCreateComponentStreamsRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
 
 func (mock ComponentApiMock) CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error) {
-	p := CreateComponentStreamsCall {
-			PcomponentId: r.componentId,
-			PdataStream: r.dataStream,
+	p := CreateComponentStreamsCall{
+		PcomponentId: r.componentId,
+		PdataStream:  r.dataStream,
 	}
 	*mock.CreateComponentStreamsCalls = append(*mock.CreateComponentStreamsCalls, p)
 	return &mock.CreateComponentStreamsResponse.Result, mock.CreateComponentStreamsResponse.Response, mock.CreateComponentStreamsResponse.Error
 }
 
 type DeleteComponentCheckMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteComponentCheckCall struct {
 	PcomponentId int64
-	PcheckId int64
+	PcheckId     int64
 }
-
 
 func (mock ComponentApiMock) DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest {
 	return ApiDeleteComponentCheckRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
-		checkId: checkId,
+		checkId:     checkId,
 	}
 }
 
 func (mock ComponentApiMock) DeleteComponentCheckExecute(r ApiDeleteComponentCheckRequest) (*http.Response, error) {
-	p := DeleteComponentCheckCall {
-			PcomponentId: r.componentId,
-			PcheckId: r.checkId,
+	p := DeleteComponentCheckCall{
+		PcomponentId: r.componentId,
+		PcheckId:     r.checkId,
 	}
 	*mock.DeleteComponentCheckCalls = append(*mock.DeleteComponentCheckCalls, p)
 	return mock.DeleteComponentCheckResponse.Response, mock.DeleteComponentCheckResponse.Error
 }
 
 type DeleteComponentStreamMockResponse struct {
-	
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type DeleteComponentStreamCall struct {
 	PcomponentId int64
-	PstreamId int64
+	PstreamId    int64
 }
-
 
 func (mock ComponentApiMock) DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest {
 	return ApiDeleteComponentStreamRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
-		streamId: streamId,
+		streamId:    streamId,
 	}
 }
 
 func (mock ComponentApiMock) DeleteComponentStreamExecute(r ApiDeleteComponentStreamRequest) (*http.Response, error) {
-	p := DeleteComponentStreamCall {
-			PcomponentId: r.componentId,
-			PstreamId: r.streamId,
+	p := DeleteComponentStreamCall{
+		PcomponentId: r.componentId,
+		PstreamId:    r.streamId,
 	}
 	*mock.DeleteComponentStreamCalls = append(*mock.DeleteComponentStreamCalls, p)
 	return mock.DeleteComponentStreamResponse.Response, mock.DeleteComponentStreamResponse.Error
 }
 
 type GetComponentCheckMockResponse struct {
-	Result Check
+	Result   Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetComponentCheckCall struct {
 	PcomponentId int64
-	PqueryTime *int32
-	PcheckId int64
+	PqueryTime   *int32
+	PcheckId     int64
 }
-
 
 func (mock ComponentApiMock) GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest {
 	return ApiGetComponentCheckRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
-		checkId: checkId,
+		checkId:     checkId,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error) {
-	p := GetComponentCheckCall {
-			PcomponentId: r.componentId,
-			PqueryTime: r.queryTime,
-			PcheckId: r.checkId,
+	p := GetComponentCheckCall{
+		PcomponentId: r.componentId,
+		PqueryTime:   r.queryTime,
+		PcheckId:     r.checkId,
 	}
 	*mock.GetComponentCheckCalls = append(*mock.GetComponentCheckCalls, p)
 	return &mock.GetComponentCheckResponse.Result, mock.GetComponentCheckResponse.Response, mock.GetComponentCheckResponse.Error
 }
 
 type GetComponentChecksMockResponse struct {
-	Result []Check
+	Result   []Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetComponentChecksCall struct {
 	PcomponentId int64
-	PqueryTime *int32
+	PqueryTime   *int32
 }
-
 
 func (mock ComponentApiMock) GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest {
 	return ApiGetComponentChecksRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error) {
-	p := GetComponentChecksCall {
-			PcomponentId: r.componentId,
-			PqueryTime: r.queryTime,
+	p := GetComponentChecksCall{
+		PcomponentId: r.componentId,
+		PqueryTime:   r.queryTime,
 	}
 	*mock.GetComponentChecksCalls = append(*mock.GetComponentChecksCalls, p)
 	return mock.GetComponentChecksResponse.Result, mock.GetComponentChecksResponse.Response, mock.GetComponentChecksResponse.Error
 }
 
 type GetComponentStreamMockResponse struct {
-	Result TelemetryStreamDefinition
+	Result   TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetComponentStreamCall struct {
 	PcomponentId int64
-	PqueryTime *int32
-	PstreamId int64
+	PqueryTime   *int32
+	PstreamId    int64
 }
-
 
 func (mock ComponentApiMock) GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest {
 	return ApiGetComponentStreamRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
-		streamId: streamId,
+		streamId:    streamId,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
-	p := GetComponentStreamCall {
-			PcomponentId: r.componentId,
-			PqueryTime: r.queryTime,
-			PstreamId: r.streamId,
+	p := GetComponentStreamCall{
+		PcomponentId: r.componentId,
+		PqueryTime:   r.queryTime,
+		PstreamId:    r.streamId,
 	}
 	*mock.GetComponentStreamCalls = append(*mock.GetComponentStreamCalls, p)
 	return &mock.GetComponentStreamResponse.Result, mock.GetComponentStreamResponse.Response, mock.GetComponentStreamResponse.Error
 }
 
 type GetComponentStreamsMockResponse struct {
-	Result []TelemetryStreamDefinition
+	Result   []TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetComponentStreamsCall struct {
 	PcomponentId int64
-	PqueryTime *int32
+	PqueryTime   *int32
 }
-
 
 func (mock ComponentApiMock) GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest {
 	return ApiGetComponentStreamsRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
-	p := GetComponentStreamsCall {
-			PcomponentId: r.componentId,
-			PqueryTime: r.queryTime,
+	p := GetComponentStreamsCall{
+		PcomponentId: r.componentId,
+		PqueryTime:   r.queryTime,
 	}
 	*mock.GetComponentStreamsCalls = append(*mock.GetComponentStreamsCalls, p)
 	return mock.GetComponentStreamsResponse.Result, mock.GetComponentStreamsResponse.Response, mock.GetComponentStreamsResponse.Error
 }
 
 type GetLatestMetricsMockResponse struct {
-	Result TelemetryLatestSnapshotsResponse
+	Result   TelemetryLatestSnapshotsResponse
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type GetLatestMetricsCall struct {
 	PcomponentId int64
-	PqueryTime *int32
-	PstreamIds *[]int64
+	PqueryTime   *int32
+	PstreamIds   *[]int64
 }
-
 
 func (mock ComponentApiMock) GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest {
 	return ApiGetLatestMetricsRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
 	}
 }
 
 func (mock ComponentApiMock) GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
-	p := GetLatestMetricsCall {
-			PcomponentId: r.componentId,
-			PqueryTime: r.queryTime,
-			PstreamIds: r.streamIds,
+	p := GetLatestMetricsCall{
+		PcomponentId: r.componentId,
+		PqueryTime:   r.queryTime,
+		PstreamIds:   r.streamIds,
 	}
 	*mock.GetLatestMetricsCalls = append(*mock.GetLatestMetricsCalls, p)
 	return &mock.GetLatestMetricsResponse.Result, mock.GetLatestMetricsResponse.Response, mock.GetLatestMetricsResponse.Error
 }
 
 type UpdateComponentCheckMockResponse struct {
-	Result Check
+	Result   Check
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type UpdateComponentCheckCall struct {
 	PcomponentId int64
-	PcheckId int64
-	Pcheck *Check
+	PcheckId     int64
+	Pcheck       *Check
 }
-
 
 func (mock ComponentApiMock) UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest {
 	return ApiUpdateComponentCheckRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
-		checkId: checkId,
+		checkId:     checkId,
 	}
 }
 
 func (mock ComponentApiMock) UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error) {
-	p := UpdateComponentCheckCall {
-			PcomponentId: r.componentId,
-			PcheckId: r.checkId,
-			Pcheck: r.check,
+	p := UpdateComponentCheckCall{
+		PcomponentId: r.componentId,
+		PcheckId:     r.checkId,
+		Pcheck:       r.check,
 	}
 	*mock.UpdateComponentCheckCalls = append(*mock.UpdateComponentCheckCalls, p)
 	return &mock.UpdateComponentCheckResponse.Result, mock.UpdateComponentCheckResponse.Response, mock.UpdateComponentCheckResponse.Error
 }
 
 type UpdateComponentStreamMockResponse struct {
-	Result TelemetryStreamDefinition
+	Result   TelemetryStreamDefinition
 	Response *http.Response
-	Error error
+	Error    error
 }
 
 type UpdateComponentStreamCall struct {
 	PcomponentId int64
-	PstreamId int64
-	PdataStream *DataStream
+	PstreamId    int64
+	PdataStream  *DataStream
 }
-
 
 func (mock ComponentApiMock) UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest {
 	return ApiUpdateComponentStreamRequest{
-		ApiService: mock,
-		ctx: ctx,
+		ApiService:  mock,
+		ctx:         ctx,
 		componentId: componentId,
-		streamId: streamId,
+		streamId:    streamId,
 	}
 }
 
 func (mock ComponentApiMock) UpdateComponentStreamExecute(r ApiUpdateComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
-	p := UpdateComponentStreamCall {
-			PcomponentId: r.componentId,
-			PstreamId: r.streamId,
-			PdataStream: r.dataStream,
+	p := UpdateComponentStreamCall{
+		PcomponentId: r.componentId,
+		PstreamId:    r.streamId,
+		PdataStream:  r.dataStream,
 	}
 	*mock.UpdateComponentStreamCalls = append(*mock.UpdateComponentStreamCalls, p)
 	return &mock.UpdateComponentStreamResponse.Result, mock.UpdateComponentStreamResponse.Response, mock.UpdateComponentStreamResponse.Error
 }
-
-

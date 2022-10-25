@@ -18,8 +18,8 @@ import (
 
 // HealthSubStreamConsistencyState - struct for HealthSubStreamConsistencyState
 type HealthSubStreamConsistencyState struct {
-	HealthSubStreamExpiry *HealthSubStreamExpiry
-	HealthSubStreamSnapshot *HealthSubStreamSnapshot
+	HealthSubStreamExpiry                  *HealthSubStreamExpiry
+	HealthSubStreamSnapshot                *HealthSubStreamSnapshot
 	HealthSubStreamTransactionalIncrements *HealthSubStreamTransactionalIncrements
 }
 
@@ -43,7 +43,6 @@ func HealthSubStreamTransactionalIncrementsAsHealthSubStreamConsistencyState(v *
 		HealthSubStreamTransactionalIncrements: v,
 	}
 }
-
 
 // Unmarshal JSON data into one of the pointers in the struct
 func (dst *HealthSubStreamConsistencyState) UnmarshalJSON(data []byte) error {
@@ -112,7 +111,7 @@ func (src HealthSubStreamConsistencyState) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *HealthSubStreamConsistencyState) GetActualInstance() (interface{}) {
+func (obj *HealthSubStreamConsistencyState) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -167,5 +166,3 @@ func (v *NullableHealthSubStreamConsistencyState) UnmarshalJSON(src []byte) erro
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

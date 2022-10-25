@@ -17,9 +17,9 @@ import (
 
 // GetTopologyTimeout struct for GetTopologyTimeout
 type GetTopologyTimeout struct {
-	Type string `json:"_type"`
-	Message string `json:"message"`
-	TimeoutSeconds int32 `json:"timeoutSeconds"`
+	Type           string `json:"_type"`
+	Message        string `json:"message"`
+	TimeoutSeconds int32  `json:"timeoutSeconds"`
 }
 
 // NewGetTopologyTimeout instantiates a new GetTopologyTimeout object
@@ -163,5 +163,3 @@ func (v *NullableGetTopologyTimeout) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

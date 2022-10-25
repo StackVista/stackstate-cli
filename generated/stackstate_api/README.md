@@ -107,18 +107,35 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
+*MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+*MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
+*MetricApi* | [**GetLabelValues**](docs/MetricApi.md#getlabelvalues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
+*MetricApi* | [**GetLabels**](docs/MetricApi.md#getlabels) | **Get** /metrics/labels | List of label names
+*MetricApi* | [**GetMetadata**](docs/MetricApi.md#getmetadata) | **Get** /metrics/metadata | Metadata about metrics currently scraped from targets
+*MetricApi* | [**GetRangeQuery**](docs/MetricApi.md#getrangequery) | **Get** /metrics/query_range | Query over a range of time
+*MetricApi* | [**GetSeries**](docs/MetricApi.md#getseries) | **Get** /metrics/series | List of time series that match a certain label set
+*MetricApi* | [**PostExemplarsQuery**](docs/MetricApi.md#postexemplarsquery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+*MetricApi* | [**PostInstantQuery**](docs/MetricApi.md#postinstantquery) | **Post** /metrics/query | Instant query at a single point in time
+*MetricApi* | [**PostLabelValues**](docs/MetricApi.md#postlabelvalues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
+*MetricApi* | [**PostLabels**](docs/MetricApi.md#postlabels) | **Post** /metrics/labels | List of label names
+*MetricApi* | [**PostMetadata**](docs/MetricApi.md#postmetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
+*MetricApi* | [**PostRangeQuery**](docs/MetricApi.md#postrangequery) | **Post** /metrics/query_range | Query over a range of time
+*MetricApi* | [**PostSeries**](docs/MetricApi.md#postseries) | **Post** /metrics/series | List of time series that match a certain label set
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
 *MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
 *MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
+*NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
+*NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+*PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
+*PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
+*PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
+*PermissionsApi* | [**RevokePermissions**](docs/PermissionsApi.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
-*QueryApi* | [**GetExemplarsQuery**](docs/QueryApi.md#getexemplarsquery) | **Get** /v1alpha1/query_exemplars | Experimental: Exemplars for a specific time range
-*QueryApi* | [**GetInstantQuery**](docs/QueryApi.md#getinstantquery) | **Get** /v1alpha1/query | Instant query at a single point in time
-*QueryApi* | [**GetRangeQuery**](docs/QueryApi.md#getrangequery) | **Get** /v1alpha1/query_range | Query over a range of time
 *RelationApi* | [**CreateRelationCheck**](docs/RelationApi.md#createrelationcheck) | **Post** /relations/{relationId}/checks | Create the Checks on the relation
 *RelationApi* | [**CreateRelationStream**](docs/RelationApi.md#createrelationstream) | **Post** /relations/{relationId}/streams | Create the Stream on the relation
 *RelationApi* | [**DeleteRelationCheck**](docs/RelationApi.md#deleterelationcheck) | **Delete** /relations/{relationId}/checks/{checkId} | Delete the check from the relation
@@ -140,8 +157,14 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
+*SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
+*SubjectApi* | [**DeleteSubject**](docs/SubjectApi.md#deletesubject) | **Delete** /security/subjects/{subject} | Delete a subject
+*SubjectApi* | [**GetSubject**](docs/SubjectApi.md#getsubject) | **Get** /security/subjects/{subject} | Get subject
+*SubjectApi* | [**ListSubjects**](docs/SubjectApi.md#listsubjects) | **Get** /security/subjects | List subjects
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
 *SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
+*TopicApi* | [**Describe**](docs/TopicApi.md#describe) | **Get** /topic/{topic} | Describe a topic
+*TopicApi* | [**List**](docs/TopicApi.md#list) | **Get** /topic | List topics
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
@@ -193,6 +216,7 @@ Class | Method | HTTP request | Description
  - [CheckState](docs/CheckState.md)
  - [CheckStateAcknowledgement](docs/CheckStateAcknowledgement.md)
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
+ - [CreateSubject](docs/CreateSubject.md)
  - [DataStream](docs/DataStream.md)
  - [DataType](docs/DataType.md)
  - [DataUnavailable](docs/DataUnavailable.md)
@@ -237,6 +261,7 @@ Class | Method | HTTP request | Description
  - [GetCausingEventsResult](docs/GetCausingEventsResult.md)
  - [GetCausingEventsServiceUnaivailable](docs/GetCausingEventsServiceUnaivailable.md)
  - [GetTopologyTimeout](docs/GetTopologyTimeout.md)
+ - [GrantPermission](docs/GrantPermission.md)
  - [HealthStateValue](docs/HealthStateValue.md)
  - [HealthStreamError](docs/HealthStreamError.md)
  - [HealthStreamMetrics](docs/HealthStreamMetrics.md)
@@ -256,7 +281,9 @@ Class | Method | HTTP request | Description
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
+ - [Message](docs/Message.md)
  - [MessageLevel](docs/MessageLevel.md)
+ - [Messages](docs/Messages.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricStream](docs/MetricStream.md)
  - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
@@ -286,6 +313,8 @@ Class | Method | HTTP request | Description
  - [Node](docs/Node.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
+ - [PermissionDescription](docs/PermissionDescription.md)
+ - [Permissions](docs/Permissions.md)
  - [Point](docs/Point.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromData](docs/PromData.md)
@@ -295,9 +324,12 @@ Class | Method | HTTP request | Description
  - [PromExemplar](docs/PromExemplar.md)
  - [PromExemplarData](docs/PromExemplarData.md)
  - [PromExemplarEnvelope](docs/PromExemplarEnvelope.md)
+ - [PromLabelsEnvelope](docs/PromLabelsEnvelope.md)
  - [PromMatrix](docs/PromMatrix.md)
+ - [PromMetadataEnvelope](docs/PromMetadataEnvelope.md)
  - [PromSampleInner](docs/PromSampleInner.md)
  - [PromScalar](docs/PromScalar.md)
+ - [PromSeriesEnvelope](docs/PromSeriesEnvelope.md)
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
@@ -332,6 +364,7 @@ Class | Method | HTTP request | Description
  - [StsEventStreamFilter](docs/StsEventStreamFilter.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
+ - [SubjectConfig](docs/SubjectConfig.md)
  - [Subscription](docs/Subscription.md)
  - [SubscriptionState](docs/SubscriptionState.md)
  - [TelemetryLatestSnapshotsResponse](docs/TelemetryLatestSnapshotsResponse.md)
@@ -342,6 +375,7 @@ Class | Method | HTTP request | Description
  - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
  - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
  - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
+ - [Topic](docs/Topic.md)
  - [TopologyEvent](docs/TopologyEvent.md)
  - [TopologyMapping](docs/TopologyMapping.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)

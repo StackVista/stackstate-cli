@@ -17,11 +17,11 @@ import (
 
 // MonitorStatus struct for MonitorStatus
 type MonitorStatus struct {
-	Monitor Monitor `json:"monitor"`
-	Errors []MonitorError `json:"errors,omitempty"`
-	Metrics MonitorMetrics `json:"metrics"`
-	MonitorHealthStateStateCount *int32 `json:"monitorHealthStateStateCount,omitempty"`
-	TopologyMatchResult *TopologyMatchResult `json:"topologyMatchResult,omitempty"`
+	Monitor                      Monitor              `json:"monitor"`
+	Errors                       []MonitorError       `json:"errors,omitempty"`
+	Metrics                      MonitorMetrics       `json:"metrics"`
+	MonitorHealthStateStateCount *int32               `json:"monitorHealthStateStateCount,omitempty"`
+	TopologyMatchResult          *TopologyMatchResult `json:"topologyMatchResult,omitempty"`
 }
 
 // NewMonitorStatus instantiates a new MonitorStatus object
@@ -242,5 +242,3 @@ func (v *NullableMonitorStatus) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-

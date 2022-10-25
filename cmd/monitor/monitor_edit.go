@@ -5,11 +5,12 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/generated/stackstate_api"
-	stscobra "gitlab.com/stackvista/stackstate-cli2/internal/cobra"
-	"gitlab.com/stackvista/stackstate-cli2/internal/common"
-	"gitlab.com/stackvista/stackstate-cli2/internal/di"
-	"gitlab.com/stackvista/stackstate-cli2/internal/printer"
+	"github.com/stackvista/stackstate-cli/cmd/settings"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
+	"github.com/stackvista/stackstate-cli/internal/common"
+	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 const LongDescription = `Edit a monitor.
@@ -17,11 +18,16 @@ const LongDescription = `Edit a monitor.
 The edit command allows you to directly edit any StackState Monitor. It will open
 the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
 Windows.
+When '--unlock' is specified, the CLI will always unlock the Monitor when editing it.
+This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
 `
+
+const MonitorNodeType = "Monitor"
 
 type EditArgs struct {
 	ID         int64
 	Identifier string
+	Unlock     bool
 }
 
 func MonitorEditCommand(cli *di.Deps) *cobra.Command {
@@ -36,6 +42,7 @@ func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
+	cmd.Flags().BoolVar(&args.Unlock, Unlock, false, UnlockFlagUsage)
 
 	return cmd
 }
@@ -78,6 +85,13 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 			}
 
 			return nil
+		}
+
+		if args.Unlock {
+			err := settings.UnlockNodes(cli, api, []int64{id}, MonitorNodeType)
+			if err != nil {
+				return err
+			}
 		}
 
 		nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(c)).Execute()

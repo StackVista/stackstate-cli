@@ -17,7 +17,7 @@ import (
 
 // PromDataResult struct for PromDataResult
 type PromDataResult struct {
-	Metric map[string]string `json:"metric"`
+	Metric map[string]string   `json:"metric"`
 	Values [][]PromSampleInner `json:"values"`
 }
 
@@ -134,5 +134,3 @@ func (v *NullablePromDataResult) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
-
-
