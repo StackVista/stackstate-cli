@@ -21,17 +21,19 @@ type StackStateClient interface {
 func NewStackStateClient(ctx context.Context,
 	isVerbose bool,
 	pr printer.Printer,
+	version string,
 	url string,
 	apiPath string,
 	adminApiPath string,
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string) (StackStateClient, context.Context) {
+	userAgent := fmt.Sprintf("StackState CLI v%s", version)
 	apiURL := combineURLandPath(url, apiPath)
-	client, clientAuth := NewApiClient(isVerbose, pr, apiURL, apiToken, serviceToken, k8sServiceAccountToken)
+	client, clientAuth := NewApiClient(isVerbose, pr, userAgent, apiURL, apiToken, serviceToken, k8sServiceAccountToken)
 
 	adminApiURL := combineURLandPath(url, adminApiPath)
-	adminClient, adminAuth := NewAdminApiClient(isVerbose, pr, adminApiURL, apiToken, serviceToken, k8sServiceAccountToken)
+	adminClient, adminAuth := NewAdminApiClient(isVerbose, pr, userAgent, adminApiURL, apiToken, serviceToken, k8sServiceAccountToken)
 
 	withClient := context.WithValue(
 		ctx,
@@ -57,12 +59,14 @@ func NewStackStateClient(ctx context.Context,
 func NewApiClient(
 	isVerbose bool,
 	pr printer.Printer,
+	userAgent string,
 	apiURL string,
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string,
 ) (*stackstate_api.APIClient, map[string]stackstate_api.APIKey) {
 	configuration := stackstate_api.NewConfiguration()
+	configuration.UserAgent = userAgent
 	configuration.Servers[0] = stackstate_api.ServerConfiguration{
 		URL:         apiURL,
 		Description: "",
@@ -106,12 +110,14 @@ func NewApiClient(
 func NewAdminApiClient(
 	isVerbose bool,
 	pr printer.Printer,
+	userAgent string,
 	apiURL string,
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string,
 ) (*stackstate_admin_api.APIClient, map[string]stackstate_admin_api.APIKey) {
 	configuration := stackstate_admin_api.NewConfiguration()
+	configuration.UserAgent = userAgent
 	configuration.Servers[0] = stackstate_admin_api.ServerConfiguration{
 		URL:         apiURL,
 		Description: "",

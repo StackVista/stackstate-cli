@@ -104,6 +104,7 @@ func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) comm
 		cmd.Context(),
 		cli.IsVerBose,
 		cli.Printer,
+		cli.Version,
 		context.URL,
 		context.APIPath,
 		context.AdminAPIPath,
