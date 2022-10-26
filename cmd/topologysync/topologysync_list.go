@@ -22,6 +22,30 @@ func ListCommand(deps *di.Deps) *cobra.Command {
 	return cmd
 }
 
+func FormatSyncTable(streams []stackstate_api.TopologyStreamListItem) printer.TableData {
+	data := make([][]interface{}, len(streams))
+	for i, stream := range streams {
+		identifier := "-"
+		if stream.SyncIdentifier.IsSet() {
+			identifier = *stream.SyncIdentifier.Get()
+		}
+		data[i] = []interface{}{
+			stream.NodeId,
+			stream.Name,
+			identifier,
+			stream.Status,
+			fmt.Sprintf("+%-4d %5s", stream.CreatedComponents, fmt.Sprintf("-%d", stream.DeletedComponents)),
+			fmt.Sprintf("+%-4d %5s", stream.CreatedRelations, fmt.Sprintf("-%d", stream.DeletedRelations)),
+			stream.Errors,
+		}
+	}
+	return printer.TableData{
+		Header:              []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
+		Data:                data,
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
+	}
+}
+
 func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 	streamList, resp, err := api.TopologySynchronizationApi.GetTopologySynchronizationStreams(cli.Context).Execute()
 	if err != nil {
@@ -39,28 +63,7 @@ func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APICli
 			"synchronizations": streams,
 		})
 	} else {
-		data := make([][]interface{}, len(streams))
-		for i, stream := range streams {
-			identifier := "-"
-			if stream.SyncIdentifier.IsSet() {
-				identifier = *stream.SyncIdentifier.Get()
-			}
-			data[i] = []interface{}{
-				stream.NodeId,
-				stream.Name,
-				identifier,
-				stream.Status,
-				fmt.Sprintf("+%-4d %5s", stream.CreatedComponents, fmt.Sprintf("-%d", stream.DeletedComponents)),
-				fmt.Sprintf("+%-4d %5s", stream.CreatedRelations, fmt.Sprintf("-%d", stream.DeletedRelations)),
-				stream.Errors,
-			}
-		}
-
-		cli.Printer.Table(printer.TableData{
-			Header:              []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
-			Data:                data,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
-		})
+		cli.Printer.Table(FormatSyncTable(streams))
 	}
 
 	return nil

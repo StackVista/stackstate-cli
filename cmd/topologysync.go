@@ -15,5 +15,7 @@ func TopologySyncCommand(deps *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(topologysync.ListCommand(deps))
 	cmd.AddCommand(topologysync.ClearErrorsCommand(deps))
+	cmd.AddCommand(topologysync.DescribeCommand(deps))
+
 	return cmd
 }
