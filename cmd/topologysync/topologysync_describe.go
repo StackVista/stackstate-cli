@@ -25,8 +25,8 @@ func DescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe",
-		Short: "Shows the configuration of a topology synchronization",
-		Long:  "Shows the configuration of a topology synchronization.",
+		Short: "Show the details of an active Topology synchronization",
+		Long:  "Show the details of an active Topology synchronization.",
 		RunE:  deps.CmdRunEWithApi(RunDescribeCommand(args)),
 	}
 	cmd.Flags().Int64VarP(&args.ID, common.IDFlag, common.IDFlagShort, 0, "The ID of a topology synchronization")
