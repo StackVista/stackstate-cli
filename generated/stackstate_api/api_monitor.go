@@ -1082,7 +1082,7 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v MonitorSaveError
+			var v MonitorValidationError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

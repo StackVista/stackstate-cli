@@ -538,8 +538,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MonitorSaveError'
-          description: monitor could not be saved in the database
+                $ref: '#/components/schemas/MonitorValidationError'
+          description: monitor request has errors
         "404":
           content:
             application/json:
@@ -3882,12 +3882,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorNotFoundError'
       description: monitor was not found in the database
-    monitorSaveError:
+    monitorValidationError:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/MonitorSaveError'
-      description: monitor could not be saved in the database
+            $ref: '#/components/schemas/MonitorValidationError'
+      description: monitor request has errors
     monitorRunResult:
       content:
         application/json:
@@ -4630,7 +4630,7 @@ components:
         status:
           $ref: '#/components/schemas/MonitorStatusValue'
       type: object
-    MonitorSaveError:
+    MonitorValidationError:
       discriminator:
         propertyName: _type
       oneOf:

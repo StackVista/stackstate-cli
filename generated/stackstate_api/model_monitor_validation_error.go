@@ -16,28 +16,28 @@ import (
 	"fmt"
 )
 
-// MonitorSaveError - struct for MonitorSaveError
-type MonitorSaveError struct {
+// MonitorValidationError - struct for MonitorValidationError
+type MonitorValidationError struct {
 	InvalidMonitorIdentifierError *InvalidMonitorIdentifierError
 	MonitorInvalidIntervalError   *MonitorInvalidIntervalError
 }
 
-// InvalidMonitorIdentifierErrorAsMonitorSaveError is a convenience function that returns InvalidMonitorIdentifierError wrapped in MonitorSaveError
-func InvalidMonitorIdentifierErrorAsMonitorSaveError(v *InvalidMonitorIdentifierError) MonitorSaveError {
-	return MonitorSaveError{
+// InvalidMonitorIdentifierErrorAsMonitorValidationError is a convenience function that returns InvalidMonitorIdentifierError wrapped in MonitorValidationError
+func InvalidMonitorIdentifierErrorAsMonitorValidationError(v *InvalidMonitorIdentifierError) MonitorValidationError {
+	return MonitorValidationError{
 		InvalidMonitorIdentifierError: v,
 	}
 }
 
-// MonitorInvalidIntervalErrorAsMonitorSaveError is a convenience function that returns MonitorInvalidIntervalError wrapped in MonitorSaveError
-func MonitorInvalidIntervalErrorAsMonitorSaveError(v *MonitorInvalidIntervalError) MonitorSaveError {
-	return MonitorSaveError{
+// MonitorInvalidIntervalErrorAsMonitorValidationError is a convenience function that returns MonitorInvalidIntervalError wrapped in MonitorValidationError
+func MonitorInvalidIntervalErrorAsMonitorValidationError(v *MonitorInvalidIntervalError) MonitorValidationError {
+	return MonitorValidationError{
 		MonitorInvalidIntervalError: v,
 	}
 }
 
 // Unmarshal JSON data into one of the pointers in the struct
-func (dst *MonitorSaveError) UnmarshalJSON(data []byte) error {
+func (dst *MonitorValidationError) UnmarshalJSON(data []byte) error {
 	var err error
 	// use discriminator value to speed up the lookup
 	var jsonDict map[string]interface{}
@@ -54,7 +54,7 @@ func (dst *MonitorSaveError) UnmarshalJSON(data []byte) error {
 			return nil // data stored in dst.InvalidMonitorIdentifierError, return on the first match
 		} else {
 			dst.InvalidMonitorIdentifierError = nil
-			return fmt.Errorf("Failed to unmarshal MonitorSaveError as InvalidMonitorIdentifierError: %s", err.Error())
+			return fmt.Errorf("Failed to unmarshal MonitorValidationError as InvalidMonitorIdentifierError: %s", err.Error())
 		}
 	}
 
@@ -66,7 +66,7 @@ func (dst *MonitorSaveError) UnmarshalJSON(data []byte) error {
 			return nil // data stored in dst.MonitorInvalidIntervalError, return on the first match
 		} else {
 			dst.MonitorInvalidIntervalError = nil
-			return fmt.Errorf("Failed to unmarshal MonitorSaveError as MonitorInvalidIntervalError: %s", err.Error())
+			return fmt.Errorf("Failed to unmarshal MonitorValidationError as MonitorInvalidIntervalError: %s", err.Error())
 		}
 	}
 
@@ -74,7 +74,7 @@ func (dst *MonitorSaveError) UnmarshalJSON(data []byte) error {
 }
 
 // Marshal data from the first non-nil pointers in the struct to JSON
-func (src MonitorSaveError) MarshalJSON() ([]byte, error) {
+func (src MonitorValidationError) MarshalJSON() ([]byte, error) {
 	if src.InvalidMonitorIdentifierError != nil {
 		return json.Marshal(&src.InvalidMonitorIdentifierError)
 	}
@@ -87,7 +87,7 @@ func (src MonitorSaveError) MarshalJSON() ([]byte, error) {
 }
 
 // Get the actual instance
-func (obj *MonitorSaveError) GetActualInstance() interface{} {
+func (obj *MonitorValidationError) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
@@ -103,38 +103,38 @@ func (obj *MonitorSaveError) GetActualInstance() interface{} {
 	return nil
 }
 
-type NullableMonitorSaveError struct {
-	value *MonitorSaveError
+type NullableMonitorValidationError struct {
+	value *MonitorValidationError
 	isSet bool
 }
 
-func (v NullableMonitorSaveError) Get() *MonitorSaveError {
+func (v NullableMonitorValidationError) Get() *MonitorValidationError {
 	return v.value
 }
 
-func (v *NullableMonitorSaveError) Set(val *MonitorSaveError) {
+func (v *NullableMonitorValidationError) Set(val *MonitorValidationError) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableMonitorSaveError) IsSet() bool {
+func (v NullableMonitorValidationError) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableMonitorSaveError) Unset() {
+func (v *NullableMonitorValidationError) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableMonitorSaveError(val *MonitorSaveError) *NullableMonitorSaveError {
-	return &NullableMonitorSaveError{value: val, isSet: true}
+func NewNullableMonitorValidationError(val *MonitorValidationError) *NullableMonitorValidationError {
+	return &NullableMonitorValidationError{value: val, isSet: true}
 }
 
-func (v NullableMonitorSaveError) MarshalJSON() ([]byte, error) {
+func (v NullableMonitorValidationError) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableMonitorSaveError) UnmarshalJSON(src []byte) error {
+func (v *NullableMonitorValidationError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }
