@@ -1,20 +1,16 @@
 package topologysync
 
 import (
-	"fmt"
-
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
+	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
-const (
-	DefaultIdentifierType = "NodeId"
-)
-
 type ClearErrorsArgs struct {
-	Id int64
+	ID         int64
+	Identifier string
 }
 
 func ClearErrorsCommand(deps *di.Deps) *cobra.Command {
@@ -25,8 +21,9 @@ func ClearErrorsCommand(deps *di.Deps) *cobra.Command {
 		Long:  "Clear the errors from an active topology synchronization.",
 		RunE:  deps.CmdRunEWithApi(RunClearErrorsCommand(args)),
 	}
-	cmd.Flags().Int64VarP(&args.Id, common.IDFlag, common.IDFlagShort, 0, "The ID of topology synchronization")
-	cmd.MarkFlagRequired(common.IDFlag) //nolint:errcheck
+	cmd.Flags().Int64VarP(&args.ID, common.IDFlag, common.IDFlagShort, 0, "The ID of a topology synchronization")
+	cmd.Flags().StringVar(&args.Identifier, common.IdentifierFlag, "", "The identifier of a topology synchronization")
+	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
 
 	return cmd
 }
@@ -38,21 +35,23 @@ func RunClearErrorsCommand(args *ClearErrorsArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
+		idType, id := IdOrIdentifier(args.ID, args.Identifier)
 		resp, err := api.TopologySynchronizationApi.
 			PostTopologySynchronizationStreamClearErrors(cli.Context).
-			IdentifierType(DefaultIdentifierType).
-			Identifier(fmt.Sprintf("%d", args.Id)).
+			IdentifierType(idType).
+			Identifier(id).
 			Execute()
+
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"cleared": args.Id,
+				"cleared": id,
 			})
 		} else {
-			cli.Printer.Successf("Errors cleared from topology synchronization: %d", args.Id)
+			cli.Printer.Successf("Errors cleared from topology synchronization: %s", id)
 		}
 		return nil
 	}
