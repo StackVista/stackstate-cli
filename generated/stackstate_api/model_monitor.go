@@ -17,23 +17,24 @@ import (
 
 // Monitor struct for Monitor
 type Monitor struct {
-	Id              int64                    `json:"id"`
-	Name            string                   `json:"name"`
-	Identifier      *string                  `json:"identifier,omitempty"`
-	Description     *string                  `json:"description,omitempty"`
-	FunctionId      int64                    `json:"functionId"`
-	Arguments       []map[string]interface{} `json:"arguments"`
-	RemediationHint *string                  `json:"remediationHint,omitempty"`
-	IntervalSeconds int32                    `json:"intervalSeconds"`
-	Tags            []string                 `json:"tags"`
-	Status          MonitorStatusValue       `json:"status"`
+	Id                  int64                    `json:"id"`
+	Name                string                   `json:"name"`
+	Identifier          *string                  `json:"identifier,omitempty"`
+	Description         *string                  `json:"description,omitempty"`
+	FunctionId          int64                    `json:"functionId"`
+	Arguments           []map[string]interface{} `json:"arguments"`
+	RemediationHint     *string                  `json:"remediationHint,omitempty"`
+	IntervalSeconds     int32                    `json:"intervalSeconds"`
+	Tags                []string                 `json:"tags"`
+	Status              MonitorStatusValue       `json:"status"`
+	LastUpdateTimestamp int64                    `json:"lastUpdateTimestamp"`
 }
 
 // NewMonitor instantiates a new Monitor object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue) *Monitor {
+func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, lastUpdateTimestamp int64) *Monitor {
 	this := Monitor{}
 	this.Id = id
 	this.Name = name
@@ -42,6 +43,7 @@ func NewMonitor(id int64, name string, functionId int64, arguments []map[string]
 	this.IntervalSeconds = intervalSeconds
 	this.Tags = tags
 	this.Status = status
+	this.LastUpdateTimestamp = lastUpdateTimestamp
 	return &this
 }
 
@@ -317,6 +319,30 @@ func (o *Monitor) SetStatus(v MonitorStatusValue) {
 	o.Status = v
 }
 
+// GetLastUpdateTimestamp returns the LastUpdateTimestamp field value
+func (o *Monitor) GetLastUpdateTimestamp() int64 {
+	if o == nil {
+		var ret int64
+		return ret
+	}
+
+	return o.LastUpdateTimestamp
+}
+
+// GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field value
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetLastUpdateTimestampOk() (*int64, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.LastUpdateTimestamp, true
+}
+
+// SetLastUpdateTimestamp sets field value
+func (o *Monitor) SetLastUpdateTimestamp(v int64) {
+	o.LastUpdateTimestamp = v
+}
+
 func (o Monitor) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -348,6 +374,9 @@ func (o Monitor) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["status"] = o.Status
+	}
+	if true {
+		toSerialize["lastUpdateTimestamp"] = o.LastUpdateTimestamp
 	}
 	return json.Marshal(toSerialize)
 }

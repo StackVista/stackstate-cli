@@ -18,6 +18,7 @@ import (
 // MonitorStatus struct for MonitorStatus
 type MonitorStatus struct {
 	Monitor                      Monitor              `json:"monitor"`
+	Function                     MonitorFunction      `json:"function"`
 	Errors                       []MonitorError       `json:"errors,omitempty"`
 	Metrics                      MonitorMetrics       `json:"metrics"`
 	MonitorHealthStateStateCount *int32               `json:"monitorHealthStateStateCount,omitempty"`
@@ -28,9 +29,10 @@ type MonitorStatus struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorStatus(monitor Monitor, metrics MonitorMetrics) *MonitorStatus {
+func NewMonitorStatus(monitor Monitor, function MonitorFunction, metrics MonitorMetrics) *MonitorStatus {
 	this := MonitorStatus{}
 	this.Monitor = monitor
+	this.Function = function
 	this.Metrics = metrics
 	return &this
 }
@@ -65,6 +67,30 @@ func (o *MonitorStatus) GetMonitorOk() (*Monitor, bool) {
 // SetMonitor sets field value
 func (o *MonitorStatus) SetMonitor(v Monitor) {
 	o.Monitor = v
+}
+
+// GetFunction returns the Function field value
+func (o *MonitorStatus) GetFunction() MonitorFunction {
+	if o == nil {
+		var ret MonitorFunction
+		return ret
+	}
+
+	return o.Function
+}
+
+// GetFunctionOk returns a tuple with the Function field value
+// and a boolean to check if the value has been set.
+func (o *MonitorStatus) GetFunctionOk() (*MonitorFunction, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Function, true
+}
+
+// SetFunction sets field value
+func (o *MonitorStatus) SetFunction(v MonitorFunction) {
+	o.Function = v
 }
 
 // GetErrors returns the Errors field value if set, zero value otherwise.
@@ -191,6 +217,9 @@ func (o MonitorStatus) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["monitor"] = o.Monitor
+	}
+	if true {
+		toSerialize["function"] = o.Function
 	}
 	if o.Errors != nil {
 		toSerialize["errors"] = o.Errors

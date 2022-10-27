@@ -14,12 +14,13 @@ Name | Type | Description | Notes
 **IntervalSeconds** | **int32** |  | 
 **Tags** | **[]string** |  | 
 **Status** | [**MonitorStatusValue**](MonitorStatusValue.md) |  | 
+**LastUpdateTimestamp** | **int64** |  | 
 
 ## Methods
 
 ### NewMonitor
 
-`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, ) *Monitor`
+`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, lastUpdateTimestamp int64, ) *Monitor`
 
 NewMonitor instantiates a new Monitor object
 This constructor will assign default values to properties that have it defined,
@@ -247,6 +248,26 @@ and a boolean to check if the value has been set.
 `func (o *Monitor) SetStatus(v MonitorStatusValue)`
 
 SetStatus sets Status field to given value.
+
+
+### GetLastUpdateTimestamp
+
+`func (o *Monitor) GetLastUpdateTimestamp() int64`
+
+GetLastUpdateTimestamp returns the LastUpdateTimestamp field if non-nil, zero value otherwise.
+
+### GetLastUpdateTimestampOk
+
+`func (o *Monitor) GetLastUpdateTimestampOk() (*int64, bool)`
+
+GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastUpdateTimestamp
+
+`func (o *Monitor) SetLastUpdateTimestamp(v int64)`
+
+SetLastUpdateTimestamp sets LastUpdateTimestamp field to given value.
 
 
 

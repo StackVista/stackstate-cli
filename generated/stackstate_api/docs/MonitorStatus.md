@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Monitor** | [**Monitor**](Monitor.md) |  | 
+**Function** | [**MonitorFunction**](MonitorFunction.md) |  | 
 **Errors** | Pointer to [**[]MonitorError**](MonitorError.md) |  | [optional] 
 **Metrics** | [**MonitorMetrics**](MonitorMetrics.md) |  | 
 **MonitorHealthStateStateCount** | Pointer to **int32** |  | [optional] 
@@ -14,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewMonitorStatus
 
-`func NewMonitorStatus(monitor Monitor, metrics MonitorMetrics, ) *MonitorStatus`
+`func NewMonitorStatus(monitor Monitor, function MonitorFunction, metrics MonitorMetrics, ) *MonitorStatus`
 
 NewMonitorStatus instantiates a new MonitorStatus object
 This constructor will assign default values to properties that have it defined,
@@ -47,6 +48,26 @@ and a boolean to check if the value has been set.
 `func (o *MonitorStatus) SetMonitor(v Monitor)`
 
 SetMonitor sets Monitor field to given value.
+
+
+### GetFunction
+
+`func (o *MonitorStatus) GetFunction() MonitorFunction`
+
+GetFunction returns the Function field if non-nil, zero value otherwise.
+
+### GetFunctionOk
+
+`func (o *MonitorStatus) GetFunctionOk() (*MonitorFunction, bool)`
+
+GetFunctionOk returns a tuple with the Function field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFunction
+
+`func (o *MonitorStatus) SetFunction(v MonitorFunction)`
+
+SetFunction sets Function field to given value.
 
 
 ### GetErrors
