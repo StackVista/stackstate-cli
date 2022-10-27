@@ -28,7 +28,7 @@ func NewStackStateClient(ctx context.Context,
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string) (StackStateClient, context.Context) {
-	userAgent := fmt.Sprintf("StackState CLI v%s", version)
+	userAgent := fmt.Sprintf("StackStateCLI/%s", version)
 	apiURL := combineURLandPath(url, apiPath)
 	client, clientAuth := NewApiClient(isVerbose, pr, userAgent, apiURL, apiToken, serviceToken, k8sServiceAccountToken)
 
