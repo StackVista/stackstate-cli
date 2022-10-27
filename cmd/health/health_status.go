@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/stackvista/stackstate-cli/internal/util"
-
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
@@ -97,17 +95,23 @@ func RunTopologyMatchesStatus(cli *di.Deps, api *stackstate_api.APIClient, args 
 }
 
 func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
-	streamStatus, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(cli.Context, args.Urn).Execute()
+	status, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(cli.Context, args.Urn).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
 	if cli.IsJson() {
-		cli.Printer.PrintJson(healthStreamStatusToJson(streamStatus))
+		cli.Printer.PrintJson(map[string]interface{}{
+			"consistency-model": status.ConsistencyModel,
+			"metrics":           streamMetricsToJson(status.AggregateMetrics),
+			"errors":            streamErrorsToJson(status.GlobalErrors),
+		})
 	} else {
-		for _, v := range healthStreamStatusToString(streamStatus) {
-			cli.Printer.PrintLn(v)
-		}
+		cli.Printer.PrintLn(fmt.Sprintf("Stream consistency model: %s", status.ConsistencyModel))
+		cli.Printer.PrintLn("Aggregate metrics for the stream and all substreams:")
+		cli.Printer.Table(streamMetricsToTable(status.AggregateMetrics))
+		cli.Printer.PrintLn("Errors for non-existing substreams:")
+		cli.Printer.Table(streamErrorsToTable(status.GlobalErrors))
 	}
 	return nil
 }
@@ -265,113 +269,10 @@ func RunSubStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *Statu
 		cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", status.CheckStateCount))
 		cli.Printer.PrintLn("Consistency state:")
 		cli.Printer.Table(streamConsistencyStateToTable(status.SubStreamState))
-		cli.Printer.PrintLn("Aggregate metrics:")
+		cli.Printer.PrintLn("Metrics:")
 		cli.Printer.Table(streamMetricsToTable(status.Metrics))
 		cli.Printer.PrintLn("Errors:")
 		cli.Printer.Table(streamErrorsToTable(status.Errors))
 	}
 	return nil
-}
-
-func healthStreamStatusToString(streamStatus *stackstate_api.HealthStreamStatus) []string {
-	strValue := make([]string, 0)
-	if streamStatus.GetRecoverMessage() != "" {
-		str := fmt.Sprintf("This stream is in recovery mode.\n"+
-			"This means stackstate is reconstructing the state of the health streams. "+
-			"In this period no errors will be reported for the stream,\n"+
-			"incoming data will be processed as usual.\n"+
-			"The reason recovery mode was entered was because: %s", streamStatus.GetRecoverMessage())
-		strValue = append(strValue, str)
-	}
-	str := fmt.Sprintf("Consistency model for the stream and all substreams: %s", streamStatus.GetConsistencyModel())
-	strValue = append(strValue, str)
-	if mainStream, ok := streamStatus.GetMainStreamStatusOk(); ok {
-		strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", mainStream.CheckStateCount))
-		strOutput := consistencyStateToString(&mainStream.SubStreamState)
-		strValue = append(strValue, strOutput...)
-		strValue = append(strValue, fmt.Sprintf("\nSynchronization errors:\n %v", mainStream.GetErrors()),
-			fmt.Sprintf("\nSynchronization metrics:\n %v", mainStream.GetMetrics()))
-	} else {
-		strValue = append(strValue, "Synchronized check state count: -")
-	}
-	strValue = append(strValue, fmt.Sprintf("\nAggregate metrics for the stream and all substreams:\n %v", streamStatus.GetAggregateMetrics()),
-		fmt.Sprintf("\nErrors for non-existing sub streams:\n %v", streamStatus.GetGlobalErrors()))
-	return strValue
-}
-
-func healthStreamStatusToJson(streamStatus *stackstate_api.HealthStreamStatus) map[string]interface{} {
-	jsonMap := make(map[string]interface{})
-	if streamStatus.GetRecoverMessage() != "" {
-		str := fmt.Sprintf("This stream is in recovery mode.\n"+
-			"This means stackstate is reconstructing the state of the health streams. "+
-			"In this period no errors will be reported for the stream,\n"+
-			"incoming data will be processed as usual.\n"+
-			"The reason recovery mode was entered was because: %s", streamStatus.GetRecoverMessage())
-		jsonMap["recovery_message"] = str
-	}
-	str := fmt.Sprintf("Consistency model for the stream and all substreams: %s", streamStatus.GetConsistencyModel())
-	jsonMap["stream_consistency_model"] = str
-	if mainStream, ok := streamStatus.GetMainStreamStatusOk(); ok {
-		jsonMap["state_check_count"] = fmt.Sprintf("%d", mainStream.CheckStateCount)
-		jsonOutput := consistencyStateToJson(&mainStream.SubStreamState)
-		util.ConcatMap(jsonMap, jsonOutput)
-		jsonMap["errors"] = fmt.Sprintf("Synchronization errors: %v", mainStream.GetErrors())
-		jsonMap["metrics"] = fmt.Sprintf("Synchronization metrics: %v", mainStream.GetMetrics())
-	} else {
-		jsonMap["synchronized_state_count"] = "-"
-	}
-	jsonMap["aggregate_metrics"] = fmt.Sprintf("Aggregate metrics for the stream and all substreams: %v", streamStatus.GetAggregateMetrics())
-	jsonMap["non_existing_error"] = fmt.Sprintf("Errors for non-existing sub streams: %v", streamStatus.GetGlobalErrors())
-
-	return jsonMap
-}
-
-func consistencyStateToJson(subStream *stackstate_api.HealthSubStreamConsistencyState) map[string]interface{} {
-	jsonMap := make(map[string]interface{})
-	if subStream == nil {
-		jsonMap["sub_stream_state"] = "Invalid Sub Stream State"
-		return jsonMap
-	}
-	const divideBy = int32(1000)
-	if subStreamStateType := subStream.HealthSubStreamExpiry; subStreamStateType != nil {
-		jsonMap["repeat_interval"] = fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(subStreamStateType.RepeatIntervalMs/divideBy))
-		jsonMap["expiry"] = fmt.Sprintf("Expiry (Seconds): %.0f", float64(subStreamStateType.ExpiryIntervalMs/divideBy))
-	} else if statusType := subStream.HealthSubStreamSnapshot; statusType != nil {
-		jsonMap["repeat_interval"] = fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(statusType.RepeatIntervalMs/divideBy))
-		if expSecond := statusType.ExpiryIntervalMs; expSecond != nil {
-			jsonMap["expiry"] = fmt.Sprintf("Expiry (Seconds): %.0f", float64(*expSecond/divideBy))
-		}
-	} else if statusType := subStream.HealthSubStreamTransactionalIncrements; statusType != nil {
-		jsonMap["checkpoint_offset"] = fmt.Sprintf("Checkpoint offset: %d", statusType.GetOffset())
-		if idx := statusType.BatchIndex; idx != nil {
-			jsonMap["checkpoint_batch_index"] = fmt.Sprintf("Checkpoint batch index: %d", idx)
-		}
-	}
-	return jsonMap
-}
-
-func consistencyStateToString(subStream *stackstate_api.HealthSubStreamConsistencyState) []string {
-	strValue := make([]string, 0)
-	if subStream == nil {
-		strValue = append(strValue, "Invalid Sub Stream State")
-		return strValue
-	}
-	const divideBy = int32(1000)
-	if subStreamStateType := subStream.HealthSubStreamExpiry; subStreamStateType != nil {
-		strValue = append(strValue,
-			fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(subStreamStateType.RepeatIntervalMs/divideBy)),
-			fmt.Sprintf("Expiry (Seconds): %.0f", float64(subStreamStateType.ExpiryIntervalMs/divideBy)),
-		)
-	} else if statusType := subStream.HealthSubStreamSnapshot; statusType != nil {
-		strValue = append(strValue, fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(statusType.RepeatIntervalMs/divideBy)))
-		if expSecond := statusType.ExpiryIntervalMs; expSecond != nil {
-			strValue = append(strValue, fmt.Sprintf("Expiry (Seconds): %.0f", float64(*expSecond/divideBy)))
-		}
-	} else if statusType := subStream.HealthSubStreamTransactionalIncrements; statusType != nil {
-		strValue = append(strValue, fmt.Sprintf("Checkpoint offset: %d", statusType.GetOffset()))
-		if idx := statusType.BatchIndex; idx != nil {
-			strValue = append(strValue, fmt.Sprintf("Checkpoint batch index: %d", idx))
-		}
-	}
-	return strValue
 }
