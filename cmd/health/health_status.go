@@ -115,22 +115,25 @@ func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusAr
 		return common.NewResponseError(err, resp)
 	}
 
-	jsonMap := make(map[string]interface{})
-	strValue := make([]string, 0)
-	if count, ok := subSteamStatus.GetCheckStateCountOk(); ok {
-		jsonMap["state_check_count"] = fmt.Sprintf("%d", *count)
-		strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", *count))
-		strOutput, jsonOutput := printSubStream(&subSteamStatus.SubStreamState)
-		strValue = append(strValue, strOutput...)
-		util.ConcatMap(jsonMap, jsonOutput)
-	} else {
-		jsonMap["synchronized_state_count"] = "-"
-		strValue = append(strValue, "Synchronized check state count: -")
-	}
-
 	if cli.IsJson() {
+		jsonMap := make(map[string]interface{})
+		if count, ok := subSteamStatus.GetCheckStateCountOk(); ok {
+			jsonMap["state_check_count"] = fmt.Sprintf("%d", *count)
+			jsonOutput := consistencyStateToJson(&subSteamStatus.SubStreamState)
+			util.ConcatMap(jsonMap, jsonOutput)
+		} else {
+			jsonMap["synchronized_state_count"] = "-"
+		}
 		cli.Printer.PrintJson(jsonMap)
 	} else {
+		strValue := make([]string, 0)
+		if count, ok := subSteamStatus.GetCheckStateCountOk(); ok {
+			strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", *count))
+			strOutput := consistencyStateToString(&subSteamStatus.SubStreamState)
+			strValue = append(strValue, strOutput...)
+		} else {
+			strValue = append(strValue, "Synchronized check state count: -")
+		}
 		for _, v := range strValue {
 			cli.Printer.PrintLn(v)
 		}
@@ -157,7 +160,9 @@ func processSubStream(streamStatus *stackstate_api.HealthStreamStatus) (map[stri
 		jsonMap["state_check_count"] = fmt.Sprintf("%d", mainStream.CheckStateCount)
 		strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", mainStream.CheckStateCount))
 
-		strOutput, jsonOutput := printSubStream(&mainStream.SubStreamState)
+		strOutput := consistencyStateToString(&mainStream.SubStreamState)
+		jsonOutput := consistencyStateToJson(&mainStream.SubStreamState)
+
 		strValue = append(strValue, strOutput...)
 		util.ConcatMap(jsonMap, jsonOutput)
 
@@ -176,36 +181,52 @@ func processSubStream(streamStatus *stackstate_api.HealthStreamStatus) (map[stri
 	return jsonMap, strValue
 }
 
-func printSubStream(subStream *stackstate_api.HealthSubStreamConsistencyState) ([]string, map[string]interface{}) {
+func consistencyStateToJson(subStream *stackstate_api.HealthSubStreamConsistencyState) map[string]interface{} {
 	jsonMap := make(map[string]interface{})
-	strValue := make([]string, 0)
 	if subStream == nil {
 		jsonMap["sub_stream_state"] = "Invalid Sub Stream State"
-		strValue = append(strValue, "Invalid Sub Stream State")
-		return strValue, jsonMap
+		return jsonMap
 	}
 	const divideBy = int32(1000)
 	if subStreamStateType := subStream.HealthSubStreamExpiry; subStreamStateType != nil {
 		jsonMap["repeat_interval"] = fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(subStreamStateType.RepeatIntervalMs/divideBy))
 		jsonMap["expiry"] = fmt.Sprintf("Expiry (Seconds): %.0f", float64(subStreamStateType.ExpiryIntervalMs/divideBy))
+	} else if statusType := subStream.HealthSubStreamSnapshot; statusType != nil {
+		jsonMap["repeat_interval"] = fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(statusType.RepeatIntervalMs/divideBy))
+		if expSecond := statusType.ExpiryIntervalMs; expSecond != nil {
+			jsonMap["expiry"] = fmt.Sprintf("Expiry (Seconds): %.0f", float64(*expSecond/divideBy))
+		}
+	} else if statusType := subStream.HealthSubStreamTransactionalIncrements; statusType != nil {
+		jsonMap["checkpoint_offset"] = fmt.Sprintf("Checkpoint offset: %d", statusType.GetOffset())
+		if idx := statusType.BatchIndex; idx != nil {
+			jsonMap["checkpoint_batch_index"] = fmt.Sprintf("Checkpoint batch index: %d", idx)
+		}
+	}
+	return jsonMap
+}
+
+func consistencyStateToString(subStream *stackstate_api.HealthSubStreamConsistencyState) []string {
+	strValue := make([]string, 0)
+	if subStream == nil {
+		strValue = append(strValue, "Invalid Sub Stream State")
+		return strValue
+	}
+	const divideBy = int32(1000)
+	if subStreamStateType := subStream.HealthSubStreamExpiry; subStreamStateType != nil {
 		strValue = append(strValue,
 			fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(subStreamStateType.RepeatIntervalMs/divideBy)),
 			fmt.Sprintf("Expiry (Seconds): %.0f", float64(subStreamStateType.ExpiryIntervalMs/divideBy)),
 		)
 	} else if statusType := subStream.HealthSubStreamSnapshot; statusType != nil {
-		jsonMap["repeat_interval"] = fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(statusType.RepeatIntervalMs/divideBy))
 		strValue = append(strValue, fmt.Sprintf("Repeat interval (Seconds): %.0f", float64(statusType.RepeatIntervalMs/divideBy)))
 		if expSecond := statusType.ExpiryIntervalMs; expSecond != nil {
-			jsonMap["expiry"] = fmt.Sprintf("Expiry (Seconds): %.0f", float64(*expSecond/divideBy))
 			strValue = append(strValue, fmt.Sprintf("Expiry (Seconds): %.0f", float64(*expSecond/divideBy)))
 		}
 	} else if statusType := subStream.HealthSubStreamTransactionalIncrements; statusType != nil {
-		jsonMap["checkpoint_offset"] = fmt.Sprintf("Checkpoint offset: %d", statusType.GetOffset())
 		strValue = append(strValue, fmt.Sprintf("Checkpoint offset: %d", statusType.GetOffset()))
 		if idx := statusType.BatchIndex; idx != nil {
-			jsonMap["checkpoint_batch_index"] = fmt.Sprintf("Checkpoint batch index: %d", idx)
 			strValue = append(strValue, fmt.Sprintf("Checkpoint batch index: %d", idx))
 		}
 	}
-	return strValue, jsonMap
+	return strValue
 }
