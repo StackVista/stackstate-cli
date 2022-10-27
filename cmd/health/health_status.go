@@ -41,67 +41,101 @@ func RunHealthStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		var resp *http.Response
-		var err error
-		if args.Topology {
-			data := make([][]interface{}, 0)
-			var topologies *stackstate_api.TopologyMatchResult
-			if args.SubStream == "" {
-				topologies, resp, err = api.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches(cli.Context, args.Urn).Execute()
-			} else {
-				topologies, resp, err = api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches(cli.Context, args.Urn, args.SubStream).Execute()
-			}
-			if err != nil {
-				return common.NewResponseError(err, resp)
-			}
-			for _, v := range topologies.GetMultipleMatchesCheckStates() {
-				data = append(data, []interface{}{v.GetCheckStateId(), v.GetTopologyElementIdentifier(), v.GetMatchCount()})
-			}
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{"status": data})
-			} else {
-				cli.Printer.Table(printer.TableData{
-					Header:              []string{"Check state id", "Topology element identifier", "Number of matched topology elements"},
-					Data:                data,
-					MissingTableDataMsg: printer.NotFoundMsg{Types: "health status"},
-				})
-			}
-		} else {
-			jsonMap := make(map[string]interface{})
-			strValue := make([]string, 0)
-			if args.SubStream == "" {
-				streamStatus, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(cli.Context, args.Urn).Execute()
-				if err != nil {
-					return common.NewResponseError(err, resp)
-				}
-				jsonMap, strValue = processSubStream(streamStatus)
-			} else {
-				subSteamStatus, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(cli.Context, args.Urn, args.SubStream).Execute()
-				if err != nil {
-					return common.NewResponseError(err, resp)
-				}
-				if count, ok := subSteamStatus.GetCheckStateCountOk(); ok {
-					jsonMap["state_check_count"] = fmt.Sprintf("%d", *count)
-					strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", *count))
-					strOutput, jsonOutput := printSubStream(&subSteamStatus.SubStreamState)
-					strValue = append(strValue, strOutput...)
-					util.ConcatMap(jsonMap, jsonOutput)
-				} else {
-					jsonMap["synchronized_state_count"] = "-"
-					strValue = append(strValue, "Synchronized check state count: -")
-				}
-			}
-
-			if cli.IsJson() {
-				cli.Printer.PrintJson(jsonMap)
-			} else {
-				for _, v := range strValue {
-					cli.Printer.PrintLn(v)
-				}
-			}
+		switch {
+		case args.Topology:
+			return RunTopologyMatchesStatus(cli, api, args)
+		case args.SubStream == "":
+			return RunSubStreamStatus(cli, api, args)
+		default:
+			return RunStreamStatus(cli, api, args)
 		}
-		return nil
 	}
+}
+
+func GetTopologyMatches(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) (*stackstate_api.TopologyMatchResult, common.CLIError) {
+	var topologies *stackstate_api.TopologyMatchResult
+	var resp *http.Response
+	var err error
+	if args.SubStream == "" {
+		topologies, resp, err = api.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches(cli.Context, args.Urn).Execute()
+	} else {
+		topologies, resp, err = api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches(cli.Context, args.Urn, args.SubStream).Execute()
+	}
+
+	if err != nil {
+		return topologies, common.NewResponseError(err, resp)
+	}
+	return topologies, nil
+}
+
+func RunTopologyMatchesStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
+	topologies, err := GetTopologyMatches(cli, api, args)
+	if err != nil {
+		return err
+	}
+
+	data := make([][]interface{}, 0)
+	for _, v := range topologies.GetMultipleMatchesCheckStates() {
+		data = append(data, []interface{}{v.GetCheckStateId(), v.GetTopologyElementIdentifier(), v.GetMatchCount()})
+	}
+	if cli.IsJson() {
+		cli.Printer.PrintJson(map[string]interface{}{"status": data})
+	} else {
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"Check state id", "Topology element identifier", "Number of matched topology elements"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "health status"},
+		})
+	}
+	return nil
+}
+
+func RunSubStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
+	streamStatus, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(cli.Context, args.Urn).Execute()
+	if err != nil {
+		return common.NewResponseError(err, resp)
+	}
+
+	jsonMap, strValue := processSubStream(streamStatus)
+
+	if cli.IsJson() {
+		cli.Printer.PrintJson(jsonMap)
+	} else {
+		for _, v := range strValue {
+			cli.Printer.PrintLn(v)
+		}
+	}
+	return nil
+}
+
+func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
+	subSteamStatus, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(cli.Context, args.Urn, args.SubStream).Execute()
+
+	if err != nil {
+		return common.NewResponseError(err, resp)
+	}
+
+	jsonMap := make(map[string]interface{})
+	strValue := make([]string, 0)
+	if count, ok := subSteamStatus.GetCheckStateCountOk(); ok {
+		jsonMap["state_check_count"] = fmt.Sprintf("%d", *count)
+		strValue = append(strValue, fmt.Sprintf("Synchronized check state count: %d", *count))
+		strOutput, jsonOutput := printSubStream(&subSteamStatus.SubStreamState)
+		strValue = append(strValue, strOutput...)
+		util.ConcatMap(jsonMap, jsonOutput)
+	} else {
+		jsonMap["synchronized_state_count"] = "-"
+		strValue = append(strValue, "Synchronized check state count: -")
+	}
+
+	if cli.IsJson() {
+		cli.Printer.PrintJson(jsonMap)
+	} else {
+		for _, v := range strValue {
+			cli.Printer.PrintLn(v)
+		}
+	}
+	return nil
 }
 
 func processSubStream(streamStatus *stackstate_api.HealthStreamStatus) (map[string]interface{}, []string) {
