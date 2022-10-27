@@ -108,9 +108,9 @@ func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusAr
 		})
 	} else {
 		cli.Printer.PrintLn(fmt.Sprintf("Stream consistency model: %s", status.ConsistencyModel))
-		cli.Printer.PrintLn("Aggregate metrics for the stream and all substreams:")
+		cli.Printer.PrintLn("\nAggregate metrics for the stream and all substreams:")
 		cli.Printer.Table(streamMetricsToTable(status.AggregateMetrics))
-		cli.Printer.PrintLn("Errors for non-existing substreams:")
+		cli.Printer.PrintLn("\nErrors for non-existing substreams:")
 		cli.Printer.Table(streamErrorsToTable(status.GlobalErrors))
 	}
 	return nil
@@ -267,11 +267,11 @@ func RunSubStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *Statu
 		})
 	} else {
 		cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", status.CheckStateCount))
-		cli.Printer.PrintLn("Consistency state:")
+		cli.Printer.PrintLn("\nConsistency state:")
 		cli.Printer.Table(streamConsistencyStateToTable(status.SubStreamState))
-		cli.Printer.PrintLn("Metrics:")
+		cli.Printer.PrintLn("\nMetrics:")
 		cli.Printer.Table(streamMetricsToTable(status.Metrics))
-		cli.Printer.PrintLn("Errors:")
+		cli.Printer.PrintLn("\nErrors:")
 		cli.Printer.Table(streamErrorsToTable(status.Errors))
 	}
 	return nil
