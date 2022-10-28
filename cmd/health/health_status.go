@@ -101,17 +101,25 @@ func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusAr
 	}
 
 	if cli.IsJson() {
-		cli.Printer.PrintJson(map[string]interface{}{
+		json := map[string]interface{}{
 			"consistency-model": status.ConsistencyModel,
 			"metrics":           streamMetricsToJson(status.AggregateMetrics),
 			"errors":            streamErrorsToJson(status.GlobalErrors),
-		})
+		}
+		if status.HasMainStreamStatus() {
+			json["main-stream"] = subStreamStatusToJson(*status.MainStreamStatus)
+		}
+		cli.Printer.PrintJson(json)
 	} else {
 		cli.Printer.PrintLn(fmt.Sprintf("Stream consistency model: %s", status.ConsistencyModel))
 		cli.Printer.PrintLn("\nAggregate metrics for the stream and all substreams:")
 		cli.Printer.Table(streamMetricsToTable(status.AggregateMetrics))
 		cli.Printer.PrintLn("\nErrors for non-existing substreams:")
 		cli.Printer.Table(streamErrorsToTable(status.GlobalErrors))
+		if status.HasMainStreamStatus() {
+			cli.Printer.PrintLn("\nMain stream status:")
+			printSubStreamStatus(cli, *status.MainStreamStatus)
+		}
 	}
 	return nil
 }
@@ -252,6 +260,25 @@ func streamConsistencyStateToTable(state stackstate_api.HealthSubStreamConsisten
 	}
 }
 
+func printSubStreamStatus(cli *di.Deps, status stackstate_api.HealthSubStreamStatus) {
+	cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", status.CheckStateCount))
+	cli.Printer.PrintLn("\nConsistency state:")
+	cli.Printer.Table(streamConsistencyStateToTable(status.SubStreamState))
+	cli.Printer.PrintLn("\nMetrics:")
+	cli.Printer.Table(streamMetricsToTable(status.Metrics))
+	cli.Printer.PrintLn("\nErrors:")
+	cli.Printer.Table(streamErrorsToTable(status.Errors))
+}
+
+func subStreamStatusToJson(status stackstate_api.HealthSubStreamStatus) map[string]interface{} {
+	return map[string]interface{}{
+		"check-state-count": status.CheckStateCount,
+		"consistency-state": streamConsistencyStateToJson(status.SubStreamState),
+		"metrics":           streamMetricsToJson(status.Metrics),
+		"errors":            streamErrorsToJson(status.Errors),
+	}
+}
+
 func RunSubStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
 	status, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(cli.Context, args.Urn, args.SubStream).Execute()
 	if err != nil {
@@ -259,20 +286,10 @@ func RunSubStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *Statu
 	}
 
 	if cli.IsJson() {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"check-state-count": status.CheckStateCount,
-			"consistency-state": streamConsistencyStateToJson(status.SubStreamState),
-			"metrics":           streamMetricsToJson(status.Metrics),
-			"errors":            streamErrorsToJson(status.Errors),
-		})
+		cli.Printer.PrintJson(subStreamStatusToJson(*status))
 	} else {
-		cli.Printer.PrintLn(fmt.Sprintf("Synchronized check state count: %d", status.CheckStateCount))
-		cli.Printer.PrintLn("\nConsistency state:")
-		cli.Printer.Table(streamConsistencyStateToTable(status.SubStreamState))
-		cli.Printer.PrintLn("\nMetrics:")
-		cli.Printer.Table(streamMetricsToTable(status.Metrics))
-		cli.Printer.PrintLn("\nErrors:")
-		cli.Printer.Table(streamErrorsToTable(status.Errors))
+		printSubStreamStatus(cli, *status)
 	}
+
 	return nil
 }
