@@ -30,6 +30,8 @@ new-module -name "StsCliInstaller" -scriptblock {
     if (!$StsCliVersion) {
       Invoke-WebRequest https://dl.stackstate.com/stackstate-cli/LATEST_VERSION -OutFile $CliPath\VERSION
       $StsCliVersion=type $CliPath\VERSION
+      # The LATEST_VERSION file contains the published tag name, strip the v prefix
+      $StsCliVersion=$StsCliVersion.TrimStart("v")
       rm $CliPath\VERSION
     }
     $CliDl = "https://dl.stackstate.com/stackstate-cli/v$StsCliVersion/stackstate-cli-$StsCliVersion.windows-x86_64.zip"
