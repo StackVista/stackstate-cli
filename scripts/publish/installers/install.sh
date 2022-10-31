@@ -41,7 +41,7 @@ if [[ -z "$STS_CLI_LOCATION" ]]; then
   # Use default installation location
   TARGET_CLI_PATH=/usr/local/bin
   # check if the user has permissions to write on default location
-  if [[ -w "$TARGET_CLI_PATH" ]]; then 
+  if [[ -w "$TARGET_CLI_PATH" ]]; then
     # user has writing permissions, so no need to use sudo
     NO_SUDO=true
   fi
@@ -50,7 +50,7 @@ else
   if [[ ! -d "$STS_CLI_LOCATION" ]]; then
     error "Provided directory does not exist: $STS_CLI_LOCATION."
   # Check if the user has writing permissions on custom location
-  elif [[ ! -w "$STS_CLI_LOCATION" ]]; then 
+  elif [[ ! -w "$STS_CLI_LOCATION" ]]; then
     # Location exists but user doesn't have writing permission.
     echo "Sudo will be used on the provided location $STS_CLI_LOCATION."
   else
@@ -64,10 +64,12 @@ fi
 # Download and unpack the CLI to the target CLI path
 if [[ -z "$STS_CLI_VERSION" ]]; then
   STS_CLI_VERSION=`curl https://dl.stackstate.com/stackstate-cli/LATEST_VERSION 2> /dev/null`
+  # The LATEST_VERSION file contains the published tag name, strip the v prefix
+  STS_CLI_VERSION=${STS_CLI_VERSION#v}
 fi
 DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
 echo "Installing: $DL"
-
+~
 if [[ -z "$NO_SUDO" ]]; then
   # check if custom location was passed to avoid redundant printing
   if [[ -z "$STS_CLI_LOCATION" ]]; then
