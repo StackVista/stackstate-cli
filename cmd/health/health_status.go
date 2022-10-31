@@ -11,12 +11,6 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
-const (
-	// Magic numbers are frowned upon, so I'm introducing these two smelly ding-dongs because I don't give a fuck anymore.
-	TWO   = 2
-	THREE = 3
-)
-
 type StatusArgs struct {
 	Urn       string
 	SubStream string
@@ -133,10 +127,10 @@ func metricValueOrDash(bucket []stackstate_api.MetricBucketValue, index int) int
 
 func metricBucketToJson(name string, bucket []stackstate_api.MetricBucketValue, size int32) map[string]interface{} {
 	return map[string]interface{}{
-		"name":                                     name,
-		fmt.Sprintf("now-%d", size):                metricValueOrDash(bucket, 0),
-		fmt.Sprintf("%d-%d", size, TWO*size):       metricValueOrDash(bucket, 1),
-		fmt.Sprintf("%d-%d", TWO*size, THREE*size): metricValueOrDash(bucket, TWO),
+		"name":                               name,
+		fmt.Sprintf("now-%d", size):          metricValueOrDash(bucket, 0),
+		fmt.Sprintf("%d-%d", size, 2*size):   metricValueOrDash(bucket, 1), //nolint:gomnd
+		fmt.Sprintf("%d-%d", 2*size, 3*size): metricValueOrDash(bucket, 2), //nolint:gomnd
 	}
 }
 
@@ -156,14 +150,14 @@ func metricBucketToRow(name string, bucket []stackstate_api.MetricBucketValue) [
 		name,
 		metricValueOrDash(bucket, 0),
 		metricValueOrDash(bucket, 1),
-		metricValueOrDash(bucket, TWO),
+		metricValueOrDash(bucket, 2), //nolint:gomnd
 	}
 }
 
 func streamMetricsToTable(metrics stackstate_api.HealthStreamMetrics) printer.TableData {
 	size := metrics.BucketSizeSeconds
 	return printer.TableData{
-		Header: []string{"Metric", fmt.Sprintf("%ds ago", size), fmt.Sprintf("%d-%ds ago", size, TWO*size), fmt.Sprintf("%d-%ds ago", TWO*size, THREE*size)},
+		Header: []string{"Metric", fmt.Sprintf("%ds ago", size), fmt.Sprintf("%d-%ds ago", size, 2*size), fmt.Sprintf("%d-%ds ago", 2*size, 3*size)}, //nolint:gomnd
 		Data: [][]interface{}{
 			metricBucketToRow("latency seconds", metrics.LatencySeconds),
 			metricBucketToRow("messages per seconds", metrics.MessagePerSecond),
