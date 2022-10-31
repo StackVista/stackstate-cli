@@ -86,58 +86,223 @@ func TestHealthStatusTopologyPrintToJson(t *testing.T) {
 func TestHealthStatusWithSubStreamPrintToText(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "--sub-stream-urn", "dummy-sub-stream")
-	expectedSuccessCalls := []string{"Synchronized check state count: 12", "Repeat interval (Seconds): 2", "Expiry (Seconds): 2"}
+	expectedSuccessCalls := []string{
+		"Synchronized check state count: 12",
+		"\nConsistency state:",
+		"\nMetrics:",
+		"\nErrors:",
+	}
 	assert.Equal(t, expectedSuccessCalls, *cli.MockPrinter.PrintLnCalls)
+	expectedTableCalls := []printer.TableData{
+		{
+			Header: []string{"Repeat Interval", "Expiry Interval", "Snapshot Repeat Interval", "Snapshot Expiry Interval", "Checkpoint Offset", "Checkpoint Batch Index"},
+			Data: [][]interface {}{
+				{"2000 ms", "2000 ms", "-", "-", "-", "-"},
+			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"errors"},
+		},
+		{
+			Header: []string{"Metric", "0s ago", "0-0s ago", "0-0s ago"},
+			Data: [][]interface {}{
+				{"latency seconds", "-", "-", "-"},
+				{"messages per seconds", "-", "-", "-"},
+				{"creates per seconds", "-", "-", "-"},
+				{"updates per seconds", "-", "-", "-"},
+				{"deletes per seconds", "-", "-", "-"},
+			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"metrics"},
+		},
+		{
+			Header: []string{"Message", "Count"},
+			Data: [][]interface {}{},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"errors"}},
+	}
+	assert.Equal(t, expectedTableCalls, *cli.MockPrinter.TableCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestHealthStatusWithSubStreamPrintToJson(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "--sub-stream-urn", "dummy-sub-stream", "-o", "json")
-	assert.Equal(t, []map[string]interface{}{{
-		"state_check_count": "12",
-		"repeat_interval":   "Repeat interval (Seconds): 2",
-		"expiry":            "Expiry (Seconds): 2",
-	}}, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t, []map[string]interface {}{
+		{
+			"check-state-count": int32(12),
+			"consistency-state": map[string]interface {}{
+				"expiry-interval": int32(2000),
+				"repeat-interval": int32(2000),
+			},
+			"errors": []map[string]interface {}{},
+			"metrics": []map[string]interface {}{
+				{
+					"name": "latency seconds",
+					"now-0": "-",
+					"0-0": "-",
+				},
+				{
+					"name": "messages per seconds",
+					"now-0": "-",
+					"0-0": "-",
+				},
+				{
+					"name": "creates per seconds",
+					"now-0": "-",
+					"0-0": "-",
+				},
+				{
+					"name": "updates per seconds",
+					"now-0": "-",
+					"0-0": "-",
+				},
+				{
+					"name": "deletes per seconds",
+					"now-0": "-",
+					"0-0": "-",
+				},
+			},
+		},
+	}, *cli.MockPrinter.PrintJsonCalls)
 }
 
 func TestHealthStatusStreamPrintToText(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn")
-	expectedSuccessCalls := []string{"This stream is in recovery mode.\n" +
-		"This means stackstate is reconstructing the state of the health streams. " +
-		"In this period no errors will be reported for the stream,\n" +
-		"incoming data will be processed as usual.\n" +
-		"The reason recovery mode was entered was because: status recovery message",
-		"Consistency model for the stream and all substreams: stream consistency model",
+	expectedSuccessCalls := []string{
+		"Stream consistency model: stream consistency model",
+		"\nAggregate metrics for the stream and all substreams:",
+		"\nErrors for non-existing substreams:",
+		"\nMain stream status:",
 		"Synchronized check state count: 2",
-		"Repeat interval (Seconds): 2",
-		"Expiry (Seconds): 2",
-		"\nSynchronization errors:\n [{  health stream error 0}]",
-		"\nSynchronization metrics:\n {10 [] [] [] [] []}",
-		"\nAggregate metrics for the stream and all substreams:\n {0 [] [] [] [] []}",
-		"\nErrors for non-existing sub streams:\n []",
+		"\nConsistency state:",
+		"\nMetrics:",
+		"\nErrors:",
 	}
 	assert.Equal(t, expectedSuccessCalls, *cli.MockPrinter.PrintLnCalls)
+	expectedTableCalls := []printer.TableData{
+		{
+			Header: []string{"Metric", "0s ago", "0-0s ago", "0-0s ago"},
+			Data: [][]interface {}{
+				{"latency seconds", "-", "-", "-"},
+				{"messages per seconds", "-", "-", "-"},
+				{"creates per seconds", "-", "-", "-"},
+				{"updates per seconds", "-", "-", "-"},
+				{"deletes per seconds", "-", "-", "-"},
+			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"metrics"},
+		},
+		{
+			Header: []string{"Message", "Count"},
+			Data: [][]interface {}{},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"errors"},
+		},
+		{
+			Header: []string{"Repeat Interval", "Expiry Interval", "Snapshot Repeat Interval", "Snapshot Expiry Interval", "Checkpoint Offset", "Checkpoint Batch Index"},
+			Data: [][]interface {}{
+				{"2000 ms", "2000 ms", "-", "-", "-", "-"},
+			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"errors"},
+		},
+		{
+			Header: []string{"Metric", "10s ago", "10-20s ago", "20-30s ago"},
+			Data: [][]interface {}{
+				{"latency seconds", "-", "-", "-"},
+				{"messages per seconds", "-", "-", "-"},
+				{"creates per seconds", "-", "-", "-"},
+				{"updates per seconds", "-", "-", "-"},
+				{"deletes per seconds", "-", "-", "-"},
+			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"metrics"},
+		},
+		{
+			Header: []string{"Message", "Count"},
+			Data: [][]interface {}{
+				{"health stream error", int32(0)},
+			},
+			MissingTableDataMsg: printer.NotFoundMsg{Types:"errors"},
+		},
+	}
+	assert.Equal(t, expectedTableCalls, *cli.MockPrinter.TableCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 }
 
 func TestHealthStatusStreamPrintToJson(t *testing.T) {
 	cli, cmd := setupHealthStatusCmd(t)
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "status", "--urn", "test:urn", "-o", "json")
-	assert.Equal(t, []map[string]interface{}{{
-		"recovery_message": "This stream is in recovery mode.\n" +
-			"This means stackstate is reconstructing the state of the health streams. " +
-			"In this period no errors will be reported for the stream,\n" +
-			"incoming data will be processed as usual.\n" +
-			"The reason recovery mode was entered was because: status recovery message",
-		"stream_consistency_model": "Consistency model for the stream and all substreams: stream consistency model",
-		"state_check_count":        "2",
-		"repeat_interval":          "Repeat interval (Seconds): 2",
-		"expiry":                   "Expiry (Seconds): 2",
-		"errors":                   "Synchronization errors: [{  health stream error 0}]",
-		"metrics":                  "Synchronization metrics: {10 [] [] [] [] []}",
-		"aggregate_metrics":        "Aggregate metrics for the stream and all substreams: {0 [] [] [] [] []}",
-		"non_existing_error":       "Errors for non-existing sub streams: []",
-	}}, *cli.MockPrinter.PrintJsonCalls)
+	assert.Equal(t, []map[string]interface {}{
+		{
+			"consistency-model": "stream consistency model",
+			"errors": []map[string]interface {}{},
+			"main-stream": map[string]interface {}{
+				"check-state-count": int32(2),
+				"consistency-state": map[string]interface {}{
+					"expiry-interval": int32(2000),
+					"repeat-interval": int32(2000),
+				},
+				"errors": []map[string]interface {}{
+					{
+						"count": int32(0),
+						"message": "health stream error",
+					},
+				},
+				"metrics":[]map[string]interface {}{
+					{
+						"name":"latency seconds",
+						"now-10":"-",
+						"10-20":"-",
+						"20-30":"-",
+					},
+					{
+						"name":"messages per seconds",
+						"now-10":"-",
+						"10-20":"-",
+						"20-30":"-",
+					},
+					{
+						"name":"creates per seconds",
+						"now-10":"-",
+						"10-20":"-",
+						"20-30":"-",
+					},
+					{
+						"name":"updates per seconds",
+						"now-10":"-",
+						"10-20":"-",
+						"20-30":"-",
+					},
+					{
+						"name":"deletes per seconds",
+						"now-10":"-",
+						"10-20":"-",
+						"20-30":"-",
+					},
+				},
+			},
+			"metrics": []map[string]interface {}{
+				{
+					"name":"latency seconds",
+					"now-0":"-",
+					"0-0":"-",
+				},
+				{
+					"name":"messages per seconds",
+					"now-0":"-",
+					"0-0":"-",
+				},
+				{
+					"name":"creates per seconds",
+					"now-0":"-",
+					"0-0":"-",
+				},
+				{
+					"name":"updates per seconds",
+					"now-0":"-",
+					"0-0":"-",
+				},
+				{
+					"name":"deletes per seconds",
+					"now-0":"-",
+					"0-0":"-",
+				},
+			},
+		},
+	}, *cli.MockPrinter.PrintJsonCalls)
 }
