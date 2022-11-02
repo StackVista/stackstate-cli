@@ -30,14 +30,14 @@ func RunStackpackListParameterCommand(args *ListArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
+		stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
 
 		data := make([][]interface{}, 0)
 		steps := make([]stackstate_api.StackPackStep, 0)
-		for _, stack := range stackpackList {
+		for _, stack := range stackPackList {
 			if stack.GetName() != args.Name {
 				continue
 			}

@@ -110,9 +110,9 @@ DescribePermissions Describe permissions
 
 Describe permissions granted to a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiDescribePermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiDescribePermissionsRequest
 */
 func (a *PermissionsApiService) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
 	return ApiDescribePermissionsRequest{
@@ -123,7 +123,8 @@ func (a *PermissionsApiService) DescribePermissions(ctx context.Context, subject
 }
 
 // Execute executes the request
-//  @return PermissionDescription
+//
+//	@return PermissionDescription
 func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissionsRequest) (*PermissionDescription, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -279,8 +280,8 @@ GetPermissions List permissions
 
 Get a list of available permissions
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetPermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetPermissionsRequest
 */
 func (a *PermissionsApiService) GetPermissions(ctx context.Context) ApiGetPermissionsRequest {
 	return ApiGetPermissionsRequest{
@@ -290,7 +291,8 @@ func (a *PermissionsApiService) GetPermissions(ctx context.Context) ApiGetPermis
 }
 
 // Execute executes the request
-//  @return Permissions
+//
+//	@return Permissions
 func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest) (*Permissions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -436,9 +438,9 @@ GrantPermissions Grant permissions
 
 Grant permissions to a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiGrantPermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiGrantPermissionsRequest
 */
 func (a *PermissionsApiService) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
 	return ApiGrantPermissionsRequest{
@@ -616,9 +618,9 @@ RevokePermissions Revoke permissions
 
 Revoke permissions of a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiRevokePermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiRevokePermissionsRequest
 */
 func (a *PermissionsApiService) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
 	return ApiRevokePermissionsRequest{

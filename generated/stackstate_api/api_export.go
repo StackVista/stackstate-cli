@@ -59,8 +59,8 @@ ExportSettings Export settings
 
 Export StackState Templated JSON (STJ) setting nodes.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiExportSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiExportSettingsRequest
 */
 func (a *ExportApiService) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
@@ -70,7 +70,8 @@ func (a *ExportApiService) ExportSettings(ctx context.Context) ApiExportSettings
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

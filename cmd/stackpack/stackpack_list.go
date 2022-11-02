@@ -31,18 +31,18 @@ func RunStackpackListCommand(
 	if err != nil {
 		return common.NewCLIArgParseError(err)
 	}
-	stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
+	stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
 
-	sort.SliceStable(stackpackList, func(i, j int) bool {
-		return *stackpackList[i].Name < *stackpackList[j].Name
+	sort.SliceStable(stackPackList, func(i, j int) bool {
+		return stackPackList[i].Name < stackPackList[j].Name
 	})
 
 	data := make([][]interface{}, 0)
-	stackpacks := make([]stackstate_api.Sstackpack, 0)
-	for _, stackpack := range stackpackList {
+	stackpacks := make([]stackstate_api.FullStackPack, 0)
+	for _, stackpack := range stackPackList {
 		if isInstalled && len(stackpack.GetConfigurations()) == 0 {
 			continue // skip as this is not installed
 		}
@@ -74,7 +74,7 @@ func RunStackpackListCommand(
 	return nil
 }
 
-func getVersion(data *stackstate_api.SstackpackLatestVersion) string {
+func getVersion(data *stackstate_api.FullStackPack) string {
 	if data != nil && data.GetVersion() != "" {
 		return data.GetVersion()
 	}

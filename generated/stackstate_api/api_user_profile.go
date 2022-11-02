@@ -67,8 +67,8 @@ GetCurrentUserProfile Get current user profile
 
 Get current user profile.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetCurrentUserProfileRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCurrentUserProfileRequest
 */
 func (a *UserProfileApiService) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
 	return ApiGetCurrentUserProfileRequest{
@@ -78,7 +78,8 @@ func (a *UserProfileApiService) GetCurrentUserProfile(ctx context.Context) ApiGe
 }
 
 // Execute executes the request
-//  @return UserProfile
+//
+//	@return UserProfile
 func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -233,8 +234,8 @@ SaveCurrentUserProfile Save current user profile
 
 Save current user profile.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSaveCurrentUserProfileRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSaveCurrentUserProfileRequest
 */
 func (a *UserProfileApiService) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
 	return ApiSaveCurrentUserProfileRequest{
@@ -244,7 +245,8 @@ func (a *UserProfileApiService) SaveCurrentUserProfile(ctx context.Context) ApiS
 }
 
 // Execute executes the request
-//  @return UserProfile
+//
+//	@return UserProfile
 func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

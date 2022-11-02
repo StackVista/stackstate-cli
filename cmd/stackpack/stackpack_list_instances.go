@@ -30,20 +30,20 @@ func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
+		stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
 
 		data := make([][]interface{}, 0)
-		instances := make([]stackstate_api.SstackpackConfigurationsInner, 0)
-		for _, v := range stackpackList {
+		instances := make([]stackstate_api.StackPackConfiguration, 0)
+		for _, v := range stackPackList {
 			if v.GetName() != args.Name {
 				continue
 			}
 
 			sort.SliceStable(v.GetConfigurations(), func(i, j int) bool {
-				return v.GetConfigurations()[i].LastUpdateTimestamp > v.GetConfigurations()[j].LastUpdateTimestamp
+				return *v.GetConfigurations()[i].LastUpdateTimestamp > *v.GetConfigurations()[j].LastUpdateTimestamp
 			})
 
 			for _, instance := range v.GetConfigurations() {

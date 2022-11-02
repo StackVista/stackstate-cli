@@ -23,9 +23,9 @@ var (
 func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackListParameterCommand(&cli.Deps)
-	mockResponse := []stackstate_api.Sstackpack{
+	mockResponse := []stackstate_api.FullStackPack{
 		{
-			Name: &parameterName,
+			Name: parameterName,
 			Steps: []stackstate_api.StackPackStep{
 				{
 					Name:    &stepName,
@@ -44,7 +44,7 @@ func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command)
 			},
 		},
 	}
-	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
 	return &cli, cmd
 }
 

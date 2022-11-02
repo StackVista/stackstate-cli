@@ -152,12 +152,12 @@ Class | Method | HTTP request | Description
 *ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/tokens | Create new service token
 *ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
 *ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/tokens | Get service tokens
-*StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackpackName}/confirm-manual-steps/{stackpackInstanceId} | Confirm manual steps
-*StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackName}/provision | Provision API
-*StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackName}/deprovision/{stackId} | Provision API
-*StackpackApi* | [**StackpackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
-*StackpackApi* | [**StackpackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
-*StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackName}/upgrade | Upgrade API
+*StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
+*StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
+*StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
+*StackpackApi* | [**StackPackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
+*StackpackApi* | [**StackPackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
+*StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
 *SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
 *SubjectApi* | [**DeleteSubject**](docs/SubjectApi.md#deletesubject) | **Delete** /security/subjects/{subject} | Delete a subject
 *SubjectApi* | [**GetSubject**](docs/SubjectApi.md#getsubject) | **Get** /security/subjects/{subject} | Get subject
@@ -251,9 +251,11 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
  - [ExpiredSubscription](docs/ExpiredSubscription.md)
  - [Export](docs/Export.md)
+ - [FAQ](docs/FAQ.md)
  - [FeedbackComment](docs/FeedbackComment.md)
  - [FeedbackData](docs/FeedbackData.md)
  - [FieldMapping](docs/FieldMapping.md)
+ - [FullStackPack](docs/FullStackPack.md)
  - [GenericAnnotationData](docs/GenericAnnotationData.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
@@ -338,6 +340,7 @@ Class | Method | HTTP request | Description
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [Reference](docs/Reference.md)
+ - [ReleaseStatus](docs/ReleaseStatus.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [RootCauseMode](docs/RootCauseMode.md)
@@ -352,12 +355,11 @@ Class | Method | HTTP request | Description
  - [SimpleTrainingPeriodicity](docs/SimpleTrainingPeriodicity.md)
  - [SingleMetric](docs/SingleMetric.md)
  - [SourceLink](docs/SourceLink.md)
- - [Sstackpack](docs/Sstackpack.md)
- - [SstackpackConfigurationsInner](docs/SstackpackConfigurationsInner.md)
- - [SstackpackLatestVersion](docs/SstackpackLatestVersion.md)
  - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
- - [StackPackFaqsInner](docs/StackPackFaqsInner.md)
+ - [StackPackConfiguration](docs/StackPackConfiguration.md)
+ - [StackPackError](docs/StackPackError.md)
+ - [StackPackIntegration](docs/StackPackIntegration.md)
  - [StackPackStep](docs/StackPackStep.md)
  - [StackPackStepValue](docs/StackPackStepValue.md)
  - [StreamList](docs/StreamList.md)
@@ -451,4 +453,3 @@ Each of these functions takes a value of the given basic type and returns a poin
 ## Author
 
 info@stackstate.com
-

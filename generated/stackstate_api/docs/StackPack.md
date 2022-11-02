@@ -4,25 +4,25 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  | 
-**DisplayName** | **string** |  | 
-**Version** | **string** |  | 
-**Logo** | Pointer to **string** |  | [optional] 
-**Categories** | **[]string** |  | 
-**IsNew** | **bool** |  | 
-**OverviewUrl** | Pointer to **string** |  | [optional] 
-**DetailedOverviewUrl** | Pointer to **string** |  | [optional] 
-**ResourcesUrl** | Pointer to **string** |  | [optional] 
-**Faqs** | Pointer to [**[]StackPackFaqsInner**](StackPackFaqsInner.md) |  | [optional] 
-**ConfigurationUrls** | Pointer to **[][]string** |  | [optional] 
-**ReleaseStatus** | **string** |  | 
-**IsCompatible** | **bool** |  | 
+**Name** | **string** |  |
+**DisplayName** | **string** |  |
+**Version** | **string** |  |
+**Logo** | Pointer to **string** |  | [optional]
+**Categories** | **[]string** |  |
+**IsNew** | **bool** |  |
+**OverviewUrl** | Pointer to **string** |  | [optional]
+**DetailedOverviewUrl** | Pointer to **string** |  | [optional]
+**ResourcesUrl** | Pointer to **string** |  | [optional]
+**Faqs** | [**[]FAQ**](FAQ.md) |  |
+**ConfigurationUrls** | **[][]string** |  |
+**ReleaseStatus** | [**ReleaseStatus**](ReleaseStatus.md) |  |
+**IsCompatible** | **bool** |  |
 
 ## Methods
 
 ### NewStackPack
 
-`func NewStackPack(name string, displayName string, version string, categories []string, isNew bool, releaseStatus string, isCompatible bool, ) *StackPack`
+`func NewStackPack(name string, displayName string, version string, categories []string, isNew bool, faqs []FAQ, configurationUrls [][]string, releaseStatus ReleaseStatus, isCompatible bool, ) *StackPack`
 
 NewStackPack instantiates a new StackPack object
 This constructor will assign default values to properties that have it defined,
@@ -239,28 +239,23 @@ HasResourcesUrl returns a boolean if a field has been set.
 
 ### GetFaqs
 
-`func (o *StackPack) GetFaqs() []StackPackFaqsInner`
+`func (o *StackPack) GetFaqs() []FAQ`
 
 GetFaqs returns the Faqs field if non-nil, zero value otherwise.
 
 ### GetFaqsOk
 
-`func (o *StackPack) GetFaqsOk() (*[]StackPackFaqsInner, bool)`
+`func (o *StackPack) GetFaqsOk() (*[]FAQ, bool)`
 
 GetFaqsOk returns a tuple with the Faqs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFaqs
 
-`func (o *StackPack) SetFaqs(v []StackPackFaqsInner)`
+`func (o *StackPack) SetFaqs(v []FAQ)`
 
 SetFaqs sets Faqs field to given value.
 
-### HasFaqs
-
-`func (o *StackPack) HasFaqs() bool`
-
-HasFaqs returns a boolean if a field has been set.
 
 ### GetConfigurationUrls
 
@@ -281,28 +276,23 @@ and a boolean to check if the value has been set.
 
 SetConfigurationUrls sets ConfigurationUrls field to given value.
 
-### HasConfigurationUrls
-
-`func (o *StackPack) HasConfigurationUrls() bool`
-
-HasConfigurationUrls returns a boolean if a field has been set.
 
 ### GetReleaseStatus
 
-`func (o *StackPack) GetReleaseStatus() string`
+`func (o *StackPack) GetReleaseStatus() ReleaseStatus`
 
 GetReleaseStatus returns the ReleaseStatus field if non-nil, zero value otherwise.
 
 ### GetReleaseStatusOk
 
-`func (o *StackPack) GetReleaseStatusOk() (*string, bool)`
+`func (o *StackPack) GetReleaseStatusOk() (*ReleaseStatus, bool)`
 
 GetReleaseStatusOk returns a tuple with the ReleaseStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReleaseStatus
 
-`func (o *StackPack) SetReleaseStatus(v string)`
+`func (o *StackPack) SetReleaseStatus(v ReleaseStatus)`
 
 SetReleaseStatus sets ReleaseStatus field to given value.
 
@@ -329,5 +319,3 @@ SetIsCompatible sets IsCompatible field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
-
-

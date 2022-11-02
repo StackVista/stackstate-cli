@@ -79,10 +79,8 @@ func (r ApiExportAnomalyRequest) Execute() ([]AnomalyWithContext, *http.Response
 /*
 ExportAnomaly Export anomalies with metric history and feedback
 
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiExportAnomalyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiExportAnomalyRequest
 */
 func (a *ExportAnomalyApiService) ExportAnomaly(ctx context.Context) ApiExportAnomalyRequest {
 	return ApiExportAnomalyRequest{
@@ -92,7 +90,8 @@ func (a *ExportAnomalyApiService) ExportAnomaly(ctx context.Context) ApiExportAn
 }
 
 // Execute executes the request
-//  @return []AnomalyWithContext
+//
+//	@return []AnomalyWithContext
 func (a *ExportAnomalyApiService) ExportAnomalyExecute(r ApiExportAnomalyRequest) ([]AnomalyWithContext, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

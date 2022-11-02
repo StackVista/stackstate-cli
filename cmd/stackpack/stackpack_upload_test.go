@@ -41,7 +41,7 @@ func TestUploadStackPackPrintsToTable(t *testing.T) {
 		DisplayName: displayName,
 		Version:     version,
 	}
-	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = stackpack
+	cli.MockClient.ApiMocks.StackpackApi.StackPackUploadResponse.Result = stackpack
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name())
 
@@ -64,7 +64,7 @@ func TestUploadStackPackPrintToJson(t *testing.T) {
 		DisplayName: "display test",
 		Version:     "1.0.0",
 	}
-	cli.MockClient.ApiMocks.StackpackApi.StackpackUploadResponse.Result = *stackpack
+	cli.MockClient.ApiMocks.StackpackApi.StackPackUploadResponse.Result = *stackpack
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "-o", "json")
 

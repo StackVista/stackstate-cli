@@ -41,7 +41,7 @@ func RunStackpackUploadCommand(args *UploadArgs) di.CmdWithApiFn {
 		}
 		defer file.Close()
 
-		stackpack, resp, err := api.StackpackApi.StackpackUpload(cli.Context).StackPack(file).Execute()
+		stackpack, resp, err := api.StackpackApi.StackPackUpload(cli.Context).StackPack(file).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

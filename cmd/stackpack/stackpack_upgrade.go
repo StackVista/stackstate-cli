@@ -46,11 +46,11 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
+		stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
-		stack, err := findStackName(stackpackList, args.TypeName)
+		stack, err := findStackName(stackPackList, args.TypeName)
 		if err != nil {
 			return common.NewNotFoundError(err)
 		}
@@ -75,11 +75,11 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 	}
 }
 
-func findStackName(stacks []stackstate_api.Sstackpack, name string) (stackstate_api.Sstackpack, error) {
+func findStackName(stacks []stackstate_api.FullStackPack, name string) (stackstate_api.FullStackPack, error) {
 	for _, v := range stacks {
 		if v.GetName() == name {
 			return v, nil
 		}
 	}
-	return stackstate_api.Sstackpack{}, fmt.Errorf("stackpack %s does not exist", name)
+	return stackstate_api.FullStackPack{}, fmt.Errorf("stackpack %s does not exist", name)
 }

@@ -17,32 +17,34 @@ import (
 
 // StackPack struct for StackPack
 type StackPack struct {
-	Name                string               `json:"name"`
-	DisplayName         string               `json:"displayName"`
-	Version             string               `json:"version"`
-	Logo                *string              `json:"logo,omitempty"`
-	Categories          []string             `json:"categories"`
-	IsNew               bool                 `json:"isNew"`
-	OverviewUrl         *string              `json:"overviewUrl,omitempty"`
-	DetailedOverviewUrl *string              `json:"detailedOverviewUrl,omitempty"`
-	ResourcesUrl        *string              `json:"resourcesUrl,omitempty"`
-	Faqs                []StackPackFaqsInner `json:"faqs,omitempty"`
-	ConfigurationUrls   [][]string           `json:"configurationUrls,omitempty"`
-	ReleaseStatus       string               `json:"releaseStatus"`
-	IsCompatible        bool                 `json:"isCompatible"`
+	Name                string        `json:"name"`
+	DisplayName         string        `json:"displayName"`
+	Version             string        `json:"version"`
+	Logo                *string       `json:"logo,omitempty"`
+	Categories          []string      `json:"categories"`
+	IsNew               bool          `json:"isNew"`
+	OverviewUrl         *string       `json:"overviewUrl,omitempty"`
+	DetailedOverviewUrl *string       `json:"detailedOverviewUrl,omitempty"`
+	ResourcesUrl        *string       `json:"resourcesUrl,omitempty"`
+	Faqs                []FAQ         `json:"faqs"`
+	ConfigurationUrls   [][]string    `json:"configurationUrls"`
+	ReleaseStatus       ReleaseStatus `json:"releaseStatus"`
+	IsCompatible        bool          `json:"isCompatible"`
 }
 
 // NewStackPack instantiates a new StackPack object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewStackPack(name string, displayName string, version string, categories []string, isNew bool, releaseStatus string, isCompatible bool) *StackPack {
+func NewStackPack(name string, displayName string, version string, categories []string, isNew bool, faqs []FAQ, configurationUrls [][]string, releaseStatus ReleaseStatus, isCompatible bool) *StackPack {
 	this := StackPack{}
 	this.Name = name
 	this.DisplayName = displayName
 	this.Version = version
 	this.Categories = categories
 	this.IsNew = isNew
+	this.Faqs = faqs
+	this.ConfigurationUrls = configurationUrls
 	this.ReleaseStatus = releaseStatus
 	this.IsCompatible = isCompatible
 	return &this
@@ -304,74 +306,58 @@ func (o *StackPack) SetResourcesUrl(v string) {
 	o.ResourcesUrl = &v
 }
 
-// GetFaqs returns the Faqs field value if set, zero value otherwise.
-func (o *StackPack) GetFaqs() []StackPackFaqsInner {
-	if o == nil || o.Faqs == nil {
-		var ret []StackPackFaqsInner
+// GetFaqs returns the Faqs field value
+func (o *StackPack) GetFaqs() []FAQ {
+	if o == nil {
+		var ret []FAQ
 		return ret
 	}
+
 	return o.Faqs
 }
 
-// GetFaqsOk returns a tuple with the Faqs field value if set, nil otherwise
+// GetFaqsOk returns a tuple with the Faqs field value
 // and a boolean to check if the value has been set.
-func (o *StackPack) GetFaqsOk() ([]StackPackFaqsInner, bool) {
-	if o == nil || o.Faqs == nil {
+func (o *StackPack) GetFaqsOk() ([]FAQ, bool) {
+	if o == nil {
 		return nil, false
 	}
 	return o.Faqs, true
 }
 
-// HasFaqs returns a boolean if a field has been set.
-func (o *StackPack) HasFaqs() bool {
-	if o != nil && o.Faqs != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetFaqs gets a reference to the given []StackPackFaqsInner and assigns it to the Faqs field.
-func (o *StackPack) SetFaqs(v []StackPackFaqsInner) {
+// SetFaqs sets field value
+func (o *StackPack) SetFaqs(v []FAQ) {
 	o.Faqs = v
 }
 
-// GetConfigurationUrls returns the ConfigurationUrls field value if set, zero value otherwise.
+// GetConfigurationUrls returns the ConfigurationUrls field value
 func (o *StackPack) GetConfigurationUrls() [][]string {
-	if o == nil || o.ConfigurationUrls == nil {
+	if o == nil {
 		var ret [][]string
 		return ret
 	}
+
 	return o.ConfigurationUrls
 }
 
-// GetConfigurationUrlsOk returns a tuple with the ConfigurationUrls field value if set, nil otherwise
+// GetConfigurationUrlsOk returns a tuple with the ConfigurationUrls field value
 // and a boolean to check if the value has been set.
 func (o *StackPack) GetConfigurationUrlsOk() ([][]string, bool) {
-	if o == nil || o.ConfigurationUrls == nil {
+	if o == nil {
 		return nil, false
 	}
 	return o.ConfigurationUrls, true
 }
 
-// HasConfigurationUrls returns a boolean if a field has been set.
-func (o *StackPack) HasConfigurationUrls() bool {
-	if o != nil && o.ConfigurationUrls != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetConfigurationUrls gets a reference to the given [][]string and assigns it to the ConfigurationUrls field.
+// SetConfigurationUrls sets field value
 func (o *StackPack) SetConfigurationUrls(v [][]string) {
 	o.ConfigurationUrls = v
 }
 
 // GetReleaseStatus returns the ReleaseStatus field value
-func (o *StackPack) GetReleaseStatus() string {
+func (o *StackPack) GetReleaseStatus() ReleaseStatus {
 	if o == nil {
-		var ret string
+		var ret ReleaseStatus
 		return ret
 	}
 
@@ -380,7 +366,7 @@ func (o *StackPack) GetReleaseStatus() string {
 
 // GetReleaseStatusOk returns a tuple with the ReleaseStatus field value
 // and a boolean to check if the value has been set.
-func (o *StackPack) GetReleaseStatusOk() (*string, bool) {
+func (o *StackPack) GetReleaseStatusOk() (*ReleaseStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -388,7 +374,7 @@ func (o *StackPack) GetReleaseStatusOk() (*string, bool) {
 }
 
 // SetReleaseStatus sets field value
-func (o *StackPack) SetReleaseStatus(v string) {
+func (o *StackPack) SetReleaseStatus(v ReleaseStatus) {
 	o.ReleaseStatus = v
 }
 
@@ -445,10 +431,10 @@ func (o StackPack) MarshalJSON() ([]byte, error) {
 	if o.ResourcesUrl != nil {
 		toSerialize["resourcesUrl"] = o.ResourcesUrl
 	}
-	if o.Faqs != nil {
+	if true {
 		toSerialize["faqs"] = o.Faqs
 	}
-	if o.ConfigurationUrls != nil {
+	if true {
 		toSerialize["configurationUrls"] = o.ConfigurationUrls
 	}
 	if true {

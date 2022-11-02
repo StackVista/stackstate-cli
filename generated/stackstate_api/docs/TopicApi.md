@@ -30,8 +30,8 @@ import (
 )
 
 func main() {
-    topic := "topic_example" // string | 
-    limit := int32(56) // int32 |  (optional)
+    topic := "topic_example" // string |
+    limit := int32(56) // int32 | Maximum number of resources to be returned in result. (optional)
     offset := int32(56) // int32 |  (optional)
     partition := int32(56) // int32 |  (optional)
 
@@ -53,7 +53,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**topic** | **string** |  | 
+**topic** | **string** |  |
 
 ### Other Parameters
 
@@ -63,9 +63,9 @@ Other parameters are passed through a pointer to a apiDescribeRequest struct via
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **limit** | **int32** |  | 
- **offset** | **int32** |  | 
- **partition** | **int32** |  | 
+ **limit** | **int32** | Maximum number of resources to be returned in result. |
+ **offset** | **int32** |  |
+ **partition** | **int32** |  |
 
 ### Return type
 
@@ -144,4 +144,3 @@ Other parameters are passed through a pointer to a apiListRequest struct via the
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
-
