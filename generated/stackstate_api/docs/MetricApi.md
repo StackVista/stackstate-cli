@@ -43,8 +43,8 @@ import (
 
 func main() {
     query := "query_example" // string | Prometheus expression query string
-    start := "2015-07-01T20:10:51.781Z or 1660817432" // string | Start timestamp in rfc3339 format or unix format
-    end := "2015-07-01T20:10:51.781Z or 1660817432" // string | End timestamp in rfc3339 format or unix format
+    start := "2015-07-01T20:10:51.781Z or 1660817432" // string | Start timestamp in rfc3339 format or unix format (optional)
+    end := "2015-07-01T20:10:51.781Z or 1660817432" // string | End timestamp in rfc3339 format or unix format (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -328,7 +328,7 @@ import (
 )
 
 func main() {
-    limit := int64(2) // int64 | Maximum number of metrics to return.
+    limit := int64(2) // int64 | Maximum number of metrics to return. (optional)
     metric := "http_requests_total" // string | A metric name to filter metadata for. All metric metadata is retrieved if left empty. (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -471,8 +471,8 @@ import (
 
 func main() {
     match := []string{"Inner_example"} // []string | Repeated series selector argument that selects the series to return. At least one match[] argument must be provided.
-    start := "2015-07-01T20:10:51.781Z or 1660817432" // string | Start timestamp in rfc3339 format or unix format
-    end := "2015-07-01T20:10:51.781Z or 1660817432" // string | End timestamp in rfc3339 format or unix format
+    start := "2015-07-01T20:10:51.781Z or 1660817432" // string | Start timestamp in rfc3339 format or unix format (optional)
+    end := "2015-07-01T20:10:51.781Z or 1660817432" // string | End timestamp in rfc3339 format or unix format (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -541,8 +541,8 @@ import (
 
 func main() {
     query := "query_example" // string | 
-    start := "start_example" // string | 
-    end := "end_example" // string | 
+    start := "start_example" // string |  (optional)
+    end := "end_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -826,7 +826,7 @@ import (
 )
 
 func main() {
-    limit := int64(789) // int64 | 
+    limit := int64(789) // int64 |  (optional)
     metric := "metric_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -969,8 +969,8 @@ import (
 
 func main() {
     match := []string{"Inner_example"} // []string | 
-    start := "start_example" // string | 
-    end := "end_example" // string | 
+    start := "start_example" // string |  (optional)
+    end := "end_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

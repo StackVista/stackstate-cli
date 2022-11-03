@@ -4,13 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Monitors** | [**[]MonitorStatus**](MonitorStatus.md) |  | 
+**Monitor** | [**Monitor**](Monitor.md) |  | 
+**Function** | [**MonitorFunction**](MonitorFunction.md) |  | 
 
 ## Methods
 
 ### NewMonitorOverview
 
-`func NewMonitorOverview(monitors []MonitorStatus, ) *MonitorOverview`
+`func NewMonitorOverview(monitor Monitor, function MonitorFunction, ) *MonitorOverview`
 
 NewMonitorOverview instantiates a new MonitorOverview object
 This constructor will assign default values to properties that have it defined,
@@ -25,24 +26,44 @@ NewMonitorOverviewWithDefaults instantiates a new MonitorOverview object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetMonitors
+### GetMonitor
 
-`func (o *MonitorOverview) GetMonitors() []MonitorStatus`
+`func (o *MonitorOverview) GetMonitor() Monitor`
 
-GetMonitors returns the Monitors field if non-nil, zero value otherwise.
+GetMonitor returns the Monitor field if non-nil, zero value otherwise.
 
-### GetMonitorsOk
+### GetMonitorOk
 
-`func (o *MonitorOverview) GetMonitorsOk() (*[]MonitorStatus, bool)`
+`func (o *MonitorOverview) GetMonitorOk() (*Monitor, bool)`
 
-GetMonitorsOk returns a tuple with the Monitors field if it's non-nil, zero value otherwise
+GetMonitorOk returns a tuple with the Monitor field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMonitors
+### SetMonitor
 
-`func (o *MonitorOverview) SetMonitors(v []MonitorStatus)`
+`func (o *MonitorOverview) SetMonitor(v Monitor)`
 
-SetMonitors sets Monitors field to given value.
+SetMonitor sets Monitor field to given value.
+
+
+### GetFunction
+
+`func (o *MonitorOverview) GetFunction() MonitorFunction`
+
+GetFunction returns the Function field if non-nil, zero value otherwise.
+
+### GetFunctionOk
+
+`func (o *MonitorOverview) GetFunctionOk() (*MonitorFunction, bool)`
+
+GetFunctionOk returns a tuple with the Function field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFunction
+
+`func (o *MonitorOverview) SetFunction(v MonitorFunction)`
+
+SetFunction sets Function field to given value.
 
 
 

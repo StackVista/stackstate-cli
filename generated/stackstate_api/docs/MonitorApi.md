@@ -285,7 +285,7 @@ Name | Type | Description  | Notes
 
 ## GetMonitorsOverview
 
-> MonitorOverview GetMonitorsOverview(ctx).Execute()
+> MonitorOverviewList GetMonitorsOverview(ctx).Execute()
 
 List monitors overview
 
@@ -312,7 +312,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorsOverview``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetMonitorsOverview`: MonitorOverview
+    // response from `GetMonitorsOverview`: MonitorOverviewList
     fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitorsOverview`: %v\n", resp)
 }
 ```
@@ -328,7 +328,7 @@ Other parameters are passed through a pointer to a apiGetMonitorsOverviewRequest
 
 ### Return type
 
-[**MonitorOverview**](MonitorOverview.md)
+[**MonitorOverviewList**](MonitorOverviewList.md)
 
 ### Authorization
 
