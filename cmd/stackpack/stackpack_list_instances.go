@@ -12,7 +12,7 @@ import (
 )
 
 func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
-	args := &ListArgs{}
+	args := &ListPropertiesArgs{}
 	cmd := &cobra.Command{
 		Use:   "list-instances",
 		Short: "List installed instances of a StackPack",
@@ -23,7 +23,38 @@ func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
+func formatInstancesJson(v stackstate_api.FullStackPack) []stackstate_api.StackPackConfiguration {
+	instances := v.GetConfigurations()
+
+	sort.SliceStable(instances, func(i, j int) bool {
+		return *instances[i].LastUpdateTimestamp > *instances[j].LastUpdateTimestamp
+	})
+
+	return instances
+}
+
+func formatInstancesTable(v stackstate_api.FullStackPack) [][]interface{} {
+	instances := v.GetConfigurations()
+
+	sort.SliceStable(instances, func(i, j int) bool {
+		return *instances[i].LastUpdateTimestamp > *instances[j].LastUpdateTimestamp
+	})
+
+	data := make([][]interface{}, 0)
+	for _, instance := range instances {
+		row := []interface{}{
+			instance.Id,
+			instance.Status,
+			instance.StackPackVersion,
+			time.UnixMilli(instance.GetLastUpdateTimestamp()),
+		}
+		data = append(data, row)
+	}
+
+	return data
+}
+
+func RunStackpackListInstanceCommand(args *ListPropertiesArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -35,27 +66,15 @@ func RunStackpackListInstanceCommand(args *ListArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		data := make([][]interface{}, 0)
-		instances := make([]stackstate_api.StackPackConfiguration, 0)
-		for _, v := range stackPackList {
-			if v.GetName() != args.Name {
+		data := [][]interface{}{}
+		instances := []stackstate_api.StackPackConfiguration{}
+
+		for _, stackpack := range stackPackList {
+			if stackpack.GetName() != args.Name {
 				continue
 			}
-
-			sort.SliceStable(v.GetConfigurations(), func(i, j int) bool {
-				return *v.GetConfigurations()[i].LastUpdateTimestamp > *v.GetConfigurations()[j].LastUpdateTimestamp
-			})
-
-			for _, instance := range v.GetConfigurations() {
-				row := []interface{}{
-					instance.Id,
-					instance.Status,
-					instance.StackPackVersion,
-					time.UnixMilli(instance.GetLastUpdateTimestamp()),
-				}
-				data = append(data, row)
-				instances = append(instances, instance)
-			}
+			data = formatInstancesTable(stackpack)
+			instances = formatInstancesJson(stackpack)
 		}
 
 		if cli.IsJson() {

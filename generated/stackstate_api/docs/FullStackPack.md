@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 **ResourcesUrl** | Pointer to **string** |  | [optional]
 **Faqs** | [**[]FAQ**](FAQ.md) |  |
 **ConfigurationUrls** | **[][]string** |  |
-**ReleaseStatus** | [**FAQ**](FAQ.md) |  |
+**ReleaseStatus** | [**ReleaseStatus**](ReleaseStatus.md) |  |
 **Steps** | [**[]StackPackStep**](StackPackStep.md) |  |
 **Integrations** | [**[]StackPackIntegration**](StackPackIntegration.md) |  |
 **ReleaseNotes** | Pointer to **string** |  | [optional]
@@ -31,7 +31,7 @@ Name | Type | Description | Notes
 
 ### NewFullStackPack
 
-`func NewFullStackPack(name string, displayName string, version string, categories []string, isNew bool, isMultiConfig bool, faqs []FAQ, configurationUrls [][]string, releaseStatus FAQ, steps []StackPackStep, integrations []StackPackIntegration, configurations []StackPackConfiguration, canUninstall bool, isCompatible bool, ) *FullStackPack`
+`func NewFullStackPack(name string, displayName string, version string, categories []string, isNew bool, isMultiConfig bool, faqs []FAQ, configurationUrls [][]string, releaseStatus ReleaseStatus, steps []StackPackStep, integrations []StackPackIntegration, configurations []StackPackConfiguration, canUninstall bool, isCompatible bool, ) *FullStackPack`
 
 NewFullStackPack instantiates a new FullStackPack object
 This constructor will assign default values to properties that have it defined,
@@ -308,20 +308,20 @@ SetConfigurationUrls sets ConfigurationUrls field to given value.
 
 ### GetReleaseStatus
 
-`func (o *FullStackPack) GetReleaseStatus() FAQ`
+`func (o *FullStackPack) GetReleaseStatus() ReleaseStatus`
 
 GetReleaseStatus returns the ReleaseStatus field if non-nil, zero value otherwise.
 
 ### GetReleaseStatusOk
 
-`func (o *FullStackPack) GetReleaseStatusOk() (*FAQ, bool)`
+`func (o *FullStackPack) GetReleaseStatusOk() (*ReleaseStatus, bool)`
 
 GetReleaseStatusOk returns a tuple with the ReleaseStatus field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetReleaseStatus
 
-`func (o *FullStackPack) SetReleaseStatus(v FAQ)`
+`func (o *FullStackPack) SetReleaseStatus(v ReleaseStatus)`
 
 SetReleaseStatus sets ReleaseStatus field to given value.
 

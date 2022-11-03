@@ -1,5 +1,5 @@
 package stackpack
 
-type ListArgs struct {
+type ListPropertiesArgs struct {
 	Name string
 }

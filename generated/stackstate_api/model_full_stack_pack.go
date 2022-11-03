@@ -29,7 +29,7 @@ type FullStackPack struct {
 	ResourcesUrl        *string                  `json:"resourcesUrl,omitempty"`
 	Faqs                []FAQ                    `json:"faqs"`
 	ConfigurationUrls   [][]string               `json:"configurationUrls"`
-	ReleaseStatus       FAQ                      `json:"releaseStatus"`
+	ReleaseStatus       ReleaseStatus            `json:"releaseStatus"`
 	Steps               []StackPackStep          `json:"steps"`
 	Integrations        []StackPackIntegration   `json:"integrations"`
 	ReleaseNotes        *string                  `json:"releaseNotes,omitempty"`
@@ -45,7 +45,7 @@ type FullStackPack struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFullStackPack(name string, displayName string, version string, categories []string, isNew bool, isMultiConfig bool, faqs []FAQ, configurationUrls [][]string, releaseStatus FAQ, steps []StackPackStep, integrations []StackPackIntegration, configurations []StackPackConfiguration, canUninstall bool, isCompatible bool) *FullStackPack {
+func NewFullStackPack(name string, displayName string, version string, categories []string, isNew bool, isMultiConfig bool, faqs []FAQ, configurationUrls [][]string, releaseStatus ReleaseStatus, steps []StackPackStep, integrations []StackPackIntegration, configurations []StackPackConfiguration, canUninstall bool, isCompatible bool) *FullStackPack {
 	this := FullStackPack{}
 	this.Name = name
 	this.DisplayName = displayName
@@ -393,9 +393,9 @@ func (o *FullStackPack) SetConfigurationUrls(v [][]string) {
 }
 
 // GetReleaseStatus returns the ReleaseStatus field value
-func (o *FullStackPack) GetReleaseStatus() FAQ {
+func (o *FullStackPack) GetReleaseStatus() ReleaseStatus {
 	if o == nil {
-		var ret FAQ
+		var ret ReleaseStatus
 		return ret
 	}
 
@@ -404,7 +404,7 @@ func (o *FullStackPack) GetReleaseStatus() FAQ {
 
 // GetReleaseStatusOk returns a tuple with the ReleaseStatus field value
 // and a boolean to check if the value has been set.
-func (o *FullStackPack) GetReleaseStatusOk() (*FAQ, bool) {
+func (o *FullStackPack) GetReleaseStatusOk() (*ReleaseStatus, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -412,7 +412,7 @@ func (o *FullStackPack) GetReleaseStatusOk() (*FAQ, bool) {
 }
 
 // SetReleaseStatus sets field value
-func (o *FullStackPack) SetReleaseStatus(v FAQ) {
+func (o *FullStackPack) SetReleaseStatus(v ReleaseStatus) {
 	o.ReleaseStatus = v
 }
 

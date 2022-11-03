@@ -4614,9 +4614,7 @@ components:
         - - configurationUrls
           - configurationUrls
         name: name
-        releaseStatus:
-          question: question
-          answer: answer
+        releaseStatus: null
         logo: logo
         categories:
         - categories
@@ -4686,7 +4684,7 @@ components:
             type: array
           type: array
         releaseStatus:
-          $ref: '#/components/schemas/FAQ'
+          $ref: '#/components/schemas/ReleaseStatus'
         steps:
           items:
             $ref: '#/components/schemas/StackPackStep'
@@ -4740,6 +4738,14 @@ components:
       - answer
       - question
       type: object
+    ReleaseStatus:
+      enum:
+      - AVAILABLE
+      - ENABLED
+      - COMING_SOON
+      - HIDDEN
+      - BROKEN
+      type: string
     StackPackStep:
       example:
         display: display
@@ -4919,14 +4925,6 @@ components:
       - releaseStatus
       - version
       type: object
-    ReleaseStatus:
-      enum:
-      - AVAILABLE
-      - ENABLED
-      - COMING_SOON
-      - HIDDEN
-      - BROKEN
-      type: string
     StackPackUpload:
       properties:
         stackPack:

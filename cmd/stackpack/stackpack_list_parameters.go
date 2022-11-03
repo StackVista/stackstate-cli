@@ -12,7 +12,7 @@ import (
 )
 
 func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
-	args := &ListArgs{}
+	args := &ListPropertiesArgs{}
 	cmd := &cobra.Command{
 		Use:   "list-parameters",
 		Short: "List all parameters",
@@ -23,7 +23,32 @@ func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunStackpackListParameterCommand(args *ListArgs) di.CmdWithApiFn {
+func formatParametersTable(stackpack stackstate_api.FullStackPack) [][]interface{} {
+	steps := stackpack.GetSteps()
+
+	sort.SliceStable(steps, func(i, j int) bool {
+		return *steps[i].Name < *steps[j].Name
+	})
+
+	data := make([][]interface{}, 0)
+	for _, step := range steps {
+		data = append(data, []interface{}{step.Name, step.Display, step.GetValue().Type})
+	}
+
+	return data
+}
+
+func formatParametersJson(stackpack stackstate_api.FullStackPack) []stackstate_api.StackPackStep {
+	steps := stackpack.GetSteps()
+
+	sort.SliceStable(steps, func(i, j int) bool {
+		return *steps[i].Name < *steps[j].Name
+	})
+
+	return steps
+}
+
+func RunStackpackListParameterCommand(args *ListPropertiesArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -42,14 +67,8 @@ func RunStackpackListParameterCommand(args *ListArgs) di.CmdWithApiFn {
 				continue
 			}
 
-			sort.SliceStable(stack.GetSteps(), func(i, j int) bool {
-				return *stack.GetSteps()[i].Name < *stack.GetSteps()[j].Name
-			})
-
-			for _, step := range stack.GetSteps() {
-				data = append(data, []interface{}{step.Name, step.Display, step.GetValue().Type})
-				steps = append(steps, step)
-			}
+			data = formatParametersTable(stack)
+			steps = formatParametersJson(stack)
 		}
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
