@@ -649,7 +649,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MonitorOverview'
+                $ref: '#/components/schemas/MonitorOverviewList'
           description: List of all available monitors with their function and runtime
             data
         "500":
@@ -4175,7 +4175,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/MonitorOverview'
+            $ref: '#/components/schemas/MonitorOverviewList'
       description: List of all available monitors with their function and runtime
         data
     userProfile:
@@ -5364,7 +5364,7 @@ components:
           format: int64
           type: integer
       type: object
-    MonitorOverview:
+    MonitorOverviewList:
       example:
         monitors:
         - function:
@@ -5389,52 +5389,6 @@ components:
             - tags
             - tags
             status: null
-          metrics:
-            healthSyncServiceMetrics:
-              createsPerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              latencySeconds:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              bucketSizeSeconds: 5
-              deletesPerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              messagePerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              updatesPerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-            runtimeMetrics:
-              lastRunTimestamp: 2
-              unknownCount: 2
-              clearCount: 7
-              lastSuccessfulRunTimestamp: 4
-              lastFailedRunTimestamp: 7
-              criticalCount: 3
-              deviatingCount: 9
-          monitorHealthStateStateCount: 1
-          topologyMatchResult:
-            unmatchedCheckStates:
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-            matchedCheckStates: 1
-            multipleMatchesCheckStates:
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-              matchCount: 1
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-              matchCount: 1
-          errors:
-          - count: 1
-            error: error
-          - count: 1
-            error: error
         - function:
             identifier: identifier
             lastUpdateTimestamp: 6
@@ -5457,59 +5411,46 @@ components:
             - tags
             - tags
             status: null
-          metrics:
-            healthSyncServiceMetrics:
-              createsPerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              latencySeconds:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              bucketSizeSeconds: 5
-              deletesPerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              messagePerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-              updatesPerSecond:
-              - value: 5.637376656633329
-              - value: 5.637376656633329
-            runtimeMetrics:
-              lastRunTimestamp: 2
-              unknownCount: 2
-              clearCount: 7
-              lastSuccessfulRunTimestamp: 4
-              lastFailedRunTimestamp: 7
-              criticalCount: 3
-              deviatingCount: 9
-          monitorHealthStateStateCount: 1
-          topologyMatchResult:
-            unmatchedCheckStates:
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-            matchedCheckStates: 1
-            multipleMatchesCheckStates:
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-              matchCount: 1
-            - topologyElementIdentifier: topologyElementIdentifier
-              checkStateId: checkStateId
-              matchCount: 1
-          errors:
-          - count: 1
-            error: error
-          - count: 1
-            error: error
       properties:
         monitors:
           items:
-            $ref: '#/components/schemas/MonitorStatus'
+            $ref: '#/components/schemas/MonitorOverview'
           type: array
       required:
       - monitors
+      type: object
+    MonitorOverview:
+      example:
+        function:
+          identifier: identifier
+          lastUpdateTimestamp: 6
+          name: name
+          description: description
+          id: 0
+        monitor:
+          identifier: identifier
+          functionId: 6
+          lastUpdateTimestamp: 5
+          remediationHint: remediationHint
+          name: name
+          description: description
+          arguments:
+          - "{}"
+          - "{}"
+          id: 0
+          intervalSeconds: 1
+          tags:
+          - tags
+          - tags
+          status: null
+      properties:
+        monitor:
+          $ref: '#/components/schemas/Monitor'
+        function:
+          $ref: '#/components/schemas/MonitorFunction'
+      required:
+      - function
+      - monitor
       type: object
     UserNotFoundError:
       properties:

@@ -91,8 +91,8 @@ type MonitorApi interface {
 	GetMonitorsOverview(ctx context.Context) ApiGetMonitorsOverviewRequest
 
 	// GetMonitorsOverviewExecute executes the request
-	//  @return MonitorOverview
-	GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverview, *http.Response, error)
+	//  @return MonitorOverviewList
+	GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error)
 
 	/*
 		PatchMonitor Update some monitor properties
@@ -797,7 +797,7 @@ type ApiGetMonitorsOverviewRequest struct {
 	ApiService MonitorApi
 }
 
-func (r ApiGetMonitorsOverviewRequest) Execute() (*MonitorOverview, *http.Response, error) {
+func (r ApiGetMonitorsOverviewRequest) Execute() (*MonitorOverviewList, *http.Response, error) {
 	return r.ApiService.GetMonitorsOverviewExecute(r)
 }
 
@@ -818,13 +818,13 @@ func (a *MonitorApiService) GetMonitorsOverview(ctx context.Context) ApiGetMonit
 
 // Execute executes the request
 //
-//	@return MonitorOverview
-func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverview, *http.Response, error) {
+//	@return MonitorOverviewList
+func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *MonitorOverview
+		localVarReturnValue *MonitorOverviewList
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitorsOverview")
@@ -1455,7 +1455,7 @@ func (mock MonitorApiMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatus
 }
 
 type GetMonitorsOverviewMockResponse struct {
-	Result   MonitorOverview
+	Result   MonitorOverviewList
 	Response *http.Response
 	Error    error
 }
@@ -1470,7 +1470,7 @@ func (mock MonitorApiMock) GetMonitorsOverview(ctx context.Context) ApiGetMonito
 	}
 }
 
-func (mock MonitorApiMock) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverview, *http.Response, error) {
+func (mock MonitorApiMock) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
 	p := GetMonitorsOverviewCall{}
 	*mock.GetMonitorsOverviewCalls = append(*mock.GetMonitorsOverviewCalls, p)
 	return &mock.GetMonitorsOverviewResponse.Result, mock.GetMonitorsOverviewResponse.Response, mock.GetMonitorsOverviewResponse.Error
