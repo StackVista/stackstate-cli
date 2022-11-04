@@ -15,39 +15,39 @@ var (
 	ucmdDisplayName = "HP UCMDB"
 	ucmdbVersion    = "0.1.1"
 	awsName         = "aws"
-	mockResponse    = []stackstate_api.FullStackPack{
-		{
-			Name:        ucmdbName,
-			DisplayName: ucmdDisplayName,
-			Version:     ucmdbVersion,
-			Configurations: []stackstate_api.StackPackConfiguration{
-				{
-					StackPackVersion: ucmdbVersion,
-				},
-			},
-			NextVersion: &stackstate_api.FullStackPack{
-				Version: ucmdbVersion,
-			},
-			LatestVersion: &stackstate_api.FullStackPack{
-				Version: ucmdbVersion,
-			},
-		}, {
-			Name:        awsName,
-			DisplayName: ucmdDisplayName,
-			Version:     ucmdbVersion,
-			Configurations: []stackstate_api.StackPackConfiguration{
-				{
-					StackPackVersion: ucmdbVersion,
-				},
-			},
-			NextVersion: &stackstate_api.FullStackPack{
-				Version: ucmdbVersion,
-			},
-			LatestVersion: &stackstate_api.FullStackPack{
-				Version: ucmdbVersion,
+	awsStackPack    = stackstate_api.FullStackPack{
+		Name:        awsName,
+		DisplayName: ucmdDisplayName,
+		Version:     ucmdbVersion,
+		Configurations: []stackstate_api.StackPackConfiguration{
+			{
+				StackPackVersion: ucmdbVersion,
 			},
 		},
+		NextVersion: &stackstate_api.FullStackPack{
+			Version: ucmdbVersion,
+		},
+		LatestVersion: &stackstate_api.FullStackPack{
+			Version: ucmdbVersion,
+		},
 	}
+	ucmdbStackPack = stackstate_api.FullStackPack{
+		Name:        ucmdbName,
+		DisplayName: ucmdDisplayName,
+		Version:     ucmdbVersion,
+		Configurations: []stackstate_api.StackPackConfiguration{
+			{
+				StackPackVersion: ucmdbVersion,
+			},
+		},
+		NextVersion: &stackstate_api.FullStackPack{
+			Version: ucmdbVersion,
+		},
+		LatestVersion: &stackstate_api.FullStackPack{
+			Version: ucmdbVersion,
+		},
+	}
+	mockResponse = []stackstate_api.FullStackPack{ucmdbStackPack, awsStackPack}
 )
 
 func setupStackPackListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {

@@ -64,7 +64,7 @@ func RunStackpackDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 						for _, i := range stackpack.Integrations {
 							integrations = append(integrations, i.DisplayName)
 						}
-						cli.Printer.PrintLn(fmt.Sprintf("Provided integrations: %s", strings.Join(integrations, ",")))
+						cli.Printer.PrintLn(fmt.Sprintf("Provided integrations: %s", strings.Join(integrations, ", ")))
 					}
 					if len(stackpack.Steps) > 0 {
 						cli.Printer.PrintLn("\nInstance configuration parameters:")
