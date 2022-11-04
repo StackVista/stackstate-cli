@@ -17,16 +17,18 @@ import (
 
 // MonitorOverview struct for MonitorOverview
 type MonitorOverview struct {
-	Monitors []MonitorStatus `json:"monitors"`
+	Monitor  Monitor         `json:"monitor"`
+	Function MonitorFunction `json:"function"`
 }
 
 // NewMonitorOverview instantiates a new MonitorOverview object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorOverview(monitors []MonitorStatus) *MonitorOverview {
+func NewMonitorOverview(monitor Monitor, function MonitorFunction) *MonitorOverview {
 	this := MonitorOverview{}
-	this.Monitors = monitors
+	this.Monitor = monitor
+	this.Function = function
 	return &this
 }
 
@@ -38,34 +40,61 @@ func NewMonitorOverviewWithDefaults() *MonitorOverview {
 	return &this
 }
 
-// GetMonitors returns the Monitors field value
-func (o *MonitorOverview) GetMonitors() []MonitorStatus {
+// GetMonitor returns the Monitor field value
+func (o *MonitorOverview) GetMonitor() Monitor {
 	if o == nil {
-		var ret []MonitorStatus
+		var ret Monitor
 		return ret
 	}
 
-	return o.Monitors
+	return o.Monitor
 }
 
-// GetMonitorsOk returns a tuple with the Monitors field value
+// GetMonitorOk returns a tuple with the Monitor field value
 // and a boolean to check if the value has been set.
-func (o *MonitorOverview) GetMonitorsOk() ([]MonitorStatus, bool) {
+func (o *MonitorOverview) GetMonitorOk() (*Monitor, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Monitors, true
+	return &o.Monitor, true
 }
 
-// SetMonitors sets field value
-func (o *MonitorOverview) SetMonitors(v []MonitorStatus) {
-	o.Monitors = v
+// SetMonitor sets field value
+func (o *MonitorOverview) SetMonitor(v Monitor) {
+	o.Monitor = v
+}
+
+// GetFunction returns the Function field value
+func (o *MonitorOverview) GetFunction() MonitorFunction {
+	if o == nil {
+		var ret MonitorFunction
+		return ret
+	}
+
+	return o.Function
+}
+
+// GetFunctionOk returns a tuple with the Function field value
+// and a boolean to check if the value has been set.
+func (o *MonitorOverview) GetFunctionOk() (*MonitorFunction, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Function, true
+}
+
+// SetFunction sets field value
+func (o *MonitorOverview) SetFunction(v MonitorFunction) {
+	o.Function = v
 }
 
 func (o MonitorOverview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["monitors"] = o.Monitors
+		toSerialize["monitor"] = o.Monitor
+	}
+	if true {
+		toSerialize["function"] = o.Function
 	}
 	return json.Marshal(toSerialize)
 }

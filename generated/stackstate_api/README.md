@@ -304,6 +304,7 @@ Class | Method | HTTP request | Description
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
  - [MonitorNotFoundErrorAllOf](docs/MonitorNotFoundErrorAllOf.md)
  - [MonitorOverview](docs/MonitorOverview.md)
+ - [MonitorOverviewList](docs/MonitorOverviewList.md)
  - [MonitorPatch](docs/MonitorPatch.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorRuntimeMetrics](docs/MonitorRuntimeMetrics.md)

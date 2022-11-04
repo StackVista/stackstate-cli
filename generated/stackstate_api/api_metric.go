@@ -292,16 +292,14 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 	if r.query == nil {
 		return localVarReturnValue, nil, reportError("query is required and must be specified")
 	}
-	if r.start == nil {
-		return localVarReturnValue, nil, reportError("start is required and must be specified")
-	}
-	if r.end == nil {
-		return localVarReturnValue, nil, reportError("end is required and must be specified")
-	}
 
 	localVarQueryParams.Add("query", parameterToString(*r.query, ""))
-	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
-	localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	if r.start != nil {
+		localVarQueryParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -1130,11 +1128,10 @@ func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMet
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.limit == nil {
-		return localVarReturnValue, nil, reportError("limit is required and must be specified")
-	}
 
-	localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	if r.limit != nil {
+		localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	}
 	if r.metric != nil {
 		localVarQueryParams.Add("metric", parameterToString(*r.metric, ""))
 	}
@@ -1578,16 +1575,14 @@ func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesE
 	if len(*r.match) < 1 {
 		return localVarReturnValue, nil, reportError("match must have at least 1 elements")
 	}
-	if r.start == nil {
-		return localVarReturnValue, nil, reportError("start is required and must be specified")
-	}
-	if r.end == nil {
-		return localVarReturnValue, nil, reportError("end is required and must be specified")
-	}
 
 	localVarQueryParams.Add("match[]", parameterToString(*r.match, "csv"))
-	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
-	localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	if r.start != nil {
+		localVarQueryParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -1788,12 +1783,6 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 	if r.query == nil {
 		return localVarReturnValue, nil, reportError("query is required and must be specified")
 	}
-	if r.start == nil {
-		return localVarReturnValue, nil, reportError("start is required and must be specified")
-	}
-	if r.end == nil {
-		return localVarReturnValue, nil, reportError("end is required and must be specified")
-	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -1813,8 +1802,12 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	localVarFormParams.Add("query", parameterToString(*r.query, ""))
-	localVarFormParams.Add("start", parameterToString(*r.start, ""))
-	localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	if r.start != nil {
+		localVarFormParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -2615,9 +2608,6 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.limit == nil {
-		return localVarReturnValue, nil, reportError("limit is required and must be specified")
-	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -2636,7 +2626,9 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
-	localVarFormParams.Add("limit", parameterToString(*r.limit, ""))
+	if r.limit != nil {
+		localVarFormParams.Add("limit", parameterToString(*r.limit, ""))
+	}
 	if r.metric != nil {
 		localVarFormParams.Add("metric", parameterToString(*r.metric, ""))
 	}
@@ -3055,12 +3047,6 @@ func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSerie
 	if len(*r.match) < 1 {
 		return localVarReturnValue, nil, reportError("match must have at least 1 elements")
 	}
-	if r.start == nil {
-		return localVarReturnValue, nil, reportError("start is required and must be specified")
-	}
-	if r.end == nil {
-		return localVarReturnValue, nil, reportError("end is required and must be specified")
-	}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/x-www-form-urlencoded"}
@@ -3080,8 +3066,12 @@ func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSerie
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	localVarFormParams.Add("match[]", parameterToString(*r.match, "multi"))
-	localVarFormParams.Add("start", parameterToString(*r.start, ""))
-	localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	if r.start != nil {
+		localVarFormParams.Add("start", parameterToString(*r.start, ""))
+	}
+	if r.end != nil {
+		localVarFormParams.Add("end", parameterToString(*r.end, ""))
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
