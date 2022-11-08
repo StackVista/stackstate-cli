@@ -4460,6 +4460,7 @@ components:
         - identifier: identifier
           functionId: 6
           lastUpdateTimestamp: 5
+          runtimeStatus: null
           remediationHint: remediationHint
           name: name
           description: description
@@ -4475,6 +4476,7 @@ components:
         - identifier: identifier
           functionId: 6
           lastUpdateTimestamp: 5
+          runtimeStatus: null
           remediationHint: remediationHint
           name: name
           description: description
@@ -4500,6 +4502,7 @@ components:
         identifier: identifier
         functionId: 6
         lastUpdateTimestamp: 5
+        runtimeStatus: null
         remediationHint: remediationHint
         name: name
         description: description
@@ -4539,6 +4542,8 @@ components:
           type: array
         status:
           $ref: '#/components/schemas/MonitorStatusValue'
+        runtimeStatus:
+          $ref: '#/components/schemas/MonitorRuntimeStatusValue'
         lastUpdateTimestamp:
           format: int64
           type: integer
@@ -4549,6 +4554,7 @@ components:
       - intervalSeconds
       - lastUpdateTimestamp
       - name
+      - runtimeStatus
       - status
       - tags
       type: object
@@ -4563,6 +4569,13 @@ components:
       enum:
       - ENABLED
       - DISABLED
+      type: string
+    MonitorRuntimeStatusValue:
+      enum:
+      - ENABLED
+      - DISABLED
+      - ERROR
+      - WARNING
       type: string
     MonitorApiError:
       allOf:
@@ -4671,6 +4684,7 @@ components:
           identifier: identifier
           functionId: 6
           lastUpdateTimestamp: 5
+          runtimeStatus: null
           remediationHint: remediationHint
           name: name
           description: description
@@ -4725,9 +4739,11 @@ components:
             checkStateId: checkStateId
             matchCount: 1
         errors:
-        - count: 1
+        - level: null
+          count: 1
           error: error
-        - count: 1
+        - level: null
+          count: 1
           error: error
       properties:
         monitor:
@@ -4780,6 +4796,7 @@ components:
       type: array
     MonitorError:
       example:
+        level: null
         count: 1
         error: error
       properties:
@@ -4787,9 +4804,12 @@ components:
           type: string
         count:
           type: integer
+        level:
+          $ref: '#/components/schemas/MessageLevel'
       required:
       - count
       - error
+      - level
       type: object
     MonitorMetrics:
       example:
@@ -4879,6 +4899,7 @@ components:
             identifier: identifier
             functionId: 6
             lastUpdateTimestamp: 5
+            runtimeStatus: null
             remediationHint: remediationHint
             name: name
             description: description
@@ -4891,6 +4912,13 @@ components:
             - tags
             - tags
             status: null
+          errors:
+          - level: null
+            count: 1
+            error: error
+          - level: null
+            count: 1
+            error: error
         - function:
             identifier: identifier
             lastUpdateTimestamp: 6
@@ -4901,6 +4929,7 @@ components:
             identifier: identifier
             functionId: 6
             lastUpdateTimestamp: 5
+            runtimeStatus: null
             remediationHint: remediationHint
             name: name
             description: description
@@ -4913,6 +4942,13 @@ components:
             - tags
             - tags
             status: null
+          errors:
+          - level: null
+            count: 1
+            error: error
+          - level: null
+            count: 1
+            error: error
       properties:
         monitors:
           items:
@@ -4933,6 +4969,7 @@ components:
           identifier: identifier
           functionId: 6
           lastUpdateTimestamp: 5
+          runtimeStatus: null
           remediationHint: remediationHint
           name: name
           description: description
@@ -4945,11 +4982,22 @@ components:
           - tags
           - tags
           status: null
+        errors:
+        - level: null
+          count: 1
+          error: error
+        - level: null
+          count: 1
+          error: error
       properties:
         monitor:
           $ref: '#/components/schemas/Monitor'
         function:
           $ref: '#/components/schemas/MonitorFunction'
+        errors:
+          items:
+            $ref: '#/components/schemas/MonitorError'
+          type: array
       required:
       - function
       - monitor
@@ -6071,12 +6119,6 @@ components:
       - level
       - message
       type: object
-    MessageLevel:
-      enum:
-      - Warn
-      - Error
-      - Info
-      type: string
     IdentifierType:
       enum:
       - NodeId
@@ -8414,6 +8456,12 @@ components:
       - offset
       - partition
       type: object
+    MessageLevel:
+      enum:
+      - WARN
+      - ERROR
+      - INFO
+      type: string
     Argument:
       discriminator:
         propertyName: _type

@@ -65,7 +65,7 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		} else {
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.MonitorHealthStateStateCount))
-			cli.Printer.PrintLn("Monitor Status: " + util.ToString(monitorStatus.Monitor.Status))
+			cli.Printer.PrintLn("Monitor Status: " + util.ToString(monitorStatus.Monitor.RuntimeStatus))
 			monitorMetrics := monitorStatus.GetMetrics()
 			monitorRuntimeMetrics := monitorMetrics.GetRuntimeMetrics()
 			lastRunTimestamp, lastRunTimestampOk := monitorRuntimeMetrics.GetLastRunTimestampOk()

@@ -17,18 +17,20 @@ import (
 
 // MonitorError struct for MonitorError
 type MonitorError struct {
-	Error string `json:"error"`
-	Count int32  `json:"count"`
+	Error string       `json:"error"`
+	Count int32        `json:"count"`
+	Level MessageLevel `json:"level"`
 }
 
 // NewMonitorError instantiates a new MonitorError object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorError(error_ string, count int32) *MonitorError {
+func NewMonitorError(error_ string, count int32, level MessageLevel) *MonitorError {
 	this := MonitorError{}
 	this.Error = error_
 	this.Count = count
+	this.Level = level
 	return &this
 }
 
@@ -88,6 +90,30 @@ func (o *MonitorError) SetCount(v int32) {
 	o.Count = v
 }
 
+// GetLevel returns the Level field value
+func (o *MonitorError) GetLevel() MessageLevel {
+	if o == nil {
+		var ret MessageLevel
+		return ret
+	}
+
+	return o.Level
+}
+
+// GetLevelOk returns a tuple with the Level field value
+// and a boolean to check if the value has been set.
+func (o *MonitorError) GetLevelOk() (*MessageLevel, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Level, true
+}
+
+// SetLevel sets field value
+func (o *MonitorError) SetLevel(v MessageLevel) {
+	o.Level = v
+}
+
 func (o MonitorError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -95,6 +121,9 @@ func (o MonitorError) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["count"] = o.Count
+	}
+	if true {
+		toSerialize["level"] = o.Level
 	}
 	return json.Marshal(toSerialize)
 }
