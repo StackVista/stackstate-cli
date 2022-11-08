@@ -308,6 +308,7 @@ Class | Method | HTTP request | Description
  - [MonitorPatch](docs/MonitorPatch.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorRuntimeMetrics](docs/MonitorRuntimeMetrics.md)
+ - [MonitorRuntimeStatusValue](docs/MonitorRuntimeStatusValue.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatusValue](docs/MonitorStatusValue.md)
  - [MonitorValidationError](docs/MonitorValidationError.md)

@@ -19,6 +19,7 @@ import (
 type MonitorOverview struct {
 	Monitor  Monitor         `json:"monitor"`
 	Function MonitorFunction `json:"function"`
+	Errors   []MonitorError  `json:"errors,omitempty"`
 }
 
 // NewMonitorOverview instantiates a new MonitorOverview object
@@ -88,6 +89,38 @@ func (o *MonitorOverview) SetFunction(v MonitorFunction) {
 	o.Function = v
 }
 
+// GetErrors returns the Errors field value if set, zero value otherwise.
+func (o *MonitorOverview) GetErrors() []MonitorError {
+	if o == nil || o.Errors == nil {
+		var ret []MonitorError
+		return ret
+	}
+	return o.Errors
+}
+
+// GetErrorsOk returns a tuple with the Errors field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorOverview) GetErrorsOk() ([]MonitorError, bool) {
+	if o == nil || o.Errors == nil {
+		return nil, false
+	}
+	return o.Errors, true
+}
+
+// HasErrors returns a boolean if a field has been set.
+func (o *MonitorOverview) HasErrors() bool {
+	if o != nil && o.Errors != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetErrors gets a reference to the given []MonitorError and assigns it to the Errors field.
+func (o *MonitorOverview) SetErrors(v []MonitorError) {
+	o.Errors = v
+}
+
 func (o MonitorOverview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -95,6 +128,9 @@ func (o MonitorOverview) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["function"] = o.Function
+	}
+	if o.Errors != nil {
+		toSerialize["errors"] = o.Errors
 	}
 	return json.Marshal(toSerialize)
 }

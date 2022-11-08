@@ -14,13 +14,14 @@ Name | Type | Description | Notes
 **IntervalSeconds** | **int32** |  | 
 **Tags** | **[]string** |  | 
 **Status** | [**MonitorStatusValue**](MonitorStatusValue.md) |  | 
+**RuntimeStatus** | [**MonitorRuntimeStatusValue**](MonitorRuntimeStatusValue.md) |  | 
 **LastUpdateTimestamp** | **int64** |  | 
 
 ## Methods
 
 ### NewMonitor
 
-`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, lastUpdateTimestamp int64, ) *Monitor`
+`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, runtimeStatus MonitorRuntimeStatusValue, lastUpdateTimestamp int64, ) *Monitor`
 
 NewMonitor instantiates a new Monitor object
 This constructor will assign default values to properties that have it defined,
@@ -248,6 +249,26 @@ and a boolean to check if the value has been set.
 `func (o *Monitor) SetStatus(v MonitorStatusValue)`
 
 SetStatus sets Status field to given value.
+
+
+### GetRuntimeStatus
+
+`func (o *Monitor) GetRuntimeStatus() MonitorRuntimeStatusValue`
+
+GetRuntimeStatus returns the RuntimeStatus field if non-nil, zero value otherwise.
+
+### GetRuntimeStatusOk
+
+`func (o *Monitor) GetRuntimeStatusOk() (*MonitorRuntimeStatusValue, bool)`
+
+GetRuntimeStatusOk returns a tuple with the RuntimeStatus field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRuntimeStatus
+
+`func (o *Monitor) SetRuntimeStatus(v MonitorRuntimeStatusValue)`
+
+SetRuntimeStatus sets RuntimeStatus field to given value.
 
 
 ### GetLastUpdateTimestamp
