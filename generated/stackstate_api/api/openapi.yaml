@@ -8458,9 +8458,9 @@ components:
       type: object
     MessageLevel:
       enum:
-      - Warn
-      - Error
-      - Info
+      - WARN
+      - ERROR
+      - INFO
       type: string
     Argument:
       discriminator:

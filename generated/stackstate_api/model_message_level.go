@@ -21,16 +21,16 @@ type MessageLevel string
 
 // List of MessageLevel
 const (
-	MESSAGELEVEL_WARN  MessageLevel = "Warn"
-	MESSAGELEVEL_ERROR MessageLevel = "Error"
-	MESSAGELEVEL_INFO  MessageLevel = "Info"
+	MESSAGELEVEL_WARN  MessageLevel = "WARN"
+	MESSAGELEVEL_ERROR MessageLevel = "ERROR"
+	MESSAGELEVEL_INFO  MessageLevel = "INFO"
 )
 
 // All allowed values of MessageLevel enum
 var AllowedMessageLevelEnumValues = []MessageLevel{
-	"Warn",
-	"Error",
-	"Info",
+	"WARN",
+	"ERROR",
+	"INFO",
 }
 
 func (v *MessageLevel) UnmarshalJSON(src []byte) error {
