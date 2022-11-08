@@ -6,12 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Error** | **string** |  | 
 **Count** | **int32** |  | 
+**Level** | [**MessageLevel**](MessageLevel.md) |  | 
 
 ## Methods
 
 ### NewMonitorError
 
-`func NewMonitorError(error_ string, count int32, ) *MonitorError`
+`func NewMonitorError(error_ string, count int32, level MessageLevel, ) *MonitorError`
 
 NewMonitorError instantiates a new MonitorError object
 This constructor will assign default values to properties that have it defined,
@@ -64,6 +65,26 @@ and a boolean to check if the value has been set.
 `func (o *MonitorError) SetCount(v int32)`
 
 SetCount sets Count field to given value.
+
+
+### GetLevel
+
+`func (o *MonitorError) GetLevel() MessageLevel`
+
+GetLevel returns the Level field if non-nil, zero value otherwise.
+
+### GetLevelOk
+
+`func (o *MonitorError) GetLevelOk() (*MessageLevel, bool)`
+
+GetLevelOk returns a tuple with the Level field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLevel
+
+`func (o *MonitorError) SetLevel(v MessageLevel)`
+
+SetLevel sets Level field to given value.
 
 
 
