@@ -45,7 +45,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackName: "zabbix",
+			PstackPackName: "zabbix",
 			PrequestBody: &map[string]string{
 				"zabbix_instance_name": "test_name",
 				"zabbix_instance_url":  "test_url",
@@ -75,7 +75,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackName: "zabbix",
+			PstackPackName: "zabbix",
 			PrequestBody: &map[string]string{
 				"one":   "foo",
 				"two":   "bar",
@@ -95,8 +95,8 @@ func TestStackpackInstallNoParameters(t *testing.T) {
 
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackName:   "zabbix",
-			PrequestBody: &map[string]string{},
+			PstackPackName: "zabbix",
+			PrequestBody:   &map[string]string{},
 		},
 		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
 	)

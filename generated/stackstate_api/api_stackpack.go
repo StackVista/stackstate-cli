@@ -29,11 +29,11 @@ type StackpackApi interface {
 		Confirm manual steps of the stackpack
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param stackpackName
-		@param stackpackInstanceId
+		@param stackPackName
+		@param stackPackInstanceId
 		@return ApiConfirmManualStepsRequest
 	*/
-	ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest
+	ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest
 
 	// ConfirmManualStepsExecute executes the request
 	//  @return string
@@ -45,10 +45,10 @@ type StackpackApi interface {
 		Provision details
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param stackName
+		@param stackPackName
 		@return ApiProvisionDetailsRequest
 	*/
-	ProvisionDetails(ctx context.Context, stackName string) ApiProvisionDetailsRequest
+	ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest
 
 	// ProvisionDetailsExecute executes the request
 	//  @return ProvisionResponse
@@ -60,43 +60,43 @@ type StackpackApi interface {
 		Provision details
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param stackName
-		@param stackId
+		@param stackPackName
+		@param stackPackInstanceId
 		@return ApiProvisionUninstallRequest
 	*/
-	ProvisionUninstall(ctx context.Context, stackName string, stackId int64) ApiProvisionUninstallRequest
+	ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest
 
 	// ProvisionUninstallExecute executes the request
 	//  @return string
 	ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error)
 
 	/*
-		StackpackList StackPack API
+		StackPackList StackPack API
 
 		list of stackpack
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiStackpackListRequest
+		@return ApiStackPackListRequest
 	*/
-	StackpackList(ctx context.Context) ApiStackpackListRequest
+	StackPackList(ctx context.Context) ApiStackPackListRequest
 
-	// StackpackListExecute executes the request
-	//  @return []Sstackpack
-	StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *http.Response, error)
+	// StackPackListExecute executes the request
+	//  @return []FullStackPack
+	StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error)
 
 	/*
-		StackpackUpload StackPack API
+		StackPackUpload StackPack API
 
 		upload a StackPack
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiStackpackUploadRequest
+		@return ApiStackPackUploadRequest
 	*/
-	StackpackUpload(ctx context.Context) ApiStackpackUploadRequest
+	StackPackUpload(ctx context.Context) ApiStackPackUploadRequest
 
-	// StackpackUploadExecute executes the request
+	// StackPackUploadExecute executes the request
 	//  @return StackPack
-	StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error)
+	StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error)
 
 	/*
 		UpgradeStackPack Upgrade API
@@ -104,10 +104,10 @@ type StackpackApi interface {
 		Upgrade stackpack
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param stackName
+		@param stackPackName
 		@return ApiUpgradeStackPackRequest
 	*/
-	UpgradeStackPack(ctx context.Context, stackName string) ApiUpgradeStackPackRequest
+	UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest
 
 	// UpgradeStackPackExecute executes the request
 	//  @return string
@@ -120,8 +120,8 @@ type StackpackApiService service
 type ApiConfirmManualStepsRequest struct {
 	ctx                 context.Context
 	ApiService          StackpackApi
-	stackpackName       string
-	stackpackInstanceId int64
+	stackPackName       string
+	stackPackInstanceId int64
 }
 
 func (r ApiConfirmManualStepsRequest) Execute() (string, *http.Response, error) {
@@ -133,22 +133,23 @@ ConfirmManualSteps Confirm manual steps
 
 Confirm manual steps of the stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackpackName
- @param stackpackInstanceId
- @return ApiConfirmManualStepsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param stackPackInstanceId
+	@return ApiConfirmManualStepsRequest
 */
-func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest {
+func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
 		ApiService:          a,
 		ctx:                 ctx,
-		stackpackName:       stackpackName,
-		stackpackInstanceId: stackpackInstanceId,
+		stackPackName:       stackPackName,
+		stackPackInstanceId: stackPackInstanceId,
 	}
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -162,9 +163,9 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/stackpack/{stackpackName}/confirm-manual-steps/{stackpackInstanceId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackpackName"+"}", url.PathEscape(parameterToString(r.stackpackName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"stackpackInstanceId"+"}", url.PathEscape(parameterToString(r.stackpackInstanceId, "")), -1)
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackInstanceId"+"}", url.PathEscape(parameterToString(r.stackPackInstanceId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -276,10 +277,10 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 }
 
 type ApiProvisionDetailsRequest struct {
-	ctx         context.Context
-	ApiService  StackpackApi
-	stackName   string
-	requestBody *map[string]string
+	ctx           context.Context
+	ApiService    StackpackApi
+	stackPackName string
+	requestBody   *map[string]string
 }
 
 func (r ApiProvisionDetailsRequest) RequestBody(requestBody map[string]string) ApiProvisionDetailsRequest {
@@ -296,20 +297,21 @@ ProvisionDetails Provision API
 
 Provision details
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackName
- @return ApiProvisionDetailsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiProvisionDetailsRequest
 */
-func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackName string) ApiProvisionDetailsRequest {
+func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
-		ApiService: a,
-		ctx:        ctx,
-		stackName:  stackName,
+		ApiService:    a,
+		ctx:           ctx,
+		stackPackName: stackPackName,
 	}
 }
 
 // Execute executes the request
-//  @return ProvisionResponse
+//
+//	@return ProvisionResponse
 func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -323,8 +325,8 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/stackpack/{stackName}/provision"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/provision"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -438,10 +440,10 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 }
 
 type ApiProvisionUninstallRequest struct {
-	ctx        context.Context
-	ApiService StackpackApi
-	stackName  string
-	stackId    int64
+	ctx                 context.Context
+	ApiService          StackpackApi
+	stackPackName       string
+	stackPackInstanceId int64
 }
 
 func (r ApiProvisionUninstallRequest) Execute() (string, *http.Response, error) {
@@ -453,22 +455,23 @@ ProvisionUninstall Provision API
 
 Provision details
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackName
- @param stackId
- @return ApiProvisionUninstallRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param stackPackInstanceId
+	@return ApiProvisionUninstallRequest
 */
-func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackName string, stackId int64) ApiProvisionUninstallRequest {
+func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
 	return ApiProvisionUninstallRequest{
-		ApiService: a,
-		ctx:        ctx,
-		stackName:  stackName,
-		stackId:    stackId,
+		ApiService:          a,
+		ctx:                 ctx,
+		stackPackName:       stackPackName,
+		stackPackInstanceId: stackPackInstanceId,
 	}
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -482,9 +485,9 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/stackpack/{stackName}/deprovision/{stackId}"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
-	localVarPath = strings.Replace(localVarPath, "{"+"stackId"+"}", url.PathEscape(parameterToString(r.stackId, "")), -1)
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/deprovision/{stackPackInstanceId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackInstanceId"+"}", url.PathEscape(parameterToString(r.stackPackInstanceId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -605,41 +608,42 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiStackpackListRequest struct {
+type ApiStackPackListRequest struct {
 	ctx        context.Context
 	ApiService StackpackApi
 }
 
-func (r ApiStackpackListRequest) Execute() ([]Sstackpack, *http.Response, error) {
-	return r.ApiService.StackpackListExecute(r)
+func (r ApiStackPackListRequest) Execute() ([]FullStackPack, *http.Response, error) {
+	return r.ApiService.StackPackListExecute(r)
 }
 
 /*
-StackpackList StackPack API
+StackPackList StackPack API
 
 list of stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiStackpackListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackListRequest
 */
-func (a *StackpackApiService) StackpackList(ctx context.Context) ApiStackpackListRequest {
-	return ApiStackpackListRequest{
+func (a *StackpackApiService) StackPackList(ctx context.Context) ApiStackPackListRequest {
+	return ApiStackPackListRequest{
 		ApiService: a,
 		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return []Sstackpack
-func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *http.Response, error) {
+//
+//	@return []FullStackPack
+func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue []Sstackpack
+		localVarReturnValue []FullStackPack
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackpackList")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -765,39 +769,40 @@ func (a *StackpackApiService) StackpackListExecute(r ApiStackpackListRequest) ([
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiStackpackUploadRequest struct {
+type ApiStackPackUploadRequest struct {
 	ctx        context.Context
 	ApiService StackpackApi
 	stackPack  **os.File
 }
 
-func (r ApiStackpackUploadRequest) StackPack(stackPack *os.File) ApiStackpackUploadRequest {
+func (r ApiStackPackUploadRequest) StackPack(stackPack *os.File) ApiStackPackUploadRequest {
 	r.stackPack = &stackPack
 	return r
 }
 
-func (r ApiStackpackUploadRequest) Execute() (*StackPack, *http.Response, error) {
-	return r.ApiService.StackpackUploadExecute(r)
+func (r ApiStackPackUploadRequest) Execute() (*StackPack, *http.Response, error) {
+	return r.ApiService.StackPackUploadExecute(r)
 }
 
 /*
-StackpackUpload StackPack API
+StackPackUpload StackPack API
 
 upload a StackPack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiStackpackUploadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackUploadRequest
 */
-func (a *StackpackApiService) StackpackUpload(ctx context.Context) ApiStackpackUploadRequest {
-	return ApiStackpackUploadRequest{
+func (a *StackpackApiService) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
+	return ApiStackPackUploadRequest{
 		ApiService: a,
 		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return StackPack
-func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error) {
+//
+//	@return StackPack
+func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -805,7 +810,7 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 		localVarReturnValue *StackPack
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackpackUpload")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackUpload")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -949,10 +954,10 @@ func (a *StackpackApiService) StackpackUploadExecute(r ApiStackpackUploadRequest
 }
 
 type ApiUpgradeStackPackRequest struct {
-	ctx        context.Context
-	ApiService StackpackApi
-	stackName  string
-	unlocked   *string
+	ctx           context.Context
+	ApiService    StackpackApi
+	stackPackName string
+	unlocked      *string
 }
 
 func (r ApiUpgradeStackPackRequest) Unlocked(unlocked string) ApiUpgradeStackPackRequest {
@@ -969,20 +974,21 @@ UpgradeStackPack Upgrade API
 
 Upgrade stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackName
- @return ApiUpgradeStackPackRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiUpgradeStackPackRequest
 */
-func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackName string) ApiUpgradeStackPackRequest {
+func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
 	return ApiUpgradeStackPackRequest{
-		ApiService: a,
-		ctx:        ctx,
-		stackName:  stackName,
+		ApiService:    a,
+		ctx:           ctx,
+		stackPackName: stackPackName,
 	}
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -996,8 +1002,8 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/stackpack/{stackName}/upgrade"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackName"+"}", url.PathEscape(parameterToString(r.stackName, "")), -1)
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/upgrade"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1123,10 +1129,10 @@ type StackpackApiMock struct {
 	ProvisionDetailsResponse   ProvisionDetailsMockResponse
 	ProvisionUninstallCalls    *[]ProvisionUninstallCall
 	ProvisionUninstallResponse ProvisionUninstallMockResponse
-	StackpackListCalls         *[]StackpackListCall
-	StackpackListResponse      StackpackListMockResponse
-	StackpackUploadCalls       *[]StackpackUploadCall
-	StackpackUploadResponse    StackpackUploadMockResponse
+	StackPackListCalls         *[]StackPackListCall
+	StackPackListResponse      StackPackListMockResponse
+	StackPackUploadCalls       *[]StackPackUploadCall
+	StackPackUploadResponse    StackPackUploadMockResponse
 	UpgradeStackPackCalls      *[]UpgradeStackPackCall
 	UpgradeStackPackResponse   UpgradeStackPackMockResponse
 }
@@ -1135,15 +1141,15 @@ func NewStackpackApiMock() StackpackApiMock {
 	xConfirmManualStepsCalls := make([]ConfirmManualStepsCall, 0)
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
 	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
-	xStackpackListCalls := make([]StackpackListCall, 0)
-	xStackpackUploadCalls := make([]StackpackUploadCall, 0)
+	xStackPackListCalls := make([]StackPackListCall, 0)
+	xStackPackUploadCalls := make([]StackPackUploadCall, 0)
 	xUpgradeStackPackCalls := make([]UpgradeStackPackCall, 0)
 	return StackpackApiMock{
 		ConfirmManualStepsCalls: &xConfirmManualStepsCalls,
 		ProvisionDetailsCalls:   &xProvisionDetailsCalls,
 		ProvisionUninstallCalls: &xProvisionUninstallCalls,
-		StackpackListCalls:      &xStackpackListCalls,
-		StackpackUploadCalls:    &xStackpackUploadCalls,
+		StackPackListCalls:      &xStackPackListCalls,
+		StackPackUploadCalls:    &xStackPackUploadCalls,
 		UpgradeStackPackCalls:   &xUpgradeStackPackCalls,
 	}
 }
@@ -1155,23 +1161,23 @@ type ConfirmManualStepsMockResponse struct {
 }
 
 type ConfirmManualStepsCall struct {
-	PstackpackName       string
-	PstackpackInstanceId int64
+	PstackPackName       string
+	PstackPackInstanceId int64
 }
 
-func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackpackName string, stackpackInstanceId int64) ApiConfirmManualStepsRequest {
+func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
 		ApiService:          mock,
 		ctx:                 ctx,
-		stackpackName:       stackpackName,
-		stackpackInstanceId: stackpackInstanceId,
+		stackPackName:       stackPackName,
+		stackPackInstanceId: stackPackInstanceId,
 	}
 }
 
 func (mock StackpackApiMock) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
 	p := ConfirmManualStepsCall{
-		PstackpackName:       r.stackpackName,
-		PstackpackInstanceId: r.stackpackInstanceId,
+		PstackPackName:       r.stackPackName,
+		PstackPackInstanceId: r.stackPackInstanceId,
 	}
 	*mock.ConfirmManualStepsCalls = append(*mock.ConfirmManualStepsCalls, p)
 	return mock.ConfirmManualStepsResponse.Result, mock.ConfirmManualStepsResponse.Response, mock.ConfirmManualStepsResponse.Error
@@ -1184,22 +1190,22 @@ type ProvisionDetailsMockResponse struct {
 }
 
 type ProvisionDetailsCall struct {
-	PstackName   string
-	PrequestBody *map[string]string
+	PstackPackName string
+	PrequestBody   *map[string]string
 }
 
-func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackName string) ApiProvisionDetailsRequest {
+func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
-		ApiService: mock,
-		ctx:        ctx,
-		stackName:  stackName,
+		ApiService:    mock,
+		ctx:           ctx,
+		stackPackName: stackPackName,
 	}
 }
 
 func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	p := ProvisionDetailsCall{
-		PstackName:   r.stackName,
-		PrequestBody: r.requestBody,
+		PstackPackName: r.stackPackName,
+		PrequestBody:   r.requestBody,
 	}
 	*mock.ProvisionDetailsCalls = append(*mock.ProvisionDetailsCalls, p)
 	return &mock.ProvisionDetailsResponse.Result, mock.ProvisionDetailsResponse.Response, mock.ProvisionDetailsResponse.Error
@@ -1212,73 +1218,73 @@ type ProvisionUninstallMockResponse struct {
 }
 
 type ProvisionUninstallCall struct {
-	PstackName string
-	PstackId   int64
+	PstackPackName       string
+	PstackPackInstanceId int64
 }
 
-func (mock StackpackApiMock) ProvisionUninstall(ctx context.Context, stackName string, stackId int64) ApiProvisionUninstallRequest {
+func (mock StackpackApiMock) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
 	return ApiProvisionUninstallRequest{
-		ApiService: mock,
-		ctx:        ctx,
-		stackName:  stackName,
-		stackId:    stackId,
+		ApiService:          mock,
+		ctx:                 ctx,
+		stackPackName:       stackPackName,
+		stackPackInstanceId: stackPackInstanceId,
 	}
 }
 
 func (mock StackpackApiMock) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
 	p := ProvisionUninstallCall{
-		PstackName: r.stackName,
-		PstackId:   r.stackId,
+		PstackPackName:       r.stackPackName,
+		PstackPackInstanceId: r.stackPackInstanceId,
 	}
 	*mock.ProvisionUninstallCalls = append(*mock.ProvisionUninstallCalls, p)
 	return mock.ProvisionUninstallResponse.Result, mock.ProvisionUninstallResponse.Response, mock.ProvisionUninstallResponse.Error
 }
 
-type StackpackListMockResponse struct {
-	Result   []Sstackpack
+type StackPackListMockResponse struct {
+	Result   []FullStackPack
 	Response *http.Response
 	Error    error
 }
 
-type StackpackListCall struct {
+type StackPackListCall struct {
 }
 
-func (mock StackpackApiMock) StackpackList(ctx context.Context) ApiStackpackListRequest {
-	return ApiStackpackListRequest{
+func (mock StackpackApiMock) StackPackList(ctx context.Context) ApiStackPackListRequest {
+	return ApiStackPackListRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock StackpackApiMock) StackpackListExecute(r ApiStackpackListRequest) ([]Sstackpack, *http.Response, error) {
-	p := StackpackListCall{}
-	*mock.StackpackListCalls = append(*mock.StackpackListCalls, p)
-	return mock.StackpackListResponse.Result, mock.StackpackListResponse.Response, mock.StackpackListResponse.Error
+func (mock StackpackApiMock) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
+	p := StackPackListCall{}
+	*mock.StackPackListCalls = append(*mock.StackPackListCalls, p)
+	return mock.StackPackListResponse.Result, mock.StackPackListResponse.Response, mock.StackPackListResponse.Error
 }
 
-type StackpackUploadMockResponse struct {
+type StackPackUploadMockResponse struct {
 	Result   StackPack
 	Response *http.Response
 	Error    error
 }
 
-type StackpackUploadCall struct {
+type StackPackUploadCall struct {
 	PstackPack **os.File
 }
 
-func (mock StackpackApiMock) StackpackUpload(ctx context.Context) ApiStackpackUploadRequest {
-	return ApiStackpackUploadRequest{
+func (mock StackpackApiMock) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
+	return ApiStackPackUploadRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock StackpackApiMock) StackpackUploadExecute(r ApiStackpackUploadRequest) (*StackPack, *http.Response, error) {
-	p := StackpackUploadCall{
+func (mock StackpackApiMock) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
+	p := StackPackUploadCall{
 		PstackPack: r.stackPack,
 	}
-	*mock.StackpackUploadCalls = append(*mock.StackpackUploadCalls, p)
-	return &mock.StackpackUploadResponse.Result, mock.StackpackUploadResponse.Response, mock.StackpackUploadResponse.Error
+	*mock.StackPackUploadCalls = append(*mock.StackPackUploadCalls, p)
+	return &mock.StackPackUploadResponse.Result, mock.StackPackUploadResponse.Response, mock.StackPackUploadResponse.Error
 }
 
 type UpgradeStackPackMockResponse struct {
@@ -1288,22 +1294,22 @@ type UpgradeStackPackMockResponse struct {
 }
 
 type UpgradeStackPackCall struct {
-	PstackName string
-	Punlocked  *string
+	PstackPackName string
+	Punlocked      *string
 }
 
-func (mock StackpackApiMock) UpgradeStackPack(ctx context.Context, stackName string) ApiUpgradeStackPackRequest {
+func (mock StackpackApiMock) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
 	return ApiUpgradeStackPackRequest{
-		ApiService: mock,
-		ctx:        ctx,
-		stackName:  stackName,
+		ApiService:    mock,
+		ctx:           ctx,
+		stackPackName: stackPackName,
 	}
 }
 
 func (mock StackpackApiMock) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
 	p := UpgradeStackPackCall{
-		PstackName: r.stackName,
-		Punlocked:  r.unlocked,
+		PstackPackName: r.stackPackName,
+		Punlocked:      r.unlocked,
 	}
 	*mock.UpgradeStackPackCalls = append(*mock.UpgradeStackPackCalls, p)
 	return mock.UpgradeStackPackResponse.Result, mock.UpgradeStackPackResponse.Response, mock.UpgradeStackPackResponse.Error

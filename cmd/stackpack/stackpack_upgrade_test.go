@@ -18,13 +18,13 @@ var (
 func setupStackPackUpgradeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackUpgradeCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.StackpackListResponse.Result = []stackstate_api.Sstackpack{
+	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{
 		{
-			Name: &stackPackName,
-			NextVersion: &stackstate_api.SstackpackLatestVersion{
-				Version: &stackPackNextVersion,
+			Name: stackPackName,
+			NextVersion: &stackstate_api.FullStackPack{
+				Version: stackPackNextVersion,
 			},
-			Version: &stackPackCurrentVersion,
+			Version: stackPackCurrentVersion,
 		},
 	}
 	cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackResponse.Result = "successful"
@@ -40,8 +40,8 @@ func TestStackpackUpgradePrintToTable(t *testing.T) {
 
 	assert.Equal(t,
 		[]stackstate_api.UpgradeStackPackCall{{
-			PstackName: "zabbix",
-			Punlocked:  &strategyFlag,
+			PstackPackName: "zabbix",
+			Punlocked:      &strategyFlag,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
@@ -57,8 +57,8 @@ func TestStackpackUpgradePrintToJson(t *testing.T) {
 
 	assert.Equal(t,
 		[]stackstate_api.UpgradeStackPackCall{{
-			PstackName: "zabbix",
-			Punlocked:  &strategyFlag,
+			PstackPackName: "zabbix",
+			Punlocked:      &strategyFlag,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
 

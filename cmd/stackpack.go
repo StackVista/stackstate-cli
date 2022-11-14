@@ -20,6 +20,7 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(stackpack.StackpackUninstallCommand(cli))
 	cmd.AddCommand(stackpack.StackpackUpgradeCommand(cli))
 	cmd.AddCommand(stackpack.StackpackConfirmManualStepsCommand(cli))
+	cmd.AddCommand(stackpack.StackpackDescribeCommand(cli))
 
 	return cmd
 }

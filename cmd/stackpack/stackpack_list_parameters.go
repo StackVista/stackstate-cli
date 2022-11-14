@@ -12,7 +12,7 @@ import (
 )
 
 func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
-	args := &ListArgs{}
+	args := &ListPropertiesArgs{}
 	cmd := &cobra.Command{
 		Use:   "list-parameters",
 		Short: "List all parameters",
@@ -23,33 +23,52 @@ func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
 	return cmd
 }
 
-func RunStackpackListParameterCommand(args *ListArgs) di.CmdWithApiFn {
+func formatParametersTable(stackpack stackstate_api.FullStackPack) [][]interface{} {
+	steps := stackpack.GetSteps()
+
+	sort.SliceStable(steps, func(i, j int) bool {
+		return *steps[i].Name < *steps[j].Name
+	})
+
+	data := make([][]interface{}, 0)
+	for _, step := range steps {
+		data = append(data, []interface{}{step.Name, step.Display, step.GetValue().Type})
+	}
+
+	return data
+}
+
+func formatParametersJson(stackpack stackstate_api.FullStackPack) []stackstate_api.StackPackStep {
+	steps := stackpack.GetSteps()
+
+	sort.SliceStable(steps, func(i, j int) bool {
+		return *steps[i].Name < *steps[j].Name
+	})
+
+	return steps
+}
+
+func RunStackpackListParameterCommand(args *ListPropertiesArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		stackpackList, resp, err := api.StackpackApi.StackpackList(cli.Context).Execute()
+		stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
 
 		data := make([][]interface{}, 0)
 		steps := make([]stackstate_api.StackPackStep, 0)
-		for _, stack := range stackpackList {
+		for _, stack := range stackPackList {
 			if stack.GetName() != args.Name {
 				continue
 			}
 
-			sort.SliceStable(stack.GetSteps(), func(i, j int) bool {
-				return *stack.GetSteps()[i].Name < *stack.GetSteps()[j].Name
-			})
-
-			for _, step := range stack.GetSteps() {
-				data = append(data, []interface{}{step.Name, step.Display, step.GetValue().Type})
-				steps = append(steps, step)
-			}
+			data = formatParametersTable(stack)
+			steps = formatParametersJson(stack)
 		}
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{

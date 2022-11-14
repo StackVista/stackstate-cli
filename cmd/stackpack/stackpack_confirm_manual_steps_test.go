@@ -29,8 +29,8 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 	assert.Equal(t,
 		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,
 		[]stackstate_api.ConfirmManualStepsCall{{
-			PstackpackName:       name,
-			PstackpackInstanceId: int64(1234),
+			PstackPackName:       name,
+			PstackPackInstanceId: int64(1234),
 		}},
 	)
 }
@@ -49,8 +49,8 @@ func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
 	assert.Equal(t,
 		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,
 		[]stackstate_api.ConfirmManualStepsCall{{
-			PstackpackName:       name,
-			PstackpackInstanceId: int64(1234),
+			PstackPackName:       name,
+			PstackPackInstanceId: int64(1234),
 		}},
 	)
 }

@@ -202,9 +202,9 @@ CreateRelationCheck Create the Checks on the relation
 
 Adds a Check on the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @return ApiCreateRelationCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@return ApiCreateRelationCheckRequest
 */
 func (a *RelationApiService) CreateRelationCheck(ctx context.Context, relationId int64) ApiCreateRelationCheckRequest {
 	return ApiCreateRelationCheckRequest{
@@ -215,7 +215,8 @@ func (a *RelationApiService) CreateRelationCheck(ctx context.Context, relationId
 }
 
 // Execute executes the request
-//  @return Check
+//
+//	@return Check
 func (a *RelationApiService) CreateRelationCheckExecute(r ApiCreateRelationCheckRequest) (*Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -378,9 +379,9 @@ CreateRelationStream Create the Stream on the relation
 
 Adds a DataStream/TelemetryStreamDefinition on the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @return ApiCreateRelationStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@return ApiCreateRelationStreamRequest
 */
 func (a *RelationApiService) CreateRelationStream(ctx context.Context, relationId int64) ApiCreateRelationStreamRequest {
 	return ApiCreateRelationStreamRequest{
@@ -391,7 +392,8 @@ func (a *RelationApiService) CreateRelationStream(ctx context.Context, relationI
 }
 
 // Execute executes the request
-//  @return TelemetryStreamDefinition
+//
+//	@return TelemetryStreamDefinition
 func (a *RelationApiService) CreateRelationStreamExecute(r ApiCreateRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -548,10 +550,10 @@ DeleteRelationCheck Delete the check from the relation
 
 Delete a Specific check from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @param checkId The Identifier of a Check
- @return ApiDeleteRelationCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@param checkId The Identifier of a Check
+	@return ApiDeleteRelationCheckRequest
 */
 func (a *RelationApiService) DeleteRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiDeleteRelationCheckRequest {
 	return ApiDeleteRelationCheckRequest{
@@ -705,10 +707,10 @@ DeleteRelationStream Delete the stream from the relation
 
 Delete a Specific stream from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @param streamId The Identifier of a stream
- @return ApiDeleteRelationStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@param streamId The Identifier of a stream
+	@return ApiDeleteRelationStreamRequest
 */
 func (a *RelationApiService) DeleteRelationStream(ctx context.Context, relationId int64, streamId int64) ApiDeleteRelationStreamRequest {
 	return ApiDeleteRelationStreamRequest{
@@ -869,10 +871,10 @@ GetRelationCheck Get the check from the relation
 
 Get a Specific check from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @param checkId The Identifier of a Check
- @return ApiGetRelationCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@param checkId The Identifier of a Check
+	@return ApiGetRelationCheckRequest
 */
 func (a *RelationApiService) GetRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiGetRelationCheckRequest {
 	return ApiGetRelationCheckRequest{
@@ -884,7 +886,8 @@ func (a *RelationApiService) GetRelationCheck(ctx context.Context, relationId in
 }
 
 // Execute executes the request
-//  @return Check
+//
+//	@return Check
 func (a *RelationApiService) GetRelationCheckExecute(r ApiGetRelationCheckRequest) (*Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1047,9 +1050,9 @@ GetRelationChecks List all checks from the relation
 
 List all checks from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @return ApiGetRelationChecksRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@return ApiGetRelationChecksRequest
 */
 func (a *RelationApiService) GetRelationChecks(ctx context.Context, relationId int64) ApiGetRelationChecksRequest {
 	return ApiGetRelationChecksRequest{
@@ -1060,7 +1063,8 @@ func (a *RelationApiService) GetRelationChecks(ctx context.Context, relationId i
 }
 
 // Execute executes the request
-//  @return []Check
+//
+//	@return []Check
 func (a *RelationApiService) GetRelationChecksExecute(r ApiGetRelationChecksRequest) ([]Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1223,10 +1227,10 @@ GetRelationStream Get the stream from the relation
 
 Get a Specific stream from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @param streamId The Identifier of a stream
- @return ApiGetRelationStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@param streamId The Identifier of a stream
+	@return ApiGetRelationStreamRequest
 */
 func (a *RelationApiService) GetRelationStream(ctx context.Context, relationId int64, streamId int64) ApiGetRelationStreamRequest {
 	return ApiGetRelationStreamRequest{
@@ -1238,7 +1242,8 @@ func (a *RelationApiService) GetRelationStream(ctx context.Context, relationId i
 }
 
 // Execute executes the request
-//  @return TelemetryStreamDefinition
+//
+//	@return TelemetryStreamDefinition
 func (a *RelationApiService) GetRelationStreamExecute(r ApiGetRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1401,9 +1406,9 @@ GetRelationStreams List all streams from the relation
 
 List all streams from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @return ApiGetRelationStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@return ApiGetRelationStreamsRequest
 */
 func (a *RelationApiService) GetRelationStreams(ctx context.Context, relationId int64) ApiGetRelationStreamsRequest {
 	return ApiGetRelationStreamsRequest{
@@ -1414,7 +1419,8 @@ func (a *RelationApiService) GetRelationStreams(ctx context.Context, relationId 
 }
 
 // Execute executes the request
-//  @return []TelemetryStreamDefinition
+//
+//	@return []TelemetryStreamDefinition
 func (a *RelationApiService) GetRelationStreamsExecute(r ApiGetRelationStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1577,10 +1583,10 @@ PutRelationCheck Update the check on the relation
 
 Update a Specific check from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @param checkId The Identifier of a Check
- @return ApiPutRelationCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@param checkId The Identifier of a Check
+	@return ApiPutRelationCheckRequest
 */
 func (a *RelationApiService) PutRelationCheck(ctx context.Context, relationId int64, checkId int64) ApiPutRelationCheckRequest {
 	return ApiPutRelationCheckRequest{
@@ -1592,7 +1598,8 @@ func (a *RelationApiService) PutRelationCheck(ctx context.Context, relationId in
 }
 
 // Execute executes the request
-//  @return Check
+//
+//	@return Check
 func (a *RelationApiService) PutRelationCheckExecute(r ApiPutRelationCheckRequest) (*Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1757,10 +1764,10 @@ PutRelationStream Update the stream on the relation
 
 Update a Specific stream from the relation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param relationId The Identifier of a relation
- @param streamId The Identifier of a stream
- @return ApiPutRelationStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param relationId The Identifier of a relation
+	@param streamId The Identifier of a stream
+	@return ApiPutRelationStreamRequest
 */
 func (a *RelationApiService) PutRelationStream(ctx context.Context, relationId int64, streamId int64) ApiPutRelationStreamRequest {
 	return ApiPutRelationStreamRequest{
@@ -1772,7 +1779,8 @@ func (a *RelationApiService) PutRelationStream(ctx context.Context, relationId i
 }
 
 // Execute executes the request
-//  @return TelemetryStreamDefinition
+//
+//	@return TelemetryStreamDefinition
 func (a *RelationApiService) PutRelationStreamExecute(r ApiPutRelationStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

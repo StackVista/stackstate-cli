@@ -217,9 +217,9 @@ CreateComponentCheck Create the Checks on the component
 
 Adds a Check on the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @return ApiCreateComponentCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiCreateComponentCheckRequest
 */
 func (a *ComponentApiService) CreateComponentCheck(ctx context.Context, componentId int64) ApiCreateComponentCheckRequest {
 	return ApiCreateComponentCheckRequest{
@@ -230,7 +230,8 @@ func (a *ComponentApiService) CreateComponentCheck(ctx context.Context, componen
 }
 
 // Execute executes the request
-//  @return Check
+//
+//	@return Check
 func (a *ComponentApiService) CreateComponentCheckExecute(r ApiCreateComponentCheckRequest) (*Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -393,9 +394,9 @@ CreateComponentStreams Create the Stream on the component
 
 Adds a DataStream/TelemetryStreamDefinition on the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @return ApiCreateComponentStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiCreateComponentStreamsRequest
 */
 func (a *ComponentApiService) CreateComponentStreams(ctx context.Context, componentId int64) ApiCreateComponentStreamsRequest {
 	return ApiCreateComponentStreamsRequest{
@@ -406,7 +407,8 @@ func (a *ComponentApiService) CreateComponentStreams(ctx context.Context, compon
 }
 
 // Execute executes the request
-//  @return TelemetryStreamDefinition
+//
+//	@return TelemetryStreamDefinition
 func (a *ComponentApiService) CreateComponentStreamsExecute(r ApiCreateComponentStreamsRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -563,10 +565,10 @@ DeleteComponentCheck Delete the check from the component
 
 Delete a Specific check from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @param checkId The Identifier of a Check
- @return ApiDeleteComponentCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param checkId The Identifier of a Check
+	@return ApiDeleteComponentCheckRequest
 */
 func (a *ComponentApiService) DeleteComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiDeleteComponentCheckRequest {
 	return ApiDeleteComponentCheckRequest{
@@ -720,10 +722,10 @@ DeleteComponentStream Delete the stream from the component
 
 Delete a Specific stream from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @param streamId The Identifier of a stream
- @return ApiDeleteComponentStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param streamId The Identifier of a stream
+	@return ApiDeleteComponentStreamRequest
 */
 func (a *ComponentApiService) DeleteComponentStream(ctx context.Context, componentId int64, streamId int64) ApiDeleteComponentStreamRequest {
 	return ApiDeleteComponentStreamRequest{
@@ -884,10 +886,10 @@ GetComponentCheck Get the check from the component
 
 Get a Specific check from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @param checkId The Identifier of a Check
- @return ApiGetComponentCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param checkId The Identifier of a Check
+	@return ApiGetComponentCheckRequest
 */
 func (a *ComponentApiService) GetComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiGetComponentCheckRequest {
 	return ApiGetComponentCheckRequest{
@@ -899,7 +901,8 @@ func (a *ComponentApiService) GetComponentCheck(ctx context.Context, componentId
 }
 
 // Execute executes the request
-//  @return Check
+//
+//	@return Check
 func (a *ComponentApiService) GetComponentCheckExecute(r ApiGetComponentCheckRequest) (*Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1062,9 +1065,9 @@ GetComponentChecks List all checks from the component
 
 List all checks from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @return ApiGetComponentChecksRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiGetComponentChecksRequest
 */
 func (a *ComponentApiService) GetComponentChecks(ctx context.Context, componentId int64) ApiGetComponentChecksRequest {
 	return ApiGetComponentChecksRequest{
@@ -1075,7 +1078,8 @@ func (a *ComponentApiService) GetComponentChecks(ctx context.Context, componentI
 }
 
 // Execute executes the request
-//  @return []Check
+//
+//	@return []Check
 func (a *ComponentApiService) GetComponentChecksExecute(r ApiGetComponentChecksRequest) ([]Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1238,10 +1242,10 @@ GetComponentStream Get the stream from the component
 
 Get a Specific stream from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @param streamId The Identifier of a stream
- @return ApiGetComponentStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param streamId The Identifier of a stream
+	@return ApiGetComponentStreamRequest
 */
 func (a *ComponentApiService) GetComponentStream(ctx context.Context, componentId int64, streamId int64) ApiGetComponentStreamRequest {
 	return ApiGetComponentStreamRequest{
@@ -1253,7 +1257,8 @@ func (a *ComponentApiService) GetComponentStream(ctx context.Context, componentI
 }
 
 // Execute executes the request
-//  @return TelemetryStreamDefinition
+//
+//	@return TelemetryStreamDefinition
 func (a *ComponentApiService) GetComponentStreamExecute(r ApiGetComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1416,9 +1421,9 @@ GetComponentStreams List all streams from the component
 
 List all streams from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @return ApiGetComponentStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiGetComponentStreamsRequest
 */
 func (a *ComponentApiService) GetComponentStreams(ctx context.Context, componentId int64) ApiGetComponentStreamsRequest {
 	return ApiGetComponentStreamsRequest{
@@ -1429,7 +1434,8 @@ func (a *ComponentApiService) GetComponentStreams(ctx context.Context, component
 }
 
 // Execute executes the request
-//  @return []TelemetryStreamDefinition
+//
+//	@return []TelemetryStreamDefinition
 func (a *ComponentApiService) GetComponentStreamsExecute(r ApiGetComponentStreamsRequest) ([]TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1598,9 +1604,9 @@ GetLatestMetrics Get the latests metrics
 
 Gets a top 3 metrics for a datapoint, always takes the last 15 minutes before provided timepoint
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @return ApiGetLatestMetricsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@return ApiGetLatestMetricsRequest
 */
 func (a *ComponentApiService) GetLatestMetrics(ctx context.Context, componentId int64) ApiGetLatestMetricsRequest {
 	return ApiGetLatestMetricsRequest{
@@ -1611,7 +1617,8 @@ func (a *ComponentApiService) GetLatestMetrics(ctx context.Context, componentId 
 }
 
 // Execute executes the request
-//  @return TelemetryLatestSnapshotsResponse
+//
+//	@return TelemetryLatestSnapshotsResponse
 func (a *ComponentApiService) GetLatestMetricsExecute(r ApiGetLatestMetricsRequest) (*TelemetryLatestSnapshotsResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1778,10 +1785,10 @@ UpdateComponentCheck Update the check on the component
 
 Update a Specific check from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @param checkId The Identifier of a Check
- @return ApiUpdateComponentCheckRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param checkId The Identifier of a Check
+	@return ApiUpdateComponentCheckRequest
 */
 func (a *ComponentApiService) UpdateComponentCheck(ctx context.Context, componentId int64, checkId int64) ApiUpdateComponentCheckRequest {
 	return ApiUpdateComponentCheckRequest{
@@ -1793,7 +1800,8 @@ func (a *ComponentApiService) UpdateComponentCheck(ctx context.Context, componen
 }
 
 // Execute executes the request
-//  @return Check
+//
+//	@return Check
 func (a *ComponentApiService) UpdateComponentCheckExecute(r ApiUpdateComponentCheckRequest) (*Check, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -1958,10 +1966,10 @@ UpdateComponentStream Update the stream on the component
 
 Update a Specific stream from the component
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentId The Identifier of a component
- @param streamId The Identifier of a stream
- @return ApiUpdateComponentStreamRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentId The Identifier of a component
+	@param streamId The Identifier of a stream
+	@return ApiUpdateComponentStreamRequest
 */
 func (a *ComponentApiService) UpdateComponentStream(ctx context.Context, componentId int64, streamId int64) ApiUpdateComponentStreamRequest {
 	return ApiUpdateComponentStreamRequest{
@@ -1973,7 +1981,8 @@ func (a *ComponentApiService) UpdateComponentStream(ctx context.Context, compone
 }
 
 // Execute executes the request
-//  @return TelemetryStreamDefinition
+//
+//	@return TelemetryStreamDefinition
 func (a *ComponentApiService) UpdateComponentStreamExecute(r ApiUpdateComponentStreamRequest) (*TelemetryStreamDefinition, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
