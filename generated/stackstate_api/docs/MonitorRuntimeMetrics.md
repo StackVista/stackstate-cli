@@ -4,6 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**HealthStatesCount** | Pointer to **int32** | Representing the total count of the monitors results. | [optional] 
+**UnmappedHealthStatesCount** | Pointer to **int32** | Representing the total count of the monitors results that are not mapped to topology/ | [optional] 
 **UnknownCount** | Pointer to **int32** | Representing the count of the monitors results that are UNKNOWN and are mapped to topology. | [optional] 
 **ClearCount** | Pointer to **int32** | Representing the count of the monitors results that are CLEAR and are mapped to topology. | [optional] 
 **DeviatingCount** | Pointer to **int32** | Representing the count of the monitors results that are DEVIATING and are mapped to topology. | [optional] 
@@ -30,6 +32,56 @@ will change when the set of required properties is changed
 NewMonitorRuntimeMetricsWithDefaults instantiates a new MonitorRuntimeMetrics object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetHealthStatesCount
+
+`func (o *MonitorRuntimeMetrics) GetHealthStatesCount() int32`
+
+GetHealthStatesCount returns the HealthStatesCount field if non-nil, zero value otherwise.
+
+### GetHealthStatesCountOk
+
+`func (o *MonitorRuntimeMetrics) GetHealthStatesCountOk() (*int32, bool)`
+
+GetHealthStatesCountOk returns a tuple with the HealthStatesCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHealthStatesCount
+
+`func (o *MonitorRuntimeMetrics) SetHealthStatesCount(v int32)`
+
+SetHealthStatesCount sets HealthStatesCount field to given value.
+
+### HasHealthStatesCount
+
+`func (o *MonitorRuntimeMetrics) HasHealthStatesCount() bool`
+
+HasHealthStatesCount returns a boolean if a field has been set.
+
+### GetUnmappedHealthStatesCount
+
+`func (o *MonitorRuntimeMetrics) GetUnmappedHealthStatesCount() int32`
+
+GetUnmappedHealthStatesCount returns the UnmappedHealthStatesCount field if non-nil, zero value otherwise.
+
+### GetUnmappedHealthStatesCountOk
+
+`func (o *MonitorRuntimeMetrics) GetUnmappedHealthStatesCountOk() (*int32, bool)`
+
+GetUnmappedHealthStatesCountOk returns a tuple with the UnmappedHealthStatesCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnmappedHealthStatesCount
+
+`func (o *MonitorRuntimeMetrics) SetUnmappedHealthStatesCount(v int32)`
+
+SetUnmappedHealthStatesCount sets UnmappedHealthStatesCount field to given value.
+
+### HasUnmappedHealthStatesCount
+
+`func (o *MonitorRuntimeMetrics) HasUnmappedHealthStatesCount() bool`
+
+HasUnmappedHealthStatesCount returns a boolean if a field has been set.
 
 ### GetUnknownCount
 

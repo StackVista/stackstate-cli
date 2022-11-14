@@ -17,6 +17,10 @@ import (
 
 // MonitorRuntimeMetrics struct for MonitorRuntimeMetrics
 type MonitorRuntimeMetrics struct {
+	// Representing the total count of the monitors results.
+	HealthStatesCount *int32 `json:"healthStatesCount,omitempty"`
+	// Representing the total count of the monitors results that are not mapped to topology/
+	UnmappedHealthStatesCount *int32 `json:"unmappedHealthStatesCount,omitempty"`
 	// Representing the count of the monitors results that are UNKNOWN and are mapped to topology.
 	UnknownCount *int32 `json:"unknownCount,omitempty"`
 	// Representing the count of the monitors results that are CLEAR and are mapped to topology.
@@ -48,6 +52,70 @@ func NewMonitorRuntimeMetrics() *MonitorRuntimeMetrics {
 func NewMonitorRuntimeMetricsWithDefaults() *MonitorRuntimeMetrics {
 	this := MonitorRuntimeMetrics{}
 	return &this
+}
+
+// GetHealthStatesCount returns the HealthStatesCount field value if set, zero value otherwise.
+func (o *MonitorRuntimeMetrics) GetHealthStatesCount() int32 {
+	if o == nil || o.HealthStatesCount == nil {
+		var ret int32
+		return ret
+	}
+	return *o.HealthStatesCount
+}
+
+// GetHealthStatesCountOk returns a tuple with the HealthStatesCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorRuntimeMetrics) GetHealthStatesCountOk() (*int32, bool) {
+	if o == nil || o.HealthStatesCount == nil {
+		return nil, false
+	}
+	return o.HealthStatesCount, true
+}
+
+// HasHealthStatesCount returns a boolean if a field has been set.
+func (o *MonitorRuntimeMetrics) HasHealthStatesCount() bool {
+	if o != nil && o.HealthStatesCount != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetHealthStatesCount gets a reference to the given int32 and assigns it to the HealthStatesCount field.
+func (o *MonitorRuntimeMetrics) SetHealthStatesCount(v int32) {
+	o.HealthStatesCount = &v
+}
+
+// GetUnmappedHealthStatesCount returns the UnmappedHealthStatesCount field value if set, zero value otherwise.
+func (o *MonitorRuntimeMetrics) GetUnmappedHealthStatesCount() int32 {
+	if o == nil || o.UnmappedHealthStatesCount == nil {
+		var ret int32
+		return ret
+	}
+	return *o.UnmappedHealthStatesCount
+}
+
+// GetUnmappedHealthStatesCountOk returns a tuple with the UnmappedHealthStatesCount field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorRuntimeMetrics) GetUnmappedHealthStatesCountOk() (*int32, bool) {
+	if o == nil || o.UnmappedHealthStatesCount == nil {
+		return nil, false
+	}
+	return o.UnmappedHealthStatesCount, true
+}
+
+// HasUnmappedHealthStatesCount returns a boolean if a field has been set.
+func (o *MonitorRuntimeMetrics) HasUnmappedHealthStatesCount() bool {
+	if o != nil && o.UnmappedHealthStatesCount != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetUnmappedHealthStatesCount gets a reference to the given int32 and assigns it to the UnmappedHealthStatesCount field.
+func (o *MonitorRuntimeMetrics) SetUnmappedHealthStatesCount(v int32) {
+	o.UnmappedHealthStatesCount = &v
 }
 
 // GetUnknownCount returns the UnknownCount field value if set, zero value otherwise.
@@ -276,6 +344,12 @@ func (o *MonitorRuntimeMetrics) SetLastFailedRunTimestamp(v int64) {
 
 func (o MonitorRuntimeMetrics) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if o.HealthStatesCount != nil {
+		toSerialize["healthStatesCount"] = o.HealthStatesCount
+	}
+	if o.UnmappedHealthStatesCount != nil {
+		toSerialize["unmappedHealthStatesCount"] = o.UnmappedHealthStatesCount
+	}
 	if o.UnknownCount != nil {
 		toSerialize["unknownCount"] = o.UnknownCount
 	}

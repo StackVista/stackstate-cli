@@ -8,7 +8,6 @@ Name | Type | Description | Notes
 **Function** | [**MonitorFunction**](MonitorFunction.md) |  | 
 **Errors** | Pointer to [**[]MonitorError**](MonitorError.md) |  | [optional] 
 **Metrics** | [**MonitorMetrics**](MonitorMetrics.md) |  | 
-**MonitorHealthStateStateCount** | Pointer to **int32** |  | [optional] 
 **TopologyMatchResult** | Pointer to [**TopologyMatchResult**](TopologyMatchResult.md) |  | [optional] 
 
 ## Methods
@@ -114,31 +113,6 @@ and a boolean to check if the value has been set.
 
 SetMetrics sets Metrics field to given value.
 
-
-### GetMonitorHealthStateStateCount
-
-`func (o *MonitorStatus) GetMonitorHealthStateStateCount() int32`
-
-GetMonitorHealthStateStateCount returns the MonitorHealthStateStateCount field if non-nil, zero value otherwise.
-
-### GetMonitorHealthStateStateCountOk
-
-`func (o *MonitorStatus) GetMonitorHealthStateStateCountOk() (*int32, bool)`
-
-GetMonitorHealthStateStateCountOk returns a tuple with the MonitorHealthStateStateCount field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMonitorHealthStateStateCount
-
-`func (o *MonitorStatus) SetMonitorHealthStateStateCount(v int32)`
-
-SetMonitorHealthStateStateCount sets MonitorHealthStateStateCount field to given value.
-
-### HasMonitorHealthStateStateCount
-
-`func (o *MonitorStatus) HasMonitorHealthStateStateCount() bool`
-
-HasMonitorHealthStateStateCount returns a boolean if a field has been set.
 
 ### GetTopologyMatchResult
 

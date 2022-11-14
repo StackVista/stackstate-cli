@@ -17,12 +17,11 @@ import (
 
 // MonitorStatus struct for MonitorStatus
 type MonitorStatus struct {
-	Monitor                      Monitor              `json:"monitor"`
-	Function                     MonitorFunction      `json:"function"`
-	Errors                       []MonitorError       `json:"errors,omitempty"`
-	Metrics                      MonitorMetrics       `json:"metrics"`
-	MonitorHealthStateStateCount *int32               `json:"monitorHealthStateStateCount,omitempty"`
-	TopologyMatchResult          *TopologyMatchResult `json:"topologyMatchResult,omitempty"`
+	Monitor             Monitor              `json:"monitor"`
+	Function            MonitorFunction      `json:"function"`
+	Errors              []MonitorError       `json:"errors,omitempty"`
+	Metrics             MonitorMetrics       `json:"metrics"`
+	TopologyMatchResult *TopologyMatchResult `json:"topologyMatchResult,omitempty"`
 }
 
 // NewMonitorStatus instantiates a new MonitorStatus object
@@ -149,38 +148,6 @@ func (o *MonitorStatus) SetMetrics(v MonitorMetrics) {
 	o.Metrics = v
 }
 
-// GetMonitorHealthStateStateCount returns the MonitorHealthStateStateCount field value if set, zero value otherwise.
-func (o *MonitorStatus) GetMonitorHealthStateStateCount() int32 {
-	if o == nil || o.MonitorHealthStateStateCount == nil {
-		var ret int32
-		return ret
-	}
-	return *o.MonitorHealthStateStateCount
-}
-
-// GetMonitorHealthStateStateCountOk returns a tuple with the MonitorHealthStateStateCount field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MonitorStatus) GetMonitorHealthStateStateCountOk() (*int32, bool) {
-	if o == nil || o.MonitorHealthStateStateCount == nil {
-		return nil, false
-	}
-	return o.MonitorHealthStateStateCount, true
-}
-
-// HasMonitorHealthStateStateCount returns a boolean if a field has been set.
-func (o *MonitorStatus) HasMonitorHealthStateStateCount() bool {
-	if o != nil && o.MonitorHealthStateStateCount != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetMonitorHealthStateStateCount gets a reference to the given int32 and assigns it to the MonitorHealthStateStateCount field.
-func (o *MonitorStatus) SetMonitorHealthStateStateCount(v int32) {
-	o.MonitorHealthStateStateCount = &v
-}
-
 // GetTopologyMatchResult returns the TopologyMatchResult field value if set, zero value otherwise.
 func (o *MonitorStatus) GetTopologyMatchResult() TopologyMatchResult {
 	if o == nil || o.TopologyMatchResult == nil {
@@ -226,9 +193,6 @@ func (o MonitorStatus) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["metrics"] = o.Metrics
-	}
-	if o.MonitorHealthStateStateCount != nil {
-		toSerialize["monitorHealthStateStateCount"] = o.MonitorHealthStateStateCount
 	}
 	if o.TopologyMatchResult != nil {
 		toSerialize["topologyMatchResult"] = o.TopologyMatchResult

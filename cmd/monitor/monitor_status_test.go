@@ -25,16 +25,22 @@ var (
 		Status:          sts.MONITORSTATUSVALUE_ENABLED,
 		RuntimeStatus:   sts.MONITORRUNTIMESTATUSVALUE_ERROR,
 	}
-	monitorHealthStateCount int32 = 10
-	monitorError                  = sts.MonitorError{
+	healthStateCount         int32 = 10
+	unmappedHealthStateCount int32 = 1
+	monitorError                   = sts.MonitorError{
 		Error: "Error",
 		Count: 11,
 	}
 	metrics = sts.MonitorMetrics{
+		RuntimeMetrics: sts.MonitorRuntimeMetrics{
+			HealthStatesCount: &healthStateCount,
+		},
 		HealthSyncServiceMetrics: &sts.HealthStreamMetrics{},
 	}
 
 	monitorRuntimeMetrics = sts.MonitorRuntimeMetrics{
+		HealthStatesCount:          &healthStateCount,
+		UnmappedHealthStatesCount:  &unmappedHealthStateCount,
 		UnknownCount:               &count,
 		ClearCount:                 &count,
 		DeviatingCount:             &count,
@@ -55,20 +61,28 @@ var (
 		MultipleMatchesCheckStates: nil,
 	}
 
+	unmapped = sts.UnmatchedCheckState{
+		CheckStateId:              "136106883530514-db-shard-4",
+		TopologyElementIdentifier: "urn:service:/database/db-shard-4wrong",
+	}
+	unmappedTopologyMatchResult = sts.TopologyMatchResult{
+		MatchedCheckStates:         0,
+		UnmatchedCheckStates:       []sts.UnmatchedCheckState{unmapped},
+		MultipleMatchesCheckStates: nil,
+	}
+
 	monitorStatusResult = &sts.MonitorStatus{
-		Monitor:                      monitor,
-		Errors:                       []sts.MonitorError{monitorError},
-		Metrics:                      metrics,
-		MonitorHealthStateStateCount: &monitorHealthStateCount,
-		TopologyMatchResult:          &topologyMatchResult,
+		Monitor:             monitor,
+		Errors:              []sts.MonitorError{monitorError},
+		Metrics:             metrics,
+		TopologyMatchResult: &topologyMatchResult,
 	}
 
 	monitorStatusResultWithHealthCounts = &sts.MonitorStatus{
-		Monitor:                      monitor,
-		Errors:                       []sts.MonitorError{monitorError},
-		Metrics:                      metricsWithHealthStateCounts,
-		MonitorHealthStateStateCount: &monitorHealthStateCount,
-		TopologyMatchResult:          &topologyMatchResult,
+		Monitor:             monitor,
+		Errors:              []sts.MonitorError{monitorError},
+		Metrics:             metricsWithHealthStateCounts,
+		TopologyMatchResult: &unmappedTopologyMatchResult,
 	}
 
 	emptyMonitorRuntimeMetrics = sts.MonitorRuntimeMetrics{}
@@ -122,7 +136,8 @@ func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 
 	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor Status: ERROR", "Monitor last run: 2022-09-13 14:34:35.007 +0000 UTC",
 		"", "Monitor Stream errors:", "", "Monitor health states mapped to topology:", "",
-		"Monitor Stream metrics:", "", "Monitor health states with identifier matching exactly 1 topology element: 0"}
+		"Monitor Stream metrics:", "", "Monitor health states with identifier matching exactly 1 topology element: 0", "",
+		"Monitor health states with identifier which has no matching topology element (1):"}
 
 	expectedTableCall := []printer.TableData{
 		{
@@ -139,6 +154,10 @@ func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 			Data: [][]interface{}{{"latency (Seconds)"}, {"messages processed (per second)"},
 				{"monitor health states created (per second)"}, {"monitor health states updated (per second)"},
 				{"monitor health states deleted (per second)"}},
+		},
+		{
+			Header: []string{"monitor health state id", "topology element identifier"},
+			Data:   [][]interface{}{{"136106883530514-db-shard-4", "urn:service:/database/db-shard-4wrong"}},
 		},
 	}
 

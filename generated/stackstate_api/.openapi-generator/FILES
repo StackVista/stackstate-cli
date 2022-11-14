@@ -44,8 +44,6 @@ docs/ArgumentComponentTypeRef.md
 docs/ArgumentDoubleVal.md
 docs/ArgumentDurationVal.md
 docs/ArgumentEventStreamRef.md
-docs/ArgumentExtTopoComponent.md
-docs/ArgumentExtTopoRelation.md
 docs/ArgumentLongVal.md
 docs/ArgumentMetricStreamId.md
 docs/ArgumentMetricStreamRef.md
@@ -295,8 +293,6 @@ model_argument_component_type_ref.go
 model_argument_double_val.go
 model_argument_duration_val.go
 model_argument_event_stream_ref.go
-model_argument_ext_topo_component.go
-model_argument_ext_topo_relation.go
 model_argument_long_val.go
 model_argument_metric_stream_id.go
 model_argument_metric_stream_ref.go

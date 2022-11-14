@@ -12,7 +12,6 @@ Name | Type | Description | Notes
 **ComponentType** | **int64** |  | 
 **Stream** | **int64** |  | 
 **RelationType** | **int64** |  | 
-**ExtTopoElement** | **int64** |  | 
 **Filter** | [**StsEventStreamFilter**](StsEventStreamFilter.md) |  | 
 **QueryView** | **int64** |  | 
 **MaxWindow** | Pointer to **int64** |  | [optional] 
@@ -24,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewArgument
 
-`func NewArgument(type_ string, parameter int64, value string, componentType int64, stream int64, relationType int64, extTopoElement int64, filter StsEventStreamFilter, queryView int64, script string, ) *Argument`
+`func NewArgument(type_ string, parameter int64, value string, componentType int64, stream int64, relationType int64, filter StsEventStreamFilter, queryView int64, script string, ) *Argument`
 
 NewArgument instantiates a new Argument object
 This constructor will assign default values to properties that have it defined,
@@ -207,26 +206,6 @@ and a boolean to check if the value has been set.
 `func (o *Argument) SetRelationType(v int64)`
 
 SetRelationType sets RelationType field to given value.
-
-
-### GetExtTopoElement
-
-`func (o *Argument) GetExtTopoElement() int64`
-
-GetExtTopoElement returns the ExtTopoElement field if non-nil, zero value otherwise.
-
-### GetExtTopoElementOk
-
-`func (o *Argument) GetExtTopoElementOk() (*int64, bool)`
-
-GetExtTopoElementOk returns a tuple with the ExtTopoElement field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetExtTopoElement
-
-`func (o *Argument) SetExtTopoElement(v int64)`
-
-SetExtTopoElement sets ExtTopoElement field to given value.
 
 
 ### GetFilter
