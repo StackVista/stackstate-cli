@@ -25,8 +25,6 @@ type Argument struct {
 	ArgumentDoubleVal                    *ArgumentDoubleVal
 	ArgumentDurationVal                  *ArgumentDurationVal
 	ArgumentEventStreamRef               *ArgumentEventStreamRef
-	ArgumentExtTopoComponent             *ArgumentExtTopoComponent
-	ArgumentExtTopoRelation              *ArgumentExtTopoRelation
 	ArgumentLongVal                      *ArgumentLongVal
 	ArgumentMetricStreamId               *ArgumentMetricStreamId
 	ArgumentMetricStreamRef              *ArgumentMetricStreamRef
@@ -89,20 +87,6 @@ func ArgumentDurationValAsArgument(v *ArgumentDurationVal) Argument {
 func ArgumentEventStreamRefAsArgument(v *ArgumentEventStreamRef) Argument {
 	return Argument{
 		ArgumentEventStreamRef: v,
-	}
-}
-
-// ArgumentExtTopoComponentAsArgument is a convenience function that returns ArgumentExtTopoComponent wrapped in Argument
-func ArgumentExtTopoComponentAsArgument(v *ArgumentExtTopoComponent) Argument {
-	return Argument{
-		ArgumentExtTopoComponent: v,
-	}
-}
-
-// ArgumentExtTopoRelationAsArgument is a convenience function that returns ArgumentExtTopoRelation wrapped in Argument
-func ArgumentExtTopoRelationAsArgument(v *ArgumentExtTopoRelation) Argument {
-	return Argument{
-		ArgumentExtTopoRelation: v,
 	}
 }
 
@@ -295,30 +279,6 @@ func (dst *Argument) UnmarshalJSON(data []byte) error {
 		} else {
 			dst.ArgumentEventStreamRef = nil
 			return fmt.Errorf("Failed to unmarshal Argument as ArgumentEventStreamRef: %s", err.Error())
-		}
-	}
-
-	// check if the discriminator value is 'ArgumentExtTopoComponent'
-	if jsonDict["_type"] == "ArgumentExtTopoComponent" {
-		// try to unmarshal JSON data into ArgumentExtTopoComponent
-		err = json.Unmarshal(data, &dst.ArgumentExtTopoComponent)
-		if err == nil {
-			return nil // data stored in dst.ArgumentExtTopoComponent, return on the first match
-		} else {
-			dst.ArgumentExtTopoComponent = nil
-			return fmt.Errorf("Failed to unmarshal Argument as ArgumentExtTopoComponent: %s", err.Error())
-		}
-	}
-
-	// check if the discriminator value is 'ArgumentExtTopoRelation'
-	if jsonDict["_type"] == "ArgumentExtTopoRelation" {
-		// try to unmarshal JSON data into ArgumentExtTopoRelation
-		err = json.Unmarshal(data, &dst.ArgumentExtTopoRelation)
-		if err == nil {
-			return nil // data stored in dst.ArgumentExtTopoRelation, return on the first match
-		} else {
-			dst.ArgumentExtTopoRelation = nil
-			return fmt.Errorf("Failed to unmarshal Argument as ArgumentExtTopoRelation: %s", err.Error())
 		}
 	}
 
@@ -523,14 +483,6 @@ func (src Argument) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.ArgumentEventStreamRef)
 	}
 
-	if src.ArgumentExtTopoComponent != nil {
-		return json.Marshal(&src.ArgumentExtTopoComponent)
-	}
-
-	if src.ArgumentExtTopoRelation != nil {
-		return json.Marshal(&src.ArgumentExtTopoRelation)
-	}
-
 	if src.ArgumentLongVal != nil {
 		return json.Marshal(&src.ArgumentLongVal)
 	}
@@ -621,14 +573,6 @@ func (obj *Argument) GetActualInstance() interface{} {
 
 	if obj.ArgumentEventStreamRef != nil {
 		return obj.ArgumentEventStreamRef
-	}
-
-	if obj.ArgumentExtTopoComponent != nil {
-		return obj.ArgumentExtTopoComponent
-	}
-
-	if obj.ArgumentExtTopoRelation != nil {
-		return obj.ArgumentExtTopoRelation
 	}
 
 	if obj.ArgumentLongVal != nil {

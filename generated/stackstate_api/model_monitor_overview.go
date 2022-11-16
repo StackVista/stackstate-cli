@@ -17,19 +17,21 @@ import (
 
 // MonitorOverview struct for MonitorOverview
 type MonitorOverview struct {
-	Monitor  Monitor         `json:"monitor"`
-	Function MonitorFunction `json:"function"`
-	Errors   []MonitorError  `json:"errors,omitempty"`
+	Monitor        Monitor               `json:"monitor"`
+	Function       MonitorFunction       `json:"function"`
+	Errors         []MonitorError        `json:"errors,omitempty"`
+	RuntimeMetrics MonitorRuntimeMetrics `json:"runtimeMetrics"`
 }
 
 // NewMonitorOverview instantiates a new MonitorOverview object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorOverview(monitor Monitor, function MonitorFunction) *MonitorOverview {
+func NewMonitorOverview(monitor Monitor, function MonitorFunction, runtimeMetrics MonitorRuntimeMetrics) *MonitorOverview {
 	this := MonitorOverview{}
 	this.Monitor = monitor
 	this.Function = function
+	this.RuntimeMetrics = runtimeMetrics
 	return &this
 }
 
@@ -121,6 +123,30 @@ func (o *MonitorOverview) SetErrors(v []MonitorError) {
 	o.Errors = v
 }
 
+// GetRuntimeMetrics returns the RuntimeMetrics field value
+func (o *MonitorOverview) GetRuntimeMetrics() MonitorRuntimeMetrics {
+	if o == nil {
+		var ret MonitorRuntimeMetrics
+		return ret
+	}
+
+	return o.RuntimeMetrics
+}
+
+// GetRuntimeMetricsOk returns a tuple with the RuntimeMetrics field value
+// and a boolean to check if the value has been set.
+func (o *MonitorOverview) GetRuntimeMetricsOk() (*MonitorRuntimeMetrics, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.RuntimeMetrics, true
+}
+
+// SetRuntimeMetrics sets field value
+func (o *MonitorOverview) SetRuntimeMetrics(v MonitorRuntimeMetrics) {
+	o.RuntimeMetrics = v
+}
+
 func (o MonitorOverview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -131,6 +157,9 @@ func (o MonitorOverview) MarshalJSON() ([]byte, error) {
 	}
 	if o.Errors != nil {
 		toSerialize["errors"] = o.Errors
+	}
+	if true {
+		toSerialize["runtimeMetrics"] = o.RuntimeMetrics
 	}
 	return json.Marshal(toSerialize)
 }

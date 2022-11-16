@@ -70,9 +70,9 @@ GetProblemCausingEvents List possible events which led to the problem
 
 Resulting events are ordered by likeness to be an actual problem cause
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param problemId The problem id number.
-	@return ApiGetProblemCausingEventsRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param problemId The problem id number.
+ @return ApiGetProblemCausingEventsRequest
 */
 func (a *ProblemApiService) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
 	return ApiGetProblemCausingEventsRequest{
@@ -83,8 +83,7 @@ func (a *ProblemApiService) GetProblemCausingEvents(ctx context.Context, problem
 }
 
 // Execute executes the request
-//
-//	@return GetCausingEventsResult
+//  @return GetCausingEventsResult
 func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

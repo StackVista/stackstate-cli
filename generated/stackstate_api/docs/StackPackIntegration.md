@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  |
-**DisplayName** | **string** |  |
-**Logo** | Pointer to **string** |  | [optional]
-**BrandIcon** | Pointer to **string** |  | [optional]
-**Categories** | **[]string** |  |
-**IsNew** | **bool** |  |
-**OverviewUrl** | Pointer to **string** |  | [optional]
-**ResourceUrl** | Pointer to **string** |  | [optional]
-**Faqs** | [**[]FAQ**](FAQ.md) |  |
+**Name** | **string** |  | 
+**DisplayName** | **string** |  | 
+**Logo** | Pointer to **string** |  | [optional] 
+**BrandIcon** | Pointer to **string** |  | [optional] 
+**Categories** | **[]string** |  | 
+**IsNew** | **bool** |  | 
+**OverviewUrl** | Pointer to **string** |  | [optional] 
+**ResourceUrl** | Pointer to **string** |  | [optional] 
+**Faqs** | [**[]FAQ**](FAQ.md) |  | 
 
 ## Methods
 
@@ -235,3 +235,5 @@ SetFaqs sets Faqs field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

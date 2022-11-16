@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | Pointer to **int64** |  | [optional]
-**LastUpdateTimestamp** | Pointer to **int64** |  | [optional]
-**Status** | **string** |  |
-**Error** | Pointer to [**StackPackError**](StackPackError.md) |  | [optional]
-**StackPackVersion** | **string** |  |
-**Config** | **map[string]interface{}** |  |
+**Id** | Pointer to **int64** |  | [optional] 
+**LastUpdateTimestamp** | Pointer to **int64** |  | [optional] 
+**Status** | **string** |  | 
+**Error** | Pointer to [**StackPackError**](StackPackError.md) |  | [optional] 
+**StackPackVersion** | **string** |  | 
+**Config** | **map[string]interface{}** |  | 
 
 ## Methods
 
@@ -167,3 +167,5 @@ SetConfig sets Config field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

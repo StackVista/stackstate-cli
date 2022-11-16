@@ -4,8 +4,8 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Question** | **string** |  |
-**Answer** | **string** |  |
+**Question** | **string** |  | 
+**Answer** | **string** |  | 
 
 ## Methods
 
@@ -68,3 +68,5 @@ SetAnswer sets Answer field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

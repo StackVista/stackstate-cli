@@ -63,11 +63,11 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 				"monitor-status": monitorStatus,
 			})
 		} else {
-			cli.Printer.PrintLn("")
-			cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorStatus.MonitorHealthStateStateCount))
-			cli.Printer.PrintLn("Monitor Status: " + util.ToString(monitorStatus.Monitor.RuntimeStatus))
 			monitorMetrics := monitorStatus.GetMetrics()
 			monitorRuntimeMetrics := monitorMetrics.GetRuntimeMetrics()
+			cli.Printer.PrintLn("")
+			cli.Printer.PrintLn("Monitor Health State count: " + util.ToString(monitorRuntimeMetrics.HealthStatesCount))
+			cli.Printer.PrintLn("Monitor Status: " + util.ToString(monitorStatus.Monitor.RuntimeStatus))
 			lastRunTimestamp, lastRunTimestampOk := monitorRuntimeMetrics.GetLastRunTimestampOk()
 			if lastRunTimestampOk {
 				cli.Printer.PrintLn("Monitor last run: " + time.UnixMilli(*lastRunTimestamp).UTC().String())
@@ -121,8 +121,8 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 				cli.Printer.PrintLn("")
 				cli.Printer.PrintLn("Monitor health states with identifier matching exactly 1 topology element: " + util.ToString(topologyMatchResult.MatchedCheckStates))
 
-				if len(topologyMatchResult.GetUnmatchedCheckStates()) > 0 {
-					PrintTopologyMatchResultUnmatched(cli, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
+				if monitorRuntimeMetrics.UnmappedHealthStatesCount != nil && *monitorRuntimeMetrics.UnmappedHealthStatesCount > 0 {
+					PrintTopologyMatchResultUnmatched(cli, *monitorRuntimeMetrics.UnmappedHealthStatesCount, topologyMatchResult.GetUnmatchedCheckStates(), monitorStatus)
 				}
 
 				if len(topologyMatchResult.GetMultipleMatchesCheckStates()) > 0 {
@@ -154,10 +154,11 @@ func PrintErrors(cli *di.Deps,
 }
 
 func PrintTopologyMatchResultUnmatched(cli *di.Deps,
+	unmappedElementsCount int32,
 	unmatchedCheckStates []stackstate_api.UnmatchedCheckState,
 	monitorStatus *stackstate_api.MonitorStatus) {
 	cli.Printer.PrintLn("")
-	cli.Printer.PrintLn("Monitor health states with identifier which has no matching topology element:")
+	cli.Printer.PrintLn("Monitor health states with identifier which has no matching topology element (" + util.ToString(unmappedElementsCount) + "):")
 
 	unmatchedData := make([][]interface{}, 0)
 	for _, u := range unmatchedCheckStates {

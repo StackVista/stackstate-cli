@@ -192,8 +192,6 @@ Class | Method | HTTP request | Description
  - [ArgumentDoubleVal](docs/ArgumentDoubleVal.md)
  - [ArgumentDurationVal](docs/ArgumentDurationVal.md)
  - [ArgumentEventStreamRef](docs/ArgumentEventStreamRef.md)
- - [ArgumentExtTopoComponent](docs/ArgumentExtTopoComponent.md)
- - [ArgumentExtTopoRelation](docs/ArgumentExtTopoRelation.md)
  - [ArgumentLongVal](docs/ArgumentLongVal.md)
  - [ArgumentMetricStreamId](docs/ArgumentMetricStreamId.md)
  - [ArgumentMetricStreamRef](docs/ArgumentMetricStreamRef.md)
@@ -455,3 +453,4 @@ Each of these functions takes a value of the given basic type and returns a poin
 ## Author
 
 info@stackstate.com
+

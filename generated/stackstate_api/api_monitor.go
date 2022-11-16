@@ -143,9 +143,9 @@ DeleteMonitor Delete a monitor
 
 Deletes existing monitor
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiDeleteMonitorRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiDeleteMonitorRequest
 */
 func (a *MonitorApiService) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
 	return ApiDeleteMonitorRequest{
@@ -305,8 +305,8 @@ GetAllMonitors List monitors
 
 List all available monitor in the system
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetAllMonitorsRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetAllMonitorsRequest
 */
 func (a *MonitorApiService) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
 	return ApiGetAllMonitorsRequest{
@@ -316,8 +316,7 @@ func (a *MonitorApiService) GetAllMonitors(ctx context.Context) ApiGetAllMonitor
 }
 
 // Execute executes the request
-//
-//	@return MonitorList
+//  @return MonitorList
 func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -457,9 +456,9 @@ GetMonitor Get a monitor
 
 Returns a monitor full representation
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiGetMonitorRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiGetMonitorRequest
 */
 func (a *MonitorApiService) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
 	return ApiGetMonitorRequest{
@@ -470,8 +469,7 @@ func (a *MonitorApiService) GetMonitor(ctx context.Context, monitorIdOrUrn strin
 }
 
 // Execute executes the request
-//
-//	@return Monitor
+//  @return Monitor
 func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -632,9 +630,9 @@ GetMonitorWithStatus Get a monitor with stream information
 
 Returns a monitor full representation with the stream status information
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiGetMonitorWithStatusRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiGetMonitorWithStatusRequest
 */
 func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
@@ -645,8 +643,7 @@ func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorIdO
 }
 
 // Execute executes the request
-//
-//	@return MonitorStatus
+//  @return MonitorStatus
 func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -806,8 +803,8 @@ GetMonitorsOverview List monitors overview
 
 List all available monitor in the system with their function and runtime data
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetMonitorsOverviewRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetMonitorsOverviewRequest
 */
 func (a *MonitorApiService) GetMonitorsOverview(ctx context.Context) ApiGetMonitorsOverviewRequest {
 	return ApiGetMonitorsOverviewRequest{
@@ -817,8 +814,7 @@ func (a *MonitorApiService) GetMonitorsOverview(ctx context.Context) ApiGetMonit
 }
 
 // Execute executes the request
-//
-//	@return MonitorOverviewList
+//  @return MonitorOverviewList
 func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -965,9 +961,9 @@ PatchMonitor Update some monitor properties
 
 Performs a patch on the monitor base properties.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiPatchMonitorRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiPatchMonitorRequest
 */
 func (a *MonitorApiService) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
 	return ApiPatchMonitorRequest{
@@ -978,8 +974,7 @@ func (a *MonitorApiService) PatchMonitor(ctx context.Context, monitorIdOrUrn str
 }
 
 // Execute executes the request
-//
-//	@return Monitor
+//  @return Monitor
 func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
@@ -1152,9 +1147,9 @@ RunMonitor Run a monitor
 
 Performs a run of a monitor. If 'dryRun' is set, topology state will not be modified.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param monitorIdOrUrn The id or identifier (urn) of a monitor
-	@return ApiRunMonitorRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiRunMonitorRequest
 */
 func (a *MonitorApiService) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
 	return ApiRunMonitorRequest{
@@ -1165,8 +1160,7 @@ func (a *MonitorApiService) RunMonitor(ctx context.Context, monitorIdOrUrn strin
 }
 
 // Execute executes the request
-//
-//	@return MonitorRunResult
+//  @return MonitorRunResult
 func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

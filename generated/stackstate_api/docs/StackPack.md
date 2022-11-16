@@ -4,19 +4,19 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  |
-**DisplayName** | **string** |  |
-**Version** | **string** |  |
-**Logo** | Pointer to **string** |  | [optional]
-**Categories** | **[]string** |  |
-**IsNew** | **bool** |  |
-**OverviewUrl** | Pointer to **string** |  | [optional]
-**DetailedOverviewUrl** | Pointer to **string** |  | [optional]
-**ResourcesUrl** | Pointer to **string** |  | [optional]
-**Faqs** | [**[]FAQ**](FAQ.md) |  |
-**ConfigurationUrls** | **[][]string** |  |
-**ReleaseStatus** | [**ReleaseStatus**](ReleaseStatus.md) |  |
-**IsCompatible** | **bool** |  |
+**Name** | **string** |  | 
+**DisplayName** | **string** |  | 
+**Version** | **string** |  | 
+**Logo** | Pointer to **string** |  | [optional] 
+**Categories** | **[]string** |  | 
+**IsNew** | **bool** |  | 
+**OverviewUrl** | Pointer to **string** |  | [optional] 
+**DetailedOverviewUrl** | Pointer to **string** |  | [optional] 
+**ResourcesUrl** | Pointer to **string** |  | [optional] 
+**Faqs** | [**[]FAQ**](FAQ.md) |  | 
+**ConfigurationUrls** | **[][]string** |  | 
+**ReleaseStatus** | [**ReleaseStatus**](ReleaseStatus.md) |  | 
+**IsCompatible** | **bool** |  | 
 
 ## Methods
 
@@ -319,3 +319,5 @@ SetIsCompatible sets IsCompatible field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

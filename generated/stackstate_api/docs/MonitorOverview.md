@@ -7,12 +7,13 @@ Name | Type | Description | Notes
 **Monitor** | [**Monitor**](Monitor.md) |  | 
 **Function** | [**MonitorFunction**](MonitorFunction.md) |  | 
 **Errors** | Pointer to [**[]MonitorError**](MonitorError.md) |  | [optional] 
+**RuntimeMetrics** | [**MonitorRuntimeMetrics**](MonitorRuntimeMetrics.md) |  | 
 
 ## Methods
 
 ### NewMonitorOverview
 
-`func NewMonitorOverview(monitor Monitor, function MonitorFunction, ) *MonitorOverview`
+`func NewMonitorOverview(monitor Monitor, function MonitorFunction, runtimeMetrics MonitorRuntimeMetrics, ) *MonitorOverview`
 
 NewMonitorOverview instantiates a new MonitorOverview object
 This constructor will assign default values to properties that have it defined,
@@ -91,6 +92,26 @@ SetErrors sets Errors field to given value.
 `func (o *MonitorOverview) HasErrors() bool`
 
 HasErrors returns a boolean if a field has been set.
+
+### GetRuntimeMetrics
+
+`func (o *MonitorOverview) GetRuntimeMetrics() MonitorRuntimeMetrics`
+
+GetRuntimeMetrics returns the RuntimeMetrics field if non-nil, zero value otherwise.
+
+### GetRuntimeMetricsOk
+
+`func (o *MonitorOverview) GetRuntimeMetricsOk() (*MonitorRuntimeMetrics, bool)`
+
+GetRuntimeMetricsOk returns a tuple with the RuntimeMetrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRuntimeMetrics
+
+`func (o *MonitorOverview) SetRuntimeMetrics(v MonitorRuntimeMetrics)`
+
+SetRuntimeMetrics sets RuntimeMetrics field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

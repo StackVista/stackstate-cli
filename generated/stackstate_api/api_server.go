@@ -53,8 +53,8 @@ ServerInfo Get server info
 
 Get information of the StackState information, such as version, deployment mode, etc.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiServerInfoRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiServerInfoRequest
 */
 func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
@@ -64,8 +64,7 @@ func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest 
 }
 
 // Execute executes the request
-//
-//	@return ServerInfo
+//  @return ServerInfo
 func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

@@ -69,9 +69,9 @@ Other parameters are passed through a pointer to a apiGetExemplarsQueryRequest s
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string |
- **start** | **string** | Start timestamp in rfc3339 format or unix format |
- **end** | **string** | End timestamp in rfc3339 format or unix format |
+ **query** | **string** | Prometheus expression query string | 
+ **start** | **string** | Start timestamp in rfc3339 format or unix format | 
+ **end** | **string** | End timestamp in rfc3339 format or unix format | 
 
 ### Return type
 
@@ -139,9 +139,9 @@ Other parameters are passed through a pointer to a apiGetInstantQueryRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string |
- **time** | **string** | Evaluation timestamp in rfc3339 format or unix format |
- **timeout** | **string** | Evaluation timeout |
+ **query** | **string** | Prometheus expression query string | 
+ **time** | **string** | Evaluation timestamp in rfc3339 format or unix format | 
+ **timeout** | **string** | Evaluation timeout | 
 
 ### Return type
 
@@ -205,7 +205,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**label** | **string** | Prometheus query label |
+**label** | **string** | Prometheus query label | 
 
 ### Other Parameters
 
@@ -215,9 +215,9 @@ Other parameters are passed through a pointer to a apiGetLabelValuesRequest stru
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **start** | **string** | Start timestamp in rfc3339 format or unix format |
- **end** | **string** | End timestamp in rfc3339 format or unix format |
- **match** | **[]string** | Repeated series selector argument that selects the series from which to read the label names. Optional. |
+ **start** | **string** | Start timestamp in rfc3339 format or unix format | 
+ **end** | **string** | End timestamp in rfc3339 format or unix format | 
+ **match** | **[]string** | Repeated series selector argument that selects the series from which to read the label names. Optional. | 
 
 ### Return type
 
@@ -285,9 +285,9 @@ Other parameters are passed through a pointer to a apiGetLabelsRequest struct vi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **start** | **string** | Start timestamp in rfc3339 format or unix format |
- **end** | **string** | End timestamp in rfc3339 format or unix format |
- **match** | **[]string** | Repeated series selector argument that selects the series from which to read the label names. Optional. |
+ **start** | **string** | Start timestamp in rfc3339 format or unix format | 
+ **end** | **string** | End timestamp in rfc3339 format or unix format | 
+ **match** | **[]string** | Repeated series selector argument that selects the series from which to read the label names. Optional. | 
 
 ### Return type
 
@@ -354,8 +354,8 @@ Other parameters are passed through a pointer to a apiGetMetadataRequest struct 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **limit** | **int64** | Maximum number of metrics to return. |
- **metric** | **string** | A metric name to filter metadata for. All metric metadata is retrieved if left empty. |
+ **limit** | **int64** | Maximum number of metrics to return. | 
+ **metric** | **string** | A metric name to filter metadata for. All metric metadata is retrieved if left empty. | 
 
 ### Return type
 
@@ -425,11 +425,11 @@ Other parameters are passed through a pointer to a apiGetRangeQueryRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** | Prometheus expression query string |
- **start** | **string** | Start timestamp in rfc3339 format or unix format |
- **end** | **string** | End timestamp in rfc3339 format or unix format |
- **step** | **string** | Query resolution step width in duration format or float number of seconds. |
- **timeout** | **string** | Evaluation timeout |
+ **query** | **string** | Prometheus expression query string | 
+ **start** | **string** | Start timestamp in rfc3339 format or unix format | 
+ **end** | **string** | End timestamp in rfc3339 format or unix format | 
+ **step** | **string** | Query resolution step width in duration format or float number of seconds. | 
+ **timeout** | **string** | Evaluation timeout | 
 
 ### Return type
 
@@ -497,9 +497,9 @@ Other parameters are passed through a pointer to a apiGetSeriesRequest struct vi
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **match** | **[]string** | Repeated series selector argument that selects the series to return. At least one match[] argument must be provided. |
- **start** | **string** | Start timestamp in rfc3339 format or unix format |
- **end** | **string** | End timestamp in rfc3339 format or unix format |
+ **match** | **[]string** | Repeated series selector argument that selects the series to return. At least one match[] argument must be provided. | 
+ **start** | **string** | Start timestamp in rfc3339 format or unix format | 
+ **end** | **string** | End timestamp in rfc3339 format or unix format | 
 
 ### Return type
 
@@ -540,7 +540,7 @@ import (
 )
 
 func main() {
-    query := "query_example" // string |
+    query := "query_example" // string | 
     start := "start_example" // string |  (optional)
     end := "end_example" // string |  (optional)
 
@@ -567,9 +567,9 @@ Other parameters are passed through a pointer to a apiPostExemplarsQueryRequest 
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** |  |
- **start** | **string** |  |
- **end** | **string** |  |
+ **query** | **string** |  | 
+ **start** | **string** |  | 
+ **end** | **string** |  | 
 
 ### Return type
 
@@ -610,7 +610,7 @@ import (
 )
 
 func main() {
-    query := "query_example" // string |
+    query := "query_example" // string | 
     time := "time_example" // string |  (optional)
     timeout := "timeout_example" // string |  (optional)
 
@@ -637,9 +637,9 @@ Other parameters are passed through a pointer to a apiPostInstantQueryRequest st
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** |  |
- **time** | **string** |  |
- **timeout** | **string** |  |
+ **query** | **string** |  | 
+ **time** | **string** |  | 
+ **timeout** | **string** |  | 
 
 ### Return type
 
@@ -703,7 +703,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**label** | **string** | Prometheus query label |
+**label** | **string** | Prometheus query label | 
 
 ### Other Parameters
 
@@ -713,9 +713,9 @@ Other parameters are passed through a pointer to a apiPostLabelValuesRequest str
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **start** | **string** |  |
- **end** | **string** |  |
- **match** | **[]string** |  |
+ **start** | **string** |  | 
+ **end** | **string** |  | 
+ **match** | **[]string** |  | 
 
 ### Return type
 
@@ -783,9 +783,9 @@ Other parameters are passed through a pointer to a apiPostLabelsRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **start** | **string** |  |
- **end** | **string** |  |
- **match** | **[]string** |  |
+ **start** | **string** |  | 
+ **end** | **string** |  | 
+ **match** | **[]string** |  | 
 
 ### Return type
 
@@ -852,8 +852,8 @@ Other parameters are passed through a pointer to a apiPostMetadataRequest struct
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **limit** | **int64** |  |
- **metric** | **string** |  |
+ **limit** | **int64** |  | 
+ **metric** | **string** |  | 
 
 ### Return type
 
@@ -894,10 +894,10 @@ import (
 )
 
 func main() {
-    query := "query_example" // string |
-    start := "start_example" // string |
-    end := "end_example" // string |
-    step := "step_example" // string |
+    query := "query_example" // string | 
+    start := "start_example" // string | 
+    end := "end_example" // string | 
+    step := "step_example" // string | 
     timeout := "timeout_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -923,11 +923,11 @@ Other parameters are passed through a pointer to a apiPostRangeQueryRequest stru
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **query** | **string** |  |
- **start** | **string** |  |
- **end** | **string** |  |
- **step** | **string** |  |
- **timeout** | **string** |  |
+ **query** | **string** |  | 
+ **start** | **string** |  | 
+ **end** | **string** |  | 
+ **step** | **string** |  | 
+ **timeout** | **string** |  | 
 
 ### Return type
 
@@ -968,7 +968,7 @@ import (
 )
 
 func main() {
-    match := []string{"Inner_example"} // []string |
+    match := []string{"Inner_example"} // []string | 
     start := "start_example" // string |  (optional)
     end := "end_example" // string |  (optional)
 
@@ -995,9 +995,9 @@ Other parameters are passed through a pointer to a apiPostSeriesRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **match** | **[]string** |  |
- **start** | **string** |  |
- **end** | **string** |  |
+ **match** | **[]string** |  | 
+ **start** | **string** |  | 
+ **end** | **string** |  | 
 
 ### Return type
 
@@ -1015,3 +1015,4 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

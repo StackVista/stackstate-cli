@@ -4,28 +4,28 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Name** | **string** |  |
-**DisplayName** | **string** |  |
-**Version** | **string** |  |
-**Logo** | Pointer to **string** |  | [optional]
-**Categories** | **[]string** |  |
-**IsNew** | **bool** |  |
-**IsMultiConfig** | **bool** |  |
-**OverviewUrl** | Pointer to **string** |  | [optional]
-**DetailedOverviewUrl** | Pointer to **string** |  | [optional]
-**ResourcesUrl** | Pointer to **string** |  | [optional]
-**Faqs** | [**[]FAQ**](FAQ.md) |  |
-**ConfigurationUrls** | **[][]string** |  |
-**ReleaseStatus** | [**ReleaseStatus**](ReleaseStatus.md) |  |
-**Steps** | [**[]StackPackStep**](StackPackStep.md) |  |
-**Integrations** | [**[]StackPackIntegration**](StackPackIntegration.md) |  |
-**ReleaseNotes** | Pointer to **string** |  | [optional]
-**UpgradeInstructions** | Pointer to **string** |  | [optional]
-**Configurations** | [**[]StackPackConfiguration**](StackPackConfiguration.md) |  |
-**NextVersion** | Pointer to [**FullStackPack**](FullStackPack.md) |  | [optional]
-**LatestVersion** | Pointer to [**FullStackPack**](FullStackPack.md) |  | [optional]
-**CanUninstall** | **bool** |  |
-**IsCompatible** | **bool** |  |
+**Name** | **string** |  | 
+**DisplayName** | **string** |  | 
+**Version** | **string** |  | 
+**Logo** | Pointer to **string** |  | [optional] 
+**Categories** | **[]string** |  | 
+**IsNew** | **bool** |  | 
+**IsMultiConfig** | **bool** |  | 
+**OverviewUrl** | Pointer to **string** |  | [optional] 
+**DetailedOverviewUrl** | Pointer to **string** |  | [optional] 
+**ResourcesUrl** | Pointer to **string** |  | [optional] 
+**Faqs** | [**[]FAQ**](FAQ.md) |  | 
+**ConfigurationUrls** | **[][]string** |  | 
+**ReleaseStatus** | [**ReleaseStatus**](ReleaseStatus.md) |  | 
+**Steps** | [**[]StackPackStep**](StackPackStep.md) |  | 
+**Integrations** | [**[]StackPackIntegration**](StackPackIntegration.md) |  | 
+**ReleaseNotes** | Pointer to **string** |  | [optional] 
+**UpgradeInstructions** | Pointer to **string** |  | [optional] 
+**Configurations** | [**[]StackPackConfiguration**](StackPackConfiguration.md) |  | 
+**NextVersion** | Pointer to [**FullStackPack**](FullStackPack.md) |  | [optional] 
+**LatestVersion** | Pointer to [**FullStackPack**](FullStackPack.md) |  | [optional] 
+**CanUninstall** | **bool** |  | 
+**IsCompatible** | **bool** |  | 
 
 ## Methods
 
@@ -528,3 +528,5 @@ SetIsCompatible sets IsCompatible field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

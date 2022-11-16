@@ -4,9 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Retryable** | **bool** |  |
-**Action** | Pointer to **string** |  | [optional]
-**Error** | **map[string]interface{}** |  |
+**Retryable** | **bool** |  | 
+**Action** | Pointer to **string** |  | [optional] 
+**Error** | **map[string]interface{}** |  | 
 
 ## Methods
 
@@ -94,3 +94,5 @@ SetError sets Error field to given value.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

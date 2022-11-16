@@ -3776,12 +3776,10 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/TopicName'
-      - description: Maximum number of resources to be returned in result.
-        in: query
+      - in: query
         name: limit
-        required: false
         schema:
-          $ref: '#/components/schemas/Limit'
+          type: integer
       - in: query
         name: offset
         schema:
@@ -3819,275 +3817,6 @@ paths:
       tags:
       - topic
 components:
-  parameters:
-    nodeType:
-      in: path
-      name: nodeType
-      required: true
-      schema:
-        type: string
-    nodeId:
-      in: path
-      name: nodeId
-      required: true
-      schema:
-        format: int64
-        type: integer
-    stackPackName:
-      in: path
-      name: stackPackName
-      required: true
-      schema:
-        type: string
-    stackPackInstanceId:
-      in: path
-      name: stackPackInstanceId
-      required: true
-      schema:
-        format: int64
-        type: integer
-    monitorIdOrUrn:
-      description: The id or identifier (urn) of a monitor
-      in: path
-      name: monitorIdOrUrn
-      required: true
-      schema:
-        $ref: '#/components/schemas/MonitorIdOrUrn'
-    dryRun:
-      description: "If set, the topology state will not be modified"
-      in: query
-      name: dryRun
-      schema:
-        type: boolean
-    eventId:
-      description: The Identifier of an event.
-      in: path
-      name: eventId
-      required: true
-      schema:
-        $ref: '#/components/schemas/EventId'
-    eventCategories:
-      description: The category labels of an event.
-      explode: false
-      in: query
-      name: eventCategories
-      required: false
-      schema:
-        items:
-          $ref: '#/components/schemas/EventCategory'
-        type: array
-      style: pipeDelimited
-    serviceTokenId:
-      description: The identifier of a service token
-      in: path
-      name: serviceTokenId
-      required: true
-      schema:
-        $ref: '#/components/schemas/ServiceTokenId'
-    subject:
-      in: path
-      name: subject
-      required: true
-      schema:
-        $ref: '#/components/schemas/Subject'
-    resource:
-      in: query
-      name: resource
-      schema:
-        $ref: '#/components/schemas/Resource'
-    permission:
-      in: query
-      name: permission
-      schema:
-        $ref: '#/components/schemas/Permission'
-    componentId:
-      description: The Identifier of a component
-      in: path
-      name: componentId
-      required: true
-      schema:
-        $ref: '#/components/schemas/ComponentId'
-    queryTime:
-      description: A Data point for a query either point from timeline or 'now' if
-        livemode
-      in: query
-      name: queryTime
-      required: true
-      schema:
-        $ref: '#/components/schemas/QueryTime'
-    streamId:
-      description: The Identifier of a stream
-      in: path
-      name: streamId
-      required: true
-      schema:
-        $ref: '#/components/schemas/StreamId'
-    streamIds:
-      description: Ids of streams to query for
-      in: query
-      name: streamIds
-      required: true
-      schema:
-        $ref: '#/components/schemas/StreamIds'
-    checkId:
-      description: The Identifier of a Check
-      in: path
-      name: checkId
-      required: true
-      schema:
-        $ref: '#/components/schemas/CheckId'
-    relationId:
-      description: The Identifier of a relation
-      in: path
-      name: relationId
-      required: true
-      schema:
-        $ref: '#/components/schemas/RelationId'
-    problemId:
-      description: The problem id number.
-      in: path
-      name: problemId
-      required: true
-      schema:
-        $ref: '#/components/schemas/ProblemId'
-    topologyTime:
-      description: A timestamp at which resources will be queried. If not given the
-        resources are quired for current time.
-      in: query
-      name: topologyTime
-      required: false
-      schema:
-        $ref: '#/components/schemas/Instant'
-    limit:
-      description: Maximum number of resources to be returned in result.
-      in: query
-      name: limit
-      required: false
-      schema:
-        $ref: '#/components/schemas/Limit'
-    query:
-      description: Prometheus expression query string
-      in: query
-      name: query
-      required: true
-      schema:
-        $ref: '#/components/schemas/PromQuery'
-    time:
-      description: Evaluation timestamp in rfc3339 format or unix format
-      example: 2015-07-01T20:10:51.781Z or 1660817432
-      in: query
-      name: time
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromTime'
-    timeout:
-      description: Evaluation timeout
-      in: query
-      name: timeout
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromTimeout'
-    start:
-      description: Start timestamp in rfc3339 format or unix format
-      example: 2015-07-01T20:10:51.781Z or 1660817432
-      in: query
-      name: start
-      required: true
-      schema:
-        $ref: '#/components/schemas/PromTime'
-    end:
-      description: End timestamp in rfc3339 format or unix format
-      example: 2015-07-01T20:10:51.781Z or 1660817432
-      in: query
-      name: end
-      required: true
-      schema:
-        $ref: '#/components/schemas/PromTime'
-    step:
-      description: Query resolution step width in duration format or float number
-        of seconds.
-      example: 5m or 300
-      in: query
-      name: step
-      required: true
-      schema:
-        $ref: '#/components/schemas/PromStep'
-    startOptional:
-      description: Start timestamp in rfc3339 format or unix format
-      example: 2015-07-01T20:10:51.781Z or 1660817432
-      in: query
-      name: start
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromTime'
-    endOptional:
-      description: End timestamp in rfc3339 format or unix format
-      example: 2015-07-01T20:10:51.781Z or 1660817432
-      in: query
-      name: end
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromTime'
-    matchOptional:
-      description: Repeated series selector argument that selects the series from
-        which to read the label names. Optional.
-      example: "process_start_time_seconds{job='prometheus'}"
-      explode: true
-      in: query
-      name: "match[]"
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromMatch'
-    label:
-      description: Prometheus query label
-      in: path
-      name: label
-      required: true
-      schema:
-        $ref: '#/components/schemas/PromLabel'
-    match:
-      description: "Repeated series selector argument that selects the series to return.\
-        \ At least one match[] argument must be provided."
-      example: "process_start_time_seconds{job='prometheus'}"
-      explode: true
-      in: query
-      name: "match[]"
-      required: true
-      schema:
-        $ref: '#/components/schemas/PromMatch'
-    limitOptional:
-      description: Maximum number of metrics to return.
-      example: "2"
-      in: query
-      name: limit
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromLimit'
-    metricOptional:
-      description: A metric name to filter metadata for. All metric metadata is retrieved
-        if left empty.
-      example: http_requests_total
-      in: query
-      name: metric
-      required: false
-      schema:
-        $ref: '#/components/schemas/PromMetric'
-    topic:
-      in: path
-      name: topic
-      required: true
-      schema:
-        $ref: '#/components/schemas/TopicName'
-    offset:
-      in: query
-      name: offset
-      schema:
-        type: integer
-    partition:
-      in: query
-      name: partition
-      schema:
-        type: integer
   requestBodies:
     monitorPatch:
       content:
@@ -5214,14 +4943,15 @@ components:
             - value: 5.637376656633329
             - value: 5.637376656633329
           runtimeMetrics:
-            lastRunTimestamp: 2
-            unknownCount: 2
-            clearCount: 7
-            lastSuccessfulRunTimestamp: 4
-            lastFailedRunTimestamp: 7
-            criticalCount: 3
-            deviatingCount: 9
-        monitorHealthStateStateCount: 1
+            lastRunTimestamp: 7
+            unknownCount: 9
+            healthStatesCount: 2
+            unmappedHealthStatesCount: 7
+            clearCount: 3
+            lastSuccessfulRunTimestamp: 1
+            lastFailedRunTimestamp: 1
+            criticalCount: 4
+            deviatingCount: 2
         topologyMatchResult:
           unmatchedCheckStates:
           - topologyElementIdentifier: topologyElementIdentifier
@@ -5232,10 +4962,10 @@ components:
           multipleMatchesCheckStates:
           - topologyElementIdentifier: topologyElementIdentifier
             checkStateId: checkStateId
-            matchCount: 1
+            matchCount: 6
           - topologyElementIdentifier: topologyElementIdentifier
             checkStateId: checkStateId
-            matchCount: 1
+            matchCount: 6
         errors:
         - level: null
           count: 1
@@ -5254,8 +4984,6 @@ components:
           type: array
         metrics:
           $ref: '#/components/schemas/MonitorMetrics'
-        monitorHealthStateStateCount:
-          type: integer
         topologyMatchResult:
           $ref: '#/components/schemas/TopologyMatchResult'
       required:
@@ -5329,13 +5057,15 @@ components:
           - value: 5.637376656633329
           - value: 5.637376656633329
         runtimeMetrics:
-          lastRunTimestamp: 2
-          unknownCount: 2
-          clearCount: 7
-          lastSuccessfulRunTimestamp: 4
-          lastFailedRunTimestamp: 7
-          criticalCount: 3
-          deviatingCount: 9
+          lastRunTimestamp: 7
+          unknownCount: 9
+          healthStatesCount: 2
+          unmappedHealthStatesCount: 7
+          clearCount: 3
+          lastSuccessfulRunTimestamp: 1
+          lastFailedRunTimestamp: 1
+          criticalCount: 4
+          deviatingCount: 2
       properties:
         healthSyncServiceMetrics:
           $ref: '#/components/schemas/HealthStreamMetrics'
@@ -5346,28 +5076,37 @@ components:
       type: object
     MonitorRuntimeMetrics:
       example:
-        lastRunTimestamp: 2
-        unknownCount: 2
-        clearCount: 7
-        lastSuccessfulRunTimestamp: 4
-        lastFailedRunTimestamp: 7
-        criticalCount: 3
-        deviatingCount: 9
+        lastRunTimestamp: 7
+        unknownCount: 9
+        healthStatesCount: 2
+        unmappedHealthStatesCount: 7
+        clearCount: 3
+        lastSuccessfulRunTimestamp: 1
+        lastFailedRunTimestamp: 1
+        criticalCount: 4
+        deviatingCount: 2
       properties:
+        healthStatesCount:
+          description: Representing the total count of the monitor results.
+          type: integer
+        unmappedHealthStatesCount:
+          description: Representing the total count of the monitor results that are
+            not mapped to topology.
+          type: integer
         unknownCount:
-          description: Representing the count of the monitors results that are UNKNOWN
+          description: Representing the count of the monitor results that are UNKNOWN
             and are mapped to topology.
           type: integer
         clearCount:
-          description: Representing the count of the monitors results that are CLEAR
+          description: Representing the count of the monitor results that are CLEAR
             and are mapped to topology.
           type: integer
         deviatingCount:
-          description: Representing the count of the monitors results that are DEVIATING
+          description: Representing the count of the monitor results that are DEVIATING
             and are mapped to topology.
           type: integer
         criticalCount:
-          description: Representing the count of the monitors results that are CRITICAL
+          description: Representing the count of the monitor results that are CRITICAL
             and are mapped to topology.
           type: integer
         lastRunTimestamp:
@@ -5410,6 +5149,16 @@ components:
             - tags
             - tags
             status: null
+          runtimeMetrics:
+            lastRunTimestamp: 7
+            unknownCount: 9
+            healthStatesCount: 2
+            unmappedHealthStatesCount: 7
+            clearCount: 3
+            lastSuccessfulRunTimestamp: 1
+            lastFailedRunTimestamp: 1
+            criticalCount: 4
+            deviatingCount: 2
           errors:
           - level: null
             count: 1
@@ -5440,6 +5189,16 @@ components:
             - tags
             - tags
             status: null
+          runtimeMetrics:
+            lastRunTimestamp: 7
+            unknownCount: 9
+            healthStatesCount: 2
+            unmappedHealthStatesCount: 7
+            clearCount: 3
+            lastSuccessfulRunTimestamp: 1
+            lastFailedRunTimestamp: 1
+            criticalCount: 4
+            deviatingCount: 2
           errors:
           - level: null
             count: 1
@@ -5480,6 +5239,16 @@ components:
           - tags
           - tags
           status: null
+        runtimeMetrics:
+          lastRunTimestamp: 7
+          unknownCount: 9
+          healthStatesCount: 2
+          unmappedHealthStatesCount: 7
+          clearCount: 3
+          lastSuccessfulRunTimestamp: 1
+          lastFailedRunTimestamp: 1
+          criticalCount: 4
+          deviatingCount: 2
         errors:
         - level: null
           count: 1
@@ -5496,9 +5265,12 @@ components:
           items:
             $ref: '#/components/schemas/MonitorError'
           type: array
+        runtimeMetrics:
+          $ref: '#/components/schemas/MonitorRuntimeMetrics'
       required:
       - function
       - monitor
+      - runtimeMetrics
       type: object
     UserNotFoundError:
       properties:
@@ -6412,10 +6184,10 @@ components:
         multipleMatchesCheckStates:
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-          matchCount: 1
+          matchCount: 6
         - topologyElementIdentifier: topologyElementIdentifier
           checkStateId: checkStateId
-          matchCount: 1
+          matchCount: 6
       properties:
         matchedCheckStates:
           type: integer
@@ -6449,7 +6221,7 @@ components:
       example:
         topologyElementIdentifier: topologyElementIdentifier
         checkStateId: checkStateId
-        matchCount: 1
+        matchCount: 6
       properties:
         checkStateId:
           type: string
@@ -6657,12 +6429,14 @@ components:
         result: "{}"
       properties:
         result:
-          description: |
-            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
-            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
-            The `_type` property describes the original type of the result value during script execution.
-            The `value` property holds the resulting value serialized to JSON.
-            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
+          description: "Contains a `value` and `_type` property. This is described\
+            \ this way, because `value` can hold any\nJSON type and most open api\
+            \ generators (but not all) have problems with such types or are inconsistent\
+            \ with the OpenAPI spec.\nThe `_type` property describes the original\
+            \ type of the result value during script execution.\nThe `value` property\
+            \ holds the resulting value serialized to JSON.\nThe `value` property\
+            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
+            \ array or object.\n"
           nullable: true
           type: object
       required:
@@ -8967,7 +8741,6 @@ components:
       - $ref: '#/components/schemas/ArgumentComponentTypeRef'
       - $ref: '#/components/schemas/ArgumentBaselineMetricStreamRef'
       - $ref: '#/components/schemas/ArgumentRelationTypeRef'
-      - $ref: '#/components/schemas/ArgumentExtTopoRelation'
       - $ref: '#/components/schemas/ArgumentStsEventStreamVal'
       - $ref: '#/components/schemas/ArgumentMetricStreamId'
       - $ref: '#/components/schemas/ArgumentQueryViewRef'
@@ -8977,7 +8750,6 @@ components:
       - $ref: '#/components/schemas/ArgumentDoubleVal'
       - $ref: '#/components/schemas/ArgumentStateVal'
       - $ref: '#/components/schemas/ArgumentNodeIdVal'
-      - $ref: '#/components/schemas/ArgumentExtTopoComponent'
       - $ref: '#/components/schemas/ArgumentEventStreamRef'
       - $ref: '#/components/schemas/ArgumentPropagatedHealthStateVal'
       - $ref: '#/components/schemas/ArgumentSimpleTrainingPeriodicityVal'
@@ -9107,29 +8879,6 @@ components:
       - _type
       - parameter
       - relationType
-      type: object
-    ArgumentExtTopoRelation:
-      properties:
-        _type:
-          enum:
-          - ArgumentExtTopoRelation
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        extTopoElement:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - extTopoElement
-      - parameter
       type: object
     ArgumentStsEventStreamVal:
       properties:
@@ -9355,29 +9104,6 @@ components:
       - _type
       - parameter
       - value
-      type: object
-    ArgumentExtTopoComponent:
-      properties:
-        _type:
-          enum:
-          - ArgumentExtTopoComponent
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        extTopoElement:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - extTopoElement
-      - parameter
       type: object
     ArgumentEventStreamRef:
       properties:
@@ -9623,7 +9349,6 @@ components:
       - message
       - statusCode
       type: object
-      example: null
     MonitorNotFoundError_allOf:
       properties:
         _type:
@@ -9631,7 +9356,6 @@ components:
           - MonitorNotFoundError
           type: string
       type: object
-      example: null
     ExecuteScriptSyntaxErrors_errors_inner:
       properties:
         message:
