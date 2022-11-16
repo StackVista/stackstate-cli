@@ -34,8 +34,8 @@ import (
 )
 
 func main() {
-    stackPackName := "stackPackName_example" // string |
-    stackPackInstanceId := int64(789) // int64 |
+    stackPackName := "stackPackName_example" // string | 
+    stackPackInstanceId := int64(789) // int64 | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -55,8 +55,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**stackPackName** | **string** |  |
-**stackPackInstanceId** | **int64** |  |
+**stackPackName** | **string** |  | 
+**stackPackInstanceId** | **int64** |  | 
 
 ### Other Parameters
 
@@ -107,7 +107,7 @@ import (
 )
 
 func main() {
-    stackPackName := "stackPackName_example" // string |
+    stackPackName := "stackPackName_example" // string | 
     requestBody := map[string]string{"key": "Inner_example"} // map[string]string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -128,7 +128,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**stackPackName** | **string** |  |
+**stackPackName** | **string** |  | 
 
 ### Other Parameters
 
@@ -138,7 +138,7 @@ Other parameters are passed through a pointer to a apiProvisionDetailsRequest st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **requestBody** | **map[string]string** |  |
+ **requestBody** | **map[string]string** |  | 
 
 ### Return type
 
@@ -179,8 +179,8 @@ import (
 )
 
 func main() {
-    stackPackName := "stackPackName_example" // string |
-    stackPackInstanceId := int64(789) // int64 |
+    stackPackName := "stackPackName_example" // string | 
+    stackPackInstanceId := int64(789) // int64 | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -200,8 +200,8 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**stackPackName** | **string** |  |
-**stackPackInstanceId** | **int64** |  |
+**stackPackName** | **string** |  | 
+**stackPackInstanceId** | **int64** |  | 
 
 ### Other Parameters
 
@@ -338,7 +338,7 @@ Other parameters are passed through a pointer to a apiStackPackUploadRequest str
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **stackPack** | ***os.File** |  |
+ **stackPack** | ***os.File** |  | 
 
 ### Return type
 
@@ -379,8 +379,8 @@ import (
 )
 
 func main() {
-    stackPackName := "stackPackName_example" // string |
-    unlocked := "unlocked_example" // string |
+    stackPackName := "stackPackName_example" // string | 
+    unlocked := "unlocked_example" // string | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -400,7 +400,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**stackPackName** | **string** |  |
+**stackPackName** | **string** |  | 
 
 ### Other Parameters
 
@@ -410,7 +410,7 @@ Other parameters are passed through a pointer to a apiUpgradeStackPackRequest st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **unlocked** | **string** |  |
+ **unlocked** | **string** |  | 
 
 ### Return type
 
@@ -428,3 +428,4 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
 [[Back to Model list]](../README.md#documentation-for-models)
 [[Back to README]](../README.md)
+

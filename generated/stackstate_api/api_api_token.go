@@ -53,8 +53,8 @@ GetCurrentUserApiTokens Get current user's API tokens
 
 Get all API token of the logged-in user.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetCurrentUserApiTokensRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetCurrentUserApiTokensRequest
 */
 func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
 	return ApiGetCurrentUserApiTokensRequest{
@@ -64,8 +64,7 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx context.Context) ApiGet
 }
 
 // Execute executes the request
-//
-//	@return []ApiToken
+//  @return []ApiToken
 func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

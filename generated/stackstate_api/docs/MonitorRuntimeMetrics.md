@@ -4,12 +4,12 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**HealthStatesCount** | Pointer to **int32** | Representing the total count of the monitors results. | [optional] 
-**UnmappedHealthStatesCount** | Pointer to **int32** | Representing the total count of the monitors results that are not mapped to topology/ | [optional] 
-**UnknownCount** | Pointer to **int32** | Representing the count of the monitors results that are UNKNOWN and are mapped to topology. | [optional] 
-**ClearCount** | Pointer to **int32** | Representing the count of the monitors results that are CLEAR and are mapped to topology. | [optional] 
-**DeviatingCount** | Pointer to **int32** | Representing the count of the monitors results that are DEVIATING and are mapped to topology. | [optional] 
-**CriticalCount** | Pointer to **int32** | Representing the count of the monitors results that are CRITICAL and are mapped to topology. | [optional] 
+**HealthStatesCount** | Pointer to **int32** | Representing the total count of the monitor results. | [optional] 
+**UnmappedHealthStatesCount** | Pointer to **int32** | Representing the total count of the monitor results that are not mapped to topology. | [optional] 
+**UnknownCount** | Pointer to **int32** | Representing the count of the monitor results that are UNKNOWN and are mapped to topology. | [optional] 
+**ClearCount** | Pointer to **int32** | Representing the count of the monitor results that are CLEAR and are mapped to topology. | [optional] 
+**DeviatingCount** | Pointer to **int32** | Representing the count of the monitor results that are DEVIATING and are mapped to topology. | [optional] 
+**CriticalCount** | Pointer to **int32** | Representing the count of the monitor results that are CRITICAL and are mapped to topology. | [optional] 
 **LastRunTimestamp** | Pointer to **int64** | Representing the epoch millis of the last monitor run. | [optional] 
 **LastSuccessfulRunTimestamp** | Pointer to **int64** | Representing the epoch millis of the last monitor successful run. | [optional] 
 **LastFailedRunTimestamp** | Pointer to **int64** | Representing the epoch millis of the last monitor failed run. | [optional] 

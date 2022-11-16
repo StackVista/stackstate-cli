@@ -88,8 +88,8 @@ CreateNewServiceToken Create new service token
 
 Create new service token.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiCreateNewServiceTokenRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCreateNewServiceTokenRequest
 */
 func (a *ServiceTokenApiService) CreateNewServiceToken(ctx context.Context) ApiCreateNewServiceTokenRequest {
 	return ApiCreateNewServiceTokenRequest{
@@ -99,8 +99,7 @@ func (a *ServiceTokenApiService) CreateNewServiceToken(ctx context.Context) ApiC
 }
 
 // Execute executes the request
-//
-//	@return ServiceTokenCreatedResponse
+//  @return ServiceTokenCreatedResponse
 func (a *ServiceTokenApiService) CreateNewServiceTokenExecute(r ApiCreateNewServiceTokenRequest) (*ServiceTokenCreatedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -255,9 +254,9 @@ DeleteServiceToken Delete service token
 
 Delete service token.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param serviceTokenId The identifier of a service token
-	@return ApiDeleteServiceTokenRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param serviceTokenId The identifier of a service token
+ @return ApiDeleteServiceTokenRequest
 */
 func (a *ServiceTokenApiService) DeleteServiceToken(ctx context.Context, serviceTokenId int64) ApiDeleteServiceTokenRequest {
 	return ApiDeleteServiceTokenRequest{
@@ -397,8 +396,8 @@ GetServiceTokens Get service tokens
 
 Get service tokens.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetServiceTokensRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetServiceTokensRequest
 */
 func (a *ServiceTokenApiService) GetServiceTokens(ctx context.Context) ApiGetServiceTokensRequest {
 	return ApiGetServiceTokensRequest{
@@ -408,8 +407,7 @@ func (a *ServiceTokenApiService) GetServiceTokens(ctx context.Context) ApiGetSer
 }
 
 // Execute executes the request
-//
-//	@return []ServiceToken
+//  @return []ServiceToken
 func (a *ServiceTokenApiService) GetServiceTokensExecute(r ApiGetServiceTokensRequest) ([]ServiceToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

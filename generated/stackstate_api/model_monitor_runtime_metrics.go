@@ -17,17 +17,17 @@ import (
 
 // MonitorRuntimeMetrics struct for MonitorRuntimeMetrics
 type MonitorRuntimeMetrics struct {
-	// Representing the total count of the monitors results.
+	// Representing the total count of the monitor results.
 	HealthStatesCount *int32 `json:"healthStatesCount,omitempty"`
-	// Representing the total count of the monitors results that are not mapped to topology/
+	// Representing the total count of the monitor results that are not mapped to topology.
 	UnmappedHealthStatesCount *int32 `json:"unmappedHealthStatesCount,omitempty"`
-	// Representing the count of the monitors results that are UNKNOWN and are mapped to topology.
+	// Representing the count of the monitor results that are UNKNOWN and are mapped to topology.
 	UnknownCount *int32 `json:"unknownCount,omitempty"`
-	// Representing the count of the monitors results that are CLEAR and are mapped to topology.
+	// Representing the count of the monitor results that are CLEAR and are mapped to topology.
 	ClearCount *int32 `json:"clearCount,omitempty"`
-	// Representing the count of the monitors results that are DEVIATING and are mapped to topology.
+	// Representing the count of the monitor results that are DEVIATING and are mapped to topology.
 	DeviatingCount *int32 `json:"deviatingCount,omitempty"`
-	// Representing the count of the monitors results that are CRITICAL and are mapped to topology.
+	// Representing the count of the monitor results that are CRITICAL and are mapped to topology.
 	CriticalCount *int32 `json:"criticalCount,omitempty"`
 	// Representing the epoch millis of the last monitor run.
 	LastRunTimestamp *int64 `json:"lastRunTimestamp,omitempty"`

@@ -130,9 +130,9 @@ GetEvent Get single event
 
 Retrieves a specific event by its identifier.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param eventId The Identifier of an event.
-	@return ApiGetEventRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param eventId The Identifier of an event.
+ @return ApiGetEventRequest
 */
 func (a *EventApiService) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
 	return ApiGetEventRequest{
@@ -143,8 +143,7 @@ func (a *EventApiService) GetEvent(ctx context.Context, eventId string) ApiGetEv
 }
 
 // Execute executes the request
-//
-//	@return TopologyEvent
+//  @return TopologyEvent
 func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -382,8 +381,8 @@ GetEventSources Get event sources
 
 Get a list of event sources.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetEventSourcesRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEventSourcesRequest
 */
 func (a *EventApiService) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
 	return ApiGetEventSourcesRequest{
@@ -393,8 +392,7 @@ func (a *EventApiService) GetEventSources(ctx context.Context) ApiGetEventSource
 }
 
 // Execute executes the request
-//
-//	@return StringItemsWithTotal
+//  @return StringItemsWithTotal
 func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -647,8 +645,8 @@ GetEventTags Get event tags
 
 Gets a list of tags that exist in a list of events.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetEventTagsRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEventTagsRequest
 */
 func (a *EventApiService) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
 	return ApiGetEventTagsRequest{
@@ -658,8 +656,7 @@ func (a *EventApiService) GetEventTags(ctx context.Context) ApiGetEventTagsReque
 }
 
 // Execute executes the request
-//
-//	@return StringItemsWithTotal
+//  @return StringItemsWithTotal
 func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -912,8 +909,8 @@ GetEventTypes Get event types
 
 Get a list of event types for a certain STQL query.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetEventTypesRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEventTypesRequest
 */
 func (a *EventApiService) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
 	return ApiGetEventTypesRequest{
@@ -923,8 +920,7 @@ func (a *EventApiService) GetEventTypes(ctx context.Context) ApiGetEventTypesReq
 }
 
 // Execute executes the request
-//
-//	@return StringItemsWithTotal
+//  @return StringItemsWithTotal
 func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1116,8 +1112,8 @@ GetEvents Get events
 
 Gets you a list of events that exist for topology and time selections.
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetEventsRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEventsRequest
 */
 func (a *EventApiService) GetEvents(ctx context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
@@ -1127,8 +1123,7 @@ func (a *EventApiService) GetEvents(ctx context.Context) ApiGetEventsRequest {
 }
 
 // Execute executes the request
-//
-//	@return EventItemsWithTotal
+//  @return EventItemsWithTotal
 func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

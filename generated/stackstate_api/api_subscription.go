@@ -67,8 +67,8 @@ GetSubscription Get subscription info
 
 Get the state of the StackState license
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiGetSubscriptionRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetSubscriptionRequest
 */
 func (a *SubscriptionApiService) GetSubscription(ctx context.Context) ApiGetSubscriptionRequest {
 	return ApiGetSubscriptionRequest{
@@ -78,8 +78,7 @@ func (a *SubscriptionApiService) GetSubscription(ctx context.Context) ApiGetSubs
 }
 
 // Execute executes the request
-//
-//	@return SubscriptionState
+//  @return SubscriptionState
 func (a *SubscriptionApiService) GetSubscriptionExecute(r ApiGetSubscriptionRequest) (*SubscriptionState, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -225,8 +224,8 @@ PostSubscription Submit a new license to update the subscription
 
 Update the StackState license
 
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@return ApiPostSubscriptionRequest
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiPostSubscriptionRequest
 */
 func (a *SubscriptionApiService) PostSubscription(ctx context.Context) ApiPostSubscriptionRequest {
 	return ApiPostSubscriptionRequest{
@@ -236,8 +235,7 @@ func (a *SubscriptionApiService) PostSubscription(ctx context.Context) ApiPostSu
 }
 
 // Execute executes the request
-//
-//	@return SubscriptionState
+//  @return SubscriptionState
 func (a *SubscriptionApiService) PostSubscriptionExecute(r ApiPostSubscriptionRequest) (*SubscriptionState, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
