@@ -23,8 +23,8 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe",
-		Short: "Describe settings in STJ format",
-		Long:  "Describe settings in StackState Templated JSON.",
+		Short: "Describe settings in STY format",
+		Long:  "Describe settings in StackState Templated YAML.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand(args)),
 	}
 	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "List of ids to describe")
@@ -71,7 +71,7 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"data":   data,
-					"format": "stj",
+					"format": "sty",
 				})
 			} else {
 				cli.Printer.PrintLn(data)

@@ -16,7 +16,7 @@ var (
 	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`) //nolint:deadcode,unused,varcheck
 	startWithUpperCaseWord           = regexp.MustCompile(`^[A-Z0-9]`)
 	endsWithFullStop                 = regexp.MustCompile(`\s*\.\s*$`)
-	startsLowerCaseExceptions        = `\.stj`
+	startsLowerCaseExceptions        = `\.sty`
 	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`) //nolint:deadcode,unused,varcheck
 )
 

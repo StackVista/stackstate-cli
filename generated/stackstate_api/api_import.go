@@ -24,7 +24,7 @@ type ImportApi interface {
 	/*
 		ImportSettings Import settings
 
-		Import StackState Templated JSON (STJ) setting nodes.
+		Import setting nodes from STY or STJ definitions.
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 		@return ApiImportSettingsRequest
@@ -75,7 +75,7 @@ func (r ApiImportSettingsRequest) Execute() ([]map[string]interface{}, *http.Res
 /*
 ImportSettings Import settings
 
-Import StackState Templated JSON (STJ) setting nodes.
+Import setting nodes from STY or STJ definitions.
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiImportSettingsRequest

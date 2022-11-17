@@ -25,7 +25,7 @@ security:
 paths:
   /import:
     post:
-      description: Import StackState Templated JSON (STJ) setting nodes.
+      description: Import setting nodes from STY or STJ definitions.
       operationId: importSettings
       parameters:
       - in: query
@@ -68,7 +68,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Failure to parse the STJ.
+          description: Failure to parse the definitions.
         "500":
           content:
             application/json:
@@ -80,7 +80,7 @@ paths:
       - import
   /export:
     post:
-      description: Export StackState Templated JSON (STJ) setting nodes.
+      description: Export setting nodes as StackState Templated YAML (STY).
       operationId: exportSettings
       requestBody:
         content:

@@ -37,7 +37,7 @@ func TestMonitorDescribeJson(t *testing.T) {
 		t,
 		[]map[string]interface{}{{
 			"data":   expectedStr,
-			"format": "stj",
+			"format": "sty",
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)

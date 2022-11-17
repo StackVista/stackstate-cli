@@ -29,10 +29,10 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "apply",
 		Short: "Apply saved settings",
-		Long:  "Apply saved settings with StackState Templated JSON.",
+		Long:  "Apply saved settings with StackState Templated YAML.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand(args)),
 	}
-	common.AddRequiredFileFlagVar(cmd, &args.Filepath, "Settings file file to import (.stj file)")
+	common.AddRequiredFileFlagVar(cmd, &args.Filepath, "Path to a .sty or .stj file with the settings to import")
 	cmd.Flags().StringVar(&args.Namespace, NamespaceFlag, "", "Name of the namespace to overwrite"+
 		" - WARNING this will overwrite the entire namespace")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
