@@ -32,13 +32,13 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSliceVar(&args.NodeTypes, TypeNameFlag, nil, "List of types to describe")
 	cmd.Flags().StringSliceVar(&args.AllowReferences, AllowReferencesFlag, nil, "White list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	common.AddFileFlagVar(cmd, &args.FilePath, "Path to the output file")
-	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", true)
+	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", false)
 	return cmd
 }
 
 func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if err := stscobra.CheckMutuallyExclusiveFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, true); err != nil {
+		if err := stscobra.CheckMutuallyExclusiveFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, false); err != nil {
 			return common.NewCLIArgParseError(err)
 		}
 
