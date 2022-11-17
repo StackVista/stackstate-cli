@@ -55,7 +55,7 @@ func GetAllMutexNames(cmd *cobra.Command) map[bool]util.StringSet {
 			mutexNames[true].Add(flag.Annotations["rmutex"][0])
 		}
 		if len(flag.Annotations["mutex"]) > 0 {
-			mutexNames[false].Add(flag.Annotations["rmutex"][0])
+			mutexNames[false].Add(flag.Annotations["mutex"][0])
 		}
 	})
 	return mutexNames

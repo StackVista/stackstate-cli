@@ -20,8 +20,8 @@ func MonitorDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe",
-		Short: "Describe a monitor in STJ format",
-		Long:  "Describe a monitor in StackState Templated JSON.",
+		Short: "Describe a monitor in STY format",
+		Long:  "Describe a monitor in StackState Templated YAML.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorDescribeCommand(args)),
 	}
 
@@ -56,7 +56,7 @@ func RunMonitorDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"data":   data,
-					"format": "stj",
+					"format": "sty",
 				})
 			} else {
 				cli.Printer.PrintLn(data)

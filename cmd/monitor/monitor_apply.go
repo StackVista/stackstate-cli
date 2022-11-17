@@ -19,8 +19,8 @@ func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
 		Use:   "apply",
-		Short: "Apply a monitor with STJ",
-		Long:  "Apply a monitor with StackState Templated JSON.",
+		Short: "Create or edit a monitor from STY",
+		Long:  "Create or edit a monitor from StackState Templated YAML.",
 		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand(args)),
 	}
 

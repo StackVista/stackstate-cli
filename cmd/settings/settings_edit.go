@@ -35,7 +35,7 @@ func SettingsEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
 		Use:   "edit",
-		Short: "Edit settings in STJ format",
+		Short: "Edit settings in STY format",
 		Long:  LongDescription,
 		RunE:  cli.CmdRunEWithApi(RunSettingsEditCommand(args)),
 	}

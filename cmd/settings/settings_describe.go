@@ -23,8 +23,8 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe",
-		Short: "Describe settings in STJ format",
-		Long:  "Describe settings in StackState Templated JSON.",
+		Short: "Describe settings in STY format",
+		Long:  "Describe settings in StackState Templated YAML.",
 		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand(args)),
 	}
 	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "List of ids to describe")
@@ -32,13 +32,13 @@ func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringSliceVar(&args.NodeTypes, TypeNameFlag, nil, "List of types to describe")
 	cmd.Flags().StringSliceVar(&args.AllowReferences, AllowReferencesFlag, nil, "White list of namespaces that are allowed to be referenced (only usable with the --namespace flag)")
 	common.AddFileFlagVar(cmd, &args.FilePath, "Path to the output file")
-	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", true)
+	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, "filter", false)
 	return cmd
 }
 
 func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if err := stscobra.CheckMutuallyExclusiveFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, true); err != nil {
+		if err := stscobra.CheckMutuallyExclusiveFlags(cmd, []string{IdsFlag, Namespace, TypeNameFlag}, false); err != nil {
 			return common.NewCLIArgParseError(err)
 		}
 
@@ -71,7 +71,7 @@ func RunSettingsDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"data":   data,
-					"format": "stj",
+					"format": "sty",
 				})
 			} else {
 				cli.Printer.PrintLn(data)

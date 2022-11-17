@@ -24,7 +24,7 @@ type ExportApi interface {
 	/*
 		ExportSettings Export settings
 
-		Export StackState Templated JSON (STJ) setting nodes.
+		Export setting nodes as StackState Templated YAML (STY).
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 		@return ApiExportSettingsRequest
@@ -57,7 +57,7 @@ func (r ApiExportSettingsRequest) Execute() (string, *http.Response, error) {
 /*
 ExportSettings Export settings
 
-Export StackState Templated JSON (STJ) setting nodes.
+Export setting nodes as StackState Templated YAML (STY).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiExportSettingsRequest
