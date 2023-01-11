@@ -279,7 +279,13 @@ type ApiProvisionDetailsRequest struct {
 	ctx           context.Context
 	ApiService    StackpackApi
 	stackPackName string
+	unlocked      *string
 	requestBody   *map[string]string
+}
+
+func (r ApiProvisionDetailsRequest) Unlocked(unlocked string) ApiProvisionDetailsRequest {
+	r.unlocked = &unlocked
+	return r
 }
 
 func (r ApiProvisionDetailsRequest) RequestBody(requestBody map[string]string) ApiProvisionDetailsRequest {
@@ -329,7 +335,11 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.unlocked == nil {
+		return localVarReturnValue, nil, reportError("unlocked is required and must be specified")
+	}
 
+	localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -1185,6 +1195,7 @@ type ProvisionDetailsMockResponse struct {
 
 type ProvisionDetailsCall struct {
 	PstackPackName string
+	Punlocked      *string
 	PrequestBody   *map[string]string
 }
 
@@ -1199,6 +1210,7 @@ func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackPackName
 func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	p := ProvisionDetailsCall{
 		PstackPackName: r.stackPackName,
+		Punlocked:      r.unlocked,
 		PrequestBody:   r.requestBody,
 	}
 	*mock.ProvisionDetailsCalls = append(*mock.ProvisionDetailsCalls, p)

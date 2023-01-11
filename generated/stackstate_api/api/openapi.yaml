@@ -295,6 +295,12 @@ paths:
         required: true
         schema:
           type: string
+      - allowReserved: true
+        in: query
+        name: unlocked
+        required: true
+        schema:
+          type: string
       requestBody:
         content:
           application/json:

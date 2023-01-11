@@ -88,7 +88,7 @@ Name | Type | Description  | Notes
 
 ## ProvisionDetails
 
-> ProvisionResponse ProvisionDetails(ctx, stackPackName).RequestBody(requestBody).Execute()
+> ProvisionResponse ProvisionDetails(ctx, stackPackName).Unlocked(unlocked).RequestBody(requestBody).Execute()
 
 Provision API
 
@@ -108,11 +108,12 @@ import (
 
 func main() {
     stackPackName := "stackPackName_example" // string | 
+    unlocked := "unlocked_example" // string | 
     requestBody := map[string]string{"key": "Inner_example"} // map[string]string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ProvisionDetails(context.Background(), stackPackName).RequestBody(requestBody).Execute()
+    resp, r, err := apiClient.StackpackApi.ProvisionDetails(context.Background(), stackPackName).Unlocked(unlocked).RequestBody(requestBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ProvisionDetails``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -138,6 +139,7 @@ Other parameters are passed through a pointer to a apiProvisionDetailsRequest st
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **unlocked** | **string** |  | 
  **requestBody** | **map[string]string** |  | 
 
 ### Return type

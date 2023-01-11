@@ -2,7 +2,10 @@ package stackpack
 
 import (
 	"time"
+  "fmt"
+  "strings"
 
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
@@ -12,6 +15,7 @@ import (
 
 type InstallArgs struct {
 	Name   string
+	UnlockedStrategy string
 	Params map[string]string
 }
 
@@ -30,6 +34,13 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
+	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
+		UnlockedStrategyFlag,
+		"",
+		UnlockedStrategyChoices,
+		"Strategy use to upgrade StackPack instance"+
+			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
+	)
 	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", args.Params, "List of parameters of the form \"key=value\"")
 	return cmd
 }
@@ -41,7 +52,7 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		instance, resp, err := api.StackpackApi.ProvisionDetails(cli.Context, args.Name).RequestBody(args.Params).Execute()
+		instance, resp, err := api.StackpackApi.ProvisionDetails(cli.Context, args.Name).RequestBody(args.Params).Unlocked(args.UnlockedStrategy).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
