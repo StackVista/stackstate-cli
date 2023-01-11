@@ -1,13 +1,11 @@
-# DataType
+# LogsDirection
 
 ## Enum
 
 
-* `METRICS` (value: `"METRICS"`)
+* `NEWEST` (value: `"NEWEST"`)
 
-* `TOPOLOGY_ELEMENTS` (value: `"TOPOLOGY_ELEMENTS"`)
-
-* `EVENTS` (value: `"EVENTS"`)
+* `OLDEST` (value: `"OLDEST"`)
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

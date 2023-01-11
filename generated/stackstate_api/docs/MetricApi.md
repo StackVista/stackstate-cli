@@ -377,7 +377,7 @@ Name | Type | Description  | Notes
 
 ## GetRangeQuery
 
-> PromEnvelope GetRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+> PromEnvelope GetRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).Execute()
 
 Query over a range of time
 
@@ -401,10 +401,11 @@ func main() {
     end := "2015-07-01T20:10:51.781Z or 1660817432" // string | End timestamp in rfc3339 format or unix format
     step := "5m or 300" // string | Query resolution step width in duration format or float number of seconds.
     timeout := "timeout_example" // string | Evaluation timeout (optional)
+    maxNumberOfDataPoints := int64(2) // int64 | Maximum number of data points to return. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+    resp, r, err := apiClient.MetricApi.GetRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetRangeQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -430,6 +431,7 @@ Name | Type | Description  | Notes
  **end** | **string** | End timestamp in rfc3339 format or unix format | 
  **step** | **string** | Query resolution step width in duration format or float number of seconds. | 
  **timeout** | **string** | Evaluation timeout | 
+ **maxNumberOfDataPoints** | **int64** | Maximum number of data points to return. | 
 
 ### Return type
 
@@ -875,7 +877,7 @@ Name | Type | Description  | Notes
 
 ## PostRangeQuery
 
-> PromEnvelope PostRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+> PromEnvelope PostRangeQuery(ctx).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).Execute()
 
 Query over a range of time
 
@@ -899,10 +901,11 @@ func main() {
     end := "end_example" // string | 
     step := "step_example" // string | 
     timeout := "timeout_example" // string |  (optional)
+    maxNumberOfDataPoints := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).Execute()
+    resp, r, err := apiClient.MetricApi.PostRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostRangeQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -928,6 +931,7 @@ Name | Type | Description  | Notes
  **end** | **string** |  | 
  **step** | **string** |  | 
  **timeout** | **string** |  | 
+ **maxNumberOfDataPoints** | **int64** |  | 
 
 ### Return type
 

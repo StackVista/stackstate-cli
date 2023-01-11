@@ -1,9 +1,9 @@
 /*
 StackState API
 
-StackState's API specification
+This API documentation page describes the StackState server API. The StackState UI and CLI use the StackState server API to configure and query StackState.  You can use the API for similar purposes.  Each request sent to the StackState server API must be authenticated using one of the available authentication methods.   *Note that the StackState receiver API, used to send topology, telemetry and traces to StackState, is not described on this page and requires a different authentication method.*  For more information on StackState, refer to the [StackState documentation](https://docs.stackstate.com).
 
-API version: 0.0.1
+API version: 5.2.0
 Contact: info@stackstate.com
 */
 
@@ -1271,13 +1271,14 @@ func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMet
 }
 
 type ApiGetRangeQueryRequest struct {
-	ctx        context.Context
-	ApiService MetricApi
-	query      *string
-	start      *string
-	end        *string
-	step       *string
-	timeout    *string
+	ctx                   context.Context
+	ApiService            MetricApi
+	query                 *string
+	start                 *string
+	end                   *string
+	step                  *string
+	timeout               *string
+	maxNumberOfDataPoints *int64
 }
 
 // Prometheus expression query string
@@ -1307,6 +1308,12 @@ func (r ApiGetRangeQueryRequest) Step(step string) ApiGetRangeQueryRequest {
 // Evaluation timeout
 func (r ApiGetRangeQueryRequest) Timeout(timeout string) ApiGetRangeQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+// Maximum number of data points to return.
+func (r ApiGetRangeQueryRequest) MaxNumberOfDataPoints(maxNumberOfDataPoints int64) ApiGetRangeQueryRequest {
+	r.maxNumberOfDataPoints = &maxNumberOfDataPoints
 	return r
 }
 
@@ -1368,6 +1375,9 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 	localVarQueryParams.Add("step", parameterToString(*r.step, ""))
 	if r.timeout != nil {
 		localVarQueryParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.maxNumberOfDataPoints != nil {
+		localVarQueryParams.Add("maxNumberOfDataPoints", parameterToString(*r.maxNumberOfDataPoints, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -2751,13 +2761,14 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 }
 
 type ApiPostRangeQueryRequest struct {
-	ctx        context.Context
-	ApiService MetricApi
-	query      *string
-	start      *string
-	end        *string
-	step       *string
-	timeout    *string
+	ctx                   context.Context
+	ApiService            MetricApi
+	query                 *string
+	start                 *string
+	end                   *string
+	step                  *string
+	timeout               *string
+	maxNumberOfDataPoints *int64
 }
 
 func (r ApiPostRangeQueryRequest) Query(query string) ApiPostRangeQueryRequest {
@@ -2782,6 +2793,11 @@ func (r ApiPostRangeQueryRequest) Step(step string) ApiPostRangeQueryRequest {
 
 func (r ApiPostRangeQueryRequest) Timeout(timeout string) ApiPostRangeQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+func (r ApiPostRangeQueryRequest) MaxNumberOfDataPoints(maxNumberOfDataPoints int64) ApiPostRangeQueryRequest {
+	r.maxNumberOfDataPoints = &maxNumberOfDataPoints
 	return r
 }
 
@@ -2860,6 +2876,9 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 	localVarFormParams.Add("step", parameterToString(*r.step, ""))
 	if r.timeout != nil {
 		localVarFormParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.maxNumberOfDataPoints != nil {
+		localVarFormParams.Add("maxNumberOfDataPoints", parameterToString(*r.maxNumberOfDataPoints, ""))
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -3411,11 +3430,12 @@ type GetRangeQueryMockResponse struct {
 }
 
 type GetRangeQueryCall struct {
-	Pquery   *string
-	Pstart   *string
-	Pend     *string
-	Pstep    *string
-	Ptimeout *string
+	Pquery                 *string
+	Pstart                 *string
+	Pend                   *string
+	Pstep                  *string
+	Ptimeout               *string
+	PmaxNumberOfDataPoints *int64
 }
 
 func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
@@ -3427,11 +3447,12 @@ func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryReq
 
 func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetRangeQueryCall{
-		Pquery:   r.query,
-		Pstart:   r.start,
-		Pend:     r.end,
-		Pstep:    r.step,
-		Ptimeout: r.timeout,
+		Pquery:                 r.query,
+		Pstart:                 r.start,
+		Pend:                   r.end,
+		Pstep:                  r.step,
+		Ptimeout:               r.timeout,
+		PmaxNumberOfDataPoints: r.maxNumberOfDataPoints,
 	}
 	*mock.GetRangeQueryCalls = append(*mock.GetRangeQueryCalls, p)
 	return &mock.GetRangeQueryResponse.Result, mock.GetRangeQueryResponse.Response, mock.GetRangeQueryResponse.Error
@@ -3619,11 +3640,12 @@ type PostRangeQueryMockResponse struct {
 }
 
 type PostRangeQueryCall struct {
-	Pquery   *string
-	Pstart   *string
-	Pend     *string
-	Pstep    *string
-	Ptimeout *string
+	Pquery                 *string
+	Pstart                 *string
+	Pend                   *string
+	Pstep                  *string
+	Ptimeout               *string
+	PmaxNumberOfDataPoints *int64
 }
 
 func (mock MetricApiMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
@@ -3635,11 +3657,12 @@ func (mock MetricApiMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryR
 
 func (mock MetricApiMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := PostRangeQueryCall{
-		Pquery:   r.query,
-		Pstart:   r.start,
-		Pend:     r.end,
-		Pstep:    r.step,
-		Ptimeout: r.timeout,
+		Pquery:                 r.query,
+		Pstart:                 r.start,
+		Pend:                   r.end,
+		Pstep:                  r.step,
+		Ptimeout:               r.timeout,
+		PmaxNumberOfDataPoints: r.maxNumberOfDataPoints,
 	}
 	*mock.PostRangeQueryCalls = append(*mock.PostRangeQueryCalls, p)
 	return &mock.PostRangeQueryResponse.Result, mock.PostRangeQueryResponse.Response, mock.PostRangeQueryResponse.Error

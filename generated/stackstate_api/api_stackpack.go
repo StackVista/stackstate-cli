@@ -1,9 +1,9 @@
 /*
 StackState API
 
-StackState's API specification
+This API documentation page describes the StackState server API. The StackState UI and CLI use the StackState server API to configure and query StackState.  You can use the API for similar purposes.  Each request sent to the StackState server API must be authenticated using one of the available authentication methods.   *Note that the StackState receiver API, used to send topology, telemetry and traces to StackState, is not described on this page and requires a different authentication method.*  For more information on StackState, refer to the [StackState documentation](https://docs.stackstate.com).
 
-API version: 0.0.1
+API version: 5.2.0
 Contact: info@stackstate.com
 */
 
@@ -279,7 +279,13 @@ type ApiProvisionDetailsRequest struct {
 	ctx           context.Context
 	ApiService    StackpackApi
 	stackPackName string
+	unlocked      *string
 	requestBody   *map[string]string
+}
+
+func (r ApiProvisionDetailsRequest) Unlocked(unlocked string) ApiProvisionDetailsRequest {
+	r.unlocked = &unlocked
+	return r
 }
 
 func (r ApiProvisionDetailsRequest) RequestBody(requestBody map[string]string) ApiProvisionDetailsRequest {
@@ -329,7 +335,11 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.unlocked == nil {
+		return localVarReturnValue, nil, reportError("unlocked is required and must be specified")
+	}
 
+	localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -1185,6 +1195,7 @@ type ProvisionDetailsMockResponse struct {
 
 type ProvisionDetailsCall struct {
 	PstackPackName string
+	Punlocked      *string
 	PrequestBody   *map[string]string
 }
 
@@ -1199,6 +1210,7 @@ func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackPackName
 func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	p := ProvisionDetailsCall{
 		PstackPackName: r.stackPackName,
+		Punlocked:      r.unlocked,
 		PrequestBody:   r.requestBody,
 	}
 	*mock.ProvisionDetailsCalls = append(*mock.ProvisionDetailsCalls, p)

@@ -1,9 +1,9 @@
 /*
 StackState API
 
-StackState's API specification
+This API documentation page describes the StackState server API. The StackState UI and CLI use the StackState server API to configure and query StackState.  You can use the API for similar purposes.  Each request sent to the StackState server API must be authenticated using one of the available authentication methods.   *Note that the StackState receiver API, used to send topology, telemetry and traces to StackState, is not described on this page and requires a different authentication method.*  For more information on StackState, refer to the [StackState documentation](https://docs.stackstate.com).
 
-API version: 0.0.1
+API version: 5.2.0
 Contact: info@stackstate.com
 */
 
@@ -42,7 +42,7 @@ var (
 	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
 )
 
-// APIClient manages communication with the StackState API API v0.0.1
+// APIClient manages communication with the StackState API API v5.2.0
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration
@@ -63,6 +63,8 @@ type APIClient struct {
 	HealthSynchronizationApi HealthSynchronizationApi
 
 	ImportApi ImportApi
+
+	KubernetesLogsApi KubernetesLogsApi
 
 	MetricApi MetricApi
 
@@ -93,6 +95,8 @@ type APIClient struct {
 	TopologySynchronizationApi TopologySynchronizationApi
 
 	UserProfileApi UserProfileApi
+
+	UserSessionApi UserSessionApi
 }
 
 type service struct {
@@ -118,6 +122,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ExportAnomalyApi = (*ExportAnomalyApiService)(&c.common)
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
 	c.ImportApi = (*ImportApiService)(&c.common)
+	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.NodeApi = (*NodeApiService)(&c.common)
@@ -133,6 +138,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.TopicApi = (*TopicApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
+	c.UserSessionApi = (*UserSessionApiService)(&c.common)
 
 	return c
 }

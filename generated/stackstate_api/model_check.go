@@ -1,9 +1,9 @@
 /*
 StackState API
 
-StackState's API specification
+This API documentation page describes the StackState server API. The StackState UI and CLI use the StackState server API to configure and query StackState.  You can use the API for similar purposes.  Each request sent to the StackState server API must be authenticated using one of the available authentication methods.   *Note that the StackState receiver API, used to send topology, telemetry and traces to StackState, is not described on this page and requires a different authentication method.*  For more information on StackState, refer to the [StackState documentation](https://docs.stackstate.com).
 
-API version: 0.0.1
+API version: 5.2.0
 Contact: info@stackstate.com
 */
 
@@ -26,20 +26,18 @@ type Check struct {
 	Name                string      `json:"name"`
 	RemediationHint     *string     `json:"remediationHint,omitempty"`
 	State               *CheckState `json:"state,omitempty"`
-	SyncCreated         bool        `json:"syncCreated"`
 }
 
 // NewCheck instantiates a new Check object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCheck(type_ string, arguments []Argument, function int64, name string, syncCreated bool) *Check {
+func NewCheck(type_ string, arguments []Argument, function int64, name string) *Check {
 	this := Check{}
 	this.Type = type_
 	this.Arguments = arguments
 	this.Function = function
 	this.Name = name
-	this.SyncCreated = syncCreated
 	return &this
 }
 
@@ -307,30 +305,6 @@ func (o *Check) SetState(v CheckState) {
 	o.State = &v
 }
 
-// GetSyncCreated returns the SyncCreated field value
-func (o *Check) GetSyncCreated() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.SyncCreated
-}
-
-// GetSyncCreatedOk returns a tuple with the SyncCreated field value
-// and a boolean to check if the value has been set.
-func (o *Check) GetSyncCreatedOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.SyncCreated, true
-}
-
-// SetSyncCreated sets field value
-func (o *Check) SetSyncCreated(v bool) {
-	o.SyncCreated = v
-}
-
 func (o Check) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -359,9 +333,6 @@ func (o Check) MarshalJSON() ([]byte, error) {
 	}
 	if o.State != nil {
 		toSerialize["state"] = o.State
-	}
-	if true {
-		toSerialize["syncCreated"] = o.SyncCreated
 	}
 	return json.Marshal(toSerialize)
 }
