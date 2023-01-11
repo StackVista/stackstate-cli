@@ -1,22 +1,22 @@
 package stackpack
 
 import (
+	"fmt"
+	"strings"
 	"time"
-  "fmt"
-  "strings"
 
-	"github.com/stackvista/stackstate-cli/pkg/pflags"
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 type InstallArgs struct {
-	Name   string
+	Name             string
 	UnlockedStrategy string
-	Params map[string]string
+	Params           map[string]string
 }
 
 func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
