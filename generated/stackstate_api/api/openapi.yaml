@@ -4,18 +4,22 @@ info:
     email: info@stackstate.com
     name: StackState
     url: https://stackstate.com
-  description: StackState's API specification
+  description: "This API documentation page describes the StackState server API. The\
+    \ StackState UI and CLI use the StackState server API to configure and query StackState.\
+    \ \nYou can use the API for similar purposes.\n\nEach request sent to the StackState\
+    \ server API must be authenticated using one of the available authentication methods.\
+    \ \n\n*Note that the StackState receiver API, used to send topology, telemetry\
+    \ and traces to StackState, is not described on this page and requires a different\
+    \ authentication method.*\n\nFor more information on StackState, refer to the\
+    \ [StackState documentation](https://docs.stackstate.com).\n"
   license:
     name: Apache 2.0
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   title: StackState API
-  version: 0.0.1
+  version: 5.2.0
   x-logo:
     url: https://raw.githubusercontent.com/StackVista/stackstate-docs/master/resources/logo/StackState-Color-padding.png
     href: '#top'
-externalDocs:
-  description: Documentation
-  url: https://docs.stackstate.com/
 servers:
 - url: /
 security:
@@ -752,6 +756,77 @@ paths:
       summary: Get current user's API tokens
       tags:
       - apiToken
+  /user/session/assumedRole:
+    get:
+      description: Get the assumed a role for the current session.
+      operationId: getUserSessionAssumedRole
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: Get the assumed role
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get the assumed a role for the current session
+      tags:
+      - userSession
+    put:
+      description: Set the assumed role for the current session.
+      operationId: saveUserSessionAssumedRole
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Role'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Role'
+          description: Assume role was a success
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoleNotAvailableError'
+          description: Save Assumed Role Error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Set the assumed role for the current session
+      tags:
+      - userSession
+  /user/session/availableRoles:
+    get:
+      description: Get a list of available roles for this session.
+      operationId: getUserSessionAvailableRoles
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Roles'
+          description: List of available roles
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a list of available roles for this session
+      tags:
+      - userSession
   /events:
     post:
       description: Gets you a list of events that exist for topology and time selections.
@@ -867,22 +942,19 @@ paths:
         schema:
           format: instant
           type: integer
-      - explode: false
-        in: query
+      - in: query
         name: eventTypes
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
       - in: query
         name: limit
         required: true
         schema:
           type: integer
       - description: The category labels of an event.
-        explode: false
         in: query
         name: eventCategories
         required: false
@@ -890,25 +962,20 @@ paths:
           items:
             $ref: '#/components/schemas/EventCategory'
           type: array
-        style: pipeDelimited
-      - explode: false
-        in: query
+      - in: query
         name: eventSources
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
-      - explode: false
-        in: query
+      - in: query
         name: eventTags
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
       - in: query
         name: match
         required: false
@@ -968,22 +1035,19 @@ paths:
         schema:
           format: instant
           type: integer
-      - explode: false
-        in: query
+      - in: query
         name: eventTypes
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
       - in: query
         name: limit
         required: true
         schema:
           type: integer
       - description: The category labels of an event.
-        explode: false
         in: query
         name: eventCategories
         required: false
@@ -991,25 +1055,20 @@ paths:
           items:
             $ref: '#/components/schemas/EventCategory'
           type: array
-        style: pipeDelimited
-      - explode: false
-        in: query
+      - in: query
         name: eventSources
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
-      - explode: false
-        in: query
+      - in: query
         name: eventTags
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
       - in: query
         name: match
         schema:
@@ -1068,22 +1127,19 @@ paths:
         schema:
           format: instant
           type: integer
-      - explode: false
-        in: query
+      - in: query
         name: eventTypes
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
       - in: query
         name: limit
         required: true
         schema:
           type: integer
       - description: The category labels of an event.
-        explode: false
         in: query
         name: eventCategories
         required: false
@@ -1091,25 +1147,20 @@ paths:
           items:
             $ref: '#/components/schemas/EventCategory'
           type: array
-        style: pipeDelimited
-      - explode: false
-        in: query
+      - in: query
         name: eventSources
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
-      - explode: false
-        in: query
+      - in: query
         name: eventTags
         required: false
         schema:
           items:
             type: string
           type: array
-        style: pipeDelimited
       - in: query
         name: match
         schema:
@@ -2142,75 +2193,7 @@ paths:
       summary: List all streams from the component
       tags:
       - component
-    post:
-      description: Adds a DataStream/TelemetryStreamDefinition on the component
-      operationId: createComponentStreams
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      requestBody:
-        $ref: '#/components/requestBodies/dataStream'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryStreamDefinition'
-          description: Single telemetry stream definition
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Create the Stream on the component
-      tags:
-      - component
   /components/{componentId}/streams/{streamId}:
-    delete:
-      description: Delete a Specific stream from the component
-      operationId: deleteComponentStream
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: The Identifier of a stream
-        in: path
-        name: streamId
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamId'
-      responses:
-        "204":
-          description: Return ok
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Delete the stream from the component
-      tags:
-      - component
     get:
       description: Get a Specific stream from the component
       operationId: getComponentStream
@@ -2254,46 +2237,6 @@ paths:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
       summary: Get the stream from the component
-      tags:
-      - component
-    put:
-      description: Update a Specific stream from the component
-      operationId: updateComponentStream
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: The Identifier of a stream
-        in: path
-        name: streamId
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamId'
-      requestBody:
-        $ref: '#/components/requestBodies/dataStream'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryStreamDefinition'
-          description: Single telemetry stream definition
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Update the stream on the component
       tags:
       - component
   /components/{componentId}/streams/latest:
@@ -2385,75 +2328,7 @@ paths:
       summary: List all checks from the component
       tags:
       - component
-    post:
-      description: Adds a Check on the component
-      operationId: createComponentCheck
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      requestBody:
-        $ref: '#/components/requestBodies/elementCheck'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Check'
-          description: Single check
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Create the Checks on the component
-      tags:
-      - component
   /components/{componentId}/checks/{checkId}:
-    delete:
-      description: Delete a Specific check from the component
-      operationId: deleteComponentCheck
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: The Identifier of a Check
-        in: path
-        name: checkId
-        required: true
-        schema:
-          $ref: '#/components/schemas/CheckId'
-      responses:
-        "204":
-          description: Return ok
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Delete the check from the component
-      tags:
-      - component
     get:
       description: Get a Specific check from the component
       operationId: getComponentCheck
@@ -2499,46 +2374,6 @@ paths:
       summary: Get the check from the component
       tags:
       - component
-    put:
-      description: Update a Specific check from the component
-      operationId: updateComponentCheck
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: The Identifier of a Check
-        in: path
-        name: checkId
-        required: true
-        schema:
-          $ref: '#/components/schemas/CheckId'
-      requestBody:
-        $ref: '#/components/requestBodies/elementCheck'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Check'
-          description: Single check
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Update the check on the component
-      tags:
-      - component
   /relations/{relationId}/streams:
     get:
       description: List all streams from the relation
@@ -2581,75 +2416,7 @@ paths:
       summary: List all streams from the relation
       tags:
       - relation
-    post:
-      description: Adds a DataStream/TelemetryStreamDefinition on the relation
-      operationId: createRelationStream
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      requestBody:
-        $ref: '#/components/requestBodies/dataStream'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryStreamDefinition'
-          description: Single telemetry stream definition
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Create the Stream on the relation
-      tags:
-      - relation
   /relations/{relationId}/streams/{streamId}:
-    delete:
-      description: Delete a Specific stream from the relation
-      operationId: deleteRelationStream
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: The Identifier of a stream
-        in: path
-        name: streamId
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamId'
-      responses:
-        "204":
-          description: Return ok
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Delete the stream from the relation
-      tags:
-      - relation
     get:
       description: Get a Specific stream from the relation
       operationId: getRelationStream
@@ -2695,46 +2462,6 @@ paths:
       summary: Get the stream from the relation
       tags:
       - relation
-    put:
-      description: Update a Specific stream from the relation
-      operationId: putRelationStream
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: The Identifier of a stream
-        in: path
-        name: streamId
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamId'
-      requestBody:
-        $ref: '#/components/requestBodies/dataStream'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryStreamDefinition'
-          description: Single telemetry stream definition
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Update the stream on the relation
-      tags:
-      - relation
   /relations/{relationId}/checks:
     get:
       description: List all checks from the relation
@@ -2777,75 +2504,7 @@ paths:
       summary: List all checks from the relation
       tags:
       - relation
-    post:
-      description: Adds a Check on the relation
-      operationId: createRelationCheck
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      requestBody:
-        $ref: '#/components/requestBodies/elementCheck'
-      responses:
-        "201":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Check'
-          description: Single check
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Create the Checks on the relation
-      tags:
-      - relation
   /relations/{relationId}/checks/{checkId}:
-    delete:
-      description: Delete a Specific check from the relation
-      operationId: deleteRelationCheck
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: The Identifier of a Check
-        in: path
-        name: checkId
-        required: true
-        schema:
-          $ref: '#/components/schemas/CheckId'
-      responses:
-        "204":
-          description: Return ok
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Delete the check from the relation
-      tags:
-      - relation
     get:
       description: Get a Specific check from the relation
       operationId: getRelationCheck
@@ -2889,46 +2548,6 @@ paths:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
       summary: Get the check from the relation
-      tags:
-      - relation
-    put:
-      description: Update a Specific check from the relation
-      operationId: putRelationCheck
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: The Identifier of a Check
-        in: path
-        name: checkId
-        required: true
-        schema:
-          $ref: '#/components/schemas/CheckId'
-      requestBody:
-        $ref: '#/components/requestBodies/elementCheck'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Check'
-          description: Single check
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Update the check on the relation
       tags:
       - relation
   /problems/{problemId}/causing-events:
@@ -3132,6 +2751,13 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/PromTimeout'
+      - description: Maximum number of data points to return.
+        example: "2"
+        in: query
+        name: maxNumberOfDataPoints
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromMaxNumberOfDataPoints'
       responses:
         "200":
           content:
@@ -3822,6 +3448,206 @@ paths:
       summary: Describe a topic
       tags:
       - topic
+  /k8s/logs:
+    get:
+      operationId: getKubernetesLogs
+      parameters:
+      - description: Logs initial timestamp.
+        in: query
+        name: from
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Logs last timestamp.
+        in: query
+        name: to
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Maximum number of the log lines in the result.
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 25
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+      - description: The page for which the log lines of pageSize must be returned.
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 1
+          format: int32
+          maximum: 100
+          minimum: 1
+          type: integer
+      - description: Find only logs containing query text.
+        in: query
+        name: query
+        required: false
+        schema:
+          minLength: 3
+          type: string
+      - description: Find only logs for the given pod UID.
+        in: query
+        name: podUID
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - description: Find only logs for the given container names.
+        in: query
+        name: containerNames
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: Fetch Oldest or Newest first.
+        in: query
+        name: direction
+        schema:
+          $ref: '#/components/schemas/LogsDirection'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKubernetesLogsResult'
+          description: Get logs successful result
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKubernetesLogsBadRequest'
+          description: Can not find the requested logs because one or more request
+            params are invalid.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get Kubernetes logs
+      tags:
+      - kubernetes_logs
+  /k8s/logs/histogram:
+    get:
+      operationId: getKubernetesLogsHistogram
+      parameters:
+      - description: Logs initial timestamp.
+        in: query
+        name: from
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Logs last timestamp.
+        in: query
+        name: to
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Find only logs containing query text.
+        in: query
+        name: query
+        required: false
+        schema:
+          minLength: 3
+          type: string
+      - description: Find only logs for the given pod UID.
+        in: query
+        name: podUID
+        required: true
+        schema:
+          format: uuid
+          type: string
+      - description: Find only logs for the given container names.
+        in: query
+        name: containerNames
+        required: false
+        schema:
+          items:
+            type: string
+          type: array
+      - description: The number of histogram buckets.
+        in: query
+        name: bucketsCount
+        required: true
+        schema:
+          format: int32
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKubernetesLogsHistogramResult'
+          description: Get logs histogram successful result
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKubernetesLogsHistogramBadRequest'
+          description: Can not get the logs histogram because one or more request
+            params are invalid.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get Kubernetes logs histogram
+      tags:
+      - kubernetes_logs
+  /k8s/logs/autocomplete:
+    get:
+      operationId: getKubernetesLogsAutocomplete
+      parameters:
+      - description: Logs initial timestamp.
+        in: query
+        name: from
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Logs last timestamp.
+        in: query
+        name: to
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant'
+      - description: Find only logs for the given pod UID.
+        in: query
+        name: podUID
+        required: true
+        schema:
+          format: uuid
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKubernetesLogsAutocompleteResult'
+          description: Get logs autocomplete successful result
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetKubernetesLogsAutocompleteBadRequest'
+          description: Can not get the logs autocomplete values because one or more
+            request params are invalid.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get Kubernetes logs autocomplete values
+      tags:
+      - kubernetes_logs
 components:
   requestBodies:
     monitorPatch:
@@ -3836,20 +3662,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/EventListRequest'
-      required: true
-    dataStream:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/DataStream'
-      description: Single telemetry stream definition
-      required: true
-    elementCheck:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Check'
-      description: Single Check
       required: true
   responses:
     genericErrorsResponse:
@@ -4181,6 +3993,45 @@ components:
           schema:
             $ref: '#/components/schemas/PromMetadataEnvelope'
       description: When requests time out or abort
+    GetKubernetesLogsResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetKubernetesLogsResult'
+      description: Get logs successful result
+    GetKubernetesLogsBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetKubernetesLogsBadRequest'
+      description: Can not find the requested logs because one or more request params
+        are invalid.
+    GetKubernetesLogsHistogramResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetKubernetesLogsHistogramResult'
+      description: Get logs histogram successful result
+    GetKubernetesLogsHistogramBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetKubernetesLogsHistogramBadRequest'
+      description: Can not get the logs histogram because one or more request params
+        are invalid.
+    GetKubernetesLogsAutocompleteResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetKubernetesLogsAutocompleteResult'
+      description: Get logs autocomplete successful result
+    GetKubernetesLogsAutocompleteBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetKubernetesLogsAutocompleteBadRequest'
+      description: Can not get the logs autocomplete values because one or more request
+        params are invalid.
   schemas:
     GenericErrorsResponse:
       properties:
@@ -5381,6 +5232,38 @@ components:
       required:
       - name
       - token
+      type: object
+    Role:
+      example:
+        role: role
+      properties:
+        role:
+          type: string
+      type: object
+    RoleNotAvailableError:
+      properties:
+        _type:
+          enum:
+          - RoleNotAvailableError
+          type: string
+        role:
+          type: string
+      required:
+      - _type
+      - role
+      type: object
+    Roles:
+      example:
+        roles:
+        - roles
+        - roles
+      properties:
+        roles:
+          items:
+            type: string
+          type: array
+      required:
+      - roles
       type: object
     RequestError:
       discriminator:
@@ -7582,86 +7465,6 @@ components:
       - objectId
       - objectType
       type: object
-    DataStream:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/EventStream'
-      - $ref: '#/components/schemas/MetricStream'
-      type: object
-    EventStream:
-      properties:
-        _type:
-          enum:
-          - EventStream
-          type: string
-        dataSource:
-          format: int64
-          type: integer
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        description:
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        name:
-          type: string
-        priority:
-          $ref: '#/components/schemas/StreamPriority'
-        query:
-          $ref: '#/components/schemas/EventTelemetryQuery'
-        syncCreated:
-          type: boolean
-      required:
-      - _type
-      - dataSource
-      - dataType
-      - name
-      - query
-      - syncCreated
-      type: object
-    MetricStream:
-      properties:
-        _type:
-          enum:
-          - MetricStream
-          type: string
-        dataSource:
-          format: int64
-          type: integer
-        dataType:
-          $ref: '#/components/schemas/DataType'
-        description:
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        name:
-          type: string
-        priority:
-          $ref: '#/components/schemas/StreamPriority'
-        query:
-          $ref: '#/components/schemas/MetricTelemetryQuery'
-        staleAfter:
-          format: int64
-          type: integer
-        syncCreated:
-          type: boolean
-      required:
-      - _type
-      - dataSource
-      - dataType
-      - name
-      - query
-      - syncCreated
-      type: object
     StreamId:
       format: int64
       type: integer
@@ -7760,7 +7563,6 @@ components:
         function: 0
         _type: Check
         name: name
-        syncCreated: true
         description: description
         arguments:
         - null
@@ -7830,14 +7632,11 @@ components:
           type: string
         state:
           $ref: '#/components/schemas/CheckState'
-        syncCreated:
-          type: boolean
       required:
       - _type
       - arguments
       - function
       - name
-      - syncCreated
       type: object
     CheckState:
       discriminator:
@@ -7926,6 +7725,7 @@ components:
       type: object
     HealthStateValue:
       enum:
+      - UNINITIALIZED
       - UNKNOWN
       - CLEAR
       - DISABLED
@@ -8398,6 +8198,9 @@ components:
     PromStep:
       pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
       type: string
+    PromMaxNumberOfDataPoints:
+      format: int64
+      type: integer
     PromQueryRangeRequest:
       properties:
         query:
@@ -8410,6 +8213,8 @@ components:
           $ref: '#/components/schemas/PromStep'
         timeout:
           $ref: '#/components/schemas/PromTimeout'
+        maxNumberOfDataPoints:
+          $ref: '#/components/schemas/PromMaxNumberOfDataPoints'
       required:
       - end
       - query
@@ -8731,6 +8536,262 @@ components:
       - message
       - offset
       - partition
+      type: object
+    LogsDirection:
+      default: NEWEST
+      enum:
+      - NEWEST
+      - OLDEST
+      type: string
+    GetKubernetesLogsResult:
+      example:
+        pageSize: 0
+        page: 6
+        matchesTotal: 1
+        logs:
+        - podUID: podUID
+          containerName: containerName
+          podName: podName
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+        - podUID: podUID
+          containerName: containerName
+          podName: podName
+          message: message
+          timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        logs:
+          description: List of log records ordered by timestamps in ascending order.
+          items:
+            $ref: '#/components/schemas/KubernetesLogRecord'
+          type: array
+        pageSize:
+          description: Maximum number of the log lines in the result.
+          type: integer
+        page:
+          description: The requested logs page.
+          type: integer
+        matchesTotal:
+          description: The total amount of matching logs for the requested search
+            criteria.
+          format: int64
+          type: integer
+      required:
+      - logs
+      - matchesTotal
+      - page
+      - pageSize
+      type: object
+    KubernetesLogRecord:
+      example:
+        podUID: podUID
+        containerName: containerName
+        podName: podName
+        message: message
+        timestamp: 2000-01-23T04:56:07.000+00:00
+      properties:
+        timestamp:
+          format: date-time
+          type: string
+        message:
+          type: string
+        podName:
+          type: string
+        podUID:
+          type: string
+        containerName:
+          type: string
+      required:
+      - containerName
+      - message
+      - podName
+      - podUID
+      - timestamp
+      type: object
+    GetKubernetesLogsBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/GetKubernetesLogsInvalidTimeRange'
+      - $ref: '#/components/schemas/GetKubernetesLogsInvalidPagination'
+      - $ref: '#/components/schemas/GetKubernetesLogsInvalidQuery'
+      required:
+      - _type
+    GetKubernetesLogsInvalidTimeRange:
+      properties:
+        _type:
+          enum:
+          - InvalidTimeRange
+          type: string
+        message:
+          type: string
+        from:
+          format: instant
+          type: integer
+        to:
+          format: instant
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    GetKubernetesLogsInvalidPagination:
+      properties:
+        _type:
+          enum:
+          - InvalidPagination
+          type: string
+        message:
+          type: string
+        pageSize:
+          type: integer
+        page:
+          type: integer
+      required:
+      - _type
+      - message
+      - page
+      - pageSize
+      type: object
+    GetKubernetesLogsInvalidQuery:
+      properties:
+        _type:
+          enum:
+          - InvalidQuery
+          type: string
+        message:
+          type: string
+        query:
+          type: string
+      required:
+      - _type
+      - message
+      - query
+      type: object
+    GetKubernetesLogsHistogramResult:
+      example:
+        buckets:
+        - count: 0
+          startTime: 6
+          endTime: 1
+        - count: 0
+          startTime: 6
+          endTime: 1
+      properties:
+        buckets:
+          items:
+            $ref: '#/components/schemas/KubernetesLogHistogramBucket'
+          type: array
+      required:
+      - buckets
+      type: object
+    KubernetesLogHistogramBucket:
+      example:
+        count: 0
+        startTime: 6
+        endTime: 1
+      properties:
+        count:
+          description: Total logs record count in the bucket.
+          format: int64
+          type: integer
+        startTime:
+          description: The bucket initial timestamp.
+          format: instant
+          type: integer
+        endTime:
+          description: The bucket final timestamp.
+          format: instant
+          type: integer
+      required:
+      - count
+      - endTime
+      - startTime
+      type: object
+    GetKubernetesLogsHistogramBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/GetKubernetesLogsHistogramInvalidTimeRange'
+      - $ref: '#/components/schemas/GetKubernetesLogsHistogramInvalidQuery'
+      required:
+      - _type
+    GetKubernetesLogsHistogramInvalidTimeRange:
+      properties:
+        _type:
+          enum:
+          - InvalidTimeRange
+          type: string
+        message:
+          type: string
+        from:
+          format: instant
+          type: integer
+        to:
+          format: instant
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    GetKubernetesLogsHistogramInvalidQuery:
+      properties:
+        _type:
+          enum:
+          - InvalidQuery
+          type: string
+        message:
+          type: string
+        query:
+          type: string
+      required:
+      - _type
+      - message
+      - query
+      type: object
+    GetKubernetesLogsAutocompleteResult:
+      example:
+        containerNames:
+        - containerNames
+        - containerNames
+      properties:
+        containerNames:
+          items:
+            type: string
+          type: array
+      required:
+      - containerNames
+      type: object
+    GetKubernetesLogsAutocompleteBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/GetKubernetesLogsAutocompleteInvalidTimeRange'
+      required:
+      - _type
+    GetKubernetesLogsAutocompleteInvalidTimeRange:
+      properties:
+        _type:
+          enum:
+          - InvalidTimeRange
+          type: string
+        message:
+          type: string
+        from:
+          format: instant
+          type: integer
+        to:
+          format: instant
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
       type: object
     MessageLevel:
       enum:
@@ -9313,18 +9374,6 @@ components:
       - parameter
       - script
       type: object
-    DataType:
-      enum:
-      - METRICS
-      - TOPOLOGY_ELEMENTS
-      - EVENTS
-      type: string
-    StreamPriority:
-      enum:
-      - HIGH
-      - MEDIUM
-      - LOW
-      type: string
     NodeTypes_nodeTypes_inner:
       example:
         typeName: typeName
@@ -9381,14 +9430,25 @@ components:
         type: string
   securitySchemes:
     ApiToken:
+      description: |
+        Authenticate with your personal API token in the `X-API-Key` HTTP header.
+
+        To get your API token:
+         * Login to the StackState user-interface
+         * In the main-menu click on the `CLI` option
+         * Your API token is shown to you on this page.
       in: header
       name: X-API-Token
       type: apiKey
     ServiceToken:
+      description: |
+        For self-hosted installations only. Authenticate with a Kubernetes service token in the `X-API-Key` HTTP header. Also include the `X-API-ServiceBearer` header.
       in: header
       name: X-API-Key
       type: apiKey
     ServiceBearer:
+      description: |
+        Use in combination with a ServiceToken.
       in: header
       name: X-API-ServiceBearer
       type: apiKey

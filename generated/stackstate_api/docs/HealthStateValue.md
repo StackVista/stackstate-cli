@@ -3,6 +3,8 @@
 ## Enum
 
 
+* `UNINITIALIZED` (value: `"UNINITIALIZED"`)
+
 * `UNKNOWN` (value: `"UNKNOWN"`)
 
 * `CLEAR` (value: `"CLEAR"`)

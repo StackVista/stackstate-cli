@@ -1,9 +1,9 @@
 /*
 StackState API
 
-StackState's API specification
+This API documentation page describes the StackState server API. The StackState UI and CLI use the StackState server API to configure and query StackState.  You can use the API for similar purposes.  Each request sent to the StackState server API must be authenticated using one of the available authentication methods.   *Note that the StackState receiver API, used to send topology, telemetry and traces to StackState, is not described on this page and requires a different authentication method.*  For more information on StackState, refer to the [StackState documentation](https://docs.stackstate.com).
 
-API version: 0.0.1
+API version: 5.2.0
 Contact: info@stackstate.com
 */
 

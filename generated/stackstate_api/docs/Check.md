@@ -13,13 +13,12 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **RemediationHint** | Pointer to **string** |  | [optional] 
 **State** | Pointer to [**CheckState**](CheckState.md) |  | [optional] 
-**SyncCreated** | **bool** |  | 
 
 ## Methods
 
 ### NewCheck
 
-`func NewCheck(type_ string, arguments []Argument, function int64, name string, syncCreated bool, ) *Check`
+`func NewCheck(type_ string, arguments []Argument, function int64, name string, ) *Check`
 
 NewCheck instantiates a new Check object
 This constructor will assign default values to properties that have it defined,
@@ -238,26 +237,6 @@ SetState sets State field to given value.
 `func (o *Check) HasState() bool`
 
 HasState returns a boolean if a field has been set.
-
-### GetSyncCreated
-
-`func (o *Check) GetSyncCreated() bool`
-
-GetSyncCreated returns the SyncCreated field if non-nil, zero value otherwise.
-
-### GetSyncCreatedOk
-
-`func (o *Check) GetSyncCreatedOk() (*bool, bool)`
-
-GetSyncCreatedOk returns a tuple with the SyncCreated field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSyncCreated
-
-`func (o *Check) SetSyncCreated(v bool)`
-
-SetSyncCreated sets SyncCreated field to given value.
-
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
