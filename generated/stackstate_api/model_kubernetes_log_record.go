@@ -18,21 +18,23 @@ import (
 
 // KubernetesLogRecord struct for KubernetesLogRecord
 type KubernetesLogRecord struct {
-	Timestamp     time.Time `json:"timestamp"`
-	Message       string    `json:"message"`
-	PodName       string    `json:"podName"`
-	PodUID        string    `json:"podUID"`
-	ContainerName string    `json:"containerName"`
+	Timestamp     time.Time                `json:"timestamp"`
+	Message       string                   `json:"message"`
+	Highlights    []KubernetesLogHighlight `json:"highlights"`
+	PodName       string                   `json:"podName"`
+	PodUID        string                   `json:"podUID"`
+	ContainerName string                   `json:"containerName"`
 }
 
 // NewKubernetesLogRecord instantiates a new KubernetesLogRecord object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKubernetesLogRecord(timestamp time.Time, message string, podName string, podUID string, containerName string) *KubernetesLogRecord {
+func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string) *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
 	this.Timestamp = timestamp
 	this.Message = message
+	this.Highlights = highlights
 	this.PodName = podName
 	this.PodUID = podUID
 	this.ContainerName = containerName
@@ -93,6 +95,30 @@ func (o *KubernetesLogRecord) GetMessageOk() (*string, bool) {
 // SetMessage sets field value
 func (o *KubernetesLogRecord) SetMessage(v string) {
 	o.Message = v
+}
+
+// GetHighlights returns the Highlights field value
+func (o *KubernetesLogRecord) GetHighlights() []KubernetesLogHighlight {
+	if o == nil {
+		var ret []KubernetesLogHighlight
+		return ret
+	}
+
+	return o.Highlights
+}
+
+// GetHighlightsOk returns a tuple with the Highlights field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesLogRecord) GetHighlightsOk() ([]KubernetesLogHighlight, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Highlights, true
+}
+
+// SetHighlights sets field value
+func (o *KubernetesLogRecord) SetHighlights(v []KubernetesLogHighlight) {
+	o.Highlights = v
 }
 
 // GetPodName returns the PodName field value
@@ -174,6 +200,9 @@ func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["message"] = o.Message
+	}
+	if true {
+		toSerialize["highlights"] = o.Highlights
 	}
 	if true {
 		toSerialize["podName"] = o.PodName

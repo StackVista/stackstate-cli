@@ -133,6 +133,8 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**GetMonitorsOverview**](docs/MonitorApi.md#getmonitorsoverview) | **Get** /monitors/overview | List monitors overview
 *MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
 *NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
@@ -290,6 +292,7 @@ Class | Method | HTTP request | Description
  - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
+ - [KubernetesLogHighlight](docs/KubernetesLogHighlight.md)
  - [KubernetesLogHistogramBucket](docs/KubernetesLogHistogramBucket.md)
  - [KubernetesLogRecord](docs/KubernetesLogRecord.md)
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
@@ -309,6 +312,14 @@ Class | Method | HTTP request | Description
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
+ - [MonitorCheckStatus](docs/MonitorCheckStatus.md)
+ - [MonitorCheckStatusApiError](docs/MonitorCheckStatusApiError.md)
+ - [MonitorCheckStatusComponent](docs/MonitorCheckStatusComponent.md)
+ - [MonitorCheckStatusMetric](docs/MonitorCheckStatusMetric.md)
+ - [MonitorCheckStatusNotFoundError](docs/MonitorCheckStatusNotFoundError.md)
+ - [MonitorCheckStatusRelatedFailures](docs/MonitorCheckStatusRelatedFailures.md)
+ - [MonitorCheckStatusRelatedFailuresCheckStatus](docs/MonitorCheckStatusRelatedFailuresCheckStatus.md)
+ - [MonitorCheckStatusRelatedFailuresTopology](docs/MonitorCheckStatusRelatedFailuresTopology.md)
  - [MonitorError](docs/MonitorError.md)
  - [MonitorFunction](docs/MonitorFunction.md)
  - [MonitorInvalidIntervalError](docs/MonitorInvalidIntervalError.md)
@@ -350,6 +361,7 @@ Class | Method | HTTP request | Description
  - [PromSeriesEnvelope](docs/PromSeriesEnvelope.md)
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
+ - [PromqlMetricQuery](docs/PromqlMetricQuery.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [Reference](docs/Reference.md)

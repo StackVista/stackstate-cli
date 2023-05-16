@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Timestamp** | **time.Time** |  | 
 **Message** | **string** |  | 
+**Highlights** | [**[]KubernetesLogHighlight**](KubernetesLogHighlight.md) |  | 
 **PodName** | **string** |  | 
 **PodUID** | **string** |  | 
 **ContainerName** | **string** |  | 
@@ -14,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewKubernetesLogRecord
 
-`func NewKubernetesLogRecord(timestamp time.Time, message string, podName string, podUID string, containerName string, ) *KubernetesLogRecord`
+`func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, ) *KubernetesLogRecord`
 
 NewKubernetesLogRecord instantiates a new KubernetesLogRecord object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +68,26 @@ and a boolean to check if the value has been set.
 `func (o *KubernetesLogRecord) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
+
+
+### GetHighlights
+
+`func (o *KubernetesLogRecord) GetHighlights() []KubernetesLogHighlight`
+
+GetHighlights returns the Highlights field if non-nil, zero value otherwise.
+
+### GetHighlightsOk
+
+`func (o *KubernetesLogRecord) GetHighlightsOk() (*[]KubernetesLogHighlight, bool)`
+
+GetHighlightsOk returns a tuple with the Highlights field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHighlights
+
+`func (o *KubernetesLogRecord) SetHighlights(v []KubernetesLogHighlight)`
+
+SetHighlights sets Highlights field to given value.
 
 
 ### GetPodName

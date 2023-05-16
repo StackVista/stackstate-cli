@@ -671,6 +671,103 @@ paths:
       summary: List monitors overview
       tags:
       - monitor
+  /monitor/checkStatus/{id}:
+    get:
+      description: Get a monitor check status by check state id
+      operationId: getMonitorCheckStatus
+      parameters:
+      - description: The id of a monitor check status
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatus'
+          description: Monitor check status
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusApiError'
+          description: container for all error response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusNotFoundError'
+          description: monitor check status was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusApiError'
+          description: container for all error response
+      summary: Get a monitor check status
+      tags:
+      - monitorCheckStatus
+  /monitor/checkStatus/{id}/relatedFailures:
+    get:
+      description: Get a monitor check status related failures by the check state
+        id
+      operationId: getMonitorCheckStatusRelatedFailures
+      parameters:
+      - description: The id of a monitor check status
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusRelatedFailures'
+          description: Monitor check status related failures
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusApiError'
+          description: container for all error response
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusNotFoundError'
+          description: monitor check status was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusApiError'
+          description: container for all error response
+      summary: Get a monitor check related failures
+      tags:
+      - monitorCheckStatus
   /user/profile:
     get:
       description: Get current user profile.
@@ -2563,7 +2660,7 @@ paths:
         schema:
           $ref: '#/components/schemas/ProblemId'
       - description: A timestamp at which resources will be queried. If not given
-          the resources are quired for current time.
+          the resources are queried for current time.
         in: query
         name: topologyTime
         required: false
@@ -2581,7 +2678,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetCausingEventsResult'
-          description: Get events causing a problem successfull result
+          description: Get events causing a problem successful result
         "400":
           content:
             application/json:
@@ -2636,6 +2733,14 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/PromTimeout'
+      - description: Enforce additional label filters for queries
+        example: service=carts
+        explode: true
+        in: query
+        name: post_filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromPostFilter'
       responses:
         "200":
           content:
@@ -2676,6 +2781,10 @@ paths:
       requestBody:
         content:
           application/x-www-form-urlencoded:
+            encoding:
+              post_filter:
+                explode: true
+                style: form
             schema:
               $ref: '#/components/schemas/PromQueryRequest'
       responses:
@@ -2758,6 +2867,14 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/PromMaxNumberOfDataPoints'
+      - description: Enforce additional label filters for queries
+        example: service=carts
+        explode: true
+        in: query
+        name: post_filter
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromPostFilter'
       responses:
         "200":
           content:
@@ -2798,6 +2915,10 @@ paths:
       requestBody:
         content:
           application/x-www-form-urlencoded:
+            encoding:
+              post_filter:
+                explode: true
+                style: form
             schema:
               $ref: '#/components/schemas/PromQueryRangeRequest'
       responses:
@@ -3725,6 +3846,30 @@ components:
             $ref: '#/components/schemas/MonitorOverviewList'
       description: List of all available monitors with their function and runtime
         data
+    monitorCheckStatus:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorCheckStatus'
+      description: Monitor check status
+    monitorCheckStatusApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorCheckStatusApiError'
+      description: container for all error response
+    monitorCheckStatusNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorCheckStatusNotFoundError'
+      description: monitor check status was not found in the database
+    monitorCheckStatusRelatedFailures:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorCheckStatusRelatedFailures'
+      description: Monitor check status related failures
     userProfile:
       content:
         application/json:
@@ -3852,7 +3997,7 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/GetCausingEventsResult'
-      description: Get events causing a problem successfull result
+      description: Get events causing a problem successful result
     GetCausingEventsBadRequest:
       content:
         application/json:
@@ -5129,6 +5274,309 @@ components:
       - monitor
       - runtimeMetrics
       type: object
+    MonitorCheckStatus:
+      example:
+        topologyTime: 7
+        reason: reason
+        monitorId: 2
+        monitorName: monitorName
+        health: null
+        checkStateId: checkStateId
+        message: message
+        component:
+          identifier: identifier
+          cluster: cluster
+          iconbase64: iconbase64
+          name: name
+          namespace: namespace
+          id: 5
+          type: type
+        troubleshootingSteps: troubleshootingSteps
+        triggeredTimestamp: 6
+        monitorDescription: monitorDescription
+        id: 0
+        metrics:
+        - query:
+            unit: unit
+            query: query
+            alias: alias
+            description: description
+            identifierFormat: identifierFormat
+            startTime: 1
+            step: step
+            endTime: 5
+          _type: _type
+          name: name
+        - query:
+            unit: unit
+            query: query
+            alias: alias
+            description: description
+            identifierFormat: identifierFormat
+            startTime: 1
+            step: step
+            endTime: 5
+          _type: _type
+          name: name
+      properties:
+        id:
+          format: int64
+          type: integer
+        checkStateId:
+          type: string
+        message:
+          type: string
+        reason:
+          type: string
+        health:
+          $ref: '#/components/schemas/HealthStateValue'
+        triggeredTimestamp:
+          format: instant
+          type: integer
+        metrics:
+          items:
+            $ref: '#/components/schemas/MonitorCheckStatusMetric'
+          type: array
+        component:
+          $ref: '#/components/schemas/MonitorCheckStatusComponent'
+        monitorId:
+          format: int64
+          type: integer
+        monitorName:
+          type: string
+        monitorDescription:
+          type: string
+        troubleshootingSteps:
+          type: string
+        topologyTime:
+          format: instant
+          type: integer
+      required:
+      - checkStateId
+      - component
+      - health
+      - id
+      - message
+      - metrics
+      - monitorId
+      - monitorName
+      - topologyTime
+      - triggeredTimestamp
+      type: object
+    MonitorCheckStatusMetric:
+      example:
+        query:
+          unit: unit
+          query: query
+          alias: alias
+          description: description
+          identifierFormat: identifierFormat
+          startTime: 1
+          step: step
+          endTime: 5
+        _type: _type
+        name: name
+      properties:
+        _type:
+          type: string
+        name:
+          type: string
+        query:
+          $ref: '#/components/schemas/PromqlMetricQuery'
+      required:
+      - _type
+      - name
+      - query
+      type: object
+    PromqlMetricQuery:
+      example:
+        unit: unit
+        query: query
+        alias: alias
+        description: description
+        identifierFormat: identifierFormat
+        startTime: 1
+        step: step
+        endTime: 5
+      properties:
+        query:
+          type: string
+        alias:
+          type: string
+        description:
+          type: string
+        startTime:
+          format: instant
+          type: integer
+        endTime:
+          format: instant
+          type: integer
+        step:
+          pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
+          type: string
+        unit:
+          type: string
+        identifierFormat:
+          type: string
+      required:
+      - query
+      type: object
+    MonitorCheckStatusComponent:
+      example:
+        identifier: identifier
+        cluster: cluster
+        iconbase64: iconbase64
+        name: name
+        namespace: namespace
+        id: 5
+        type: type
+      properties:
+        id:
+          format: int64
+          type: integer
+        identifier:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+        iconbase64:
+          type: string
+        namespace:
+          type: string
+        cluster:
+          type: string
+      required:
+      - id
+      - identifier
+      - name
+      - type
+    MonitorCheckStatusApiError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    MonitorCheckStatusNotFoundError:
+      properties:
+        id:
+          format: int64
+          type: integer
+        _type:
+          enum:
+          - MonitorNotFoundError
+          type: string
+      required:
+      - _type
+      - id
+      type: object
+    MonitorCheckStatusRelatedFailures:
+      example:
+        topologyTime: 6
+        checkStatusId: 0
+        checkStatuses:
+        - component:
+            identifier: identifier
+            cluster: cluster
+            iconbase64: iconbase64
+            name: name
+            namespace: namespace
+            id: 5
+            type: type
+          triggeredTimestamp: 5
+          topology:
+            distance: 5
+            relation: SELF
+          name: name
+          health: null
+          id: 1
+        - component:
+            identifier: identifier
+            cluster: cluster
+            iconbase64: iconbase64
+            name: name
+            namespace: namespace
+            id: 5
+            type: type
+          triggeredTimestamp: 5
+          topology:
+            distance: 5
+            relation: SELF
+          name: name
+          health: null
+          id: 1
+      properties:
+        checkStatusId:
+          format: int64
+          type: integer
+        topologyTime:
+          format: instant
+          type: integer
+        checkStatuses:
+          items:
+            $ref: '#/components/schemas/MonitorCheckStatusRelatedFailuresCheckStatus'
+          type: array
+      required:
+      - checkStatusId
+      - checkStatuses
+      - topologyTime
+    MonitorCheckStatusRelatedFailuresCheckStatus:
+      example:
+        component:
+          identifier: identifier
+          cluster: cluster
+          iconbase64: iconbase64
+          name: name
+          namespace: namespace
+          id: 5
+          type: type
+        triggeredTimestamp: 5
+        topology:
+          distance: 5
+          relation: SELF
+        name: name
+        health: null
+        id: 1
+      properties:
+        id:
+          format: int64
+          type: integer
+        health:
+          $ref: '#/components/schemas/HealthStateValue'
+        name:
+          type: string
+        component:
+          $ref: '#/components/schemas/MonitorCheckStatusComponent'
+        topology:
+          $ref: '#/components/schemas/MonitorCheckStatusRelatedFailuresTopology'
+        triggeredTimestamp:
+          format: instant
+          type: integer
+      required:
+      - component
+      - health
+      - id
+      - name
+      - topology
+      - triggeredTimestamp
+    MonitorCheckStatusRelatedFailuresTopology:
+      example:
+        distance: 5
+        relation: SELF
+      properties:
+        distance:
+          type: integer
+        relation:
+          enum:
+          - SELF
+          - DEPENDENCY
+          - IMPACTED
+          - RELATED
+          type: string
+      required:
+      - distance
+      - relation
     UserNotFoundError:
       properties:
         _type:
@@ -8011,6 +8459,10 @@ components:
     PromTimeout:
       pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
       type: string
+    PromPostFilter:
+      items:
+        type: string
+      type: array
     PromEnvelope:
       example:
         data: null
@@ -8192,6 +8644,8 @@ components:
           $ref: '#/components/schemas/PromTime'
         timeout:
           $ref: '#/components/schemas/PromTimeout'
+        post_filter:
+          $ref: '#/components/schemas/PromPostFilter'
       required:
       - query
       type: object
@@ -8215,6 +8669,8 @@ components:
           $ref: '#/components/schemas/PromTimeout'
         maxNumberOfDataPoints:
           $ref: '#/components/schemas/PromMaxNumberOfDataPoints'
+        post_filter:
+          $ref: '#/components/schemas/PromPostFilter'
       required:
       - end
       - query
@@ -8545,16 +9001,26 @@ components:
       type: string
     GetKubernetesLogsResult:
       example:
-        pageSize: 0
-        page: 6
-        matchesTotal: 1
+        pageSize: 1
+        page: 5
+        matchesTotal: 5
         logs:
         - podUID: podUID
+          highlights:
+          - startIndex: 0
+            endIndex: 6
+          - startIndex: 0
+            endIndex: 6
           containerName: containerName
           podName: podName
           message: message
           timestamp: 2000-01-23T04:56:07.000+00:00
         - podUID: podUID
+          highlights:
+          - startIndex: 0
+            endIndex: 6
+          - startIndex: 0
+            endIndex: 6
           containerName: containerName
           podName: podName
           message: message
@@ -8585,6 +9051,11 @@ components:
     KubernetesLogRecord:
       example:
         podUID: podUID
+        highlights:
+        - startIndex: 0
+          endIndex: 6
+        - startIndex: 0
+          endIndex: 6
         containerName: containerName
         podName: podName
         message: message
@@ -8595,6 +9066,10 @@ components:
           type: string
         message:
           type: string
+        highlights:
+          items:
+            $ref: '#/components/schemas/KubernetesLogHighlight'
+          type: array
         podName:
           type: string
         podUID:
@@ -8603,10 +9078,26 @@ components:
           type: string
       required:
       - containerName
+      - highlights
       - message
       - podName
       - podUID
       - timestamp
+      type: object
+    KubernetesLogHighlight:
+      example:
+        startIndex: 0
+        endIndex: 6
+      properties:
+        startIndex:
+          description: Index of character in the message to start the highlight (0-based)
+          type: integer
+        endIndex:
+          description: Index of character in the message to end the highlight (0-based)
+          type: integer
+      required:
+      - endIndex
+      - startIndex
       type: object
     GetKubernetesLogsBadRequest:
       discriminator:

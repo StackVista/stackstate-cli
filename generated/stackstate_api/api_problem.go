@@ -49,7 +49,7 @@ type ApiGetProblemCausingEventsRequest struct {
 	limit        *int32
 }
 
-// A timestamp at which resources will be queried. If not given the resources are quired for current time.
+// A timestamp at which resources will be queried. If not given the resources are queried for current time.
 func (r ApiGetProblemCausingEventsRequest) TopologyTime(topologyTime int32) ApiGetProblemCausingEventsRequest {
 	r.topologyTime = &topologyTime
 	return r
