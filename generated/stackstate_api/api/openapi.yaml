@@ -5298,10 +5298,10 @@ components:
         metrics:
         - query:
             unit: unit
+            componentIdentifierTemplate: componentIdentifierTemplate
             query: query
             alias: alias
             description: description
-            identifierFormat: identifierFormat
             startTime: 1
             step: step
             endTime: 5
@@ -5309,10 +5309,10 @@ components:
           name: name
         - query:
             unit: unit
+            componentIdentifierTemplate: componentIdentifierTemplate
             query: query
             alias: alias
             description: description
-            identifierFormat: identifierFormat
             startTime: 1
             step: step
             endTime: 5
@@ -5367,10 +5367,10 @@ components:
       example:
         query:
           unit: unit
+          componentIdentifierTemplate: componentIdentifierTemplate
           query: query
           alias: alias
           description: description
-          identifierFormat: identifierFormat
           startTime: 1
           step: step
           endTime: 5
@@ -5391,10 +5391,10 @@ components:
     PromqlMetricQuery:
       example:
         unit: unit
+        componentIdentifierTemplate: componentIdentifierTemplate
         query: query
         alias: alias
         description: description
-        identifierFormat: identifierFormat
         startTime: 1
         step: step
         endTime: 5
@@ -5416,7 +5416,7 @@ components:
           type: string
         unit:
           type: string
-        identifierFormat:
+        componentIdentifierTemplate:
           type: string
       required:
       - query

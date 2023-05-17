@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **EndTime** | Pointer to **int32** |  | [optional] 
 **Step** | Pointer to **string** |  | [optional] 
 **Unit** | Pointer to **string** |  | [optional] 
-**IdentifierFormat** | Pointer to **string** |  | [optional] 
+**ComponentIdentifierTemplate** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -202,30 +202,30 @@ SetUnit sets Unit field to given value.
 
 HasUnit returns a boolean if a field has been set.
 
-### GetIdentifierFormat
+### GetComponentIdentifierTemplate
 
-`func (o *PromqlMetricQuery) GetIdentifierFormat() string`
+`func (o *PromqlMetricQuery) GetComponentIdentifierTemplate() string`
 
-GetIdentifierFormat returns the IdentifierFormat field if non-nil, zero value otherwise.
+GetComponentIdentifierTemplate returns the ComponentIdentifierTemplate field if non-nil, zero value otherwise.
 
-### GetIdentifierFormatOk
+### GetComponentIdentifierTemplateOk
 
-`func (o *PromqlMetricQuery) GetIdentifierFormatOk() (*string, bool)`
+`func (o *PromqlMetricQuery) GetComponentIdentifierTemplateOk() (*string, bool)`
 
-GetIdentifierFormatOk returns a tuple with the IdentifierFormat field if it's non-nil, zero value otherwise
+GetComponentIdentifierTemplateOk returns a tuple with the ComponentIdentifierTemplate field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIdentifierFormat
+### SetComponentIdentifierTemplate
 
-`func (o *PromqlMetricQuery) SetIdentifierFormat(v string)`
+`func (o *PromqlMetricQuery) SetComponentIdentifierTemplate(v string)`
 
-SetIdentifierFormat sets IdentifierFormat field to given value.
+SetComponentIdentifierTemplate sets ComponentIdentifierTemplate field to given value.
 
-### HasIdentifierFormat
+### HasComponentIdentifierTemplate
 
-`func (o *PromqlMetricQuery) HasIdentifierFormat() bool`
+`func (o *PromqlMetricQuery) HasComponentIdentifierTemplate() bool`
 
-HasIdentifierFormat returns a boolean if a field has been set.
+HasComponentIdentifierTemplate returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -17,14 +17,14 @@ import (
 
 // PromqlMetricQuery struct for PromqlMetricQuery
 type PromqlMetricQuery struct {
-	Query            string  `json:"query"`
-	Alias            *string `json:"alias,omitempty"`
-	Description      *string `json:"description,omitempty"`
-	StartTime        *int32  `json:"startTime,omitempty"`
-	EndTime          *int32  `json:"endTime,omitempty"`
-	Step             *string `json:"step,omitempty"`
-	Unit             *string `json:"unit,omitempty"`
-	IdentifierFormat *string `json:"identifierFormat,omitempty"`
+	Query                       string  `json:"query"`
+	Alias                       *string `json:"alias,omitempty"`
+	Description                 *string `json:"description,omitempty"`
+	StartTime                   *int32  `json:"startTime,omitempty"`
+	EndTime                     *int32  `json:"endTime,omitempty"`
+	Step                        *string `json:"step,omitempty"`
+	Unit                        *string `json:"unit,omitempty"`
+	ComponentIdentifierTemplate *string `json:"componentIdentifierTemplate,omitempty"`
 }
 
 // NewPromqlMetricQuery instantiates a new PromqlMetricQuery object
@@ -261,36 +261,36 @@ func (o *PromqlMetricQuery) SetUnit(v string) {
 	o.Unit = &v
 }
 
-// GetIdentifierFormat returns the IdentifierFormat field value if set, zero value otherwise.
-func (o *PromqlMetricQuery) GetIdentifierFormat() string {
-	if o == nil || o.IdentifierFormat == nil {
+// GetComponentIdentifierTemplate returns the ComponentIdentifierTemplate field value if set, zero value otherwise.
+func (o *PromqlMetricQuery) GetComponentIdentifierTemplate() string {
+	if o == nil || o.ComponentIdentifierTemplate == nil {
 		var ret string
 		return ret
 	}
-	return *o.IdentifierFormat
+	return *o.ComponentIdentifierTemplate
 }
 
-// GetIdentifierFormatOk returns a tuple with the IdentifierFormat field value if set, nil otherwise
+// GetComponentIdentifierTemplateOk returns a tuple with the ComponentIdentifierTemplate field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PromqlMetricQuery) GetIdentifierFormatOk() (*string, bool) {
-	if o == nil || o.IdentifierFormat == nil {
+func (o *PromqlMetricQuery) GetComponentIdentifierTemplateOk() (*string, bool) {
+	if o == nil || o.ComponentIdentifierTemplate == nil {
 		return nil, false
 	}
-	return o.IdentifierFormat, true
+	return o.ComponentIdentifierTemplate, true
 }
 
-// HasIdentifierFormat returns a boolean if a field has been set.
-func (o *PromqlMetricQuery) HasIdentifierFormat() bool {
-	if o != nil && o.IdentifierFormat != nil {
+// HasComponentIdentifierTemplate returns a boolean if a field has been set.
+func (o *PromqlMetricQuery) HasComponentIdentifierTemplate() bool {
+	if o != nil && o.ComponentIdentifierTemplate != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetIdentifierFormat gets a reference to the given string and assigns it to the IdentifierFormat field.
-func (o *PromqlMetricQuery) SetIdentifierFormat(v string) {
-	o.IdentifierFormat = &v
+// SetComponentIdentifierTemplate gets a reference to the given string and assigns it to the ComponentIdentifierTemplate field.
+func (o *PromqlMetricQuery) SetComponentIdentifierTemplate(v string) {
+	o.ComponentIdentifierTemplate = &v
 }
 
 func (o PromqlMetricQuery) MarshalJSON() ([]byte, error) {
@@ -316,8 +316,8 @@ func (o PromqlMetricQuery) MarshalJSON() ([]byte, error) {
 	if o.Unit != nil {
 		toSerialize["unit"] = o.Unit
 	}
-	if o.IdentifierFormat != nil {
-		toSerialize["identifierFormat"] = o.IdentifierFormat
+	if o.ComponentIdentifierTemplate != nil {
+		toSerialize["componentIdentifierTemplate"] = o.ComponentIdentifierTemplate
 	}
 	return json.Marshal(toSerialize)
 }
