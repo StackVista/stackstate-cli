@@ -25,7 +25,7 @@ const (
 	PartitionUsage = "The Kafka partition to query"
 	FileUsage      = "The JSON output file to save the messages to"
 
-	DefaultLimit   = int32(10)
+	DefaultLimit = int32(10)
 )
 
 type DescribeArgs struct {
@@ -61,15 +61,15 @@ func argValueError(name string, value int32) common.CLIError {
 }
 
 func fetchMessages(request stackstate_api.ApiDescribeRequest, args *DescribeArgs) ([]stackstate_api.Message, common.CLIError) {
-  if args.Offset != -1 {
-    request = request.Offset(args.Offset)
-  }
+	if args.Offset != -1 {
+		request = request.Offset(args.Offset)
+	}
 
-  result, resp, err := request.Limit(args.Limit).Execute()
+	result, resp, err := request.Limit(args.Limit).Execute()
 
-  if err != nil {
-    return nil, common.NewResponseError(err, resp)
-  }
+	if err != nil {
+		return nil, common.NewResponseError(err, resp)
+	}
 
 	return result.Messages, nil
 }

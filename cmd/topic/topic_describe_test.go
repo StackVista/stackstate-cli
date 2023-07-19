@@ -231,4 +231,3 @@ func TestTopicDescribeMoreThanAvailable(t *testing.T) {
 
 	assert.Equal(t, expectedJson, *cli.MockPrinter.PrintJsonCalls)
 }
-
