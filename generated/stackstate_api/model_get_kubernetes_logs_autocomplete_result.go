@@ -17,16 +17,18 @@ import (
 
 // GetKubernetesLogsAutocompleteResult struct for GetKubernetesLogsAutocompleteResult
 type GetKubernetesLogsAutocompleteResult struct {
-	ContainerNames []string `json:"containerNames"`
+	ContainerNames []string   `json:"containerNames"`
+	Levels         []LogLevel `json:"levels"`
 }
 
 // NewGetKubernetesLogsAutocompleteResult instantiates a new GetKubernetesLogsAutocompleteResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetKubernetesLogsAutocompleteResult(containerNames []string) *GetKubernetesLogsAutocompleteResult {
+func NewGetKubernetesLogsAutocompleteResult(containerNames []string, levels []LogLevel) *GetKubernetesLogsAutocompleteResult {
 	this := GetKubernetesLogsAutocompleteResult{}
 	this.ContainerNames = containerNames
+	this.Levels = levels
 	return &this
 }
 
@@ -62,10 +64,37 @@ func (o *GetKubernetesLogsAutocompleteResult) SetContainerNames(v []string) {
 	o.ContainerNames = v
 }
 
+// GetLevels returns the Levels field value
+func (o *GetKubernetesLogsAutocompleteResult) GetLevels() []LogLevel {
+	if o == nil {
+		var ret []LogLevel
+		return ret
+	}
+
+	return o.Levels
+}
+
+// GetLevelsOk returns a tuple with the Levels field value
+// and a boolean to check if the value has been set.
+func (o *GetKubernetesLogsAutocompleteResult) GetLevelsOk() ([]LogLevel, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Levels, true
+}
+
+// SetLevels sets field value
+func (o *GetKubernetesLogsAutocompleteResult) SetLevels(v []LogLevel) {
+	o.Levels = v
+}
+
 func (o GetKubernetesLogsAutocompleteResult) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["containerNames"] = o.ContainerNames
+	}
+	if true {
+		toSerialize["levels"] = o.Levels
 	}
 	return json.Marshal(toSerialize)
 }

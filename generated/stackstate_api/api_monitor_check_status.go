@@ -38,6 +38,21 @@ type MonitorCheckStatusApi interface {
 	GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error)
 
 	/*
+		GetMonitorCheckStatusHealthHistory Get a monitor check health hisotry
+
+		Get a monitor check status health history for a defined period of time by the check state id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param id The id of a monitor check status
+		@return ApiGetMonitorCheckStatusHealthHistoryRequest
+	*/
+	GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest
+
+	// GetMonitorCheckStatusHealthHistoryExecute executes the request
+	//  @return MonitorCheckStatusHealthHistory
+	GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error)
+
+	/*
 		GetMonitorCheckStatusRelatedFailures Get a monitor check related failures
 
 		Get a monitor check status related failures by the check state id
@@ -208,6 +223,191 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 		}
 		if localVarHTTPResponse.StatusCode == 404 {
 			var v MonitorCheckStatusNotFoundError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v MonitorCheckStatusApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetMonitorCheckStatusHealthHistoryRequest struct {
+	ctx        context.Context
+	ApiService MonitorCheckStatusApi
+	id         int64
+	startTime  *int32
+	endTime    *int32
+}
+
+// The start time of a time range to query resources.
+func (r ApiGetMonitorCheckStatusHealthHistoryRequest) StartTime(startTime int32) ApiGetMonitorCheckStatusHealthHistoryRequest {
+	r.startTime = &startTime
+	return r
+}
+
+// The end time of a time range to query resources. If not given the endTime is set to current time.
+func (r ApiGetMonitorCheckStatusHealthHistoryRequest) EndTime(endTime int32) ApiGetMonitorCheckStatusHealthHistoryRequest {
+	r.endTime = &endTime
+	return r
+}
+
+func (r ApiGetMonitorCheckStatusHealthHistoryRequest) Execute() (*MonitorCheckStatusHealthHistory, *http.Response, error) {
+	return r.ApiService.GetMonitorCheckStatusHealthHistoryExecute(r)
+}
+
+/*
+GetMonitorCheckStatusHealthHistory Get a monitor check health hisotry
+
+Get a monitor check status health history for a defined period of time by the check state id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param id The id of a monitor check status
+ @return ApiGetMonitorCheckStatusHealthHistoryRequest
+*/
+func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
+	return ApiGetMonitorCheckStatusHealthHistoryRequest{
+		ApiService: a,
+		ctx:        ctx,
+		id:         id,
+	}
+}
+
+// Execute executes the request
+//  @return MonitorCheckStatusHealthHistory
+func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorCheckStatusHealthHistory
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusApiService.GetMonitorCheckStatusHealthHistory")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/monitor/checkStatus/{id}/healthHistory"
+	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.startTime == nil {
+		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
+	}
+
+	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
+	if r.endTime != nil {
+		localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v MonitorCheckStatusApiError
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -431,15 +631,19 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecu
 type MonitorCheckStatusApiMock struct {
 	GetMonitorCheckStatusCalls                   *[]GetMonitorCheckStatusCall
 	GetMonitorCheckStatusResponse                GetMonitorCheckStatusMockResponse
+	GetMonitorCheckStatusHealthHistoryCalls      *[]GetMonitorCheckStatusHealthHistoryCall
+	GetMonitorCheckStatusHealthHistoryResponse   GetMonitorCheckStatusHealthHistoryMockResponse
 	GetMonitorCheckStatusRelatedFailuresCalls    *[]GetMonitorCheckStatusRelatedFailuresCall
 	GetMonitorCheckStatusRelatedFailuresResponse GetMonitorCheckStatusRelatedFailuresMockResponse
 }
 
 func NewMonitorCheckStatusApiMock() MonitorCheckStatusApiMock {
 	xGetMonitorCheckStatusCalls := make([]GetMonitorCheckStatusCall, 0)
+	xGetMonitorCheckStatusHealthHistoryCalls := make([]GetMonitorCheckStatusHealthHistoryCall, 0)
 	xGetMonitorCheckStatusRelatedFailuresCalls := make([]GetMonitorCheckStatusRelatedFailuresCall, 0)
 	return MonitorCheckStatusApiMock{
 		GetMonitorCheckStatusCalls:                &xGetMonitorCheckStatusCalls,
+		GetMonitorCheckStatusHealthHistoryCalls:   &xGetMonitorCheckStatusHealthHistoryCalls,
 		GetMonitorCheckStatusRelatedFailuresCalls: &xGetMonitorCheckStatusRelatedFailuresCalls,
 	}
 }
@@ -470,6 +674,36 @@ func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusExecute(r ApiGetMonit
 	}
 	*mock.GetMonitorCheckStatusCalls = append(*mock.GetMonitorCheckStatusCalls, p)
 	return &mock.GetMonitorCheckStatusResponse.Result, mock.GetMonitorCheckStatusResponse.Response, mock.GetMonitorCheckStatusResponse.Error
+}
+
+type GetMonitorCheckStatusHealthHistoryMockResponse struct {
+	Result   MonitorCheckStatusHealthHistory
+	Response *http.Response
+	Error    error
+}
+
+type GetMonitorCheckStatusHealthHistoryCall struct {
+	Pid        int64
+	PstartTime *int32
+	PendTime   *int32
+}
+
+func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
+	return ApiGetMonitorCheckStatusHealthHistoryRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		id:         id,
+	}
+}
+
+func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
+	p := GetMonitorCheckStatusHealthHistoryCall{
+		Pid:        r.id,
+		PstartTime: r.startTime,
+		PendTime:   r.endTime,
+	}
+	*mock.GetMonitorCheckStatusHealthHistoryCalls = append(*mock.GetMonitorCheckStatusHealthHistoryCalls, p)
+	return &mock.GetMonitorCheckStatusHealthHistoryResponse.Result, mock.GetMonitorCheckStatusHealthHistoryResponse.Response, mock.GetMonitorCheckStatusHealthHistoryResponse.Error
 }
 
 type GetMonitorCheckStatusRelatedFailuresMockResponse struct {

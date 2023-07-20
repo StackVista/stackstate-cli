@@ -134,6 +134,7 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
 *NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
@@ -294,10 +295,12 @@ Class | Method | HTTP request | Description
  - [InvalidUrn](docs/InvalidUrn.md)
  - [KubernetesLogHighlight](docs/KubernetesLogHighlight.md)
  - [KubernetesLogHistogramBucket](docs/KubernetesLogHistogramBucket.md)
+ - [KubernetesLogLevelHistogramBucket](docs/KubernetesLogLevelHistogramBucket.md)
  - [KubernetesLogRecord](docs/KubernetesLogRecord.md)
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
+ - [LogLevel](docs/LogLevel.md)
  - [LogsDirection](docs/LogsDirection.md)
  - [Message](docs/Message.md)
  - [MessageLevel](docs/MessageLevel.md)
@@ -315,8 +318,11 @@ Class | Method | HTTP request | Description
  - [MonitorCheckStatus](docs/MonitorCheckStatus.md)
  - [MonitorCheckStatusApiError](docs/MonitorCheckStatusApiError.md)
  - [MonitorCheckStatusComponent](docs/MonitorCheckStatusComponent.md)
+ - [MonitorCheckStatusHealthChange](docs/MonitorCheckStatusHealthChange.md)
+ - [MonitorCheckStatusHealthHistory](docs/MonitorCheckStatusHealthHistory.md)
  - [MonitorCheckStatusMetric](docs/MonitorCheckStatusMetric.md)
  - [MonitorCheckStatusNotFoundError](docs/MonitorCheckStatusNotFoundError.md)
+ - [MonitorCheckStatusQuery](docs/MonitorCheckStatusQuery.md)
  - [MonitorCheckStatusRelatedFailures](docs/MonitorCheckStatusRelatedFailures.md)
  - [MonitorCheckStatusRelatedFailuresCheckStatus](docs/MonitorCheckStatusRelatedFailuresCheckStatus.md)
  - [MonitorCheckStatusRelatedFailuresTopology](docs/MonitorCheckStatusRelatedFailuresTopology.md)
@@ -361,7 +367,6 @@ Class | Method | HTTP request | Description
  - [PromSeriesEnvelope](docs/PromSeriesEnvelope.md)
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
- - [PromqlMetricQuery](docs/PromqlMetricQuery.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [Reference](docs/Reference.md)

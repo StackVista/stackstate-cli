@@ -17,20 +17,23 @@ import (
 
 // MonitorCheckStatusMetric struct for MonitorCheckStatusMetric
 type MonitorCheckStatusMetric struct {
-	Type  string            `json:"_type"`
-	Name  string            `json:"name"`
-	Query PromqlMetricQuery `json:"query"`
+	Type        string                    `json:"_type"`
+	Name        string                    `json:"name"`
+	Description *string                   `json:"description,omitempty"`
+	Unit        *string                   `json:"unit,omitempty"`
+	Step        *string                   `json:"step,omitempty"`
+	Queries     []MonitorCheckStatusQuery `json:"queries"`
 }
 
 // NewMonitorCheckStatusMetric instantiates a new MonitorCheckStatusMetric object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCheckStatusMetric(type_ string, name string, query PromqlMetricQuery) *MonitorCheckStatusMetric {
+func NewMonitorCheckStatusMetric(type_ string, name string, queries []MonitorCheckStatusQuery) *MonitorCheckStatusMetric {
 	this := MonitorCheckStatusMetric{}
 	this.Type = type_
 	this.Name = name
-	this.Query = query
+	this.Queries = queries
 	return &this
 }
 
@@ -90,28 +93,124 @@ func (o *MonitorCheckStatusMetric) SetName(v string) {
 	o.Name = v
 }
 
-// GetQuery returns the Query field value
-func (o *MonitorCheckStatusMetric) GetQuery() PromqlMetricQuery {
+// GetDescription returns the Description field value if set, zero value otherwise.
+func (o *MonitorCheckStatusMetric) GetDescription() string {
+	if o == nil || o.Description == nil {
+		var ret string
+		return ret
+	}
+	return *o.Description
+}
+
+// GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorCheckStatusMetric) GetDescriptionOk() (*string, bool) {
+	if o == nil || o.Description == nil {
+		return nil, false
+	}
+	return o.Description, true
+}
+
+// HasDescription returns a boolean if a field has been set.
+func (o *MonitorCheckStatusMetric) HasDescription() bool {
+	if o != nil && o.Description != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDescription gets a reference to the given string and assigns it to the Description field.
+func (o *MonitorCheckStatusMetric) SetDescription(v string) {
+	o.Description = &v
+}
+
+// GetUnit returns the Unit field value if set, zero value otherwise.
+func (o *MonitorCheckStatusMetric) GetUnit() string {
+	if o == nil || o.Unit == nil {
+		var ret string
+		return ret
+	}
+	return *o.Unit
+}
+
+// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorCheckStatusMetric) GetUnitOk() (*string, bool) {
+	if o == nil || o.Unit == nil {
+		return nil, false
+	}
+	return o.Unit, true
+}
+
+// HasUnit returns a boolean if a field has been set.
+func (o *MonitorCheckStatusMetric) HasUnit() bool {
+	if o != nil && o.Unit != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetUnit gets a reference to the given string and assigns it to the Unit field.
+func (o *MonitorCheckStatusMetric) SetUnit(v string) {
+	o.Unit = &v
+}
+
+// GetStep returns the Step field value if set, zero value otherwise.
+func (o *MonitorCheckStatusMetric) GetStep() string {
+	if o == nil || o.Step == nil {
+		var ret string
+		return ret
+	}
+	return *o.Step
+}
+
+// GetStepOk returns a tuple with the Step field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorCheckStatusMetric) GetStepOk() (*string, bool) {
+	if o == nil || o.Step == nil {
+		return nil, false
+	}
+	return o.Step, true
+}
+
+// HasStep returns a boolean if a field has been set.
+func (o *MonitorCheckStatusMetric) HasStep() bool {
+	if o != nil && o.Step != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetStep gets a reference to the given string and assigns it to the Step field.
+func (o *MonitorCheckStatusMetric) SetStep(v string) {
+	o.Step = &v
+}
+
+// GetQueries returns the Queries field value
+func (o *MonitorCheckStatusMetric) GetQueries() []MonitorCheckStatusQuery {
 	if o == nil {
-		var ret PromqlMetricQuery
+		var ret []MonitorCheckStatusQuery
 		return ret
 	}
 
-	return o.Query
+	return o.Queries
 }
 
-// GetQueryOk returns a tuple with the Query field value
+// GetQueriesOk returns a tuple with the Queries field value
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusMetric) GetQueryOk() (*PromqlMetricQuery, bool) {
+func (o *MonitorCheckStatusMetric) GetQueriesOk() ([]MonitorCheckStatusQuery, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Query, true
+	return o.Queries, true
 }
 
-// SetQuery sets field value
-func (o *MonitorCheckStatusMetric) SetQuery(v PromqlMetricQuery) {
-	o.Query = v
+// SetQueries sets field value
+func (o *MonitorCheckStatusMetric) SetQueries(v []MonitorCheckStatusQuery) {
+	o.Queries = v
 }
 
 func (o MonitorCheckStatusMetric) MarshalJSON() ([]byte, error) {
@@ -122,8 +221,17 @@ func (o MonitorCheckStatusMetric) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["name"] = o.Name
 	}
+	if o.Description != nil {
+		toSerialize["description"] = o.Description
+	}
+	if o.Unit != nil {
+		toSerialize["unit"] = o.Unit
+	}
+	if o.Step != nil {
+		toSerialize["step"] = o.Step
+	}
 	if true {
-		toSerialize["query"] = o.Query
+		toSerialize["queries"] = o.Queries
 	}
 	return json.Marshal(toSerialize)
 }

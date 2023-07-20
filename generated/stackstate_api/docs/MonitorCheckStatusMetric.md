@@ -6,13 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Name** | **string** |  | 
-**Query** | [**PromqlMetricQuery**](PromqlMetricQuery.md) |  | 
+**Description** | Pointer to **string** |  | [optional] 
+**Unit** | Pointer to **string** |  | [optional] 
+**Step** | Pointer to **string** |  | [optional] 
+**Queries** | [**[]MonitorCheckStatusQuery**](MonitorCheckStatusQuery.md) |  | 
 
 ## Methods
 
 ### NewMonitorCheckStatusMetric
 
-`func NewMonitorCheckStatusMetric(type_ string, name string, query PromqlMetricQuery, ) *MonitorCheckStatusMetric`
+`func NewMonitorCheckStatusMetric(type_ string, name string, queries []MonitorCheckStatusQuery, ) *MonitorCheckStatusMetric`
 
 NewMonitorCheckStatusMetric instantiates a new MonitorCheckStatusMetric object
 This constructor will assign default values to properties that have it defined,
@@ -67,24 +70,99 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetQuery
+### GetDescription
 
-`func (o *MonitorCheckStatusMetric) GetQuery() PromqlMetricQuery`
+`func (o *MonitorCheckStatusMetric) GetDescription() string`
 
-GetQuery returns the Query field if non-nil, zero value otherwise.
+GetDescription returns the Description field if non-nil, zero value otherwise.
 
-### GetQueryOk
+### GetDescriptionOk
 
-`func (o *MonitorCheckStatusMetric) GetQueryOk() (*PromqlMetricQuery, bool)`
+`func (o *MonitorCheckStatusMetric) GetDescriptionOk() (*string, bool)`
 
-GetQueryOk returns a tuple with the Query field if it's non-nil, zero value otherwise
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetQuery
+### SetDescription
 
-`func (o *MonitorCheckStatusMetric) SetQuery(v PromqlMetricQuery)`
+`func (o *MonitorCheckStatusMetric) SetDescription(v string)`
 
-SetQuery sets Query field to given value.
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *MonitorCheckStatusMetric) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
+
+### GetUnit
+
+`func (o *MonitorCheckStatusMetric) GetUnit() string`
+
+GetUnit returns the Unit field if non-nil, zero value otherwise.
+
+### GetUnitOk
+
+`func (o *MonitorCheckStatusMetric) GetUnitOk() (*string, bool)`
+
+GetUnitOk returns a tuple with the Unit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetUnit
+
+`func (o *MonitorCheckStatusMetric) SetUnit(v string)`
+
+SetUnit sets Unit field to given value.
+
+### HasUnit
+
+`func (o *MonitorCheckStatusMetric) HasUnit() bool`
+
+HasUnit returns a boolean if a field has been set.
+
+### GetStep
+
+`func (o *MonitorCheckStatusMetric) GetStep() string`
+
+GetStep returns the Step field if non-nil, zero value otherwise.
+
+### GetStepOk
+
+`func (o *MonitorCheckStatusMetric) GetStepOk() (*string, bool)`
+
+GetStepOk returns a tuple with the Step field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStep
+
+`func (o *MonitorCheckStatusMetric) SetStep(v string)`
+
+SetStep sets Step field to given value.
+
+### HasStep
+
+`func (o *MonitorCheckStatusMetric) HasStep() bool`
+
+HasStep returns a boolean if a field has been set.
+
+### GetQueries
+
+`func (o *MonitorCheckStatusMetric) GetQueries() []MonitorCheckStatusQuery`
+
+GetQueries returns the Queries field if non-nil, zero value otherwise.
+
+### GetQueriesOk
+
+`func (o *MonitorCheckStatusMetric) GetQueriesOk() (*[]MonitorCheckStatusQuery, bool)`
+
+GetQueriesOk returns a tuple with the Queries field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetQueries
+
+`func (o *MonitorCheckStatusMetric) SetQueries(v []MonitorCheckStatusQuery)`
+
+SetQueries sets Queries field to given value.
 
 
 

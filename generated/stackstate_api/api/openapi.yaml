@@ -768,6 +768,56 @@ paths:
       summary: Get a monitor check related failures
       tags:
       - monitorCheckStatus
+  /monitor/checkStatus/{id}/healthHistory:
+    get:
+      description: Get a monitor check status health history for a defined period
+        of time by the check state id
+      operationId: getMonitorCheckStatusHealthHistory
+      parameters:
+      - description: The id of a monitor check status
+        in: path
+        name: id
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: The start time of a time range to query resources.
+        in: query
+        name: startTime
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources. If not given
+          the endTime is set to current time.
+        in: query
+        name: endTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusHealthHistory'
+          description: Monitor check status health history
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusApiError'
+          description: container for all error response
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStatusApiError'
+          description: container for all error response
+      summary: Get a monitor check health hisotry
+      tags:
+      - monitorCheckStatus
   /user/profile:
     get:
       description: Get current user profile.
@@ -3632,6 +3682,13 @@ paths:
         name: direction
         schema:
           $ref: '#/components/schemas/LogsDirection'
+      - description: "Search a specific log level DEBUG, INFO, WARN, ERROR."
+        in: query
+        name: levels
+        schema:
+          items:
+            $ref: '#/components/schemas/LogLevel'
+          type: array
       responses:
         "200":
           content:
@@ -3700,6 +3757,13 @@ paths:
         schema:
           format: int32
           type: integer
+      - description: "Search a specific log level DEBUG, INFO, WARN, ERROR."
+        in: query
+        name: levels
+        schema:
+          items:
+            $ref: '#/components/schemas/LogLevel'
+          type: array
       responses:
         "200":
           content:
@@ -3870,6 +3934,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorCheckStatusRelatedFailures'
       description: Monitor check status related failures
+    monitorCheckStatusHealthHistory:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorCheckStatusHealthHistory'
+      description: Monitor check status health history
     userProfile:
       content:
         application/json:
@@ -5276,9 +5346,9 @@ components:
       type: object
     MonitorCheckStatus:
       example:
-        topologyTime: 7
+        topologyTime: 5
         reason: reason
-        monitorId: 2
+        monitorId: 5
         monitorName: monitorName
         health: null
         checkStateId: checkStateId
@@ -5289,35 +5359,37 @@ components:
           iconbase64: iconbase64
           name: name
           namespace: namespace
-          id: 5
+          id: 1
           type: type
         troubleshootingSteps: troubleshootingSteps
         triggeredTimestamp: 6
         monitorDescription: monitorDescription
         id: 0
         metrics:
-        - query:
-            unit: unit
-            componentIdentifierTemplate: componentIdentifierTemplate
-            query: query
-            alias: alias
-            description: description
-            startTime: 1
-            step: step
-            endTime: 5
+        - unit: unit
           _type: _type
           name: name
-        - query:
-            unit: unit
-            componentIdentifierTemplate: componentIdentifierTemplate
+          description: description
+          step: step
+          queries:
+          - componentIdentifierTemplate: componentIdentifierTemplate
             query: query
             alias: alias
-            description: description
-            startTime: 1
-            step: step
-            endTime: 5
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
+        - unit: unit
           _type: _type
           name: name
+          description: description
+          step: step
+          queries:
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
       properties:
         id:
           format: int64
@@ -5365,56 +5437,48 @@ components:
       type: object
     MonitorCheckStatusMetric:
       example:
-        query:
-          unit: unit
-          componentIdentifierTemplate: componentIdentifierTemplate
-          query: query
-          alias: alias
-          description: description
-          startTime: 1
-          step: step
-          endTime: 5
+        unit: unit
         _type: _type
         name: name
+        description: description
+        step: step
+        queries:
+        - componentIdentifierTemplate: componentIdentifierTemplate
+          query: query
+          alias: alias
+        - componentIdentifierTemplate: componentIdentifierTemplate
+          query: query
+          alias: alias
       properties:
         _type:
           type: string
         name:
           type: string
-        query:
-          $ref: '#/components/schemas/PromqlMetricQuery'
+        description:
+          type: string
+        unit:
+          type: string
+        step:
+          pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
+          type: string
+        queries:
+          items:
+            $ref: '#/components/schemas/MonitorCheckStatusQuery'
+          type: array
       required:
       - _type
       - name
-      - query
+      - queries
       type: object
-    PromqlMetricQuery:
+    MonitorCheckStatusQuery:
       example:
-        unit: unit
         componentIdentifierTemplate: componentIdentifierTemplate
         query: query
         alias: alias
-        description: description
-        startTime: 1
-        step: step
-        endTime: 5
       properties:
         query:
           type: string
         alias:
-          type: string
-        description:
-          type: string
-        startTime:
-          format: instant
-          type: integer
-        endTime:
-          format: instant
-          type: integer
-        step:
-          pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
-          type: string
-        unit:
           type: string
         componentIdentifierTemplate:
           type: string
@@ -5428,7 +5492,7 @@ components:
         iconbase64: iconbase64
         name: name
         namespace: namespace
-        id: 5
+        id: 1
         type: type
       properties:
         id:
@@ -5482,7 +5546,7 @@ components:
             iconbase64: iconbase64
             name: name
             namespace: namespace
-            id: 5
+            id: 1
             type: type
           triggeredTimestamp: 5
           topology:
@@ -5497,7 +5561,7 @@ components:
             iconbase64: iconbase64
             name: name
             namespace: namespace
-            id: 5
+            id: 1
             type: type
           triggeredTimestamp: 5
           topology:
@@ -5529,7 +5593,7 @@ components:
           iconbase64: iconbase64
           name: name
           namespace: namespace
-          id: 5
+          id: 1
           type: type
         triggeredTimestamp: 5
         topology:
@@ -5577,6 +5641,49 @@ components:
       required:
       - distance
       - relation
+    MonitorCheckStatusHealthHistory:
+      example:
+        checkStatusId: 0
+        startTime: 6
+        endTime: 1
+        healthStateChanges:
+        - newHealth: null
+          timestamp: 5
+        - newHealth: null
+          timestamp: 5
+      properties:
+        checkStatusId:
+          format: int64
+          type: integer
+        startTime:
+          format: instant
+          type: integer
+        endTime:
+          format: instant
+          type: integer
+        healthStateChanges:
+          description: List of health state changes ordered from most recent to oldest.
+          items:
+            $ref: '#/components/schemas/MonitorCheckStatusHealthChange'
+          type: array
+      required:
+      - checkStatusId
+      - endTime
+      - healthStateChanges
+      - startTime
+    MonitorCheckStatusHealthChange:
+      example:
+        newHealth: null
+        timestamp: 5
+      properties:
+        timestamp:
+          format: int64
+          type: integer
+        newHealth:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - newHealth
+      - timestamp
     UserNotFoundError:
       properties:
         _type:
@@ -9011,6 +9118,7 @@ components:
             endIndex: 6
           - startIndex: 0
             endIndex: 6
+          level: null
           containerName: containerName
           podName: podName
           message: message
@@ -9021,6 +9129,7 @@ components:
             endIndex: 6
           - startIndex: 0
             endIndex: 6
+          level: null
           containerName: containerName
           podName: podName
           message: message
@@ -9056,6 +9165,7 @@ components:
           endIndex: 6
         - startIndex: 0
           endIndex: 6
+        level: null
         containerName: containerName
         podName: podName
         message: message
@@ -9076,9 +9186,12 @@ components:
           type: string
         containerName:
           type: string
+        level:
+          $ref: '#/components/schemas/LogLevel'
       required:
       - containerName
       - highlights
+      - level
       - message
       - podName
       - podUID
@@ -9099,6 +9212,26 @@ components:
       - endIndex
       - startIndex
       type: object
+    LogLevel:
+      default: UNKNOWN
+      enum:
+      - ALERT
+      - TRACE
+      - DEBUG
+      - NOTICE
+      - INFO
+      - WARN
+      - WARNING
+      - ERR
+      - ERROR
+      - CRIT
+      - CRITICAL
+      - FATAL
+      - SEVERE
+      - EMERG
+      - EMERGENCY
+      - UNKNOWN
+      type: string
     GetKubernetesLogsBadRequest:
       discriminator:
         propertyName: _type
@@ -9164,10 +9297,20 @@ components:
     GetKubernetesLogsHistogramResult:
       example:
         buckets:
-        - count: 0
+        - logLevelBuckets:
+          - level: null
+            count: 5
+          - level: null
+            count: 5
+          count: 0
           startTime: 6
           endTime: 1
-        - count: 0
+        - logLevelBuckets:
+          - level: null
+            count: 5
+          - level: null
+            count: 5
+          count: 0
           startTime: 6
           endTime: 1
       properties:
@@ -9180,6 +9323,11 @@ components:
       type: object
     KubernetesLogHistogramBucket:
       example:
+        logLevelBuckets:
+        - level: null
+          count: 5
+        - level: null
+          count: 5
         count: 0
         startTime: 6
         endTime: 1
@@ -9196,10 +9344,30 @@ components:
           description: The bucket final timestamp.
           format: instant
           type: integer
+        logLevelBuckets:
+          items:
+            $ref: '#/components/schemas/KubernetesLogLevelHistogramBucket'
+          type: array
       required:
       - count
       - endTime
+      - logLevelBuckets
       - startTime
+      type: object
+    KubernetesLogLevelHistogramBucket:
+      example:
+        level: null
+        count: 5
+      properties:
+        count:
+          description: Total logs record count for a particular log level in the bucket.
+          format: int64
+          type: integer
+        level:
+          $ref: '#/components/schemas/LogLevel'
+      required:
+      - count
+      - level
       type: object
     GetKubernetesLogsHistogramBadRequest:
       discriminator:
@@ -9246,6 +9414,9 @@ components:
       type: object
     GetKubernetesLogsAutocompleteResult:
       example:
+        levels:
+        - null
+        - null
         containerNames:
         - containerNames
         - containerNames
@@ -9254,8 +9425,13 @@ components:
           items:
             type: string
           type: array
+        levels:
+          items:
+            $ref: '#/components/schemas/LogLevel'
+          type: array
       required:
       - containerNames
+      - levels
       type: object
     GetKubernetesLogsAutocompleteBadRequest:
       discriminator:

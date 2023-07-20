@@ -7,12 +7,13 @@ Name | Type | Description | Notes
 **Count** | **int64** | Total logs record count in the bucket. | 
 **StartTime** | **int32** | The bucket initial timestamp. | 
 **EndTime** | **int32** | The bucket final timestamp. | 
+**LogLevelBuckets** | [**[]KubernetesLogLevelHistogramBucket**](KubernetesLogLevelHistogramBucket.md) |  | 
 
 ## Methods
 
 ### NewKubernetesLogHistogramBucket
 
-`func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, ) *KubernetesLogHistogramBucket`
+`func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, logLevelBuckets []KubernetesLogLevelHistogramBucket, ) *KubernetesLogHistogramBucket`
 
 NewKubernetesLogHistogramBucket instantiates a new KubernetesLogHistogramBucket object
 This constructor will assign default values to properties that have it defined,
@@ -85,6 +86,26 @@ and a boolean to check if the value has been set.
 `func (o *KubernetesLogHistogramBucket) SetEndTime(v int32)`
 
 SetEndTime sets EndTime field to given value.
+
+
+### GetLogLevelBuckets
+
+`func (o *KubernetesLogHistogramBucket) GetLogLevelBuckets() []KubernetesLogLevelHistogramBucket`
+
+GetLogLevelBuckets returns the LogLevelBuckets field if non-nil, zero value otherwise.
+
+### GetLogLevelBucketsOk
+
+`func (o *KubernetesLogHistogramBucket) GetLogLevelBucketsOk() (*[]KubernetesLogLevelHistogramBucket, bool)`
+
+GetLogLevelBucketsOk returns a tuple with the LogLevelBuckets field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLogLevelBuckets
+
+`func (o *KubernetesLogHistogramBucket) SetLogLevelBuckets(v []KubernetesLogLevelHistogramBucket)`
+
+SetLogLevelBuckets sets LogLevelBuckets field to given value.
 
 
 

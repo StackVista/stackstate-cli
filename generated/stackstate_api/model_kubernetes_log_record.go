@@ -24,13 +24,14 @@ type KubernetesLogRecord struct {
 	PodName       string                   `json:"podName"`
 	PodUID        string                   `json:"podUID"`
 	ContainerName string                   `json:"containerName"`
+	Level         LogLevel                 `json:"level"`
 }
 
 // NewKubernetesLogRecord instantiates a new KubernetesLogRecord object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string) *KubernetesLogRecord {
+func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, level LogLevel) *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
 	this.Timestamp = timestamp
 	this.Message = message
@@ -38,6 +39,7 @@ func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []Ku
 	this.PodName = podName
 	this.PodUID = podUID
 	this.ContainerName = containerName
+	this.Level = level
 	return &this
 }
 
@@ -46,6 +48,8 @@ func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []Ku
 // but it doesn't guarantee that properties required by API are set
 func NewKubernetesLogRecordWithDefaults() *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
+	var level LogLevel = LOGLEVEL_UNKNOWN
+	this.Level = level
 	return &this
 }
 
@@ -193,6 +197,30 @@ func (o *KubernetesLogRecord) SetContainerName(v string) {
 	o.ContainerName = v
 }
 
+// GetLevel returns the Level field value
+func (o *KubernetesLogRecord) GetLevel() LogLevel {
+	if o == nil {
+		var ret LogLevel
+		return ret
+	}
+
+	return o.Level
+}
+
+// GetLevelOk returns a tuple with the Level field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesLogRecord) GetLevelOk() (*LogLevel, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Level, true
+}
+
+// SetLevel sets field value
+func (o *KubernetesLogRecord) SetLevel(v LogLevel) {
+	o.Level = v
+}
+
 func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -212,6 +240,9 @@ func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["containerName"] = o.ContainerName
+	}
+	if true {
+		toSerialize["level"] = o.Level
 	}
 	return json.Marshal(toSerialize)
 }

@@ -10,12 +10,13 @@ Name | Type | Description | Notes
 **PodName** | **string** |  | 
 **PodUID** | **string** |  | 
 **ContainerName** | **string** |  | 
+**Level** | [**LogLevel**](LogLevel.md) |  | [default to LOGLEVEL_UNKNOWN]
 
 ## Methods
 
 ### NewKubernetesLogRecord
 
-`func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, ) *KubernetesLogRecord`
+`func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, level LogLevel, ) *KubernetesLogRecord`
 
 NewKubernetesLogRecord instantiates a new KubernetesLogRecord object
 This constructor will assign default values to properties that have it defined,
@@ -148,6 +149,26 @@ and a boolean to check if the value has been set.
 `func (o *KubernetesLogRecord) SetContainerName(v string)`
 
 SetContainerName sets ContainerName field to given value.
+
+
+### GetLevel
+
+`func (o *KubernetesLogRecord) GetLevel() LogLevel`
+
+GetLevel returns the Level field if non-nil, zero value otherwise.
+
+### GetLevelOk
+
+`func (o *KubernetesLogRecord) GetLevelOk() (*LogLevel, bool)`
+
+GetLevelOk returns a tuple with the Level field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLevel
+
+`func (o *KubernetesLogRecord) SetLevel(v LogLevel)`
+
+SetLevel sets Level field to given value.
 
 
 

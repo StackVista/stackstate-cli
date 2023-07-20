@@ -22,18 +22,20 @@ type KubernetesLogHistogramBucket struct {
 	// The bucket initial timestamp.
 	StartTime int32 `json:"startTime"`
 	// The bucket final timestamp.
-	EndTime int32 `json:"endTime"`
+	EndTime         int32                               `json:"endTime"`
+	LogLevelBuckets []KubernetesLogLevelHistogramBucket `json:"logLevelBuckets"`
 }
 
 // NewKubernetesLogHistogramBucket instantiates a new KubernetesLogHistogramBucket object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32) *KubernetesLogHistogramBucket {
+func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, logLevelBuckets []KubernetesLogLevelHistogramBucket) *KubernetesLogHistogramBucket {
 	this := KubernetesLogHistogramBucket{}
 	this.Count = count
 	this.StartTime = startTime
 	this.EndTime = endTime
+	this.LogLevelBuckets = logLevelBuckets
 	return &this
 }
 
@@ -117,6 +119,30 @@ func (o *KubernetesLogHistogramBucket) SetEndTime(v int32) {
 	o.EndTime = v
 }
 
+// GetLogLevelBuckets returns the LogLevelBuckets field value
+func (o *KubernetesLogHistogramBucket) GetLogLevelBuckets() []KubernetesLogLevelHistogramBucket {
+	if o == nil {
+		var ret []KubernetesLogLevelHistogramBucket
+		return ret
+	}
+
+	return o.LogLevelBuckets
+}
+
+// GetLogLevelBucketsOk returns a tuple with the LogLevelBuckets field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesLogHistogramBucket) GetLogLevelBucketsOk() ([]KubernetesLogLevelHistogramBucket, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.LogLevelBuckets, true
+}
+
+// SetLogLevelBuckets sets field value
+func (o *KubernetesLogHistogramBucket) SetLogLevelBuckets(v []KubernetesLogLevelHistogramBucket) {
+	o.LogLevelBuckets = v
+}
+
 func (o KubernetesLogHistogramBucket) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -127,6 +153,9 @@ func (o KubernetesLogHistogramBucket) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["endTime"] = o.EndTime
+	}
+	if true {
+		toSerialize["logLevelBuckets"] = o.LogLevelBuckets
 	}
 	return json.Marshal(toSerialize)
 }

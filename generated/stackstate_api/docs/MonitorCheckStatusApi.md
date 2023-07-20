@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetMonitorCheckStatus**](MonitorCheckStatusApi.md#GetMonitorCheckStatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
+[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusApi.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
 [**GetMonitorCheckStatusRelatedFailures**](MonitorCheckStatusApi.md#GetMonitorCheckStatusRelatedFailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
 
 
@@ -66,6 +67,80 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MonitorCheckStatus**](MonitorCheckStatus.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetMonitorCheckStatusHealthHistory
+
+> MonitorCheckStatusHealthHistory GetMonitorCheckStatusHealthHistory(ctx, id).StartTime(startTime).EndTime(endTime).Execute()
+
+Get a monitor check health hisotry
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    id := int64(789) // int64 | The id of a monitor check status
+    startTime := int32(56) // int32 | The start time of a time range to query resources.
+    endTime := int32(56) // int32 | The end time of a time range to query resources. If not given the endTime is set to current time. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory(context.Background(), id).StartTime(startTime).EndTime(endTime).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetMonitorCheckStatusHealthHistory`: MonitorCheckStatusHealthHistory
+    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**id** | **int64** | The id of a monitor check status | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetMonitorCheckStatusHealthHistoryRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **startTime** | **int32** | The start time of a time range to query resources. | 
+ **endTime** | **int32** | The end time of a time range to query resources. If not given the endTime is set to current time. | 
+
+### Return type
+
+[**MonitorCheckStatusHealthHistory**](MonitorCheckStatusHealthHistory.md)
 
 ### Authorization
 

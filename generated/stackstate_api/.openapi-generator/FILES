@@ -151,11 +151,13 @@ docs/InvalidSyncIdentifier.md
 docs/InvalidUrn.md
 docs/KubernetesLogHighlight.md
 docs/KubernetesLogHistogramBucket.md
+docs/KubernetesLogLevelHistogramBucket.md
 docs/KubernetesLogRecord.md
 docs/KubernetesLogsApi.md
 docs/LatestTelemetryStreamMetrics.md
 docs/LicensedSubscription.md
 docs/LimitOutOfRange.md
+docs/LogLevel.md
 docs/LogsDirection.md
 docs/Message.md
 docs/MessageLevel.md
@@ -176,8 +178,11 @@ docs/MonitorCheckStatus.md
 docs/MonitorCheckStatusApi.md
 docs/MonitorCheckStatusApiError.md
 docs/MonitorCheckStatusComponent.md
+docs/MonitorCheckStatusHealthChange.md
+docs/MonitorCheckStatusHealthHistory.md
 docs/MonitorCheckStatusMetric.md
 docs/MonitorCheckStatusNotFoundError.md
+docs/MonitorCheckStatusQuery.md
 docs/MonitorCheckStatusRelatedFailures.md
 docs/MonitorCheckStatusRelatedFailuresCheckStatus.md
 docs/MonitorCheckStatusRelatedFailuresTopology.md
@@ -225,7 +230,6 @@ docs/PromScalar.md
 docs/PromSeriesEnvelope.md
 docs/PromVector.md
 docs/PromVectorResult.md
-docs/PromqlMetricQuery.md
 docs/PropagatedHealthStateValue.md
 docs/ProvisionResponse.md
 docs/Reference.md
@@ -420,10 +424,12 @@ model_invalid_sync_identifier.go
 model_invalid_urn.go
 model_kubernetes_log_highlight.go
 model_kubernetes_log_histogram_bucket.go
+model_kubernetes_log_level_histogram_bucket.go
 model_kubernetes_log_record.go
 model_latest_telemetry_stream_metrics.go
 model_licensed_subscription.go
 model_limit_out_of_range.go
+model_log_level.go
 model_logs_direction.go
 model_message.go
 model_message_level.go
@@ -441,8 +447,11 @@ model_monitor_api_error_all_of.go
 model_monitor_check_status.go
 model_monitor_check_status_api_error.go
 model_monitor_check_status_component.go
+model_monitor_check_status_health_change.go
+model_monitor_check_status_health_history.go
 model_monitor_check_status_metric.go
 model_monitor_check_status_not_found_error.go
+model_monitor_check_status_query.go
 model_monitor_check_status_related_failures.go
 model_monitor_check_status_related_failures_check_status.go
 model_monitor_check_status_related_failures_topology.go
@@ -487,7 +496,6 @@ model_prom_scalar.go
 model_prom_series_envelope.go
 model_prom_vector.go
 model_prom_vector_result.go
-model_promql_metric_query.go
 model_propagated_health_state_value.go
 model_provision_response.go
 model_reference.go
