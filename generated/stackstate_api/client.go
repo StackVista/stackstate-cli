@@ -70,6 +70,8 @@ type APIClient struct {
 
 	MonitorApi MonitorApi
 
+	MonitorCheckStatusApi MonitorCheckStatusApi
+
 	NodeApi NodeApi
 
 	PermissionsApi PermissionsApi
@@ -125,6 +127,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
+	c.MonitorCheckStatusApi = (*MonitorCheckStatusApiService)(&c.common)
 	c.NodeApi = (*NodeApiService)(&c.common)
 	c.PermissionsApi = (*PermissionsApiService)(&c.common)
 	c.ProblemApi = (*ProblemApiService)(&c.common)

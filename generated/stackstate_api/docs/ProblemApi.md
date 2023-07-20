@@ -30,7 +30,7 @@ import (
 
 func main() {
     problemId := int64(789) // int64 | The problem id number.
-    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are quired for current time. (optional)
+    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried for current time. (optional)
     limit := int32(56) // int32 | Maximum number of resources to be returned in result. (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -61,7 +61,7 @@ Other parameters are passed through a pointer to a apiGetProblemCausingEventsReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are quired for current time. | 
+ **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried for current time. | 
  **limit** | **int32** | Maximum number of resources to be returned in result. | 
 
 ### Return type

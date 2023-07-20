@@ -72,6 +72,7 @@ type ApiGetKubernetesLogsRequest struct {
 	query          *string
 	containerNames *[]string
 	direction      *LogsDirection
+	levels         *[]LogLevel
 }
 
 // Logs initial timestamp.
@@ -119,6 +120,12 @@ func (r ApiGetKubernetesLogsRequest) ContainerNames(containerNames []string) Api
 // Fetch Oldest or Newest first.
 func (r ApiGetKubernetesLogsRequest) Direction(direction LogsDirection) ApiGetKubernetesLogsRequest {
 	r.direction = &direction
+	return r
+}
+
+// Search a specific log level DEBUG, INFO, WARN, ERROR.
+func (r ApiGetKubernetesLogsRequest) Levels(levels []LogLevel) ApiGetKubernetesLogsRequest {
+	r.levels = &levels
 	return r
 }
 
@@ -186,6 +193,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	}
 	if r.direction != nil {
 		localVarQueryParams.Add("direction", parameterToString(*r.direction, ""))
+	}
+	if r.levels != nil {
+		localVarQueryParams.Add("levels", parameterToString(*r.levels, "csv"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -502,6 +512,7 @@ type ApiGetKubernetesLogsHistogramRequest struct {
 	bucketsCount   *int32
 	query          *string
 	containerNames *[]string
+	levels         *[]LogLevel
 }
 
 // Logs initial timestamp.
@@ -537,6 +548,12 @@ func (r ApiGetKubernetesLogsHistogramRequest) Query(query string) ApiGetKubernet
 // Find only logs for the given container names.
 func (r ApiGetKubernetesLogsHistogramRequest) ContainerNames(containerNames []string) ApiGetKubernetesLogsHistogramRequest {
 	r.containerNames = &containerNames
+	return r
+}
+
+// Search a specific log level DEBUG, INFO, WARN, ERROR.
+func (r ApiGetKubernetesLogsHistogramRequest) Levels(levels []LogLevel) ApiGetKubernetesLogsHistogramRequest {
+	r.levels = &levels
 	return r
 }
 
@@ -600,6 +617,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 		localVarQueryParams.Add("containerNames", parameterToString(*r.containerNames, "csv"))
 	}
 	localVarQueryParams.Add("bucketsCount", parameterToString(*r.bucketsCount, ""))
+	if r.levels != nil {
+		localVarQueryParams.Add("levels", parameterToString(*r.levels, "csv"))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -754,6 +774,7 @@ type GetKubernetesLogsCall struct {
 	Pquery          *string
 	PcontainerNames *[]string
 	Pdirection      *LogsDirection
+	Plevels         *[]LogLevel
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
@@ -773,6 +794,7 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsExecute(r ApiGetKubernetesLog
 		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
 		Pdirection:      r.direction,
+		Plevels:         r.levels,
 	}
 	*mock.GetKubernetesLogsCalls = append(*mock.GetKubernetesLogsCalls, p)
 	return &mock.GetKubernetesLogsResponse.Result, mock.GetKubernetesLogsResponse.Response, mock.GetKubernetesLogsResponse.Error
@@ -820,6 +842,7 @@ type GetKubernetesLogsHistogramCall struct {
 	PbucketsCount   *int32
 	Pquery          *string
 	PcontainerNames *[]string
+	Plevels         *[]LogLevel
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
@@ -837,6 +860,7 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogramExecute(r ApiGetKube
 		PbucketsCount:   r.bucketsCount,
 		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
+		Plevels:         r.levels,
 	}
 	*mock.GetKubernetesLogsHistogramCalls = append(*mock.GetKubernetesLogsHistogramCalls, p)
 	return &mock.GetKubernetesLogsHistogramResponse.Result, mock.GetKubernetesLogsHistogramResponse.Response, mock.GetKubernetesLogsHistogramResponse.Error

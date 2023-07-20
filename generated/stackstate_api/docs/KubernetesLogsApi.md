@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 ## GetKubernetesLogs
 
-> GetKubernetesLogsResult GetKubernetesLogs(ctx).From(from).To(to).PodUID(podUID).PageSize(pageSize).Page(page).Query(query).ContainerNames(containerNames).Direction(direction).Execute()
+> GetKubernetesLogsResult GetKubernetesLogs(ctx).From(from).To(to).PodUID(podUID).PageSize(pageSize).Page(page).Query(query).ContainerNames(containerNames).Direction(direction).Levels(levels).Execute()
 
 Get Kubernetes logs
 
@@ -37,10 +37,11 @@ func main() {
     query := "query_example" // string | Find only logs containing query text. (optional)
     containerNames := []string{"Inner_example"} // []string | Find only logs for the given container names. (optional)
     direction := openapiclient.LogsDirection("NEWEST") // LogsDirection | Fetch Oldest or Newest first. (optional) (default to "NEWEST")
+    levels := []openapiclient.LogLevel{openapiclient.LogLevel("ALERT")} // []LogLevel | Search a specific log level DEBUG, INFO, WARN, ERROR. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogs(context.Background()).From(from).To(to).PodUID(podUID).PageSize(pageSize).Page(page).Query(query).ContainerNames(containerNames).Direction(direction).Execute()
+    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogs(context.Background()).From(from).To(to).PodUID(podUID).PageSize(pageSize).Page(page).Query(query).ContainerNames(containerNames).Direction(direction).Levels(levels).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsApi.GetKubernetesLogs``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -69,6 +70,7 @@ Name | Type | Description  | Notes
  **query** | **string** | Find only logs containing query text. | 
  **containerNames** | **[]string** | Find only logs for the given container names. | 
  **direction** | [**LogsDirection**](LogsDirection.md) | Fetch Oldest or Newest first. | [default to &quot;NEWEST&quot;]
+ **levels** | [**[]LogLevel**](LogLevel.md) | Search a specific log level DEBUG, INFO, WARN, ERROR. | 
 
 ### Return type
 
@@ -158,7 +160,7 @@ Name | Type | Description  | Notes
 
 ## GetKubernetesLogsHistogram
 
-> GetKubernetesLogsHistogramResult GetKubernetesLogsHistogram(ctx).From(from).To(to).PodUID(podUID).BucketsCount(bucketsCount).Query(query).ContainerNames(containerNames).Execute()
+> GetKubernetesLogsHistogramResult GetKubernetesLogsHistogram(ctx).From(from).To(to).PodUID(podUID).BucketsCount(bucketsCount).Query(query).ContainerNames(containerNames).Levels(levels).Execute()
 
 Get Kubernetes logs histogram
 
@@ -181,10 +183,11 @@ func main() {
     bucketsCount := int32(56) // int32 | The number of histogram buckets.
     query := "query_example" // string | Find only logs containing query text. (optional)
     containerNames := []string{"Inner_example"} // []string | Find only logs for the given container names. (optional)
+    levels := []openapiclient.LogLevel{openapiclient.LogLevel("ALERT")} // []LogLevel | Search a specific log level DEBUG, INFO, WARN, ERROR. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogsHistogram(context.Background()).From(from).To(to).PodUID(podUID).BucketsCount(bucketsCount).Query(query).ContainerNames(containerNames).Execute()
+    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogsHistogram(context.Background()).From(from).To(to).PodUID(podUID).BucketsCount(bucketsCount).Query(query).ContainerNames(containerNames).Levels(levels).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsApi.GetKubernetesLogsHistogram``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -211,6 +214,7 @@ Name | Type | Description  | Notes
  **bucketsCount** | **int32** | The number of histogram buckets. | 
  **query** | **string** | Find only logs containing query text. | 
  **containerNames** | **[]string** | Find only logs for the given container names. | 
+ **levels** | [**[]LogLevel**](LogLevel.md) | Search a specific log level DEBUG, INFO, WARN, ERROR. | 
 
 ### Return type
 

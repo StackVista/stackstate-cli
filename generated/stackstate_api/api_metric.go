@@ -441,6 +441,7 @@ type ApiGetInstantQueryRequest struct {
 	query      *string
 	time       *string
 	timeout    *string
+	postFilter *[]string
 }
 
 // Prometheus expression query string
@@ -458,6 +459,12 @@ func (r ApiGetInstantQueryRequest) Time(time string) ApiGetInstantQueryRequest {
 // Evaluation timeout
 func (r ApiGetInstantQueryRequest) Timeout(timeout string) ApiGetInstantQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+// Enforce additional label filters for queries
+func (r ApiGetInstantQueryRequest) PostFilter(postFilter []string) ApiGetInstantQueryRequest {
+	r.postFilter = &postFilter
 	return r
 }
 
@@ -510,6 +517,9 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 	}
 	if r.timeout != nil {
 		localVarQueryParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.postFilter != nil {
+		localVarQueryParams.Add("post_filter", parameterToString(*r.postFilter, "csv"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1279,6 +1289,7 @@ type ApiGetRangeQueryRequest struct {
 	step                  *string
 	timeout               *string
 	maxNumberOfDataPoints *int64
+	postFilter            *[]string
 }
 
 // Prometheus expression query string
@@ -1314,6 +1325,12 @@ func (r ApiGetRangeQueryRequest) Timeout(timeout string) ApiGetRangeQueryRequest
 // Maximum number of data points to return.
 func (r ApiGetRangeQueryRequest) MaxNumberOfDataPoints(maxNumberOfDataPoints int64) ApiGetRangeQueryRequest {
 	r.maxNumberOfDataPoints = &maxNumberOfDataPoints
+	return r
+}
+
+// Enforce additional label filters for queries
+func (r ApiGetRangeQueryRequest) PostFilter(postFilter []string) ApiGetRangeQueryRequest {
+	r.postFilter = &postFilter
 	return r
 }
 
@@ -1378,6 +1395,9 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 	}
 	if r.maxNumberOfDataPoints != nil {
 		localVarQueryParams.Add("maxNumberOfDataPoints", parameterToString(*r.maxNumberOfDataPoints, ""))
+	}
+	if r.postFilter != nil {
+		localVarQueryParams.Add("post_filter", parameterToString(*r.postFilter, "csv"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -1942,6 +1962,7 @@ type ApiPostInstantQueryRequest struct {
 	query      *string
 	time       *string
 	timeout    *string
+	postFilter *[]string
 }
 
 func (r ApiPostInstantQueryRequest) Query(query string) ApiPostInstantQueryRequest {
@@ -1956,6 +1977,11 @@ func (r ApiPostInstantQueryRequest) Time(time string) ApiPostInstantQueryRequest
 
 func (r ApiPostInstantQueryRequest) Timeout(timeout string) ApiPostInstantQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+func (r ApiPostInstantQueryRequest) PostFilter(postFilter []string) ApiPostInstantQueryRequest {
+	r.postFilter = &postFilter
 	return r
 }
 
@@ -2025,6 +2051,9 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 	}
 	if r.timeout != nil {
 		localVarFormParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.postFilter != nil {
+		localVarFormParams.Add("post_filter", parameterToString(*r.postFilter, "multi"))
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -2769,6 +2798,7 @@ type ApiPostRangeQueryRequest struct {
 	step                  *string
 	timeout               *string
 	maxNumberOfDataPoints *int64
+	postFilter            *[]string
 }
 
 func (r ApiPostRangeQueryRequest) Query(query string) ApiPostRangeQueryRequest {
@@ -2798,6 +2828,11 @@ func (r ApiPostRangeQueryRequest) Timeout(timeout string) ApiPostRangeQueryReque
 
 func (r ApiPostRangeQueryRequest) MaxNumberOfDataPoints(maxNumberOfDataPoints int64) ApiPostRangeQueryRequest {
 	r.maxNumberOfDataPoints = &maxNumberOfDataPoints
+	return r
+}
+
+func (r ApiPostRangeQueryRequest) PostFilter(postFilter []string) ApiPostRangeQueryRequest {
+	r.postFilter = &postFilter
 	return r
 }
 
@@ -2879,6 +2914,9 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 	}
 	if r.maxNumberOfDataPoints != nil {
 		localVarFormParams.Add("maxNumberOfDataPoints", parameterToString(*r.maxNumberOfDataPoints, ""))
+	}
+	if r.postFilter != nil {
+		localVarFormParams.Add("post_filter", parameterToString(*r.postFilter, "multi"))
 	}
 	if r.ctx != nil {
 		// API Key Authentication
@@ -3313,9 +3351,10 @@ type GetInstantQueryMockResponse struct {
 }
 
 type GetInstantQueryCall struct {
-	Pquery   *string
-	Ptime    *string
-	Ptimeout *string
+	Pquery      *string
+	Ptime       *string
+	Ptimeout    *string
+	PpostFilter *[]string
 }
 
 func (mock MetricApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
@@ -3327,9 +3366,10 @@ func (mock MetricApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQuer
 
 func (mock MetricApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetInstantQueryCall{
-		Pquery:   r.query,
-		Ptime:    r.time,
-		Ptimeout: r.timeout,
+		Pquery:      r.query,
+		Ptime:       r.time,
+		Ptimeout:    r.timeout,
+		PpostFilter: r.postFilter,
 	}
 	*mock.GetInstantQueryCalls = append(*mock.GetInstantQueryCalls, p)
 	return &mock.GetInstantQueryResponse.Result, mock.GetInstantQueryResponse.Response, mock.GetInstantQueryResponse.Error
@@ -3436,6 +3476,7 @@ type GetRangeQueryCall struct {
 	Pstep                  *string
 	Ptimeout               *string
 	PmaxNumberOfDataPoints *int64
+	PpostFilter            *[]string
 }
 
 func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
@@ -3453,6 +3494,7 @@ func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Prom
 		Pstep:                  r.step,
 		Ptimeout:               r.timeout,
 		PmaxNumberOfDataPoints: r.maxNumberOfDataPoints,
+		PpostFilter:            r.postFilter,
 	}
 	*mock.GetRangeQueryCalls = append(*mock.GetRangeQueryCalls, p)
 	return &mock.GetRangeQueryResponse.Result, mock.GetRangeQueryResponse.Response, mock.GetRangeQueryResponse.Error
@@ -3523,9 +3565,10 @@ type PostInstantQueryMockResponse struct {
 }
 
 type PostInstantQueryCall struct {
-	Pquery   *string
-	Ptime    *string
-	Ptimeout *string
+	Pquery      *string
+	Ptime       *string
+	Ptimeout    *string
+	PpostFilter *[]string
 }
 
 func (mock MetricApiMock) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
@@ -3537,9 +3580,10 @@ func (mock MetricApiMock) PostInstantQuery(ctx context.Context) ApiPostInstantQu
 
 func (mock MetricApiMock) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := PostInstantQueryCall{
-		Pquery:   r.query,
-		Ptime:    r.time,
-		Ptimeout: r.timeout,
+		Pquery:      r.query,
+		Ptime:       r.time,
+		Ptimeout:    r.timeout,
+		PpostFilter: r.postFilter,
 	}
 	*mock.PostInstantQueryCalls = append(*mock.PostInstantQueryCalls, p)
 	return &mock.PostInstantQueryResponse.Result, mock.PostInstantQueryResponse.Response, mock.PostInstantQueryResponse.Error
@@ -3646,6 +3690,7 @@ type PostRangeQueryCall struct {
 	Pstep                  *string
 	Ptimeout               *string
 	PmaxNumberOfDataPoints *int64
+	PpostFilter            *[]string
 }
 
 func (mock MetricApiMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
@@ -3663,6 +3708,7 @@ func (mock MetricApiMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*Pr
 		Pstep:                  r.step,
 		Ptimeout:               r.timeout,
 		PmaxNumberOfDataPoints: r.maxNumberOfDataPoints,
+		PpostFilter:            r.postFilter,
 	}
 	*mock.PostRangeQueryCalls = append(*mock.PostRangeQueryCalls, p)
 	return &mock.PostRangeQueryResponse.Result, mock.PostRangeQueryResponse.Response, mock.PostRangeQueryResponse.Error

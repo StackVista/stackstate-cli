@@ -18,24 +18,28 @@ import (
 
 // KubernetesLogRecord struct for KubernetesLogRecord
 type KubernetesLogRecord struct {
-	Timestamp     time.Time `json:"timestamp"`
-	Message       string    `json:"message"`
-	PodName       string    `json:"podName"`
-	PodUID        string    `json:"podUID"`
-	ContainerName string    `json:"containerName"`
+	Timestamp     time.Time                `json:"timestamp"`
+	Message       string                   `json:"message"`
+	Highlights    []KubernetesLogHighlight `json:"highlights"`
+	PodName       string                   `json:"podName"`
+	PodUID        string                   `json:"podUID"`
+	ContainerName string                   `json:"containerName"`
+	Level         LogLevel                 `json:"level"`
 }
 
 // NewKubernetesLogRecord instantiates a new KubernetesLogRecord object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKubernetesLogRecord(timestamp time.Time, message string, podName string, podUID string, containerName string) *KubernetesLogRecord {
+func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, level LogLevel) *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
 	this.Timestamp = timestamp
 	this.Message = message
+	this.Highlights = highlights
 	this.PodName = podName
 	this.PodUID = podUID
 	this.ContainerName = containerName
+	this.Level = level
 	return &this
 }
 
@@ -44,6 +48,8 @@ func NewKubernetesLogRecord(timestamp time.Time, message string, podName string,
 // but it doesn't guarantee that properties required by API are set
 func NewKubernetesLogRecordWithDefaults() *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
+	var level LogLevel = LOGLEVEL_UNKNOWN
+	this.Level = level
 	return &this
 }
 
@@ -93,6 +99,30 @@ func (o *KubernetesLogRecord) GetMessageOk() (*string, bool) {
 // SetMessage sets field value
 func (o *KubernetesLogRecord) SetMessage(v string) {
 	o.Message = v
+}
+
+// GetHighlights returns the Highlights field value
+func (o *KubernetesLogRecord) GetHighlights() []KubernetesLogHighlight {
+	if o == nil {
+		var ret []KubernetesLogHighlight
+		return ret
+	}
+
+	return o.Highlights
+}
+
+// GetHighlightsOk returns a tuple with the Highlights field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesLogRecord) GetHighlightsOk() ([]KubernetesLogHighlight, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Highlights, true
+}
+
+// SetHighlights sets field value
+func (o *KubernetesLogRecord) SetHighlights(v []KubernetesLogHighlight) {
+	o.Highlights = v
 }
 
 // GetPodName returns the PodName field value
@@ -167,6 +197,30 @@ func (o *KubernetesLogRecord) SetContainerName(v string) {
 	o.ContainerName = v
 }
 
+// GetLevel returns the Level field value
+func (o *KubernetesLogRecord) GetLevel() LogLevel {
+	if o == nil {
+		var ret LogLevel
+		return ret
+	}
+
+	return o.Level
+}
+
+// GetLevelOk returns a tuple with the Level field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesLogRecord) GetLevelOk() (*LogLevel, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Level, true
+}
+
+// SetLevel sets field value
+func (o *KubernetesLogRecord) SetLevel(v LogLevel) {
+	o.Level = v
+}
+
 func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -176,6 +230,9 @@ func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 		toSerialize["message"] = o.Message
 	}
 	if true {
+		toSerialize["highlights"] = o.Highlights
+	}
+	if true {
 		toSerialize["podName"] = o.PodName
 	}
 	if true {
@@ -183,6 +240,9 @@ func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["containerName"] = o.ContainerName
+	}
+	if true {
+		toSerialize["level"] = o.Level
 	}
 	return json.Marshal(toSerialize)
 }

@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ContainerNames** | **[]string** |  | 
+**Levels** | [**[]LogLevel**](LogLevel.md) |  | 
 
 ## Methods
 
 ### NewGetKubernetesLogsAutocompleteResult
 
-`func NewGetKubernetesLogsAutocompleteResult(containerNames []string, ) *GetKubernetesLogsAutocompleteResult`
+`func NewGetKubernetesLogsAutocompleteResult(containerNames []string, levels []LogLevel, ) *GetKubernetesLogsAutocompleteResult`
 
 NewGetKubernetesLogsAutocompleteResult instantiates a new GetKubernetesLogsAutocompleteResult object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *GetKubernetesLogsAutocompleteResult) SetContainerNames(v []string)`
 
 SetContainerNames sets ContainerNames field to given value.
+
+
+### GetLevels
+
+`func (o *GetKubernetesLogsAutocompleteResult) GetLevels() []LogLevel`
+
+GetLevels returns the Levels field if non-nil, zero value otherwise.
+
+### GetLevelsOk
+
+`func (o *GetKubernetesLogsAutocompleteResult) GetLevelsOk() (*[]LogLevel, bool)`
+
+GetLevelsOk returns a tuple with the Levels field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLevels
+
+`func (o *GetKubernetesLogsAutocompleteResult) SetLevels(v []LogLevel)`
+
+SetLevels sets Levels field to given value.
 
 
 
