@@ -38,9 +38,9 @@ var (
 	}
 	AllMessagesListSorted = []stackstate_api.Message{
 		*Message1,
-		*Message4,
 		*Message2,
 		*Message3,
+		*Message4,
 		*Message5,
 	}
 	AllTopicMessages = stackstate_api.NewMessages(AllMessagesList)
@@ -109,9 +109,9 @@ func TestTopicDescribeTableSorting(t *testing.T) {
 			Header: []string{"Key", "Partition", "Offset", "Message"},
 			Data: [][]interface{}{
 				{Message1.Key, Message1.Partition, Message1.Offset, MessageContentsJson},
-				{Message4.Key, Message4.Partition, Message4.Offset, MessageContentsJson},
 				{Message2.Key, Message2.Partition, Message2.Offset, MessageContentsJson},
 				{Message3.Key, Message3.Partition, Message3.Offset, MessageContentsJson},
+				{Message4.Key, Message4.Partition, Message4.Offset, MessageContentsJson},
 				{Message5.Key, Message5.Partition, Message5.Offset, MessageContentsJson},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "messages"},
@@ -162,7 +162,7 @@ func TestTopicDescribeFileIO(t *testing.T) {
 	assert.Equal(t, strings.Trim(string(expectedContents), "\n"), string(written))
 }
 
-func TestTopicDescribePaginationDefaults(t *testing.T) {
+func TestTopicDescribeDefaults(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
@@ -173,8 +173,8 @@ func TestTopicDescribePaginationDefaults(t *testing.T) {
 	calls := *cli.MockClient.ApiMocks.TopicApi.DescribeCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, "test", calls[0].Ptopic)
-	assert.Equal(t, DefaultNumber, *calls[0].Plimit)
-	assert.Equal(t, DefaultOffset, *calls[0].Poffset)
+	assert.Equal(t, DefaultLimit, *calls[0].Plimit)
+	assert.Nil(t, calls[0].Poffset)
 	assert.Nil(t, calls[0].Ppartition)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--partition", "23")
@@ -192,10 +192,8 @@ type InvalidArgs struct {
 func TestTopicDescribePaginationLimits(t *testing.T) {
 	tests := []InvalidArgs{
 		{Name: Offset, Value: -23},
-		{Name: Number, Value: -5},
-		{Name: Number, Value: 0},
-		{Name: PageSize, Value: -13},
-		{Name: PageSize, Value: 0},
+		{Name: Limit, Value: -5},
+		{Name: Limit, Value: 0},
 	}
 
 	for _, test := range tests {
@@ -211,69 +209,23 @@ func TestTopicDescribePaginationLimits(t *testing.T) {
 	}
 }
 
-func TestTopicDescribePaginationMoreThanAvailable(t *testing.T) {
+func TestTopicDescribeMoreThanAvailable(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *AllTopicMessages
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--nr", "10", "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--limit", "10", "-o", "json")
 
 	calls := *cli.MockClient.ApiMocks.TopicApi.DescribeCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, "test", calls[0].Ptopic)
-	assert.Equal(t, int32(0), *calls[0].Poffset)
+	assert.Nil(t, calls[0].Poffset)
 	assert.Equal(t, int32(10), *calls[0].Plimit)
 
 	expectedJson := []map[string]interface{}{
 		{
 			"messages": AllMessagesListSorted,
-		},
-	}
-
-	assert.Equal(t, expectedJson, *cli.MockPrinter.PrintJsonCalls)
-}
-
-func TestTopicDescribePaginationPagedRetrieval(t *testing.T) {
-	cli := di.NewMockDeps(t)
-	cmd := DescribeCommand(&cli.Deps)
-
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *Part0TopicMessages
-
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--nr", "10", "--pagesize", "3", "-o", "json")
-
-	calls := *cli.MockClient.ApiMocks.TopicApi.DescribeCalls
-	assert.Len(t, calls, 4)
-	assert.Equal(t, int32(0), *calls[0].Poffset)
-	assert.Equal(t, int32(3), *calls[0].Plimit)
-
-	assert.Equal(t, int32(3), *calls[1].Poffset)
-	assert.Equal(t, int32(3), *calls[1].Plimit)
-
-	assert.Equal(t, int32(6), *calls[2].Poffset)
-	assert.Equal(t, int32(3), *calls[2].Plimit)
-
-	assert.Equal(t, int32(9), *calls[3].Poffset)
-	assert.Equal(t, int32(1), *calls[3].Plimit)
-
-	expectedJson := []map[string]interface{}{
-		{
-			// NOTE The mock API returns more than limit on the last call.
-			// NOTE The messages are then sorted by offset.
-			"messages": []stackstate_api.Message{
-				*Message1,
-				*Message1,
-				*Message1,
-				*Message1,
-				*Message2,
-				*Message2,
-				*Message2,
-				*Message2,
-				*Message3,
-				*Message3,
-				*Message3,
-				*Message3,
-			},
 		},
 	}
 

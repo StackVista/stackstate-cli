@@ -47,7 +47,7 @@ jobs:
         if: steps.cache-image.outputs.cache-hit != 'true'
         env:
           DOCKER_TLS_CERTDIR: ""
-          CI_BASE_IMAGE_PUSH: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
+          CI_BASE_IMAGE_PUSH: quay.io/stackstate/stackstate-cli:stackstate-cli2-${{ env.NIX_CHECKSUM }}
         run: |
           echo "${{ secrets.QUAY_PASSWORD }}" | docker login --username=${{ secrets.QUAY_USER }} --password-stdin quay.io
           docker load < result
@@ -72,7 +72,7 @@ jobs:
 
     outputs:
       nixChecksum: ${{ env.NIX_CHECKSUM }}
-      ciImageName: quay.io/stackstate/sts-ci-images:stackstate-cli2-${{ env.NIX_CHECKSUM }}
+      ciImageName: quay.io/stackstate/stackstate-cli:stackstate-cli2-${{ env.NIX_CHECKSUM }}
       sourceAffected: ${{ steps.source-affected.outputs.src }}
 
   lint:

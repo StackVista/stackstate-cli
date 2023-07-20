@@ -3,7 +3,6 @@ package topic
 import (
 	"encoding/json"
 	"fmt"
-	"sort"
 
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
@@ -16,27 +15,23 @@ import (
 const (
 	Name      = "name"
 	Offset    = "offset"
-	Number    = "nr"
+	Limit     = "limit"
 	PageSize  = "pagesize"
 	Partition = "partition"
 
 	NameUsage      = "Topic name"
 	OffsetUsage    = "The starting offset"
-	NumberUsage    = "The number of messages to show"
-	PageSizeUsage  = "The pagination size"
+	LimitUsage     = "The limit of messages to show"
 	PartitionUsage = "The Kafka partition to query"
 	FileUsage      = "The JSON output file to save the messages to"
 
-	DefaultOffset   = int32(0)
-	DefaultNumber   = int32(10)
-	DefaultPageSize = int32(10000)
+	DefaultLimit = int32(10)
 )
 
 type DescribeArgs struct {
 	Name      string
 	Offset    int32
-	Number    int32
-	PageSize  int32
+	Limit     int32
 	Partition int32
 	File      string
 }
@@ -53,9 +48,8 @@ func DescribeCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Name, Name, "", NameUsage)
 	cmd.MarkFlagRequired(Name) //nolint:errcheck
 
-	cmd.Flags().Int32Var(&args.Offset, Offset, DefaultOffset, OffsetUsage)
-	cmd.Flags().Int32Var(&args.Number, Number, DefaultNumber, NumberUsage)
-	cmd.Flags().Int32Var(&args.PageSize, PageSize, DefaultPageSize, PageSizeUsage)
+	cmd.Flags().Int32Var(&args.Offset, Offset, -1, OffsetUsage)
+	cmd.Flags().Int32Var(&args.Limit, Limit, DefaultLimit, LimitUsage)
 	cmd.Flags().Int32Var(&args.Partition, Partition, -1, PartitionUsage)
 	common.AddFileFlagVar(cmd, &args.File, FileUsage)
 
@@ -67,41 +61,17 @@ func argValueError(name string, value int32) common.CLIError {
 }
 
 func fetchMessages(request stackstate_api.ApiDescribeRequest, args *DescribeArgs) ([]stackstate_api.Message, common.CLIError) {
-	// NOTE Fetch up to args.Number messages from the topic, at most args.PageSize at a time starting at args.Offset.
-	remaining := args.Number
-	offset := args.Offset
-	messages := make([]stackstate_api.Message, 0)
-
-	for remaining > 0 {
-		pageSize := args.PageSize
-
-		if remaining < args.PageSize {
-			pageSize = remaining
-		}
-
-		result, resp, err := request.Offset(offset).Limit(pageSize).Execute()
-
-		if err != nil {
-			return nil, common.NewResponseError(err, resp)
-		}
-
-		messages = append(messages, result.Messages...)
-
-		if int32(len(result.Messages)) < pageSize {
-			// Exhausted the topic.
-			remaining = 0
-		} else {
-			// Prepare to fetch the next page.
-			offset += pageSize
-			remaining -= pageSize
-		}
+	if args.Offset != -1 {
+		request = request.Offset(args.Offset)
 	}
 
-	sort.SliceStable(messages, func(i, j int) bool {
-		return messages[i].Offset < messages[j].Offset
-	})
+	result, resp, err := request.Limit(args.Limit).Execute()
 
-	return messages, nil
+	if err != nil {
+		return nil, common.NewResponseError(err, resp)
+	}
+
+	return result.Messages, nil
 }
 
 func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
@@ -111,14 +81,11 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		if args.Offset < 0 {
+		if args.Offset < -1 {
 			return argValueError(Offset, args.Offset)
 		}
-		if args.Number < 1 {
-			return argValueError(Number, args.Number)
-		}
-		if args.PageSize < 1 {
-			return argValueError(PageSize, args.PageSize)
+		if args.Limit < 1 {
+			return argValueError(Limit, args.Limit)
 		}
 
 		request := api.TopicApi.Describe(cli.Context, args.Name)
