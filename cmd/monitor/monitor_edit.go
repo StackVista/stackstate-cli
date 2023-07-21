@@ -55,6 +55,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		id := args.ID
+		monitorName := ""
 
 		if len(args.Identifier) > 0 {
 			monitor, resp, err := api.MonitorApi.GetMonitor(cli.Context, args.Identifier).Execute()
@@ -62,59 +63,77 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 				return common.NewResponseError(err, resp)
 			}
 			id = monitor.Id
+			monitorName = monitor.Name
 		}
 
-		export := stackstate_api.NewExport()
-		export.NodesWithIds = []int64{id}
-
-		orig, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*export).Execute()
-		if err != nil {
-			return common.NewResponseError(err, resp)
+		// test whether the node is locked to lead the user to a different flow
+		locked, isLockedResponse, isLockedErr := api.NodeApi.Lock(cli.Context, "Monitor", args.ID).Execute()
+		if isLockedErr != nil {
+			return common.NewResponseError(isLockedErr, isLockedResponse)
 		}
 
-		c, err := cli.Editor.Edit("monitor-", ".json", resp.Body)
-		if err != nil {
-			return common.NewResponseError(err, resp)
-		}
-
-		if strings.Compare(orig, string(c)) == 0 {
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{"nodes": []string{}, "message": "No changes made"})
-			} else {
-				cli.Printer.PrintWarn("No changes made")
-			}
-
-			return nil
-		}
-
-		if args.Unlock {
-			err := settings.UnlockNodes(cli, api, []int64{id}, MonitorNodeType)
-			if err != nil {
-				return err
-			}
-		}
-
-		nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(c)).Execute()
-		if err != nil {
-			return common.NewResponseError(err, resp)
-		}
-
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"nodes": nodes,
-			})
+		if locked.NodeLocked != nil {
+			// Print message for the user
+			cli.Printer.PrintLn(fmt.Sprintf("The monitor %s that you are trying is locked (StackState specific), it cannot be edited", monitorName))
+			cli.Printer.PrintLn("")
+			cli.Printer.PrintLn("To change the behaviour of this monitor you need to follow the following steps:")
+			cli.Printer.PrintLn(fmt.Sprintf("1. Clone the monitor:\n\tsts monitor clone -i %d --name <new-name>", id))
+			cli.Printer.PrintLn("2. Edit this new monitor:\n\tsts monitor edit -i <id>")
+			cli.Printer.PrintLn("3. If the original monitor was disabled the cloned monitor will also be disable yo can enable it using:\n\tsts monitor enable -i <id>")
+			cli.Printer.PrintLn(fmt.Sprintf("4. If needed disable the original monitor with:\n\tsts monitor disable -i %d", id))
 		} else {
-			tableData := make([][]interface{}, 0)
-			for _, node := range nodes {
-				tableData = append(tableData, []interface{}{node["_type"], node["id"], node["status"], node["identifier"], node["name"]})
+			export := stackstate_api.NewExport()
+			export.NodesWithIds = []int64{id}
+
+			orig, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*export).Execute()
+			if err != nil {
+				return common.NewResponseError(err, resp)
 			}
 
-			cli.Printer.Success(fmt.Sprintf("Updated <bold>%d</> monitor(s).", len(nodes)))
-			if len(nodes) > 0 {
-				cli.Printer.Table(printer.TableData{
-					Header: []string{"Type", "Id", "Status", "Identifier", "Name"},
-					Data:   tableData,
+			c, err := cli.Editor.Edit("monitor-", ".json", resp.Body)
+			if err != nil {
+				return common.NewResponseError(err, resp)
+			}
+
+			if strings.Compare(orig, string(c)) == 0 {
+				if cli.IsJson() {
+					cli.Printer.PrintJson(map[string]interface{}{"nodes": []string{}, "message": "No changes made"})
+				} else {
+					cli.Printer.PrintWarn("No changes made")
+				}
+
+				return nil
+			}
+
+			if args.Unlock {
+				err := settings.UnlockNodes(cli, api, []int64{id}, MonitorNodeType)
+				if err != nil {
+					return err
+				}
+			}
+
+			nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(c)).Execute()
+			if err != nil {
+				return common.NewResponseError(err, resp)
+			}
+
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"nodes": nodes,
 				})
+			} else {
+				tableData := make([][]interface{}, 0)
+				for _, node := range nodes {
+					tableData = append(tableData, []interface{}{node["_type"], node["id"], node["status"], node["identifier"], node["name"]})
+				}
+
+				cli.Printer.Success(fmt.Sprintf("Updated <bold>%d</> monitor(s).", len(nodes)))
+				if len(nodes) > 0 {
+					cli.Printer.Table(printer.TableData{
+						Header: []string{"Type", "Id", "Status", "Identifier", "Name"},
+						Data:   tableData,
+					})
+				}
 			}
 		}
 
