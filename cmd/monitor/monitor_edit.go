@@ -43,7 +43,7 @@ func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	common.AddIdentifierFlagVar(cmd, &args.Identifier, IdentifierFlagUsage)
 	stscobra.MarkMutexFlags(cmd, []string{common.IDFlag, common.IdentifierFlag}, "identifier", true)
 	cmd.Flags().BoolVar(&args.Unlock, Unlock, false, UnlockFlagUsage)
-
+	cmd.Flags().MarkHidden(Unlock)
 	return cmd
 }
 
@@ -72,15 +72,16 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 			return common.NewResponseError(isLockedErr, isLockedResponse)
 		}
 
-		if locked.NodeLocked != nil {
+		if locked.NodeLocked != nil && !args.Unlock {
 			// Print message for the user
 			cli.Printer.PrintLn(fmt.Sprintf("The monitor %s that you are trying is locked (StackState specific), it cannot be edited", monitorName))
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn("To change the behaviour of this monitor you need to follow the following steps:")
 			cli.Printer.PrintLn(fmt.Sprintf("1. Clone the monitor:\n\tsts monitor clone -i %d --name <new-name>", id))
 			cli.Printer.PrintLn("2. Edit this new monitor:\n\tsts monitor edit -i <id>")
-			cli.Printer.PrintLn("3. If the original monitor was disabled the cloned monitor will also be disable yo can enable it using:\n\tsts monitor enable -i <id>")
-			cli.Printer.PrintLn(fmt.Sprintf("4. If needed disable the original monitor with:\n\tsts monitor disable -i %d", id))
+			cli.Printer.PrintLn("3. If the original monitor was disabled the cloned monitor will also be disable you can enable it using:\n\tsts monitor enable -i <id>")
+			cli.Printer.PrintLn(fmt.Sprintf("4. In order to test your edited monitor dry run it with:\n\tsts monitor run -i <id>"))
+			cli.Printer.PrintLn(fmt.Sprintf("5. If needed disable the original monitor with:\n\tsts monitor disable -i %d", id))
 		} else {
 			export := stackstate_api.NewExport()
 			export.NodesWithIds = []int64{id}
