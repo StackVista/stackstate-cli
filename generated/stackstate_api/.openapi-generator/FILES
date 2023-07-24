@@ -157,6 +157,7 @@ docs/KubernetesLogsApi.md
 docs/LatestTelemetryStreamMetrics.md
 docs/LicensedSubscription.md
 docs/LimitOutOfRange.md
+docs/LockedResponse.md
 docs/LogLevel.md
 docs/LogsDirection.md
 docs/Message.md
@@ -207,8 +208,11 @@ docs/NewLicense.md
 docs/NewServiceTokenRequest.md
 docs/Node.md
 docs/NodeApi.md
+docs/NodeLocked.md
+docs/NodeName.md
 docs/NodeTypes.md
 docs/NodeTypesNodeTypesInner.md
+docs/NodeUnlocked.md
 docs/PermissionDescription.md
 docs/Permissions.md
 docs/PermissionsApi.md
@@ -429,6 +433,7 @@ model_kubernetes_log_record.go
 model_latest_telemetry_stream_metrics.go
 model_licensed_subscription.go
 model_limit_out_of_range.go
+model_locked_response.go
 model_log_level.go
 model_logs_direction.go
 model_message.go
@@ -475,8 +480,11 @@ model_multiple_matches_check_state.go
 model_new_license.go
 model_new_service_token_request.go
 model_node.go
+model_node_locked.go
+model_node_name.go
 model_node_types.go
 model_node_types_node_types_inner.go
+model_node_unlocked.go
 model_permission_description.go
 model_permissions.go
 model_point.go

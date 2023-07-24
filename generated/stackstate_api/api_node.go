@@ -23,6 +23,22 @@ import (
 type NodeApi interface {
 
 	/*
+		Clone Clone a node with a new name
+
+		Clone a node with a new name
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param nodeType
+		@param nodeIdOrUrn
+		@return ApiCloneRequest
+	*/
+	Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest
+
+	// CloneExecute executes the request
+	//  @return Node
+	CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error)
+
+	/*
 		Delete Node deletion API
 
 		Delete a locked node
@@ -36,6 +52,22 @@ type NodeApi interface {
 
 	// DeleteExecute executes the request
 	DeleteExecute(r ApiDeleteRequest) (*http.Response, error)
+
+	/*
+		Lock Retrieve if a node is locked
+
+		Retrieve if a node is locked
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param nodeType
+		@param nodeId
+		@return ApiLockRequest
+	*/
+	Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest
+
+	// LockExecute executes the request
+	//  @return LockedResponse
+	LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error)
 
 	/*
 		NodeListTypes Node API
@@ -85,6 +117,176 @@ type NodeApi interface {
 
 // NodeApiService NodeApi service
 type NodeApiService service
+
+type ApiCloneRequest struct {
+	ctx         context.Context
+	ApiService  NodeApi
+	nodeType    string
+	nodeIdOrUrn string
+	nodeName    *NodeName
+}
+
+// New name for the node
+func (r ApiCloneRequest) NodeName(nodeName NodeName) ApiCloneRequest {
+	r.nodeName = &nodeName
+	return r
+}
+
+func (r ApiCloneRequest) Execute() (*Node, *http.Response, error) {
+	return r.ApiService.CloneExecute(r)
+}
+
+/*
+Clone Clone a node with a new name
+
+Clone a node with a new name
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param nodeType
+ @param nodeIdOrUrn
+ @return ApiCloneRequest
+*/
+func (a *NodeApiService) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
+	return ApiCloneRequest{
+		ApiService:  a,
+		ctx:         ctx,
+		nodeType:    nodeType,
+		nodeIdOrUrn: nodeIdOrUrn,
+	}
+}
+
+// Execute executes the request
+//  @return Node
+func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *Node
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.Clone")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/node/{nodeType}/{nodeIdOrUrn}/clone"
+	localVarPath = strings.Replace(localVarPath, "{"+"nodeType"+"}", url.PathEscape(parameterToString(r.nodeType, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"nodeIdOrUrn"+"}", url.PathEscape(parameterToString(r.nodeIdOrUrn, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.nodeName == nil {
+		return localVarReturnValue, nil, reportError("nodeName is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.nodeName
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiDeleteRequest struct {
 	ctx            context.Context
@@ -250,6 +452,164 @@ func (a *NodeApiService) DeleteExecute(r ApiDeleteRequest) (*http.Response, erro
 	}
 
 	return localVarHTTPResponse, nil
+}
+
+type ApiLockRequest struct {
+	ctx        context.Context
+	ApiService NodeApi
+	nodeType   string
+	nodeId     int64
+}
+
+func (r ApiLockRequest) Execute() (*LockedResponse, *http.Response, error) {
+	return r.ApiService.LockExecute(r)
+}
+
+/*
+Lock Retrieve if a node is locked
+
+Retrieve if a node is locked
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param nodeType
+ @param nodeId
+ @return ApiLockRequest
+*/
+func (a *NodeApiService) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
+	return ApiLockRequest{
+		ApiService: a,
+		ctx:        ctx,
+		nodeType:   nodeType,
+		nodeId:     nodeId,
+	}
+}
+
+// Execute executes the request
+//  @return LockedResponse
+func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *LockedResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.Lock")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/node/{nodeType}/{nodeId}/islocked"
+	localVarPath = strings.Replace(localVarPath, "{"+"nodeType"+"}", url.PathEscape(parameterToString(r.nodeType, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"nodeId"+"}", url.PathEscape(parameterToString(r.nodeId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiNodeListTypesRequest struct {
@@ -737,8 +1097,12 @@ func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Respons
 // ---------------------------------------------
 
 type NodeApiMock struct {
+	CloneCalls            *[]CloneCall
+	CloneResponse         CloneMockResponse
 	DeleteCalls           *[]DeleteCall
 	DeleteResponse        DeleteMockResponse
+	LockCalls             *[]LockCall
+	LockResponse          LockMockResponse
 	NodeListTypesCalls    *[]NodeListTypesCall
 	NodeListTypesResponse NodeListTypesMockResponse
 	TypeListCalls         *[]TypeListCall
@@ -748,16 +1112,51 @@ type NodeApiMock struct {
 }
 
 func NewNodeApiMock() NodeApiMock {
+	xCloneCalls := make([]CloneCall, 0)
 	xDeleteCalls := make([]DeleteCall, 0)
+	xLockCalls := make([]LockCall, 0)
 	xNodeListTypesCalls := make([]NodeListTypesCall, 0)
 	xTypeListCalls := make([]TypeListCall, 0)
 	xUnlockCalls := make([]UnlockCall, 0)
 	return NodeApiMock{
+		CloneCalls:         &xCloneCalls,
 		DeleteCalls:        &xDeleteCalls,
+		LockCalls:          &xLockCalls,
 		NodeListTypesCalls: &xNodeListTypesCalls,
 		TypeListCalls:      &xTypeListCalls,
 		UnlockCalls:        &xUnlockCalls,
 	}
+}
+
+type CloneMockResponse struct {
+	Result   Node
+	Response *http.Response
+	Error    error
+}
+
+type CloneCall struct {
+	PnodeType    string
+	PnodeIdOrUrn string
+	PnodeName    *NodeName
+}
+
+func (mock NodeApiMock) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
+	return ApiCloneRequest{
+		ApiService:  mock,
+		ctx:         ctx,
+		nodeType:    nodeType,
+		nodeIdOrUrn: nodeIdOrUrn,
+	}
+}
+
+func (mock NodeApiMock) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
+	p := CloneCall{
+		PnodeType:    r.nodeType,
+		PnodeIdOrUrn: r.nodeIdOrUrn,
+		PnodeName:    r.nodeName,
+	}
+	*mock.CloneCalls = append(*mock.CloneCalls, p)
+	return &mock.CloneResponse.Result, mock.CloneResponse.Response, mock.CloneResponse.Error
 }
 
 type DeleteMockResponse struct {
@@ -788,6 +1187,35 @@ func (mock NodeApiMock) DeleteExecute(r ApiDeleteRequest) (*http.Response, error
 	}
 	*mock.DeleteCalls = append(*mock.DeleteCalls, p)
 	return mock.DeleteResponse.Response, mock.DeleteResponse.Error
+}
+
+type LockMockResponse struct {
+	Result   LockedResponse
+	Response *http.Response
+	Error    error
+}
+
+type LockCall struct {
+	PnodeType string
+	PnodeId   int64
+}
+
+func (mock NodeApiMock) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
+	return ApiLockRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		nodeType:   nodeType,
+		nodeId:     nodeId,
+	}
+}
+
+func (mock NodeApiMock) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
+	p := LockCall{
+		PnodeType: r.nodeType,
+		PnodeId:   r.nodeId,
+	}
+	*mock.LockCalls = append(*mock.LockCalls, p)
+	return &mock.LockResponse.Result, mock.LockResponse.Response, mock.LockResponse.Error
 }
 
 type NodeListTypesMockResponse struct {

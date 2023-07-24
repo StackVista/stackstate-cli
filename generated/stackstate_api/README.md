@@ -136,7 +136,9 @@ Class | Method | HTTP request | Description
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
+*NodeApi* | [**Clone**](docs/NodeApi.md#clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
 *NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
+*NodeApi* | [**Lock**](docs/NodeApi.md#lock) | **Get** /node/{nodeType}/{nodeId}/islocked | Retrieve if a node is locked
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
@@ -300,6 +302,7 @@ Class | Method | HTTP request | Description
  - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
+ - [LockedResponse](docs/LockedResponse.md)
  - [LogLevel](docs/LogLevel.md)
  - [LogsDirection](docs/LogsDirection.md)
  - [Message](docs/Message.md)
@@ -346,8 +349,11 @@ Class | Method | HTTP request | Description
  - [NewLicense](docs/NewLicense.md)
  - [NewServiceTokenRequest](docs/NewServiceTokenRequest.md)
  - [Node](docs/Node.md)
+ - [NodeLocked](docs/NodeLocked.md)
+ - [NodeName](docs/NodeName.md)
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
+ - [NodeUnlocked](docs/NodeUnlocked.md)
  - [PermissionDescription](docs/PermissionDescription.md)
  - [Permissions](docs/Permissions.md)
  - [Point](docs/Point.md)

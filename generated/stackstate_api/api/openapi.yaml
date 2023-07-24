@@ -197,6 +197,72 @@ paths:
       summary: Node deletion API
       tags:
       - node
+  /node/{nodeType}/{nodeIdOrUrn}/clone:
+    post:
+      description: Clone a node with a new name
+      operationId: clone
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: nodeIdOrUrn
+        required: true
+        schema:
+          pattern: "^urn:.+|[0-9]+$"
+          type: string
+      requestBody:
+        $ref: '#/components/requestBodies/nodeClone'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: Cloned Node
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Clone a node with a new name
+      tags:
+      - node
+  /node/{nodeType}/{nodeId}/islocked:
+    get:
+      description: Retrieve if a node is locked
+      operationId: lock
+      parameters:
+      - in: path
+        name: nodeType
+        required: true
+        schema:
+          type: string
+      - in: path
+        name: nodeId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LockedResponse'
+          description: Node lock status
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Retrieve if a node is locked
+      tags:
+      - node
   /node/{nodeType}/{nodeId}/unlock:
     post:
       description: Unlock a locked node
@@ -3835,6 +3901,13 @@ paths:
       - kubernetes_logs
 components:
   requestBodies:
+    nodeClone:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NodeName'
+      description: New name for the node
+      required: true
     monitorPatch:
       content:
         application/json:
@@ -4356,6 +4429,45 @@ components:
       - id
       - lastUpdateTimestamp
       - typeName
+      type: object
+    NodeName:
+      example:
+        name: name
+      properties:
+        name:
+          type: string
+      required:
+      - name
+      type: object
+    LockedResponse:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/NodeLocked'
+      - $ref: '#/components/schemas/NodeUnlocked'
+      required:
+      - _type
+      type: object
+    NodeLocked:
+      properties:
+        _type:
+          enum:
+          - NodeLocked
+          type: string
+        owner:
+          type: string
+      required:
+      - _type
+      - owner
+      type: object
+    NodeUnlocked:
+      properties:
+        _type:
+          enum:
+          - NodeUnlocked
+          type: string
+      required:
+      - _type
       type: object
     StackPackList:
       items:
