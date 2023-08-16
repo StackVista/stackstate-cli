@@ -50,13 +50,13 @@ func CheckVersionCompatibility(version stackstate_api.ServerVersion, minVersion 
 		return common.NewAPIVersionError(err)
 	}
 
-	parsed, err := semver.Make(minVersion)
+	parsedMinVersion, err := semver.Make(minVersion)
 	if err != nil {
 		return common.NewAPIVersionError(err)
 	}
 
-	if parsed.Major != curr.Major || !curr.GTE(parsed) {
-		return NewAPIVersionMismatchError(curr.String(), parsed.String())
+	if !curr.GTE(parsedMinVersion) {
+		return NewAPIVersionMismatchError(curr.String(), parsedMinVersion.String())
 	}
 
 	return nil

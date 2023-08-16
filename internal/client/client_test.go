@@ -82,6 +82,10 @@ func TestVersionCompatibilityCheck(t *testing.T) {
 		{Server: V(1, 2, 3), Cmd: "1.0.6", Result: nil},
 		{Server: V(1, 2, 3), Cmd: "1.2.0", Result: nil},
 		{Server: V(1, 2, 3), Cmd: "1.2.3", Result: nil},
+
+		// Server version really only needs to be greater than or equal to the command minimum version, even newer major versions are fine
+		{Server: V(2, 2, 3), Cmd: "1.2.4", Result: nil},
+
 		// Weird versions are fine(?).
 		{Server: V(1, 2, 3), Cmd: "1.2.2-alpha.preview+123", Result: nil},
 		{
@@ -95,17 +99,15 @@ func TestVersionCompatibilityCheck(t *testing.T) {
 		{Server: V(1, 2, 3), Cmd: "1.2.4", Result: NewAPIVersionMismatchError("1.2.3", "1.2.4")},
 		{Server: V(1, 2, 3), Cmd: "1.3.3", Result: NewAPIVersionMismatchError("1.2.3", "1.3.3")},
 		{Server: V(1, 2, 3), Cmd: "2.2.4", Result: NewAPIVersionMismatchError("1.2.3", "2.2.4")},
-		{Server: V(2, 2, 3), Cmd: "1.2.4", Result: NewAPIVersionMismatchError("2.2.3", "1.2.4")},
+		// Pre-release versions are less than the released version, so they are not sufficient
 		{
 			Server: stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Commit: "deadbeef"},
 			Cmd:    "1.2.3",
-			// FIXME Should this actually be acceptable?
 			Result: NewAPIVersionMismatchError("1.2.3-deadbeef", "1.2.3"),
 		},
 		{
 			Server: stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, IsDev: true},
 			Cmd:    "1.2.3",
-			// FIXME Should this actually be acceptable?
 			Result: NewAPIVersionMismatchError("1.2.3-dev", "1.2.3"),
 		},
 		// Invalid versions are detected.
