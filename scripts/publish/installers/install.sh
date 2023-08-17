@@ -69,7 +69,7 @@ if [[ -z "$STS_CLI_VERSION" ]]; then
 fi
 DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
 echo "Installing: $DL"
-~
+
 if [[ -z "$NO_SUDO" ]]; then
   # check if custom location was passed to avoid redundant printing
   if [[ -z "$STS_CLI_LOCATION" ]]; then
