@@ -43,7 +43,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 		"--parameter", "zabbix_instance_url=test_url",
 	)
 
-	strategyFlag := ""
+	strategyFlag := "fail"
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
 			PstackPackName: "zabbix",
@@ -75,7 +75,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 		"--parameter", "comma=1,2",
 	)
 
-	strategyFlag := ""
+	strategyFlag := "fail"
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
 			PstackPackName: "zabbix",
@@ -97,7 +97,7 @@ func TestStackpackInstallNoParameters(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix")
 
-	strategyFlag := ""
+	strategyFlag := "fail"
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
 			PstackPackName: "zabbix",
