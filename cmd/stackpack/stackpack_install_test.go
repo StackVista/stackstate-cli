@@ -11,6 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	FailStrategy = "fail"
+)
+
 var (
 	name                  = "zabbix"
 	provisionID           = int64(1234)
@@ -43,7 +47,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 		"--parameter", "zabbix_instance_url=test_url",
 	)
 
-	strategyFlag := "fail"
+	strategyFlag := FailStrategy
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
 			PstackPackName: "zabbix",
@@ -75,7 +79,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 		"--parameter", "comma=1,2",
 	)
 
-	strategyFlag := "fail"
+	strategyFlag := FailStrategy
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
 			PstackPackName: "zabbix",
@@ -97,7 +101,7 @@ func TestStackpackInstallNoParameters(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix")
 
-	strategyFlag := "fail"
+	strategyFlag := FailStrategy
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
 			PstackPackName: "zabbix",
