@@ -69,10 +69,10 @@
             # you will get a new real hash which can be used here.
             #
             # vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-aXTDHT1N+4Qpkuxb8vvBvP2VPyS5ofCgX6XFhJ5smUQ=";
+            vendorSha256 = "sha256-n+MCPiBn+453GjRc8wY46U2gW9UkRplpNEVU7zscEAA=";
 
             postInstall = ''
-              mv $out/bin/stackstate-cli2 $out/bin/sts
+              mv $out/bin/stackstate-cli $out/bin/sts
             '';
           };
 
