@@ -111,6 +111,7 @@ func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) comm
 		context.APIToken,
 		context.ServiceToken,
 		context.K8sSAToken,
+		context.SkipSSL,
 	)
 	return nil
 }

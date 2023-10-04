@@ -29,6 +29,8 @@ const (
 	ConfigFlag            = "config"
 	ContextFlag           = "context"
 	ContextFlagShort      = "c"
+	SkipSSLFlag           = "skip-ssl"
+	SkipSSLFlagUse        = "Whether to skip SSL certificate verification when connecting to StackState"
 )
 
 var AllowedOutputs = []string{JSONOutput.String(), TextOutput.String()}
@@ -43,6 +45,7 @@ func AddPersistentFlags(cmd *cobra.Command) {
 	cmd.PersistentFlags().Bool(NoColorFlag, false, "Disable color when printing to the terminal")
 	cmd.PersistentFlags().String(ConfigFlag, "", "Override the path to the config file")
 	cmd.PersistentFlags().StringP(ContextFlag, ContextFlagShort, "", "Override the context to use")
+	cmd.PersistentFlags().Bool(SkipSSLFlag, false, SkipSSLFlagUse)
 	pflags.EnumP(cmd.PersistentFlags(), OutputFlag, OutputFlagShort, "text", AllowedOutputs, fmt.Sprintf("Specify the output format (must be { %s })", strings.Join(AllowedOutputs, " | ")))
 
 	// NOTE Add as a dummy `--version` flag and hides it, so that we omit the auto-generated Cobra flag on each versioned command.

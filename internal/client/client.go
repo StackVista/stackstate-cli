@@ -2,6 +2,7 @@ package client
 
 import (
 	"context"
+	"crypto/tls"
 	"fmt"
 	"net/http"
 	"strings"
@@ -27,13 +28,14 @@ func NewStackStateClient(ctx context.Context,
 	adminApiPath string,
 	apiToken string,
 	serviceToken string,
-	k8sServiceAccountToken string) (StackStateClient, context.Context) {
+	k8sServiceAccountToken string,
+	skipSSL bool) (StackStateClient, context.Context) {
 	userAgent := fmt.Sprintf("StackStateCLI/%s", version)
 	apiURL := combineURLandPath(url, apiPath)
-	client, clientAuth := NewApiClient(isVerbose, pr, userAgent, apiURL, apiToken, serviceToken, k8sServiceAccountToken)
+	client, clientAuth := NewApiClient(ctx, isVerbose, pr, userAgent, apiURL, apiToken, serviceToken, k8sServiceAccountToken, skipSSL)
 
 	adminApiURL := combineURLandPath(url, adminApiPath)
-	adminClient, adminAuth := NewAdminApiClient(isVerbose, pr, userAgent, adminApiURL, apiToken, serviceToken, k8sServiceAccountToken)
+	adminClient, adminAuth := NewAdminApiClient(ctx, isVerbose, pr, userAgent, adminApiURL, apiToken, serviceToken, k8sServiceAccountToken, skipSSL)
 
 	withClient := context.WithValue(
 		ctx,
@@ -57,6 +59,7 @@ func NewStackStateClient(ctx context.Context,
 
 //nolint:dupl
 func NewApiClient(
+	ctx context.Context,
 	isVerbose bool,
 	pr printer.Printer,
 	userAgent string,
@@ -64,8 +67,13 @@ func NewApiClient(
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string,
+	skipSSL bool,
 ) (*stackstate_api.APIClient, map[string]stackstate_api.APIKey) {
 	configuration := stackstate_api.NewConfiguration()
+	if skipSSL {
+		configuration.HTTPClient = insecureHttpClient(ctx)
+	}
+
 	configuration.UserAgent = userAgent
 	configuration.Servers[0] = stackstate_api.ServerConfiguration{
 		URL:         apiURL,
@@ -108,6 +116,7 @@ func NewApiClient(
 
 //nolint:dupl
 func NewAdminApiClient(
+	ctx context.Context,
 	isVerbose bool,
 	pr printer.Printer,
 	userAgent string,
@@ -115,8 +124,12 @@ func NewAdminApiClient(
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string,
+	skipSSL bool,
 ) (*stackstate_admin_api.APIClient, map[string]stackstate_admin_api.APIKey) {
 	configuration := stackstate_admin_api.NewConfiguration()
+	if skipSSL {
+		configuration.HTTPClient = insecureHttpClient(ctx)
+	}
 	configuration.UserAgent = userAgent
 	configuration.Servers[0] = stackstate_admin_api.ServerConfiguration{
 		URL:         apiURL,
@@ -155,6 +168,15 @@ func NewAdminApiClient(
 	}
 
 	return client, auth
+}
+
+func insecureHttpClient(ctx context.Context) *http.Client {
+	log.Ctx(ctx).Warn().Msg("Using insecure HTTP client")
+	return &http.Client{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //nolint:gosec
+		},
+	}
 }
 
 type StdStackStateClient struct {

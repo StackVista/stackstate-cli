@@ -20,6 +20,7 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	vp.BindEnv("k8s-sa-token-path", "STS_CLI_K8S_SA_TOKEN_PATH")
 	vp.BindEnv("api-path", "STS_CLI_API_PATH")
 	vp.BindEnv("context", "STS_CLI_CONTEXT")
+	vp.BindEnv("skip-ssl", "STS_SKIP_SSL")
 
 	// bind flags
 	vp.BindPFlag("url", cmd.Flags().Lookup("url"))
@@ -29,6 +30,7 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	vp.BindPFlag("k8s-sa-token-path", cmd.Flags().Lookup("k8s-sa-token-path"))
 	vp.BindPFlag("api-path", cmd.Flags().Lookup("api-path"))
 	vp.BindPFlag("context", cmd.Flags().Lookup("context"))
+	vp.BindPFlag("skip-ssl", cmd.Flags().Lookup("skip-ssl"))
 
 	// bind YAML
 	return &ViperConfig{
@@ -40,6 +42,7 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 			K8sSAToken:     vp.GetString("k8s-sa-token"),
 			K8sSATokenPath: vp.GetString("k8s-sa-token-path"),
 			APIPath:        vp.GetString("api-path"),
+			SkipSSL:        vp.GetBool("skip-ssl"),
 		},
 	}
 }
