@@ -37,6 +37,7 @@ func TestValidationToJson(t *testing.T) {
 		"--api-token",
 		"blaat",
 		"-o", "json",
+		"--skip-ssl",
 	)
 	assert.Equal(t,
 		[]map[string]interface{}{{
