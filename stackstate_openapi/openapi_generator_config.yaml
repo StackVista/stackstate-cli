@@ -1,6 +1,6 @@
 gitHost: gitlab.com
 gitUserId: stackvista
-gitRepoId: stackstate-cli2
+gitRepoId: stackstate-cli
 packageName: stackstate_api
 useOneOfDiscriminatorLookup: true # needed for polymorphic types (using _type discriminator)
 generateInterfaces: true # needed for testing
