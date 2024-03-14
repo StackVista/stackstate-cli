@@ -7,9 +7,9 @@ Name | Type | Description | Notes
 **StartTimestampMs** | **int32** |  | 
 **EndTimestampMs** | **int32** |  | 
 **TopologyQuery** | **string** |  | 
+**IncludeConnectedComponents** | Pointer to **bool** |  | [optional] 
 **Limit** | **int32** |  | 
 **PlayHeadTimestampMs** | Pointer to **int32** |  | [optional] 
-**RootCauseMode** | Pointer to [**RootCauseMode**](RootCauseMode.md) |  | [optional] 
 **EventTypes** | Pointer to **[]string** |  | [optional] 
 **EventTags** | Pointer to **[]string** |  | [optional] 
 **EventCategories** | Pointer to [**[]EventCategory**](EventCategory.md) |  | [optional] 
@@ -95,6 +95,31 @@ and a boolean to check if the value has been set.
 SetTopologyQuery sets TopologyQuery field to given value.
 
 
+### GetIncludeConnectedComponents
+
+`func (o *EventListRequest) GetIncludeConnectedComponents() bool`
+
+GetIncludeConnectedComponents returns the IncludeConnectedComponents field if non-nil, zero value otherwise.
+
+### GetIncludeConnectedComponentsOk
+
+`func (o *EventListRequest) GetIncludeConnectedComponentsOk() (*bool, bool)`
+
+GetIncludeConnectedComponentsOk returns a tuple with the IncludeConnectedComponents field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIncludeConnectedComponents
+
+`func (o *EventListRequest) SetIncludeConnectedComponents(v bool)`
+
+SetIncludeConnectedComponents sets IncludeConnectedComponents field to given value.
+
+### HasIncludeConnectedComponents
+
+`func (o *EventListRequest) HasIncludeConnectedComponents() bool`
+
+HasIncludeConnectedComponents returns a boolean if a field has been set.
+
 ### GetLimit
 
 `func (o *EventListRequest) GetLimit() int32`
@@ -139,31 +164,6 @@ SetPlayHeadTimestampMs sets PlayHeadTimestampMs field to given value.
 `func (o *EventListRequest) HasPlayHeadTimestampMs() bool`
 
 HasPlayHeadTimestampMs returns a boolean if a field has been set.
-
-### GetRootCauseMode
-
-`func (o *EventListRequest) GetRootCauseMode() RootCauseMode`
-
-GetRootCauseMode returns the RootCauseMode field if non-nil, zero value otherwise.
-
-### GetRootCauseModeOk
-
-`func (o *EventListRequest) GetRootCauseModeOk() (*RootCauseMode, bool)`
-
-GetRootCauseModeOk returns a tuple with the RootCauseMode field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetRootCauseMode
-
-`func (o *EventListRequest) SetRootCauseMode(v RootCauseMode)`
-
-SetRootCauseMode sets RootCauseMode field to given value.
-
-### HasRootCauseMode
-
-`func (o *EventListRequest) HasRootCauseMode() bool`
-
-HasRootCauseMode returns a boolean if a field has been set.
 
 ### GetEventTypes
 

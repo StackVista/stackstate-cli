@@ -88,18 +88,14 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
-*ComponentApi* | [**GetComponentCheck**](docs/ComponentApi.md#getcomponentcheck) | **Get** /components/{componentId}/checks/{checkId} | Get the check from the component
-*ComponentApi* | [**GetComponentChecks**](docs/ComponentApi.md#getcomponentchecks) | **Get** /components/{componentId}/checks | List all checks from the component
-*ComponentApi* | [**GetComponentStream**](docs/ComponentApi.md#getcomponentstream) | **Get** /components/{componentId}/streams/{streamId} | Get the stream from the component
-*ComponentApi* | [**GetComponentStreams**](docs/ComponentApi.md#getcomponentstreams) | **Get** /components/{componentId}/streams | List all streams from the component
-*ComponentApi* | [**GetLatestMetrics**](docs/ComponentApi.md#getlatestmetrics) | **Get** /components/{componentId}/streams/latest | Get the latests metrics
+*DummyApi* | [**Dummy**](docs/DummyApi.md#dummy) | **Get** /dummy/dummy | Dummy path to fix omission in openapi generation when a type is not included.
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
 *EventApi* | [**GetEventTags**](docs/EventApi.md#geteventtags) | **Get** /eventTags | Get event tags
 *EventApi* | [**GetEventTypes**](docs/EventApi.md#geteventtypes) | **Get** /eventTypes | Get event types
 *EventApi* | [**GetEvents**](docs/EventApi.md#getevents) | **Post** /events | Get events
+*EventApi* | [**GetEventsHistogram**](docs/EventApi.md#geteventshistogram) | **Post** /eventsHistogram | Get events histogram
 *ExportApi* | [**ExportSettings**](docs/ExportApi.md#exportsettings) | **Post** /export | Export settings
-*ExportAnomalyApi* | [**ExportAnomaly**](docs/ExportAnomalyApi.md#exportanomaly) | **Get** /anomalies/export | Export anomalies with metric history and feedback
 *HealthSynchronizationApi* | [**DeleteHealthSynchronizationStream**](docs/HealthSynchronizationApi.md#deletehealthsynchronizationstream) | **Delete** /synchronization/health/streams/{healthStreamUrn} | Delete health sync stream
 *HealthSynchronizationApi* | [**GetHealthSynchronizationStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamstatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/status | Get health sync stream status
 *HealthSynchronizationApi* | [**GetHealthSynchronizationStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
@@ -109,6 +105,10 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
+*IngestionApiKeyApi* | [**AuthorizeIngestionApiKey**](docs/IngestionApiKeyApi.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
+*IngestionApiKeyApi* | [**DeleteIngestionApiKey**](docs/IngestionApiKeyApi.md#deleteingestionapikey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
+*IngestionApiKeyApi* | [**GenerateIngestionApiKey**](docs/IngestionApiKeyApi.md#generateingestionapikey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
+*IngestionApiKeyApi* | [**GetIngestionApiKeys**](docs/IngestionApiKeyApi.md#getingestionapikeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
 *KubernetesLogsApi* | [**GetKubernetesLogs**](docs/KubernetesLogsApi.md#getkuberneteslogs) | **Get** /k8s/logs | Get Kubernetes logs
 *KubernetesLogsApi* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsApi.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
 *KubernetesLogsApi* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsApi.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
@@ -131,8 +131,12 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
 *MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
 *MonitorApi* | [**GetMonitorsOverview**](docs/MonitorApi.md#getmonitorsoverview) | **Get** /monitors/overview | List monitors overview
+*MonitorApi* | [**LookupIdentifier**](docs/MonitorApi.md#lookupidentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
 *MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
+*MonitorApi* | [**PreviewMonitor**](docs/MonitorApi.md#previewmonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
+*MonitorApi* | [**PublishHealthStates**](docs/MonitorApi.md#publishhealthstates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
+*MonitorApi* | [**TestMonitorFunction**](docs/MonitorApi.md#testmonitorfunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
@@ -142,15 +146,35 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+*NotificationChannelsApi* | [**CreateOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#createopsgenienotificationchannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
+*NotificationChannelsApi* | [**CreateWebhookNotificationChannel**](docs/NotificationChannelsApi.md#createwebhooknotificationchannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
+*NotificationChannelsApi* | [**DeleteOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#deleteopsgenienotificationchannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
+*NotificationChannelsApi* | [**DeleteSlackNotificationChannel**](docs/NotificationChannelsApi.md#deleteslacknotificationchannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
+*NotificationChannelsApi* | [**DeleteWebhookNotificationChannel**](docs/NotificationChannelsApi.md#deletewebhooknotificationchannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
+*NotificationChannelsApi* | [**GetOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#getopsgenienotificationchannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
+*NotificationChannelsApi* | [**GetSlackNotificationChannel**](docs/NotificationChannelsApi.md#getslacknotificationchannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
+*NotificationChannelsApi* | [**GetWebhookNotificationChannel**](docs/NotificationChannelsApi.md#getwebhooknotificationchannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
+*NotificationChannelsApi* | [**JoinSlackChannel**](docs/NotificationChannelsApi.md#joinslackchannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
+*NotificationChannelsApi* | [**ListOpsgenieResponders**](docs/NotificationChannelsApi.md#listopsgenieresponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
+*NotificationChannelsApi* | [**ListSlackChannels**](docs/NotificationChannelsApi.md#listslackchannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
+*NotificationChannelsApi* | [**SlackOAuthCallback**](docs/NotificationChannelsApi.md#slackoauthcallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
+*NotificationChannelsApi* | [**SlackOauthRedirect**](docs/NotificationChannelsApi.md#slackoauthredirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
+*NotificationChannelsApi* | [**TestOpsgenieChannel**](docs/NotificationChannelsApi.md#testopsgeniechannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
+*NotificationChannelsApi* | [**TestSlackChannel**](docs/NotificationChannelsApi.md#testslackchannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
+*NotificationChannelsApi* | [**TestWebhookChannel**](docs/NotificationChannelsApi.md#testwebhookchannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
+*NotificationChannelsApi* | [**UpdateOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#updateopsgenienotificationchannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
+*NotificationChannelsApi* | [**UpdateWebhookNotificationChannel**](docs/NotificationChannelsApi.md#updatewebhooknotificationchannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
+*NotificationConfigurationsApi* | [**CreateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#createnotificationconfiguration) | **Post** /notifications/configurations | Create a new notification configuration
+*NotificationConfigurationsApi* | [**DeleteNotificationConfiguration**](docs/NotificationConfigurationsApi.md#deletenotificationconfiguration) | **Delete** /notifications/configurations/{notificationConfigurationIdOrUrn} | Delete the notification configuration
+*NotificationConfigurationsApi* | [**GetNotificationConfiguration**](docs/NotificationConfigurationsApi.md#getnotificationconfiguration) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn} | Get the notification configuration
+*NotificationConfigurationsApi* | [**GetNotificationConfigurationChannels**](docs/NotificationConfigurationsApi.md#getnotificationconfigurationchannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
+*NotificationConfigurationsApi* | [**GetNotificationConfigurations**](docs/NotificationConfigurationsApi.md#getnotificationconfigurations) | **Get** /notifications/configurations | Get all notification configurations
+*NotificationConfigurationsApi* | [**UpdateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#updatenotificationconfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
 *PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
 *PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
 *PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
 *PermissionsApi* | [**RevokePermissions**](docs/PermissionsApi.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
-*RelationApi* | [**GetRelationCheck**](docs/RelationApi.md#getrelationcheck) | **Get** /relations/{relationId}/checks/{checkId} | Get the check from the relation
-*RelationApi* | [**GetRelationChecks**](docs/RelationApi.md#getrelationchecks) | **Get** /relations/{relationId}/checks | List all checks from the relation
-*RelationApi* | [**GetRelationStream**](docs/RelationApi.md#getrelationstream) | **Get** /relations/{relationId}/streams/{streamId} | Get the stream from the relation
-*RelationApi* | [**GetRelationStreams**](docs/RelationApi.md#getrelationstreams) | **Get** /relations/{relationId}/streams | List all streams from the relation
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
 *ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
 *ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/tokens | Create new service token
@@ -174,6 +198,14 @@ Class | Method | HTTP request | Description
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
 *TopologySynchronizationApi* | [**PostTopologySynchronizationStreamClearErrors**](docs/TopologySynchronizationApi.md#posttopologysynchronizationstreamclearerrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
+*TracesApi* | [**GetSpan**](docs/TracesApi.md#getspan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span
+*TracesApi* | [**GetTrace**](docs/TracesApi.md#gettrace) | **Get** /traces/{traceId} | Fetch a trace
+*TracesApi* | [**QueryDuration**](docs/TracesApi.md#queryduration) | **Post** /traces/spans/duration/histogram | Query duration distribution
+*TracesApi* | [**QuerySpans**](docs/TracesApi.md#queryspans) | **Post** /traces/spans | Query for spans
+*TracesApi* | [**SpanComponents**](docs/TracesApi.md#spancomponents) | **Post** /traces/components | Fetch components based on resource attributes
+*TracesApi* | [**SuggestionsAttributeName**](docs/TracesApi.md#suggestionsattributename) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
+*TracesApi* | [**SuggestionsAttributeValue**](docs/TracesApi.md#suggestionsattributevalue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
+*TracesApi* | [**SuggestionsFieldValues**](docs/TracesApi.md#suggestionsfieldvalues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
 *UserProfileApi* | [**GetCurrentUserProfile**](docs/UserProfileApi.md#getcurrentuserprofile) | **Get** /user/profile | Get current user profile
 *UserProfileApi* | [**SaveCurrentUserProfile**](docs/UserProfileApi.md#savecurrentuserprofile) | **Put** /user/profile | Save current user profile
 *UserSessionApi* | [**GetUserSessionAssumedRole**](docs/UserSessionApi.md#getusersessionassumedrole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
@@ -183,51 +215,43 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
- - [Annotation](docs/Annotation.md)
- - [AnnotationData](docs/AnnotationData.md)
- - [AnnotationMetricQuery](docs/AnnotationMetricQuery.md)
- - [AnnotationType](docs/AnnotationType.md)
- - [AnomalyDirection](docs/AnomalyDirection.md)
- - [AnomalySeverity](docs/AnomalySeverity.md)
- - [AnomalyWithContext](docs/AnomalyWithContext.md)
  - [ApiToken](docs/ApiToken.md)
  - [Argument](docs/Argument.md)
- - [ArgumentAnomalyDirectionVal](docs/ArgumentAnomalyDirectionVal.md)
- - [ArgumentBaselineMetricStreamRef](docs/ArgumentBaselineMetricStreamRef.md)
  - [ArgumentBooleanVal](docs/ArgumentBooleanVal.md)
+ - [ArgumentComparatorWithoutEqualityVal](docs/ArgumentComparatorWithoutEqualityVal.md)
  - [ArgumentComponentTypeRef](docs/ArgumentComponentTypeRef.md)
  - [ArgumentDoubleVal](docs/ArgumentDoubleVal.md)
  - [ArgumentDurationVal](docs/ArgumentDurationVal.md)
- - [ArgumentEventStreamRef](docs/ArgumentEventStreamRef.md)
+ - [ArgumentFailingHealthStateVal](docs/ArgumentFailingHealthStateVal.md)
  - [ArgumentLongVal](docs/ArgumentLongVal.md)
- - [ArgumentMetricStreamId](docs/ArgumentMetricStreamId.md)
- - [ArgumentMetricStreamRef](docs/ArgumentMetricStreamRef.md)
  - [ArgumentNodeIdVal](docs/ArgumentNodeIdVal.md)
+ - [ArgumentPromQLMetricVal](docs/ArgumentPromQLMetricVal.md)
  - [ArgumentPropagatedHealthStateVal](docs/ArgumentPropagatedHealthStateVal.md)
  - [ArgumentQueryViewRef](docs/ArgumentQueryViewRef.md)
  - [ArgumentRelationTypeRef](docs/ArgumentRelationTypeRef.md)
- - [ArgumentRunStateVal](docs/ArgumentRunStateVal.md)
- - [ArgumentScriptMetricQueryVal](docs/ArgumentScriptMetricQueryVal.md)
- - [ArgumentSimpleTrainingPeriodicityVal](docs/ArgumentSimpleTrainingPeriodicityVal.md)
  - [ArgumentStateVal](docs/ArgumentStateVal.md)
  - [ArgumentStringVal](docs/ArgumentStringVal.md)
  - [ArgumentStructTypeVal](docs/ArgumentStructTypeVal.md)
- - [ArgumentStsEventStreamVal](docs/ArgumentStsEventStreamVal.md)
+ - [ArgumentTimeWindowVal](docs/ArgumentTimeWindowVal.md)
+ - [ArgumentTopologyPromQLMetricVal](docs/ArgumentTopologyPromQLMetricVal.md)
+ - [ArgumentTopologyQueryVal](docs/ArgumentTopologyQueryVal.md)
+ - [AuthorizeIngestionApiKeyRequest](docs/AuthorizeIngestionApiKeyRequest.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
- - [Baseline](docs/Baseline.md)
+ - [BaseNotificationChannel](docs/BaseNotificationChannel.md)
  - [CausingEventsAreNotAvailableForTheTime](docs/CausingEventsAreNotAvailableForTheTime.md)
  - [CausingEventsResult](docs/CausingEventsResult.md)
- - [Check](docs/Check.md)
- - [CheckError](docs/CheckError.md)
- - [CheckState](docs/CheckState.md)
- - [CheckStateAcknowledgement](docs/CheckStateAcknowledgement.md)
- - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
+ - [ChannelReferenceId](docs/ChannelReferenceId.md)
+ - [ComparatorWithoutEquality](docs/ComparatorWithoutEquality.md)
+ - [ComponentQuery](docs/ComponentQuery.md)
  - [CreateSubject](docs/CreateSubject.md)
  - [DataUnavailable](docs/DataUnavailable.md)
  - [DependencyDirection](docs/DependencyDirection.md)
- - [DownsamplingMethod](docs/DownsamplingMethod.md)
- - [ErrorStateValue](docs/ErrorStateValue.md)
+ - [DurationHistogram](docs/DurationHistogram.md)
+ - [DurationHistogramBucket](docs/DurationHistogramBucket.md)
+ - [DurationQuantiles](docs/DurationQuantiles.md)
+ - [EventBucket](docs/EventBucket.md)
  - [EventCategory](docs/EventCategory.md)
+ - [EventCategoryBucket](docs/EventCategoryBucket.md)
  - [EventComponent](docs/EventComponent.md)
  - [EventCursor](docs/EventCursor.md)
  - [EventElement](docs/EventElement.md)
@@ -237,8 +261,8 @@ Class | Method | HTTP request | Description
  - [EventRef](docs/EventRef.md)
  - [EventRelation](docs/EventRelation.md)
  - [EventTag](docs/EventTag.md)
- - [EventTelemetryQuery](docs/EventTelemetryQuery.md)
- - [EventTelemetryStreamDefinition](docs/EventTelemetryStreamDefinition.md)
+ - [EventsHistogram](docs/EventsHistogram.md)
+ - [EventsHistogramRequest](docs/EventsHistogramRequest.md)
  - [ExecuteScriptArgumentsScriptError](docs/ExecuteScriptArgumentsScriptError.md)
  - [ExecuteScriptError](docs/ExecuteScriptError.md)
  - [ExecuteScriptExceptionError](docs/ExecuteScriptExceptionError.md)
@@ -253,12 +277,12 @@ Class | Method | HTTP request | Description
  - [ExecuteScriptWrongReturnTypeError](docs/ExecuteScriptWrongReturnTypeError.md)
  - [ExpiredSubscription](docs/ExpiredSubscription.md)
  - [Export](docs/Export.md)
+ - [ExternalMonitorDefId](docs/ExternalMonitorDefId.md)
  - [FAQ](docs/FAQ.md)
- - [FeedbackComment](docs/FeedbackComment.md)
- - [FeedbackData](docs/FeedbackData.md)
- - [FieldMapping](docs/FieldMapping.md)
+ - [FailingHealthStateValue](docs/FailingHealthStateValue.md)
  - [FullStackPack](docs/FullStackPack.md)
- - [GenericAnnotationData](docs/GenericAnnotationData.md)
+ - [GenerateIngestionApiKeyRequest](docs/GenerateIngestionApiKeyRequest.md)
+ - [GeneratedIngestionApiKeyResponse](docs/GeneratedIngestionApiKeyResponse.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [GetCausingEventsBadRequest](docs/GetCausingEventsBadRequest.md)
@@ -292,29 +316,28 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
+ - [IngestionApiKey](docs/IngestionApiKey.md)
+ - [IngestionApiKeyCreateError](docs/IngestionApiKeyCreateError.md)
+ - [IngestionApiKeyInvalidExpiryError](docs/IngestionApiKeyInvalidExpiryError.md)
+ - [InstantNanoPrecision](docs/InstantNanoPrecision.md)
  - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
+ - [InvalidNotificationConfigurationIdentifier](docs/InvalidNotificationConfigurationIdentifier.md)
  - [InvalidSyncIdentifier](docs/InvalidSyncIdentifier.md)
  - [InvalidUrn](docs/InvalidUrn.md)
  - [KubernetesLogHighlight](docs/KubernetesLogHighlight.md)
  - [KubernetesLogHistogramBucket](docs/KubernetesLogHistogramBucket.md)
- - [KubernetesLogLevelHistogramBucket](docs/KubernetesLogLevelHistogramBucket.md)
  - [KubernetesLogRecord](docs/KubernetesLogRecord.md)
- - [LatestTelemetryStreamMetrics](docs/LatestTelemetryStreamMetrics.md)
+ - [KubernetesLogSeverityHistogramBucket](docs/KubernetesLogSeverityHistogramBucket.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
  - [LockedResponse](docs/LockedResponse.md)
  - [LogLevel](docs/LogLevel.md)
+ - [LogSeverity](docs/LogSeverity.md)
  - [LogsDirection](docs/LogsDirection.md)
  - [Message](docs/Message.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [Messages](docs/Messages.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
- - [MetricStreamAnomalyData](docs/MetricStreamAnomalyData.md)
- - [MetricStreamNoAnomalyData](docs/MetricStreamNoAnomalyData.md)
- - [MetricStreamReference](docs/MetricStreamReference.md)
- - [MetricTelemetryQuery](docs/MetricTelemetryQuery.md)
- - [MetricTelemetryStreamDefinition](docs/MetricTelemetryStreamDefinition.md)
- - [MetricValuation](docs/MetricValuation.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
@@ -329,8 +352,18 @@ Class | Method | HTTP request | Description
  - [MonitorCheckStatusRelatedFailures](docs/MonitorCheckStatusRelatedFailures.md)
  - [MonitorCheckStatusRelatedFailuresCheckStatus](docs/MonitorCheckStatusRelatedFailuresCheckStatus.md)
  - [MonitorCheckStatusRelatedFailuresTopology](docs/MonitorCheckStatusRelatedFailuresTopology.md)
+ - [MonitorDefId](docs/MonitorDefId.md)
+ - [MonitorDisplayQuery](docs/MonitorDisplayQuery.md)
+ - [MonitorDisplayTimeSeries](docs/MonitorDisplayTimeSeries.md)
  - [MonitorError](docs/MonitorError.md)
  - [MonitorFunction](docs/MonitorFunction.md)
+ - [MonitorFunctionNotFoundError](docs/MonitorFunctionNotFoundError.md)
+ - [MonitorFunctionTest](docs/MonitorFunctionTest.md)
+ - [MonitorHealthState](docs/MonitorHealthState.md)
+ - [MonitorIdentifierLookup](docs/MonitorIdentifierLookup.md)
+ - [MonitorIdentifierLookupOverrides](docs/MonitorIdentifierLookupOverrides.md)
+ - [MonitorIdentifierSuggestion](docs/MonitorIdentifierSuggestion.md)
+ - [MonitorIdentifierSuggestions](docs/MonitorIdentifierSuggestions.md)
  - [MonitorInvalidIntervalError](docs/MonitorInvalidIntervalError.md)
  - [MonitorList](docs/MonitorList.md)
  - [MonitorMetrics](docs/MonitorMetrics.md)
@@ -339,9 +372,14 @@ Class | Method | HTTP request | Description
  - [MonitorOverview](docs/MonitorOverview.md)
  - [MonitorOverviewList](docs/MonitorOverviewList.md)
  - [MonitorPatch](docs/MonitorPatch.md)
+ - [MonitorPreview](docs/MonitorPreview.md)
+ - [MonitorPreviewComponentCount](docs/MonitorPreviewComponentCount.md)
+ - [MonitorPreviewResult](docs/MonitorPreviewResult.md)
+ - [MonitorReferenceId](docs/MonitorReferenceId.md)
  - [MonitorRunResult](docs/MonitorRunResult.md)
  - [MonitorRuntimeMetrics](docs/MonitorRuntimeMetrics.md)
  - [MonitorRuntimeStatusValue](docs/MonitorRuntimeStatusValue.md)
+ - [MonitorSnapshot](docs/MonitorSnapshot.md)
  - [MonitorStatus](docs/MonitorStatus.md)
  - [MonitorStatusValue](docs/MonitorStatusValue.md)
  - [MonitorValidationError](docs/MonitorValidationError.md)
@@ -354,9 +392,27 @@ Class | Method | HTTP request | Description
  - [NodeTypes](docs/NodeTypes.md)
  - [NodeTypesNodeTypesInner](docs/NodeTypesNodeTypesInner.md)
  - [NodeUnlocked](docs/NodeUnlocked.md)
+ - [NotificationChannel](docs/NotificationChannel.md)
+ - [NotificationChannelError](docs/NotificationChannelError.md)
+ - [NotificationChannelNotFound](docs/NotificationChannelNotFound.md)
+ - [NotificationChannelStatus](docs/NotificationChannelStatus.md)
+ - [NotificationChannelStatusError](docs/NotificationChannelStatusError.md)
+ - [NotificationConfigurationByIdErrors](docs/NotificationConfigurationByIdErrors.md)
+ - [NotificationConfigurationError](docs/NotificationConfigurationError.md)
+ - [NotificationConfigurationNotFound](docs/NotificationConfigurationNotFound.md)
+ - [NotificationConfigurationReadSchema](docs/NotificationConfigurationReadSchema.md)
+ - [NotificationConfigurationReadSchemaAllOf](docs/NotificationConfigurationReadSchemaAllOf.md)
+ - [NotificationConfigurationRuntimeStatusValue](docs/NotificationConfigurationRuntimeStatusValue.md)
+ - [NotificationConfigurationStatusValue](docs/NotificationConfigurationStatusValue.md)
+ - [NotificationConfigurationWriteSchema](docs/NotificationConfigurationWriteSchema.md)
+ - [NotifyOnOptions](docs/NotifyOnOptions.md)
+ - [OpsgenieChannelRefId](docs/OpsgenieChannelRefId.md)
+ - [OpsgenieChannelWriteSchema](docs/OpsgenieChannelWriteSchema.md)
+ - [OpsgenieNotificationChannel](docs/OpsgenieNotificationChannel.md)
+ - [OpsgenieNotificationChannelAllOf](docs/OpsgenieNotificationChannelAllOf.md)
+ - [OpsgenieResponder](docs/OpsgenieResponder.md)
  - [PermissionDescription](docs/PermissionDescription.md)
  - [Permissions](docs/Permissions.md)
- - [Point](docs/Point.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromData](docs/PromData.md)
  - [PromDataResult](docs/PromDataResult.md)
@@ -368,6 +424,7 @@ Class | Method | HTTP request | Description
  - [PromLabelsEnvelope](docs/PromLabelsEnvelope.md)
  - [PromMatrix](docs/PromMatrix.md)
  - [PromMetadataEnvelope](docs/PromMetadataEnvelope.md)
+ - [PromQLMetric](docs/PromQLMetric.md)
  - [PromSampleInner](docs/PromSampleInner.md)
  - [PromScalar](docs/PromScalar.md)
  - [PromSeriesEnvelope](docs/PromSeriesEnvelope.md)
@@ -375,15 +432,12 @@ Class | Method | HTTP request | Description
  - [PromVectorResult](docs/PromVectorResult.md)
  - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
- - [Reference](docs/Reference.md)
  - [ReleaseStatus](docs/ReleaseStatus.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
  - [Role](docs/Role.md)
  - [RoleNotAvailableError](docs/RoleNotAvailableError.md)
  - [Roles](docs/Roles.md)
- - [RootCauseMode](docs/RootCauseMode.md)
- - [RunStateValue](docs/RunStateValue.md)
  - [ScriptLocation](docs/ScriptLocation.md)
  - [ServerInfo](docs/ServerInfo.md)
  - [ServerVersion](docs/ServerVersion.md)
@@ -391,9 +445,26 @@ Class | Method | HTTP request | Description
  - [ServiceTokenCreateError](docs/ServiceTokenCreateError.md)
  - [ServiceTokenCreatedResponse](docs/ServiceTokenCreatedResponse.md)
  - [ServiceTokenInvalidExpiryError](docs/ServiceTokenInvalidExpiryError.md)
- - [SimpleTrainingPeriodicity](docs/SimpleTrainingPeriodicity.md)
- - [SingleMetric](docs/SingleMetric.md)
+ - [SlackChannel](docs/SlackChannel.md)
+ - [SlackChannelId](docs/SlackChannelId.md)
+ - [SlackChannelRefId](docs/SlackChannelRefId.md)
+ - [SlackNotificationChannel](docs/SlackNotificationChannel.md)
+ - [SlackNotificationChannelAllOf](docs/SlackNotificationChannelAllOf.md)
  - [SourceLink](docs/SourceLink.md)
+ - [Span](docs/Span.md)
+ - [SpanComponent](docs/SpanComponent.md)
+ - [SpanComponents](docs/SpanComponents.md)
+ - [SpanEvent](docs/SpanEvent.md)
+ - [SpanFilter](docs/SpanFilter.md)
+ - [SpanKind](docs/SpanKind.md)
+ - [SpanLink](docs/SpanLink.md)
+ - [SpanParentType](docs/SpanParentType.md)
+ - [SpanQuery](docs/SpanQuery.md)
+ - [SpanSortDirection](docs/SpanSortDirection.md)
+ - [SpanSortField](docs/SpanSortField.md)
+ - [SpanSortOption](docs/SpanSortOption.md)
+ - [SpanSuggestionField](docs/SpanSuggestionField.md)
+ - [Spans](docs/Spans.md)
  - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
  - [StackPackConfiguration](docs/StackPackConfiguration.md)
@@ -401,28 +472,23 @@ Class | Method | HTTP request | Description
  - [StackPackIntegration](docs/StackPackIntegration.md)
  - [StackPackStep](docs/StackPackStep.md)
  - [StackPackStepValue](docs/StackPackStepValue.md)
+ - [StatusCode](docs/StatusCode.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)
- - [StsEventStreamFilter](docs/StsEventStreamFilter.md)
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
  - [SubjectConfig](docs/SubjectConfig.md)
  - [Subscription](docs/Subscription.md)
  - [SubscriptionState](docs/SubscriptionState.md)
- - [TelemetryLatestSnapshotsResponse](docs/TelemetryLatestSnapshotsResponse.md)
- - [TelemetryQueryCondition](docs/TelemetryQueryCondition.md)
- - [TelemetryStreamDefinition](docs/TelemetryStreamDefinition.md)
- - [TelemetryStreamPriority](docs/TelemetryStreamPriority.md)
- - [TimeRange](docs/TimeRange.md)
+ - [Suggestions](docs/Suggestions.md)
  - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
- - [TooManyAnomaliesError](docs/TooManyAnomaliesError.md)
  - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
  - [Topic](docs/Topic.md)
  - [TopologyEvent](docs/TopologyEvent.md)
- - [TopologyMapping](docs/TopologyMapping.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)
+ - [TopologyPromQLMetric](docs/TopologyPromQLMetric.md)
  - [TopologyStreamError](docs/TopologyStreamError.md)
  - [TopologyStreamList](docs/TopologyStreamList.md)
  - [TopologyStreamListItem](docs/TopologyStreamListItem.md)
@@ -431,6 +497,14 @@ Class | Method | HTTP request | Description
  - [TopologySyncError](docs/TopologySyncError.md)
  - [TopologySyncStatus](docs/TopologySyncStatus.md)
  - [TopologyTimeOutOfRange](docs/TopologyTimeOutOfRange.md)
+ - [Trace](docs/Trace.md)
+ - [TraceApiError](docs/TraceApiError.md)
+ - [TraceApiInvalidDurationFilter](docs/TraceApiInvalidDurationFilter.md)
+ - [TraceApiInvalidPagination](docs/TraceApiInvalidPagination.md)
+ - [TraceApiInvalidTimeRange](docs/TraceApiInvalidTimeRange.md)
+ - [TraceApiSpanNotFound](docs/TraceApiSpanNotFound.md)
+ - [TraceApiSpansBadRequest](docs/TraceApiSpansBadRequest.md)
+ - [TraceApiTraceNotFound](docs/TraceApiTraceNotFound.md)
  - [UnlicensedSubscription](docs/UnlicensedSubscription.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)
@@ -438,7 +512,10 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
- - [WindowingMethod](docs/WindowingMethod.md)
+ - [WebhookChannelRefId](docs/WebhookChannelRefId.md)
+ - [WebhookChannelWriteSchema](docs/WebhookChannelWriteSchema.md)
+ - [WebhookNotificationChannel](docs/WebhookNotificationChannel.md)
+ - [WebhookNotificationChannelAllOf](docs/WebhookNotificationChannelAllOf.md)
 
 
 ## Documentation For Authorization

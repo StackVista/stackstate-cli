@@ -9,6 +9,7 @@ Method | HTTP request | Description
 [**GetEventTags**](EventApi.md#GetEventTags) | **Get** /eventTags | Get event tags
 [**GetEventTypes**](EventApi.md#GetEventTypes) | **Get** /eventTypes | Get event types
 [**GetEvents**](EventApi.md#GetEvents) | **Post** /events | Get events
+[**GetEventsHistogram**](EventApi.md#GetEventsHistogram) | **Post** /eventsHistogram | Get events histogram
 
 
 
@@ -90,7 +91,7 @@ Name | Type | Description  | Notes
 
 ## GetEventSources
 
-> StringItemsWithTotal GetEventSources(ctx).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+> StringItemsWithTotal GetEventSources(ctx).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
 
 Get event sources
 
@@ -113,7 +114,7 @@ func main() {
     endTimestampMs := int32(56) // int32 | 
     topologyQuery := "topologyQuery_example" // string | 
     limit := int32(56) // int32 | 
-    rootCauseMode := openapiclient.RootCauseMode("no-cause") // RootCauseMode |  (optional)
+    includeConnectedComponents := true // bool |  (optional)
     playHeadTimestampMs := int32(56) // int32 |  (optional)
     eventTypes := []string{"Inner_example"} // []string |  (optional)
     eventCategories := []openapiclient.EventCategory{openapiclient.EventCategory("Changes")} // []EventCategory | The category labels of an event. (optional)
@@ -123,7 +124,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventSources(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    resp, r, err := apiClient.EventApi.GetEventSources(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -148,7 +149,7 @@ Name | Type | Description  | Notes
  **endTimestampMs** | **int32** |  | 
  **topologyQuery** | **string** |  | 
  **limit** | **int32** |  | 
- **rootCauseMode** | [**RootCauseMode**](RootCauseMode.md) |  | 
+ **includeConnectedComponents** | **bool** |  | 
  **playHeadTimestampMs** | **int32** |  | 
  **eventTypes** | **[]string** |  | 
  **eventCategories** | [**[]EventCategory**](EventCategory.md) | The category labels of an event. | 
@@ -176,7 +177,7 @@ Name | Type | Description  | Notes
 
 ## GetEventTags
 
-> StringItemsWithTotal GetEventTags(ctx).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+> StringItemsWithTotal GetEventTags(ctx).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
 
 Get event tags
 
@@ -199,7 +200,7 @@ func main() {
     endTimestampMs := int32(56) // int32 | 
     topologyQuery := "topologyQuery_example" // string | 
     limit := int32(56) // int32 | 
-    rootCauseMode := openapiclient.RootCauseMode("no-cause") // RootCauseMode |  (optional)
+    includeConnectedComponents := true // bool |  (optional)
     playHeadTimestampMs := int32(56) // int32 |  (optional)
     eventTypes := []string{"Inner_example"} // []string |  (optional)
     eventCategories := []openapiclient.EventCategory{openapiclient.EventCategory("Changes")} // []EventCategory | The category labels of an event. (optional)
@@ -209,7 +210,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventTags(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    resp, r, err := apiClient.EventApi.GetEventTags(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -234,7 +235,7 @@ Name | Type | Description  | Notes
  **endTimestampMs** | **int32** |  | 
  **topologyQuery** | **string** |  | 
  **limit** | **int32** |  | 
- **rootCauseMode** | [**RootCauseMode**](RootCauseMode.md) |  | 
+ **includeConnectedComponents** | **bool** |  | 
  **playHeadTimestampMs** | **int32** |  | 
  **eventTypes** | **[]string** |  | 
  **eventCategories** | [**[]EventCategory**](EventCategory.md) | The category labels of an event. | 
@@ -262,7 +263,7 @@ Name | Type | Description  | Notes
 
 ## GetEventTypes
 
-> StringItemsWithTotal GetEventTypes(ctx).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+> StringItemsWithTotal GetEventTypes(ctx).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
 
 Get event types
 
@@ -285,7 +286,7 @@ func main() {
     endTimestampMs := int32(56) // int32 | 
     topologyQuery := "topologyQuery_example" // string | 
     limit := int32(56) // int32 | 
-    rootCauseMode := openapiclient.RootCauseMode("no-cause") // RootCauseMode |  (optional)
+    includeConnectedComponents := true // bool |  (optional)
     playHeadTimestampMs := int32(56) // int32 |  (optional)
     eventTypes := []string{"Inner_example"} // []string |  (optional)
     eventCategories := []openapiclient.EventCategory{openapiclient.EventCategory("Changes")} // []EventCategory | The category labels of an event. (optional)
@@ -295,7 +296,7 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventTypes(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).RootCauseMode(rootCauseMode).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    resp, r, err := apiClient.EventApi.GetEventTypes(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -320,7 +321,7 @@ Name | Type | Description  | Notes
  **endTimestampMs** | **int32** |  | 
  **topologyQuery** | **string** |  | 
  **limit** | **int32** |  | 
- **rootCauseMode** | [**RootCauseMode**](RootCauseMode.md) |  | 
+ **includeConnectedComponents** | **bool** |  | 
  **playHeadTimestampMs** | **int32** |  | 
  **eventTypes** | **[]string** |  | 
  **eventCategories** | [**[]EventCategory**](EventCategory.md) | The category labels of an event. | 
@@ -397,6 +398,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**EventItemsWithTotal**](EventItemsWithTotal.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetEventsHistogram
+
+> EventsHistogram GetEventsHistogram(ctx).EventsHistogramRequest(eventsHistogramRequest).Execute()
+
+Get events histogram
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    eventsHistogramRequest := *openapiclient.NewEventsHistogramRequest(int32(123), int32(123), "TopologyQuery_example", int32(123)) // EventsHistogramRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.EventApi.GetEventsHistogram(context.Background()).EventsHistogramRequest(eventsHistogramRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventsHistogram``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetEventsHistogram`: EventsHistogram
+    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEventsHistogram`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetEventsHistogramRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **eventsHistogramRequest** | [**EventsHistogramRequest**](EventsHistogramRequest.md) |  | 
+
+### Return type
+
+[**EventsHistogram**](EventsHistogram.md)
 
 ### Authorization
 

@@ -10,13 +10,14 @@ Name | Type | Description | Notes
 **PodName** | **string** |  | 
 **PodUID** | **string** |  | 
 **ContainerName** | **string** |  | 
+**Severity** | [**LogSeverity**](LogSeverity.md) |  | [default to LOGSEVERITY_OTHER]
 **Level** | [**LogLevel**](LogLevel.md) |  | [default to LOGLEVEL_UNKNOWN]
 
 ## Methods
 
 ### NewKubernetesLogRecord
 
-`func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, level LogLevel, ) *KubernetesLogRecord`
+`func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, severity LogSeverity, level LogLevel, ) *KubernetesLogRecord`
 
 NewKubernetesLogRecord instantiates a new KubernetesLogRecord object
 This constructor will assign default values to properties that have it defined,
@@ -149,6 +150,26 @@ and a boolean to check if the value has been set.
 `func (o *KubernetesLogRecord) SetContainerName(v string)`
 
 SetContainerName sets ContainerName field to given value.
+
+
+### GetSeverity
+
+`func (o *KubernetesLogRecord) GetSeverity() LogSeverity`
+
+GetSeverity returns the Severity field if non-nil, zero value otherwise.
+
+### GetSeverityOk
+
+`func (o *KubernetesLogRecord) GetSeverityOk() (*LogSeverity, bool)`
+
+GetSeverityOk returns a tuple with the Severity field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSeverity
+
+`func (o *KubernetesLogRecord) SetSeverity(v LogSeverity)`
+
+SetSeverity sets Severity field to given value.
 
 
 ### GetLevel

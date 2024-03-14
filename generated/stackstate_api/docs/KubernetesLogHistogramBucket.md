@@ -7,13 +7,13 @@ Name | Type | Description | Notes
 **Count** | **int64** | Total logs record count in the bucket. | 
 **StartTime** | **int32** | The bucket initial timestamp. | 
 **EndTime** | **int32** | The bucket final timestamp. | 
-**LogLevelBuckets** | [**[]KubernetesLogLevelHistogramBucket**](KubernetesLogLevelHistogramBucket.md) |  | 
+**LogSeverityBuckets** | [**[]KubernetesLogSeverityHistogramBucket**](KubernetesLogSeverityHistogramBucket.md) |  | 
 
 ## Methods
 
 ### NewKubernetesLogHistogramBucket
 
-`func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, logLevelBuckets []KubernetesLogLevelHistogramBucket, ) *KubernetesLogHistogramBucket`
+`func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, logSeverityBuckets []KubernetesLogSeverityHistogramBucket, ) *KubernetesLogHistogramBucket`
 
 NewKubernetesLogHistogramBucket instantiates a new KubernetesLogHistogramBucket object
 This constructor will assign default values to properties that have it defined,
@@ -88,24 +88,24 @@ and a boolean to check if the value has been set.
 SetEndTime sets EndTime field to given value.
 
 
-### GetLogLevelBuckets
+### GetLogSeverityBuckets
 
-`func (o *KubernetesLogHistogramBucket) GetLogLevelBuckets() []KubernetesLogLevelHistogramBucket`
+`func (o *KubernetesLogHistogramBucket) GetLogSeverityBuckets() []KubernetesLogSeverityHistogramBucket`
 
-GetLogLevelBuckets returns the LogLevelBuckets field if non-nil, zero value otherwise.
+GetLogSeverityBuckets returns the LogSeverityBuckets field if non-nil, zero value otherwise.
 
-### GetLogLevelBucketsOk
+### GetLogSeverityBucketsOk
 
-`func (o *KubernetesLogHistogramBucket) GetLogLevelBucketsOk() (*[]KubernetesLogLevelHistogramBucket, bool)`
+`func (o *KubernetesLogHistogramBucket) GetLogSeverityBucketsOk() (*[]KubernetesLogSeverityHistogramBucket, bool)`
 
-GetLogLevelBucketsOk returns a tuple with the LogLevelBuckets field if it's non-nil, zero value otherwise
+GetLogSeverityBucketsOk returns a tuple with the LogSeverityBuckets field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetLogLevelBuckets
+### SetLogSeverityBuckets
 
-`func (o *KubernetesLogHistogramBucket) SetLogLevelBuckets(v []KubernetesLogLevelHistogramBucket)`
+`func (o *KubernetesLogHistogramBucket) SetLogSeverityBuckets(v []KubernetesLogSeverityHistogramBucket)`
 
-SetLogLevelBuckets sets LogLevelBuckets field to given value.
+SetLogSeverityBuckets sets LogSeverityBuckets field to given value.
 
 
 

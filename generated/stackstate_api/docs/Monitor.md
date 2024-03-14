@@ -13,6 +13,10 @@ Name | Type | Description | Notes
 **RemediationHint** | Pointer to **string** |  | [optional] 
 **IntervalSeconds** | **int32** |  | 
 **Tags** | **[]string** |  | 
+**Source** | **string** |  | 
+**SourceDetails** | Pointer to **string** |  | [optional] 
+**CanEdit** | **bool** |  | 
+**CanClone** | **bool** |  | 
 **Status** | [**MonitorStatusValue**](MonitorStatusValue.md) |  | 
 **RuntimeStatus** | [**MonitorRuntimeStatusValue**](MonitorRuntimeStatusValue.md) |  | 
 **LastUpdateTimestamp** | **int64** |  | 
@@ -21,7 +25,7 @@ Name | Type | Description | Notes
 
 ### NewMonitor
 
-`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, runtimeStatus MonitorRuntimeStatusValue, lastUpdateTimestamp int64, ) *Monitor`
+`func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, source string, canEdit bool, canClone bool, status MonitorStatusValue, runtimeStatus MonitorRuntimeStatusValue, lastUpdateTimestamp int64, ) *Monitor`
 
 NewMonitor instantiates a new Monitor object
 This constructor will assign default values to properties that have it defined,
@@ -229,6 +233,91 @@ and a boolean to check if the value has been set.
 `func (o *Monitor) SetTags(v []string)`
 
 SetTags sets Tags field to given value.
+
+
+### GetSource
+
+`func (o *Monitor) GetSource() string`
+
+GetSource returns the Source field if non-nil, zero value otherwise.
+
+### GetSourceOk
+
+`func (o *Monitor) GetSourceOk() (*string, bool)`
+
+GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSource
+
+`func (o *Monitor) SetSource(v string)`
+
+SetSource sets Source field to given value.
+
+
+### GetSourceDetails
+
+`func (o *Monitor) GetSourceDetails() string`
+
+GetSourceDetails returns the SourceDetails field if non-nil, zero value otherwise.
+
+### GetSourceDetailsOk
+
+`func (o *Monitor) GetSourceDetailsOk() (*string, bool)`
+
+GetSourceDetailsOk returns a tuple with the SourceDetails field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSourceDetails
+
+`func (o *Monitor) SetSourceDetails(v string)`
+
+SetSourceDetails sets SourceDetails field to given value.
+
+### HasSourceDetails
+
+`func (o *Monitor) HasSourceDetails() bool`
+
+HasSourceDetails returns a boolean if a field has been set.
+
+### GetCanEdit
+
+`func (o *Monitor) GetCanEdit() bool`
+
+GetCanEdit returns the CanEdit field if non-nil, zero value otherwise.
+
+### GetCanEditOk
+
+`func (o *Monitor) GetCanEditOk() (*bool, bool)`
+
+GetCanEditOk returns a tuple with the CanEdit field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCanEdit
+
+`func (o *Monitor) SetCanEdit(v bool)`
+
+SetCanEdit sets CanEdit field to given value.
+
+
+### GetCanClone
+
+`func (o *Monitor) GetCanClone() bool`
+
+GetCanClone returns the CanClone field if non-nil, zero value otherwise.
+
+### GetCanCloneOk
+
+`func (o *Monitor) GetCanCloneOk() (*bool, bool)`
+
+GetCanCloneOk returns a tuple with the CanClone field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCanClone
+
+`func (o *Monitor) SetCanClone(v bool)`
+
+SetCanClone sets CanClone field to given value.
 
 
 ### GetStatus

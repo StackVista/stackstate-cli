@@ -5,6 +5,8 @@
 
 * `CHANGES` (value: `"Changes"`)
 
+* `DEPLOYMENTS` (value: `"Deployments"`)
+
 * `ALERTS` (value: `"Alerts"`)
 
 * `ANOMALIES` (value: `"Anomalies"`)

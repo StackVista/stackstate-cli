@@ -1,0 +1,166 @@
+# GeneratedIngestionApiKeyResponse
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**Id** | **int64** |  | [readonly] 
+**LastUpdateTimestamp** | **int64** |  | [readonly] 
+**Name** | **string** |  | 
+**Description** | Pointer to **string** |  | [optional] 
+**Expiration** | Pointer to **int64** |  | [optional] 
+**ApiKey** | **string** |  | 
+
+## Methods
+
+### NewGeneratedIngestionApiKeyResponse
+
+`func NewGeneratedIngestionApiKeyResponse(id int64, lastUpdateTimestamp int64, name string, apiKey string, ) *GeneratedIngestionApiKeyResponse`
+
+NewGeneratedIngestionApiKeyResponse instantiates a new GeneratedIngestionApiKeyResponse object
+This constructor will assign default values to properties that have it defined,
+and makes sure properties required by API are set, but the set of arguments
+will change when the set of required properties is changed
+
+### NewGeneratedIngestionApiKeyResponseWithDefaults
+
+`func NewGeneratedIngestionApiKeyResponseWithDefaults() *GeneratedIngestionApiKeyResponse`
+
+NewGeneratedIngestionApiKeyResponseWithDefaults instantiates a new GeneratedIngestionApiKeyResponse object
+This constructor will only assign default values to properties that have it defined,
+but it doesn't guarantee that properties required by API are set
+
+### GetId
+
+`func (o *GeneratedIngestionApiKeyResponse) GetId() int64`
+
+GetId returns the Id field if non-nil, zero value otherwise.
+
+### GetIdOk
+
+`func (o *GeneratedIngestionApiKeyResponse) GetIdOk() (*int64, bool)`
+
+GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetId
+
+`func (o *GeneratedIngestionApiKeyResponse) SetId(v int64)`
+
+SetId sets Id field to given value.
+
+
+### GetLastUpdateTimestamp
+
+`func (o *GeneratedIngestionApiKeyResponse) GetLastUpdateTimestamp() int64`
+
+GetLastUpdateTimestamp returns the LastUpdateTimestamp field if non-nil, zero value otherwise.
+
+### GetLastUpdateTimestampOk
+
+`func (o *GeneratedIngestionApiKeyResponse) GetLastUpdateTimestampOk() (*int64, bool)`
+
+GetLastUpdateTimestampOk returns a tuple with the LastUpdateTimestamp field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLastUpdateTimestamp
+
+`func (o *GeneratedIngestionApiKeyResponse) SetLastUpdateTimestamp(v int64)`
+
+SetLastUpdateTimestamp sets LastUpdateTimestamp field to given value.
+
+
+### GetName
+
+`func (o *GeneratedIngestionApiKeyResponse) GetName() string`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *GeneratedIngestionApiKeyResponse) GetNameOk() (*string, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *GeneratedIngestionApiKeyResponse) SetName(v string)`
+
+SetName sets Name field to given value.
+
+
+### GetDescription
+
+`func (o *GeneratedIngestionApiKeyResponse) GetDescription() string`
+
+GetDescription returns the Description field if non-nil, zero value otherwise.
+
+### GetDescriptionOk
+
+`func (o *GeneratedIngestionApiKeyResponse) GetDescriptionOk() (*string, bool)`
+
+GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDescription
+
+`func (o *GeneratedIngestionApiKeyResponse) SetDescription(v string)`
+
+SetDescription sets Description field to given value.
+
+### HasDescription
+
+`func (o *GeneratedIngestionApiKeyResponse) HasDescription() bool`
+
+HasDescription returns a boolean if a field has been set.
+
+### GetExpiration
+
+`func (o *GeneratedIngestionApiKeyResponse) GetExpiration() int64`
+
+GetExpiration returns the Expiration field if non-nil, zero value otherwise.
+
+### GetExpirationOk
+
+`func (o *GeneratedIngestionApiKeyResponse) GetExpirationOk() (*int64, bool)`
+
+GetExpirationOk returns a tuple with the Expiration field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExpiration
+
+`func (o *GeneratedIngestionApiKeyResponse) SetExpiration(v int64)`
+
+SetExpiration sets Expiration field to given value.
+
+### HasExpiration
+
+`func (o *GeneratedIngestionApiKeyResponse) HasExpiration() bool`
+
+HasExpiration returns a boolean if a field has been set.
+
+### GetApiKey
+
+`func (o *GeneratedIngestionApiKeyResponse) GetApiKey() string`
+
+GetApiKey returns the ApiKey field if non-nil, zero value otherwise.
+
+### GetApiKeyOk
+
+`func (o *GeneratedIngestionApiKeyResponse) GetApiKeyOk() (*string, bool)`
+
+GetApiKeyOk returns a tuple with the ApiKey field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetApiKey
+
+`func (o *GeneratedIngestionApiKeyResponse) SetApiKey(v string)`
+
+SetApiKey sets ApiKey field to given value.
+
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

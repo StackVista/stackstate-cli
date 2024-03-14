@@ -17,17 +17,17 @@ import (
 
 // EventListRequest struct for EventListRequest
 type EventListRequest struct {
-	StartTimestampMs    int32           `json:"startTimestampMs"`
-	EndTimestampMs      int32           `json:"endTimestampMs"`
-	TopologyQuery       string          `json:"topologyQuery"`
-	Limit               int32           `json:"limit"`
-	PlayHeadTimestampMs *int32          `json:"playHeadTimestampMs,omitempty"`
-	RootCauseMode       *RootCauseMode  `json:"rootCauseMode,omitempty"`
-	EventTypes          []string        `json:"eventTypes,omitempty"`
-	EventTags           []string        `json:"eventTags,omitempty"`
-	EventCategories     []EventCategory `json:"eventCategories,omitempty"`
-	EventSources        []string        `json:"eventSources,omitempty"`
-	Cursor              *EventCursor    `json:"cursor,omitempty"`
+	StartTimestampMs           int32           `json:"startTimestampMs"`
+	EndTimestampMs             int32           `json:"endTimestampMs"`
+	TopologyQuery              string          `json:"topologyQuery"`
+	IncludeConnectedComponents *bool           `json:"includeConnectedComponents,omitempty"`
+	Limit                      int32           `json:"limit"`
+	PlayHeadTimestampMs        *int32          `json:"playHeadTimestampMs,omitempty"`
+	EventTypes                 []string        `json:"eventTypes,omitempty"`
+	EventTags                  []string        `json:"eventTags,omitempty"`
+	EventCategories            []EventCategory `json:"eventCategories,omitempty"`
+	EventSources               []string        `json:"eventSources,omitempty"`
+	Cursor                     *EventCursor    `json:"cursor,omitempty"`
 }
 
 // NewEventListRequest instantiates a new EventListRequest object
@@ -123,6 +123,38 @@ func (o *EventListRequest) SetTopologyQuery(v string) {
 	o.TopologyQuery = v
 }
 
+// GetIncludeConnectedComponents returns the IncludeConnectedComponents field value if set, zero value otherwise.
+func (o *EventListRequest) GetIncludeConnectedComponents() bool {
+	if o == nil || o.IncludeConnectedComponents == nil {
+		var ret bool
+		return ret
+	}
+	return *o.IncludeConnectedComponents
+}
+
+// GetIncludeConnectedComponentsOk returns a tuple with the IncludeConnectedComponents field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventListRequest) GetIncludeConnectedComponentsOk() (*bool, bool) {
+	if o == nil || o.IncludeConnectedComponents == nil {
+		return nil, false
+	}
+	return o.IncludeConnectedComponents, true
+}
+
+// HasIncludeConnectedComponents returns a boolean if a field has been set.
+func (o *EventListRequest) HasIncludeConnectedComponents() bool {
+	if o != nil && o.IncludeConnectedComponents != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIncludeConnectedComponents gets a reference to the given bool and assigns it to the IncludeConnectedComponents field.
+func (o *EventListRequest) SetIncludeConnectedComponents(v bool) {
+	o.IncludeConnectedComponents = &v
+}
+
 // GetLimit returns the Limit field value
 func (o *EventListRequest) GetLimit() int32 {
 	if o == nil {
@@ -177,38 +209,6 @@ func (o *EventListRequest) HasPlayHeadTimestampMs() bool {
 // SetPlayHeadTimestampMs gets a reference to the given int32 and assigns it to the PlayHeadTimestampMs field.
 func (o *EventListRequest) SetPlayHeadTimestampMs(v int32) {
 	o.PlayHeadTimestampMs = &v
-}
-
-// GetRootCauseMode returns the RootCauseMode field value if set, zero value otherwise.
-func (o *EventListRequest) GetRootCauseMode() RootCauseMode {
-	if o == nil || o.RootCauseMode == nil {
-		var ret RootCauseMode
-		return ret
-	}
-	return *o.RootCauseMode
-}
-
-// GetRootCauseModeOk returns a tuple with the RootCauseMode field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *EventListRequest) GetRootCauseModeOk() (*RootCauseMode, bool) {
-	if o == nil || o.RootCauseMode == nil {
-		return nil, false
-	}
-	return o.RootCauseMode, true
-}
-
-// HasRootCauseMode returns a boolean if a field has been set.
-func (o *EventListRequest) HasRootCauseMode() bool {
-	if o != nil && o.RootCauseMode != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetRootCauseMode gets a reference to the given RootCauseMode and assigns it to the RootCauseMode field.
-func (o *EventListRequest) SetRootCauseMode(v RootCauseMode) {
-	o.RootCauseMode = &v
 }
 
 // GetEventTypes returns the EventTypes field value if set, zero value otherwise.
@@ -382,14 +382,14 @@ func (o EventListRequest) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["topologyQuery"] = o.TopologyQuery
 	}
+	if o.IncludeConnectedComponents != nil {
+		toSerialize["includeConnectedComponents"] = o.IncludeConnectedComponents
+	}
 	if true {
 		toSerialize["limit"] = o.Limit
 	}
 	if o.PlayHeadTimestampMs != nil {
 		toSerialize["playHeadTimestampMs"] = o.PlayHeadTimestampMs
-	}
-	if o.RootCauseMode != nil {
-		toSerialize["rootCauseMode"] = o.RootCauseMode
 	}
 	if o.EventTypes != nil {
 		toSerialize["eventTypes"] = o.EventTypes

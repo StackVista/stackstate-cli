@@ -17,15 +17,15 @@ import (
 
 // GetKubernetesLogsAutocompleteResult struct for GetKubernetesLogsAutocompleteResult
 type GetKubernetesLogsAutocompleteResult struct {
-	ContainerNames []string   `json:"containerNames"`
-	Levels         []LogLevel `json:"levels"`
+	ContainerNames []string      `json:"containerNames"`
+	Levels         []LogSeverity `json:"levels"`
 }
 
 // NewGetKubernetesLogsAutocompleteResult instantiates a new GetKubernetesLogsAutocompleteResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewGetKubernetesLogsAutocompleteResult(containerNames []string, levels []LogLevel) *GetKubernetesLogsAutocompleteResult {
+func NewGetKubernetesLogsAutocompleteResult(containerNames []string, levels []LogSeverity) *GetKubernetesLogsAutocompleteResult {
 	this := GetKubernetesLogsAutocompleteResult{}
 	this.ContainerNames = containerNames
 	this.Levels = levels
@@ -65,9 +65,9 @@ func (o *GetKubernetesLogsAutocompleteResult) SetContainerNames(v []string) {
 }
 
 // GetLevels returns the Levels field value
-func (o *GetKubernetesLogsAutocompleteResult) GetLevels() []LogLevel {
+func (o *GetKubernetesLogsAutocompleteResult) GetLevels() []LogSeverity {
 	if o == nil {
-		var ret []LogLevel
+		var ret []LogSeverity
 		return ret
 	}
 
@@ -76,7 +76,7 @@ func (o *GetKubernetesLogsAutocompleteResult) GetLevels() []LogLevel {
 
 // GetLevelsOk returns a tuple with the Levels field value
 // and a boolean to check if the value has been set.
-func (o *GetKubernetesLogsAutocompleteResult) GetLevelsOk() ([]LogLevel, bool) {
+func (o *GetKubernetesLogsAutocompleteResult) GetLevelsOk() ([]LogSeverity, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,7 +84,7 @@ func (o *GetKubernetesLogsAutocompleteResult) GetLevelsOk() ([]LogLevel, bool) {
 }
 
 // SetLevels sets field value
-func (o *GetKubernetesLogsAutocompleteResult) SetLevels(v []LogLevel) {
+func (o *GetKubernetesLogsAutocompleteResult) SetLevels(v []LogSeverity) {
 	o.Levels = v
 }
 

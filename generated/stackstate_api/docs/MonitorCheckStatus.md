@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 **TriggeredTimestamp** | **int32** |  | 
 **Metrics** | [**[]MonitorCheckStatusMetric**](MonitorCheckStatusMetric.md) |  | 
 **Component** | [**MonitorCheckStatusComponent**](MonitorCheckStatusComponent.md) |  | 
-**MonitorId** | **int64** |  | 
+**MonitorId** | [**MonitorReferenceId**](MonitorReferenceId.md) |  | 
 **MonitorName** | **string** |  | 
 **MonitorDescription** | Pointer to **string** |  | [optional] 
 **TroubleshootingSteps** | Pointer to **string** |  | [optional] 
@@ -22,7 +22,7 @@ Name | Type | Description | Notes
 
 ### NewMonitorCheckStatus
 
-`func NewMonitorCheckStatus(id int64, checkStateId string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId int64, monitorName string, topologyTime int32, ) *MonitorCheckStatus`
+`func NewMonitorCheckStatus(id int64, checkStateId string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId MonitorReferenceId, monitorName string, topologyTime int32, ) *MonitorCheckStatus`
 
 NewMonitorCheckStatus instantiates a new MonitorCheckStatus object
 This constructor will assign default values to properties that have it defined,
@@ -204,20 +204,20 @@ SetComponent sets Component field to given value.
 
 ### GetMonitorId
 
-`func (o *MonitorCheckStatus) GetMonitorId() int64`
+`func (o *MonitorCheckStatus) GetMonitorId() MonitorReferenceId`
 
 GetMonitorId returns the MonitorId field if non-nil, zero value otherwise.
 
 ### GetMonitorIdOk
 
-`func (o *MonitorCheckStatus) GetMonitorIdOk() (*int64, bool)`
+`func (o *MonitorCheckStatus) GetMonitorIdOk() (*MonitorReferenceId, bool)`
 
 GetMonitorIdOk returns a tuple with the MonitorId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMonitorId
 
-`func (o *MonitorCheckStatus) SetMonitorId(v int64)`
+`func (o *MonitorCheckStatus) SetMonitorId(v MonitorReferenceId)`
 
 SetMonitorId sets MonitorId field to given value.
 

@@ -92,6 +92,20 @@ type EventApi interface {
 	// GetEventsExecute executes the request
 	//  @return EventItemsWithTotal
 	GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error)
+
+	/*
+		GetEventsHistogram Get events histogram
+
+		Gets you a histogram of events that exist for topology and time selections.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetEventsHistogramRequest
+	*/
+	GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest
+
+	// GetEventsHistogramExecute executes the request
+	//  @return EventsHistogram
+	GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error)
 }
 
 // EventApiService EventApi service
@@ -301,19 +315,19 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent,
 }
 
 type ApiGetEventSourcesRequest struct {
-	ctx                 context.Context
-	ApiService          EventApi
-	startTimestampMs    *int32
-	endTimestampMs      *int32
-	topologyQuery       *string
-	limit               *int32
-	rootCauseMode       *RootCauseMode
-	playHeadTimestampMs *int32
-	eventTypes          *[]string
-	eventCategories     *[]EventCategory
-	eventSources        *[]string
-	eventTags           *[]string
-	match               *string
+	ctx                        context.Context
+	ApiService                 EventApi
+	startTimestampMs           *int32
+	endTimestampMs             *int32
+	topologyQuery              *string
+	limit                      *int32
+	includeConnectedComponents *bool
+	playHeadTimestampMs        *int32
+	eventTypes                 *[]string
+	eventCategories            *[]EventCategory
+	eventSources               *[]string
+	eventTags                  *[]string
+	match                      *string
 }
 
 func (r ApiGetEventSourcesRequest) StartTimestampMs(startTimestampMs int32) ApiGetEventSourcesRequest {
@@ -336,8 +350,8 @@ func (r ApiGetEventSourcesRequest) Limit(limit int32) ApiGetEventSourcesRequest 
 	return r
 }
 
-func (r ApiGetEventSourcesRequest) RootCauseMode(rootCauseMode RootCauseMode) ApiGetEventSourcesRequest {
-	r.rootCauseMode = &rootCauseMode
+func (r ApiGetEventSourcesRequest) IncludeConnectedComponents(includeConnectedComponents bool) ApiGetEventSourcesRequest {
+	r.includeConnectedComponents = &includeConnectedComponents
 	return r
 }
 
@@ -427,8 +441,8 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 	localVarQueryParams.Add("startTimestampMs", parameterToString(*r.startTimestampMs, ""))
 	localVarQueryParams.Add("endTimestampMs", parameterToString(*r.endTimestampMs, ""))
 	localVarQueryParams.Add("topologyQuery", parameterToString(*r.topologyQuery, ""))
-	if r.rootCauseMode != nil {
-		localVarQueryParams.Add("rootCauseMode", parameterToString(*r.rootCauseMode, ""))
+	if r.includeConnectedComponents != nil {
+		localVarQueryParams.Add("includeConnectedComponents", parameterToString(*r.includeConnectedComponents, ""))
 	}
 	if r.playHeadTimestampMs != nil {
 		localVarQueryParams.Add("playHeadTimestampMs", parameterToString(*r.playHeadTimestampMs, ""))
@@ -565,19 +579,19 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 }
 
 type ApiGetEventTagsRequest struct {
-	ctx                 context.Context
-	ApiService          EventApi
-	startTimestampMs    *int32
-	endTimestampMs      *int32
-	topologyQuery       *string
-	limit               *int32
-	rootCauseMode       *RootCauseMode
-	playHeadTimestampMs *int32
-	eventTypes          *[]string
-	eventCategories     *[]EventCategory
-	eventSources        *[]string
-	eventTags           *[]string
-	match               *string
+	ctx                        context.Context
+	ApiService                 EventApi
+	startTimestampMs           *int32
+	endTimestampMs             *int32
+	topologyQuery              *string
+	limit                      *int32
+	includeConnectedComponents *bool
+	playHeadTimestampMs        *int32
+	eventTypes                 *[]string
+	eventCategories            *[]EventCategory
+	eventSources               *[]string
+	eventTags                  *[]string
+	match                      *string
 }
 
 func (r ApiGetEventTagsRequest) StartTimestampMs(startTimestampMs int32) ApiGetEventTagsRequest {
@@ -600,8 +614,8 @@ func (r ApiGetEventTagsRequest) Limit(limit int32) ApiGetEventTagsRequest {
 	return r
 }
 
-func (r ApiGetEventTagsRequest) RootCauseMode(rootCauseMode RootCauseMode) ApiGetEventTagsRequest {
-	r.rootCauseMode = &rootCauseMode
+func (r ApiGetEventTagsRequest) IncludeConnectedComponents(includeConnectedComponents bool) ApiGetEventTagsRequest {
+	r.includeConnectedComponents = &includeConnectedComponents
 	return r
 }
 
@@ -691,8 +705,8 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 	localVarQueryParams.Add("startTimestampMs", parameterToString(*r.startTimestampMs, ""))
 	localVarQueryParams.Add("endTimestampMs", parameterToString(*r.endTimestampMs, ""))
 	localVarQueryParams.Add("topologyQuery", parameterToString(*r.topologyQuery, ""))
-	if r.rootCauseMode != nil {
-		localVarQueryParams.Add("rootCauseMode", parameterToString(*r.rootCauseMode, ""))
+	if r.includeConnectedComponents != nil {
+		localVarQueryParams.Add("includeConnectedComponents", parameterToString(*r.includeConnectedComponents, ""))
 	}
 	if r.playHeadTimestampMs != nil {
 		localVarQueryParams.Add("playHeadTimestampMs", parameterToString(*r.playHeadTimestampMs, ""))
@@ -829,19 +843,19 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 }
 
 type ApiGetEventTypesRequest struct {
-	ctx                 context.Context
-	ApiService          EventApi
-	startTimestampMs    *int32
-	endTimestampMs      *int32
-	topologyQuery       *string
-	limit               *int32
-	rootCauseMode       *RootCauseMode
-	playHeadTimestampMs *int32
-	eventTypes          *[]string
-	eventCategories     *[]EventCategory
-	eventSources        *[]string
-	eventTags           *[]string
-	match               *string
+	ctx                        context.Context
+	ApiService                 EventApi
+	startTimestampMs           *int32
+	endTimestampMs             *int32
+	topologyQuery              *string
+	limit                      *int32
+	includeConnectedComponents *bool
+	playHeadTimestampMs        *int32
+	eventTypes                 *[]string
+	eventCategories            *[]EventCategory
+	eventSources               *[]string
+	eventTags                  *[]string
+	match                      *string
 }
 
 func (r ApiGetEventTypesRequest) StartTimestampMs(startTimestampMs int32) ApiGetEventTypesRequest {
@@ -864,8 +878,8 @@ func (r ApiGetEventTypesRequest) Limit(limit int32) ApiGetEventTypesRequest {
 	return r
 }
 
-func (r ApiGetEventTypesRequest) RootCauseMode(rootCauseMode RootCauseMode) ApiGetEventTypesRequest {
-	r.rootCauseMode = &rootCauseMode
+func (r ApiGetEventTypesRequest) IncludeConnectedComponents(includeConnectedComponents bool) ApiGetEventTypesRequest {
+	r.includeConnectedComponents = &includeConnectedComponents
 	return r
 }
 
@@ -955,8 +969,8 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*Stri
 	localVarQueryParams.Add("startTimestampMs", parameterToString(*r.startTimestampMs, ""))
 	localVarQueryParams.Add("endTimestampMs", parameterToString(*r.endTimestampMs, ""))
 	localVarQueryParams.Add("topologyQuery", parameterToString(*r.topologyQuery, ""))
-	if r.rootCauseMode != nil {
-		localVarQueryParams.Add("rootCauseMode", parameterToString(*r.rootCauseMode, ""))
+	if r.includeConnectedComponents != nil {
+		localVarQueryParams.Add("includeConnectedComponents", parameterToString(*r.includeConnectedComponents, ""))
 	}
 	if r.playHeadTimestampMs != nil {
 		localVarQueryParams.Add("playHeadTimestampMs", parameterToString(*r.playHeadTimestampMs, ""))
@@ -1263,21 +1277,194 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWi
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetEventsHistogramRequest struct {
+	ctx                    context.Context
+	ApiService             EventApi
+	eventsHistogramRequest *EventsHistogramRequest
+}
+
+func (r ApiGetEventsHistogramRequest) EventsHistogramRequest(eventsHistogramRequest EventsHistogramRequest) ApiGetEventsHistogramRequest {
+	r.eventsHistogramRequest = &eventsHistogramRequest
+	return r
+}
+
+func (r ApiGetEventsHistogramRequest) Execute() (*EventsHistogram, *http.Response, error) {
+	return r.ApiService.GetEventsHistogramExecute(r)
+}
+
+/*
+GetEventsHistogram Get events histogram
+
+Gets you a histogram of events that exist for topology and time selections.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEventsHistogramRequest
+*/
+func (a *EventApiService) GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest {
+	return ApiGetEventsHistogramRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//  @return EventsHistogram
+func (a *EventApiService) GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *EventsHistogram
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventsHistogram")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/eventsHistogram"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.eventsHistogramRequest == nil {
+		return localVarReturnValue, nil, reportError("eventsHistogramRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.eventsHistogramRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v RequestError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
 type EventApiMock struct {
-	GetEventCalls           *[]GetEventCall
-	GetEventResponse        GetEventMockResponse
-	GetEventSourcesCalls    *[]GetEventSourcesCall
-	GetEventSourcesResponse GetEventSourcesMockResponse
-	GetEventTagsCalls       *[]GetEventTagsCall
-	GetEventTagsResponse    GetEventTagsMockResponse
-	GetEventTypesCalls      *[]GetEventTypesCall
-	GetEventTypesResponse   GetEventTypesMockResponse
-	GetEventsCalls          *[]GetEventsCall
-	GetEventsResponse       GetEventsMockResponse
+	GetEventCalls              *[]GetEventCall
+	GetEventResponse           GetEventMockResponse
+	GetEventSourcesCalls       *[]GetEventSourcesCall
+	GetEventSourcesResponse    GetEventSourcesMockResponse
+	GetEventTagsCalls          *[]GetEventTagsCall
+	GetEventTagsResponse       GetEventTagsMockResponse
+	GetEventTypesCalls         *[]GetEventTypesCall
+	GetEventTypesResponse      GetEventTypesMockResponse
+	GetEventsCalls             *[]GetEventsCall
+	GetEventsResponse          GetEventsMockResponse
+	GetEventsHistogramCalls    *[]GetEventsHistogramCall
+	GetEventsHistogramResponse GetEventsHistogramMockResponse
 }
 
 func NewEventApiMock() EventApiMock {
@@ -1286,12 +1473,14 @@ func NewEventApiMock() EventApiMock {
 	xGetEventTagsCalls := make([]GetEventTagsCall, 0)
 	xGetEventTypesCalls := make([]GetEventTypesCall, 0)
 	xGetEventsCalls := make([]GetEventsCall, 0)
+	xGetEventsHistogramCalls := make([]GetEventsHistogramCall, 0)
 	return EventApiMock{
-		GetEventCalls:        &xGetEventCalls,
-		GetEventSourcesCalls: &xGetEventSourcesCalls,
-		GetEventTagsCalls:    &xGetEventTagsCalls,
-		GetEventTypesCalls:   &xGetEventTypesCalls,
-		GetEventsCalls:       &xGetEventsCalls,
+		GetEventCalls:           &xGetEventCalls,
+		GetEventSourcesCalls:    &xGetEventSourcesCalls,
+		GetEventTagsCalls:       &xGetEventTagsCalls,
+		GetEventTypesCalls:      &xGetEventTypesCalls,
+		GetEventsCalls:          &xGetEventsCalls,
+		GetEventsHistogramCalls: &xGetEventsHistogramCalls,
 	}
 }
 
@@ -1334,17 +1523,17 @@ type GetEventSourcesMockResponse struct {
 }
 
 type GetEventSourcesCall struct {
-	PstartTimestampMs    *int32
-	PendTimestampMs      *int32
-	PtopologyQuery       *string
-	Plimit               *int32
-	ProotCauseMode       *RootCauseMode
-	PplayHeadTimestampMs *int32
-	PeventTypes          *[]string
-	PeventCategories     *[]EventCategory
-	PeventSources        *[]string
-	PeventTags           *[]string
-	Pmatch               *string
+	PstartTimestampMs           *int32
+	PendTimestampMs             *int32
+	PtopologyQuery              *string
+	Plimit                      *int32
+	PincludeConnectedComponents *bool
+	PplayHeadTimestampMs        *int32
+	PeventTypes                 *[]string
+	PeventCategories            *[]EventCategory
+	PeventSources               *[]string
+	PeventTags                  *[]string
+	Pmatch                      *string
 }
 
 func (mock EventApiMock) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
@@ -1356,17 +1545,17 @@ func (mock EventApiMock) GetEventSources(ctx context.Context) ApiGetEventSources
 
 func (mock EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventSourcesCall{
-		PstartTimestampMs:    r.startTimestampMs,
-		PendTimestampMs:      r.endTimestampMs,
-		PtopologyQuery:       r.topologyQuery,
-		Plimit:               r.limit,
-		ProotCauseMode:       r.rootCauseMode,
-		PplayHeadTimestampMs: r.playHeadTimestampMs,
-		PeventTypes:          r.eventTypes,
-		PeventCategories:     r.eventCategories,
-		PeventSources:        r.eventSources,
-		PeventTags:           r.eventTags,
-		Pmatch:               r.match,
+		PstartTimestampMs:           r.startTimestampMs,
+		PendTimestampMs:             r.endTimestampMs,
+		PtopologyQuery:              r.topologyQuery,
+		Plimit:                      r.limit,
+		PincludeConnectedComponents: r.includeConnectedComponents,
+		PplayHeadTimestampMs:        r.playHeadTimestampMs,
+		PeventTypes:                 r.eventTypes,
+		PeventCategories:            r.eventCategories,
+		PeventSources:               r.eventSources,
+		PeventTags:                  r.eventTags,
+		Pmatch:                      r.match,
 	}
 	*mock.GetEventSourcesCalls = append(*mock.GetEventSourcesCalls, p)
 	return &mock.GetEventSourcesResponse.Result, mock.GetEventSourcesResponse.Response, mock.GetEventSourcesResponse.Error
@@ -1379,17 +1568,17 @@ type GetEventTagsMockResponse struct {
 }
 
 type GetEventTagsCall struct {
-	PstartTimestampMs    *int32
-	PendTimestampMs      *int32
-	PtopologyQuery       *string
-	Plimit               *int32
-	ProotCauseMode       *RootCauseMode
-	PplayHeadTimestampMs *int32
-	PeventTypes          *[]string
-	PeventCategories     *[]EventCategory
-	PeventSources        *[]string
-	PeventTags           *[]string
-	Pmatch               *string
+	PstartTimestampMs           *int32
+	PendTimestampMs             *int32
+	PtopologyQuery              *string
+	Plimit                      *int32
+	PincludeConnectedComponents *bool
+	PplayHeadTimestampMs        *int32
+	PeventTypes                 *[]string
+	PeventCategories            *[]EventCategory
+	PeventSources               *[]string
+	PeventTags                  *[]string
+	Pmatch                      *string
 }
 
 func (mock EventApiMock) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
@@ -1401,17 +1590,17 @@ func (mock EventApiMock) GetEventTags(ctx context.Context) ApiGetEventTagsReques
 
 func (mock EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventTagsCall{
-		PstartTimestampMs:    r.startTimestampMs,
-		PendTimestampMs:      r.endTimestampMs,
-		PtopologyQuery:       r.topologyQuery,
-		Plimit:               r.limit,
-		ProotCauseMode:       r.rootCauseMode,
-		PplayHeadTimestampMs: r.playHeadTimestampMs,
-		PeventTypes:          r.eventTypes,
-		PeventCategories:     r.eventCategories,
-		PeventSources:        r.eventSources,
-		PeventTags:           r.eventTags,
-		Pmatch:               r.match,
+		PstartTimestampMs:           r.startTimestampMs,
+		PendTimestampMs:             r.endTimestampMs,
+		PtopologyQuery:              r.topologyQuery,
+		Plimit:                      r.limit,
+		PincludeConnectedComponents: r.includeConnectedComponents,
+		PplayHeadTimestampMs:        r.playHeadTimestampMs,
+		PeventTypes:                 r.eventTypes,
+		PeventCategories:            r.eventCategories,
+		PeventSources:               r.eventSources,
+		PeventTags:                  r.eventTags,
+		Pmatch:                      r.match,
 	}
 	*mock.GetEventTagsCalls = append(*mock.GetEventTagsCalls, p)
 	return &mock.GetEventTagsResponse.Result, mock.GetEventTagsResponse.Response, mock.GetEventTagsResponse.Error
@@ -1424,17 +1613,17 @@ type GetEventTypesMockResponse struct {
 }
 
 type GetEventTypesCall struct {
-	PstartTimestampMs    *int32
-	PendTimestampMs      *int32
-	PtopologyQuery       *string
-	Plimit               *int32
-	ProotCauseMode       *RootCauseMode
-	PplayHeadTimestampMs *int32
-	PeventTypes          *[]string
-	PeventCategories     *[]EventCategory
-	PeventSources        *[]string
-	PeventTags           *[]string
-	Pmatch               *string
+	PstartTimestampMs           *int32
+	PendTimestampMs             *int32
+	PtopologyQuery              *string
+	Plimit                      *int32
+	PincludeConnectedComponents *bool
+	PplayHeadTimestampMs        *int32
+	PeventTypes                 *[]string
+	PeventCategories            *[]EventCategory
+	PeventSources               *[]string
+	PeventTags                  *[]string
+	Pmatch                      *string
 }
 
 func (mock EventApiMock) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
@@ -1446,17 +1635,17 @@ func (mock EventApiMock) GetEventTypes(ctx context.Context) ApiGetEventTypesRequ
 
 func (mock EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventTypesCall{
-		PstartTimestampMs:    r.startTimestampMs,
-		PendTimestampMs:      r.endTimestampMs,
-		PtopologyQuery:       r.topologyQuery,
-		Plimit:               r.limit,
-		ProotCauseMode:       r.rootCauseMode,
-		PplayHeadTimestampMs: r.playHeadTimestampMs,
-		PeventTypes:          r.eventTypes,
-		PeventCategories:     r.eventCategories,
-		PeventSources:        r.eventSources,
-		PeventTags:           r.eventTags,
-		Pmatch:               r.match,
+		PstartTimestampMs:           r.startTimestampMs,
+		PendTimestampMs:             r.endTimestampMs,
+		PtopologyQuery:              r.topologyQuery,
+		Plimit:                      r.limit,
+		PincludeConnectedComponents: r.includeConnectedComponents,
+		PplayHeadTimestampMs:        r.playHeadTimestampMs,
+		PeventTypes:                 r.eventTypes,
+		PeventCategories:            r.eventCategories,
+		PeventSources:               r.eventSources,
+		PeventTags:                  r.eventTags,
+		Pmatch:                      r.match,
 	}
 	*mock.GetEventTypesCalls = append(*mock.GetEventTypesCalls, p)
 	return &mock.GetEventTypesResponse.Result, mock.GetEventTypesResponse.Response, mock.GetEventTypesResponse.Error
@@ -1485,4 +1674,29 @@ func (mock EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWit
 	}
 	*mock.GetEventsCalls = append(*mock.GetEventsCalls, p)
 	return &mock.GetEventsResponse.Result, mock.GetEventsResponse.Response, mock.GetEventsResponse.Error
+}
+
+type GetEventsHistogramMockResponse struct {
+	Result   EventsHistogram
+	Response *http.Response
+	Error    error
+}
+
+type GetEventsHistogramCall struct {
+	PeventsHistogramRequest *EventsHistogramRequest
+}
+
+func (mock EventApiMock) GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest {
+	return ApiGetEventsHistogramRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock EventApiMock) GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error) {
+	p := GetEventsHistogramCall{
+		PeventsHistogramRequest: r.eventsHistogramRequest,
+	}
+	*mock.GetEventsHistogramCalls = append(*mock.GetEventsHistogramCalls, p)
+	return &mock.GetEventsHistogramResponse.Result, mock.GetEventsHistogramResponse.Response, mock.GetEventsHistogramResponse.Error
 }
