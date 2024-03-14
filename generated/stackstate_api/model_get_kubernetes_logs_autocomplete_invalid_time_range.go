@@ -19,8 +19,10 @@ import (
 type GetKubernetesLogsAutocompleteInvalidTimeRange struct {
 	Type    string `json:"_type"`
 	Message string `json:"message"`
-	From    int32  `json:"from"`
-	To      int32  `json:"to"`
+	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
+	From int32 `json:"from"`
+	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
+	To int32 `json:"to"`
 }
 
 // NewGetKubernetesLogsAutocompleteInvalidTimeRange instantiates a new GetKubernetesLogsAutocompleteInvalidTimeRange object

@@ -52,17 +52,17 @@ type APIClient struct {
 
 	ApiTokenApi ApiTokenApi
 
-	ComponentApi ComponentApi
+	DummyApi DummyApi
 
 	EventApi EventApi
 
 	ExportApi ExportApi
 
-	ExportAnomalyApi ExportAnomalyApi
-
 	HealthSynchronizationApi HealthSynchronizationApi
 
 	ImportApi ImportApi
+
+	IngestionApiKeyApi IngestionApiKeyApi
 
 	KubernetesLogsApi KubernetesLogsApi
 
@@ -74,11 +74,13 @@ type APIClient struct {
 
 	NodeApi NodeApi
 
+	NotificationChannelsApi NotificationChannelsApi
+
+	NotificationConfigurationsApi NotificationConfigurationsApi
+
 	PermissionsApi PermissionsApi
 
 	ProblemApi ProblemApi
-
-	RelationApi RelationApi
 
 	ScriptingApi ScriptingApi
 
@@ -95,6 +97,8 @@ type APIClient struct {
 	TopicApi TopicApi
 
 	TopologySynchronizationApi TopologySynchronizationApi
+
+	TracesApi TracesApi
 
 	UserProfileApi UserProfileApi
 
@@ -118,20 +122,21 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
-	c.ComponentApi = (*ComponentApiService)(&c.common)
+	c.DummyApi = (*DummyApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)
 	c.ExportApi = (*ExportApiService)(&c.common)
-	c.ExportAnomalyApi = (*ExportAnomalyApiService)(&c.common)
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
 	c.ImportApi = (*ImportApiService)(&c.common)
+	c.IngestionApiKeyApi = (*IngestionApiKeyApiService)(&c.common)
 	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.MonitorCheckStatusApi = (*MonitorCheckStatusApiService)(&c.common)
 	c.NodeApi = (*NodeApiService)(&c.common)
+	c.NotificationChannelsApi = (*NotificationChannelsApiService)(&c.common)
+	c.NotificationConfigurationsApi = (*NotificationConfigurationsApiService)(&c.common)
 	c.PermissionsApi = (*PermissionsApiService)(&c.common)
 	c.ProblemApi = (*ProblemApiService)(&c.common)
-	c.RelationApi = (*RelationApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)
 	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
@@ -140,6 +145,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
 	c.TopicApi = (*TopicApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
+	c.TracesApi = (*TracesApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 	c.UserSessionApi = (*UserSessionApiService)(&c.common)
 

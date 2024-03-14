@@ -72,7 +72,7 @@ type ApiGetKubernetesLogsRequest struct {
 	query          *string
 	containerNames *[]string
 	direction      *LogsDirection
-	levels         *[]LogLevel
+	severity       *[]LogSeverity
 }
 
 // Logs initial timestamp.
@@ -123,9 +123,9 @@ func (r ApiGetKubernetesLogsRequest) Direction(direction LogsDirection) ApiGetKu
 	return r
 }
 
-// Search a specific log level DEBUG, INFO, WARN, ERROR.
-func (r ApiGetKubernetesLogsRequest) Levels(levels []LogLevel) ApiGetKubernetesLogsRequest {
-	r.levels = &levels
+// Search a specific log severity WARN, ERROR, OTHER.
+func (r ApiGetKubernetesLogsRequest) Severity(severity []LogSeverity) ApiGetKubernetesLogsRequest {
+	r.severity = &severity
 	return r
 }
 
@@ -194,8 +194,8 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	if r.direction != nil {
 		localVarQueryParams.Add("direction", parameterToString(*r.direction, ""))
 	}
-	if r.levels != nil {
-		localVarQueryParams.Add("levels", parameterToString(*r.levels, "csv"))
+	if r.severity != nil {
+		localVarQueryParams.Add("severity", parameterToString(*r.severity, "csv"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -512,7 +512,7 @@ type ApiGetKubernetesLogsHistogramRequest struct {
 	bucketsCount   *int32
 	query          *string
 	containerNames *[]string
-	levels         *[]LogLevel
+	severity       *[]LogSeverity
 }
 
 // Logs initial timestamp.
@@ -551,9 +551,9 @@ func (r ApiGetKubernetesLogsHistogramRequest) ContainerNames(containerNames []st
 	return r
 }
 
-// Search a specific log level DEBUG, INFO, WARN, ERROR.
-func (r ApiGetKubernetesLogsHistogramRequest) Levels(levels []LogLevel) ApiGetKubernetesLogsHistogramRequest {
-	r.levels = &levels
+// Search a specific log severity WARN, ERROR, OTHER.
+func (r ApiGetKubernetesLogsHistogramRequest) Severity(severity []LogSeverity) ApiGetKubernetesLogsHistogramRequest {
+	r.severity = &severity
 	return r
 }
 
@@ -617,8 +617,8 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 		localVarQueryParams.Add("containerNames", parameterToString(*r.containerNames, "csv"))
 	}
 	localVarQueryParams.Add("bucketsCount", parameterToString(*r.bucketsCount, ""))
-	if r.levels != nil {
-		localVarQueryParams.Add("levels", parameterToString(*r.levels, "csv"))
+	if r.severity != nil {
+		localVarQueryParams.Add("severity", parameterToString(*r.severity, "csv"))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -774,7 +774,7 @@ type GetKubernetesLogsCall struct {
 	Pquery          *string
 	PcontainerNames *[]string
 	Pdirection      *LogsDirection
-	Plevels         *[]LogLevel
+	Pseverity       *[]LogSeverity
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
@@ -794,7 +794,7 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsExecute(r ApiGetKubernetesLog
 		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
 		Pdirection:      r.direction,
-		Plevels:         r.levels,
+		Pseverity:       r.severity,
 	}
 	*mock.GetKubernetesLogsCalls = append(*mock.GetKubernetesLogsCalls, p)
 	return &mock.GetKubernetesLogsResponse.Result, mock.GetKubernetesLogsResponse.Response, mock.GetKubernetesLogsResponse.Error
@@ -842,7 +842,7 @@ type GetKubernetesLogsHistogramCall struct {
 	PbucketsCount   *int32
 	Pquery          *string
 	PcontainerNames *[]string
-	Plevels         *[]LogLevel
+	Pseverity       *[]LogSeverity
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
@@ -860,7 +860,7 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogramExecute(r ApiGetKube
 		PbucketsCount:   r.bucketsCount,
 		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
-		Plevels:         r.levels,
+		Pseverity:       r.severity,
 	}
 	*mock.GetKubernetesLogsHistogramCalls = append(*mock.GetKubernetesLogsHistogramCalls, p)
 	return &mock.GetKubernetesLogsHistogramResponse.Result, mock.GetKubernetesLogsHistogramResponse.Response, mock.GetKubernetesLogsHistogramResponse.Error

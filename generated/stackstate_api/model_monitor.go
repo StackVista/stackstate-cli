@@ -26,6 +26,10 @@ type Monitor struct {
 	RemediationHint     *string                   `json:"remediationHint,omitempty"`
 	IntervalSeconds     int32                     `json:"intervalSeconds"`
 	Tags                []string                  `json:"tags"`
+	Source              string                    `json:"source"`
+	SourceDetails       *string                   `json:"sourceDetails,omitempty"`
+	CanEdit             bool                      `json:"canEdit"`
+	CanClone            bool                      `json:"canClone"`
 	Status              MonitorStatusValue        `json:"status"`
 	RuntimeStatus       MonitorRuntimeStatusValue `json:"runtimeStatus"`
 	LastUpdateTimestamp int64                     `json:"lastUpdateTimestamp"`
@@ -35,7 +39,7 @@ type Monitor struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, status MonitorStatusValue, runtimeStatus MonitorRuntimeStatusValue, lastUpdateTimestamp int64) *Monitor {
+func NewMonitor(id int64, name string, functionId int64, arguments []map[string]interface{}, intervalSeconds int32, tags []string, source string, canEdit bool, canClone bool, status MonitorStatusValue, runtimeStatus MonitorRuntimeStatusValue, lastUpdateTimestamp int64) *Monitor {
 	this := Monitor{}
 	this.Id = id
 	this.Name = name
@@ -43,6 +47,9 @@ func NewMonitor(id int64, name string, functionId int64, arguments []map[string]
 	this.Arguments = arguments
 	this.IntervalSeconds = intervalSeconds
 	this.Tags = tags
+	this.Source = source
+	this.CanEdit = canEdit
+	this.CanClone = canClone
 	this.Status = status
 	this.RuntimeStatus = runtimeStatus
 	this.LastUpdateTimestamp = lastUpdateTimestamp
@@ -297,6 +304,110 @@ func (o *Monitor) SetTags(v []string) {
 	o.Tags = v
 }
 
+// GetSource returns the Source field value
+func (o *Monitor) GetSource() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Source
+}
+
+// GetSourceOk returns a tuple with the Source field value
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetSourceOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Source, true
+}
+
+// SetSource sets field value
+func (o *Monitor) SetSource(v string) {
+	o.Source = v
+}
+
+// GetSourceDetails returns the SourceDetails field value if set, zero value otherwise.
+func (o *Monitor) GetSourceDetails() string {
+	if o == nil || o.SourceDetails == nil {
+		var ret string
+		return ret
+	}
+	return *o.SourceDetails
+}
+
+// GetSourceDetailsOk returns a tuple with the SourceDetails field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetSourceDetailsOk() (*string, bool) {
+	if o == nil || o.SourceDetails == nil {
+		return nil, false
+	}
+	return o.SourceDetails, true
+}
+
+// HasSourceDetails returns a boolean if a field has been set.
+func (o *Monitor) HasSourceDetails() bool {
+	if o != nil && o.SourceDetails != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSourceDetails gets a reference to the given string and assigns it to the SourceDetails field.
+func (o *Monitor) SetSourceDetails(v string) {
+	o.SourceDetails = &v
+}
+
+// GetCanEdit returns the CanEdit field value
+func (o *Monitor) GetCanEdit() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.CanEdit
+}
+
+// GetCanEditOk returns a tuple with the CanEdit field value
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetCanEditOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CanEdit, true
+}
+
+// SetCanEdit sets field value
+func (o *Monitor) SetCanEdit(v bool) {
+	o.CanEdit = v
+}
+
+// GetCanClone returns the CanClone field value
+func (o *Monitor) GetCanClone() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.CanClone
+}
+
+// GetCanCloneOk returns a tuple with the CanClone field value
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetCanCloneOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.CanClone, true
+}
+
+// SetCanClone sets field value
+func (o *Monitor) SetCanClone(v bool) {
+	o.CanClone = v
+}
+
 // GetStatus returns the Status field value
 func (o *Monitor) GetStatus() MonitorStatusValue {
 	if o == nil {
@@ -397,6 +508,18 @@ func (o Monitor) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["tags"] = o.Tags
+	}
+	if true {
+		toSerialize["source"] = o.Source
+	}
+	if o.SourceDetails != nil {
+		toSerialize["sourceDetails"] = o.SourceDetails
+	}
+	if true {
+		toSerialize["canEdit"] = o.CanEdit
+	}
+	if true {
+		toSerialize["canClone"] = o.CanClone
 	}
 	if true {
 		toSerialize["status"] = o.Status

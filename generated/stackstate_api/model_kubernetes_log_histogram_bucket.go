@@ -22,20 +22,20 @@ type KubernetesLogHistogramBucket struct {
 	// The bucket initial timestamp.
 	StartTime int32 `json:"startTime"`
 	// The bucket final timestamp.
-	EndTime         int32                               `json:"endTime"`
-	LogLevelBuckets []KubernetesLogLevelHistogramBucket `json:"logLevelBuckets"`
+	EndTime            int32                                  `json:"endTime"`
+	LogSeverityBuckets []KubernetesLogSeverityHistogramBucket `json:"logSeverityBuckets"`
 }
 
 // NewKubernetesLogHistogramBucket instantiates a new KubernetesLogHistogramBucket object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, logLevelBuckets []KubernetesLogLevelHistogramBucket) *KubernetesLogHistogramBucket {
+func NewKubernetesLogHistogramBucket(count int64, startTime int32, endTime int32, logSeverityBuckets []KubernetesLogSeverityHistogramBucket) *KubernetesLogHistogramBucket {
 	this := KubernetesLogHistogramBucket{}
 	this.Count = count
 	this.StartTime = startTime
 	this.EndTime = endTime
-	this.LogLevelBuckets = logLevelBuckets
+	this.LogSeverityBuckets = logSeverityBuckets
 	return &this
 }
 
@@ -119,28 +119,28 @@ func (o *KubernetesLogHistogramBucket) SetEndTime(v int32) {
 	o.EndTime = v
 }
 
-// GetLogLevelBuckets returns the LogLevelBuckets field value
-func (o *KubernetesLogHistogramBucket) GetLogLevelBuckets() []KubernetesLogLevelHistogramBucket {
+// GetLogSeverityBuckets returns the LogSeverityBuckets field value
+func (o *KubernetesLogHistogramBucket) GetLogSeverityBuckets() []KubernetesLogSeverityHistogramBucket {
 	if o == nil {
-		var ret []KubernetesLogLevelHistogramBucket
+		var ret []KubernetesLogSeverityHistogramBucket
 		return ret
 	}
 
-	return o.LogLevelBuckets
+	return o.LogSeverityBuckets
 }
 
-// GetLogLevelBucketsOk returns a tuple with the LogLevelBuckets field value
+// GetLogSeverityBucketsOk returns a tuple with the LogSeverityBuckets field value
 // and a boolean to check if the value has been set.
-func (o *KubernetesLogHistogramBucket) GetLogLevelBucketsOk() ([]KubernetesLogLevelHistogramBucket, bool) {
+func (o *KubernetesLogHistogramBucket) GetLogSeverityBucketsOk() ([]KubernetesLogSeverityHistogramBucket, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.LogLevelBuckets, true
+	return o.LogSeverityBuckets, true
 }
 
-// SetLogLevelBuckets sets field value
-func (o *KubernetesLogHistogramBucket) SetLogLevelBuckets(v []KubernetesLogLevelHistogramBucket) {
-	o.LogLevelBuckets = v
+// SetLogSeverityBuckets sets field value
+func (o *KubernetesLogHistogramBucket) SetLogSeverityBuckets(v []KubernetesLogSeverityHistogramBucket) {
+	o.LogSeverityBuckets = v
 }
 
 func (o KubernetesLogHistogramBucket) MarshalJSON() ([]byte, error) {
@@ -155,7 +155,7 @@ func (o KubernetesLogHistogramBucket) MarshalJSON() ([]byte, error) {
 		toSerialize["endTime"] = o.EndTime
 	}
 	if true {
-		toSerialize["logLevelBuckets"] = o.LogLevelBuckets
+		toSerialize["logSeverityBuckets"] = o.LogSeverityBuckets
 	}
 	return json.Marshal(toSerialize)
 }

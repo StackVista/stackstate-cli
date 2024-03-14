@@ -95,6 +95,20 @@ type MonitorApi interface {
 	GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error)
 
 	/*
+		LookupIdentifier Multiple component identifier lookup
+
+		Find identifier templates using a component type and a metrics query
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiLookupIdentifierRequest
+	*/
+	LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest
+
+	// LookupIdentifierExecute executes the request
+	//  @return MonitorIdentifierSuggestions
+	LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error)
+
+	/*
 		PatchMonitor Update some monitor properties
 
 		Performs a patch on the monitor base properties.
@@ -110,6 +124,35 @@ type MonitorApi interface {
 	PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error)
 
 	/*
+		PreviewMonitor Preview a monitor
+
+		Performs a run of a monitor allowing to test it with new arguments and delivers a summary of the health states produced
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiPreviewMonitorRequest
+	*/
+	PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest
+
+	// PreviewMonitorExecute executes the request
+	//  @return MonitorPreviewResult
+	PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error)
+
+	/*
+		PublishHealthStates Post monitor health states
+
+		Publish health states for monitor
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorIdOrUrn The id or identifier (urn) of a monitor
+		@return ApiPublishHealthStatesRequest
+	*/
+	PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest
+
+	// PublishHealthStatesExecute executes the request
+	PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error)
+
+	/*
 		RunMonitor Run a monitor
 
 		Performs a run of a monitor. If 'dryRun' is set, topology state will not be modified.
@@ -123,6 +166,21 @@ type MonitorApi interface {
 	// RunMonitorExecute executes the request
 	//  @return MonitorRunResult
 	RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error)
+
+	/*
+		TestMonitorFunction Test a monitor
+
+		Performs a run of a monitor function to test arguments and delivers a summary of the health states produced
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param monitorFunctionIdOrUrn The id or identifier (urn) of a monitor function
+		@return ApiTestMonitorFunctionRequest
+	*/
+	TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest
+
+	// TestMonitorFunctionExecute executes the request
+	//  @return MonitorPreviewResult
+	TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error)
 }
 
 // MonitorApiService MonitorApi service
@@ -939,6 +997,178 @@ func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiLookupIdentifierRequest struct {
+	ctx                     context.Context
+	ApiService              MonitorApi
+	monitorIdentifierLookup *MonitorIdentifierLookup
+}
+
+// Component type and metric query for identifier lookup
+func (r ApiLookupIdentifierRequest) MonitorIdentifierLookup(monitorIdentifierLookup MonitorIdentifierLookup) ApiLookupIdentifierRequest {
+	r.monitorIdentifierLookup = &monitorIdentifierLookup
+	return r
+}
+
+func (r ApiLookupIdentifierRequest) Execute() (*MonitorIdentifierSuggestions, *http.Response, error) {
+	return r.ApiService.LookupIdentifierExecute(r)
+}
+
+/*
+LookupIdentifier Multiple component identifier lookup
+
+Find identifier templates using a component type and a metrics query
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiLookupIdentifierRequest
+*/
+func (a *MonitorApiService) LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest {
+	return ApiLookupIdentifierRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//  @return MonitorIdentifierSuggestions
+func (a *MonitorApiService) LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorIdentifierSuggestions
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.LookupIdentifier")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/monitors/identifierLookup"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.monitorIdentifierLookup == nil {
+		return localVarReturnValue, nil, reportError("monitorIdentifierLookup is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.monitorIdentifierLookup
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v MonitorApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v MonitorApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiPatchMonitorRequest struct {
 	ctx            context.Context
 	ApiService     MonitorApi
@@ -1125,6 +1355,367 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiPreviewMonitorRequest struct {
+	ctx            context.Context
+	ApiService     MonitorApi
+	monitorIdOrUrn string
+	monitorPreview *MonitorPreview
+}
+
+// Monitor overrides in order to run a preview
+func (r ApiPreviewMonitorRequest) MonitorPreview(monitorPreview MonitorPreview) ApiPreviewMonitorRequest {
+	r.monitorPreview = &monitorPreview
+	return r
+}
+
+func (r ApiPreviewMonitorRequest) Execute() (*MonitorPreviewResult, *http.Response, error) {
+	return r.ApiService.PreviewMonitorExecute(r)
+}
+
+/*
+PreviewMonitor Preview a monitor
+
+Performs a run of a monitor allowing to test it with new arguments and delivers a summary of the health states produced
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiPreviewMonitorRequest
+*/
+func (a *MonitorApiService) PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest {
+	return ApiPreviewMonitorRequest{
+		ApiService:     a,
+		ctx:            ctx,
+		monitorIdOrUrn: monitorIdOrUrn,
+	}
+}
+
+// Execute executes the request
+//  @return MonitorPreviewResult
+func (a *MonitorApiService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorPreviewResult
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.PreviewMonitor")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/monitors/{monitorIdOrUrn}/preview"
+	localVarPath = strings.Replace(localVarPath, "{"+"monitorIdOrUrn"+"}", url.PathEscape(parameterToString(r.monitorIdOrUrn, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.monitorPreview == nil {
+		return localVarReturnValue, nil, reportError("monitorPreview is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.monitorPreview
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v InvalidMonitorIdentifierError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v MonitorNotFoundError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v MonitorApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiPublishHealthStatesRequest struct {
+	ctx             context.Context
+	ApiService      MonitorApi
+	monitorIdOrUrn  string
+	monitorSnapshot *MonitorSnapshot
+}
+
+// Monitor snapshot of health states
+func (r ApiPublishHealthStatesRequest) MonitorSnapshot(monitorSnapshot MonitorSnapshot) ApiPublishHealthStatesRequest {
+	r.monitorSnapshot = &monitorSnapshot
+	return r
+}
+
+func (r ApiPublishHealthStatesRequest) Execute() (*http.Response, error) {
+	return r.ApiService.PublishHealthStatesExecute(r)
+}
+
+/*
+PublishHealthStates Post monitor health states
+
+Publish health states for monitor
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorIdOrUrn The id or identifier (urn) of a monitor
+ @return ApiPublishHealthStatesRequest
+*/
+func (a *MonitorApiService) PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest {
+	return ApiPublishHealthStatesRequest{
+		ApiService:     a,
+		ctx:            ctx,
+		monitorIdOrUrn: monitorIdOrUrn,
+	}
+}
+
+// Execute executes the request
+func (a *MonitorApiService) PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.PublishHealthStates")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/monitors/{monitorIdOrUrn}/publish"
+	localVarPath = strings.Replace(localVarPath, "{"+"monitorIdOrUrn"+"}", url.PathEscape(parameterToString(r.monitorIdOrUrn, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.monitorSnapshot == nil {
+		return nil, reportError("monitorSnapshot is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.monitorSnapshot
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v InvalidMonitorIdentifierError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v MonitorNotFoundError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v MonitorApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiRunMonitorRequest struct {
 	ctx            context.Context
 	ApiService     MonitorApi
@@ -1309,6 +1900,192 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiTestMonitorFunctionRequest struct {
+	ctx                    context.Context
+	ApiService             MonitorApi
+	monitorFunctionIdOrUrn string
+	monitorFunctionTest    *MonitorFunctionTest
+}
+
+// Monitor function arguments to test
+func (r ApiTestMonitorFunctionRequest) MonitorFunctionTest(monitorFunctionTest MonitorFunctionTest) ApiTestMonitorFunctionRequest {
+	r.monitorFunctionTest = &monitorFunctionTest
+	return r
+}
+
+func (r ApiTestMonitorFunctionRequest) Execute() (*MonitorPreviewResult, *http.Response, error) {
+	return r.ApiService.TestMonitorFunctionExecute(r)
+}
+
+/*
+TestMonitorFunction Test a monitor
+
+Performs a run of a monitor function to test arguments and delivers a summary of the health states produced
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param monitorFunctionIdOrUrn The id or identifier (urn) of a monitor function
+ @return ApiTestMonitorFunctionRequest
+*/
+func (a *MonitorApiService) TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest {
+	return ApiTestMonitorFunctionRequest{
+		ApiService:             a,
+		ctx:                    ctx,
+		monitorFunctionIdOrUrn: monitorFunctionIdOrUrn,
+	}
+}
+
+// Execute executes the request
+//  @return MonitorPreviewResult
+func (a *MonitorApiService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MonitorPreviewResult
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.TestMonitorFunction")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/monitors/{monitorFunctionIdOrUrn}/test"
+	localVarPath = strings.Replace(localVarPath, "{"+"monitorFunctionIdOrUrn"+"}", url.PathEscape(parameterToString(r.monitorFunctionIdOrUrn, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.monitorFunctionTest == nil {
+		return localVarReturnValue, nil, reportError("monitorFunctionTest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.monitorFunctionTest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v InvalidMonitorIdentifierError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v MonitorFunctionNotFoundError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v MonitorApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
@@ -1324,10 +2101,18 @@ type MonitorApiMock struct {
 	GetMonitorWithStatusResponse GetMonitorWithStatusMockResponse
 	GetMonitorsOverviewCalls     *[]GetMonitorsOverviewCall
 	GetMonitorsOverviewResponse  GetMonitorsOverviewMockResponse
+	LookupIdentifierCalls        *[]LookupIdentifierCall
+	LookupIdentifierResponse     LookupIdentifierMockResponse
 	PatchMonitorCalls            *[]PatchMonitorCall
 	PatchMonitorResponse         PatchMonitorMockResponse
+	PreviewMonitorCalls          *[]PreviewMonitorCall
+	PreviewMonitorResponse       PreviewMonitorMockResponse
+	PublishHealthStatesCalls     *[]PublishHealthStatesCall
+	PublishHealthStatesResponse  PublishHealthStatesMockResponse
 	RunMonitorCalls              *[]RunMonitorCall
 	RunMonitorResponse           RunMonitorMockResponse
+	TestMonitorFunctionCalls     *[]TestMonitorFunctionCall
+	TestMonitorFunctionResponse  TestMonitorFunctionMockResponse
 }
 
 func NewMonitorApiMock() MonitorApiMock {
@@ -1336,16 +2121,24 @@ func NewMonitorApiMock() MonitorApiMock {
 	xGetMonitorCalls := make([]GetMonitorCall, 0)
 	xGetMonitorWithStatusCalls := make([]GetMonitorWithStatusCall, 0)
 	xGetMonitorsOverviewCalls := make([]GetMonitorsOverviewCall, 0)
+	xLookupIdentifierCalls := make([]LookupIdentifierCall, 0)
 	xPatchMonitorCalls := make([]PatchMonitorCall, 0)
+	xPreviewMonitorCalls := make([]PreviewMonitorCall, 0)
+	xPublishHealthStatesCalls := make([]PublishHealthStatesCall, 0)
 	xRunMonitorCalls := make([]RunMonitorCall, 0)
+	xTestMonitorFunctionCalls := make([]TestMonitorFunctionCall, 0)
 	return MonitorApiMock{
 		DeleteMonitorCalls:        &xDeleteMonitorCalls,
 		GetAllMonitorsCalls:       &xGetAllMonitorsCalls,
 		GetMonitorCalls:           &xGetMonitorCalls,
 		GetMonitorWithStatusCalls: &xGetMonitorWithStatusCalls,
 		GetMonitorsOverviewCalls:  &xGetMonitorsOverviewCalls,
+		LookupIdentifierCalls:     &xLookupIdentifierCalls,
 		PatchMonitorCalls:         &xPatchMonitorCalls,
+		PreviewMonitorCalls:       &xPreviewMonitorCalls,
+		PublishHealthStatesCalls:  &xPublishHealthStatesCalls,
 		RunMonitorCalls:           &xRunMonitorCalls,
+		TestMonitorFunctionCalls:  &xTestMonitorFunctionCalls,
 	}
 }
 
@@ -1470,6 +2263,31 @@ func (mock MonitorApiMock) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRe
 	return &mock.GetMonitorsOverviewResponse.Result, mock.GetMonitorsOverviewResponse.Response, mock.GetMonitorsOverviewResponse.Error
 }
 
+type LookupIdentifierMockResponse struct {
+	Result   MonitorIdentifierSuggestions
+	Response *http.Response
+	Error    error
+}
+
+type LookupIdentifierCall struct {
+	PmonitorIdentifierLookup *MonitorIdentifierLookup
+}
+
+func (mock MonitorApiMock) LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest {
+	return ApiLookupIdentifierRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock MonitorApiMock) LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error) {
+	p := LookupIdentifierCall{
+		PmonitorIdentifierLookup: r.monitorIdentifierLookup,
+	}
+	*mock.LookupIdentifierCalls = append(*mock.LookupIdentifierCalls, p)
+	return &mock.LookupIdentifierResponse.Result, mock.LookupIdentifierResponse.Response, mock.LookupIdentifierResponse.Error
+}
+
 type PatchMonitorMockResponse struct {
 	Result   Monitor
 	Response *http.Response
@@ -1498,6 +2316,61 @@ func (mock MonitorApiMock) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monit
 	return &mock.PatchMonitorResponse.Result, mock.PatchMonitorResponse.Response, mock.PatchMonitorResponse.Error
 }
 
+type PreviewMonitorMockResponse struct {
+	Result   MonitorPreviewResult
+	Response *http.Response
+	Error    error
+}
+
+type PreviewMonitorCall struct {
+	PmonitorIdOrUrn string
+	PmonitorPreview *MonitorPreview
+}
+
+func (mock MonitorApiMock) PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest {
+	return ApiPreviewMonitorRequest{
+		ApiService:     mock,
+		ctx:            ctx,
+		monitorIdOrUrn: monitorIdOrUrn,
+	}
+}
+
+func (mock MonitorApiMock) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error) {
+	p := PreviewMonitorCall{
+		PmonitorIdOrUrn: r.monitorIdOrUrn,
+		PmonitorPreview: r.monitorPreview,
+	}
+	*mock.PreviewMonitorCalls = append(*mock.PreviewMonitorCalls, p)
+	return &mock.PreviewMonitorResponse.Result, mock.PreviewMonitorResponse.Response, mock.PreviewMonitorResponse.Error
+}
+
+type PublishHealthStatesMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type PublishHealthStatesCall struct {
+	PmonitorIdOrUrn  string
+	PmonitorSnapshot *MonitorSnapshot
+}
+
+func (mock MonitorApiMock) PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest {
+	return ApiPublishHealthStatesRequest{
+		ApiService:     mock,
+		ctx:            ctx,
+		monitorIdOrUrn: monitorIdOrUrn,
+	}
+}
+
+func (mock MonitorApiMock) PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error) {
+	p := PublishHealthStatesCall{
+		PmonitorIdOrUrn:  r.monitorIdOrUrn,
+		PmonitorSnapshot: r.monitorSnapshot,
+	}
+	*mock.PublishHealthStatesCalls = append(*mock.PublishHealthStatesCalls, p)
+	return mock.PublishHealthStatesResponse.Response, mock.PublishHealthStatesResponse.Error
+}
+
 type RunMonitorMockResponse struct {
 	Result   MonitorRunResult
 	Response *http.Response
@@ -1524,4 +2397,32 @@ func (mock MonitorApiMock) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRu
 	}
 	*mock.RunMonitorCalls = append(*mock.RunMonitorCalls, p)
 	return &mock.RunMonitorResponse.Result, mock.RunMonitorResponse.Response, mock.RunMonitorResponse.Error
+}
+
+type TestMonitorFunctionMockResponse struct {
+	Result   MonitorPreviewResult
+	Response *http.Response
+	Error    error
+}
+
+type TestMonitorFunctionCall struct {
+	PmonitorFunctionIdOrUrn string
+	PmonitorFunctionTest    *MonitorFunctionTest
+}
+
+func (mock MonitorApiMock) TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest {
+	return ApiTestMonitorFunctionRequest{
+		ApiService:             mock,
+		ctx:                    ctx,
+		monitorFunctionIdOrUrn: monitorFunctionIdOrUrn,
+	}
+}
+
+func (mock MonitorApiMock) TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error) {
+	p := TestMonitorFunctionCall{
+		PmonitorFunctionIdOrUrn: r.monitorFunctionIdOrUrn,
+		PmonitorFunctionTest:    r.monitorFunctionTest,
+	}
+	*mock.TestMonitorFunctionCalls = append(*mock.TestMonitorFunctionCalls, p)
+	return &mock.TestMonitorFunctionResponse.Result, mock.TestMonitorFunctionResponse.Response, mock.TestMonitorFunctionResponse.Error
 }

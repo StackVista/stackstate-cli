@@ -25,7 +25,7 @@ type MonitorCheckStatus struct {
 	TriggeredTimestamp   int32                       `json:"triggeredTimestamp"`
 	Metrics              []MonitorCheckStatusMetric  `json:"metrics"`
 	Component            MonitorCheckStatusComponent `json:"component"`
-	MonitorId            int64                       `json:"monitorId"`
+	MonitorId            MonitorReferenceId          `json:"monitorId"`
 	MonitorName          string                      `json:"monitorName"`
 	MonitorDescription   *string                     `json:"monitorDescription,omitempty"`
 	TroubleshootingSteps *string                     `json:"troubleshootingSteps,omitempty"`
@@ -36,7 +36,7 @@ type MonitorCheckStatus struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCheckStatus(id int64, checkStateId string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId int64, monitorName string, topologyTime int32) *MonitorCheckStatus {
+func NewMonitorCheckStatus(id int64, checkStateId string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId MonitorReferenceId, monitorName string, topologyTime int32) *MonitorCheckStatus {
 	this := MonitorCheckStatus{}
 	this.Id = id
 	this.CheckStateId = checkStateId
@@ -260,9 +260,9 @@ func (o *MonitorCheckStatus) SetComponent(v MonitorCheckStatusComponent) {
 }
 
 // GetMonitorId returns the MonitorId field value
-func (o *MonitorCheckStatus) GetMonitorId() int64 {
+func (o *MonitorCheckStatus) GetMonitorId() MonitorReferenceId {
 	if o == nil {
-		var ret int64
+		var ret MonitorReferenceId
 		return ret
 	}
 
@@ -271,7 +271,7 @@ func (o *MonitorCheckStatus) GetMonitorId() int64 {
 
 // GetMonitorIdOk returns a tuple with the MonitorId field value
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatus) GetMonitorIdOk() (*int64, bool) {
+func (o *MonitorCheckStatus) GetMonitorIdOk() (*MonitorReferenceId, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -279,7 +279,7 @@ func (o *MonitorCheckStatus) GetMonitorIdOk() (*int64, bool) {
 }
 
 // SetMonitorId sets field value
-func (o *MonitorCheckStatus) SetMonitorId(v int64) {
+func (o *MonitorCheckStatus) SetMonitorId(v MonitorReferenceId) {
 	o.MonitorId = v
 }
 

@@ -6,8 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Message** | **string** |  | 
-**From** | **int32** |  | 
-**To** | **int32** |  | 
+**From** | **int32** | Date/time representation in milliseconds since epoch (1970-01-01 00:00:00) | 
+**To** | **int32** | Date/time representation in milliseconds since epoch (1970-01-01 00:00:00) | 
 **PageSize** | **int32** |  | 
 **Page** | **int32** |  | 
 **Query** | **string** |  | 

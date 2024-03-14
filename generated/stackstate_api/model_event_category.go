@@ -21,16 +21,18 @@ type EventCategory string
 
 // List of EventCategory
 const (
-	EVENTCATEGORY_CHANGES    EventCategory = "Changes"
-	EVENTCATEGORY_ALERTS     EventCategory = "Alerts"
-	EVENTCATEGORY_ANOMALIES  EventCategory = "Anomalies"
-	EVENTCATEGORY_ACTIVITIES EventCategory = "Activities"
-	EVENTCATEGORY_OTHERS     EventCategory = "Others"
+	EVENTCATEGORY_CHANGES     EventCategory = "Changes"
+	EVENTCATEGORY_DEPLOYMENTS EventCategory = "Deployments"
+	EVENTCATEGORY_ALERTS      EventCategory = "Alerts"
+	EVENTCATEGORY_ANOMALIES   EventCategory = "Anomalies"
+	EVENTCATEGORY_ACTIVITIES  EventCategory = "Activities"
+	EVENTCATEGORY_OTHERS      EventCategory = "Others"
 )
 
 // All allowed values of EventCategory enum
 var AllowedEventCategoryEnumValues = []EventCategory{
 	"Changes",
+	"Deployments",
 	"Alerts",
 	"Anomalies",
 	"Activities",

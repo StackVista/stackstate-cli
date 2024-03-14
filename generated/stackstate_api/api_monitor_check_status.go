@@ -256,11 +256,12 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 }
 
 type ApiGetMonitorCheckStatusHealthHistoryRequest struct {
-	ctx        context.Context
-	ApiService MonitorCheckStatusApi
-	id         int64
-	startTime  *int32
-	endTime    *int32
+	ctx          context.Context
+	ApiService   MonitorCheckStatusApi
+	id           int64
+	startTime    *int32
+	endTime      *int32
+	topologyTime *int32
 }
 
 // The start time of a time range to query resources.
@@ -272,6 +273,12 @@ func (r ApiGetMonitorCheckStatusHealthHistoryRequest) StartTime(startTime int32)
 // The end time of a time range to query resources. If not given the endTime is set to current time.
 func (r ApiGetMonitorCheckStatusHealthHistoryRequest) EndTime(endTime int32) ApiGetMonitorCheckStatusHealthHistoryRequest {
 	r.endTime = &endTime
+	return r
+}
+
+// A timestamp at which resources will be queried. If not given the resources are queried at current time.
+func (r ApiGetMonitorCheckStatusHealthHistoryRequest) TopologyTime(topologyTime int32) ApiGetMonitorCheckStatusHealthHistoryRequest {
+	r.topologyTime = &topologyTime
 	return r
 }
 
@@ -324,6 +331,9 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
 	if r.endTime != nil {
 		localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
+	}
+	if r.topologyTime != nil {
+		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -683,9 +693,10 @@ type GetMonitorCheckStatusHealthHistoryMockResponse struct {
 }
 
 type GetMonitorCheckStatusHealthHistoryCall struct {
-	Pid        int64
-	PstartTime *int32
-	PendTime   *int32
+	Pid           int64
+	PstartTime    *int32
+	PendTime      *int32
+	PtopologyTime *int32
 }
 
 func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
@@ -698,9 +709,10 @@ func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx con
 
 func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
 	p := GetMonitorCheckStatusHealthHistoryCall{
-		Pid:        r.id,
-		PstartTime: r.startTime,
-		PendTime:   r.endTime,
+		Pid:           r.id,
+		PstartTime:    r.startTime,
+		PendTime:      r.endTime,
+		PtopologyTime: r.topologyTime,
 	}
 	*mock.GetMonitorCheckStatusHealthHistoryCalls = append(*mock.GetMonitorCheckStatusHealthHistoryCalls, p)
 	return &mock.GetMonitorCheckStatusHealthHistoryResponse.Result, mock.GetMonitorCheckStatusHealthHistoryResponse.Response, mock.GetMonitorCheckStatusHealthHistoryResponse.Error

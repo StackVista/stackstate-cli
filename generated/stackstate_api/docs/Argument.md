@@ -8,22 +8,18 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int64** |  | [optional] 
 **LastUpdateTimestamp** | Pointer to **int64** |  | [optional] 
 **Parameter** | **int64** |  | 
-**Value** | **string** |  | 
+**Value** | [**TopologyPromQLMetric**](TopologyPromQLMetric.md) |  | 
 **ComponentType** | **int64** |  | 
-**Stream** | **int64** |  | 
 **RelationType** | **int64** |  | 
-**Filter** | [**StsEventStreamFilter**](StsEventStreamFilter.md) |  | 
 **QueryView** | **int64** |  | 
-**MaxWindow** | Pointer to **int64** |  | [optional] 
-**DownsamplingMethod** | Pointer to [**DownsamplingMethod**](DownsamplingMethod.md) |  | [optional] 
-**WindowingMethod** | Pointer to [**WindowingMethod**](WindowingMethod.md) |  | [optional] 
-**Script** | **string** |  | 
+**ValueMs** | **int64** |  | 
+**Query** | **string** |  | 
 
 ## Methods
 
 ### NewArgument
 
-`func NewArgument(type_ string, parameter int64, value string, componentType int64, stream int64, relationType int64, filter StsEventStreamFilter, queryView int64, script string, ) *Argument`
+`func NewArgument(type_ string, parameter int64, value TopologyPromQLMetric, componentType int64, relationType int64, queryView int64, valueMs int64, query string, ) *Argument`
 
 NewArgument instantiates a new Argument object
 This constructor will assign default values to properties that have it defined,
@@ -130,20 +126,20 @@ SetParameter sets Parameter field to given value.
 
 ### GetValue
 
-`func (o *Argument) GetValue() string`
+`func (o *Argument) GetValue() TopologyPromQLMetric`
 
 GetValue returns the Value field if non-nil, zero value otherwise.
 
 ### GetValueOk
 
-`func (o *Argument) GetValueOk() (*string, bool)`
+`func (o *Argument) GetValueOk() (*TopologyPromQLMetric, bool)`
 
 GetValueOk returns a tuple with the Value field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValue
 
-`func (o *Argument) SetValue(v string)`
+`func (o *Argument) SetValue(v TopologyPromQLMetric)`
 
 SetValue sets Value field to given value.
 
@@ -168,26 +164,6 @@ and a boolean to check if the value has been set.
 SetComponentType sets ComponentType field to given value.
 
 
-### GetStream
-
-`func (o *Argument) GetStream() int64`
-
-GetStream returns the Stream field if non-nil, zero value otherwise.
-
-### GetStreamOk
-
-`func (o *Argument) GetStreamOk() (*int64, bool)`
-
-GetStreamOk returns a tuple with the Stream field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStream
-
-`func (o *Argument) SetStream(v int64)`
-
-SetStream sets Stream field to given value.
-
-
 ### GetRelationType
 
 `func (o *Argument) GetRelationType() int64`
@@ -206,26 +182,6 @@ and a boolean to check if the value has been set.
 `func (o *Argument) SetRelationType(v int64)`
 
 SetRelationType sets RelationType field to given value.
-
-
-### GetFilter
-
-`func (o *Argument) GetFilter() StsEventStreamFilter`
-
-GetFilter returns the Filter field if non-nil, zero value otherwise.
-
-### GetFilterOk
-
-`func (o *Argument) GetFilterOk() (*StsEventStreamFilter, bool)`
-
-GetFilterOk returns a tuple with the Filter field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetFilter
-
-`func (o *Argument) SetFilter(v StsEventStreamFilter)`
-
-SetFilter sets Filter field to given value.
 
 
 ### GetQueryView
@@ -248,99 +204,44 @@ and a boolean to check if the value has been set.
 SetQueryView sets QueryView field to given value.
 
 
-### GetMaxWindow
+### GetValueMs
 
-`func (o *Argument) GetMaxWindow() int64`
+`func (o *Argument) GetValueMs() int64`
 
-GetMaxWindow returns the MaxWindow field if non-nil, zero value otherwise.
+GetValueMs returns the ValueMs field if non-nil, zero value otherwise.
 
-### GetMaxWindowOk
+### GetValueMsOk
 
-`func (o *Argument) GetMaxWindowOk() (*int64, bool)`
+`func (o *Argument) GetValueMsOk() (*int64, bool)`
 
-GetMaxWindowOk returns a tuple with the MaxWindow field if it's non-nil, zero value otherwise
+GetValueMsOk returns a tuple with the ValueMs field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMaxWindow
+### SetValueMs
 
-`func (o *Argument) SetMaxWindow(v int64)`
+`func (o *Argument) SetValueMs(v int64)`
 
-SetMaxWindow sets MaxWindow field to given value.
+SetValueMs sets ValueMs field to given value.
 
-### HasMaxWindow
 
-`func (o *Argument) HasMaxWindow() bool`
+### GetQuery
 
-HasMaxWindow returns a boolean if a field has been set.
+`func (o *Argument) GetQuery() string`
 
-### GetDownsamplingMethod
+GetQuery returns the Query field if non-nil, zero value otherwise.
 
-`func (o *Argument) GetDownsamplingMethod() DownsamplingMethod`
+### GetQueryOk
 
-GetDownsamplingMethod returns the DownsamplingMethod field if non-nil, zero value otherwise.
+`func (o *Argument) GetQueryOk() (*string, bool)`
 
-### GetDownsamplingMethodOk
-
-`func (o *Argument) GetDownsamplingMethodOk() (*DownsamplingMethod, bool)`
-
-GetDownsamplingMethodOk returns a tuple with the DownsamplingMethod field if it's non-nil, zero value otherwise
+GetQueryOk returns a tuple with the Query field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetDownsamplingMethod
+### SetQuery
 
-`func (o *Argument) SetDownsamplingMethod(v DownsamplingMethod)`
+`func (o *Argument) SetQuery(v string)`
 
-SetDownsamplingMethod sets DownsamplingMethod field to given value.
-
-### HasDownsamplingMethod
-
-`func (o *Argument) HasDownsamplingMethod() bool`
-
-HasDownsamplingMethod returns a boolean if a field has been set.
-
-### GetWindowingMethod
-
-`func (o *Argument) GetWindowingMethod() WindowingMethod`
-
-GetWindowingMethod returns the WindowingMethod field if non-nil, zero value otherwise.
-
-### GetWindowingMethodOk
-
-`func (o *Argument) GetWindowingMethodOk() (*WindowingMethod, bool)`
-
-GetWindowingMethodOk returns a tuple with the WindowingMethod field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetWindowingMethod
-
-`func (o *Argument) SetWindowingMethod(v WindowingMethod)`
-
-SetWindowingMethod sets WindowingMethod field to given value.
-
-### HasWindowingMethod
-
-`func (o *Argument) HasWindowingMethod() bool`
-
-HasWindowingMethod returns a boolean if a field has been set.
-
-### GetScript
-
-`func (o *Argument) GetScript() string`
-
-GetScript returns the Script field if non-nil, zero value otherwise.
-
-### GetScriptOk
-
-`func (o *Argument) GetScriptOk() (*string, bool)`
-
-GetScriptOk returns a tuple with the Script field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetScript
-
-`func (o *Argument) SetScript(v string)`
-
-SetScript sets Script field to given value.
+SetQuery sets Query field to given value.
 
 
 

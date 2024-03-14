@@ -631,6 +631,48 @@ paths:
       summary: Update some monitor properties
       tags:
       - monitor
+  /monitors/{monitorIdOrUrn}/preview:
+    post:
+      description: Performs a run of a monitor allowing to test it with new arguments
+        and delivers a summary of the health states produced
+      operationId: previewMonitor
+      parameters:
+      - description: The id or identifier (urn) of a monitor
+        in: path
+        name: monitorIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/monitorPreview'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorPreviewResult'
+          description: Summary representation of the result of a monitor run
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Preview a monitor
+      tags:
+      - monitor
   /monitors/{monitorIdOrUrn}/run:
     post:
       description: "Performs a run of a monitor. If 'dryRun' is set, topology state\
@@ -713,6 +755,114 @@ paths:
                 $ref: '#/components/schemas/MonitorApiError'
           description: container for all error response
       summary: Get a monitor with stream information
+      tags:
+      - monitor
+  /monitors/{monitorIdOrUrn}/publish:
+    post:
+      description: Publish health states for monitor
+      operationId: publishHealthStates
+      parameters:
+      - description: The id or identifier (urn) of a monitor
+        in: path
+        name: monitorIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/monitorSnapshot'
+      responses:
+        "200":
+          description: The health states were published successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Post monitor health states
+      tags:
+      - monitor
+  /monitors/{monitorFunctionIdOrUrn}/test:
+    post:
+      description: Performs a run of a monitor function to test arguments and delivers
+        a summary of the health states produced
+      operationId: testMonitorFunction
+      parameters:
+      - description: The id or identifier (urn) of a monitor function
+        in: path
+        name: monitorFunctionIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorFunctionIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/monitorFunctionTest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorPreviewResult'
+          description: Summary representation of the result of a monitor run
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorFunctionNotFoundError'
+          description: monitor function was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Test a monitor
+      tags:
+      - monitor
+  /monitors/identifierLookup:
+    post:
+      description: Find identifier templates using a component type and a metrics
+        query
+      operationId: lookupIdentifier
+      requestBody:
+        $ref: '#/components/requestBodies/monitorIdentifierLookup'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorIdentifierSuggestions'
+          description: Identifier suggestions for multiple component identifier lookup
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Multiple component identifier lookup
       tags:
       - monitor
   /monitors/overview:
@@ -862,6 +1012,14 @@ paths:
         schema:
           format: instant
           type: integer
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
       responses:
         "200":
           content:
@@ -884,6 +1042,856 @@ paths:
       summary: Get a monitor check health hisotry
       tags:
       - monitorCheckStatus
+  /notifications/channels/slack/oauth-redirect:
+    get:
+      description: Redirects to Slack to start an OAuth2 flow.
+      operationId: slackOauthRedirect
+      parameters:
+      - description: "After completing the oauth flow the user will be redirected\
+          \ back to this path, in the UI, on StackState, to continue further setup\
+          \ of the Slack notification channel."
+        in: query
+        name: redirectPath
+        required: true
+        schema:
+          type: string
+      responses:
+        "302":
+          description: Redirects to Slack to start an OAuth2 flow that will return
+            to the slack channel configuration afterwards. In case of an error redirects
+            back to the Slack channel configuration with an `error` and a `channelId`
+            parameter.
+      summary: Starts Slack OAuth2 flow
+      tags:
+      - notification_channels
+  /notifications/channels/slack/oauth-callback:
+    get:
+      description: "The OAuth callback for Slack, which is used to obtain the access\
+        \ token for the Slack channel."
+      operationId: slackOAuthCallback
+      parameters:
+      - description: OAuth code from Slack. Either the code is present for the success
+          case or the error parameter is present for the error case.
+        in: query
+        name: code
+        required: false
+        schema:
+          type: string
+      - description: "State parameter that was passed to Slack, should have the same\
+          \ value as the one passed to Slack."
+        in: query
+        name: state
+        required: true
+        schema:
+          type: string
+      - description: Error parameter. Either the code is present for the success case
+          or the error parameter is present for the error case.
+        in: query
+        name: error
+        required: false
+        schema:
+          type: string
+      responses:
+        "302":
+          description: "Redirects back to the Slack channel configuration, in case\
+            \ of an error it includes an `error` query parameter. If known also a\
+            \ `channelId` parameter will be included."
+      summary: The OAuth callback for Slack
+      tags:
+      - notification_channels
+  /notifications/channels/slack/{channelId}:
+    delete:
+      description: Delete the slack notification channel by id
+      operationId: deleteSlackNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Slack notification channel is deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Delete the Slack Notification channel by id
+      tags:
+      - notification_channels
+    get:
+      description: Get the slack notification channel by id
+      operationId: getSlackNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackNotificationChannel'
+          description: Slack notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Get the Slack Notification channel by id
+      tags:
+      - notification_channels
+  /notifications/channels/slack/{channelId}/listSlackChannels:
+    get:
+      description: "List all public Slack channels, used for selecting a channel for\
+        \ the notifications"
+      operationId: listSlackChannels
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackChannels'
+          description: Array of all available Slack channels to which StackState can
+            send messages.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: List all public Slack channels
+      tags:
+      - notification_channels
+  /notifications/channels/slack/{channelId}/joinSlackChannel:
+    post:
+      description: Join the specified Slack channel and configure this notifiation
+        channel to post notifications to the specified slack channel.
+      operationId: joinSlackChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      requestBody:
+        $ref: '#/components/requestBodies/joinSlackChannel'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackNotificationChannel'
+          description: Slack notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Join the specified Slack channel to send notifications
+      tags:
+      - notification_channels
+  /notifications/channels/slack/{channelId}/test:
+    post:
+      description: Test the Notification channel by sending a test message to the
+        notification channel.
+      operationId: testSlackChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Successfully tested channel.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Test the Notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/webhook:
+    post:
+      description: Create a Webhook Notification channel
+      operationId: createWebhookNotificationChannel
+      requestBody:
+        $ref: '#/components/requestBodies/webhookChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookNotificationChannel'
+          description: Webhook notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Create a Webhook Notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/webhook/{channelId}:
+    delete:
+      description: Delete the webhook notification channel by id
+      operationId: deleteWebhookNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Webhook notification channel is deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Delete the Webhook Notification channel by id
+      tags:
+      - notification_channels
+    get:
+      description: Get the webhook notification channel by id
+      operationId: getWebhookNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookNotificationChannel'
+          description: Webhook notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Get the Webhook Notification channel by id
+      tags:
+      - notification_channels
+    put:
+      description: Update the webhook notification channel by id
+      operationId: updateWebhookNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      requestBody:
+        $ref: '#/components/requestBodies/webhookChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookNotificationChannel'
+          description: Webhook notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Update the Webhook Notification channel by id
+      tags:
+      - notification_channels
+  /notifications/channels/webhook/{channelId}/test:
+    post:
+      description: Test the webhook notification channel by sending a test message
+        to the notification channel.
+      operationId: testWebhookChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Successfully tested channel.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Test the Webhook notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/opsgenie:
+    post:
+      description: Create a Opsgenie Notification channel
+      operationId: createOpsgenieNotificationChannel
+      requestBody:
+        $ref: '#/components/requestBodies/opsgenieChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpsgenieNotificationChannel'
+          description: Opsgenie notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Create a Opsgenie Notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/opsgenie/responders:
+    get:
+      description: List Opsgenie responders
+      operationId: listOpsgenieResponders
+      parameters:
+      - description: OpsGenie API key
+        in: query
+        name: genieKey
+        required: true
+        schema:
+          type: string
+      - description: OpsGenie region
+        in: query
+        name: region
+        required: true
+        schema:
+          enum:
+          - EU
+          - US
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpsgenieResponders'
+          description: Opsgenie responders
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: List Opsgenie responders
+      tags:
+      - notification_channels
+  /notifications/channels/opsgenie/{channelId}:
+    delete:
+      description: Delete the opsgenie notification channel by id
+      operationId: deleteOpsgenieNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Opsgenie notification channel is deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Delete the Opsgenie Notification channel by id
+      tags:
+      - notification_channels
+    get:
+      description: Get the opsgenie notification channel by id
+      operationId: getOpsgenieNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpsgenieNotificationChannel'
+          description: Opsgenie notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Get the Opsgenie Notification channel by id
+      tags:
+      - notification_channels
+    put:
+      description: Update the opsgenie notification channel by id
+      operationId: updateOpsgenieNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      requestBody:
+        $ref: '#/components/requestBodies/opsgenieChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpsgenieNotificationChannel'
+          description: Opsgenie notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Update the Opsgenie Notification channel by id
+      tags:
+      - notification_channels
+  /notifications/channels/opsgenie/{channelId}/test:
+    post:
+      description: Test the opsgenie notification channel by sending a test message
+        to the notification channel.
+      operationId: testOpsgenieChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Successfully tested channel.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Test the Opsgenie notification channel
+      tags:
+      - notification_channels
+  /notifications/configurations:
+    get:
+      description: Get all notification configurations
+      operationId: getNotificationConfigurations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurations'
+          description: Array of notification configurations
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+      summary: Get all notification configurations
+      tags:
+      - notification_configurations
+    post:
+      description: Create a new notification configuration
+      operationId: createNotificationConfiguration
+      requestBody:
+        $ref: '#/components/requestBodies/notificationConfigurationWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationReadSchema'
+          description: Notification configuration
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+      summary: Create a new notification configuration
+      tags:
+      - notification_configurations
+  /notifications/configurations/{notificationConfigurationIdOrUrn}:
+    delete:
+      description: Delete the notification configuration
+      operationId: deleteNotificationConfiguration
+      parameters:
+      - description: Notification identifier
+        in: path
+        name: notificationConfigurationIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/NotificationConfigurationIdOrUrn'
+      responses:
+        "204":
+          description: Notification configuration is deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationByIdErrors'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationNotFound'
+          description: Notification was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+      summary: Delete the notification configuration
+      tags:
+      - notification_configurations
+    get:
+      description: Get the notification configuration
+      operationId: getNotificationConfiguration
+      parameters:
+      - description: Notification identifier
+        in: path
+        name: notificationConfigurationIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/NotificationConfigurationIdOrUrn'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationReadSchema'
+          description: Notification configuration
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationByIdErrors'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationNotFound'
+          description: Notification was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+      summary: Get the notification configuration
+      tags:
+      - notification_configurations
+    put:
+      description: Update the notification configuration
+      operationId: updateNotificationConfiguration
+      parameters:
+      - description: Notification identifier
+        in: path
+        name: notificationConfigurationIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/NotificationConfigurationIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/notificationConfigurationWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationReadSchema'
+          description: Notification configuration
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationByIdErrors'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationNotFound'
+          description: Notification was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+      summary: Update the notification configuration
+      tags:
+      - notification_configurations
+  /notifications/configurations/{notificationConfigurationIdOrUrn}/channels:
+    get:
+      description: Get the channels for the notification configuration
+      operationId: getNotificationConfigurationChannels
+      parameters:
+      - description: Notification identifier
+        in: path
+        name: notificationConfigurationIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/NotificationConfigurationIdOrUrn'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationChannels'
+          description: Notification configuration channels
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationByIdErrors'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationNotFound'
+          description: Notification was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationConfigurationError'
+          description: Error while executing the request.
+      summary: Get the channels for the notification configuration
+      tags:
+      - notification_configurations
   /user/profile:
     get:
       description: Get current user profile.
@@ -1058,7 +2066,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: Get Events Topology Overflow Error Validation Error
+          description: "Get Events Topology: Topology Overflow Error or Validation\
+            \ Error"
         "500":
           content:
             application/json:
@@ -1124,6 +2133,36 @@ paths:
       summary: Get single event
       tags:
       - event
+  /eventsHistogram:
+    post:
+      description: Gets you a histogram of events that exist for topology and time
+        selections.
+      operationId: getEventsHistogram
+      requestBody:
+        $ref: '#/components/requestBodies/EventsHistogramBody'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsHistogram'
+          description: Events Histogram
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RequestError'
+          description: "Get Events Histogram: Topology Overflow Error or Validation\
+            \ Error"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get events histogram
+      tags:
+      - event
   /eventTypes:
     get:
       description: Get a list of event types for a certain STQL query.
@@ -1147,9 +2186,10 @@ paths:
         schema:
           type: string
       - in: query
-        name: rootCauseMode
+        name: includeConnectedComponents
+        required: false
         schema:
-          $ref: '#/components/schemas/RootCauseMode'
+          type: boolean
       - in: query
         name: playHeadTimestampMs
         schema:
@@ -1207,7 +2247,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: "Get events topology overflow error, validation error"
+          description: "Get Events Types: Topology Overflow Error or Validation Error"
         "500":
           content:
             application/json:
@@ -1240,9 +2280,10 @@ paths:
         schema:
           type: string
       - in: query
-        name: rootCauseMode
+        name: includeConnectedComponents
+        required: false
         schema:
-          $ref: '#/components/schemas/RootCauseMode'
+          type: boolean
       - in: query
         name: playHeadTimestampMs
         schema:
@@ -1299,7 +2340,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: "Get events topology overflow error, validation error"
+          description: "Get Events Sources: Topology Overflow Error or Validation\
+            \ Error"
         "500":
           content:
             application/json:
@@ -1332,9 +2374,10 @@ paths:
         schema:
           type: string
       - in: query
-        name: rootCauseMode
+        name: includeConnectedComponents
+        required: false
         schema:
-          $ref: '#/components/schemas/RootCauseMode'
+          type: boolean
       - in: query
         name: playHeadTimestampMs
         schema:
@@ -1391,7 +2434,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RequestError'
-          description: "Get events topology overflow error, validation error"
+          description: "Get Events Tags: Topology Overflow Error or Validation Error"
         "500":
           content:
             application/json:
@@ -2003,6 +3046,108 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
+  /security/ingestion/api_keys:
+    get:
+      description: Returns only metadata without token itself
+      operationId: getIngestionApiKeys
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/IngestionApiKey'
+                type: array
+          description: All Ingestion Api Keys
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List Ingestion Api Keys
+      tags:
+      - ingestionApiKey
+    post:
+      description: "Generates token and then returns it in the response, the token\
+        \ can't be obtained any more after that"
+      operationId: generateIngestionApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateIngestionApiKeyRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GeneratedIngestionApiKeyResponse'
+          description: The newly generated Ingestion Api Key
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IngestionApiKeyCreateError'
+          description: Invalid arguments
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Generate a new Ingestion Api Key
+      tags:
+      - ingestionApiKey
+  /security/ingestion/authorize:
+    post:
+      description: Checks if an ingestion api key is valid
+      operationId: authorizeIngestionApiKey
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AuthorizeIngestionApiKeyRequest'
+        required: true
+      responses:
+        "204":
+          description: Ingestion Api Key is valid
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Check authorization for an Ingestion Api Key
+      tags:
+      - ingestionApiKey
+  /security/ingestion/api_keys/{ingestionApiKeyId}:
+    delete:
+      description: "Deleted token can't be used by sources, so all ingestion pipelines\
+        \ for that key will fail"
+      operationId: deleteIngestionApiKey
+      parameters:
+      - description: The identifier of a key
+        in: path
+        name: ingestionApiKeyId
+        required: true
+        schema:
+          $ref: '#/components/schemas/IngestionApiKeyId'
+      responses:
+        "204":
+          description: The key has been deleted
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete Ingestion Api Key
+      tags:
+      - ingestionApiKey
   /security/permissions/list:
     get:
       description: Get a list of available permissions
@@ -2301,468 +3446,6 @@ paths:
       summary: Submit a new license to update the subscription
       tags:
       - subscription
-  /anomalies/export:
-    get:
-      description: ""
-      operationId: exportAnomaly
-      parameters:
-      - description: Beginning of timerange of to be exported anomalies.  Timestamp
-          in unix millis.
-        in: query
-        name: startTime
-        required: true
-        schema:
-          format: int64
-          type: integer
-      - description: End of timerange of to be exported anomalies.  Timestamp in unix
-          millis.
-        in: query
-        name: endTime
-        required: false
-        schema:
-          format: int64
-          type: integer
-      - description: "Amount of historic data, leading up to the anomaly, to be exported.\
-          \  Duration in unix millis."
-        in: query
-        name: history
-        required: false
-        schema:
-          format: int64
-          type: integer
-      - description: "Type of filtering to do on feedback.  Filtering on feedback\
-          \ is currently mandatory, with only the 'present' value being supporeted\
-          \ (feedback is available)."
-        in: query
-        name: feedback
-        required: true
-        schema:
-          enum:
-          - present
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/AnomalyWithContext'
-                type: array
-          description: Export feedback on anomalies.
-        "413":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TooManyAnomaliesError'
-          description: Too many anomalies.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Export anomalies with metric history and feedback
-      tags:
-      - exportAnomaly
-  /components/{componentId}/streams:
-    get:
-      description: List all streams from the component
-      operationId: getComponentStreams
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/TelemetryStreamDefinition'
-                type: array
-          description: Multiple telemetry stream definitions
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: List all streams from the component
-      tags:
-      - component
-  /components/{componentId}/streams/{streamId}:
-    get:
-      description: Get a Specific stream from the component
-      operationId: getComponentStream
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      - description: The Identifier of a stream
-        in: path
-        name: streamId
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamId'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryStreamDefinition'
-          description: Single telemetry stream definition
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Get the stream from the component
-      tags:
-      - component
-  /components/{componentId}/streams/latest:
-    get:
-      description: "Gets a top 3 metrics for a datapoint, always takes the last 15\
-        \ minutes before provided timepoint"
-      operationId: getLatestMetrics
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      - description: Ids of streams to query for
-        in: query
-        name: streamIds
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamIds'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryLatestSnapshotsResponse'
-          description: the latest metrics for provided stream ids
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ComponentNotFoundError'
-          description: Component not found error
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Get the latests metrics
-      tags:
-      - component
-  /components/{componentId}/checks:
-    get:
-      description: List all checks from the component
-      operationId: getComponentChecks
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Check'
-                type: array
-          description: Multiple Checks
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: List all checks from the component
-      tags:
-      - component
-  /components/{componentId}/checks/{checkId}:
-    get:
-      description: Get a Specific check from the component
-      operationId: getComponentCheck
-      parameters:
-      - description: The Identifier of a component
-        in: path
-        name: componentId
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      - description: The Identifier of a Check
-        in: path
-        name: checkId
-        required: true
-        schema:
-          $ref: '#/components/schemas/CheckId'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Check'
-          description: Single check
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Get the check from the component
-      tags:
-      - component
-  /relations/{relationId}/streams:
-    get:
-      description: List all streams from the relation
-      operationId: getRelationStreams
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/TelemetryStreamDefinition'
-                type: array
-          description: Multiple telemetry stream definitions
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: List all streams from the relation
-      tags:
-      - relation
-  /relations/{relationId}/streams/{streamId}:
-    get:
-      description: Get a Specific stream from the relation
-      operationId: getRelationStream
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      - description: The Identifier of a stream
-        in: path
-        name: streamId
-        required: true
-        schema:
-          $ref: '#/components/schemas/StreamId'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TelemetryStreamDefinition'
-          description: Single telemetry stream definition
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Get the stream from the relation
-      tags:
-      - relation
-  /relations/{relationId}/checks:
-    get:
-      description: List all checks from the relation
-      operationId: getRelationChecks
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Check'
-                type: array
-          description: Multiple Checks
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: List all checks from the relation
-      tags:
-      - relation
-  /relations/{relationId}/checks/{checkId}:
-    get:
-      description: Get a Specific check from the relation
-      operationId: getRelationCheck
-      parameters:
-      - description: The Identifier of a relation
-        in: path
-        name: relationId
-        required: true
-        schema:
-          $ref: '#/components/schemas/RelationId'
-      - description: A Data point for a query either point from timeline or 'now'
-          if livemode
-        in: query
-        name: queryTime
-        required: true
-        schema:
-          $ref: '#/components/schemas/QueryTime'
-      - description: The Identifier of a Check
-        in: path
-        name: checkId
-        required: true
-        schema:
-          $ref: '#/components/schemas/CheckId'
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Check'
-          description: Single check
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StackElementNotFound'
-          description: Error when handling an element which cannot be found.
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Get the check from the relation
-      tags:
-      - relation
   /problems/{problemId}/causing-events:
     get:
       description: Resulting events are ordered by likeness to be an actual problem
@@ -3694,13 +4377,13 @@ paths:
         name: from
         required: true
         schema:
-          $ref: '#/components/schemas/Instant'
+          $ref: '#/components/schemas/Instant_1'
       - description: Logs last timestamp.
         in: query
         name: to
         required: true
         schema:
-          $ref: '#/components/schemas/Instant'
+          $ref: '#/components/schemas/Instant_1'
       - description: Maximum number of the log lines in the result.
         in: query
         name: pageSize
@@ -3748,12 +4431,12 @@ paths:
         name: direction
         schema:
           $ref: '#/components/schemas/LogsDirection'
-      - description: "Search a specific log level DEBUG, INFO, WARN, ERROR."
+      - description: "Search a specific log severity WARN, ERROR, OTHER."
         in: query
-        name: levels
+        name: severity
         schema:
           items:
-            $ref: '#/components/schemas/LogLevel'
+            $ref: '#/components/schemas/LogSeverity'
           type: array
       responses:
         "200":
@@ -3787,13 +4470,13 @@ paths:
         name: from
         required: true
         schema:
-          $ref: '#/components/schemas/Instant'
+          $ref: '#/components/schemas/Instant_1'
       - description: Logs last timestamp.
         in: query
         name: to
         required: true
         schema:
-          $ref: '#/components/schemas/Instant'
+          $ref: '#/components/schemas/Instant_1'
       - description: Find only logs containing query text.
         in: query
         name: query
@@ -3823,12 +4506,12 @@ paths:
         schema:
           format: int32
           type: integer
-      - description: "Search a specific log level DEBUG, INFO, WARN, ERROR."
+      - description: "Search a specific log severity WARN, ERROR, OTHER."
         in: query
-        name: levels
+        name: severity
         schema:
           items:
-            $ref: '#/components/schemas/LogLevel'
+            $ref: '#/components/schemas/LogSeverity'
           type: array
       responses:
         "200":
@@ -3862,13 +4545,13 @@ paths:
         name: from
         required: true
         schema:
-          $ref: '#/components/schemas/Instant'
+          $ref: '#/components/schemas/Instant_1'
       - description: Logs last timestamp.
         in: query
         name: to
         required: true
         schema:
-          $ref: '#/components/schemas/Instant'
+          $ref: '#/components/schemas/Instant_1'
       - description: Find only logs for the given pod UID.
         in: query
         name: podUID
@@ -3899,6 +4582,339 @@ paths:
       summary: Get Kubernetes logs autocomplete values
       tags:
       - kubernetes_logs
+  /traces/spans:
+    post:
+      description: "Query for spans using filters, get all spans for a trace by trace\
+        \ id. Filters that accept an array of values match if any of the values match\
+        \ (think of a SQL IN expression)."
+      operationId: querySpans
+      parameters:
+      - description: Filter spans by start time >= value
+        example: 1707117737
+        in: query
+        name: start
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant_1'
+      - description: Filter spans by start time < value
+        example: 1707121359
+        in: query
+        name: end
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant_1'
+      - description: Number of spans in 1 page
+        example: 30
+        in: query
+        name: pageSize
+        required: false
+        schema:
+          default: 20
+          format: int32
+          maximum: 200
+          minimum: 1
+          type: integer
+      - description: "Get the specified page (with pageSize # of spans), defaults\
+          \ to page 0"
+        example: 4
+        in: query
+        name: page
+        required: false
+        schema:
+          default: 0
+          format: int32
+          minimum: 0
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/spanQuery'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Spans'
+          description: Spans
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiSpansBadRequest'
+          description: Bad spans request response
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Query for spans
+      tags:
+      - traces
+  /traces/spans/duration/histogram:
+    post:
+      description: Query for durations using filters.  Filters that accept an array
+        of values match if any of the values match (think of a SQL IN expression).
+      operationId: queryDuration
+      parameters:
+      - description: Filter spans by start time >= value
+        example: 1707117737
+        in: query
+        name: start
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant_1'
+      - description: Filter spans by start time < value
+        example: 1707121359
+        in: query
+        name: end
+        required: true
+        schema:
+          $ref: '#/components/schemas/Instant_1'
+      - description: The number of histogram buckets.
+        in: query
+        name: bucketsCount
+        required: true
+        schema:
+          format: int32
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/spanFilter'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DurationHistogram'
+          description: DurationHistogram
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiSpansBadRequest'
+          description: Bad spans request response
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Query duration distribution
+      tags:
+      - traces
+  /traces/{traceId}:
+    get:
+      description: Get a full trace by id only
+      operationId: getTrace
+      parameters:
+      - description: The id of the trace
+        in: path
+        name: traceId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Trace'
+          description: A trace with all its spans
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiTraceNotFound'
+          description: Trace not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Fetch a trace
+      tags:
+      - traces
+  /traces/{traceId}/spans/{spanId}:
+    get:
+      description: Get a single span for a trace
+      operationId: getSpan
+      parameters:
+      - description: The id of the trace
+        in: path
+        name: traceId
+        required: true
+        schema:
+          type: string
+      - description: The id of the span
+        in: path
+        name: spanId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Span'
+          description: Span
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiSpanNotFound'
+          description: Span not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Get a span
+      tags:
+      - traces
+  /traces/spans/fields/attributes:
+    get:
+      description: "Suggestions for attribute names, both resource and span attributes.\
+        \ Attributes match when their name contains the provided part, at most 100\
+        \ suggestions will be returned. Make the part longer to get more accurate\
+        \ suggestions."
+      operationId: suggestionsAttributeName
+      parameters:
+      - description: Get suggestions based of this partial name
+        in: query
+        name: contains
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Suggestions'
+          description: "Suggestions for property values, attributes names and attribute\
+            \ values"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Suggestions for attribute names
+      tags:
+      - traces
+  /traces/spans/fields/attributes/{attributeName}/values:
+    get:
+      description: "Suggestions for attribute values, both resource and span attributes.\
+        \ Attribute values match when the value contains the provided part, at most\
+        \ 100 suggestions will be returned. Make the part longer to get more accurate\
+        \ suggestions."
+      operationId: suggestionsAttributeValue
+      parameters:
+      - description: Get suggestions for this attribute
+        in: path
+        name: attributeName
+        required: true
+        schema:
+          type: string
+      - description: Get suggestions based on this partial value
+        in: query
+        name: contains
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Suggestions'
+          description: "Suggestions for property values, attributes names and attribute\
+            \ values"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Suggestions for attribute values
+      tags:
+      - traces
+  /traces/spans/fields/{field}/values:
+    get:
+      description: "Suggestions for values of of the span fields that can be filtered\
+        \ on except resource and span attributes. Values match when they contain the\
+        \ provided part, at most 100 suggestions will be returned. Make the part longer\
+        \ to get more accurate suggestions."
+      operationId: suggestionsFieldValues
+      parameters:
+      - description: Get suggestions for this field
+        in: path
+        name: field
+        required: true
+        schema:
+          $ref: '#/components/schemas/SpanSuggestionField'
+      - description: Get suggestions for this field based on this partial value
+        in: query
+        name: contains
+        required: false
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Suggestions'
+          description: "Suggestions for property values, attributes names and attribute\
+            \ values"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Suggestions for span fields
+      tags:
+      - traces
+  /traces/components:
+    post:
+      description: "Based on the resource attributes on a span, retrieve components\
+        \ that have a TraceBinding for it."
+      operationId: spanComponents
+      requestBody:
+        $ref: '#/components/requestBodies/componentQuery'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpanComponents'
+          description: Components
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TraceApiError'
+          description: Server error response
+      summary: Fetch components based on resource attributes
+      tags:
+      - traces
+  /dummy/dummy:
+    get:
+      description: ""
+      operationId: dummy
+      responses:
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+      summary: Dummy path to fix omission in openapi generation when a type is not
+        included.
+      tags:
+      - dummy
 components:
   requestBodies:
     nodeClone:
@@ -3915,11 +4931,94 @@ components:
             $ref: '#/components/schemas/MonitorPatch'
       description: Monitor base properties
       required: true
+    monitorPreview:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorPreview'
+      description: Monitor overrides in order to run a preview
+      required: true
+    monitorSnapshot:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorSnapshot'
+      description: Monitor snapshot of health states
+      required: true
+    monitorFunctionTest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorFunctionTest'
+      description: Monitor function arguments to test
+      required: true
+    monitorIdentifierLookup:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorIdentifierLookup'
+      description: Component type and metric query for identifier lookup
+      required: true
+    joinSlackChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SlackChannelId'
+      description: Provide a Slack channel id to join the specified Slack channel
+      required: true
+    webhookChannelWrite:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookChannelWriteSchema'
+      description: Create or update a webhook channel
+      required: true
+    opsgenieChannelWrite:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OpsgenieChannelWriteSchema'
+      description: Create or update a opsgenie channel
+      required: true
+    notificationConfigurationWrite:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurationWriteSchema'
+      description: Create or update a notification configuration
+      required: true
     EventListBody:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/EventListRequest'
+      required: true
+    EventsHistogramBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventsHistogramRequest'
+      required: true
+    spanQuery:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SpanQuery'
+      description: Query for spans
+      required: true
+    spanFilter:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SpanFilter'
+      description: Filter for spans
+      required: true
+    componentQuery:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentQuery'
+      description: Span properties to find matching components
       required: true
   responses:
     genericErrorsResponse:
@@ -3964,6 +5063,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorValidationError'
       description: monitor request has errors
+    monitorPreviewResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorPreviewResult'
+      description: Summary representation of the result of a monitor run
     monitorRunResult:
       content:
         application/json:
@@ -3976,6 +5081,18 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorStatus'
       description: Full representation of a monitor with status
+    monitorFunctionNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorFunctionNotFoundError'
+      description: monitor function was not found in the database
+    monitorIdentifierSuggestions:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorIdentifierSuggestions'
+      description: Identifier suggestions for multiple component identifier lookup
     monitorsOverview:
       content:
         application/json:
@@ -4013,6 +5130,85 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorCheckStatusHealthHistory'
       description: Monitor check status health history
+    slackNotificationChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SlackNotificationChannel'
+      description: Slack notification channel
+    notificationChannelError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationChannelError'
+      description: Error while executing the request.
+    notificationChannelNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationChannelNotFound'
+      description: Notification channel was not found in the database
+    slackChannels:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SlackChannels'
+      description: Array of all available Slack channels to which StackState can send
+        messages.
+    webhookNotificationChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/WebhookNotificationChannel'
+      description: Webhook notification channel
+    opsgenieNotificationChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OpsgenieNotificationChannel'
+      description: Opsgenie notification channel
+    opsgenieResponders:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OpsgenieResponders'
+      description: Opsgenie responders
+    notificationConfigurations:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurations'
+      description: Array of notification configurations
+    notificationConfigurationError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurationError'
+      description: Error while executing the request.
+    notificationConfiguration:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurationReadSchema'
+      description: Notification configuration
+    notificationConfigurationByIdErrors:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurationByIdErrors'
+      description: Error while executing the request.
+    notificationConfigurationNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurationNotFound'
+      description: Notification was not found in the database
+    notificationConfigurationChannels:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotificationConfigurationChannels'
+      description: Notification configuration channels
     userProfile:
       content:
         application/json:
@@ -4045,6 +5241,12 @@ components:
           schema:
             $ref: '#/components/schemas/EventNotFoundError'
       description: Error when retrieving an event
+    eventsHistogram:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EventsHistogram'
+      description: Events Histogram
     eventSuggestions:
       content:
         application/json:
@@ -4089,52 +5291,6 @@ components:
               $ref: '#/components/schemas/ServiceToken'
             type: array
       description: Service Tokens
-    telemetryStreamDefinitionCollection:
-      content:
-        application/json:
-          schema:
-            items:
-              $ref: '#/components/schemas/TelemetryStreamDefinition'
-            type: array
-      description: Multiple telemetry stream definitions
-    stackElementNotFound:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/StackElementNotFound'
-      description: Error when handling an element which cannot be found.
-    telemetryStreamDefinition:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TelemetryStreamDefinition'
-      description: Single telemetry stream definition
-    telemetryLatestSnapshots:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/TelemetryLatestSnapshotsResponse'
-      description: the latest metrics for provided stream ids
-    componentNotFoundError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ComponentNotFoundError'
-      description: Component not found error
-    elementCheckCollection:
-      content:
-        application/json:
-          schema:
-            items:
-              $ref: '#/components/schemas/Check'
-            type: array
-      description: Multiple Checks
-    elementCheck:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Check'
-      description: Single check
     GetCausingEventsResult:
       content:
         application/json:
@@ -4320,6 +5476,73 @@ components:
             $ref: '#/components/schemas/GetKubernetesLogsAutocompleteBadRequest'
       description: Can not get the logs autocomplete values because one or more request
         params are invalid.
+    spans:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Spans'
+      description: Spans
+    traceApiSpansBadRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TraceApiSpansBadRequest'
+      description: Bad spans request response
+    traceApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TraceApiError'
+      description: Server error response
+    durations:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DurationHistogram'
+      description: DurationHistogram
+    trace:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Trace'
+      description: A trace with all its spans
+    traceApiTraceNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TraceApiTraceNotFound'
+      description: Trace not found
+    span:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Span'
+      description: Span
+    traceApiSpanNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TraceApiSpanNotFound'
+      description: Span not found
+    suggestions:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Suggestions'
+      description: "Suggestions for property values, attributes names and attribute\
+        \ values"
+    components:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SpanComponents'
+      description: Components
+    stackElementNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StackElementNotFound'
+      description: Error when handling an element which cannot be found.
   schemas:
     GenericErrorsResponse:
       properties:
@@ -4869,36 +6092,44 @@ components:
       example:
         monitors:
         - identifier: identifier
-          functionId: 6
-          lastUpdateTimestamp: 5
+          canClone: true
           runtimeStatus: null
           remediationHint: remediationHint
-          name: name
+          canEdit: true
           description: description
+          source: source
+          tags:
+          - tags
+          - tags
+          functionId: 6
+          lastUpdateTimestamp: 5
+          name: name
           arguments:
           - "{}"
           - "{}"
           id: 0
+          sourceDetails: sourceDetails
           intervalSeconds: 1
-          tags:
-          - tags
-          - tags
           status: null
         - identifier: identifier
-          functionId: 6
-          lastUpdateTimestamp: 5
+          canClone: true
           runtimeStatus: null
           remediationHint: remediationHint
-          name: name
+          canEdit: true
           description: description
+          source: source
+          tags:
+          - tags
+          - tags
+          functionId: 6
+          lastUpdateTimestamp: 5
+          name: name
           arguments:
           - "{}"
           - "{}"
           id: 0
+          sourceDetails: sourceDetails
           intervalSeconds: 1
-          tags:
-          - tags
-          - tags
           status: null
       properties:
         monitors:
@@ -4911,20 +6142,24 @@ components:
     Monitor:
       example:
         identifier: identifier
-        functionId: 6
-        lastUpdateTimestamp: 5
+        canClone: true
         runtimeStatus: null
         remediationHint: remediationHint
-        name: name
+        canEdit: true
         description: description
+        source: source
+        tags:
+        - tags
+        - tags
+        functionId: 6
+        lastUpdateTimestamp: 5
+        name: name
         arguments:
         - "{}"
         - "{}"
         id: 0
+        sourceDetails: sourceDetails
         intervalSeconds: 1
-        tags:
-        - tags
-        - tags
         status: null
       properties:
         id:
@@ -4951,6 +6186,14 @@ components:
           items:
             type: string
           type: array
+        source:
+          type: string
+        sourceDetails:
+          type: string
+        canEdit:
+          type: boolean
+        canClone:
+          type: boolean
         status:
           $ref: '#/components/schemas/MonitorStatusValue'
         runtimeStatus:
@@ -4960,12 +6203,15 @@ components:
           type: integer
       required:
       - arguments
+      - canClone
+      - canEdit
       - functionId
       - id
       - intervalSeconds
       - lastUpdateTimestamp
       - name
       - runtimeStatus
+      - source
       - status
       - tags
       type: object
@@ -5074,6 +6320,81 @@ components:
       - _type
       - intervalSeconds
       type: object
+    MonitorPreview:
+      example:
+        arguments:
+        - null
+        - null
+      properties:
+        arguments:
+          items:
+            $ref: '#/components/schemas/Argument'
+          type: array
+      type: object
+    MonitorPreviewResult:
+      example:
+        unknownCount: 6
+        healthStatesCount: 0
+        clearCount: 1
+        componentCounts:
+          matchingComponents: 7
+          uniqueIdentifiers: 2
+        criticalCount: 5
+        deviatingCount: 5
+        errors:
+        - errors
+        - errors
+      properties:
+        healthStatesCount:
+          description: Representing the total count of the monitor results.
+          type: integer
+        unknownCount:
+          description: Representing the count of the monitor results that are UNKNOWN
+            in the result.
+          type: integer
+        clearCount:
+          description: Representing the count of the monitor results that are CLEAR
+            in the result.
+          type: integer
+        deviatingCount:
+          description: Representing the count of the monitor results that are DEVIATING
+            in the result.
+          type: integer
+        criticalCount:
+          description: Representing the count of the monitor results that are CRITICAL
+            in the result.
+          type: integer
+        componentCounts:
+          $ref: '#/components/schemas/MonitorPreviewComponentCount'
+        errors:
+          items:
+            type: string
+          type: array
+      required:
+      - clearCount
+      - criticalCount
+      - deviatingCount
+      - errors
+      - healthStatesCount
+      - unknownCount
+      type: object
+    MonitorPreviewComponentCount:
+      example:
+        matchingComponents: 7
+        uniqueIdentifiers: 2
+      properties:
+        uniqueIdentifiers:
+          description: The number of unique identifiers for the total health state
+            count. Only available when there non-empty identifiers.
+          type: integer
+        matchingComponents:
+          description: "The number of components for the identifiers: matchingComponents\
+            \ <= uniqueIdentifiers. Only available when there non-empty identifiers."
+          type: integer
+      required:
+      - matchingComponents
+      - uniqueIdentifiers
+      type: object
     MonitorRunResult:
       example:
         result: "{}"
@@ -5093,20 +6414,24 @@ components:
           id: 0
         monitor:
           identifier: identifier
-          functionId: 6
-          lastUpdateTimestamp: 5
+          canClone: true
           runtimeStatus: null
           remediationHint: remediationHint
-          name: name
+          canEdit: true
           description: description
+          source: source
+          tags:
+          - tags
+          - tags
+          functionId: 6
+          lastUpdateTimestamp: 5
+          name: name
           arguments:
           - "{}"
           - "{}"
           id: 0
+          sourceDetails: sourceDetails
           intervalSeconds: 1
-          tags:
-          - tags
-          - tags
           status: null
         metrics:
           healthSyncServiceMetrics:
@@ -5307,6 +6632,275 @@ components:
           format: int64
           type: integer
       type: object
+    MonitorSnapshot:
+      example:
+        firstBatch: true
+        healthStates:
+        - remediationHintTemplateData: "{}"
+          reason: reason
+          id: id
+          state: null
+          topologyIdentifier: topologyIdentifier
+          displayTimeSeries:
+          - unit: unit
+            name: name
+            description: description
+            queries:
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+          - unit: unit
+            name: name
+            description: description
+            queries:
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+          message: message
+        - remediationHintTemplateData: "{}"
+          reason: reason
+          id: id
+          state: null
+          topologyIdentifier: topologyIdentifier
+          displayTimeSeries:
+          - unit: unit
+            name: name
+            description: description
+            queries:
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+          - unit: unit
+            name: name
+            description: description
+            queries:
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+            - componentIdentifierTemplate: componentIdentifierTemplate
+              query: query
+              alias: alias
+          message: message
+        lastBatch: true
+      properties:
+        firstBatch:
+          default: true
+          type: boolean
+        lastBatch:
+          default: true
+          type: boolean
+        healthStates:
+          items:
+            $ref: '#/components/schemas/MonitorHealthState'
+          type: array
+      required:
+      - healthStates
+      type: object
+    MonitorHealthState:
+      example:
+        remediationHintTemplateData: "{}"
+        reason: reason
+        id: id
+        state: null
+        topologyIdentifier: topologyIdentifier
+        displayTimeSeries:
+        - unit: unit
+          name: name
+          description: description
+          queries:
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
+        - unit: unit
+          name: name
+          description: description
+          queries:
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
+          - componentIdentifierTemplate: componentIdentifierTemplate
+            query: query
+            alias: alias
+        message: message
+      properties:
+        id:
+          type: string
+        state:
+          $ref: '#/components/schemas/HealthStateValue'
+        topologyIdentifier:
+          type: string
+        displayTimeSeries:
+          items:
+            $ref: '#/components/schemas/MonitorDisplayTimeSeries'
+          type: array
+        remediationHintTemplateData:
+          type: object
+        message:
+          type: string
+        reason:
+          type: string
+      required:
+      - id
+      - state
+      - topologyIdentifier
+      type: object
+    MonitorDisplayTimeSeries:
+      example:
+        unit: unit
+        name: name
+        description: description
+        queries:
+        - componentIdentifierTemplate: componentIdentifierTemplate
+          query: query
+          alias: alias
+        - componentIdentifierTemplate: componentIdentifierTemplate
+          query: query
+          alias: alias
+      properties:
+        name:
+          type: string
+        queries:
+          items:
+            $ref: '#/components/schemas/MonitorDisplayQuery'
+          type: array
+        description:
+          type: string
+        unit:
+          type: string
+      required:
+      - name
+      - queries
+      type: object
+    MonitorDisplayQuery:
+      example:
+        componentIdentifierTemplate: componentIdentifierTemplate
+        query: query
+        alias: alias
+      properties:
+        query:
+          type: string
+        alias:
+          type: string
+        componentIdentifierTemplate:
+          type: string
+      required:
+      - query
+      type: object
+    MonitorFunctionIdOrUrn:
+      pattern: "^urn:.+|[0-9]+$"
+      type: string
+    MonitorFunctionTest:
+      example:
+        arguments:
+        - null
+        - null
+      properties:
+        arguments:
+          items:
+            $ref: '#/components/schemas/Argument'
+          type: array
+      required:
+      - arguments
+      type: object
+    MonitorFunctionNotFoundError:
+      properties:
+        monitorFunctionId:
+          type: string
+        monitorFunctionIdType:
+          enum:
+          - id
+          - urn
+          type: string
+        _type:
+          enum:
+          - MonitorFunctionNotFoundError
+          type: string
+      required:
+      - _type
+      - monitorFunctionId
+      - monitorFunctionIdType
+      type: object
+    MonitorIdentifierLookup:
+      example:
+        componentType: 0
+        metricQuery: metricQuery
+        overrides:
+          timeSeries: 5
+          components: 1
+        topN: 6
+      properties:
+        metricQuery:
+          type: string
+        componentType:
+          format: int64
+          type: integer
+        topN:
+          format: int32
+          type: integer
+        overrides:
+          $ref: '#/components/schemas/MonitorIdentifierLookup_overrides'
+      required:
+      - componentType
+      - metricQuery
+      type: object
+    MonitorIdentifierSuggestions:
+      example:
+        componentsInspected: 1
+        timeseriesInspected: 5
+        suggestions:
+        - score: 0.8008282
+          identifierTemplate: identifierTemplate
+          totalMatches: 6
+        - score: 0.8008282
+          identifierTemplate: identifierTemplate
+          totalMatches: 6
+      properties:
+        suggestions:
+          items:
+            $ref: '#/components/schemas/MonitorIdentifierSuggestion'
+          type: array
+        componentsInspected:
+          format: int64
+          type: integer
+        timeseriesInspected:
+          format: int64
+          type: integer
+      required:
+      - componentsInspected
+      - suggestions
+      - timeseriesInspected
+      type: object
+    MonitorIdentifierSuggestion:
+      example:
+        score: 0.8008282
+        identifierTemplate: identifierTemplate
+        totalMatches: 6
+      properties:
+        identifierTemplate:
+          type: string
+        score:
+          format: float
+          type: number
+        totalMatches:
+          format: int64
+          type: integer
+      required:
+      - identifierTemplate
+      - score
+      - totalMatches
+      type: object
     MonitorOverviewList:
       example:
         monitors:
@@ -5318,20 +6912,24 @@ components:
             id: 0
           monitor:
             identifier: identifier
-            functionId: 6
-            lastUpdateTimestamp: 5
+            canClone: true
             runtimeStatus: null
             remediationHint: remediationHint
-            name: name
+            canEdit: true
             description: description
+            source: source
+            tags:
+            - tags
+            - tags
+            functionId: 6
+            lastUpdateTimestamp: 5
+            name: name
             arguments:
             - "{}"
             - "{}"
             id: 0
+            sourceDetails: sourceDetails
             intervalSeconds: 1
-            tags:
-            - tags
-            - tags
             status: null
           runtimeMetrics:
             lastRunTimestamp: 7
@@ -5358,20 +6956,24 @@ components:
             id: 0
           monitor:
             identifier: identifier
-            functionId: 6
-            lastUpdateTimestamp: 5
+            canClone: true
             runtimeStatus: null
             remediationHint: remediationHint
-            name: name
+            canEdit: true
             description: description
+            source: source
+            tags:
+            - tags
+            - tags
+            functionId: 6
+            lastUpdateTimestamp: 5
+            name: name
             arguments:
             - "{}"
             - "{}"
             id: 0
+            sourceDetails: sourceDetails
             intervalSeconds: 1
-            tags:
-            - tags
-            - tags
             status: null
           runtimeMetrics:
             lastRunTimestamp: 7
@@ -5408,20 +7010,24 @@ components:
           id: 0
         monitor:
           identifier: identifier
-          functionId: 6
-          lastUpdateTimestamp: 5
+          canClone: true
           runtimeStatus: null
           remediationHint: remediationHint
-          name: name
+          canEdit: true
           description: description
+          source: source
+          tags:
+          - tags
+          - tags
+          functionId: 6
+          lastUpdateTimestamp: 5
+          name: name
           arguments:
           - "{}"
           - "{}"
           id: 0
+          sourceDetails: sourceDetails
           intervalSeconds: 1
-          tags:
-          - tags
-          - tags
           status: null
         runtimeMetrics:
           lastRunTimestamp: 7
@@ -5460,7 +7066,7 @@ components:
       example:
         topologyTime: 5
         reason: reason
-        monitorId: 5
+        monitorId: null
         monitorName: monitorName
         health: null
         checkStateId: checkStateId
@@ -5524,8 +7130,7 @@ components:
         component:
           $ref: '#/components/schemas/MonitorCheckStatusComponent'
         monitorId:
-          format: int64
-          type: integer
+          $ref: '#/components/schemas/MonitorReferenceId'
         monitorName:
           type: string
         monitorDescription:
@@ -5796,6 +7401,392 @@ components:
       required:
       - newHealth
       - timestamp
+    ChannelId:
+      format: int64
+      type: integer
+    SlackNotificationChannel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationChannel'
+      - $ref: '#/components/schemas/SlackNotificationChannel_allOf'
+    BaseNotificationChannel:
+      properties:
+        id:
+          format: int64
+          type: integer
+        notificationConfigurationId:
+          format: int64
+          type: integer
+        status:
+          $ref: '#/components/schemas/NotificationChannelStatus'
+      required:
+      - id
+      - status
+      type: object
+    NotificationChannelStatus:
+      properties:
+        errors:
+          items:
+            $ref: '#/components/schemas/NotificationChannelStatusError'
+          type: array
+      required:
+      - errors
+      type: object
+    NotificationChannelStatusError:
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+        message:
+          type: string
+        firstSeenMs:
+          format: instant
+          type: integer
+      required:
+      - category
+      - count
+      - firstSeenMs
+      - message
+      type: object
+    NotificationChannelError:
+      properties:
+        message:
+          type: string
+        channelId:
+          type: string
+        _type:
+          enum:
+          - NotificationChannelError
+          type: string
+      required:
+      - _type
+      - channelId
+      - message
+      type: object
+    NotificationChannelNotFound:
+      properties:
+        message:
+          type: string
+        channelId:
+          type: string
+        _type:
+          enum:
+          - NotificationChannelNotFound
+          type: string
+      required:
+      - _type
+      - channelId
+      - message
+      type: object
+    SlackChannels:
+      items:
+        $ref: '#/components/schemas/SlackChannel'
+      type: array
+    SlackChannel:
+      example:
+        name: name
+        id: id
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+      required:
+      - id
+      - name
+      type: object
+    SlackChannelId:
+      example:
+        id: id
+      properties:
+        id:
+          type: string
+      required:
+      - id
+      type: object
+    WebhookChannelWriteSchema:
+      example:
+        metadata:
+          key: metadata
+        verifySsl: true
+        url: url
+        token: token
+      properties:
+        url:
+          type: string
+        token:
+          type: string
+        verifySsl:
+          type: boolean
+        metadata:
+          additionalProperties:
+            type: string
+          type: object
+      required:
+      - metadata
+      - token
+      - url
+      - verifySsl
+      type: object
+    WebhookNotificationChannel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationChannel'
+      - $ref: '#/components/schemas/WebhookChannelWriteSchema'
+      - $ref: '#/components/schemas/WebhookNotificationChannel_allOf'
+    OpsgenieChannelWriteSchema:
+      example:
+        genieKey: genieKey
+        region: EU
+        priority: P1
+        responders:
+        - responder: responder
+          responderType: TEAM
+        - responder: responder
+          responderType: TEAM
+      properties:
+        region:
+          enum:
+          - EU
+          - US
+          type: string
+        genieKey:
+          type: string
+        responders:
+          items:
+            $ref: '#/components/schemas/OpsgenieResponder'
+          type: array
+        priority:
+          enum:
+          - P1
+          - P2
+          - P3
+          - P4
+          - P5
+          type: string
+      required:
+      - genieKey
+      - priority
+      - region
+      - responders
+      type: object
+    OpsgenieResponder:
+      example:
+        responder: responder
+        responderType: TEAM
+      properties:
+        responderType:
+          enum:
+          - TEAM
+          - USER
+          - SCHEDULE
+          - ESCALATION
+          type: string
+        responder:
+          type: string
+      required:
+      - responder
+      - responderType
+      type: object
+    OpsgenieNotificationChannel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationChannel'
+      - $ref: '#/components/schemas/OpsgenieChannelWriteSchema'
+      - $ref: '#/components/schemas/OpsgenieNotificationChannel_allOf'
+    OpsgenieResponders:
+      items:
+        $ref: '#/components/schemas/OpsgenieResponder'
+      type: array
+    NotificationConfigurations:
+      items:
+        $ref: '#/components/schemas/NotificationConfigurationReadSchema'
+      type: array
+    NotificationConfigurationReadSchema:
+      allOf:
+      - $ref: '#/components/schemas/NotificationConfigurationWriteSchema'
+      - $ref: '#/components/schemas/NotificationConfigurationReadSchema_allOf'
+    NotificationConfigurationWriteSchema:
+      example:
+        identifier: identifier
+        componentTags:
+        - componentTags
+        - componentTags
+        monitorTags:
+        - monitorTags
+        - monitorTags
+        notifyHealthStates: null
+        name: name
+        componentTypes:
+        - 0
+        - 0
+        description: description
+        notificationChannels:
+        - null
+        - null
+        monitors:
+        - null
+        - null
+        status: null
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        notifyHealthStates:
+          $ref: '#/components/schemas/NotifyOnOptions'
+        monitors:
+          items:
+            $ref: '#/components/schemas/MonitorReferenceId'
+          type: array
+        monitorTags:
+          items:
+            type: string
+          type: array
+        componentTypes:
+          items:
+            format: int64
+            type: integer
+          type: array
+        componentTags:
+          items:
+            type: string
+          type: array
+        status:
+          $ref: '#/components/schemas/NotificationConfigurationStatusValue'
+        notificationChannels:
+          items:
+            $ref: '#/components/schemas/ChannelReferenceId'
+          type: array
+      required:
+      - componentTags
+      - componentTypes
+      - monitorTags
+      - monitors
+      - name
+      - notificationChannels
+      - notifyHealthStates
+      - status
+      type: object
+    NotificationConfigurationUrn:
+      type: string
+    NotifyOnOptions:
+      enum:
+      - CRITICAL
+      - DEVIATING_AND_CRITICAL
+      type: string
+    NotificationConfigurationStatusValue:
+      enum:
+      - ENABLED
+      - DISABLED
+      type: string
+    ChannelReferenceId:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/SlackChannelRefId'
+      - $ref: '#/components/schemas/WebhookChannelRefId'
+      - $ref: '#/components/schemas/OpsgenieChannelRefId'
+      type: object
+    SlackChannelRefId:
+      properties:
+        _type:
+          enum:
+          - SlackChannelRefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    WebhookChannelRefId:
+      properties:
+        _type:
+          enum:
+          - WebhookChannelRefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    OpsgenieChannelRefId:
+      properties:
+        _type:
+          enum:
+          - OpsgenieChannelRefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    NotificationConfigurationRuntimeStatusValue:
+      enum:
+      - ERROR
+      - WARNING
+      - OK
+      type: string
+    NotificationConfigurationError:
+      properties:
+        message:
+          type: string
+        _type:
+          enum:
+          - NotificationConfigurationError
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    NotificationConfigurationIdOrUrn:
+      pattern: "^urn:.+|[0-9]+$"
+      type: string
+    NotificationConfigurationByIdErrors:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/NotificationConfigurationError'
+      - $ref: '#/components/schemas/InvalidNotificationConfigurationIdentifier'
+      required:
+      - _type
+    InvalidNotificationConfigurationIdentifier:
+      properties:
+        notificationConfigurationIdOrUrn:
+          type: string
+        _type:
+          enum:
+          - InvalidNotificationConfigurationIdentifier
+          type: string
+      required:
+      - _type
+      - notificationConfigurationIdOrUrn
+      type: object
+    NotificationConfigurationNotFound:
+      properties:
+        message:
+          type: string
+        notificationConfigurationIdOrUrn:
+          type: string
+        _type:
+          enum:
+          - NotificationConfigurationNotFound
+          type: string
+      required:
+      - _type
+      - message
+      - notificationConfigurationIdOrUrn
+      type: object
+    NotificationConfigurationChannels:
+      items:
+        $ref: '#/components/schemas/NotificationChannel'
+      type: array
     UserNotFoundError:
       properties:
         _type:
@@ -5974,6 +7965,7 @@ components:
         - eventSources
         limit: 1
         startTimestampMs: 0
+        includeConnectedComponents: true
         playHeadTimestampMs: 5
         eventCategories:
         - null
@@ -5986,7 +7978,6 @@ components:
         - eventTags
         - eventTags
         endTimestampMs: 6
-        rootCauseMode: null
       properties:
         startTimestampMs:
           format: instant
@@ -5996,13 +7987,13 @@ components:
           type: integer
         topologyQuery:
           type: string
+        includeConnectedComponents:
+          type: boolean
         limit:
           type: integer
         playHeadTimestampMs:
           format: instant
           type: integer
-        rootCauseMode:
-          $ref: '#/components/schemas/RootCauseMode'
         eventTypes:
           items:
             type: string
@@ -6027,15 +8018,10 @@ components:
       - startTimestampMs
       - topologyQuery
       type: object
-    RootCauseMode:
-      enum:
-      - no-cause
-      - cause-only
-      - full-cause-tree
-      type: string
     EventCategory:
       enum:
       - Changes
+      - Deployments
       - Alerts
       - Anomalies
       - Activities
@@ -6359,6 +8345,125 @@ components:
       required:
       - _type
       - eventId
+      type: object
+    EventsHistogramRequest:
+      example:
+        topologyTimestamp: 0
+        startTimestampMs: 6
+        includeConnectedComponents: true
+        eventCategories:
+        - null
+        - null
+        topologyQuery: topologyQuery
+        eventTypes:
+        - eventTypes
+        - eventTypes
+        histogramBucketCount: 5
+        endTimestampMs: 1
+      properties:
+        topologyTimestamp:
+          format: instant
+          type: integer
+        startTimestampMs:
+          format: instant
+          type: integer
+        endTimestampMs:
+          format: instant
+          type: integer
+        topologyQuery:
+          type: string
+        includeConnectedComponents:
+          type: boolean
+        eventTypes:
+          items:
+            type: string
+          type: array
+        eventCategories:
+          items:
+            $ref: '#/components/schemas/EventCategory'
+          type: array
+        histogramBucketCount:
+          type: integer
+      required:
+      - endTimestampMs
+      - histogramBucketCount
+      - startTimestampMs
+      - topologyQuery
+      type: object
+    EventsHistogram:
+      example:
+        buckets:
+        - count: 0
+          categoryBuckets:
+          - count: 5
+            category: null
+          - count: 5
+            category: null
+          startTime: 6
+          endTime: 1
+        - count: 0
+          categoryBuckets:
+          - count: 5
+            category: null
+          - count: 5
+            category: null
+          startTime: 6
+          endTime: 1
+      properties:
+        buckets:
+          items:
+            $ref: '#/components/schemas/EventBucket'
+          type: array
+      required:
+      - buckets
+      type: object
+    EventBucket:
+      example:
+        count: 0
+        categoryBuckets:
+        - count: 5
+          category: null
+        - count: 5
+          category: null
+        startTime: 6
+        endTime: 1
+      properties:
+        count:
+          description: Total logs record count in the bucket.
+          format: int64
+          type: integer
+        startTime:
+          description: The bucket initial timestamp.
+          format: instant
+          type: integer
+        endTime:
+          description: The bucket final timestamp.
+          format: instant
+          type: integer
+        categoryBuckets:
+          items:
+            $ref: '#/components/schemas/EventCategoryBucket'
+          type: array
+      required:
+      - categoryBuckets
+      - count
+      - endTime
+      - startTime
+      type: object
+    EventCategoryBucket:
+      example:
+        count: 5
+        category: null
+      properties:
+        count:
+          description: Total events count for a particular category in the bucket.
+          format: int64
+          type: integer
+        category:
+          $ref: '#/components/schemas/EventCategory'
+      required:
+      - category
+      - count
       type: object
     StringItemsWithTotal:
       example:
@@ -7302,6 +9407,113 @@ components:
     ServiceTokenId:
       format: int64
       type: integer
+    IngestionApiKey:
+      example:
+        lastUpdateTimestamp: 6
+        name: name
+        description: description
+        expiration: 1
+        id: 0
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          format: int64
+          type: integer
+      required:
+      - id
+      - lastUpdateTimestamp
+      - name
+      type: object
+    GeneratedIngestionApiKeyResponse:
+      example:
+        lastUpdateTimestamp: 6
+        apiKey: apiKey
+        name: name
+        description: description
+        expiration: 1
+        id: 0
+      properties:
+        id:
+          format: int64
+          readOnly: true
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          readOnly: true
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          format: int64
+          type: integer
+        apiKey:
+          type: string
+      required:
+      - apiKey
+      - id
+      - lastUpdateTimestamp
+      - name
+      type: object
+    IngestionApiKeyCreateError:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/IngestionApiKeyInvalidExpiryError'
+      required:
+      - _type
+    IngestionApiKeyInvalidExpiryError:
+      properties:
+        _type:
+          enum:
+          - IngestionApiKeyInvalidExpiryError
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    GenerateIngestionApiKeyRequest:
+      example:
+        name: name
+        description: description
+        expiration: 0
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        expiration:
+          format: int64
+          type: integer
+      required:
+      - name
+      type: object
+    AuthorizeIngestionApiKeyRequest:
+      example:
+        apiKey: apiKey
+      properties:
+        apiKey:
+          type: string
+      required:
+      - apiKey
+      type: object
+    IngestionApiKeyId:
+      format: int64
+      type: integer
     Permissions:
       example:
         permissions:
@@ -7457,1029 +9669,6 @@ components:
       required:
       - key
       type: object
-    AnomalyWithContext:
-      example:
-        feedback:
-          comments:
-          - author: author
-            text: text
-            timestamp: 7
-          - author: author
-            text: text
-            timestamp: 7
-          subject: subject
-          query:
-            metricField: metricField
-            queryHash: queryHash
-            dataSourceId: 9
-            conditions:
-            - value: value
-              key: key
-            - value: value
-              key: key
-            aggregationMethod: null
-            bucketSize: 3
-          _type: FeedbackData
-          thumbsdown:
-          - thumbsdown
-          - thumbsdown
-          thumbsup:
-          - thumbsup
-          - thumbsup
-        anomaly:
-          reference: null
-          data: null
-          identifiers:
-          - identifiers
-          - identifiers
-          name: name
-          eventTimeInterval:
-            start: 0
-            end: 6
-          description: description
-          annotationType: null
-          createdTime: 5
-          id: id
-          processedTime: 1
-          tags:
-          - tags
-          - tags
-        data:
-        - v: 2.3021358869347655
-          ts: 5
-        - v: 2.3021358869347655
-          ts: 5
-      properties:
-        anomaly:
-          $ref: '#/components/schemas/Annotation'
-        data:
-          items:
-            $ref: '#/components/schemas/Point'
-          type: array
-        feedback:
-          $ref: '#/components/schemas/FeedbackData'
-      required:
-      - anomaly
-      - data
-      type: object
-    Annotation:
-      example:
-        reference: null
-        data: null
-        identifiers:
-        - identifiers
-        - identifiers
-        name: name
-        eventTimeInterval:
-          start: 0
-          end: 6
-        description: description
-        annotationType: null
-        createdTime: 5
-        id: id
-        processedTime: 1
-        tags:
-        - tags
-        - tags
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        reference:
-          $ref: '#/components/schemas/Reference'
-        identifiers:
-          items:
-            type: string
-          type: array
-        description:
-          type: string
-        annotationType:
-          $ref: '#/components/schemas/AnnotationType'
-        eventTimeInterval:
-          $ref: '#/components/schemas/TimeRange'
-        processedTime:
-          format: int64
-          type: integer
-        createdTime:
-          format: int64
-          type: integer
-        tags:
-          items:
-            type: string
-          type: array
-        data:
-          $ref: '#/components/schemas/AnnotationData'
-      required:
-      - annotationType
-      - createdTime
-      - description
-      - eventTimeInterval
-      - id
-      - identifiers
-      - name
-      - processedTime
-      - reference
-      - tags
-      type: object
-    Reference:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/MetricStreamReference'
-      required:
-      - _type
-      type: object
-    MetricStreamReference:
-      properties:
-        _type:
-          enum:
-          - MetricStreamReference
-          type: string
-        streamNodeId:
-          format: int64
-          type: integer
-        elementIdentifiers:
-          items:
-            type: string
-          type: array
-      required:
-      - _type
-      - elementIdentifiers
-      - streamNodeId
-      type: object
-    AnnotationType:
-      enum:
-      - MetricStreamAnomaly
-      - MetricStreamNoAnomaly
-      - AnomalyFeedback
-      type: string
-    TimeRange:
-      example:
-        start: 0
-        end: 6
-      properties:
-        start:
-          format: int64
-          type: integer
-        end:
-          format: int64
-          type: integer
-      required:
-      - end
-      - start
-      type: object
-    AnnotationData:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/MetricStreamAnomalyData'
-      - $ref: '#/components/schemas/MetricStreamNoAnomalyData'
-      - $ref: '#/components/schemas/GenericAnnotationData'
-      - $ref: '#/components/schemas/FeedbackData'
-      required:
-      - _type
-      type: object
-    MetricStreamAnomalyData:
-      properties:
-        _type:
-          enum:
-          - MetricStreamAnomalyData
-          type: string
-        severity:
-          $ref: '#/components/schemas/AnomalySeverity'
-        severityScore:
-          format: double
-          type: number
-        checkedInterval:
-          $ref: '#/components/schemas/TimeRange'
-        explanation:
-          type: string
-        modelInfo:
-          type: object
-        elementName:
-          type: string
-        streamName:
-          type: string
-        query:
-          $ref: '#/components/schemas/AnnotationMetricQuery'
-      required:
-      - _type
-      - checkedInterval
-      - elementName
-      - explanation
-      - modelInfo
-      - severity
-      - severityScore
-      - streamName
-      type: object
-    AnomalySeverity:
-      enum:
-      - LOW
-      - MEDIUM
-      - HIGH
-      type: string
-    AnnotationMetricQuery:
-      example:
-        metricField: metricField
-        queryHash: queryHash
-        dataSourceId: 9
-        conditions:
-        - value: value
-          key: key
-        - value: value
-          key: key
-        aggregationMethod: null
-        bucketSize: 3
-      properties:
-        dataSourceId:
-          format: int64
-          type: integer
-        conditions:
-          items:
-            $ref: '#/components/schemas/TelemetryQueryCondition'
-          type: array
-        aggregationMethod:
-          $ref: '#/components/schemas/DownsamplingMethod'
-        bucketSize:
-          format: int64
-          type: integer
-        metricField:
-          type: string
-        queryHash:
-          type: string
-      required:
-      - aggregationMethod
-      - bucketSize
-      - conditions
-      - dataSourceId
-      - queryHash
-      type: object
-    MetricStreamNoAnomalyData:
-      properties:
-        _type:
-          enum:
-          - MetricStreamNoAnomalyData
-          type: string
-        checkedInterval:
-          $ref: '#/components/schemas/TimeRange'
-        explanation:
-          type: string
-        modelInfo:
-          type: object
-        query:
-          $ref: '#/components/schemas/AnnotationMetricQuery'
-      required:
-      - _type
-      - checkedInterval
-      - explanation
-      - modelInfo
-      type: object
-    GenericAnnotationData:
-      properties:
-        _type:
-          enum:
-          - GenericAnnotationData
-          type: string
-        annotation:
-          type: object
-      required:
-      - _type
-      - annotation
-      type: object
-    FeedbackData:
-      example:
-        comments:
-        - author: author
-          text: text
-          timestamp: 7
-        - author: author
-          text: text
-          timestamp: 7
-        subject: subject
-        query:
-          metricField: metricField
-          queryHash: queryHash
-          dataSourceId: 9
-          conditions:
-          - value: value
-            key: key
-          - value: value
-            key: key
-          aggregationMethod: null
-          bucketSize: 3
-        _type: FeedbackData
-        thumbsdown:
-        - thumbsdown
-        - thumbsdown
-        thumbsup:
-        - thumbsup
-        - thumbsup
-      properties:
-        _type:
-          enum:
-          - FeedbackData
-          type: string
-        subject:
-          type: string
-        thumbsup:
-          items:
-            type: string
-          type: array
-        thumbsdown:
-          items:
-            type: string
-          type: array
-        comments:
-          items:
-            $ref: '#/components/schemas/FeedbackComment'
-          type: array
-        query:
-          $ref: '#/components/schemas/AnnotationMetricQuery'
-      required:
-      - _type
-      - comments
-      - subject
-      - thumbsdown
-      - thumbsup
-      type: object
-    FeedbackComment:
-      example:
-        author: author
-        text: text
-        timestamp: 7
-      properties:
-        author:
-          type: string
-        text:
-          type: string
-        timestamp:
-          format: int64
-          type: integer
-      required:
-      - author
-      - text
-      - timestamp
-      type: object
-    Point:
-      example:
-        v: 2.3021358869347655
-        ts: 5
-      properties:
-        ts:
-          format: int64
-          type: integer
-        v:
-          format: double
-          type: number
-      required:
-      - ts
-      - v
-      type: object
-    TooManyAnomaliesError:
-      properties:
-        message:
-          type: string
-        numberOfMatches:
-          format: int64
-          type: integer
-        maxAllowed:
-          format: int64
-          type: integer
-      required:
-      - message
-      type: object
-    ComponentId:
-      format: int64
-      type: integer
-    QueryTime:
-      format: instant
-      type: integer
-    TelemetryStreamDefinition:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/MetricTelemetryStreamDefinition'
-      - $ref: '#/components/schemas/EventTelemetryStreamDefinition'
-      required:
-      - _type
-      type: object
-    MetricTelemetryStreamDefinition:
-      properties:
-        _type:
-          enum:
-          - MetricTelemetryStreamDefinition
-          type: string
-        bindQuery:
-          type: string
-        dataSourceId:
-          format: int64
-          type: integer
-        description:
-          type: string
-        id:
-          format: int64
-          type: integer
-        identifier:
-          type: string
-        labels:
-          items:
-            type: string
-          type: array
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        metricValuation:
-          $ref: '#/components/schemas/MetricValuation'
-        name:
-          type: string
-        ownedBy:
-          type: string
-        priority:
-          $ref: '#/components/schemas/TelemetryStreamPriority'
-        telemetryQuery:
-          $ref: '#/components/schemas/MetricTelemetryQuery'
-        topologyMapping:
-          items:
-            $ref: '#/components/schemas/TopologyMapping'
-          type: array
-      required:
-      - _type
-      - bindQuery
-      - dataSourceId
-      - labels
-      - metricValuation
-      - name
-      - priority
-      - telemetryQuery
-      - topologyMapping
-      type: object
-    MetricValuation:
-      enum:
-      - higher-is-better
-      - lower-is-better
-      type: string
-    TelemetryStreamPriority:
-      enum:
-      - None
-      - High
-      - Medium
-      - Low
-      type: string
-    MetricTelemetryQuery:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - MetricTelemetryQuery
-          type: string
-        aggregation:
-          $ref: '#/components/schemas/DownsamplingMethod'
-        baseline:
-          $ref: '#/components/schemas/Baseline'
-        conditions:
-          items:
-            $ref: '#/components/schemas/TelemetryQueryCondition'
-          type: array
-        groupBy:
-          items:
-            type: string
-          type: array
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        metricField:
-          type: string
-      required:
-      - _type
-      - aggregation
-      - conditions
-      type: object
-    DownsamplingMethod:
-      enum:
-      - MEAN
-      - PERCENTILE_25
-      - PERCENTILE_50
-      - PERCENTILE_75
-      - PERCENTILE_90
-      - PERCENTILE_95
-      - PERCENTILE_98
-      - PERCENTILE_99
-      - MAX
-      - MIN
-      - SUM
-      - EVENT_COUNT
-      - SUM_NO_ZEROS
-      - EVENT_COUNT_NO_ZEROS
-      type: string
-    Baseline:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - Baseline
-          type: string
-        arguments:
-          items:
-            $ref: '#/components/schemas/Argument'
-          type: array
-        description:
-          type: string
-        function:
-          format: int64
-          type: integer
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        name:
-          type: string
-      required:
-      - _type
-      - arguments
-      - function
-      - name
-      type: object
-    TelemetryQueryCondition:
-      example:
-        value: value
-        key: key
-      properties:
-        key:
-          type: string
-        value:
-          type: string
-      required:
-      - key
-      - value
-      type: object
-    TopologyMapping:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/FieldMapping'
-      required:
-      - _type
-      type: object
-    FieldMapping:
-      properties:
-        _type:
-          enum:
-          - FieldMapping
-          type: string
-        eventField:
-          type: string
-        tagKey:
-          type: string
-      required:
-      - _type
-      - eventField
-      - tagKey
-      type: object
-    EventTelemetryStreamDefinition:
-      properties:
-        _type:
-          enum:
-          - EventTelemetryStreamDefinition
-          type: string
-        bindQuery:
-          type: string
-        dataSourceId:
-          format: int64
-          type: integer
-        description:
-          type: string
-        id:
-          format: int64
-          type: integer
-        identifier:
-          type: string
-        labels:
-          items:
-            type: string
-          type: array
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        name:
-          type: string
-        ownedBy:
-          type: string
-        priority:
-          $ref: '#/components/schemas/TelemetryStreamPriority'
-        telemetryQuery:
-          $ref: '#/components/schemas/EventTelemetryQuery'
-        topologyMapping:
-          items:
-            $ref: '#/components/schemas/TopologyMapping'
-          type: array
-      required:
-      - _type
-      - bindQuery
-      - dataSourceId
-      - labels
-      - name
-      - priority
-      - telemetryQuery
-      - topologyMapping
-      type: object
-    EventTelemetryQuery:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - EventTelemetryQuery
-          type: string
-        conditions:
-          items:
-            $ref: '#/components/schemas/TelemetryQueryCondition'
-          type: array
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - conditions
-      type: object
-    StackElementNotFound:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - StackElementNotFound
-          type: string
-        objectType:
-          type: string
-        objectId:
-          type: string
-        message:
-          type: string
-      required:
-      - _type
-      - message
-      - objectId
-      - objectType
-      type: object
-    StreamId:
-      format: int64
-      type: integer
-    StreamIds:
-      items:
-        format: int64
-        type: integer
-      type: array
-    TelemetryLatestSnapshotsResponse:
-      discriminator:
-        propertyName: _type
-      example:
-        streamSnapshots:
-        - streamId: 0
-          metric:
-            value: 1.4658129805029452
-            timestamp: 6
-          _type: LatestTelemetryStreamMetrics
-        - streamId: 0
-          metric:
-            value: 1.4658129805029452
-            timestamp: 6
-          _type: LatestTelemetryStreamMetrics
-        _type: TelemetryLatestSnapshotsResponse
-      properties:
-        _type:
-          enum:
-          - TelemetryLatestSnapshotsResponse
-          type: string
-        streamSnapshots:
-          items:
-            $ref: '#/components/schemas/LatestTelemetryStreamMetrics'
-          type: array
-      required:
-      - _type
-      - streamSnapshots
-      type: object
-    LatestTelemetryStreamMetrics:
-      discriminator:
-        propertyName: _type
-      example:
-        streamId: 0
-        metric:
-          value: 1.4658129805029452
-          timestamp: 6
-        _type: LatestTelemetryStreamMetrics
-      properties:
-        _type:
-          enum:
-          - LatestTelemetryStreamMetrics
-          type: string
-        streamId:
-          format: int64
-          type: integer
-        metric:
-          $ref: '#/components/schemas/SingleMetric'
-      required:
-      - _type
-      - streamId
-      type: object
-    SingleMetric:
-      example:
-        value: 1.4658129805029452
-        timestamp: 6
-      properties:
-        timestamp:
-          format: int64
-          type: integer
-        value:
-          type: number
-      required:
-      - timestamp
-      - value
-      type: object
-    ComponentNotFoundError:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - ComponentNotFoundError
-          type: string
-        componentId:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - componentId
-      type: object
-    Check:
-      discriminator:
-        propertyName: _type
-      example:
-        lastUpdateTimestamp: 1
-        remediationHint: remediationHint
-        function: 0
-        _type: Check
-        name: name
-        description: description
-        arguments:
-        - null
-        - null
-        id: 6
-        state:
-          detailedMessage: detailedMessage
-          lastUpdateTimestamp: 5
-          activeErrors:
-          - detailedMessage: detailedMessage
-            lastUpdateTimeStamp: 9
-            _type: CheckError
-            id: 7
-            state: null
-            message: message
-          - detailedMessage: detailedMessage
-            lastUpdateTimeStamp: 9
-            _type: CheckError
-            id: 7
-            state: null
-            message: message
-          data: "{}"
-          lastHealthStateChangeTimestamp: 2
-          stateAcknowledgement:
-            lastUpdateTimeStamp: 4
-            _type: CheckStateAcknowledgement
-            id: 2
-            acknowledgedTimestamp: 7
-            message: message
-          _type: CheckState
-          shortMessage: shortMessage
-          id: 5
-          state: null
-          source: 3
-          causingEvents:
-          - eventId: eventId
-            eventType: eventType
-            title: title
-            eventTimestamp: 1
-          - eventId: eventId
-            eventType: eventType
-            title: title
-            eventTimestamp: 1
-      properties:
-        _type:
-          enum:
-          - Check
-          type: string
-        arguments:
-          items:
-            $ref: '#/components/schemas/Argument'
-          type: array
-        description:
-          type: string
-        function:
-          format: int64
-          type: integer
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        name:
-          type: string
-        remediationHint:
-          type: string
-        state:
-          $ref: '#/components/schemas/CheckState'
-      required:
-      - _type
-      - arguments
-      - function
-      - name
-      type: object
-    CheckState:
-      discriminator:
-        propertyName: _type
-      example:
-        detailedMessage: detailedMessage
-        lastUpdateTimestamp: 5
-        activeErrors:
-        - detailedMessage: detailedMessage
-          lastUpdateTimeStamp: 9
-          _type: CheckError
-          id: 7
-          state: null
-          message: message
-        - detailedMessage: detailedMessage
-          lastUpdateTimeStamp: 9
-          _type: CheckError
-          id: 7
-          state: null
-          message: message
-        data: "{}"
-        lastHealthStateChangeTimestamp: 2
-        stateAcknowledgement:
-          lastUpdateTimeStamp: 4
-          _type: CheckStateAcknowledgement
-          id: 2
-          acknowledgedTimestamp: 7
-          message: message
-        _type: CheckState
-        shortMessage: shortMessage
-        id: 5
-        state: null
-        source: 3
-        causingEvents:
-        - eventId: eventId
-          eventType: eventType
-          title: title
-          eventTimestamp: 1
-        - eventId: eventId
-          eventType: eventType
-          title: title
-          eventTimestamp: 1
-      properties:
-        _type:
-          enum:
-          - CheckState
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        state:
-          $ref: '#/components/schemas/HealthStateValue'
-        lastHealthStateChangeTimestamp:
-          format: int64
-          type: integer
-        activeErrors:
-          items:
-            $ref: '#/components/schemas/CheckError'
-          type: array
-        source:
-          format: int64
-          type: integer
-        stateAcknowledgement:
-          $ref: '#/components/schemas/CheckStateAcknowledgement'
-        detailedMessage:
-          type: string
-        shortMessage:
-          type: string
-        causingEvents:
-          items:
-            $ref: '#/components/schemas/EventRef'
-          type: array
-        data:
-          nullable: false
-          type: object
-      required:
-      - _type
-      - activeErrors
-      - causingEvents
-      - lastHealthStateChangeTimestamp
-      - source
-      - state
-      type: object
-    HealthStateValue:
-      enum:
-      - UNINITIALIZED
-      - UNKNOWN
-      - CLEAR
-      - DISABLED
-      - DEVIATING
-      - FLAPPING
-      - CRITICAL
-      type: string
-    CheckError:
-      discriminator:
-        propertyName: _type
-      example:
-        detailedMessage: detailedMessage
-        lastUpdateTimeStamp: 9
-        _type: CheckError
-        id: 7
-        state: null
-        message: message
-      properties:
-        _type:
-          enum:
-          - CheckError
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimeStamp:
-          format: int64
-          type: integer
-        message:
-          type: string
-        detailedMessage:
-          type: string
-        state:
-          $ref: '#/components/schemas/ErrorStateValue'
-      required:
-      - _type
-      - detailedMessage
-      - message
-      - state
-      type: object
-    ErrorStateValue:
-      enum:
-      - UNKNOWN
-      - STALE_DATA_STREAM
-      - STREAM_DATA_NOT_FOUND
-      - DATA_SOURCE_UNREACHABLE
-      - DATA_STREAM_ERROR
-      - CHECK_ERROR
-      - CHECK_LIMITED
-      - BASELINES_ARE_DEPRECATED
-      type: string
-    CheckStateAcknowledgement:
-      discriminator:
-        propertyName: _type
-      example:
-        lastUpdateTimeStamp: 4
-        _type: CheckStateAcknowledgement
-        id: 2
-        acknowledgedTimestamp: 7
-        message: message
-      properties:
-        _type:
-          enum:
-          - CheckStateAcknowledgement
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimeStamp:
-          format: int64
-          type: integer
-        acknowledgedTimestamp:
-          format: int64
-          type: integer
-        message:
-          type: string
-      required:
-      - _type
-      - acknowledgedTimestamp
-      - message
-      type: object
-    CheckId:
-      format: int64
-      type: integer
-    RelationId:
-      format: int64
-      type: integer
     ProblemId:
       format: int64
       type: integer
@@ -9212,6 +10401,11 @@ components:
       - offset
       - partition
       type: object
+    Instant_1:
+      description: Date/time representation in milliseconds since epoch (1970-01-01
+        00:00:00)
+      format: instant
+      type: integer
     LogsDirection:
       default: NEWEST
       enum:
@@ -9224,7 +10418,8 @@ components:
         page: 5
         matchesTotal: 5
         logs:
-        - podUID: podUID
+        - severity: null
+          podUID: podUID
           highlights:
           - startIndex: 0
             endIndex: 6
@@ -9235,7 +10430,8 @@ components:
           podName: podName
           message: message
           timestamp: 2000-01-23T04:56:07.000+00:00
-        - podUID: podUID
+        - severity: null
+          podUID: podUID
           highlights:
           - startIndex: 0
             endIndex: 6
@@ -9271,6 +10467,7 @@ components:
       type: object
     KubernetesLogRecord:
       example:
+        severity: null
         podUID: podUID
         highlights:
         - startIndex: 0
@@ -9298,6 +10495,8 @@ components:
           type: string
         containerName:
           type: string
+        severity:
+          $ref: '#/components/schemas/LogSeverity'
         level:
           $ref: '#/components/schemas/LogLevel'
       required:
@@ -9307,6 +10506,7 @@ components:
       - message
       - podName
       - podUID
+      - severity
       - timestamp
       type: object
     KubernetesLogHighlight:
@@ -9324,6 +10524,13 @@ components:
       - endIndex
       - startIndex
       type: object
+    LogSeverity:
+      default: OTHER
+      enum:
+      - WARNING
+      - ERROR
+      - OTHER
+      type: string
     LogLevel:
       default: UNKNOWN
       enum:
@@ -9362,9 +10569,13 @@ components:
         message:
           type: string
         from:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
           format: instant
           type: integer
         to:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
           format: instant
           type: integer
       required:
@@ -9409,20 +10620,20 @@ components:
     GetKubernetesLogsHistogramResult:
       example:
         buckets:
-        - logLevelBuckets:
-          - level: null
+        - count: 0
+          logSeverityBuckets:
+          - severity: null
             count: 5
-          - level: null
+          - severity: null
             count: 5
-          count: 0
           startTime: 6
           endTime: 1
-        - logLevelBuckets:
-          - level: null
+        - count: 0
+          logSeverityBuckets:
+          - severity: null
             count: 5
-          - level: null
+          - severity: null
             count: 5
-          count: 0
           startTime: 6
           endTime: 1
       properties:
@@ -9435,12 +10646,12 @@ components:
       type: object
     KubernetesLogHistogramBucket:
       example:
-        logLevelBuckets:
-        - level: null
-          count: 5
-        - level: null
-          count: 5
         count: 0
+        logSeverityBuckets:
+        - severity: null
+          count: 5
+        - severity: null
+          count: 5
         startTime: 6
         endTime: 1
       properties:
@@ -9456,30 +10667,31 @@ components:
           description: The bucket final timestamp.
           format: instant
           type: integer
-        logLevelBuckets:
+        logSeverityBuckets:
           items:
-            $ref: '#/components/schemas/KubernetesLogLevelHistogramBucket'
+            $ref: '#/components/schemas/KubernetesLogSeverityHistogramBucket'
           type: array
       required:
       - count
       - endTime
-      - logLevelBuckets
+      - logSeverityBuckets
       - startTime
       type: object
-    KubernetesLogLevelHistogramBucket:
+    KubernetesLogSeverityHistogramBucket:
       example:
-        level: null
+        severity: null
         count: 5
       properties:
         count:
-          description: Total logs record count for a particular log level in the bucket.
+          description: Total logs record count for a particular log severity in the
+            bucket.
           format: int64
           type: integer
-        level:
-          $ref: '#/components/schemas/LogLevel'
+        severity:
+          $ref: '#/components/schemas/LogSeverity'
       required:
       - count
-      - level
+      - severity
       type: object
     GetKubernetesLogsHistogramBadRequest:
       discriminator:
@@ -9498,9 +10710,13 @@ components:
         message:
           type: string
         from:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
           format: instant
           type: integer
         to:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
           format: instant
           type: integer
       required:
@@ -9539,7 +10755,7 @@ components:
           type: array
         levels:
           items:
-            $ref: '#/components/schemas/LogLevel'
+            $ref: '#/components/schemas/LogSeverity'
           type: array
       required:
       - containerNames
@@ -9561,9 +10777,13 @@ components:
         message:
           type: string
         from:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
           format: instant
           type: integer
         to:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
           format: instant
           type: integer
       required:
@@ -9572,69 +10792,941 @@ components:
       - message
       - to
       type: object
-    MessageLevel:
+    SpanQuery:
+      example:
+        filter:
+          traceId:
+          - 6942f450030e8c5f7411a23c26185aa2
+          spanId:
+          - 1a607e3a97735e71
+          durationFromNanos: 500000
+          spanKind:
+          - Client
+          durationToNanos: 5000000
+          scopeName:
+          - scopeName
+          - scopeName
+          attributes:
+            key:
+            - attributes
+            - attributes
+          spanParentType:
+          - External
+          serviceName: orderService
+          spanName:
+          - GET /orders
+          statusCode:
+          - Error
+          scopeVersion:
+          - scopeVersion
+          - scopeVersion
+        sortBy:
+        - field: null
+          direction: null
+        - field: null
+          direction: null
+      properties:
+        filter:
+          $ref: '#/components/schemas/SpanFilter'
+        sortBy:
+          items:
+            $ref: '#/components/schemas/SpanSortOption'
+          type: array
+      type: object
+    SpanFilter:
+      example:
+        traceId:
+        - 6942f450030e8c5f7411a23c26185aa2
+        spanId:
+        - 1a607e3a97735e71
+        durationFromNanos: 500000
+        spanKind:
+        - Client
+        durationToNanos: 5000000
+        scopeName:
+        - scopeName
+        - scopeName
+        attributes:
+          key:
+          - attributes
+          - attributes
+        spanParentType:
+        - External
+        serviceName: orderService
+        spanName:
+        - GET /orders
+        statusCode:
+        - Error
+        scopeVersion:
+        - scopeVersion
+        - scopeVersion
+      properties:
+        serviceName:
+          description: Filter spans by service name
+          example: orderService
+          items:
+            type: string
+          type: array
+        spanName:
+          description: Filter spans by name
+          example:
+          - GET /orders
+          items:
+            type: string
+          type: array
+        attributes:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: Filter spans by 1 or more attributes
+          type: object
+        spanKind:
+          description: Filter span by kind
+          example:
+          - Client
+          items:
+            $ref: '#/components/schemas/SpanKind'
+          type: array
+        spanParentType:
+          description: Filter span by parent type
+          example:
+          - External
+          items:
+            $ref: '#/components/schemas/SpanParentType'
+          type: array
+        durationFromNanos:
+          description: "Filter spans by duration >= value, in nanoseconds"
+          example: 500000
+          format: int64
+          type: integer
+        durationToNanos:
+          description: "Filter spans by duration < value, in nanoseconds"
+          example: 5000000
+          format: int64
+          type: integer
+        statusCode:
+          description: Filter spans by the StatusCode
+          example:
+          - Error
+          items:
+            $ref: '#/components/schemas/StatusCode'
+          type: array
+        traceId:
+          description: "Filter spans by trace id, use only this filter to get a complete\
+            \ trace"
+          example:
+          - 6942f450030e8c5f7411a23c26185aa2
+          items:
+            type: string
+          type: array
+        spanId:
+          description: "Filter spans by span id, use only this filter to get a single\
+            \ span"
+          example:
+          - 1a607e3a97735e71
+          items:
+            type: string
+          type: array
+        scopeName:
+          description: Filter spans by scope
+          items:
+            type: string
+          type: array
+        scopeVersion:
+          description: Filter spans by scope version
+          items:
+            type: string
+          type: array
+      type: object
+    SpanKind:
       enum:
-      - WARN
-      - ERROR
-      - INFO
+      - Unspecified
+      - Client
+      - Server
+      - Internal
+      - Consumer
+      - Producer
       type: string
+    SpanParentType:
+      enum:
+      - External
+      - Internal
+      - Root
+      type: string
+    StatusCode:
+      enum:
+      - Unset
+      - Error
+      - Ok
+      type: string
+    SpanSortOption:
+      example:
+        field: null
+        direction: null
+      properties:
+        field:
+          $ref: '#/components/schemas/SpanSortField'
+        direction:
+          $ref: '#/components/schemas/SpanSortDirection'
+      required:
+      - direction
+      - field
+      type: object
+    SpanSortField:
+      enum:
+      - StartTime
+      - ServiceName
+      - SpanName
+      - SpanKind
+      - SpanParentType
+      - DurationNanos
+      - StatusCode
+      - TraceId
+      - SpanId
+      - ScopeName
+      - ScopeVersion
+      type: string
+    SpanSortDirection:
+      enum:
+      - Ascending
+      - Descending
+      type: string
+    Spans:
+      example:
+        spans:
+        - traceId: traceId
+          durationNanos: 1
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          resourceAttributes:
+            key: resourceAttributes
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+        - traceId: traceId
+          durationNanos: 1
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          resourceAttributes:
+            key: resourceAttributes
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+        pageSize: 5
+        page: 5
+        matchesTotal: 2
+      properties:
+        spans:
+          description: List of spans
+          items:
+            $ref: '#/components/schemas/Span'
+          type: array
+        pageSize:
+          description: Maximum number of the spans in the result.
+          type: integer
+        page:
+          description: The requested page.
+          type: integer
+        matchesTotal:
+          description: The total number of matching spans.
+          format: int64
+          type: integer
+      required:
+      - matchesTotal
+      - page
+      - pageSize
+      - spans
+      type: object
+    Span:
+      example:
+        traceId: traceId
+        durationNanos: 1
+        spanKind: null
+        scopeName: scopeName
+        spanAttributes:
+          key: spanAttributes
+        spanParentType: null
+        serviceName: serviceName
+        parentSpanId: parentSpanId
+        resourceAttributes:
+          key: resourceAttributes
+        statusMessage: statusMessage
+        spanName: spanName
+        scopeVersion: scopeVersion
+        spanId: spanId
+        traceState: traceState
+        startTime:
+          offsetNanos: 602745
+          timestamp: 0
+        links:
+        - traceId: traceId
+          spanId: spanId
+          traceState: traceState
+          attributes:
+            key: attributes
+        - traceId: traceId
+          spanId: spanId
+          traceState: traceState
+          attributes:
+            key: attributes
+        endTime:
+          offsetNanos: 602745
+          timestamp: 0
+        events:
+        - name: name
+          attributes:
+            key: attributes
+          timestamp:
+            offsetNanos: 602745
+            timestamp: 0
+        - name: name
+          attributes:
+            key: attributes
+          timestamp:
+            offsetNanos: 602745
+            timestamp: 0
+        statusCode: null
+      properties:
+        startTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        endTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        durationNanos:
+          description: Duration of the span in nanoseconds
+          format: int64
+          type: integer
+        traceId:
+          description: "The unique identifier for the trace, all spans of the same\
+            \ trace share the same trace_id"
+          type: string
+        spanId:
+          description: The unique identifier of the span within the trace
+          type: string
+        parentSpanId:
+          description: The id of the parent span of this span. Empty if this is the
+            root span
+          type: string
+        traceState:
+          description: Can contain vendor specific trace identification information
+            https://www.w3.org/TR/trace-context/#tracestate-header
+          type: string
+        spanName:
+          description: "A description of the span's operation. For example, the name\
+            \ can be a qualified method name or a file name and a line number where\
+            \ the operation is called"
+          type: string
+        serviceName:
+          description: Logical name of the service for the span
+          type: string
+        spanKind:
+          $ref: '#/components/schemas/SpanKind'
+        spanParentType:
+          $ref: '#/components/schemas/SpanParentType'
+        resourceAttributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+        spanAttributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+        statusCode:
+          $ref: '#/components/schemas/StatusCode'
+        statusMessage:
+          description: Human readable message for the status
+          type: string
+        scopeName:
+          description: The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
+          type: string
+        scopeVersion:
+          description: The version for the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
+          type: string
+        events:
+          description: Time-stamped annotations on the span providing extra application
+            context
+          items:
+            $ref: '#/components/schemas/SpanEvent'
+          type: array
+        links:
+          description: Links to related spans in the same or in other traces
+          items:
+            $ref: '#/components/schemas/SpanLink'
+          type: array
+      required:
+      - durationNanos
+      - endTime
+      - events
+      - links
+      - resourceAttributes
+      - serviceName
+      - spanAttributes
+      - spanId
+      - spanKind
+      - spanName
+      - spanParentType
+      - startTime
+      - statusCode
+      - traceId
+      type: object
+    Attributes:
+      additionalProperties:
+        type: string
+      description: Set of key/value pairs providing extra contextual information.
+        Keys are unique.
+      type: object
+    SpanEvent:
+      description: "Event is a time-stamped annotation of the span, consisting of\
+        \ user-supplied text description and key-value pairs."
+      example:
+        name: name
+        attributes:
+          key: attributes
+        timestamp:
+          offsetNanos: 602745
+          timestamp: 0
+      properties:
+        timestamp:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        name:
+          type: string
+        attributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+      required:
+      - attributes
+      - name
+      - timestamp
+      type: object
+    SpanLink:
+      description: "A pointer from the current span to another span in the same trace\
+        \ or in a different trace. \nFor example, this can be used in batching operations,\
+        \ where a single batch handler processes \nmultiple requests from different\
+        \ traces or when the handler receives a request from a different project.\n"
+      example:
+        traceId: traceId
+        spanId: spanId
+        traceState: traceState
+        attributes:
+          key: attributes
+      properties:
+        traceId:
+          type: string
+        spanId:
+          type: string
+        traceState:
+          type: string
+        attributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+      required:
+      - attributes
+      - spanId
+      - traceId
+      type: object
+    TraceApiSpansBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TraceApiInvalidTimeRange'
+      - $ref: '#/components/schemas/TraceApiInvalidPagination'
+      - $ref: '#/components/schemas/TraceApiInvalidDurationFilter'
+      required:
+      - _type
+    TraceApiInvalidTimeRange:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidTimeRange
+          type: string
+        message:
+          type: string
+        from:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+        to:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    TraceApiInvalidPagination:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidPagination
+          type: string
+        message:
+          type: string
+        pageSize:
+          type: integer
+      required:
+      - _type
+      - message
+      - pageSize
+      type: object
+    TraceApiInvalidDurationFilter:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidDurationFilter
+          type: string
+        message:
+          type: string
+        from:
+          format: int64
+          type: integer
+        to:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    TraceApiError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    DurationHistogram:
+      example:
+        quantiles:
+          q99: 3.616076749251911
+          q90: 7.061401241503109
+          q95: 9.301444243932576
+          q50: 2.3021358869347655
+        buckets:
+        - lowerNanos: 5
+          upperNanos: 5
+          okCount: 0
+          unsetCount: 1
+          errorCount: 6
+        - lowerNanos: 5
+          upperNanos: 5
+          okCount: 0
+          unsetCount: 1
+          errorCount: 6
+      properties:
+        buckets:
+          description: List of duration buckets
+          items:
+            $ref: '#/components/schemas/DurationHistogramBucket'
+          type: array
+        quantiles:
+          $ref: '#/components/schemas/DurationQuantiles'
+      required:
+      - buckets
+      - quantiles
+      type: object
+    DurationHistogramBucket:
+      example:
+        lowerNanos: 5
+        upperNanos: 5
+        okCount: 0
+        unsetCount: 1
+        errorCount: 6
+      properties:
+        okCount:
+          description: "Number of successful traces with a duration between (lowerNanos,\
+            \ upperNanos]."
+          type: integer
+        errorCount:
+          description: "Number of erroneous traces with a duration between (lowerNanos,\
+            \ upperNanos]."
+          type: integer
+        unsetCount:
+          description: "Number of traces with unset status and a duration between\
+            \ (lowerNanos, upperNanos]."
+          type: integer
+        lowerNanos:
+          description: Lower limit on trace duration
+          format: int64
+          type: integer
+        upperNanos:
+          description: Upper limit on trace duration
+          format: int64
+          type: integer
+      required:
+      - errorCount
+      - okCount
+      - unsetCount
+      type: object
+    DurationQuantiles:
+      example:
+        q99: 3.616076749251911
+        q90: 7.061401241503109
+        q95: 9.301444243932576
+        q50: 2.3021358869347655
+      properties:
+        q50:
+          format: double
+          type: number
+        q90:
+          format: double
+          type: number
+        q95:
+          format: double
+          type: number
+        q99:
+          format: double
+          type: number
+      required:
+      - q50
+      - q90
+      - q95
+      - q99
+      type: object
+    Trace:
+      example:
+        traceId: traceId
+        spans:
+        - traceId: traceId
+          durationNanos: 1
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          resourceAttributes:
+            key: resourceAttributes
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+        - traceId: traceId
+          durationNanos: 1
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          resourceAttributes:
+            key: resourceAttributes
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+      properties:
+        traceId:
+          description: The id of the trace
+          type: string
+        spans:
+          description: All spans for the trace
+          items:
+            $ref: '#/components/schemas/Span'
+          type: array
+      required:
+      - spans
+      - traceId
+      type: object
+    TraceApiTraceNotFound:
+      properties:
+        traceId:
+          type: string
+      required:
+      - traceId
+      type: object
+    TraceApiSpanNotFound:
+      properties:
+        traceId:
+          type: string
+        spanId:
+          type: string
+      required:
+      - spanId
+      - traceId
+      type: object
+    Suggestions:
+      example:
+        suggestions:
+        - suggestions
+        - suggestions
+      properties:
+        suggestions:
+          items:
+            type: string
+          type: array
+      required:
+      - suggestions
+      type: object
+    SpanSuggestionField:
+      enum:
+      - ServiceName
+      - SpanName
+      - ScopeName
+      - ScopeVersion
+      type: string
+    ComponentQuery:
+      example:
+        resourceAttributes:
+          key: resourceAttributes
+        instant: 0
+      properties:
+        resourceAttributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+        instant:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+      required:
+      - resourceAttributes
+      type: object
+    SpanComponents:
+      example:
+        components:
+        - identifier: identifier
+          name: name
+          id: 0
+          type: type
+        - identifier: identifier
+          name: name
+          id: 0
+          type: type
+      properties:
+        components:
+          items:
+            $ref: '#/components/schemas/SpanComponent'
+          type: array
+      required:
+      - components
+      type: object
+    SpanComponent:
+      example:
+        identifier: identifier
+        name: name
+        id: 0
+        type: type
+      properties:
+        id:
+          format: int64
+          type: integer
+        identifier:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+      required:
+      - id
+      - identifier
+      - name
+      - type
+      type: object
+    StackElementNotFound:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - StackElementNotFound
+          type: string
+        objectType:
+          type: string
+        objectId:
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      - objectId
+      - objectType
+      type: object
     Argument:
       discriminator:
         propertyName: _type
       oneOf:
-      - $ref: '#/components/schemas/ArgumentAnomalyDirectionVal'
       - $ref: '#/components/schemas/ArgumentBooleanVal'
       - $ref: '#/components/schemas/ArgumentComponentTypeRef'
-      - $ref: '#/components/schemas/ArgumentBaselineMetricStreamRef'
       - $ref: '#/components/schemas/ArgumentRelationTypeRef'
-      - $ref: '#/components/schemas/ArgumentStsEventStreamVal'
-      - $ref: '#/components/schemas/ArgumentMetricStreamId'
       - $ref: '#/components/schemas/ArgumentQueryViewRef'
-      - $ref: '#/components/schemas/ArgumentRunStateVal'
       - $ref: '#/components/schemas/ArgumentLongVal'
       - $ref: '#/components/schemas/ArgumentStructTypeVal'
       - $ref: '#/components/schemas/ArgumentDoubleVal'
       - $ref: '#/components/schemas/ArgumentStateVal'
       - $ref: '#/components/schemas/ArgumentNodeIdVal'
-      - $ref: '#/components/schemas/ArgumentEventStreamRef'
       - $ref: '#/components/schemas/ArgumentPropagatedHealthStateVal'
-      - $ref: '#/components/schemas/ArgumentSimpleTrainingPeriodicityVal'
       - $ref: '#/components/schemas/ArgumentDurationVal'
       - $ref: '#/components/schemas/ArgumentStringVal'
-      - $ref: '#/components/schemas/ArgumentMetricStreamRef'
-      - $ref: '#/components/schemas/ArgumentScriptMetricQueryVal'
+      - $ref: '#/components/schemas/ArgumentTimeWindowVal'
+      - $ref: '#/components/schemas/ArgumentComparatorWithoutEqualityVal'
+      - $ref: '#/components/schemas/ArgumentFailingHealthStateVal'
+      - $ref: '#/components/schemas/ArgumentPromQLMetricVal'
+      - $ref: '#/components/schemas/ArgumentTopologyQueryVal'
+      - $ref: '#/components/schemas/ArgumentTopologyPromQLMetricVal'
       required:
       - _type
       type: object
-    ArgumentAnomalyDirectionVal:
-      properties:
-        _type:
-          enum:
-          - ArgumentAnomalyDirectionVal
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        value:
-          $ref: '#/components/schemas/AnomalyDirection'
-      required:
-      - _type
-      - parameter
-      - value
-      type: object
-    AnomalyDirection:
-      enum:
-      - RISE
-      - DROP
-      - RUNNING
-      - ANY
-      type: string
     ArgumentBooleanVal:
       properties:
         _type:
@@ -9680,29 +11772,6 @@ components:
       - componentType
       - parameter
       type: object
-    ArgumentBaselineMetricStreamRef:
-      properties:
-        _type:
-          enum:
-          - ArgumentBaselineMetricStreamRef
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        stream:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - parameter
-      - stream
-      type: object
     ArgumentRelationTypeRef:
       properties:
         _type:
@@ -9725,63 +11794,6 @@ components:
       - _type
       - parameter
       - relationType
-      type: object
-    ArgumentStsEventStreamVal:
-      properties:
-        _type:
-          enum:
-          - ArgumentStsEventStreamVal
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        filter:
-          $ref: '#/components/schemas/StsEventStreamFilter'
-      required:
-      - _type
-      - filter
-      - parameter
-      type: object
-    StsEventStreamFilter:
-      enum:
-      - STATE_CHANGES_OR_CREATED_DELETED
-      - STATE_CHANGES_OR_CREATED_UPDATED_DELETED
-      - LIFE_CYCLE_EVENTS
-      - STATE_CHANGES
-      - HEALTH_STATE_CHANGES
-      - PROPAGATED_HEALTH_STATE_CHANGES
-      - VIEW_HEALTH_STATE_CHANGES
-      - ANOMALY_EVENT
-      - PROBLEM_EVENT
-      type: string
-    ArgumentMetricStreamId:
-      properties:
-        _type:
-          enum:
-          - ArgumentMetricStreamId
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        stream:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - parameter
-      - stream
       type: object
     ArgumentQueryViewRef:
       properties:
@@ -9806,38 +11818,6 @@ components:
       - parameter
       - queryView
       type: object
-    ArgumentRunStateVal:
-      properties:
-        _type:
-          enum:
-          - ArgumentRunStateVal
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        value:
-          $ref: '#/components/schemas/RunStateValue'
-      required:
-      - _type
-      - parameter
-      - value
-      type: object
-    RunStateValue:
-      enum:
-      - UNKNOWN
-      - STARTING
-      - RUNNING
-      - STOPPING
-      - STOPPED
-      - DEPLOYED
-      - DEPLOYING
-      type: string
     ArgumentLongVal:
       properties:
         _type:
@@ -9951,29 +11931,6 @@ components:
       - parameter
       - value
       type: object
-    ArgumentEventStreamRef:
-      properties:
-        _type:
-          enum:
-          - ArgumentEventStreamRef
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        stream:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - parameter
-      - stream
-      type: object
     ArgumentPropagatedHealthStateVal:
       properties:
         _type:
@@ -10004,53 +11961,6 @@ components:
       - FLAPPING
       - CRITICAL
       type: string
-    ArgumentSimpleTrainingPeriodicityVal:
-      properties:
-        _type:
-          enum:
-          - ArgumentSimpleTrainingPeriodicityVal
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        value:
-          $ref: '#/components/schemas/SimpleTrainingPeriodicity'
-      required:
-      - _type
-      - parameter
-      - value
-      type: object
-    SimpleTrainingPeriodicity:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - SimpleTrainingPeriodicity
-          type: string
-        id:
-          format: int64
-          type: integer
-        fundamentalPeriod:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        trainingWindowPeriods:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - fundamentalPeriod
-      - trainingWindowPeriods
-      type: object
     ArgumentDurationVal:
       properties:
         _type:
@@ -10096,11 +12006,11 @@ components:
       - parameter
       - value
       type: object
-    ArgumentMetricStreamRef:
+    ArgumentTimeWindowVal:
       properties:
         _type:
           enum:
-          - ArgumentMetricStreamRef
+          - ArgumentTimeWindowVal
           type: string
         id:
           format: int64
@@ -10111,31 +12021,20 @@ components:
         parameter:
           format: int64
           type: integer
-        maxWindow:
+        valueMs:
           format: int64
+          minimum: 0
           type: integer
-        stream:
-          format: int64
-          type: integer
-        downsamplingMethod:
-          $ref: '#/components/schemas/DownsamplingMethod'
-        windowingMethod:
-          $ref: '#/components/schemas/WindowingMethod'
       required:
       - _type
       - parameter
-      - stream
+      - valueMs
       type: object
-    WindowingMethod:
-      enum:
-      - SLIDING
-      - BATCHING
-      type: string
-    ArgumentScriptMetricQueryVal:
+    ArgumentComparatorWithoutEqualityVal:
       properties:
         _type:
           enum:
-          - ArgumentScriptMetricQueryVal
+          - ArgumentComparatorWithoutEqualityVal
           type: string
         id:
           format: int64
@@ -10146,12 +12045,245 @@ components:
         parameter:
           format: int64
           type: integer
-        script:
+        value:
+          $ref: '#/components/schemas/ComparatorWithoutEquality'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    ComparatorWithoutEquality:
+      enum:
+      - GTE
+      - GT
+      - LT
+      - LTE
+      type: string
+    ArgumentFailingHealthStateVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentFailingHealthStateVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/FailingHealthStateValue'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    FailingHealthStateValue:
+      enum:
+      - DEVIATING
+      - CRITICAL
+      type: string
+    ArgumentPromQLMetricVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentPromQLMetricVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/PromQLMetric'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    PromQLMetric:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - PromQLMetric
+          type: string
+        id:
+          format: int64
+          type: integer
+        query:
+          type: string
+        unit:
+          type: string
+        aliasTemplate:
+          type: string
+      required:
+      - _type
+      - aliasTemplate
+      - query
+      - unit
+      type: object
+    ArgumentTopologyQueryVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentTopologyQueryVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        query:
           type: string
       required:
       - _type
       - parameter
-      - script
+      - query
+      type: object
+    ArgumentTopologyPromQLMetricVal:
+      properties:
+        _type:
+          enum:
+          - ArgumentTopologyPromQLMetricVal
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        parameter:
+          format: int64
+          type: integer
+        value:
+          $ref: '#/components/schemas/TopologyPromQLMetric'
+      required:
+      - _type
+      - parameter
+      - value
+      type: object
+    TopologyPromQLMetric:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - TopologyPromQLMetric
+          type: string
+        id:
+          format: int64
+          type: integer
+        promQLQuery:
+          type: string
+        unit:
+          type: string
+        aliasTemplate:
+          type: string
+        topologyQuery:
+          type: string
+      required:
+      - _type
+      - aliasTemplate
+      - promQLQuery
+      - topologyQuery
+      - unit
+      type: object
+    MessageLevel:
+      enum:
+      - WARN
+      - ERROR
+      - INFO
+      type: string
+    HealthStateValue:
+      enum:
+      - UNINITIALIZED
+      - UNKNOWN
+      - CLEAR
+      - DISABLED
+      - DEVIATING
+      - FLAPPING
+      - CRITICAL
+      type: string
+    MonitorReferenceId:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MonitorDefId'
+      - $ref: '#/components/schemas/ExternalMonitorDefId'
+      type: object
+    MonitorDefId:
+      properties:
+        _type:
+          enum:
+          - MonitorDefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    ExternalMonitorDefId:
+      properties:
+        _type:
+          enum:
+          - ExternalMonitorDefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    NotificationChannel:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/SlackNotificationChannel'
+      - $ref: '#/components/schemas/WebhookNotificationChannel'
+      - $ref: '#/components/schemas/OpsgenieNotificationChannel'
+    InstantNanoPrecision:
+      description: A custom representation for a date/time that needs better than
+        milliseconds precision. Simply using nanoseconds since epoch results in integers
+        that are too big to be represented correctly in Javascript (which is limited
+        to 2^53-1). Instead this uses the standard representation of milliseconds
+        since epoch with a nanosecond offset. Calculate nanoseconds since epoch like
+        this `nanosSinceEpoch = timestamp * 1000000 + offsetNanos`.
+      example:
+        offsetNanos: 602745
+        timestamp: 0
+      properties:
+        timestamp:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+        offsetNanos:
+          description: "Offset in nanoseconds (relative to the timestamp). Especially\
+            \ useful when comparing start and/or end times of spans, for example when\
+            \ rendering a trace chart."
+          format: int32
+          maximum: 999999
+          minimum: 0
+          type: integer
+      required:
+      - offsetNanos
+      - timestamp
       type: object
     NodeTypes_nodeTypes_inner:
       example:
@@ -10189,6 +12321,70 @@ components:
           enum:
           - MonitorNotFoundError
           type: string
+      type: object
+    MonitorIdentifierLookup_overrides:
+      example:
+        timeSeries: 5
+        components: 1
+      properties:
+        components:
+          format: int32
+          type: integer
+        timeSeries:
+          format: int32
+          type: integer
+      required:
+      - components
+      - timeSeries
+      type: object
+    SlackNotificationChannel_allOf:
+      properties:
+        _type:
+          enum:
+          - SlackNotificationChannel
+          type: string
+        slackWorkspace:
+          type: string
+        slackChannel:
+          type: string
+        slackChannelId:
+          type: string
+      required:
+      - _type
+      - slackWorkspace
+      type: object
+    WebhookNotificationChannel_allOf:
+      properties:
+        _type:
+          enum:
+          - WebhookNotificationChannel
+          type: string
+      required:
+      - _type
+      type: object
+    OpsgenieNotificationChannel_allOf:
+      properties:
+        _type:
+          enum:
+          - OpsgenieNotificationChannel
+          type: string
+      required:
+      - _type
+      type: object
+    NotificationConfigurationReadSchema_allOf:
+      properties:
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        runtimeStatus:
+          $ref: '#/components/schemas/NotificationConfigurationRuntimeStatusValue'
+      required:
+      - id
+      - lastUpdateTimestamp
+      - runtimeStatus
       type: object
     ExecuteScriptSyntaxErrors_errors_inner:
       properties:

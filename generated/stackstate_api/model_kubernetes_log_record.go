@@ -24,6 +24,7 @@ type KubernetesLogRecord struct {
 	PodName       string                   `json:"podName"`
 	PodUID        string                   `json:"podUID"`
 	ContainerName string                   `json:"containerName"`
+	Severity      LogSeverity              `json:"severity"`
 	Level         LogLevel                 `json:"level"`
 }
 
@@ -31,7 +32,7 @@ type KubernetesLogRecord struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, level LogLevel) *KubernetesLogRecord {
+func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []KubernetesLogHighlight, podName string, podUID string, containerName string, severity LogSeverity, level LogLevel) *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
 	this.Timestamp = timestamp
 	this.Message = message
@@ -39,6 +40,7 @@ func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []Ku
 	this.PodName = podName
 	this.PodUID = podUID
 	this.ContainerName = containerName
+	this.Severity = severity
 	this.Level = level
 	return &this
 }
@@ -48,6 +50,8 @@ func NewKubernetesLogRecord(timestamp time.Time, message string, highlights []Ku
 // but it doesn't guarantee that properties required by API are set
 func NewKubernetesLogRecordWithDefaults() *KubernetesLogRecord {
 	this := KubernetesLogRecord{}
+	var severity LogSeverity = LOGSEVERITY_OTHER
+	this.Severity = severity
 	var level LogLevel = LOGLEVEL_UNKNOWN
 	this.Level = level
 	return &this
@@ -197,6 +201,30 @@ func (o *KubernetesLogRecord) SetContainerName(v string) {
 	o.ContainerName = v
 }
 
+// GetSeverity returns the Severity field value
+func (o *KubernetesLogRecord) GetSeverity() LogSeverity {
+	if o == nil {
+		var ret LogSeverity
+		return ret
+	}
+
+	return o.Severity
+}
+
+// GetSeverityOk returns a tuple with the Severity field value
+// and a boolean to check if the value has been set.
+func (o *KubernetesLogRecord) GetSeverityOk() (*LogSeverity, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Severity, true
+}
+
+// SetSeverity sets field value
+func (o *KubernetesLogRecord) SetSeverity(v LogSeverity) {
+	o.Severity = v
+}
+
 // GetLevel returns the Level field value
 func (o *KubernetesLogRecord) GetLevel() LogLevel {
 	if o == nil {
@@ -240,6 +268,9 @@ func (o KubernetesLogRecord) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["containerName"] = o.ContainerName
+	}
+	if true {
+		toSerialize["severity"] = o.Severity
 	}
 	if true {
 		toSerialize["level"] = o.Level
