@@ -29,7 +29,6 @@ type ApiMocks struct {
 	UserProfileApi             *stackstate_api.UserProfileApiMock
 	ServerApi                  *stackstate_api.ServerApiMock
 	StackpackApi               *stackstate_api.StackpackApiMock
-	AnomalyFeedbackApi         *stackstate_api.ExportAnomalyApiMock
 	SubscriptionApi            *stackstate_api.SubscriptionApiMock
 	PermissionsApi             *stackstate_api.PermissionsApiMock
 	SubjectApi                 *stackstate_api.SubjectApiMock
@@ -53,7 +52,6 @@ func NewMockStackStateClient() MockStackStateClient {
 	userProfileApi := stackstate_api.NewUserProfileApiMock()
 	serverApi := stackstate_api.NewServerApiMock()
 	stackpackApi := stackstate_api.NewStackpackApiMock()
-	anomalyFeedbackApi := stackstate_api.NewExportAnomalyApiMock()
 	subscriptionApi := stackstate_api.NewSubscriptionApiMock()
 	permissionsApi := stackstate_api.NewPermissionsApiMock()
 	subjectApi := stackstate_api.NewSubjectApiMock()
@@ -74,7 +72,6 @@ func NewMockStackStateClient() MockStackStateClient {
 		UserProfileApi:             &userProfileApi,
 		ServerApi:                  &serverApi,
 		StackpackApi:               &stackpackApi,
-		AnomalyFeedbackApi:         &anomalyFeedbackApi,
 		SubscriptionApi:            &subscriptionApi,
 		PermissionsApi:             &permissionsApi,
 		SubjectApi:                 &subjectApi,
@@ -96,7 +93,6 @@ func NewMockStackStateClient() MockStackStateClient {
 		UserProfileApi:             apiMocks.UserProfileApi,
 		ServerApi:                  apiMocks.ServerApi,
 		StackpackApi:               apiMocks.StackpackApi,
-		ExportAnomalyApi:           apiMocks.AnomalyFeedbackApi,
 		SubscriptionApi:            apiMocks.SubscriptionApi,
 		PermissionsApi:             apiMocks.PermissionsApi,
 		SubjectApi:                 apiMocks.SubjectApi,
