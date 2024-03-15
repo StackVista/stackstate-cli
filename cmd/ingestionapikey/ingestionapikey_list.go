@@ -1,7 +1,6 @@
 package ingestionapikey
 
 import (
-	"github.com/stackvista/stackstate-cli/internal/printer"
 	"sort"
 	"time"
 
@@ -9,6 +8,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 func ListCommand(deps *di.Deps) *cobra.Command {

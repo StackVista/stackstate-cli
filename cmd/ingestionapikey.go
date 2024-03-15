@@ -15,5 +15,6 @@ func IngestionApiKeyCommand(deps *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(ingestionapikey.CreateCommand(deps))
 	cmd.AddCommand(ingestionapikey.ListCommand(deps))
+	cmd.AddCommand(ingestionapikey.DeleteCommand(deps))
 	return cmd
 }
