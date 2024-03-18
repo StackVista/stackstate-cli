@@ -15,7 +15,7 @@ func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
 		Short: "List Ingestion Api Keys",
-		Long:  "Returns only metadata without a key itself",
+		Long:  "Returns only metadata without a key itself.",
 		RunE:  deps.CmdRunEWithApi(RunIngestionApiKeyListCommand),
 	}
 

@@ -26,7 +26,7 @@ func CreateCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "create",
 		Short: "Create a new Ingestion Api Key",
-		Long:  "Creates a token and then returns it in the response, the token can't be obtained any more after that so store it in the safe space",
+		Long:  "Creates a token and then returns it in the response, the token can't be obtained any more after that so store it in the safe space.",
 		RunE:  deps.CmdRunEWithApi(RunIngestionApiKeyGenerationCommand(args)),
 	}
 

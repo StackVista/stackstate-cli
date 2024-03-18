@@ -18,7 +18,7 @@ func DeleteCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete",
 		Short: "Delete an Ingestion Api Key",
-		Long:  "Deleted key can't be used by sources, so all ingestion pipelines for that key will fail",
+		Long:  "Deleted key can't be used by sources, so all ingestion pipelines for that key will fail.",
 		RunE:  deps.CmdRunEWithApi(RunIngestionApiKeyDeleteCommand(args)),
 	}
 
