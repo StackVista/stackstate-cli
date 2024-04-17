@@ -12,12 +12,12 @@ import (
 )
 
 var (
-	startWithLowerCaseWordExceptions = `StackState`
-	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`) //nolint:deadcode,unused,varcheck
+	startWithLowerCaseWordExceptions = `StackState`                                                                      //nolint:unused,varcheck
+	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`) //nolint:unused,varcheck
 	startWithUpperCaseWord           = regexp.MustCompile(`^[A-Z0-9]`)
 	endsWithFullStop                 = regexp.MustCompile(`\s*\.\s*$`)
-	startsLowerCaseExceptions        = `\.sty`
-	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`) //nolint:deadcode,unused,varcheck
+	startsLowerCaseExceptions        = `\.sty`                                                          //nolint:unused,varcheck
+	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`) //nolint:unused,varcheck
 )
 
 func setupCmd(t *testing.T) *cobra.Command {

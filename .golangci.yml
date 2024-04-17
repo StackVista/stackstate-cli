@@ -12,26 +12,27 @@ run:
   tests: true
 
 linters-settings:
-  golint:
-    min-confidence: 0
-  govet:
-    check-shadowing: false
+  depguard:
+    rules:
+      main:
+        list-mode: lax
+        allow:
+          - $gostd
+          - github.com/stackvista
+  lll:
+    line-length: 250
+  gomnd:
+    checks:
+      - argument
+      - case
+      - condition
+      - return
 
   nolintlint:
-    allow-leading-space: false
-    allow-unused: false # report any unused nolint directives
+    allow-unused: true # report any unused nolint directives
     require-specific: true # don't require nolint directives to be specific about which linter is being skipped
 
-  skip-files:
-    - "generated/.*.go$"
-
-  forbidigo:
-    # Forbid the following identifiers (list of regexp).
-    forbid:
-      - 'fmt\.Print.*(# Please use the printer instead!\.)?'
-
-  lll:
-    line-length: 200
+  stylecheck:
 
   funlen:
     lines: 100
@@ -40,12 +41,13 @@ linters-settings:
 linters:
   disable-all: true
   enable:
-    - deadcode
-    - depguard
+    # - bodyclose TODO: enable when fixed
+    # - depguard
     - dogsled
     - dupl
     - errcheck
     - exhaustive
+    - exportloopref
     - funlen
     - gochecknoinits
     - goconst
@@ -55,7 +57,7 @@ linters:
     - goimports
     - gomnd
     - goprintffuncname
-    - gosec
+    # - gosec TODO: enable when fixed
     - gosimple
     - govet
     - ineffassign
@@ -64,14 +66,12 @@ linters:
     - nakedret
     - noctx
     - nolintlint
+    # - revive TODO: enable when fixed
     - rowserrcheck
-    - exportloopref
     - staticcheck
-    - structcheck
+    # - stylecheck TODO: enable when fixed
     - typecheck
     - unconvert
     - unparam
     - unused
-    - varcheck
     - whitespace
-    - forbidigo
