@@ -70,9 +70,6 @@ jobs:
     name: Go releaser check
     runs-on: ubuntu-latest
     timeout-minutes: 5
-    env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
     steps:
       - uses: actions/checkout@v4
@@ -124,7 +121,7 @@ jobs:
         if: github.event_name != 'pull_request'
         with:
           registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.QUAY_USERNAME }}
+          username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
       - name: Generate release notes
         uses: ./.github/actions/quay
