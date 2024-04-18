@@ -118,38 +118,36 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: 1.22
-      - name: Log in to the Container registry
-        uses: docker/login-action@v3
-        if: github.event_name != 'pull_request'
+      - name: Generate release notes
+        uses: addnab/docker-run-action@v3
         with:
           registry: quay.io
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
-      - name: Generate release notes
-        uses: ./.github/actions/quay
-        with:
-          image: quay.io/stackstate/go-rk:v0.2.4
           options: >
+            -v /var/run/docker.sock:/var/run/docker.sock
+            -v ${{ github.workspace }}:/workspace
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
             -e RK_JIRA_USER=${{ secrets.JIRA_USER }}
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
-          entrypoint: go-rk
-          run: >
-            release-notes
-            --fix-version cli2-${{ env.TAG }}
-            --output-file /workspace/release-notes.md
-            --title "CLI ${{ env.TAG }}"
+          run: |
+            go-rk release-notes --fix-version cli2-${{ env.TAG }} --output-file /workspace/release-notes.md --title "CLI ${{ env.TAG }}"
       - name: Save release notes
         uses: actions/upload-artifact@v3
         with:
           name: release-notes
           path: release-notes.md
       - name: Generate JSON release notes
-        uses: ./.github/actions/quay
+        uses: addnab/docker-run-action@v3
         with:
-          image: quay.io/stackstate/go-rk:v0.2.4
+          image: stackstate/go-rk:v0.2.4
+          registry: quay.io
+          username: ${{ secrets.QUAY_USER }}
+          password: ${{ secrets.QUAY_PASSWORD }}
           options: >
+            -v /var/run/docker.sock:/var/run/docker.sock
+            -v ${{ github.workspace }}:/workspace
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
             -e RK_JIRA_USER=${{ secrets.JIRA_USER }}
