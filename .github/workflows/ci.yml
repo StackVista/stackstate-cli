@@ -12,153 +12,62 @@ on:
   # Allows to run this via the Actions tab
   workflow_dispatch:
 
+env:
+  REGISTRY: quay.io
+
 jobs:
-  setup:
-    name: Prepare CI image
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Compute Image Checksum
-        run: echo "NIX_CHECKSUM=$(cat flake.* | md5sum | awk '{print $1}')" >> $GITHUB_ENV
-
-      - name: Cache Image
-        id: cache-image
-        uses: actions/cache@v3
-        with:
-          path: result
-          key: cli-ci-image-${{ env.NIX_CHECKSUM }}
-
-      - name: Install Nix
-        if: steps.cache-image.outputs.cache-hit != 'true'
-        uses: nixbuild/nix-quick-install-action@v17
-        with:
-          nix_conf:
-            experimental-features = nix-command flakes
-
-      - name: Run Nix
-        if: steps.cache-image.outputs.cache-hit != 'true'
-        run: |
-          nix profile install nixpkgs#docker
-          nix build .#ci-image
-
-      - name: Publish base image
-        if: steps.cache-image.outputs.cache-hit != 'true'
-        env:
-          DOCKER_TLS_CERTDIR: ""
-          CI_BASE_IMAGE_PUSH: quay.io/stackstate/stackstate-cli:stackstate-cli2-${{ env.NIX_CHECKSUM }}
-        run: |
-          echo "${{ secrets.QUAY_PASSWORD }}" | docker login --username=${{ secrets.QUAY_USER }} --password-stdin quay.io
-          docker load < result
-          docker tag stackstate-cli2-ci:latest $CI_BASE_IMAGE_PUSH
-          docker push $CI_BASE_IMAGE_PUSH
-
-    outputs:
-      nixChecksum: ${{ env.NIX_CHECKSUM }}
-      ciImageName: quay.io/stackstate/stackstate-cli:stackstate-cli2-${{ env.NIX_CHECKSUM }}
-
   lint:
+    permissions:
+      # Required: allow read access to the content for analysis.
+      contents: read
+      # Optional: allow read access to pull request. Use with `only-new-issues` option.
+      pull-requests: read
+      # Optional: Allow write access to checks to allow the action to annotate code in the PR.
+      checks: write
     name: Linter
-    needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Lint
-        uses: ./.github/actions/gobase
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
         with:
-          image: ${{ needs.setup.outputs.ciImageName }}
-          run: ./scripts/lint.sh
-
-  check-open-api:
-    name: OpenAPI check
-    needs: setup
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
-
-    steps:
-      - uses: actions/checkout@v3
-
-      # TODO Needs the open-api repo to be available.
-      - name: Check StackState API up to date
-        if: false
-        uses: ./.github/actions/gobase
+          go-version: '1.21'
+          cache: false
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@v4
         with:
-          image: ${{ needs.setup.outputs.ciImageName }}
-          run: ./scripts/check_stackstate_api_up-to-date.sh
+          # Require: The version of golangci-lint to use.
+          # When `install-mode` is `binary` (default) the value can be v1.2 or v1.2.3 or `latest` to use the latest version.
+          # When `install-mode` is `goinstall` the value can be v1.2.3, `latest`, or the hash of a commit.
+          version: v1.54
 
   check-license:
     name: License scan
-    needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
       REPORT_FILE: gl-license-scanning-report.json
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: License scanning
-        continue-on-error: true
-        id: run-scan
-        uses: addnab/docker-run-action@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
         with:
-          registry: registry.gitlab.com
-          image: registry.gitlab.com/gitlab-org/security-products/analyzers/license-finder:3
-          options: -v ${{ github.workspace }}:/workspace -e LM_REPORT_VERSION=2.1 -e CI_PROJECT_DIR=/workspace -e LM_REPORT_FILE=${{ env.REPORT_FILE }}
-          run: |
-            git config --global --add safe.directory ${CI_PROJECT_DIR}
-            /run.sh analyze
-
+          go-version: 1.22
+      - name: License scanning
+        run: |
+          go install github.com/google/go-licenses@latest
+          go-licenses check . --disallowed_types=forbidden,restricted
+      - name: Generate license report
+        run: |
+          go-licenses report . > licenses.csv
       - name: Save license scan report
-        if: steps.run-scan.outcome == 'success'
         uses: actions/upload-artifact@v3
         with:
           name: license_scanning
-          path: ${{ env.REPORT_FILE }}
-
-  check-dependencies:
-    name: Dependency scan
-    needs: setup
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    env:
-      REPORT_FILE: gl-dependency-scanning-report.json
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - name: Dependency scanning
-        continue-on-error: true
-        id: run-scan
-        uses: addnab/docker-run-action@v3
-        with:
-          registry: registry.gitlab.com
-          image: registry.gitlab.com/gitlab-org/security-products/analyzers/gemnasium:2
-          options: -v ${{ github.workspace }}:/workspace  -e CI_PROJECT_DIR=/workspace
-          run: |
-            git config --global --add safe.directory ${CI_PROJECT_DIR}
-            /analyzer run
-
-      - name: Save dependency scan report
-        if: steps.run-scan.outcome == 'success'
-        uses: actions/upload-artifact@v3
-        with:
-          name: dependency_scanning
-          path: ${{ env.REPORT_FILE }}
+          path: licenses.csv
 
   check-go-releaser:
     name: Go releaser check
-    needs: setup
     runs-on: ubuntu-latest
     timeout-minutes: 5
     env:
@@ -166,51 +75,57 @@ jobs:
       QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Go releaser check
-        uses: ./.github/actions/gobase
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
         with:
-          image: ${{ needs.setup.outputs.ciImageName }}
-          run: goreleaser check
+          go-version: 1.22
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@v5
+        with:
+          # either 'goreleaser' (default) or 'goreleaser-pro'
+          distribution: goreleaser
+          # 'latest', 'nightly', or a semver
+          version: v1.25.1
+          args: check
 
   test:
     name: Tests
     needs:
-      - setup
       - lint
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
 
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Compile test
-        uses: ./.github/actions/gobase
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
         with:
-          image: ${{ needs.setup.outputs.ciImageName }}
-          run: ./scripts/test.sh
+          go-version: 1.22
+      - name: Run tests
+        run: go test -v ./...
 
   publish:
     name: Publish the release
     if: ${{ github.ref_type == 'tag' }}
     needs:
-      - setup
       - test
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
-      QUAY_USER: ${{ secrets.QUAY_USER }}
-      QUAY_PASSWORD: ${{ secrets.QUAY_PASSWORD }}
       TAG: ${{ github.ref_name }}
       S3_BUCKET: "s3://cli-dl.stackstate.com/stackstate-cli/"
 
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v4
+        with:
+          go-version: 1.22
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.QUAY_USERNAME }}
+          password: ${{ secrets.QUAY_PASSWORD }}
       - name: Generate release notes
         uses: ./.github/actions/quay
         with:
@@ -226,13 +141,11 @@ jobs:
             --fix-version cli2-${{ env.TAG }}
             --output-file /workspace/release-notes.md
             --title "CLI ${{ env.TAG }}"
-
       - name: Save release notes
         uses: actions/upload-artifact@v3
         with:
           name: release-notes
           path: release-notes.md
-
       - name: Generate JSON release notes
         uses: ./.github/actions/quay
         with:
@@ -255,21 +168,28 @@ jobs:
         with:
           name: release-notes-json
           path: release-notes.json
-
-      - name: Go releaser publish
-        uses: ./.github/actions/gobase
+      - name: Log in to the Container registry
+        uses: docker/login-action@v3
+        if: github.event_name != 'pull_request'
         with:
-          image: ${{ needs.setup.outputs.ciImageName }}
-          options: >
-            -e GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-            -e AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}
-            -e AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}
-            -e AWS_DEFAULT_REGION=${{ secrets.AWS_DEFAULT_REGION }}
-          run: |
-            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username=${{ secrets.DOCKER_USER }} --password-stdin docker.io
-            goreleaser release --release-notes release-notes.md
-            mkdir -p dist
-            echo "${{ env.TAG }}" > dist/LATEST_VERSION
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USER }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Go releaser publish
+        uses: goreleaser/goreleaser-action@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ secrets.AWS_DEFAULT_REGION }}
+        with:
+          # either 'goreleaser' (default) or 'goreleaser-pro'
+          distribution: goreleaser
+          # 'latest', 'nightly', or a semver
+          version: v1.25.1
+          args: release --release-notes release-notes.md
+      - name: Write latest version to file
+        run: mkdir -p dist && echo "${{ env.TAG }}" > dist/LATEST_VERSION
 
       - name: Publish latest version to S3
         uses: keithweaver/aws-s3-github-action@v1.0.0

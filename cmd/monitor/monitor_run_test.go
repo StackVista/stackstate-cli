@@ -7,7 +7,7 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
-//nolint:deadcode,unused
+//nolint:unused
 func setMonitorRunCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := MonitorRunCommand(&cli.Deps)
