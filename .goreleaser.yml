@@ -42,25 +42,6 @@ blobs:
     bucket: cli-dl.stackstate.com
     ids:
       - stackstate-cli
-brews:
-- name: stackstate-cli
-  ids:
-    - stackstate-cli
-  repository:
-    owner: stackvista
-    name: homebrew-tap
-  commit_author:
-    name: stackstatebot
-    email: sts-admin@stackstate.com
-  directory: Formula
-  install: |
-    bin.install "sts"
-  test: |
-    system "#{bin}/sts", "version"
-  description: StackState CLI
-  homepage: https://docs.stackstate.com
-  url_template: https://dl.stackstate.com/{{ .ProjectName }}/{{.Tag}}/{{ .ArtifactName }}
-  caveats: "Run `sts` to get going!"
 dockers:
 - image_templates:
   - "stackstate/stackstate-cli2:{{ .Version }}-x86_64"
