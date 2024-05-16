@@ -21,6 +21,8 @@ function error() {
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   OS=linux
+elif [[ "$OSTYPE" == "linux" ]]; then
+  OS=linux
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   OS=darwin
 else
