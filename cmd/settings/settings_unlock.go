@@ -33,7 +33,7 @@ func SettingsUnlockCommand(cli *di.Deps) *cobra.Command {
 
 func UnlockNodes(cli *di.Deps, api *stackstate_api.APIClient, ids []int64, nodeType string) common.CLIError {
 	for _, id := range ids {
-		_, resp, err := api.NodeApi.Unlock(cli.Context, nodeType, id).Execute()
+		_, resp, err := api.NodeAPI.Unlock(cli.Context, nodeType, id).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

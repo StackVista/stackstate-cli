@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type UserProfileApi interface {
+type UserProfileAPI interface {
 
 	/*
 		GetCurrentUserProfile Get current user profile
@@ -50,12 +50,12 @@ type UserProfileApi interface {
 	SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error)
 }
 
-// UserProfileApiService UserProfileApi service
-type UserProfileApiService service
+// UserProfileAPIService UserProfileAPI service
+type UserProfileAPIService service
 
 type ApiGetCurrentUserProfileRequest struct {
 	ctx        context.Context
-	ApiService UserProfileApi
+	ApiService UserProfileAPI
 }
 
 func (r ApiGetCurrentUserProfileRequest) Execute() (*UserProfile, *http.Response, error) {
@@ -67,10 +67,10 @@ GetCurrentUserProfile Get current user profile
 
 Get current user profile.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetCurrentUserProfileRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCurrentUserProfileRequest
 */
-func (a *UserProfileApiService) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
+func (a *UserProfileAPIService) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
 	return ApiGetCurrentUserProfileRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -78,8 +78,9 @@ func (a *UserProfileApiService) GetCurrentUserProfile(ctx context.Context) ApiGe
 }
 
 // Execute executes the request
-//  @return UserProfile
-func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
+//
+//	@return UserProfile
+func (a *UserProfileAPIService) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -87,7 +88,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 		localVarReturnValue *UserProfile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserProfileApiService.GetCurrentUserProfile")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserProfileAPIService.GetCurrentUserProfile")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -118,6 +119,20 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -140,20 +155,6 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -215,7 +216,7 @@ func (a *UserProfileApiService) GetCurrentUserProfileExecute(r ApiGetCurrentUser
 
 type ApiSaveCurrentUserProfileRequest struct {
 	ctx         context.Context
-	ApiService  UserProfileApi
+	ApiService  UserProfileAPI
 	userProfile *UserProfile
 }
 
@@ -233,10 +234,10 @@ SaveCurrentUserProfile Save current user profile
 
 Save current user profile.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSaveCurrentUserProfileRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSaveCurrentUserProfileRequest
 */
-func (a *UserProfileApiService) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
+func (a *UserProfileAPIService) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
 	return ApiSaveCurrentUserProfileRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -244,8 +245,9 @@ func (a *UserProfileApiService) SaveCurrentUserProfile(ctx context.Context) ApiS
 }
 
 // Execute executes the request
-//  @return UserProfile
-func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
+//
+//	@return UserProfile
+func (a *UserProfileAPIService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
 		localVarPostBody    interface{}
@@ -253,7 +255,7 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 		localVarReturnValue *UserProfile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserProfileApiService.SaveCurrentUserProfile")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserProfileAPIService.SaveCurrentUserProfile")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -289,6 +291,20 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -311,20 +327,6 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -388,17 +390,17 @@ func (a *UserProfileApiService) SaveCurrentUserProfileExecute(r ApiSaveCurrentUs
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type UserProfileApiMock struct {
+type UserProfileAPIMock struct {
 	GetCurrentUserProfileCalls     *[]GetCurrentUserProfileCall
 	GetCurrentUserProfileResponse  GetCurrentUserProfileMockResponse
 	SaveCurrentUserProfileCalls    *[]SaveCurrentUserProfileCall
 	SaveCurrentUserProfileResponse SaveCurrentUserProfileMockResponse
 }
 
-func NewUserProfileApiMock() UserProfileApiMock {
+func NewUserProfileAPIMock() UserProfileAPIMock {
 	xGetCurrentUserProfileCalls := make([]GetCurrentUserProfileCall, 0)
 	xSaveCurrentUserProfileCalls := make([]SaveCurrentUserProfileCall, 0)
-	return UserProfileApiMock{
+	return UserProfileAPIMock{
 		GetCurrentUserProfileCalls:  &xGetCurrentUserProfileCalls,
 		SaveCurrentUserProfileCalls: &xSaveCurrentUserProfileCalls,
 	}
@@ -413,14 +415,14 @@ type GetCurrentUserProfileMockResponse struct {
 type GetCurrentUserProfileCall struct {
 }
 
-func (mock UserProfileApiMock) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
+func (mock UserProfileAPIMock) GetCurrentUserProfile(ctx context.Context) ApiGetCurrentUserProfileRequest {
 	return ApiGetCurrentUserProfileRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock UserProfileApiMock) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
+func (mock UserProfileAPIMock) GetCurrentUserProfileExecute(r ApiGetCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	p := GetCurrentUserProfileCall{}
 	*mock.GetCurrentUserProfileCalls = append(*mock.GetCurrentUserProfileCalls, p)
 	return &mock.GetCurrentUserProfileResponse.Result, mock.GetCurrentUserProfileResponse.Response, mock.GetCurrentUserProfileResponse.Error
@@ -436,14 +438,14 @@ type SaveCurrentUserProfileCall struct {
 	PuserProfile *UserProfile
 }
 
-func (mock UserProfileApiMock) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
+func (mock UserProfileAPIMock) SaveCurrentUserProfile(ctx context.Context) ApiSaveCurrentUserProfileRequest {
 	return ApiSaveCurrentUserProfileRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock UserProfileApiMock) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
+func (mock UserProfileAPIMock) SaveCurrentUserProfileExecute(r ApiSaveCurrentUserProfileRequest) (*UserProfile, *http.Response, error) {
 	p := SaveCurrentUserProfileCall{
 		PuserProfile: r.userProfile,
 	}

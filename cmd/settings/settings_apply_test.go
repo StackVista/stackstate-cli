@@ -18,7 +18,7 @@ func setupSettingsApplyCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := SettingsApplyCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result = []map[string]interface{}{
+	cli.MockClient.ApiMocks.ImportAPI.ImportSettingsResponse.Result = []map[string]interface{}{
 		{
 			"_type":      "Layer",
 			"id":         12345,
@@ -48,10 +48,10 @@ func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name())
 
-	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pbody, "hello world")
-	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace)
-	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].PtimeoutSeconds)
-	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked)
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].Pbody, "hello world")
+	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].Pnamespace)
+	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].PtimeoutSeconds)
+	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].Punlocked)
 	expectedTableCall := []printer.TableData{
 		{
 			Header: []string{"Type", "Id", "Identifier", "Name"},
@@ -68,8 +68,8 @@ func TestSetingsApplyNamespace(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--namespace", "urn:test")
 
-	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Pnamespace, "urn:test")
-	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked)
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].Pnamespace, "urn:test")
+	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].Punlocked)
 }
 
 func TestSetingsApplyWrongUnlockedStrategy(t *testing.T) {
@@ -91,7 +91,7 @@ func TestSetingsApplyUnlockedStrategyFail(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--unlocked-strategy", "fail")
 
-	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked, "fail")
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].Punlocked, "fail")
 }
 
 func TestSetingsApplyUnlockedTimeout(t *testing.T) {
@@ -101,7 +101,7 @@ func TestSetingsApplyUnlockedTimeout(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "--timeout", "16")
 
-	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].PtimeoutSeconds, int64(16))
+	assert.Equal(t, *(*cli.MockClient.ApiMocks.ImportAPI.ImportSettingsCalls)[0].PtimeoutSeconds, int64(16))
 }
 
 func TestSetingsApplyJson(t *testing.T) {
@@ -112,7 +112,7 @@ func TestSetingsApplyJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--file", file.Name(), "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
-		"applied-settings": cli.MockClient.ApiMocks.ImportApi.ImportSettingsResponse.Result,
+		"applied-settings": cli.MockClient.ApiMocks.ImportAPI.ImportSettingsResponse.Result,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)

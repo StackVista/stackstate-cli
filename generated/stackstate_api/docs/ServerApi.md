@@ -1,10 +1,10 @@
-# \ServerApi
+# \ServerAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ServerInfo**](ServerApi.md#ServerInfo) | **Get** /server/info | Get server info
+[**ServerInfo**](ServerAPI.md#ServerInfo) | **Get** /server/info | Get server info
 
 
 
@@ -32,13 +32,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ServerApi.ServerInfo(context.Background()).Execute()
+    resp, r, err := apiClient.ServerAPI.ServerInfo(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ServerApi.ServerInfo``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ServerAPI.ServerInfo``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ServerInfo`: ServerInfo
-    fmt.Fprintf(os.Stdout, "Response from `ServerApi.ServerInfo`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ServerAPI.ServerInfo`: %v\n", resp)
 }
 ```
 
@@ -57,7 +57,7 @@ Other parameters are passed through a pointer to a apiServerInfoRequest struct v
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type NodeApi interface {
+type NodeAPI interface {
 
 	/*
 		Clone Clone a node with a new name
@@ -115,12 +115,12 @@ type NodeApi interface {
 	UnlockExecute(r ApiUnlockRequest) (*Node, *http.Response, error)
 }
 
-// NodeApiService NodeApi service
-type NodeApiService service
+// NodeAPIService NodeAPI service
+type NodeAPIService service
 
 type ApiCloneRequest struct {
 	ctx         context.Context
-	ApiService  NodeApi
+	ApiService  NodeAPI
 	nodeType    string
 	nodeIdOrUrn string
 	nodeName    *NodeName
@@ -141,12 +141,12 @@ Clone Clone a node with a new name
 
 Clone a node with a new name
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeIdOrUrn
- @return ApiCloneRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeIdOrUrn
+	@return ApiCloneRequest
 */
-func (a *NodeApiService) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
+func (a *NodeAPIService) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
 	return ApiCloneRequest{
 		ApiService:  a,
 		ctx:         ctx,
@@ -156,8 +156,9 @@ func (a *NodeApiService) Clone(ctx context.Context, nodeType string, nodeIdOrUrn
 }
 
 // Execute executes the request
-//  @return Node
-func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
+//
+//	@return Node
+func (a *NodeAPIService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -165,7 +166,7 @@ func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response,
 		localVarReturnValue *Node
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.Clone")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeAPIService.Clone")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -203,6 +204,20 @@ func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response,
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -225,20 +240,6 @@ func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response,
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -290,7 +291,7 @@ func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response,
 
 type ApiDeleteRequest struct {
 	ctx            context.Context
-	ApiService     NodeApi
+	ApiService     NodeAPI
 	nodeType       string
 	nodeId         int64
 	timeoutSeconds *int64
@@ -310,12 +311,12 @@ Delete Node deletion API
 
 Delete a locked node
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeId
- @return ApiDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeId
+	@return ApiDeleteRequest
 */
-func (a *NodeApiService) Delete(ctx context.Context, nodeType string, nodeId int64) ApiDeleteRequest {
+func (a *NodeAPIService) Delete(ctx context.Context, nodeType string, nodeId int64) ApiDeleteRequest {
 	return ApiDeleteRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -325,14 +326,14 @@ func (a *NodeApiService) Delete(ctx context.Context, nodeType string, nodeId int
 }
 
 // Execute executes the request
-func (a *NodeApiService) DeleteExecute(r ApiDeleteRequest) (*http.Response, error) {
+func (a *NodeAPIService) DeleteExecute(r ApiDeleteRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.Delete")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeAPIService.Delete")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -368,6 +369,20 @@ func (a *NodeApiService) DeleteExecute(r ApiDeleteRequest) (*http.Response, erro
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -390,20 +405,6 @@ func (a *NodeApiService) DeleteExecute(r ApiDeleteRequest) (*http.Response, erro
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -456,7 +457,7 @@ func (a *NodeApiService) DeleteExecute(r ApiDeleteRequest) (*http.Response, erro
 
 type ApiLockRequest struct {
 	ctx        context.Context
-	ApiService NodeApi
+	ApiService NodeAPI
 	nodeType   string
 	nodeId     int64
 }
@@ -470,12 +471,12 @@ Lock Retrieve if a node is locked
 
 Retrieve if a node is locked
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeId
- @return ApiLockRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeId
+	@return ApiLockRequest
 */
-func (a *NodeApiService) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
+func (a *NodeAPIService) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
 	return ApiLockRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -485,8 +486,9 @@ func (a *NodeApiService) Lock(ctx context.Context, nodeType string, nodeId int64
 }
 
 // Execute executes the request
-//  @return LockedResponse
-func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
+//
+//	@return LockedResponse
+func (a *NodeAPIService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -494,7 +496,7 @@ func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.R
 		localVarReturnValue *LockedResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.Lock")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeAPIService.Lock")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -527,6 +529,20 @@ func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.R
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -549,20 +565,6 @@ func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.R
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -614,7 +616,7 @@ func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.R
 
 type ApiNodeListTypesRequest struct {
 	ctx        context.Context
-	ApiService NodeApi
+	ApiService NodeAPI
 }
 
 func (r ApiNodeListTypesRequest) Execute() (*NodeTypes, *http.Response, error) {
@@ -626,10 +628,10 @@ NodeListTypes Node API
 
 list all node types
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiNodeListTypesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiNodeListTypesRequest
 */
-func (a *NodeApiService) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
+func (a *NodeAPIService) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -637,8 +639,9 @@ func (a *NodeApiService) NodeListTypes(ctx context.Context) ApiNodeListTypesRequ
 }
 
 // Execute executes the request
-//  @return NodeTypes
-func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
+//
+//	@return NodeTypes
+func (a *NodeAPIService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -646,7 +649,7 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeT
 		localVarReturnValue *NodeTypes
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.NodeListTypes")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeAPIService.NodeListTypes")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -677,6 +680,20 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeT
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -699,20 +716,6 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeT
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -764,7 +767,7 @@ func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeT
 
 type ApiTypeListRequest struct {
 	ctx        context.Context
-	ApiService NodeApi
+	ApiService NodeAPI
 	nodeType   string
 	namespace  *string
 	ownedBy    *string
@@ -789,11 +792,11 @@ TypeList Node type API
 
 list all nodes of that type
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @return ApiTypeListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@return ApiTypeListRequest
 */
-func (a *NodeApiService) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
+func (a *NodeAPIService) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -802,8 +805,9 @@ func (a *NodeApiService) TypeList(ctx context.Context, nodeType string) ApiTypeL
 }
 
 // Execute executes the request
-//  @return []Node
-func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
+//
+//	@return []Node
+func (a *NodeAPIService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -811,7 +815,7 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Re
 		localVarReturnValue []Node
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.TypeList")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeAPIService.TypeList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -849,6 +853,20 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Re
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -871,20 +889,6 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Re
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -936,7 +940,7 @@ func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Re
 
 type ApiUnlockRequest struct {
 	ctx        context.Context
-	ApiService NodeApi
+	ApiService NodeAPI
 	nodeType   string
 	nodeId     int64
 }
@@ -950,12 +954,12 @@ Unlock Node unlock API
 
 Unlock a locked node
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeId
- @return ApiUnlockRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeId
+	@return ApiUnlockRequest
 */
-func (a *NodeApiService) Unlock(ctx context.Context, nodeType string, nodeId int64) ApiUnlockRequest {
+func (a *NodeAPIService) Unlock(ctx context.Context, nodeType string, nodeId int64) ApiUnlockRequest {
 	return ApiUnlockRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -965,8 +969,9 @@ func (a *NodeApiService) Unlock(ctx context.Context, nodeType string, nodeId int
 }
 
 // Execute executes the request
-//  @return Node
-func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Response, error) {
+//
+//	@return Node
+func (a *NodeAPIService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -974,7 +979,7 @@ func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Respons
 		localVarReturnValue *Node
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeApiService.Unlock")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NodeAPIService.Unlock")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1007,6 +1012,20 @@ func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Respons
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1029,20 +1048,6 @@ func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Respons
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1096,7 +1101,7 @@ func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Respons
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type NodeApiMock struct {
+type NodeAPIMock struct {
 	CloneCalls            *[]CloneCall
 	CloneResponse         CloneMockResponse
 	DeleteCalls           *[]DeleteCall
@@ -1111,14 +1116,14 @@ type NodeApiMock struct {
 	UnlockResponse        UnlockMockResponse
 }
 
-func NewNodeApiMock() NodeApiMock {
+func NewNodeAPIMock() NodeAPIMock {
 	xCloneCalls := make([]CloneCall, 0)
 	xDeleteCalls := make([]DeleteCall, 0)
 	xLockCalls := make([]LockCall, 0)
 	xNodeListTypesCalls := make([]NodeListTypesCall, 0)
 	xTypeListCalls := make([]TypeListCall, 0)
 	xUnlockCalls := make([]UnlockCall, 0)
-	return NodeApiMock{
+	return NodeAPIMock{
 		CloneCalls:         &xCloneCalls,
 		DeleteCalls:        &xDeleteCalls,
 		LockCalls:          &xLockCalls,
@@ -1140,7 +1145,7 @@ type CloneCall struct {
 	PnodeName    *NodeName
 }
 
-func (mock NodeApiMock) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
+func (mock NodeAPIMock) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
 	return ApiCloneRequest{
 		ApiService:  mock,
 		ctx:         ctx,
@@ -1149,7 +1154,7 @@ func (mock NodeApiMock) Clone(ctx context.Context, nodeType string, nodeIdOrUrn 
 	}
 }
 
-func (mock NodeApiMock) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
+func (mock NodeAPIMock) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
 	p := CloneCall{
 		PnodeType:    r.nodeType,
 		PnodeIdOrUrn: r.nodeIdOrUrn,
@@ -1170,7 +1175,7 @@ type DeleteCall struct {
 	PtimeoutSeconds *int64
 }
 
-func (mock NodeApiMock) Delete(ctx context.Context, nodeType string, nodeId int64) ApiDeleteRequest {
+func (mock NodeAPIMock) Delete(ctx context.Context, nodeType string, nodeId int64) ApiDeleteRequest {
 	return ApiDeleteRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1179,7 +1184,7 @@ func (mock NodeApiMock) Delete(ctx context.Context, nodeType string, nodeId int6
 	}
 }
 
-func (mock NodeApiMock) DeleteExecute(r ApiDeleteRequest) (*http.Response, error) {
+func (mock NodeAPIMock) DeleteExecute(r ApiDeleteRequest) (*http.Response, error) {
 	p := DeleteCall{
 		PnodeType:       r.nodeType,
 		PnodeId:         r.nodeId,
@@ -1200,7 +1205,7 @@ type LockCall struct {
 	PnodeId   int64
 }
 
-func (mock NodeApiMock) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
+func (mock NodeAPIMock) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
 	return ApiLockRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1209,7 +1214,7 @@ func (mock NodeApiMock) Lock(ctx context.Context, nodeType string, nodeId int64)
 	}
 }
 
-func (mock NodeApiMock) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
+func (mock NodeAPIMock) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
 	p := LockCall{
 		PnodeType: r.nodeType,
 		PnodeId:   r.nodeId,
@@ -1227,14 +1232,14 @@ type NodeListTypesMockResponse struct {
 type NodeListTypesCall struct {
 }
 
-func (mock NodeApiMock) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
+func (mock NodeAPIMock) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NodeApiMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
+func (mock NodeAPIMock) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
 	p := NodeListTypesCall{}
 	*mock.NodeListTypesCalls = append(*mock.NodeListTypesCalls, p)
 	return &mock.NodeListTypesResponse.Result, mock.NodeListTypesResponse.Response, mock.NodeListTypesResponse.Error
@@ -1252,7 +1257,7 @@ type TypeListCall struct {
 	PownedBy   *string
 }
 
-func (mock NodeApiMock) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
+func (mock NodeAPIMock) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1260,7 +1265,7 @@ func (mock NodeApiMock) TypeList(ctx context.Context, nodeType string) ApiTypeLi
 	}
 }
 
-func (mock NodeApiMock) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
+func (mock NodeAPIMock) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
 	p := TypeListCall{
 		PnodeType:  r.nodeType,
 		Pnamespace: r.namespace,
@@ -1281,7 +1286,7 @@ type UnlockCall struct {
 	PnodeId   int64
 }
 
-func (mock NodeApiMock) Unlock(ctx context.Context, nodeType string, nodeId int64) ApiUnlockRequest {
+func (mock NodeAPIMock) Unlock(ctx context.Context, nodeType string, nodeId int64) ApiUnlockRequest {
 	return ApiUnlockRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1290,7 +1295,7 @@ func (mock NodeApiMock) Unlock(ctx context.Context, nodeType string, nodeId int6
 	}
 }
 
-func (mock NodeApiMock) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Response, error) {
+func (mock NodeAPIMock) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Response, error) {
 	p := UnlockCall{
 		PnodeType: r.nodeType,
 		PnodeId:   r.nodeId,

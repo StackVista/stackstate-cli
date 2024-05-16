@@ -37,7 +37,7 @@ func RunCreateSubjectCommand(args *CreateSubjectArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		subject := stackstate_api.NewCreateSubject(args.Scope, DefaultSTQLVersion)
-		resp, err := api.SubjectApi.CreateSubject(cli.Context, args.Subject).
+		resp, err := api.SubjectAPI.CreateSubject(cli.Context, args.Subject).
 			CreateSubject(*subject).
 			Execute()
 

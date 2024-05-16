@@ -2,6 +2,7 @@ package topic
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"strings"
 	"testing"
@@ -21,6 +22,7 @@ var (
 	Message3 = stackstate_api.NewMessage("key", 0, 3, MessageContents)
 	Message4 = stackstate_api.NewMessage("key", 1, 1, MessageContents)
 	Message5 = stackstate_api.NewMessage("key", 1, 4, MessageContents)
+	Message6 = stackstate_api.NewMessage("key", 1, math.MaxInt64, MessageContents)
 
 	Part0MessagesList = []stackstate_api.Message{
 		*Message1,
@@ -53,11 +55,11 @@ func TestTopicDescribeJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *Part0TopicMessages
+	cli.MockClient.ApiMocks.TopicAPI.DescribeResponse.Result = *Part0TopicMessages
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "-o", "json")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.DescribeCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls, 1)
 
 	expectedJson := []map[string]interface{}{
 		{
@@ -72,11 +74,11 @@ func TestTopicDescribeTable(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *Part0TopicMessages
+	cli.MockClient.ApiMocks.TopicAPI.DescribeResponse.Result = *Part0TopicMessages
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.DescribeCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls, 1)
 
 	expectedTable := []printer.TableData{
 		{
@@ -97,11 +99,11 @@ func TestTopicDescribeTableSorting(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *AllTopicMessages
+	cli.MockClient.ApiMocks.TopicAPI.DescribeResponse.Result = *AllTopicMessages
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.DescribeCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls, 1)
 
 	// NOTE Sorted by offset ignoring the partition.
 	expectedTable := []printer.TableData{
@@ -132,11 +134,11 @@ func TestTopicDescribeFileIO(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *Part0TopicMessages
+	cli.MockClient.ApiMocks.TopicAPI.DescribeResponse.Result = *Part0TopicMessages
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--file", filePath)
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.DescribeCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls, 1)
 
 	expectedStrings := []string{
 		fmt.Sprintf("Messages saved to '%s'", filePath),
@@ -145,7 +147,7 @@ func TestTopicDescribeFileIO(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "-o", "json", "--file", filePath)
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.DescribeCalls, 2)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls, 2)
 	expectedJson := []map[string]interface{}{
 		{
 			"filepath": filePath,
@@ -166,11 +168,11 @@ func TestTopicDescribeDefaults(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *AllTopicMessages
+	cli.MockClient.ApiMocks.TopicAPI.DescribeResponse.Result = *AllTopicMessages
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test")
 
-	calls := *cli.MockClient.ApiMocks.TopicApi.DescribeCalls
+	calls := *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, "test", calls[0].Ptopic)
 	assert.Equal(t, DefaultLimit, *calls[0].Plimit)
@@ -179,7 +181,7 @@ func TestTopicDescribeDefaults(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--partition", "23")
 
-	calls = *cli.MockClient.ApiMocks.TopicApi.DescribeCalls
+	calls = *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls
 	assert.Len(t, calls, 2)
 	assert.Equal(t, int32(23), *calls[1].Ppartition)
 }
@@ -204,7 +206,7 @@ func TestTopicDescribePaginationLimits(t *testing.T) {
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "test", fmt.Sprintf("--%s", test.Name), fmt.Sprintf("%d", test.Value))
 
 			assert.Equal(t, argValueError(test.Name, test.Value), err)
-			assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.DescribeCalls, 0)
+			assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls, 0)
 		})
 	}
 }
@@ -213,11 +215,11 @@ func TestTopicDescribeMoreThanAvailable(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.DescribeResponse.Result = *AllTopicMessages
+	cli.MockClient.ApiMocks.TopicAPI.DescribeResponse.Result = *AllTopicMessages
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test", "--limit", "10", "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.TopicApi.DescribeCalls
+	calls := *cli.MockClient.ApiMocks.TopicAPI.DescribeCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, "test", calls[0].Ptopic)
 	assert.Nil(t, calls[0].Poffset)

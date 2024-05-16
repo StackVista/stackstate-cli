@@ -19,7 +19,7 @@ func TestMonitorsDescribe(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common",
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "-i", "123")
 	assert.Nil(t, err)
@@ -30,7 +30,7 @@ func TestMonitorDescribeJson(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common",
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	di.ExecuteCommandWithContext(&cli.Deps, cmd, "-i", "123", "-o", "json") //nolint:errcheck
 	assert.Equal(
@@ -56,7 +56,7 @@ func TestRunMonitorDescribeToFile(t *testing.T) {
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "-i", "123", "--file", filePath)
 	assert.Nil(t, err)
 	body, err := os.ReadFile(filePath)

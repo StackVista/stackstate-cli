@@ -13,7 +13,7 @@ func TestSettingsDelete(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--ids", "1,2,3")
 
-	calls := *cli.MockClient.ApiMocks.NodeApi.DeleteCalls
+	calls := *cli.MockClient.ApiMocks.NodeAPI.DeleteCalls
 	assert.Len(t, calls, 3)
 	assert.Equal(t, int64(1), calls[0].PnodeId)
 	assert.Equal(t, int64(15), *calls[0].PtimeoutSeconds)
@@ -34,7 +34,7 @@ func TestSettingsDeleteJustOne(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--ids", "23")
 
-	calls := *cli.MockClient.ApiMocks.NodeApi.DeleteCalls
+	calls := *cli.MockClient.ApiMocks.NodeAPI.DeleteCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, int64(23), calls[0].PnodeId)
 	assert.Equal(t, int64(15), *calls[0].PtimeoutSeconds)
@@ -51,7 +51,7 @@ func TestSettingsDeleteTimeout(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--ids", "5", "--timeout", "30")
 
-	calls := *cli.MockClient.ApiMocks.NodeApi.DeleteCalls
+	calls := *cli.MockClient.ApiMocks.NodeAPI.DeleteCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, int64(5), calls[0].PnodeId)
 	assert.Equal(t, int64(30), *calls[0].PtimeoutSeconds)

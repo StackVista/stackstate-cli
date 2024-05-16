@@ -1,27 +1,27 @@
-# \NotificationChannelsApi
+# \NotificationChannelsAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateOpsgenieNotificationChannel**](NotificationChannelsApi.md#CreateOpsgenieNotificationChannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
-[**CreateWebhookNotificationChannel**](NotificationChannelsApi.md#CreateWebhookNotificationChannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
-[**DeleteOpsgenieNotificationChannel**](NotificationChannelsApi.md#DeleteOpsgenieNotificationChannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
-[**DeleteSlackNotificationChannel**](NotificationChannelsApi.md#DeleteSlackNotificationChannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
-[**DeleteWebhookNotificationChannel**](NotificationChannelsApi.md#DeleteWebhookNotificationChannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
-[**GetOpsgenieNotificationChannel**](NotificationChannelsApi.md#GetOpsgenieNotificationChannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
-[**GetSlackNotificationChannel**](NotificationChannelsApi.md#GetSlackNotificationChannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
-[**GetWebhookNotificationChannel**](NotificationChannelsApi.md#GetWebhookNotificationChannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
-[**JoinSlackChannel**](NotificationChannelsApi.md#JoinSlackChannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
-[**ListOpsgenieResponders**](NotificationChannelsApi.md#ListOpsgenieResponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
-[**ListSlackChannels**](NotificationChannelsApi.md#ListSlackChannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
-[**SlackOAuthCallback**](NotificationChannelsApi.md#SlackOAuthCallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
-[**SlackOauthRedirect**](NotificationChannelsApi.md#SlackOauthRedirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
-[**TestOpsgenieChannel**](NotificationChannelsApi.md#TestOpsgenieChannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
-[**TestSlackChannel**](NotificationChannelsApi.md#TestSlackChannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
-[**TestWebhookChannel**](NotificationChannelsApi.md#TestWebhookChannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
-[**UpdateOpsgenieNotificationChannel**](NotificationChannelsApi.md#UpdateOpsgenieNotificationChannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
-[**UpdateWebhookNotificationChannel**](NotificationChannelsApi.md#UpdateWebhookNotificationChannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
+[**CreateOpsgenieNotificationChannel**](NotificationChannelsAPI.md#CreateOpsgenieNotificationChannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
+[**CreateWebhookNotificationChannel**](NotificationChannelsAPI.md#CreateWebhookNotificationChannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
+[**DeleteOpsgenieNotificationChannel**](NotificationChannelsAPI.md#DeleteOpsgenieNotificationChannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
+[**DeleteSlackNotificationChannel**](NotificationChannelsAPI.md#DeleteSlackNotificationChannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
+[**DeleteWebhookNotificationChannel**](NotificationChannelsAPI.md#DeleteWebhookNotificationChannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
+[**GetOpsgenieNotificationChannel**](NotificationChannelsAPI.md#GetOpsgenieNotificationChannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
+[**GetSlackNotificationChannel**](NotificationChannelsAPI.md#GetSlackNotificationChannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
+[**GetWebhookNotificationChannel**](NotificationChannelsAPI.md#GetWebhookNotificationChannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
+[**JoinSlackChannel**](NotificationChannelsAPI.md#JoinSlackChannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
+[**ListOpsgenieResponders**](NotificationChannelsAPI.md#ListOpsgenieResponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
+[**ListSlackChannels**](NotificationChannelsAPI.md#ListSlackChannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
+[**SlackOAuthCallback**](NotificationChannelsAPI.md#SlackOAuthCallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
+[**SlackOauthRedirect**](NotificationChannelsAPI.md#SlackOauthRedirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
+[**TestOpsgenieChannel**](NotificationChannelsAPI.md#TestOpsgenieChannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
+[**TestSlackChannel**](NotificationChannelsAPI.md#TestSlackChannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
+[**TestWebhookChannel**](NotificationChannelsAPI.md#TestWebhookChannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
+[**UpdateOpsgenieNotificationChannel**](NotificationChannelsAPI.md#UpdateOpsgenieNotificationChannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
+[**UpdateWebhookNotificationChannel**](NotificationChannelsAPI.md#UpdateWebhookNotificationChannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
 
 
 
@@ -50,13 +50,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.CreateOpsgenieNotificationChannel(context.Background()).OpsgenieChannelWriteSchema(opsgenieChannelWriteSchema).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.CreateOpsgenieNotificationChannel(context.Background()).OpsgenieChannelWriteSchema(opsgenieChannelWriteSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.CreateOpsgenieNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.CreateOpsgenieNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `CreateOpsgenieNotificationChannel`: OpsgenieNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.CreateOpsgenieNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.CreateOpsgenieNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -79,7 +79,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -116,13 +116,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.CreateWebhookNotificationChannel(context.Background()).WebhookChannelWriteSchema(webhookChannelWriteSchema).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.CreateWebhookNotificationChannel(context.Background()).WebhookChannelWriteSchema(webhookChannelWriteSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.CreateWebhookNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.CreateWebhookNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `CreateWebhookNotificationChannel`: WebhookNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.CreateWebhookNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.CreateWebhookNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -145,7 +145,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -182,9 +182,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.DeleteOpsgenieNotificationChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.DeleteOpsgenieNotificationChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.DeleteOpsgenieNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.DeleteOpsgenieNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -213,7 +213,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -250,9 +250,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.DeleteSlackNotificationChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.DeleteSlackNotificationChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.DeleteSlackNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.DeleteSlackNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -281,7 +281,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -318,9 +318,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.DeleteWebhookNotificationChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.DeleteWebhookNotificationChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.DeleteWebhookNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.DeleteWebhookNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -349,7 +349,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -386,13 +386,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.GetOpsgenieNotificationChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.GetOpsgenieNotificationChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.GetOpsgenieNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.GetOpsgenieNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetOpsgenieNotificationChannel`: OpsgenieNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.GetOpsgenieNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.GetOpsgenieNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -419,7 +419,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -456,13 +456,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.GetSlackNotificationChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.GetSlackNotificationChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.GetSlackNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.GetSlackNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetSlackNotificationChannel`: SlackNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.GetSlackNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.GetSlackNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -489,7 +489,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -526,13 +526,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.GetWebhookNotificationChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.GetWebhookNotificationChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.GetWebhookNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.GetWebhookNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetWebhookNotificationChannel`: WebhookNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.GetWebhookNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.GetWebhookNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -559,7 +559,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -597,13 +597,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.JoinSlackChannel(context.Background(), channelId).SlackChannelId(slackChannelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.JoinSlackChannel(context.Background(), channelId).SlackChannelId(slackChannelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.JoinSlackChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.JoinSlackChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `JoinSlackChannel`: SlackNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.JoinSlackChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.JoinSlackChannel`: %v\n", resp)
 }
 ```
 
@@ -631,7 +631,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -669,13 +669,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.ListOpsgenieResponders(context.Background()).GenieKey(genieKey).Region(region).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.ListOpsgenieResponders(context.Background()).GenieKey(genieKey).Region(region).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.ListOpsgenieResponders``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.ListOpsgenieResponders``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ListOpsgenieResponders`: []OpsgenieResponder
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.ListOpsgenieResponders`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.ListOpsgenieResponders`: %v\n", resp)
 }
 ```
 
@@ -699,7 +699,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -736,13 +736,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.ListSlackChannels(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.ListSlackChannels(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.ListSlackChannels``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.ListSlackChannels``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ListSlackChannels`: []SlackChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.ListSlackChannels`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.ListSlackChannels`: %v\n", resp)
 }
 ```
 
@@ -769,7 +769,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -808,9 +808,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.SlackOAuthCallback(context.Background()).State(state).Code(code).Error_(error_).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.SlackOAuthCallback(context.Background()).State(state).Code(code).Error_(error_).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.SlackOAuthCallback``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.SlackOAuthCallback``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -837,7 +837,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -874,9 +874,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.SlackOauthRedirect(context.Background()).RedirectPath(redirectPath).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.SlackOauthRedirect(context.Background()).RedirectPath(redirectPath).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.SlackOauthRedirect``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.SlackOauthRedirect``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -901,7 +901,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -938,9 +938,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.TestOpsgenieChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.TestOpsgenieChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.TestOpsgenieChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.TestOpsgenieChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -969,7 +969,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -1006,9 +1006,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.TestSlackChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.TestSlackChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.TestSlackChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.TestSlackChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -1037,7 +1037,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -1074,9 +1074,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.TestWebhookChannel(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.TestWebhookChannel(context.Background(), channelId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.TestWebhookChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.TestWebhookChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -1105,7 +1105,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -1143,13 +1143,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.UpdateOpsgenieNotificationChannel(context.Background(), channelId).OpsgenieChannelWriteSchema(opsgenieChannelWriteSchema).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.UpdateOpsgenieNotificationChannel(context.Background(), channelId).OpsgenieChannelWriteSchema(opsgenieChannelWriteSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.UpdateOpsgenieNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.UpdateOpsgenieNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `UpdateOpsgenieNotificationChannel`: OpsgenieNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.UpdateOpsgenieNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.UpdateOpsgenieNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -1177,7 +1177,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -1215,13 +1215,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.UpdateWebhookNotificationChannel(context.Background(), channelId).WebhookChannelWriteSchema(webhookChannelWriteSchema).Execute()
+    resp, r, err := apiClient.NotificationChannelsAPI.UpdateWebhookNotificationChannel(context.Background(), channelId).WebhookChannelWriteSchema(webhookChannelWriteSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.UpdateWebhookNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsAPI.UpdateWebhookNotificationChannel``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `UpdateWebhookNotificationChannel`: WebhookNotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.UpdateWebhookNotificationChannel`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsAPI.UpdateWebhookNotificationChannel`: %v\n", resp)
 }
 ```
 
@@ -1249,7 +1249,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

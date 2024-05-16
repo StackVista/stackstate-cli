@@ -50,59 +50,65 @@ type APIClient struct {
 
 	// API Services
 
-	ApiTokenApi ApiTokenApi
+	ApiTokenAPI ApiTokenAPI
 
-	DummyApi DummyApi
+	AuthorizeIngestionApiKeyAPI AuthorizeIngestionApiKeyAPI
 
-	EventApi EventApi
+	ComponentAPI ComponentAPI
 
-	ExportApi ExportApi
+	DummyAPI DummyAPI
 
-	HealthSynchronizationApi HealthSynchronizationApi
+	EventAPI EventAPI
 
-	ImportApi ImportApi
+	ExportAPI ExportAPI
 
-	IngestionApiKeyApi IngestionApiKeyApi
+	HealthSynchronizationAPI HealthSynchronizationAPI
 
-	KubernetesLogsApi KubernetesLogsApi
+	ImportAPI ImportAPI
 
-	MetricApi MetricApi
+	IngestionApiKeyAPI IngestionApiKeyAPI
 
-	MonitorApi MonitorApi
+	KubernetesLogsAPI KubernetesLogsAPI
 
-	MonitorCheckStatusApi MonitorCheckStatusApi
+	LayoutAPI LayoutAPI
 
-	NodeApi NodeApi
+	MetricAPI MetricAPI
 
-	NotificationChannelsApi NotificationChannelsApi
+	MonitorAPI MonitorAPI
 
-	NotificationConfigurationsApi NotificationConfigurationsApi
+	MonitorCheckStatusAPI MonitorCheckStatusAPI
 
-	PermissionsApi PermissionsApi
+	NodeAPI NodeAPI
 
-	ProblemApi ProblemApi
+	NotificationChannelsAPI NotificationChannelsAPI
 
-	ScriptingApi ScriptingApi
+	NotificationConfigurationsAPI NotificationConfigurationsAPI
 
-	ServerApi ServerApi
+	PermissionsAPI PermissionsAPI
 
-	ServiceTokenApi ServiceTokenApi
+	ProblemAPI ProblemAPI
 
-	StackpackApi StackpackApi
+	ScriptingAPI ScriptingAPI
 
-	SubjectApi SubjectApi
+	ServerAPI ServerAPI
 
-	SubscriptionApi SubscriptionApi
+	ServiceTokenAPI ServiceTokenAPI
 
-	TopicApi TopicApi
+	StackpackAPI StackpackAPI
 
-	TopologySynchronizationApi TopologySynchronizationApi
+	SubjectAPI SubjectAPI
 
-	TracesApi TracesApi
+	SubscriptionAPI SubscriptionAPI
 
-	UserProfileApi UserProfileApi
+	TopicAPI TopicAPI
 
-	UserSessionApi UserSessionApi
+	TopologySynchronizationAPI TopologySynchronizationAPI
+
+	TracesAPI TracesAPI
+
+	UserProfileAPI UserProfileAPI
+
+	UserSessionAPI UserSessionAPI
 }
 
 type service struct {
@@ -121,33 +127,36 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
-	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
-	c.DummyApi = (*DummyApiService)(&c.common)
-	c.EventApi = (*EventApiService)(&c.common)
-	c.ExportApi = (*ExportApiService)(&c.common)
-	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
-	c.ImportApi = (*ImportApiService)(&c.common)
-	c.IngestionApiKeyApi = (*IngestionApiKeyApiService)(&c.common)
-	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
-	c.MetricApi = (*MetricApiService)(&c.common)
-	c.MonitorApi = (*MonitorApiService)(&c.common)
-	c.MonitorCheckStatusApi = (*MonitorCheckStatusApiService)(&c.common)
-	c.NodeApi = (*NodeApiService)(&c.common)
-	c.NotificationChannelsApi = (*NotificationChannelsApiService)(&c.common)
-	c.NotificationConfigurationsApi = (*NotificationConfigurationsApiService)(&c.common)
-	c.PermissionsApi = (*PermissionsApiService)(&c.common)
-	c.ProblemApi = (*ProblemApiService)(&c.common)
-	c.ScriptingApi = (*ScriptingApiService)(&c.common)
-	c.ServerApi = (*ServerApiService)(&c.common)
-	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
-	c.StackpackApi = (*StackpackApiService)(&c.common)
-	c.SubjectApi = (*SubjectApiService)(&c.common)
-	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
-	c.TopicApi = (*TopicApiService)(&c.common)
-	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
-	c.TracesApi = (*TracesApiService)(&c.common)
-	c.UserProfileApi = (*UserProfileApiService)(&c.common)
-	c.UserSessionApi = (*UserSessionApiService)(&c.common)
+	c.ApiTokenAPI = (*ApiTokenAPIService)(&c.common)
+	c.AuthorizeIngestionApiKeyAPI = (*AuthorizeIngestionApiKeyAPIService)(&c.common)
+	c.ComponentAPI = (*ComponentAPIService)(&c.common)
+	c.DummyAPI = (*DummyAPIService)(&c.common)
+	c.EventAPI = (*EventAPIService)(&c.common)
+	c.ExportAPI = (*ExportAPIService)(&c.common)
+	c.HealthSynchronizationAPI = (*HealthSynchronizationAPIService)(&c.common)
+	c.ImportAPI = (*ImportAPIService)(&c.common)
+	c.IngestionApiKeyAPI = (*IngestionApiKeyAPIService)(&c.common)
+	c.KubernetesLogsAPI = (*KubernetesLogsAPIService)(&c.common)
+	c.LayoutAPI = (*LayoutAPIService)(&c.common)
+	c.MetricAPI = (*MetricAPIService)(&c.common)
+	c.MonitorAPI = (*MonitorAPIService)(&c.common)
+	c.MonitorCheckStatusAPI = (*MonitorCheckStatusAPIService)(&c.common)
+	c.NodeAPI = (*NodeAPIService)(&c.common)
+	c.NotificationChannelsAPI = (*NotificationChannelsAPIService)(&c.common)
+	c.NotificationConfigurationsAPI = (*NotificationConfigurationsAPIService)(&c.common)
+	c.PermissionsAPI = (*PermissionsAPIService)(&c.common)
+	c.ProblemAPI = (*ProblemAPIService)(&c.common)
+	c.ScriptingAPI = (*ScriptingAPIService)(&c.common)
+	c.ServerAPI = (*ServerAPIService)(&c.common)
+	c.ServiceTokenAPI = (*ServiceTokenAPIService)(&c.common)
+	c.StackpackAPI = (*StackpackAPIService)(&c.common)
+	c.SubjectAPI = (*SubjectAPIService)(&c.common)
+	c.SubscriptionAPI = (*SubscriptionAPIService)(&c.common)
+	c.TopicAPI = (*TopicAPIService)(&c.common)
+	c.TopologySynchronizationAPI = (*TopologySynchronizationAPIService)(&c.common)
+	c.TracesAPI = (*TracesAPIService)(&c.common)
+	c.UserProfileAPI = (*UserProfileAPIService)(&c.common)
+	c.UserSessionAPI = (*UserSessionAPIService)(&c.common)
 
 	return c
 }

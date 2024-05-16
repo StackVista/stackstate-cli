@@ -14,7 +14,7 @@ func TestIngestionApiKeyList(t *testing.T) {
 	cmd := ListCommand(&cli.Deps)
 	key1desc := "main key"
 
-	cli.MockClient.ApiMocks.IngestionApiKeyApi.GetIngestionApiKeysResponse.Result = []stackstate_api.IngestionApiKey{
+	cli.MockClient.ApiMocks.IngestionApiKeyAPI.GetIngestionApiKeysResponse.Result = []stackstate_api.IngestionApiKey{
 		{
 			Id:          1,
 			Name:        "key1",

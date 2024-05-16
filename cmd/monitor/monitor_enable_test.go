@@ -14,18 +14,18 @@ func TestMonitorEnableById(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "1")
 
-	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorAPI.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
 	assert.Equal(t, []string{"Monitor 1 has been enabled"}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestMonitorEnableByIdJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := MonitorEnableCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.MonitorApi.PatchMonitorResponse.Result = monitor
+	cli.MockClient.ApiMocks.MonitorAPI.PatchMonitorResponse.Result = monitor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "1", "-o", "json")
 
-	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorAPI.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
 	expectedJsonCalls := []map[string]interface{}{{
 		"monitor": &monitor,
 	}}
@@ -39,18 +39,18 @@ func TestMonitorEnableByIdentifier(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "1")
 
-	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorAPI.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
 	assert.Equal(t, []string{"Monitor 1 has been enabled"}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestMonitorEnableByIdentifierJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := MonitorEnableCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.MonitorApi.PatchMonitorResponse.Result = monitor
+	cli.MockClient.ApiMocks.MonitorAPI.PatchMonitorResponse.Result = monitor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "1", "-o", "json")
 
-	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
+	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorAPI.PatchMonitorCalls, sts.MONITORSTATUSVALUE_ENABLED.Ptr())
 	expectedJsonCalls := []map[string]interface{}{{
 		"monitor": &monitor,
 	}}

@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type SubjectApi interface {
+type SubjectAPI interface {
 
 	/*
 		CreateSubject Create a subject
@@ -80,12 +80,12 @@ type SubjectApi interface {
 	ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error)
 }
 
-// SubjectApiService SubjectApi service
-type SubjectApiService service
+// SubjectAPIService SubjectAPI service
+type SubjectAPIService service
 
 type ApiCreateSubjectRequest struct {
 	ctx           context.Context
-	ApiService    SubjectApi
+	ApiService    SubjectAPI
 	subject       string
 	createSubject *CreateSubject
 }
@@ -104,11 +104,11 @@ CreateSubject Create a subject
 
 Create a new security subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiCreateSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiCreateSubjectRequest
 */
-func (a *SubjectApiService) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
+func (a *SubjectAPIService) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
 	return ApiCreateSubjectRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -117,14 +117,14 @@ func (a *SubjectApiService) CreateSubject(ctx context.Context, subject string) A
 }
 
 // Execute executes the request
-func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
+func (a *SubjectAPIService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPut
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.CreateSubject")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectAPIService.CreateSubject")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -161,6 +161,20 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -183,20 +197,6 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -249,7 +249,7 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 
 type ApiDeleteSubjectRequest struct {
 	ctx        context.Context
-	ApiService SubjectApi
+	ApiService SubjectAPI
 	subject    string
 }
 
@@ -262,11 +262,11 @@ DeleteSubject Delete a subject
 
 Remove a security subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiDeleteSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiDeleteSubjectRequest
 */
-func (a *SubjectApiService) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
+func (a *SubjectAPIService) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
 	return ApiDeleteSubjectRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -275,14 +275,14 @@ func (a *SubjectApiService) DeleteSubject(ctx context.Context, subject string) A
 }
 
 // Execute executes the request
-func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
+func (a *SubjectAPIService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.DeleteSubject")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectAPIService.DeleteSubject")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -314,6 +314,20 @@ func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*ht
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -336,20 +350,6 @@ func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*ht
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -402,7 +402,7 @@ func (a *SubjectApiService) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*ht
 
 type ApiGetSubjectRequest struct {
 	ctx        context.Context
-	ApiService SubjectApi
+	ApiService SubjectAPI
 	subject    string
 }
 
@@ -415,11 +415,11 @@ GetSubject Get subject
 
 Describe a subject and its scope
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiGetSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiGetSubjectRequest
 */
-func (a *SubjectApiService) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
+func (a *SubjectAPIService) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
 	return ApiGetSubjectRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -428,8 +428,9 @@ func (a *SubjectApiService) GetSubject(ctx context.Context, subject string) ApiG
 }
 
 // Execute executes the request
-//  @return SubjectConfig
-func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
+//
+//	@return SubjectConfig
+func (a *SubjectAPIService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -437,7 +438,7 @@ func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectC
 		localVarReturnValue *SubjectConfig
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.GetSubject")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectAPIService.GetSubject")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -469,6 +470,20 @@ func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectC
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -491,20 +506,6 @@ func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectC
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -566,7 +567,7 @@ func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectC
 
 type ApiListSubjectsRequest struct {
 	ctx        context.Context
-	ApiService SubjectApi
+	ApiService SubjectAPI
 }
 
 func (r ApiListSubjectsRequest) Execute() ([]SubjectConfig, *http.Response, error) {
@@ -578,10 +579,10 @@ ListSubjects List subjects
 
 List all subjects and their scopes
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListSubjectsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSubjectsRequest
 */
-func (a *SubjectApiService) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
+func (a *SubjectAPIService) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
 	return ApiListSubjectsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -589,8 +590,9 @@ func (a *SubjectApiService) ListSubjects(ctx context.Context) ApiListSubjectsReq
 }
 
 // Execute executes the request
-//  @return []SubjectConfig
-func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
+//
+//	@return []SubjectConfig
+func (a *SubjectAPIService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -598,7 +600,7 @@ func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]Sub
 		localVarReturnValue []SubjectConfig
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectApiService.ListSubjects")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "SubjectAPIService.ListSubjects")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -629,6 +631,20 @@ func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]Sub
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -651,20 +667,6 @@ func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]Sub
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -718,7 +720,7 @@ func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]Sub
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type SubjectApiMock struct {
+type SubjectAPIMock struct {
 	CreateSubjectCalls    *[]CreateSubjectCall
 	CreateSubjectResponse CreateSubjectMockResponse
 	DeleteSubjectCalls    *[]DeleteSubjectCall
@@ -729,12 +731,12 @@ type SubjectApiMock struct {
 	ListSubjectsResponse  ListSubjectsMockResponse
 }
 
-func NewSubjectApiMock() SubjectApiMock {
+func NewSubjectAPIMock() SubjectAPIMock {
 	xCreateSubjectCalls := make([]CreateSubjectCall, 0)
 	xDeleteSubjectCalls := make([]DeleteSubjectCall, 0)
 	xGetSubjectCalls := make([]GetSubjectCall, 0)
 	xListSubjectsCalls := make([]ListSubjectsCall, 0)
-	return SubjectApiMock{
+	return SubjectAPIMock{
 		CreateSubjectCalls: &xCreateSubjectCalls,
 		DeleteSubjectCalls: &xDeleteSubjectCalls,
 		GetSubjectCalls:    &xGetSubjectCalls,
@@ -752,7 +754,7 @@ type CreateSubjectCall struct {
 	PcreateSubject *CreateSubject
 }
 
-func (mock SubjectApiMock) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
+func (mock SubjectAPIMock) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
 	return ApiCreateSubjectRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -760,7 +762,7 @@ func (mock SubjectApiMock) CreateSubject(ctx context.Context, subject string) Ap
 	}
 }
 
-func (mock SubjectApiMock) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
+func (mock SubjectAPIMock) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
 	p := CreateSubjectCall{
 		Psubject:       r.subject,
 		PcreateSubject: r.createSubject,
@@ -778,7 +780,7 @@ type DeleteSubjectCall struct {
 	Psubject string
 }
 
-func (mock SubjectApiMock) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
+func (mock SubjectAPIMock) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
 	return ApiDeleteSubjectRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -786,7 +788,7 @@ func (mock SubjectApiMock) DeleteSubject(ctx context.Context, subject string) Ap
 	}
 }
 
-func (mock SubjectApiMock) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
+func (mock SubjectAPIMock) DeleteSubjectExecute(r ApiDeleteSubjectRequest) (*http.Response, error) {
 	p := DeleteSubjectCall{
 		Psubject: r.subject,
 	}
@@ -804,7 +806,7 @@ type GetSubjectCall struct {
 	Psubject string
 }
 
-func (mock SubjectApiMock) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
+func (mock SubjectAPIMock) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
 	return ApiGetSubjectRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -812,7 +814,7 @@ func (mock SubjectApiMock) GetSubject(ctx context.Context, subject string) ApiGe
 	}
 }
 
-func (mock SubjectApiMock) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
+func (mock SubjectAPIMock) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
 	p := GetSubjectCall{
 		Psubject: r.subject,
 	}
@@ -829,14 +831,14 @@ type ListSubjectsMockResponse struct {
 type ListSubjectsCall struct {
 }
 
-func (mock SubjectApiMock) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
+func (mock SubjectAPIMock) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
 	return ApiListSubjectsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock SubjectApiMock) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
+func (mock SubjectAPIMock) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
 	p := ListSubjectsCall{}
 	*mock.ListSubjectsCalls = append(*mock.ListSubjectsCalls, p)
 	return mock.ListSubjectsResponse.Result, mock.ListSubjectsResponse.Response, mock.ListSubjectsResponse.Error

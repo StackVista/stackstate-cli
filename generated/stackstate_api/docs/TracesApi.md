@@ -1,17 +1,17 @@
-# \TracesApi
+# \TracesAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetSpan**](TracesApi.md#GetSpan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span
-[**GetTrace**](TracesApi.md#GetTrace) | **Get** /traces/{traceId} | Fetch a trace
-[**QueryDuration**](TracesApi.md#QueryDuration) | **Post** /traces/spans/duration/histogram | Query duration distribution
-[**QuerySpans**](TracesApi.md#QuerySpans) | **Post** /traces/spans | Query for spans
-[**SpanComponents**](TracesApi.md#SpanComponents) | **Post** /traces/components | Fetch components based on resource attributes
-[**SuggestionsAttributeName**](TracesApi.md#SuggestionsAttributeName) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
-[**SuggestionsAttributeValue**](TracesApi.md#SuggestionsAttributeValue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
-[**SuggestionsFieldValues**](TracesApi.md#SuggestionsFieldValues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
+[**GetSpan**](TracesAPI.md#GetSpan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span
+[**GetTrace**](TracesAPI.md#GetTrace) | **Get** /traces/{traceId} | Fetch a trace
+[**QueryDuration**](TracesAPI.md#QueryDuration) | **Post** /traces/spans/duration/histogram | Query duration distribution
+[**QuerySpans**](TracesAPI.md#QuerySpans) | **Post** /traces/spans | Query for spans
+[**SpanComponents**](TracesAPI.md#SpanComponents) | **Post** /traces/components | Fetch components based on resource attributes
+[**SuggestionsAttributeName**](TracesAPI.md#SuggestionsAttributeName) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
+[**SuggestionsAttributeValue**](TracesAPI.md#SuggestionsAttributeValue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
+[**SuggestionsFieldValues**](TracesAPI.md#SuggestionsFieldValues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
 
 
 
@@ -41,13 +41,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.GetSpan(context.Background(), traceId, spanId).Execute()
+    resp, r, err := apiClient.TracesAPI.GetSpan(context.Background(), traceId, spanId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.GetSpan``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.GetSpan``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetSpan`: Span
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.GetSpan`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.GetSpan`: %v\n", resp)
 }
 ```
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -113,13 +113,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.GetTrace(context.Background(), traceId).Execute()
+    resp, r, err := apiClient.TracesAPI.GetTrace(context.Background(), traceId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.GetTrace``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.GetTrace``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetTrace`: Trace
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.GetTrace`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.GetTrace`: %v\n", resp)
 }
 ```
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
 
 ## QueryDuration
 
-> DurationHistogram QueryDuration(ctx).Start(start).End(end).BucketsCount(bucketsCount).SpanFilter(spanFilter).Execute()
+> DurationHistogram QueryDuration(ctx).StartTime(startTime).BucketsCount(bucketsCount).SpanFilter(spanFilter).EndTime(endTime).Execute()
 
 Query duration distribution
 
@@ -179,20 +179,20 @@ import (
 )
 
 func main() {
-    start := int32(1707117737) // int32 | Filter spans by start time >= value
-    end := int32(1707121359) // int32 | Filter spans by start time < value
+    startTime := int32(56) // int32 | The start time of a time range to query resources.
     bucketsCount := int32(56) // int32 | The number of histogram buckets.
     spanFilter := *openapiclient.NewSpanFilter() // SpanFilter | Filter for spans
+    endTime := int32(56) // int32 | The end time of a time range to query resources. If not given the endTime is set to current time. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.QueryDuration(context.Background()).Start(start).End(end).BucketsCount(bucketsCount).SpanFilter(spanFilter).Execute()
+    resp, r, err := apiClient.TracesAPI.QueryDuration(context.Background()).StartTime(startTime).BucketsCount(bucketsCount).SpanFilter(spanFilter).EndTime(endTime).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.QueryDuration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.QueryDuration``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `QueryDuration`: DurationHistogram
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.QueryDuration`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.QueryDuration`: %v\n", resp)
 }
 ```
 
@@ -207,10 +207,10 @@ Other parameters are passed through a pointer to a apiQueryDurationRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **start** | **int32** | Filter spans by start time &gt;&#x3D; value | 
- **end** | **int32** | Filter spans by start time &lt; value | 
+ **startTime** | **int32** | The start time of a time range to query resources. | 
  **bucketsCount** | **int32** | The number of histogram buckets. | 
  **spanFilter** | [**SpanFilter**](SpanFilter.md) | Filter for spans | 
+ **endTime** | **int32** | The end time of a time range to query resources. If not given the endTime is set to current time. | 
 
 ### Return type
 
@@ -218,7 +218,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 
 ## QuerySpans
 
-> Spans QuerySpans(ctx).Start(start).End(end).SpanQuery(spanQuery).PageSize(pageSize).Page(page).Execute()
+> Spans QuerySpans(ctx).StartTime(startTime).SpanQuery(spanQuery).EndTime(endTime).PageSize(pageSize).Page(page).Execute()
 
 Query for spans
 
@@ -251,21 +251,21 @@ import (
 )
 
 func main() {
-    start := int32(1707117737) // int32 | Filter spans by start time >= value
-    end := int32(1707121359) // int32 | Filter spans by start time < value
+    startTime := int32(56) // int32 | The start time of a time range to query resources.
     spanQuery := *openapiclient.NewSpanQuery() // SpanQuery | Query for spans
-    pageSize := int32(30) // int32 | Number of spans in 1 page (optional) (default to 20)
-    page := int32(4) // int32 | Get the specified page (with pageSize # of spans), defaults to page 0 (optional) (default to 0)
+    endTime := int32(56) // int32 | The end time of a time range to query resources. If not given the endTime is set to current time. (optional)
+    pageSize := int32(56) // int32 | Maximum number of the log lines in the result. (optional) (default to 25)
+    page := int32(56) // int32 | The page for which the log lines of pageSize must be returned. (optional) (default to 1)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.QuerySpans(context.Background()).Start(start).End(end).SpanQuery(spanQuery).PageSize(pageSize).Page(page).Execute()
+    resp, r, err := apiClient.TracesAPI.QuerySpans(context.Background()).StartTime(startTime).SpanQuery(spanQuery).EndTime(endTime).PageSize(pageSize).Page(page).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.QuerySpans``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.QuerySpans``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `QuerySpans`: Spans
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.QuerySpans`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.QuerySpans`: %v\n", resp)
 }
 ```
 
@@ -280,11 +280,11 @@ Other parameters are passed through a pointer to a apiQuerySpansRequest struct v
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **start** | **int32** | Filter spans by start time &gt;&#x3D; value | 
- **end** | **int32** | Filter spans by start time &lt; value | 
+ **startTime** | **int32** | The start time of a time range to query resources. | 
  **spanQuery** | [**SpanQuery**](SpanQuery.md) | Query for spans | 
- **pageSize** | **int32** | Number of spans in 1 page | [default to 20]
- **page** | **int32** | Get the specified page (with pageSize # of spans), defaults to page 0 | [default to 0]
+ **endTime** | **int32** | The end time of a time range to query resources. If not given the endTime is set to current time. | 
+ **pageSize** | **int32** | Maximum number of the log lines in the result. | [default to 25]
+ **page** | **int32** | The page for which the log lines of pageSize must be returned. | [default to 1]
 
 ### Return type
 
@@ -292,7 +292,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -329,13 +329,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.SpanComponents(context.Background()).ComponentQuery(componentQuery).Execute()
+    resp, r, err := apiClient.TracesAPI.SpanComponents(context.Background()).ComponentQuery(componentQuery).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.SpanComponents``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.SpanComponents``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SpanComponents`: SpanComponents
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.SpanComponents`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.SpanComponents`: %v\n", resp)
 }
 ```
 
@@ -358,7 +358,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -395,13 +395,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.SuggestionsAttributeName(context.Background()).Contains(contains).Execute()
+    resp, r, err := apiClient.TracesAPI.SuggestionsAttributeName(context.Background()).Contains(contains).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.SuggestionsAttributeName``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.SuggestionsAttributeName``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SuggestionsAttributeName`: Suggestions
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.SuggestionsAttributeName`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.SuggestionsAttributeName`: %v\n", resp)
 }
 ```
 
@@ -424,7 +424,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -462,13 +462,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.SuggestionsAttributeValue(context.Background(), attributeName).Contains(contains).Execute()
+    resp, r, err := apiClient.TracesAPI.SuggestionsAttributeValue(context.Background(), attributeName).Contains(contains).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.SuggestionsAttributeValue``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.SuggestionsAttributeValue``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SuggestionsAttributeValue`: Suggestions
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.SuggestionsAttributeValue`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.SuggestionsAttributeValue`: %v\n", resp)
 }
 ```
 
@@ -496,7 +496,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -534,13 +534,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TracesApi.SuggestionsFieldValues(context.Background(), field).Contains(contains).Execute()
+    resp, r, err := apiClient.TracesAPI.SuggestionsFieldValues(context.Background(), field).Contains(contains).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.SuggestionsFieldValues``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TracesAPI.SuggestionsFieldValues``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SuggestionsFieldValues`: Suggestions
-    fmt.Fprintf(os.Stdout, "Response from `TracesApi.SuggestionsFieldValues`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TracesAPI.SuggestionsFieldValues`: %v\n", resp)
 }
 ```
 
@@ -568,7 +568,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

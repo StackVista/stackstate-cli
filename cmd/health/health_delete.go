@@ -33,7 +33,7 @@ func RunHealthDeleteCommand(args *DeleteArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		resp, err := api.HealthSynchronizationApi.DeleteHealthSynchronizationStream(cli.Context, args.Urn).Execute()
+		resp, err := api.HealthSynchronizationAPI.DeleteHealthSynchronizationStream(cli.Context, args.Urn).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

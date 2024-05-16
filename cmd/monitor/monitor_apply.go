@@ -36,7 +36,7 @@ func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 			return common.NewCLIArgParseError(err)
 		}
 
-		nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
+		nodes, resp, err := api.ImportAPI.ImportSettings(cli.Context).Body(string(fileBytes)).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

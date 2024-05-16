@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type NotificationConfigurationsApi interface {
+type NotificationConfigurationsAPI interface {
 
 	/*
 		CreateNotificationConfiguration Create a new notification configuration
@@ -110,12 +110,12 @@ type NotificationConfigurationsApi interface {
 	UpdateNotificationConfigurationExecute(r ApiUpdateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error)
 }
 
-// NotificationConfigurationsApiService NotificationConfigurationsApi service
-type NotificationConfigurationsApiService service
+// NotificationConfigurationsAPIService NotificationConfigurationsAPI service
+type NotificationConfigurationsAPIService service
 
 type ApiCreateNotificationConfigurationRequest struct {
 	ctx                                  context.Context
-	ApiService                           NotificationConfigurationsApi
+	ApiService                           NotificationConfigurationsAPI
 	notificationConfigurationWriteSchema *NotificationConfigurationWriteSchema
 }
 
@@ -134,10 +134,10 @@ CreateNotificationConfiguration Create a new notification configuration
 
 Create a new notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateNotificationConfigurationRequest
 */
-func (a *NotificationConfigurationsApiService) CreateNotificationConfiguration(ctx context.Context) ApiCreateNotificationConfigurationRequest {
+func (a *NotificationConfigurationsAPIService) CreateNotificationConfiguration(ctx context.Context) ApiCreateNotificationConfigurationRequest {
 	return ApiCreateNotificationConfigurationRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -145,8 +145,9 @@ func (a *NotificationConfigurationsApiService) CreateNotificationConfiguration(c
 }
 
 // Execute executes the request
-//  @return NotificationConfigurationReadSchema
-func (a *NotificationConfigurationsApiService) CreateNotificationConfigurationExecute(r ApiCreateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
+//
+//	@return NotificationConfigurationReadSchema
+func (a *NotificationConfigurationsAPIService) CreateNotificationConfigurationExecute(r ApiCreateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -154,7 +155,7 @@ func (a *NotificationConfigurationsApiService) CreateNotificationConfigurationEx
 		localVarReturnValue *NotificationConfigurationReadSchema
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsApiService.CreateNotificationConfiguration")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsAPIService.CreateNotificationConfiguration")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -190,6 +191,20 @@ func (a *NotificationConfigurationsApiService) CreateNotificationConfigurationEx
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -212,20 +227,6 @@ func (a *NotificationConfigurationsApiService) CreateNotificationConfigurationEx
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -287,7 +288,7 @@ func (a *NotificationConfigurationsApiService) CreateNotificationConfigurationEx
 
 type ApiDeleteNotificationConfigurationRequest struct {
 	ctx                              context.Context
-	ApiService                       NotificationConfigurationsApi
+	ApiService                       NotificationConfigurationsAPI
 	notificationConfigurationIdOrUrn string
 }
 
@@ -300,11 +301,11 @@ DeleteNotificationConfiguration Delete the notification configuration
 
 Delete the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiDeleteNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiDeleteNotificationConfigurationRequest
 */
-func (a *NotificationConfigurationsApiService) DeleteNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiDeleteNotificationConfigurationRequest {
+func (a *NotificationConfigurationsAPIService) DeleteNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiDeleteNotificationConfigurationRequest {
 	return ApiDeleteNotificationConfigurationRequest{
 		ApiService:                       a,
 		ctx:                              ctx,
@@ -313,14 +314,14 @@ func (a *NotificationConfigurationsApiService) DeleteNotificationConfiguration(c
 }
 
 // Execute executes the request
-func (a *NotificationConfigurationsApiService) DeleteNotificationConfigurationExecute(r ApiDeleteNotificationConfigurationRequest) (*http.Response, error) {
+func (a *NotificationConfigurationsAPIService) DeleteNotificationConfigurationExecute(r ApiDeleteNotificationConfigurationRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsApiService.DeleteNotificationConfiguration")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsAPIService.DeleteNotificationConfiguration")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -352,6 +353,20 @@ func (a *NotificationConfigurationsApiService) DeleteNotificationConfigurationEx
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -374,20 +389,6 @@ func (a *NotificationConfigurationsApiService) DeleteNotificationConfigurationEx
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -450,7 +451,7 @@ func (a *NotificationConfigurationsApiService) DeleteNotificationConfigurationEx
 
 type ApiGetNotificationConfigurationRequest struct {
 	ctx                              context.Context
-	ApiService                       NotificationConfigurationsApi
+	ApiService                       NotificationConfigurationsAPI
 	notificationConfigurationIdOrUrn string
 }
 
@@ -463,11 +464,11 @@ GetNotificationConfiguration Get the notification configuration
 
 Get the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiGetNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiGetNotificationConfigurationRequest
 */
-func (a *NotificationConfigurationsApiService) GetNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationRequest {
+func (a *NotificationConfigurationsAPIService) GetNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationRequest {
 	return ApiGetNotificationConfigurationRequest{
 		ApiService:                       a,
 		ctx:                              ctx,
@@ -476,8 +477,9 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfiguration(ctx 
 }
 
 // Execute executes the request
-//  @return NotificationConfigurationReadSchema
-func (a *NotificationConfigurationsApiService) GetNotificationConfigurationExecute(r ApiGetNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
+//
+//	@return NotificationConfigurationReadSchema
+func (a *NotificationConfigurationsAPIService) GetNotificationConfigurationExecute(r ApiGetNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -485,7 +487,7 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationExecu
 		localVarReturnValue *NotificationConfigurationReadSchema
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsApiService.GetNotificationConfiguration")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsAPIService.GetNotificationConfiguration")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -517,6 +519,20 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationExecu
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -539,20 +555,6 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationExecu
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -624,7 +626,7 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationExecu
 
 type ApiGetNotificationConfigurationChannelsRequest struct {
 	ctx                              context.Context
-	ApiService                       NotificationConfigurationsApi
+	ApiService                       NotificationConfigurationsAPI
 	notificationConfigurationIdOrUrn string
 }
 
@@ -637,11 +639,11 @@ GetNotificationConfigurationChannels Get the channels for the notification confi
 
 Get the channels for the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiGetNotificationConfigurationChannelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiGetNotificationConfigurationChannelsRequest
 */
-func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChannels(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationChannelsRequest {
+func (a *NotificationConfigurationsAPIService) GetNotificationConfigurationChannels(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationChannelsRequest {
 	return ApiGetNotificationConfigurationChannelsRequest{
 		ApiService:                       a,
 		ctx:                              ctx,
@@ -650,8 +652,9 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChann
 }
 
 // Execute executes the request
-//  @return []NotificationChannel
-func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChannelsExecute(r ApiGetNotificationConfigurationChannelsRequest) ([]NotificationChannel, *http.Response, error) {
+//
+//	@return []NotificationChannel
+func (a *NotificationConfigurationsAPIService) GetNotificationConfigurationChannelsExecute(r ApiGetNotificationConfigurationChannelsRequest) ([]NotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -659,7 +662,7 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChann
 		localVarReturnValue []NotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsApiService.GetNotificationConfigurationChannels")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsAPIService.GetNotificationConfigurationChannels")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -691,6 +694,20 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChann
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -713,20 +730,6 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChann
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -798,7 +801,7 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChann
 
 type ApiGetNotificationConfigurationsRequest struct {
 	ctx        context.Context
-	ApiService NotificationConfigurationsApi
+	ApiService NotificationConfigurationsAPI
 }
 
 func (r ApiGetNotificationConfigurationsRequest) Execute() ([]NotificationConfigurationReadSchema, *http.Response, error) {
@@ -810,10 +813,10 @@ GetNotificationConfigurations Get all notification configurations
 
 Get all notification configurations
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetNotificationConfigurationsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetNotificationConfigurationsRequest
 */
-func (a *NotificationConfigurationsApiService) GetNotificationConfigurations(ctx context.Context) ApiGetNotificationConfigurationsRequest {
+func (a *NotificationConfigurationsAPIService) GetNotificationConfigurations(ctx context.Context) ApiGetNotificationConfigurationsRequest {
 	return ApiGetNotificationConfigurationsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -821,8 +824,9 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurations(ctx
 }
 
 // Execute executes the request
-//  @return []NotificationConfigurationReadSchema
-func (a *NotificationConfigurationsApiService) GetNotificationConfigurationsExecute(r ApiGetNotificationConfigurationsRequest) ([]NotificationConfigurationReadSchema, *http.Response, error) {
+//
+//	@return []NotificationConfigurationReadSchema
+func (a *NotificationConfigurationsAPIService) GetNotificationConfigurationsExecute(r ApiGetNotificationConfigurationsRequest) ([]NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -830,7 +834,7 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationsExec
 		localVarReturnValue []NotificationConfigurationReadSchema
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsApiService.GetNotificationConfigurations")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsAPIService.GetNotificationConfigurations")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -861,6 +865,20 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationsExec
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -883,20 +901,6 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationsExec
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -958,7 +962,7 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationsExec
 
 type ApiUpdateNotificationConfigurationRequest struct {
 	ctx                                  context.Context
-	ApiService                           NotificationConfigurationsApi
+	ApiService                           NotificationConfigurationsAPI
 	notificationConfigurationIdOrUrn     string
 	notificationConfigurationWriteSchema *NotificationConfigurationWriteSchema
 }
@@ -978,11 +982,11 @@ UpdateNotificationConfiguration Update the notification configuration
 
 Update the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiUpdateNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiUpdateNotificationConfigurationRequest
 */
-func (a *NotificationConfigurationsApiService) UpdateNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiUpdateNotificationConfigurationRequest {
+func (a *NotificationConfigurationsAPIService) UpdateNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiUpdateNotificationConfigurationRequest {
 	return ApiUpdateNotificationConfigurationRequest{
 		ApiService:                       a,
 		ctx:                              ctx,
@@ -991,8 +995,9 @@ func (a *NotificationConfigurationsApiService) UpdateNotificationConfiguration(c
 }
 
 // Execute executes the request
-//  @return NotificationConfigurationReadSchema
-func (a *NotificationConfigurationsApiService) UpdateNotificationConfigurationExecute(r ApiUpdateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
+//
+//	@return NotificationConfigurationReadSchema
+func (a *NotificationConfigurationsAPIService) UpdateNotificationConfigurationExecute(r ApiUpdateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
 		localVarPostBody    interface{}
@@ -1000,7 +1005,7 @@ func (a *NotificationConfigurationsApiService) UpdateNotificationConfigurationEx
 		localVarReturnValue *NotificationConfigurationReadSchema
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsApiService.UpdateNotificationConfiguration")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationConfigurationsAPIService.UpdateNotificationConfiguration")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1037,6 +1042,20 @@ func (a *NotificationConfigurationsApiService) UpdateNotificationConfigurationEx
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1059,20 +1078,6 @@ func (a *NotificationConfigurationsApiService) UpdateNotificationConfigurationEx
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1146,7 +1151,7 @@ func (a *NotificationConfigurationsApiService) UpdateNotificationConfigurationEx
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type NotificationConfigurationsApiMock struct {
+type NotificationConfigurationsAPIMock struct {
 	CreateNotificationConfigurationCalls         *[]CreateNotificationConfigurationCall
 	CreateNotificationConfigurationResponse      CreateNotificationConfigurationMockResponse
 	DeleteNotificationConfigurationCalls         *[]DeleteNotificationConfigurationCall
@@ -1161,14 +1166,14 @@ type NotificationConfigurationsApiMock struct {
 	UpdateNotificationConfigurationResponse      UpdateNotificationConfigurationMockResponse
 }
 
-func NewNotificationConfigurationsApiMock() NotificationConfigurationsApiMock {
+func NewNotificationConfigurationsAPIMock() NotificationConfigurationsAPIMock {
 	xCreateNotificationConfigurationCalls := make([]CreateNotificationConfigurationCall, 0)
 	xDeleteNotificationConfigurationCalls := make([]DeleteNotificationConfigurationCall, 0)
 	xGetNotificationConfigurationCalls := make([]GetNotificationConfigurationCall, 0)
 	xGetNotificationConfigurationChannelsCalls := make([]GetNotificationConfigurationChannelsCall, 0)
 	xGetNotificationConfigurationsCalls := make([]GetNotificationConfigurationsCall, 0)
 	xUpdateNotificationConfigurationCalls := make([]UpdateNotificationConfigurationCall, 0)
-	return NotificationConfigurationsApiMock{
+	return NotificationConfigurationsAPIMock{
 		CreateNotificationConfigurationCalls:      &xCreateNotificationConfigurationCalls,
 		DeleteNotificationConfigurationCalls:      &xDeleteNotificationConfigurationCalls,
 		GetNotificationConfigurationCalls:         &xGetNotificationConfigurationCalls,
@@ -1188,14 +1193,14 @@ type CreateNotificationConfigurationCall struct {
 	PnotificationConfigurationWriteSchema *NotificationConfigurationWriteSchema
 }
 
-func (mock NotificationConfigurationsApiMock) CreateNotificationConfiguration(ctx context.Context) ApiCreateNotificationConfigurationRequest {
+func (mock NotificationConfigurationsAPIMock) CreateNotificationConfiguration(ctx context.Context) ApiCreateNotificationConfigurationRequest {
 	return ApiCreateNotificationConfigurationRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationConfigurationsApiMock) CreateNotificationConfigurationExecute(r ApiCreateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
+func (mock NotificationConfigurationsAPIMock) CreateNotificationConfigurationExecute(r ApiCreateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	p := CreateNotificationConfigurationCall{
 		PnotificationConfigurationWriteSchema: r.notificationConfigurationWriteSchema,
 	}
@@ -1212,7 +1217,7 @@ type DeleteNotificationConfigurationCall struct {
 	PnotificationConfigurationIdOrUrn string
 }
 
-func (mock NotificationConfigurationsApiMock) DeleteNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiDeleteNotificationConfigurationRequest {
+func (mock NotificationConfigurationsAPIMock) DeleteNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiDeleteNotificationConfigurationRequest {
 	return ApiDeleteNotificationConfigurationRequest{
 		ApiService:                       mock,
 		ctx:                              ctx,
@@ -1220,7 +1225,7 @@ func (mock NotificationConfigurationsApiMock) DeleteNotificationConfiguration(ct
 	}
 }
 
-func (mock NotificationConfigurationsApiMock) DeleteNotificationConfigurationExecute(r ApiDeleteNotificationConfigurationRequest) (*http.Response, error) {
+func (mock NotificationConfigurationsAPIMock) DeleteNotificationConfigurationExecute(r ApiDeleteNotificationConfigurationRequest) (*http.Response, error) {
 	p := DeleteNotificationConfigurationCall{
 		PnotificationConfigurationIdOrUrn: r.notificationConfigurationIdOrUrn,
 	}
@@ -1238,7 +1243,7 @@ type GetNotificationConfigurationCall struct {
 	PnotificationConfigurationIdOrUrn string
 }
 
-func (mock NotificationConfigurationsApiMock) GetNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationRequest {
+func (mock NotificationConfigurationsAPIMock) GetNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationRequest {
 	return ApiGetNotificationConfigurationRequest{
 		ApiService:                       mock,
 		ctx:                              ctx,
@@ -1246,7 +1251,7 @@ func (mock NotificationConfigurationsApiMock) GetNotificationConfiguration(ctx c
 	}
 }
 
-func (mock NotificationConfigurationsApiMock) GetNotificationConfigurationExecute(r ApiGetNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
+func (mock NotificationConfigurationsAPIMock) GetNotificationConfigurationExecute(r ApiGetNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	p := GetNotificationConfigurationCall{
 		PnotificationConfigurationIdOrUrn: r.notificationConfigurationIdOrUrn,
 	}
@@ -1264,7 +1269,7 @@ type GetNotificationConfigurationChannelsCall struct {
 	PnotificationConfigurationIdOrUrn string
 }
 
-func (mock NotificationConfigurationsApiMock) GetNotificationConfigurationChannels(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationChannelsRequest {
+func (mock NotificationConfigurationsAPIMock) GetNotificationConfigurationChannels(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationChannelsRequest {
 	return ApiGetNotificationConfigurationChannelsRequest{
 		ApiService:                       mock,
 		ctx:                              ctx,
@@ -1272,7 +1277,7 @@ func (mock NotificationConfigurationsApiMock) GetNotificationConfigurationChanne
 	}
 }
 
-func (mock NotificationConfigurationsApiMock) GetNotificationConfigurationChannelsExecute(r ApiGetNotificationConfigurationChannelsRequest) ([]NotificationChannel, *http.Response, error) {
+func (mock NotificationConfigurationsAPIMock) GetNotificationConfigurationChannelsExecute(r ApiGetNotificationConfigurationChannelsRequest) ([]NotificationChannel, *http.Response, error) {
 	p := GetNotificationConfigurationChannelsCall{
 		PnotificationConfigurationIdOrUrn: r.notificationConfigurationIdOrUrn,
 	}
@@ -1289,14 +1294,14 @@ type GetNotificationConfigurationsMockResponse struct {
 type GetNotificationConfigurationsCall struct {
 }
 
-func (mock NotificationConfigurationsApiMock) GetNotificationConfigurations(ctx context.Context) ApiGetNotificationConfigurationsRequest {
+func (mock NotificationConfigurationsAPIMock) GetNotificationConfigurations(ctx context.Context) ApiGetNotificationConfigurationsRequest {
 	return ApiGetNotificationConfigurationsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationConfigurationsApiMock) GetNotificationConfigurationsExecute(r ApiGetNotificationConfigurationsRequest) ([]NotificationConfigurationReadSchema, *http.Response, error) {
+func (mock NotificationConfigurationsAPIMock) GetNotificationConfigurationsExecute(r ApiGetNotificationConfigurationsRequest) ([]NotificationConfigurationReadSchema, *http.Response, error) {
 	p := GetNotificationConfigurationsCall{}
 	*mock.GetNotificationConfigurationsCalls = append(*mock.GetNotificationConfigurationsCalls, p)
 	return mock.GetNotificationConfigurationsResponse.Result, mock.GetNotificationConfigurationsResponse.Response, mock.GetNotificationConfigurationsResponse.Error
@@ -1313,7 +1318,7 @@ type UpdateNotificationConfigurationCall struct {
 	PnotificationConfigurationWriteSchema *NotificationConfigurationWriteSchema
 }
 
-func (mock NotificationConfigurationsApiMock) UpdateNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiUpdateNotificationConfigurationRequest {
+func (mock NotificationConfigurationsAPIMock) UpdateNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiUpdateNotificationConfigurationRequest {
 	return ApiUpdateNotificationConfigurationRequest{
 		ApiService:                       mock,
 		ctx:                              ctx,
@@ -1321,7 +1326,7 @@ func (mock NotificationConfigurationsApiMock) UpdateNotificationConfiguration(ct
 	}
 }
 
-func (mock NotificationConfigurationsApiMock) UpdateNotificationConfigurationExecute(r ApiUpdateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
+func (mock NotificationConfigurationsAPIMock) UpdateNotificationConfigurationExecute(r ApiUpdateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	p := UpdateNotificationConfigurationCall{
 		PnotificationConfigurationIdOrUrn:     r.notificationConfigurationIdOrUrn,
 		PnotificationConfigurationWriteSchema: r.notificationConfigurationWriteSchema,

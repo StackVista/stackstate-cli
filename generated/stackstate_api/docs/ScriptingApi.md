@@ -1,10 +1,10 @@
-# \ScriptingApi
+# \ScriptingAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ScriptExecute**](ScriptingApi.md#ScriptExecute) | **Post** /script/execute | Execute script
+[**ScriptExecute**](ScriptingAPI.md#ScriptExecute) | **Post** /script/execute | Execute script
 
 
 
@@ -33,13 +33,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ScriptingApi.ScriptExecute(context.Background()).ExecuteScriptRequest(executeScriptRequest).Execute()
+    resp, r, err := apiClient.ScriptingAPI.ScriptExecute(context.Background()).ExecuteScriptRequest(executeScriptRequest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ScriptingApi.ScriptExecute``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ScriptingAPI.ScriptExecute``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ScriptExecute`: ExecuteScriptResponse
-    fmt.Fprintf(os.Stdout, "Response from `ScriptingApi.ScriptExecute`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ScriptingAPI.ScriptExecute`: %v\n", resp)
 }
 ```
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

@@ -1,17 +1,17 @@
-# \HealthSynchronizationApi
+# \HealthSynchronizationAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteHealthSynchronizationStream**](HealthSynchronizationApi.md#DeleteHealthSynchronizationStream) | **Delete** /synchronization/health/streams/{healthStreamUrn} | Delete health sync stream
-[**GetHealthSynchronizationStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/status | Get health sync stream status
-[**GetHealthSynchronizationStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
-[**GetHealthSynchronizationStreamsOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationStreamsOverview) | **Get** /synchronization/health/streams | List health sync streams
-[**GetHealthSynchronizationSubStreamOverview**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamOverview) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams | List health sync sub-streams
-[**GetHealthSynchronizationSubStreamStatus**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status | Get health sync sub-stream status
-[**GetHealthSynchronizationSubStreamTopologyMatches**](HealthSynchronizationApi.md#GetHealthSynchronizationSubStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
-[**PostHealthSynchronizationStreamClearErrors**](HealthSynchronizationApi.md#PostHealthSynchronizationStreamClearErrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
+[**DeleteHealthSynchronizationStream**](HealthSynchronizationAPI.md#DeleteHealthSynchronizationStream) | **Delete** /synchronization/health/streams/{healthStreamUrn} | Delete health sync stream
+[**GetHealthSynchronizationStreamStatus**](HealthSynchronizationAPI.md#GetHealthSynchronizationStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/status | Get health sync stream status
+[**GetHealthSynchronizationStreamTopologyMatches**](HealthSynchronizationAPI.md#GetHealthSynchronizationStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
+[**GetHealthSynchronizationStreamsOverview**](HealthSynchronizationAPI.md#GetHealthSynchronizationStreamsOverview) | **Get** /synchronization/health/streams | List health sync streams
+[**GetHealthSynchronizationSubStreamOverview**](HealthSynchronizationAPI.md#GetHealthSynchronizationSubStreamOverview) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams | List health sync sub-streams
+[**GetHealthSynchronizationSubStreamStatus**](HealthSynchronizationAPI.md#GetHealthSynchronizationSubStreamStatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status | Get health sync sub-stream status
+[**GetHealthSynchronizationSubStreamTopologyMatches**](HealthSynchronizationAPI.md#GetHealthSynchronizationSubStreamTopologyMatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
+[**PostHealthSynchronizationStreamClearErrors**](HealthSynchronizationAPI.md#PostHealthSynchronizationStreamClearErrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 
 
 
@@ -40,9 +40,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.DeleteHealthSynchronizationStream(context.Background(), healthStreamUrn).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.DeleteHealthSynchronizationStream(context.Background(), healthStreamUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.DeleteHealthSynchronizationStream``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.DeleteHealthSynchronizationStream``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -71,7 +71,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -108,13 +108,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(context.Background(), healthStreamUrn).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.GetHealthSynchronizationStreamStatus(context.Background(), healthStreamUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationStreamStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.GetHealthSynchronizationStreamStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetHealthSynchronizationStreamStatus`: HealthStreamStatus
-    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationApi.GetHealthSynchronizationStreamStatus`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationAPI.GetHealthSynchronizationStreamStatus`: %v\n", resp)
 }
 ```
 
@@ -141,7 +141,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -178,13 +178,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches(context.Background(), healthStreamUrn).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.GetHealthSynchronizationStreamTopologyMatches(context.Background(), healthStreamUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.GetHealthSynchronizationStreamTopologyMatches``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetHealthSynchronizationStreamTopologyMatches`: TopologyMatchResult
-    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationAPI.GetHealthSynchronizationStreamTopologyMatches`: %v\n", resp)
 }
 ```
 
@@ -211,7 +211,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -247,13 +247,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview(context.Background()).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.GetHealthSynchronizationStreamsOverview(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.GetHealthSynchronizationStreamsOverview``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetHealthSynchronizationStreamsOverview`: StreamList
-    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationAPI.GetHealthSynchronizationStreamsOverview`: %v\n", resp)
 }
 ```
 
@@ -272,7 +272,7 @@ Other parameters are passed through a pointer to a apiGetHealthSynchronizationSt
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -309,13 +309,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview(context.Background(), healthStreamUrn).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamOverview(context.Background(), healthStreamUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.GetHealthSynchronizationSubStreamOverview``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetHealthSynchronizationSubStreamOverview`: SubStreamList
-    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationAPI.GetHealthSynchronizationSubStreamOverview`: %v\n", resp)
 }
 ```
 
@@ -342,7 +342,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -380,13 +380,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamStatus(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.GetHealthSynchronizationSubStreamStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetHealthSynchronizationSubStreamStatus`: HealthSubStreamStatus
-    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationAPI.GetHealthSynchronizationSubStreamStatus`: %v\n", resp)
 }
 ```
 
@@ -415,7 +415,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -453,13 +453,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamTopologyMatches(context.Background(), healthStreamUrn, healthSyncSubStreamId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.GetHealthSynchronizationSubStreamTopologyMatches``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetHealthSynchronizationSubStreamTopologyMatches`: TopologyMatchResult
-    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `HealthSynchronizationAPI.GetHealthSynchronizationSubStreamTopologyMatches`: %v\n", resp)
 }
 ```
 
@@ -488,7 +488,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -525,9 +525,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrors(context.Background(), healthStreamUrn).Execute()
+    resp, r, err := apiClient.HealthSynchronizationAPI.PostHealthSynchronizationStreamClearErrors(context.Background(), healthStreamUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrors``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `HealthSynchronizationAPI.PostHealthSynchronizationStreamClearErrors``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -556,7 +556,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

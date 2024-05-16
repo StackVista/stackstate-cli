@@ -1,12 +1,12 @@
-# \MonitorCheckStatusApi
+# \MonitorCheckStatusAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetMonitorCheckStatus**](MonitorCheckStatusApi.md#GetMonitorCheckStatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
-[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusApi.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
-[**GetMonitorCheckStatusRelatedFailures**](MonitorCheckStatusApi.md#GetMonitorCheckStatusRelatedFailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
+[**GetMonitorCheckStatus**](MonitorCheckStatusAPI.md#GetMonitorCheckStatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
+[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusAPI.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health history
+[**GetMonitorCheckStatusRelatedFailures**](MonitorCheckStatusAPI.md#GetMonitorCheckStatusRelatedFailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
 
 
 
@@ -36,13 +36,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatus(context.Background(), id).TopologyTime(topologyTime).Execute()
+    resp, r, err := apiClient.MonitorCheckStatusAPI.GetMonitorCheckStatus(context.Background(), id).TopologyTime(topologyTime).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusAPI.GetMonitorCheckStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMonitorCheckStatus`: MonitorCheckStatus
-    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusApi.GetMonitorCheckStatus`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusAPI.GetMonitorCheckStatus`: %v\n", resp)
 }
 ```
 
@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -86,7 +86,7 @@ Name | Type | Description  | Notes
 
 > MonitorCheckStatusHealthHistory GetMonitorCheckStatusHealthHistory(ctx, id).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
 
-Get a monitor check health hisotry
+Get a monitor check health history
 
 
 
@@ -110,13 +110,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory(context.Background(), id).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
+    resp, r, err := apiClient.MonitorCheckStatusAPI.GetMonitorCheckStatusHealthHistory(context.Background(), id).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusAPI.GetMonitorCheckStatusHealthHistory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMonitorCheckStatusHealthHistory`: MonitorCheckStatusHealthHistory
-    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusAPI.GetMonitorCheckStatusHealthHistory`: %v\n", resp)
 }
 ```
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -184,13 +184,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusRelatedFailures(context.Background(), id).TopologyTime(topologyTime).Execute()
+    resp, r, err := apiClient.MonitorCheckStatusAPI.GetMonitorCheckStatusRelatedFailures(context.Background(), id).TopologyTime(topologyTime).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatusRelatedFailures``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusAPI.GetMonitorCheckStatusRelatedFailures``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMonitorCheckStatusRelatedFailures`: MonitorCheckStatusRelatedFailures
-    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusApi.GetMonitorCheckStatusRelatedFailures`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorCheckStatusAPI.GetMonitorCheckStatusRelatedFailures`: %v\n", resp)
 }
 ```
 
@@ -218,7 +218,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

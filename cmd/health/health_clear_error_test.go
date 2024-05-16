@@ -12,7 +12,7 @@ import (
 func setupHealthClearErrorCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := HealthClearErrorCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrorsResponse.Response = &http.Response{}
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.PostHealthSynchronizationStreamClearErrorsResponse.Response = &http.Response{}
 
 	return &cli, cmd
 }

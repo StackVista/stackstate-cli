@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type TopicApi interface {
+type TopicAPI interface {
 
 	/*
 		Describe Describe a topic
@@ -52,24 +52,25 @@ type TopicApi interface {
 	ListExecute(r ApiListRequest) ([]Topic, *http.Response, error)
 }
 
-// TopicApiService TopicApi service
-type TopicApiService service
+// TopicAPIService TopicAPI service
+type TopicAPIService service
 
 type ApiDescribeRequest struct {
 	ctx        context.Context
-	ApiService TopicApi
+	ApiService TopicAPI
 	topic      string
 	limit      *int32
-	offset     *int32
+	offset     *int64
 	partition  *int32
 }
 
+// Maximum number of resources to be returned in result.
 func (r ApiDescribeRequest) Limit(limit int32) ApiDescribeRequest {
 	r.limit = &limit
 	return r
 }
 
-func (r ApiDescribeRequest) Offset(offset int32) ApiDescribeRequest {
+func (r ApiDescribeRequest) Offset(offset int64) ApiDescribeRequest {
 	r.offset = &offset
 	return r
 }
@@ -88,11 +89,11 @@ Describe Describe a topic
 
 List Kafka messages on the topic of choice
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param topic
- @return ApiDescribeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param topic
+	@return ApiDescribeRequest
 */
-func (a *TopicApiService) Describe(ctx context.Context, topic string) ApiDescribeRequest {
+func (a *TopicAPIService) Describe(ctx context.Context, topic string) ApiDescribeRequest {
 	return ApiDescribeRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -101,8 +102,9 @@ func (a *TopicApiService) Describe(ctx context.Context, topic string) ApiDescrib
 }
 
 // Execute executes the request
-//  @return Messages
-func (a *TopicApiService) DescribeExecute(r ApiDescribeRequest) (*Messages, *http.Response, error) {
+//
+//	@return Messages
+func (a *TopicAPIService) DescribeExecute(r ApiDescribeRequest) (*Messages, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -110,7 +112,7 @@ func (a *TopicApiService) DescribeExecute(r ApiDescribeRequest) (*Messages, *htt
 		localVarReturnValue *Messages
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.Describe")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.Describe")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -151,6 +153,20 @@ func (a *TopicApiService) DescribeExecute(r ApiDescribeRequest) (*Messages, *htt
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -173,20 +189,6 @@ func (a *TopicApiService) DescribeExecute(r ApiDescribeRequest) (*Messages, *htt
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -258,7 +260,7 @@ func (a *TopicApiService) DescribeExecute(r ApiDescribeRequest) (*Messages, *htt
 
 type ApiListRequest struct {
 	ctx        context.Context
-	ApiService TopicApi
+	ApiService TopicAPI
 }
 
 func (r ApiListRequest) Execute() ([]Topic, *http.Response, error) {
@@ -270,10 +272,10 @@ List List topics
 
 List all Kafka topics available in StackState
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListRequest
 */
-func (a *TopicApiService) List(ctx context.Context) ApiListRequest {
+func (a *TopicAPIService) List(ctx context.Context) ApiListRequest {
 	return ApiListRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -281,8 +283,9 @@ func (a *TopicApiService) List(ctx context.Context) ApiListRequest {
 }
 
 // Execute executes the request
-//  @return []Topic
-func (a *TopicApiService) ListExecute(r ApiListRequest) ([]Topic, *http.Response, error) {
+//
+//	@return []Topic
+func (a *TopicAPIService) ListExecute(r ApiListRequest) ([]Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -290,7 +293,7 @@ func (a *TopicApiService) ListExecute(r ApiListRequest) ([]Topic, *http.Response
 		localVarReturnValue []Topic
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicApiService.List")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TopicAPIService.List")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -321,6 +324,20 @@ func (a *TopicApiService) ListExecute(r ApiListRequest) ([]Topic, *http.Response
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -343,20 +360,6 @@ func (a *TopicApiService) ListExecute(r ApiListRequest) ([]Topic, *http.Response
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -410,17 +413,17 @@ func (a *TopicApiService) ListExecute(r ApiListRequest) ([]Topic, *http.Response
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type TopicApiMock struct {
+type TopicAPIMock struct {
 	DescribeCalls    *[]DescribeCall
 	DescribeResponse DescribeMockResponse
 	ListCalls        *[]ListCall
 	ListResponse     ListMockResponse
 }
 
-func NewTopicApiMock() TopicApiMock {
+func NewTopicAPIMock() TopicAPIMock {
 	xDescribeCalls := make([]DescribeCall, 0)
 	xListCalls := make([]ListCall, 0)
-	return TopicApiMock{
+	return TopicAPIMock{
 		DescribeCalls: &xDescribeCalls,
 		ListCalls:     &xListCalls,
 	}
@@ -435,11 +438,11 @@ type DescribeMockResponse struct {
 type DescribeCall struct {
 	Ptopic     string
 	Plimit     *int32
-	Poffset    *int32
+	Poffset    *int64
 	Ppartition *int32
 }
 
-func (mock TopicApiMock) Describe(ctx context.Context, topic string) ApiDescribeRequest {
+func (mock TopicAPIMock) Describe(ctx context.Context, topic string) ApiDescribeRequest {
 	return ApiDescribeRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -447,7 +450,7 @@ func (mock TopicApiMock) Describe(ctx context.Context, topic string) ApiDescribe
 	}
 }
 
-func (mock TopicApiMock) DescribeExecute(r ApiDescribeRequest) (*Messages, *http.Response, error) {
+func (mock TopicAPIMock) DescribeExecute(r ApiDescribeRequest) (*Messages, *http.Response, error) {
 	p := DescribeCall{
 		Ptopic:     r.topic,
 		Plimit:     r.limit,
@@ -467,14 +470,14 @@ type ListMockResponse struct {
 type ListCall struct {
 }
 
-func (mock TopicApiMock) List(ctx context.Context) ApiListRequest {
+func (mock TopicAPIMock) List(ctx context.Context) ApiListRequest {
 	return ApiListRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock TopicApiMock) ListExecute(r ApiListRequest) ([]Topic, *http.Response, error) {
+func (mock TopicAPIMock) ListExecute(r ApiListRequest) ([]Topic, *http.Response, error) {
 	p := ListCall{}
 	*mock.ListCalls = append(*mock.ListCalls, p)
 	return mock.ListResponse.Result, mock.ListResponse.Response, mock.ListResponse.Error

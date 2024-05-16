@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type TracesApi interface {
+type TracesAPI interface {
 
 	/*
 		GetSpan Get a span
@@ -140,12 +140,12 @@ type TracesApi interface {
 	SuggestionsFieldValuesExecute(r ApiSuggestionsFieldValuesRequest) (*Suggestions, *http.Response, error)
 }
 
-// TracesApiService TracesApi service
-type TracesApiService service
+// TracesAPIService TracesAPI service
+type TracesAPIService service
 
 type ApiGetSpanRequest struct {
 	ctx        context.Context
-	ApiService TracesApi
+	ApiService TracesAPI
 	traceId    string
 	spanId     string
 }
@@ -159,12 +159,12 @@ GetSpan Get a span
 
 Get a single span for a trace
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param traceId The id of the trace
- @param spanId The id of the span
- @return ApiGetSpanRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param traceId The id of the trace
+	@param spanId The id of the span
+	@return ApiGetSpanRequest
 */
-func (a *TracesApiService) GetSpan(ctx context.Context, traceId string, spanId string) ApiGetSpanRequest {
+func (a *TracesAPIService) GetSpan(ctx context.Context, traceId string, spanId string) ApiGetSpanRequest {
 	return ApiGetSpanRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -174,8 +174,9 @@ func (a *TracesApiService) GetSpan(ctx context.Context, traceId string, spanId s
 }
 
 // Execute executes the request
-//  @return Span
-func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error) {
+//
+//	@return Span
+func (a *TracesAPIService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -183,7 +184,7 @@ func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Res
 		localVarReturnValue *Span
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.GetSpan")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.GetSpan")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -216,6 +217,20 @@ func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Res
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -238,20 +253,6 @@ func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Res
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -313,7 +314,7 @@ func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Res
 
 type ApiGetTraceRequest struct {
 	ctx        context.Context
-	ApiService TracesApi
+	ApiService TracesAPI
 	traceId    string
 }
 
@@ -326,11 +327,11 @@ GetTrace Fetch a trace
 
 Get a full trace by id only
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param traceId The id of the trace
- @return ApiGetTraceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param traceId The id of the trace
+	@return ApiGetTraceRequest
 */
-func (a *TracesApiService) GetTrace(ctx context.Context, traceId string) ApiGetTraceRequest {
+func (a *TracesAPIService) GetTrace(ctx context.Context, traceId string) ApiGetTraceRequest {
 	return ApiGetTraceRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -339,8 +340,9 @@ func (a *TracesApiService) GetTrace(ctx context.Context, traceId string) ApiGetT
 }
 
 // Execute executes the request
-//  @return Trace
-func (a *TracesApiService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.Response, error) {
+//
+//	@return Trace
+func (a *TracesAPIService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -348,7 +350,7 @@ func (a *TracesApiService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.
 		localVarReturnValue *Trace
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.GetTrace")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.GetTrace")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -380,6 +382,20 @@ func (a *TracesApiService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -402,20 +418,6 @@ func (a *TracesApiService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -477,22 +479,16 @@ func (a *TracesApiService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.
 
 type ApiQueryDurationRequest struct {
 	ctx          context.Context
-	ApiService   TracesApi
-	start        *int32
-	end          *int32
+	ApiService   TracesAPI
+	startTime    *int32
 	bucketsCount *int32
 	spanFilter   *SpanFilter
+	endTime      *int32
 }
 
-// Filter spans by start time &gt;&#x3D; value
-func (r ApiQueryDurationRequest) Start(start int32) ApiQueryDurationRequest {
-	r.start = &start
-	return r
-}
-
-// Filter spans by start time &lt; value
-func (r ApiQueryDurationRequest) End(end int32) ApiQueryDurationRequest {
-	r.end = &end
+// The start time of a time range to query resources.
+func (r ApiQueryDurationRequest) StartTime(startTime int32) ApiQueryDurationRequest {
+	r.startTime = &startTime
 	return r
 }
 
@@ -508,6 +504,12 @@ func (r ApiQueryDurationRequest) SpanFilter(spanFilter SpanFilter) ApiQueryDurat
 	return r
 }
 
+// The end time of a time range to query resources. If not given the endTime is set to current time.
+func (r ApiQueryDurationRequest) EndTime(endTime int32) ApiQueryDurationRequest {
+	r.endTime = &endTime
+	return r
+}
+
 func (r ApiQueryDurationRequest) Execute() (*DurationHistogram, *http.Response, error) {
 	return r.ApiService.QueryDurationExecute(r)
 }
@@ -517,10 +519,10 @@ QueryDuration Query duration distribution
 
 Query for durations using filters.  Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiQueryDurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiQueryDurationRequest
 */
-func (a *TracesApiService) QueryDuration(ctx context.Context) ApiQueryDurationRequest {
+func (a *TracesAPIService) QueryDuration(ctx context.Context) ApiQueryDurationRequest {
 	return ApiQueryDurationRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -528,8 +530,9 @@ func (a *TracesApiService) QueryDuration(ctx context.Context) ApiQueryDurationRe
 }
 
 // Execute executes the request
-//  @return DurationHistogram
-func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*DurationHistogram, *http.Response, error) {
+//
+//	@return DurationHistogram
+func (a *TracesAPIService) QueryDurationExecute(r ApiQueryDurationRequest) (*DurationHistogram, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -537,7 +540,7 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 		localVarReturnValue *DurationHistogram
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.QueryDuration")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.QueryDuration")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -547,11 +550,8 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.start == nil {
-		return localVarReturnValue, nil, reportError("start is required and must be specified")
-	}
-	if r.end == nil {
-		return localVarReturnValue, nil, reportError("end is required and must be specified")
+	if r.startTime == nil {
+		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
 	}
 	if r.bucketsCount == nil {
 		return localVarReturnValue, nil, reportError("bucketsCount is required and must be specified")
@@ -560,8 +560,10 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 		return localVarReturnValue, nil, reportError("spanFilter is required and must be specified")
 	}
 
-	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
-	localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
+	if r.endTime != nil {
+		localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
+	}
 	localVarQueryParams.Add("bucketsCount", parameterToString(*r.bucketsCount, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -582,6 +584,20 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 	}
 	// body params
 	localVarPostBody = r.spanFilter
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -607,20 +623,6 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -682,23 +684,17 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 
 type ApiQuerySpansRequest struct {
 	ctx        context.Context
-	ApiService TracesApi
-	start      *int32
-	end        *int32
+	ApiService TracesAPI
+	startTime  *int32
 	spanQuery  *SpanQuery
+	endTime    *int32
 	pageSize   *int32
 	page       *int32
 }
 
-// Filter spans by start time &gt;&#x3D; value
-func (r ApiQuerySpansRequest) Start(start int32) ApiQuerySpansRequest {
-	r.start = &start
-	return r
-}
-
-// Filter spans by start time &lt; value
-func (r ApiQuerySpansRequest) End(end int32) ApiQuerySpansRequest {
-	r.end = &end
+// The start time of a time range to query resources.
+func (r ApiQuerySpansRequest) StartTime(startTime int32) ApiQuerySpansRequest {
+	r.startTime = &startTime
 	return r
 }
 
@@ -708,13 +704,19 @@ func (r ApiQuerySpansRequest) SpanQuery(spanQuery SpanQuery) ApiQuerySpansReques
 	return r
 }
 
-// Number of spans in 1 page
+// The end time of a time range to query resources. If not given the endTime is set to current time.
+func (r ApiQuerySpansRequest) EndTime(endTime int32) ApiQuerySpansRequest {
+	r.endTime = &endTime
+	return r
+}
+
+// Maximum number of the log lines in the result.
 func (r ApiQuerySpansRequest) PageSize(pageSize int32) ApiQuerySpansRequest {
 	r.pageSize = &pageSize
 	return r
 }
 
-// Get the specified page (with pageSize # of spans), defaults to page 0
+// The page for which the log lines of pageSize must be returned.
 func (r ApiQuerySpansRequest) Page(page int32) ApiQuerySpansRequest {
 	r.page = &page
 	return r
@@ -729,10 +731,10 @@ QuerySpans Query for spans
 
 Query for spans using filters, get all spans for a trace by trace id. Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiQuerySpansRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiQuerySpansRequest
 */
-func (a *TracesApiService) QuerySpans(ctx context.Context) ApiQuerySpansRequest {
+func (a *TracesAPIService) QuerySpans(ctx context.Context) ApiQuerySpansRequest {
 	return ApiQuerySpansRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -740,8 +742,9 @@ func (a *TracesApiService) QuerySpans(ctx context.Context) ApiQuerySpansRequest 
 }
 
 // Execute executes the request
-//  @return Spans
-func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error) {
+//
+//	@return Spans
+func (a *TracesAPIService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -749,7 +752,7 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 		localVarReturnValue *Spans
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.QuerySpans")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.QuerySpans")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -759,18 +762,17 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.start == nil {
-		return localVarReturnValue, nil, reportError("start is required and must be specified")
-	}
-	if r.end == nil {
-		return localVarReturnValue, nil, reportError("end is required and must be specified")
+	if r.startTime == nil {
+		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
 	}
 	if r.spanQuery == nil {
 		return localVarReturnValue, nil, reportError("spanQuery is required and must be specified")
 	}
 
-	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
-	localVarQueryParams.Add("end", parameterToString(*r.end, ""))
+	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
+	if r.endTime != nil {
+		localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
+	}
 	if r.pageSize != nil {
 		localVarQueryParams.Add("pageSize", parameterToString(*r.pageSize, ""))
 	}
@@ -799,6 +801,20 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -821,20 +837,6 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -896,7 +898,7 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 
 type ApiSpanComponentsRequest struct {
 	ctx            context.Context
-	ApiService     TracesApi
+	ApiService     TracesAPI
 	componentQuery *ComponentQuery
 }
 
@@ -915,10 +917,10 @@ SpanComponents Fetch components based on resource attributes
 
 Based on the resource attributes on a span, retrieve components that have a TraceBinding for it.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSpanComponentsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSpanComponentsRequest
 */
-func (a *TracesApiService) SpanComponents(ctx context.Context) ApiSpanComponentsRequest {
+func (a *TracesAPIService) SpanComponents(ctx context.Context) ApiSpanComponentsRequest {
 	return ApiSpanComponentsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -926,8 +928,9 @@ func (a *TracesApiService) SpanComponents(ctx context.Context) ApiSpanComponents
 }
 
 // Execute executes the request
-//  @return SpanComponents
-func (a *TracesApiService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*SpanComponents, *http.Response, error) {
+//
+//	@return SpanComponents
+func (a *TracesAPIService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*SpanComponents, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -935,7 +938,7 @@ func (a *TracesApiService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*S
 		localVarReturnValue *SpanComponents
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.SpanComponents")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.SpanComponents")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -971,6 +974,20 @@ func (a *TracesApiService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*S
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -993,20 +1010,6 @@ func (a *TracesApiService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*S
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1058,7 +1061,7 @@ func (a *TracesApiService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*S
 
 type ApiSuggestionsAttributeNameRequest struct {
 	ctx        context.Context
-	ApiService TracesApi
+	ApiService TracesAPI
 	contains   *string
 }
 
@@ -1077,10 +1080,10 @@ SuggestionsAttributeName Suggestions for attribute names
 
 Suggestions for attribute names, both resource and span attributes. Attributes match when their name contains the provided part, at most 100 suggestions will be returned. Make the part longer to get more accurate suggestions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSuggestionsAttributeNameRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSuggestionsAttributeNameRequest
 */
-func (a *TracesApiService) SuggestionsAttributeName(ctx context.Context) ApiSuggestionsAttributeNameRequest {
+func (a *TracesAPIService) SuggestionsAttributeName(ctx context.Context) ApiSuggestionsAttributeNameRequest {
 	return ApiSuggestionsAttributeNameRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1088,8 +1091,9 @@ func (a *TracesApiService) SuggestionsAttributeName(ctx context.Context) ApiSugg
 }
 
 // Execute executes the request
-//  @return Suggestions
-func (a *TracesApiService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttributeNameRequest) (*Suggestions, *http.Response, error) {
+//
+//	@return Suggestions
+func (a *TracesAPIService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttributeNameRequest) (*Suggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1097,7 +1101,7 @@ func (a *TracesApiService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttri
 		localVarReturnValue *Suggestions
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.SuggestionsAttributeName")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.SuggestionsAttributeName")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1131,6 +1135,20 @@ func (a *TracesApiService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttri
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1153,20 +1171,6 @@ func (a *TracesApiService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttri
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1218,7 +1222,7 @@ func (a *TracesApiService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttri
 
 type ApiSuggestionsAttributeValueRequest struct {
 	ctx           context.Context
-	ApiService    TracesApi
+	ApiService    TracesAPI
 	attributeName string
 	contains      *string
 }
@@ -1238,11 +1242,11 @@ SuggestionsAttributeValue Suggestions for attribute values
 
 Suggestions for attribute values, both resource and span attributes. Attribute values match when the value contains the provided part, at most 100 suggestions will be returned. Make the part longer to get more accurate suggestions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param attributeName Get suggestions for this attribute
- @return ApiSuggestionsAttributeValueRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param attributeName Get suggestions for this attribute
+	@return ApiSuggestionsAttributeValueRequest
 */
-func (a *TracesApiService) SuggestionsAttributeValue(ctx context.Context, attributeName string) ApiSuggestionsAttributeValueRequest {
+func (a *TracesAPIService) SuggestionsAttributeValue(ctx context.Context, attributeName string) ApiSuggestionsAttributeValueRequest {
 	return ApiSuggestionsAttributeValueRequest{
 		ApiService:    a,
 		ctx:           ctx,
@@ -1251,8 +1255,9 @@ func (a *TracesApiService) SuggestionsAttributeValue(ctx context.Context, attrib
 }
 
 // Execute executes the request
-//  @return Suggestions
-func (a *TracesApiService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttributeValueRequest) (*Suggestions, *http.Response, error) {
+//
+//	@return Suggestions
+func (a *TracesAPIService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttributeValueRequest) (*Suggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1260,7 +1265,7 @@ func (a *TracesApiService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttr
 		localVarReturnValue *Suggestions
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.SuggestionsAttributeValue")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.SuggestionsAttributeValue")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1295,6 +1300,20 @@ func (a *TracesApiService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttr
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1317,20 +1336,6 @@ func (a *TracesApiService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttr
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1382,7 +1387,7 @@ func (a *TracesApiService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttr
 
 type ApiSuggestionsFieldValuesRequest struct {
 	ctx        context.Context
-	ApiService TracesApi
+	ApiService TracesAPI
 	field      SpanSuggestionField
 	contains   *string
 }
@@ -1402,11 +1407,11 @@ SuggestionsFieldValues Suggestions for span fields
 
 Suggestions for values of of the span fields that can be filtered on except resource and span attributes. Values match when they contain the provided part, at most 100 suggestions will be returned. Make the part longer to get more accurate suggestions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param field Get suggestions for this field
- @return ApiSuggestionsFieldValuesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param field Get suggestions for this field
+	@return ApiSuggestionsFieldValuesRequest
 */
-func (a *TracesApiService) SuggestionsFieldValues(ctx context.Context, field SpanSuggestionField) ApiSuggestionsFieldValuesRequest {
+func (a *TracesAPIService) SuggestionsFieldValues(ctx context.Context, field SpanSuggestionField) ApiSuggestionsFieldValuesRequest {
 	return ApiSuggestionsFieldValuesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1415,8 +1420,9 @@ func (a *TracesApiService) SuggestionsFieldValues(ctx context.Context, field Spa
 }
 
 // Execute executes the request
-//  @return Suggestions
-func (a *TracesApiService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldValuesRequest) (*Suggestions, *http.Response, error) {
+//
+//	@return Suggestions
+func (a *TracesAPIService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldValuesRequest) (*Suggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1424,7 +1430,7 @@ func (a *TracesApiService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldVa
 		localVarReturnValue *Suggestions
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.SuggestionsFieldValues")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesAPIService.SuggestionsFieldValues")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1459,6 +1465,20 @@ func (a *TracesApiService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldVa
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1481,20 +1501,6 @@ func (a *TracesApiService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldVa
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1548,7 +1554,7 @@ func (a *TracesApiService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldVa
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type TracesApiMock struct {
+type TracesAPIMock struct {
 	GetSpanCalls                      *[]GetSpanCall
 	GetSpanResponse                   GetSpanMockResponse
 	GetTraceCalls                     *[]GetTraceCall
@@ -1567,7 +1573,7 @@ type TracesApiMock struct {
 	SuggestionsFieldValuesResponse    SuggestionsFieldValuesMockResponse
 }
 
-func NewTracesApiMock() TracesApiMock {
+func NewTracesAPIMock() TracesAPIMock {
 	xGetSpanCalls := make([]GetSpanCall, 0)
 	xGetTraceCalls := make([]GetTraceCall, 0)
 	xQueryDurationCalls := make([]QueryDurationCall, 0)
@@ -1576,7 +1582,7 @@ func NewTracesApiMock() TracesApiMock {
 	xSuggestionsAttributeNameCalls := make([]SuggestionsAttributeNameCall, 0)
 	xSuggestionsAttributeValueCalls := make([]SuggestionsAttributeValueCall, 0)
 	xSuggestionsFieldValuesCalls := make([]SuggestionsFieldValuesCall, 0)
-	return TracesApiMock{
+	return TracesAPIMock{
 		GetSpanCalls:                   &xGetSpanCalls,
 		GetTraceCalls:                  &xGetTraceCalls,
 		QueryDurationCalls:             &xQueryDurationCalls,
@@ -1599,7 +1605,7 @@ type GetSpanCall struct {
 	PspanId  string
 }
 
-func (mock TracesApiMock) GetSpan(ctx context.Context, traceId string, spanId string) ApiGetSpanRequest {
+func (mock TracesAPIMock) GetSpan(ctx context.Context, traceId string, spanId string) ApiGetSpanRequest {
 	return ApiGetSpanRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1608,7 +1614,7 @@ func (mock TracesApiMock) GetSpan(ctx context.Context, traceId string, spanId st
 	}
 }
 
-func (mock TracesApiMock) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error) {
+func (mock TracesAPIMock) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error) {
 	p := GetSpanCall{
 		PtraceId: r.traceId,
 		PspanId:  r.spanId,
@@ -1627,7 +1633,7 @@ type GetTraceCall struct {
 	PtraceId string
 }
 
-func (mock TracesApiMock) GetTrace(ctx context.Context, traceId string) ApiGetTraceRequest {
+func (mock TracesAPIMock) GetTrace(ctx context.Context, traceId string) ApiGetTraceRequest {
 	return ApiGetTraceRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1635,7 +1641,7 @@ func (mock TracesApiMock) GetTrace(ctx context.Context, traceId string) ApiGetTr
 	}
 }
 
-func (mock TracesApiMock) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.Response, error) {
+func (mock TracesAPIMock) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.Response, error) {
 	p := GetTraceCall{
 		PtraceId: r.traceId,
 	}
@@ -1650,25 +1656,25 @@ type QueryDurationMockResponse struct {
 }
 
 type QueryDurationCall struct {
-	Pstart        *int32
-	Pend          *int32
+	PstartTime    *int32
 	PbucketsCount *int32
 	PspanFilter   *SpanFilter
+	PendTime      *int32
 }
 
-func (mock TracesApiMock) QueryDuration(ctx context.Context) ApiQueryDurationRequest {
+func (mock TracesAPIMock) QueryDuration(ctx context.Context) ApiQueryDurationRequest {
 	return ApiQueryDurationRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock TracesApiMock) QueryDurationExecute(r ApiQueryDurationRequest) (*DurationHistogram, *http.Response, error) {
+func (mock TracesAPIMock) QueryDurationExecute(r ApiQueryDurationRequest) (*DurationHistogram, *http.Response, error) {
 	p := QueryDurationCall{
-		Pstart:        r.start,
-		Pend:          r.end,
+		PstartTime:    r.startTime,
 		PbucketsCount: r.bucketsCount,
 		PspanFilter:   r.spanFilter,
+		PendTime:      r.endTime,
 	}
 	*mock.QueryDurationCalls = append(*mock.QueryDurationCalls, p)
 	return &mock.QueryDurationResponse.Result, mock.QueryDurationResponse.Response, mock.QueryDurationResponse.Error
@@ -1681,25 +1687,25 @@ type QuerySpansMockResponse struct {
 }
 
 type QuerySpansCall struct {
-	Pstart     *int32
-	Pend       *int32
+	PstartTime *int32
 	PspanQuery *SpanQuery
+	PendTime   *int32
 	PpageSize  *int32
 	Ppage      *int32
 }
 
-func (mock TracesApiMock) QuerySpans(ctx context.Context) ApiQuerySpansRequest {
+func (mock TracesAPIMock) QuerySpans(ctx context.Context) ApiQuerySpansRequest {
 	return ApiQuerySpansRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock TracesApiMock) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error) {
+func (mock TracesAPIMock) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error) {
 	p := QuerySpansCall{
-		Pstart:     r.start,
-		Pend:       r.end,
+		PstartTime: r.startTime,
 		PspanQuery: r.spanQuery,
+		PendTime:   r.endTime,
 		PpageSize:  r.pageSize,
 		Ppage:      r.page,
 	}
@@ -1717,14 +1723,14 @@ type SpanComponentsCall struct {
 	PcomponentQuery *ComponentQuery
 }
 
-func (mock TracesApiMock) SpanComponents(ctx context.Context) ApiSpanComponentsRequest {
+func (mock TracesAPIMock) SpanComponents(ctx context.Context) ApiSpanComponentsRequest {
 	return ApiSpanComponentsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock TracesApiMock) SpanComponentsExecute(r ApiSpanComponentsRequest) (*SpanComponents, *http.Response, error) {
+func (mock TracesAPIMock) SpanComponentsExecute(r ApiSpanComponentsRequest) (*SpanComponents, *http.Response, error) {
 	p := SpanComponentsCall{
 		PcomponentQuery: r.componentQuery,
 	}
@@ -1742,14 +1748,14 @@ type SuggestionsAttributeNameCall struct {
 	Pcontains *string
 }
 
-func (mock TracesApiMock) SuggestionsAttributeName(ctx context.Context) ApiSuggestionsAttributeNameRequest {
+func (mock TracesAPIMock) SuggestionsAttributeName(ctx context.Context) ApiSuggestionsAttributeNameRequest {
 	return ApiSuggestionsAttributeNameRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock TracesApiMock) SuggestionsAttributeNameExecute(r ApiSuggestionsAttributeNameRequest) (*Suggestions, *http.Response, error) {
+func (mock TracesAPIMock) SuggestionsAttributeNameExecute(r ApiSuggestionsAttributeNameRequest) (*Suggestions, *http.Response, error) {
 	p := SuggestionsAttributeNameCall{
 		Pcontains: r.contains,
 	}
@@ -1768,7 +1774,7 @@ type SuggestionsAttributeValueCall struct {
 	Pcontains      *string
 }
 
-func (mock TracesApiMock) SuggestionsAttributeValue(ctx context.Context, attributeName string) ApiSuggestionsAttributeValueRequest {
+func (mock TracesAPIMock) SuggestionsAttributeValue(ctx context.Context, attributeName string) ApiSuggestionsAttributeValueRequest {
 	return ApiSuggestionsAttributeValueRequest{
 		ApiService:    mock,
 		ctx:           ctx,
@@ -1776,7 +1782,7 @@ func (mock TracesApiMock) SuggestionsAttributeValue(ctx context.Context, attribu
 	}
 }
 
-func (mock TracesApiMock) SuggestionsAttributeValueExecute(r ApiSuggestionsAttributeValueRequest) (*Suggestions, *http.Response, error) {
+func (mock TracesAPIMock) SuggestionsAttributeValueExecute(r ApiSuggestionsAttributeValueRequest) (*Suggestions, *http.Response, error) {
 	p := SuggestionsAttributeValueCall{
 		PattributeName: r.attributeName,
 		Pcontains:      r.contains,
@@ -1796,7 +1802,7 @@ type SuggestionsFieldValuesCall struct {
 	Pcontains *string
 }
 
-func (mock TracesApiMock) SuggestionsFieldValues(ctx context.Context, field SpanSuggestionField) ApiSuggestionsFieldValuesRequest {
+func (mock TracesAPIMock) SuggestionsFieldValues(ctx context.Context, field SpanSuggestionField) ApiSuggestionsFieldValuesRequest {
 	return ApiSuggestionsFieldValuesRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1804,7 +1810,7 @@ func (mock TracesApiMock) SuggestionsFieldValues(ctx context.Context, field Span
 	}
 }
 
-func (mock TracesApiMock) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldValuesRequest) (*Suggestions, *http.Response, error) {
+func (mock TracesAPIMock) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldValuesRequest) (*Suggestions, *http.Response, error) {
 	p := SuggestionsFieldValuesCall{
 		Pfield:    r.field,
 		Pcontains: r.contains,

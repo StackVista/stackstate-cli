@@ -20,20 +20,7 @@ import (
 	"strings"
 )
 
-type IngestionApiKeyApi interface {
-
-	/*
-		AuthorizeIngestionApiKey Check authorization for an Ingestion Api Key
-
-		Checks if an ingestion api key is valid
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiAuthorizeIngestionApiKeyRequest
-	*/
-	AuthorizeIngestionApiKey(ctx context.Context) ApiAuthorizeIngestionApiKeyRequest
-
-	// AuthorizeIngestionApiKeyExecute executes the request
-	AuthorizeIngestionApiKeyExecute(r ApiAuthorizeIngestionApiKeyRequest) (*http.Response, error)
+type IngestionApiKeyAPI interface {
 
 	/*
 		DeleteIngestionApiKey Delete Ingestion Api Key
@@ -78,162 +65,12 @@ type IngestionApiKeyApi interface {
 	GetIngestionApiKeysExecute(r ApiGetIngestionApiKeysRequest) ([]IngestionApiKey, *http.Response, error)
 }
 
-// IngestionApiKeyApiService IngestionApiKeyApi service
-type IngestionApiKeyApiService service
-
-type ApiAuthorizeIngestionApiKeyRequest struct {
-	ctx                             context.Context
-	ApiService                      IngestionApiKeyApi
-	authorizeIngestionApiKeyRequest *AuthorizeIngestionApiKeyRequest
-}
-
-func (r ApiAuthorizeIngestionApiKeyRequest) AuthorizeIngestionApiKeyRequest(authorizeIngestionApiKeyRequest AuthorizeIngestionApiKeyRequest) ApiAuthorizeIngestionApiKeyRequest {
-	r.authorizeIngestionApiKeyRequest = &authorizeIngestionApiKeyRequest
-	return r
-}
-
-func (r ApiAuthorizeIngestionApiKeyRequest) Execute() (*http.Response, error) {
-	return r.ApiService.AuthorizeIngestionApiKeyExecute(r)
-}
-
-/*
-AuthorizeIngestionApiKey Check authorization for an Ingestion Api Key
-
-Checks if an ingestion api key is valid
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAuthorizeIngestionApiKeyRequest
-*/
-func (a *IngestionApiKeyApiService) AuthorizeIngestionApiKey(ctx context.Context) ApiAuthorizeIngestionApiKeyRequest {
-	return ApiAuthorizeIngestionApiKeyRequest{
-		ApiService: a,
-		ctx:        ctx,
-	}
-}
-
-// Execute executes the request
-func (a *IngestionApiKeyApiService) AuthorizeIngestionApiKeyExecute(r ApiAuthorizeIngestionApiKeyRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyApiService.AuthorizeIngestionApiKey")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/security/ingestion/authorize"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.authorizeIngestionApiKeyRequest == nil {
-		return nil, reportError("authorizeIngestionApiKeyRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.authorizeIngestionApiKeyRequest
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Token"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceBearer"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
+// IngestionApiKeyAPIService IngestionApiKeyAPI service
+type IngestionApiKeyAPIService service
 
 type ApiDeleteIngestionApiKeyRequest struct {
 	ctx               context.Context
-	ApiService        IngestionApiKeyApi
+	ApiService        IngestionApiKeyAPI
 	ingestionApiKeyId int64
 }
 
@@ -246,11 +83,11 @@ DeleteIngestionApiKey Delete Ingestion Api Key
 
 Deleted token can't be used by sources, so all ingestion pipelines for that key will fail
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param ingestionApiKeyId The identifier of a key
- @return ApiDeleteIngestionApiKeyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param ingestionApiKeyId The identifier of a key
+	@return ApiDeleteIngestionApiKeyRequest
 */
-func (a *IngestionApiKeyApiService) DeleteIngestionApiKey(ctx context.Context, ingestionApiKeyId int64) ApiDeleteIngestionApiKeyRequest {
+func (a *IngestionApiKeyAPIService) DeleteIngestionApiKey(ctx context.Context, ingestionApiKeyId int64) ApiDeleteIngestionApiKeyRequest {
 	return ApiDeleteIngestionApiKeyRequest{
 		ApiService:        a,
 		ctx:               ctx,
@@ -259,14 +96,14 @@ func (a *IngestionApiKeyApiService) DeleteIngestionApiKey(ctx context.Context, i
 }
 
 // Execute executes the request
-func (a *IngestionApiKeyApiService) DeleteIngestionApiKeyExecute(r ApiDeleteIngestionApiKeyRequest) (*http.Response, error) {
+func (a *IngestionApiKeyAPIService) DeleteIngestionApiKeyExecute(r ApiDeleteIngestionApiKeyRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyApiService.DeleteIngestionApiKey")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyAPIService.DeleteIngestionApiKey")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -298,6 +135,20 @@ func (a *IngestionApiKeyApiService) DeleteIngestionApiKeyExecute(r ApiDeleteInge
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -320,20 +171,6 @@ func (a *IngestionApiKeyApiService) DeleteIngestionApiKeyExecute(r ApiDeleteInge
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -376,7 +213,7 @@ func (a *IngestionApiKeyApiService) DeleteIngestionApiKeyExecute(r ApiDeleteInge
 
 type ApiGenerateIngestionApiKeyRequest struct {
 	ctx                            context.Context
-	ApiService                     IngestionApiKeyApi
+	ApiService                     IngestionApiKeyAPI
 	generateIngestionApiKeyRequest *GenerateIngestionApiKeyRequest
 }
 
@@ -394,10 +231,10 @@ GenerateIngestionApiKey Generate a new Ingestion Api Key
 
 Generates token and then returns it in the response, the token can't be obtained any more after that
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGenerateIngestionApiKeyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGenerateIngestionApiKeyRequest
 */
-func (a *IngestionApiKeyApiService) GenerateIngestionApiKey(ctx context.Context) ApiGenerateIngestionApiKeyRequest {
+func (a *IngestionApiKeyAPIService) GenerateIngestionApiKey(ctx context.Context) ApiGenerateIngestionApiKeyRequest {
 	return ApiGenerateIngestionApiKeyRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -405,8 +242,9 @@ func (a *IngestionApiKeyApiService) GenerateIngestionApiKey(ctx context.Context)
 }
 
 // Execute executes the request
-//  @return GeneratedIngestionApiKeyResponse
-func (a *IngestionApiKeyApiService) GenerateIngestionApiKeyExecute(r ApiGenerateIngestionApiKeyRequest) (*GeneratedIngestionApiKeyResponse, *http.Response, error) {
+//
+//	@return GeneratedIngestionApiKeyResponse
+func (a *IngestionApiKeyAPIService) GenerateIngestionApiKeyExecute(r ApiGenerateIngestionApiKeyRequest) (*GeneratedIngestionApiKeyResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -414,7 +252,7 @@ func (a *IngestionApiKeyApiService) GenerateIngestionApiKeyExecute(r ApiGenerate
 		localVarReturnValue *GeneratedIngestionApiKeyResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyApiService.GenerateIngestionApiKey")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyAPIService.GenerateIngestionApiKey")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -450,6 +288,20 @@ func (a *IngestionApiKeyApiService) GenerateIngestionApiKeyExecute(r ApiGenerate
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -472,20 +324,6 @@ func (a *IngestionApiKeyApiService) GenerateIngestionApiKeyExecute(r ApiGenerate
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -547,7 +385,7 @@ func (a *IngestionApiKeyApiService) GenerateIngestionApiKeyExecute(r ApiGenerate
 
 type ApiGetIngestionApiKeysRequest struct {
 	ctx        context.Context
-	ApiService IngestionApiKeyApi
+	ApiService IngestionApiKeyAPI
 }
 
 func (r ApiGetIngestionApiKeysRequest) Execute() ([]IngestionApiKey, *http.Response, error) {
@@ -559,10 +397,10 @@ GetIngestionApiKeys List Ingestion Api Keys
 
 Returns only metadata without token itself
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetIngestionApiKeysRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetIngestionApiKeysRequest
 */
-func (a *IngestionApiKeyApiService) GetIngestionApiKeys(ctx context.Context) ApiGetIngestionApiKeysRequest {
+func (a *IngestionApiKeyAPIService) GetIngestionApiKeys(ctx context.Context) ApiGetIngestionApiKeysRequest {
 	return ApiGetIngestionApiKeysRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -570,8 +408,9 @@ func (a *IngestionApiKeyApiService) GetIngestionApiKeys(ctx context.Context) Api
 }
 
 // Execute executes the request
-//  @return []IngestionApiKey
-func (a *IngestionApiKeyApiService) GetIngestionApiKeysExecute(r ApiGetIngestionApiKeysRequest) ([]IngestionApiKey, *http.Response, error) {
+//
+//	@return []IngestionApiKey
+func (a *IngestionApiKeyAPIService) GetIngestionApiKeysExecute(r ApiGetIngestionApiKeysRequest) ([]IngestionApiKey, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -579,7 +418,7 @@ func (a *IngestionApiKeyApiService) GetIngestionApiKeysExecute(r ApiGetIngestion
 		localVarReturnValue []IngestionApiKey
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyApiService.GetIngestionApiKeys")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyAPIService.GetIngestionApiKeys")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -610,6 +449,20 @@ func (a *IngestionApiKeyApiService) GetIngestionApiKeysExecute(r ApiGetIngestion
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -632,20 +485,6 @@ func (a *IngestionApiKeyApiService) GetIngestionApiKeysExecute(r ApiGetIngestion
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -699,52 +538,24 @@ func (a *IngestionApiKeyApiService) GetIngestionApiKeysExecute(r ApiGetIngestion
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type IngestionApiKeyApiMock struct {
-	AuthorizeIngestionApiKeyCalls    *[]AuthorizeIngestionApiKeyCall
-	AuthorizeIngestionApiKeyResponse AuthorizeIngestionApiKeyMockResponse
-	DeleteIngestionApiKeyCalls       *[]DeleteIngestionApiKeyCall
-	DeleteIngestionApiKeyResponse    DeleteIngestionApiKeyMockResponse
-	GenerateIngestionApiKeyCalls     *[]GenerateIngestionApiKeyCall
-	GenerateIngestionApiKeyResponse  GenerateIngestionApiKeyMockResponse
-	GetIngestionApiKeysCalls         *[]GetIngestionApiKeysCall
-	GetIngestionApiKeysResponse      GetIngestionApiKeysMockResponse
+type IngestionApiKeyAPIMock struct {
+	DeleteIngestionApiKeyCalls      *[]DeleteIngestionApiKeyCall
+	DeleteIngestionApiKeyResponse   DeleteIngestionApiKeyMockResponse
+	GenerateIngestionApiKeyCalls    *[]GenerateIngestionApiKeyCall
+	GenerateIngestionApiKeyResponse GenerateIngestionApiKeyMockResponse
+	GetIngestionApiKeysCalls        *[]GetIngestionApiKeysCall
+	GetIngestionApiKeysResponse     GetIngestionApiKeysMockResponse
 }
 
-func NewIngestionApiKeyApiMock() IngestionApiKeyApiMock {
-	xAuthorizeIngestionApiKeyCalls := make([]AuthorizeIngestionApiKeyCall, 0)
+func NewIngestionApiKeyAPIMock() IngestionApiKeyAPIMock {
 	xDeleteIngestionApiKeyCalls := make([]DeleteIngestionApiKeyCall, 0)
 	xGenerateIngestionApiKeyCalls := make([]GenerateIngestionApiKeyCall, 0)
 	xGetIngestionApiKeysCalls := make([]GetIngestionApiKeysCall, 0)
-	return IngestionApiKeyApiMock{
-		AuthorizeIngestionApiKeyCalls: &xAuthorizeIngestionApiKeyCalls,
-		DeleteIngestionApiKeyCalls:    &xDeleteIngestionApiKeyCalls,
-		GenerateIngestionApiKeyCalls:  &xGenerateIngestionApiKeyCalls,
-		GetIngestionApiKeysCalls:      &xGetIngestionApiKeysCalls,
+	return IngestionApiKeyAPIMock{
+		DeleteIngestionApiKeyCalls:   &xDeleteIngestionApiKeyCalls,
+		GenerateIngestionApiKeyCalls: &xGenerateIngestionApiKeyCalls,
+		GetIngestionApiKeysCalls:     &xGetIngestionApiKeysCalls,
 	}
-}
-
-type AuthorizeIngestionApiKeyMockResponse struct {
-	Response *http.Response
-	Error    error
-}
-
-type AuthorizeIngestionApiKeyCall struct {
-	PauthorizeIngestionApiKeyRequest *AuthorizeIngestionApiKeyRequest
-}
-
-func (mock IngestionApiKeyApiMock) AuthorizeIngestionApiKey(ctx context.Context) ApiAuthorizeIngestionApiKeyRequest {
-	return ApiAuthorizeIngestionApiKeyRequest{
-		ApiService: mock,
-		ctx:        ctx,
-	}
-}
-
-func (mock IngestionApiKeyApiMock) AuthorizeIngestionApiKeyExecute(r ApiAuthorizeIngestionApiKeyRequest) (*http.Response, error) {
-	p := AuthorizeIngestionApiKeyCall{
-		PauthorizeIngestionApiKeyRequest: r.authorizeIngestionApiKeyRequest,
-	}
-	*mock.AuthorizeIngestionApiKeyCalls = append(*mock.AuthorizeIngestionApiKeyCalls, p)
-	return mock.AuthorizeIngestionApiKeyResponse.Response, mock.AuthorizeIngestionApiKeyResponse.Error
 }
 
 type DeleteIngestionApiKeyMockResponse struct {
@@ -756,7 +567,7 @@ type DeleteIngestionApiKeyCall struct {
 	PingestionApiKeyId int64
 }
 
-func (mock IngestionApiKeyApiMock) DeleteIngestionApiKey(ctx context.Context, ingestionApiKeyId int64) ApiDeleteIngestionApiKeyRequest {
+func (mock IngestionApiKeyAPIMock) DeleteIngestionApiKey(ctx context.Context, ingestionApiKeyId int64) ApiDeleteIngestionApiKeyRequest {
 	return ApiDeleteIngestionApiKeyRequest{
 		ApiService:        mock,
 		ctx:               ctx,
@@ -764,7 +575,7 @@ func (mock IngestionApiKeyApiMock) DeleteIngestionApiKey(ctx context.Context, in
 	}
 }
 
-func (mock IngestionApiKeyApiMock) DeleteIngestionApiKeyExecute(r ApiDeleteIngestionApiKeyRequest) (*http.Response, error) {
+func (mock IngestionApiKeyAPIMock) DeleteIngestionApiKeyExecute(r ApiDeleteIngestionApiKeyRequest) (*http.Response, error) {
 	p := DeleteIngestionApiKeyCall{
 		PingestionApiKeyId: r.ingestionApiKeyId,
 	}
@@ -782,14 +593,14 @@ type GenerateIngestionApiKeyCall struct {
 	PgenerateIngestionApiKeyRequest *GenerateIngestionApiKeyRequest
 }
 
-func (mock IngestionApiKeyApiMock) GenerateIngestionApiKey(ctx context.Context) ApiGenerateIngestionApiKeyRequest {
+func (mock IngestionApiKeyAPIMock) GenerateIngestionApiKey(ctx context.Context) ApiGenerateIngestionApiKeyRequest {
 	return ApiGenerateIngestionApiKeyRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock IngestionApiKeyApiMock) GenerateIngestionApiKeyExecute(r ApiGenerateIngestionApiKeyRequest) (*GeneratedIngestionApiKeyResponse, *http.Response, error) {
+func (mock IngestionApiKeyAPIMock) GenerateIngestionApiKeyExecute(r ApiGenerateIngestionApiKeyRequest) (*GeneratedIngestionApiKeyResponse, *http.Response, error) {
 	p := GenerateIngestionApiKeyCall{
 		PgenerateIngestionApiKeyRequest: r.generateIngestionApiKeyRequest,
 	}
@@ -806,14 +617,14 @@ type GetIngestionApiKeysMockResponse struct {
 type GetIngestionApiKeysCall struct {
 }
 
-func (mock IngestionApiKeyApiMock) GetIngestionApiKeys(ctx context.Context) ApiGetIngestionApiKeysRequest {
+func (mock IngestionApiKeyAPIMock) GetIngestionApiKeys(ctx context.Context) ApiGetIngestionApiKeysRequest {
 	return ApiGetIngestionApiKeysRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock IngestionApiKeyApiMock) GetIngestionApiKeysExecute(r ApiGetIngestionApiKeysRequest) ([]IngestionApiKey, *http.Response, error) {
+func (mock IngestionApiKeyAPIMock) GetIngestionApiKeysExecute(r ApiGetIngestionApiKeysRequest) ([]IngestionApiKey, *http.Response, error) {
 	p := GetIngestionApiKeysCall{}
 	*mock.GetIngestionApiKeysCalls = append(*mock.GetIngestionApiKeysCalls, p)
 	return mock.GetIngestionApiKeysResponse.Result, mock.GetIngestionApiKeysResponse.Response, mock.GetIngestionApiKeysResponse.Error

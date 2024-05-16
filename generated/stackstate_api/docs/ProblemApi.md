@@ -1,10 +1,10 @@
-# \ProblemApi
+# \ProblemAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetProblemCausingEvents**](ProblemApi.md#GetProblemCausingEvents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
+[**GetProblemCausingEvents**](ProblemAPI.md#GetProblemCausingEvents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
 
 
 
@@ -30,18 +30,18 @@ import (
 
 func main() {
     problemId := int64(789) // int64 | The problem id number.
-    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried for current time. (optional)
+    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
     limit := int32(56) // int32 | Maximum number of resources to be returned in result. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ProblemApi.GetProblemCausingEvents(context.Background(), problemId).TopologyTime(topologyTime).Limit(limit).Execute()
+    resp, r, err := apiClient.ProblemAPI.GetProblemCausingEvents(context.Background(), problemId).TopologyTime(topologyTime).Limit(limit).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ProblemApi.GetProblemCausingEvents``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ProblemAPI.GetProblemCausingEvents``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetProblemCausingEvents`: GetCausingEventsResult
-    fmt.Fprintf(os.Stdout, "Response from `ProblemApi.GetProblemCausingEvents`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ProblemAPI.GetProblemCausingEvents`: %v\n", resp)
 }
 ```
 
@@ -61,7 +61,7 @@ Other parameters are passed through a pointer to a apiGetProblemCausingEventsReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried for current time. | 
+ **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried at current time. | 
  **limit** | **int32** | Maximum number of resources to be returned in result. | 
 
 ### Return type
@@ -70,7 +70,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

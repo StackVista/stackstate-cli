@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-type StackpackApi interface {
+type StackpackAPI interface {
 
 	/*
 		ConfirmManualSteps Confirm manual steps
@@ -114,12 +114,12 @@ type StackpackApi interface {
 	UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error)
 }
 
-// StackpackApiService StackpackApi service
-type StackpackApiService service
+// StackpackAPIService StackpackAPI service
+type StackpackAPIService service
 
 type ApiConfirmManualStepsRequest struct {
 	ctx                 context.Context
-	ApiService          StackpackApi
+	ApiService          StackpackAPI
 	stackPackName       string
 	stackPackInstanceId int64
 }
@@ -133,12 +133,12 @@ ConfirmManualSteps Confirm manual steps
 
 Confirm manual steps of the stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @param stackPackInstanceId
- @return ApiConfirmManualStepsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param stackPackInstanceId
+	@return ApiConfirmManualStepsRequest
 */
-func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
+func (a *StackpackAPIService) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
 		ApiService:          a,
 		ctx:                 ctx,
@@ -148,8 +148,9 @@ func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackPackN
 }
 
 // Execute executes the request
-//  @return string
-func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
+//
+//	@return string
+func (a *StackpackAPIService) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -157,7 +158,7 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 		localVarReturnValue string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ConfirmManualSteps")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackAPIService.ConfirmManualSteps")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -190,6 +191,20 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -212,20 +227,6 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -277,7 +278,7 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 
 type ApiProvisionDetailsRequest struct {
 	ctx           context.Context
-	ApiService    StackpackApi
+	ApiService    StackpackAPI
 	stackPackName string
 	unlocked      *string
 	requestBody   *map[string]string
@@ -302,11 +303,11 @@ ProvisionDetails Provision API
 
 Provision details
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @return ApiProvisionDetailsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiProvisionDetailsRequest
 */
-func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
+func (a *StackpackAPIService) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
 		ApiService:    a,
 		ctx:           ctx,
@@ -315,8 +316,9 @@ func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackPackNam
 }
 
 // Execute executes the request
-//  @return ProvisionResponse
-func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
+//
+//	@return ProvisionResponse
+func (a *StackpackAPIService) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -324,7 +326,7 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 		localVarReturnValue *ProvisionResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ProvisionDetails")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackAPIService.ProvisionDetails")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -362,6 +364,20 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -384,20 +400,6 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -449,7 +451,7 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 
 type ApiProvisionUninstallRequest struct {
 	ctx                 context.Context
-	ApiService          StackpackApi
+	ApiService          StackpackAPI
 	stackPackName       string
 	stackPackInstanceId int64
 }
@@ -463,12 +465,12 @@ ProvisionUninstall Provision API
 
 Provision details
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @param stackPackInstanceId
- @return ApiProvisionUninstallRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param stackPackInstanceId
+	@return ApiProvisionUninstallRequest
 */
-func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
+func (a *StackpackAPIService) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
 	return ApiProvisionUninstallRequest{
 		ApiService:          a,
 		ctx:                 ctx,
@@ -478,8 +480,9 @@ func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackPackN
 }
 
 // Execute executes the request
-//  @return string
-func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
+//
+//	@return string
+func (a *StackpackAPIService) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -487,7 +490,7 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 		localVarReturnValue string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ProvisionUninstall")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackAPIService.ProvisionUninstall")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -520,6 +523,20 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -542,20 +559,6 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -617,7 +620,7 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 
 type ApiStackPackListRequest struct {
 	ctx        context.Context
-	ApiService StackpackApi
+	ApiService StackpackAPI
 }
 
 func (r ApiStackPackListRequest) Execute() ([]FullStackPack, *http.Response, error) {
@@ -629,10 +632,10 @@ StackPackList StackPack API
 
 list of stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiStackPackListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackListRequest
 */
-func (a *StackpackApiService) StackPackList(ctx context.Context) ApiStackPackListRequest {
+func (a *StackpackAPIService) StackPackList(ctx context.Context) ApiStackPackListRequest {
 	return ApiStackPackListRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -640,8 +643,9 @@ func (a *StackpackApiService) StackPackList(ctx context.Context) ApiStackPackLis
 }
 
 // Execute executes the request
-//  @return []FullStackPack
-func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
+//
+//	@return []FullStackPack
+func (a *StackpackAPIService) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -649,7 +653,7 @@ func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([
 		localVarReturnValue []FullStackPack
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackList")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackAPIService.StackPackList")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -680,6 +684,20 @@ func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -702,20 +720,6 @@ func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -777,7 +781,7 @@ func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([
 
 type ApiStackPackUploadRequest struct {
 	ctx        context.Context
-	ApiService StackpackApi
+	ApiService StackpackAPI
 	stackPack  **os.File
 }
 
@@ -795,10 +799,10 @@ StackPackUpload StackPack API
 
 upload a StackPack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiStackPackUploadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackUploadRequest
 */
-func (a *StackpackApiService) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
+func (a *StackpackAPIService) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
 	return ApiStackPackUploadRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -806,8 +810,9 @@ func (a *StackpackApiService) StackPackUpload(ctx context.Context) ApiStackPackU
 }
 
 // Execute executes the request
-//  @return StackPack
-func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
+//
+//	@return StackPack
+func (a *StackpackAPIService) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -815,7 +820,7 @@ func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest
 		localVarReturnValue *StackPack
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackUpload")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackAPIService.StackPackUpload")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -863,6 +868,20 @@ func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -885,20 +904,6 @@ func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -960,7 +965,7 @@ func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest
 
 type ApiUpgradeStackPackRequest struct {
 	ctx           context.Context
-	ApiService    StackpackApi
+	ApiService    StackpackAPI
 	stackPackName string
 	unlocked      *string
 }
@@ -979,11 +984,11 @@ UpgradeStackPack Upgrade API
 
 Upgrade stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @return ApiUpgradeStackPackRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiUpgradeStackPackRequest
 */
-func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
+func (a *StackpackAPIService) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
 	return ApiUpgradeStackPackRequest{
 		ApiService:    a,
 		ctx:           ctx,
@@ -992,8 +997,9 @@ func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackPackNam
 }
 
 // Execute executes the request
-//  @return string
-func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
+//
+//	@return string
+func (a *StackpackAPIService) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1001,7 +1007,7 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 		localVarReturnValue string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.UpgradeStackPack")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackAPIService.UpgradeStackPack")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1037,6 +1043,20 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1059,20 +1079,6 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1126,7 +1132,7 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type StackpackApiMock struct {
+type StackpackAPIMock struct {
 	ConfirmManualStepsCalls    *[]ConfirmManualStepsCall
 	ConfirmManualStepsResponse ConfirmManualStepsMockResponse
 	ProvisionDetailsCalls      *[]ProvisionDetailsCall
@@ -1141,14 +1147,14 @@ type StackpackApiMock struct {
 	UpgradeStackPackResponse   UpgradeStackPackMockResponse
 }
 
-func NewStackpackApiMock() StackpackApiMock {
+func NewStackpackAPIMock() StackpackAPIMock {
 	xConfirmManualStepsCalls := make([]ConfirmManualStepsCall, 0)
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
 	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
 	xStackPackListCalls := make([]StackPackListCall, 0)
 	xStackPackUploadCalls := make([]StackPackUploadCall, 0)
 	xUpgradeStackPackCalls := make([]UpgradeStackPackCall, 0)
-	return StackpackApiMock{
+	return StackpackAPIMock{
 		ConfirmManualStepsCalls: &xConfirmManualStepsCalls,
 		ProvisionDetailsCalls:   &xProvisionDetailsCalls,
 		ProvisionUninstallCalls: &xProvisionUninstallCalls,
@@ -1169,7 +1175,7 @@ type ConfirmManualStepsCall struct {
 	PstackPackInstanceId int64
 }
 
-func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
+func (mock StackpackAPIMock) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
 		ApiService:          mock,
 		ctx:                 ctx,
@@ -1178,7 +1184,7 @@ func (mock StackpackApiMock) ConfirmManualSteps(ctx context.Context, stackPackNa
 	}
 }
 
-func (mock StackpackApiMock) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
+func (mock StackpackAPIMock) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
 	p := ConfirmManualStepsCall{
 		PstackPackName:       r.stackPackName,
 		PstackPackInstanceId: r.stackPackInstanceId,
@@ -1199,7 +1205,7 @@ type ProvisionDetailsCall struct {
 	PrequestBody   *map[string]string
 }
 
-func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
+func (mock StackpackAPIMock) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
 		ApiService:    mock,
 		ctx:           ctx,
@@ -1207,7 +1213,7 @@ func (mock StackpackApiMock) ProvisionDetails(ctx context.Context, stackPackName
 	}
 }
 
-func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
+func (mock StackpackAPIMock) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	p := ProvisionDetailsCall{
 		PstackPackName: r.stackPackName,
 		Punlocked:      r.unlocked,
@@ -1228,7 +1234,7 @@ type ProvisionUninstallCall struct {
 	PstackPackInstanceId int64
 }
 
-func (mock StackpackApiMock) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
+func (mock StackpackAPIMock) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
 	return ApiProvisionUninstallRequest{
 		ApiService:          mock,
 		ctx:                 ctx,
@@ -1237,7 +1243,7 @@ func (mock StackpackApiMock) ProvisionUninstall(ctx context.Context, stackPackNa
 	}
 }
 
-func (mock StackpackApiMock) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
+func (mock StackpackAPIMock) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
 	p := ProvisionUninstallCall{
 		PstackPackName:       r.stackPackName,
 		PstackPackInstanceId: r.stackPackInstanceId,
@@ -1255,14 +1261,14 @@ type StackPackListMockResponse struct {
 type StackPackListCall struct {
 }
 
-func (mock StackpackApiMock) StackPackList(ctx context.Context) ApiStackPackListRequest {
+func (mock StackpackAPIMock) StackPackList(ctx context.Context) ApiStackPackListRequest {
 	return ApiStackPackListRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock StackpackApiMock) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
+func (mock StackpackAPIMock) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
 	p := StackPackListCall{}
 	*mock.StackPackListCalls = append(*mock.StackPackListCalls, p)
 	return mock.StackPackListResponse.Result, mock.StackPackListResponse.Response, mock.StackPackListResponse.Error
@@ -1278,14 +1284,14 @@ type StackPackUploadCall struct {
 	PstackPack **os.File
 }
 
-func (mock StackpackApiMock) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
+func (mock StackpackAPIMock) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
 	return ApiStackPackUploadRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock StackpackApiMock) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
+func (mock StackpackAPIMock) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
 	p := StackPackUploadCall{
 		PstackPack: r.stackPack,
 	}
@@ -1304,7 +1310,7 @@ type UpgradeStackPackCall struct {
 	Punlocked      *string
 }
 
-func (mock StackpackApiMock) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
+func (mock StackpackAPIMock) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
 	return ApiUpgradeStackPackRequest{
 		ApiService:    mock,
 		ctx:           ctx,
@@ -1312,7 +1318,7 @@ func (mock StackpackApiMock) UpgradeStackPack(ctx context.Context, stackPackName
 	}
 }
 
-func (mock StackpackApiMock) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
+func (mock StackpackAPIMock) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
 	p := UpgradeStackPackCall{
 		PstackPackName: r.stackPackName,
 		Punlocked:      r.unlocked,

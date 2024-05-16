@@ -13,7 +13,7 @@ func TestServiceTokenList(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := ListCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.ServiceTokenApi.GetServiceTokensResponse.Result = []stackstate_api.ServiceToken{
+	cli.MockClient.ApiMocks.ServiceTokenAPI.GetServiceTokensResponse.Result = []stackstate_api.ServiceToken{
 		{
 			Id:   int64p(1),
 			Name: "test",

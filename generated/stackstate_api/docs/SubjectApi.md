@@ -1,13 +1,13 @@
-# \SubjectApi
+# \SubjectAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateSubject**](SubjectApi.md#CreateSubject) | **Put** /security/subjects/{subject} | Create a subject
-[**DeleteSubject**](SubjectApi.md#DeleteSubject) | **Delete** /security/subjects/{subject} | Delete a subject
-[**GetSubject**](SubjectApi.md#GetSubject) | **Get** /security/subjects/{subject} | Get subject
-[**ListSubjects**](SubjectApi.md#ListSubjects) | **Get** /security/subjects | List subjects
+[**CreateSubject**](SubjectAPI.md#CreateSubject) | **Put** /security/subjects/{subject} | Create a subject
+[**DeleteSubject**](SubjectAPI.md#DeleteSubject) | **Delete** /security/subjects/{subject} | Delete a subject
+[**GetSubject**](SubjectAPI.md#GetSubject) | **Get** /security/subjects/{subject} | Get subject
+[**ListSubjects**](SubjectAPI.md#ListSubjects) | **Get** /security/subjects | List subjects
 
 
 
@@ -37,9 +37,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SubjectApi.CreateSubject(context.Background(), subject).CreateSubject(createSubject).Execute()
+    resp, r, err := apiClient.SubjectAPI.CreateSubject(context.Background(), subject).CreateSubject(createSubject).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `SubjectApi.CreateSubject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `SubjectAPI.CreateSubject``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -69,7 +69,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -106,9 +106,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SubjectApi.DeleteSubject(context.Background(), subject).Execute()
+    resp, r, err := apiClient.SubjectAPI.DeleteSubject(context.Background(), subject).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `SubjectApi.DeleteSubject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `SubjectAPI.DeleteSubject``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -137,7 +137,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -174,13 +174,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SubjectApi.GetSubject(context.Background(), subject).Execute()
+    resp, r, err := apiClient.SubjectAPI.GetSubject(context.Background(), subject).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `SubjectApi.GetSubject``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `SubjectAPI.GetSubject``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetSubject`: SubjectConfig
-    fmt.Fprintf(os.Stdout, "Response from `SubjectApi.GetSubject`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `SubjectAPI.GetSubject`: %v\n", resp)
 }
 ```
 
@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -243,13 +243,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SubjectApi.ListSubjects(context.Background()).Execute()
+    resp, r, err := apiClient.SubjectAPI.ListSubjects(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `SubjectApi.ListSubjects``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `SubjectAPI.ListSubjects``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ListSubjects`: []SubjectConfig
-    fmt.Fprintf(os.Stdout, "Response from `SubjectApi.ListSubjects`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `SubjectAPI.ListSubjects`: %v\n", resp)
 }
 ```
 
@@ -268,7 +268,7 @@ Other parameters are passed through a pointer to a apiListSubjectsRequest struct
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

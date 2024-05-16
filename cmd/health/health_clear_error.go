@@ -32,7 +32,7 @@ func RunHealthClearErrorCommand(args *ClearErrorArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		resp, err := api.HealthSynchronizationApi.PostHealthSynchronizationStreamClearErrors(cli.Context, args.Urn).Execute()
+		resp, err := api.HealthSynchronizationAPI.PostHealthSynchronizationStreamClearErrors(cli.Context, args.Urn).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

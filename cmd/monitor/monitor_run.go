@@ -44,7 +44,7 @@ func RunMonitorRunCommand(args *RunArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		identifier := IdOrIdentifier(args.ID, args.Identifier)
-		runResult, resp, err := api.MonitorApi.RunMonitor(cli.Context, identifier).DryRun(!args.DoRun).Execute()
+		runResult, resp, err := api.MonitorAPI.RunMonitor(cli.Context, identifier).DryRun(!args.DoRun).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

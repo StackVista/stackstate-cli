@@ -34,7 +34,7 @@ func TestDescribeSubjectsTable(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeSubjectsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.SubjectApi.ListSubjectsResponse.Result = []stackstate_api.SubjectConfig{
+	cli.MockClient.ApiMocks.SubjectAPI.ListSubjectsResponse.Result = []stackstate_api.SubjectConfig{
 		SubjectConfig1,
 		SubjectConfig2,
 		SubjectConfig3,
@@ -42,7 +42,7 @@ func TestDescribeSubjectsTable(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.ListSubjectsCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.ListSubjectsCalls
 	assert.Len(t, calls, 1)
 
 	expected := []printer.TableData{
@@ -70,11 +70,11 @@ func TestDescribeSubjectsJson(t *testing.T) {
 		SubjectConfig3,
 	}
 
-	cli.MockClient.ApiMocks.SubjectApi.ListSubjectsResponse.Result = result
+	cli.MockClient.ApiMocks.SubjectAPI.ListSubjectsResponse.Result = result
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.ListSubjectsCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.ListSubjectsCalls
 	assert.Len(t, calls, 1)
 
 	expectedJson := []map[string]interface{}{
@@ -90,11 +90,11 @@ func TestDescribeSubjectsTableWithFilter(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeSubjectsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.SubjectApi.GetSubjectResponse.Result = SubjectConfig1
+	cli.MockClient.ApiMocks.SubjectAPI.GetSubjectResponse.Result = SubjectConfig1
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject)
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.GetSubjectCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.GetSubjectCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeSubject, calls[0].Psubject)
 
@@ -115,15 +115,15 @@ func TestDescribeSubjectsJsonWithFilter(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeSubjectsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.SubjectApi.GetSubjectResponse.Result = SubjectConfig1
+	cli.MockClient.ApiMocks.SubjectAPI.GetSubjectResponse.Result = SubjectConfig1
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "-o", "json")
 
-	cli.MockClient.ApiMocks.SubjectApi.GetSubjectResponse.Result = SubjectConfig3
+	cli.MockClient.ApiMocks.SubjectAPI.GetSubjectResponse.Result = SubjectConfig3
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeOtherSubject, "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.GetSubjectCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.GetSubjectCalls
 	assert.Len(t, calls, 2)
 	assert.Equal(t, SomeSubject, calls[0].Psubject)
 	assert.Equal(t, SomeOtherSubject, calls[1].Psubject)

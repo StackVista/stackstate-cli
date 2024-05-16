@@ -15,11 +15,11 @@ func TestDeleteSubjectJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DeleteSubjectCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.SubjectApi.DeleteSubjectResponse.Response = &http.Response{Body: io.NopCloser(strings.NewReader(""))}
+	cli.MockClient.ApiMocks.SubjectAPI.DeleteSubjectResponse.Response = &http.Response{Body: io.NopCloser(strings.NewReader(""))}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.DeleteSubjectCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.DeleteSubjectCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeSubject, calls[0].Psubject)
 
@@ -38,7 +38,7 @@ func TestDeleteSubject(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeOtherSubject)
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.DeleteSubjectCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.DeleteSubjectCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeOtherSubject, calls[0].Psubject)
 

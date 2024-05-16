@@ -1,13 +1,13 @@
-# \RetentionApi
+# \RetentionAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetRetentionEpoch**](RetentionApi.md#GetRetentionEpoch) | **Get** /retention/currentEpoch | Get retention epoch
-[**GetRetentionWindow**](RetentionApi.md#GetRetentionWindow) | **Get** /retention/window | Get retention window
-[**RemoveExpiredData**](RetentionApi.md#RemoveExpiredData) | **Post** /retention/removeExpiredData | Remove expired data from StackGraph
-[**SetRetentionWindow**](RetentionApi.md#SetRetentionWindow) | **Post** /retention/window | Set retention window
+[**GetRetentionEpoch**](RetentionAPI.md#GetRetentionEpoch) | **Get** /retention/currentEpoch | Get retention epoch
+[**GetRetentionWindow**](RetentionAPI.md#GetRetentionWindow) | **Get** /retention/window | Get retention window
+[**RemoveExpiredData**](RetentionAPI.md#RemoveExpiredData) | **Post** /retention/removeExpiredData | Remove expired data from StackGraph
+[**SetRetentionWindow**](RetentionAPI.md#SetRetentionWindow) | **Post** /retention/window | Set retention window
 
 
 
@@ -35,13 +35,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.RetentionApi.GetRetentionEpoch(context.Background()).Execute()
+    resp, r, err := apiClient.RetentionAPI.GetRetentionEpoch(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.GetRetentionEpoch``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionAPI.GetRetentionEpoch``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetRetentionEpoch`: EpochTx
-    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.GetRetentionEpoch`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionAPI.GetRetentionEpoch`: %v\n", resp)
 }
 ```
 
@@ -60,7 +60,7 @@ Other parameters are passed through a pointer to a apiGetRetentionEpochRequest s
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -96,13 +96,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.RetentionApi.GetRetentionWindow(context.Background()).Execute()
+    resp, r, err := apiClient.RetentionAPI.GetRetentionWindow(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.GetRetentionWindow``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionAPI.GetRetentionWindow``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetRetentionWindow`: WindowMs
-    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.GetRetentionWindow`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionAPI.GetRetentionWindow`: %v\n", resp)
 }
 ```
 
@@ -121,7 +121,7 @@ Other parameters are passed through a pointer to a apiGetRetentionWindowRequest 
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -158,13 +158,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.RetentionApi.RemoveExpiredData(context.Background()).ExpireImmediatelyAndRestart(expireImmediatelyAndRestart).Execute()
+    resp, r, err := apiClient.RetentionAPI.RemoveExpiredData(context.Background()).ExpireImmediatelyAndRestart(expireImmediatelyAndRestart).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.RemoveExpiredData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionAPI.RemoveExpiredData``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `RemoveExpiredData`: RemovalProgress
-    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.RemoveExpiredData`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionAPI.RemoveExpiredData`: %v\n", resp)
 }
 ```
 
@@ -187,7 +187,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -225,13 +225,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.RetentionApi.SetRetentionWindow(context.Background()).WindowMs(windowMs).ScheduleRemoval(scheduleRemoval).Execute()
+    resp, r, err := apiClient.RetentionAPI.SetRetentionWindow(context.Background()).WindowMs(windowMs).ScheduleRemoval(scheduleRemoval).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `RetentionApi.SetRetentionWindow``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `RetentionAPI.SetRetentionWindow``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SetRetentionWindow`: WindowMs
-    fmt.Fprintf(os.Stdout, "Response from `RetentionApi.SetRetentionWindow`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `RetentionAPI.SetRetentionWindow`: %v\n", resp)
 }
 ```
 
@@ -255,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

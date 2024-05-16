@@ -49,7 +49,7 @@ func RunServiceTokenCreateCommand(args *CreateArgs) di.CmdWithApiFn {
 			req.ExpiryDate = &m
 		}
 
-		serviceTokenAPI := api.ServiceTokenApi.CreateNewServiceToken(cli.Context)
+		serviceTokenAPI := api.ServiceTokenAPI.CreateNewServiceToken(cli.Context)
 
 		serviceToken, resp, err := serviceTokenAPI.NewServiceTokenRequest(req).Execute()
 		if err != nil {

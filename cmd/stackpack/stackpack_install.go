@@ -52,7 +52,7 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		instance, resp, err := api.StackpackApi.ProvisionDetails(cli.Context, args.Name).RequestBody(args.Params).Unlocked(args.UnlockedStrategy).Execute()
+		instance, resp, err := api.StackpackAPI.ProvisionDetails(cli.Context, args.Name).RequestBody(args.Params).Unlocked(args.UnlockedStrategy).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

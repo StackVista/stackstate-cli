@@ -44,7 +44,7 @@ func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command)
 			},
 		},
 	}
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = mockResponse
 	return &cli, cmd
 }
 

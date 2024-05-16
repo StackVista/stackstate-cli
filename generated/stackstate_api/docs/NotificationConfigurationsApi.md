@@ -1,15 +1,15 @@
-# \NotificationConfigurationsApi
+# \NotificationConfigurationsAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateNotificationConfiguration**](NotificationConfigurationsApi.md#CreateNotificationConfiguration) | **Post** /notifications/configurations | Create a new notification configuration
-[**DeleteNotificationConfiguration**](NotificationConfigurationsApi.md#DeleteNotificationConfiguration) | **Delete** /notifications/configurations/{notificationConfigurationIdOrUrn} | Delete the notification configuration
-[**GetNotificationConfiguration**](NotificationConfigurationsApi.md#GetNotificationConfiguration) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn} | Get the notification configuration
-[**GetNotificationConfigurationChannels**](NotificationConfigurationsApi.md#GetNotificationConfigurationChannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
-[**GetNotificationConfigurations**](NotificationConfigurationsApi.md#GetNotificationConfigurations) | **Get** /notifications/configurations | Get all notification configurations
-[**UpdateNotificationConfiguration**](NotificationConfigurationsApi.md#UpdateNotificationConfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
+[**CreateNotificationConfiguration**](NotificationConfigurationsAPI.md#CreateNotificationConfiguration) | **Post** /notifications/configurations | Create a new notification configuration
+[**DeleteNotificationConfiguration**](NotificationConfigurationsAPI.md#DeleteNotificationConfiguration) | **Delete** /notifications/configurations/{notificationConfigurationIdOrUrn} | Delete the notification configuration
+[**GetNotificationConfiguration**](NotificationConfigurationsAPI.md#GetNotificationConfiguration) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn} | Get the notification configuration
+[**GetNotificationConfigurationChannels**](NotificationConfigurationsAPI.md#GetNotificationConfigurationChannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
+[**GetNotificationConfigurations**](NotificationConfigurationsAPI.md#GetNotificationConfigurations) | **Get** /notifications/configurations | Get all notification configurations
+[**UpdateNotificationConfiguration**](NotificationConfigurationsAPI.md#UpdateNotificationConfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
 
 
 
@@ -38,13 +38,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationConfigurationsApi.CreateNotificationConfiguration(context.Background()).NotificationConfigurationWriteSchema(notificationConfigurationWriteSchema).Execute()
+    resp, r, err := apiClient.NotificationConfigurationsAPI.CreateNotificationConfiguration(context.Background()).NotificationConfigurationWriteSchema(notificationConfigurationWriteSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsApi.CreateNotificationConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsAPI.CreateNotificationConfiguration``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `CreateNotificationConfiguration`: NotificationConfigurationReadSchema
-    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsApi.CreateNotificationConfiguration`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsAPI.CreateNotificationConfiguration`: %v\n", resp)
 }
 ```
 
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -104,9 +104,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationConfigurationsApi.DeleteNotificationConfiguration(context.Background(), notificationConfigurationIdOrUrn).Execute()
+    resp, r, err := apiClient.NotificationConfigurationsAPI.DeleteNotificationConfiguration(context.Background(), notificationConfigurationIdOrUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsApi.DeleteNotificationConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsAPI.DeleteNotificationConfiguration``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -135,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -172,13 +172,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationConfigurationsApi.GetNotificationConfiguration(context.Background(), notificationConfigurationIdOrUrn).Execute()
+    resp, r, err := apiClient.NotificationConfigurationsAPI.GetNotificationConfiguration(context.Background(), notificationConfigurationIdOrUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsApi.GetNotificationConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsAPI.GetNotificationConfiguration``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetNotificationConfiguration`: NotificationConfigurationReadSchema
-    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsApi.GetNotificationConfiguration`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsAPI.GetNotificationConfiguration`: %v\n", resp)
 }
 ```
 
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -242,13 +242,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationConfigurationsApi.GetNotificationConfigurationChannels(context.Background(), notificationConfigurationIdOrUrn).Execute()
+    resp, r, err := apiClient.NotificationConfigurationsAPI.GetNotificationConfigurationChannels(context.Background(), notificationConfigurationIdOrUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsApi.GetNotificationConfigurationChannels``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsAPI.GetNotificationConfigurationChannels``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetNotificationConfigurationChannels`: []NotificationChannel
-    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsApi.GetNotificationConfigurationChannels`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsAPI.GetNotificationConfigurationChannels`: %v\n", resp)
 }
 ```
 
@@ -275,7 +275,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -311,13 +311,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationConfigurationsApi.GetNotificationConfigurations(context.Background()).Execute()
+    resp, r, err := apiClient.NotificationConfigurationsAPI.GetNotificationConfigurations(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsApi.GetNotificationConfigurations``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsAPI.GetNotificationConfigurations``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetNotificationConfigurations`: []NotificationConfigurationReadSchema
-    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsApi.GetNotificationConfigurations`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsAPI.GetNotificationConfigurations`: %v\n", resp)
 }
 ```
 
@@ -336,7 +336,7 @@ Other parameters are passed through a pointer to a apiGetNotificationConfigurati
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -374,13 +374,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationConfigurationsApi.UpdateNotificationConfiguration(context.Background(), notificationConfigurationIdOrUrn).NotificationConfigurationWriteSchema(notificationConfigurationWriteSchema).Execute()
+    resp, r, err := apiClient.NotificationConfigurationsAPI.UpdateNotificationConfiguration(context.Background(), notificationConfigurationIdOrUrn).NotificationConfigurationWriteSchema(notificationConfigurationWriteSchema).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsApi.UpdateNotificationConfiguration``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationConfigurationsAPI.UpdateNotificationConfiguration``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `UpdateNotificationConfiguration`: NotificationConfigurationReadSchema
-    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsApi.UpdateNotificationConfiguration`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NotificationConfigurationsAPI.UpdateNotificationConfiguration`: %v\n", resp)
 }
 ```
 
@@ -408,7 +408,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

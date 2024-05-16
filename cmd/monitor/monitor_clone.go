@@ -40,7 +40,7 @@ func RunMonitorCloneCommand(args *CloneArgs) di.CmdWithApiFn {
 		serverInfo *sts.ServerInfo,
 	) common.CLIError {
 		identifier := IdOrIdentifier(args.ID, args.Identifier)
-		clonedMonitor, resp, err := api.NodeApi.Clone(cli.Context, "Monitor", identifier).NodeName(sts.NodeName{Name: args.NewName}).Execute()
+		clonedMonitor, resp, err := api.NodeAPI.Clone(cli.Context, "Monitor", identifier).NodeName(sts.NodeName{Name: args.NewName}).Execute()
 
 		if err != nil {
 			return common.NewResponseError(err, resp)

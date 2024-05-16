@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type ExportApi interface {
+type ExportAPI interface {
 
 	/*
 		ExportSettings Export settings
@@ -36,12 +36,12 @@ type ExportApi interface {
 	ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error)
 }
 
-// ExportApiService ExportApi service
-type ExportApiService service
+// ExportAPIService ExportAPI service
+type ExportAPIService service
 
 type ApiExportSettingsRequest struct {
 	ctx        context.Context
-	ApiService ExportApi
+	ApiService ExportAPI
 	export     *Export
 }
 
@@ -59,10 +59,10 @@ ExportSettings Export settings
 
 Export setting nodes as StackState Templated YAML (STY).
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiExportSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiExportSettingsRequest
 */
-func (a *ExportApiService) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
+func (a *ExportAPIService) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -70,8 +70,9 @@ func (a *ExportApiService) ExportSettings(ctx context.Context) ApiExportSettings
 }
 
 // Execute executes the request
-//  @return string
-func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
+//
+//	@return string
+func (a *ExportAPIService) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -79,7 +80,7 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 		localVarReturnValue string
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExportApiService.ExportSettings")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ExportAPIService.ExportSettings")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -115,6 +116,20 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -137,20 +152,6 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -195,14 +196,14 @@ func (a *ExportApiService) ExportSettingsExecute(r ApiExportSettingsRequest) (st
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type ExportApiMock struct {
+type ExportAPIMock struct {
 	ExportSettingsCalls    *[]ExportSettingsCall
 	ExportSettingsResponse ExportSettingsMockResponse
 }
 
-func NewExportApiMock() ExportApiMock {
+func NewExportAPIMock() ExportAPIMock {
 	xExportSettingsCalls := make([]ExportSettingsCall, 0)
-	return ExportApiMock{
+	return ExportAPIMock{
 		ExportSettingsCalls: &xExportSettingsCalls,
 	}
 }
@@ -217,14 +218,14 @@ type ExportSettingsCall struct {
 	Pexport *Export
 }
 
-func (mock ExportApiMock) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
+func (mock ExportAPIMock) ExportSettings(ctx context.Context) ApiExportSettingsRequest {
 	return ApiExportSettingsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock ExportApiMock) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
+func (mock ExportAPIMock) ExportSettingsExecute(r ApiExportSettingsRequest) (string, *http.Response, error) {
 	p := ExportSettingsCall{
 		Pexport: r.export,
 	}

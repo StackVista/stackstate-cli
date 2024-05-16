@@ -20,7 +20,7 @@ func ShowCommand(deps *di.Deps) *cobra.Command {
 }
 
 func runLicenseShowCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	licenseAPI := api.SubscriptionApi.GetSubscription(cli.Context)
+	licenseAPI := api.SubscriptionAPI.GetSubscription(cli.Context)
 	license, resp, err := licenseAPI.Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)

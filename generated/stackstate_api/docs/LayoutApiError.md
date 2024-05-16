@@ -1,4 +1,4 @@
-# MonitorApiErrorAllOf
+# LayoutApiError
 
 ## Properties
 
@@ -9,59 +9,59 @@ Name | Type | Description | Notes
 
 ## Methods
 
-### NewMonitorApiErrorAllOf
+### NewLayoutApiError
 
-`func NewMonitorApiErrorAllOf(statusCode string, message string, ) *MonitorApiErrorAllOf`
+`func NewLayoutApiError(statusCode string, message string, ) *LayoutApiError`
 
-NewMonitorApiErrorAllOf instantiates a new MonitorApiErrorAllOf object
+NewLayoutApiError instantiates a new LayoutApiError object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewMonitorApiErrorAllOfWithDefaults
+### NewLayoutApiErrorWithDefaults
 
-`func NewMonitorApiErrorAllOfWithDefaults() *MonitorApiErrorAllOf`
+`func NewLayoutApiErrorWithDefaults() *LayoutApiError`
 
-NewMonitorApiErrorAllOfWithDefaults instantiates a new MonitorApiErrorAllOf object
+NewLayoutApiErrorWithDefaults instantiates a new LayoutApiError object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetStatusCode
 
-`func (o *MonitorApiErrorAllOf) GetStatusCode() string`
+`func (o *LayoutApiError) GetStatusCode() string`
 
 GetStatusCode returns the StatusCode field if non-nil, zero value otherwise.
 
 ### GetStatusCodeOk
 
-`func (o *MonitorApiErrorAllOf) GetStatusCodeOk() (*string, bool)`
+`func (o *LayoutApiError) GetStatusCodeOk() (*string, bool)`
 
 GetStatusCodeOk returns a tuple with the StatusCode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatusCode
 
-`func (o *MonitorApiErrorAllOf) SetStatusCode(v string)`
+`func (o *LayoutApiError) SetStatusCode(v string)`
 
 SetStatusCode sets StatusCode field to given value.
 
 
 ### GetMessage
 
-`func (o *MonitorApiErrorAllOf) GetMessage() string`
+`func (o *LayoutApiError) GetMessage() string`
 
 GetMessage returns the Message field if non-nil, zero value otherwise.
 
 ### GetMessageOk
 
-`func (o *MonitorApiErrorAllOf) GetMessageOk() (*string, bool)`
+`func (o *LayoutApiError) GetMessageOk() (*string, bool)`
 
 GetMessageOk returns a tuple with the Message field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMessage
 
-`func (o *MonitorApiErrorAllOf) SetMessage(v string)`
+`func (o *LayoutApiError) SetMessage(v string)`
 
 SetMessage sets Message field to given value.
 

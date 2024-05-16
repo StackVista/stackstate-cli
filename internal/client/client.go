@@ -190,7 +190,7 @@ type StdStackStateClient struct {
 func (c StdStackStateClient) Connect() (*stackstate_api.APIClient, *stackstate_api.ServerInfo, common.CLIError) {
 	log.Info().Str("api-url", c.apiURL).Msg("Connecting to StackState")
 
-	serverInfo, resp, err := c.client.ServerApi.ServerInfo(c.Context).Execute()
+	serverInfo, resp, err := c.client.ServerAPI.ServerInfo(c.Context).Execute()
 	if err != nil {
 		return nil, &stackstate_api.ServerInfo{}, common.NewConnectError(err, c.apiURL, resp)
 	}

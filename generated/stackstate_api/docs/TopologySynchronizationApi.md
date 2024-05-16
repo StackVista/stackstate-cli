@@ -1,13 +1,13 @@
-# \TopologySynchronizationApi
+# \TopologySynchronizationAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetTopologySynchronizationStreamById**](TopologySynchronizationApi.md#GetTopologySynchronizationStreamById) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
-[**GetTopologySynchronizationStreamStatusById**](TopologySynchronizationApi.md#GetTopologySynchronizationStreamStatusById) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
-[**GetTopologySynchronizationStreams**](TopologySynchronizationApi.md#GetTopologySynchronizationStreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
-[**PostTopologySynchronizationStreamClearErrors**](TopologySynchronizationApi.md#PostTopologySynchronizationStreamClearErrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
+[**GetTopologySynchronizationStreamById**](TopologySynchronizationAPI.md#GetTopologySynchronizationStreamById) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
+[**GetTopologySynchronizationStreamStatusById**](TopologySynchronizationAPI.md#GetTopologySynchronizationStreamStatusById) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
+[**GetTopologySynchronizationStreams**](TopologySynchronizationAPI.md#GetTopologySynchronizationStreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
+[**PostTopologySynchronizationStreamClearErrors**](TopologySynchronizationAPI.md#PostTopologySynchronizationStreamClearErrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
 
 
 
@@ -37,13 +37,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TopologySynchronizationApi.GetTopologySynchronizationStreamById(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
+    resp, r, err := apiClient.TopologySynchronizationAPI.GetTopologySynchronizationStreamById(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.GetTopologySynchronizationStreamById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationAPI.GetTopologySynchronizationStreamById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetTopologySynchronizationStreamById`: TopologyStreamListItemWithErrorDetails
-    fmt.Fprintf(os.Stdout, "Response from `TopologySynchronizationApi.GetTopologySynchronizationStreamById`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TopologySynchronizationAPI.GetTopologySynchronizationStreamById`: %v\n", resp)
 }
 ```
 
@@ -67,7 +67,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -104,13 +104,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TopologySynchronizationApi.GetTopologySynchronizationStreamStatusById(context.Background()).Identifier(identifier).Execute()
+    resp, r, err := apiClient.TopologySynchronizationAPI.GetTopologySynchronizationStreamStatusById(context.Background()).Identifier(identifier).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.GetTopologySynchronizationStreamStatusById``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationAPI.GetTopologySynchronizationStreamStatusById``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetTopologySynchronizationStreamStatusById`: TopologyStreamMetrics
-    fmt.Fprintf(os.Stdout, "Response from `TopologySynchronizationApi.GetTopologySynchronizationStreamStatusById`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TopologySynchronizationAPI.GetTopologySynchronizationStreamStatusById`: %v\n", resp)
 }
 ```
 
@@ -133,7 +133,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -169,13 +169,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TopologySynchronizationApi.GetTopologySynchronizationStreams(context.Background()).Execute()
+    resp, r, err := apiClient.TopologySynchronizationAPI.GetTopologySynchronizationStreams(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.GetTopologySynchronizationStreams``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationAPI.GetTopologySynchronizationStreams``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetTopologySynchronizationStreams`: TopologyStreamList
-    fmt.Fprintf(os.Stdout, "Response from `TopologySynchronizationApi.GetTopologySynchronizationStreams`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TopologySynchronizationAPI.GetTopologySynchronizationStreams`: %v\n", resp)
 }
 ```
 
@@ -194,7 +194,7 @@ Other parameters are passed through a pointer to a apiGetTopologySynchronization
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -232,9 +232,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrors(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
+    resp, r, err := apiClient.TopologySynchronizationAPI.PostTopologySynchronizationStreamClearErrors(context.Background()).Identifier(identifier).IdentifierType(identifierType).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrors``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TopologySynchronizationAPI.PostTopologySynchronizationStreamClearErrors``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -260,7 +260,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

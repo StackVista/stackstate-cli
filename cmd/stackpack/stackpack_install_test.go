@@ -35,7 +35,7 @@ var (
 func setupStackPackInstallCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackInstallCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsResponse.Result = *mockProvisionResponse
+	cli.MockClient.ApiMocks.StackpackAPI.ProvisionDetailsResponse.Result = *mockProvisionResponse
 	return &cli, cmd
 }
 
@@ -57,7 +57,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 				"zabbix_instance_url":  "test_url",
 			},
 		},
-		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
+		(*cli.MockClient.ApiMocks.StackpackAPI.ProvisionDetailsCalls)[0],
 	)
 	expectedTableCall := []printer.TableData{
 		{
@@ -92,7 +92,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 				"comma": "1,2",
 			},
 		},
-		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
+		(*cli.MockClient.ApiMocks.StackpackAPI.ProvisionDetailsCalls)[0],
 	)
 }
 
@@ -108,7 +108,7 @@ func TestStackpackInstallNoParameters(t *testing.T) {
 			Punlocked:      &strategyFlag,
 			PrequestBody:   &map[string]string{},
 		},
-		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
+		(*cli.MockClient.ApiMocks.StackpackAPI.ProvisionDetailsCalls)[0],
 	)
 }
 

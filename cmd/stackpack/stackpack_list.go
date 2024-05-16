@@ -27,7 +27,7 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 }
 
 func fetchAllStackPacks(cli *di.Deps, api *stackstate_api.APIClient) ([]stackstate_api.FullStackPack, common.CLIError) {
-	stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
+	stackPackList, resp, err := api.StackpackAPI.StackPackList(cli.Context).Execute()
 	if err != nil {
 		return nil, common.NewResponseError(err, resp)
 	}

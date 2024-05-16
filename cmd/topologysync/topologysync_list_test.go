@@ -25,7 +25,7 @@ var (
 func TestTopologySyncListTable(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := ListCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamsResponse.Result = *SomeTopos
+	cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamsResponse.Result = *SomeTopos
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
@@ -48,7 +48,7 @@ func TestTopologySyncListTable(t *testing.T) {
 func TestTopologySyncListJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := ListCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamsResponse.Result = *SomeTopos
+	cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamsResponse.Result = *SomeTopos
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 

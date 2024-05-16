@@ -87,130 +87,132 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
-*DummyApi* | [**Dummy**](docs/DummyApi.md#dummy) | **Get** /dummy/dummy | Dummy path to fix omission in openapi generation when a type is not included.
-*EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
-*EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
-*EventApi* | [**GetEventTags**](docs/EventApi.md#geteventtags) | **Get** /eventTags | Get event tags
-*EventApi* | [**GetEventTypes**](docs/EventApi.md#geteventtypes) | **Get** /eventTypes | Get event types
-*EventApi* | [**GetEvents**](docs/EventApi.md#getevents) | **Post** /events | Get events
-*EventApi* | [**GetEventsHistogram**](docs/EventApi.md#geteventshistogram) | **Post** /eventsHistogram | Get events histogram
-*ExportApi* | [**ExportSettings**](docs/ExportApi.md#exportsettings) | **Post** /export | Export settings
-*HealthSynchronizationApi* | [**DeleteHealthSynchronizationStream**](docs/HealthSynchronizationApi.md#deletehealthsynchronizationstream) | **Delete** /synchronization/health/streams/{healthStreamUrn} | Delete health sync stream
-*HealthSynchronizationApi* | [**GetHealthSynchronizationStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamstatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/status | Get health sync stream status
-*HealthSynchronizationApi* | [**GetHealthSynchronizationStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
-*HealthSynchronizationApi* | [**GetHealthSynchronizationStreamsOverview**](docs/HealthSynchronizationApi.md#gethealthsynchronizationstreamsoverview) | **Get** /synchronization/health/streams | List health sync streams
-*HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamOverview**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamoverview) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams | List health sync sub-streams
-*HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamStatus**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamstatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status | Get health sync sub-stream status
-*HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
-*HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
-*ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
-*IngestionApiKeyApi* | [**AuthorizeIngestionApiKey**](docs/IngestionApiKeyApi.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
-*IngestionApiKeyApi* | [**DeleteIngestionApiKey**](docs/IngestionApiKeyApi.md#deleteingestionapikey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
-*IngestionApiKeyApi* | [**GenerateIngestionApiKey**](docs/IngestionApiKeyApi.md#generateingestionapikey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
-*IngestionApiKeyApi* | [**GetIngestionApiKeys**](docs/IngestionApiKeyApi.md#getingestionapikeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
-*KubernetesLogsApi* | [**GetKubernetesLogs**](docs/KubernetesLogsApi.md#getkuberneteslogs) | **Get** /k8s/logs | Get Kubernetes logs
-*KubernetesLogsApi* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsApi.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
-*KubernetesLogsApi* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsApi.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
-*MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
-*MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
-*MetricApi* | [**GetLabelValues**](docs/MetricApi.md#getlabelvalues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
-*MetricApi* | [**GetLabels**](docs/MetricApi.md#getlabels) | **Get** /metrics/labels | List of label names
-*MetricApi* | [**GetMetadata**](docs/MetricApi.md#getmetadata) | **Get** /metrics/metadata | Metadata about metrics currently scraped from targets
-*MetricApi* | [**GetRangeQuery**](docs/MetricApi.md#getrangequery) | **Get** /metrics/query_range | Query over a range of time
-*MetricApi* | [**GetSeries**](docs/MetricApi.md#getseries) | **Get** /metrics/series | List of time series that match a certain label set
-*MetricApi* | [**PostExemplarsQuery**](docs/MetricApi.md#postexemplarsquery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
-*MetricApi* | [**PostInstantQuery**](docs/MetricApi.md#postinstantquery) | **Post** /metrics/query | Instant query at a single point in time
-*MetricApi* | [**PostLabelValues**](docs/MetricApi.md#postlabelvalues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
-*MetricApi* | [**PostLabels**](docs/MetricApi.md#postlabels) | **Post** /metrics/labels | List of label names
-*MetricApi* | [**PostMetadata**](docs/MetricApi.md#postmetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
-*MetricApi* | [**PostRangeQuery**](docs/MetricApi.md#postrangequery) | **Post** /metrics/query_range | Query over a range of time
-*MetricApi* | [**PostSeries**](docs/MetricApi.md#postseries) | **Post** /metrics/series | List of time series that match a certain label set
-*MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
-*MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
-*MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
-*MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
-*MonitorApi* | [**GetMonitorsOverview**](docs/MonitorApi.md#getmonitorsoverview) | **Get** /monitors/overview | List monitors overview
-*MonitorApi* | [**LookupIdentifier**](docs/MonitorApi.md#lookupidentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
-*MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
-*MonitorApi* | [**PreviewMonitor**](docs/MonitorApi.md#previewmonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
-*MonitorApi* | [**PublishHealthStates**](docs/MonitorApi.md#publishhealthstates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
-*MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
-*MonitorApi* | [**TestMonitorFunction**](docs/MonitorApi.md#testmonitorfunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
-*NodeApi* | [**Clone**](docs/NodeApi.md#clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
-*NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
-*NodeApi* | [**Lock**](docs/NodeApi.md#lock) | **Get** /node/{nodeType}/{nodeId}/islocked | Retrieve if a node is locked
-*NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
-*NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
-*NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
-*NotificationChannelsApi* | [**CreateOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#createopsgenienotificationchannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
-*NotificationChannelsApi* | [**CreateWebhookNotificationChannel**](docs/NotificationChannelsApi.md#createwebhooknotificationchannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
-*NotificationChannelsApi* | [**DeleteOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#deleteopsgenienotificationchannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
-*NotificationChannelsApi* | [**DeleteSlackNotificationChannel**](docs/NotificationChannelsApi.md#deleteslacknotificationchannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
-*NotificationChannelsApi* | [**DeleteWebhookNotificationChannel**](docs/NotificationChannelsApi.md#deletewebhooknotificationchannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
-*NotificationChannelsApi* | [**GetOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#getopsgenienotificationchannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
-*NotificationChannelsApi* | [**GetSlackNotificationChannel**](docs/NotificationChannelsApi.md#getslacknotificationchannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
-*NotificationChannelsApi* | [**GetWebhookNotificationChannel**](docs/NotificationChannelsApi.md#getwebhooknotificationchannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
-*NotificationChannelsApi* | [**JoinSlackChannel**](docs/NotificationChannelsApi.md#joinslackchannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
-*NotificationChannelsApi* | [**ListOpsgenieResponders**](docs/NotificationChannelsApi.md#listopsgenieresponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
-*NotificationChannelsApi* | [**ListSlackChannels**](docs/NotificationChannelsApi.md#listslackchannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
-*NotificationChannelsApi* | [**SlackOAuthCallback**](docs/NotificationChannelsApi.md#slackoauthcallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
-*NotificationChannelsApi* | [**SlackOauthRedirect**](docs/NotificationChannelsApi.md#slackoauthredirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
-*NotificationChannelsApi* | [**TestOpsgenieChannel**](docs/NotificationChannelsApi.md#testopsgeniechannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
-*NotificationChannelsApi* | [**TestSlackChannel**](docs/NotificationChannelsApi.md#testslackchannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
-*NotificationChannelsApi* | [**TestWebhookChannel**](docs/NotificationChannelsApi.md#testwebhookchannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
-*NotificationChannelsApi* | [**UpdateOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#updateopsgenienotificationchannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
-*NotificationChannelsApi* | [**UpdateWebhookNotificationChannel**](docs/NotificationChannelsApi.md#updatewebhooknotificationchannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
-*NotificationConfigurationsApi* | [**CreateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#createnotificationconfiguration) | **Post** /notifications/configurations | Create a new notification configuration
-*NotificationConfigurationsApi* | [**DeleteNotificationConfiguration**](docs/NotificationConfigurationsApi.md#deletenotificationconfiguration) | **Delete** /notifications/configurations/{notificationConfigurationIdOrUrn} | Delete the notification configuration
-*NotificationConfigurationsApi* | [**GetNotificationConfiguration**](docs/NotificationConfigurationsApi.md#getnotificationconfiguration) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn} | Get the notification configuration
-*NotificationConfigurationsApi* | [**GetNotificationConfigurationChannels**](docs/NotificationConfigurationsApi.md#getnotificationconfigurationchannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
-*NotificationConfigurationsApi* | [**GetNotificationConfigurations**](docs/NotificationConfigurationsApi.md#getnotificationconfigurations) | **Get** /notifications/configurations | Get all notification configurations
-*NotificationConfigurationsApi* | [**UpdateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#updatenotificationconfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
-*PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
-*PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
-*PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
-*PermissionsApi* | [**RevokePermissions**](docs/PermissionsApi.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
-*ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
-*ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
-*ServerApi* | [**ServerInfo**](docs/ServerApi.md#serverinfo) | **Get** /server/info | Get server info
-*ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/tokens | Create new service token
-*ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
-*ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/tokens | Get service tokens
-*StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
-*StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
-*StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
-*StackpackApi* | [**StackPackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
-*StackpackApi* | [**StackPackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
-*StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
-*SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
-*SubjectApi* | [**DeleteSubject**](docs/SubjectApi.md#deletesubject) | **Delete** /security/subjects/{subject} | Delete a subject
-*SubjectApi* | [**GetSubject**](docs/SubjectApi.md#getsubject) | **Get** /security/subjects/{subject} | Get subject
-*SubjectApi* | [**ListSubjects**](docs/SubjectApi.md#listsubjects) | **Get** /security/subjects | List subjects
-*SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
-*SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
-*TopicApi* | [**Describe**](docs/TopicApi.md#describe) | **Get** /topic/{topic} | Describe a topic
-*TopicApi* | [**List**](docs/TopicApi.md#list) | **Get** /topic | List topics
-*TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
-*TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
-*TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
-*TopologySynchronizationApi* | [**PostTopologySynchronizationStreamClearErrors**](docs/TopologySynchronizationApi.md#posttopologysynchronizationstreamclearerrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
-*TracesApi* | [**GetSpan**](docs/TracesApi.md#getspan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span
-*TracesApi* | [**GetTrace**](docs/TracesApi.md#gettrace) | **Get** /traces/{traceId} | Fetch a trace
-*TracesApi* | [**QueryDuration**](docs/TracesApi.md#queryduration) | **Post** /traces/spans/duration/histogram | Query duration distribution
-*TracesApi* | [**QuerySpans**](docs/TracesApi.md#queryspans) | **Post** /traces/spans | Query for spans
-*TracesApi* | [**SpanComponents**](docs/TracesApi.md#spancomponents) | **Post** /traces/components | Fetch components based on resource attributes
-*TracesApi* | [**SuggestionsAttributeName**](docs/TracesApi.md#suggestionsattributename) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
-*TracesApi* | [**SuggestionsAttributeValue**](docs/TracesApi.md#suggestionsattributevalue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
-*TracesApi* | [**SuggestionsFieldValues**](docs/TracesApi.md#suggestionsfieldvalues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
-*UserProfileApi* | [**GetCurrentUserProfile**](docs/UserProfileApi.md#getcurrentuserprofile) | **Get** /user/profile | Get current user profile
-*UserProfileApi* | [**SaveCurrentUserProfile**](docs/UserProfileApi.md#savecurrentuserprofile) | **Put** /user/profile | Save current user profile
-*UserSessionApi* | [**GetUserSessionAssumedRole**](docs/UserSessionApi.md#getusersessionassumedrole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
-*UserSessionApi* | [**GetUserSessionAvailableRoles**](docs/UserSessionApi.md#getusersessionavailableroles) | **Get** /user/session/availableRoles | Get a list of available roles for this session
-*UserSessionApi* | [**SaveUserSessionAssumedRole**](docs/UserSessionApi.md#saveusersessionassumedrole) | **Put** /user/session/assumedRole | Set the assumed role for the current session
+*ApiTokenAPI* | [**GetCurrentUserApiTokens**](docs/ApiTokenAPI.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+*AuthorizeIngestionApiKeyAPI* | [**AuthorizeIngestionApiKey**](docs/AuthorizeIngestionApiKeyAPI.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
+*ComponentAPI* | [**GetComponentHealthHistory**](docs/ComponentAPI.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrUrn}/healthHistory | Get a component health history
+*DummyAPI* | [**Dummy**](docs/DummyAPI.md#dummy) | **Get** /dummy/dummy | Dummy path to fix omission in openapi generation when a type is not included.
+*EventAPI* | [**GetEvent**](docs/EventAPI.md#getevent) | **Get** /events/{eventId} | Get single event
+*EventAPI* | [**GetEventSources**](docs/EventAPI.md#geteventsources) | **Get** /eventSources | Get event sources
+*EventAPI* | [**GetEventTags**](docs/EventAPI.md#geteventtags) | **Get** /eventTags | Get event tags
+*EventAPI* | [**GetEventTypes**](docs/EventAPI.md#geteventtypes) | **Get** /eventTypes | Get event types
+*EventAPI* | [**GetEvents**](docs/EventAPI.md#getevents) | **Post** /events | Get events
+*EventAPI* | [**GetEventsHistogram**](docs/EventAPI.md#geteventshistogram) | **Post** /eventsHistogram | Get events histogram
+*ExportAPI* | [**ExportSettings**](docs/ExportAPI.md#exportsettings) | **Post** /export | Export settings
+*HealthSynchronizationAPI* | [**DeleteHealthSynchronizationStream**](docs/HealthSynchronizationAPI.md#deletehealthsynchronizationstream) | **Delete** /synchronization/health/streams/{healthStreamUrn} | Delete health sync stream
+*HealthSynchronizationAPI* | [**GetHealthSynchronizationStreamStatus**](docs/HealthSynchronizationAPI.md#gethealthsynchronizationstreamstatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/status | Get health sync stream status
+*HealthSynchronizationAPI* | [**GetHealthSynchronizationStreamTopologyMatches**](docs/HealthSynchronizationAPI.md#gethealthsynchronizationstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/topologyMatches | List health sync stream check-states
+*HealthSynchronizationAPI* | [**GetHealthSynchronizationStreamsOverview**](docs/HealthSynchronizationAPI.md#gethealthsynchronizationstreamsoverview) | **Get** /synchronization/health/streams | List health sync streams
+*HealthSynchronizationAPI* | [**GetHealthSynchronizationSubStreamOverview**](docs/HealthSynchronizationAPI.md#gethealthsynchronizationsubstreamoverview) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams | List health sync sub-streams
+*HealthSynchronizationAPI* | [**GetHealthSynchronizationSubStreamStatus**](docs/HealthSynchronizationAPI.md#gethealthsynchronizationsubstreamstatus) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status | Get health sync sub-stream status
+*HealthSynchronizationAPI* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationAPI.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
+*HealthSynchronizationAPI* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationAPI.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
+*ImportAPI* | [**ImportSettings**](docs/ImportAPI.md#importsettings) | **Post** /import | Import settings
+*IngestionApiKeyAPI* | [**DeleteIngestionApiKey**](docs/IngestionApiKeyAPI.md#deleteingestionapikey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
+*IngestionApiKeyAPI* | [**GenerateIngestionApiKey**](docs/IngestionApiKeyAPI.md#generateingestionapikey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
+*IngestionApiKeyAPI* | [**GetIngestionApiKeys**](docs/IngestionApiKeyAPI.md#getingestionapikeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
+*KubernetesLogsAPI* | [**GetKubernetesLogs**](docs/KubernetesLogsAPI.md#getkuberneteslogs) | **Get** /k8s/logs | Get Kubernetes logs
+*KubernetesLogsAPI* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsAPI.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
+*KubernetesLogsAPI* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsAPI.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
+*LayoutAPI* | [**GetAllLayouts**](docs/LayoutAPI.md#getalllayouts) | **Get** /layouts | List layout hints
+*MetricAPI* | [**GetExemplarsQuery**](docs/MetricAPI.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+*MetricAPI* | [**GetInstantQuery**](docs/MetricAPI.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
+*MetricAPI* | [**GetLabelValues**](docs/MetricAPI.md#getlabelvalues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
+*MetricAPI* | [**GetLabels**](docs/MetricAPI.md#getlabels) | **Get** /metrics/labels | List of label names
+*MetricAPI* | [**GetMetadata**](docs/MetricAPI.md#getmetadata) | **Get** /metrics/metadata | Metadata about metrics currently scraped from targets
+*MetricAPI* | [**GetRangeQuery**](docs/MetricAPI.md#getrangequery) | **Get** /metrics/query_range | Query over a range of time
+*MetricAPI* | [**GetSeries**](docs/MetricAPI.md#getseries) | **Get** /metrics/series | List of time series that match a certain label set
+*MetricAPI* | [**PostExemplarsQuery**](docs/MetricAPI.md#postexemplarsquery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+*MetricAPI* | [**PostInstantQuery**](docs/MetricAPI.md#postinstantquery) | **Post** /metrics/query | Instant query at a single point in time
+*MetricAPI* | [**PostLabelValues**](docs/MetricAPI.md#postlabelvalues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
+*MetricAPI* | [**PostLabels**](docs/MetricAPI.md#postlabels) | **Post** /metrics/labels | List of label names
+*MetricAPI* | [**PostMetadata**](docs/MetricAPI.md#postmetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
+*MetricAPI* | [**PostRangeQuery**](docs/MetricAPI.md#postrangequery) | **Post** /metrics/query_range | Query over a range of time
+*MetricAPI* | [**PostSeries**](docs/MetricAPI.md#postseries) | **Post** /metrics/series | List of time series that match a certain label set
+*MonitorAPI* | [**DeleteMonitor**](docs/MonitorAPI.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
+*MonitorAPI* | [**GetAllMonitors**](docs/MonitorAPI.md#getallmonitors) | **Get** /monitors | List monitors
+*MonitorAPI* | [**GetMonitor**](docs/MonitorAPI.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
+*MonitorAPI* | [**GetMonitorWithStatus**](docs/MonitorAPI.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
+*MonitorAPI* | [**GetMonitorsOverview**](docs/MonitorAPI.md#getmonitorsoverview) | **Get** /monitors/overview | List monitors overview
+*MonitorAPI* | [**LookupIdentifier**](docs/MonitorAPI.md#lookupidentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
+*MonitorAPI* | [**PatchMonitor**](docs/MonitorAPI.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
+*MonitorAPI* | [**PreviewMonitor**](docs/MonitorAPI.md#previewmonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
+*MonitorAPI* | [**PublishHealthStates**](docs/MonitorAPI.md#publishhealthstates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
+*MonitorAPI* | [**RunMonitor**](docs/MonitorAPI.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
+*MonitorAPI* | [**TestMonitorFunction**](docs/MonitorAPI.md#testmonitorfunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
+*MonitorCheckStatusAPI* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusAPI.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
+*MonitorCheckStatusAPI* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusAPI.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health history
+*MonitorCheckStatusAPI* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusAPI.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
+*NodeAPI* | [**Clone**](docs/NodeAPI.md#clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
+*NodeAPI* | [**Delete**](docs/NodeAPI.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
+*NodeAPI* | [**Lock**](docs/NodeAPI.md#lock) | **Get** /node/{nodeType}/{nodeId}/islocked | Retrieve if a node is locked
+*NodeAPI* | [**NodeListTypes**](docs/NodeAPI.md#nodelisttypes) | **Get** /node | Node API
+*NodeAPI* | [**TypeList**](docs/NodeAPI.md#typelist) | **Get** /node/{nodeType} | Node type API
+*NodeAPI* | [**Unlock**](docs/NodeAPI.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+*NotificationChannelsAPI* | [**CreateOpsgenieNotificationChannel**](docs/NotificationChannelsAPI.md#createopsgenienotificationchannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
+*NotificationChannelsAPI* | [**CreateWebhookNotificationChannel**](docs/NotificationChannelsAPI.md#createwebhooknotificationchannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
+*NotificationChannelsAPI* | [**DeleteOpsgenieNotificationChannel**](docs/NotificationChannelsAPI.md#deleteopsgenienotificationchannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
+*NotificationChannelsAPI* | [**DeleteSlackNotificationChannel**](docs/NotificationChannelsAPI.md#deleteslacknotificationchannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
+*NotificationChannelsAPI* | [**DeleteWebhookNotificationChannel**](docs/NotificationChannelsAPI.md#deletewebhooknotificationchannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
+*NotificationChannelsAPI* | [**GetOpsgenieNotificationChannel**](docs/NotificationChannelsAPI.md#getopsgenienotificationchannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
+*NotificationChannelsAPI* | [**GetSlackNotificationChannel**](docs/NotificationChannelsAPI.md#getslacknotificationchannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
+*NotificationChannelsAPI* | [**GetWebhookNotificationChannel**](docs/NotificationChannelsAPI.md#getwebhooknotificationchannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
+*NotificationChannelsAPI* | [**JoinSlackChannel**](docs/NotificationChannelsAPI.md#joinslackchannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
+*NotificationChannelsAPI* | [**ListOpsgenieResponders**](docs/NotificationChannelsAPI.md#listopsgenieresponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
+*NotificationChannelsAPI* | [**ListSlackChannels**](docs/NotificationChannelsAPI.md#listslackchannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
+*NotificationChannelsAPI* | [**SlackOAuthCallback**](docs/NotificationChannelsAPI.md#slackoauthcallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
+*NotificationChannelsAPI* | [**SlackOauthRedirect**](docs/NotificationChannelsAPI.md#slackoauthredirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
+*NotificationChannelsAPI* | [**TestOpsgenieChannel**](docs/NotificationChannelsAPI.md#testopsgeniechannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
+*NotificationChannelsAPI* | [**TestSlackChannel**](docs/NotificationChannelsAPI.md#testslackchannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
+*NotificationChannelsAPI* | [**TestWebhookChannel**](docs/NotificationChannelsAPI.md#testwebhookchannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
+*NotificationChannelsAPI* | [**UpdateOpsgenieNotificationChannel**](docs/NotificationChannelsAPI.md#updateopsgenienotificationchannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
+*NotificationChannelsAPI* | [**UpdateWebhookNotificationChannel**](docs/NotificationChannelsAPI.md#updatewebhooknotificationchannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
+*NotificationConfigurationsAPI* | [**CreateNotificationConfiguration**](docs/NotificationConfigurationsAPI.md#createnotificationconfiguration) | **Post** /notifications/configurations | Create a new notification configuration
+*NotificationConfigurationsAPI* | [**DeleteNotificationConfiguration**](docs/NotificationConfigurationsAPI.md#deletenotificationconfiguration) | **Delete** /notifications/configurations/{notificationConfigurationIdOrUrn} | Delete the notification configuration
+*NotificationConfigurationsAPI* | [**GetNotificationConfiguration**](docs/NotificationConfigurationsAPI.md#getnotificationconfiguration) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn} | Get the notification configuration
+*NotificationConfigurationsAPI* | [**GetNotificationConfigurationChannels**](docs/NotificationConfigurationsAPI.md#getnotificationconfigurationchannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
+*NotificationConfigurationsAPI* | [**GetNotificationConfigurations**](docs/NotificationConfigurationsAPI.md#getnotificationconfigurations) | **Get** /notifications/configurations | Get all notification configurations
+*NotificationConfigurationsAPI* | [**UpdateNotificationConfiguration**](docs/NotificationConfigurationsAPI.md#updatenotificationconfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
+*PermissionsAPI* | [**DescribePermissions**](docs/PermissionsAPI.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
+*PermissionsAPI* | [**GetPermissions**](docs/PermissionsAPI.md#getpermissions) | **Get** /security/permissions/list | List permissions
+*PermissionsAPI* | [**GrantPermissions**](docs/PermissionsAPI.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
+*PermissionsAPI* | [**RevokePermissions**](docs/PermissionsAPI.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
+*ProblemAPI* | [**GetProblemCausingEvents**](docs/ProblemAPI.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
+*ScriptingAPI* | [**ScriptExecute**](docs/ScriptingAPI.md#scriptexecute) | **Post** /script/execute | Execute script
+*ServerAPI* | [**ServerInfo**](docs/ServerAPI.md#serverinfo) | **Get** /server/info | Get server info
+*ServiceTokenAPI* | [**CreateNewServiceToken**](docs/ServiceTokenAPI.md#createnewservicetoken) | **Post** /security/tokens | Create new service token
+*ServiceTokenAPI* | [**DeleteServiceToken**](docs/ServiceTokenAPI.md#deleteservicetoken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
+*ServiceTokenAPI* | [**GetServiceTokens**](docs/ServiceTokenAPI.md#getservicetokens) | **Get** /security/tokens | Get service tokens
+*StackpackAPI* | [**ConfirmManualSteps**](docs/StackpackAPI.md#confirmmanualsteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
+*StackpackAPI* | [**ProvisionDetails**](docs/StackpackAPI.md#provisiondetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
+*StackpackAPI* | [**ProvisionUninstall**](docs/StackpackAPI.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
+*StackpackAPI* | [**StackPackList**](docs/StackpackAPI.md#stackpacklist) | **Get** /stackpack | StackPack API
+*StackpackAPI* | [**StackPackUpload**](docs/StackpackAPI.md#stackpackupload) | **Post** /stackpack | StackPack API
+*StackpackAPI* | [**UpgradeStackPack**](docs/StackpackAPI.md#upgradestackpack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
+*SubjectAPI* | [**CreateSubject**](docs/SubjectAPI.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
+*SubjectAPI* | [**DeleteSubject**](docs/SubjectAPI.md#deletesubject) | **Delete** /security/subjects/{subject} | Delete a subject
+*SubjectAPI* | [**GetSubject**](docs/SubjectAPI.md#getsubject) | **Get** /security/subjects/{subject} | Get subject
+*SubjectAPI* | [**ListSubjects**](docs/SubjectAPI.md#listsubjects) | **Get** /security/subjects | List subjects
+*SubscriptionAPI* | [**GetSubscription**](docs/SubscriptionAPI.md#getsubscription) | **Get** /subscription | Get subscription info
+*SubscriptionAPI* | [**PostSubscription**](docs/SubscriptionAPI.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
+*TopicAPI* | [**Describe**](docs/TopicAPI.md#describe) | **Get** /topic/{topic} | Describe a topic
+*TopicAPI* | [**List**](docs/TopicAPI.md#list) | **Get** /topic | List topics
+*TopologySynchronizationAPI* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationAPI.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
+*TopologySynchronizationAPI* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationAPI.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
+*TopologySynchronizationAPI* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationAPI.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
+*TopologySynchronizationAPI* | [**PostTopologySynchronizationStreamClearErrors**](docs/TopologySynchronizationAPI.md#posttopologysynchronizationstreamclearerrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
+*TracesAPI* | [**GetSpan**](docs/TracesAPI.md#getspan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span
+*TracesAPI* | [**GetTrace**](docs/TracesAPI.md#gettrace) | **Get** /traces/{traceId} | Fetch a trace
+*TracesAPI* | [**QueryDuration**](docs/TracesAPI.md#queryduration) | **Post** /traces/spans/duration/histogram | Query duration distribution
+*TracesAPI* | [**QuerySpans**](docs/TracesAPI.md#queryspans) | **Post** /traces/spans | Query for spans
+*TracesAPI* | [**SpanComponents**](docs/TracesAPI.md#spancomponents) | **Post** /traces/components | Fetch components based on resource attributes
+*TracesAPI* | [**SuggestionsAttributeName**](docs/TracesAPI.md#suggestionsattributename) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
+*TracesAPI* | [**SuggestionsAttributeValue**](docs/TracesAPI.md#suggestionsattributevalue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
+*TracesAPI* | [**SuggestionsFieldValues**](docs/TracesAPI.md#suggestionsfieldvalues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
+*UserProfileAPI* | [**GetCurrentUserProfile**](docs/UserProfileAPI.md#getcurrentuserprofile) | **Get** /user/profile | Get current user profile
+*UserProfileAPI* | [**SaveCurrentUserProfile**](docs/UserProfileAPI.md#savecurrentuserprofile) | **Put** /user/profile | Save current user profile
+*UserSessionAPI* | [**GetUserSessionAssumedRole**](docs/UserSessionAPI.md#getusersessionassumedrole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
+*UserSessionAPI* | [**GetUserSessionAvailableRoles**](docs/UserSessionAPI.md#getusersessionavailableroles) | **Get** /user/session/availableRoles | Get a list of available roles for this session
+*UserSessionAPI* | [**SaveUserSessionAssumedRole**](docs/UserSessionAPI.md#saveusersessionassumedrole) | **Put** /user/session/assumedRole | Set the assumed role for the current session
 
 
 ## Documentation For Models
@@ -236,12 +238,17 @@ Class | Method | HTTP request | Description
  - [ArgumentTopologyPromQLMetricVal](docs/ArgumentTopologyPromQLMetricVal.md)
  - [ArgumentTopologyQueryVal](docs/ArgumentTopologyQueryVal.md)
  - [AuthorizeIngestionApiKeyRequest](docs/AuthorizeIngestionApiKeyRequest.md)
+ - [BaseLayoutHint](docs/BaseLayoutHint.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
  - [BaseNotificationChannel](docs/BaseNotificationChannel.md)
  - [CausingEventsAreNotAvailableForTheTime](docs/CausingEventsAreNotAvailableForTheTime.md)
  - [CausingEventsResult](docs/CausingEventsResult.md)
  - [ChannelReferenceId](docs/ChannelReferenceId.md)
  - [ComparatorWithoutEquality](docs/ComparatorWithoutEquality.md)
+ - [ComponentHealthChange](docs/ComponentHealthChange.md)
+ - [ComponentHealthHistory](docs/ComponentHealthHistory.md)
+ - [ComponentHighlightMetricSection](docs/ComponentHighlightMetricSection.md)
+ - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
  - [ComponentQuery](docs/ComponentQuery.md)
  - [CreateSubject](docs/CreateSubject.md)
  - [DataUnavailable](docs/DataUnavailable.md)
@@ -328,6 +335,9 @@ Class | Method | HTTP request | Description
  - [KubernetesLogHistogramBucket](docs/KubernetesLogHistogramBucket.md)
  - [KubernetesLogRecord](docs/KubernetesLogRecord.md)
  - [KubernetesLogSeverityHistogramBucket](docs/KubernetesLogSeverityHistogramBucket.md)
+ - [LayoutApiError](docs/LayoutApiError.md)
+ - [LayoutHint](docs/LayoutHint.md)
+ - [LayoutList](docs/LayoutList.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
  - [LockedResponse](docs/LockedResponse.md)
@@ -338,9 +348,10 @@ Class | Method | HTTP request | Description
  - [MessageLevel](docs/MessageLevel.md)
  - [Messages](docs/Messages.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
+ - [MetricPerspectiveSection](docs/MetricPerspectiveSection.md)
+ - [MetricPerspectiveTab](docs/MetricPerspectiveTab.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
- - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
  - [MonitorCheckStatus](docs/MonitorCheckStatus.md)
  - [MonitorCheckStatusApiError](docs/MonitorCheckStatusApiError.md)
  - [MonitorCheckStatusComponent](docs/MonitorCheckStatusComponent.md)
@@ -368,7 +379,6 @@ Class | Method | HTTP request | Description
  - [MonitorList](docs/MonitorList.md)
  - [MonitorMetrics](docs/MonitorMetrics.md)
  - [MonitorNotFoundError](docs/MonitorNotFoundError.md)
- - [MonitorNotFoundErrorAllOf](docs/MonitorNotFoundErrorAllOf.md)
  - [MonitorOverview](docs/MonitorOverview.md)
  - [MonitorOverviewList](docs/MonitorOverviewList.md)
  - [MonitorPatch](docs/MonitorPatch.md)
@@ -401,7 +411,6 @@ Class | Method | HTTP request | Description
  - [NotificationConfigurationError](docs/NotificationConfigurationError.md)
  - [NotificationConfigurationNotFound](docs/NotificationConfigurationNotFound.md)
  - [NotificationConfigurationReadSchema](docs/NotificationConfigurationReadSchema.md)
- - [NotificationConfigurationReadSchemaAllOf](docs/NotificationConfigurationReadSchemaAllOf.md)
  - [NotificationConfigurationRuntimeStatusValue](docs/NotificationConfigurationRuntimeStatusValue.md)
  - [NotificationConfigurationStatusValue](docs/NotificationConfigurationStatusValue.md)
  - [NotificationConfigurationWriteSchema](docs/NotificationConfigurationWriteSchema.md)
@@ -409,7 +418,6 @@ Class | Method | HTTP request | Description
  - [OpsgenieChannelRefId](docs/OpsgenieChannelRefId.md)
  - [OpsgenieChannelWriteSchema](docs/OpsgenieChannelWriteSchema.md)
  - [OpsgenieNotificationChannel](docs/OpsgenieNotificationChannel.md)
- - [OpsgenieNotificationChannelAllOf](docs/OpsgenieNotificationChannelAllOf.md)
  - [OpsgenieResponder](docs/OpsgenieResponder.md)
  - [PermissionDescription](docs/PermissionDescription.md)
  - [Permissions](docs/Permissions.md)
@@ -449,7 +457,6 @@ Class | Method | HTTP request | Description
  - [SlackChannelId](docs/SlackChannelId.md)
  - [SlackChannelRefId](docs/SlackChannelRefId.md)
  - [SlackNotificationChannel](docs/SlackNotificationChannel.md)
- - [SlackNotificationChannelAllOf](docs/SlackNotificationChannelAllOf.md)
  - [SourceLink](docs/SourceLink.md)
  - [Span](docs/Span.md)
  - [SpanComponent](docs/SpanComponent.md)
@@ -464,6 +471,7 @@ Class | Method | HTTP request | Description
  - [SpanSortField](docs/SpanSortField.md)
  - [SpanSortOption](docs/SpanSortOption.md)
  - [SpanSuggestionField](docs/SpanSuggestionField.md)
+ - [SpanSummary](docs/SpanSummary.md)
  - [Spans](docs/Spans.md)
  - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
@@ -515,7 +523,6 @@ Class | Method | HTTP request | Description
  - [WebhookChannelRefId](docs/WebhookChannelRefId.md)
  - [WebhookChannelWriteSchema](docs/WebhookChannelWriteSchema.md)
  - [WebhookNotificationChannel](docs/WebhookNotificationChannel.md)
- - [WebhookNotificationChannelAllOf](docs/WebhookNotificationChannelAllOf.md)
 
 
 ## Documentation For Authorization
@@ -531,15 +538,6 @@ Class | Method | HTTP request | Description
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Token and passed in as the auth context for each request.
 
 
-### ServiceBearer
-
-- **Type**: API key
-- **API key parameter name**: X-API-ServiceBearer
-- **Location**: HTTP header
-
-Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-ServiceBearer and passed in as the auth context for each request.
-
-
 ### ServiceToken
 
 - **Type**: API key
@@ -547,6 +545,15 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: HTTP header
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Key and passed in as the auth context for each request.
+
+
+### ServiceBearer
+
+- **Type**: API key
+- **API key parameter name**: X-API-ServiceBearer
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-ServiceBearer and passed in as the auth context for each request.
 
 
 ## Documentation for Utility Methods

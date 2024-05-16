@@ -35,7 +35,7 @@ func RunStackpackUninstallCommand(args *UninstallArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		result, resp, err := api.StackpackApi.ProvisionUninstall(cli.Context, args.Name, args.Id).Execute()
+		result, resp, err := api.StackpackAPI.ProvisionUninstall(cli.Context, args.Name, args.Id).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

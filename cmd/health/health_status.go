@@ -55,9 +55,9 @@ func GetTopologyMatches(cli *di.Deps, api *stackstate_api.APIClient, args *Statu
 	var resp *http.Response
 	var err error
 	if args.SubStream == "" {
-		topologies, resp, err = api.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatches(cli.Context, args.Urn).Execute()
+		topologies, resp, err = api.HealthSynchronizationAPI.GetHealthSynchronizationStreamTopologyMatches(cli.Context, args.Urn).Execute()
 	} else {
-		topologies, resp, err = api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamTopologyMatches(cli.Context, args.Urn, args.SubStream).Execute()
+		topologies, resp, err = api.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamTopologyMatches(cli.Context, args.Urn, args.SubStream).Execute()
 	}
 
 	if err != nil {
@@ -89,7 +89,7 @@ func RunTopologyMatchesStatus(cli *di.Deps, api *stackstate_api.APIClient, args 
 }
 
 func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
-	status, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationStreamStatus(cli.Context, args.Urn).Execute()
+	status, resp, err := api.HealthSynchronizationAPI.GetHealthSynchronizationStreamStatus(cli.Context, args.Urn).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}
@@ -274,7 +274,7 @@ func subStreamStatusToJson(status stackstate_api.HealthSubStreamStatus) map[stri
 }
 
 func RunSubStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusArgs) common.CLIError {
-	status, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatus(cli.Context, args.Urn, args.SubStream).Execute()
+	status, resp, err := api.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamStatus(cli.Context, args.Urn, args.SubStream).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

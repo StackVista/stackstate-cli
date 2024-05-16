@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type MonitorApi interface {
+type MonitorAPI interface {
 
 	/*
 		DeleteMonitor Delete a monitor
@@ -183,12 +183,12 @@ type MonitorApi interface {
 	TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error)
 }
 
-// MonitorApiService MonitorApi service
-type MonitorApiService service
+// MonitorAPIService MonitorAPI service
+type MonitorAPIService service
 
 type ApiDeleteMonitorRequest struct {
 	ctx            context.Context
-	ApiService     MonitorApi
+	ApiService     MonitorAPI
 	monitorIdOrUrn string
 }
 
@@ -201,11 +201,11 @@ DeleteMonitor Delete a monitor
 
 Deletes existing monitor
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiDeleteMonitorRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiDeleteMonitorRequest
 */
-func (a *MonitorApiService) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
+func (a *MonitorAPIService) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
 	return ApiDeleteMonitorRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -214,14 +214,14 @@ func (a *MonitorApiService) DeleteMonitor(ctx context.Context, monitorIdOrUrn st
 }
 
 // Execute executes the request
-func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error) {
+func (a *MonitorAPIService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.DeleteMonitor")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.DeleteMonitor")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -253,6 +253,20 @@ func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*ht
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -275,20 +289,6 @@ func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*ht
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -351,7 +351,7 @@ func (a *MonitorApiService) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*ht
 
 type ApiGetAllMonitorsRequest struct {
 	ctx        context.Context
-	ApiService MonitorApi
+	ApiService MonitorAPI
 }
 
 func (r ApiGetAllMonitorsRequest) Execute() (*MonitorList, *http.Response, error) {
@@ -363,10 +363,10 @@ GetAllMonitors List monitors
 
 List all available monitor in the system
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetAllMonitorsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetAllMonitorsRequest
 */
-func (a *MonitorApiService) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
+func (a *MonitorAPIService) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
 	return ApiGetAllMonitorsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -374,8 +374,9 @@ func (a *MonitorApiService) GetAllMonitors(ctx context.Context) ApiGetAllMonitor
 }
 
 // Execute executes the request
-//  @return MonitorList
-func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
+//
+//	@return MonitorList
+func (a *MonitorAPIService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -383,7 +384,7 @@ func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*
 		localVarReturnValue *MonitorList
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetAllMonitors")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.GetAllMonitors")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -414,6 +415,20 @@ func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -436,20 +451,6 @@ func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -501,7 +502,7 @@ func (a *MonitorApiService) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*
 
 type ApiGetMonitorRequest struct {
 	ctx            context.Context
-	ApiService     MonitorApi
+	ApiService     MonitorAPI
 	monitorIdOrUrn string
 }
 
@@ -514,11 +515,11 @@ GetMonitor Get a monitor
 
 Returns a monitor full representation
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiGetMonitorRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiGetMonitorRequest
 */
-func (a *MonitorApiService) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
+func (a *MonitorAPIService) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
 	return ApiGetMonitorRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -527,8 +528,9 @@ func (a *MonitorApiService) GetMonitor(ctx context.Context, monitorIdOrUrn strin
 }
 
 // Execute executes the request
-//  @return Monitor
-func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
+//
+//	@return Monitor
+func (a *MonitorAPIService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -536,7 +538,7 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 		localVarReturnValue *Monitor
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitor")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.GetMonitor")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -568,6 +570,20 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -590,20 +606,6 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -675,7 +677,7 @@ func (a *MonitorApiService) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor,
 
 type ApiGetMonitorWithStatusRequest struct {
 	ctx            context.Context
-	ApiService     MonitorApi
+	ApiService     MonitorAPI
 	monitorIdOrUrn string
 }
 
@@ -688,11 +690,11 @@ GetMonitorWithStatus Get a monitor with stream information
 
 Returns a monitor full representation with the stream status information
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiGetMonitorWithStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiGetMonitorWithStatusRequest
 */
-func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
+func (a *MonitorAPIService) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -701,8 +703,9 @@ func (a *MonitorApiService) GetMonitorWithStatus(ctx context.Context, monitorIdO
 }
 
 // Execute executes the request
-//  @return MonitorStatus
-func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
+//
+//	@return MonitorStatus
+func (a *MonitorAPIService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -710,7 +713,7 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 		localVarReturnValue *MonitorStatus
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitorWithStatus")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.GetMonitorWithStatus")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -742,6 +745,20 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -764,20 +781,6 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -849,7 +852,7 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 
 type ApiGetMonitorsOverviewRequest struct {
 	ctx        context.Context
-	ApiService MonitorApi
+	ApiService MonitorAPI
 }
 
 func (r ApiGetMonitorsOverviewRequest) Execute() (*MonitorOverviewList, *http.Response, error) {
@@ -861,10 +864,10 @@ GetMonitorsOverview List monitors overview
 
 List all available monitor in the system with their function and runtime data
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetMonitorsOverviewRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMonitorsOverviewRequest
 */
-func (a *MonitorApiService) GetMonitorsOverview(ctx context.Context) ApiGetMonitorsOverviewRequest {
+func (a *MonitorAPIService) GetMonitorsOverview(ctx context.Context) ApiGetMonitorsOverviewRequest {
 	return ApiGetMonitorsOverviewRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -872,8 +875,9 @@ func (a *MonitorApiService) GetMonitorsOverview(ctx context.Context) ApiGetMonit
 }
 
 // Execute executes the request
-//  @return MonitorOverviewList
-func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
+//
+//	@return MonitorOverviewList
+func (a *MonitorAPIService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -881,7 +885,7 @@ func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewR
 		localVarReturnValue *MonitorOverviewList
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.GetMonitorsOverview")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.GetMonitorsOverview")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -912,6 +916,20 @@ func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -934,20 +952,6 @@ func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -999,7 +1003,7 @@ func (a *MonitorApiService) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewR
 
 type ApiLookupIdentifierRequest struct {
 	ctx                     context.Context
-	ApiService              MonitorApi
+	ApiService              MonitorAPI
 	monitorIdentifierLookup *MonitorIdentifierLookup
 }
 
@@ -1018,10 +1022,10 @@ LookupIdentifier Multiple component identifier lookup
 
 Find identifier templates using a component type and a metrics query
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiLookupIdentifierRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiLookupIdentifierRequest
 */
-func (a *MonitorApiService) LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest {
+func (a *MonitorAPIService) LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest {
 	return ApiLookupIdentifierRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1029,8 +1033,9 @@ func (a *MonitorApiService) LookupIdentifier(ctx context.Context) ApiLookupIdent
 }
 
 // Execute executes the request
-//  @return MonitorIdentifierSuggestions
-func (a *MonitorApiService) LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error) {
+//
+//	@return MonitorIdentifierSuggestions
+func (a *MonitorAPIService) LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1038,7 +1043,7 @@ func (a *MonitorApiService) LookupIdentifierExecute(r ApiLookupIdentifierRequest
 		localVarReturnValue *MonitorIdentifierSuggestions
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.LookupIdentifier")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.LookupIdentifier")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1074,6 +1079,20 @@ func (a *MonitorApiService) LookupIdentifierExecute(r ApiLookupIdentifierRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1096,20 +1115,6 @@ func (a *MonitorApiService) LookupIdentifierExecute(r ApiLookupIdentifierRequest
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1171,7 +1176,7 @@ func (a *MonitorApiService) LookupIdentifierExecute(r ApiLookupIdentifierRequest
 
 type ApiPatchMonitorRequest struct {
 	ctx            context.Context
-	ApiService     MonitorApi
+	ApiService     MonitorAPI
 	monitorIdOrUrn string
 	monitorPatch   *MonitorPatch
 }
@@ -1191,11 +1196,11 @@ PatchMonitor Update some monitor properties
 
 Performs a patch on the monitor base properties.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiPatchMonitorRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiPatchMonitorRequest
 */
-func (a *MonitorApiService) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
+func (a *MonitorAPIService) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
 	return ApiPatchMonitorRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -1204,8 +1209,9 @@ func (a *MonitorApiService) PatchMonitor(ctx context.Context, monitorIdOrUrn str
 }
 
 // Execute executes the request
-//  @return Monitor
-func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
+//
+//	@return Monitor
+func (a *MonitorAPIService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch
 		localVarPostBody    interface{}
@@ -1213,7 +1219,7 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 		localVarReturnValue *Monitor
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.PatchMonitor")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.PatchMonitor")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1250,6 +1256,20 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1272,20 +1292,6 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1357,7 +1363,7 @@ func (a *MonitorApiService) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Moni
 
 type ApiPreviewMonitorRequest struct {
 	ctx            context.Context
-	ApiService     MonitorApi
+	ApiService     MonitorAPI
 	monitorIdOrUrn string
 	monitorPreview *MonitorPreview
 }
@@ -1377,11 +1383,11 @@ PreviewMonitor Preview a monitor
 
 Performs a run of a monitor allowing to test it with new arguments and delivers a summary of the health states produced
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiPreviewMonitorRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiPreviewMonitorRequest
 */
-func (a *MonitorApiService) PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest {
+func (a *MonitorAPIService) PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest {
 	return ApiPreviewMonitorRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -1390,8 +1396,9 @@ func (a *MonitorApiService) PreviewMonitor(ctx context.Context, monitorIdOrUrn s
 }
 
 // Execute executes the request
-//  @return MonitorPreviewResult
-func (a *MonitorApiService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error) {
+//
+//	@return MonitorPreviewResult
+func (a *MonitorAPIService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1399,7 +1406,7 @@ func (a *MonitorApiService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*
 		localVarReturnValue *MonitorPreviewResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.PreviewMonitor")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.PreviewMonitor")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1436,6 +1443,20 @@ func (a *MonitorApiService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1458,20 +1479,6 @@ func (a *MonitorApiService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1543,7 +1550,7 @@ func (a *MonitorApiService) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*
 
 type ApiPublishHealthStatesRequest struct {
 	ctx             context.Context
-	ApiService      MonitorApi
+	ApiService      MonitorAPI
 	monitorIdOrUrn  string
 	monitorSnapshot *MonitorSnapshot
 }
@@ -1563,11 +1570,11 @@ PublishHealthStates Post monitor health states
 
 Publish health states for monitor
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiPublishHealthStatesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiPublishHealthStatesRequest
 */
-func (a *MonitorApiService) PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest {
+func (a *MonitorAPIService) PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest {
 	return ApiPublishHealthStatesRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -1576,14 +1583,14 @@ func (a *MonitorApiService) PublishHealthStates(ctx context.Context, monitorIdOr
 }
 
 // Execute executes the request
-func (a *MonitorApiService) PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error) {
+func (a *MonitorAPIService) PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.PublishHealthStates")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.PublishHealthStates")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1620,6 +1627,20 @@ func (a *MonitorApiService) PublishHealthStatesExecute(r ApiPublishHealthStatesR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1642,20 +1663,6 @@ func (a *MonitorApiService) PublishHealthStatesExecute(r ApiPublishHealthStatesR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1718,7 +1725,7 @@ func (a *MonitorApiService) PublishHealthStatesExecute(r ApiPublishHealthStatesR
 
 type ApiRunMonitorRequest struct {
 	ctx            context.Context
-	ApiService     MonitorApi
+	ApiService     MonitorAPI
 	monitorIdOrUrn string
 	dryRun         *bool
 }
@@ -1738,11 +1745,11 @@ RunMonitor Run a monitor
 
 Performs a run of a monitor. If 'dryRun' is set, topology state will not be modified.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorIdOrUrn The id or identifier (urn) of a monitor
- @return ApiRunMonitorRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorIdOrUrn The id or identifier (urn) of a monitor
+	@return ApiRunMonitorRequest
 */
-func (a *MonitorApiService) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
+func (a *MonitorAPIService) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
 	return ApiRunMonitorRequest{
 		ApiService:     a,
 		ctx:            ctx,
@@ -1751,8 +1758,9 @@ func (a *MonitorApiService) RunMonitor(ctx context.Context, monitorIdOrUrn strin
 }
 
 // Execute executes the request
-//  @return MonitorRunResult
-func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
+//
+//	@return MonitorRunResult
+func (a *MonitorAPIService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1760,7 +1768,7 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 		localVarReturnValue *MonitorRunResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.RunMonitor")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.RunMonitor")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1795,6 +1803,20 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1817,20 +1839,6 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1902,7 +1910,7 @@ func (a *MonitorApiService) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorR
 
 type ApiTestMonitorFunctionRequest struct {
 	ctx                    context.Context
-	ApiService             MonitorApi
+	ApiService             MonitorAPI
 	monitorFunctionIdOrUrn string
 	monitorFunctionTest    *MonitorFunctionTest
 }
@@ -1922,11 +1930,11 @@ TestMonitorFunction Test a monitor
 
 Performs a run of a monitor function to test arguments and delivers a summary of the health states produced
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param monitorFunctionIdOrUrn The id or identifier (urn) of a monitor function
- @return ApiTestMonitorFunctionRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param monitorFunctionIdOrUrn The id or identifier (urn) of a monitor function
+	@return ApiTestMonitorFunctionRequest
 */
-func (a *MonitorApiService) TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest {
+func (a *MonitorAPIService) TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest {
 	return ApiTestMonitorFunctionRequest{
 		ApiService:             a,
 		ctx:                    ctx,
@@ -1935,8 +1943,9 @@ func (a *MonitorApiService) TestMonitorFunction(ctx context.Context, monitorFunc
 }
 
 // Execute executes the request
-//  @return MonitorPreviewResult
-func (a *MonitorApiService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error) {
+//
+//	@return MonitorPreviewResult
+func (a *MonitorAPIService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1944,7 +1953,7 @@ func (a *MonitorApiService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionR
 		localVarReturnValue *MonitorPreviewResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorApiService.TestMonitorFunction")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorAPIService.TestMonitorFunction")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1981,6 +1990,20 @@ func (a *MonitorApiService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2003,20 +2026,6 @@ func (a *MonitorApiService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2090,7 +2099,7 @@ func (a *MonitorApiService) TestMonitorFunctionExecute(r ApiTestMonitorFunctionR
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type MonitorApiMock struct {
+type MonitorAPIMock struct {
 	DeleteMonitorCalls           *[]DeleteMonitorCall
 	DeleteMonitorResponse        DeleteMonitorMockResponse
 	GetAllMonitorsCalls          *[]GetAllMonitorsCall
@@ -2115,7 +2124,7 @@ type MonitorApiMock struct {
 	TestMonitorFunctionResponse  TestMonitorFunctionMockResponse
 }
 
-func NewMonitorApiMock() MonitorApiMock {
+func NewMonitorAPIMock() MonitorAPIMock {
 	xDeleteMonitorCalls := make([]DeleteMonitorCall, 0)
 	xGetAllMonitorsCalls := make([]GetAllMonitorsCall, 0)
 	xGetMonitorCalls := make([]GetMonitorCall, 0)
@@ -2127,7 +2136,7 @@ func NewMonitorApiMock() MonitorApiMock {
 	xPublishHealthStatesCalls := make([]PublishHealthStatesCall, 0)
 	xRunMonitorCalls := make([]RunMonitorCall, 0)
 	xTestMonitorFunctionCalls := make([]TestMonitorFunctionCall, 0)
-	return MonitorApiMock{
+	return MonitorAPIMock{
 		DeleteMonitorCalls:        &xDeleteMonitorCalls,
 		GetAllMonitorsCalls:       &xGetAllMonitorsCalls,
 		GetMonitorCalls:           &xGetMonitorCalls,
@@ -2151,7 +2160,7 @@ type DeleteMonitorCall struct {
 	PmonitorIdOrUrn string
 }
 
-func (mock MonitorApiMock) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
+func (mock MonitorAPIMock) DeleteMonitor(ctx context.Context, monitorIdOrUrn string) ApiDeleteMonitorRequest {
 	return ApiDeleteMonitorRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2159,7 +2168,7 @@ func (mock MonitorApiMock) DeleteMonitor(ctx context.Context, monitorIdOrUrn str
 	}
 }
 
-func (mock MonitorApiMock) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error) {
+func (mock MonitorAPIMock) DeleteMonitorExecute(r ApiDeleteMonitorRequest) (*http.Response, error) {
 	p := DeleteMonitorCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 	}
@@ -2176,14 +2185,14 @@ type GetAllMonitorsMockResponse struct {
 type GetAllMonitorsCall struct {
 }
 
-func (mock MonitorApiMock) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
+func (mock MonitorAPIMock) GetAllMonitors(ctx context.Context) ApiGetAllMonitorsRequest {
 	return ApiGetAllMonitorsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MonitorApiMock) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
+func (mock MonitorAPIMock) GetAllMonitorsExecute(r ApiGetAllMonitorsRequest) (*MonitorList, *http.Response, error) {
 	p := GetAllMonitorsCall{}
 	*mock.GetAllMonitorsCalls = append(*mock.GetAllMonitorsCalls, p)
 	return &mock.GetAllMonitorsResponse.Result, mock.GetAllMonitorsResponse.Response, mock.GetAllMonitorsResponse.Error
@@ -2199,7 +2208,7 @@ type GetMonitorCall struct {
 	PmonitorIdOrUrn string
 }
 
-func (mock MonitorApiMock) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
+func (mock MonitorAPIMock) GetMonitor(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorRequest {
 	return ApiGetMonitorRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2207,7 +2216,7 @@ func (mock MonitorApiMock) GetMonitor(ctx context.Context, monitorIdOrUrn string
 	}
 }
 
-func (mock MonitorApiMock) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
+func (mock MonitorAPIMock) GetMonitorExecute(r ApiGetMonitorRequest) (*Monitor, *http.Response, error) {
 	p := GetMonitorCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 	}
@@ -2225,7 +2234,7 @@ type GetMonitorWithStatusCall struct {
 	PmonitorIdOrUrn string
 }
 
-func (mock MonitorApiMock) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
+func (mock MonitorAPIMock) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
 	return ApiGetMonitorWithStatusRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2233,7 +2242,7 @@ func (mock MonitorApiMock) GetMonitorWithStatus(ctx context.Context, monitorIdOr
 	}
 }
 
-func (mock MonitorApiMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
+func (mock MonitorAPIMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	p := GetMonitorWithStatusCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 	}
@@ -2250,14 +2259,14 @@ type GetMonitorsOverviewMockResponse struct {
 type GetMonitorsOverviewCall struct {
 }
 
-func (mock MonitorApiMock) GetMonitorsOverview(ctx context.Context) ApiGetMonitorsOverviewRequest {
+func (mock MonitorAPIMock) GetMonitorsOverview(ctx context.Context) ApiGetMonitorsOverviewRequest {
 	return ApiGetMonitorsOverviewRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MonitorApiMock) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
+func (mock MonitorAPIMock) GetMonitorsOverviewExecute(r ApiGetMonitorsOverviewRequest) (*MonitorOverviewList, *http.Response, error) {
 	p := GetMonitorsOverviewCall{}
 	*mock.GetMonitorsOverviewCalls = append(*mock.GetMonitorsOverviewCalls, p)
 	return &mock.GetMonitorsOverviewResponse.Result, mock.GetMonitorsOverviewResponse.Response, mock.GetMonitorsOverviewResponse.Error
@@ -2273,14 +2282,14 @@ type LookupIdentifierCall struct {
 	PmonitorIdentifierLookup *MonitorIdentifierLookup
 }
 
-func (mock MonitorApiMock) LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest {
+func (mock MonitorAPIMock) LookupIdentifier(ctx context.Context) ApiLookupIdentifierRequest {
 	return ApiLookupIdentifierRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MonitorApiMock) LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error) {
+func (mock MonitorAPIMock) LookupIdentifierExecute(r ApiLookupIdentifierRequest) (*MonitorIdentifierSuggestions, *http.Response, error) {
 	p := LookupIdentifierCall{
 		PmonitorIdentifierLookup: r.monitorIdentifierLookup,
 	}
@@ -2299,7 +2308,7 @@ type PatchMonitorCall struct {
 	PmonitorPatch   *MonitorPatch
 }
 
-func (mock MonitorApiMock) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
+func (mock MonitorAPIMock) PatchMonitor(ctx context.Context, monitorIdOrUrn string) ApiPatchMonitorRequest {
 	return ApiPatchMonitorRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2307,7 +2316,7 @@ func (mock MonitorApiMock) PatchMonitor(ctx context.Context, monitorIdOrUrn stri
 	}
 }
 
-func (mock MonitorApiMock) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
+func (mock MonitorAPIMock) PatchMonitorExecute(r ApiPatchMonitorRequest) (*Monitor, *http.Response, error) {
 	p := PatchMonitorCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 		PmonitorPatch:   r.monitorPatch,
@@ -2327,7 +2336,7 @@ type PreviewMonitorCall struct {
 	PmonitorPreview *MonitorPreview
 }
 
-func (mock MonitorApiMock) PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest {
+func (mock MonitorAPIMock) PreviewMonitor(ctx context.Context, monitorIdOrUrn string) ApiPreviewMonitorRequest {
 	return ApiPreviewMonitorRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2335,7 +2344,7 @@ func (mock MonitorApiMock) PreviewMonitor(ctx context.Context, monitorIdOrUrn st
 	}
 }
 
-func (mock MonitorApiMock) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error) {
+func (mock MonitorAPIMock) PreviewMonitorExecute(r ApiPreviewMonitorRequest) (*MonitorPreviewResult, *http.Response, error) {
 	p := PreviewMonitorCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 		PmonitorPreview: r.monitorPreview,
@@ -2354,7 +2363,7 @@ type PublishHealthStatesCall struct {
 	PmonitorSnapshot *MonitorSnapshot
 }
 
-func (mock MonitorApiMock) PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest {
+func (mock MonitorAPIMock) PublishHealthStates(ctx context.Context, monitorIdOrUrn string) ApiPublishHealthStatesRequest {
 	return ApiPublishHealthStatesRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2362,7 +2371,7 @@ func (mock MonitorApiMock) PublishHealthStates(ctx context.Context, monitorIdOrU
 	}
 }
 
-func (mock MonitorApiMock) PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error) {
+func (mock MonitorAPIMock) PublishHealthStatesExecute(r ApiPublishHealthStatesRequest) (*http.Response, error) {
 	p := PublishHealthStatesCall{
 		PmonitorIdOrUrn:  r.monitorIdOrUrn,
 		PmonitorSnapshot: r.monitorSnapshot,
@@ -2382,7 +2391,7 @@ type RunMonitorCall struct {
 	PdryRun         *bool
 }
 
-func (mock MonitorApiMock) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
+func (mock MonitorAPIMock) RunMonitor(ctx context.Context, monitorIdOrUrn string) ApiRunMonitorRequest {
 	return ApiRunMonitorRequest{
 		ApiService:     mock,
 		ctx:            ctx,
@@ -2390,7 +2399,7 @@ func (mock MonitorApiMock) RunMonitor(ctx context.Context, monitorIdOrUrn string
 	}
 }
 
-func (mock MonitorApiMock) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
+func (mock MonitorAPIMock) RunMonitorExecute(r ApiRunMonitorRequest) (*MonitorRunResult, *http.Response, error) {
 	p := RunMonitorCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 		PdryRun:         r.dryRun,
@@ -2410,7 +2419,7 @@ type TestMonitorFunctionCall struct {
 	PmonitorFunctionTest    *MonitorFunctionTest
 }
 
-func (mock MonitorApiMock) TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest {
+func (mock MonitorAPIMock) TestMonitorFunction(ctx context.Context, monitorFunctionIdOrUrn string) ApiTestMonitorFunctionRequest {
 	return ApiTestMonitorFunctionRequest{
 		ApiService:             mock,
 		ctx:                    ctx,
@@ -2418,7 +2427,7 @@ func (mock MonitorApiMock) TestMonitorFunction(ctx context.Context, monitorFunct
 	}
 }
 
-func (mock MonitorApiMock) TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error) {
+func (mock MonitorAPIMock) TestMonitorFunctionExecute(r ApiTestMonitorFunctionRequest) (*MonitorPreviewResult, *http.Response, error) {
 	p := TestMonitorFunctionCall{
 		PmonitorFunctionIdOrUrn: r.monitorFunctionIdOrUrn,
 		PmonitorFunctionTest:    r.monitorFunctionTest,

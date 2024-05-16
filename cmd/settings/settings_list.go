@@ -42,7 +42,7 @@ func RunSettingsListCommand(args *ListArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		apiClient := api.NodeApi.TypeList(cli.Context, args.TypeName)
+		apiClient := api.NodeAPI.TypeList(cli.Context, args.TypeName)
 		if args.Namespace != "" {
 			apiClient = apiClient.Namespace(args.Namespace)
 		}

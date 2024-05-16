@@ -1,20 +1,20 @@
-# \MonitorApi
+# \MonitorAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteMonitor**](MonitorApi.md#DeleteMonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
-[**GetAllMonitors**](MonitorApi.md#GetAllMonitors) | **Get** /monitors | List monitors
-[**GetMonitor**](MonitorApi.md#GetMonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
-[**GetMonitorWithStatus**](MonitorApi.md#GetMonitorWithStatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
-[**GetMonitorsOverview**](MonitorApi.md#GetMonitorsOverview) | **Get** /monitors/overview | List monitors overview
-[**LookupIdentifier**](MonitorApi.md#LookupIdentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
-[**PatchMonitor**](MonitorApi.md#PatchMonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
-[**PreviewMonitor**](MonitorApi.md#PreviewMonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
-[**PublishHealthStates**](MonitorApi.md#PublishHealthStates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
-[**RunMonitor**](MonitorApi.md#RunMonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
-[**TestMonitorFunction**](MonitorApi.md#TestMonitorFunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
+[**DeleteMonitor**](MonitorAPI.md#DeleteMonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
+[**GetAllMonitors**](MonitorAPI.md#GetAllMonitors) | **Get** /monitors | List monitors
+[**GetMonitor**](MonitorAPI.md#GetMonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
+[**GetMonitorWithStatus**](MonitorAPI.md#GetMonitorWithStatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
+[**GetMonitorsOverview**](MonitorAPI.md#GetMonitorsOverview) | **Get** /monitors/overview | List monitors overview
+[**LookupIdentifier**](MonitorAPI.md#LookupIdentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
+[**PatchMonitor**](MonitorAPI.md#PatchMonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
+[**PreviewMonitor**](MonitorAPI.md#PreviewMonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
+[**PublishHealthStates**](MonitorAPI.md#PublishHealthStates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
+[**RunMonitor**](MonitorAPI.md#RunMonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
+[**TestMonitorFunction**](MonitorAPI.md#TestMonitorFunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
 
 
 
@@ -43,9 +43,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.DeleteMonitor(context.Background(), monitorIdOrUrn).Execute()
+    resp, r, err := apiClient.MonitorAPI.DeleteMonitor(context.Background(), monitorIdOrUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.DeleteMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.DeleteMonitor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -110,13 +110,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetAllMonitors(context.Background()).Execute()
+    resp, r, err := apiClient.MonitorAPI.GetAllMonitors(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetAllMonitors``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.GetAllMonitors``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetAllMonitors`: MonitorList
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetAllMonitors`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.GetAllMonitors`: %v\n", resp)
 }
 ```
 
@@ -135,7 +135,7 @@ Other parameters are passed through a pointer to a apiGetAllMonitorsRequest stru
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -172,13 +172,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitor(context.Background(), monitorIdOrUrn).Execute()
+    resp, r, err := apiClient.MonitorAPI.GetMonitor(context.Background(), monitorIdOrUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.GetMonitor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMonitor`: Monitor
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitor`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.GetMonitor`: %v\n", resp)
 }
 ```
 
@@ -205,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -242,13 +242,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitorWithStatus(context.Background(), monitorIdOrUrn).Execute()
+    resp, r, err := apiClient.MonitorAPI.GetMonitorWithStatus(context.Background(), monitorIdOrUrn).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorWithStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.GetMonitorWithStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMonitorWithStatus`: MonitorStatus
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitorWithStatus`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.GetMonitorWithStatus`: %v\n", resp)
 }
 ```
 
@@ -275,7 +275,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -311,13 +311,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitorsOverview(context.Background()).Execute()
+    resp, r, err := apiClient.MonitorAPI.GetMonitorsOverview(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorsOverview``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.GetMonitorsOverview``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMonitorsOverview`: MonitorOverviewList
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitorsOverview`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.GetMonitorsOverview`: %v\n", resp)
 }
 ```
 
@@ -336,7 +336,7 @@ Other parameters are passed through a pointer to a apiGetMonitorsOverviewRequest
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -373,13 +373,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.LookupIdentifier(context.Background()).MonitorIdentifierLookup(monitorIdentifierLookup).Execute()
+    resp, r, err := apiClient.MonitorAPI.LookupIdentifier(context.Background()).MonitorIdentifierLookup(monitorIdentifierLookup).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.LookupIdentifier``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.LookupIdentifier``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `LookupIdentifier`: MonitorIdentifierSuggestions
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.LookupIdentifier`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.LookupIdentifier`: %v\n", resp)
 }
 ```
 
@@ -402,7 +402,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -440,13 +440,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.PatchMonitor(context.Background(), monitorIdOrUrn).MonitorPatch(monitorPatch).Execute()
+    resp, r, err := apiClient.MonitorAPI.PatchMonitor(context.Background(), monitorIdOrUrn).MonitorPatch(monitorPatch).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.PatchMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.PatchMonitor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PatchMonitor`: Monitor
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.PatchMonitor`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.PatchMonitor`: %v\n", resp)
 }
 ```
 
@@ -474,7 +474,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -512,13 +512,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.PreviewMonitor(context.Background(), monitorIdOrUrn).MonitorPreview(monitorPreview).Execute()
+    resp, r, err := apiClient.MonitorAPI.PreviewMonitor(context.Background(), monitorIdOrUrn).MonitorPreview(monitorPreview).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.PreviewMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.PreviewMonitor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PreviewMonitor`: MonitorPreviewResult
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.PreviewMonitor`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.PreviewMonitor`: %v\n", resp)
 }
 ```
 
@@ -546,7 +546,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -584,9 +584,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.PublishHealthStates(context.Background(), monitorIdOrUrn).MonitorSnapshot(monitorSnapshot).Execute()
+    resp, r, err := apiClient.MonitorAPI.PublishHealthStates(context.Background(), monitorIdOrUrn).MonitorSnapshot(monitorSnapshot).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.PublishHealthStates``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.PublishHealthStates``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -616,7 +616,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -654,13 +654,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.RunMonitor(context.Background(), monitorIdOrUrn).DryRun(dryRun).Execute()
+    resp, r, err := apiClient.MonitorAPI.RunMonitor(context.Background(), monitorIdOrUrn).DryRun(dryRun).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.RunMonitor``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.RunMonitor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `RunMonitor`: MonitorRunResult
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.RunMonitor`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.RunMonitor`: %v\n", resp)
 }
 ```
 
@@ -688,7 +688,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -726,13 +726,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.TestMonitorFunction(context.Background(), monitorFunctionIdOrUrn).MonitorFunctionTest(monitorFunctionTest).Execute()
+    resp, r, err := apiClient.MonitorAPI.TestMonitorFunction(context.Background(), monitorFunctionIdOrUrn).MonitorFunctionTest(monitorFunctionTest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.TestMonitorFunction``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorAPI.TestMonitorFunction``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `TestMonitorFunction`: MonitorPreviewResult
-    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.TestMonitorFunction`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MonitorAPI.TestMonitorFunction`: %v\n", resp)
 }
 ```
 
@@ -760,7 +760,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

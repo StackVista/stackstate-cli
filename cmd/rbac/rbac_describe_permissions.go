@@ -61,7 +61,7 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 }
 
 func describePermissions(cli *di.Deps, api *stackstate_api.APIClient, subject string, permission string, resource string) stackstate_api.ApiDescribePermissionsRequest {
-	request := api.PermissionsApi.DescribePermissions(cli.Context, subject)
+	request := api.PermissionsAPI.DescribePermissions(cli.Context, subject)
 	if permission != "" {
 		request = request.Permission(permission)
 	}

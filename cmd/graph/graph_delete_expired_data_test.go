@@ -16,11 +16,11 @@ func TestDeleteExpiredData(t *testing.T) {
 			cli := di.NewMockDeps(t)
 			cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-			cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
+			cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataResponse.Result = *result
 
 			di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
-			assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataCalls, 1)
+			assert.Len(t, *cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataCalls, 1)
 
 			expected := []string{
 				e,
@@ -37,11 +37,11 @@ func TestDeleteExpiredDataDefaultResponse(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
+	cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataResponse.Result = *result
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
-	assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataCalls, 1)
 
 	expected := []string{
 		"Command executed successfully.",
@@ -59,11 +59,11 @@ func TestDeleteExpiredDataJSON(t *testing.T) {
 			cli := di.NewMockDeps(t)
 			cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-			cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
+			cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataResponse.Result = *result
 
 			di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
-			assert.Len(t, *cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataCalls, 1)
+			assert.Len(t, *cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataCalls, 1)
 
 			expected := []map[string]interface{}{
 				{
@@ -82,11 +82,11 @@ func TestDeleteExpiredDataImmediately(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DeleteExpiredDataCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataResponse.Result = *result
+	cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataResponse.Result = *result
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--immediate")
 
-	calls := *cli.MockClient.ApiMocks.RetentionApi.RemoveExpiredDataCalls
+	calls := *cli.MockClient.ApiMocks.RetentionAPI.RemoveExpiredDataCalls
 
 	assert.Len(t, calls, 1)
 	assert.Equal(t, true, *calls[0].PexpireImmediatelyAndRestart)

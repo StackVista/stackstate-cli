@@ -21,7 +21,7 @@ func ListPermissionsCommand(deps *di.Deps) *cobra.Command {
 }
 
 func RunListPermissionsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	permissions, resp, err := api.PermissionsApi.GetPermissions(cli.Context).Execute()
+	permissions, resp, err := api.PermissionsAPI.GetPermissions(cli.Context).Execute()
 
 	if err != nil {
 		return common.NewResponseError(err, resp)

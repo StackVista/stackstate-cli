@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type RetentionApi interface {
+type RetentionAPI interface {
 
 	/*
 		GetRetentionEpoch Get retention epoch
@@ -78,12 +78,12 @@ type RetentionApi interface {
 	SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error)
 }
 
-// RetentionApiService RetentionApi service
-type RetentionApiService service
+// RetentionAPIService RetentionAPI service
+type RetentionAPIService service
 
 type ApiGetRetentionEpochRequest struct {
 	ctx        context.Context
-	ApiService RetentionApi
+	ApiService RetentionAPI
 }
 
 func (r ApiGetRetentionEpochRequest) Execute() (*EpochTx, *http.Response, error) {
@@ -95,10 +95,10 @@ GetRetentionEpoch Get retention epoch
 
 Get StackGraph retention epoch.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRetentionEpochRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRetentionEpochRequest
 */
-func (a *RetentionApiService) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
+func (a *RetentionAPIService) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
 	return ApiGetRetentionEpochRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -106,8 +106,9 @@ func (a *RetentionApiService) GetRetentionEpoch(ctx context.Context) ApiGetReten
 }
 
 // Execute executes the request
-//  @return EpochTx
-func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
+//
+//	@return EpochTx
+func (a *RetentionAPIService) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -115,7 +116,7 @@ func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochReq
 		localVarReturnValue *EpochTx
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.GetRetentionEpoch")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionAPIService.GetRetentionEpoch")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -146,6 +147,20 @@ func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochReq
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -168,20 +183,6 @@ func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochReq
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -243,7 +244,7 @@ func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochReq
 
 type ApiGetRetentionWindowRequest struct {
 	ctx        context.Context
-	ApiService RetentionApi
+	ApiService RetentionAPI
 }
 
 func (r ApiGetRetentionWindowRequest) Execute() (*WindowMs, *http.Response, error) {
@@ -255,10 +256,10 @@ GetRetentionWindow Get retention window
 
 Get StackGraph retention window.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRetentionWindowRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRetentionWindowRequest
 */
-func (a *RetentionApiService) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
+func (a *RetentionAPIService) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
 	return ApiGetRetentionWindowRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -266,8 +267,9 @@ func (a *RetentionApiService) GetRetentionWindow(ctx context.Context) ApiGetRete
 }
 
 // Execute executes the request
-//  @return WindowMs
-func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
+//
+//	@return WindowMs
+func (a *RetentionAPIService) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -275,7 +277,7 @@ func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowR
 		localVarReturnValue *WindowMs
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.GetRetentionWindow")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionAPIService.GetRetentionWindow")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -306,6 +308,20 @@ func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -328,20 +344,6 @@ func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -403,7 +405,7 @@ func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowR
 
 type ApiRemoveExpiredDataRequest struct {
 	ctx                         context.Context
-	ApiService                  RetentionApi
+	ApiService                  RetentionAPI
 	expireImmediatelyAndRestart *bool
 }
 
@@ -422,10 +424,10 @@ RemoveExpiredData Remove expired data from StackGraph
 
 Either schedule removal or immediately remove expired data from StackGraph
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRemoveExpiredDataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRemoveExpiredDataRequest
 */
-func (a *RetentionApiService) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
+func (a *RetentionAPIService) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
 	return ApiRemoveExpiredDataRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -433,8 +435,9 @@ func (a *RetentionApiService) RemoveExpiredData(ctx context.Context) ApiRemoveEx
 }
 
 // Execute executes the request
-//  @return RemovalProgress
-func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
+//
+//	@return RemovalProgress
+func (a *RetentionAPIService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -442,7 +445,7 @@ func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataReq
 		localVarReturnValue *RemovalProgress
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.RemoveExpiredData")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionAPIService.RemoveExpiredData")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -476,6 +479,20 @@ func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataReq
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -498,20 +515,6 @@ func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataReq
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -573,7 +576,7 @@ func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataReq
 
 type ApiSetRetentionWindowRequest struct {
 	ctx             context.Context
-	ApiService      RetentionApi
+	ApiService      RetentionAPI
 	windowMs        *WindowMs
 	scheduleRemoval *bool
 }
@@ -599,10 +602,10 @@ SetRetentionWindow Set retention window
 
 Set StackGraph retention window and optionally schedule data removal.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSetRetentionWindowRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSetRetentionWindowRequest
 */
-func (a *RetentionApiService) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
+func (a *RetentionAPIService) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
 	return ApiSetRetentionWindowRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -610,8 +613,9 @@ func (a *RetentionApiService) SetRetentionWindow(ctx context.Context) ApiSetRete
 }
 
 // Execute executes the request
-//  @return WindowMs
-func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
+//
+//	@return WindowMs
+func (a *RetentionAPIService) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -619,7 +623,7 @@ func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowR
 		localVarReturnValue *WindowMs
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionApiService.SetRetentionWindow")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "RetentionAPIService.SetRetentionWindow")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -658,6 +662,20 @@ func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -680,20 +698,6 @@ func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -757,7 +761,7 @@ func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowR
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type RetentionApiMock struct {
+type RetentionAPIMock struct {
 	GetRetentionEpochCalls     *[]GetRetentionEpochCall
 	GetRetentionEpochResponse  GetRetentionEpochMockResponse
 	GetRetentionWindowCalls    *[]GetRetentionWindowCall
@@ -768,12 +772,12 @@ type RetentionApiMock struct {
 	SetRetentionWindowResponse SetRetentionWindowMockResponse
 }
 
-func NewRetentionApiMock() RetentionApiMock {
+func NewRetentionAPIMock() RetentionAPIMock {
 	xGetRetentionEpochCalls := make([]GetRetentionEpochCall, 0)
 	xGetRetentionWindowCalls := make([]GetRetentionWindowCall, 0)
 	xRemoveExpiredDataCalls := make([]RemoveExpiredDataCall, 0)
 	xSetRetentionWindowCalls := make([]SetRetentionWindowCall, 0)
-	return RetentionApiMock{
+	return RetentionAPIMock{
 		GetRetentionEpochCalls:  &xGetRetentionEpochCalls,
 		GetRetentionWindowCalls: &xGetRetentionWindowCalls,
 		RemoveExpiredDataCalls:  &xRemoveExpiredDataCalls,
@@ -790,14 +794,14 @@ type GetRetentionEpochMockResponse struct {
 type GetRetentionEpochCall struct {
 }
 
-func (mock RetentionApiMock) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
+func (mock RetentionAPIMock) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
 	return ApiGetRetentionEpochRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock RetentionApiMock) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
+func (mock RetentionAPIMock) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
 	p := GetRetentionEpochCall{}
 	*mock.GetRetentionEpochCalls = append(*mock.GetRetentionEpochCalls, p)
 	return &mock.GetRetentionEpochResponse.Result, mock.GetRetentionEpochResponse.Response, mock.GetRetentionEpochResponse.Error
@@ -812,14 +816,14 @@ type GetRetentionWindowMockResponse struct {
 type GetRetentionWindowCall struct {
 }
 
-func (mock RetentionApiMock) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
+func (mock RetentionAPIMock) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
 	return ApiGetRetentionWindowRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock RetentionApiMock) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
+func (mock RetentionAPIMock) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	p := GetRetentionWindowCall{}
 	*mock.GetRetentionWindowCalls = append(*mock.GetRetentionWindowCalls, p)
 	return &mock.GetRetentionWindowResponse.Result, mock.GetRetentionWindowResponse.Response, mock.GetRetentionWindowResponse.Error
@@ -835,14 +839,14 @@ type RemoveExpiredDataCall struct {
 	PexpireImmediatelyAndRestart *bool
 }
 
-func (mock RetentionApiMock) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
+func (mock RetentionAPIMock) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
 	return ApiRemoveExpiredDataRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock RetentionApiMock) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
+func (mock RetentionAPIMock) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
 	p := RemoveExpiredDataCall{
 		PexpireImmediatelyAndRestart: r.expireImmediatelyAndRestart,
 	}
@@ -861,14 +865,14 @@ type SetRetentionWindowCall struct {
 	PscheduleRemoval *bool
 }
 
-func (mock RetentionApiMock) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
+func (mock RetentionAPIMock) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
 	return ApiSetRetentionWindowRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock RetentionApiMock) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
+func (mock RetentionAPIMock) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	p := SetRetentionWindowCall{
 		PwindowMs:        r.windowMs,
 		PscheduleRemoval: r.scheduleRemoval,

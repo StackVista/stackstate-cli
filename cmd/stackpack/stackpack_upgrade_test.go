@@ -18,7 +18,7 @@ var (
 func setupStackPackUpgradeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackUpgradeCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = []stackstate_api.FullStackPack{
 		{
 			Name: stackPackName,
 			NextVersion: &stackstate_api.FullStackPack{
@@ -27,7 +27,7 @@ func setupStackPackUpgradeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 			Version: stackPackCurrentVersion,
 		},
 	}
-	cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackResponse.Result = "successful"
+	cli.MockClient.ApiMocks.StackpackAPI.UpgradeStackPackResponse.Result = "successful"
 	return &cli, cmd
 }
 
@@ -43,7 +43,7 @@ func TestStackpackUpgradePrintToTable(t *testing.T) {
 			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 		}},
-		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
+		*cli.MockClient.ApiMocks.StackpackAPI.UpgradeStackPackCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 	assert.Equal(t, []string{"Successfully triggered upgrade from 1.0.0 to 2.0.0"}, *cli.MockPrinter.SuccessCalls)
 }
@@ -60,7 +60,7 @@ func TestStackpackUpgradePrintToJson(t *testing.T) {
 			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 		}},
-		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
+		*cli.MockClient.ApiMocks.StackpackAPI.UpgradeStackPackCalls)
 
 	expectedJsonCalls := []map[string]interface{}{{
 		"success":         true,

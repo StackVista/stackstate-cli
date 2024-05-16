@@ -1,15 +1,15 @@
-# \StackpackApi
+# \StackpackAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ConfirmManualSteps**](StackpackApi.md#ConfirmManualSteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
-[**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
-[**ProvisionUninstall**](StackpackApi.md#ProvisionUninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
-[**StackPackList**](StackpackApi.md#StackPackList) | **Get** /stackpack | StackPack API
-[**StackPackUpload**](StackpackApi.md#StackPackUpload) | **Post** /stackpack | StackPack API
-[**UpgradeStackPack**](StackpackApi.md#UpgradeStackPack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
+[**ConfirmManualSteps**](StackpackAPI.md#ConfirmManualSteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
+[**ProvisionDetails**](StackpackAPI.md#ProvisionDetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
+[**ProvisionUninstall**](StackpackAPI.md#ProvisionUninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
+[**StackPackList**](StackpackAPI.md#StackPackList) | **Get** /stackpack | StackPack API
+[**StackPackUpload**](StackpackAPI.md#StackPackUpload) | **Post** /stackpack | StackPack API
+[**UpgradeStackPack**](StackpackAPI.md#UpgradeStackPack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
 
 
 
@@ -39,13 +39,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ConfirmManualSteps(context.Background(), stackPackName, stackPackInstanceId).Execute()
+    resp, r, err := apiClient.StackpackAPI.ConfirmManualSteps(context.Background(), stackPackName, stackPackInstanceId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ConfirmManualSteps``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackAPI.ConfirmManualSteps``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ConfirmManualSteps`: string
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.ConfirmManualSteps`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StackpackAPI.ConfirmManualSteps`: %v\n", resp)
 }
 ```
 
@@ -74,7 +74,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -113,13 +113,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ProvisionDetails(context.Background(), stackPackName).Unlocked(unlocked).RequestBody(requestBody).Execute()
+    resp, r, err := apiClient.StackpackAPI.ProvisionDetails(context.Background(), stackPackName).Unlocked(unlocked).RequestBody(requestBody).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ProvisionDetails``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackAPI.ProvisionDetails``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ProvisionDetails`: ProvisionResponse
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.ProvisionDetails`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StackpackAPI.ProvisionDetails`: %v\n", resp)
 }
 ```
 
@@ -148,7 +148,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -186,13 +186,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ProvisionUninstall(context.Background(), stackPackName, stackPackInstanceId).Execute()
+    resp, r, err := apiClient.StackpackAPI.ProvisionUninstall(context.Background(), stackPackName, stackPackInstanceId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ProvisionUninstall``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackAPI.ProvisionUninstall``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ProvisionUninstall`: string
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.ProvisionUninstall`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StackpackAPI.ProvisionUninstall`: %v\n", resp)
 }
 ```
 
@@ -221,7 +221,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -257,13 +257,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.StackPackList(context.Background()).Execute()
+    resp, r, err := apiClient.StackpackAPI.StackPackList(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackPackList``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackAPI.StackPackList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `StackPackList`: []FullStackPack
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackPackList`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StackpackAPI.StackPackList`: %v\n", resp)
 }
 ```
 
@@ -282,7 +282,7 @@ Other parameters are passed through a pointer to a apiStackPackListRequest struc
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -319,13 +319,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.StackPackUpload(context.Background()).StackPack(stackPack).Execute()
+    resp, r, err := apiClient.StackpackAPI.StackPackUpload(context.Background()).StackPack(stackPack).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackPackUpload``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackAPI.StackPackUpload``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `StackPackUpload`: StackPack
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackPackUpload`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StackpackAPI.StackPackUpload`: %v\n", resp)
 }
 ```
 
@@ -348,7 +348,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -386,13 +386,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.UpgradeStackPack(context.Background(), stackPackName).Unlocked(unlocked).Execute()
+    resp, r, err := apiClient.StackpackAPI.UpgradeStackPack(context.Background(), stackPackName).Unlocked(unlocked).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.UpgradeStackPack``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackAPI.UpgradeStackPack``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `UpgradeStackPack`: string
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.UpgradeStackPack`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `StackpackAPI.UpgradeStackPack`: %v\n", resp)
 }
 ```
 
@@ -420,7 +420,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

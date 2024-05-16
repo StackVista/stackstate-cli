@@ -37,11 +37,11 @@ func TestUpdateCommand(t *testing.T) {
 			res := r
 			cli, cmd := setupUpdateCmd(t)
 
-			cli.MockClient.ApiMocks.SubscriptionApi.PostSubscriptionResponse.Result = r
+			cli.MockClient.ApiMocks.SubscriptionAPI.PostSubscriptionResponse.Result = r
 			di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json", "--key", "the-license-key")
 
-			assert.Len(t, *cli.MockClient.ApiMocks.SubscriptionApi.PostSubscriptionCalls, 1)
-			call := (*cli.MockClient.ApiMocks.SubscriptionApi.PostSubscriptionCalls)[0]
+			assert.Len(t, *cli.MockClient.ApiMocks.SubscriptionAPI.PostSubscriptionCalls, 1)
+			call := (*cli.MockClient.ApiMocks.SubscriptionAPI.PostSubscriptionCalls)[0]
 			assert.Equal(t, "the-license-key", call.PnewLicense.Key)
 			assert.Len(t, *cli.MockPrinter.PrintJsonCalls, 1)
 			assert.Equal(t, &res, (*cli.MockPrinter.PrintJsonCalls)[0]["subscription"])

@@ -29,7 +29,7 @@ func DeleteCommand(deps *di.Deps) *cobra.Command {
 
 func RunIngestionApiKeyDeleteCommand(args *DeleteArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		resp, err := api.IngestionApiKeyApi.DeleteIngestionApiKey(cli.Context, args.ID).Execute()
+		resp, err := api.IngestionApiKeyAPI.DeleteIngestionApiKey(cli.Context, args.ID).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

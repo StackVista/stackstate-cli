@@ -12,7 +12,7 @@ func TestIngestApiKeyGenerate(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.IngestionApiKeyApi.GenerateIngestionApiKeyResponse.Result = stackstate_api.GeneratedIngestionApiKeyResponse{
+	cli.MockClient.ApiMocks.IngestionApiKeyAPI.GenerateIngestionApiKeyResponse.Result = stackstate_api.GeneratedIngestionApiKeyResponse{
 		Name:        "test-token",
 		ApiKey:      "test-token-key",
 		Expiration:  int64p(1590105600000),
@@ -21,7 +21,7 @@ func TestIngestApiKeyGenerate(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--description", "test-token-description", "--expiration", "2020-05-22")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.IngestionApiKeyApi.GenerateIngestionApiKeyCalls, "test-token", stringp("test-token-description"), int64p(1590105600000))
+	checkCreateCall(t, cli.MockClient.ApiMocks.IngestionApiKeyAPI.GenerateIngestionApiKeyCalls, "test-token", stringp("test-token-description"), int64p(1590105600000))
 	assert.Equal(t, []string{"Ingestion API Key generated: \x1b[37mtest-token-key\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
 }
 
@@ -29,14 +29,14 @@ func TestIngestApiKeyGenerateOnlyRequriedFlags(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.IngestionApiKeyApi.GenerateIngestionApiKeyResponse.Result = stackstate_api.GeneratedIngestionApiKeyResponse{
+	cli.MockClient.ApiMocks.IngestionApiKeyAPI.GenerateIngestionApiKeyResponse.Result = stackstate_api.GeneratedIngestionApiKeyResponse{
 		Name:   "test-token2",
 		ApiKey: "test-token2-key",
 	}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token2")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.IngestionApiKeyApi.GenerateIngestionApiKeyCalls, "test-token2", nil, nil)
+	checkCreateCall(t, cli.MockClient.ApiMocks.IngestionApiKeyAPI.GenerateIngestionApiKeyCalls, "test-token2", nil, nil)
 	assert.Equal(t, []string{"Ingestion API Key generated: \x1b[37mtest-token2-key\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
 }
 
@@ -51,11 +51,11 @@ func TestIngestApiKeyGenerateJSON(t *testing.T) {
 		Description: stringp("test-token-description"),
 	}
 
-	cli.MockClient.ApiMocks.IngestionApiKeyApi.GenerateIngestionApiKeyResponse.Result = *r
+	cli.MockClient.ApiMocks.IngestionApiKeyAPI.GenerateIngestionApiKeyResponse.Result = *r
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--description", "test-token-description", "--expiration", "2020-05-22", "-o", "json")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.IngestionApiKeyApi.GenerateIngestionApiKeyCalls, "test-token", stringp("test-token-description"), int64p(1590105600000))
+	checkCreateCall(t, cli.MockClient.ApiMocks.IngestionApiKeyAPI.GenerateIngestionApiKeyCalls, "test-token", stringp("test-token-description"), int64p(1590105600000))
 	assert.Equal(t,
 		[]map[string]interface{}{{
 			"ingestion-api-key": r,

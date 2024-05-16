@@ -1,23 +1,23 @@
-# \MetricApi
+# \MetricAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetExemplarsQuery**](MetricApi.md#GetExemplarsQuery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
-[**GetInstantQuery**](MetricApi.md#GetInstantQuery) | **Get** /metrics/query | Instant query at a single point in time
-[**GetLabelValues**](MetricApi.md#GetLabelValues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
-[**GetLabels**](MetricApi.md#GetLabels) | **Get** /metrics/labels | List of label names
-[**GetMetadata**](MetricApi.md#GetMetadata) | **Get** /metrics/metadata | Metadata about metrics currently scraped from targets
-[**GetRangeQuery**](MetricApi.md#GetRangeQuery) | **Get** /metrics/query_range | Query over a range of time
-[**GetSeries**](MetricApi.md#GetSeries) | **Get** /metrics/series | List of time series that match a certain label set
-[**PostExemplarsQuery**](MetricApi.md#PostExemplarsQuery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
-[**PostInstantQuery**](MetricApi.md#PostInstantQuery) | **Post** /metrics/query | Instant query at a single point in time
-[**PostLabelValues**](MetricApi.md#PostLabelValues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
-[**PostLabels**](MetricApi.md#PostLabels) | **Post** /metrics/labels | List of label names
-[**PostMetadata**](MetricApi.md#PostMetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
-[**PostRangeQuery**](MetricApi.md#PostRangeQuery) | **Post** /metrics/query_range | Query over a range of time
-[**PostSeries**](MetricApi.md#PostSeries) | **Post** /metrics/series | List of time series that match a certain label set
+[**GetExemplarsQuery**](MetricAPI.md#GetExemplarsQuery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+[**GetInstantQuery**](MetricAPI.md#GetInstantQuery) | **Get** /metrics/query | Instant query at a single point in time
+[**GetLabelValues**](MetricAPI.md#GetLabelValues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
+[**GetLabels**](MetricAPI.md#GetLabels) | **Get** /metrics/labels | List of label names
+[**GetMetadata**](MetricAPI.md#GetMetadata) | **Get** /metrics/metadata | Metadata about metrics currently scraped from targets
+[**GetRangeQuery**](MetricAPI.md#GetRangeQuery) | **Get** /metrics/query_range | Query over a range of time
+[**GetSeries**](MetricAPI.md#GetSeries) | **Get** /metrics/series | List of time series that match a certain label set
+[**PostExemplarsQuery**](MetricAPI.md#PostExemplarsQuery) | **Post** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
+[**PostInstantQuery**](MetricAPI.md#PostInstantQuery) | **Post** /metrics/query | Instant query at a single point in time
+[**PostLabelValues**](MetricAPI.md#PostLabelValues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
+[**PostLabels**](MetricAPI.md#PostLabels) | **Post** /metrics/labels | List of label names
+[**PostMetadata**](MetricAPI.md#PostMetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
+[**PostRangeQuery**](MetricAPI.md#PostRangeQuery) | **Post** /metrics/query_range | Query over a range of time
+[**PostSeries**](MetricAPI.md#PostSeries) | **Post** /metrics/series | List of time series that match a certain label set
 
 
 
@@ -48,13 +48,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
+    resp, r, err := apiClient.MetricAPI.GetExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetExemplarsQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetExemplarsQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetExemplarsQuery`: PromExemplarEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetExemplarsQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetExemplarsQuery`: %v\n", resp)
 }
 ```
 
@@ -79,7 +79,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -119,13 +119,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).PostFilter(postFilter).Execute()
+    resp, r, err := apiClient.MetricAPI.GetInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).PostFilter(postFilter).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetInstantQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetInstantQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetInstantQuery`: PromEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetInstantQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetInstantQuery`: %v\n", resp)
 }
 ```
 
@@ -151,7 +151,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -191,13 +191,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetLabelValues(context.Background(), label).Start(start).End(end).Match(match).Execute()
+    resp, r, err := apiClient.MetricAPI.GetLabelValues(context.Background(), label).Start(start).End(end).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetLabelValues``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetLabelValues``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetLabelValues`: PromLabelsEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetLabelValues`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetLabelValues`: %v\n", resp)
 }
 ```
 
@@ -227,7 +227,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -266,13 +266,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetLabels(context.Background()).Start(start).End(end).Match(match).Execute()
+    resp, r, err := apiClient.MetricAPI.GetLabels(context.Background()).Start(start).End(end).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetLabels``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetLabels``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetLabels`: PromLabelsEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetLabels`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetLabels`: %v\n", resp)
 }
 ```
 
@@ -297,7 +297,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -335,13 +335,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetMetadata(context.Background()).Limit(limit).Metric(metric).Execute()
+    resp, r, err := apiClient.MetricAPI.GetMetadata(context.Background()).Limit(limit).Metric(metric).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetMetadata``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetMetadata``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetMetadata`: PromMetadataEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetMetadata`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetMetadata`: %v\n", resp)
 }
 ```
 
@@ -365,7 +365,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -408,13 +408,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).PostFilter(postFilter).Execute()
+    resp, r, err := apiClient.MetricAPI.GetRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).PostFilter(postFilter).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetRangeQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetRangeQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetRangeQuery`: PromEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetRangeQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetRangeQuery`: %v\n", resp)
 }
 ```
 
@@ -443,7 +443,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -482,13 +482,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.GetSeries(context.Background()).Match(match).Start(start).End(end).Execute()
+    resp, r, err := apiClient.MetricAPI.GetSeries(context.Background()).Match(match).Start(start).End(end).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.GetSeries``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.GetSeries``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetSeries`: PromSeriesEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.GetSeries`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.GetSeries`: %v\n", resp)
 }
 ```
 
@@ -513,7 +513,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -552,13 +552,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
+    resp, r, err := apiClient.MetricAPI.PostExemplarsQuery(context.Background()).Query(query).Start(start).End(end).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostExemplarsQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostExemplarsQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostExemplarsQuery`: PromExemplarEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostExemplarsQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostExemplarsQuery`: %v\n", resp)
 }
 ```
 
@@ -583,7 +583,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -623,13 +623,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).PostFilter(postFilter).Execute()
+    resp, r, err := apiClient.MetricAPI.PostInstantQuery(context.Background()).Query(query).Time(time).Timeout(timeout).PostFilter(postFilter).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostInstantQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostInstantQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostInstantQuery`: PromEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostInstantQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostInstantQuery`: %v\n", resp)
 }
 ```
 
@@ -655,7 +655,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -695,13 +695,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostLabelValues(context.Background(), label).Start(start).End(end).Match(match).Execute()
+    resp, r, err := apiClient.MetricAPI.PostLabelValues(context.Background(), label).Start(start).End(end).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostLabelValues``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostLabelValues``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostLabelValues`: PromLabelsEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostLabelValues`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostLabelValues`: %v\n", resp)
 }
 ```
 
@@ -731,7 +731,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -770,13 +770,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostLabels(context.Background()).Start(start).End(end).Match(match).Execute()
+    resp, r, err := apiClient.MetricAPI.PostLabels(context.Background()).Start(start).End(end).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostLabels``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostLabels``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostLabels`: PromLabelsEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostLabels`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostLabels`: %v\n", resp)
 }
 ```
 
@@ -801,7 +801,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -839,13 +839,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostMetadata(context.Background()).Limit(limit).Metric(metric).Execute()
+    resp, r, err := apiClient.MetricAPI.PostMetadata(context.Background()).Limit(limit).Metric(metric).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostMetadata``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostMetadata``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostMetadata`: PromMetadataEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostMetadata`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostMetadata`: %v\n", resp)
 }
 ```
 
@@ -869,7 +869,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -912,13 +912,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).PostFilter(postFilter).Execute()
+    resp, r, err := apiClient.MetricAPI.PostRangeQuery(context.Background()).Query(query).Start(start).End(end).Step(step).Timeout(timeout).MaxNumberOfDataPoints(maxNumberOfDataPoints).PostFilter(postFilter).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostRangeQuery``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostRangeQuery``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostRangeQuery`: PromEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostRangeQuery`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostRangeQuery`: %v\n", resp)
 }
 ```
 
@@ -947,7 +947,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -986,13 +986,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MetricApi.PostSeries(context.Background()).Match(match).Start(start).End(end).Execute()
+    resp, r, err := apiClient.MetricAPI.PostSeries(context.Background()).Match(match).Start(start).End(end).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostSeries``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricAPI.PostSeries``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `PostSeries`: PromSeriesEnvelope
-    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostSeries`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `MetricAPI.PostSeries`: %v\n", resp)
 }
 ```
 
@@ -1017,7 +1017,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

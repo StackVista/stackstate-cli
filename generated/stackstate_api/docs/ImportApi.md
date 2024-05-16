@@ -1,10 +1,10 @@
-# \ImportApi
+# \ImportAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ImportSettings**](ImportApi.md#ImportSettings) | **Post** /import | Import settings
+[**ImportSettings**](ImportAPI.md#ImportSettings) | **Post** /import | Import settings
 
 
 
@@ -36,13 +36,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ImportApi.ImportSettings(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
+    resp, r, err := apiClient.ImportAPI.ImportSettings(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ImportApi.ImportSettings``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ImportAPI.ImportSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ImportSettings`: []map[string]interface{}
-    fmt.Fprintf(os.Stdout, "Response from `ImportApi.ImportSettings`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ImportAPI.ImportSettings`: %v\n", resp)
 }
 ```
 
@@ -68,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

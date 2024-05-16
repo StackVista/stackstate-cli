@@ -1039,7 +1039,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonitorCheckStatusApiError'
           description: container for all error response
-      summary: Get a monitor check health hisotry
+      summary: Get a monitor check health history
       tags:
       - monitorCheckStatus
   /notifications/channels/slack/oauth-redirect:
@@ -2491,21 +2491,7 @@ paths:
       summary: Get health sync stream status
       tags:
       - healthSynchronization
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
   /synchronization/health/streams/{healthStreamUrn}/clearErrors:
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
     post:
       description: Clear all errors for a stream and its sub-streams.
       operationId: postHealthSynchronizationStreamClearErrors
@@ -2563,13 +2549,6 @@ paths:
       summary: Delete health sync stream
       tags:
       - healthSynchronization
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
   /synchronization/health/streams/{healthStreamUrn}/substreams:
     get:
       description: Overview of all sub-streams in a certain health stream.
@@ -2603,13 +2582,6 @@ paths:
       summary: List health sync sub-streams
       tags:
       - healthSynchronization
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
   /synchronization/health/streams/{healthStreamUrn}/topologyMatches:
     get:
       description: Overview of check-states matched to topology on the main stream.
@@ -2643,13 +2615,6 @@ paths:
       summary: List health sync stream check-states
       tags:
       - healthSynchronization
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
   /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/status:
     get:
       description: Status overview of a single health synchronization sub stream
@@ -2689,19 +2654,6 @@ paths:
       summary: Get health sync sub-stream status
       tags:
       - healthSynchronization
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
-    - description: Health synchronization sub stream id.
-      in: path
-      name: healthSyncSubStreamId
-      required: true
-      schema:
-        type: string
   /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches:
     get:
       description: Overview of check-states matched to topology on the main stream.
@@ -2741,19 +2693,6 @@ paths:
       summary: List health sync sub-stream check-states
       tags:
       - healthSynchronization
-    parameters:
-    - description: Urn of the health stream.
-      in: path
-      name: healthStreamUrn
-      required: true
-      schema:
-        type: string
-    - description: Health synchronization sub stream id.
-      in: path
-      name: healthSyncSubStreamId
-      required: true
-      schema:
-        type: string
   /synchronization/topology/streams:
     get:
       description: Overview of the topology synchronization streams
@@ -2809,19 +2748,6 @@ paths:
         \ identifier"
       tags:
       - topologySynchronization
-    parameters:
-    - allowReserved: true
-      in: query
-      name: identifier
-      required: true
-      schema:
-        type: string
-    - allowReserved: false
-      in: query
-      name: identifierType
-      required: true
-      schema:
-        $ref: '#/components/schemas/IdentifierType'
   /synchronization/topology/streams/status:
     get:
       description: "Metrics of a specific Topology Stream, queried by node id"
@@ -2855,27 +2781,7 @@ paths:
       summary: "Metrics of a specific Topology Stream, queried by node id"
       tags:
       - topologySynchronization
-    parameters:
-    - allowReserved: true
-      in: query
-      name: identifier
-      required: true
-      schema:
-        type: string
   /synchronization/topology/streams/clearErrors:
-    parameters:
-    - allowReserved: true
-      in: query
-      name: identifier
-      required: true
-      schema:
-        type: string
-    - allowReserved: false
-      in: query
-      name: identifierType
-      required: true
-      schema:
-        $ref: '#/components/schemas/IdentifierType'
     post:
       description: Clear all the errors related to a specific sync
       operationId: postTopologySynchronizationStreamClearErrors
@@ -3104,6 +3010,15 @@ paths:
     post:
       description: Checks if an ingestion api key is valid
       operationId: authorizeIngestionApiKey
+      parameters:
+      - description: "By default, the endpoint uses only Ingestion API Keys, true\
+          \ value - to verify also Receiver API Key"
+        in: query
+        name: withReceiverKey
+        required: false
+        schema:
+          default: false
+          type: boolean
       requestBody:
         content:
           application/json:
@@ -3123,7 +3038,7 @@ paths:
           description: Error when handling the request on the server side.
       summary: Check authorization for an Ingestion Api Key
       tags:
-      - ingestionApiKey
+      - authorizeIngestionApiKey
   /security/ingestion/api_keys/{ingestionApiKeyId}:
     delete:
       description: "Deleted token can't be used by sources, so all ingestion pipelines\
@@ -3459,12 +3374,13 @@ paths:
         schema:
           $ref: '#/components/schemas/ProblemId'
       - description: A timestamp at which resources will be queried. If not given
-          the resources are queried for current time.
+          the resources are queried at current time.
         in: query
         name: topologyTime
         required: false
         schema:
-          $ref: '#/components/schemas/Instant'
+          format: instant
+          type: integer
       - description: Maximum number of resources to be returned in result.
         in: query
         name: limit
@@ -4328,13 +4244,16 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/TopicName'
-      - in: query
+      - description: Maximum number of resources to be returned in result.
+        in: query
         name: limit
+        required: false
         schema:
-          type: integer
+          $ref: '#/components/schemas/Limit'
       - in: query
         name: offset
         schema:
+          format: int64
           type: integer
       - in: query
         name: partition
@@ -4404,13 +4323,12 @@ paths:
           maximum: 100
           minimum: 1
           type: integer
-      - description: Find only logs containing query text.
+      - description: Prometheus expression query string
         in: query
         name: query
-        required: false
+        required: true
         schema:
-          minLength: 3
-          type: string
+          $ref: '#/components/schemas/PromQuery'
       - description: Find only logs for the given pod UID.
         in: query
         name: podUID
@@ -4477,13 +4395,12 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Instant_1'
-      - description: Find only logs containing query text.
+      - description: Prometheus expression query string
         in: query
         name: query
-        required: false
+        required: true
         schema:
-          minLength: 3
-          type: string
+          $ref: '#/components/schemas/PromQuery'
       - description: Find only logs for the given pod UID.
         in: query
         name: podUID
@@ -4589,41 +4506,40 @@ paths:
         \ (think of a SQL IN expression)."
       operationId: querySpans
       parameters:
-      - description: Filter spans by start time >= value
-        example: 1707117737
+      - description: The start time of a time range to query resources.
         in: query
-        name: start
+        name: startTime
         required: true
         schema:
-          $ref: '#/components/schemas/Instant_1'
-      - description: Filter spans by start time < value
-        example: 1707121359
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources. If not given
+          the endTime is set to current time.
         in: query
-        name: end
-        required: true
+        name: endTime
+        required: false
         schema:
-          $ref: '#/components/schemas/Instant_1'
-      - description: Number of spans in 1 page
-        example: 30
+          format: instant
+          type: integer
+      - description: Maximum number of the log lines in the result.
         in: query
         name: pageSize
         required: false
         schema:
-          default: 20
+          default: 25
           format: int32
-          maximum: 200
+          maximum: 100
           minimum: 1
           type: integer
-      - description: "Get the specified page (with pageSize # of spans), defaults\
-          \ to page 0"
-        example: 4
+      - description: The page for which the log lines of pageSize must be returned.
         in: query
         name: page
         required: false
         schema:
-          default: 0
+          default: 1
           format: int32
-          minimum: 0
+          maximum: 100
+          minimum: 1
           type: integer
       requestBody:
         $ref: '#/components/requestBodies/spanQuery'
@@ -4655,20 +4571,21 @@ paths:
         of values match if any of the values match (think of a SQL IN expression).
       operationId: queryDuration
       parameters:
-      - description: Filter spans by start time >= value
-        example: 1707117737
+      - description: The start time of a time range to query resources.
         in: query
-        name: start
+        name: startTime
         required: true
         schema:
-          $ref: '#/components/schemas/Instant_1'
-      - description: Filter spans by start time < value
-        example: 1707121359
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources. If not given
+          the endTime is set to current time.
         in: query
-        name: end
-        required: true
+        name: endTime
+        required: false
         schema:
-          $ref: '#/components/schemas/Instant_1'
+          format: instant
+          type: integer
       - description: The number of histogram buckets.
         in: query
         name: bucketsCount
@@ -4900,6 +4817,83 @@ paths:
       summary: Fetch components based on resource attributes
       tags:
       - traces
+  /layouts:
+    get:
+      description: List all available layout hints in the system
+      operationId: getAllLayouts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LayoutList'
+          description: List of all available layout hints
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LayoutApiError'
+          description: container for all error response
+      summary: List layout hints
+      tags:
+      - layout
+  /components/{componentIdOrUrn}/healthHistory:
+    get:
+      description: Get a component health history for a defined period of time by
+        id
+      operationId: getComponentHealthHistory
+      parameters:
+      - description: The id or identifier (urn) of a component
+        in: path
+        name: componentIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: The start time of a time range to query resources.
+        in: query
+        name: startTime
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources. If not given
+          the endTime is set to current time.
+        in: query
+        name: endTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHealthHistory'
+          description: Component health history
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentNotFoundError'
+          description: Component not found error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a component health history
+      tags:
+      - component
   /dummy/dummy:
     get:
       description: ""
@@ -4916,6 +4910,484 @@ paths:
       tags:
       - dummy
 components:
+  parameters:
+    nodeType:
+      in: path
+      name: nodeType
+      required: true
+      schema:
+        type: string
+    nodeId:
+      in: path
+      name: nodeId
+      required: true
+      schema:
+        format: int64
+        type: integer
+    nodeIdOrUrn:
+      in: path
+      name: nodeIdOrUrn
+      required: true
+      schema:
+        pattern: "^urn:.+|[0-9]+$"
+        type: string
+    stackPackName:
+      in: path
+      name: stackPackName
+      required: true
+      schema:
+        type: string
+    stackPackInstanceId:
+      in: path
+      name: stackPackInstanceId
+      required: true
+      schema:
+        format: int64
+        type: integer
+    monitorIdOrUrn:
+      description: The id or identifier (urn) of a monitor
+      in: path
+      name: monitorIdOrUrn
+      required: true
+      schema:
+        $ref: '#/components/schemas/MonitorIdOrUrn'
+    dryRun:
+      description: "If set, the topology state will not be modified"
+      in: query
+      name: dryRun
+      schema:
+        type: boolean
+    monitorFunctionIdOrUrn:
+      description: The id or identifier (urn) of a monitor function
+      in: path
+      name: monitorFunctionIdOrUrn
+      required: true
+      schema:
+        $ref: '#/components/schemas/MonitorFunctionIdOrUrn'
+    id:
+      description: The id of a monitor check status
+      in: path
+      name: id
+      required: true
+      schema:
+        format: int64
+        type: integer
+    topologyTime:
+      description: A timestamp at which resources will be queried. If not given the
+        resources are queried at current time.
+      in: query
+      name: topologyTime
+      required: false
+      schema:
+        format: instant
+        type: integer
+    startTime:
+      description: The start time of a time range to query resources.
+      in: query
+      name: startTime
+      required: true
+      schema:
+        format: instant
+        type: integer
+    endTime:
+      description: The end time of a time range to query resources. If not given the
+        endTime is set to current time.
+      in: query
+      name: endTime
+      required: false
+      schema:
+        format: instant
+        type: integer
+    redirectPath:
+      description: "After completing the oauth flow the user will be redirected back\
+        \ to this path, in the UI, on StackState, to continue further setup of the\
+        \ Slack notification channel."
+      in: query
+      name: redirectPath
+      required: true
+      schema:
+        type: string
+    oauthCode:
+      description: OAuth code from Slack. Either the code is present for the success
+        case or the error parameter is present for the error case.
+      in: query
+      name: code
+      required: false
+      schema:
+        type: string
+    oauthState:
+      description: "State parameter that was passed to Slack, should have the same\
+        \ value as the one passed to Slack."
+      in: query
+      name: state
+      required: true
+      schema:
+        type: string
+    oauthError:
+      description: Error parameter. Either the code is present for the success case
+        or the error parameter is present for the error case.
+      in: query
+      name: error
+      required: false
+      schema:
+        type: string
+    channelId:
+      description: Channel identifier
+      in: path
+      name: channelId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ChannelId'
+    genieKey:
+      description: OpsGenie API key
+      in: query
+      name: genieKey
+      required: true
+      schema:
+        type: string
+    region:
+      description: OpsGenie region
+      in: query
+      name: region
+      required: true
+      schema:
+        enum:
+        - EU
+        - US
+        type: string
+    notificationConfigurationIdOrUrn:
+      description: Notification identifier
+      in: path
+      name: notificationConfigurationIdOrUrn
+      required: true
+      schema:
+        $ref: '#/components/schemas/NotificationConfigurationIdOrUrn'
+    eventId:
+      description: The Identifier of an event.
+      in: path
+      name: eventId
+      required: true
+      schema:
+        $ref: '#/components/schemas/EventId'
+    eventCategories:
+      description: The category labels of an event.
+      in: query
+      name: eventCategories
+      required: false
+      schema:
+        items:
+          $ref: '#/components/schemas/EventCategory'
+        type: array
+    healthStreamUrn:
+      description: Urn of the health stream.
+      in: path
+      name: healthStreamUrn
+      required: true
+      schema:
+        type: string
+    healthSyncSubStreamId:
+      description: Health synchronization sub stream id.
+      in: path
+      name: healthSyncSubStreamId
+      required: true
+      schema:
+        type: string
+    serviceTokenId:
+      description: The identifier of a service token
+      in: path
+      name: serviceTokenId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ServiceTokenId'
+    ingestionApiKeyId:
+      description: The identifier of a key
+      in: path
+      name: ingestionApiKeyId
+      required: true
+      schema:
+        $ref: '#/components/schemas/IngestionApiKeyId'
+    subject:
+      in: path
+      name: subject
+      required: true
+      schema:
+        $ref: '#/components/schemas/Subject'
+    resource:
+      in: query
+      name: resource
+      schema:
+        $ref: '#/components/schemas/Resource'
+    permission:
+      in: query
+      name: permission
+      schema:
+        $ref: '#/components/schemas/Permission'
+    problemId:
+      description: The problem id number.
+      in: path
+      name: problemId
+      required: true
+      schema:
+        $ref: '#/components/schemas/ProblemId'
+    limit:
+      description: Maximum number of resources to be returned in result.
+      in: query
+      name: limit
+      required: false
+      schema:
+        $ref: '#/components/schemas/Limit'
+    query:
+      description: Prometheus expression query string
+      in: query
+      name: query
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromQuery'
+    time:
+      description: Evaluation timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: time
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    timeout:
+      description: Evaluation timeout
+      in: query
+      name: timeout
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTimeout'
+    postFilterOptional:
+      description: Enforce additional label filters for queries
+      example: service=carts
+      explode: true
+      in: query
+      name: post_filter
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromPostFilter'
+    start:
+      description: Start timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: start
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    end:
+      description: End timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: end
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    step:
+      description: Query resolution step width in duration format or float number
+        of seconds.
+      example: 5m or 300
+      in: query
+      name: step
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromStep'
+    maxNumberOfDataPointsOptional:
+      description: Maximum number of data points to return.
+      example: "2"
+      in: query
+      name: maxNumberOfDataPoints
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromMaxNumberOfDataPoints'
+    startOptional:
+      description: Start timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: start
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    endOptional:
+      description: End timestamp in rfc3339 format or unix format
+      example: 2015-07-01T20:10:51.781Z or 1660817432
+      in: query
+      name: end
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromTime'
+    matchOptional:
+      description: Repeated series selector argument that selects the series from
+        which to read the label names. Optional.
+      example: "process_start_time_seconds{job='prometheus'}"
+      explode: true
+      in: query
+      name: "match[]"
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromMatch'
+    label:
+      description: Prometheus query label
+      in: path
+      name: label
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromLabel'
+    match:
+      description: "Repeated series selector argument that selects the series to return.\
+        \ At least one match[] argument must be provided."
+      example: "process_start_time_seconds{job='prometheus'}"
+      explode: true
+      in: query
+      name: "match[]"
+      required: true
+      schema:
+        $ref: '#/components/schemas/PromMatch'
+    limitOptional:
+      description: Maximum number of metrics to return.
+      example: "2"
+      in: query
+      name: limit
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromLimit'
+    metricOptional:
+      description: A metric name to filter metadata for. All metric metadata is retrieved
+        if left empty.
+      example: http_requests_total
+      in: query
+      name: metric
+      required: false
+      schema:
+        $ref: '#/components/schemas/PromMetric'
+    topic:
+      in: path
+      name: topic
+      required: true
+      schema:
+        $ref: '#/components/schemas/TopicName'
+    offset:
+      in: query
+      name: offset
+      schema:
+        format: int64
+        type: integer
+    partition:
+      in: query
+      name: partition
+      schema:
+        type: integer
+    from:
+      description: Logs initial timestamp.
+      in: query
+      name: from
+      required: true
+      schema:
+        $ref: '#/components/schemas/Instant_1'
+    to:
+      description: Logs last timestamp.
+      in: query
+      name: to
+      required: true
+      schema:
+        $ref: '#/components/schemas/Instant_1'
+    pageSize:
+      description: Maximum number of the log lines in the result.
+      in: query
+      name: pageSize
+      required: false
+      schema:
+        default: 25
+        format: int32
+        maximum: 100
+        minimum: 1
+        type: integer
+    page:
+      description: The page for which the log lines of pageSize must be returned.
+      in: query
+      name: page
+      required: false
+      schema:
+        default: 1
+        format: int32
+        maximum: 100
+        minimum: 1
+        type: integer
+    podUID:
+      description: Find only logs for the given pod UID.
+      in: query
+      name: podUID
+      required: true
+      schema:
+        format: uuid
+        type: string
+    containerNames:
+      description: Find only logs for the given container names.
+      in: query
+      name: containerNames
+      required: false
+      schema:
+        items:
+          type: string
+        type: array
+    direction:
+      description: Fetch Oldest or Newest first.
+      in: query
+      name: direction
+      schema:
+        $ref: '#/components/schemas/LogsDirection'
+    severity:
+      description: "Search a specific log severity WARN, ERROR, OTHER."
+      in: query
+      name: severity
+      schema:
+        items:
+          $ref: '#/components/schemas/LogSeverity'
+        type: array
+    histogramBucketsCount:
+      description: The number of histogram buckets.
+      in: query
+      name: bucketsCount
+      required: true
+      schema:
+        format: int32
+        type: integer
+    bucketsCount:
+      description: The number of histogram buckets.
+      in: query
+      name: bucketsCount
+      required: true
+      schema:
+        format: int32
+        type: integer
+    traceId:
+      description: The id of the trace
+      in: path
+      name: traceId
+      required: true
+      schema:
+        type: string
+    spanId:
+      description: The id of the span
+      in: path
+      name: spanId
+      required: true
+      schema:
+        type: string
+    fieldName:
+      description: Get suggestions for this field
+      in: path
+      name: field
+      required: true
+      schema:
+        $ref: '#/components/schemas/SpanSuggestionField'
+    componentIdOrUrn:
+      description: The id or identifier (urn) of a component
+      in: path
+      name: componentIdOrUrn
+      required: true
+      schema:
+        $ref: '#/components/schemas/ComponentIdOrUrn'
   requestBodies:
     nodeClone:
       content:
@@ -5537,6 +6009,30 @@ components:
           schema:
             $ref: '#/components/schemas/SpanComponents'
       description: Components
+    layouts:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LayoutList'
+      description: List of all available layout hints
+    layoutApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LayoutApiError'
+      description: container for all error response
+    componentHealthHistory:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentHealthHistory'
+      description: Component health history
+    componentNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentNotFoundError'
+      description: Component not found error
     stackElementNotFound:
       content:
         application/json:
@@ -5545,6 +6041,17 @@ components:
       description: Error when handling an element which cannot be found.
   schemas:
     GenericErrorsResponse:
+      example:
+        trackingKey: trackingKey
+        serverTimestamp: 0
+        _type: ErrorsResponse
+        errors:
+        - _type: InternalError
+          errorCode: 6
+          message: message
+        - _type: InternalError
+          errorCode: 6
+          message: message
       properties:
         _type:
           enum:
@@ -5565,6 +6072,10 @@ components:
       - trackingKey
       type: object
     GenericApiError:
+      example:
+        _type: InternalError
+        errorCode: 6
+        message: message
       properties:
         _type:
           enum:
@@ -5672,6 +6183,9 @@ components:
       - _type
       type: object
     NodeLocked:
+      example:
+        owner: owner
+        _type: NodeLocked
       properties:
         _type:
           enum:
@@ -6237,7 +6751,20 @@ components:
     MonitorApiError:
       allOf:
       - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorApiError_allOf'
+      - properties:
+          statusCode:
+            type: string
+          message:
+            type: string
+        required:
+        - message
+        - statusCode
+        type: object
+      example:
+        monitorId: monitorId
+        monitorIdType: id
+        message: message
+        statusCode: statusCode
     BaseMonitorError:
       properties:
         monitorId:
@@ -6252,6 +6779,9 @@ components:
       pattern: "^urn:.+|[0-9]+$"
       type: string
     InvalidMonitorIdentifierError:
+      example:
+        _type: InvalidMonitorIdentifierError
+        monitorIdOrUrn: monitorIdOrUrn
       properties:
         monitorIdOrUrn:
           type: string
@@ -6266,7 +6796,16 @@ components:
     MonitorNotFoundError:
       allOf:
       - $ref: '#/components/schemas/BaseMonitorError'
-      - $ref: '#/components/schemas/MonitorNotFoundError_allOf'
+      - properties:
+          _type:
+            enum:
+            - MonitorNotFoundError
+            type: string
+        type: object
+      example:
+        monitorId: monitorId
+        monitorIdType: id
+        _type: MonitorNotFoundError
       required:
       - _type
       - monitorId
@@ -6309,6 +6848,9 @@ components:
       required:
       - _type
     MonitorInvalidIntervalError:
+      example:
+        _type: MonitorInvalidIntervalError
+        intervalSeconds: 0
       properties:
         intervalSeconds:
           type: integer
@@ -6323,8 +6865,16 @@ components:
     MonitorPreview:
       example:
         arguments:
-        - null
-        - null
+        - lastUpdateTimestamp: 6
+          parameter: 1
+          _type: ArgumentBooleanVal
+          id: 0
+          value: true
+        - lastUpdateTimestamp: 6
+          parameter: 1
+          _type: ArgumentBooleanVal
+          id: 0
+          value: true
       properties:
         arguments:
           items:
@@ -6804,8 +7354,16 @@ components:
     MonitorFunctionTest:
       example:
         arguments:
-        - null
-        - null
+        - lastUpdateTimestamp: 6
+          parameter: 1
+          _type: ArgumentBooleanVal
+          id: 0
+          value: true
+        - lastUpdateTimestamp: 6
+          parameter: 1
+          _type: ArgumentBooleanVal
+          id: 0
+          value: true
       properties:
         arguments:
           items:
@@ -6815,6 +7373,10 @@ components:
       - arguments
       type: object
     MonitorFunctionNotFoundError:
+      example:
+        monitorFunctionIdType: id
+        _type: MonitorFunctionNotFoundError
+        monitorFunctionId: monitorFunctionId
       properties:
         monitorFunctionId:
           type: string
@@ -7066,7 +7628,9 @@ components:
       example:
         topologyTime: 5
         reason: reason
-        monitorId: null
+        monitorId:
+          _type: MonitorDefId
+          id: 5
         monitorName: monitorName
         health: null
         checkStateId: checkStateId
@@ -7233,6 +7797,8 @@ components:
       - name
       - type
     MonitorCheckStatusApiError:
+      example:
+        message: message
       properties:
         message:
           type: string
@@ -7240,6 +7806,9 @@ components:
       - message
       type: object
     MonitorCheckStatusNotFoundError:
+      example:
+        _type: MonitorNotFoundError
+        id: 2
       properties:
         id:
           format: int64
@@ -7407,7 +7976,38 @@ components:
     SlackNotificationChannel:
       allOf:
       - $ref: '#/components/schemas/BaseNotificationChannel'
-      - $ref: '#/components/schemas/SlackNotificationChannel_allOf'
+      - properties:
+          _type:
+            enum:
+            - SlackNotificationChannel
+            type: string
+          slackWorkspace:
+            type: string
+          slackChannel:
+            type: string
+          slackChannelId:
+            type: string
+        required:
+        - _type
+        - slackWorkspace
+        type: object
+      example:
+        slackWorkspace: slackWorkspace
+        notificationConfigurationId: 6
+        slackChannelId: slackChannelId
+        slackChannel: slackChannel
+        _type: SlackNotificationChannel
+        id: 0
+        status:
+          errors:
+          - firstSeenMs: 5
+            count: 1
+            category: category
+            message: message
+          - firstSeenMs: 5
+            count: 1
+            category: category
+            message: message
     BaseNotificationChannel:
       properties:
         id:
@@ -7423,6 +8023,16 @@ components:
       - status
       type: object
     NotificationChannelStatus:
+      example:
+        errors:
+        - firstSeenMs: 5
+          count: 1
+          category: category
+          message: message
+        - firstSeenMs: 5
+          count: 1
+          category: category
+          message: message
       properties:
         errors:
           items:
@@ -7432,6 +8042,11 @@ components:
       - errors
       type: object
     NotificationChannelStatusError:
+      example:
+        firstSeenMs: 5
+        count: 1
+        category: category
+        message: message
       properties:
         category:
           type: string
@@ -7449,6 +8064,10 @@ components:
       - message
       type: object
     NotificationChannelError:
+      example:
+        _type: NotificationChannelError
+        message: message
+        channelId: channelId
       properties:
         message:
           type: string
@@ -7464,6 +8083,10 @@ components:
       - message
       type: object
     NotificationChannelNotFound:
+      example:
+        _type: NotificationChannelNotFound
+        message: message
+        channelId: channelId
       properties:
         message:
           type: string
@@ -7532,7 +8155,33 @@ components:
       allOf:
       - $ref: '#/components/schemas/BaseNotificationChannel'
       - $ref: '#/components/schemas/WebhookChannelWriteSchema'
-      - $ref: '#/components/schemas/WebhookNotificationChannel_allOf'
+      - properties:
+          _type:
+            enum:
+            - WebhookNotificationChannel
+            type: string
+        required:
+        - _type
+        type: object
+      example:
+        notificationConfigurationId: 6
+        metadata:
+          key: metadata
+        _type: WebhookNotificationChannel
+        verifySsl: true
+        id: 0
+        url: url
+        status:
+          errors:
+          - firstSeenMs: 5
+            count: 1
+            category: category
+            message: message
+          - firstSeenMs: 5
+            count: 1
+            category: category
+            message: message
+        token: token
     OpsgenieChannelWriteSchema:
       example:
         genieKey: genieKey
@@ -7591,7 +8240,36 @@ components:
       allOf:
       - $ref: '#/components/schemas/BaseNotificationChannel'
       - $ref: '#/components/schemas/OpsgenieChannelWriteSchema'
-      - $ref: '#/components/schemas/OpsgenieNotificationChannel_allOf'
+      - properties:
+          _type:
+            enum:
+            - OpsgenieNotificationChannel
+            type: string
+        required:
+        - _type
+        type: object
+      example:
+        notificationConfigurationId: 6
+        _type: OpsgenieNotificationChannel
+        genieKey: genieKey
+        id: 0
+        region: EU
+        priority: P1
+        responders:
+        - responder: responder
+          responderType: TEAM
+        - responder: responder
+          responderType: TEAM
+        status:
+          errors:
+          - firstSeenMs: 5
+            count: 1
+            category: category
+            message: message
+          - firstSeenMs: 5
+            count: 1
+            category: category
+            message: message
     OpsgenieResponders:
       items:
         $ref: '#/components/schemas/OpsgenieResponder'
@@ -7603,7 +8281,48 @@ components:
     NotificationConfigurationReadSchema:
       allOf:
       - $ref: '#/components/schemas/NotificationConfigurationWriteSchema'
-      - $ref: '#/components/schemas/NotificationConfigurationReadSchema_allOf'
+      - properties:
+          id:
+            format: int64
+            type: integer
+          lastUpdateTimestamp:
+            format: int64
+            type: integer
+          runtimeStatus:
+            $ref: '#/components/schemas/NotificationConfigurationRuntimeStatusValue'
+        required:
+        - id
+        - lastUpdateTimestamp
+        - runtimeStatus
+        type: object
+      example:
+        identifier: identifier
+        componentTags:
+        - componentTags
+        - componentTags
+        runtimeStatus: null
+        notifyHealthStates: null
+        componentTypes:
+        - 0
+        - 0
+        description: description
+        lastUpdateTimestamp: 5
+        monitorTags:
+        - monitorTags
+        - monitorTags
+        name: name
+        notificationChannels:
+        - _type: SlackChannelRefId
+          id: 6
+        - _type: SlackChannelRefId
+          id: 6
+        id: 1
+        monitors:
+        - _type: MonitorDefId
+          id: 5
+        - _type: MonitorDefId
+          id: 5
+        status: null
     NotificationConfigurationWriteSchema:
       example:
         identifier: identifier
@@ -7620,11 +8339,15 @@ components:
         - 0
         description: description
         notificationChannels:
-        - null
-        - null
+        - _type: SlackChannelRefId
+          id: 6
+        - _type: SlackChannelRefId
+          id: 6
         monitors:
-        - null
-        - null
+        - _type: MonitorDefId
+          id: 5
+        - _type: MonitorDefId
+          id: 5
         status: null
       properties:
         name:
@@ -7689,6 +8412,9 @@ components:
       - $ref: '#/components/schemas/OpsgenieChannelRefId'
       type: object
     SlackChannelRefId:
+      example:
+        _type: SlackChannelRefId
+        id: 6
       properties:
         _type:
           enum:
@@ -7734,6 +8460,9 @@ components:
       - OK
       type: string
     NotificationConfigurationError:
+      example:
+        _type: NotificationConfigurationError
+        message: message
       properties:
         message:
           type: string
@@ -7769,6 +8498,10 @@ components:
       - notificationConfigurationIdOrUrn
       type: object
     NotificationConfigurationNotFound:
+      example:
+        _type: NotificationConfigurationNotFound
+        notificationConfigurationIdOrUrn: notificationConfigurationIdOrUrn
+        message: message
       properties:
         message:
           type: string
@@ -7788,6 +8521,9 @@ components:
         $ref: '#/components/schemas/NotificationChannel'
       type: array
     UserNotFoundError:
+      example:
+        _type: UserNotFoundError
+        name: name
       properties:
         _type:
           enum:
@@ -7809,6 +8545,9 @@ components:
       required:
       - _type
     UserNameMismatchError:
+      example:
+        _type: UserNameMismatchError
+        name: name
       properties:
         _type:
           enum:
@@ -7899,6 +8638,9 @@ components:
           type: string
       type: object
     RoleNotAvailableError:
+      example:
+        role: role
+        _type: RoleNotAvailableError
       properties:
         _type:
           enum:
@@ -7932,6 +8674,9 @@ components:
       required:
       - _type
     TopologyOverflowError:
+      example:
+        _type: TopologyOverflowError
+        maxSize: 7
       properties:
         _type:
           enum:
@@ -8043,7 +8788,7 @@ components:
       type: object
     EventItemsWithTotal:
       example:
-        total: 5
+        total: 2
         items:
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
@@ -8051,17 +8796,23 @@ components:
           description: description
           source: source
           eventType: eventType
-          processedTime: 6
+          processedTime: 5
           tags:
           - value: value
             key: key
           - value: value
             key: key
           elements:
-          - null
-          - null
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
           name: name
-          eventTime: 0
+          eventTime: 1
           category: null
           elementIdentifiers:
           - elementIdentifiers
@@ -8075,28 +8826,34 @@ components:
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 1
+            eventTimestamp: 5
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 1
+            eventTimestamp: 5
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
           data: "{}"
           description: description
           source: source
           eventType: eventType
-          processedTime: 6
+          processedTime: 5
           tags:
           - value: value
             key: key
           - value: value
             key: key
           elements:
-          - null
-          - null
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
           name: name
-          eventTime: 0
+          eventTime: 1
           category: null
           elementIdentifiers:
           - elementIdentifiers
@@ -8110,11 +8867,11 @@ components:
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 1
+            eventTimestamp: 5
           - eventId: eventId
             eventType: eventType
             title: title
-            eventTimestamp: 1
+            eventTimestamp: 5
       properties:
         items:
           items:
@@ -8135,17 +8892,23 @@ components:
         description: description
         source: source
         eventType: eventType
-        processedTime: 6
+        processedTime: 5
         tags:
         - value: value
           key: key
         - value: value
           key: key
         elements:
-        - null
-        - null
+        - componentTypeId: 6
+          _type: EventComponent
+          name: name
+          id: 0
+        - componentTypeId: 6
+          _type: EventComponent
+          name: name
+          id: 0
         name: name
-        eventTime: 0
+        eventTime: 1
         category: null
         elementIdentifiers:
         - elementIdentifiers
@@ -8159,11 +8922,11 @@ components:
         - eventId: eventId
           eventType: eventType
           title: title
-          eventTimestamp: 1
+          eventTimestamp: 5
         - eventId: eventId
           eventType: eventType
           title: title
-          eventTimestamp: 1
+          eventTimestamp: 5
       properties:
         identifier:
           type: string
@@ -8229,6 +8992,11 @@ components:
       - $ref: '#/components/schemas/EventComponent'
       - $ref: '#/components/schemas/EventRelation'
     EventComponent:
+      example:
+        componentTypeId: 6
+        _type: EventComponent
+        name: name
+        id: 0
       properties:
         _type:
           enum:
@@ -8313,7 +9081,7 @@ components:
         eventId: eventId
         eventType: eventType
         title: title
-        eventTimestamp: 1
+        eventTimestamp: 5
       properties:
         title:
           type: string
@@ -8335,6 +9103,9 @@ components:
     EventNotFoundError:
       discriminator:
         propertyName: _type
+      example:
+        eventId: eventId
+        _type: EventNotFoundError
       properties:
         _type:
           enum:
@@ -8531,8 +9302,11 @@ components:
         partition: 0
         recoverMessage: recoverMessage
         mainStreamStatus:
-          checkStateCount: 1
-          subStreamState: null
+          checkStateCount: 5
+          subStreamState:
+            expiryIntervalMs: 1
+            _type: HealthSubStreamSnapshot
+            repeatIntervalMs: 5
           metrics:
             createsPerSecond:
             - value: 5.637376656633329
@@ -8680,8 +9454,11 @@ components:
       type: object
     HealthSubStreamStatus:
       example:
-        checkStateCount: 1
-        subStreamState: null
+        checkStateCount: 5
+        subStreamState:
+          expiryIntervalMs: 1
+          _type: HealthSubStreamSnapshot
+          repeatIntervalMs: 5
         metrics:
           createsPerSecond:
           - value: 5.637376656633329
@@ -8734,6 +9511,10 @@ components:
       required:
       - _type
     HealthSubStreamSnapshot:
+      example:
+        expiryIntervalMs: 1
+        _type: HealthSubStreamSnapshot
+        repeatIntervalMs: 5
       properties:
         _type:
           enum:
@@ -8779,6 +9560,9 @@ components:
       - offset
       type: object
     InvalidUrn:
+      example:
+        urn: urn
+        message: message
       properties:
         urn:
           type: string
@@ -8789,6 +9573,9 @@ components:
       - urn
       type: object
     HealthStreamNotFound:
+      example:
+        urn: urn
+        _type: HealthStreamNotFound
       properties:
         _type:
           enum:
@@ -8805,10 +9592,16 @@ components:
         subStreams:
         - subStreamId: subStreamId
           checkStateCount: 0
-          subStreamState: null
+          subStreamState:
+            expiryIntervalMs: 1
+            _type: HealthSubStreamSnapshot
+            repeatIntervalMs: 5
         - subStreamId: subStreamId
           checkStateCount: 0
-          subStreamState: null
+          subStreamState:
+            expiryIntervalMs: 1
+            _type: HealthSubStreamSnapshot
+            repeatIntervalMs: 5
       properties:
         subStreams:
           items:
@@ -8821,7 +9614,10 @@ components:
       example:
         subStreamId: subStreamId
         checkStateCount: 0
-        subStreamState: null
+        subStreamState:
+          expiryIntervalMs: 1
+          _type: HealthSubStreamSnapshot
+          repeatIntervalMs: 5
       properties:
         subStreamId:
           type: string
@@ -9056,6 +9852,8 @@ components:
       - Identifier
       type: string
     InvalidSyncIdentifier:
+      example:
+        message: message
       properties:
         message:
           type: string
@@ -9063,6 +9861,8 @@ components:
       - message
       type: object
     TopologySyncError:
+      example:
+        message: message
       properties:
         message:
           type: string
@@ -9090,14 +9890,12 @@ components:
         result: "{}"
       properties:
         result:
-          description: "Contains a `value` and `_type` property. This is described\
-            \ this way, because `value` can hold any\nJSON type and most open api\
-            \ generators (but not all) have problems with such types or are inconsistent\
-            \ with the OpenAPI spec.\nThe `_type` property describes the original\
-            \ type of the result value during script execution.\nThe `value` property\
-            \ holds the resulting value serialized to JSON.\nThe `value` property\
-            \ can be of any JSON type, i.e. null, undefined, boolean, number, string,\
-            \ array or object.\n"
+          description: |
+            Contains a `value` and `_type` property. This is described this way, because `value` can hold any
+            JSON type and most open api generators (but not all) have problems with such types or are inconsistent with the OpenAPI spec.
+            The `_type` property describes the original type of the result value during script execution.
+            The `value` property holds the resulting value serialized to JSON.
+            The `value` property can be of any JSON type, i.e. null, undefined, boolean, number, string, array or object.
           nullable: true
           type: object
       required:
@@ -9117,6 +9915,18 @@ components:
       - $ref: '#/components/schemas/ExecuteScriptArgumentsScriptError'
       type: object
     ExecuteScriptSyntaxErrors:
+      example:
+        _type: ExecuteScriptSyntaxErrors
+        message: message
+        errors:
+        - location:
+            line: 0
+            column: 6
+          message: message
+        - location:
+            line: 0
+            column: 6
+          message: message
       properties:
         _type:
           enum:
@@ -9134,6 +9944,9 @@ components:
       - message
       type: object
     ScriptLocation:
+      example:
+        line: 0
+        column: 6
       properties:
         line:
           type: integer
@@ -9215,6 +10028,10 @@ components:
       - message
       type: object
     ExecuteScriptTimeoutError:
+      example:
+        timeoutMs: 1
+        _type: ExecuteScriptTimeoutError
+        message: message
       properties:
         _type:
           enum:
@@ -9338,6 +10155,9 @@ components:
       required:
       - _type
     ServiceTokenInvalidExpiryError:
+      example:
+        _type: ServiceTokenInvalidExpiryError
+        message: message
       properties:
         _type:
           enum:
@@ -9475,6 +10295,9 @@ components:
       required:
       - _type
     IngestionApiKeyInvalidExpiryError:
+      example:
+        _type: IngestionApiKeyInvalidExpiryError
+        message: message
       properties:
         _type:
           enum:
@@ -9610,6 +10433,12 @@ components:
       - _type
       type: object
     ExpiredSubscription:
+      example:
+        _type: ExpiredSubscription
+        subscription:
+          plan: plan
+          tenant: tenant
+          expiryTimestampMs: 0
       properties:
         _type:
           enum:
@@ -9622,6 +10451,10 @@ components:
       - subscription
       type: object
     Subscription:
+      example:
+        plan: plan
+        tenant: tenant
+        expiryTimestampMs: 0
       properties:
         tenant:
           type: string
@@ -9689,6 +10522,91 @@ components:
       required:
       - _type
     CausingEventsResult:
+      example:
+        _type: CausingEventsResult
+        items:
+        - identifier: identifier
+          sourceIdentifier: sourceIdentifier
+          data: "{}"
+          description: description
+          source: source
+          eventType: eventType
+          processedTime: 5
+          tags:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          elements:
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
+          name: name
+          eventTime: 1
+          category: null
+          elementIdentifiers:
+          - elementIdentifiers
+          - elementIdentifiers
+          sourceLinks:
+          - title: title
+            url: url
+          - title: title
+            url: url
+          causingEvents:
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 5
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 5
+        - identifier: identifier
+          sourceIdentifier: sourceIdentifier
+          data: "{}"
+          description: description
+          source: source
+          eventType: eventType
+          processedTime: 5
+          tags:
+          - value: value
+            key: key
+          - value: value
+            key: key
+          elements:
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
+          - componentTypeId: 6
+            _type: EventComponent
+            name: name
+            id: 0
+          name: name
+          eventTime: 1
+          category: null
+          elementIdentifiers:
+          - elementIdentifiers
+          - elementIdentifiers
+          sourceLinks:
+          - title: title
+            url: url
+          - title: title
+            url: url
+          causingEvents:
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 5
+          - eventId: eventId
+            eventType: eventType
+            title: title
+            eventTimestamp: 5
       properties:
         _type:
           enum:
@@ -9729,6 +10647,12 @@ components:
       required:
       - _type
     LimitOutOfRange:
+      example:
+        upperBound: 1
+        _type: LimitOutOfRange
+        limit: 0
+        lowerBound: 6
+        message: message
       properties:
         _type:
           enum:
@@ -9784,6 +10708,11 @@ components:
       required:
       - _type
     ProblemNotFound:
+      example:
+        _type: ProblemNotFound
+        message: message
+        problemId: 5
+        requestTimeMs: 5
       properties:
         _type:
           enum:
@@ -9832,6 +10761,9 @@ components:
       required:
       - _type
     TooManyActiveQueries:
+      example:
+        _type: TooManyActiveQueries
+        message: message
       properties:
         _type:
           enum:
@@ -9873,7 +10805,19 @@ components:
       type: array
     PromEnvelope:
       example:
-        data: null
+        data:
+          result:
+          - metric:
+              key: metric
+            values:
+            - null
+            - null
+          - metric:
+              key: metric
+            values:
+            - null
+            - null
+          resultType: matrix
         errorType: errorType
         warnings:
         - warnings
@@ -9913,6 +10857,19 @@ components:
       - resultType
       type: object
     PromMatrix:
+      example:
+        result:
+        - metric:
+            key: metric
+          values:
+          - null
+          - null
+        - metric:
+            key: metric
+          values:
+          - null
+          - null
+        resultType: matrix
       properties:
         resultType:
           enum:
@@ -9927,6 +10884,12 @@ components:
       - resultType
       type: object
     PromDataResult:
+      example:
+        metric:
+          key: metric
+        values:
+        - null
+        - null
       properties:
         metric:
           additionalProperties:
@@ -10392,6 +11355,7 @@ components:
         partition:
           type: integer
         offset:
+          format: int64
           type: integer
         message:
           type: object
@@ -10401,17 +11365,24 @@ components:
       - offset
       - partition
       type: object
-    Instant_1:
-      description: Date/time representation in milliseconds since epoch (1970-01-01
-        00:00:00)
-      format: instant
-      type: integer
     LogsDirection:
       default: NEWEST
       enum:
       - NEWEST
       - OLDEST
       type: string
+    LogSeverity:
+      default: OTHER
+      enum:
+      - WARNING
+      - ERROR
+      - OTHER
+      type: string
+    Instant_1:
+      description: Date/time representation in milliseconds since epoch (1970-01-01
+        00:00:00)
+      format: instant
+      type: integer
     GetKubernetesLogsResult:
       example:
         pageSize: 1
@@ -10524,13 +11495,6 @@ components:
       - endIndex
       - startIndex
       type: object
-    LogSeverity:
-      default: OTHER
-      enum:
-      - WARNING
-      - ERROR
-      - OTHER
-      type: string
     LogLevel:
       default: UNKNOWN
       enum:
@@ -10561,6 +11525,11 @@ components:
       required:
       - _type
     GetKubernetesLogsInvalidTimeRange:
+      example:
+        _type: InvalidTimeRange
+        from: 2
+        to: 7
+        message: message
       properties:
         _type:
           enum:
@@ -10702,6 +11671,11 @@ components:
       required:
       - _type
     GetKubernetesLogsHistogramInvalidTimeRange:
+      example:
+        _type: InvalidTimeRange
+        from: 5
+        to: 2
+        message: message
       properties:
         _type:
           enum:
@@ -10769,6 +11743,11 @@ components:
       required:
       - _type
     GetKubernetesLogsAutocompleteInvalidTimeRange:
+      example:
+        _type: InvalidTimeRange
+        from: 0
+        to: 6
+        message: message
       properties:
         _type:
           enum:
@@ -10996,7 +11975,287 @@ components:
       example:
         spans:
         - traceId: traceId
+          spanId: spanId
           durationNanos: 1
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          spanName: spanName
+          statusCode: null
+        - traceId: traceId
+          spanId: spanId
+          durationNanos: 1
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          spanName: spanName
+          statusCode: null
+        pageSize: 5
+        page: 5
+        matchesTotal: 2
+      properties:
+        spans:
+          description: List of spans
+          items:
+            $ref: '#/components/schemas/SpanSummary'
+          type: array
+        pageSize:
+          description: Maximum number of the spans in the result.
+          type: integer
+        page:
+          description: The requested page.
+          type: integer
+        matchesTotal:
+          description: The total number of matching spans.
+          format: int64
+          type: integer
+      required:
+      - matchesTotal
+      - page
+      - pageSize
+      - spans
+      type: object
+    SpanSummary:
+      example:
+        traceId: traceId
+        spanId: spanId
+        durationNanos: 1
+        startTime:
+          offsetNanos: 602745
+          timestamp: 0
+        endTime:
+          offsetNanos: 602745
+          timestamp: 0
+        serviceName: serviceName
+        parentSpanId: parentSpanId
+        spanName: spanName
+        statusCode: null
+      properties:
+        startTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        endTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        durationNanos:
+          description: Duration of the span in nanoseconds
+          format: int64
+          type: integer
+        traceId:
+          description: "The unique identifier for the trace, all spans of the same\
+            \ trace share the same trace_id"
+          type: string
+        spanId:
+          description: The unique identifier of the span within the trace
+          type: string
+        parentSpanId:
+          description: The id of the parent span of this span. Empty if this is the
+            root span
+          type: string
+        spanName:
+          description: "A description of the span's operation. For example, the name\
+            \ can be a qualified method name or a file name and a line number where\
+            \ the operation is called"
+          type: string
+        serviceName:
+          description: Logical name of the service for the span
+          type: string
+        statusCode:
+          $ref: '#/components/schemas/StatusCode'
+      required:
+      - durationNanos
+      - endTime
+      - serviceName
+      - spanId
+      - spanName
+      - startTime
+      - statusCode
+      - traceId
+      type: object
+    TraceApiSpansBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TraceApiInvalidTimeRange'
+      - $ref: '#/components/schemas/TraceApiInvalidPagination'
+      - $ref: '#/components/schemas/TraceApiInvalidDurationFilter'
+      required:
+      - _type
+    TraceApiInvalidTimeRange:
+      example:
+        _type: TraceApiInvalidTimeRange
+        from: 7
+        to: 9
+        message: message
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidTimeRange
+          type: string
+        message:
+          type: string
+        from:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+        to:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    TraceApiInvalidPagination:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidPagination
+          type: string
+        message:
+          type: string
+        pageSize:
+          type: integer
+      required:
+      - _type
+      - message
+      - pageSize
+      type: object
+    TraceApiInvalidDurationFilter:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidDurationFilter
+          type: string
+        message:
+          type: string
+        from:
+          format: int64
+          type: integer
+        to:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    TraceApiError:
+      example:
+        message: message
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    DurationHistogram:
+      example:
+        quantiles:
+          q99: 3.616076749251911
+          q90: 7.061401241503109
+          q95: 9.301444243932576
+          q50: 2.3021358869347655
+        buckets:
+        - lowerNanos: 5
+          upperNanos: 5
+          okCount: 0
+          unsetCount: 1
+          errorCount: 6
+        - lowerNanos: 5
+          upperNanos: 5
+          okCount: 0
+          unsetCount: 1
+          errorCount: 6
+      properties:
+        buckets:
+          description: List of duration buckets
+          items:
+            $ref: '#/components/schemas/DurationHistogramBucket'
+          type: array
+        quantiles:
+          $ref: '#/components/schemas/DurationQuantiles'
+      required:
+      - buckets
+      - quantiles
+      type: object
+    DurationHistogramBucket:
+      example:
+        lowerNanos: 5
+        upperNanos: 5
+        okCount: 0
+        unsetCount: 1
+        errorCount: 6
+      properties:
+        okCount:
+          description: "Number of successful traces with a duration between (lowerNanos,\
+            \ upperNanos]."
+          type: integer
+        errorCount:
+          description: "Number of erroneous traces with a duration between (lowerNanos,\
+            \ upperNanos]."
+          type: integer
+        unsetCount:
+          description: "Number of traces with unset status and a duration between\
+            \ (lowerNanos, upperNanos]."
+          type: integer
+        lowerNanos:
+          description: Lower limit on trace duration
+          format: int64
+          type: integer
+        upperNanos:
+          description: Upper limit on trace duration
+          format: int64
+          type: integer
+      required:
+      - errorCount
+      - okCount
+      - unsetCount
+      type: object
+    DurationQuantiles:
+      example:
+        q99: 3.616076749251911
+        q90: 7.061401241503109
+        q95: 9.301444243932576
+        q50: 2.3021358869347655
+      properties:
+        q50:
+          format: double
+          type: number
+        q90:
+          format: double
+          type: number
+        q95:
+          format: double
+          type: number
+        q99:
+          format: double
+          type: number
+      required:
+      - q50
+      - q90
+      - q95
+      - q99
+      type: object
+    Trace:
+      example:
+        traceId: traceId
+        spans:
+        - traceId: traceId
+          durationNanos: 0
           spanKind: null
           scopeName: scopeName
           spanAttributes:
@@ -11043,7 +12302,7 @@ components:
               timestamp: 0
           statusCode: null
         - traceId: traceId
-          durationNanos: 1
+          durationNanos: 0
           spanKind: null
           scopeName: scopeName
           spanAttributes:
@@ -11089,35 +12348,23 @@ components:
               offsetNanos: 602745
               timestamp: 0
           statusCode: null
-        pageSize: 5
-        page: 5
-        matchesTotal: 2
       properties:
+        traceId:
+          description: The id of the trace
+          type: string
         spans:
-          description: List of spans
+          description: All spans for the trace
           items:
             $ref: '#/components/schemas/Span'
           type: array
-        pageSize:
-          description: Maximum number of the spans in the result.
-          type: integer
-        page:
-          description: The requested page.
-          type: integer
-        matchesTotal:
-          description: The total number of matching spans.
-          format: int64
-          type: integer
       required:
-      - matchesTotal
-      - page
-      - pageSize
       - spans
+      - traceId
       type: object
     Span:
       example:
         traceId: traceId
-        durationNanos: 1
+        durationNanos: 0
         spanKind: null
         scopeName: scopeName
         spanAttributes:
@@ -11310,281 +12557,9 @@ components:
       - spanId
       - traceId
       type: object
-    TraceApiSpansBadRequest:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/TraceApiInvalidTimeRange'
-      - $ref: '#/components/schemas/TraceApiInvalidPagination'
-      - $ref: '#/components/schemas/TraceApiInvalidDurationFilter'
-      required:
-      - _type
-    TraceApiInvalidTimeRange:
-      properties:
-        _type:
-          enum:
-          - TraceApiInvalidTimeRange
-          type: string
-        message:
-          type: string
-        from:
-          description: Date/time representation in milliseconds since epoch (1970-01-01
-            00:00:00)
-          format: instant
-          type: integer
-        to:
-          description: Date/time representation in milliseconds since epoch (1970-01-01
-            00:00:00)
-          format: instant
-          type: integer
-      required:
-      - _type
-      - from
-      - message
-      - to
-      type: object
-    TraceApiInvalidPagination:
-      properties:
-        _type:
-          enum:
-          - TraceApiInvalidPagination
-          type: string
-        message:
-          type: string
-        pageSize:
-          type: integer
-      required:
-      - _type
-      - message
-      - pageSize
-      type: object
-    TraceApiInvalidDurationFilter:
-      properties:
-        _type:
-          enum:
-          - TraceApiInvalidDurationFilter
-          type: string
-        message:
-          type: string
-        from:
-          format: int64
-          type: integer
-        to:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - from
-      - message
-      - to
-      type: object
-    TraceApiError:
-      properties:
-        message:
-          type: string
-      required:
-      - message
-      type: object
-    DurationHistogram:
-      example:
-        quantiles:
-          q99: 3.616076749251911
-          q90: 7.061401241503109
-          q95: 9.301444243932576
-          q50: 2.3021358869347655
-        buckets:
-        - lowerNanos: 5
-          upperNanos: 5
-          okCount: 0
-          unsetCount: 1
-          errorCount: 6
-        - lowerNanos: 5
-          upperNanos: 5
-          okCount: 0
-          unsetCount: 1
-          errorCount: 6
-      properties:
-        buckets:
-          description: List of duration buckets
-          items:
-            $ref: '#/components/schemas/DurationHistogramBucket'
-          type: array
-        quantiles:
-          $ref: '#/components/schemas/DurationQuantiles'
-      required:
-      - buckets
-      - quantiles
-      type: object
-    DurationHistogramBucket:
-      example:
-        lowerNanos: 5
-        upperNanos: 5
-        okCount: 0
-        unsetCount: 1
-        errorCount: 6
-      properties:
-        okCount:
-          description: "Number of successful traces with a duration between (lowerNanos,\
-            \ upperNanos]."
-          type: integer
-        errorCount:
-          description: "Number of erroneous traces with a duration between (lowerNanos,\
-            \ upperNanos]."
-          type: integer
-        unsetCount:
-          description: "Number of traces with unset status and a duration between\
-            \ (lowerNanos, upperNanos]."
-          type: integer
-        lowerNanos:
-          description: Lower limit on trace duration
-          format: int64
-          type: integer
-        upperNanos:
-          description: Upper limit on trace duration
-          format: int64
-          type: integer
-      required:
-      - errorCount
-      - okCount
-      - unsetCount
-      type: object
-    DurationQuantiles:
-      example:
-        q99: 3.616076749251911
-        q90: 7.061401241503109
-        q95: 9.301444243932576
-        q50: 2.3021358869347655
-      properties:
-        q50:
-          format: double
-          type: number
-        q90:
-          format: double
-          type: number
-        q95:
-          format: double
-          type: number
-        q99:
-          format: double
-          type: number
-      required:
-      - q50
-      - q90
-      - q95
-      - q99
-      type: object
-    Trace:
+    TraceApiTraceNotFound:
       example:
         traceId: traceId
-        spans:
-        - traceId: traceId
-          durationNanos: 1
-          spanKind: null
-          scopeName: scopeName
-          spanAttributes:
-            key: spanAttributes
-          spanParentType: null
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          resourceAttributes:
-            key: resourceAttributes
-          statusMessage: statusMessage
-          spanName: spanName
-          scopeVersion: scopeVersion
-          spanId: spanId
-          traceState: traceState
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          links:
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          events:
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          statusCode: null
-        - traceId: traceId
-          durationNanos: 1
-          spanKind: null
-          scopeName: scopeName
-          spanAttributes:
-            key: spanAttributes
-          spanParentType: null
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          resourceAttributes:
-            key: resourceAttributes
-          statusMessage: statusMessage
-          spanName: spanName
-          scopeVersion: scopeVersion
-          spanId: spanId
-          traceState: traceState
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          links:
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          events:
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          statusCode: null
-      properties:
-        traceId:
-          description: The id of the trace
-          type: string
-        spans:
-          description: All spans for the trace
-          items:
-            $ref: '#/components/schemas/Span'
-          type: array
-      required:
-      - spans
-      - traceId
-      type: object
-    TraceApiTraceNotFound:
       properties:
         traceId:
           type: string
@@ -11592,6 +12567,9 @@ components:
       - traceId
       type: object
     TraceApiSpanNotFound:
+      example:
+        traceId: traceId
+        spanId: spanId
       properties:
         traceId:
           type: string
@@ -11645,10 +12623,12 @@ components:
       example:
         components:
         - identifier: identifier
+          healthState: null
           name: name
           id: 0
           type: type
         - identifier: identifier
+          healthState: null
           name: name
           id: 0
           type: type
@@ -11663,6 +12643,7 @@ components:
     SpanComponent:
       example:
         identifier: identifier
+        healthState: null
         name: name
         id: 0
         type: type
@@ -11676,15 +12657,178 @@ components:
           type: string
         type:
           type: string
+        healthState:
+          $ref: '#/components/schemas/HealthStateValue'
       required:
+      - healthState
       - id
       - identifier
       - name
       - type
       type: object
+    LayoutList:
+      example:
+        layouts:
+        - name: name
+          _type: MetricPerspectiveTab
+          weight: 0.8008282
+        - name: name
+          _type: MetricPerspectiveTab
+          weight: 0.8008282
+      properties:
+        layouts:
+          items:
+            $ref: '#/components/schemas/LayoutHint'
+          type: array
+      required:
+      - layouts
+      type: object
+    LayoutHint:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricPerspectiveTab'
+      - $ref: '#/components/schemas/MetricPerspectiveSection'
+      - $ref: '#/components/schemas/ComponentHighlightMetricSection'
+    MetricPerspectiveTab:
+      allOf:
+      - $ref: '#/components/schemas/BaseLayoutHint'
+      - properties:
+          _type:
+            enum:
+            - MetricPerspectiveTab
+            type: string
+        required:
+        - _type
+        type: object
+      example:
+        name: name
+        _type: MetricPerspectiveTab
+        weight: 0.8008282
+    BaseLayoutHint:
+      properties:
+        name:
+          type: string
+        weight:
+          format: float
+          type: number
+      required:
+      - name
+      - weight
+      type: object
+    MetricPerspectiveSection:
+      allOf:
+      - $ref: '#/components/schemas/BaseLayoutHint'
+      - properties:
+          _type:
+            enum:
+            - MetricPerspectiveSection
+            type: string
+          tab:
+            type: string
+        required:
+        - _type
+        - tab
+        type: object
+    ComponentHighlightMetricSection:
+      allOf:
+      - $ref: '#/components/schemas/BaseLayoutHint'
+      - properties:
+          _type:
+            enum:
+            - ComponentHighlightMetricSection
+            type: string
+        required:
+        - _type
+        type: object
+    LayoutApiError:
+      example:
+        message: message
+        statusCode: statusCode
+      properties:
+        statusCode:
+          type: string
+        message:
+          type: string
+      required:
+      - message
+      - statusCode
+      type: object
+    ComponentIdOrUrn:
+      pattern: "^urn:.+|[0-9]+$"
+      type: string
+    ComponentHealthHistory:
+      example:
+        startTime: 6
+        id: 0
+        endTime: 1
+        healthStateChanges:
+        - newHealth: null
+          timestamp: 5
+        - newHealth: null
+          timestamp: 5
+      properties:
+        id:
+          format: int64
+          type: integer
+        startTime:
+          format: instant
+          type: integer
+        endTime:
+          format: instant
+          type: integer
+        healthStateChanges:
+          description: List of health state changes ordered from most recent to oldest.
+          items:
+            $ref: '#/components/schemas/ComponentHealthChange'
+          type: array
+      required:
+      - endTime
+      - healthStateChanges
+      - id
+      - startTime
+    ComponentHealthChange:
+      example:
+        newHealth: null
+        timestamp: 5
+      properties:
+        timestamp:
+          format: int64
+          type: integer
+        newHealth:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - newHealth
+      - timestamp
+    ComponentNotFoundError:
+      discriminator:
+        propertyName: _type
+      example:
+        componentId: 5
+        _type: ComponentNotFoundError
+      properties:
+        _type:
+          enum:
+          - ComponentNotFoundError
+          type: string
+        componentId:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - componentId
+      type: object
+    ComponentId:
+      format: int64
+      type: integer
     StackElementNotFound:
       discriminator:
         propertyName: _type
+      example:
+        _type: StackElementNotFound
+        message: message
+        objectId: objectId
+        objectType: objectType
       properties:
         _type:
           enum:
@@ -11728,6 +12872,12 @@ components:
       - _type
       type: object
     ArgumentBooleanVal:
+      example:
+        lastUpdateTimestamp: 6
+        parameter: 1
+        _type: ArgumentBooleanVal
+        id: 0
+        value: true
       properties:
         _type:
           enum:
@@ -12225,6 +13375,9 @@ components:
       - $ref: '#/components/schemas/ExternalMonitorDefId'
       type: object
     MonitorDefId:
+      example:
+        _type: MonitorDefId
+        id: 5
       properties:
         _type:
           enum:
@@ -12305,23 +13458,6 @@ components:
         _type:
           type: string
       type: object
-    MonitorApiError_allOf:
-      properties:
-        statusCode:
-          type: string
-        message:
-          type: string
-      required:
-      - message
-      - statusCode
-      type: object
-    MonitorNotFoundError_allOf:
-      properties:
-        _type:
-          enum:
-          - MonitorNotFoundError
-          type: string
-      type: object
     MonitorIdentifierLookup_overrides:
       example:
         timeSeries: 5
@@ -12337,56 +13473,12 @@ components:
       - components
       - timeSeries
       type: object
-    SlackNotificationChannel_allOf:
-      properties:
-        _type:
-          enum:
-          - SlackNotificationChannel
-          type: string
-        slackWorkspace:
-          type: string
-        slackChannel:
-          type: string
-        slackChannelId:
-          type: string
-      required:
-      - _type
-      - slackWorkspace
-      type: object
-    WebhookNotificationChannel_allOf:
-      properties:
-        _type:
-          enum:
-          - WebhookNotificationChannel
-          type: string
-      required:
-      - _type
-      type: object
-    OpsgenieNotificationChannel_allOf:
-      properties:
-        _type:
-          enum:
-          - OpsgenieNotificationChannel
-          type: string
-      required:
-      - _type
-      type: object
-    NotificationConfigurationReadSchema_allOf:
-      properties:
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        runtimeStatus:
-          $ref: '#/components/schemas/NotificationConfigurationRuntimeStatusValue'
-      required:
-      - id
-      - lastUpdateTimestamp
-      - runtimeStatus
-      type: object
     ExecuteScriptSyntaxErrors_errors_inner:
+      example:
+        location:
+          line: 0
+          column: 6
+        message: message
       properties:
         message:
           type: string

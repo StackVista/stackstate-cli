@@ -1,13 +1,13 @@
-# \PermissionsApi
+# \PermissionsAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DescribePermissions**](PermissionsApi.md#DescribePermissions) | **Get** /security/permissions/{subject} | Describe permissions
-[**GetPermissions**](PermissionsApi.md#GetPermissions) | **Get** /security/permissions/list | List permissions
-[**GrantPermissions**](PermissionsApi.md#GrantPermissions) | **Post** /security/permissions/{subject} | Grant permissions
-[**RevokePermissions**](PermissionsApi.md#RevokePermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
+[**DescribePermissions**](PermissionsAPI.md#DescribePermissions) | **Get** /security/permissions/{subject} | Describe permissions
+[**GetPermissions**](PermissionsAPI.md#GetPermissions) | **Get** /security/permissions/list | List permissions
+[**GrantPermissions**](PermissionsAPI.md#GrantPermissions) | **Post** /security/permissions/{subject} | Grant permissions
+[**RevokePermissions**](PermissionsAPI.md#RevokePermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
 
 
 
@@ -38,13 +38,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PermissionsApi.DescribePermissions(context.Background(), subject).Resource(resource).Permission(permission).Execute()
+    resp, r, err := apiClient.PermissionsAPI.DescribePermissions(context.Background(), subject).Resource(resource).Permission(permission).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.DescribePermissions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsAPI.DescribePermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `DescribePermissions`: PermissionDescription
-    fmt.Fprintf(os.Stdout, "Response from `PermissionsApi.DescribePermissions`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PermissionsAPI.DescribePermissions`: %v\n", resp)
 }
 ```
 
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -109,13 +109,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PermissionsApi.GetPermissions(context.Background()).Execute()
+    resp, r, err := apiClient.PermissionsAPI.GetPermissions(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.GetPermissions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsAPI.GetPermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetPermissions`: Permissions
-    fmt.Fprintf(os.Stdout, "Response from `PermissionsApi.GetPermissions`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `PermissionsAPI.GetPermissions`: %v\n", resp)
 }
 ```
 
@@ -134,7 +134,7 @@ Other parameters are passed through a pointer to a apiGetPermissionsRequest stru
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -172,9 +172,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PermissionsApi.GrantPermissions(context.Background(), subject).GrantPermission(grantPermission).Execute()
+    resp, r, err := apiClient.PermissionsAPI.GrantPermissions(context.Background(), subject).GrantPermission(grantPermission).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.GrantPermissions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsAPI.GrantPermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -204,7 +204,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -243,9 +243,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PermissionsApi.RevokePermissions(context.Background(), subject).Resource(resource).Permission(permission).Execute()
+    resp, r, err := apiClient.PermissionsAPI.RevokePermissions(context.Background(), subject).Resource(resource).Permission(permission).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.RevokePermissions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `PermissionsAPI.RevokePermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -276,7 +276,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

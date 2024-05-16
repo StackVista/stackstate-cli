@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type NotificationChannelsApi interface {
+type NotificationChannelsAPI interface {
 
 	/*
 		CreateOpsgenieNotificationChannel Create a Opsgenie Notification channel
@@ -280,12 +280,12 @@ type NotificationChannelsApi interface {
 	UpdateWebhookNotificationChannelExecute(r ApiUpdateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error)
 }
 
-// NotificationChannelsApiService NotificationChannelsApi service
-type NotificationChannelsApiService service
+// NotificationChannelsAPIService NotificationChannelsAPI service
+type NotificationChannelsAPIService service
 
 type ApiCreateOpsgenieNotificationChannelRequest struct {
 	ctx                        context.Context
-	ApiService                 NotificationChannelsApi
+	ApiService                 NotificationChannelsAPI
 	opsgenieChannelWriteSchema *OpsgenieChannelWriteSchema
 }
 
@@ -304,10 +304,10 @@ CreateOpsgenieNotificationChannel Create a Opsgenie Notification channel
 
 Create a Opsgenie Notification channel
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateOpsgenieNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannel(ctx context.Context) ApiCreateOpsgenieNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) CreateOpsgenieNotificationChannel(ctx context.Context) ApiCreateOpsgenieNotificationChannelRequest {
 	return ApiCreateOpsgenieNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -315,8 +315,9 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannel(ctx c
 }
 
 // Execute executes the request
-//  @return OpsgenieNotificationChannel
-func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecute(r ApiCreateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
+//
+//	@return OpsgenieNotificationChannel
+func (a *NotificationChannelsAPIService) CreateOpsgenieNotificationChannelExecute(r ApiCreateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -324,7 +325,7 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecut
 		localVarReturnValue *OpsgenieNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.CreateOpsgenieNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.CreateOpsgenieNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -360,6 +361,20 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecut
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -382,20 +397,6 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecut
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -457,7 +458,7 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecut
 
 type ApiCreateWebhookNotificationChannelRequest struct {
 	ctx                       context.Context
-	ApiService                NotificationChannelsApi
+	ApiService                NotificationChannelsAPI
 	webhookChannelWriteSchema *WebhookChannelWriteSchema
 }
 
@@ -476,10 +477,10 @@ CreateWebhookNotificationChannel Create a Webhook Notification channel
 
 Create a Webhook Notification channel
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateWebhookNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) CreateWebhookNotificationChannel(ctx context.Context) ApiCreateWebhookNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) CreateWebhookNotificationChannel(ctx context.Context) ApiCreateWebhookNotificationChannelRequest {
 	return ApiCreateWebhookNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -487,8 +488,9 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannel(ctx co
 }
 
 // Execute executes the request
-//  @return WebhookNotificationChannel
-func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute(r ApiCreateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
+//
+//	@return WebhookNotificationChannel
+func (a *NotificationChannelsAPIService) CreateWebhookNotificationChannelExecute(r ApiCreateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -496,7 +498,7 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute
 		localVarReturnValue *WebhookNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.CreateWebhookNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.CreateWebhookNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -532,6 +534,20 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -554,20 +570,6 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -629,7 +631,7 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute
 
 type ApiDeleteOpsgenieNotificationChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -642,11 +644,11 @@ DeleteOpsgenieNotificationChannel Delete the Opsgenie Notification channel by id
 
 Delete the opsgenie notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteOpsgenieNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiDeleteOpsgenieNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) DeleteOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiDeleteOpsgenieNotificationChannelRequest {
 	return ApiDeleteOpsgenieNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -655,14 +657,14 @@ func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannel(ctx c
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannelExecute(r ApiDeleteOpsgenieNotificationChannelRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) DeleteOpsgenieNotificationChannelExecute(r ApiDeleteOpsgenieNotificationChannelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.DeleteOpsgenieNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.DeleteOpsgenieNotificationChannel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -694,6 +696,20 @@ func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannelExecut
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -716,20 +732,6 @@ func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannelExecut
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -792,7 +794,7 @@ func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannelExecut
 
 type ApiDeleteSlackNotificationChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -805,11 +807,11 @@ DeleteSlackNotificationChannel Delete the Slack Notification channel by id
 
 Delete the slack notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteSlackNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteSlackNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) DeleteSlackNotificationChannel(ctx context.Context, channelId int64) ApiDeleteSlackNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) DeleteSlackNotificationChannel(ctx context.Context, channelId int64) ApiDeleteSlackNotificationChannelRequest {
 	return ApiDeleteSlackNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -818,14 +820,14 @@ func (a *NotificationChannelsApiService) DeleteSlackNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) DeleteSlackNotificationChannelExecute(r ApiDeleteSlackNotificationChannelRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) DeleteSlackNotificationChannelExecute(r ApiDeleteSlackNotificationChannelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.DeleteSlackNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.DeleteSlackNotificationChannel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -857,6 +859,20 @@ func (a *NotificationChannelsApiService) DeleteSlackNotificationChannelExecute(r
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -879,20 +895,6 @@ func (a *NotificationChannelsApiService) DeleteSlackNotificationChannelExecute(r
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -955,7 +957,7 @@ func (a *NotificationChannelsApiService) DeleteSlackNotificationChannelExecute(r
 
 type ApiDeleteWebhookNotificationChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -968,11 +970,11 @@ DeleteWebhookNotificationChannel Delete the Webhook Notification channel by id
 
 Delete the webhook notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteWebhookNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannel(ctx context.Context, channelId int64) ApiDeleteWebhookNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) DeleteWebhookNotificationChannel(ctx context.Context, channelId int64) ApiDeleteWebhookNotificationChannelRequest {
 	return ApiDeleteWebhookNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -981,14 +983,14 @@ func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannel(ctx co
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannelExecute(r ApiDeleteWebhookNotificationChannelRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) DeleteWebhookNotificationChannelExecute(r ApiDeleteWebhookNotificationChannelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.DeleteWebhookNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.DeleteWebhookNotificationChannel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1020,6 +1022,20 @@ func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannelExecute
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1042,20 +1058,6 @@ func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannelExecute
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1118,7 +1120,7 @@ func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannelExecute
 
 type ApiGetOpsgenieNotificationChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -1131,11 +1133,11 @@ GetOpsgenieNotificationChannel Get the Opsgenie Notification channel by id
 
 Get the opsgenie notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetOpsgenieNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiGetOpsgenieNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) GetOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiGetOpsgenieNotificationChannelRequest {
 	return ApiGetOpsgenieNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1144,8 +1146,9 @@ func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-//  @return OpsgenieNotificationChannel
-func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannelExecute(r ApiGetOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
+//
+//	@return OpsgenieNotificationChannel
+func (a *NotificationChannelsAPIService) GetOpsgenieNotificationChannelExecute(r ApiGetOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1153,7 +1156,7 @@ func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannelExecute(r
 		localVarReturnValue *OpsgenieNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.GetOpsgenieNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.GetOpsgenieNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1185,6 +1188,20 @@ func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannelExecute(r
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1207,20 +1224,6 @@ func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannelExecute(r
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1292,7 +1295,7 @@ func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannelExecute(r
 
 type ApiGetSlackNotificationChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -1305,11 +1308,11 @@ GetSlackNotificationChannel Get the Slack Notification channel by id
 
 Get the slack notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetSlackNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetSlackNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) GetSlackNotificationChannel(ctx context.Context, channelId int64) ApiGetSlackNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) GetSlackNotificationChannel(ctx context.Context, channelId int64) ApiGetSlackNotificationChannelRequest {
 	return ApiGetSlackNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1318,8 +1321,9 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannel(ctx context
 }
 
 // Execute executes the request
-//  @return SlackNotificationChannel
-func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r ApiGetSlackNotificationChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
+//
+//	@return SlackNotificationChannel
+func (a *NotificationChannelsAPIService) GetSlackNotificationChannelExecute(r ApiGetSlackNotificationChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1327,7 +1331,7 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r Ap
 		localVarReturnValue *SlackNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.GetSlackNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.GetSlackNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1359,6 +1363,20 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r Ap
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1381,20 +1399,6 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r Ap
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1466,7 +1470,7 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r Ap
 
 type ApiGetWebhookNotificationChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -1479,11 +1483,11 @@ GetWebhookNotificationChannel Get the Webhook Notification channel by id
 
 Get the webhook notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetWebhookNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) GetWebhookNotificationChannel(ctx context.Context, channelId int64) ApiGetWebhookNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) GetWebhookNotificationChannel(ctx context.Context, channelId int64) ApiGetWebhookNotificationChannelRequest {
 	return ApiGetWebhookNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1492,8 +1496,9 @@ func (a *NotificationChannelsApiService) GetWebhookNotificationChannel(ctx conte
 }
 
 // Execute executes the request
-//  @return WebhookNotificationChannel
-func (a *NotificationChannelsApiService) GetWebhookNotificationChannelExecute(r ApiGetWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
+//
+//	@return WebhookNotificationChannel
+func (a *NotificationChannelsAPIService) GetWebhookNotificationChannelExecute(r ApiGetWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1501,7 +1506,7 @@ func (a *NotificationChannelsApiService) GetWebhookNotificationChannelExecute(r 
 		localVarReturnValue *WebhookNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.GetWebhookNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.GetWebhookNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1533,6 +1538,20 @@ func (a *NotificationChannelsApiService) GetWebhookNotificationChannelExecute(r 
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1555,20 +1574,6 @@ func (a *NotificationChannelsApiService) GetWebhookNotificationChannelExecute(r 
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1640,7 +1645,7 @@ func (a *NotificationChannelsApiService) GetWebhookNotificationChannelExecute(r 
 
 type ApiJoinSlackChannelRequest struct {
 	ctx            context.Context
-	ApiService     NotificationChannelsApi
+	ApiService     NotificationChannelsAPI
 	channelId      int64
 	slackChannelId *SlackChannelId
 }
@@ -1660,11 +1665,11 @@ JoinSlackChannel Join the specified Slack channel to send notifications
 
 Join the specified Slack channel and configure this notifiation channel to post notifications to the specified slack channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiJoinSlackChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiJoinSlackChannelRequest
 */
-func (a *NotificationChannelsApiService) JoinSlackChannel(ctx context.Context, channelId int64) ApiJoinSlackChannelRequest {
+func (a *NotificationChannelsAPIService) JoinSlackChannel(ctx context.Context, channelId int64) ApiJoinSlackChannelRequest {
 	return ApiJoinSlackChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1673,8 +1678,9 @@ func (a *NotificationChannelsApiService) JoinSlackChannel(ctx context.Context, c
 }
 
 // Execute executes the request
-//  @return SlackNotificationChannel
-func (a *NotificationChannelsApiService) JoinSlackChannelExecute(r ApiJoinSlackChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
+//
+//	@return SlackNotificationChannel
+func (a *NotificationChannelsAPIService) JoinSlackChannelExecute(r ApiJoinSlackChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1682,7 +1688,7 @@ func (a *NotificationChannelsApiService) JoinSlackChannelExecute(r ApiJoinSlackC
 		localVarReturnValue *SlackNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.JoinSlackChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.JoinSlackChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1719,6 +1725,20 @@ func (a *NotificationChannelsApiService) JoinSlackChannelExecute(r ApiJoinSlackC
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1741,20 +1761,6 @@ func (a *NotificationChannelsApiService) JoinSlackChannelExecute(r ApiJoinSlackC
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1826,7 +1832,7 @@ func (a *NotificationChannelsApiService) JoinSlackChannelExecute(r ApiJoinSlackC
 
 type ApiListOpsgenieRespondersRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	genieKey   *string
 	region     *string
 }
@@ -1852,10 +1858,10 @@ ListOpsgenieResponders List Opsgenie responders
 
 List Opsgenie responders
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListOpsgenieRespondersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListOpsgenieRespondersRequest
 */
-func (a *NotificationChannelsApiService) ListOpsgenieResponders(ctx context.Context) ApiListOpsgenieRespondersRequest {
+func (a *NotificationChannelsAPIService) ListOpsgenieResponders(ctx context.Context) ApiListOpsgenieRespondersRequest {
 	return ApiListOpsgenieRespondersRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1863,8 +1869,9 @@ func (a *NotificationChannelsApiService) ListOpsgenieResponders(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return []OpsgenieResponder
-func (a *NotificationChannelsApiService) ListOpsgenieRespondersExecute(r ApiListOpsgenieRespondersRequest) ([]OpsgenieResponder, *http.Response, error) {
+//
+//	@return []OpsgenieResponder
+func (a *NotificationChannelsAPIService) ListOpsgenieRespondersExecute(r ApiListOpsgenieRespondersRequest) ([]OpsgenieResponder, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1872,7 +1879,7 @@ func (a *NotificationChannelsApiService) ListOpsgenieRespondersExecute(r ApiList
 		localVarReturnValue []OpsgenieResponder
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.ListOpsgenieResponders")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.ListOpsgenieResponders")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1911,6 +1918,20 @@ func (a *NotificationChannelsApiService) ListOpsgenieRespondersExecute(r ApiList
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1933,20 +1954,6 @@ func (a *NotificationChannelsApiService) ListOpsgenieRespondersExecute(r ApiList
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2008,7 +2015,7 @@ func (a *NotificationChannelsApiService) ListOpsgenieRespondersExecute(r ApiList
 
 type ApiListSlackChannelsRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -2021,11 +2028,11 @@ ListSlackChannels List all public Slack channels
 
 List all public Slack channels, used for selecting a channel for the notifications
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiListSlackChannelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiListSlackChannelsRequest
 */
-func (a *NotificationChannelsApiService) ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest {
+func (a *NotificationChannelsAPIService) ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest {
 	return ApiListSlackChannelsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2034,8 +2041,9 @@ func (a *NotificationChannelsApiService) ListSlackChannels(ctx context.Context, 
 }
 
 // Execute executes the request
-//  @return []SlackChannel
-func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
+//
+//	@return []SlackChannel
+func (a *NotificationChannelsAPIService) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -2043,7 +2051,7 @@ func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlack
 		localVarReturnValue []SlackChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.ListSlackChannels")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.ListSlackChannels")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2075,6 +2083,20 @@ func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlack
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2097,20 +2119,6 @@ func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlack
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2182,7 +2190,7 @@ func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlack
 
 type ApiSlackOAuthCallbackRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	state      *string
 	code       *string
 	error_     *string
@@ -2215,10 +2223,10 @@ SlackOAuthCallback The OAuth callback for Slack
 
 The OAuth callback for Slack, which is used to obtain the access token for the Slack channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSlackOAuthCallbackRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSlackOAuthCallbackRequest
 */
-func (a *NotificationChannelsApiService) SlackOAuthCallback(ctx context.Context) ApiSlackOAuthCallbackRequest {
+func (a *NotificationChannelsAPIService) SlackOAuthCallback(ctx context.Context) ApiSlackOAuthCallbackRequest {
 	return ApiSlackOAuthCallbackRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2226,14 +2234,14 @@ func (a *NotificationChannelsApiService) SlackOAuthCallback(ctx context.Context)
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) SlackOAuthCallbackExecute(r ApiSlackOAuthCallbackRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) SlackOAuthCallbackExecute(r ApiSlackOAuthCallbackRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodGet
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.SlackOAuthCallback")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.SlackOAuthCallback")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2274,6 +2282,20 @@ func (a *NotificationChannelsApiService) SlackOAuthCallbackExecute(r ApiSlackOAu
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2296,20 +2318,6 @@ func (a *NotificationChannelsApiService) SlackOAuthCallbackExecute(r ApiSlackOAu
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2343,7 +2351,7 @@ func (a *NotificationChannelsApiService) SlackOAuthCallbackExecute(r ApiSlackOAu
 
 type ApiSlackOauthRedirectRequest struct {
 	ctx          context.Context
-	ApiService   NotificationChannelsApi
+	ApiService   NotificationChannelsAPI
 	redirectPath *string
 }
 
@@ -2362,10 +2370,10 @@ SlackOauthRedirect Starts Slack OAuth2 flow
 
 Redirects to Slack to start an OAuth2 flow.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSlackOauthRedirectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSlackOauthRedirectRequest
 */
-func (a *NotificationChannelsApiService) SlackOauthRedirect(ctx context.Context) ApiSlackOauthRedirectRequest {
+func (a *NotificationChannelsAPIService) SlackOauthRedirect(ctx context.Context) ApiSlackOauthRedirectRequest {
 	return ApiSlackOauthRedirectRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2373,14 +2381,14 @@ func (a *NotificationChannelsApiService) SlackOauthRedirect(ctx context.Context)
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) SlackOauthRedirectExecute(r ApiSlackOauthRedirectRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) SlackOauthRedirectExecute(r ApiSlackOauthRedirectRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodGet
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.SlackOauthRedirect")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.SlackOauthRedirect")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2415,6 +2423,20 @@ func (a *NotificationChannelsApiService) SlackOauthRedirectExecute(r ApiSlackOau
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2437,20 +2459,6 @@ func (a *NotificationChannelsApiService) SlackOauthRedirectExecute(r ApiSlackOau
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2484,7 +2492,7 @@ func (a *NotificationChannelsApiService) SlackOauthRedirectExecute(r ApiSlackOau
 
 type ApiTestOpsgenieChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -2497,11 +2505,11 @@ TestOpsgenieChannel Test the Opsgenie notification channel
 
 Test the opsgenie notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestOpsgenieChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestOpsgenieChannelRequest
 */
-func (a *NotificationChannelsApiService) TestOpsgenieChannel(ctx context.Context, channelId int64) ApiTestOpsgenieChannelRequest {
+func (a *NotificationChannelsAPIService) TestOpsgenieChannel(ctx context.Context, channelId int64) ApiTestOpsgenieChannelRequest {
 	return ApiTestOpsgenieChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2510,14 +2518,14 @@ func (a *NotificationChannelsApiService) TestOpsgenieChannel(ctx context.Context
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) TestOpsgenieChannelExecute(r ApiTestOpsgenieChannelRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) TestOpsgenieChannelExecute(r ApiTestOpsgenieChannelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.TestOpsgenieChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.TestOpsgenieChannel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2549,6 +2557,20 @@ func (a *NotificationChannelsApiService) TestOpsgenieChannelExecute(r ApiTestOps
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2571,20 +2593,6 @@ func (a *NotificationChannelsApiService) TestOpsgenieChannelExecute(r ApiTestOps
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2647,7 +2655,7 @@ func (a *NotificationChannelsApiService) TestOpsgenieChannelExecute(r ApiTestOps
 
 type ApiTestSlackChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -2660,11 +2668,11 @@ TestSlackChannel Test the Notification channel
 
 Test the Notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestSlackChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestSlackChannelRequest
 */
-func (a *NotificationChannelsApiService) TestSlackChannel(ctx context.Context, channelId int64) ApiTestSlackChannelRequest {
+func (a *NotificationChannelsAPIService) TestSlackChannel(ctx context.Context, channelId int64) ApiTestSlackChannelRequest {
 	return ApiTestSlackChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2673,14 +2681,14 @@ func (a *NotificationChannelsApiService) TestSlackChannel(ctx context.Context, c
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) TestSlackChannelExecute(r ApiTestSlackChannelRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) TestSlackChannelExecute(r ApiTestSlackChannelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.TestSlackChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.TestSlackChannel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2712,6 +2720,20 @@ func (a *NotificationChannelsApiService) TestSlackChannelExecute(r ApiTestSlackC
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2734,20 +2756,6 @@ func (a *NotificationChannelsApiService) TestSlackChannelExecute(r ApiTestSlackC
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2810,7 +2818,7 @@ func (a *NotificationChannelsApiService) TestSlackChannelExecute(r ApiTestSlackC
 
 type ApiTestWebhookChannelRequest struct {
 	ctx        context.Context
-	ApiService NotificationChannelsApi
+	ApiService NotificationChannelsAPI
 	channelId  int64
 }
 
@@ -2823,11 +2831,11 @@ TestWebhookChannel Test the Webhook notification channel
 
 Test the webhook notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestWebhookChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestWebhookChannelRequest
 */
-func (a *NotificationChannelsApiService) TestWebhookChannel(ctx context.Context, channelId int64) ApiTestWebhookChannelRequest {
+func (a *NotificationChannelsAPIService) TestWebhookChannel(ctx context.Context, channelId int64) ApiTestWebhookChannelRequest {
 	return ApiTestWebhookChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2836,14 +2844,14 @@ func (a *NotificationChannelsApiService) TestWebhookChannel(ctx context.Context,
 }
 
 // Execute executes the request
-func (a *NotificationChannelsApiService) TestWebhookChannelExecute(r ApiTestWebhookChannelRequest) (*http.Response, error) {
+func (a *NotificationChannelsAPIService) TestWebhookChannelExecute(r ApiTestWebhookChannelRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.TestWebhookChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.TestWebhookChannel")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2875,6 +2883,20 @@ func (a *NotificationChannelsApiService) TestWebhookChannelExecute(r ApiTestWebh
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2897,20 +2919,6 @@ func (a *NotificationChannelsApiService) TestWebhookChannelExecute(r ApiTestWebh
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2973,7 +2981,7 @@ func (a *NotificationChannelsApiService) TestWebhookChannelExecute(r ApiTestWebh
 
 type ApiUpdateOpsgenieNotificationChannelRequest struct {
 	ctx                        context.Context
-	ApiService                 NotificationChannelsApi
+	ApiService                 NotificationChannelsAPI
 	channelId                  int64
 	opsgenieChannelWriteSchema *OpsgenieChannelWriteSchema
 }
@@ -2993,11 +3001,11 @@ UpdateOpsgenieNotificationChannel Update the Opsgenie Notification channel by id
 
 Update the opsgenie notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiUpdateOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiUpdateOpsgenieNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiUpdateOpsgenieNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) UpdateOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiUpdateOpsgenieNotificationChannelRequest {
 	return ApiUpdateOpsgenieNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -3006,8 +3014,9 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannel(ctx c
 }
 
 // Execute executes the request
-//  @return OpsgenieNotificationChannel
-func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecute(r ApiUpdateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
+//
+//	@return OpsgenieNotificationChannel
+func (a *NotificationChannelsAPIService) UpdateOpsgenieNotificationChannelExecute(r ApiUpdateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
 		localVarPostBody    interface{}
@@ -3015,7 +3024,7 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecut
 		localVarReturnValue *OpsgenieNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.UpdateOpsgenieNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.UpdateOpsgenieNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3052,6 +3061,20 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecut
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -3074,20 +3097,6 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecut
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -3159,7 +3168,7 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecut
 
 type ApiUpdateWebhookNotificationChannelRequest struct {
 	ctx                       context.Context
-	ApiService                NotificationChannelsApi
+	ApiService                NotificationChannelsAPI
 	channelId                 int64
 	webhookChannelWriteSchema *WebhookChannelWriteSchema
 }
@@ -3179,11 +3188,11 @@ UpdateWebhookNotificationChannel Update the Webhook Notification channel by id
 
 Update the webhook notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiUpdateWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiUpdateWebhookNotificationChannelRequest
 */
-func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannel(ctx context.Context, channelId int64) ApiUpdateWebhookNotificationChannelRequest {
+func (a *NotificationChannelsAPIService) UpdateWebhookNotificationChannel(ctx context.Context, channelId int64) ApiUpdateWebhookNotificationChannelRequest {
 	return ApiUpdateWebhookNotificationChannelRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -3192,8 +3201,9 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannel(ctx co
 }
 
 // Execute executes the request
-//  @return WebhookNotificationChannel
-func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute(r ApiUpdateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
+//
+//	@return WebhookNotificationChannel
+func (a *NotificationChannelsAPIService) UpdateWebhookNotificationChannelExecute(r ApiUpdateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
 		localVarPostBody    interface{}
@@ -3201,7 +3211,7 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute
 		localVarReturnValue *WebhookNotificationChannel
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.UpdateWebhookNotificationChannel")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsAPIService.UpdateWebhookNotificationChannel")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3238,6 +3248,20 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -3260,20 +3284,6 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -3347,7 +3357,7 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type NotificationChannelsApiMock struct {
+type NotificationChannelsAPIMock struct {
 	CreateOpsgenieNotificationChannelCalls    *[]CreateOpsgenieNotificationChannelCall
 	CreateOpsgenieNotificationChannelResponse CreateOpsgenieNotificationChannelMockResponse
 	CreateWebhookNotificationChannelCalls     *[]CreateWebhookNotificationChannelCall
@@ -3386,7 +3396,7 @@ type NotificationChannelsApiMock struct {
 	UpdateWebhookNotificationChannelResponse  UpdateWebhookNotificationChannelMockResponse
 }
 
-func NewNotificationChannelsApiMock() NotificationChannelsApiMock {
+func NewNotificationChannelsAPIMock() NotificationChannelsAPIMock {
 	xCreateOpsgenieNotificationChannelCalls := make([]CreateOpsgenieNotificationChannelCall, 0)
 	xCreateWebhookNotificationChannelCalls := make([]CreateWebhookNotificationChannelCall, 0)
 	xDeleteOpsgenieNotificationChannelCalls := make([]DeleteOpsgenieNotificationChannelCall, 0)
@@ -3405,7 +3415,7 @@ func NewNotificationChannelsApiMock() NotificationChannelsApiMock {
 	xTestWebhookChannelCalls := make([]TestWebhookChannelCall, 0)
 	xUpdateOpsgenieNotificationChannelCalls := make([]UpdateOpsgenieNotificationChannelCall, 0)
 	xUpdateWebhookNotificationChannelCalls := make([]UpdateWebhookNotificationChannelCall, 0)
-	return NotificationChannelsApiMock{
+	return NotificationChannelsAPIMock{
 		CreateOpsgenieNotificationChannelCalls: &xCreateOpsgenieNotificationChannelCalls,
 		CreateWebhookNotificationChannelCalls:  &xCreateWebhookNotificationChannelCalls,
 		DeleteOpsgenieNotificationChannelCalls: &xDeleteOpsgenieNotificationChannelCalls,
@@ -3437,14 +3447,14 @@ type CreateOpsgenieNotificationChannelCall struct {
 	PopsgenieChannelWriteSchema *OpsgenieChannelWriteSchema
 }
 
-func (mock NotificationChannelsApiMock) CreateOpsgenieNotificationChannel(ctx context.Context) ApiCreateOpsgenieNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) CreateOpsgenieNotificationChannel(ctx context.Context) ApiCreateOpsgenieNotificationChannelRequest {
 	return ApiCreateOpsgenieNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationChannelsApiMock) CreateOpsgenieNotificationChannelExecute(r ApiCreateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) CreateOpsgenieNotificationChannelExecute(r ApiCreateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	p := CreateOpsgenieNotificationChannelCall{
 		PopsgenieChannelWriteSchema: r.opsgenieChannelWriteSchema,
 	}
@@ -3462,14 +3472,14 @@ type CreateWebhookNotificationChannelCall struct {
 	PwebhookChannelWriteSchema *WebhookChannelWriteSchema
 }
 
-func (mock NotificationChannelsApiMock) CreateWebhookNotificationChannel(ctx context.Context) ApiCreateWebhookNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) CreateWebhookNotificationChannel(ctx context.Context) ApiCreateWebhookNotificationChannelRequest {
 	return ApiCreateWebhookNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationChannelsApiMock) CreateWebhookNotificationChannelExecute(r ApiCreateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) CreateWebhookNotificationChannelExecute(r ApiCreateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	p := CreateWebhookNotificationChannelCall{
 		PwebhookChannelWriteSchema: r.webhookChannelWriteSchema,
 	}
@@ -3486,7 +3496,7 @@ type DeleteOpsgenieNotificationChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) DeleteOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiDeleteOpsgenieNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) DeleteOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiDeleteOpsgenieNotificationChannelRequest {
 	return ApiDeleteOpsgenieNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3494,7 +3504,7 @@ func (mock NotificationChannelsApiMock) DeleteOpsgenieNotificationChannel(ctx co
 	}
 }
 
-func (mock NotificationChannelsApiMock) DeleteOpsgenieNotificationChannelExecute(r ApiDeleteOpsgenieNotificationChannelRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) DeleteOpsgenieNotificationChannelExecute(r ApiDeleteOpsgenieNotificationChannelRequest) (*http.Response, error) {
 	p := DeleteOpsgenieNotificationChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3511,7 +3521,7 @@ type DeleteSlackNotificationChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) DeleteSlackNotificationChannel(ctx context.Context, channelId int64) ApiDeleteSlackNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) DeleteSlackNotificationChannel(ctx context.Context, channelId int64) ApiDeleteSlackNotificationChannelRequest {
 	return ApiDeleteSlackNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3519,7 +3529,7 @@ func (mock NotificationChannelsApiMock) DeleteSlackNotificationChannel(ctx conte
 	}
 }
 
-func (mock NotificationChannelsApiMock) DeleteSlackNotificationChannelExecute(r ApiDeleteSlackNotificationChannelRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) DeleteSlackNotificationChannelExecute(r ApiDeleteSlackNotificationChannelRequest) (*http.Response, error) {
 	p := DeleteSlackNotificationChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3536,7 +3546,7 @@ type DeleteWebhookNotificationChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) DeleteWebhookNotificationChannel(ctx context.Context, channelId int64) ApiDeleteWebhookNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) DeleteWebhookNotificationChannel(ctx context.Context, channelId int64) ApiDeleteWebhookNotificationChannelRequest {
 	return ApiDeleteWebhookNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3544,7 +3554,7 @@ func (mock NotificationChannelsApiMock) DeleteWebhookNotificationChannel(ctx con
 	}
 }
 
-func (mock NotificationChannelsApiMock) DeleteWebhookNotificationChannelExecute(r ApiDeleteWebhookNotificationChannelRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) DeleteWebhookNotificationChannelExecute(r ApiDeleteWebhookNotificationChannelRequest) (*http.Response, error) {
 	p := DeleteWebhookNotificationChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3562,7 +3572,7 @@ type GetOpsgenieNotificationChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) GetOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiGetOpsgenieNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) GetOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiGetOpsgenieNotificationChannelRequest {
 	return ApiGetOpsgenieNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3570,7 +3580,7 @@ func (mock NotificationChannelsApiMock) GetOpsgenieNotificationChannel(ctx conte
 	}
 }
 
-func (mock NotificationChannelsApiMock) GetOpsgenieNotificationChannelExecute(r ApiGetOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) GetOpsgenieNotificationChannelExecute(r ApiGetOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	p := GetOpsgenieNotificationChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3588,7 +3598,7 @@ type GetSlackNotificationChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) GetSlackNotificationChannel(ctx context.Context, channelId int64) ApiGetSlackNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) GetSlackNotificationChannel(ctx context.Context, channelId int64) ApiGetSlackNotificationChannelRequest {
 	return ApiGetSlackNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3596,7 +3606,7 @@ func (mock NotificationChannelsApiMock) GetSlackNotificationChannel(ctx context.
 	}
 }
 
-func (mock NotificationChannelsApiMock) GetSlackNotificationChannelExecute(r ApiGetSlackNotificationChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) GetSlackNotificationChannelExecute(r ApiGetSlackNotificationChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
 	p := GetSlackNotificationChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3614,7 +3624,7 @@ type GetWebhookNotificationChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) GetWebhookNotificationChannel(ctx context.Context, channelId int64) ApiGetWebhookNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) GetWebhookNotificationChannel(ctx context.Context, channelId int64) ApiGetWebhookNotificationChannelRequest {
 	return ApiGetWebhookNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3622,7 +3632,7 @@ func (mock NotificationChannelsApiMock) GetWebhookNotificationChannel(ctx contex
 	}
 }
 
-func (mock NotificationChannelsApiMock) GetWebhookNotificationChannelExecute(r ApiGetWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) GetWebhookNotificationChannelExecute(r ApiGetWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	p := GetWebhookNotificationChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3641,7 +3651,7 @@ type JoinSlackChannelCall struct {
 	PslackChannelId *SlackChannelId
 }
 
-func (mock NotificationChannelsApiMock) JoinSlackChannel(ctx context.Context, channelId int64) ApiJoinSlackChannelRequest {
+func (mock NotificationChannelsAPIMock) JoinSlackChannel(ctx context.Context, channelId int64) ApiJoinSlackChannelRequest {
 	return ApiJoinSlackChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3649,7 +3659,7 @@ func (mock NotificationChannelsApiMock) JoinSlackChannel(ctx context.Context, ch
 	}
 }
 
-func (mock NotificationChannelsApiMock) JoinSlackChannelExecute(r ApiJoinSlackChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) JoinSlackChannelExecute(r ApiJoinSlackChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
 	p := JoinSlackChannelCall{
 		PchannelId:      r.channelId,
 		PslackChannelId: r.slackChannelId,
@@ -3669,14 +3679,14 @@ type ListOpsgenieRespondersCall struct {
 	Pregion   *string
 }
 
-func (mock NotificationChannelsApiMock) ListOpsgenieResponders(ctx context.Context) ApiListOpsgenieRespondersRequest {
+func (mock NotificationChannelsAPIMock) ListOpsgenieResponders(ctx context.Context) ApiListOpsgenieRespondersRequest {
 	return ApiListOpsgenieRespondersRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationChannelsApiMock) ListOpsgenieRespondersExecute(r ApiListOpsgenieRespondersRequest) ([]OpsgenieResponder, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) ListOpsgenieRespondersExecute(r ApiListOpsgenieRespondersRequest) ([]OpsgenieResponder, *http.Response, error) {
 	p := ListOpsgenieRespondersCall{
 		PgenieKey: r.genieKey,
 		Pregion:   r.region,
@@ -3695,7 +3705,7 @@ type ListSlackChannelsCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest {
+func (mock NotificationChannelsAPIMock) ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest {
 	return ApiListSlackChannelsRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3703,7 +3713,7 @@ func (mock NotificationChannelsApiMock) ListSlackChannels(ctx context.Context, c
 	}
 }
 
-func (mock NotificationChannelsApiMock) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
 	p := ListSlackChannelsCall{
 		PchannelId: r.channelId,
 	}
@@ -3722,14 +3732,14 @@ type SlackOAuthCallbackCall struct {
 	Perror_ *string
 }
 
-func (mock NotificationChannelsApiMock) SlackOAuthCallback(ctx context.Context) ApiSlackOAuthCallbackRequest {
+func (mock NotificationChannelsAPIMock) SlackOAuthCallback(ctx context.Context) ApiSlackOAuthCallbackRequest {
 	return ApiSlackOAuthCallbackRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationChannelsApiMock) SlackOAuthCallbackExecute(r ApiSlackOAuthCallbackRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) SlackOAuthCallbackExecute(r ApiSlackOAuthCallbackRequest) (*http.Response, error) {
 	p := SlackOAuthCallbackCall{
 		Pstate:  r.state,
 		Pcode:   r.code,
@@ -3748,14 +3758,14 @@ type SlackOauthRedirectCall struct {
 	PredirectPath *string
 }
 
-func (mock NotificationChannelsApiMock) SlackOauthRedirect(ctx context.Context) ApiSlackOauthRedirectRequest {
+func (mock NotificationChannelsAPIMock) SlackOauthRedirect(ctx context.Context) ApiSlackOauthRedirectRequest {
 	return ApiSlackOauthRedirectRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock NotificationChannelsApiMock) SlackOauthRedirectExecute(r ApiSlackOauthRedirectRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) SlackOauthRedirectExecute(r ApiSlackOauthRedirectRequest) (*http.Response, error) {
 	p := SlackOauthRedirectCall{
 		PredirectPath: r.redirectPath,
 	}
@@ -3772,7 +3782,7 @@ type TestOpsgenieChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) TestOpsgenieChannel(ctx context.Context, channelId int64) ApiTestOpsgenieChannelRequest {
+func (mock NotificationChannelsAPIMock) TestOpsgenieChannel(ctx context.Context, channelId int64) ApiTestOpsgenieChannelRequest {
 	return ApiTestOpsgenieChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3780,7 +3790,7 @@ func (mock NotificationChannelsApiMock) TestOpsgenieChannel(ctx context.Context,
 	}
 }
 
-func (mock NotificationChannelsApiMock) TestOpsgenieChannelExecute(r ApiTestOpsgenieChannelRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) TestOpsgenieChannelExecute(r ApiTestOpsgenieChannelRequest) (*http.Response, error) {
 	p := TestOpsgenieChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3797,7 +3807,7 @@ type TestSlackChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) TestSlackChannel(ctx context.Context, channelId int64) ApiTestSlackChannelRequest {
+func (mock NotificationChannelsAPIMock) TestSlackChannel(ctx context.Context, channelId int64) ApiTestSlackChannelRequest {
 	return ApiTestSlackChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3805,7 +3815,7 @@ func (mock NotificationChannelsApiMock) TestSlackChannel(ctx context.Context, ch
 	}
 }
 
-func (mock NotificationChannelsApiMock) TestSlackChannelExecute(r ApiTestSlackChannelRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) TestSlackChannelExecute(r ApiTestSlackChannelRequest) (*http.Response, error) {
 	p := TestSlackChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3822,7 +3832,7 @@ type TestWebhookChannelCall struct {
 	PchannelId int64
 }
 
-func (mock NotificationChannelsApiMock) TestWebhookChannel(ctx context.Context, channelId int64) ApiTestWebhookChannelRequest {
+func (mock NotificationChannelsAPIMock) TestWebhookChannel(ctx context.Context, channelId int64) ApiTestWebhookChannelRequest {
 	return ApiTestWebhookChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3830,7 +3840,7 @@ func (mock NotificationChannelsApiMock) TestWebhookChannel(ctx context.Context, 
 	}
 }
 
-func (mock NotificationChannelsApiMock) TestWebhookChannelExecute(r ApiTestWebhookChannelRequest) (*http.Response, error) {
+func (mock NotificationChannelsAPIMock) TestWebhookChannelExecute(r ApiTestWebhookChannelRequest) (*http.Response, error) {
 	p := TestWebhookChannelCall{
 		PchannelId: r.channelId,
 	}
@@ -3849,7 +3859,7 @@ type UpdateOpsgenieNotificationChannelCall struct {
 	PopsgenieChannelWriteSchema *OpsgenieChannelWriteSchema
 }
 
-func (mock NotificationChannelsApiMock) UpdateOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiUpdateOpsgenieNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) UpdateOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiUpdateOpsgenieNotificationChannelRequest {
 	return ApiUpdateOpsgenieNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3857,7 +3867,7 @@ func (mock NotificationChannelsApiMock) UpdateOpsgenieNotificationChannel(ctx co
 	}
 }
 
-func (mock NotificationChannelsApiMock) UpdateOpsgenieNotificationChannelExecute(r ApiUpdateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) UpdateOpsgenieNotificationChannelExecute(r ApiUpdateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	p := UpdateOpsgenieNotificationChannelCall{
 		PchannelId:                  r.channelId,
 		PopsgenieChannelWriteSchema: r.opsgenieChannelWriteSchema,
@@ -3877,7 +3887,7 @@ type UpdateWebhookNotificationChannelCall struct {
 	PwebhookChannelWriteSchema *WebhookChannelWriteSchema
 }
 
-func (mock NotificationChannelsApiMock) UpdateWebhookNotificationChannel(ctx context.Context, channelId int64) ApiUpdateWebhookNotificationChannelRequest {
+func (mock NotificationChannelsAPIMock) UpdateWebhookNotificationChannel(ctx context.Context, channelId int64) ApiUpdateWebhookNotificationChannelRequest {
 	return ApiUpdateWebhookNotificationChannelRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3885,7 +3895,7 @@ func (mock NotificationChannelsApiMock) UpdateWebhookNotificationChannel(ctx con
 	}
 }
 
-func (mock NotificationChannelsApiMock) UpdateWebhookNotificationChannelExecute(r ApiUpdateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
+func (mock NotificationChannelsAPIMock) UpdateWebhookNotificationChannelExecute(r ApiUpdateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	p := UpdateWebhookNotificationChannelCall{
 		PchannelId:                 r.channelId,
 		PwebhookChannelWriteSchema: r.webhookChannelWriteSchema,

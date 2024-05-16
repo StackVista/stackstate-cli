@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type ApiTokenApi interface {
+type ApiTokenAPI interface {
 
 	/*
 		GetCurrentUserApiTokens Get current user's API tokens
@@ -36,12 +36,12 @@ type ApiTokenApi interface {
 	GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error)
 }
 
-// ApiTokenApiService ApiTokenApi service
-type ApiTokenApiService service
+// ApiTokenAPIService ApiTokenAPI service
+type ApiTokenAPIService service
 
 type ApiGetCurrentUserApiTokensRequest struct {
 	ctx        context.Context
-	ApiService ApiTokenApi
+	ApiService ApiTokenAPI
 }
 
 func (r ApiGetCurrentUserApiTokensRequest) Execute() ([]ApiToken, *http.Response, error) {
@@ -53,10 +53,10 @@ GetCurrentUserApiTokens Get current user's API tokens
 
 Get all API token of the logged-in user.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetCurrentUserApiTokensRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetCurrentUserApiTokensRequest
 */
-func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
+func (a *ApiTokenAPIService) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
 	return ApiGetCurrentUserApiTokensRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -64,8 +64,9 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokens(ctx context.Context) ApiGet
 }
 
 // Execute executes the request
-//  @return []ApiToken
-func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
+//
+//	@return []ApiToken
+func (a *ApiTokenAPIService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -73,7 +74,7 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 		localVarReturnValue []ApiToken
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiTokenApiService.GetCurrentUserApiTokens")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ApiTokenAPIService.GetCurrentUserApiTokens")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -104,6 +105,20 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -126,20 +141,6 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -203,14 +204,14 @@ func (a *ApiTokenApiService) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserA
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type ApiTokenApiMock struct {
+type ApiTokenAPIMock struct {
 	GetCurrentUserApiTokensCalls    *[]GetCurrentUserApiTokensCall
 	GetCurrentUserApiTokensResponse GetCurrentUserApiTokensMockResponse
 }
 
-func NewApiTokenApiMock() ApiTokenApiMock {
+func NewApiTokenAPIMock() ApiTokenAPIMock {
 	xGetCurrentUserApiTokensCalls := make([]GetCurrentUserApiTokensCall, 0)
-	return ApiTokenApiMock{
+	return ApiTokenAPIMock{
 		GetCurrentUserApiTokensCalls: &xGetCurrentUserApiTokensCalls,
 	}
 }
@@ -224,14 +225,14 @@ type GetCurrentUserApiTokensMockResponse struct {
 type GetCurrentUserApiTokensCall struct {
 }
 
-func (mock ApiTokenApiMock) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
+func (mock ApiTokenAPIMock) GetCurrentUserApiTokens(ctx context.Context) ApiGetCurrentUserApiTokensRequest {
 	return ApiGetCurrentUserApiTokensRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock ApiTokenApiMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
+func (mock ApiTokenAPIMock) GetCurrentUserApiTokensExecute(r ApiGetCurrentUserApiTokensRequest) ([]ApiToken, *http.Response, error) {
 	p := GetCurrentUserApiTokensCall{}
 	*mock.GetCurrentUserApiTokensCalls = append(*mock.GetCurrentUserApiTokensCalls, p)
 	return mock.GetCurrentUserApiTokensResponse.Result, mock.GetCurrentUserApiTokensResponse.Response, mock.GetCurrentUserApiTokensResponse.Error

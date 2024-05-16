@@ -12,17 +12,17 @@ func TestRevokePermissions(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := RevokePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "--permission", SomePermission)
 
-	revokeCalls := *cli.MockClient.ApiMocks.PermissionsApi.RevokePermissionsCalls
+	revokeCalls := *cli.MockClient.ApiMocks.PermissionsAPI.RevokePermissionsCalls
 	assert.Len(t, revokeCalls, 1)
 	assert.Equal(t, SomeSubject, revokeCalls[0].Psubject)
 	assert.Equal(t, SomePermission, *revokeCalls[0].Ppermission)
 	assert.Equal(t, "system", *revokeCalls[0].Presource)
 
-	describeCalls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	describeCalls := *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, describeCalls, 1)
 	assert.Equal(t, SomeSubject, describeCalls[0].Psubject)
 	assert.Equal(t, SomePermission, *describeCalls[0].Ppermission)
@@ -30,13 +30,13 @@ func TestRevokePermissions(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "--permission", SomePermission, "--resource", SomeResource)
 
-	revokeCalls = *cli.MockClient.ApiMocks.PermissionsApi.RevokePermissionsCalls
+	revokeCalls = *cli.MockClient.ApiMocks.PermissionsAPI.RevokePermissionsCalls
 	assert.Len(t, revokeCalls, 2)
 	assert.Equal(t, SomeSubject, revokeCalls[1].Psubject)
 	assert.Equal(t, SomePermission, *revokeCalls[1].Ppermission)
 	assert.Equal(t, SomeResource, *revokeCalls[1].Presource)
 
-	describeCalls = *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	describeCalls = *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, describeCalls, 2)
 	assert.Equal(t, SomeSubject, describeCalls[1].Psubject)
 	assert.Equal(t, SomePermission, *describeCalls[1].Ppermission)
@@ -54,7 +54,7 @@ func TestRevokePermissionsJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := RevokePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", SomePermission, "-o", "json")
 

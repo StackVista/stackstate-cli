@@ -20,7 +20,7 @@ func ListCommand(deps *di.Deps) *cobra.Command {
 }
 
 func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	topics, resp, err := api.TopicApi.List(cli.Context).Execute()
+	topics, resp, err := api.TopicAPI.List(cli.Context).Execute()
 
 	if err != nil {
 		return common.NewResponseError(err, resp)

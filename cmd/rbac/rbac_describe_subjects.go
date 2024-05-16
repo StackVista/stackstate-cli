@@ -34,7 +34,7 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		if args.Subject != "" {
-			subject, resp, err := api.SubjectApi.GetSubject(cli.Context, args.Subject).Execute()
+			subject, resp, err := api.SubjectAPI.GetSubject(cli.Context, args.Subject).Execute()
 
 			if err != nil {
 				return common.NewResponseError(err, resp)
@@ -58,7 +58,7 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 				})
 			}
 		} else {
-			subjects, resp, err := api.SubjectApi.ListSubjects(cli.Context).Execute()
+			subjects, resp, err := api.SubjectAPI.ListSubjects(cli.Context).Execute()
 
 			if err != nil {
 				return common.NewResponseError(err, resp)

@@ -19,7 +19,7 @@ func setupSettingListTypesCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 			{TypeName: "hello", Description: "world"},
 		},
 	}
-	cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result = nodeApiResult
+	cli.MockClient.ApiMocks.NodeAPI.NodeListTypesResponse.Result = nodeApiResult
 	return &cli, cmd
 }
 

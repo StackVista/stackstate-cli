@@ -41,7 +41,7 @@ func RunGrantPermissionsCommand(args *GrantPermissionsArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		permission := stackstate_api.NewGrantPermission(args.Permission, args.Resource)
-		grantResp, grantErr := api.PermissionsApi.GrantPermissions(cli.Context, args.Subject).
+		grantResp, grantErr := api.PermissionsAPI.GrantPermissions(cli.Context, args.Subject).
 			GrantPermission(*permission).
 			Execute()
 

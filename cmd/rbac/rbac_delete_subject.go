@@ -33,7 +33,7 @@ func RunDeleteSubjectCommand(args *DeleteSubjectArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		resp, err := api.SubjectApi.DeleteSubject(cli.Context, args.Subject).Execute()
+		resp, err := api.SubjectAPI.DeleteSubject(cli.Context, args.Subject).Execute()
 
 		if err != nil {
 			return common.NewResponseError(err, resp)

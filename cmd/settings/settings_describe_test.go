@@ -20,7 +20,7 @@ func TestSettingsDescribe(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common",
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214")
 	assert.Nil(t, err)
@@ -31,7 +31,7 @@ func TestSettingsDescribeJson(t *testing.T) {
 	expectedStr := `{"nodes": [{ "description": "description-1", "id": -214, "name": "name-1", "ownedBy": "urn:stackpack:common",
 "parameters": [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "-o", "json") //nolint:errcheck
 	assert.Equal(
@@ -51,7 +51,7 @@ func TestSettingsDescribeIds(t *testing.T) {
 { "description": "description-1", "id": 314, "name": "name-1", "ownedBy": "urn:stackpack:common", "parameters":
 [{ "name": "name-param", "type": "LONG"}], "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--ids", "314")
 	assert.Nil(t, err)
@@ -74,7 +74,7 @@ func TestRunSettingsDescribeWithReferencePrintToTable(t *testing.T) {
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--namespace", "default",
 		"--allowed-namespace-refs", "urn:stackpack:common:baseline-function:median-absolute-deviation", "--allowed-namespace-refs", "urn:stackpack")
@@ -94,7 +94,7 @@ func TestRunSettingsDescribeToFile(t *testing.T) {
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "LONG"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--ids", "-214", "--file", filePath)
 	assert.Nil(t, err)
 	body, err := os.ReadFile(filePath)
@@ -109,7 +109,7 @@ func TestRunSettingsDescribeTypesPrintsToTable(t *testing.T) {
 "ownedBy": "urn:stackpack:common", "parameters": [{ "name": "name-param", "type": "CheckFunction"}],
 "script": { "scriptBody": "script-bdy-1"}}]}`
 	cli, cmd := setupDescribeCmd(t)
-	cli.MockClient.ApiMocks.ExportApi.ExportSettingsResponse.Result = expectedStr
+	cli.MockClient.ApiMocks.ExportAPI.ExportSettingsResponse.Result = expectedStr
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--type", "BaselineFunction", "--type", "CheckFunction")
 	assert.Nil(t, err)

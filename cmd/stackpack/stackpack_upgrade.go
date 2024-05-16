@@ -46,7 +46,7 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
+		stackPackList, resp, err := api.StackpackAPI.StackPackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
@@ -57,7 +57,7 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		if !stack.HasNextVersion() {
 			return common.NewNotFoundError(fmt.Errorf("stackpack %s cannot be upgraded at this moment", args.TypeName))
 		}
-		_, resp, err = api.StackpackApi.UpgradeStackPack(cli.Context, args.TypeName).Unlocked(args.UnlockedStrategy).Execute()
+		_, resp, err = api.StackpackAPI.UpgradeStackPack(cli.Context, args.TypeName).Unlocked(args.UnlockedStrategy).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

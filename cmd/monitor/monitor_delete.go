@@ -39,7 +39,7 @@ func RunDeleteMonitorCommand(args *DeleteArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		identifier := IdOrIdentifier(args.ID, args.Identifier)
-		resp, err := api.MonitorApi.DeleteMonitor(cli.Context, identifier).Execute()
+		resp, err := api.MonitorAPI.DeleteMonitor(cli.Context, identifier).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

@@ -75,7 +75,7 @@ func TestStackpackDescribeNotFound(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = mockResponse
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", "foobar")
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", "foobar", "-o", "json")
@@ -92,7 +92,7 @@ func TestStackpackDescribeJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = mockResponse
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", awsName, "-o", "json")
 
@@ -109,7 +109,7 @@ func TestStackpackDescribeText(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDescribeCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{testStackPack}
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = []stackstate_api.FullStackPack{testStackPack}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
@@ -150,7 +150,7 @@ func TestStackpackDescribeTextNoCategories(t *testing.T) {
 	newTest := testStackPack
 	newTest.Categories = []string{}
 
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
@@ -171,7 +171,7 @@ func TestStackpackDescribeTextNoSteps(t *testing.T) {
 	newTest := testStackPack
 	newTest.Steps = []stackstate_api.StackPackStep{}
 
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
@@ -195,7 +195,7 @@ func TestStackpackDescribeTextNoInstances(t *testing.T) {
 	newTest := testStackPack
 	newTest.Configurations = []stackstate_api.StackPackConfiguration{}
 
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 

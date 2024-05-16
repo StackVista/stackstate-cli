@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type MetricApi interface {
+type MetricAPI interface {
 
 	/*
 		GetExemplarsQuery Experimental: Exemplars for a specific time range
@@ -221,12 +221,12 @@ type MetricApi interface {
 	PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error)
 }
 
-// MetricApiService MetricApi service
-type MetricApiService service
+// MetricAPIService MetricAPI service
+type MetricAPIService service
 
 type ApiGetExemplarsQueryRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	query      *string
 	start      *string
 	end        *string
@@ -259,10 +259,10 @@ GetExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetExemplarsQueryRequest
 */
-func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
+func (a *MetricAPIService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -270,8 +270,9 @@ func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplar
 }
 
 // Execute executes the request
-//  @return PromExemplarEnvelope
-func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
+//
+//	@return PromExemplarEnvelope
+func (a *MetricAPIService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -279,7 +280,7 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 		localVarReturnValue *PromExemplarEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetExemplarsQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetExemplarsQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -320,6 +321,20 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -342,20 +357,6 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -437,7 +438,7 @@ func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryReques
 
 type ApiGetInstantQueryRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	query      *string
 	time       *string
 	timeout    *string
@@ -477,10 +478,10 @@ GetInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetInstantQueryRequest
 */
-func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
+func (a *MetricAPIService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -488,8 +489,9 @@ func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQue
 }
 
 // Execute executes the request
-//  @return PromEnvelope
-func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
+//
+//	@return PromEnvelope
+func (a *MetricAPIService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -497,7 +499,7 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 		localVarReturnValue *PromEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetInstantQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetInstantQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -541,6 +543,20 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -563,20 +579,6 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -658,7 +660,7 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 
 type ApiGetLabelValuesRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	label      string
 	start      *string
 	end        *string
@@ -692,11 +694,11 @@ GetLabelValues List of label values for a provided label name
 
 The endpoint returns a list of label values for a provided label name
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param label Prometheus query label
- @return ApiGetLabelValuesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param label Prometheus query label
+	@return ApiGetLabelValuesRequest
 */
-func (a *MetricApiService) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
+func (a *MetricAPIService) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
 	return ApiGetLabelValuesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -705,8 +707,9 @@ func (a *MetricApiService) GetLabelValues(ctx context.Context, label string) Api
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
-func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+//
+//	@return PromLabelsEnvelope
+func (a *MetricAPIService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -714,7 +717,7 @@ func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*P
 		localVarReturnValue *PromLabelsEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetLabelValues")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetLabelValues")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -755,6 +758,20 @@ func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*P
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -777,20 +794,6 @@ func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*P
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -872,7 +875,7 @@ func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*P
 
 type ApiGetLabelsRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	start      *string
 	end        *string
 	match      *[]string
@@ -905,10 +908,10 @@ GetLabels List of label names
 
 The endpoint returns a list of label names
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetLabelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetLabelsRequest
 */
-func (a *MetricApiService) GetLabels(ctx context.Context) ApiGetLabelsRequest {
+func (a *MetricAPIService) GetLabels(ctx context.Context) ApiGetLabelsRequest {
 	return ApiGetLabelsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -916,8 +919,9 @@ func (a *MetricApiService) GetLabels(ctx context.Context) ApiGetLabelsRequest {
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
-func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+//
+//	@return PromLabelsEnvelope
+func (a *MetricAPIService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -925,7 +929,7 @@ func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsE
 		localVarReturnValue *PromLabelsEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetLabels")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetLabels")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -965,6 +969,20 @@ func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsE
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -987,20 +1005,6 @@ func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsE
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1082,7 +1086,7 @@ func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsE
 
 type ApiGetMetadataRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	limit      *int64
 	metric     *string
 }
@@ -1108,10 +1112,10 @@ GetMetadata Metadata about metrics currently scraped from targets
 
 The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetMetadataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMetadataRequest
 */
-func (a *MetricApiService) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
+func (a *MetricAPIService) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
 	return ApiGetMetadataRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1119,8 +1123,9 @@ func (a *MetricApiService) GetMetadata(ctx context.Context) ApiGetMetadataReques
 }
 
 // Execute executes the request
-//  @return PromMetadataEnvelope
-func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+//
+//	@return PromMetadataEnvelope
+func (a *MetricAPIService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1128,7 +1133,7 @@ func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMet
 		localVarReturnValue *PromMetadataEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetMetadata")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetMetadata")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1165,6 +1170,20 @@ func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMet
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1187,20 +1206,6 @@ func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMet
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1282,7 +1287,7 @@ func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMet
 
 type ApiGetRangeQueryRequest struct {
 	ctx                   context.Context
-	ApiService            MetricApi
+	ApiService            MetricAPI
 	query                 *string
 	start                 *string
 	end                   *string
@@ -1343,10 +1348,10 @@ GetRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRangeQueryRequest
 */
-func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
+func (a *MetricAPIService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1354,8 +1359,9 @@ func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRe
 }
 
 // Execute executes the request
-//  @return PromEnvelope
-func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
+//
+//	@return PromEnvelope
+func (a *MetricAPIService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1363,7 +1369,7 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 		localVarReturnValue *PromEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetRangeQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetRangeQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1419,6 +1425,20 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1441,20 +1461,6 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1536,7 +1542,7 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 
 type ApiGetSeriesRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	match      *[]string
 	start      *string
 	end        *string
@@ -1569,10 +1575,10 @@ GetSeries List of time series that match a certain label set
 
 The endpoint returns the list of time series that match a certain label set
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetSeriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetSeriesRequest
 */
-func (a *MetricApiService) GetSeries(ctx context.Context) ApiGetSeriesRequest {
+func (a *MetricAPIService) GetSeries(ctx context.Context) ApiGetSeriesRequest {
 	return ApiGetSeriesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1580,8 +1586,9 @@ func (a *MetricApiService) GetSeries(ctx context.Context) ApiGetSeriesRequest {
 }
 
 // Execute executes the request
-//  @return PromSeriesEnvelope
-func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+//
+//	@return PromSeriesEnvelope
+func (a *MetricAPIService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -1589,7 +1596,7 @@ func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesE
 		localVarReturnValue *PromSeriesEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.GetSeries")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.GetSeries")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1633,6 +1640,20 @@ func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesE
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1655,20 +1676,6 @@ func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesE
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1750,7 +1757,7 @@ func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesE
 
 type ApiPostExemplarsQueryRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	query      *string
 	start      *string
 	end        *string
@@ -1780,10 +1787,10 @@ PostExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostExemplarsQueryRequest
 */
-func (a *MetricApiService) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
+func (a *MetricAPIService) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1791,8 +1798,9 @@ func (a *MetricApiService) PostExemplarsQuery(ctx context.Context) ApiPostExempl
 }
 
 // Execute executes the request
-//  @return PromExemplarEnvelope
-func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
+//
+//	@return PromExemplarEnvelope
+func (a *MetricAPIService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1800,7 +1808,7 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 		localVarReturnValue *PromExemplarEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostExemplarsQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostExemplarsQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1841,6 +1849,20 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1863,20 +1885,6 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1958,7 +1966,7 @@ func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequ
 
 type ApiPostInstantQueryRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	query      *string
 	time       *string
 	timeout    *string
@@ -1994,10 +2002,10 @@ PostInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostInstantQueryRequest
 */
-func (a *MetricApiService) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
+func (a *MetricAPIService) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2005,8 +2013,9 @@ func (a *MetricApiService) PostInstantQuery(ctx context.Context) ApiPostInstantQ
 }
 
 // Execute executes the request
-//  @return PromEnvelope
-func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
+//
+//	@return PromEnvelope
+func (a *MetricAPIService) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2014,7 +2023,7 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 		localVarReturnValue *PromEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostInstantQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostInstantQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2058,6 +2067,20 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2080,20 +2103,6 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2175,7 +2184,7 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 
 type ApiPostLabelValuesRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	label      string
 	start      *string
 	end        *string
@@ -2206,11 +2215,11 @@ PostLabelValues List of label values for a provided label name
 
 The endpoint returns a list of label values for a provided label name
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param label Prometheus query label
- @return ApiPostLabelValuesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param label Prometheus query label
+	@return ApiPostLabelValuesRequest
 */
-func (a *MetricApiService) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
+func (a *MetricAPIService) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
 	return ApiPostLabelValuesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2219,8 +2228,9 @@ func (a *MetricApiService) PostLabelValues(ctx context.Context, label string) Ap
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
-func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+//
+//	@return PromLabelsEnvelope
+func (a *MetricAPIService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2228,7 +2238,7 @@ func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (
 		localVarReturnValue *PromLabelsEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostLabelValues")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostLabelValues")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2269,6 +2279,20 @@ func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2291,20 +2315,6 @@ func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2386,7 +2396,7 @@ func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (
 
 type ApiPostLabelsRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	start      *string
 	end        *string
 	match      *[]string
@@ -2416,10 +2426,10 @@ PostLabels List of label names
 
 The endpoint returns a list of label names
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostLabelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostLabelsRequest
 */
-func (a *MetricApiService) PostLabels(ctx context.Context) ApiPostLabelsRequest {
+func (a *MetricAPIService) PostLabels(ctx context.Context) ApiPostLabelsRequest {
 	return ApiPostLabelsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2427,8 +2437,9 @@ func (a *MetricApiService) PostLabels(ctx context.Context) ApiPostLabelsRequest 
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
-func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+//
+//	@return PromLabelsEnvelope
+func (a *MetricAPIService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2436,7 +2447,7 @@ func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabel
 		localVarReturnValue *PromLabelsEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostLabels")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostLabels")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2476,6 +2487,20 @@ func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabel
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2498,20 +2523,6 @@ func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabel
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2593,7 +2604,7 @@ func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabel
 
 type ApiPostMetadataRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	limit      *int64
 	metric     *string
 }
@@ -2617,10 +2628,10 @@ PostMetadata Metadata about metrics currently scraped from targets
 
 The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostMetadataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostMetadataRequest
 */
-func (a *MetricApiService) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
+func (a *MetricAPIService) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
 	return ApiPostMetadataRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2628,8 +2639,9 @@ func (a *MetricApiService) PostMetadata(ctx context.Context) ApiPostMetadataRequ
 }
 
 // Execute executes the request
-//  @return PromMetadataEnvelope
-func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+//
+//	@return PromMetadataEnvelope
+func (a *MetricAPIService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2637,7 +2649,7 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 		localVarReturnValue *PromMetadataEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostMetadata")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostMetadata")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2674,6 +2686,20 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2696,20 +2722,6 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -2791,7 +2803,7 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 
 type ApiPostRangeQueryRequest struct {
 	ctx                   context.Context
-	ApiService            MetricApi
+	ApiService            MetricAPI
 	query                 *string
 	start                 *string
 	end                   *string
@@ -2845,10 +2857,10 @@ PostRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostRangeQueryRequest
 */
-func (a *MetricApiService) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
+func (a *MetricAPIService) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -2856,8 +2868,9 @@ func (a *MetricApiService) PostRangeQuery(ctx context.Context) ApiPostRangeQuery
 }
 
 // Execute executes the request
-//  @return PromEnvelope
-func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
+//
+//	@return PromEnvelope
+func (a *MetricAPIService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -2865,7 +2878,7 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 		localVarReturnValue *PromEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostRangeQuery")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostRangeQuery")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -2921,6 +2934,20 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -2943,20 +2970,6 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -3038,7 +3051,7 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 
 type ApiPostSeriesRequest struct {
 	ctx        context.Context
-	ApiService MetricApi
+	ApiService MetricAPI
 	match      *[]string
 	start      *string
 	end        *string
@@ -3068,10 +3081,10 @@ PostSeries List of time series that match a certain label set
 
 The endpoint returns the list of time series that match a certain label set
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostSeriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostSeriesRequest
 */
-func (a *MetricApiService) PostSeries(ctx context.Context) ApiPostSeriesRequest {
+func (a *MetricAPIService) PostSeries(ctx context.Context) ApiPostSeriesRequest {
 	return ApiPostSeriesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -3079,8 +3092,9 @@ func (a *MetricApiService) PostSeries(ctx context.Context) ApiPostSeriesRequest 
 }
 
 // Execute executes the request
-//  @return PromSeriesEnvelope
-func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+//
+//	@return PromSeriesEnvelope
+func (a *MetricAPIService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -3088,7 +3102,7 @@ func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSerie
 		localVarReturnValue *PromSeriesEnvelope
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostSeries")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricAPIService.PostSeries")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -3132,6 +3146,20 @@ func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSerie
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -3154,20 +3182,6 @@ func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSerie
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -3251,7 +3265,7 @@ func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSerie
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type MetricApiMock struct {
+type MetricAPIMock struct {
 	GetExemplarsQueryCalls     *[]GetExemplarsQueryCall
 	GetExemplarsQueryResponse  GetExemplarsQueryMockResponse
 	GetInstantQueryCalls       *[]GetInstantQueryCall
@@ -3282,7 +3296,7 @@ type MetricApiMock struct {
 	PostSeriesResponse         PostSeriesMockResponse
 }
 
-func NewMetricApiMock() MetricApiMock {
+func NewMetricAPIMock() MetricAPIMock {
 	xGetExemplarsQueryCalls := make([]GetExemplarsQueryCall, 0)
 	xGetInstantQueryCalls := make([]GetInstantQueryCall, 0)
 	xGetLabelValuesCalls := make([]GetLabelValuesCall, 0)
@@ -3297,7 +3311,7 @@ func NewMetricApiMock() MetricApiMock {
 	xPostMetadataCalls := make([]PostMetadataCall, 0)
 	xPostRangeQueryCalls := make([]PostRangeQueryCall, 0)
 	xPostSeriesCalls := make([]PostSeriesCall, 0)
-	return MetricApiMock{
+	return MetricAPIMock{
 		GetExemplarsQueryCalls:  &xGetExemplarsQueryCalls,
 		GetInstantQueryCalls:    &xGetInstantQueryCalls,
 		GetLabelValuesCalls:     &xGetLabelValuesCalls,
@@ -3327,14 +3341,14 @@ type GetExemplarsQueryCall struct {
 	Pend   *string
 }
 
-func (mock MetricApiMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
+func (mock MetricAPIMock) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	p := GetExemplarsQueryCall{
 		Pquery: r.query,
 		Pstart: r.start,
@@ -3357,14 +3371,14 @@ type GetInstantQueryCall struct {
 	PpostFilter *[]string
 }
 
-func (mock MetricApiMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
+func (mock MetricAPIMock) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetInstantQueryCall{
 		Pquery:      r.query,
 		Ptime:       r.time,
@@ -3388,7 +3402,7 @@ type GetLabelValuesCall struct {
 	Pmatch *[]string
 }
 
-func (mock MetricApiMock) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
+func (mock MetricAPIMock) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
 	return ApiGetLabelValuesRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3396,7 +3410,7 @@ func (mock MetricApiMock) GetLabelValues(ctx context.Context, label string) ApiG
 	}
 }
 
-func (mock MetricApiMock) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	p := GetLabelValuesCall{
 		Plabel: r.label,
 		Pstart: r.start,
@@ -3419,14 +3433,14 @@ type GetLabelsCall struct {
 	Pmatch *[]string
 }
 
-func (mock MetricApiMock) GetLabels(ctx context.Context) ApiGetLabelsRequest {
+func (mock MetricAPIMock) GetLabels(ctx context.Context) ApiGetLabelsRequest {
 	return ApiGetLabelsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	p := GetLabelsCall{
 		Pstart: r.start,
 		Pend:   r.end,
@@ -3447,14 +3461,14 @@ type GetMetadataCall struct {
 	Pmetric *string
 }
 
-func (mock MetricApiMock) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
+func (mock MetricAPIMock) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
 	return ApiGetMetadataRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
 	p := GetMetadataCall{
 		Plimit:  r.limit,
 		Pmetric: r.metric,
@@ -3479,14 +3493,14 @@ type GetRangeQueryCall struct {
 	PpostFilter            *[]string
 }
 
-func (mock MetricApiMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
+func (mock MetricAPIMock) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := GetRangeQueryCall{
 		Pquery:                 r.query,
 		Pstart:                 r.start,
@@ -3512,14 +3526,14 @@ type GetSeriesCall struct {
 	Pend   *string
 }
 
-func (mock MetricApiMock) GetSeries(ctx context.Context) ApiGetSeriesRequest {
+func (mock MetricAPIMock) GetSeries(ctx context.Context) ApiGetSeriesRequest {
 	return ApiGetSeriesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
 	p := GetSeriesCall{
 		Pmatch: r.match,
 		Pstart: r.start,
@@ -3541,14 +3555,14 @@ type PostExemplarsQueryCall struct {
 	Pend   *string
 }
 
-func (mock MetricApiMock) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
+func (mock MetricAPIMock) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	p := PostExemplarsQueryCall{
 		Pquery: r.query,
 		Pstart: r.start,
@@ -3571,14 +3585,14 @@ type PostInstantQueryCall struct {
 	PpostFilter *[]string
 }
 
-func (mock MetricApiMock) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
+func (mock MetricAPIMock) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := PostInstantQueryCall{
 		Pquery:      r.query,
 		Ptime:       r.time,
@@ -3602,7 +3616,7 @@ type PostLabelValuesCall struct {
 	Pmatch *[]string
 }
 
-func (mock MetricApiMock) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
+func (mock MetricAPIMock) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
 	return ApiPostLabelValuesRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -3610,7 +3624,7 @@ func (mock MetricApiMock) PostLabelValues(ctx context.Context, label string) Api
 	}
 }
 
-func (mock MetricApiMock) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	p := PostLabelValuesCall{
 		Plabel: r.label,
 		Pstart: r.start,
@@ -3633,14 +3647,14 @@ type PostLabelsCall struct {
 	Pmatch *[]string
 }
 
-func (mock MetricApiMock) PostLabels(ctx context.Context) ApiPostLabelsRequest {
+func (mock MetricAPIMock) PostLabels(ctx context.Context) ApiPostLabelsRequest {
 	return ApiPostLabelsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	p := PostLabelsCall{
 		Pstart: r.start,
 		Pend:   r.end,
@@ -3661,14 +3675,14 @@ type PostMetadataCall struct {
 	Pmetric *string
 }
 
-func (mock MetricApiMock) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
+func (mock MetricAPIMock) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
 	return ApiPostMetadataRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
 	p := PostMetadataCall{
 		Plimit:  r.limit,
 		Pmetric: r.metric,
@@ -3693,14 +3707,14 @@ type PostRangeQueryCall struct {
 	PpostFilter            *[]string
 }
 
-func (mock MetricApiMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
+func (mock MetricAPIMock) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	p := PostRangeQueryCall{
 		Pquery:                 r.query,
 		Pstart:                 r.start,
@@ -3726,14 +3740,14 @@ type PostSeriesCall struct {
 	Pend   *string
 }
 
-func (mock MetricApiMock) PostSeries(ctx context.Context) ApiPostSeriesRequest {
+func (mock MetricAPIMock) PostSeries(ctx context.Context) ApiPostSeriesRequest {
 	return ApiPostSeriesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock MetricApiMock) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
+func (mock MetricAPIMock) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
 	p := PostSeriesCall{
 		Pmatch: r.match,
 		Pstart: r.start,

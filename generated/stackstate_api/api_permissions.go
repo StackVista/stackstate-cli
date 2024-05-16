@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type PermissionsApi interface {
+type PermissionsAPI interface {
 
 	/*
 		DescribePermissions Describe permissions
@@ -80,12 +80,12 @@ type PermissionsApi interface {
 	RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error)
 }
 
-// PermissionsApiService PermissionsApi service
-type PermissionsApiService service
+// PermissionsAPIService PermissionsAPI service
+type PermissionsAPIService service
 
 type ApiDescribePermissionsRequest struct {
 	ctx        context.Context
-	ApiService PermissionsApi
+	ApiService PermissionsAPI
 	subject    string
 	resource   *string
 	permission *string
@@ -110,11 +110,11 @@ DescribePermissions Describe permissions
 
 Describe permissions granted to a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiDescribePermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiDescribePermissionsRequest
 */
-func (a *PermissionsApiService) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
+func (a *PermissionsAPIService) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
 	return ApiDescribePermissionsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -123,8 +123,9 @@ func (a *PermissionsApiService) DescribePermissions(ctx context.Context, subject
 }
 
 // Execute executes the request
-//  @return PermissionDescription
-func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissionsRequest) (*PermissionDescription, *http.Response, error) {
+//
+//	@return PermissionDescription
+func (a *PermissionsAPIService) DescribePermissionsExecute(r ApiDescribePermissionsRequest) (*PermissionDescription, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -132,7 +133,7 @@ func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissi
 		localVarReturnValue *PermissionDescription
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.DescribePermissions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsAPIService.DescribePermissions")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -170,6 +171,20 @@ func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissi
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -192,20 +207,6 @@ func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissi
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -267,7 +268,7 @@ func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissi
 
 type ApiGetPermissionsRequest struct {
 	ctx        context.Context
-	ApiService PermissionsApi
+	ApiService PermissionsAPI
 }
 
 func (r ApiGetPermissionsRequest) Execute() (*Permissions, *http.Response, error) {
@@ -279,10 +280,10 @@ GetPermissions List permissions
 
 Get a list of available permissions
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetPermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetPermissionsRequest
 */
-func (a *PermissionsApiService) GetPermissions(ctx context.Context) ApiGetPermissionsRequest {
+func (a *PermissionsAPIService) GetPermissions(ctx context.Context) ApiGetPermissionsRequest {
 	return ApiGetPermissionsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -290,8 +291,9 @@ func (a *PermissionsApiService) GetPermissions(ctx context.Context) ApiGetPermis
 }
 
 // Execute executes the request
-//  @return Permissions
-func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest) (*Permissions, *http.Response, error) {
+//
+//	@return Permissions
+func (a *PermissionsAPIService) GetPermissionsExecute(r ApiGetPermissionsRequest) (*Permissions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -299,7 +301,7 @@ func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest
 		localVarReturnValue *Permissions
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.GetPermissions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsAPIService.GetPermissions")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -330,6 +332,20 @@ func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -352,20 +368,6 @@ func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -417,7 +419,7 @@ func (a *PermissionsApiService) GetPermissionsExecute(r ApiGetPermissionsRequest
 
 type ApiGrantPermissionsRequest struct {
 	ctx             context.Context
-	ApiService      PermissionsApi
+	ApiService      PermissionsAPI
 	subject         string
 	grantPermission *GrantPermission
 }
@@ -436,11 +438,11 @@ GrantPermissions Grant permissions
 
 Grant permissions to a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiGrantPermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiGrantPermissionsRequest
 */
-func (a *PermissionsApiService) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
+func (a *PermissionsAPIService) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
 	return ApiGrantPermissionsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -449,14 +451,14 @@ func (a *PermissionsApiService) GrantPermissions(ctx context.Context, subject st
 }
 
 // Execute executes the request
-func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error) {
+func (a *PermissionsAPIService) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodPost
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.GrantPermissions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsAPIService.GrantPermissions")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -493,6 +495,20 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -515,20 +531,6 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -591,7 +593,7 @@ func (a *PermissionsApiService) GrantPermissionsExecute(r ApiGrantPermissionsReq
 
 type ApiRevokePermissionsRequest struct {
 	ctx        context.Context
-	ApiService PermissionsApi
+	ApiService PermissionsAPI
 	subject    string
 	resource   *string
 	permission *string
@@ -616,11 +618,11 @@ RevokePermissions Revoke permissions
 
 Revoke permissions of a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiRevokePermissionsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiRevokePermissionsRequest
 */
-func (a *PermissionsApiService) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
+func (a *PermissionsAPIService) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
 	return ApiRevokePermissionsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -629,14 +631,14 @@ func (a *PermissionsApiService) RevokePermissions(ctx context.Context, subject s
 }
 
 // Execute executes the request
-func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error) {
+func (a *PermissionsAPIService) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodDelete
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsApiService.RevokePermissions")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "PermissionsAPIService.RevokePermissions")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -674,6 +676,20 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -696,20 +712,6 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -774,7 +776,7 @@ func (a *PermissionsApiService) RevokePermissionsExecute(r ApiRevokePermissionsR
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type PermissionsApiMock struct {
+type PermissionsAPIMock struct {
 	DescribePermissionsCalls    *[]DescribePermissionsCall
 	DescribePermissionsResponse DescribePermissionsMockResponse
 	GetPermissionsCalls         *[]GetPermissionsCall
@@ -785,12 +787,12 @@ type PermissionsApiMock struct {
 	RevokePermissionsResponse   RevokePermissionsMockResponse
 }
 
-func NewPermissionsApiMock() PermissionsApiMock {
+func NewPermissionsAPIMock() PermissionsAPIMock {
 	xDescribePermissionsCalls := make([]DescribePermissionsCall, 0)
 	xGetPermissionsCalls := make([]GetPermissionsCall, 0)
 	xGrantPermissionsCalls := make([]GrantPermissionsCall, 0)
 	xRevokePermissionsCalls := make([]RevokePermissionsCall, 0)
-	return PermissionsApiMock{
+	return PermissionsAPIMock{
 		DescribePermissionsCalls: &xDescribePermissionsCalls,
 		GetPermissionsCalls:      &xGetPermissionsCalls,
 		GrantPermissionsCalls:    &xGrantPermissionsCalls,
@@ -810,7 +812,7 @@ type DescribePermissionsCall struct {
 	Ppermission *string
 }
 
-func (mock PermissionsApiMock) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
+func (mock PermissionsAPIMock) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
 	return ApiDescribePermissionsRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -818,7 +820,7 @@ func (mock PermissionsApiMock) DescribePermissions(ctx context.Context, subject 
 	}
 }
 
-func (mock PermissionsApiMock) DescribePermissionsExecute(r ApiDescribePermissionsRequest) (*PermissionDescription, *http.Response, error) {
+func (mock PermissionsAPIMock) DescribePermissionsExecute(r ApiDescribePermissionsRequest) (*PermissionDescription, *http.Response, error) {
 	p := DescribePermissionsCall{
 		Psubject:    r.subject,
 		Presource:   r.resource,
@@ -837,14 +839,14 @@ type GetPermissionsMockResponse struct {
 type GetPermissionsCall struct {
 }
 
-func (mock PermissionsApiMock) GetPermissions(ctx context.Context) ApiGetPermissionsRequest {
+func (mock PermissionsAPIMock) GetPermissions(ctx context.Context) ApiGetPermissionsRequest {
 	return ApiGetPermissionsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock PermissionsApiMock) GetPermissionsExecute(r ApiGetPermissionsRequest) (*Permissions, *http.Response, error) {
+func (mock PermissionsAPIMock) GetPermissionsExecute(r ApiGetPermissionsRequest) (*Permissions, *http.Response, error) {
 	p := GetPermissionsCall{}
 	*mock.GetPermissionsCalls = append(*mock.GetPermissionsCalls, p)
 	return &mock.GetPermissionsResponse.Result, mock.GetPermissionsResponse.Response, mock.GetPermissionsResponse.Error
@@ -860,7 +862,7 @@ type GrantPermissionsCall struct {
 	PgrantPermission *GrantPermission
 }
 
-func (mock PermissionsApiMock) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
+func (mock PermissionsAPIMock) GrantPermissions(ctx context.Context, subject string) ApiGrantPermissionsRequest {
 	return ApiGrantPermissionsRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -868,7 +870,7 @@ func (mock PermissionsApiMock) GrantPermissions(ctx context.Context, subject str
 	}
 }
 
-func (mock PermissionsApiMock) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error) {
+func (mock PermissionsAPIMock) GrantPermissionsExecute(r ApiGrantPermissionsRequest) (*http.Response, error) {
 	p := GrantPermissionsCall{
 		Psubject:         r.subject,
 		PgrantPermission: r.grantPermission,
@@ -888,7 +890,7 @@ type RevokePermissionsCall struct {
 	Ppermission *string
 }
 
-func (mock PermissionsApiMock) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
+func (mock PermissionsAPIMock) RevokePermissions(ctx context.Context, subject string) ApiRevokePermissionsRequest {
 	return ApiRevokePermissionsRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -896,7 +898,7 @@ func (mock PermissionsApiMock) RevokePermissions(ctx context.Context, subject st
 	}
 }
 
-func (mock PermissionsApiMock) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error) {
+func (mock PermissionsAPIMock) RevokePermissionsExecute(r ApiRevokePermissionsRequest) (*http.Response, error) {
 	p := RevokePermissionsCall{
 		Psubject:    r.subject,
 		Presource:   r.resource,

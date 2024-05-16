@@ -52,7 +52,7 @@ func RunMonitorStatusCommand(args *StatusArgs) di.CmdWithApiFn {
 		var err error
 
 		identifier := IdOrIdentifier(args.ID, args.Identifier)
-		monitorStatus, resp, err = api.MonitorApi.GetMonitorWithStatus(cli.Context, identifier).Execute()
+		monitorStatus, resp, err = api.MonitorAPI.GetMonitorWithStatus(cli.Context, identifier).Execute()
 
 		if err != nil {
 			return common.NewResponseError(err, resp)

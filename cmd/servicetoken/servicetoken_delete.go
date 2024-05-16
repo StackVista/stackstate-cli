@@ -29,7 +29,7 @@ func DeleteCommand(deps *di.Deps) *cobra.Command {
 
 func RunServiceTokenDeleteCommand(args *DeleteArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		resp, err := api.ServiceTokenApi.DeleteServiceToken(cli.Context, args.ID).Execute()
+		resp, err := api.ServiceTokenAPI.DeleteServiceToken(cli.Context, args.ID).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

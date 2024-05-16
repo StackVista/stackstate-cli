@@ -36,7 +36,7 @@ func TestShowCommand(t *testing.T) {
 		t.Run(n, func(t *testing.T) {
 			res := r
 			cli, cmd := setupShowCmd(t)
-			cli.MockClient.ApiMocks.SubscriptionApi.GetSubscriptionResponse.Result = r
+			cli.MockClient.ApiMocks.SubscriptionAPI.GetSubscriptionResponse.Result = r
 			di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
 			assert.Len(t, *cli.MockPrinter.PrintJsonCalls, 1)

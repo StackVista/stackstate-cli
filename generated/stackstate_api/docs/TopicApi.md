@@ -1,11 +1,11 @@
-# \TopicApi
+# \TopicAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Describe**](TopicApi.md#Describe) | **Get** /topic/{topic} | Describe a topic
-[**List**](TopicApi.md#List) | **Get** /topic | List topics
+[**Describe**](TopicAPI.md#Describe) | **Get** /topic/{topic} | Describe a topic
+[**List**](TopicAPI.md#List) | **Get** /topic | List topics
 
 
 
@@ -31,19 +31,19 @@ import (
 
 func main() {
     topic := "topic_example" // string | 
-    limit := int32(56) // int32 |  (optional)
-    offset := int32(56) // int32 |  (optional)
+    limit := int32(56) // int32 | Maximum number of resources to be returned in result. (optional)
+    offset := int64(789) // int64 |  (optional)
     partition := int32(56) // int32 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TopicApi.Describe(context.Background(), topic).Limit(limit).Offset(offset).Partition(partition).Execute()
+    resp, r, err := apiClient.TopicAPI.Describe(context.Background(), topic).Limit(limit).Offset(offset).Partition(partition).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TopicApi.Describe``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.Describe``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `Describe`: Messages
-    fmt.Fprintf(os.Stdout, "Response from `TopicApi.Describe`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TopicAPI.Describe`: %v\n", resp)
 }
 ```
 
@@ -63,8 +63,8 @@ Other parameters are passed through a pointer to a apiDescribeRequest struct via
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **limit** | **int32** |  | 
- **offset** | **int32** |  | 
+ **limit** | **int32** | Maximum number of resources to be returned in result. | 
+ **offset** | **int64** |  | 
  **partition** | **int32** |  | 
 
 ### Return type
@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -109,13 +109,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.TopicApi.List(context.Background()).Execute()
+    resp, r, err := apiClient.TopicAPI.List(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `TopicApi.List``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `TopicAPI.List``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `List`: []Topic
-    fmt.Fprintf(os.Stdout, "Response from `TopicApi.List`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `TopicAPI.List`: %v\n", resp)
 }
 ```
 
@@ -134,7 +134,7 @@ Other parameters are passed through a pointer to a apiListRequest struct via the
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

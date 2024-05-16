@@ -58,7 +58,7 @@ func setupStackPackListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestStackpackListPrintToTable(t *testing.T) {
 	cli, cmd := setupStackPackListCmd(t)
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = mockResponse
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
@@ -75,7 +75,7 @@ func TestStackpackListPrintToTable(t *testing.T) {
 
 func TestStackpackListPrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackListCmd(t)
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = mockResponse
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"stackpacks": mockResponse,
@@ -116,7 +116,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 		},
 	}
 	cli, cmd := setupStackPackListCmd(t)
-	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
+	cli.MockClient.ApiMocks.StackpackAPI.StackPackListResponse.Result = mockResponse
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--installed")
 	expectedTableCall := []printer.TableData{
 		{

@@ -1,10 +1,10 @@
-# \DummyApi
+# \DummyAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Dummy**](DummyApi.md#Dummy) | **Get** /dummy/dummy | Dummy path to fix omission in openapi generation when a type is not included.
+[**Dummy**](DummyAPI.md#Dummy) | **Get** /dummy/dummy | Dummy path to fix omission in openapi generation when a type is not included.
 
 
 
@@ -32,9 +32,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.DummyApi.Dummy(context.Background()).Execute()
+    resp, r, err := apiClient.DummyAPI.Dummy(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `DummyApi.Dummy``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `DummyAPI.Dummy``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -55,7 +55,7 @@ Other parameters are passed through a pointer to a apiDummyRequest struct via th
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

@@ -1,18 +1,18 @@
-# \KubernetesLogsApi
+# \KubernetesLogsAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetKubernetesLogs**](KubernetesLogsApi.md#GetKubernetesLogs) | **Get** /k8s/logs | Get Kubernetes logs
-[**GetKubernetesLogsAutocomplete**](KubernetesLogsApi.md#GetKubernetesLogsAutocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
-[**GetKubernetesLogsHistogram**](KubernetesLogsApi.md#GetKubernetesLogsHistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
+[**GetKubernetesLogs**](KubernetesLogsAPI.md#GetKubernetesLogs) | **Get** /k8s/logs | Get Kubernetes logs
+[**GetKubernetesLogsAutocomplete**](KubernetesLogsAPI.md#GetKubernetesLogsAutocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
+[**GetKubernetesLogsHistogram**](KubernetesLogsAPI.md#GetKubernetesLogsHistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
 
 
 
 ## GetKubernetesLogs
 
-> GetKubernetesLogsResult GetKubernetesLogs(ctx).From(from).To(to).PodUID(podUID).PageSize(pageSize).Page(page).Query(query).ContainerNames(containerNames).Direction(direction).Severity(severity).Execute()
+> GetKubernetesLogsResult GetKubernetesLogs(ctx).From(from).To(to).Query(query).PodUID(podUID).PageSize(pageSize).Page(page).ContainerNames(containerNames).Direction(direction).Severity(severity).Execute()
 
 Get Kubernetes logs
 
@@ -31,23 +31,23 @@ import (
 func main() {
     from := int32(56) // int32 | Logs initial timestamp.
     to := int32(56) // int32 | Logs last timestamp.
+    query := "query_example" // string | Prometheus expression query string
     podUID := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Find only logs for the given pod UID.
     pageSize := int32(56) // int32 | Maximum number of the log lines in the result. (optional) (default to 25)
     page := int32(56) // int32 | The page for which the log lines of pageSize must be returned. (optional) (default to 1)
-    query := "query_example" // string | Find only logs containing query text. (optional)
     containerNames := []string{"Inner_example"} // []string | Find only logs for the given container names. (optional)
     direction := openapiclient.LogsDirection("NEWEST") // LogsDirection | Fetch Oldest or Newest first. (optional) (default to "NEWEST")
     severity := []openapiclient.LogSeverity{openapiclient.LogSeverity("WARNING")} // []LogSeverity | Search a specific log severity WARN, ERROR, OTHER. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogs(context.Background()).From(from).To(to).PodUID(podUID).PageSize(pageSize).Page(page).Query(query).ContainerNames(containerNames).Direction(direction).Severity(severity).Execute()
+    resp, r, err := apiClient.KubernetesLogsAPI.GetKubernetesLogs(context.Background()).From(from).To(to).Query(query).PodUID(podUID).PageSize(pageSize).Page(page).ContainerNames(containerNames).Direction(direction).Severity(severity).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsApi.GetKubernetesLogs``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsAPI.GetKubernetesLogs``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetKubernetesLogs`: GetKubernetesLogsResult
-    fmt.Fprintf(os.Stdout, "Response from `KubernetesLogsApi.GetKubernetesLogs`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesLogsAPI.GetKubernetesLogs`: %v\n", resp)
 }
 ```
 
@@ -64,10 +64,10 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **from** | **int32** | Logs initial timestamp. | 
  **to** | **int32** | Logs last timestamp. | 
+ **query** | **string** | Prometheus expression query string | 
  **podUID** | **string** | Find only logs for the given pod UID. | 
  **pageSize** | **int32** | Maximum number of the log lines in the result. | [default to 25]
  **page** | **int32** | The page for which the log lines of pageSize must be returned. | [default to 1]
- **query** | **string** | Find only logs containing query text. | 
  **containerNames** | **[]string** | Find only logs for the given container names. | 
  **direction** | [**LogsDirection**](LogsDirection.md) | Fetch Oldest or Newest first. | [default to &quot;NEWEST&quot;]
  **severity** | [**[]LogSeverity**](LogSeverity.md) | Search a specific log severity WARN, ERROR, OTHER. | 
@@ -78,7 +78,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -115,13 +115,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogsAutocomplete(context.Background()).From(from).To(to).PodUID(podUID).Execute()
+    resp, r, err := apiClient.KubernetesLogsAPI.GetKubernetesLogsAutocomplete(context.Background()).From(from).To(to).PodUID(podUID).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsApi.GetKubernetesLogsAutocomplete``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsAPI.GetKubernetesLogsAutocomplete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetKubernetesLogsAutocomplete`: GetKubernetesLogsAutocompleteResult
-    fmt.Fprintf(os.Stdout, "Response from `KubernetesLogsApi.GetKubernetesLogsAutocomplete`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesLogsAPI.GetKubernetesLogsAutocomplete`: %v\n", resp)
 }
 ```
 
@@ -146,7 +146,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -160,7 +160,7 @@ Name | Type | Description  | Notes
 
 ## GetKubernetesLogsHistogram
 
-> GetKubernetesLogsHistogramResult GetKubernetesLogsHistogram(ctx).From(from).To(to).PodUID(podUID).BucketsCount(bucketsCount).Query(query).ContainerNames(containerNames).Severity(severity).Execute()
+> GetKubernetesLogsHistogramResult GetKubernetesLogsHistogram(ctx).From(from).To(to).Query(query).PodUID(podUID).BucketsCount(bucketsCount).ContainerNames(containerNames).Severity(severity).Execute()
 
 Get Kubernetes logs histogram
 
@@ -179,21 +179,21 @@ import (
 func main() {
     from := int32(56) // int32 | Logs initial timestamp.
     to := int32(56) // int32 | Logs last timestamp.
+    query := "query_example" // string | Prometheus expression query string
     podUID := "38400000-8cf0-11bd-b23e-10b96e4ef00d" // string | Find only logs for the given pod UID.
     bucketsCount := int32(56) // int32 | The number of histogram buckets.
-    query := "query_example" // string | Find only logs containing query text. (optional)
     containerNames := []string{"Inner_example"} // []string | Find only logs for the given container names. (optional)
     severity := []openapiclient.LogSeverity{openapiclient.LogSeverity("WARNING")} // []LogSeverity | Search a specific log severity WARN, ERROR, OTHER. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.KubernetesLogsApi.GetKubernetesLogsHistogram(context.Background()).From(from).To(to).PodUID(podUID).BucketsCount(bucketsCount).Query(query).ContainerNames(containerNames).Severity(severity).Execute()
+    resp, r, err := apiClient.KubernetesLogsAPI.GetKubernetesLogsHistogram(context.Background()).From(from).To(to).Query(query).PodUID(podUID).BucketsCount(bucketsCount).ContainerNames(containerNames).Severity(severity).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsApi.GetKubernetesLogsHistogram``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `KubernetesLogsAPI.GetKubernetesLogsHistogram``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetKubernetesLogsHistogram`: GetKubernetesLogsHistogramResult
-    fmt.Fprintf(os.Stdout, "Response from `KubernetesLogsApi.GetKubernetesLogsHistogram`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `KubernetesLogsAPI.GetKubernetesLogsHistogram`: %v\n", resp)
 }
 ```
 
@@ -210,9 +210,9 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **from** | **int32** | Logs initial timestamp. | 
  **to** | **int32** | Logs last timestamp. | 
+ **query** | **string** | Prometheus expression query string | 
  **podUID** | **string** | Find only logs for the given pod UID. | 
  **bucketsCount** | **int32** | The number of histogram buckets. | 
- **query** | **string** | Find only logs containing query text. | 
  **containerNames** | **[]string** | Find only logs for the given container names. | 
  **severity** | [**[]LogSeverity**](LogSeverity.md) | Search a specific log severity WARN, ERROR, OTHER. | 
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

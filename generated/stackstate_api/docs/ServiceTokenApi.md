@@ -1,12 +1,12 @@
-# \ServiceTokenApi
+# \ServiceTokenAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**CreateNewServiceToken**](ServiceTokenApi.md#CreateNewServiceToken) | **Post** /security/tokens | Create new service token
-[**DeleteServiceToken**](ServiceTokenApi.md#DeleteServiceToken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
-[**GetServiceTokens**](ServiceTokenApi.md#GetServiceTokens) | **Get** /security/tokens | Get service tokens
+[**CreateNewServiceToken**](ServiceTokenAPI.md#CreateNewServiceToken) | **Post** /security/tokens | Create new service token
+[**DeleteServiceToken**](ServiceTokenAPI.md#DeleteServiceToken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
+[**GetServiceTokens**](ServiceTokenAPI.md#GetServiceTokens) | **Get** /security/tokens | Get service tokens
 
 
 
@@ -35,13 +35,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ServiceTokenApi.CreateNewServiceToken(context.Background()).NewServiceTokenRequest(newServiceTokenRequest).Execute()
+    resp, r, err := apiClient.ServiceTokenAPI.CreateNewServiceToken(context.Background()).NewServiceTokenRequest(newServiceTokenRequest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenApi.CreateNewServiceToken``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenAPI.CreateNewServiceToken``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `CreateNewServiceToken`: ServiceTokenCreatedResponse
-    fmt.Fprintf(os.Stdout, "Response from `ServiceTokenApi.CreateNewServiceToken`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ServiceTokenAPI.CreateNewServiceToken`: %v\n", resp)
 }
 ```
 
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -101,9 +101,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ServiceTokenApi.DeleteServiceToken(context.Background(), serviceTokenId).Execute()
+    resp, r, err := apiClient.ServiceTokenAPI.DeleteServiceToken(context.Background(), serviceTokenId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenApi.DeleteServiceToken``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenAPI.DeleteServiceToken``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -132,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -168,13 +168,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ServiceTokenApi.GetServiceTokens(context.Background()).Execute()
+    resp, r, err := apiClient.ServiceTokenAPI.GetServiceTokens(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenApi.GetServiceTokens``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ServiceTokenAPI.GetServiceTokens``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetServiceTokens`: []ServiceToken
-    fmt.Fprintf(os.Stdout, "Response from `ServiceTokenApi.GetServiceTokens`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ServiceTokenAPI.GetServiceTokens`: %v\n", resp)
 }
 ```
 
@@ -193,7 +193,7 @@ Other parameters are passed through a pointer to a apiGetServiceTokensRequest st
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

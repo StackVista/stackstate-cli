@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type KubernetesLogsApi interface {
+type KubernetesLogsAPI interface {
 
 	/*
 		GetKubernetesLogs Get Kubernetes logs
@@ -58,18 +58,18 @@ type KubernetesLogsApi interface {
 	GetKubernetesLogsHistogramExecute(r ApiGetKubernetesLogsHistogramRequest) (*GetKubernetesLogsHistogramResult, *http.Response, error)
 }
 
-// KubernetesLogsApiService KubernetesLogsApi service
-type KubernetesLogsApiService service
+// KubernetesLogsAPIService KubernetesLogsAPI service
+type KubernetesLogsAPIService service
 
 type ApiGetKubernetesLogsRequest struct {
 	ctx            context.Context
-	ApiService     KubernetesLogsApi
+	ApiService     KubernetesLogsAPI
 	from           *int32
 	to             *int32
+	query          *string
 	podUID         *string
 	pageSize       *int32
 	page           *int32
-	query          *string
 	containerNames *[]string
 	direction      *LogsDirection
 	severity       *[]LogSeverity
@@ -84,6 +84,12 @@ func (r ApiGetKubernetesLogsRequest) From(from int32) ApiGetKubernetesLogsReques
 // Logs last timestamp.
 func (r ApiGetKubernetesLogsRequest) To(to int32) ApiGetKubernetesLogsRequest {
 	r.to = &to
+	return r
+}
+
+// Prometheus expression query string
+func (r ApiGetKubernetesLogsRequest) Query(query string) ApiGetKubernetesLogsRequest {
+	r.query = &query
 	return r
 }
 
@@ -102,12 +108,6 @@ func (r ApiGetKubernetesLogsRequest) PageSize(pageSize int32) ApiGetKubernetesLo
 // The page for which the log lines of pageSize must be returned.
 func (r ApiGetKubernetesLogsRequest) Page(page int32) ApiGetKubernetesLogsRequest {
 	r.page = &page
-	return r
-}
-
-// Find only logs containing query text.
-func (r ApiGetKubernetesLogsRequest) Query(query string) ApiGetKubernetesLogsRequest {
-	r.query = &query
 	return r
 }
 
@@ -136,10 +136,10 @@ func (r ApiGetKubernetesLogsRequest) Execute() (*GetKubernetesLogsResult, *http.
 /*
 GetKubernetesLogs Get Kubernetes logs
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetKubernetesLogsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetKubernetesLogsRequest
 */
-func (a *KubernetesLogsApiService) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
+func (a *KubernetesLogsAPIService) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
 	return ApiGetKubernetesLogsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -147,8 +147,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogs(ctx context.Context) ApiGet
 }
 
 // Execute executes the request
-//  @return GetKubernetesLogsResult
-func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLogsRequest) (*GetKubernetesLogsResult, *http.Response, error) {
+//
+//	@return GetKubernetesLogsResult
+func (a *KubernetesLogsAPIService) GetKubernetesLogsExecute(r ApiGetKubernetesLogsRequest) (*GetKubernetesLogsResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -156,7 +157,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 		localVarReturnValue *GetKubernetesLogsResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KubernetesLogsApiService.GetKubernetesLogs")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KubernetesLogsAPIService.GetKubernetesLogs")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -172,6 +173,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	if r.to == nil {
 		return localVarReturnValue, nil, reportError("to is required and must be specified")
 	}
+	if r.query == nil {
+		return localVarReturnValue, nil, reportError("query is required and must be specified")
+	}
 	if r.podUID == nil {
 		return localVarReturnValue, nil, reportError("podUID is required and must be specified")
 	}
@@ -184,9 +188,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	if r.page != nil {
 		localVarQueryParams.Add("page", parameterToString(*r.page, ""))
 	}
-	if r.query != nil {
-		localVarQueryParams.Add("query", parameterToString(*r.query, ""))
-	}
+	localVarQueryParams.Add("query", parameterToString(*r.query, ""))
 	localVarQueryParams.Add("podUID", parameterToString(*r.podUID, ""))
 	if r.containerNames != nil {
 		localVarQueryParams.Add("containerNames", parameterToString(*r.containerNames, "csv"))
@@ -217,6 +219,20 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -239,20 +255,6 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -314,7 +316,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 
 type ApiGetKubernetesLogsAutocompleteRequest struct {
 	ctx        context.Context
-	ApiService KubernetesLogsApi
+	ApiService KubernetesLogsAPI
 	from       *int32
 	to         *int32
 	podUID     *string
@@ -345,10 +347,10 @@ func (r ApiGetKubernetesLogsAutocompleteRequest) Execute() (*GetKubernetesLogsAu
 /*
 GetKubernetesLogsAutocomplete Get Kubernetes logs autocomplete values
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetKubernetesLogsAutocompleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetKubernetesLogsAutocompleteRequest
 */
-func (a *KubernetesLogsApiService) GetKubernetesLogsAutocomplete(ctx context.Context) ApiGetKubernetesLogsAutocompleteRequest {
+func (a *KubernetesLogsAPIService) GetKubernetesLogsAutocomplete(ctx context.Context) ApiGetKubernetesLogsAutocompleteRequest {
 	return ApiGetKubernetesLogsAutocompleteRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -356,8 +358,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocomplete(ctx context.Con
 }
 
 // Execute executes the request
-//  @return GetKubernetesLogsAutocompleteResult
-func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGetKubernetesLogsAutocompleteRequest) (*GetKubernetesLogsAutocompleteResult, *http.Response, error) {
+//
+//	@return GetKubernetesLogsAutocompleteResult
+func (a *KubernetesLogsAPIService) GetKubernetesLogsAutocompleteExecute(r ApiGetKubernetesLogsAutocompleteRequest) (*GetKubernetesLogsAutocompleteResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -365,7 +368,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGet
 		localVarReturnValue *GetKubernetesLogsAutocompleteResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KubernetesLogsApiService.GetKubernetesLogsAutocomplete")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KubernetesLogsAPIService.GetKubernetesLogsAutocomplete")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -408,6 +411,20 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGet
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -430,20 +447,6 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGet
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -505,12 +508,12 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGet
 
 type ApiGetKubernetesLogsHistogramRequest struct {
 	ctx            context.Context
-	ApiService     KubernetesLogsApi
+	ApiService     KubernetesLogsAPI
 	from           *int32
 	to             *int32
+	query          *string
 	podUID         *string
 	bucketsCount   *int32
-	query          *string
 	containerNames *[]string
 	severity       *[]LogSeverity
 }
@@ -527,6 +530,12 @@ func (r ApiGetKubernetesLogsHistogramRequest) To(to int32) ApiGetKubernetesLogsH
 	return r
 }
 
+// Prometheus expression query string
+func (r ApiGetKubernetesLogsHistogramRequest) Query(query string) ApiGetKubernetesLogsHistogramRequest {
+	r.query = &query
+	return r
+}
+
 // Find only logs for the given pod UID.
 func (r ApiGetKubernetesLogsHistogramRequest) PodUID(podUID string) ApiGetKubernetesLogsHistogramRequest {
 	r.podUID = &podUID
@@ -536,12 +545,6 @@ func (r ApiGetKubernetesLogsHistogramRequest) PodUID(podUID string) ApiGetKubern
 // The number of histogram buckets.
 func (r ApiGetKubernetesLogsHistogramRequest) BucketsCount(bucketsCount int32) ApiGetKubernetesLogsHistogramRequest {
 	r.bucketsCount = &bucketsCount
-	return r
-}
-
-// Find only logs containing query text.
-func (r ApiGetKubernetesLogsHistogramRequest) Query(query string) ApiGetKubernetesLogsHistogramRequest {
-	r.query = &query
 	return r
 }
 
@@ -564,10 +567,10 @@ func (r ApiGetKubernetesLogsHistogramRequest) Execute() (*GetKubernetesLogsHisto
 /*
 GetKubernetesLogsHistogram Get Kubernetes logs histogram
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetKubernetesLogsHistogramRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetKubernetesLogsHistogramRequest
 */
-func (a *KubernetesLogsApiService) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
+func (a *KubernetesLogsAPIService) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
 	return ApiGetKubernetesLogsHistogramRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -575,8 +578,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogram(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return GetKubernetesLogsHistogramResult
-func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKubernetesLogsHistogramRequest) (*GetKubernetesLogsHistogramResult, *http.Response, error) {
+//
+//	@return GetKubernetesLogsHistogramResult
+func (a *KubernetesLogsAPIService) GetKubernetesLogsHistogramExecute(r ApiGetKubernetesLogsHistogramRequest) (*GetKubernetesLogsHistogramResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -584,7 +588,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 		localVarReturnValue *GetKubernetesLogsHistogramResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KubernetesLogsApiService.GetKubernetesLogsHistogram")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KubernetesLogsAPIService.GetKubernetesLogsHistogram")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -600,6 +604,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 	if r.to == nil {
 		return localVarReturnValue, nil, reportError("to is required and must be specified")
 	}
+	if r.query == nil {
+		return localVarReturnValue, nil, reportError("query is required and must be specified")
+	}
 	if r.podUID == nil {
 		return localVarReturnValue, nil, reportError("podUID is required and must be specified")
 	}
@@ -609,9 +616,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 
 	localVarQueryParams.Add("from", parameterToString(*r.from, ""))
 	localVarQueryParams.Add("to", parameterToString(*r.to, ""))
-	if r.query != nil {
-		localVarQueryParams.Add("query", parameterToString(*r.query, ""))
-	}
+	localVarQueryParams.Add("query", parameterToString(*r.query, ""))
 	localVarQueryParams.Add("podUID", parameterToString(*r.podUID, ""))
 	if r.containerNames != nil {
 		localVarQueryParams.Add("containerNames", parameterToString(*r.containerNames, "csv"))
@@ -640,6 +645,20 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -662,20 +681,6 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -739,7 +744,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type KubernetesLogsApiMock struct {
+type KubernetesLogsAPIMock struct {
 	GetKubernetesLogsCalls                *[]GetKubernetesLogsCall
 	GetKubernetesLogsResponse             GetKubernetesLogsMockResponse
 	GetKubernetesLogsAutocompleteCalls    *[]GetKubernetesLogsAutocompleteCall
@@ -748,11 +753,11 @@ type KubernetesLogsApiMock struct {
 	GetKubernetesLogsHistogramResponse    GetKubernetesLogsHistogramMockResponse
 }
 
-func NewKubernetesLogsApiMock() KubernetesLogsApiMock {
+func NewKubernetesLogsAPIMock() KubernetesLogsAPIMock {
 	xGetKubernetesLogsCalls := make([]GetKubernetesLogsCall, 0)
 	xGetKubernetesLogsAutocompleteCalls := make([]GetKubernetesLogsAutocompleteCall, 0)
 	xGetKubernetesLogsHistogramCalls := make([]GetKubernetesLogsHistogramCall, 0)
-	return KubernetesLogsApiMock{
+	return KubernetesLogsAPIMock{
 		GetKubernetesLogsCalls:             &xGetKubernetesLogsCalls,
 		GetKubernetesLogsAutocompleteCalls: &xGetKubernetesLogsAutocompleteCalls,
 		GetKubernetesLogsHistogramCalls:    &xGetKubernetesLogsHistogramCalls,
@@ -768,30 +773,30 @@ type GetKubernetesLogsMockResponse struct {
 type GetKubernetesLogsCall struct {
 	Pfrom           *int32
 	Pto             *int32
+	Pquery          *string
 	PpodUID         *string
 	PpageSize       *int32
 	Ppage           *int32
-	Pquery          *string
 	PcontainerNames *[]string
 	Pdirection      *LogsDirection
 	Pseverity       *[]LogSeverity
 }
 
-func (mock KubernetesLogsApiMock) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
+func (mock KubernetesLogsAPIMock) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
 	return ApiGetKubernetesLogsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock KubernetesLogsApiMock) GetKubernetesLogsExecute(r ApiGetKubernetesLogsRequest) (*GetKubernetesLogsResult, *http.Response, error) {
+func (mock KubernetesLogsAPIMock) GetKubernetesLogsExecute(r ApiGetKubernetesLogsRequest) (*GetKubernetesLogsResult, *http.Response, error) {
 	p := GetKubernetesLogsCall{
 		Pfrom:           r.from,
 		Pto:             r.to,
+		Pquery:          r.query,
 		PpodUID:         r.podUID,
 		PpageSize:       r.pageSize,
 		Ppage:           r.page,
-		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
 		Pdirection:      r.direction,
 		Pseverity:       r.severity,
@@ -812,14 +817,14 @@ type GetKubernetesLogsAutocompleteCall struct {
 	PpodUID *string
 }
 
-func (mock KubernetesLogsApiMock) GetKubernetesLogsAutocomplete(ctx context.Context) ApiGetKubernetesLogsAutocompleteRequest {
+func (mock KubernetesLogsAPIMock) GetKubernetesLogsAutocomplete(ctx context.Context) ApiGetKubernetesLogsAutocompleteRequest {
 	return ApiGetKubernetesLogsAutocompleteRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock KubernetesLogsApiMock) GetKubernetesLogsAutocompleteExecute(r ApiGetKubernetesLogsAutocompleteRequest) (*GetKubernetesLogsAutocompleteResult, *http.Response, error) {
+func (mock KubernetesLogsAPIMock) GetKubernetesLogsAutocompleteExecute(r ApiGetKubernetesLogsAutocompleteRequest) (*GetKubernetesLogsAutocompleteResult, *http.Response, error) {
 	p := GetKubernetesLogsAutocompleteCall{
 		Pfrom:   r.from,
 		Pto:     r.to,
@@ -838,27 +843,27 @@ type GetKubernetesLogsHistogramMockResponse struct {
 type GetKubernetesLogsHistogramCall struct {
 	Pfrom           *int32
 	Pto             *int32
+	Pquery          *string
 	PpodUID         *string
 	PbucketsCount   *int32
-	Pquery          *string
 	PcontainerNames *[]string
 	Pseverity       *[]LogSeverity
 }
 
-func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
+func (mock KubernetesLogsAPIMock) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
 	return ApiGetKubernetesLogsHistogramRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogramExecute(r ApiGetKubernetesLogsHistogramRequest) (*GetKubernetesLogsHistogramResult, *http.Response, error) {
+func (mock KubernetesLogsAPIMock) GetKubernetesLogsHistogramExecute(r ApiGetKubernetesLogsHistogramRequest) (*GetKubernetesLogsHistogramResult, *http.Response, error) {
 	p := GetKubernetesLogsHistogramCall{
 		Pfrom:           r.from,
 		Pto:             r.to,
+		Pquery:          r.query,
 		PpodUID:         r.podUID,
 		PbucketsCount:   r.bucketsCount,
-		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
 		Pseverity:       r.severity,
 	}

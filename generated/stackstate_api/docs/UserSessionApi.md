@@ -1,12 +1,12 @@
-# \UserSessionApi
+# \UserSessionAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetUserSessionAssumedRole**](UserSessionApi.md#GetUserSessionAssumedRole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
-[**GetUserSessionAvailableRoles**](UserSessionApi.md#GetUserSessionAvailableRoles) | **Get** /user/session/availableRoles | Get a list of available roles for this session
-[**SaveUserSessionAssumedRole**](UserSessionApi.md#SaveUserSessionAssumedRole) | **Put** /user/session/assumedRole | Set the assumed role for the current session
+[**GetUserSessionAssumedRole**](UserSessionAPI.md#GetUserSessionAssumedRole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
+[**GetUserSessionAvailableRoles**](UserSessionAPI.md#GetUserSessionAvailableRoles) | **Get** /user/session/availableRoles | Get a list of available roles for this session
+[**SaveUserSessionAssumedRole**](UserSessionAPI.md#SaveUserSessionAssumedRole) | **Put** /user/session/assumedRole | Set the assumed role for the current session
 
 
 
@@ -34,13 +34,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserSessionApi.GetUserSessionAssumedRole(context.Background()).Execute()
+    resp, r, err := apiClient.UserSessionAPI.GetUserSessionAssumedRole(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserSessionApi.GetUserSessionAssumedRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserSessionAPI.GetUserSessionAssumedRole``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetUserSessionAssumedRole`: Role
-    fmt.Fprintf(os.Stdout, "Response from `UserSessionApi.GetUserSessionAssumedRole`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserSessionAPI.GetUserSessionAssumedRole`: %v\n", resp)
 }
 ```
 
@@ -59,7 +59,7 @@ Other parameters are passed through a pointer to a apiGetUserSessionAssumedRoleR
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -95,13 +95,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserSessionApi.GetUserSessionAvailableRoles(context.Background()).Execute()
+    resp, r, err := apiClient.UserSessionAPI.GetUserSessionAvailableRoles(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserSessionApi.GetUserSessionAvailableRoles``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserSessionAPI.GetUserSessionAvailableRoles``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetUserSessionAvailableRoles`: Roles
-    fmt.Fprintf(os.Stdout, "Response from `UserSessionApi.GetUserSessionAvailableRoles`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserSessionAPI.GetUserSessionAvailableRoles`: %v\n", resp)
 }
 ```
 
@@ -120,7 +120,7 @@ Other parameters are passed through a pointer to a apiGetUserSessionAvailableRol
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -157,13 +157,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserSessionApi.SaveUserSessionAssumedRole(context.Background()).Role(role).Execute()
+    resp, r, err := apiClient.UserSessionAPI.SaveUserSessionAssumedRole(context.Background()).Role(role).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserSessionApi.SaveUserSessionAssumedRole``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserSessionAPI.SaveUserSessionAssumedRole``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SaveUserSessionAssumedRole`: Role
-    fmt.Fprintf(os.Stdout, "Response from `UserSessionApi.SaveUserSessionAssumedRole`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserSessionAPI.SaveUserSessionAssumedRole`: %v\n", resp)
 }
 ```
 
@@ -186,7 +186,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

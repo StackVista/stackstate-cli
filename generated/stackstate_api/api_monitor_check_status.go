@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type MonitorCheckStatusApi interface {
+type MonitorCheckStatusAPI interface {
 
 	/*
 		GetMonitorCheckStatus Get a monitor check status
@@ -38,7 +38,7 @@ type MonitorCheckStatusApi interface {
 	GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error)
 
 	/*
-		GetMonitorCheckStatusHealthHistory Get a monitor check health hisotry
+		GetMonitorCheckStatusHealthHistory Get a monitor check health history
 
 		Get a monitor check status health history for a defined period of time by the check state id
 
@@ -68,12 +68,12 @@ type MonitorCheckStatusApi interface {
 	GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error)
 }
 
-// MonitorCheckStatusApiService MonitorCheckStatusApi service
-type MonitorCheckStatusApiService service
+// MonitorCheckStatusAPIService MonitorCheckStatusAPI service
+type MonitorCheckStatusAPIService service
 
 type ApiGetMonitorCheckStatusRequest struct {
 	ctx          context.Context
-	ApiService   MonitorCheckStatusApi
+	ApiService   MonitorCheckStatusAPI
 	id           int64
 	topologyTime *int32
 }
@@ -93,11 +93,11 @@ GetMonitorCheckStatus Get a monitor check status
 
 Get a monitor check status by check state id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id The id of a monitor check status
- @return ApiGetMonitorCheckStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of a monitor check status
+	@return ApiGetMonitorCheckStatusRequest
 */
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
+func (a *MonitorCheckStatusAPIService) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
 	return ApiGetMonitorCheckStatusRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -106,8 +106,9 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatus(ctx context.Context
 }
 
 // Execute executes the request
-//  @return MonitorCheckStatus
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error) {
+//
+//	@return MonitorCheckStatus
+func (a *MonitorCheckStatusAPIService) GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -115,7 +116,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 		localVarReturnValue *MonitorCheckStatus
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusApiService.GetMonitorCheckStatus")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusAPIService.GetMonitorCheckStatus")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -150,6 +151,20 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -172,20 +187,6 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -257,7 +258,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 
 type ApiGetMonitorCheckStatusHealthHistoryRequest struct {
 	ctx          context.Context
-	ApiService   MonitorCheckStatusApi
+	ApiService   MonitorCheckStatusAPI
 	id           int64
 	startTime    *int32
 	endTime      *int32
@@ -287,15 +288,15 @@ func (r ApiGetMonitorCheckStatusHealthHistoryRequest) Execute() (*MonitorCheckSt
 }
 
 /*
-GetMonitorCheckStatusHealthHistory Get a monitor check health hisotry
+GetMonitorCheckStatusHealthHistory Get a monitor check health history
 
 Get a monitor check status health history for a defined period of time by the check state id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id The id of a monitor check status
- @return ApiGetMonitorCheckStatusHealthHistoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of a monitor check status
+	@return ApiGetMonitorCheckStatusHealthHistoryRequest
 */
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
+func (a *MonitorCheckStatusAPIService) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
 	return ApiGetMonitorCheckStatusHealthHistoryRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -304,8 +305,9 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx co
 }
 
 // Execute executes the request
-//  @return MonitorCheckStatusHealthHistory
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
+//
+//	@return MonitorCheckStatusHealthHistory
+func (a *MonitorCheckStatusAPIService) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -313,7 +315,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 		localVarReturnValue *MonitorCheckStatusHealthHistory
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusApiService.GetMonitorCheckStatusHealthHistory")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusAPIService.GetMonitorCheckStatusHealthHistory")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -355,6 +357,20 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -377,20 +393,6 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -452,7 +454,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 
 type ApiGetMonitorCheckStatusRelatedFailuresRequest struct {
 	ctx          context.Context
-	ApiService   MonitorCheckStatusApi
+	ApiService   MonitorCheckStatusAPI
 	id           int64
 	topologyTime *int32
 }
@@ -472,11 +474,11 @@ GetMonitorCheckStatusRelatedFailures Get a monitor check related failures
 
 Get a monitor check status related failures by the check state id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id The id of a monitor check status
- @return ApiGetMonitorCheckStatusRelatedFailuresRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of a monitor check status
+	@return ApiGetMonitorCheckStatusRelatedFailuresRequest
 */
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
+func (a *MonitorCheckStatusAPIService) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
 	return ApiGetMonitorCheckStatusRelatedFailuresRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -485,8 +487,9 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailures(ctx 
 }
 
 // Execute executes the request
-//  @return MonitorCheckStatusRelatedFailures
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error) {
+//
+//	@return MonitorCheckStatusRelatedFailures
+func (a *MonitorCheckStatusAPIService) GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -494,7 +497,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecu
 		localVarReturnValue *MonitorCheckStatusRelatedFailures
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusApiService.GetMonitorCheckStatusRelatedFailures")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MonitorCheckStatusAPIService.GetMonitorCheckStatusRelatedFailures")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -529,6 +532,20 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecu
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -551,20 +568,6 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecu
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -638,7 +641,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecu
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type MonitorCheckStatusApiMock struct {
+type MonitorCheckStatusAPIMock struct {
 	GetMonitorCheckStatusCalls                   *[]GetMonitorCheckStatusCall
 	GetMonitorCheckStatusResponse                GetMonitorCheckStatusMockResponse
 	GetMonitorCheckStatusHealthHistoryCalls      *[]GetMonitorCheckStatusHealthHistoryCall
@@ -647,11 +650,11 @@ type MonitorCheckStatusApiMock struct {
 	GetMonitorCheckStatusRelatedFailuresResponse GetMonitorCheckStatusRelatedFailuresMockResponse
 }
 
-func NewMonitorCheckStatusApiMock() MonitorCheckStatusApiMock {
+func NewMonitorCheckStatusAPIMock() MonitorCheckStatusAPIMock {
 	xGetMonitorCheckStatusCalls := make([]GetMonitorCheckStatusCall, 0)
 	xGetMonitorCheckStatusHealthHistoryCalls := make([]GetMonitorCheckStatusHealthHistoryCall, 0)
 	xGetMonitorCheckStatusRelatedFailuresCalls := make([]GetMonitorCheckStatusRelatedFailuresCall, 0)
-	return MonitorCheckStatusApiMock{
+	return MonitorCheckStatusAPIMock{
 		GetMonitorCheckStatusCalls:                &xGetMonitorCheckStatusCalls,
 		GetMonitorCheckStatusHealthHistoryCalls:   &xGetMonitorCheckStatusHealthHistoryCalls,
 		GetMonitorCheckStatusRelatedFailuresCalls: &xGetMonitorCheckStatusRelatedFailuresCalls,
@@ -669,7 +672,7 @@ type GetMonitorCheckStatusCall struct {
 	PtopologyTime *int32
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
+func (mock MonitorCheckStatusAPIMock) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
 	return ApiGetMonitorCheckStatusRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -677,7 +680,7 @@ func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatus(ctx context.Context,
 	}
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error) {
+func (mock MonitorCheckStatusAPIMock) GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error) {
 	p := GetMonitorCheckStatusCall{
 		Pid:           r.id,
 		PtopologyTime: r.topologyTime,
@@ -699,7 +702,7 @@ type GetMonitorCheckStatusHealthHistoryCall struct {
 	PtopologyTime *int32
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
+func (mock MonitorCheckStatusAPIMock) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
 	return ApiGetMonitorCheckStatusHealthHistoryRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -707,7 +710,7 @@ func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx con
 	}
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
+func (mock MonitorCheckStatusAPIMock) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
 	p := GetMonitorCheckStatusHealthHistoryCall{
 		Pid:           r.id,
 		PstartTime:    r.startTime,
@@ -729,7 +732,7 @@ type GetMonitorCheckStatusRelatedFailuresCall struct {
 	PtopologyTime *int32
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
+func (mock MonitorCheckStatusAPIMock) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
 	return ApiGetMonitorCheckStatusRelatedFailuresRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -737,7 +740,7 @@ func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusRelatedFailures(ctx c
 	}
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error) {
+func (mock MonitorCheckStatusAPIMock) GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error) {
 	p := GetMonitorCheckStatusRelatedFailuresCall{
 		Pid:           r.id,
 		PtopologyTime: r.topologyTime,

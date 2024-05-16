@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type ServerApi interface {
+type ServerAPI interface {
 
 	/*
 		ServerInfo Get server info
@@ -36,12 +36,12 @@ type ServerApi interface {
 	ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error)
 }
 
-// ServerApiService ServerApi service
-type ServerApiService service
+// ServerAPIService ServerAPI service
+type ServerAPIService service
 
 type ApiServerInfoRequest struct {
 	ctx        context.Context
-	ApiService ServerApi
+	ApiService ServerAPI
 }
 
 func (r ApiServerInfoRequest) Execute() (*ServerInfo, *http.Response, error) {
@@ -53,10 +53,10 @@ ServerInfo Get server info
 
 Get information of the StackState information, such as version, deployment mode, etc.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiServerInfoRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiServerInfoRequest
 */
-func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest {
+func (a *ServerAPIService) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -64,8 +64,9 @@ func (a *ServerApiService) ServerInfo(ctx context.Context) ApiServerInfoRequest 
 }
 
 // Execute executes the request
-//  @return ServerInfo
-func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
+//
+//	@return ServerInfo
+func (a *ServerAPIService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -73,7 +74,7 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 		localVarReturnValue *ServerInfo
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServerApiService.ServerInfo")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ServerAPIService.ServerInfo")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -104,6 +105,20 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -126,20 +141,6 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -193,14 +194,14 @@ func (a *ServerApiService) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInf
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type ServerApiMock struct {
+type ServerAPIMock struct {
 	ServerInfoCalls    *[]ServerInfoCall
 	ServerInfoResponse ServerInfoMockResponse
 }
 
-func NewServerApiMock() ServerApiMock {
+func NewServerAPIMock() ServerAPIMock {
 	xServerInfoCalls := make([]ServerInfoCall, 0)
-	return ServerApiMock{
+	return ServerAPIMock{
 		ServerInfoCalls: &xServerInfoCalls,
 	}
 }
@@ -214,14 +215,14 @@ type ServerInfoMockResponse struct {
 type ServerInfoCall struct {
 }
 
-func (mock ServerApiMock) ServerInfo(ctx context.Context) ApiServerInfoRequest {
+func (mock ServerAPIMock) ServerInfo(ctx context.Context) ApiServerInfoRequest {
 	return ApiServerInfoRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock ServerApiMock) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
+func (mock ServerAPIMock) ServerInfoExecute(r ApiServerInfoRequest) (*ServerInfo, *http.Response, error) {
 	p := ServerInfoCall{}
 	*mock.ServerInfoCalls = append(*mock.ServerInfoCalls, p)
 	return &mock.ServerInfoResponse.Result, mock.ServerInfoResponse.Response, mock.ServerInfoResponse.Error

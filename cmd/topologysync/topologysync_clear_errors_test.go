@@ -16,7 +16,7 @@ func TestTopologySyncClearErrorsId(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", id)
 
-	calls := *cli.MockClient.ApiMocks.TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrorsCalls
+	calls := *cli.MockClient.ApiMocks.TopologySynchronizationAPI.PostTopologySynchronizationStreamClearErrorsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, id, *calls[0].Pidentifier)
 	assert.Equal(t, NodeIdType, *calls[0].PidentifierType)
@@ -35,7 +35,7 @@ func TestTopologySyncClearErrorsIdentifier(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", identifier)
 
-	calls := *cli.MockClient.ApiMocks.TopologySynchronizationApi.PostTopologySynchronizationStreamClearErrorsCalls
+	calls := *cli.MockClient.ApiMocks.TopologySynchronizationAPI.PostTopologySynchronizationStreamClearErrorsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, identifier, *calls[0].Pidentifier)
 	assert.Equal(t, IdentifierType, *calls[0].PidentifierType)

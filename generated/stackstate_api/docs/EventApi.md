@@ -1,15 +1,15 @@
-# \EventApi
+# \EventAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetEvent**](EventApi.md#GetEvent) | **Get** /events/{eventId} | Get single event
-[**GetEventSources**](EventApi.md#GetEventSources) | **Get** /eventSources | Get event sources
-[**GetEventTags**](EventApi.md#GetEventTags) | **Get** /eventTags | Get event tags
-[**GetEventTypes**](EventApi.md#GetEventTypes) | **Get** /eventTypes | Get event types
-[**GetEvents**](EventApi.md#GetEvents) | **Post** /events | Get events
-[**GetEventsHistogram**](EventApi.md#GetEventsHistogram) | **Post** /eventsHistogram | Get events histogram
+[**GetEvent**](EventAPI.md#GetEvent) | **Get** /events/{eventId} | Get single event
+[**GetEventSources**](EventAPI.md#GetEventSources) | **Get** /eventSources | Get event sources
+[**GetEventTags**](EventAPI.md#GetEventTags) | **Get** /eventTags | Get event tags
+[**GetEventTypes**](EventAPI.md#GetEventTypes) | **Get** /eventTypes | Get event types
+[**GetEvents**](EventAPI.md#GetEvents) | **Post** /events | Get events
+[**GetEventsHistogram**](EventAPI.md#GetEventsHistogram) | **Post** /eventsHistogram | Get events histogram
 
 
 
@@ -41,13 +41,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEvent(context.Background(), eventId).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).PlayHeadTimestampMs(playHeadTimestampMs).Execute()
+    resp, r, err := apiClient.EventAPI.GetEvent(context.Background(), eventId).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).PlayHeadTimestampMs(playHeadTimestampMs).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEvent``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `EventAPI.GetEvent``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetEvent`: TopologyEvent
-    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEvent`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `EventAPI.GetEvent`: %v\n", resp)
 }
 ```
 
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -124,13 +124,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventSources(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    resp, r, err := apiClient.EventAPI.GetEventSources(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventSources``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `EventAPI.GetEventSources``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetEventSources`: StringItemsWithTotal
-    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEventSources`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `EventAPI.GetEventSources`: %v\n", resp)
 }
 ```
 
@@ -163,7 +163,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -210,13 +210,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventTags(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    resp, r, err := apiClient.EventAPI.GetEventTags(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventTags``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `EventAPI.GetEventTags``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetEventTags`: StringItemsWithTotal
-    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEventTags`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `EventAPI.GetEventTags`: %v\n", resp)
 }
 ```
 
@@ -249,7 +249,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -296,13 +296,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventTypes(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
+    resp, r, err := apiClient.EventAPI.GetEventTypes(context.Background()).StartTimestampMs(startTimestampMs).EndTimestampMs(endTimestampMs).TopologyQuery(topologyQuery).Limit(limit).IncludeConnectedComponents(includeConnectedComponents).PlayHeadTimestampMs(playHeadTimestampMs).EventTypes(eventTypes).EventCategories(eventCategories).EventSources(eventSources).EventTags(eventTags).Match(match).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventTypes``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `EventAPI.GetEventTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetEventTypes`: StringItemsWithTotal
-    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEventTypes`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `EventAPI.GetEventTypes`: %v\n", resp)
 }
 ```
 
@@ -335,7 +335,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -372,13 +372,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEvents(context.Background()).EventListRequest(eventListRequest).Execute()
+    resp, r, err := apiClient.EventAPI.GetEvents(context.Background()).EventListRequest(eventListRequest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEvents``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `EventAPI.GetEvents``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetEvents`: EventItemsWithTotal
-    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEvents`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `EventAPI.GetEvents`: %v\n", resp)
 }
 ```
 
@@ -401,7 +401,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -438,13 +438,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.EventApi.GetEventsHistogram(context.Background()).EventsHistogramRequest(eventsHistogramRequest).Execute()
+    resp, r, err := apiClient.EventAPI.GetEventsHistogram(context.Background()).EventsHistogramRequest(eventsHistogramRequest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `EventApi.GetEventsHistogram``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `EventAPI.GetEventsHistogram``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetEventsHistogram`: EventsHistogram
-    fmt.Fprintf(os.Stdout, "Response from `EventApi.GetEventsHistogram`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `EventAPI.GetEventsHistogram`: %v\n", resp)
 }
 ```
 
@@ -467,7 +467,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

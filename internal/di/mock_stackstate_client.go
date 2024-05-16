@@ -16,95 +16,95 @@ type MockStackStateClient struct {
 
 type ApiMocks struct {
 	// Main API:
-	ApiTokenApi                *stackstate_api.ApiTokenApiMock
-	EventApi                   *stackstate_api.EventApiMock
-	HealthSynchronizationApi   *stackstate_api.HealthSynchronizationApiMock
-	ImportApi                  *stackstate_api.ImportApiMock
-	ExportApi                  *stackstate_api.ExportApiMock
-	MonitorApi                 *stackstate_api.MonitorApiMock
-	NodeApi                    *stackstate_api.NodeApiMock
-	ScriptingApi               *stackstate_api.ScriptingApiMock
-	ServiceTokenApi            *stackstate_api.ServiceTokenApiMock
-	TopologySynchronizationApi *stackstate_api.TopologySynchronizationApiMock
-	UserProfileApi             *stackstate_api.UserProfileApiMock
-	ServerApi                  *stackstate_api.ServerApiMock
-	StackpackApi               *stackstate_api.StackpackApiMock
-	SubscriptionApi            *stackstate_api.SubscriptionApiMock
-	PermissionsApi             *stackstate_api.PermissionsApiMock
-	SubjectApi                 *stackstate_api.SubjectApiMock
-	TopicApi                   *stackstate_api.TopicApiMock
-	IngestionApiKeyApi         *stackstate_api.IngestionApiKeyApiMock
+	ApiTokenAPI                *stackstate_api.ApiTokenAPIMock
+	EventAPI                   *stackstate_api.EventAPIMock
+	HealthSynchronizationAPI   *stackstate_api.HealthSynchronizationAPIMock
+	ImportAPI                  *stackstate_api.ImportAPIMock
+	ExportAPI                  *stackstate_api.ExportAPIMock
+	MonitorAPI                 *stackstate_api.MonitorAPIMock
+	NodeAPI                    *stackstate_api.NodeAPIMock
+	ScriptingAPI               *stackstate_api.ScriptingAPIMock
+	ServiceTokenAPI            *stackstate_api.ServiceTokenAPIMock
+	TopologySynchronizationAPI *stackstate_api.TopologySynchronizationAPIMock
+	UserProfileAPI             *stackstate_api.UserProfileAPIMock
+	ServerAPI                  *stackstate_api.ServerAPIMock
+	StackpackAPI               *stackstate_api.StackpackAPIMock
+	SubscriptionAPI            *stackstate_api.SubscriptionAPIMock
+	PermissionsAPI             *stackstate_api.PermissionsAPIMock
+	SubjectAPI                 *stackstate_api.SubjectAPIMock
+	TopicAPI                   *stackstate_api.TopicAPIMock
+	IngestionApiKeyAPI         *stackstate_api.IngestionApiKeyAPIMock
 	// Admin API:
-	RetentionApi *stackstate_admin_api.RetentionApiMock
+	RetentionAPI *stackstate_admin_api.RetentionAPIMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
 }
 
 func NewMockStackStateClient() MockStackStateClient {
-	apiTokenApi := stackstate_api.NewApiTokenApiMock()
-	eventApi := stackstate_api.NewEventApiMock()
-	healthSynchronizationApi := stackstate_api.NewHealthSynchronizationApiMock()
-	importApi := stackstate_api.NewImportApiMock()
-	exportApi := stackstate_api.NewExportApiMock()
-	monitorApi := stackstate_api.NewMonitorApiMock()
-	nodeApi := stackstate_api.NewNodeApiMock()
-	scriptingApi := stackstate_api.NewScriptingApiMock()
-	serviceTokenApi := stackstate_api.NewServiceTokenApiMock()
-	topologySynchronizationApi := stackstate_api.NewTopologySynchronizationApiMock()
-	userProfileApi := stackstate_api.NewUserProfileApiMock()
-	serverApi := stackstate_api.NewServerApiMock()
-	stackpackApi := stackstate_api.NewStackpackApiMock()
-	subscriptionApi := stackstate_api.NewSubscriptionApiMock()
-	permissionsApi := stackstate_api.NewPermissionsApiMock()
-	subjectApi := stackstate_api.NewSubjectApiMock()
-	topicApi := stackstate_api.NewTopicApiMock()
-	ingestionApiKeyApi := stackstate_api.NewIngestionApiKeyApiMock()
-	retentionApi := stackstate_admin_api.NewRetentionApiMock()
+	apiTokenApi := stackstate_api.NewApiTokenAPIMock()
+	eventApi := stackstate_api.NewEventAPIMock()
+	HealthSynchronizationAPI := stackstate_api.NewHealthSynchronizationAPIMock()
+	importApi := stackstate_api.NewImportAPIMock()
+	exportApi := stackstate_api.NewExportAPIMock()
+	monitorApi := stackstate_api.NewMonitorAPIMock()
+	nodeApi := stackstate_api.NewNodeAPIMock()
+	scriptingApi := stackstate_api.NewScriptingAPIMock()
+	serviceTokenApi := stackstate_api.NewServiceTokenAPIMock()
+	topologySynchronizationApi := stackstate_api.NewTopologySynchronizationAPIMock()
+	userProfileApi := stackstate_api.NewUserProfileAPIMock()
+	serverApi := stackstate_api.NewServerAPIMock()
+	stackpackApi := stackstate_api.NewStackpackAPIMock()
+	subscriptionApi := stackstate_api.NewSubscriptionAPIMock()
+	permissionsApi := stackstate_api.NewPermissionsAPIMock()
+	subjectApi := stackstate_api.NewSubjectAPIMock()
+	topicApi := stackstate_api.NewTopicAPIMock()
+	IngestionApiKeyAPI := stackstate_api.NewIngestionApiKeyAPIMock()
+	retentionApi := stackstate_admin_api.NewRetentionAPIMock()
 
 	apiMocks := ApiMocks{
-		ApiTokenApi:                &apiTokenApi,
-		EventApi:                   &eventApi,
-		HealthSynchronizationApi:   &healthSynchronizationApi,
-		ImportApi:                  &importApi,
-		ExportApi:                  &exportApi,
-		MonitorApi:                 &monitorApi,
-		NodeApi:                    &nodeApi,
-		ScriptingApi:               &scriptingApi,
-		ServiceTokenApi:            &serviceTokenApi,
-		TopologySynchronizationApi: &topologySynchronizationApi,
-		UserProfileApi:             &userProfileApi,
-		ServerApi:                  &serverApi,
-		StackpackApi:               &stackpackApi,
-		SubscriptionApi:            &subscriptionApi,
-		PermissionsApi:             &permissionsApi,
-		SubjectApi:                 &subjectApi,
-		TopicApi:                   &topicApi,
-		IngestionApiKeyApi:         &ingestionApiKeyApi,
-		RetentionApi:               &retentionApi,
+		ApiTokenAPI:                &apiTokenApi,
+		EventAPI:                   &eventApi,
+		HealthSynchronizationAPI:   &HealthSynchronizationAPI,
+		ImportAPI:                  &importApi,
+		ExportAPI:                  &exportApi,
+		MonitorAPI:                 &monitorApi,
+		NodeAPI:                    &nodeApi,
+		ScriptingAPI:               &scriptingApi,
+		ServiceTokenAPI:            &serviceTokenApi,
+		TopologySynchronizationAPI: &topologySynchronizationApi,
+		UserProfileAPI:             &userProfileApi,
+		ServerAPI:                  &serverApi,
+		StackpackAPI:               &stackpackApi,
+		SubscriptionAPI:            &subscriptionApi,
+		PermissionsAPI:             &permissionsApi,
+		SubjectAPI:                 &subjectApi,
+		TopicAPI:                   &topicApi,
+		IngestionApiKeyAPI:         &IngestionApiKeyAPI,
+		RetentionAPI:               &retentionApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
-		ApiTokenApi:                apiMocks.ApiTokenApi,
-		EventApi:                   apiMocks.EventApi,
-		HealthSynchronizationApi:   apiMocks.HealthSynchronizationApi,
-		ImportApi:                  apiMocks.ImportApi,
-		ExportApi:                  apiMocks.ExportApi,
-		MonitorApi:                 apiMocks.MonitorApi,
-		NodeApi:                    apiMocks.NodeApi,
-		ServiceTokenApi:            apiMocks.ServiceTokenApi,
-		ScriptingApi:               apiMocks.ScriptingApi,
-		TopologySynchronizationApi: apiMocks.TopologySynchronizationApi,
-		UserProfileApi:             apiMocks.UserProfileApi,
-		ServerApi:                  apiMocks.ServerApi,
-		StackpackApi:               apiMocks.StackpackApi,
-		SubscriptionApi:            apiMocks.SubscriptionApi,
-		PermissionsApi:             apiMocks.PermissionsApi,
-		SubjectApi:                 apiMocks.SubjectApi,
-		IngestionApiKeyApi:         apiMocks.IngestionApiKeyApi,
-		TopicApi:                   apiMocks.TopicApi,
+		ApiTokenAPI:                apiMocks.ApiTokenAPI,
+		EventAPI:                   apiMocks.EventAPI,
+		HealthSynchronizationAPI:   apiMocks.HealthSynchronizationAPI,
+		ImportAPI:                  apiMocks.ImportAPI,
+		ExportAPI:                  apiMocks.ExportAPI,
+		MonitorAPI:                 apiMocks.MonitorAPI,
+		NodeAPI:                    apiMocks.NodeAPI,
+		ServiceTokenAPI:            apiMocks.ServiceTokenAPI,
+		ScriptingAPI:               apiMocks.ScriptingAPI,
+		TopologySynchronizationAPI: apiMocks.TopologySynchronizationAPI,
+		UserProfileAPI:             apiMocks.UserProfileAPI,
+		ServerAPI:                  apiMocks.ServerAPI,
+		StackpackAPI:               apiMocks.StackpackAPI,
+		SubscriptionAPI:            apiMocks.SubscriptionAPI,
+		PermissionsAPI:             apiMocks.PermissionsAPI,
+		SubjectAPI:                 apiMocks.SubjectAPI,
+		IngestionApiKeyAPI:         apiMocks.IngestionApiKeyAPI,
+		TopicAPI:                   apiMocks.TopicAPI,
 	}
 
 	adminApiClient := &stackstate_admin_api.APIClient{
-		RetentionApi: apiMocks.RetentionApi,
+		RetentionAPI: apiMocks.RetentionAPI,
 	}
 
 	// NOTE Used for min version checks.

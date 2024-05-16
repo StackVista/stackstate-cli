@@ -12,5 +12,5 @@ func RunMonitorStatusPatch(cli *di.Deps, api *sts.APIClient, status *sts.Monitor
 		Status: status,
 	}
 
-	return api.MonitorApi.PatchMonitor(cli.Context, identifier).MonitorPatch(monitorPatch).Execute()
+	return api.MonitorAPI.PatchMonitor(cli.Context, identifier).MonitorPatch(monitorPatch).Execute()
 }

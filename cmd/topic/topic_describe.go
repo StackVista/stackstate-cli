@@ -30,7 +30,7 @@ const (
 
 type DescribeArgs struct {
 	Name      string
-	Offset    int32
+	Offset    int64
 	Limit     int32
 	Partition int32
 	File      string
@@ -48,7 +48,7 @@ func DescribeCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Name, Name, "", NameUsage)
 	cmd.MarkFlagRequired(Name) //nolint:errcheck
 
-	cmd.Flags().Int32Var(&args.Offset, Offset, -1, OffsetUsage)
+	cmd.Flags().Int64Var(&args.Offset, Offset, -1, OffsetUsage)
 	cmd.Flags().Int32Var(&args.Limit, Limit, DefaultLimit, LimitUsage)
 	cmd.Flags().Int32Var(&args.Partition, Partition, -1, PartitionUsage)
 	common.AddFileFlagVar(cmd, &args.File, FileUsage)
@@ -57,6 +57,9 @@ func DescribeCommand(deps *di.Deps) *cobra.Command {
 }
 
 func argValueError(name string, value int32) common.CLIError {
+	return common.NewCLIArgParseError(fmt.Errorf("invalid value for argument '%s' specified: %d", name, value))
+}
+func arg64ValueError(name string, value int64) common.CLIError {
 	return common.NewCLIArgParseError(fmt.Errorf("invalid value for argument '%s' specified: %d", name, value))
 }
 
@@ -82,13 +85,13 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		if args.Offset < -1 {
-			return argValueError(Offset, args.Offset)
+			return arg64ValueError(Offset, args.Offset)
 		}
 		if args.Limit < 1 {
 			return argValueError(Limit, args.Limit)
 		}
 
-		request := api.TopicApi.Describe(cli.Context, args.Name)
+		request := api.TopicAPI.Describe(cli.Context, args.Name)
 
 		if args.Partition != -1 {
 			request = request.Partition(args.Partition)

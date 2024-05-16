@@ -105,7 +105,7 @@ func setupHealthStatusCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := HealthStatusCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationStreamTopologyMatchesResponse.Result = stackstate_api.TopologyMatchResult{
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.GetHealthSynchronizationStreamTopologyMatchesResponse.Result = stackstate_api.TopologyMatchResult{
 		MultipleMatchesCheckStates: []stackstate_api.MultipleMatchesCheckState{{
 			CheckStateId:              "1",
 			TopologyElementIdentifier: "id",
@@ -113,7 +113,7 @@ func setupHealthStatusCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 		}},
 	}
 
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationSubStreamStatusResponse.Result = stackstate_api.HealthSubStreamStatus{
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamStatusResponse.Result = stackstate_api.HealthSubStreamStatus{
 		CheckStateCount: 12,
 		SubStreamState: stackstate_api.HealthSubStreamConsistencyState{
 			HealthSubStreamExpiry: &stackstate_api.HealthSubStreamExpiry{
@@ -125,7 +125,7 @@ func setupHealthStatusCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 		Metrics: SomeMetrics,
 	}
 
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationStreamStatusResponse.Result = stackstate_api.HealthStreamStatus{
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.GetHealthSynchronizationStreamStatusResponse.Result = stackstate_api.HealthStreamStatus{
 		RecoverMessage:   &recoveryMessage,
 		ConsistencyModel: "stream consistency model",
 		GlobalErrors:     SomeErrors,

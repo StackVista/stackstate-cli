@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type ProblemApi interface {
+type ProblemAPI interface {
 
 	/*
 		GetProblemCausingEvents List possible events which led to the problem
@@ -38,18 +38,18 @@ type ProblemApi interface {
 	GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error)
 }
 
-// ProblemApiService ProblemApi service
-type ProblemApiService service
+// ProblemAPIService ProblemAPI service
+type ProblemAPIService service
 
 type ApiGetProblemCausingEventsRequest struct {
 	ctx          context.Context
-	ApiService   ProblemApi
+	ApiService   ProblemAPI
 	problemId    int64
 	topologyTime *int32
 	limit        *int32
 }
 
-// A timestamp at which resources will be queried. If not given the resources are queried for current time.
+// A timestamp at which resources will be queried. If not given the resources are queried at current time.
 func (r ApiGetProblemCausingEventsRequest) TopologyTime(topologyTime int32) ApiGetProblemCausingEventsRequest {
 	r.topologyTime = &topologyTime
 	return r
@@ -70,11 +70,11 @@ GetProblemCausingEvents List possible events which led to the problem
 
 Resulting events are ordered by likeness to be an actual problem cause
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param problemId The problem id number.
- @return ApiGetProblemCausingEventsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param problemId The problem id number.
+	@return ApiGetProblemCausingEventsRequest
 */
-func (a *ProblemApiService) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
+func (a *ProblemAPIService) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
 	return ApiGetProblemCausingEventsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -83,8 +83,9 @@ func (a *ProblemApiService) GetProblemCausingEvents(ctx context.Context, problem
 }
 
 // Execute executes the request
-//  @return GetCausingEventsResult
-func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
+//
+//	@return GetCausingEventsResult
+func (a *ProblemAPIService) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -92,7 +93,7 @@ func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausin
 		localVarReturnValue *GetCausingEventsResult
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemApiService.GetProblemCausingEvents")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ProblemAPIService.GetProblemCausingEvents")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -130,6 +131,20 @@ func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausin
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -152,20 +167,6 @@ func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausin
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -249,14 +250,14 @@ func (a *ProblemApiService) GetProblemCausingEventsExecute(r ApiGetProblemCausin
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type ProblemApiMock struct {
+type ProblemAPIMock struct {
 	GetProblemCausingEventsCalls    *[]GetProblemCausingEventsCall
 	GetProblemCausingEventsResponse GetProblemCausingEventsMockResponse
 }
 
-func NewProblemApiMock() ProblemApiMock {
+func NewProblemAPIMock() ProblemAPIMock {
 	xGetProblemCausingEventsCalls := make([]GetProblemCausingEventsCall, 0)
-	return ProblemApiMock{
+	return ProblemAPIMock{
 		GetProblemCausingEventsCalls: &xGetProblemCausingEventsCalls,
 	}
 }
@@ -273,7 +274,7 @@ type GetProblemCausingEventsCall struct {
 	Plimit        *int32
 }
 
-func (mock ProblemApiMock) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
+func (mock ProblemAPIMock) GetProblemCausingEvents(ctx context.Context, problemId int64) ApiGetProblemCausingEventsRequest {
 	return ApiGetProblemCausingEventsRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -281,7 +282,7 @@ func (mock ProblemApiMock) GetProblemCausingEvents(ctx context.Context, problemI
 	}
 }
 
-func (mock ProblemApiMock) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
+func (mock ProblemAPIMock) GetProblemCausingEventsExecute(r ApiGetProblemCausingEventsRequest) (*GetCausingEventsResult, *http.Response, error) {
 	p := GetProblemCausingEventsCall{
 		PproblemId:    r.problemId,
 		PtopologyTime: r.topologyTime,

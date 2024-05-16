@@ -31,13 +31,13 @@ var (
 func TestTopologyDescribeJsonId(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamByIdResponse.Result = *SomeTopoDetails
+	cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamByIdResponse.Result = *SomeTopoDetails
 
 	id := fmt.Sprintf("%d", SomeTopoDetails.Item.NodeId)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", id, "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamByIdCalls
+	calls := *cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamByIdCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, id, *calls[0].Pidentifier)
 	assert.Equal(t, NodeIdType, *calls[0].PidentifierType)
@@ -54,13 +54,13 @@ func TestTopologyDescribeJsonId(t *testing.T) {
 func TestTopologyDescribeJsonIdentifier(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamByIdResponse.Result = *SomeTopoDetails
+	cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamByIdResponse.Result = *SomeTopoDetails
 
 	identifier := "urn:stackstate:some:id"
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", identifier, "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamByIdCalls
+	calls := *cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamByIdCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, identifier, *calls[0].Pidentifier)
 	assert.Equal(t, IdentifierType, *calls[0].PidentifierType)
@@ -77,7 +77,7 @@ func TestTopologyDescribeJsonIdentifier(t *testing.T) {
 func TestTopologySyncDescribeErrors(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribeCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.TopologySynchronizationApi.GetTopologySynchronizationStreamByIdResponse.Result = *SomeTopoDetails
+	cli.MockClient.ApiMocks.TopologySynchronizationAPI.GetTopologySynchronizationStreamByIdResponse.Result = *SomeTopoDetails
 
 	id := SomeTopoDetails.Item.NodeId
 

@@ -23,7 +23,7 @@ func ListCommand(deps *di.Deps) *cobra.Command {
 }
 
 func RunIngestionApiKeyListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	ingestionApiKeys, resp, err := api.IngestionApiKeyApi.GetIngestionApiKeys(cli.Context).Execute()
+	ingestionApiKeys, resp, err := api.IngestionApiKeyAPI.GetIngestionApiKeys(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

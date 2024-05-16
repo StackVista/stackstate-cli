@@ -35,7 +35,7 @@ func RunStackpackConfirmManualStepsCommand(args *ManualStepsArgs) di.CmdWithApiF
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		_, resp, err := api.StackpackApi.ConfirmManualSteps(cli.Context, args.TypeName, args.ID).Execute()
+		_, resp, err := api.StackpackAPI.ConfirmManualSteps(cli.Context, args.TypeName, args.ID).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

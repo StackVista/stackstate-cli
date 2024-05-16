@@ -23,8 +23,8 @@ func TestDelete(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.IngestionApiKeyApi.DeleteIngestionApiKeyCalls, 1)
-	assert.Equal(t, int64(1), (*cli.MockClient.ApiMocks.IngestionApiKeyApi.DeleteIngestionApiKeyCalls)[0].PingestionApiKeyId)
+	assert.Len(t, *cli.MockClient.ApiMocks.IngestionApiKeyAPI.DeleteIngestionApiKeyCalls, 1)
+	assert.Equal(t, int64(1), (*cli.MockClient.ApiMocks.IngestionApiKeyAPI.DeleteIngestionApiKeyCalls)[0].PingestionApiKeyId)
 
 	assert.Equal(t, []string{"Ingestion Api Key deleted: 1"}, *cli.MockPrinter.SuccessCalls)
 }

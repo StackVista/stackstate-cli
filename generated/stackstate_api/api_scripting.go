@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type ScriptingApi interface {
+type ScriptingAPI interface {
 
 	/*
 		ScriptExecute Execute script
@@ -36,12 +36,12 @@ type ScriptingApi interface {
 	ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error)
 }
 
-// ScriptingApiService ScriptingApi service
-type ScriptingApiService service
+// ScriptingAPIService ScriptingAPI service
+type ScriptingAPIService service
 
 type ApiScriptExecuteRequest struct {
 	ctx                  context.Context
-	ApiService           ScriptingApi
+	ApiService           ScriptingAPI
 	executeScriptRequest *ExecuteScriptRequest
 }
 
@@ -59,10 +59,10 @@ ScriptExecute Execute script
 
 Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiScriptExecuteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiScriptExecuteRequest
 */
-func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
+func (a *ScriptingAPIService) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -70,8 +70,9 @@ func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecut
 }
 
 // Execute executes the request
-//  @return ExecuteScriptResponse
-func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
+//
+//	@return ExecuteScriptResponse
+func (a *ScriptingAPIService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -79,7 +80,7 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 		localVarReturnValue *ExecuteScriptResponse
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ScriptingApiService.ScriptExecute")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ScriptingAPIService.ScriptExecute")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -115,6 +116,20 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -137,20 +152,6 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -224,14 +225,14 @@ func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type ScriptingApiMock struct {
+type ScriptingAPIMock struct {
 	ScriptExecuteCalls    *[]ScriptExecuteCall
 	ScriptExecuteResponse ScriptExecuteMockResponse
 }
 
-func NewScriptingApiMock() ScriptingApiMock {
+func NewScriptingAPIMock() ScriptingAPIMock {
 	xScriptExecuteCalls := make([]ScriptExecuteCall, 0)
-	return ScriptingApiMock{
+	return ScriptingAPIMock{
 		ScriptExecuteCalls: &xScriptExecuteCalls,
 	}
 }
@@ -246,14 +247,14 @@ type ScriptExecuteCall struct {
 	PexecuteScriptRequest *ExecuteScriptRequest
 }
 
-func (mock ScriptingApiMock) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
+func (mock ScriptingAPIMock) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock ScriptingApiMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
+func (mock ScriptingAPIMock) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
 	p := ScriptExecuteCall{
 		PexecuteScriptRequest: r.executeScriptRequest,
 	}

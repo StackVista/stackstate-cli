@@ -44,7 +44,7 @@ var (
 func setupSettingsListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := SettingsListCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.NodeApi.TypeListResponse.Result = nodeApiResult
+	cli.MockClient.ApiMocks.NodeAPI.TypeListResponse.Result = nodeApiResult
 	return &cli, cmd
 }
 

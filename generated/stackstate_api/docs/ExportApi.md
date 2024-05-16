@@ -1,10 +1,10 @@
-# \ExportApi
+# \ExportAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**ExportSettings**](ExportApi.md#ExportSettings) | **Post** /export | Export settings
+[**ExportSettings**](ExportAPI.md#ExportSettings) | **Post** /export | Export settings
 
 
 
@@ -33,13 +33,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ExportApi.ExportSettings(context.Background()).Export(export).Execute()
+    resp, r, err := apiClient.ExportAPI.ExportSettings(context.Background()).Export(export).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ExportApi.ExportSettings``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ExportAPI.ExportSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `ExportSettings`: string
-    fmt.Fprintf(os.Stdout, "Response from `ExportApi.ExportSettings`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ExportAPI.ExportSettings`: %v\n", resp)
 }
 ```
 
@@ -62,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

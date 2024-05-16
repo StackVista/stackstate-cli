@@ -61,7 +61,7 @@ func RunStackpackListInstanceCommand(args *ListPropertiesArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
+		stackPackList, resp, err := api.StackpackAPI.StackPackList(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

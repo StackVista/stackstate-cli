@@ -61,7 +61,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 		monitorName := ""
 
 		if len(args.Identifier) > 0 {
-			monitor, resp, err := api.MonitorApi.GetMonitor(cli.Context, args.Identifier).Execute()
+			monitor, resp, err := api.MonitorAPI.GetMonitor(cli.Context, args.Identifier).Execute()
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}
@@ -70,7 +70,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 		}
 
 		// test whether the node is locked to lead the user to a different flow
-		locked, isLockedResponse, isLockedErr := api.NodeApi.Lock(cli.Context, "Monitor", args.ID).Execute()
+		locked, isLockedResponse, isLockedErr := api.NodeAPI.Lock(cli.Context, "Monitor", args.ID).Execute()
 		if isLockedErr != nil {
 			return common.NewResponseError(isLockedErr, isLockedResponse)
 		}
@@ -89,7 +89,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 			export := stackstate_api.NewExport()
 			export.NodesWithIds = []int64{id}
 
-			orig, resp, err := api.ExportApi.ExportSettings(cli.Context).Export(*export).Execute()
+			orig, resp, err := api.ExportAPI.ExportSettings(cli.Context).Export(*export).Execute()
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}
@@ -116,7 +116,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 				}
 			}
 
-			nodes, resp, err := api.ImportApi.ImportSettings(cli.Context).Body(string(c)).Execute()
+			nodes, resp, err := api.ImportAPI.ImportSettings(cli.Context).Body(string(c)).Execute()
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}

@@ -33,13 +33,13 @@ func RunHealthListCommand(args *ListArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		if args.Urn != "" {
-			subList, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverview(cli.Context, args.Urn).Execute()
+			subList, resp, err := api.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamOverview(cli.Context, args.Urn).Execute()
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}
 			printSubStreamList(cli, subList)
 		} else {
-			streamList, resp, err := api.HealthSynchronizationApi.GetHealthSynchronizationStreamsOverview(cli.Context).Execute()
+			streamList, resp, err := api.HealthSynchronizationAPI.GetHealthSynchronizationStreamsOverview(cli.Context).Execute()
 			if err != nil {
 				return common.NewResponseError(err, resp)
 			}

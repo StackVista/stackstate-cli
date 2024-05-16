@@ -11,7 +11,7 @@ import (
 func setupStackpackUninstallFn(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackUninstallCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.ProvisionUninstallResponse.Result = "Successfully uninstalled StackPack: name=zabbix id=39206337488300"
+	cli.MockClient.ApiMocks.StackpackAPI.ProvisionUninstallResponse.Result = "Successfully uninstalled StackPack: name=zabbix id=39206337488300"
 	return &cli, cmd
 }
 

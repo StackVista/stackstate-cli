@@ -1,78 +1,13 @@
-# \IngestionApiKeyApi
+# \IngestionApiKeyAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**AuthorizeIngestionApiKey**](IngestionApiKeyApi.md#AuthorizeIngestionApiKey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
-[**DeleteIngestionApiKey**](IngestionApiKeyApi.md#DeleteIngestionApiKey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
-[**GenerateIngestionApiKey**](IngestionApiKeyApi.md#GenerateIngestionApiKey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
-[**GetIngestionApiKeys**](IngestionApiKeyApi.md#GetIngestionApiKeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
+[**DeleteIngestionApiKey**](IngestionApiKeyAPI.md#DeleteIngestionApiKey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
+[**GenerateIngestionApiKey**](IngestionApiKeyAPI.md#GenerateIngestionApiKey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
+[**GetIngestionApiKeys**](IngestionApiKeyAPI.md#GetIngestionApiKeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
 
-
-
-## AuthorizeIngestionApiKey
-
-> AuthorizeIngestionApiKey(ctx).AuthorizeIngestionApiKeyRequest(authorizeIngestionApiKeyRequest).Execute()
-
-Check authorization for an Ingestion Api Key
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    authorizeIngestionApiKeyRequest := *openapiclient.NewAuthorizeIngestionApiKeyRequest("ApiKey_example") // AuthorizeIngestionApiKeyRequest | 
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.IngestionApiKeyApi.AuthorizeIngestionApiKey(context.Background()).AuthorizeIngestionApiKeyRequest(authorizeIngestionApiKeyRequest).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyApi.AuthorizeIngestionApiKey``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-}
-```
-
-### Path Parameters
-
-
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiAuthorizeIngestionApiKeyRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **authorizeIngestionApiKeyRequest** | [**AuthorizeIngestionApiKeyRequest**](AuthorizeIngestionApiKeyRequest.md) |  | 
-
-### Return type
-
- (empty response body)
-
-### Authorization
-
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
-
-### HTTP request headers
-
-- **Content-Type**: application/json
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
 
 
 ## DeleteIngestionApiKey
@@ -100,9 +35,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.IngestionApiKeyApi.DeleteIngestionApiKey(context.Background(), ingestionApiKeyId).Execute()
+    resp, r, err := apiClient.IngestionApiKeyAPI.DeleteIngestionApiKey(context.Background(), ingestionApiKeyId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyApi.DeleteIngestionApiKey``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyAPI.DeleteIngestionApiKey``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -131,7 +66,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -168,13 +103,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.IngestionApiKeyApi.GenerateIngestionApiKey(context.Background()).GenerateIngestionApiKeyRequest(generateIngestionApiKeyRequest).Execute()
+    resp, r, err := apiClient.IngestionApiKeyAPI.GenerateIngestionApiKey(context.Background()).GenerateIngestionApiKeyRequest(generateIngestionApiKeyRequest).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyApi.GenerateIngestionApiKey``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyAPI.GenerateIngestionApiKey``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GenerateIngestionApiKey`: GeneratedIngestionApiKeyResponse
-    fmt.Fprintf(os.Stdout, "Response from `IngestionApiKeyApi.GenerateIngestionApiKey`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `IngestionApiKeyAPI.GenerateIngestionApiKey`: %v\n", resp)
 }
 ```
 
@@ -197,7 +132,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -233,13 +168,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.IngestionApiKeyApi.GetIngestionApiKeys(context.Background()).Execute()
+    resp, r, err := apiClient.IngestionApiKeyAPI.GetIngestionApiKeys(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyApi.GetIngestionApiKeys``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `IngestionApiKeyAPI.GetIngestionApiKeys``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetIngestionApiKeys`: []IngestionApiKey
-    fmt.Fprintf(os.Stdout, "Response from `IngestionApiKeyApi.GetIngestionApiKeys`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `IngestionApiKeyAPI.GetIngestionApiKeys`: %v\n", resp)
 }
 ```
 
@@ -258,7 +193,7 @@ Other parameters are passed through a pointer to a apiGetIngestionApiKeysRequest
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

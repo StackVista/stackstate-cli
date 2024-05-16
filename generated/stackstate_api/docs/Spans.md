@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Spans** | [**[]Span**](Span.md) | List of spans | 
+**Spans** | [**[]SpanSummary**](SpanSummary.md) | List of spans | 
 **PageSize** | **int32** | Maximum number of the spans in the result. | 
 **Page** | **int32** | The requested page. | 
 **MatchesTotal** | **int64** | The total number of matching spans. | 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewSpans
 
-`func NewSpans(spans []Span, pageSize int32, page int32, matchesTotal int64, ) *Spans`
+`func NewSpans(spans []SpanSummary, pageSize int32, page int32, matchesTotal int64, ) *Spans`
 
 NewSpans instantiates a new Spans object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetSpans
 
-`func (o *Spans) GetSpans() []Span`
+`func (o *Spans) GetSpans() []SpanSummary`
 
 GetSpans returns the Spans field if non-nil, zero value otherwise.
 
 ### GetSpansOk
 
-`func (o *Spans) GetSpansOk() (*[]Span, bool)`
+`func (o *Spans) GetSpansOk() (*[]SpanSummary, bool)`
 
 GetSpansOk returns a tuple with the Spans field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetSpans
 
-`func (o *Spans) SetSpans(v []Span)`
+`func (o *Spans) SetSpans(v []SpanSummary)`
 
 SetSpans sets Spans field to given value.
 

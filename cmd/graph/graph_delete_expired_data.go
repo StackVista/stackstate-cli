@@ -44,7 +44,7 @@ func RunDeleteExpiredDataCommand(args *DeleteExpiredDataArgs) di.CmdWithAdminApi
 		cli *di.Deps,
 		api *stackstate_admin_api.APIClient,
 	) common.CLIError {
-		progress, resp, err := api.RetentionApi.RemoveExpiredData(cli.Context).
+		progress, resp, err := api.RetentionAPI.RemoveExpiredData(cli.Context).
 			ExpireImmediatelyAndRestart(args.Immediate).
 			Execute()
 		if err != nil {

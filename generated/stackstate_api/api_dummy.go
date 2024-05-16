@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type DummyApi interface {
+type DummyAPI interface {
 
 	/*
 		Dummy Dummy path to fix omission in openapi generation when a type is not included.
@@ -35,12 +35,12 @@ type DummyApi interface {
 	DummyExecute(r ApiDummyRequest) (*http.Response, error)
 }
 
-// DummyApiService DummyApi service
-type DummyApiService service
+// DummyAPIService DummyAPI service
+type DummyAPIService service
 
 type ApiDummyRequest struct {
 	ctx        context.Context
-	ApiService DummyApi
+	ApiService DummyAPI
 }
 
 func (r ApiDummyRequest) Execute() (*http.Response, error) {
@@ -50,12 +50,10 @@ func (r ApiDummyRequest) Execute() (*http.Response, error) {
 /*
 Dummy Dummy path to fix omission in openapi generation when a type is not included.
 
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDummyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDummyRequest
 */
-func (a *DummyApiService) Dummy(ctx context.Context) ApiDummyRequest {
+func (a *DummyAPIService) Dummy(ctx context.Context) ApiDummyRequest {
 	return ApiDummyRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -63,14 +61,14 @@ func (a *DummyApiService) Dummy(ctx context.Context) ApiDummyRequest {
 }
 
 // Execute executes the request
-func (a *DummyApiService) DummyExecute(r ApiDummyRequest) (*http.Response, error) {
+func (a *DummyAPIService) DummyExecute(r ApiDummyRequest) (*http.Response, error) {
 	var (
 		localVarHTTPMethod = http.MethodGet
 		localVarPostBody   interface{}
 		formFiles          []formFile
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DummyApiService.Dummy")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "DummyAPIService.Dummy")
 	if err != nil {
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -101,6 +99,20 @@ func (a *DummyApiService) DummyExecute(r ApiDummyRequest) (*http.Response, error
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -123,20 +135,6 @@ func (a *DummyApiService) DummyExecute(r ApiDummyRequest) (*http.Response, error
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -181,14 +179,14 @@ func (a *DummyApiService) DummyExecute(r ApiDummyRequest) (*http.Response, error
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type DummyApiMock struct {
+type DummyAPIMock struct {
 	DummyCalls    *[]DummyCall
 	DummyResponse DummyMockResponse
 }
 
-func NewDummyApiMock() DummyApiMock {
+func NewDummyAPIMock() DummyAPIMock {
 	xDummyCalls := make([]DummyCall, 0)
-	return DummyApiMock{
+	return DummyAPIMock{
 		DummyCalls: &xDummyCalls,
 	}
 }
@@ -201,14 +199,14 @@ type DummyMockResponse struct {
 type DummyCall struct {
 }
 
-func (mock DummyApiMock) Dummy(ctx context.Context) ApiDummyRequest {
+func (mock DummyAPIMock) Dummy(ctx context.Context) ApiDummyRequest {
 	return ApiDummyRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock DummyApiMock) DummyExecute(r ApiDummyRequest) (*http.Response, error) {
+func (mock DummyAPIMock) DummyExecute(r ApiDummyRequest) (*http.Response, error) {
 	p := DummyCall{}
 	*mock.DummyCalls = append(*mock.DummyCalls, p)
 	return mock.DummyResponse.Response, mock.DummyResponse.Error

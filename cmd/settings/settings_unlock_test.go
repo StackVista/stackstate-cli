@@ -13,7 +13,7 @@ func TestSettingsUnlock(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--ids", "1,2,3")
 
-	calls := *cli.MockClient.ApiMocks.NodeApi.UnlockCalls
+	calls := *cli.MockClient.ApiMocks.NodeAPI.UnlockCalls
 	assert.Len(t, calls, 3)
 	assert.Equal(t, int64(1), calls[0].PnodeId)
 	assert.Equal(t, int64(2), calls[1].PnodeId)
@@ -31,7 +31,7 @@ func TestSettingsUnlockJustOne(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--ids", "23")
 
-	calls := *cli.MockClient.ApiMocks.NodeApi.UnlockCalls
+	calls := *cli.MockClient.ApiMocks.NodeAPI.UnlockCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, int64(23), calls[0].PnodeId)
 

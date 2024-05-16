@@ -76,7 +76,7 @@ func setMonitorListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestMonitorListPrintToTable(t *testing.T) {
 	cli, cmd := setMonitorListCmd(t)
-	cli.MockClient.ApiMocks.MonitorApi.GetAllMonitorsResponse.Result = monitorList
+	cli.MockClient.ApiMocks.MonitorAPI.GetAllMonitorsResponse.Result = monitorList
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
@@ -94,7 +94,7 @@ func TestMonitorListPrintToTable(t *testing.T) {
 
 func TestMonitorListPrintToJson(t *testing.T) {
 	cli, cmd := setMonitorListCmd(t)
-	cli.MockClient.ApiMocks.MonitorApi.GetAllMonitorsResponse.Result = monitorList
+	cli.MockClient.ApiMocks.MonitorAPI.GetAllMonitorsResponse.Result = monitorList
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 

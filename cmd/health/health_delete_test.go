@@ -12,7 +12,7 @@ import (
 func setupHealthDeleteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := HealthDeleteCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.DeleteHealthSynchronizationStreamResponse.Response = &http.Response{}
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.DeleteHealthSynchronizationStreamResponse.Response = &http.Response{}
 
 	return &cli, cmd
 }

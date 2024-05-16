@@ -15,33 +15,33 @@ import (
 	"encoding/json"
 )
 
-// MonitorApiErrorAllOf struct for MonitorApiErrorAllOf
-type MonitorApiErrorAllOf struct {
+// LayoutApiError struct for LayoutApiError
+type LayoutApiError struct {
 	StatusCode string `json:"statusCode"`
 	Message    string `json:"message"`
 }
 
-// NewMonitorApiErrorAllOf instantiates a new MonitorApiErrorAllOf object
+// NewLayoutApiError instantiates a new LayoutApiError object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorApiErrorAllOf(statusCode string, message string) *MonitorApiErrorAllOf {
-	this := MonitorApiErrorAllOf{}
+func NewLayoutApiError(statusCode string, message string) *LayoutApiError {
+	this := LayoutApiError{}
 	this.StatusCode = statusCode
 	this.Message = message
 	return &this
 }
 
-// NewMonitorApiErrorAllOfWithDefaults instantiates a new MonitorApiErrorAllOf object
+// NewLayoutApiErrorWithDefaults instantiates a new LayoutApiError object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewMonitorApiErrorAllOfWithDefaults() *MonitorApiErrorAllOf {
-	this := MonitorApiErrorAllOf{}
+func NewLayoutApiErrorWithDefaults() *LayoutApiError {
+	this := LayoutApiError{}
 	return &this
 }
 
 // GetStatusCode returns the StatusCode field value
-func (o *MonitorApiErrorAllOf) GetStatusCode() string {
+func (o *LayoutApiError) GetStatusCode() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -52,7 +52,7 @@ func (o *MonitorApiErrorAllOf) GetStatusCode() string {
 
 // GetStatusCodeOk returns a tuple with the StatusCode field value
 // and a boolean to check if the value has been set.
-func (o *MonitorApiErrorAllOf) GetStatusCodeOk() (*string, bool) {
+func (o *LayoutApiError) GetStatusCodeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,12 +60,12 @@ func (o *MonitorApiErrorAllOf) GetStatusCodeOk() (*string, bool) {
 }
 
 // SetStatusCode sets field value
-func (o *MonitorApiErrorAllOf) SetStatusCode(v string) {
+func (o *LayoutApiError) SetStatusCode(v string) {
 	o.StatusCode = v
 }
 
 // GetMessage returns the Message field value
-func (o *MonitorApiErrorAllOf) GetMessage() string {
+func (o *LayoutApiError) GetMessage() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -76,7 +76,7 @@ func (o *MonitorApiErrorAllOf) GetMessage() string {
 
 // GetMessageOk returns a tuple with the Message field value
 // and a boolean to check if the value has been set.
-func (o *MonitorApiErrorAllOf) GetMessageOk() (*string, bool) {
+func (o *LayoutApiError) GetMessageOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -84,11 +84,11 @@ func (o *MonitorApiErrorAllOf) GetMessageOk() (*string, bool) {
 }
 
 // SetMessage sets field value
-func (o *MonitorApiErrorAllOf) SetMessage(v string) {
+func (o *LayoutApiError) SetMessage(v string) {
 	o.Message = v
 }
 
-func (o MonitorApiErrorAllOf) MarshalJSON() ([]byte, error) {
+func (o LayoutApiError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["statusCode"] = o.StatusCode
@@ -99,38 +99,38 @@ func (o MonitorApiErrorAllOf) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableMonitorApiErrorAllOf struct {
-	value *MonitorApiErrorAllOf
+type NullableLayoutApiError struct {
+	value *LayoutApiError
 	isSet bool
 }
 
-func (v NullableMonitorApiErrorAllOf) Get() *MonitorApiErrorAllOf {
+func (v NullableLayoutApiError) Get() *LayoutApiError {
 	return v.value
 }
 
-func (v *NullableMonitorApiErrorAllOf) Set(val *MonitorApiErrorAllOf) {
+func (v *NullableLayoutApiError) Set(val *LayoutApiError) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableMonitorApiErrorAllOf) IsSet() bool {
+func (v NullableLayoutApiError) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableMonitorApiErrorAllOf) Unset() {
+func (v *NullableLayoutApiError) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableMonitorApiErrorAllOf(val *MonitorApiErrorAllOf) *NullableMonitorApiErrorAllOf {
-	return &NullableMonitorApiErrorAllOf{value: val, isSet: true}
+func NewNullableLayoutApiError(val *LayoutApiError) *NullableLayoutApiError {
+	return &NullableLayoutApiError{value: val, isSet: true}
 }
 
-func (v NullableMonitorApiErrorAllOf) MarshalJSON() ([]byte, error) {
+func (v NullableLayoutApiError) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableMonitorApiErrorAllOf) UnmarshalJSON(src []byte) error {
+func (v *NullableLayoutApiError) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -1,11 +1,11 @@
-# \UserProfileApi
+# \UserProfileAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetCurrentUserProfile**](UserProfileApi.md#GetCurrentUserProfile) | **Get** /user/profile | Get current user profile
-[**SaveCurrentUserProfile**](UserProfileApi.md#SaveCurrentUserProfile) | **Put** /user/profile | Save current user profile
+[**GetCurrentUserProfile**](UserProfileAPI.md#GetCurrentUserProfile) | **Get** /user/profile | Get current user profile
+[**SaveCurrentUserProfile**](UserProfileAPI.md#SaveCurrentUserProfile) | **Put** /user/profile | Save current user profile
 
 
 
@@ -33,13 +33,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserProfileApi.GetCurrentUserProfile(context.Background()).Execute()
+    resp, r, err := apiClient.UserProfileAPI.GetCurrentUserProfile(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserProfileApi.GetCurrentUserProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserProfileAPI.GetCurrentUserProfile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetCurrentUserProfile`: UserProfile
-    fmt.Fprintf(os.Stdout, "Response from `UserProfileApi.GetCurrentUserProfile`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserProfileAPI.GetCurrentUserProfile`: %v\n", resp)
 }
 ```
 
@@ -58,7 +58,7 @@ Other parameters are passed through a pointer to a apiGetCurrentUserProfileReque
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -95,13 +95,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserProfileApi.SaveCurrentUserProfile(context.Background()).UserProfile(userProfile).Execute()
+    resp, r, err := apiClient.UserProfileAPI.SaveCurrentUserProfile(context.Background()).UserProfile(userProfile).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `UserProfileApi.SaveCurrentUserProfile``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `UserProfileAPI.SaveCurrentUserProfile``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `SaveCurrentUserProfile`: UserProfile
-    fmt.Fprintf(os.Stdout, "Response from `UserProfileApi.SaveCurrentUserProfile`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `UserProfileAPI.SaveCurrentUserProfile`: %v\n", resp)
 }
 ```
 
@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

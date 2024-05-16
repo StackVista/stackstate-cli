@@ -79,10 +79,10 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*RetentionApi* | [**GetRetentionEpoch**](docs/RetentionApi.md#getretentionepoch) | **Get** /retention/currentEpoch | Get retention epoch
-*RetentionApi* | [**GetRetentionWindow**](docs/RetentionApi.md#getretentionwindow) | **Get** /retention/window | Get retention window
-*RetentionApi* | [**RemoveExpiredData**](docs/RetentionApi.md#removeexpireddata) | **Post** /retention/removeExpiredData | Remove expired data from StackGraph
-*RetentionApi* | [**SetRetentionWindow**](docs/RetentionApi.md#setretentionwindow) | **Post** /retention/window | Set retention window
+*RetentionAPI* | [**GetRetentionEpoch**](docs/RetentionAPI.md#getretentionepoch) | **Get** /retention/currentEpoch | Get retention epoch
+*RetentionAPI* | [**GetRetentionWindow**](docs/RetentionAPI.md#getretentionwindow) | **Get** /retention/window | Get retention window
+*RetentionAPI* | [**RemoveExpiredData**](docs/RetentionAPI.md#removeexpireddata) | **Post** /retention/removeExpiredData | Remove expired data from StackGraph
+*RetentionAPI* | [**SetRetentionWindow**](docs/RetentionAPI.md#setretentionwindow) | **Post** /retention/window | Set retention window
 
 
 ## Documentation For Models
@@ -108,15 +108,6 @@ Class | Method | HTTP request | Description
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Token and passed in as the auth context for each request.
 
 
-### ServiceBearer
-
-- **Type**: API key
-- **API key parameter name**: X-API-ServiceBearer
-- **Location**: HTTP header
-
-Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-ServiceBearer and passed in as the auth context for each request.
-
-
 ### ServiceToken
 
 - **Type**: API key
@@ -124,6 +115,15 @@ Note, each API key must be added to a map of `map[string]APIKey` where the key i
 - **Location**: HTTP header
 
 Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-Key and passed in as the auth context for each request.
+
+
+### ServiceBearer
+
+- **Type**: API key
+- **API key parameter name**: X-API-ServiceBearer
+- **Location**: HTTP header
+
+Note, each API key must be added to a map of `map[string]APIKey` where the key is: X-API-ServiceBearer and passed in as the auth context for each request.
 
 
 ## Documentation for Utility Methods

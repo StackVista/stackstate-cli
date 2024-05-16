@@ -50,13 +50,13 @@ func TestPermissionsDescribeJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "-o", "json")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls, 1)
 
-	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	calls := *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
 
 	expected := []map[string]interface{}{
@@ -69,11 +69,11 @@ func TestPermissionsDescribeTable(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle)
 
-	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls, 1)
 
 	expected := []printer.TableData{
 		ExpectedTable,
@@ -86,11 +86,11 @@ func TestPermissionsDescribeFilterResource(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource1)
 
-	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	calls := *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
 	assert.Nil(t, calls[0].Ppermission)
@@ -101,11 +101,11 @@ func TestPermissionsDescribeFilterPermission(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", "foo")
 
-	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	calls := *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
 	assert.Equal(t, "foo", *calls[0].Ppermission)
@@ -116,11 +116,11 @@ func TestPermissionsDescribeFilterResourceAndPermission(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := DescribePermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource1, "--permission", "foo")
 
-	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	calls := *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
 	assert.Equal(t, "foo", *calls[0].Ppermission)

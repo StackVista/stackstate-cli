@@ -23,7 +23,7 @@ func ListCommand(cli *di.Deps) *cobra.Command {
 }
 
 func RunServiceTokenListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	serviceTokens, resp, err := api.ServiceTokenApi.GetServiceTokens(cli.Context).Execute()
+	serviceTokens, resp, err := api.ServiceTokenAPI.GetServiceTokens(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

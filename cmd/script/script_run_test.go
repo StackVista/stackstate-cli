@@ -22,7 +22,7 @@ func setupScriptExecuteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestExecuteSuccess(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd(t)
-	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
+	cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
 		Result: map[string]interface{}{"value": "hello test"},
 	}
 
@@ -32,14 +32,14 @@ func TestExecuteSuccess(t *testing.T) {
 		[]sts.ScriptExecuteCall{
 			{PexecuteScriptRequest: &sts.ExecuteScriptRequest{Script: "test script"}},
 		},
-		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
+		*cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteCalls,
 	)
 	assert.Equal(t, []interface{}{"hello test"}, *cli.MockPrinter.PrintStructCalls)
 }
 
 func TestExecuteSuccessJson(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd(t)
-	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
+	cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
 		Result: map[string]interface{}{"value": "hello test"},
 	}
 
@@ -77,7 +77,7 @@ func TestExecuteFromScript(t *testing.T) {
 		[]sts.ScriptExecuteCall{
 			{PexecuteScriptRequest: &sts.ExecuteScriptRequest{Script: "test content"}},
 		},
-		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
+		*cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteCalls,
 	)
 	assert.Equal(t, []string{"script executed (no response)"}, *cli.MockPrinter.SuccessCalls)
 }
@@ -86,8 +86,8 @@ func TestExecuteResponseError(t *testing.T) {
 	fakeError := fmt.Errorf("bla")
 	fakeErrorResp := &http.Response{StatusCode: 403}
 	cli, cmd := setupScriptExecuteCmd(t)
-	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Error = fakeError
-	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Response = fakeErrorResp
+	cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteResponse.Error = fakeError
+	cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteResponse.Response = fakeErrorResp
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--script", "test script")
 
@@ -95,7 +95,7 @@ func TestExecuteResponseError(t *testing.T) {
 		[]sts.ScriptExecuteCall{
 			{PexecuteScriptRequest: &sts.ExecuteScriptRequest{Script: "test script"}},
 		},
-		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
+		*cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteCalls,
 	)
 	assert.Equal(t, common.NewResponseError(fakeError, fakeErrorResp), err)
 }
@@ -106,7 +106,7 @@ func TestArgumentScriptFlag(t *testing.T) {
 
 	assert.Equal(t,
 		"argscript",
-		*(*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls)[0].PexecuteScriptRequest.ArgumentsScript,
+		*(*cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteCalls)[0].PexecuteScriptRequest.ArgumentsScript,
 	)
 }
 
@@ -116,7 +116,7 @@ func TestTimeoutFlag(t *testing.T) {
 
 	assert.Equal(t,
 		int32(10),
-		*(*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls)[0].PexecuteScriptRequest.TimeoutMs,
+		*(*cli.MockClient.ApiMocks.ScriptingAPI.ScriptExecuteCalls)[0].PexecuteScriptRequest.TimeoutMs,
 	)
 }
 

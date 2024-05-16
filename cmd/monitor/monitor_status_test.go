@@ -104,7 +104,7 @@ func setMonitorStatusCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestMonitorStatusPrintsToTable(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd(t)
-	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
+	cli.MockClient.ApiMocks.MonitorAPI.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
@@ -130,7 +130,7 @@ func TestMonitorStatusPrintsToTable(t *testing.T) {
 
 func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd(t)
-	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResultWithHealthCounts
+	cli.MockClient.ApiMocks.MonitorAPI.GetMonitorWithStatusResponse.Result = *monitorStatusResultWithHealthCounts
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
@@ -167,7 +167,7 @@ func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 
 func TestMonitorStatusForDisabled(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd(t)
-	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusEmpty
+	cli.MockClient.ApiMocks.MonitorAPI.GetMonitorWithStatusResponse.Result = *monitorStatusEmpty
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
@@ -180,7 +180,7 @@ func TestMonitorStatusForDisabled(t *testing.T) {
 
 func TestSettingsStatusPrintsToJson(t *testing.T) {
 	cli, cmd := setMonitorStatusCmd(t)
-	cli.MockClient.ApiMocks.MonitorApi.GetMonitorWithStatusResponse.Result = *monitorStatusResult
+	cli.MockClient.ApiMocks.MonitorAPI.GetMonitorWithStatusResponse.Result = *monitorStatusResult
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306", "-o", "json")
 

@@ -18,18 +18,18 @@ func TestGrantPermissions(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := GrantPermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "--permission", SomePermission)
 
-	grantCalls := *cli.MockClient.ApiMocks.PermissionsApi.GrantPermissionsCalls
+	grantCalls := *cli.MockClient.ApiMocks.PermissionsAPI.GrantPermissionsCalls
 	assert.Len(t, grantCalls, 1)
 	assert.Equal(t, SomeSubject, grantCalls[0].Psubject)
 
 	expectedGrant := stackstate_api.NewGrantPermission(SomePermission, "system")
 	assert.Equal(t, expectedGrant, grantCalls[0].PgrantPermission)
 
-	describeCalls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	describeCalls := *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, describeCalls, 1)
 	assert.Equal(t, SomeSubject, describeCalls[0].Psubject)
 	assert.Equal(t, expectedGrant.Permission, *describeCalls[0].Ppermission)
@@ -37,14 +37,14 @@ func TestGrantPermissions(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "--permission", SomePermission, "--resource", SomeResource)
 
-	grantCalls = *cli.MockClient.ApiMocks.PermissionsApi.GrantPermissionsCalls
+	grantCalls = *cli.MockClient.ApiMocks.PermissionsAPI.GrantPermissionsCalls
 	assert.Len(t, grantCalls, 2)
 	assert.Equal(t, SomeSubject, grantCalls[1].Psubject)
 
 	expectedGrant = stackstate_api.NewGrantPermission(SomePermission, SomeResource)
 	assert.Equal(t, expectedGrant, grantCalls[1].PgrantPermission)
 
-	describeCalls = *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
+	describeCalls = *cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsCalls
 	assert.Len(t, describeCalls, 2)
 	assert.Equal(t, SomeSubject, describeCalls[1].Psubject)
 	assert.Equal(t, expectedGrant.Permission, *describeCalls[1].Ppermission)
@@ -62,7 +62,7 @@ func TestGrantPermissionsJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := GrantPermissionsCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
+	cli.MockClient.ApiMocks.PermissionsAPI.DescribePermissionsResponse.Result = *Description
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", SomePermission, "-o", "json")
 

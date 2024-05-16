@@ -149,6 +149,21 @@ paths:
       tags:
       - retention
 components:
+  parameters:
+    scheduleRemoval:
+      description: "If set, makes StackState schedule removal of expired data according\
+        \ to the set retention window."
+      in: query
+      name: scheduleRemoval
+      schema:
+        type: boolean
+    immediately:
+      description: "If set, makes StackState remove expired data immediately and restart\
+        \ afterwards."
+      in: query
+      name: expireImmediatelyAndRestart
+      schema:
+        type: boolean
   responses:
     genericErrorsResponse:
       content:
@@ -168,6 +183,17 @@ components:
       - windowMs
       type: object
     GenericErrorsResponse:
+      example:
+        trackingKey: trackingKey
+        serverTimestamp: 6
+        _type: ErrorsResponse
+        errors:
+        - _type: InternalError
+          errorCode: 1
+          message: message
+        - _type: InternalError
+          errorCode: 1
+          message: message
       properties:
         _type:
           enum:
@@ -188,6 +214,10 @@ components:
       - trackingKey
       type: object
     GenericApiError:
+      example:
+        _type: InternalError
+        errorCode: 1
+        message: message
       properties:
         _type:
           enum:

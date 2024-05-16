@@ -1,15 +1,15 @@
-# \NodeApi
+# \NodeAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**Clone**](NodeApi.md#Clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
-[**Delete**](NodeApi.md#Delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
-[**Lock**](NodeApi.md#Lock) | **Get** /node/{nodeType}/{nodeId}/islocked | Retrieve if a node is locked
-[**NodeListTypes**](NodeApi.md#NodeListTypes) | **Get** /node | Node API
-[**TypeList**](NodeApi.md#TypeList) | **Get** /node/{nodeType} | Node type API
-[**Unlock**](NodeApi.md#Unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+[**Clone**](NodeAPI.md#Clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
+[**Delete**](NodeAPI.md#Delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
+[**Lock**](NodeAPI.md#Lock) | **Get** /node/{nodeType}/{nodeId}/islocked | Retrieve if a node is locked
+[**NodeListTypes**](NodeAPI.md#NodeListTypes) | **Get** /node | Node API
+[**TypeList**](NodeAPI.md#TypeList) | **Get** /node/{nodeType} | Node type API
+[**Unlock**](NodeAPI.md#Unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
 
 
 
@@ -40,13 +40,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NodeApi.Clone(context.Background(), nodeType, nodeIdOrUrn).NodeName(nodeName).Execute()
+    resp, r, err := apiClient.NodeAPI.Clone(context.Background(), nodeType, nodeIdOrUrn).NodeName(nodeName).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.Clone``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeAPI.Clone``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `Clone`: Node
-    fmt.Fprintf(os.Stdout, "Response from `NodeApi.Clone`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NodeAPI.Clone`: %v\n", resp)
 }
 ```
 
@@ -76,7 +76,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -115,9 +115,9 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NodeApi.Delete(context.Background(), nodeType, nodeId).TimeoutSeconds(timeoutSeconds).Execute()
+    resp, r, err := apiClient.NodeAPI.Delete(context.Background(), nodeType, nodeId).TimeoutSeconds(timeoutSeconds).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.Delete``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeAPI.Delete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
 }
@@ -149,7 +149,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -187,13 +187,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NodeApi.Lock(context.Background(), nodeType, nodeId).Execute()
+    resp, r, err := apiClient.NodeAPI.Lock(context.Background(), nodeType, nodeId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.Lock``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeAPI.Lock``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `Lock`: LockedResponse
-    fmt.Fprintf(os.Stdout, "Response from `NodeApi.Lock`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NodeAPI.Lock`: %v\n", resp)
 }
 ```
 
@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -258,13 +258,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NodeApi.NodeListTypes(context.Background()).Execute()
+    resp, r, err := apiClient.NodeAPI.NodeListTypes(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.NodeListTypes``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeAPI.NodeListTypes``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `NodeListTypes`: NodeTypes
-    fmt.Fprintf(os.Stdout, "Response from `NodeApi.NodeListTypes`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NodeAPI.NodeListTypes`: %v\n", resp)
 }
 ```
 
@@ -283,7 +283,7 @@ Other parameters are passed through a pointer to a apiNodeListTypesRequest struc
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -322,13 +322,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NodeApi.TypeList(context.Background(), nodeType).Namespace(namespace).OwnedBy(ownedBy).Execute()
+    resp, r, err := apiClient.NodeAPI.TypeList(context.Background(), nodeType).Namespace(namespace).OwnedBy(ownedBy).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.TypeList``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeAPI.TypeList``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `TypeList`: []Node
-    fmt.Fprintf(os.Stdout, "Response from `NodeApi.TypeList`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NodeAPI.TypeList`: %v\n", resp)
 }
 ```
 
@@ -357,7 +357,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 
@@ -395,13 +395,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NodeApi.Unlock(context.Background(), nodeType, nodeId).Execute()
+    resp, r, err := apiClient.NodeAPI.Unlock(context.Background(), nodeType, nodeId).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `NodeApi.Unlock``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `NodeAPI.Unlock``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `Unlock`: Node
-    fmt.Fprintf(os.Stdout, "Response from `NodeApi.Unlock`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `NodeAPI.Unlock`: %v\n", resp)
 }
 ```
 
@@ -430,7 +430,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

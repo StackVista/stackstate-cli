@@ -13,7 +13,7 @@ import (
 func setupStackPacConfirmManualStepsCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackConfirmManualStepsCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsResponse.Result = "successful"
+	cli.MockClient.ApiMocks.StackpackAPI.ConfirmManualStepsResponse.Result = "successful"
 	return &cli, cmd
 }
 
@@ -27,7 +27,7 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 		[]string{"Confirmed manual step for StackPack 'zabbix' instance id '1234'"},
 		*cli.MockPrinter.SuccessCalls)
 	assert.Equal(t,
-		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,
+		*cli.MockClient.ApiMocks.StackpackAPI.ConfirmManualStepsCalls,
 		[]stackstate_api.ConfirmManualStepsCall{{
 			PstackPackName:       name,
 			PstackPackInstanceId: int64(1234),
@@ -47,7 +47,7 @@ func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 	assert.Equal(t,
-		*cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsCalls,
+		*cli.MockClient.ApiMocks.StackpackAPI.ConfirmManualStepsCalls,
 		[]stackstate_api.ConfirmManualStepsCall{{
 			PstackPackName:       name,
 			PstackPackInstanceId: int64(1234),

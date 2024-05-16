@@ -12,7 +12,7 @@ func TestServiceTokenCreate(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
+	cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
 		Name:       "test-token",
 		Token:      "test-token-token",
 		Expiration: int64p(100000000),
@@ -20,7 +20,7 @@ func TestServiceTokenCreate(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role", "--expiration", "2020-05-22")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, "test-token", []string{"test-role"}, int64p(1590105600000))
+	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenCalls, "test-token", []string{"test-role"}, int64p(1590105600000))
 	assert.Equal(t, []string{"Service token created: \x1b[37mtest-token-token\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
 }
 
@@ -28,7 +28,7 @@ func TestServiceTokenCreateExpirationOptional(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
+	cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
 		Name:       "test-token",
 		Token:      "test-token-token",
 		Expiration: int64p(100000000),
@@ -36,7 +36,7 @@ func TestServiceTokenCreateExpirationOptional(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, "test-token", []string{"test-role"}, nil)
+	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenCalls, "test-token", []string{"test-role"}, nil)
 	assert.Equal(t, []string{"Service token created: \x1b[37mtest-token-token\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
 }
 
@@ -44,7 +44,7 @@ func TestServiceTokenCreateMultipleRoles(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
+	cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
 		Name:       "test-token",
 		Token:      "test-token-token",
 		Expiration: int64p(100000000),
@@ -52,7 +52,7 @@ func TestServiceTokenCreateMultipleRoles(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role,another-role", "--roles", "third-role")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, "test-token", []string{"test-role", "another-role", "third-role"}, nil)
+	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenCalls, "test-token", []string{"test-role", "another-role", "third-role"}, nil)
 	assert.Equal(t, []string{"Service token created: \x1b[37mtest-token-token\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
 }
 
@@ -65,7 +65,7 @@ func TestServiceTokenCreateJSON(t *testing.T) {
 		Token: "test-token-token",
 	}
 
-	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = *r
+	cli.MockClient.ApiMocks.ServiceTokenAPI.CreateNewServiceTokenResponse.Result = *r
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role", "-o", "json")
 

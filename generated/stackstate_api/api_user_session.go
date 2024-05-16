@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type UserSessionApi interface {
+type UserSessionAPI interface {
 
 	/*
 		GetUserSessionAssumedRole Get the assumed a role for the current session
@@ -64,12 +64,12 @@ type UserSessionApi interface {
 	SaveUserSessionAssumedRoleExecute(r ApiSaveUserSessionAssumedRoleRequest) (*Role, *http.Response, error)
 }
 
-// UserSessionApiService UserSessionApi service
-type UserSessionApiService service
+// UserSessionAPIService UserSessionAPI service
+type UserSessionAPIService service
 
 type ApiGetUserSessionAssumedRoleRequest struct {
 	ctx        context.Context
-	ApiService UserSessionApi
+	ApiService UserSessionAPI
 }
 
 func (r ApiGetUserSessionAssumedRoleRequest) Execute() (*Role, *http.Response, error) {
@@ -81,10 +81,10 @@ GetUserSessionAssumedRole Get the assumed a role for the current session
 
 Get the assumed a role for the current session.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetUserSessionAssumedRoleRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetUserSessionAssumedRoleRequest
 */
-func (a *UserSessionApiService) GetUserSessionAssumedRole(ctx context.Context) ApiGetUserSessionAssumedRoleRequest {
+func (a *UserSessionAPIService) GetUserSessionAssumedRole(ctx context.Context) ApiGetUserSessionAssumedRoleRequest {
 	return ApiGetUserSessionAssumedRoleRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -92,8 +92,9 @@ func (a *UserSessionApiService) GetUserSessionAssumedRole(ctx context.Context) A
 }
 
 // Execute executes the request
-//  @return Role
-func (a *UserSessionApiService) GetUserSessionAssumedRoleExecute(r ApiGetUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
+//
+//	@return Role
+func (a *UserSessionAPIService) GetUserSessionAssumedRoleExecute(r ApiGetUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -101,7 +102,7 @@ func (a *UserSessionApiService) GetUserSessionAssumedRoleExecute(r ApiGetUserSes
 		localVarReturnValue *Role
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserSessionApiService.GetUserSessionAssumedRole")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserSessionAPIService.GetUserSessionAssumedRole")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -132,6 +133,20 @@ func (a *UserSessionApiService) GetUserSessionAssumedRoleExecute(r ApiGetUserSes
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -154,20 +169,6 @@ func (a *UserSessionApiService) GetUserSessionAssumedRoleExecute(r ApiGetUserSes
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -219,7 +220,7 @@ func (a *UserSessionApiService) GetUserSessionAssumedRoleExecute(r ApiGetUserSes
 
 type ApiGetUserSessionAvailableRolesRequest struct {
 	ctx        context.Context
-	ApiService UserSessionApi
+	ApiService UserSessionAPI
 }
 
 func (r ApiGetUserSessionAvailableRolesRequest) Execute() (*Roles, *http.Response, error) {
@@ -231,10 +232,10 @@ GetUserSessionAvailableRoles Get a list of available roles for this session
 
 Get a list of available roles for this session.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetUserSessionAvailableRolesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetUserSessionAvailableRolesRequest
 */
-func (a *UserSessionApiService) GetUserSessionAvailableRoles(ctx context.Context) ApiGetUserSessionAvailableRolesRequest {
+func (a *UserSessionAPIService) GetUserSessionAvailableRoles(ctx context.Context) ApiGetUserSessionAvailableRolesRequest {
 	return ApiGetUserSessionAvailableRolesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -242,8 +243,9 @@ func (a *UserSessionApiService) GetUserSessionAvailableRoles(ctx context.Context
 }
 
 // Execute executes the request
-//  @return Roles
-func (a *UserSessionApiService) GetUserSessionAvailableRolesExecute(r ApiGetUserSessionAvailableRolesRequest) (*Roles, *http.Response, error) {
+//
+//	@return Roles
+func (a *UserSessionAPIService) GetUserSessionAvailableRolesExecute(r ApiGetUserSessionAvailableRolesRequest) (*Roles, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -251,7 +253,7 @@ func (a *UserSessionApiService) GetUserSessionAvailableRolesExecute(r ApiGetUser
 		localVarReturnValue *Roles
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserSessionApiService.GetUserSessionAvailableRoles")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserSessionAPIService.GetUserSessionAvailableRoles")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -282,6 +284,20 @@ func (a *UserSessionApiService) GetUserSessionAvailableRolesExecute(r ApiGetUser
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -304,20 +320,6 @@ func (a *UserSessionApiService) GetUserSessionAvailableRolesExecute(r ApiGetUser
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -369,7 +371,7 @@ func (a *UserSessionApiService) GetUserSessionAvailableRolesExecute(r ApiGetUser
 
 type ApiSaveUserSessionAssumedRoleRequest struct {
 	ctx        context.Context
-	ApiService UserSessionApi
+	ApiService UserSessionAPI
 	role       *Role
 }
 
@@ -387,10 +389,10 @@ SaveUserSessionAssumedRole Set the assumed role for the current session
 
 Set the assumed role for the current session.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSaveUserSessionAssumedRoleRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSaveUserSessionAssumedRoleRequest
 */
-func (a *UserSessionApiService) SaveUserSessionAssumedRole(ctx context.Context) ApiSaveUserSessionAssumedRoleRequest {
+func (a *UserSessionAPIService) SaveUserSessionAssumedRole(ctx context.Context) ApiSaveUserSessionAssumedRoleRequest {
 	return ApiSaveUserSessionAssumedRoleRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -398,8 +400,9 @@ func (a *UserSessionApiService) SaveUserSessionAssumedRole(ctx context.Context) 
 }
 
 // Execute executes the request
-//  @return Role
-func (a *UserSessionApiService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
+//
+//	@return Role
+func (a *UserSessionAPIService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
 		localVarPostBody    interface{}
@@ -407,7 +410,7 @@ func (a *UserSessionApiService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserS
 		localVarReturnValue *Role
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserSessionApiService.SaveUserSessionAssumedRole")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "UserSessionAPIService.SaveUserSessionAssumedRole")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -443,6 +446,20 @@ func (a *UserSessionApiService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserS
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -465,20 +482,6 @@ func (a *UserSessionApiService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserS
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -542,7 +545,7 @@ func (a *UserSessionApiService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserS
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type UserSessionApiMock struct {
+type UserSessionAPIMock struct {
 	GetUserSessionAssumedRoleCalls       *[]GetUserSessionAssumedRoleCall
 	GetUserSessionAssumedRoleResponse    GetUserSessionAssumedRoleMockResponse
 	GetUserSessionAvailableRolesCalls    *[]GetUserSessionAvailableRolesCall
@@ -551,11 +554,11 @@ type UserSessionApiMock struct {
 	SaveUserSessionAssumedRoleResponse   SaveUserSessionAssumedRoleMockResponse
 }
 
-func NewUserSessionApiMock() UserSessionApiMock {
+func NewUserSessionAPIMock() UserSessionAPIMock {
 	xGetUserSessionAssumedRoleCalls := make([]GetUserSessionAssumedRoleCall, 0)
 	xGetUserSessionAvailableRolesCalls := make([]GetUserSessionAvailableRolesCall, 0)
 	xSaveUserSessionAssumedRoleCalls := make([]SaveUserSessionAssumedRoleCall, 0)
-	return UserSessionApiMock{
+	return UserSessionAPIMock{
 		GetUserSessionAssumedRoleCalls:    &xGetUserSessionAssumedRoleCalls,
 		GetUserSessionAvailableRolesCalls: &xGetUserSessionAvailableRolesCalls,
 		SaveUserSessionAssumedRoleCalls:   &xSaveUserSessionAssumedRoleCalls,
@@ -571,14 +574,14 @@ type GetUserSessionAssumedRoleMockResponse struct {
 type GetUserSessionAssumedRoleCall struct {
 }
 
-func (mock UserSessionApiMock) GetUserSessionAssumedRole(ctx context.Context) ApiGetUserSessionAssumedRoleRequest {
+func (mock UserSessionAPIMock) GetUserSessionAssumedRole(ctx context.Context) ApiGetUserSessionAssumedRoleRequest {
 	return ApiGetUserSessionAssumedRoleRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock UserSessionApiMock) GetUserSessionAssumedRoleExecute(r ApiGetUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
+func (mock UserSessionAPIMock) GetUserSessionAssumedRoleExecute(r ApiGetUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
 	p := GetUserSessionAssumedRoleCall{}
 	*mock.GetUserSessionAssumedRoleCalls = append(*mock.GetUserSessionAssumedRoleCalls, p)
 	return &mock.GetUserSessionAssumedRoleResponse.Result, mock.GetUserSessionAssumedRoleResponse.Response, mock.GetUserSessionAssumedRoleResponse.Error
@@ -593,14 +596,14 @@ type GetUserSessionAvailableRolesMockResponse struct {
 type GetUserSessionAvailableRolesCall struct {
 }
 
-func (mock UserSessionApiMock) GetUserSessionAvailableRoles(ctx context.Context) ApiGetUserSessionAvailableRolesRequest {
+func (mock UserSessionAPIMock) GetUserSessionAvailableRoles(ctx context.Context) ApiGetUserSessionAvailableRolesRequest {
 	return ApiGetUserSessionAvailableRolesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock UserSessionApiMock) GetUserSessionAvailableRolesExecute(r ApiGetUserSessionAvailableRolesRequest) (*Roles, *http.Response, error) {
+func (mock UserSessionAPIMock) GetUserSessionAvailableRolesExecute(r ApiGetUserSessionAvailableRolesRequest) (*Roles, *http.Response, error) {
 	p := GetUserSessionAvailableRolesCall{}
 	*mock.GetUserSessionAvailableRolesCalls = append(*mock.GetUserSessionAvailableRolesCalls, p)
 	return &mock.GetUserSessionAvailableRolesResponse.Result, mock.GetUserSessionAvailableRolesResponse.Response, mock.GetUserSessionAvailableRolesResponse.Error
@@ -616,14 +619,14 @@ type SaveUserSessionAssumedRoleCall struct {
 	Prole *Role
 }
 
-func (mock UserSessionApiMock) SaveUserSessionAssumedRole(ctx context.Context) ApiSaveUserSessionAssumedRoleRequest {
+func (mock UserSessionAPIMock) SaveUserSessionAssumedRole(ctx context.Context) ApiSaveUserSessionAssumedRoleRequest {
 	return ApiSaveUserSessionAssumedRoleRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock UserSessionApiMock) SaveUserSessionAssumedRoleExecute(r ApiSaveUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
+func (mock UserSessionAPIMock) SaveUserSessionAssumedRoleExecute(r ApiSaveUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
 	p := SaveUserSessionAssumedRoleCall{
 		Prole: r.role,
 	}

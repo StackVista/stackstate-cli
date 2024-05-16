@@ -26,11 +26,11 @@ func TestTopicList(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := ListCommand(&cli.Deps)
 
-	cli.MockClient.ApiMocks.TopicApi.ListResponse.Result = SomeTopics
+	cli.MockClient.ApiMocks.TopicAPI.ListResponse.Result = SomeTopics
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.ListCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.ListCalls, 1)
 
 	expectedTable := []printer.TableData{
 		{
@@ -48,7 +48,7 @@ func TestTopicList(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.TopicApi.ListCalls, 2)
+	assert.Len(t, *cli.MockClient.ApiMocks.TopicAPI.ListCalls, 2)
 
 	expectedJson := []map[string]interface{}{
 		{

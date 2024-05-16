@@ -19,7 +19,7 @@ import (
 	"net/url"
 )
 
-type ImportApi interface {
+type ImportAPI interface {
 
 	/*
 		ImportSettings Import settings
@@ -36,12 +36,12 @@ type ImportApi interface {
 	ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error)
 }
 
-// ImportApiService ImportApi service
-type ImportApiService service
+// ImportAPIService ImportAPI service
+type ImportAPIService service
 
 type ApiImportSettingsRequest struct {
 	ctx            context.Context
-	ApiService     ImportApi
+	ApiService     ImportAPI
 	body           *string
 	timeoutSeconds *int64
 	namespace      *string
@@ -77,10 +77,10 @@ ImportSettings Import settings
 
 Import setting nodes from STY or STJ definitions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiImportSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiImportSettingsRequest
 */
-func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
+func (a *ImportAPIService) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -88,8 +88,9 @@ func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettings
 }
 
 // Execute executes the request
-//  @return []map[string]interface{}
-func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
+//
+//	@return []map[string]interface{}
+func (a *ImportAPIService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -97,7 +98,7 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 		localVarReturnValue []map[string]interface{}
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImportApiService.ImportSettings")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ImportAPIService.ImportSettings")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -142,6 +143,20 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -164,20 +179,6 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -241,14 +242,14 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type ImportApiMock struct {
+type ImportAPIMock struct {
 	ImportSettingsCalls    *[]ImportSettingsCall
 	ImportSettingsResponse ImportSettingsMockResponse
 }
 
-func NewImportApiMock() ImportApiMock {
+func NewImportAPIMock() ImportAPIMock {
 	xImportSettingsCalls := make([]ImportSettingsCall, 0)
-	return ImportApiMock{
+	return ImportAPIMock{
 		ImportSettingsCalls: &xImportSettingsCalls,
 	}
 }
@@ -266,14 +267,14 @@ type ImportSettingsCall struct {
 	Punlocked       *string
 }
 
-func (mock ImportApiMock) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
+func (mock ImportAPIMock) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
+func (mock ImportAPIMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
 	p := ImportSettingsCall{
 		Pbody:           r.body,
 		PtimeoutSeconds: r.timeoutSeconds,

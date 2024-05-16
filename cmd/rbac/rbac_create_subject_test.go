@@ -20,7 +20,7 @@ func TestCreateSubjectJson(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "-o", "json")
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.CreateSubjectCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.CreateSubjectCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeSubject, calls[0].Psubject)
 
@@ -43,7 +43,7 @@ func TestCreateSubject(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeOtherSubject, "--scope", SomeScope)
 
-	calls := *cli.MockClient.ApiMocks.SubjectApi.CreateSubjectCalls
+	calls := *cli.MockClient.ApiMocks.SubjectAPI.CreateSubjectCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeOtherSubject, calls[0].Psubject)
 

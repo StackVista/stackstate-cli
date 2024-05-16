@@ -36,7 +36,7 @@ func RunClearErrorsCommand(args *ClearErrorsArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		idType, id := IdOrIdentifier(args.ID, args.Identifier)
-		resp, err := api.TopologySynchronizationApi.
+		resp, err := api.TopologySynchronizationAPI.
 			PostTopologySynchronizationStreamClearErrors(cli.Context).
 			IdentifierType(idType).
 			Identifier(id).

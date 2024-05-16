@@ -1,10 +1,10 @@
-# \ApiTokenApi
+# \ApiTokenAPI
 
 All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetCurrentUserApiTokens**](ApiTokenApi.md#GetCurrentUserApiTokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+[**GetCurrentUserApiTokens**](ApiTokenAPI.md#GetCurrentUserApiTokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 
 
 
@@ -32,13 +32,13 @@ func main() {
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ApiTokenApi.GetCurrentUserApiTokens(context.Background()).Execute()
+    resp, r, err := apiClient.ApiTokenAPI.GetCurrentUserApiTokens(context.Background()).Execute()
     if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ApiTokenApi.GetCurrentUserApiTokens``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Error when calling `ApiTokenAPI.GetCurrentUserApiTokens``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
     // response from `GetCurrentUserApiTokens`: []ApiToken
-    fmt.Fprintf(os.Stdout, "Response from `ApiTokenApi.GetCurrentUserApiTokens`: %v\n", resp)
+    fmt.Fprintf(os.Stdout, "Response from `ApiTokenAPI.GetCurrentUserApiTokens`: %v\n", resp)
 }
 ```
 
@@ -57,7 +57,7 @@ Other parameters are passed through a pointer to a apiGetCurrentUserApiTokensReq
 
 ### Authorization
 
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+[ServiceToken](../README.md#ServiceToken), [ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer)
 
 ### HTTP request headers
 

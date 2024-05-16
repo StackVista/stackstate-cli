@@ -13,14 +13,14 @@ import (
 func setupHealthListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := HealthListCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationStreamsOverviewResponse.Result = stackstate_api.StreamList{
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.GetHealthSynchronizationStreamsOverviewResponse.Result = stackstate_api.StreamList{
 		Items: []stackstate_api.StreamListItem{{
 			Urn:              "urn:health:self_monitoring:self_monitoring_scraper",
 			ConsistencyModel: "REPEAT_SNAPSHOTS",
 			SubStreams:       1,
 		}},
 	}
-	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverviewResponse.Result = stackstate_api.SubStreamList{
+	cli.MockClient.ApiMocks.HealthSynchronizationAPI.GetHealthSynchronizationSubStreamOverviewResponse.Result = stackstate_api.SubStreamList{
 		SubStreams: []stackstate_api.SubStreamListItem{{
 			SubStreamId:     "StackState Server",
 			CheckStateCount: 36,

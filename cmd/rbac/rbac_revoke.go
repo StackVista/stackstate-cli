@@ -40,7 +40,7 @@ func RunRevokePermissionsCommand(args *RevokePermissionsArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		revokeResp, revokeErr := api.PermissionsApi.RevokePermissions(cli.Context, args.Subject).
+		revokeResp, revokeErr := api.PermissionsAPI.RevokePermissions(cli.Context, args.Subject).
 			Resource(args.Resource).
 			Permission(args.Permission).
 			Execute()

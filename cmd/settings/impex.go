@@ -26,11 +26,11 @@ func DoExport(ctx context.Context, api *stackstate_api.APIClient, ids []int64, n
 		exportArgs.AllowReferences = allowReferences
 	}
 
-	return api.ExportApi.ExportSettings(ctx).Export(*exportArgs).Execute()
+	return api.ExportAPI.ExportSettings(ctx).Export(*exportArgs).Execute()
 }
 
 func doImport(ctx context.Context, api *stackstate_api.APIClient, body string, namespace string, unlockedStrategy string, timeout int64) ([]map[string]interface{}, *http.Response, error) {
-	request := api.ImportApi.ImportSettings(ctx).Body(body)
+	request := api.ImportAPI.ImportSettings(ctx).Body(body)
 	if namespace != "" {
 		request = request.Namespace(namespace)
 	}

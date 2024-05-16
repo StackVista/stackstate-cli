@@ -52,7 +52,7 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
 		idType, id := IdOrIdentifier(args.ID, args.Identifier)
-		sync, resp, err := api.TopologySynchronizationApi.
+		sync, resp, err := api.TopologySynchronizationAPI.
 			GetTopologySynchronizationStreamById(cli.Context).
 			IdentifierType(idType).
 			Identifier(id).

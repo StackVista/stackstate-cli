@@ -51,9 +51,9 @@ func RunIngestionApiKeyGenerationCommand(args *CreateArgs) di.CmdWithApiFn {
 			req.Expiration = &m
 		}
 
-		ingestionApiKeyAPI := api.IngestionApiKeyApi.GenerateIngestionApiKey(cli.Context)
+		IngestionApiKeyAPI := api.IngestionApiKeyAPI.GenerateIngestionApiKey(cli.Context)
 
-		serviceToken, resp, err := ingestionApiKeyAPI.GenerateIngestionApiKeyRequest(req).Execute()
+		serviceToken, resp, err := IngestionApiKeyAPI.GenerateIngestionApiKeyRequest(req).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

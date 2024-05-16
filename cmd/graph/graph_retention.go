@@ -40,13 +40,13 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 
 func getOrSetRetentionWindow(cli *di.Deps, api *stackstate_admin_api.APIClient, args *RetentionArgs) (*stackstate_admin_api.WindowMs, *http.Response, error) {
 	if args.Set == 0 {
-		return api.RetentionApi.GetRetentionWindow(cli.Context).Execute()
+		return api.RetentionAPI.GetRetentionWindow(cli.Context).Execute()
 	} else {
 		newWindow := stackstate_admin_api.WindowMs{
 			WindowMs: args.Set.Milliseconds(),
 		}
 
-		return api.RetentionApi.SetRetentionWindow(cli.Context).
+		return api.RetentionAPI.SetRetentionWindow(cli.Context).
 			WindowMs(newWindow).
 			ScheduleRemoval(args.ScheduleRemoval).
 			Execute()
@@ -64,7 +64,7 @@ func RunRetentionCommand(args *RetentionArgs) di.CmdWithAdminApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		epoch, resp, err := api.RetentionApi.GetRetentionEpoch(cli.Context).Execute()
+		epoch, resp, err := api.RetentionAPI.GetRetentionEpoch(cli.Context).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

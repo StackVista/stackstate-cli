@@ -31,16 +31,16 @@ func setMonitorCloneCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestShouldCloneMonitor(t *testing.T) {
 	cli, cmd := setMonitorCloneCmd(t)
-	cli.MockClient.ApiMocks.NodeApi.CloneResponse.Result = nodeResult
+	cli.MockClient.ApiMocks.NodeAPI.CloneResponse.Result = nodeResult
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234", "--name", "newName")
-	assert.Len(t, *cli.MockClient.ApiMocks.NodeApi.CloneCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.NodeAPI.CloneCalls, 1)
 	assert.Equal(t, "Monitor 1234 has been created", (*cli.MockPrinter.SuccessCalls)[0])
 }
 
 func TestShouldCloneMonitorWithJson(t *testing.T) {
 	cli, cmd := setMonitorCloneCmd(t)
-	cli.MockClient.ApiMocks.NodeApi.CloneResponse.Result = nodeResult
+	cli.MockClient.ApiMocks.NodeAPI.CloneResponse.Result = nodeResult
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234", "--name", "newName", "-o", "json")
-	assert.Len(t, *cli.MockClient.ApiMocks.NodeApi.CloneCalls, 1)
+	assert.Len(t, *cli.MockClient.ApiMocks.NodeAPI.CloneCalls, 1)
 	assert.Len(t, *cli.MockPrinter.PrintJsonCalls, 1)
 }

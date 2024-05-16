@@ -11,7 +11,7 @@ docs/GenericApiError.md
 docs/GenericErrorsResponse.md
 docs/RemovalProgress.md
 docs/RemovalProgressProgress.md
-docs/RetentionApi.md
+docs/RetentionAPI.md
 docs/WindowMs.md
 git_push.sh
 go.mod
@@ -23,4 +23,5 @@ model_removal_progress.go
 model_removal_progress_progress.go
 model_window_ms.go
 response.go
+test/api_retention_test.go
 utils.go

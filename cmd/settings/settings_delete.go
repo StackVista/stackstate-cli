@@ -33,7 +33,7 @@ func SettingsDeleteCommand(cli *di.Deps) *cobra.Command {
 
 func DeleteNodes(cli *di.Deps, api *stackstate_api.APIClient, ids []int64, nodeType string, timeout int64) common.CLIError {
 	for _, id := range ids {
-		resp, err := api.NodeApi.Delete(cli.Context, nodeType, id).TimeoutSeconds(timeout).Execute()
+		resp, err := api.NodeAPI.Delete(cli.Context, nodeType, id).TimeoutSeconds(timeout).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

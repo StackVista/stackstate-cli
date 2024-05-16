@@ -73,7 +73,7 @@ func RunScriptRunCommand(args *ScriptRunArgs) di.CmdWithApiFn {
 			ArgumentsScript: util.StringNilP(args.ArgumentsScript),
 		}
 
-		scriptResponse, resp, err := api.ScriptingApi.
+		scriptResponse, resp, err := api.ScriptingAPI.
 			ScriptExecute(cli.Context).
 			ExecuteScriptRequest(scriptRequest).
 			Execute()

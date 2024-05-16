@@ -47,7 +47,7 @@ func FormatSyncTable(streams []stackstate_api.TopologyStreamListItem) printer.Ta
 }
 
 func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	streamList, resp, err := api.TopologySynchronizationApi.GetTopologySynchronizationStreams(cli.Context).Execute()
+	streamList, resp, err := api.TopologySynchronizationAPI.GetTopologySynchronizationStreams(cli.Context).Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
 	}

@@ -62,54 +62,6 @@ func (dst *PromData) UnmarshalJSON(data []byte) error {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
 	}
 
-	// check if the discriminator value is 'PromDataString'
-	if jsonDict["resultType"] == "PromDataString" {
-		// try to unmarshal JSON data into PromDataString
-		err = json.Unmarshal(data, &dst.PromDataString)
-		if err == nil {
-			return nil // data stored in dst.PromDataString, return on the first match
-		} else {
-			dst.PromDataString = nil
-			return fmt.Errorf("Failed to unmarshal PromData as PromDataString: %s", err.Error())
-		}
-	}
-
-	// check if the discriminator value is 'PromMatrix'
-	if jsonDict["resultType"] == "PromMatrix" {
-		// try to unmarshal JSON data into PromMatrix
-		err = json.Unmarshal(data, &dst.PromMatrix)
-		if err == nil {
-			return nil // data stored in dst.PromMatrix, return on the first match
-		} else {
-			dst.PromMatrix = nil
-			return fmt.Errorf("Failed to unmarshal PromData as PromMatrix: %s", err.Error())
-		}
-	}
-
-	// check if the discriminator value is 'PromScalar'
-	if jsonDict["resultType"] == "PromScalar" {
-		// try to unmarshal JSON data into PromScalar
-		err = json.Unmarshal(data, &dst.PromScalar)
-		if err == nil {
-			return nil // data stored in dst.PromScalar, return on the first match
-		} else {
-			dst.PromScalar = nil
-			return fmt.Errorf("Failed to unmarshal PromData as PromScalar: %s", err.Error())
-		}
-	}
-
-	// check if the discriminator value is 'PromVector'
-	if jsonDict["resultType"] == "PromVector" {
-		// try to unmarshal JSON data into PromVector
-		err = json.Unmarshal(data, &dst.PromVector)
-		if err == nil {
-			return nil // data stored in dst.PromVector, return on the first match
-		} else {
-			dst.PromVector = nil
-			return fmt.Errorf("Failed to unmarshal PromData as PromVector: %s", err.Error())
-		}
-	}
-
 	// check if the discriminator value is 'matrix'
 	if jsonDict["resultType"] == "matrix" {
 		// try to unmarshal JSON data into PromMatrix
@@ -148,6 +100,54 @@ func (dst *PromData) UnmarshalJSON(data []byte) error {
 
 	// check if the discriminator value is 'vector'
 	if jsonDict["resultType"] == "vector" {
+		// try to unmarshal JSON data into PromVector
+		err = json.Unmarshal(data, &dst.PromVector)
+		if err == nil {
+			return nil // data stored in dst.PromVector, return on the first match
+		} else {
+			dst.PromVector = nil
+			return fmt.Errorf("Failed to unmarshal PromData as PromVector: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'PromDataString'
+	if jsonDict["resultType"] == "PromDataString" {
+		// try to unmarshal JSON data into PromDataString
+		err = json.Unmarshal(data, &dst.PromDataString)
+		if err == nil {
+			return nil // data stored in dst.PromDataString, return on the first match
+		} else {
+			dst.PromDataString = nil
+			return fmt.Errorf("Failed to unmarshal PromData as PromDataString: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'PromMatrix'
+	if jsonDict["resultType"] == "PromMatrix" {
+		// try to unmarshal JSON data into PromMatrix
+		err = json.Unmarshal(data, &dst.PromMatrix)
+		if err == nil {
+			return nil // data stored in dst.PromMatrix, return on the first match
+		} else {
+			dst.PromMatrix = nil
+			return fmt.Errorf("Failed to unmarshal PromData as PromMatrix: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'PromScalar'
+	if jsonDict["resultType"] == "PromScalar" {
+		// try to unmarshal JSON data into PromScalar
+		err = json.Unmarshal(data, &dst.PromScalar)
+		if err == nil {
+			return nil // data stored in dst.PromScalar, return on the first match
+		} else {
+			dst.PromScalar = nil
+			return fmt.Errorf("Failed to unmarshal PromData as PromScalar: %s", err.Error())
+		}
+	}
+
+	// check if the discriminator value is 'PromVector'
+	if jsonDict["resultType"] == "PromVector" {
 		// try to unmarshal JSON data into PromVector
 		err = json.Unmarshal(data, &dst.PromVector)
 		if err == nil {

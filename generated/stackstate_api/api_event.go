@@ -20,7 +20,7 @@ import (
 	"strings"
 )
 
-type EventApi interface {
+type EventAPI interface {
 
 	/*
 		GetEvent Get single event
@@ -108,12 +108,12 @@ type EventApi interface {
 	GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error)
 }
 
-// EventApiService EventApi service
-type EventApiService service
+// EventAPIService EventAPI service
+type EventAPIService service
 
 type ApiGetEventRequest struct {
 	ctx                 context.Context
-	ApiService          EventApi
+	ApiService          EventAPI
 	eventId             string
 	startTimestampMs    *int32
 	endTimestampMs      *int32
@@ -144,11 +144,11 @@ GetEvent Get single event
 
 Retrieves a specific event by its identifier.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param eventId The Identifier of an event.
- @return ApiGetEventRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param eventId The Identifier of an event.
+	@return ApiGetEventRequest
 */
-func (a *EventApiService) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
+func (a *EventAPIService) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
 	return ApiGetEventRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -157,8 +157,9 @@ func (a *EventApiService) GetEvent(ctx context.Context, eventId string) ApiGetEv
 }
 
 // Execute executes the request
-//  @return TopologyEvent
-func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
+//
+//	@return TopologyEvent
+func (a *EventAPIService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -166,7 +167,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent,
 		localVarReturnValue *TopologyEvent
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEvent")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventAPIService.GetEvent")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -209,6 +210,20 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent,
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -231,20 +246,6 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent,
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -316,7 +317,7 @@ func (a *EventApiService) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent,
 
 type ApiGetEventSourcesRequest struct {
 	ctx                        context.Context
-	ApiService                 EventApi
+	ApiService                 EventAPI
 	startTimestampMs           *int32
 	endTimestampMs             *int32
 	topologyQuery              *string
@@ -395,10 +396,10 @@ GetEventSources Get event sources
 
 Get a list of event sources.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetEventSourcesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventSourcesRequest
 */
-func (a *EventApiService) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
+func (a *EventAPIService) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
 	return ApiGetEventSourcesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -406,8 +407,9 @@ func (a *EventApiService) GetEventSources(ctx context.Context) ApiGetEventSource
 }
 
 // Execute executes the request
-//  @return StringItemsWithTotal
-func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
+//
+//	@return StringItemsWithTotal
+func (a *EventAPIService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -415,7 +417,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 		localVarReturnValue *StringItemsWithTotal
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventSources")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventAPIService.GetEventSources")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -483,6 +485,20 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -505,20 +521,6 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -580,7 +582,7 @@ func (a *EventApiService) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*
 
 type ApiGetEventTagsRequest struct {
 	ctx                        context.Context
-	ApiService                 EventApi
+	ApiService                 EventAPI
 	startTimestampMs           *int32
 	endTimestampMs             *int32
 	topologyQuery              *string
@@ -659,10 +661,10 @@ GetEventTags Get event tags
 
 Gets a list of tags that exist in a list of events.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetEventTagsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventTagsRequest
 */
-func (a *EventApiService) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
+func (a *EventAPIService) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
 	return ApiGetEventTagsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -670,8 +672,9 @@ func (a *EventApiService) GetEventTags(ctx context.Context) ApiGetEventTagsReque
 }
 
 // Execute executes the request
-//  @return StringItemsWithTotal
-func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
+//
+//	@return StringItemsWithTotal
+func (a *EventAPIService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -679,7 +682,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 		localVarReturnValue *StringItemsWithTotal
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventTags")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventAPIService.GetEventTags")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -747,6 +750,20 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -769,20 +786,6 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -844,7 +847,7 @@ func (a *EventApiService) GetEventTagsExecute(r ApiGetEventTagsRequest) (*String
 
 type ApiGetEventTypesRequest struct {
 	ctx                        context.Context
-	ApiService                 EventApi
+	ApiService                 EventAPI
 	startTimestampMs           *int32
 	endTimestampMs             *int32
 	topologyQuery              *string
@@ -923,10 +926,10 @@ GetEventTypes Get event types
 
 Get a list of event types for a certain STQL query.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetEventTypesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventTypesRequest
 */
-func (a *EventApiService) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
+func (a *EventAPIService) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
 	return ApiGetEventTypesRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -934,8 +937,9 @@ func (a *EventApiService) GetEventTypes(ctx context.Context) ApiGetEventTypesReq
 }
 
 // Execute executes the request
-//  @return StringItemsWithTotal
-func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
+//
+//	@return StringItemsWithTotal
+func (a *EventAPIService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
@@ -943,7 +947,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*Stri
 		localVarReturnValue *StringItemsWithTotal
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventTypes")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventAPIService.GetEventTypes")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1011,6 +1015,20 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*Stri
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1033,20 +1051,6 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*Stri
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1108,7 +1112,7 @@ func (a *EventApiService) GetEventTypesExecute(r ApiGetEventTypesRequest) (*Stri
 
 type ApiGetEventsRequest struct {
 	ctx              context.Context
-	ApiService       EventApi
+	ApiService       EventAPI
 	eventListRequest *EventListRequest
 }
 
@@ -1126,10 +1130,10 @@ GetEvents Get events
 
 Gets you a list of events that exist for topology and time selections.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetEventsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventsRequest
 */
-func (a *EventApiService) GetEvents(ctx context.Context) ApiGetEventsRequest {
+func (a *EventAPIService) GetEvents(ctx context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1137,8 +1141,9 @@ func (a *EventApiService) GetEvents(ctx context.Context) ApiGetEventsRequest {
 }
 
 // Execute executes the request
-//  @return EventItemsWithTotal
-func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
+//
+//	@return EventItemsWithTotal
+func (a *EventAPIService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1146,7 +1151,7 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWi
 		localVarReturnValue *EventItemsWithTotal
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEvents")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventAPIService.GetEvents")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1182,6 +1187,20 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWi
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1204,20 +1223,6 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWi
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1279,7 +1284,7 @@ func (a *EventApiService) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWi
 
 type ApiGetEventsHistogramRequest struct {
 	ctx                    context.Context
-	ApiService             EventApi
+	ApiService             EventAPI
 	eventsHistogramRequest *EventsHistogramRequest
 }
 
@@ -1297,10 +1302,10 @@ GetEventsHistogram Get events histogram
 
 Gets you a histogram of events that exist for topology and time selections.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetEventsHistogramRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEventsHistogramRequest
 */
-func (a *EventApiService) GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest {
+func (a *EventAPIService) GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest {
 	return ApiGetEventsHistogramRequest{
 		ApiService: a,
 		ctx:        ctx,
@@ -1308,8 +1313,9 @@ func (a *EventApiService) GetEventsHistogram(ctx context.Context) ApiGetEventsHi
 }
 
 // Execute executes the request
-//  @return EventsHistogram
-func (a *EventApiService) GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error) {
+//
+//	@return EventsHistogram
+func (a *EventAPIService) GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
@@ -1317,7 +1323,7 @@ func (a *EventApiService) GetEventsHistogramExecute(r ApiGetEventsHistogramReque
 		localVarReturnValue *EventsHistogram
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventApiService.GetEventsHistogram")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "EventAPIService.GetEventsHistogram")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
@@ -1353,6 +1359,20 @@ func (a *EventApiService) GetEventsHistogramExecute(r ApiGetEventsHistogramReque
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
 			if apiKey, ok := auth["ApiToken"]; ok {
 				var key string
 				if apiKey.Prefix != "" {
@@ -1375,20 +1395,6 @@ func (a *EventApiService) GetEventsHistogramExecute(r ApiGetEventsHistogramReque
 					key = apiKey.Key
 				}
 				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
 			}
 		}
 	}
@@ -1452,7 +1458,7 @@ func (a *EventApiService) GetEventsHistogramExecute(r ApiGetEventsHistogramReque
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
-type EventApiMock struct {
+type EventAPIMock struct {
 	GetEventCalls              *[]GetEventCall
 	GetEventResponse           GetEventMockResponse
 	GetEventSourcesCalls       *[]GetEventSourcesCall
@@ -1467,14 +1473,14 @@ type EventApiMock struct {
 	GetEventsHistogramResponse GetEventsHistogramMockResponse
 }
 
-func NewEventApiMock() EventApiMock {
+func NewEventAPIMock() EventAPIMock {
 	xGetEventCalls := make([]GetEventCall, 0)
 	xGetEventSourcesCalls := make([]GetEventSourcesCall, 0)
 	xGetEventTagsCalls := make([]GetEventTagsCall, 0)
 	xGetEventTypesCalls := make([]GetEventTypesCall, 0)
 	xGetEventsCalls := make([]GetEventsCall, 0)
 	xGetEventsHistogramCalls := make([]GetEventsHistogramCall, 0)
-	return EventApiMock{
+	return EventAPIMock{
 		GetEventCalls:           &xGetEventCalls,
 		GetEventSourcesCalls:    &xGetEventSourcesCalls,
 		GetEventTagsCalls:       &xGetEventTagsCalls,
@@ -1497,7 +1503,7 @@ type GetEventCall struct {
 	PplayHeadTimestampMs *int32
 }
 
-func (mock EventApiMock) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
+func (mock EventAPIMock) GetEvent(ctx context.Context, eventId string) ApiGetEventRequest {
 	return ApiGetEventRequest{
 		ApiService: mock,
 		ctx:        ctx,
@@ -1505,7 +1511,7 @@ func (mock EventApiMock) GetEvent(ctx context.Context, eventId string) ApiGetEve
 	}
 }
 
-func (mock EventApiMock) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
+func (mock EventAPIMock) GetEventExecute(r ApiGetEventRequest) (*TopologyEvent, *http.Response, error) {
 	p := GetEventCall{
 		PeventId:             r.eventId,
 		PstartTimestampMs:    r.startTimestampMs,
@@ -1536,14 +1542,14 @@ type GetEventSourcesCall struct {
 	Pmatch                      *string
 }
 
-func (mock EventApiMock) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
+func (mock EventAPIMock) GetEventSources(ctx context.Context) ApiGetEventSourcesRequest {
 	return ApiGetEventSourcesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
+func (mock EventAPIMock) GetEventSourcesExecute(r ApiGetEventSourcesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventSourcesCall{
 		PstartTimestampMs:           r.startTimestampMs,
 		PendTimestampMs:             r.endTimestampMs,
@@ -1581,14 +1587,14 @@ type GetEventTagsCall struct {
 	Pmatch                      *string
 }
 
-func (mock EventApiMock) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
+func (mock EventAPIMock) GetEventTags(ctx context.Context) ApiGetEventTagsRequest {
 	return ApiGetEventTagsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
+func (mock EventAPIMock) GetEventTagsExecute(r ApiGetEventTagsRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventTagsCall{
 		PstartTimestampMs:           r.startTimestampMs,
 		PendTimestampMs:             r.endTimestampMs,
@@ -1626,14 +1632,14 @@ type GetEventTypesCall struct {
 	Pmatch                      *string
 }
 
-func (mock EventApiMock) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
+func (mock EventAPIMock) GetEventTypes(ctx context.Context) ApiGetEventTypesRequest {
 	return ApiGetEventTypesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
+func (mock EventAPIMock) GetEventTypesExecute(r ApiGetEventTypesRequest) (*StringItemsWithTotal, *http.Response, error) {
 	p := GetEventTypesCall{
 		PstartTimestampMs:           r.startTimestampMs,
 		PendTimestampMs:             r.endTimestampMs,
@@ -1661,14 +1667,14 @@ type GetEventsCall struct {
 	PeventListRequest *EventListRequest
 }
 
-func (mock EventApiMock) GetEvents(ctx context.Context) ApiGetEventsRequest {
+func (mock EventAPIMock) GetEvents(ctx context.Context) ApiGetEventsRequest {
 	return ApiGetEventsRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
+func (mock EventAPIMock) GetEventsExecute(r ApiGetEventsRequest) (*EventItemsWithTotal, *http.Response, error) {
 	p := GetEventsCall{
 		PeventListRequest: r.eventListRequest,
 	}
@@ -1686,14 +1692,14 @@ type GetEventsHistogramCall struct {
 	PeventsHistogramRequest *EventsHistogramRequest
 }
 
-func (mock EventApiMock) GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest {
+func (mock EventAPIMock) GetEventsHistogram(ctx context.Context) ApiGetEventsHistogramRequest {
 	return ApiGetEventsHistogramRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock EventApiMock) GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error) {
+func (mock EventAPIMock) GetEventsHistogramExecute(r ApiGetEventsHistogramRequest) (*EventsHistogram, *http.Response, error) {
 	p := GetEventsHistogramCall{
 		PeventsHistogramRequest: r.eventsHistogramRequest,
 	}

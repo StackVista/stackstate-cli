@@ -11,10 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func setupClient() (StackStateClient, *stackstate_api.ServerApiMock) {
-	serverApi := stackstate_api.NewServerApiMock()
+func setupClient() (StackStateClient, *stackstate_api.ServerAPIMock) {
+	serverApi := stackstate_api.NewServerAPIMock()
 	api := stackstate_api.APIClient{
-		ServerApi: &serverApi,
+		ServerAPI: &serverApi,
 	}
 	client := StdStackStateClient{
 		client:  &api,

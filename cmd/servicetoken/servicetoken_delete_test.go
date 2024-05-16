@@ -23,8 +23,8 @@ func TestDelete(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1")
 
-	assert.Len(t, *cli.MockClient.ApiMocks.ServiceTokenApi.DeleteServiceTokenCalls, 1)
-	assert.Equal(t, int64(1), (*cli.MockClient.ApiMocks.ServiceTokenApi.DeleteServiceTokenCalls)[0].PserviceTokenId)
+	assert.Len(t, *cli.MockClient.ApiMocks.ServiceTokenAPI.DeleteServiceTokenCalls, 1)
+	assert.Equal(t, int64(1), (*cli.MockClient.ApiMocks.ServiceTokenAPI.DeleteServiceTokenCalls)[0].PserviceTokenId)
 
 	assert.Equal(t, []string{"Service token deleted: 1"}, *cli.MockPrinter.SuccessCalls)
 }
