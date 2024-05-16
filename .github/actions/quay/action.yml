@@ -16,11 +16,12 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    - name: Log in
-      shell: bash
-      run: |
-        echo "${{ env.QUAY_PASSWORD }}" | docker login --username=${{ env.QUAY_USER }} --password-stdin quay.io
-
+    - name: Log in to the Container registry
+      uses: docker/login-action@v3
+      with:
+        registry: quay.io
+        username: ${{ env.QUAY_USER }}
+        password: ${{ env.QUAY_PASSWORD }}
     - name: Run command
       shell: bash
       run: |
