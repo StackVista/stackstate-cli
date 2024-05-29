@@ -16,7 +16,7 @@ new-module -name "StsCliInstaller" -scriptblock {
     param (
         [string]$StsUrl, # url of the StackState instance to configure (empty means don't configure)
         [string]$StsApiToken, # API-TOKEN of the StackState instance to configure (empty means don't configure)
-        [string]$StsCliVersion, # version of the CLI to install (empty means latest)
+        [string]$StsCliVersion # version of the CLI to install (empty means latest)
     )
     # Stop on first error
     $ErrorActionPreference = "Stop"
