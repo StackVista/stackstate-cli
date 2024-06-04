@@ -114,18 +114,4 @@ func Test_stackstate_api_TracesAPIService(t *testing.T) {
 
 	})
 
-	t.Run("Test TracesAPIService SuggestionsFieldValues", func(t *testing.T) {
-
-		t.Skip("skip test") // remove to run test
-
-		var field SpanSuggestionField
-
-		resp, httpRes, err := apiClient.TracesAPI.SuggestionsFieldValues(context.Background(), field).Execute()
-
-		require.Nil(t, err)
-		require.NotNil(t, resp)
-		assert.Equal(t, 200, httpRes.StatusCode)
-
-	})
-
 }
