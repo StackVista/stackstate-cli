@@ -38,7 +38,7 @@ type MonitorCheckStatusApi interface {
 	GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error)
 
 	/*
-		GetMonitorCheckStatusHealthHistory Get a monitor check health hisotry
+		GetMonitorCheckStatusHealthHistory Get a monitor check health history
 
 		Get a monitor check status health history for a defined period of time by the check state id
 
@@ -287,7 +287,7 @@ func (r ApiGetMonitorCheckStatusHealthHistoryRequest) Execute() (*MonitorCheckSt
 }
 
 /*
-GetMonitorCheckStatusHealthHistory Get a monitor check health hisotry
+GetMonitorCheckStatusHealthHistory Get a monitor check health history
 
 Get a monitor check status health history for a defined period of time by the check state id
 

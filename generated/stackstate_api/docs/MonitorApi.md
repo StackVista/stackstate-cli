@@ -7,14 +7,17 @@ Method | HTTP request | Description
 [**DeleteMonitor**](MonitorApi.md#DeleteMonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 [**GetAllMonitors**](MonitorApi.md#GetAllMonitors) | **Get** /monitors | List monitors
 [**GetMonitor**](MonitorApi.md#GetMonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
+[**GetMonitorCheckStates**](MonitorApi.md#GetMonitorCheckStates) | **Get** /monitors/{monitorIdOrUrn}/checkStates | Get the check states for a monitor
 [**GetMonitorWithStatus**](MonitorApi.md#GetMonitorWithStatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
 [**GetMonitorsOverview**](MonitorApi.md#GetMonitorsOverview) | **Get** /monitors/overview | List monitors overview
 [**LookupIdentifier**](MonitorApi.md#LookupIdentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
 [**PatchMonitor**](MonitorApi.md#PatchMonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 [**PreviewMonitor**](MonitorApi.md#PreviewMonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
+[**PreviewMonitorCheckStates**](MonitorApi.md#PreviewMonitorCheckStates) | **Post** /monitors/{monitorIdOrUrn}/preview/checkStates | Preview a monitor
 [**PublishHealthStates**](MonitorApi.md#PublishHealthStates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
 [**RunMonitor**](MonitorApi.md#RunMonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 [**TestMonitorFunction**](MonitorApi.md#TestMonitorFunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
+[**TestMonitorFunctionCheckStates**](MonitorApi.md#TestMonitorFunctionCheckStates) | **Post** /monitors/{monitorFunctionIdOrUrn}/test/checkStates | Test a monitor
 
 
 
@@ -202,6 +205,80 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**Monitor**](Monitor.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetMonitorCheckStates
+
+> MonitorCheckStates GetMonitorCheckStates(ctx, monitorIdOrUrn).HealthState(healthState).Limit(limit).Execute()
+
+Get the check states for a monitor
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    monitorIdOrUrn := "monitorIdOrUrn_example" // string | The id or identifier (urn) of a monitor
+    healthState := openapiclient.HealthStateValue("UNINITIALIZED") // HealthStateValue | Health state of check states (optional)
+    limit := int32(56) // int32 |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorApi.GetMonitorCheckStates(context.Background(), monitorIdOrUrn).HealthState(healthState).Limit(limit).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorCheckStates``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetMonitorCheckStates`: MonitorCheckStates
+    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.GetMonitorCheckStates`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**monitorIdOrUrn** | **string** | The id or identifier (urn) of a monitor | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetMonitorCheckStatesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **healthState** | [**HealthStateValue**](HealthStateValue.md) | Health state of check states | 
+ **limit** | **int32** |  | 
+
+### Return type
+
+[**MonitorCheckStates**](MonitorCheckStates.md)
 
 ### Authorization
 
@@ -558,6 +635,82 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## PreviewMonitorCheckStates
+
+> MonitorCheckStates PreviewMonitorCheckStates(ctx, monitorIdOrUrn).MonitorPreview(monitorPreview).HealthState(healthState).Limit(limit).Execute()
+
+Preview a monitor
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    monitorIdOrUrn := "monitorIdOrUrn_example" // string | The id or identifier (urn) of a monitor
+    monitorPreview := *openapiclient.NewMonitorPreview() // MonitorPreview | Monitor overrides in order to run a preview
+    healthState := openapiclient.HealthStateValue("UNINITIALIZED") // HealthStateValue | Health state of check states (optional)
+    limit := int32(56) // int32 |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorApi.PreviewMonitorCheckStates(context.Background(), monitorIdOrUrn).MonitorPreview(monitorPreview).HealthState(healthState).Limit(limit).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.PreviewMonitorCheckStates``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PreviewMonitorCheckStates`: MonitorCheckStates
+    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.PreviewMonitorCheckStates`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**monitorIdOrUrn** | **string** | The id or identifier (urn) of a monitor | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPreviewMonitorCheckStatesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **monitorPreview** | [**MonitorPreview**](MonitorPreview.md) | Monitor overrides in order to run a preview | 
+ **healthState** | [**HealthStateValue**](HealthStateValue.md) | Health state of check states | 
+ **limit** | **int32** |  | 
+
+### Return type
+
+[**MonitorCheckStates**](MonitorCheckStates.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## PublishHealthStates
 
 > PublishHealthStates(ctx, monitorIdOrUrn).MonitorSnapshot(monitorSnapshot).Execute()
@@ -757,6 +910,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**MonitorPreviewResult**](MonitorPreviewResult.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## TestMonitorFunctionCheckStates
+
+> MonitorCheckStates TestMonitorFunctionCheckStates(ctx, monitorFunctionIdOrUrn).MonitorFunctionTest(monitorFunctionTest).HealthState(healthState).Limit(limit).Execute()
+
+Test a monitor
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    monitorFunctionIdOrUrn := "monitorFunctionIdOrUrn_example" // string | The id or identifier (urn) of a monitor function
+    monitorFunctionTest := *openapiclient.NewMonitorFunctionTest([]openapiclient.Argument{openapiclient.Argument{ArgumentBooleanVal: openapiclient.NewArgumentBooleanVal("Type_example", int64(123), false)}}) // MonitorFunctionTest | Monitor function arguments to test
+    healthState := openapiclient.HealthStateValue("UNINITIALIZED") // HealthStateValue | Health state of check states (optional)
+    limit := int32(56) // int32 |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MonitorApi.TestMonitorFunctionCheckStates(context.Background(), monitorFunctionIdOrUrn).MonitorFunctionTest(monitorFunctionTest).HealthState(healthState).Limit(limit).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.TestMonitorFunctionCheckStates``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `TestMonitorFunctionCheckStates`: MonitorCheckStates
+    fmt.Fprintf(os.Stdout, "Response from `MonitorApi.TestMonitorFunctionCheckStates`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**monitorFunctionIdOrUrn** | **string** | The id or identifier (urn) of a monitor function | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestMonitorFunctionCheckStatesRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **monitorFunctionTest** | [**MonitorFunctionTest**](MonitorFunctionTest.md) | Monitor function arguments to test | 
+ **healthState** | [**HealthStateValue**](HealthStateValue.md) | Health state of check states | 
+ **limit** | **int32** |  | 
+
+### Return type
+
+[**MonitorCheckStates**](MonitorCheckStates.md)
 
 ### Authorization
 

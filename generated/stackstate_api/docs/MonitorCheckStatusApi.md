@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**GetMonitorCheckStatus**](MonitorCheckStatusApi.md#GetMonitorCheckStatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
-[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusApi.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
+[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusApi.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health history
 [**GetMonitorCheckStatusRelatedFailures**](MonitorCheckStatusApi.md#GetMonitorCheckStatusRelatedFailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
 
 
@@ -86,7 +86,7 @@ Name | Type | Description  | Notes
 
 > MonitorCheckStatusHealthHistory GetMonitorCheckStatusHealthHistory(ctx, id).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
 
-Get a monitor check health hisotry
+Get a monitor check health history
 
 
 

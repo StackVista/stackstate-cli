@@ -673,6 +673,57 @@ paths:
       summary: Preview a monitor
       tags:
       - monitor
+  /monitors/{monitorIdOrUrn}/preview/checkStates:
+    post:
+      description: Performs a run of a monitor allowing to test it with new arguments
+        and returns the health states produced
+      operationId: previewMonitorCheckStates
+      parameters:
+      - description: The id or identifier (urn) of a monitor
+        in: path
+        name: monitorIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorIdOrUrn'
+      - description: Health state of check states
+        in: query
+        name: healthState
+        schema:
+          $ref: '#/components/schemas/HealthStateValue'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/monitorPreview'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStates'
+          description: Check states of a monitor
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Preview a monitor
+      tags:
+      - monitor
   /monitors/{monitorIdOrUrn}/run:
     post:
       description: "Performs a run of a monitor. If 'dryRun' is set, topology state\
@@ -757,6 +808,54 @@ paths:
       summary: Get a monitor with stream information
       tags:
       - monitor
+  /monitors/{monitorIdOrUrn}/checkStates:
+    get:
+      description: Returns the checkstates that a monitor generated
+      operationId: getMonitorCheckStates
+      parameters:
+      - description: The id or identifier (urn) of a monitor
+        in: path
+        name: monitorIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorIdOrUrn'
+      - description: Health state of check states
+        in: query
+        name: healthState
+        schema:
+          $ref: '#/components/schemas/HealthStateValue'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStates'
+          description: Check states of a monitor
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorNotFoundError'
+          description: monitor was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Get the check states for a monitor
+      tags:
+      - monitor
   /monitors/{monitorIdOrUrn}/publish:
     post:
       description: Publish health states for monitor
@@ -815,6 +914,57 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonitorPreviewResult'
           description: Summary representation of the result of a monitor run
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvalidMonitorIdentifierError'
+          description: Invalid monitor id or identifier
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorFunctionNotFoundError'
+          description: monitor function was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorApiError'
+          description: container for all error response
+      summary: Test a monitor
+      tags:
+      - monitor
+  /monitors/{monitorFunctionIdOrUrn}/test/checkStates:
+    post:
+      description: Performs a run of a monitor function to test arguments and returns
+        the health states produced
+      operationId: testMonitorFunctionCheckStates
+      parameters:
+      - description: The id or identifier (urn) of a monitor function
+        in: path
+        name: monitorFunctionIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/MonitorFunctionIdOrUrn'
+      - description: Health state of check states
+        in: query
+        name: healthState
+        schema:
+          $ref: '#/components/schemas/HealthStateValue'
+      - in: query
+        name: limit
+        schema:
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/monitorFunctionTest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitorCheckStates'
+          description: Check states of a monitor
         "400":
           content:
             application/json:
@@ -1039,7 +1189,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/MonitorCheckStatusApiError'
           description: container for all error response
-      summary: Get a monitor check health hisotry
+      summary: Get a monitor check health history
       tags:
       - monitorCheckStatus
   /notifications/channels/slack/oauth-redirect:
@@ -3104,6 +3254,15 @@ paths:
     post:
       description: Checks if an ingestion api key is valid
       operationId: authorizeIngestionApiKey
+      parameters:
+      - description: "By default, the endpoint uses only Ingestion API Keys, true\
+          \ value - to verify also Receiver API Key"
+        in: query
+        name: withReceiverKey
+        required: false
+        schema:
+          default: false
+          type: boolean
       requestBody:
         content:
           application/json:
@@ -3123,7 +3282,7 @@ paths:
           description: Error when handling the request on the server side.
       summary: Check authorization for an Ingestion Api Key
       tags:
-      - ingestionApiKey
+      - authorizeIngestionApiKey
   /security/ingestion/api_keys/{ingestionApiKeyId}:
     delete:
       description: "Deleted token can't be used by sources, so all ingestion pipelines\
@@ -4335,6 +4494,7 @@ paths:
       - in: query
         name: offset
         schema:
+          format: int64
           type: integer
       - in: query
         name: partition
@@ -4900,6 +5060,83 @@ paths:
       summary: Fetch components based on resource attributes
       tags:
       - traces
+  /layouts:
+    get:
+      description: List all available layout hints in the system
+      operationId: getAllLayouts
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LayoutList'
+          description: List of all available layout hints
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LayoutApiError'
+          description: container for all error response
+      summary: List layout hints
+      tags:
+      - layout
+  /components/{componentIdOrUrn}/healthHistory:
+    get:
+      description: Get a component health history for a defined period of time by
+        id
+      operationId: getComponentHealthHistory
+      parameters:
+      - description: The id or identifier (urn) of a component
+        in: path
+        name: componentIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: The start time of a time range to query resources.
+        in: query
+        name: startTime
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources. If not given
+          the endTime is set to current time.
+        in: query
+        name: endTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHealthHistory'
+          description: Component health history
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentNotFoundError'
+          description: Component not found error
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a component health history
+      tags:
+      - component
   /dummy/dummy:
     get:
       description: ""
@@ -5069,6 +5306,12 @@ components:
           schema:
             $ref: '#/components/schemas/MonitorPreviewResult'
       description: Summary representation of the result of a monitor run
+    monitorCheckStates:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MonitorCheckStates'
+      description: Check states of a monitor
     monitorRunResult:
       content:
         application/json:
@@ -5537,6 +5780,30 @@ components:
           schema:
             $ref: '#/components/schemas/SpanComponents'
       description: Components
+    layouts:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LayoutList'
+      description: List of all available layout hints
+    layoutApiError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LayoutApiError'
+      description: container for all error response
+    componentHealthHistory:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentHealthHistory'
+      description: Component health history
+    componentNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentNotFoundError'
+      description: Component not found error
     stackElementNotFound:
       content:
         application/json:
@@ -6394,6 +6661,39 @@ components:
       required:
       - matchingComponents
       - uniqueIdentifiers
+      type: object
+    HealthStateValue:
+      enum:
+      - UNINITIALIZED
+      - UNKNOWN
+      - CLEAR
+      - DISABLED
+      - DEVIATING
+      - FLAPPING
+      - CRITICAL
+      type: string
+    MonitorCheckStates:
+      example:
+        states:
+        - componentType: componentType
+          lastUpdateTimestamp: 0
+          healthState: null
+          checkStateId: checkStateId
+          componentName: componentName
+          componentIdentifier: componentIdentifier
+        - componentType: componentType
+          lastUpdateTimestamp: 0
+          healthState: null
+          checkStateId: checkStateId
+          componentName: componentName
+          componentIdentifier: componentIdentifier
+      properties:
+        states:
+          items:
+            $ref: '#/components/schemas/ViewCheckState'
+          type: array
+      required:
+      - states
       type: object
     MonitorRunResult:
       example:
@@ -10392,6 +10692,7 @@ components:
         partition:
           type: integer
         offset:
+          format: int64
           type: integer
         message:
           type: object
@@ -10996,7 +11297,280 @@ components:
       example:
         spans:
         - traceId: traceId
+          spanId: spanId
           durationNanos: 1
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          spanName: spanName
+          statusCode: null
+        - traceId: traceId
+          spanId: spanId
+          durationNanos: 1
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          spanName: spanName
+          statusCode: null
+        pageSize: 5
+        page: 5
+        matchesTotal: 2
+      properties:
+        spans:
+          description: List of spans
+          items:
+            $ref: '#/components/schemas/SpanSummary'
+          type: array
+        pageSize:
+          description: Maximum number of the spans in the result.
+          type: integer
+        page:
+          description: The requested page.
+          type: integer
+        matchesTotal:
+          description: The total number of matching spans.
+          format: int64
+          type: integer
+      required:
+      - matchesTotal
+      - page
+      - pageSize
+      - spans
+      type: object
+    SpanSummary:
+      example:
+        traceId: traceId
+        spanId: spanId
+        durationNanos: 1
+        startTime:
+          offsetNanos: 602745
+          timestamp: 0
+        endTime:
+          offsetNanos: 602745
+          timestamp: 0
+        serviceName: serviceName
+        parentSpanId: parentSpanId
+        spanName: spanName
+        statusCode: null
+      properties:
+        startTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        endTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        durationNanos:
+          description: Duration of the span in nanoseconds
+          format: int64
+          type: integer
+        traceId:
+          description: "The unique identifier for the trace, all spans of the same\
+            \ trace share the same trace_id"
+          type: string
+        spanId:
+          description: The unique identifier of the span within the trace
+          type: string
+        parentSpanId:
+          description: The id of the parent span of this span. Empty if this is the
+            root span
+          type: string
+        spanName:
+          description: "A description of the span's operation. For example, the name\
+            \ can be a qualified method name or a file name and a line number where\
+            \ the operation is called"
+          type: string
+        serviceName:
+          description: Logical name of the service for the span
+          type: string
+        statusCode:
+          $ref: '#/components/schemas/StatusCode'
+      required:
+      - durationNanos
+      - endTime
+      - serviceName
+      - spanId
+      - spanName
+      - startTime
+      - statusCode
+      - traceId
+      type: object
+    TraceApiSpansBadRequest:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TraceApiInvalidTimeRange'
+      - $ref: '#/components/schemas/TraceApiInvalidPagination'
+      - $ref: '#/components/schemas/TraceApiInvalidDurationFilter'
+      required:
+      - _type
+    TraceApiInvalidTimeRange:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidTimeRange
+          type: string
+        message:
+          type: string
+        from:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+        to:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    TraceApiInvalidPagination:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidPagination
+          type: string
+        message:
+          type: string
+        pageSize:
+          type: integer
+      required:
+      - _type
+      - message
+      - pageSize
+      type: object
+    TraceApiInvalidDurationFilter:
+      properties:
+        _type:
+          enum:
+          - TraceApiInvalidDurationFilter
+          type: string
+        message:
+          type: string
+        from:
+          format: int64
+          type: integer
+        to:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - from
+      - message
+      - to
+      type: object
+    TraceApiError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    DurationHistogram:
+      example:
+        quantiles:
+          q99: 3.616076749251911
+          q90: 7.061401241503109
+          q95: 9.301444243932576
+          q50: 2.3021358869347655
+        buckets:
+        - lowerNanos: 5
+          upperNanos: 5
+          okCount: 0
+          unsetCount: 1
+          errorCount: 6
+        - lowerNanos: 5
+          upperNanos: 5
+          okCount: 0
+          unsetCount: 1
+          errorCount: 6
+      properties:
+        buckets:
+          description: List of duration buckets
+          items:
+            $ref: '#/components/schemas/DurationHistogramBucket'
+          type: array
+        quantiles:
+          $ref: '#/components/schemas/DurationQuantiles'
+      required:
+      - buckets
+      - quantiles
+      type: object
+    DurationHistogramBucket:
+      example:
+        lowerNanos: 5
+        upperNanos: 5
+        okCount: 0
+        unsetCount: 1
+        errorCount: 6
+      properties:
+        okCount:
+          description: "Number of successful traces with a duration between (lowerNanos,\
+            \ upperNanos]."
+          type: integer
+        errorCount:
+          description: "Number of erroneous traces with a duration between (lowerNanos,\
+            \ upperNanos]."
+          type: integer
+        unsetCount:
+          description: "Number of traces with unset status and a duration between\
+            \ (lowerNanos, upperNanos]."
+          type: integer
+        lowerNanos:
+          description: Lower limit on trace duration
+          format: int64
+          type: integer
+        upperNanos:
+          description: Upper limit on trace duration
+          format: int64
+          type: integer
+      required:
+      - errorCount
+      - okCount
+      - unsetCount
+      type: object
+    DurationQuantiles:
+      example:
+        q99: 3.616076749251911
+        q90: 7.061401241503109
+        q95: 9.301444243932576
+        q50: 2.3021358869347655
+      properties:
+        q50:
+          format: double
+          type: number
+        q90:
+          format: double
+          type: number
+        q95:
+          format: double
+          type: number
+        q99:
+          format: double
+          type: number
+      required:
+      - q50
+      - q90
+      - q95
+      - q99
+      type: object
+    Trace:
+      example:
+        traceId: traceId
+        spans:
+        - traceId: traceId
+          durationNanos: 0
           spanKind: null
           scopeName: scopeName
           spanAttributes:
@@ -11043,7 +11617,7 @@ components:
               timestamp: 0
           statusCode: null
         - traceId: traceId
-          durationNanos: 1
+          durationNanos: 0
           spanKind: null
           scopeName: scopeName
           spanAttributes:
@@ -11089,35 +11663,23 @@ components:
               offsetNanos: 602745
               timestamp: 0
           statusCode: null
-        pageSize: 5
-        page: 5
-        matchesTotal: 2
       properties:
+        traceId:
+          description: The id of the trace
+          type: string
         spans:
-          description: List of spans
+          description: All spans for the trace
           items:
             $ref: '#/components/schemas/Span'
           type: array
-        pageSize:
-          description: Maximum number of the spans in the result.
-          type: integer
-        page:
-          description: The requested page.
-          type: integer
-        matchesTotal:
-          description: The total number of matching spans.
-          format: int64
-          type: integer
       required:
-      - matchesTotal
-      - page
-      - pageSize
       - spans
+      - traceId
       type: object
     Span:
       example:
         traceId: traceId
-        durationNanos: 1
+        durationNanos: 0
         spanKind: null
         scopeName: scopeName
         spanAttributes:
@@ -11310,280 +11872,6 @@ components:
       - spanId
       - traceId
       type: object
-    TraceApiSpansBadRequest:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/TraceApiInvalidTimeRange'
-      - $ref: '#/components/schemas/TraceApiInvalidPagination'
-      - $ref: '#/components/schemas/TraceApiInvalidDurationFilter'
-      required:
-      - _type
-    TraceApiInvalidTimeRange:
-      properties:
-        _type:
-          enum:
-          - TraceApiInvalidTimeRange
-          type: string
-        message:
-          type: string
-        from:
-          description: Date/time representation in milliseconds since epoch (1970-01-01
-            00:00:00)
-          format: instant
-          type: integer
-        to:
-          description: Date/time representation in milliseconds since epoch (1970-01-01
-            00:00:00)
-          format: instant
-          type: integer
-      required:
-      - _type
-      - from
-      - message
-      - to
-      type: object
-    TraceApiInvalidPagination:
-      properties:
-        _type:
-          enum:
-          - TraceApiInvalidPagination
-          type: string
-        message:
-          type: string
-        pageSize:
-          type: integer
-      required:
-      - _type
-      - message
-      - pageSize
-      type: object
-    TraceApiInvalidDurationFilter:
-      properties:
-        _type:
-          enum:
-          - TraceApiInvalidDurationFilter
-          type: string
-        message:
-          type: string
-        from:
-          format: int64
-          type: integer
-        to:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - from
-      - message
-      - to
-      type: object
-    TraceApiError:
-      properties:
-        message:
-          type: string
-      required:
-      - message
-      type: object
-    DurationHistogram:
-      example:
-        quantiles:
-          q99: 3.616076749251911
-          q90: 7.061401241503109
-          q95: 9.301444243932576
-          q50: 2.3021358869347655
-        buckets:
-        - lowerNanos: 5
-          upperNanos: 5
-          okCount: 0
-          unsetCount: 1
-          errorCount: 6
-        - lowerNanos: 5
-          upperNanos: 5
-          okCount: 0
-          unsetCount: 1
-          errorCount: 6
-      properties:
-        buckets:
-          description: List of duration buckets
-          items:
-            $ref: '#/components/schemas/DurationHistogramBucket'
-          type: array
-        quantiles:
-          $ref: '#/components/schemas/DurationQuantiles'
-      required:
-      - buckets
-      - quantiles
-      type: object
-    DurationHistogramBucket:
-      example:
-        lowerNanos: 5
-        upperNanos: 5
-        okCount: 0
-        unsetCount: 1
-        errorCount: 6
-      properties:
-        okCount:
-          description: "Number of successful traces with a duration between (lowerNanos,\
-            \ upperNanos]."
-          type: integer
-        errorCount:
-          description: "Number of erroneous traces with a duration between (lowerNanos,\
-            \ upperNanos]."
-          type: integer
-        unsetCount:
-          description: "Number of traces with unset status and a duration between\
-            \ (lowerNanos, upperNanos]."
-          type: integer
-        lowerNanos:
-          description: Lower limit on trace duration
-          format: int64
-          type: integer
-        upperNanos:
-          description: Upper limit on trace duration
-          format: int64
-          type: integer
-      required:
-      - errorCount
-      - okCount
-      - unsetCount
-      type: object
-    DurationQuantiles:
-      example:
-        q99: 3.616076749251911
-        q90: 7.061401241503109
-        q95: 9.301444243932576
-        q50: 2.3021358869347655
-      properties:
-        q50:
-          format: double
-          type: number
-        q90:
-          format: double
-          type: number
-        q95:
-          format: double
-          type: number
-        q99:
-          format: double
-          type: number
-      required:
-      - q50
-      - q90
-      - q95
-      - q99
-      type: object
-    Trace:
-      example:
-        traceId: traceId
-        spans:
-        - traceId: traceId
-          durationNanos: 1
-          spanKind: null
-          scopeName: scopeName
-          spanAttributes:
-            key: spanAttributes
-          spanParentType: null
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          resourceAttributes:
-            key: resourceAttributes
-          statusMessage: statusMessage
-          spanName: spanName
-          scopeVersion: scopeVersion
-          spanId: spanId
-          traceState: traceState
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          links:
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          events:
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          statusCode: null
-        - traceId: traceId
-          durationNanos: 1
-          spanKind: null
-          scopeName: scopeName
-          spanAttributes:
-            key: spanAttributes
-          spanParentType: null
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          resourceAttributes:
-            key: resourceAttributes
-          statusMessage: statusMessage
-          spanName: spanName
-          scopeVersion: scopeVersion
-          spanId: spanId
-          traceState: traceState
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          links:
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          events:
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          statusCode: null
-      properties:
-        traceId:
-          description: The id of the trace
-          type: string
-        spans:
-          description: All spans for the trace
-          items:
-            $ref: '#/components/schemas/Span'
-          type: array
-      required:
-      - spans
-      - traceId
-      type: object
     TraceApiTraceNotFound:
       properties:
         traceId:
@@ -11645,10 +11933,12 @@ components:
       example:
         components:
         - identifier: identifier
+          healthState: null
           name: name
           id: 0
           type: type
         - identifier: identifier
+          healthState: null
           name: name
           id: 0
           type: type
@@ -11663,6 +11953,7 @@ components:
     SpanComponent:
       example:
         identifier: identifier
+        healthState: null
         name: name
         id: 0
         type: type
@@ -11676,12 +11967,132 @@ components:
           type: string
         type:
           type: string
+        healthState:
+          $ref: '#/components/schemas/HealthStateValue'
       required:
+      - healthState
       - id
       - identifier
       - name
       - type
       type: object
+    LayoutList:
+      example:
+        layouts:
+        - null
+        - null
+      properties:
+        layouts:
+          items:
+            $ref: '#/components/schemas/LayoutHint'
+          type: array
+      required:
+      - layouts
+      type: object
+    LayoutHint:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricPerspectiveTab'
+      - $ref: '#/components/schemas/MetricPerspectiveSection'
+      - $ref: '#/components/schemas/ComponentHighlightMetricSection'
+    MetricPerspectiveTab:
+      allOf:
+      - $ref: '#/components/schemas/BaseLayoutHint'
+      - $ref: '#/components/schemas/MetricPerspectiveTab_allOf'
+    BaseLayoutHint:
+      properties:
+        name:
+          type: string
+        weight:
+          format: float
+          type: number
+      required:
+      - name
+      - weight
+      type: object
+    MetricPerspectiveSection:
+      allOf:
+      - $ref: '#/components/schemas/BaseLayoutHint'
+      - $ref: '#/components/schemas/MetricPerspectiveSection_allOf'
+    ComponentHighlightMetricSection:
+      allOf:
+      - $ref: '#/components/schemas/BaseLayoutHint'
+      - $ref: '#/components/schemas/ComponentHighlightMetricSection_allOf'
+    LayoutApiError:
+      properties:
+        statusCode:
+          type: string
+        message:
+          type: string
+      required:
+      - message
+      - statusCode
+      type: object
+    ComponentIdOrUrn:
+      pattern: "^urn:.+|[0-9]+$"
+      type: string
+    ComponentHealthHistory:
+      example:
+        startTime: 6
+        id: 0
+        endTime: 1
+        healthStateChanges:
+        - newHealth: null
+          timestamp: 5
+        - newHealth: null
+          timestamp: 5
+      properties:
+        id:
+          format: int64
+          type: integer
+        startTime:
+          format: instant
+          type: integer
+        endTime:
+          format: instant
+          type: integer
+        healthStateChanges:
+          description: List of health state changes ordered from most recent to oldest.
+          items:
+            $ref: '#/components/schemas/ComponentHealthChange'
+          type: array
+      required:
+      - endTime
+      - healthStateChanges
+      - id
+      - startTime
+    ComponentHealthChange:
+      example:
+        newHealth: null
+        timestamp: 5
+      properties:
+        timestamp:
+          format: int64
+          type: integer
+        newHealth:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - newHealth
+      - timestamp
+    ComponentNotFoundError:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - ComponentNotFoundError
+          type: string
+        componentId:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - componentId
+      type: object
+    ComponentId:
+      format: int64
+      type: integer
     StackElementNotFound:
       discriminator:
         propertyName: _type
@@ -12201,21 +12612,41 @@ components:
       - topologyQuery
       - unit
       type: object
+    ViewCheckState:
+      example:
+        componentType: componentType
+        lastUpdateTimestamp: 0
+        healthState: null
+        checkStateId: checkStateId
+        componentName: componentName
+        componentIdentifier: componentIdentifier
+      properties:
+        checkStateId:
+          type: string
+        healthState:
+          $ref: '#/components/schemas/HealthStateValue'
+        componentName:
+          type: string
+        componentIdentifier:
+          type: string
+        componentType:
+          type: string
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+      required:
+      - checkStateId
+      - componentIdentifier
+      - componentName
+      - componentType
+      - healthState
+      - lastUpdateTimestamp
+      type: object
     MessageLevel:
       enum:
       - WARN
       - ERROR
       - INFO
-      type: string
-    HealthStateValue:
-      enum:
-      - UNINITIALIZED
-      - UNKNOWN
-      - CLEAR
-      - DISABLED
-      - DEVIATING
-      - FLAPPING
-      - CRITICAL
       type: string
     MonitorReferenceId:
       discriminator:
@@ -12403,6 +12834,36 @@ components:
         type: number
       - format: sample_value
         type: string
+    MetricPerspectiveTab_allOf:
+      properties:
+        _type:
+          enum:
+          - MetricPerspectiveTab
+          type: string
+      required:
+      - _type
+      type: object
+    MetricPerspectiveSection_allOf:
+      properties:
+        _type:
+          enum:
+          - MetricPerspectiveSection
+          type: string
+        tab:
+          type: string
+      required:
+      - _type
+      - tab
+      type: object
+    ComponentHighlightMetricSection_allOf:
+      properties:
+        _type:
+          enum:
+          - ComponentHighlightMetricSection
+          type: string
+      required:
+      - _type
+      type: object
   securitySchemes:
     ApiToken:
       description: |

@@ -6,14 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Key** | **string** |  | 
 **Partition** | **int32** |  | 
-**Offset** | **int32** |  | 
+**Offset** | **int64** |  | 
 **Message** | **map[string]interface{}** |  | 
 
 ## Methods
 
 ### NewMessage
 
-`func NewMessage(key string, partition int32, offset int32, message map[string]interface{}, ) *Message`
+`func NewMessage(key string, partition int32, offset int64, message map[string]interface{}, ) *Message`
 
 NewMessage instantiates a new Message object
 This constructor will assign default values to properties that have it defined,
@@ -70,20 +70,20 @@ SetPartition sets Partition field to given value.
 
 ### GetOffset
 
-`func (o *Message) GetOffset() int32`
+`func (o *Message) GetOffset() int64`
 
 GetOffset returns the Offset field if non-nil, zero value otherwise.
 
 ### GetOffsetOk
 
-`func (o *Message) GetOffsetOk() (*int32, bool)`
+`func (o *Message) GetOffsetOk() (*int64, bool)`
 
 GetOffsetOk returns a tuple with the Offset field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetOffset
 
-`func (o *Message) SetOffset(v int32)`
+`func (o *Message) SetOffset(v int64)`
 
 SetOffset sets Offset field to given value.
 

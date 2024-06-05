@@ -8,12 +8,13 @@ Name | Type | Description | Notes
 **Identifier** | **string** |  | 
 **Name** | **string** |  | 
 **Type** | **string** |  | 
+**HealthState** | [**HealthStateValue**](HealthStateValue.md) |  | 
 
 ## Methods
 
 ### NewSpanComponent
 
-`func NewSpanComponent(id int64, identifier string, name string, type_ string, ) *SpanComponent`
+`func NewSpanComponent(id int64, identifier string, name string, type_ string, healthState HealthStateValue, ) *SpanComponent`
 
 NewSpanComponent instantiates a new SpanComponent object
 This constructor will assign default values to properties that have it defined,
@@ -106,6 +107,26 @@ and a boolean to check if the value has been set.
 `func (o *SpanComponent) SetType(v string)`
 
 SetType sets Type field to given value.
+
+
+### GetHealthState
+
+`func (o *SpanComponent) GetHealthState() HealthStateValue`
+
+GetHealthState returns the HealthState field if non-nil, zero value otherwise.
+
+### GetHealthStateOk
+
+`func (o *SpanComponent) GetHealthStateOk() (*HealthStateValue, bool)`
+
+GetHealthStateOk returns a tuple with the HealthState field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHealthState
+
+`func (o *SpanComponent) SetHealthState(v HealthStateValue)`
+
+SetHealthState sets HealthState field to given value.
 
 
 

@@ -17,22 +17,24 @@ import (
 
 // SpanComponent struct for SpanComponent
 type SpanComponent struct {
-	Id         int64  `json:"id"`
-	Identifier string `json:"identifier"`
-	Name       string `json:"name"`
-	Type       string `json:"type"`
+	Id          int64            `json:"id"`
+	Identifier  string           `json:"identifier"`
+	Name        string           `json:"name"`
+	Type        string           `json:"type"`
+	HealthState HealthStateValue `json:"healthState"`
 }
 
 // NewSpanComponent instantiates a new SpanComponent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSpanComponent(id int64, identifier string, name string, type_ string) *SpanComponent {
+func NewSpanComponent(id int64, identifier string, name string, type_ string, healthState HealthStateValue) *SpanComponent {
 	this := SpanComponent{}
 	this.Id = id
 	this.Identifier = identifier
 	this.Name = name
 	this.Type = type_
+	this.HealthState = healthState
 	return &this
 }
 
@@ -140,6 +142,30 @@ func (o *SpanComponent) SetType(v string) {
 	o.Type = v
 }
 
+// GetHealthState returns the HealthState field value
+func (o *SpanComponent) GetHealthState() HealthStateValue {
+	if o == nil {
+		var ret HealthStateValue
+		return ret
+	}
+
+	return o.HealthState
+}
+
+// GetHealthStateOk returns a tuple with the HealthState field value
+// and a boolean to check if the value has been set.
+func (o *SpanComponent) GetHealthStateOk() (*HealthStateValue, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HealthState, true
+}
+
+// SetHealthState sets field value
+func (o *SpanComponent) SetHealthState(v HealthStateValue) {
+	o.HealthState = v
+}
+
 func (o SpanComponent) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -153,6 +179,9 @@ func (o SpanComponent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["type"] = o.Type
+	}
+	if true {
+		toSerialize["healthState"] = o.HealthState
 	}
 	return json.Marshal(toSerialize)
 }

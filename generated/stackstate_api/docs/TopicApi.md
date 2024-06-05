@@ -32,7 +32,7 @@ import (
 func main() {
     topic := "topic_example" // string | 
     limit := int32(56) // int32 |  (optional)
-    offset := int32(56) // int32 |  (optional)
+    offset := int64(789) // int64 |  (optional)
     partition := int32(56) // int32 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **limit** | **int32** |  | 
- **offset** | **int32** |  | 
+ **offset** | **int64** |  | 
  **partition** | **int32** |  | 
 
 ### Return type
