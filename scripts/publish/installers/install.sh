@@ -39,11 +39,12 @@ fi
 # Check if custom location was defined
 if [[ -z "$STS_CLI_LOCATION" ]]; then
   # Use default installation location
-  TARGET_CLI_PATH=/usr/local/bin
+  TARGET_CLI_PATH="$(pwd)"
   # check if the user has permissions to write on default location
-  if [[ -w "$TARGET_CLI_PATH" ]]; then
-    # user has writing permissions, so no need to use sudo
-    NO_SUDO=true
+  if [[ !-w "$TARGET_CLI_PATH" ]]; then
+    # user has no writing permissions, exit because no explicit location given.
+    echo "Cannot write to the current directory. Please either execute the script from a writeable directory or set STS_CLI_LOCATION to a different directory."
+    exit 1
   fi
 else
   # Check if the custom installation location is valid
