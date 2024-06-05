@@ -19,7 +19,7 @@ function error() {
   exit 10
 }
 
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+if [[ "$OSTYPE" == "linux"* ]]; then
   OS=linux
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   OS=darwin
