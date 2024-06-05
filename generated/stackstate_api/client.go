@@ -52,6 +52,10 @@ type APIClient struct {
 
 	ApiTokenApi ApiTokenApi
 
+	AuthorizeIngestionApiKeyApi AuthorizeIngestionApiKeyApi
+
+	ComponentApi ComponentApi
+
 	DummyApi DummyApi
 
 	EventApi EventApi
@@ -65,6 +69,8 @@ type APIClient struct {
 	IngestionApiKeyApi IngestionApiKeyApi
 
 	KubernetesLogsApi KubernetesLogsApi
+
+	LayoutApi LayoutApi
 
 	MetricApi MetricApi
 
@@ -122,6 +128,8 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 
 	// API Services
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
+	c.AuthorizeIngestionApiKeyApi = (*AuthorizeIngestionApiKeyApiService)(&c.common)
+	c.ComponentApi = (*ComponentApiService)(&c.common)
 	c.DummyApi = (*DummyApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)
 	c.ExportApi = (*ExportApiService)(&c.common)
@@ -129,6 +137,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ImportApi = (*ImportApiService)(&c.common)
 	c.IngestionApiKeyApi = (*IngestionApiKeyApiService)(&c.common)
 	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
+	c.LayoutApi = (*LayoutApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.MonitorCheckStatusApi = (*MonitorCheckStatusApiService)(&c.common)

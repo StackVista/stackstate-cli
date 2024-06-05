@@ -18,7 +18,7 @@ import (
 // Spans struct for Spans
 type Spans struct {
 	// List of spans
-	Spans []Span `json:"spans"`
+	Spans []SpanSummary `json:"spans"`
 	// Maximum number of the spans in the result.
 	PageSize int32 `json:"pageSize"`
 	// The requested page.
@@ -31,7 +31,7 @@ type Spans struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSpans(spans []Span, pageSize int32, page int32, matchesTotal int64) *Spans {
+func NewSpans(spans []SpanSummary, pageSize int32, page int32, matchesTotal int64) *Spans {
 	this := Spans{}
 	this.Spans = spans
 	this.PageSize = pageSize
@@ -49,9 +49,9 @@ func NewSpansWithDefaults() *Spans {
 }
 
 // GetSpans returns the Spans field value
-func (o *Spans) GetSpans() []Span {
+func (o *Spans) GetSpans() []SpanSummary {
 	if o == nil {
-		var ret []Span
+		var ret []SpanSummary
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *Spans) GetSpans() []Span {
 
 // GetSpansOk returns a tuple with the Spans field value
 // and a boolean to check if the value has been set.
-func (o *Spans) GetSpansOk() ([]Span, bool) {
+func (o *Spans) GetSpansOk() ([]SpanSummary, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,7 +68,7 @@ func (o *Spans) GetSpansOk() ([]Span, bool) {
 }
 
 // SetSpans sets field value
-func (o *Spans) SetSpans(v []Span) {
+func (o *Spans) SetSpans(v []SpanSummary) {
 	o.Spans = v
 }
 

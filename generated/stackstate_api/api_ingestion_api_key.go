@@ -23,19 +23,6 @@ import (
 type IngestionApiKeyApi interface {
 
 	/*
-		AuthorizeIngestionApiKey Check authorization for an Ingestion Api Key
-
-		Checks if an ingestion api key is valid
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiAuthorizeIngestionApiKeyRequest
-	*/
-	AuthorizeIngestionApiKey(ctx context.Context) ApiAuthorizeIngestionApiKeyRequest
-
-	// AuthorizeIngestionApiKeyExecute executes the request
-	AuthorizeIngestionApiKeyExecute(r ApiAuthorizeIngestionApiKeyRequest) (*http.Response, error)
-
-	/*
 		DeleteIngestionApiKey Delete Ingestion Api Key
 
 		Deleted token can't be used by sources, so all ingestion pipelines for that key will fail
@@ -80,156 +67,6 @@ type IngestionApiKeyApi interface {
 
 // IngestionApiKeyApiService IngestionApiKeyApi service
 type IngestionApiKeyApiService service
-
-type ApiAuthorizeIngestionApiKeyRequest struct {
-	ctx                             context.Context
-	ApiService                      IngestionApiKeyApi
-	authorizeIngestionApiKeyRequest *AuthorizeIngestionApiKeyRequest
-}
-
-func (r ApiAuthorizeIngestionApiKeyRequest) AuthorizeIngestionApiKeyRequest(authorizeIngestionApiKeyRequest AuthorizeIngestionApiKeyRequest) ApiAuthorizeIngestionApiKeyRequest {
-	r.authorizeIngestionApiKeyRequest = &authorizeIngestionApiKeyRequest
-	return r
-}
-
-func (r ApiAuthorizeIngestionApiKeyRequest) Execute() (*http.Response, error) {
-	return r.ApiService.AuthorizeIngestionApiKeyExecute(r)
-}
-
-/*
-AuthorizeIngestionApiKey Check authorization for an Ingestion Api Key
-
-Checks if an ingestion api key is valid
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAuthorizeIngestionApiKeyRequest
-*/
-func (a *IngestionApiKeyApiService) AuthorizeIngestionApiKey(ctx context.Context) ApiAuthorizeIngestionApiKeyRequest {
-	return ApiAuthorizeIngestionApiKeyRequest{
-		ApiService: a,
-		ctx:        ctx,
-	}
-}
-
-// Execute executes the request
-func (a *IngestionApiKeyApiService) AuthorizeIngestionApiKeyExecute(r ApiAuthorizeIngestionApiKeyRequest) (*http.Response, error) {
-	var (
-		localVarHTTPMethod = http.MethodPost
-		localVarPostBody   interface{}
-		formFiles          []formFile
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "IngestionApiKeyApiService.AuthorizeIngestionApiKey")
-	if err != nil {
-		return nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/security/ingestion/authorize"
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.authorizeIngestionApiKeyRequest == nil {
-		return nil, reportError("authorizeIngestionApiKeyRequest is required and must be specified")
-	}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{"application/json"}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	// body params
-	localVarPostBody = r.authorizeIngestionApiKeyRequest
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Token"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceBearer"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
-		return localVarHTTPResponse, newErr
-	}
-
-	return localVarHTTPResponse, nil
-}
 
 type ApiDeleteIngestionApiKeyRequest struct {
 	ctx               context.Context
@@ -700,51 +537,23 @@ func (a *IngestionApiKeyApiService) GetIngestionApiKeysExecute(r ApiGetIngestion
 // ---------------------------------------------
 
 type IngestionApiKeyApiMock struct {
-	AuthorizeIngestionApiKeyCalls    *[]AuthorizeIngestionApiKeyCall
-	AuthorizeIngestionApiKeyResponse AuthorizeIngestionApiKeyMockResponse
-	DeleteIngestionApiKeyCalls       *[]DeleteIngestionApiKeyCall
-	DeleteIngestionApiKeyResponse    DeleteIngestionApiKeyMockResponse
-	GenerateIngestionApiKeyCalls     *[]GenerateIngestionApiKeyCall
-	GenerateIngestionApiKeyResponse  GenerateIngestionApiKeyMockResponse
-	GetIngestionApiKeysCalls         *[]GetIngestionApiKeysCall
-	GetIngestionApiKeysResponse      GetIngestionApiKeysMockResponse
+	DeleteIngestionApiKeyCalls      *[]DeleteIngestionApiKeyCall
+	DeleteIngestionApiKeyResponse   DeleteIngestionApiKeyMockResponse
+	GenerateIngestionApiKeyCalls    *[]GenerateIngestionApiKeyCall
+	GenerateIngestionApiKeyResponse GenerateIngestionApiKeyMockResponse
+	GetIngestionApiKeysCalls        *[]GetIngestionApiKeysCall
+	GetIngestionApiKeysResponse     GetIngestionApiKeysMockResponse
 }
 
 func NewIngestionApiKeyApiMock() IngestionApiKeyApiMock {
-	xAuthorizeIngestionApiKeyCalls := make([]AuthorizeIngestionApiKeyCall, 0)
 	xDeleteIngestionApiKeyCalls := make([]DeleteIngestionApiKeyCall, 0)
 	xGenerateIngestionApiKeyCalls := make([]GenerateIngestionApiKeyCall, 0)
 	xGetIngestionApiKeysCalls := make([]GetIngestionApiKeysCall, 0)
 	return IngestionApiKeyApiMock{
-		AuthorizeIngestionApiKeyCalls: &xAuthorizeIngestionApiKeyCalls,
-		DeleteIngestionApiKeyCalls:    &xDeleteIngestionApiKeyCalls,
-		GenerateIngestionApiKeyCalls:  &xGenerateIngestionApiKeyCalls,
-		GetIngestionApiKeysCalls:      &xGetIngestionApiKeysCalls,
+		DeleteIngestionApiKeyCalls:   &xDeleteIngestionApiKeyCalls,
+		GenerateIngestionApiKeyCalls: &xGenerateIngestionApiKeyCalls,
+		GetIngestionApiKeysCalls:     &xGetIngestionApiKeysCalls,
 	}
-}
-
-type AuthorizeIngestionApiKeyMockResponse struct {
-	Response *http.Response
-	Error    error
-}
-
-type AuthorizeIngestionApiKeyCall struct {
-	PauthorizeIngestionApiKeyRequest *AuthorizeIngestionApiKeyRequest
-}
-
-func (mock IngestionApiKeyApiMock) AuthorizeIngestionApiKey(ctx context.Context) ApiAuthorizeIngestionApiKeyRequest {
-	return ApiAuthorizeIngestionApiKeyRequest{
-		ApiService: mock,
-		ctx:        ctx,
-	}
-}
-
-func (mock IngestionApiKeyApiMock) AuthorizeIngestionApiKeyExecute(r ApiAuthorizeIngestionApiKeyRequest) (*http.Response, error) {
-	p := AuthorizeIngestionApiKeyCall{
-		PauthorizeIngestionApiKeyRequest: r.authorizeIngestionApiKeyRequest,
-	}
-	*mock.AuthorizeIngestionApiKeyCalls = append(*mock.AuthorizeIngestionApiKeyCalls, p)
-	return mock.AuthorizeIngestionApiKeyResponse.Response, mock.AuthorizeIngestionApiKeyResponse.Error
 }
 
 type DeleteIngestionApiKeyMockResponse struct {

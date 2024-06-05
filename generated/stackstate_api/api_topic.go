@@ -60,7 +60,7 @@ type ApiDescribeRequest struct {
 	ApiService TopicApi
 	topic      string
 	limit      *int32
-	offset     *int32
+	offset     *int64
 	partition  *int32
 }
 
@@ -69,7 +69,7 @@ func (r ApiDescribeRequest) Limit(limit int32) ApiDescribeRequest {
 	return r
 }
 
-func (r ApiDescribeRequest) Offset(offset int32) ApiDescribeRequest {
+func (r ApiDescribeRequest) Offset(offset int64) ApiDescribeRequest {
 	r.offset = &offset
 	return r
 }
@@ -435,7 +435,7 @@ type DescribeMockResponse struct {
 type DescribeCall struct {
 	Ptopic     string
 	Plimit     *int32
-	Poffset    *int32
+	Poffset    *int64
 	Ppartition *int32
 }
 

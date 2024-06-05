@@ -186,7 +186,7 @@ func TestTopicDescribeDefaults(t *testing.T) {
 
 type InvalidArgs struct {
 	Name  string
-	Value int32
+	Value int64
 }
 
 func TestTopicDescribePaginationLimits(t *testing.T) {

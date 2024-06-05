@@ -88,6 +88,8 @@ All URIs are relative to *http://localhost*
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+*AuthorizeIngestionApiKeyApi* | [**AuthorizeIngestionApiKey**](docs/AuthorizeIngestionApiKeyApi.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
+*ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrUrn}/healthHistory | Get a component health history
 *DummyApi* | [**Dummy**](docs/DummyApi.md#dummy) | **Get** /dummy/dummy | Dummy path to fix omission in openapi generation when a type is not included.
 *EventApi* | [**GetEvent**](docs/EventApi.md#getevent) | **Get** /events/{eventId} | Get single event
 *EventApi* | [**GetEventSources**](docs/EventApi.md#geteventsources) | **Get** /eventSources | Get event sources
@@ -105,13 +107,13 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
-*IngestionApiKeyApi* | [**AuthorizeIngestionApiKey**](docs/IngestionApiKeyApi.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
 *IngestionApiKeyApi* | [**DeleteIngestionApiKey**](docs/IngestionApiKeyApi.md#deleteingestionapikey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
 *IngestionApiKeyApi* | [**GenerateIngestionApiKey**](docs/IngestionApiKeyApi.md#generateingestionapikey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
 *IngestionApiKeyApi* | [**GetIngestionApiKeys**](docs/IngestionApiKeyApi.md#getingestionapikeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
 *KubernetesLogsApi* | [**GetKubernetesLogs**](docs/KubernetesLogsApi.md#getkuberneteslogs) | **Get** /k8s/logs | Get Kubernetes logs
 *KubernetesLogsApi* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsApi.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
 *KubernetesLogsApi* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsApi.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
+*LayoutApi* | [**GetAllLayouts**](docs/LayoutApi.md#getalllayouts) | **Get** /layouts | List layout hints
 *MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 *MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
 *MetricApi* | [**GetLabelValues**](docs/MetricApi.md#getlabelvalues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
@@ -129,16 +131,19 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**DeleteMonitor**](docs/MonitorApi.md#deletemonitor) | **Delete** /monitors/{monitorIdOrUrn} | Delete a monitor
 *MonitorApi* | [**GetAllMonitors**](docs/MonitorApi.md#getallmonitors) | **Get** /monitors | List monitors
 *MonitorApi* | [**GetMonitor**](docs/MonitorApi.md#getmonitor) | **Get** /monitors/{monitorIdOrUrn} | Get a monitor
+*MonitorApi* | [**GetMonitorCheckStates**](docs/MonitorApi.md#getmonitorcheckstates) | **Get** /monitors/{monitorIdOrUrn}/checkStates | Get the check states for a monitor
 *MonitorApi* | [**GetMonitorWithStatus**](docs/MonitorApi.md#getmonitorwithstatus) | **Get** /monitors/{monitorIdOrUrn}/status | Get a monitor with stream information
 *MonitorApi* | [**GetMonitorsOverview**](docs/MonitorApi.md#getmonitorsoverview) | **Get** /monitors/overview | List monitors overview
 *MonitorApi* | [**LookupIdentifier**](docs/MonitorApi.md#lookupidentifier) | **Post** /monitors/identifierLookup | Multiple component identifier lookup
 *MonitorApi* | [**PatchMonitor**](docs/MonitorApi.md#patchmonitor) | **Patch** /monitors/{monitorIdOrUrn} | Update some monitor properties
 *MonitorApi* | [**PreviewMonitor**](docs/MonitorApi.md#previewmonitor) | **Post** /monitors/{monitorIdOrUrn}/preview | Preview a monitor
+*MonitorApi* | [**PreviewMonitorCheckStates**](docs/MonitorApi.md#previewmonitorcheckstates) | **Post** /monitors/{monitorIdOrUrn}/preview/checkStates | Preview a monitor
 *MonitorApi* | [**PublishHealthStates**](docs/MonitorApi.md#publishhealthstates) | **Post** /monitors/{monitorIdOrUrn}/publish | Post monitor health states
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *MonitorApi* | [**TestMonitorFunction**](docs/MonitorApi.md#testmonitorfunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
+*MonitorApi* | [**TestMonitorFunctionCheckStates**](docs/MonitorApi.md#testmonitorfunctioncheckstates) | **Post** /monitors/{monitorFunctionIdOrUrn}/test/checkStates | Test a monitor
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health hisotry
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health history
 *MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
 *NodeApi* | [**Clone**](docs/NodeApi.md#clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
 *NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
@@ -236,12 +241,18 @@ Class | Method | HTTP request | Description
  - [ArgumentTopologyPromQLMetricVal](docs/ArgumentTopologyPromQLMetricVal.md)
  - [ArgumentTopologyQueryVal](docs/ArgumentTopologyQueryVal.md)
  - [AuthorizeIngestionApiKeyRequest](docs/AuthorizeIngestionApiKeyRequest.md)
+ - [BaseLayoutHint](docs/BaseLayoutHint.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
  - [BaseNotificationChannel](docs/BaseNotificationChannel.md)
  - [CausingEventsAreNotAvailableForTheTime](docs/CausingEventsAreNotAvailableForTheTime.md)
  - [CausingEventsResult](docs/CausingEventsResult.md)
  - [ChannelReferenceId](docs/ChannelReferenceId.md)
  - [ComparatorWithoutEquality](docs/ComparatorWithoutEquality.md)
+ - [ComponentHealthChange](docs/ComponentHealthChange.md)
+ - [ComponentHealthHistory](docs/ComponentHealthHistory.md)
+ - [ComponentHighlightMetricSection](docs/ComponentHighlightMetricSection.md)
+ - [ComponentHighlightMetricSectionAllOf](docs/ComponentHighlightMetricSectionAllOf.md)
+ - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
  - [ComponentQuery](docs/ComponentQuery.md)
  - [CreateSubject](docs/CreateSubject.md)
  - [DataUnavailable](docs/DataUnavailable.md)
@@ -328,6 +339,9 @@ Class | Method | HTTP request | Description
  - [KubernetesLogHistogramBucket](docs/KubernetesLogHistogramBucket.md)
  - [KubernetesLogRecord](docs/KubernetesLogRecord.md)
  - [KubernetesLogSeverityHistogramBucket](docs/KubernetesLogSeverityHistogramBucket.md)
+ - [LayoutApiError](docs/LayoutApiError.md)
+ - [LayoutHint](docs/LayoutHint.md)
+ - [LayoutList](docs/LayoutList.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
  - [LockedResponse](docs/LockedResponse.md)
@@ -338,9 +352,14 @@ Class | Method | HTTP request | Description
  - [MessageLevel](docs/MessageLevel.md)
  - [Messages](docs/Messages.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
+ - [MetricPerspectiveSection](docs/MetricPerspectiveSection.md)
+ - [MetricPerspectiveSectionAllOf](docs/MetricPerspectiveSectionAllOf.md)
+ - [MetricPerspectiveTab](docs/MetricPerspectiveTab.md)
+ - [MetricPerspectiveTabAllOf](docs/MetricPerspectiveTabAllOf.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
+ - [MonitorCheckStates](docs/MonitorCheckStates.md)
  - [MonitorCheckStatus](docs/MonitorCheckStatus.md)
  - [MonitorCheckStatusApiError](docs/MonitorCheckStatusApiError.md)
  - [MonitorCheckStatusComponent](docs/MonitorCheckStatusComponent.md)
@@ -464,6 +483,7 @@ Class | Method | HTTP request | Description
  - [SpanSortField](docs/SpanSortField.md)
  - [SpanSortOption](docs/SpanSortOption.md)
  - [SpanSuggestionField](docs/SpanSuggestionField.md)
+ - [SpanSummary](docs/SpanSummary.md)
  - [Spans](docs/Spans.md)
  - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
@@ -512,6 +532,7 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
+ - [ViewCheckState](docs/ViewCheckState.md)
  - [WebhookChannelRefId](docs/WebhookChannelRefId.md)
  - [WebhookChannelWriteSchema](docs/WebhookChannelWriteSchema.md)
  - [WebhookNotificationChannel](docs/WebhookNotificationChannel.md)
