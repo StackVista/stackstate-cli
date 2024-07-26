@@ -40,16 +40,16 @@ TARGET_CLI_PATH="${STS_CLI_LOCATION:-/usr/local/bin}"
 
 echo "Trying to install StackState CLI to ${TARGET_CLI_PATH}"
 
-# Check if the custom installation location is valid
+# Check if the destination directory exists
 if [[ ! -d "${TARGET_CLI_PATH}" ]]; then
   error "The directory to install cli to does not exist: ${TARGET_CLI_PATH}."
-# Check if the user has writing permissions on custom location
-elif [[ ! -w "${TARGET_CLI_PATH}" ]]; then
-  # Location exists but user doesn't have writing permission.
-  echo "Sudo will be used on the provided location ${TARGET_CLI_PATH}."
-else
-  # Location exists and user has writing permission
-  NO_SUDO=true
+fi
+
+# Check if the user has writing permissions on the destination directory
+if [[ ! -w "${TARGET_CLI_PATH}" ]]; then
+  # Destination directory exists but user doesn't have writing permission.
+  echo "Sudo will be used on the provided destination directory ${TARGET_CLI_PATH}."
+  SUDO_REQUIRED="true"
 fi
 
 # Download and unpack the CLI to the target CLI path
@@ -61,9 +61,9 @@ fi
 DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.${OS}-${ARCH}.tar.gz"
 echo "Installing: $DL"
 
-if [[ -z "$NO_SUDO" ]]; then
+if [[ "$SUDO_REQUIRED" == "true" ]]; then
   echo "STS requires sudo permission to install."
-  echo "Alternatively, you can provide a custom location with STS_CLI_LOCATION="
+  echo "Alternatively, you can provide a custom destination directory with STS_CLI_LOCATION="
   echo "Make sure that the provided 'STS_CLI_LOCATION' is in your OS PATH."
 
   # sudo password will be asked when executing the command.
