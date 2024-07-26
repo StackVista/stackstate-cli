@@ -81,7 +81,8 @@ if [[ -n "${STS_URL}" && -n "${STS_API_TOKEN}" ]]; then
 fi
 
 if [ "$(whereis -q sts)" == "" ]; then
-  error "Can not find 'sts' on the PATH or execute it. Consider adding the directory to your PATH: PATH=\"\$PATH:${TARGET_CLI_PATH}\""
+  printf "${RED}[WARNING]${NO_COLOR} Can not find 'sts' on the PATH or execute it. Consider adding the directory to your PATH: PATH=\"\$PATH:${TARGET_CLI_PATH}\"\n"
+  printf "Type ${GREEN}${TARGET_CLI_PATH}/sts${NO_COLOR} to get started!\n"
+else
+  printf "Success! Type ${GREEN}sts${NO_COLOR} to get started!\n"
 fi
-
-printf "Success! Type ${GREEN}sts${NO_COLOR} to get started!\n"
