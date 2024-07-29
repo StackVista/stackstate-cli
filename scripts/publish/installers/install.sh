@@ -19,47 +19,37 @@ function error() {
   exit 10
 }
 
-if [[ "$OSTYPE" == "linux"* ]]; then
+if [[ "${OSTYPE}" == "linux"* ]]; then
   OS=linux
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+elif [[ "${OSTYPE}" == "darwin"* ]]; then
   OS=darwin
 else
-  error "Unsupported operating system: $OSTYPE. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
+  error "Unsupported operating system: ${OSTYPE}. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
 fi
 ARCH=`uname -m`
-if [[ "$ARCH" != "x86_64" && "$ARCH" != "arm64"  && "$ARCH" != "aarch64" ]]; then
-  error "Unsupported architecture: $ARCH. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
+if [[ "${ARCH}" != "x86_64" && "${ARCH}" != "arm64"  && "${ARCH}" != "aarch64" ]]; then
+  error "Unsupported architecture: ${ARCH}. Please checkout the CLI docs on docs.stackstate.com or contact StackState for support with your OS."
 fi
 
 # binaries are only published for arm64
-if [[ "$ARCH" == "aarch64" ]]; then
+if [[ "${ARCH}" == "aarch64" ]]; then
   ARCH="arm64"
 fi
 
-# Check if custom location was defined
-if [[ -z "$STS_CLI_LOCATION" ]]; then
-  # Use default installation location
-  TARGET_CLI_PATH="$(pwd)"
-  # check if the user has permissions to write on default location
-  if [[ !-w "$TARGET_CLI_PATH" ]]; then
-    # user has no writing permissions, exit because no explicit location given.
-    echo "Cannot write to the current directory. Please either execute the script from a writeable directory or set STS_CLI_LOCATION to a different directory."
-    exit 1
-  fi
-else
-  # Check if the custom installation location is valid
-  if [[ ! -d "$STS_CLI_LOCATION" ]]; then
-    error "Provided directory does not exist: $STS_CLI_LOCATION."
-  # Check if the user has writing permissions on custom location
-  elif [[ ! -w "$STS_CLI_LOCATION" ]]; then
-    # Location exists but user doesn't have writing permission.
-    echo "Sudo will be used on the provided location $STS_CLI_LOCATION."
-  else
-    # Location exists and user has writing permission
-    NO_SUDO=true
-  fi
-  # Set installation location as defined by the input
-  TARGET_CLI_PATH="$STS_CLI_LOCATION"
+TARGET_CLI_PATH="${STS_CLI_LOCATION:-/usr/local/bin}"
+
+echo "Trying to install StackState CLI to ${TARGET_CLI_PATH}"
+
+# Check if the destination directory exists
+if [[ ! -d "${TARGET_CLI_PATH}" ]]; then
+  error "The directory to install cli to does not exist: ${TARGET_CLI_PATH}."
+fi
+
+# Check if the user has writing permissions on the destination directory
+if [[ ! -w "${TARGET_CLI_PATH}" ]]; then
+  # Destination directory exists but user doesn't have writing permission.
+  echo "Sudo will be used on the provided destination directory ${TARGET_CLI_PATH}."
+  SUDO_REQUIRED="true"
 fi
 
 # Download and unpack the CLI to the target CLI path
@@ -68,32 +58,31 @@ if [[ -z "$STS_CLI_VERSION" ]]; then
   # The LATEST_VERSION file contains the published tag name, strip the v prefix
   STS_CLI_VERSION=${STS_CLI_VERSION#v}
 fi
-DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.$OS-$ARCH.tar.gz"
+DL="https://dl.stackstate.com/stackstate-cli/v${STS_CLI_VERSION}/stackstate-cli-${STS_CLI_VERSION}.${OS}-${ARCH}.tar.gz"
 echo "Installing: $DL"
 
-if [[ -z "$NO_SUDO" ]]; then
-  # check if custom location was passed to avoid redundant printing
-  if [[ -z "$STS_CLI_LOCATION" ]]; then
-    echo "STS requires sudo permission to install."
-    echo "Alternatively, you can provide a custom location with STS_CLI_LOCATION="
-    echo "Make sure that the provided 'STS_CLI_LOCATION' is in your OS Path."
-  fi
+if [[ "$SUDO_REQUIRED" == "true" ]]; then
+  echo "STS requires sudo permission to install."
+  echo "Alternatively, you can provide a custom destination directory with STS_CLI_LOCATION="
+  echo "Make sure that the provided 'STS_CLI_LOCATION' is in your OS PATH."
 
   # sudo password will be asked when executing the command.
-  curl $DL | sudo tar xz --directory $TARGET_CLI_PATH
+  curl $DL | sudo tar xz --directory ${TARGET_CLI_PATH}
 else
-  curl $DL | tar xz --directory $TARGET_CLI_PATH
+  curl $DL | tar xz --directory ${TARGET_CLI_PATH}
 fi
 
 # Verify that 'sts' works
-sts > /dev/null 2>&1
-if [ $? -ne 0 ]; then
-  error "Can not find 'sts' on the path or execute it"
-fi
+${TARGET_CLI_PATH}/sts > /dev/null 2>&1
 
 # Configure the CLI if config parameters have been set
-if [[ -n "$STS_URL" && -n "$STS_API_TOKEN" ]]; then
-  sts context save --url $STS_URL --api-token $STS_API_TOKEN
+if [[ -n "${STS_URL}" && -n "${STS_API_TOKEN}" ]]; then
+  ${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN}
 fi
 
-printf "Success! Type ${GREEN}sts${NO_COLOR} to get started!\n"
+if [ "$(whereis -q sts)" == "" ]; then
+  printf "${RED}[WARNING]${NO_COLOR} Can not find 'sts' on the PATH or execute it. Consider adding the directory to your PATH: PATH=\"\$PATH:${TARGET_CLI_PATH}\"\n"
+  printf "Type ${GREEN}${TARGET_CLI_PATH}/sts${NO_COLOR} to get started!\n"
+else
+  printf "Success! Type ${GREEN}sts${NO_COLOR} to get started!\n"
+fi
