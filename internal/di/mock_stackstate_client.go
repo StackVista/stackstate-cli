@@ -33,6 +33,7 @@ type ApiMocks struct {
 	PermissionsApi             *stackstate_api.PermissionsApiMock
 	SubjectApi                 *stackstate_api.SubjectApiMock
 	TopicApi                   *stackstate_api.TopicApiMock
+	AgentRegistrationsApi      *stackstate_api.AgentRegistrationsApiMock
 	IngestionApiKeyApi         *stackstate_api.IngestionApiKeyApiMock
 	// Admin API:
 	RetentionApi *stackstate_admin_api.RetentionApiMock
@@ -59,6 +60,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	topicApi := stackstate_api.NewTopicApiMock()
 	ingestionApiKeyApi := stackstate_api.NewIngestionApiKeyApiMock()
 	retentionApi := stackstate_admin_api.NewRetentionApiMock()
+	agentRegistrationsApi := stackstate_api.NewAgentRegistrationsApiMock()
 
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
@@ -80,6 +82,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		TopicApi:                   &topicApi,
 		IngestionApiKeyApi:         &ingestionApiKeyApi,
 		RetentionApi:               &retentionApi,
+		AgentRegistrationsApi:      &agentRegistrationsApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
@@ -101,6 +104,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		SubjectApi:                 apiMocks.SubjectApi,
 		IngestionApiKeyApi:         apiMocks.IngestionApiKeyApi,
 		TopicApi:                   apiMocks.TopicApi,
+		AgentRegistrationsApi:      apiMocks.AgentRegistrationsApi,
 	}
 
 	adminApiClient := &stackstate_admin_api.APIClient{

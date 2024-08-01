@@ -16,13 +16,15 @@ import (
 func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List all registered agents",
-		Long:  "List all registered agents",
+		Short: "List all registered agents.",
+		Long:  "List all registered agents.",
 		RunE:  deps.CmdRunEWithApi(RunListCommand),
 	}
 
 	return cmd
 }
+
+const toMB = 1024 * 1024
 
 func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 	agents, resp, err := api.AgentRegistrationsApi.AllAgentRegistrations(cli.Context).Execute()
@@ -63,15 +65,27 @@ func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APICli
 		})
 	} else {
 		data := make([][]interface{}, len(agentList))
-		currentTime := time.Now()
 
 		for i, agent := range agentList {
-			data[i] = []interface{}{agent.AgentId, agent.Lease, currentTime.Sub(time.UnixMilli(agent.RegisteredEpochMs)).String(), time.UnixMilli(agent.GetLeaseUntilEpochMs()).String()}
+			var info = agent.AgentData
+			if info == nil {
+				info = &stackstate_api.AgentData{Platform: "", CoreCount: 0, MemoryBytes: 0, KernelVersion: ""}
+			}
+
+			data[i] = []interface{}{
+				agent.AgentId,
+				agent.Lease,
+				time.UnixMilli(agent.RegisteredEpochMs).Format("2006-01-02 15:04:05 MST"),
+				time.UnixMilli(agent.LeaseUntilEpochMs).Format("2006-01-02 15:04:05 MST"),
+				fmt.Sprintf("%v", info.CoreCount),
+				fmt.Sprintf("%vMB", info.MemoryBytes/toMB),
+				info.Platform,
+				info.KernelVersion,
+			}
 		}
 		cli.Printer.Table(printer.TableData{
-			Header:              []string{"Host", "Lease", "Age", "Last Lease"},
-			Data:                data,
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "topics"},
+			Header: []string{"Host", "Lease", "Registered", "Last Lease", "CPUS", "Memory", "Platform", "Kernel"},
+			Data:   data,
 		})
 
 		cli.Printer.PrintLn("")
