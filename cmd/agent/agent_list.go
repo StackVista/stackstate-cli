@@ -3,13 +3,14 @@ package agent
 import (
 	"cmp"
 	"fmt"
+	"slices"
+	"time"
+
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
-	"slices"
-	"time"
 )
 
 func ListCommand(deps *di.Deps) *cobra.Command {
@@ -45,12 +46,14 @@ func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APICli
 	var stale = 0
 
 	for _, agent := range agentList {
-		if agent.Lease == stackstate_api.AGENTLEASE_ACTIVE {
+		switch agent.Lease {
+		case stackstate_api.AGENTLEASE_ACTIVE:
 			active++
-		} else if agent.Lease == stackstate_api.AGENTLEASE_LIMITED {
+		case stackstate_api.AGENTLEASE_LIMITED:
 			limited++
-		} else {
+		case stackstate_api.AGENTLEASE_STALE:
 			stale++
+		default:
 		}
 	}
 
