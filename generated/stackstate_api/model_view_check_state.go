@@ -19,9 +19,9 @@ import (
 type ViewCheckState struct {
 	CheckStateId        string           `json:"checkStateId"`
 	HealthState         HealthStateValue `json:"healthState"`
-	ComponentName       string           `json:"componentName"`
+	ComponentName       *string          `json:"componentName,omitempty"`
 	ComponentIdentifier string           `json:"componentIdentifier"`
-	ComponentType       string           `json:"componentType"`
+	ComponentType       *string          `json:"componentType,omitempty"`
 	LastUpdateTimestamp int64            `json:"lastUpdateTimestamp"`
 }
 
@@ -29,13 +29,11 @@ type ViewCheckState struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewViewCheckState(checkStateId string, healthState HealthStateValue, componentName string, componentIdentifier string, componentType string, lastUpdateTimestamp int64) *ViewCheckState {
+func NewViewCheckState(checkStateId string, healthState HealthStateValue, componentIdentifier string, lastUpdateTimestamp int64) *ViewCheckState {
 	this := ViewCheckState{}
 	this.CheckStateId = checkStateId
 	this.HealthState = healthState
-	this.ComponentName = componentName
 	this.ComponentIdentifier = componentIdentifier
-	this.ComponentType = componentType
 	this.LastUpdateTimestamp = lastUpdateTimestamp
 	return &this
 }
@@ -96,28 +94,36 @@ func (o *ViewCheckState) SetHealthState(v HealthStateValue) {
 	o.HealthState = v
 }
 
-// GetComponentName returns the ComponentName field value
+// GetComponentName returns the ComponentName field value if set, zero value otherwise.
 func (o *ViewCheckState) GetComponentName() string {
-	if o == nil {
+	if o == nil || o.ComponentName == nil {
 		var ret string
 		return ret
 	}
-
-	return o.ComponentName
+	return *o.ComponentName
 }
 
-// GetComponentNameOk returns a tuple with the ComponentName field value
+// GetComponentNameOk returns a tuple with the ComponentName field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ViewCheckState) GetComponentNameOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ComponentName == nil {
 		return nil, false
 	}
-	return &o.ComponentName, true
+	return o.ComponentName, true
 }
 
-// SetComponentName sets field value
+// HasComponentName returns a boolean if a field has been set.
+func (o *ViewCheckState) HasComponentName() bool {
+	if o != nil && o.ComponentName != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetComponentName gets a reference to the given string and assigns it to the ComponentName field.
 func (o *ViewCheckState) SetComponentName(v string) {
-	o.ComponentName = v
+	o.ComponentName = &v
 }
 
 // GetComponentIdentifier returns the ComponentIdentifier field value
@@ -144,28 +150,36 @@ func (o *ViewCheckState) SetComponentIdentifier(v string) {
 	o.ComponentIdentifier = v
 }
 
-// GetComponentType returns the ComponentType field value
+// GetComponentType returns the ComponentType field value if set, zero value otherwise.
 func (o *ViewCheckState) GetComponentType() string {
-	if o == nil {
+	if o == nil || o.ComponentType == nil {
 		var ret string
 		return ret
 	}
-
-	return o.ComponentType
+	return *o.ComponentType
 }
 
-// GetComponentTypeOk returns a tuple with the ComponentType field value
+// GetComponentTypeOk returns a tuple with the ComponentType field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ViewCheckState) GetComponentTypeOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.ComponentType == nil {
 		return nil, false
 	}
-	return &o.ComponentType, true
+	return o.ComponentType, true
 }
 
-// SetComponentType sets field value
+// HasComponentType returns a boolean if a field has been set.
+func (o *ViewCheckState) HasComponentType() bool {
+	if o != nil && o.ComponentType != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetComponentType gets a reference to the given string and assigns it to the ComponentType field.
 func (o *ViewCheckState) SetComponentType(v string) {
-	o.ComponentType = v
+	o.ComponentType = &v
 }
 
 // GetLastUpdateTimestamp returns the LastUpdateTimestamp field value
@@ -200,13 +214,13 @@ func (o ViewCheckState) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["healthState"] = o.HealthState
 	}
-	if true {
+	if o.ComponentName != nil {
 		toSerialize["componentName"] = o.ComponentName
 	}
 	if true {
 		toSerialize["componentIdentifier"] = o.ComponentIdentifier
 	}
-	if true {
+	if o.ComponentType != nil {
 		toSerialize["componentType"] = o.ComponentType
 	}
 	if true {

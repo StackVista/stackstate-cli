@@ -3,6 +3,8 @@
 .travis.yml
 README.md
 api/openapi.yaml
+api_agent_leases.go
+api_agent_registrations.go
 api_api_token.go
 api_authorize_ingestion_api_key.go
 api_component.go
@@ -28,6 +30,7 @@ api_service_token.go
 api_stackpack.go
 api_subject.go
 api_subscription.go
+api_system_notifications.go
 api_topic.go
 api_topology_synchronization.go
 api_traces.go
@@ -35,6 +38,12 @@ api_user_profile.go
 api_user_session.go
 client.go
 configuration.go
+docs/AgentData.md
+docs/AgentLease.md
+docs/AgentLeasesApi.md
+docs/AgentRegistration.md
+docs/AgentRegistrations.md
+docs/AgentRegistrationsApi.md
 docs/ApiToken.md
 docs/ApiTokenApi.md
 docs/Argument.md
@@ -47,7 +56,6 @@ docs/ArgumentFailingHealthStateVal.md
 docs/ArgumentLongVal.md
 docs/ArgumentNodeIdVal.md
 docs/ArgumentPromQLMetricVal.md
-docs/ArgumentPropagatedHealthStateVal.md
 docs/ArgumentQueryViewRef.md
 docs/ArgumentRelationTypeRef.md
 docs/ArgumentStateVal.md
@@ -64,6 +72,7 @@ docs/BaseNotificationChannel.md
 docs/CausingEventsAreNotAvailableForTheTime.md
 docs/CausingEventsResult.md
 docs/ChannelReferenceId.md
+docs/CheckLeaseRequest.md
 docs/ComparatorWithoutEquality.md
 docs/ComponentApi.md
 docs/ComponentHealthChange.md
@@ -79,6 +88,11 @@ docs/DummyApi.md
 docs/DurationHistogram.md
 docs/DurationHistogramBucket.md
 docs/DurationQuantiles.md
+docs/EmailChannelRefId.md
+docs/EmailChannelWriteSchema.md
+docs/EmailNotificationChannel.md
+docs/EmailNotificationChannelAllOf.md
+docs/EmailNotificationStatus.md
 docs/EventApi.md
 docs/EventBucket.md
 docs/EventCategory.md
@@ -89,7 +103,6 @@ docs/EventElement.md
 docs/EventItemsWithTotal.md
 docs/EventListRequest.md
 docs/EventNotFoundError.md
-docs/EventRef.md
 docs/EventRelation.md
 docs/EventTag.md
 docs/EventsHistogram.md
@@ -283,7 +296,6 @@ docs/PromScalar.md
 docs/PromSeriesEnvelope.md
 docs/PromVector.md
 docs/PromVectorResult.md
-docs/PropagatedHealthStateValue.md
 docs/ProvisionResponse.md
 docs/ReleaseStatus.md
 docs/RequestError.md
@@ -342,6 +354,14 @@ docs/Subscription.md
 docs/SubscriptionApi.md
 docs/SubscriptionState.md
 docs/Suggestions.md
+docs/SystemNotification.md
+docs/SystemNotificationSeverity.md
+docs/SystemNotifications.md
+docs/SystemNotificationsApi.md
+docs/TeamsChannelRefId.md
+docs/TeamsChannelWriteSchema.md
+docs/TeamsNotificationChannel.md
+docs/TeamsNotificationChannelAllOf.md
 docs/TooManyActiveQueries.md
 docs/TooManyTopologyResults.md
 docs/Topic.md
@@ -385,6 +405,10 @@ docs/WebhookNotificationChannelAllOf.md
 git_push.sh
 go.mod
 go.sum
+model_agent_data.go
+model_agent_lease.go
+model_agent_registration.go
+model_agent_registrations.go
 model_api_token.go
 model_argument.go
 model_argument_boolean_val.go
@@ -396,7 +420,6 @@ model_argument_failing_health_state_val.go
 model_argument_long_val.go
 model_argument_node_id_val.go
 model_argument_prom_ql_metric_val.go
-model_argument_propagated_health_state_val.go
 model_argument_query_view_ref.go
 model_argument_relation_type_ref.go
 model_argument_state_val.go
@@ -412,6 +435,7 @@ model_base_notification_channel.go
 model_causing_events_are_not_available_for_the_time.go
 model_causing_events_result.go
 model_channel_reference_id.go
+model_check_lease_request.go
 model_comparator_without_equality.go
 model_component_health_change.go
 model_component_health_history.go
@@ -425,6 +449,11 @@ model_dependency_direction.go
 model_duration_histogram.go
 model_duration_histogram_bucket.go
 model_duration_quantiles.go
+model_email_channel_ref_id.go
+model_email_channel_write_schema.go
+model_email_notification_channel.go
+model_email_notification_channel_all_of.go
+model_email_notification_status.go
 model_event_bucket.go
 model_event_category.go
 model_event_category_bucket.go
@@ -434,7 +463,6 @@ model_event_element.go
 model_event_items_with_total.go
 model_event_list_request.go
 model_event_not_found_error.go
-model_event_ref.go
 model_event_relation.go
 model_event_tag.go
 model_events_histogram.go
@@ -614,7 +642,6 @@ model_prom_scalar.go
 model_prom_series_envelope.go
 model_prom_vector.go
 model_prom_vector_result.go
-model_propagated_health_state_value.go
 model_provision_response.go
 model_release_status.go
 model_request_error.go
@@ -667,6 +694,13 @@ model_subject_config.go
 model_subscription.go
 model_subscription_state.go
 model_suggestions.go
+model_system_notification.go
+model_system_notification_severity.go
+model_system_notifications.go
+model_teams_channel_ref_id.go
+model_teams_channel_write_schema.go
+model_teams_notification_channel.go
+model_teams_notification_channel_all_of.go
 model_too_many_active_queries.go
 model_too_many_topology_results.go
 model_topic.go

@@ -441,6 +441,7 @@ type ApiGetInstantQueryRequest struct {
 	query      *string
 	time       *string
 	timeout    *string
+	step       *string
 	postFilter *[]string
 }
 
@@ -459,6 +460,12 @@ func (r ApiGetInstantQueryRequest) Time(time string) ApiGetInstantQueryRequest {
 // Evaluation timeout
 func (r ApiGetInstantQueryRequest) Timeout(timeout string) ApiGetInstantQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+// Query resolution step width in duration format or float number of seconds.
+func (r ApiGetInstantQueryRequest) Step(step string) ApiGetInstantQueryRequest {
+	r.step = &step
 	return r
 }
 
@@ -517,6 +524,9 @@ func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (
 	}
 	if r.timeout != nil {
 		localVarQueryParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.step != nil {
+		localVarQueryParams.Add("step", parameterToString(*r.step, ""))
 	}
 	if r.postFilter != nil {
 		localVarQueryParams.Add("post_filter", parameterToString(*r.postFilter, "csv"))
@@ -1288,6 +1298,7 @@ type ApiGetRangeQueryRequest struct {
 	end                   *string
 	step                  *string
 	timeout               *string
+	aligned               *bool
 	maxNumberOfDataPoints *int64
 	postFilter            *[]string
 }
@@ -1319,6 +1330,12 @@ func (r ApiGetRangeQueryRequest) Step(step string) ApiGetRangeQueryRequest {
 // Evaluation timeout
 func (r ApiGetRangeQueryRequest) Timeout(timeout string) ApiGetRangeQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+// Align start and end times with step size
+func (r ApiGetRangeQueryRequest) Aligned(aligned bool) ApiGetRangeQueryRequest {
+	r.aligned = &aligned
 	return r
 }
 
@@ -1392,6 +1409,9 @@ func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Pro
 	localVarQueryParams.Add("step", parameterToString(*r.step, ""))
 	if r.timeout != nil {
 		localVarQueryParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.aligned != nil {
+		localVarQueryParams.Add("aligned", parameterToString(*r.aligned, ""))
 	}
 	if r.maxNumberOfDataPoints != nil {
 		localVarQueryParams.Add("maxNumberOfDataPoints", parameterToString(*r.maxNumberOfDataPoints, ""))
@@ -1962,6 +1982,7 @@ type ApiPostInstantQueryRequest struct {
 	query      *string
 	time       *string
 	timeout    *string
+	step       *string
 	postFilter *[]string
 }
 
@@ -1977,6 +1998,11 @@ func (r ApiPostInstantQueryRequest) Time(time string) ApiPostInstantQueryRequest
 
 func (r ApiPostInstantQueryRequest) Timeout(timeout string) ApiPostInstantQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+func (r ApiPostInstantQueryRequest) Step(step string) ApiPostInstantQueryRequest {
+	r.step = &step
 	return r
 }
 
@@ -2051,6 +2077,9 @@ func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest)
 	}
 	if r.timeout != nil {
 		localVarFormParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.step != nil {
+		localVarFormParams.Add("step", parameterToString(*r.step, ""))
 	}
 	if r.postFilter != nil {
 		localVarFormParams.Add("post_filter", parameterToString(*r.postFilter, "multi"))
@@ -2797,6 +2826,7 @@ type ApiPostRangeQueryRequest struct {
 	end                   *string
 	step                  *string
 	timeout               *string
+	aligned               *bool
 	maxNumberOfDataPoints *int64
 	postFilter            *[]string
 }
@@ -2823,6 +2853,11 @@ func (r ApiPostRangeQueryRequest) Step(step string) ApiPostRangeQueryRequest {
 
 func (r ApiPostRangeQueryRequest) Timeout(timeout string) ApiPostRangeQueryRequest {
 	r.timeout = &timeout
+	return r
+}
+
+func (r ApiPostRangeQueryRequest) Aligned(aligned bool) ApiPostRangeQueryRequest {
+	r.aligned = &aligned
 	return r
 }
 
@@ -2911,6 +2946,9 @@ func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*P
 	localVarFormParams.Add("step", parameterToString(*r.step, ""))
 	if r.timeout != nil {
 		localVarFormParams.Add("timeout", parameterToString(*r.timeout, ""))
+	}
+	if r.aligned != nil {
+		localVarFormParams.Add("aligned", parameterToString(*r.aligned, ""))
 	}
 	if r.maxNumberOfDataPoints != nil {
 		localVarFormParams.Add("maxNumberOfDataPoints", parameterToString(*r.maxNumberOfDataPoints, ""))
@@ -3354,6 +3392,7 @@ type GetInstantQueryCall struct {
 	Pquery      *string
 	Ptime       *string
 	Ptimeout    *string
+	Pstep       *string
 	PpostFilter *[]string
 }
 
@@ -3369,6 +3408,7 @@ func (mock MetricApiMock) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*
 		Pquery:      r.query,
 		Ptime:       r.time,
 		Ptimeout:    r.timeout,
+		Pstep:       r.step,
 		PpostFilter: r.postFilter,
 	}
 	*mock.GetInstantQueryCalls = append(*mock.GetInstantQueryCalls, p)
@@ -3475,6 +3515,7 @@ type GetRangeQueryCall struct {
 	Pend                   *string
 	Pstep                  *string
 	Ptimeout               *string
+	Paligned               *bool
 	PmaxNumberOfDataPoints *int64
 	PpostFilter            *[]string
 }
@@ -3493,6 +3534,7 @@ func (mock MetricApiMock) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*Prom
 		Pend:                   r.end,
 		Pstep:                  r.step,
 		Ptimeout:               r.timeout,
+		Paligned:               r.aligned,
 		PmaxNumberOfDataPoints: r.maxNumberOfDataPoints,
 		PpostFilter:            r.postFilter,
 	}
@@ -3568,6 +3610,7 @@ type PostInstantQueryCall struct {
 	Pquery      *string
 	Ptime       *string
 	Ptimeout    *string
+	Pstep       *string
 	PpostFilter *[]string
 }
 
@@ -3583,6 +3626,7 @@ func (mock MetricApiMock) PostInstantQueryExecute(r ApiPostInstantQueryRequest) 
 		Pquery:      r.query,
 		Ptime:       r.time,
 		Ptimeout:    r.timeout,
+		Pstep:       r.step,
 		PpostFilter: r.postFilter,
 	}
 	*mock.PostInstantQueryCalls = append(*mock.PostInstantQueryCalls, p)
@@ -3689,6 +3733,7 @@ type PostRangeQueryCall struct {
 	Pend                   *string
 	Pstep                  *string
 	Ptimeout               *string
+	Paligned               *bool
 	PmaxNumberOfDataPoints *int64
 	PpostFilter            *[]string
 }
@@ -3707,6 +3752,7 @@ func (mock MetricApiMock) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*Pr
 		Pend:                   r.end,
 		Pstep:                  r.step,
 		Ptimeout:               r.timeout,
+		Paligned:               r.aligned,
 		PmaxNumberOfDataPoints: r.maxNumberOfDataPoints,
 		PpostFilter:            r.postFilter,
 	}

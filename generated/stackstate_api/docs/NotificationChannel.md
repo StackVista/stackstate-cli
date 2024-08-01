@@ -19,12 +19,15 @@ Name | Type | Description | Notes
 **GenieKey** | **string** |  | 
 **Responders** | [**[]OpsgenieResponder**](OpsgenieResponder.md) |  | 
 **Priority** | **string** |  | 
+**To** | **[]string** |  | 
+**Cc** | **[]string** |  | 
+**SubjectPrefix** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewNotificationChannel
 
-`func NewNotificationChannel(id int64, status NotificationChannelStatus, type_ string, slackWorkspace string, url string, token string, verifySsl bool, metadata map[string]string, region string, genieKey string, responders []OpsgenieResponder, priority string, ) *NotificationChannel`
+`func NewNotificationChannel(id int64, status NotificationChannelStatus, type_ string, slackWorkspace string, url string, token string, verifySsl bool, metadata map[string]string, region string, genieKey string, responders []OpsgenieResponder, priority string, to []string, cc []string, ) *NotificationChannel`
 
 NewNotificationChannel instantiates a new NotificationChannel object
 This constructor will assign default values to properties that have it defined,
@@ -353,6 +356,71 @@ and a boolean to check if the value has been set.
 
 SetPriority sets Priority field to given value.
 
+
+### GetTo
+
+`func (o *NotificationChannel) GetTo() []string`
+
+GetTo returns the To field if non-nil, zero value otherwise.
+
+### GetToOk
+
+`func (o *NotificationChannel) GetToOk() (*[]string, bool)`
+
+GetToOk returns a tuple with the To field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTo
+
+`func (o *NotificationChannel) SetTo(v []string)`
+
+SetTo sets To field to given value.
+
+
+### GetCc
+
+`func (o *NotificationChannel) GetCc() []string`
+
+GetCc returns the Cc field if non-nil, zero value otherwise.
+
+### GetCcOk
+
+`func (o *NotificationChannel) GetCcOk() (*[]string, bool)`
+
+GetCcOk returns a tuple with the Cc field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCc
+
+`func (o *NotificationChannel) SetCc(v []string)`
+
+SetCc sets Cc field to given value.
+
+
+### GetSubjectPrefix
+
+`func (o *NotificationChannel) GetSubjectPrefix() string`
+
+GetSubjectPrefix returns the SubjectPrefix field if non-nil, zero value otherwise.
+
+### GetSubjectPrefixOk
+
+`func (o *NotificationChannel) GetSubjectPrefixOk() (*string, bool)`
+
+GetSubjectPrefixOk returns a tuple with the SubjectPrefix field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSubjectPrefix
+
+`func (o *NotificationChannel) SetSubjectPrefix(v string)`
+
+SetSubjectPrefix sets SubjectPrefix field to given value.
+
+### HasSubjectPrefix
+
+`func (o *NotificationChannel) HasSubjectPrefix() bool`
+
+HasSubjectPrefix returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -222,7 +222,7 @@ Name | Type | Description  | Notes
 
 ## GetMonitorCheckStates
 
-> MonitorCheckStates GetMonitorCheckStates(ctx, monitorIdOrUrn).HealthState(healthState).Limit(limit).Execute()
+> MonitorCheckStates GetMonitorCheckStates(ctx, monitorIdOrUrn).HealthState(healthState).Limit(limit).Timestamp(timestamp).Execute()
 
 Get the check states for a monitor
 
@@ -244,10 +244,11 @@ func main() {
     monitorIdOrUrn := "monitorIdOrUrn_example" // string | The id or identifier (urn) of a monitor
     healthState := openapiclient.HealthStateValue("UNINITIALIZED") // HealthStateValue | Health state of check states (optional)
     limit := int32(56) // int32 |  (optional)
+    timestamp := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitorCheckStates(context.Background(), monitorIdOrUrn).HealthState(healthState).Limit(limit).Execute()
+    resp, r, err := apiClient.MonitorApi.GetMonitorCheckStates(context.Background(), monitorIdOrUrn).HealthState(healthState).Limit(limit).Timestamp(timestamp).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorCheckStates``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -275,6 +276,7 @@ Name | Type | Description  | Notes
 
  **healthState** | [**HealthStateValue**](HealthStateValue.md) | Health state of check states | 
  **limit** | **int32** |  | 
+ **timestamp** | **int64** |  | 
 
 ### Return type
 
@@ -296,7 +298,7 @@ Name | Type | Description  | Notes
 
 ## GetMonitorWithStatus
 
-> MonitorStatus GetMonitorWithStatus(ctx, monitorIdOrUrn).Execute()
+> MonitorStatus GetMonitorWithStatus(ctx, monitorIdOrUrn).Timestamp(timestamp).Execute()
 
 Get a monitor with stream information
 
@@ -316,10 +318,11 @@ import (
 
 func main() {
     monitorIdOrUrn := "monitorIdOrUrn_example" // string | The id or identifier (urn) of a monitor
+    timestamp := int64(789) // int64 |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorApi.GetMonitorWithStatus(context.Background(), monitorIdOrUrn).Execute()
+    resp, r, err := apiClient.MonitorApi.GetMonitorWithStatus(context.Background(), monitorIdOrUrn).Timestamp(timestamp).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorApi.GetMonitorWithStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -345,6 +348,7 @@ Other parameters are passed through a pointer to a apiGetMonitorWithStatusReques
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **timestamp** | **int64** |  | 
 
 ### Return type
 

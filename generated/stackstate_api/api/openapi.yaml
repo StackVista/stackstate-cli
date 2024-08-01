@@ -780,6 +780,11 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/MonitorIdOrUrn'
+      - in: query
+        name: timestamp
+        schema:
+          format: int64
+          type: integer
       responses:
         "200":
           content:
@@ -827,6 +832,11 @@ paths:
       - in: query
         name: limit
         schema:
+          type: integer
+      - in: query
+        name: timestamp
+        schema:
+          format: int64
           type: integer
       responses:
         "200":
@@ -1835,6 +1845,386 @@ paths:
                 $ref: '#/components/schemas/NotificationChannelError'
           description: Error while executing the request.
       summary: Test the Opsgenie notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/teams:
+    post:
+      description: Create a Teams Notification channel
+      operationId: createTeamsNotificationChannel
+      requestBody:
+        $ref: '#/components/requestBodies/teamsChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamsNotificationChannel'
+          description: Teams notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Create a Teams Notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/teams/{channelId}:
+    delete:
+      description: Delete the teams notification channel by id
+      operationId: deleteTeamsNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Teams notification channel is deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Delete the Teams Notification channel by id
+      tags:
+      - notification_channels
+    get:
+      description: Get the teams notification channel by id
+      operationId: getTeamsNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamsNotificationChannel'
+          description: Teams notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Get the Teams Notification channel by id
+      tags:
+      - notification_channels
+    put:
+      description: Update the teams notification channel by id
+      operationId: updateTeamsNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      requestBody:
+        $ref: '#/components/requestBodies/teamsChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamsNotificationChannel'
+          description: Teams notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Update the Teams Notification channel by id
+      tags:
+      - notification_channels
+  /notifications/channels/teams/{channelId}/test:
+    post:
+      description: Test the teams notification channel by sending a test message to
+        the notification channel.
+      operationId: testTeamsChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Successfully tested channel.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Test the Teams notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/email:
+    post:
+      description: Create Email Notification channel
+      operationId: createEmailNotificationChannel
+      requestBody:
+        $ref: '#/components/requestBodies/emailChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailNotificationChannel'
+          description: Email notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Create a Email Notification channel
+      tags:
+      - notification_channels
+  /notifications/channels/email/status:
+    get:
+      description: "Email Notification channel status, test whether it can be used"
+      operationId: getEmailNotificationStatus
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailNotificationStatus'
+          description: Email notification status
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Email Notification channel status
+      tags:
+      - notification_channels
+  /notifications/channels/email/{channelId}:
+    delete:
+      description: Delete the email notification channel by id
+      operationId: deleteEmailNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Email notification channel is deleted.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Delete the Email Notification channel by id
+      tags:
+      - notification_channels
+    get:
+      description: Get the email notification channel by id
+      operationId: getEmailNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailNotificationChannel'
+          description: Email notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Get the Email Notification channel by id
+      tags:
+      - notification_channels
+    put:
+      description: Update the email notification channel by id
+      operationId: updateEmailNotificationChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      requestBody:
+        $ref: '#/components/requestBodies/emailChannelWrite'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmailNotificationChannel'
+          description: Email notification channel
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Update the Email Notification channel by id
+      tags:
+      - notification_channels
+  /notifications/channels/email/{channelId}/test:
+    post:
+      description: Test the email notification channel by sending a test message to
+        the notification channel.
+      operationId: testEmailChannel
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      responses:
+        "204":
+          description: Successfully tested channel.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Test the Email notification channel
       tags:
       - notification_channels
   /notifications/configurations:
@@ -3691,6 +4081,14 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/PromTimeout'
+      - description: Query resolution step width in duration format or float number
+          of seconds.
+        example: 5m or 300
+        in: query
+        name: step
+        required: false
+        schema:
+          $ref: '#/components/schemas/PromStep'
       - description: Enforce additional label filters for queries
         example: service=carts
         explode: true
@@ -3818,6 +4216,12 @@ paths:
         required: false
         schema:
           $ref: '#/components/schemas/PromTimeout'
+      - description: Align start and end times with step size
+        in: query
+        name: aligned
+        required: false
+        schema:
+          type: boolean
       - description: Maximum number of data points to return.
         example: "2"
         in: query
@@ -5137,6 +5541,92 @@ paths:
       summary: Get a component health history
       tags:
       - component
+  /agents/{agentId}/checkLease:
+    post:
+      description: Checks the lease of an agent and might register it if it does not
+        exist yet.
+      operationId: agentCheckLease
+      parameters:
+      - description: The identifier of an agent
+        in: path
+        name: agentId
+        required: true
+        schema:
+          $ref: '#/components/schemas/AgentId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CheckLeaseRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentRegistration'
+          description: The lease was given
+        "403":
+          description: Forbidden
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentRegistration'
+          description: Too many agents registered
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Check the lease of an agent.
+      tags:
+      - agentLeases
+  /agents:
+    get:
+      description: Give an overview of all registered agents
+      operationId: allAgentRegistrations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentRegistrations'
+          description: All registered agents
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Overview of registered agents
+      tags:
+      - agentRegistrations
+  /system/notifications:
+    get:
+      description: All active system notifications
+      operationId: allSystemNotifications
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemNotifications'
+          description: All system notifications
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Overview of system notifications
+      tags:
+      - systemNotifications
   /dummy/dummy:
     get:
       description: ""
@@ -5216,6 +5706,20 @@ components:
           schema:
             $ref: '#/components/schemas/OpsgenieChannelWriteSchema'
       description: Create or update a opsgenie channel
+      required: true
+    teamsChannelWrite:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TeamsChannelWriteSchema'
+      description: Create or update a teams channel
+      required: true
+    emailChannelWrite:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmailChannelWriteSchema'
+      description: Create or update a email channel
       required: true
     notificationConfigurationWrite:
       content:
@@ -5416,6 +5920,24 @@ components:
           schema:
             $ref: '#/components/schemas/OpsgenieResponders'
       description: Opsgenie responders
+    teamsNotificationChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TeamsNotificationChannel'
+      description: Teams notification channel
+    emailNotificationChannel:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmailNotificationChannel'
+      description: Email notification channel
+    emailNotificationStatus:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/EmailNotificationStatus'
+      description: Email notification status
     notificationConfigurations:
       content:
         application/json:
@@ -7896,6 +8418,59 @@ components:
       items:
         $ref: '#/components/schemas/OpsgenieResponder'
       type: array
+    TeamsChannelWriteSchema:
+      example:
+        url: url
+      properties:
+        url:
+          type: string
+      required:
+      - url
+      type: object
+    TeamsNotificationChannel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationChannel'
+      - $ref: '#/components/schemas/TeamsChannelWriteSchema'
+      - $ref: '#/components/schemas/TeamsNotificationChannel_allOf'
+    EmailChannelWriteSchema:
+      example:
+        cc:
+        - cc
+        - cc
+        to:
+        - to
+        - to
+        subjectPrefix: subjectPrefix
+      properties:
+        to:
+          items:
+            type: string
+          minItems: 1
+          type: array
+        cc:
+          items:
+            type: string
+          type: array
+        subjectPrefix:
+          type: string
+      required:
+      - cc
+      - to
+      type: object
+    EmailNotificationChannel:
+      allOf:
+      - $ref: '#/components/schemas/BaseNotificationChannel'
+      - $ref: '#/components/schemas/EmailChannelWriteSchema'
+      - $ref: '#/components/schemas/EmailNotificationChannel_allOf'
+    EmailNotificationStatus:
+      example:
+        validConfiguration: true
+      properties:
+        validConfiguration:
+          type: boolean
+      required:
+      - validConfiguration
+      type: object
     NotificationConfigurations:
       items:
         $ref: '#/components/schemas/NotificationConfigurationReadSchema'
@@ -7987,6 +8562,8 @@ components:
       - $ref: '#/components/schemas/SlackChannelRefId'
       - $ref: '#/components/schemas/WebhookChannelRefId'
       - $ref: '#/components/schemas/OpsgenieChannelRefId'
+      - $ref: '#/components/schemas/TeamsChannelRefId'
+      - $ref: '#/components/schemas/EmailChannelRefId'
       type: object
     SlackChannelRefId:
       properties:
@@ -8019,6 +8596,32 @@ components:
         _type:
           enum:
           - OpsgenieChannelRefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    TeamsChannelRefId:
+      properties:
+        _type:
+          enum:
+          - TeamsChannelRefId
+          type: string
+        id:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - id
+      type: object
+    EmailChannelRefId:
+      properties:
+        _type:
+          enum:
+          - EmailChannelRefId
           type: string
         id:
           format: int64
@@ -8343,7 +8946,7 @@ components:
       type: object
     EventItemsWithTotal:
       example:
-        total: 5
+        total: 1
         items:
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
@@ -8371,15 +8974,6 @@ components:
             url: url
           - title: title
             url: url
-          causingEvents:
-          - eventId: eventId
-            eventType: eventType
-            title: title
-            eventTimestamp: 1
-          - eventId: eventId
-            eventType: eventType
-            title: title
-            eventTimestamp: 1
         - identifier: identifier
           sourceIdentifier: sourceIdentifier
           data: "{}"
@@ -8406,15 +9000,6 @@ components:
             url: url
           - title: title
             url: url
-          causingEvents:
-          - eventId: eventId
-            eventType: eventType
-            title: title
-            eventTimestamp: 1
-          - eventId: eventId
-            eventType: eventType
-            title: title
-            eventTimestamp: 1
       properties:
         items:
           items:
@@ -8455,15 +9040,6 @@ components:
           url: url
         - title: title
           url: url
-        causingEvents:
-        - eventId: eventId
-          eventType: eventType
-          title: title
-          eventTimestamp: 1
-        - eventId: eventId
-          eventType: eventType
-          title: title
-          eventTimestamp: 1
       properties:
         identifier:
           type: string
@@ -8502,10 +9078,6 @@ components:
         tags:
           items:
             $ref: '#/components/schemas/EventTag'
-          type: array
-        causingEvents:
-          items:
-            $ref: '#/components/schemas/EventRef'
           type: array
       required:
       - category
@@ -8607,28 +9179,6 @@ components:
       required:
       - key
       - value
-      type: object
-    EventRef:
-      example:
-        eventId: eventId
-        eventType: eventType
-        title: title
-        eventTimestamp: 1
-      properties:
-        title:
-          type: string
-        eventId:
-          type: string
-        eventTimestamp:
-          format: int64
-          type: integer
-        eventType:
-          type: string
-      required:
-      - eventId
-      - eventTimestamp
-      - eventType
-      - title
       type: object
     EventId:
       type: string
@@ -10167,6 +10717,9 @@ components:
     PromTimeout:
       pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
       type: string
+    PromStep:
+      pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
+      type: string
     PromPostFilter:
       items:
         type: string
@@ -10352,14 +10905,13 @@ components:
           $ref: '#/components/schemas/PromTime'
         timeout:
           $ref: '#/components/schemas/PromTimeout'
+        step:
+          $ref: '#/components/schemas/PromStep'
         post_filter:
           $ref: '#/components/schemas/PromPostFilter'
       required:
       - query
       type: object
-    PromStep:
-      pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
-      type: string
     PromMaxNumberOfDataPoints:
       format: int64
       type: integer
@@ -10375,6 +10927,8 @@ components:
           $ref: '#/components/schemas/PromStep'
         timeout:
           $ref: '#/components/schemas/PromTimeout'
+        aligned:
+          $ref: '#/components/schemas/PromAligned'
         maxNumberOfDataPoints:
           $ref: '#/components/schemas/PromMaxNumberOfDataPoints'
         post_filter:
@@ -10385,6 +10939,8 @@ components:
       - start
       - step
       type: object
+    PromAligned:
+      type: boolean
     PromExemplarEnvelope:
       example:
         data:
@@ -12093,6 +12649,173 @@ components:
     ComponentId:
       format: int64
       type: integer
+    CheckLeaseRequest:
+      example:
+        apiKey: apiKey
+        agentData:
+          memoryBytes: 5
+          kernelVersion: kernelVersion
+          coreCount: 1
+          platform: platform
+      properties:
+        apiKey:
+          type: string
+        agentData:
+          $ref: '#/components/schemas/AgentData'
+      required:
+      - apiKey
+      type: object
+    AgentId:
+      type: string
+    AgentRegistration:
+      example:
+        agentId: agentId
+        leaseUntilEpochMs: 0
+        registeredEpochMs: 6
+        lease: null
+        agentData:
+          memoryBytes: 5
+          kernelVersion: kernelVersion
+          coreCount: 1
+          platform: platform
+      properties:
+        agentId:
+          type: string
+        lease:
+          $ref: '#/components/schemas/AgentLease'
+        leaseUntilEpochMs:
+          format: int64
+          type: integer
+        registeredEpochMs:
+          format: int64
+          type: integer
+        agentData:
+          $ref: '#/components/schemas/AgentData'
+      required:
+      - agentId
+      - lease
+      - leaseUntilEpochMs
+      - registeredEpochMs
+      type: object
+    AgentLease:
+      enum:
+      - Active
+      - Limited
+      - Stale
+      type: string
+    AgentData:
+      example:
+        memoryBytes: 5
+        kernelVersion: kernelVersion
+        coreCount: 1
+        platform: platform
+      properties:
+        platform:
+          type: string
+        coreCount:
+          type: integer
+        memoryBytes:
+          format: int64
+          type: integer
+        kernelVersion:
+          type: string
+      required:
+      - coreCount
+      - kernelVersion
+      - memoryBytes
+      - platform
+      type: object
+    AgentRegistrations:
+      example:
+        agents:
+        - agentId: agentId
+          leaseUntilEpochMs: 0
+          registeredEpochMs: 6
+          lease: null
+          agentData:
+            memoryBytes: 5
+            kernelVersion: kernelVersion
+            coreCount: 1
+            platform: platform
+        - agentId: agentId
+          leaseUntilEpochMs: 0
+          registeredEpochMs: 6
+          lease: null
+          agentData:
+            memoryBytes: 5
+            kernelVersion: kernelVersion
+            coreCount: 1
+            platform: platform
+      properties:
+        agents:
+          items:
+            $ref: '#/components/schemas/AgentRegistration'
+          type: array
+      required:
+      - agents
+      type: object
+    SystemNotifications:
+      example:
+        notifications:
+        - severity: null
+          toast: true
+          notificationTimeEpochMs: 0
+          notificationId: notificationId
+          title: title
+          content: content
+        - severity: null
+          toast: true
+          notificationTimeEpochMs: 0
+          notificationId: notificationId
+          title: title
+          content: content
+      properties:
+        notifications:
+          items:
+            $ref: '#/components/schemas/SystemNotification'
+          type: array
+      required:
+      - notifications
+      type: object
+    SystemNotification:
+      example:
+        severity: null
+        toast: true
+        notificationTimeEpochMs: 0
+        notificationId: notificationId
+        title: title
+        content: content
+      properties:
+        notificationId:
+          type: string
+        title:
+          type: string
+        severity:
+          $ref: '#/components/schemas/SystemNotificationSeverity'
+        notificationTimeEpochMs:
+          format: int64
+          type: integer
+        content:
+          type: string
+        toast:
+          type: boolean
+      required:
+      - content
+      - notificationId
+      - notificationTimeEpochMs
+      - severity
+      - title
+      - toast
+      type: object
+    SystemNotificationId:
+      type: string
+    SystemNotificationSeverity:
+      enum:
+      - info
+      - ok
+      - warning
+      - problem
+      type: string
     StackElementNotFound:
       discriminator:
         propertyName: _type
@@ -12107,6 +12830,12 @@ components:
           type: string
         message:
           type: string
+        existedEarlierMs:
+          format: int64
+          type: integer
+        existsLaterMs:
+          format: int64
+          type: integer
       required:
       - _type
       - message
@@ -12126,7 +12855,6 @@ components:
       - $ref: '#/components/schemas/ArgumentDoubleVal'
       - $ref: '#/components/schemas/ArgumentStateVal'
       - $ref: '#/components/schemas/ArgumentNodeIdVal'
-      - $ref: '#/components/schemas/ArgumentPropagatedHealthStateVal'
       - $ref: '#/components/schemas/ArgumentDurationVal'
       - $ref: '#/components/schemas/ArgumentStringVal'
       - $ref: '#/components/schemas/ArgumentTimeWindowVal'
@@ -12342,36 +13070,6 @@ components:
       - parameter
       - value
       type: object
-    ArgumentPropagatedHealthStateVal:
-      properties:
-        _type:
-          enum:
-          - ArgumentPropagatedHealthStateVal
-          type: string
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        parameter:
-          format: int64
-          type: integer
-        value:
-          $ref: '#/components/schemas/PropagatedHealthStateValue'
-      required:
-      - _type
-      - parameter
-      - value
-      type: object
-    PropagatedHealthStateValue:
-      enum:
-      - UNKNOWN
-      - PROPAGATION_ERROR
-      - DEVIATING
-      - FLAPPING
-      - CRITICAL
-      type: string
     ArgumentDurationVal:
       properties:
         _type:
@@ -12637,8 +13335,6 @@ components:
       required:
       - checkStateId
       - componentIdentifier
-      - componentName
-      - componentType
       - healthState
       - lastUpdateTimestamp
       type: object
@@ -12688,6 +13384,8 @@ components:
       - $ref: '#/components/schemas/SlackNotificationChannel'
       - $ref: '#/components/schemas/WebhookNotificationChannel'
       - $ref: '#/components/schemas/OpsgenieNotificationChannel'
+      - $ref: '#/components/schemas/TeamsNotificationChannel'
+      - $ref: '#/components/schemas/EmailNotificationChannel'
     InstantNanoPrecision:
       description: A custom representation for a date/time that needs better than
         milliseconds precision. Simply using nanoseconds since epoch results in integers
@@ -12798,6 +13496,24 @@ components:
         _type:
           enum:
           - OpsgenieNotificationChannel
+          type: string
+      required:
+      - _type
+      type: object
+    TeamsNotificationChannel_allOf:
+      properties:
+        _type:
+          enum:
+          - TeamsNotificationChannel
+          type: string
+      required:
+      - _type
+      type: object
+    EmailNotificationChannel_allOf:
+      properties:
+        _type:
+          enum:
+          - EmailNotificationChannel
           type: string
       required:
       - _type

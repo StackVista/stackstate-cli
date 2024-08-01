@@ -6,16 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **CheckStateId** | **string** |  | 
 **HealthState** | [**HealthStateValue**](HealthStateValue.md) |  | 
-**ComponentName** | **string** |  | 
+**ComponentName** | Pointer to **string** |  | [optional] 
 **ComponentIdentifier** | **string** |  | 
-**ComponentType** | **string** |  | 
+**ComponentType** | Pointer to **string** |  | [optional] 
 **LastUpdateTimestamp** | **int64** |  | 
 
 ## Methods
 
 ### NewViewCheckState
 
-`func NewViewCheckState(checkStateId string, healthState HealthStateValue, componentName string, componentIdentifier string, componentType string, lastUpdateTimestamp int64, ) *ViewCheckState`
+`func NewViewCheckState(checkStateId string, healthState HealthStateValue, componentIdentifier string, lastUpdateTimestamp int64, ) *ViewCheckState`
 
 NewViewCheckState instantiates a new ViewCheckState object
 This constructor will assign default values to properties that have it defined,
@@ -89,6 +89,11 @@ and a boolean to check if the value has been set.
 
 SetComponentName sets ComponentName field to given value.
 
+### HasComponentName
+
+`func (o *ViewCheckState) HasComponentName() bool`
+
+HasComponentName returns a boolean if a field has been set.
 
 ### GetComponentIdentifier
 
@@ -129,6 +134,11 @@ and a boolean to check if the value has been set.
 
 SetComponentType sets ComponentType field to given value.
 
+### HasComponentType
+
+`func (o *ViewCheckState) HasComponentType() bool`
+
+HasComponentType returns a boolean if a field has been set.
 
 ### GetLastUpdateTimestamp
 
