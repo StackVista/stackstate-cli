@@ -50,6 +50,10 @@ type APIClient struct {
 
 	// API Services
 
+	AgentLeasesApi AgentLeasesApi
+
+	AgentRegistrationsApi AgentRegistrationsApi
+
 	ApiTokenApi ApiTokenApi
 
 	AuthorizeIngestionApiKeyApi AuthorizeIngestionApiKeyApi
@@ -100,6 +104,8 @@ type APIClient struct {
 
 	SubscriptionApi SubscriptionApi
 
+	SystemNotificationsApi SystemNotificationsApi
+
 	TopicApi TopicApi
 
 	TopologySynchronizationApi TopologySynchronizationApi
@@ -127,6 +133,8 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.common.client = c
 
 	// API Services
+	c.AgentLeasesApi = (*AgentLeasesApiService)(&c.common)
+	c.AgentRegistrationsApi = (*AgentRegistrationsApiService)(&c.common)
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
 	c.AuthorizeIngestionApiKeyApi = (*AuthorizeIngestionApiKeyApiService)(&c.common)
 	c.ComponentApi = (*ComponentApiService)(&c.common)
@@ -152,6 +160,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.StackpackApi = (*StackpackApiService)(&c.common)
 	c.SubjectApi = (*SubjectApiService)(&c.common)
 	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
+	c.SystemNotificationsApi = (*SystemNotificationsApiService)(&c.common)
 	c.TopicApi = (*TopicApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.TracesApi = (*TracesApiService)(&c.common)

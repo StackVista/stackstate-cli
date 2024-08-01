@@ -87,6 +87,8 @@ All URIs are relative to *http://localhost*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
+*AgentLeasesApi* | [**AgentCheckLease**](docs/AgentLeasesApi.md#agentchecklease) | **Post** /agents/{agentId}/checkLease | Check the lease of an agent.
+*AgentRegistrationsApi* | [**AllAgentRegistrations**](docs/AgentRegistrationsApi.md#allagentregistrations) | **Get** /agents | Overview of registered agents
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
 *AuthorizeIngestionApiKeyApi* | [**AuthorizeIngestionApiKey**](docs/AuthorizeIngestionApiKeyApi.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
 *ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrUrn}/healthHistory | Get a component health history
@@ -151,23 +153,34 @@ Class | Method | HTTP request | Description
 *NodeApi* | [**NodeListTypes**](docs/NodeApi.md#nodelisttypes) | **Get** /node | Node API
 *NodeApi* | [**TypeList**](docs/NodeApi.md#typelist) | **Get** /node/{nodeType} | Node type API
 *NodeApi* | [**Unlock**](docs/NodeApi.md#unlock) | **Post** /node/{nodeType}/{nodeId}/unlock | Node unlock API
+*NotificationChannelsApi* | [**CreateEmailNotificationChannel**](docs/NotificationChannelsApi.md#createemailnotificationchannel) | **Post** /notifications/channels/email | Create a Email Notification channel
 *NotificationChannelsApi* | [**CreateOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#createopsgenienotificationchannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
+*NotificationChannelsApi* | [**CreateTeamsNotificationChannel**](docs/NotificationChannelsApi.md#createteamsnotificationchannel) | **Post** /notifications/channels/teams | Create a Teams Notification channel
 *NotificationChannelsApi* | [**CreateWebhookNotificationChannel**](docs/NotificationChannelsApi.md#createwebhooknotificationchannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
+*NotificationChannelsApi* | [**DeleteEmailNotificationChannel**](docs/NotificationChannelsApi.md#deleteemailnotificationchannel) | **Delete** /notifications/channels/email/{channelId} | Delete the Email Notification channel by id
 *NotificationChannelsApi* | [**DeleteOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#deleteopsgenienotificationchannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
 *NotificationChannelsApi* | [**DeleteSlackNotificationChannel**](docs/NotificationChannelsApi.md#deleteslacknotificationchannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
+*NotificationChannelsApi* | [**DeleteTeamsNotificationChannel**](docs/NotificationChannelsApi.md#deleteteamsnotificationchannel) | **Delete** /notifications/channels/teams/{channelId} | Delete the Teams Notification channel by id
 *NotificationChannelsApi* | [**DeleteWebhookNotificationChannel**](docs/NotificationChannelsApi.md#deletewebhooknotificationchannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
+*NotificationChannelsApi* | [**GetEmailNotificationChannel**](docs/NotificationChannelsApi.md#getemailnotificationchannel) | **Get** /notifications/channels/email/{channelId} | Get the Email Notification channel by id
+*NotificationChannelsApi* | [**GetEmailNotificationStatus**](docs/NotificationChannelsApi.md#getemailnotificationstatus) | **Get** /notifications/channels/email/status | Email Notification channel status
 *NotificationChannelsApi* | [**GetOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#getopsgenienotificationchannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
 *NotificationChannelsApi* | [**GetSlackNotificationChannel**](docs/NotificationChannelsApi.md#getslacknotificationchannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
+*NotificationChannelsApi* | [**GetTeamsNotificationChannel**](docs/NotificationChannelsApi.md#getteamsnotificationchannel) | **Get** /notifications/channels/teams/{channelId} | Get the Teams Notification channel by id
 *NotificationChannelsApi* | [**GetWebhookNotificationChannel**](docs/NotificationChannelsApi.md#getwebhooknotificationchannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
 *NotificationChannelsApi* | [**JoinSlackChannel**](docs/NotificationChannelsApi.md#joinslackchannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
 *NotificationChannelsApi* | [**ListOpsgenieResponders**](docs/NotificationChannelsApi.md#listopsgenieresponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
 *NotificationChannelsApi* | [**ListSlackChannels**](docs/NotificationChannelsApi.md#listslackchannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
 *NotificationChannelsApi* | [**SlackOAuthCallback**](docs/NotificationChannelsApi.md#slackoauthcallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
 *NotificationChannelsApi* | [**SlackOauthRedirect**](docs/NotificationChannelsApi.md#slackoauthredirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
+*NotificationChannelsApi* | [**TestEmailChannel**](docs/NotificationChannelsApi.md#testemailchannel) | **Post** /notifications/channels/email/{channelId}/test | Test the Email notification channel
 *NotificationChannelsApi* | [**TestOpsgenieChannel**](docs/NotificationChannelsApi.md#testopsgeniechannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
 *NotificationChannelsApi* | [**TestSlackChannel**](docs/NotificationChannelsApi.md#testslackchannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
+*NotificationChannelsApi* | [**TestTeamsChannel**](docs/NotificationChannelsApi.md#testteamschannel) | **Post** /notifications/channels/teams/{channelId}/test | Test the Teams notification channel
 *NotificationChannelsApi* | [**TestWebhookChannel**](docs/NotificationChannelsApi.md#testwebhookchannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
+*NotificationChannelsApi* | [**UpdateEmailNotificationChannel**](docs/NotificationChannelsApi.md#updateemailnotificationchannel) | **Put** /notifications/channels/email/{channelId} | Update the Email Notification channel by id
 *NotificationChannelsApi* | [**UpdateOpsgenieNotificationChannel**](docs/NotificationChannelsApi.md#updateopsgenienotificationchannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
+*NotificationChannelsApi* | [**UpdateTeamsNotificationChannel**](docs/NotificationChannelsApi.md#updateteamsnotificationchannel) | **Put** /notifications/channels/teams/{channelId} | Update the Teams Notification channel by id
 *NotificationChannelsApi* | [**UpdateWebhookNotificationChannel**](docs/NotificationChannelsApi.md#updatewebhooknotificationchannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
 *NotificationConfigurationsApi* | [**CreateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#createnotificationconfiguration) | **Post** /notifications/configurations | Create a new notification configuration
 *NotificationConfigurationsApi* | [**DeleteNotificationConfiguration**](docs/NotificationConfigurationsApi.md#deletenotificationconfiguration) | **Delete** /notifications/configurations/{notificationConfigurationIdOrUrn} | Delete the notification configuration
@@ -197,6 +210,7 @@ Class | Method | HTTP request | Description
 *SubjectApi* | [**ListSubjects**](docs/SubjectApi.md#listsubjects) | **Get** /security/subjects | List subjects
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
 *SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
+*SystemNotificationsApi* | [**AllSystemNotifications**](docs/SystemNotificationsApi.md#allsystemnotifications) | **Get** /system/notifications | Overview of system notifications
 *TopicApi* | [**Describe**](docs/TopicApi.md#describe) | **Get** /topic/{topic} | Describe a topic
 *TopicApi* | [**List**](docs/TopicApi.md#list) | **Get** /topic | List topics
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
@@ -220,6 +234,10 @@ Class | Method | HTTP request | Description
 
 ## Documentation For Models
 
+ - [AgentData](docs/AgentData.md)
+ - [AgentLease](docs/AgentLease.md)
+ - [AgentRegistration](docs/AgentRegistration.md)
+ - [AgentRegistrations](docs/AgentRegistrations.md)
  - [ApiToken](docs/ApiToken.md)
  - [Argument](docs/Argument.md)
  - [ArgumentBooleanVal](docs/ArgumentBooleanVal.md)
@@ -231,7 +249,6 @@ Class | Method | HTTP request | Description
  - [ArgumentLongVal](docs/ArgumentLongVal.md)
  - [ArgumentNodeIdVal](docs/ArgumentNodeIdVal.md)
  - [ArgumentPromQLMetricVal](docs/ArgumentPromQLMetricVal.md)
- - [ArgumentPropagatedHealthStateVal](docs/ArgumentPropagatedHealthStateVal.md)
  - [ArgumentQueryViewRef](docs/ArgumentQueryViewRef.md)
  - [ArgumentRelationTypeRef](docs/ArgumentRelationTypeRef.md)
  - [ArgumentStateVal](docs/ArgumentStateVal.md)
@@ -247,6 +264,7 @@ Class | Method | HTTP request | Description
  - [CausingEventsAreNotAvailableForTheTime](docs/CausingEventsAreNotAvailableForTheTime.md)
  - [CausingEventsResult](docs/CausingEventsResult.md)
  - [ChannelReferenceId](docs/ChannelReferenceId.md)
+ - [CheckLeaseRequest](docs/CheckLeaseRequest.md)
  - [ComparatorWithoutEquality](docs/ComparatorWithoutEquality.md)
  - [ComponentHealthChange](docs/ComponentHealthChange.md)
  - [ComponentHealthHistory](docs/ComponentHealthHistory.md)
@@ -260,6 +278,11 @@ Class | Method | HTTP request | Description
  - [DurationHistogram](docs/DurationHistogram.md)
  - [DurationHistogramBucket](docs/DurationHistogramBucket.md)
  - [DurationQuantiles](docs/DurationQuantiles.md)
+ - [EmailChannelRefId](docs/EmailChannelRefId.md)
+ - [EmailChannelWriteSchema](docs/EmailChannelWriteSchema.md)
+ - [EmailNotificationChannel](docs/EmailNotificationChannel.md)
+ - [EmailNotificationChannelAllOf](docs/EmailNotificationChannelAllOf.md)
+ - [EmailNotificationStatus](docs/EmailNotificationStatus.md)
  - [EventBucket](docs/EventBucket.md)
  - [EventCategory](docs/EventCategory.md)
  - [EventCategoryBucket](docs/EventCategoryBucket.md)
@@ -269,7 +292,6 @@ Class | Method | HTTP request | Description
  - [EventItemsWithTotal](docs/EventItemsWithTotal.md)
  - [EventListRequest](docs/EventListRequest.md)
  - [EventNotFoundError](docs/EventNotFoundError.md)
- - [EventRef](docs/EventRef.md)
  - [EventRelation](docs/EventRelation.md)
  - [EventTag](docs/EventTag.md)
  - [EventsHistogram](docs/EventsHistogram.md)
@@ -449,7 +471,6 @@ Class | Method | HTTP request | Description
  - [PromSeriesEnvelope](docs/PromSeriesEnvelope.md)
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
- - [PropagatedHealthStateValue](docs/PropagatedHealthStateValue.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
  - [ReleaseStatus](docs/ReleaseStatus.md)
  - [RequestError](docs/RequestError.md)
@@ -502,6 +523,13 @@ Class | Method | HTTP request | Description
  - [Subscription](docs/Subscription.md)
  - [SubscriptionState](docs/SubscriptionState.md)
  - [Suggestions](docs/Suggestions.md)
+ - [SystemNotification](docs/SystemNotification.md)
+ - [SystemNotificationSeverity](docs/SystemNotificationSeverity.md)
+ - [SystemNotifications](docs/SystemNotifications.md)
+ - [TeamsChannelRefId](docs/TeamsChannelRefId.md)
+ - [TeamsChannelWriteSchema](docs/TeamsChannelWriteSchema.md)
+ - [TeamsNotificationChannel](docs/TeamsNotificationChannel.md)
+ - [TeamsNotificationChannelAllOf](docs/TeamsNotificationChannelAllOf.md)
  - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
  - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
  - [Topic](docs/Topic.md)

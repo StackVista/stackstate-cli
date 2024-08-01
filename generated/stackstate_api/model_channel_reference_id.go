@@ -18,9 +18,18 @@ import (
 
 // ChannelReferenceId - struct for ChannelReferenceId
 type ChannelReferenceId struct {
+	EmailChannelRefId    *EmailChannelRefId
 	OpsgenieChannelRefId *OpsgenieChannelRefId
 	SlackChannelRefId    *SlackChannelRefId
+	TeamsChannelRefId    *TeamsChannelRefId
 	WebhookChannelRefId  *WebhookChannelRefId
+}
+
+// EmailChannelRefIdAsChannelReferenceId is a convenience function that returns EmailChannelRefId wrapped in ChannelReferenceId
+func EmailChannelRefIdAsChannelReferenceId(v *EmailChannelRefId) ChannelReferenceId {
+	return ChannelReferenceId{
+		EmailChannelRefId: v,
+	}
 }
 
 // OpsgenieChannelRefIdAsChannelReferenceId is a convenience function that returns OpsgenieChannelRefId wrapped in ChannelReferenceId
@@ -34,6 +43,13 @@ func OpsgenieChannelRefIdAsChannelReferenceId(v *OpsgenieChannelRefId) ChannelRe
 func SlackChannelRefIdAsChannelReferenceId(v *SlackChannelRefId) ChannelReferenceId {
 	return ChannelReferenceId{
 		SlackChannelRefId: v,
+	}
+}
+
+// TeamsChannelRefIdAsChannelReferenceId is a convenience function that returns TeamsChannelRefId wrapped in ChannelReferenceId
+func TeamsChannelRefIdAsChannelReferenceId(v *TeamsChannelRefId) ChannelReferenceId {
+	return ChannelReferenceId{
+		TeamsChannelRefId: v,
 	}
 }
 
@@ -52,6 +68,18 @@ func (dst *ChannelReferenceId) UnmarshalJSON(data []byte) error {
 	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'EmailChannelRefId'
+	if jsonDict["_type"] == "EmailChannelRefId" {
+		// try to unmarshal JSON data into EmailChannelRefId
+		err = json.Unmarshal(data, &dst.EmailChannelRefId)
+		if err == nil {
+			return nil // data stored in dst.EmailChannelRefId, return on the first match
+		} else {
+			dst.EmailChannelRefId = nil
+			return fmt.Errorf("Failed to unmarshal ChannelReferenceId as EmailChannelRefId: %s", err.Error())
+		}
 	}
 
 	// check if the discriminator value is 'OpsgenieChannelRefId'
@@ -78,6 +106,18 @@ func (dst *ChannelReferenceId) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'TeamsChannelRefId'
+	if jsonDict["_type"] == "TeamsChannelRefId" {
+		// try to unmarshal JSON data into TeamsChannelRefId
+		err = json.Unmarshal(data, &dst.TeamsChannelRefId)
+		if err == nil {
+			return nil // data stored in dst.TeamsChannelRefId, return on the first match
+		} else {
+			dst.TeamsChannelRefId = nil
+			return fmt.Errorf("Failed to unmarshal ChannelReferenceId as TeamsChannelRefId: %s", err.Error())
+		}
+	}
+
 	// check if the discriminator value is 'WebhookChannelRefId'
 	if jsonDict["_type"] == "WebhookChannelRefId" {
 		// try to unmarshal JSON data into WebhookChannelRefId
@@ -95,12 +135,20 @@ func (dst *ChannelReferenceId) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src ChannelReferenceId) MarshalJSON() ([]byte, error) {
+	if src.EmailChannelRefId != nil {
+		return json.Marshal(&src.EmailChannelRefId)
+	}
+
 	if src.OpsgenieChannelRefId != nil {
 		return json.Marshal(&src.OpsgenieChannelRefId)
 	}
 
 	if src.SlackChannelRefId != nil {
 		return json.Marshal(&src.SlackChannelRefId)
+	}
+
+	if src.TeamsChannelRefId != nil {
+		return json.Marshal(&src.TeamsChannelRefId)
 	}
 
 	if src.WebhookChannelRefId != nil {
@@ -115,12 +163,20 @@ func (obj *ChannelReferenceId) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
+	if obj.EmailChannelRefId != nil {
+		return obj.EmailChannelRefId
+	}
+
 	if obj.OpsgenieChannelRefId != nil {
 		return obj.OpsgenieChannelRefId
 	}
 
 	if obj.SlackChannelRefId != nil {
 		return obj.SlackChannelRefId
+	}
+
+	if obj.TeamsChannelRefId != nil {
+		return obj.TeamsChannelRefId
 	}
 
 	if obj.WebhookChannelRefId != nil {

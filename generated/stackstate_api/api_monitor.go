@@ -724,6 +724,7 @@ type ApiGetMonitorCheckStatesRequest struct {
 	monitorIdOrUrn string
 	healthState    *HealthStateValue
 	limit          *int32
+	timestamp      *int64
 }
 
 // Health state of check states
@@ -734,6 +735,11 @@ func (r ApiGetMonitorCheckStatesRequest) HealthState(healthState HealthStateValu
 
 func (r ApiGetMonitorCheckStatesRequest) Limit(limit int32) ApiGetMonitorCheckStatesRequest {
 	r.limit = &limit
+	return r
+}
+
+func (r ApiGetMonitorCheckStatesRequest) Timestamp(timestamp int64) ApiGetMonitorCheckStatesRequest {
+	r.timestamp = &timestamp
 	return r
 }
 
@@ -785,6 +791,9 @@ func (a *MonitorApiService) GetMonitorCheckStatesExecute(r ApiGetMonitorCheckSta
 	}
 	if r.limit != nil {
 		localVarQueryParams.Add("limit", parameterToString(*r.limit, ""))
+	}
+	if r.timestamp != nil {
+		localVarQueryParams.Add("timestamp", parameterToString(*r.timestamp, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -915,6 +924,12 @@ type ApiGetMonitorWithStatusRequest struct {
 	ctx            context.Context
 	ApiService     MonitorApi
 	monitorIdOrUrn string
+	timestamp      *int64
+}
+
+func (r ApiGetMonitorWithStatusRequest) Timestamp(timestamp int64) ApiGetMonitorWithStatusRequest {
+	r.timestamp = &timestamp
+	return r
 }
 
 func (r ApiGetMonitorWithStatusRequest) Execute() (*MonitorStatus, *http.Response, error) {
@@ -960,6 +975,9 @@ func (a *MonitorApiService) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatu
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	if r.timestamp != nil {
+		localVarQueryParams.Add("timestamp", parameterToString(*r.timestamp, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -2885,6 +2903,7 @@ type GetMonitorCheckStatesCall struct {
 	PmonitorIdOrUrn string
 	PhealthState    *HealthStateValue
 	Plimit          *int32
+	Ptimestamp      *int64
 }
 
 func (mock MonitorApiMock) GetMonitorCheckStates(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorCheckStatesRequest {
@@ -2900,6 +2919,7 @@ func (mock MonitorApiMock) GetMonitorCheckStatesExecute(r ApiGetMonitorCheckStat
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
 		PhealthState:    r.healthState,
 		Plimit:          r.limit,
+		Ptimestamp:      r.timestamp,
 	}
 	*mock.GetMonitorCheckStatesCalls = append(*mock.GetMonitorCheckStatesCalls, p)
 	return &mock.GetMonitorCheckStatesResponse.Result, mock.GetMonitorCheckStatesResponse.Response, mock.GetMonitorCheckStatesResponse.Error
@@ -2913,6 +2933,7 @@ type GetMonitorWithStatusMockResponse struct {
 
 type GetMonitorWithStatusCall struct {
 	PmonitorIdOrUrn string
+	Ptimestamp      *int64
 }
 
 func (mock MonitorApiMock) GetMonitorWithStatus(ctx context.Context, monitorIdOrUrn string) ApiGetMonitorWithStatusRequest {
@@ -2926,6 +2947,7 @@ func (mock MonitorApiMock) GetMonitorWithStatus(ctx context.Context, monitorIdOr
 func (mock MonitorApiMock) GetMonitorWithStatusExecute(r ApiGetMonitorWithStatusRequest) (*MonitorStatus, *http.Response, error) {
 	p := GetMonitorWithStatusCall{
 		PmonitorIdOrUrn: r.monitorIdOrUrn,
+		Ptimestamp:      r.timestamp,
 	}
 	*mock.GetMonitorWithStatusCalls = append(*mock.GetMonitorWithStatusCalls, p)
 	return &mock.GetMonitorWithStatusResponse.Result, mock.GetMonitorWithStatusResponse.Response, mock.GetMonitorWithStatusResponse.Error

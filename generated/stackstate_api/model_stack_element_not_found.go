@@ -17,10 +17,12 @@ import (
 
 // StackElementNotFound struct for StackElementNotFound
 type StackElementNotFound struct {
-	Type       string `json:"_type"`
-	ObjectType string `json:"objectType"`
-	ObjectId   string `json:"objectId"`
-	Message    string `json:"message"`
+	Type             string `json:"_type"`
+	ObjectType       string `json:"objectType"`
+	ObjectId         string `json:"objectId"`
+	Message          string `json:"message"`
+	ExistedEarlierMs *int64 `json:"existedEarlierMs,omitempty"`
+	ExistsLaterMs    *int64 `json:"existsLaterMs,omitempty"`
 }
 
 // NewStackElementNotFound instantiates a new StackElementNotFound object
@@ -140,6 +142,70 @@ func (o *StackElementNotFound) SetMessage(v string) {
 	o.Message = v
 }
 
+// GetExistedEarlierMs returns the ExistedEarlierMs field value if set, zero value otherwise.
+func (o *StackElementNotFound) GetExistedEarlierMs() int64 {
+	if o == nil || o.ExistedEarlierMs == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ExistedEarlierMs
+}
+
+// GetExistedEarlierMsOk returns a tuple with the ExistedEarlierMs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StackElementNotFound) GetExistedEarlierMsOk() (*int64, bool) {
+	if o == nil || o.ExistedEarlierMs == nil {
+		return nil, false
+	}
+	return o.ExistedEarlierMs, true
+}
+
+// HasExistedEarlierMs returns a boolean if a field has been set.
+func (o *StackElementNotFound) HasExistedEarlierMs() bool {
+	if o != nil && o.ExistedEarlierMs != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetExistedEarlierMs gets a reference to the given int64 and assigns it to the ExistedEarlierMs field.
+func (o *StackElementNotFound) SetExistedEarlierMs(v int64) {
+	o.ExistedEarlierMs = &v
+}
+
+// GetExistsLaterMs returns the ExistsLaterMs field value if set, zero value otherwise.
+func (o *StackElementNotFound) GetExistsLaterMs() int64 {
+	if o == nil || o.ExistsLaterMs == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ExistsLaterMs
+}
+
+// GetExistsLaterMsOk returns a tuple with the ExistsLaterMs field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *StackElementNotFound) GetExistsLaterMsOk() (*int64, bool) {
+	if o == nil || o.ExistsLaterMs == nil {
+		return nil, false
+	}
+	return o.ExistsLaterMs, true
+}
+
+// HasExistsLaterMs returns a boolean if a field has been set.
+func (o *StackElementNotFound) HasExistsLaterMs() bool {
+	if o != nil && o.ExistsLaterMs != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetExistsLaterMs gets a reference to the given int64 and assigns it to the ExistsLaterMs field.
+func (o *StackElementNotFound) SetExistsLaterMs(v int64) {
+	o.ExistsLaterMs = &v
+}
+
 func (o StackElementNotFound) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -153,6 +219,12 @@ func (o StackElementNotFound) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["message"] = o.Message
+	}
+	if o.ExistedEarlierMs != nil {
+		toSerialize["existedEarlierMs"] = o.ExistedEarlierMs
+	}
+	if o.ExistsLaterMs != nil {
+		toSerialize["existsLaterMs"] = o.ExistsLaterMs
 	}
 	return json.Marshal(toSerialize)
 }

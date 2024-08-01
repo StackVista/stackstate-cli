@@ -27,7 +27,6 @@ type Argument struct {
 	ArgumentLongVal                      *ArgumentLongVal
 	ArgumentNodeIdVal                    *ArgumentNodeIdVal
 	ArgumentPromQLMetricVal              *ArgumentPromQLMetricVal
-	ArgumentPropagatedHealthStateVal     *ArgumentPropagatedHealthStateVal
 	ArgumentQueryViewRef                 *ArgumentQueryViewRef
 	ArgumentRelationTypeRef              *ArgumentRelationTypeRef
 	ArgumentStateVal                     *ArgumentStateVal
@@ -98,13 +97,6 @@ func ArgumentNodeIdValAsArgument(v *ArgumentNodeIdVal) Argument {
 func ArgumentPromQLMetricValAsArgument(v *ArgumentPromQLMetricVal) Argument {
 	return Argument{
 		ArgumentPromQLMetricVal: v,
-	}
-}
-
-// ArgumentPropagatedHealthStateValAsArgument is a convenience function that returns ArgumentPropagatedHealthStateVal wrapped in Argument
-func ArgumentPropagatedHealthStateValAsArgument(v *ArgumentPropagatedHealthStateVal) Argument {
-	return Argument{
-		ArgumentPropagatedHealthStateVal: v,
 	}
 }
 
@@ -282,18 +274,6 @@ func (dst *Argument) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// check if the discriminator value is 'ArgumentPropagatedHealthStateVal'
-	if jsonDict["_type"] == "ArgumentPropagatedHealthStateVal" {
-		// try to unmarshal JSON data into ArgumentPropagatedHealthStateVal
-		err = json.Unmarshal(data, &dst.ArgumentPropagatedHealthStateVal)
-		if err == nil {
-			return nil // data stored in dst.ArgumentPropagatedHealthStateVal, return on the first match
-		} else {
-			dst.ArgumentPropagatedHealthStateVal = nil
-			return fmt.Errorf("Failed to unmarshal Argument as ArgumentPropagatedHealthStateVal: %s", err.Error())
-		}
-	}
-
 	// check if the discriminator value is 'ArgumentQueryViewRef'
 	if jsonDict["_type"] == "ArgumentQueryViewRef" {
 		// try to unmarshal JSON data into ArgumentQueryViewRef
@@ -431,10 +411,6 @@ func (src Argument) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.ArgumentPromQLMetricVal)
 	}
 
-	if src.ArgumentPropagatedHealthStateVal != nil {
-		return json.Marshal(&src.ArgumentPropagatedHealthStateVal)
-	}
-
 	if src.ArgumentQueryViewRef != nil {
 		return json.Marshal(&src.ArgumentQueryViewRef)
 	}
@@ -509,10 +485,6 @@ func (obj *Argument) GetActualInstance() interface{} {
 
 	if obj.ArgumentPromQLMetricVal != nil {
 		return obj.ArgumentPromQLMetricVal
-	}
-
-	if obj.ArgumentPropagatedHealthStateVal != nil {
-		return obj.ArgumentPropagatedHealthStateVal
 	}
 
 	if obj.ArgumentQueryViewRef != nil {

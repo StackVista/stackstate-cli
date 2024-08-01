@@ -8,6 +8,8 @@ Name | Type | Description | Notes
 **ObjectType** | **string** |  | 
 **ObjectId** | **string** |  | 
 **Message** | **string** |  | 
+**ExistedEarlierMs** | Pointer to **int64** |  | [optional] 
+**ExistsLaterMs** | Pointer to **int64** |  | [optional] 
 
 ## Methods
 
@@ -107,6 +109,56 @@ and a boolean to check if the value has been set.
 
 SetMessage sets Message field to given value.
 
+
+### GetExistedEarlierMs
+
+`func (o *StackElementNotFound) GetExistedEarlierMs() int64`
+
+GetExistedEarlierMs returns the ExistedEarlierMs field if non-nil, zero value otherwise.
+
+### GetExistedEarlierMsOk
+
+`func (o *StackElementNotFound) GetExistedEarlierMsOk() (*int64, bool)`
+
+GetExistedEarlierMsOk returns a tuple with the ExistedEarlierMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExistedEarlierMs
+
+`func (o *StackElementNotFound) SetExistedEarlierMs(v int64)`
+
+SetExistedEarlierMs sets ExistedEarlierMs field to given value.
+
+### HasExistedEarlierMs
+
+`func (o *StackElementNotFound) HasExistedEarlierMs() bool`
+
+HasExistedEarlierMs returns a boolean if a field has been set.
+
+### GetExistsLaterMs
+
+`func (o *StackElementNotFound) GetExistsLaterMs() int64`
+
+GetExistsLaterMs returns the ExistsLaterMs field if non-nil, zero value otherwise.
+
+### GetExistsLaterMsOk
+
+`func (o *StackElementNotFound) GetExistsLaterMsOk() (*int64, bool)`
+
+GetExistsLaterMsOk returns a tuple with the ExistsLaterMs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetExistsLaterMs
+
+`func (o *StackElementNotFound) SetExistsLaterMs(v int64)`
+
+SetExistsLaterMs sets ExistsLaterMs field to given value.
+
+### HasExistsLaterMs
+
+`func (o *StackElementNotFound) HasExistsLaterMs() bool`
+
+HasExistsLaterMs returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

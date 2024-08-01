@@ -18,13 +18,12 @@ Name | Type | Description | Notes
 **EventTime** | **int64** |  | 
 **ProcessedTime** | **int64** |  | 
 **Tags** | [**[]EventTag**](EventTag.md) |  | 
-**CausingEvents** | [**[]EventRef**](EventRef.md) |  | 
 
 ## Methods
 
 ### NewTopologyEvent
 
-`func NewTopologyEvent(identifier string, elementIdentifiers []string, elements []EventElement, source string, category EventCategory, name string, sourceLinks []SourceLink, data map[string]interface{}, eventType string, eventTime int64, processedTime int64, tags []EventTag, causingEvents []EventRef, ) *TopologyEvent`
+`func NewTopologyEvent(identifier string, elementIdentifiers []string, elements []EventElement, source string, category EventCategory, name string, sourceLinks []SourceLink, data map[string]interface{}, eventType string, eventTime int64, processedTime int64, tags []EventTag, ) *TopologyEvent`
 
 NewTopologyEvent instantiates a new TopologyEvent object
 This constructor will assign default values to properties that have it defined,
@@ -327,26 +326,6 @@ and a boolean to check if the value has been set.
 `func (o *TopologyEvent) SetTags(v []EventTag)`
 
 SetTags sets Tags field to given value.
-
-
-### GetCausingEvents
-
-`func (o *TopologyEvent) GetCausingEvents() []EventRef`
-
-GetCausingEvents returns the CausingEvents field if non-nil, zero value otherwise.
-
-### GetCausingEventsOk
-
-`func (o *TopologyEvent) GetCausingEventsOk() (*[]EventRef, bool)`
-
-GetCausingEventsOk returns a tuple with the CausingEvents field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCausingEvents
-
-`func (o *TopologyEvent) SetCausingEvents(v []EventRef)`
-
-SetCausingEvents sets CausingEvents field to given value.
 
 
 

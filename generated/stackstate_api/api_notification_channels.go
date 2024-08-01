@@ -23,6 +23,20 @@ import (
 type NotificationChannelsApi interface {
 
 	/*
+		CreateEmailNotificationChannel Create a Email Notification channel
+
+		Create Email Notification channel
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiCreateEmailNotificationChannelRequest
+	*/
+	CreateEmailNotificationChannel(ctx context.Context) ApiCreateEmailNotificationChannelRequest
+
+	// CreateEmailNotificationChannelExecute executes the request
+	//  @return EmailNotificationChannel
+	CreateEmailNotificationChannelExecute(r ApiCreateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error)
+
+	/*
 		CreateOpsgenieNotificationChannel Create a Opsgenie Notification channel
 
 		Create a Opsgenie Notification channel
@@ -37,6 +51,20 @@ type NotificationChannelsApi interface {
 	CreateOpsgenieNotificationChannelExecute(r ApiCreateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error)
 
 	/*
+		CreateTeamsNotificationChannel Create a Teams Notification channel
+
+		Create a Teams Notification channel
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiCreateTeamsNotificationChannelRequest
+	*/
+	CreateTeamsNotificationChannel(ctx context.Context) ApiCreateTeamsNotificationChannelRequest
+
+	// CreateTeamsNotificationChannelExecute executes the request
+	//  @return TeamsNotificationChannel
+	CreateTeamsNotificationChannelExecute(r ApiCreateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error)
+
+	/*
 		CreateWebhookNotificationChannel Create a Webhook Notification channel
 
 		Create a Webhook Notification channel
@@ -49,6 +77,20 @@ type NotificationChannelsApi interface {
 	// CreateWebhookNotificationChannelExecute executes the request
 	//  @return WebhookNotificationChannel
 	CreateWebhookNotificationChannelExecute(r ApiCreateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error)
+
+	/*
+		DeleteEmailNotificationChannel Delete the Email Notification channel by id
+
+		Delete the email notification channel by id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiDeleteEmailNotificationChannelRequest
+	*/
+	DeleteEmailNotificationChannel(ctx context.Context, channelId int64) ApiDeleteEmailNotificationChannelRequest
+
+	// DeleteEmailNotificationChannelExecute executes the request
+	DeleteEmailNotificationChannelExecute(r ApiDeleteEmailNotificationChannelRequest) (*http.Response, error)
 
 	/*
 		DeleteOpsgenieNotificationChannel Delete the Opsgenie Notification channel by id
@@ -79,6 +121,20 @@ type NotificationChannelsApi interface {
 	DeleteSlackNotificationChannelExecute(r ApiDeleteSlackNotificationChannelRequest) (*http.Response, error)
 
 	/*
+		DeleteTeamsNotificationChannel Delete the Teams Notification channel by id
+
+		Delete the teams notification channel by id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiDeleteTeamsNotificationChannelRequest
+	*/
+	DeleteTeamsNotificationChannel(ctx context.Context, channelId int64) ApiDeleteTeamsNotificationChannelRequest
+
+	// DeleteTeamsNotificationChannelExecute executes the request
+	DeleteTeamsNotificationChannelExecute(r ApiDeleteTeamsNotificationChannelRequest) (*http.Response, error)
+
+	/*
 		DeleteWebhookNotificationChannel Delete the Webhook Notification channel by id
 
 		Delete the webhook notification channel by id
@@ -91,6 +147,35 @@ type NotificationChannelsApi interface {
 
 	// DeleteWebhookNotificationChannelExecute executes the request
 	DeleteWebhookNotificationChannelExecute(r ApiDeleteWebhookNotificationChannelRequest) (*http.Response, error)
+
+	/*
+		GetEmailNotificationChannel Get the Email Notification channel by id
+
+		Get the email notification channel by id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiGetEmailNotificationChannelRequest
+	*/
+	GetEmailNotificationChannel(ctx context.Context, channelId int64) ApiGetEmailNotificationChannelRequest
+
+	// GetEmailNotificationChannelExecute executes the request
+	//  @return EmailNotificationChannel
+	GetEmailNotificationChannelExecute(r ApiGetEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error)
+
+	/*
+		GetEmailNotificationStatus Email Notification channel status
+
+		Email Notification channel status, test whether it can be used
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiGetEmailNotificationStatusRequest
+	*/
+	GetEmailNotificationStatus(ctx context.Context) ApiGetEmailNotificationStatusRequest
+
+	// GetEmailNotificationStatusExecute executes the request
+	//  @return EmailNotificationStatus
+	GetEmailNotificationStatusExecute(r ApiGetEmailNotificationStatusRequest) (*EmailNotificationStatus, *http.Response, error)
 
 	/*
 		GetOpsgenieNotificationChannel Get the Opsgenie Notification channel by id
@@ -121,6 +206,21 @@ type NotificationChannelsApi interface {
 	// GetSlackNotificationChannelExecute executes the request
 	//  @return SlackNotificationChannel
 	GetSlackNotificationChannelExecute(r ApiGetSlackNotificationChannelRequest) (*SlackNotificationChannel, *http.Response, error)
+
+	/*
+		GetTeamsNotificationChannel Get the Teams Notification channel by id
+
+		Get the teams notification channel by id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiGetTeamsNotificationChannelRequest
+	*/
+	GetTeamsNotificationChannel(ctx context.Context, channelId int64) ApiGetTeamsNotificationChannelRequest
+
+	// GetTeamsNotificationChannelExecute executes the request
+	//  @return TeamsNotificationChannel
+	GetTeamsNotificationChannelExecute(r ApiGetTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error)
 
 	/*
 		GetWebhookNotificationChannel Get the Webhook Notification channel by id
@@ -208,6 +308,20 @@ type NotificationChannelsApi interface {
 	SlackOauthRedirectExecute(r ApiSlackOauthRedirectRequest) (*http.Response, error)
 
 	/*
+		TestEmailChannel Test the Email notification channel
+
+		Test the email notification channel by sending a test message to the notification channel.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiTestEmailChannelRequest
+	*/
+	TestEmailChannel(ctx context.Context, channelId int64) ApiTestEmailChannelRequest
+
+	// TestEmailChannelExecute executes the request
+	TestEmailChannelExecute(r ApiTestEmailChannelRequest) (*http.Response, error)
+
+	/*
 		TestOpsgenieChannel Test the Opsgenie notification channel
 
 		Test the opsgenie notification channel by sending a test message to the notification channel.
@@ -236,6 +350,20 @@ type NotificationChannelsApi interface {
 	TestSlackChannelExecute(r ApiTestSlackChannelRequest) (*http.Response, error)
 
 	/*
+		TestTeamsChannel Test the Teams notification channel
+
+		Test the teams notification channel by sending a test message to the notification channel.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiTestTeamsChannelRequest
+	*/
+	TestTeamsChannel(ctx context.Context, channelId int64) ApiTestTeamsChannelRequest
+
+	// TestTeamsChannelExecute executes the request
+	TestTeamsChannelExecute(r ApiTestTeamsChannelRequest) (*http.Response, error)
+
+	/*
 		TestWebhookChannel Test the Webhook notification channel
 
 		Test the webhook notification channel by sending a test message to the notification channel.
@@ -248,6 +376,21 @@ type NotificationChannelsApi interface {
 
 	// TestWebhookChannelExecute executes the request
 	TestWebhookChannelExecute(r ApiTestWebhookChannelRequest) (*http.Response, error)
+
+	/*
+		UpdateEmailNotificationChannel Update the Email Notification channel by id
+
+		Update the email notification channel by id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiUpdateEmailNotificationChannelRequest
+	*/
+	UpdateEmailNotificationChannel(ctx context.Context, channelId int64) ApiUpdateEmailNotificationChannelRequest
+
+	// UpdateEmailNotificationChannelExecute executes the request
+	//  @return EmailNotificationChannel
+	UpdateEmailNotificationChannelExecute(r ApiUpdateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error)
 
 	/*
 		UpdateOpsgenieNotificationChannel Update the Opsgenie Notification channel by id
@@ -263,6 +406,21 @@ type NotificationChannelsApi interface {
 	// UpdateOpsgenieNotificationChannelExecute executes the request
 	//  @return OpsgenieNotificationChannel
 	UpdateOpsgenieNotificationChannelExecute(r ApiUpdateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error)
+
+	/*
+		UpdateTeamsNotificationChannel Update the Teams Notification channel by id
+
+		Update the teams notification channel by id
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@return ApiUpdateTeamsNotificationChannelRequest
+	*/
+	UpdateTeamsNotificationChannel(ctx context.Context, channelId int64) ApiUpdateTeamsNotificationChannelRequest
+
+	// UpdateTeamsNotificationChannelExecute executes the request
+	//  @return TeamsNotificationChannel
+	UpdateTeamsNotificationChannelExecute(r ApiUpdateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error)
 
 	/*
 		UpdateWebhookNotificationChannel Update the Webhook Notification channel by id
@@ -282,6 +440,178 @@ type NotificationChannelsApi interface {
 
 // NotificationChannelsApiService NotificationChannelsApi service
 type NotificationChannelsApiService service
+
+type ApiCreateEmailNotificationChannelRequest struct {
+	ctx                     context.Context
+	ApiService              NotificationChannelsApi
+	emailChannelWriteSchema *EmailChannelWriteSchema
+}
+
+// Create or update a email channel
+func (r ApiCreateEmailNotificationChannelRequest) EmailChannelWriteSchema(emailChannelWriteSchema EmailChannelWriteSchema) ApiCreateEmailNotificationChannelRequest {
+	r.emailChannelWriteSchema = &emailChannelWriteSchema
+	return r
+}
+
+func (r ApiCreateEmailNotificationChannelRequest) Execute() (*EmailNotificationChannel, *http.Response, error) {
+	return r.ApiService.CreateEmailNotificationChannelExecute(r)
+}
+
+/*
+CreateEmailNotificationChannel Create a Email Notification channel
+
+Create Email Notification channel
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCreateEmailNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) CreateEmailNotificationChannel(ctx context.Context) ApiCreateEmailNotificationChannelRequest {
+	return ApiCreateEmailNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//  @return EmailNotificationChannel
+func (a *NotificationChannelsApiService) CreateEmailNotificationChannelExecute(r ApiCreateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *EmailNotificationChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.CreateEmailNotificationChannel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/email"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.emailChannelWriteSchema == nil {
+		return localVarReturnValue, nil, reportError("emailChannelWriteSchema is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.emailChannelWriteSchema
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiCreateOpsgenieNotificationChannelRequest struct {
 	ctx                        context.Context
@@ -357,6 +687,178 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecut
 	}
 	// body params
 	localVarPostBody = r.opsgenieChannelWriteSchema
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiCreateTeamsNotificationChannelRequest struct {
+	ctx                     context.Context
+	ApiService              NotificationChannelsApi
+	teamsChannelWriteSchema *TeamsChannelWriteSchema
+}
+
+// Create or update a teams channel
+func (r ApiCreateTeamsNotificationChannelRequest) TeamsChannelWriteSchema(teamsChannelWriteSchema TeamsChannelWriteSchema) ApiCreateTeamsNotificationChannelRequest {
+	r.teamsChannelWriteSchema = &teamsChannelWriteSchema
+	return r
+}
+
+func (r ApiCreateTeamsNotificationChannelRequest) Execute() (*TeamsNotificationChannel, *http.Response, error) {
+	return r.ApiService.CreateTeamsNotificationChannelExecute(r)
+}
+
+/*
+CreateTeamsNotificationChannel Create a Teams Notification channel
+
+Create a Teams Notification channel
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiCreateTeamsNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) CreateTeamsNotificationChannel(ctx context.Context) ApiCreateTeamsNotificationChannelRequest {
+	return ApiCreateTeamsNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//  @return TeamsNotificationChannel
+func (a *NotificationChannelsApiService) CreateTeamsNotificationChannelExecute(r ApiCreateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TeamsNotificationChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.CreateTeamsNotificationChannel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/teams"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.teamsChannelWriteSchema == nil {
+		return localVarReturnValue, nil, reportError("teamsChannelWriteSchema is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.teamsChannelWriteSchema
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -625,6 +1127,169 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute
 	}
 
 	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDeleteEmailNotificationChannelRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+	channelId  int64
+}
+
+func (r ApiDeleteEmailNotificationChannelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteEmailNotificationChannelExecute(r)
+}
+
+/*
+DeleteEmailNotificationChannel Delete the Email Notification channel by id
+
+Delete the email notification channel by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiDeleteEmailNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) DeleteEmailNotificationChannel(ctx context.Context, channelId int64) ApiDeleteEmailNotificationChannelRequest {
+	return ApiDeleteEmailNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+func (a *NotificationChannelsApiService) DeleteEmailNotificationChannelExecute(r ApiDeleteEmailNotificationChannelRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.DeleteEmailNotificationChannel")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/email/{channelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
 }
 
 type ApiDeleteOpsgenieNotificationChannelRequest struct {
@@ -953,6 +1618,169 @@ func (a *NotificationChannelsApiService) DeleteSlackNotificationChannelExecute(r
 	return localVarHTTPResponse, nil
 }
 
+type ApiDeleteTeamsNotificationChannelRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+	channelId  int64
+}
+
+func (r ApiDeleteTeamsNotificationChannelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteTeamsNotificationChannelExecute(r)
+}
+
+/*
+DeleteTeamsNotificationChannel Delete the Teams Notification channel by id
+
+Delete the teams notification channel by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiDeleteTeamsNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) DeleteTeamsNotificationChannel(ctx context.Context, channelId int64) ApiDeleteTeamsNotificationChannelRequest {
+	return ApiDeleteTeamsNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+func (a *NotificationChannelsApiService) DeleteTeamsNotificationChannelExecute(r ApiDeleteTeamsNotificationChannelRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.DeleteTeamsNotificationChannel")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/teams/{channelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiDeleteWebhookNotificationChannelRequest struct {
 	ctx        context.Context
 	ApiService NotificationChannelsApi
@@ -1114,6 +1942,340 @@ func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannelExecute
 	}
 
 	return localVarHTTPResponse, nil
+}
+
+type ApiGetEmailNotificationChannelRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+	channelId  int64
+}
+
+func (r ApiGetEmailNotificationChannelRequest) Execute() (*EmailNotificationChannel, *http.Response, error) {
+	return r.ApiService.GetEmailNotificationChannelExecute(r)
+}
+
+/*
+GetEmailNotificationChannel Get the Email Notification channel by id
+
+Get the email notification channel by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiGetEmailNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) GetEmailNotificationChannel(ctx context.Context, channelId int64) ApiGetEmailNotificationChannelRequest {
+	return ApiGetEmailNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+//  @return EmailNotificationChannel
+func (a *NotificationChannelsApiService) GetEmailNotificationChannelExecute(r ApiGetEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *EmailNotificationChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.GetEmailNotificationChannel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/email/{channelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetEmailNotificationStatusRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+}
+
+func (r ApiGetEmailNotificationStatusRequest) Execute() (*EmailNotificationStatus, *http.Response, error) {
+	return r.ApiService.GetEmailNotificationStatusExecute(r)
+}
+
+/*
+GetEmailNotificationStatus Email Notification channel status
+
+Email Notification channel status, test whether it can be used
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiGetEmailNotificationStatusRequest
+*/
+func (a *NotificationChannelsApiService) GetEmailNotificationStatus(ctx context.Context) ApiGetEmailNotificationStatusRequest {
+	return ApiGetEmailNotificationStatusRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//  @return EmailNotificationStatus
+func (a *NotificationChannelsApiService) GetEmailNotificationStatusExecute(r ApiGetEmailNotificationStatusRequest) (*EmailNotificationStatus, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *EmailNotificationStatus
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.GetEmailNotificationStatus")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/email/status"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
 type ApiGetOpsgenieNotificationChannelRequest struct {
@@ -1333,6 +2495,180 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r Ap
 	}
 
 	localVarPath := localBasePath + "/notifications/channels/slack/{channelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetTeamsNotificationChannelRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+	channelId  int64
+}
+
+func (r ApiGetTeamsNotificationChannelRequest) Execute() (*TeamsNotificationChannel, *http.Response, error) {
+	return r.ApiService.GetTeamsNotificationChannelExecute(r)
+}
+
+/*
+GetTeamsNotificationChannel Get the Teams Notification channel by id
+
+Get the teams notification channel by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiGetTeamsNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) GetTeamsNotificationChannel(ctx context.Context, channelId int64) ApiGetTeamsNotificationChannelRequest {
+	return ApiGetTeamsNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+//  @return TeamsNotificationChannel
+func (a *NotificationChannelsApiService) GetTeamsNotificationChannelExecute(r ApiGetTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TeamsNotificationChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.GetTeamsNotificationChannel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/teams/{channelId}"
 	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -2482,6 +3818,169 @@ func (a *NotificationChannelsApiService) SlackOauthRedirectExecute(r ApiSlackOau
 	return localVarHTTPResponse, nil
 }
 
+type ApiTestEmailChannelRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+	channelId  int64
+}
+
+func (r ApiTestEmailChannelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestEmailChannelExecute(r)
+}
+
+/*
+TestEmailChannel Test the Email notification channel
+
+Test the email notification channel by sending a test message to the notification channel.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiTestEmailChannelRequest
+*/
+func (a *NotificationChannelsApiService) TestEmailChannel(ctx context.Context, channelId int64) ApiTestEmailChannelRequest {
+	return ApiTestEmailChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+func (a *NotificationChannelsApiService) TestEmailChannelExecute(r ApiTestEmailChannelRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.TestEmailChannel")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/email/{channelId}/test"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiTestOpsgenieChannelRequest struct {
 	ctx        context.Context
 	ApiService NotificationChannelsApi
@@ -2808,6 +4307,169 @@ func (a *NotificationChannelsApiService) TestSlackChannelExecute(r ApiTestSlackC
 	return localVarHTTPResponse, nil
 }
 
+type ApiTestTeamsChannelRequest struct {
+	ctx        context.Context
+	ApiService NotificationChannelsApi
+	channelId  int64
+}
+
+func (r ApiTestTeamsChannelRequest) Execute() (*http.Response, error) {
+	return r.ApiService.TestTeamsChannelExecute(r)
+}
+
+/*
+TestTeamsChannel Test the Teams notification channel
+
+Test the teams notification channel by sending a test message to the notification channel.
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiTestTeamsChannelRequest
+*/
+func (a *NotificationChannelsApiService) TestTeamsChannel(ctx context.Context, channelId int64) ApiTestTeamsChannelRequest {
+	return ApiTestTeamsChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+func (a *NotificationChannelsApiService) TestTeamsChannelExecute(r ApiTestTeamsChannelRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodPost
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.TestTeamsChannel")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/teams/{channelId}/test"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
 type ApiTestWebhookChannelRequest struct {
 	ctx        context.Context
 	ApiService NotificationChannelsApi
@@ -2971,6 +4633,192 @@ func (a *NotificationChannelsApiService) TestWebhookChannelExecute(r ApiTestWebh
 	return localVarHTTPResponse, nil
 }
 
+type ApiUpdateEmailNotificationChannelRequest struct {
+	ctx                     context.Context
+	ApiService              NotificationChannelsApi
+	channelId               int64
+	emailChannelWriteSchema *EmailChannelWriteSchema
+}
+
+// Create or update a email channel
+func (r ApiUpdateEmailNotificationChannelRequest) EmailChannelWriteSchema(emailChannelWriteSchema EmailChannelWriteSchema) ApiUpdateEmailNotificationChannelRequest {
+	r.emailChannelWriteSchema = &emailChannelWriteSchema
+	return r
+}
+
+func (r ApiUpdateEmailNotificationChannelRequest) Execute() (*EmailNotificationChannel, *http.Response, error) {
+	return r.ApiService.UpdateEmailNotificationChannelExecute(r)
+}
+
+/*
+UpdateEmailNotificationChannel Update the Email Notification channel by id
+
+Update the email notification channel by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiUpdateEmailNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) UpdateEmailNotificationChannel(ctx context.Context, channelId int64) ApiUpdateEmailNotificationChannelRequest {
+	return ApiUpdateEmailNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+//  @return EmailNotificationChannel
+func (a *NotificationChannelsApiService) UpdateEmailNotificationChannelExecute(r ApiUpdateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *EmailNotificationChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.UpdateEmailNotificationChannel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/email/{channelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.emailChannelWriteSchema == nil {
+		return localVarReturnValue, nil, reportError("emailChannelWriteSchema is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.emailChannelWriteSchema
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpdateOpsgenieNotificationChannelRequest struct {
 	ctx                        context.Context
 	ApiService                 NotificationChannelsApi
@@ -3049,6 +4897,192 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecut
 	}
 	// body params
 	localVarPostBody = r.opsgenieChannelWriteSchema
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpdateTeamsNotificationChannelRequest struct {
+	ctx                     context.Context
+	ApiService              NotificationChannelsApi
+	channelId               int64
+	teamsChannelWriteSchema *TeamsChannelWriteSchema
+}
+
+// Create or update a teams channel
+func (r ApiUpdateTeamsNotificationChannelRequest) TeamsChannelWriteSchema(teamsChannelWriteSchema TeamsChannelWriteSchema) ApiUpdateTeamsNotificationChannelRequest {
+	r.teamsChannelWriteSchema = &teamsChannelWriteSchema
+	return r
+}
+
+func (r ApiUpdateTeamsNotificationChannelRequest) Execute() (*TeamsNotificationChannel, *http.Response, error) {
+	return r.ApiService.UpdateTeamsNotificationChannelExecute(r)
+}
+
+/*
+UpdateTeamsNotificationChannel Update the Teams Notification channel by id
+
+Update the teams notification channel by id
+
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param channelId Channel identifier
+ @return ApiUpdateTeamsNotificationChannelRequest
+*/
+func (a *NotificationChannelsApiService) UpdateTeamsNotificationChannel(ctx context.Context, channelId int64) ApiUpdateTeamsNotificationChannelRequest {
+	return ApiUpdateTeamsNotificationChannelRequest{
+		ApiService: a,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+// Execute executes the request
+//  @return TeamsNotificationChannel
+func (a *NotificationChannelsApiService) UpdateTeamsNotificationChannelExecute(r ApiUpdateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *TeamsNotificationChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.UpdateTeamsNotificationChannel")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/teams/{channelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.teamsChannelWriteSchema == nil {
+		return localVarReturnValue, nil, reportError("teamsChannelWriteSchema is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.teamsChannelWriteSchema
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -3348,20 +5382,34 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute
 // ---------------------------------------------
 
 type NotificationChannelsApiMock struct {
+	CreateEmailNotificationChannelCalls       *[]CreateEmailNotificationChannelCall
+	CreateEmailNotificationChannelResponse    CreateEmailNotificationChannelMockResponse
 	CreateOpsgenieNotificationChannelCalls    *[]CreateOpsgenieNotificationChannelCall
 	CreateOpsgenieNotificationChannelResponse CreateOpsgenieNotificationChannelMockResponse
+	CreateTeamsNotificationChannelCalls       *[]CreateTeamsNotificationChannelCall
+	CreateTeamsNotificationChannelResponse    CreateTeamsNotificationChannelMockResponse
 	CreateWebhookNotificationChannelCalls     *[]CreateWebhookNotificationChannelCall
 	CreateWebhookNotificationChannelResponse  CreateWebhookNotificationChannelMockResponse
+	DeleteEmailNotificationChannelCalls       *[]DeleteEmailNotificationChannelCall
+	DeleteEmailNotificationChannelResponse    DeleteEmailNotificationChannelMockResponse
 	DeleteOpsgenieNotificationChannelCalls    *[]DeleteOpsgenieNotificationChannelCall
 	DeleteOpsgenieNotificationChannelResponse DeleteOpsgenieNotificationChannelMockResponse
 	DeleteSlackNotificationChannelCalls       *[]DeleteSlackNotificationChannelCall
 	DeleteSlackNotificationChannelResponse    DeleteSlackNotificationChannelMockResponse
+	DeleteTeamsNotificationChannelCalls       *[]DeleteTeamsNotificationChannelCall
+	DeleteTeamsNotificationChannelResponse    DeleteTeamsNotificationChannelMockResponse
 	DeleteWebhookNotificationChannelCalls     *[]DeleteWebhookNotificationChannelCall
 	DeleteWebhookNotificationChannelResponse  DeleteWebhookNotificationChannelMockResponse
+	GetEmailNotificationChannelCalls          *[]GetEmailNotificationChannelCall
+	GetEmailNotificationChannelResponse       GetEmailNotificationChannelMockResponse
+	GetEmailNotificationStatusCalls           *[]GetEmailNotificationStatusCall
+	GetEmailNotificationStatusResponse        GetEmailNotificationStatusMockResponse
 	GetOpsgenieNotificationChannelCalls       *[]GetOpsgenieNotificationChannelCall
 	GetOpsgenieNotificationChannelResponse    GetOpsgenieNotificationChannelMockResponse
 	GetSlackNotificationChannelCalls          *[]GetSlackNotificationChannelCall
 	GetSlackNotificationChannelResponse       GetSlackNotificationChannelMockResponse
+	GetTeamsNotificationChannelCalls          *[]GetTeamsNotificationChannelCall
+	GetTeamsNotificationChannelResponse       GetTeamsNotificationChannelMockResponse
 	GetWebhookNotificationChannelCalls        *[]GetWebhookNotificationChannelCall
 	GetWebhookNotificationChannelResponse     GetWebhookNotificationChannelMockResponse
 	JoinSlackChannelCalls                     *[]JoinSlackChannelCall
@@ -3374,57 +5422,112 @@ type NotificationChannelsApiMock struct {
 	SlackOAuthCallbackResponse                SlackOAuthCallbackMockResponse
 	SlackOauthRedirectCalls                   *[]SlackOauthRedirectCall
 	SlackOauthRedirectResponse                SlackOauthRedirectMockResponse
+	TestEmailChannelCalls                     *[]TestEmailChannelCall
+	TestEmailChannelResponse                  TestEmailChannelMockResponse
 	TestOpsgenieChannelCalls                  *[]TestOpsgenieChannelCall
 	TestOpsgenieChannelResponse               TestOpsgenieChannelMockResponse
 	TestSlackChannelCalls                     *[]TestSlackChannelCall
 	TestSlackChannelResponse                  TestSlackChannelMockResponse
+	TestTeamsChannelCalls                     *[]TestTeamsChannelCall
+	TestTeamsChannelResponse                  TestTeamsChannelMockResponse
 	TestWebhookChannelCalls                   *[]TestWebhookChannelCall
 	TestWebhookChannelResponse                TestWebhookChannelMockResponse
+	UpdateEmailNotificationChannelCalls       *[]UpdateEmailNotificationChannelCall
+	UpdateEmailNotificationChannelResponse    UpdateEmailNotificationChannelMockResponse
 	UpdateOpsgenieNotificationChannelCalls    *[]UpdateOpsgenieNotificationChannelCall
 	UpdateOpsgenieNotificationChannelResponse UpdateOpsgenieNotificationChannelMockResponse
+	UpdateTeamsNotificationChannelCalls       *[]UpdateTeamsNotificationChannelCall
+	UpdateTeamsNotificationChannelResponse    UpdateTeamsNotificationChannelMockResponse
 	UpdateWebhookNotificationChannelCalls     *[]UpdateWebhookNotificationChannelCall
 	UpdateWebhookNotificationChannelResponse  UpdateWebhookNotificationChannelMockResponse
 }
 
 func NewNotificationChannelsApiMock() NotificationChannelsApiMock {
+	xCreateEmailNotificationChannelCalls := make([]CreateEmailNotificationChannelCall, 0)
 	xCreateOpsgenieNotificationChannelCalls := make([]CreateOpsgenieNotificationChannelCall, 0)
+	xCreateTeamsNotificationChannelCalls := make([]CreateTeamsNotificationChannelCall, 0)
 	xCreateWebhookNotificationChannelCalls := make([]CreateWebhookNotificationChannelCall, 0)
+	xDeleteEmailNotificationChannelCalls := make([]DeleteEmailNotificationChannelCall, 0)
 	xDeleteOpsgenieNotificationChannelCalls := make([]DeleteOpsgenieNotificationChannelCall, 0)
 	xDeleteSlackNotificationChannelCalls := make([]DeleteSlackNotificationChannelCall, 0)
+	xDeleteTeamsNotificationChannelCalls := make([]DeleteTeamsNotificationChannelCall, 0)
 	xDeleteWebhookNotificationChannelCalls := make([]DeleteWebhookNotificationChannelCall, 0)
+	xGetEmailNotificationChannelCalls := make([]GetEmailNotificationChannelCall, 0)
+	xGetEmailNotificationStatusCalls := make([]GetEmailNotificationStatusCall, 0)
 	xGetOpsgenieNotificationChannelCalls := make([]GetOpsgenieNotificationChannelCall, 0)
 	xGetSlackNotificationChannelCalls := make([]GetSlackNotificationChannelCall, 0)
+	xGetTeamsNotificationChannelCalls := make([]GetTeamsNotificationChannelCall, 0)
 	xGetWebhookNotificationChannelCalls := make([]GetWebhookNotificationChannelCall, 0)
 	xJoinSlackChannelCalls := make([]JoinSlackChannelCall, 0)
 	xListOpsgenieRespondersCalls := make([]ListOpsgenieRespondersCall, 0)
 	xListSlackChannelsCalls := make([]ListSlackChannelsCall, 0)
 	xSlackOAuthCallbackCalls := make([]SlackOAuthCallbackCall, 0)
 	xSlackOauthRedirectCalls := make([]SlackOauthRedirectCall, 0)
+	xTestEmailChannelCalls := make([]TestEmailChannelCall, 0)
 	xTestOpsgenieChannelCalls := make([]TestOpsgenieChannelCall, 0)
 	xTestSlackChannelCalls := make([]TestSlackChannelCall, 0)
+	xTestTeamsChannelCalls := make([]TestTeamsChannelCall, 0)
 	xTestWebhookChannelCalls := make([]TestWebhookChannelCall, 0)
+	xUpdateEmailNotificationChannelCalls := make([]UpdateEmailNotificationChannelCall, 0)
 	xUpdateOpsgenieNotificationChannelCalls := make([]UpdateOpsgenieNotificationChannelCall, 0)
+	xUpdateTeamsNotificationChannelCalls := make([]UpdateTeamsNotificationChannelCall, 0)
 	xUpdateWebhookNotificationChannelCalls := make([]UpdateWebhookNotificationChannelCall, 0)
 	return NotificationChannelsApiMock{
+		CreateEmailNotificationChannelCalls:    &xCreateEmailNotificationChannelCalls,
 		CreateOpsgenieNotificationChannelCalls: &xCreateOpsgenieNotificationChannelCalls,
+		CreateTeamsNotificationChannelCalls:    &xCreateTeamsNotificationChannelCalls,
 		CreateWebhookNotificationChannelCalls:  &xCreateWebhookNotificationChannelCalls,
+		DeleteEmailNotificationChannelCalls:    &xDeleteEmailNotificationChannelCalls,
 		DeleteOpsgenieNotificationChannelCalls: &xDeleteOpsgenieNotificationChannelCalls,
 		DeleteSlackNotificationChannelCalls:    &xDeleteSlackNotificationChannelCalls,
+		DeleteTeamsNotificationChannelCalls:    &xDeleteTeamsNotificationChannelCalls,
 		DeleteWebhookNotificationChannelCalls:  &xDeleteWebhookNotificationChannelCalls,
+		GetEmailNotificationChannelCalls:       &xGetEmailNotificationChannelCalls,
+		GetEmailNotificationStatusCalls:        &xGetEmailNotificationStatusCalls,
 		GetOpsgenieNotificationChannelCalls:    &xGetOpsgenieNotificationChannelCalls,
 		GetSlackNotificationChannelCalls:       &xGetSlackNotificationChannelCalls,
+		GetTeamsNotificationChannelCalls:       &xGetTeamsNotificationChannelCalls,
 		GetWebhookNotificationChannelCalls:     &xGetWebhookNotificationChannelCalls,
 		JoinSlackChannelCalls:                  &xJoinSlackChannelCalls,
 		ListOpsgenieRespondersCalls:            &xListOpsgenieRespondersCalls,
 		ListSlackChannelsCalls:                 &xListSlackChannelsCalls,
 		SlackOAuthCallbackCalls:                &xSlackOAuthCallbackCalls,
 		SlackOauthRedirectCalls:                &xSlackOauthRedirectCalls,
+		TestEmailChannelCalls:                  &xTestEmailChannelCalls,
 		TestOpsgenieChannelCalls:               &xTestOpsgenieChannelCalls,
 		TestSlackChannelCalls:                  &xTestSlackChannelCalls,
+		TestTeamsChannelCalls:                  &xTestTeamsChannelCalls,
 		TestWebhookChannelCalls:                &xTestWebhookChannelCalls,
+		UpdateEmailNotificationChannelCalls:    &xUpdateEmailNotificationChannelCalls,
 		UpdateOpsgenieNotificationChannelCalls: &xUpdateOpsgenieNotificationChannelCalls,
+		UpdateTeamsNotificationChannelCalls:    &xUpdateTeamsNotificationChannelCalls,
 		UpdateWebhookNotificationChannelCalls:  &xUpdateWebhookNotificationChannelCalls,
 	}
+}
+
+type CreateEmailNotificationChannelMockResponse struct {
+	Result   EmailNotificationChannel
+	Response *http.Response
+	Error    error
+}
+
+type CreateEmailNotificationChannelCall struct {
+	PemailChannelWriteSchema *EmailChannelWriteSchema
+}
+
+func (mock NotificationChannelsApiMock) CreateEmailNotificationChannel(ctx context.Context) ApiCreateEmailNotificationChannelRequest {
+	return ApiCreateEmailNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock NotificationChannelsApiMock) CreateEmailNotificationChannelExecute(r ApiCreateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
+	p := CreateEmailNotificationChannelCall{
+		PemailChannelWriteSchema: r.emailChannelWriteSchema,
+	}
+	*mock.CreateEmailNotificationChannelCalls = append(*mock.CreateEmailNotificationChannelCalls, p)
+	return &mock.CreateEmailNotificationChannelResponse.Result, mock.CreateEmailNotificationChannelResponse.Response, mock.CreateEmailNotificationChannelResponse.Error
 }
 
 type CreateOpsgenieNotificationChannelMockResponse struct {
@@ -3452,6 +5555,31 @@ func (mock NotificationChannelsApiMock) CreateOpsgenieNotificationChannelExecute
 	return &mock.CreateOpsgenieNotificationChannelResponse.Result, mock.CreateOpsgenieNotificationChannelResponse.Response, mock.CreateOpsgenieNotificationChannelResponse.Error
 }
 
+type CreateTeamsNotificationChannelMockResponse struct {
+	Result   TeamsNotificationChannel
+	Response *http.Response
+	Error    error
+}
+
+type CreateTeamsNotificationChannelCall struct {
+	PteamsChannelWriteSchema *TeamsChannelWriteSchema
+}
+
+func (mock NotificationChannelsApiMock) CreateTeamsNotificationChannel(ctx context.Context) ApiCreateTeamsNotificationChannelRequest {
+	return ApiCreateTeamsNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock NotificationChannelsApiMock) CreateTeamsNotificationChannelExecute(r ApiCreateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
+	p := CreateTeamsNotificationChannelCall{
+		PteamsChannelWriteSchema: r.teamsChannelWriteSchema,
+	}
+	*mock.CreateTeamsNotificationChannelCalls = append(*mock.CreateTeamsNotificationChannelCalls, p)
+	return &mock.CreateTeamsNotificationChannelResponse.Result, mock.CreateTeamsNotificationChannelResponse.Response, mock.CreateTeamsNotificationChannelResponse.Error
+}
+
 type CreateWebhookNotificationChannelMockResponse struct {
 	Result   WebhookNotificationChannel
 	Response *http.Response
@@ -3475,6 +5603,31 @@ func (mock NotificationChannelsApiMock) CreateWebhookNotificationChannelExecute(
 	}
 	*mock.CreateWebhookNotificationChannelCalls = append(*mock.CreateWebhookNotificationChannelCalls, p)
 	return &mock.CreateWebhookNotificationChannelResponse.Result, mock.CreateWebhookNotificationChannelResponse.Response, mock.CreateWebhookNotificationChannelResponse.Error
+}
+
+type DeleteEmailNotificationChannelMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type DeleteEmailNotificationChannelCall struct {
+	PchannelId int64
+}
+
+func (mock NotificationChannelsApiMock) DeleteEmailNotificationChannel(ctx context.Context, channelId int64) ApiDeleteEmailNotificationChannelRequest {
+	return ApiDeleteEmailNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) DeleteEmailNotificationChannelExecute(r ApiDeleteEmailNotificationChannelRequest) (*http.Response, error) {
+	p := DeleteEmailNotificationChannelCall{
+		PchannelId: r.channelId,
+	}
+	*mock.DeleteEmailNotificationChannelCalls = append(*mock.DeleteEmailNotificationChannelCalls, p)
+	return mock.DeleteEmailNotificationChannelResponse.Response, mock.DeleteEmailNotificationChannelResponse.Error
 }
 
 type DeleteOpsgenieNotificationChannelMockResponse struct {
@@ -3527,6 +5680,31 @@ func (mock NotificationChannelsApiMock) DeleteSlackNotificationChannelExecute(r 
 	return mock.DeleteSlackNotificationChannelResponse.Response, mock.DeleteSlackNotificationChannelResponse.Error
 }
 
+type DeleteTeamsNotificationChannelMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type DeleteTeamsNotificationChannelCall struct {
+	PchannelId int64
+}
+
+func (mock NotificationChannelsApiMock) DeleteTeamsNotificationChannel(ctx context.Context, channelId int64) ApiDeleteTeamsNotificationChannelRequest {
+	return ApiDeleteTeamsNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) DeleteTeamsNotificationChannelExecute(r ApiDeleteTeamsNotificationChannelRequest) (*http.Response, error) {
+	p := DeleteTeamsNotificationChannelCall{
+		PchannelId: r.channelId,
+	}
+	*mock.DeleteTeamsNotificationChannelCalls = append(*mock.DeleteTeamsNotificationChannelCalls, p)
+	return mock.DeleteTeamsNotificationChannelResponse.Response, mock.DeleteTeamsNotificationChannelResponse.Error
+}
+
 type DeleteWebhookNotificationChannelMockResponse struct {
 	Response *http.Response
 	Error    error
@@ -3550,6 +5728,54 @@ func (mock NotificationChannelsApiMock) DeleteWebhookNotificationChannelExecute(
 	}
 	*mock.DeleteWebhookNotificationChannelCalls = append(*mock.DeleteWebhookNotificationChannelCalls, p)
 	return mock.DeleteWebhookNotificationChannelResponse.Response, mock.DeleteWebhookNotificationChannelResponse.Error
+}
+
+type GetEmailNotificationChannelMockResponse struct {
+	Result   EmailNotificationChannel
+	Response *http.Response
+	Error    error
+}
+
+type GetEmailNotificationChannelCall struct {
+	PchannelId int64
+}
+
+func (mock NotificationChannelsApiMock) GetEmailNotificationChannel(ctx context.Context, channelId int64) ApiGetEmailNotificationChannelRequest {
+	return ApiGetEmailNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) GetEmailNotificationChannelExecute(r ApiGetEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
+	p := GetEmailNotificationChannelCall{
+		PchannelId: r.channelId,
+	}
+	*mock.GetEmailNotificationChannelCalls = append(*mock.GetEmailNotificationChannelCalls, p)
+	return &mock.GetEmailNotificationChannelResponse.Result, mock.GetEmailNotificationChannelResponse.Response, mock.GetEmailNotificationChannelResponse.Error
+}
+
+type GetEmailNotificationStatusMockResponse struct {
+	Result   EmailNotificationStatus
+	Response *http.Response
+	Error    error
+}
+
+type GetEmailNotificationStatusCall struct {
+}
+
+func (mock NotificationChannelsApiMock) GetEmailNotificationStatus(ctx context.Context) ApiGetEmailNotificationStatusRequest {
+	return ApiGetEmailNotificationStatusRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock NotificationChannelsApiMock) GetEmailNotificationStatusExecute(r ApiGetEmailNotificationStatusRequest) (*EmailNotificationStatus, *http.Response, error) {
+	p := GetEmailNotificationStatusCall{}
+	*mock.GetEmailNotificationStatusCalls = append(*mock.GetEmailNotificationStatusCalls, p)
+	return &mock.GetEmailNotificationStatusResponse.Result, mock.GetEmailNotificationStatusResponse.Response, mock.GetEmailNotificationStatusResponse.Error
 }
 
 type GetOpsgenieNotificationChannelMockResponse struct {
@@ -3602,6 +5828,32 @@ func (mock NotificationChannelsApiMock) GetSlackNotificationChannelExecute(r Api
 	}
 	*mock.GetSlackNotificationChannelCalls = append(*mock.GetSlackNotificationChannelCalls, p)
 	return &mock.GetSlackNotificationChannelResponse.Result, mock.GetSlackNotificationChannelResponse.Response, mock.GetSlackNotificationChannelResponse.Error
+}
+
+type GetTeamsNotificationChannelMockResponse struct {
+	Result   TeamsNotificationChannel
+	Response *http.Response
+	Error    error
+}
+
+type GetTeamsNotificationChannelCall struct {
+	PchannelId int64
+}
+
+func (mock NotificationChannelsApiMock) GetTeamsNotificationChannel(ctx context.Context, channelId int64) ApiGetTeamsNotificationChannelRequest {
+	return ApiGetTeamsNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) GetTeamsNotificationChannelExecute(r ApiGetTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
+	p := GetTeamsNotificationChannelCall{
+		PchannelId: r.channelId,
+	}
+	*mock.GetTeamsNotificationChannelCalls = append(*mock.GetTeamsNotificationChannelCalls, p)
+	return &mock.GetTeamsNotificationChannelResponse.Result, mock.GetTeamsNotificationChannelResponse.Response, mock.GetTeamsNotificationChannelResponse.Error
 }
 
 type GetWebhookNotificationChannelMockResponse struct {
@@ -3763,6 +6015,31 @@ func (mock NotificationChannelsApiMock) SlackOauthRedirectExecute(r ApiSlackOaut
 	return mock.SlackOauthRedirectResponse.Response, mock.SlackOauthRedirectResponse.Error
 }
 
+type TestEmailChannelMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type TestEmailChannelCall struct {
+	PchannelId int64
+}
+
+func (mock NotificationChannelsApiMock) TestEmailChannel(ctx context.Context, channelId int64) ApiTestEmailChannelRequest {
+	return ApiTestEmailChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) TestEmailChannelExecute(r ApiTestEmailChannelRequest) (*http.Response, error) {
+	p := TestEmailChannelCall{
+		PchannelId: r.channelId,
+	}
+	*mock.TestEmailChannelCalls = append(*mock.TestEmailChannelCalls, p)
+	return mock.TestEmailChannelResponse.Response, mock.TestEmailChannelResponse.Error
+}
+
 type TestOpsgenieChannelMockResponse struct {
 	Response *http.Response
 	Error    error
@@ -3813,6 +6090,31 @@ func (mock NotificationChannelsApiMock) TestSlackChannelExecute(r ApiTestSlackCh
 	return mock.TestSlackChannelResponse.Response, mock.TestSlackChannelResponse.Error
 }
 
+type TestTeamsChannelMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type TestTeamsChannelCall struct {
+	PchannelId int64
+}
+
+func (mock NotificationChannelsApiMock) TestTeamsChannel(ctx context.Context, channelId int64) ApiTestTeamsChannelRequest {
+	return ApiTestTeamsChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) TestTeamsChannelExecute(r ApiTestTeamsChannelRequest) (*http.Response, error) {
+	p := TestTeamsChannelCall{
+		PchannelId: r.channelId,
+	}
+	*mock.TestTeamsChannelCalls = append(*mock.TestTeamsChannelCalls, p)
+	return mock.TestTeamsChannelResponse.Response, mock.TestTeamsChannelResponse.Error
+}
+
 type TestWebhookChannelMockResponse struct {
 	Response *http.Response
 	Error    error
@@ -3836,6 +6138,34 @@ func (mock NotificationChannelsApiMock) TestWebhookChannelExecute(r ApiTestWebho
 	}
 	*mock.TestWebhookChannelCalls = append(*mock.TestWebhookChannelCalls, p)
 	return mock.TestWebhookChannelResponse.Response, mock.TestWebhookChannelResponse.Error
+}
+
+type UpdateEmailNotificationChannelMockResponse struct {
+	Result   EmailNotificationChannel
+	Response *http.Response
+	Error    error
+}
+
+type UpdateEmailNotificationChannelCall struct {
+	PchannelId               int64
+	PemailChannelWriteSchema *EmailChannelWriteSchema
+}
+
+func (mock NotificationChannelsApiMock) UpdateEmailNotificationChannel(ctx context.Context, channelId int64) ApiUpdateEmailNotificationChannelRequest {
+	return ApiUpdateEmailNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) UpdateEmailNotificationChannelExecute(r ApiUpdateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
+	p := UpdateEmailNotificationChannelCall{
+		PchannelId:               r.channelId,
+		PemailChannelWriteSchema: r.emailChannelWriteSchema,
+	}
+	*mock.UpdateEmailNotificationChannelCalls = append(*mock.UpdateEmailNotificationChannelCalls, p)
+	return &mock.UpdateEmailNotificationChannelResponse.Result, mock.UpdateEmailNotificationChannelResponse.Response, mock.UpdateEmailNotificationChannelResponse.Error
 }
 
 type UpdateOpsgenieNotificationChannelMockResponse struct {
@@ -3864,6 +6194,34 @@ func (mock NotificationChannelsApiMock) UpdateOpsgenieNotificationChannelExecute
 	}
 	*mock.UpdateOpsgenieNotificationChannelCalls = append(*mock.UpdateOpsgenieNotificationChannelCalls, p)
 	return &mock.UpdateOpsgenieNotificationChannelResponse.Result, mock.UpdateOpsgenieNotificationChannelResponse.Response, mock.UpdateOpsgenieNotificationChannelResponse.Error
+}
+
+type UpdateTeamsNotificationChannelMockResponse struct {
+	Result   TeamsNotificationChannel
+	Response *http.Response
+	Error    error
+}
+
+type UpdateTeamsNotificationChannelCall struct {
+	PchannelId               int64
+	PteamsChannelWriteSchema *TeamsChannelWriteSchema
+}
+
+func (mock NotificationChannelsApiMock) UpdateTeamsNotificationChannel(ctx context.Context, channelId int64) ApiUpdateTeamsNotificationChannelRequest {
+	return ApiUpdateTeamsNotificationChannelRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		channelId:  channelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) UpdateTeamsNotificationChannelExecute(r ApiUpdateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
+	p := UpdateTeamsNotificationChannelCall{
+		PchannelId:               r.channelId,
+		PteamsChannelWriteSchema: r.teamsChannelWriteSchema,
+	}
+	*mock.UpdateTeamsNotificationChannelCalls = append(*mock.UpdateTeamsNotificationChannelCalls, p)
+	return &mock.UpdateTeamsNotificationChannelResponse.Result, mock.UpdateTeamsNotificationChannelResponse.Response, mock.UpdateTeamsNotificationChannelResponse.Error
 }
 
 type UpdateWebhookNotificationChannelMockResponse struct {

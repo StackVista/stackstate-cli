@@ -4,25 +4,102 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**CreateEmailNotificationChannel**](NotificationChannelsApi.md#CreateEmailNotificationChannel) | **Post** /notifications/channels/email | Create a Email Notification channel
 [**CreateOpsgenieNotificationChannel**](NotificationChannelsApi.md#CreateOpsgenieNotificationChannel) | **Post** /notifications/channels/opsgenie | Create a Opsgenie Notification channel
+[**CreateTeamsNotificationChannel**](NotificationChannelsApi.md#CreateTeamsNotificationChannel) | **Post** /notifications/channels/teams | Create a Teams Notification channel
 [**CreateWebhookNotificationChannel**](NotificationChannelsApi.md#CreateWebhookNotificationChannel) | **Post** /notifications/channels/webhook | Create a Webhook Notification channel
+[**DeleteEmailNotificationChannel**](NotificationChannelsApi.md#DeleteEmailNotificationChannel) | **Delete** /notifications/channels/email/{channelId} | Delete the Email Notification channel by id
 [**DeleteOpsgenieNotificationChannel**](NotificationChannelsApi.md#DeleteOpsgenieNotificationChannel) | **Delete** /notifications/channels/opsgenie/{channelId} | Delete the Opsgenie Notification channel by id
 [**DeleteSlackNotificationChannel**](NotificationChannelsApi.md#DeleteSlackNotificationChannel) | **Delete** /notifications/channels/slack/{channelId} | Delete the Slack Notification channel by id
+[**DeleteTeamsNotificationChannel**](NotificationChannelsApi.md#DeleteTeamsNotificationChannel) | **Delete** /notifications/channels/teams/{channelId} | Delete the Teams Notification channel by id
 [**DeleteWebhookNotificationChannel**](NotificationChannelsApi.md#DeleteWebhookNotificationChannel) | **Delete** /notifications/channels/webhook/{channelId} | Delete the Webhook Notification channel by id
+[**GetEmailNotificationChannel**](NotificationChannelsApi.md#GetEmailNotificationChannel) | **Get** /notifications/channels/email/{channelId} | Get the Email Notification channel by id
+[**GetEmailNotificationStatus**](NotificationChannelsApi.md#GetEmailNotificationStatus) | **Get** /notifications/channels/email/status | Email Notification channel status
 [**GetOpsgenieNotificationChannel**](NotificationChannelsApi.md#GetOpsgenieNotificationChannel) | **Get** /notifications/channels/opsgenie/{channelId} | Get the Opsgenie Notification channel by id
 [**GetSlackNotificationChannel**](NotificationChannelsApi.md#GetSlackNotificationChannel) | **Get** /notifications/channels/slack/{channelId} | Get the Slack Notification channel by id
+[**GetTeamsNotificationChannel**](NotificationChannelsApi.md#GetTeamsNotificationChannel) | **Get** /notifications/channels/teams/{channelId} | Get the Teams Notification channel by id
 [**GetWebhookNotificationChannel**](NotificationChannelsApi.md#GetWebhookNotificationChannel) | **Get** /notifications/channels/webhook/{channelId} | Get the Webhook Notification channel by id
 [**JoinSlackChannel**](NotificationChannelsApi.md#JoinSlackChannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
 [**ListOpsgenieResponders**](NotificationChannelsApi.md#ListOpsgenieResponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
 [**ListSlackChannels**](NotificationChannelsApi.md#ListSlackChannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
 [**SlackOAuthCallback**](NotificationChannelsApi.md#SlackOAuthCallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
 [**SlackOauthRedirect**](NotificationChannelsApi.md#SlackOauthRedirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
+[**TestEmailChannel**](NotificationChannelsApi.md#TestEmailChannel) | **Post** /notifications/channels/email/{channelId}/test | Test the Email notification channel
 [**TestOpsgenieChannel**](NotificationChannelsApi.md#TestOpsgenieChannel) | **Post** /notifications/channels/opsgenie/{channelId}/test | Test the Opsgenie notification channel
 [**TestSlackChannel**](NotificationChannelsApi.md#TestSlackChannel) | **Post** /notifications/channels/slack/{channelId}/test | Test the Notification channel
+[**TestTeamsChannel**](NotificationChannelsApi.md#TestTeamsChannel) | **Post** /notifications/channels/teams/{channelId}/test | Test the Teams notification channel
 [**TestWebhookChannel**](NotificationChannelsApi.md#TestWebhookChannel) | **Post** /notifications/channels/webhook/{channelId}/test | Test the Webhook notification channel
+[**UpdateEmailNotificationChannel**](NotificationChannelsApi.md#UpdateEmailNotificationChannel) | **Put** /notifications/channels/email/{channelId} | Update the Email Notification channel by id
 [**UpdateOpsgenieNotificationChannel**](NotificationChannelsApi.md#UpdateOpsgenieNotificationChannel) | **Put** /notifications/channels/opsgenie/{channelId} | Update the Opsgenie Notification channel by id
+[**UpdateTeamsNotificationChannel**](NotificationChannelsApi.md#UpdateTeamsNotificationChannel) | **Put** /notifications/channels/teams/{channelId} | Update the Teams Notification channel by id
 [**UpdateWebhookNotificationChannel**](NotificationChannelsApi.md#UpdateWebhookNotificationChannel) | **Put** /notifications/channels/webhook/{channelId} | Update the Webhook Notification channel by id
 
+
+
+## CreateEmailNotificationChannel
+
+> EmailNotificationChannel CreateEmailNotificationChannel(ctx).EmailChannelWriteSchema(emailChannelWriteSchema).Execute()
+
+Create a Email Notification channel
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    emailChannelWriteSchema := *openapiclient.NewEmailChannelWriteSchema([]string{"To_example"}, []string{"Cc_example"}) // EmailChannelWriteSchema | Create or update a email channel
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.CreateEmailNotificationChannel(context.Background()).EmailChannelWriteSchema(emailChannelWriteSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.CreateEmailNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateEmailNotificationChannel`: EmailNotificationChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.CreateEmailNotificationChannel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateEmailNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **emailChannelWriteSchema** | [**EmailChannelWriteSchema**](EmailChannelWriteSchema.md) | Create or update a email channel | 
+
+### Return type
+
+[**EmailNotificationChannel**](EmailNotificationChannel.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## CreateOpsgenieNotificationChannel
@@ -76,6 +153,72 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**OpsgenieNotificationChannel**](OpsgenieNotificationChannel.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## CreateTeamsNotificationChannel
+
+> TeamsNotificationChannel CreateTeamsNotificationChannel(ctx).TeamsChannelWriteSchema(teamsChannelWriteSchema).Execute()
+
+Create a Teams Notification channel
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    teamsChannelWriteSchema := *openapiclient.NewTeamsChannelWriteSchema("Url_example") // TeamsChannelWriteSchema | Create or update a teams channel
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.CreateTeamsNotificationChannel(context.Background()).TeamsChannelWriteSchema(teamsChannelWriteSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.CreateTeamsNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `CreateTeamsNotificationChannel`: TeamsNotificationChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.CreateTeamsNotificationChannel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiCreateTeamsNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **teamsChannelWriteSchema** | [**TeamsChannelWriteSchema**](TeamsChannelWriteSchema.md) | Create or update a teams channel | 
+
+### Return type
+
+[**TeamsNotificationChannel**](TeamsNotificationChannel.md)
 
 ### Authorization
 
@@ -150,6 +293,74 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DeleteEmailNotificationChannel
+
+> DeleteEmailNotificationChannel(ctx, channelId).Execute()
+
+Delete the Email Notification channel by id
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.DeleteEmailNotificationChannel(context.Background(), channelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.DeleteEmailNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteEmailNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
@@ -293,6 +504,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## DeleteTeamsNotificationChannel
+
+> DeleteTeamsNotificationChannel(ctx, channelId).Execute()
+
+Delete the Teams Notification channel by id
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.DeleteTeamsNotificationChannel(context.Background(), channelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.DeleteTeamsNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDeleteTeamsNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## DeleteWebhookNotificationChannel
 
 > DeleteWebhookNotificationChannel(ctx, channelId).Execute()
@@ -346,6 +625,137 @@ Name | Type | Description  | Notes
 ### Return type
 
  (empty response body)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetEmailNotificationChannel
+
+> EmailNotificationChannel GetEmailNotificationChannel(ctx, channelId).Execute()
+
+Get the Email Notification channel by id
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.GetEmailNotificationChannel(context.Background(), channelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.GetEmailNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetEmailNotificationChannel`: EmailNotificationChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.GetEmailNotificationChannel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetEmailNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**EmailNotificationChannel**](EmailNotificationChannel.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetEmailNotificationStatus
+
+> EmailNotificationStatus GetEmailNotificationStatus(ctx).Execute()
+
+Email Notification channel status
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.GetEmailNotificationStatus(context.Background()).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.GetEmailNotificationStatus``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetEmailNotificationStatus`: EmailNotificationStatus
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.GetEmailNotificationStatus`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+This endpoint does not need any parameter.
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetEmailNotificationStatusRequest struct via the builder pattern
+
+
+### Return type
+
+[**EmailNotificationStatus**](EmailNotificationStatus.md)
 
 ### Authorization
 
@@ -486,6 +896,76 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**SlackNotificationChannel**](SlackNotificationChannel.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetTeamsNotificationChannel
+
+> TeamsNotificationChannel GetTeamsNotificationChannel(ctx, channelId).Execute()
+
+Get the Teams Notification channel by id
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.GetTeamsNotificationChannel(context.Background(), channelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.GetTeamsNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetTeamsNotificationChannel`: TeamsNotificationChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.GetTeamsNotificationChannel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetTeamsNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**TeamsNotificationChannel**](TeamsNotificationChannel.md)
 
 ### Authorization
 
@@ -913,6 +1393,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## TestEmailChannel
+
+> TestEmailChannel(ctx, channelId).Execute()
+
+Test the Email notification channel
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.TestEmailChannel(context.Background(), channelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.TestEmailChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestEmailChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## TestOpsgenieChannel
 
 > TestOpsgenieChannel(ctx, channelId).Execute()
@@ -1049,6 +1597,74 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## TestTeamsChannel
+
+> TestTeamsChannel(ctx, channelId).Execute()
+
+Test the Teams notification channel
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.TestTeamsChannel(context.Background(), channelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.TestTeamsChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiTestTeamsChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## TestWebhookChannel
 
 > TestWebhookChannel(ctx, channelId).Execute()
@@ -1117,6 +1733,78 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## UpdateEmailNotificationChannel
+
+> EmailNotificationChannel UpdateEmailNotificationChannel(ctx, channelId).EmailChannelWriteSchema(emailChannelWriteSchema).Execute()
+
+Update the Email Notification channel by id
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+    emailChannelWriteSchema := *openapiclient.NewEmailChannelWriteSchema([]string{"To_example"}, []string{"Cc_example"}) // EmailChannelWriteSchema | Create or update a email channel
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.UpdateEmailNotificationChannel(context.Background(), channelId).EmailChannelWriteSchema(emailChannelWriteSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.UpdateEmailNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateEmailNotificationChannel`: EmailNotificationChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.UpdateEmailNotificationChannel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateEmailNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **emailChannelWriteSchema** | [**EmailChannelWriteSchema**](EmailChannelWriteSchema.md) | Create or update a email channel | 
+
+### Return type
+
+[**EmailNotificationChannel**](EmailNotificationChannel.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## UpdateOpsgenieNotificationChannel
 
 > OpsgenieNotificationChannel UpdateOpsgenieNotificationChannel(ctx, channelId).OpsgenieChannelWriteSchema(opsgenieChannelWriteSchema).Execute()
@@ -1174,6 +1862,78 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**OpsgenieNotificationChannel**](OpsgenieNotificationChannel.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## UpdateTeamsNotificationChannel
+
+> TeamsNotificationChannel UpdateTeamsNotificationChannel(ctx, channelId).TeamsChannelWriteSchema(teamsChannelWriteSchema).Execute()
+
+Update the Teams Notification channel by id
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+    teamsChannelWriteSchema := *openapiclient.NewTeamsChannelWriteSchema("Url_example") // TeamsChannelWriteSchema | Create or update a teams channel
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.UpdateTeamsNotificationChannel(context.Background(), channelId).TeamsChannelWriteSchema(teamsChannelWriteSchema).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.UpdateTeamsNotificationChannel``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `UpdateTeamsNotificationChannel`: TeamsNotificationChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.UpdateTeamsNotificationChannel`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiUpdateTeamsNotificationChannelRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **teamsChannelWriteSchema** | [**TeamsChannelWriteSchema**](TeamsChannelWriteSchema.md) | Create or update a teams channel | 
+
+### Return type
+
+[**TeamsNotificationChannel**](TeamsNotificationChannel.md)
 
 ### Authorization
 

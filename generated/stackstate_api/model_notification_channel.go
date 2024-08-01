@@ -18,9 +18,18 @@ import (
 
 // NotificationChannel - struct for NotificationChannel
 type NotificationChannel struct {
+	EmailNotificationChannel    *EmailNotificationChannel
 	OpsgenieNotificationChannel *OpsgenieNotificationChannel
 	SlackNotificationChannel    *SlackNotificationChannel
+	TeamsNotificationChannel    *TeamsNotificationChannel
 	WebhookNotificationChannel  *WebhookNotificationChannel
+}
+
+// EmailNotificationChannelAsNotificationChannel is a convenience function that returns EmailNotificationChannel wrapped in NotificationChannel
+func EmailNotificationChannelAsNotificationChannel(v *EmailNotificationChannel) NotificationChannel {
+	return NotificationChannel{
+		EmailNotificationChannel: v,
+	}
 }
 
 // OpsgenieNotificationChannelAsNotificationChannel is a convenience function that returns OpsgenieNotificationChannel wrapped in NotificationChannel
@@ -34,6 +43,13 @@ func OpsgenieNotificationChannelAsNotificationChannel(v *OpsgenieNotificationCha
 func SlackNotificationChannelAsNotificationChannel(v *SlackNotificationChannel) NotificationChannel {
 	return NotificationChannel{
 		SlackNotificationChannel: v,
+	}
+}
+
+// TeamsNotificationChannelAsNotificationChannel is a convenience function that returns TeamsNotificationChannel wrapped in NotificationChannel
+func TeamsNotificationChannelAsNotificationChannel(v *TeamsNotificationChannel) NotificationChannel {
+	return NotificationChannel{
+		TeamsNotificationChannel: v,
 	}
 }
 
@@ -52,6 +68,18 @@ func (dst *NotificationChannel) UnmarshalJSON(data []byte) error {
 	err = newStrictDecoder(data).Decode(&jsonDict)
 	if err != nil {
 		return fmt.Errorf("Failed to unmarshal JSON into map for the discriminator lookup.")
+	}
+
+	// check if the discriminator value is 'EmailNotificationChannel'
+	if jsonDict["_type"] == "EmailNotificationChannel" {
+		// try to unmarshal JSON data into EmailNotificationChannel
+		err = json.Unmarshal(data, &dst.EmailNotificationChannel)
+		if err == nil {
+			return nil // data stored in dst.EmailNotificationChannel, return on the first match
+		} else {
+			dst.EmailNotificationChannel = nil
+			return fmt.Errorf("Failed to unmarshal NotificationChannel as EmailNotificationChannel: %s", err.Error())
+		}
 	}
 
 	// check if the discriminator value is 'OpsgenieNotificationChannel'
@@ -78,6 +106,18 @@ func (dst *NotificationChannel) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'TeamsNotificationChannel'
+	if jsonDict["_type"] == "TeamsNotificationChannel" {
+		// try to unmarshal JSON data into TeamsNotificationChannel
+		err = json.Unmarshal(data, &dst.TeamsNotificationChannel)
+		if err == nil {
+			return nil // data stored in dst.TeamsNotificationChannel, return on the first match
+		} else {
+			dst.TeamsNotificationChannel = nil
+			return fmt.Errorf("Failed to unmarshal NotificationChannel as TeamsNotificationChannel: %s", err.Error())
+		}
+	}
+
 	// check if the discriminator value is 'WebhookNotificationChannel'
 	if jsonDict["_type"] == "WebhookNotificationChannel" {
 		// try to unmarshal JSON data into WebhookNotificationChannel
@@ -95,12 +135,20 @@ func (dst *NotificationChannel) UnmarshalJSON(data []byte) error {
 
 // Marshal data from the first non-nil pointers in the struct to JSON
 func (src NotificationChannel) MarshalJSON() ([]byte, error) {
+	if src.EmailNotificationChannel != nil {
+		return json.Marshal(&src.EmailNotificationChannel)
+	}
+
 	if src.OpsgenieNotificationChannel != nil {
 		return json.Marshal(&src.OpsgenieNotificationChannel)
 	}
 
 	if src.SlackNotificationChannel != nil {
 		return json.Marshal(&src.SlackNotificationChannel)
+	}
+
+	if src.TeamsNotificationChannel != nil {
+		return json.Marshal(&src.TeamsNotificationChannel)
 	}
 
 	if src.WebhookNotificationChannel != nil {
@@ -115,12 +163,20 @@ func (obj *NotificationChannel) GetActualInstance() interface{} {
 	if obj == nil {
 		return nil
 	}
+	if obj.EmailNotificationChannel != nil {
+		return obj.EmailNotificationChannel
+	}
+
 	if obj.OpsgenieNotificationChannel != nil {
 		return obj.OpsgenieNotificationChannel
 	}
 
 	if obj.SlackNotificationChannel != nil {
 		return obj.SlackNotificationChannel
+	}
+
+	if obj.TeamsNotificationChannel != nil {
+		return obj.TeamsNotificationChannel
 	}
 
 	if obj.WebhookNotificationChannel != nil {
