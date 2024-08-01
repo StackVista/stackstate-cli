@@ -16,7 +16,7 @@ import (
 func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List all registered agents.",
+		Short: "List all registered agents",
 		Long:  "List all registered agents.",
 		RunE:  deps.CmdRunEWithApi(RunListCommand),
 	}

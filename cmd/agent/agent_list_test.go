@@ -2,6 +2,7 @@ package agent
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/di"
@@ -44,12 +45,14 @@ func TestAgentList(t *testing.T) {
 
 	assert.Len(t, *cli.MockClient.ApiMocks.AgentRegistrationsApi.AllAgentRegistrationsCalls, 1)
 
+	nulTime := time.UnixMilli(0).Format("2006-01-02 15:04:05 MST")
+
 	expectedTable := []printer.TableData{
 		{
 			Header: []string{"Host", "Lease", "Registered", "Last Lease", "CPUS", "Memory", "Platform", "Kernel"},
 			Data: [][]interface{}{
-				{"id1", stackstate_api.AGENTLEASE_ACTIVE, "1970-01-01 01:00:00 CET", "1970-01-01 01:00:00 CET", "4", "16MB", "platform", "5.15"},
-				{"id2", stackstate_api.AGENTLEASE_LIMITED, "1970-01-01 01:00:00 CET", "1970-01-01 01:00:00 CET", "0", "0MB", "", ""},
+				{"id1", stackstate_api.AGENTLEASE_ACTIVE, nulTime, nulTime, "4", "16MB", "platform", "5.15"},
+				{"id2", stackstate_api.AGENTLEASE_LIMITED, nulTime, nulTime, "0", "0MB", "", ""},
 			},
 		},
 	}
