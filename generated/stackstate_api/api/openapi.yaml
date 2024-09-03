@@ -6890,6 +6890,7 @@ components:
           tags:
           - tags
           - tags
+          dummy: true
           functionId: 6
           lastUpdateTimestamp: 5
           name: name
@@ -6910,6 +6911,7 @@ components:
           tags:
           - tags
           - tags
+          dummy: true
           functionId: 6
           lastUpdateTimestamp: 5
           name: name
@@ -6940,6 +6942,7 @@ components:
         tags:
         - tags
         - tags
+        dummy: true
         functionId: 6
         lastUpdateTimestamp: 5
         name: name
@@ -6987,6 +6990,8 @@ components:
           $ref: '#/components/schemas/MonitorStatusValue'
         runtimeStatus:
           $ref: '#/components/schemas/MonitorRuntimeStatusValue'
+        dummy:
+          type: boolean
         lastUpdateTimestamp:
           format: int64
           type: integer
@@ -7245,6 +7250,7 @@ components:
           tags:
           - tags
           - tags
+          dummy: true
           functionId: 6
           lastUpdateTimestamp: 5
           name: name
@@ -7743,6 +7749,7 @@ components:
             tags:
             - tags
             - tags
+            dummy: true
             functionId: 6
             lastUpdateTimestamp: 5
             name: name
@@ -7787,6 +7794,7 @@ components:
             tags:
             - tags
             - tags
+            dummy: true
             functionId: 6
             lastUpdateTimestamp: 5
             name: name
@@ -7841,6 +7849,7 @@ components:
           tags:
           - tags
           - tags
+          dummy: true
           functionId: 6
           lastUpdateTimestamp: 5
           name: name
@@ -8736,13 +8745,18 @@ components:
       example:
         identifier: identifier
         lastUpdateTimestamp: 6
+        systemNotificationsRead:
+        - systemNotificationsRead
+        - systemNotificationsRead
         starredViews:
         - 1
         - 1
         name: name
         description: description
+        hideUnavailableMonitors: true
         id: 0
         ownedBy: ownedBy
+        hideUnavailableMetrics: true
       properties:
         id:
           format: int64
@@ -8763,10 +8777,21 @@ components:
             format: int64
             type: integer
           type: array
+        systemNotificationsRead:
+          items:
+            type: string
+          type: array
+        hideUnavailableMonitors:
+          type: boolean
+        hideUnavailableMetrics:
+          type: boolean
         ownedBy:
           type: string
       required:
+      - hideUnavailableMetrics
+      - hideUnavailableMonitors
       - name
+      - systemNotificationsRead
       type: object
     ApiToken:
       example:
@@ -12670,6 +12695,7 @@ components:
     AgentRegistration:
       example:
         agentId: agentId
+        nodeBudgetCount: 5
         leaseUntilEpochMs: 0
         registeredEpochMs: 6
         lease: null
@@ -12691,10 +12717,15 @@ components:
           type: integer
         agentData:
           $ref: '#/components/schemas/AgentData'
+        nodeBudgetCount:
+          description: "The registration might count for more than one standard (4CPU,\
+            \ 16Gb) node"
+          type: integer
       required:
       - agentId
       - lease
       - leaseUntilEpochMs
+      - nodeBudgetCount
       - registeredEpochMs
       type: object
     AgentLease:
@@ -12729,6 +12760,7 @@ components:
       example:
         agents:
         - agentId: agentId
+          nodeBudgetCount: 5
           leaseUntilEpochMs: 0
           registeredEpochMs: 6
           lease: null
@@ -12738,6 +12770,7 @@ components:
             coreCount: 1
             platform: platform
         - agentId: agentId
+          nodeBudgetCount: 5
           leaseUntilEpochMs: 0
           registeredEpochMs: 6
           lease: null
@@ -13194,6 +13227,7 @@ components:
       enum:
       - DEVIATING
       - CRITICAL
+      - UNKNOWN
       type: string
     ArgumentPromQLMetricVal:
       properties:

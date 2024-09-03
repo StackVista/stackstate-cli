@@ -22,18 +22,21 @@ type AgentRegistration struct {
 	LeaseUntilEpochMs int64      `json:"leaseUntilEpochMs"`
 	RegisteredEpochMs int64      `json:"registeredEpochMs"`
 	AgentData         *AgentData `json:"agentData,omitempty"`
+	// The registration might count for more than one standard (4CPU, 16Gb) node
+	NodeBudgetCount int32 `json:"nodeBudgetCount"`
 }
 
 // NewAgentRegistration instantiates a new AgentRegistration object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewAgentRegistration(agentId string, lease AgentLease, leaseUntilEpochMs int64, registeredEpochMs int64) *AgentRegistration {
+func NewAgentRegistration(agentId string, lease AgentLease, leaseUntilEpochMs int64, registeredEpochMs int64, nodeBudgetCount int32) *AgentRegistration {
 	this := AgentRegistration{}
 	this.AgentId = agentId
 	this.Lease = lease
 	this.LeaseUntilEpochMs = leaseUntilEpochMs
 	this.RegisteredEpochMs = registeredEpochMs
+	this.NodeBudgetCount = nodeBudgetCount
 	return &this
 }
 
@@ -173,6 +176,30 @@ func (o *AgentRegistration) SetAgentData(v AgentData) {
 	o.AgentData = &v
 }
 
+// GetNodeBudgetCount returns the NodeBudgetCount field value
+func (o *AgentRegistration) GetNodeBudgetCount() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.NodeBudgetCount
+}
+
+// GetNodeBudgetCountOk returns a tuple with the NodeBudgetCount field value
+// and a boolean to check if the value has been set.
+func (o *AgentRegistration) GetNodeBudgetCountOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.NodeBudgetCount, true
+}
+
+// SetNodeBudgetCount sets field value
+func (o *AgentRegistration) SetNodeBudgetCount(v int32) {
+	o.NodeBudgetCount = v
+}
+
 func (o AgentRegistration) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -189,6 +216,9 @@ func (o AgentRegistration) MarshalJSON() ([]byte, error) {
 	}
 	if o.AgentData != nil {
 		toSerialize["agentData"] = o.AgentData
+	}
+	if true {
+		toSerialize["nodeBudgetCount"] = o.NodeBudgetCount
 	}
 	return json.Marshal(toSerialize)
 }

@@ -9,12 +9,13 @@ Name | Type | Description | Notes
 **LeaseUntilEpochMs** | **int64** |  | 
 **RegisteredEpochMs** | **int64** |  | 
 **AgentData** | Pointer to [**AgentData**](AgentData.md) |  | [optional] 
+**NodeBudgetCount** | **int32** | The registration might count for more than one standard (4CPU, 16Gb) node | 
 
 ## Methods
 
 ### NewAgentRegistration
 
-`func NewAgentRegistration(agentId string, lease AgentLease, leaseUntilEpochMs int64, registeredEpochMs int64, ) *AgentRegistration`
+`func NewAgentRegistration(agentId string, lease AgentLease, leaseUntilEpochMs int64, registeredEpochMs int64, nodeBudgetCount int32, ) *AgentRegistration`
 
 NewAgentRegistration instantiates a new AgentRegistration object
 This constructor will assign default values to properties that have it defined,
@@ -133,6 +134,26 @@ SetAgentData sets AgentData field to given value.
 `func (o *AgentRegistration) HasAgentData() bool`
 
 HasAgentData returns a boolean if a field has been set.
+
+### GetNodeBudgetCount
+
+`func (o *AgentRegistration) GetNodeBudgetCount() int32`
+
+GetNodeBudgetCount returns the NodeBudgetCount field if non-nil, zero value otherwise.
+
+### GetNodeBudgetCountOk
+
+`func (o *AgentRegistration) GetNodeBudgetCountOk() (*int32, bool)`
+
+GetNodeBudgetCountOk returns a tuple with the NodeBudgetCount field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetNodeBudgetCount
+
+`func (o *AgentRegistration) SetNodeBudgetCount(v int32)`
+
+SetNodeBudgetCount sets NodeBudgetCount field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

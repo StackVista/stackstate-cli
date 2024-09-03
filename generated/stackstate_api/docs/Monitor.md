@@ -19,6 +19,7 @@ Name | Type | Description | Notes
 **CanClone** | **bool** |  | 
 **Status** | [**MonitorStatusValue**](MonitorStatusValue.md) |  | 
 **RuntimeStatus** | [**MonitorRuntimeStatusValue**](MonitorRuntimeStatusValue.md) |  | 
+**Dummy** | Pointer to **bool** |  | [optional] 
 **LastUpdateTimestamp** | **int64** |  | 
 
 ## Methods
@@ -359,6 +360,31 @@ and a boolean to check if the value has been set.
 
 SetRuntimeStatus sets RuntimeStatus field to given value.
 
+
+### GetDummy
+
+`func (o *Monitor) GetDummy() bool`
+
+GetDummy returns the Dummy field if non-nil, zero value otherwise.
+
+### GetDummyOk
+
+`func (o *Monitor) GetDummyOk() (*bool, bool)`
+
+GetDummyOk returns a tuple with the Dummy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDummy
+
+`func (o *Monitor) SetDummy(v bool)`
+
+SetDummy sets Dummy field to given value.
+
+### HasDummy
+
+`func (o *Monitor) HasDummy() bool`
+
+HasDummy returns a boolean if a field has been set.
 
 ### GetLastUpdateTimestamp
 

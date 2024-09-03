@@ -23,12 +23,14 @@ type FailingHealthStateValue string
 const (
 	FAILINGHEALTHSTATEVALUE_DEVIATING FailingHealthStateValue = "DEVIATING"
 	FAILINGHEALTHSTATEVALUE_CRITICAL  FailingHealthStateValue = "CRITICAL"
+	FAILINGHEALTHSTATEVALUE_UNKNOWN   FailingHealthStateValue = "UNKNOWN"
 )
 
 // All allowed values of FailingHealthStateValue enum
 var AllowedFailingHealthStateValueEnumValues = []FailingHealthStateValue{
 	"DEVIATING",
 	"CRITICAL",
+	"UNKNOWN",
 }
 
 func (v *FailingHealthStateValue) UnmarshalJSON(src []byte) error {

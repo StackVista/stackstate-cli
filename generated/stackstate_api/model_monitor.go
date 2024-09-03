@@ -32,6 +32,7 @@ type Monitor struct {
 	CanClone            bool                      `json:"canClone"`
 	Status              MonitorStatusValue        `json:"status"`
 	RuntimeStatus       MonitorRuntimeStatusValue `json:"runtimeStatus"`
+	Dummy               *bool                     `json:"dummy,omitempty"`
 	LastUpdateTimestamp int64                     `json:"lastUpdateTimestamp"`
 }
 
@@ -456,6 +457,38 @@ func (o *Monitor) SetRuntimeStatus(v MonitorRuntimeStatusValue) {
 	o.RuntimeStatus = v
 }
 
+// GetDummy returns the Dummy field value if set, zero value otherwise.
+func (o *Monitor) GetDummy() bool {
+	if o == nil || o.Dummy == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Dummy
+}
+
+// GetDummyOk returns a tuple with the Dummy field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *Monitor) GetDummyOk() (*bool, bool) {
+	if o == nil || o.Dummy == nil {
+		return nil, false
+	}
+	return o.Dummy, true
+}
+
+// HasDummy returns a boolean if a field has been set.
+func (o *Monitor) HasDummy() bool {
+	if o != nil && o.Dummy != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDummy gets a reference to the given bool and assigns it to the Dummy field.
+func (o *Monitor) SetDummy(v bool) {
+	o.Dummy = &v
+}
+
 // GetLastUpdateTimestamp returns the LastUpdateTimestamp field value
 func (o *Monitor) GetLastUpdateTimestamp() int64 {
 	if o == nil {
@@ -526,6 +559,9 @@ func (o Monitor) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["runtimeStatus"] = o.RuntimeStatus
+	}
+	if o.Dummy != nil {
+		toSerialize["dummy"] = o.Dummy
 	}
 	if true {
 		toSerialize["lastUpdateTimestamp"] = o.LastUpdateTimestamp

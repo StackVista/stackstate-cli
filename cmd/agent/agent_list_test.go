@@ -23,12 +23,14 @@ var (
 				MemoryBytes:   16 * 1024 * 1024,
 				KernelVersion: "5.15",
 			},
+			NodeBudgetCount: 1,
 		}, {
 			AgentId:           "id2",
 			Lease:             stackstate_api.AGENTLEASE_LIMITED,
 			LeaseUntilEpochMs: 0,
 			RegisteredEpochMs: 0,
 			AgentData:         nil,
+			NodeBudgetCount:   2,
 		},
 	}
 )
@@ -49,10 +51,10 @@ func TestAgentList(t *testing.T) {
 
 	expectedTable := []printer.TableData{
 		{
-			Header: []string{"Host", "Lease", "Registered", "Last Lease", "CPUS", "Memory", "Platform", "Kernel"},
+			Header: []string{"Host", "Lease", "Registered", "Last Lease", "CPUS", "Memory", "Platform", "Kernel", "# Nodes"},
 			Data: [][]interface{}{
-				{"id1", stackstate_api.AGENTLEASE_ACTIVE, nulTime, nulTime, "4", "16MB", "platform", "5.15"},
-				{"id2", stackstate_api.AGENTLEASE_LIMITED, nulTime, nulTime, "0", "0MB", "", ""},
+				{"id1", stackstate_api.AGENTLEASE_ACTIVE, nulTime, nulTime, "4", "16MB", "platform", "5.15", int32(1)},
+				{"id2", stackstate_api.AGENTLEASE_LIMITED, nulTime, nulTime, "0", "0MB", "", "", int32(2)},
 			},
 		},
 	}

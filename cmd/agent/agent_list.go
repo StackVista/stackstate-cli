@@ -50,11 +50,11 @@ func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APICli
 	for _, agent := range agentList {
 		switch agent.Lease {
 		case stackstate_api.AGENTLEASE_ACTIVE:
-			active++
+			active += int(agent.NodeBudgetCount)
 		case stackstate_api.AGENTLEASE_LIMITED:
-			limited++
+			limited += int(agent.NodeBudgetCount)
 		case stackstate_api.AGENTLEASE_STALE:
-			stale++
+			stale += int(agent.NodeBudgetCount)
 		default:
 		}
 	}
@@ -81,10 +81,11 @@ func RunListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APICli
 				fmt.Sprintf("%vMB", info.MemoryBytes/toMB),
 				info.Platform,
 				info.KernelVersion,
+				agent.NodeBudgetCount,
 			}
 		}
 		cli.Printer.Table(printer.TableData{
-			Header: []string{"Host", "Lease", "Registered", "Last Lease", "CPUS", "Memory", "Platform", "Kernel"},
+			Header: []string{"Host", "Lease", "Registered", "Last Lease", "CPUS", "Memory", "Platform", "Kernel", "# Nodes"},
 			Data:   data,
 		})
 
