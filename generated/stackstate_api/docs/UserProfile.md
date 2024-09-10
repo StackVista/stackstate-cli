@@ -10,13 +10,16 @@ Name | Type | Description | Notes
 **Description** | Pointer to **string** |  | [optional] 
 **Identifier** | Pointer to **string** |  | [optional] 
 **StarredViews** | Pointer to **[]int64** |  | [optional] 
+**SystemNotificationsRead** | **[]string** |  | 
+**HideUnavailableMonitors** | **bool** |  | 
+**HideUnavailableMetrics** | **bool** |  | 
 **OwnedBy** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewUserProfile
 
-`func NewUserProfile(name string, ) *UserProfile`
+`func NewUserProfile(name string, systemNotificationsRead []string, hideUnavailableMonitors bool, hideUnavailableMetrics bool, ) *UserProfile`
 
 NewUserProfile instantiates a new UserProfile object
 This constructor will assign default values to properties that have it defined,
@@ -175,6 +178,66 @@ SetStarredViews sets StarredViews field to given value.
 `func (o *UserProfile) HasStarredViews() bool`
 
 HasStarredViews returns a boolean if a field has been set.
+
+### GetSystemNotificationsRead
+
+`func (o *UserProfile) GetSystemNotificationsRead() []string`
+
+GetSystemNotificationsRead returns the SystemNotificationsRead field if non-nil, zero value otherwise.
+
+### GetSystemNotificationsReadOk
+
+`func (o *UserProfile) GetSystemNotificationsReadOk() (*[]string, bool)`
+
+GetSystemNotificationsReadOk returns a tuple with the SystemNotificationsRead field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSystemNotificationsRead
+
+`func (o *UserProfile) SetSystemNotificationsRead(v []string)`
+
+SetSystemNotificationsRead sets SystemNotificationsRead field to given value.
+
+
+### GetHideUnavailableMonitors
+
+`func (o *UserProfile) GetHideUnavailableMonitors() bool`
+
+GetHideUnavailableMonitors returns the HideUnavailableMonitors field if non-nil, zero value otherwise.
+
+### GetHideUnavailableMonitorsOk
+
+`func (o *UserProfile) GetHideUnavailableMonitorsOk() (*bool, bool)`
+
+GetHideUnavailableMonitorsOk returns a tuple with the HideUnavailableMonitors field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHideUnavailableMonitors
+
+`func (o *UserProfile) SetHideUnavailableMonitors(v bool)`
+
+SetHideUnavailableMonitors sets HideUnavailableMonitors field to given value.
+
+
+### GetHideUnavailableMetrics
+
+`func (o *UserProfile) GetHideUnavailableMetrics() bool`
+
+GetHideUnavailableMetrics returns the HideUnavailableMetrics field if non-nil, zero value otherwise.
+
+### GetHideUnavailableMetricsOk
+
+`func (o *UserProfile) GetHideUnavailableMetricsOk() (*bool, bool)`
+
+GetHideUnavailableMetricsOk returns a tuple with the HideUnavailableMetrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHideUnavailableMetrics
+
+`func (o *UserProfile) SetHideUnavailableMetrics(v bool)`
+
+SetHideUnavailableMetrics sets HideUnavailableMetrics field to given value.
+
 
 ### GetOwnedBy
 

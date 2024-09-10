@@ -17,22 +17,28 @@ import (
 
 // UserProfile struct for UserProfile
 type UserProfile struct {
-	Id                  *int64  `json:"id,omitempty"`
-	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
-	Name                string  `json:"name"`
-	Description         *string `json:"description,omitempty"`
-	Identifier          *string `json:"identifier,omitempty"`
-	StarredViews        []int64 `json:"starredViews,omitempty"`
-	OwnedBy             *string `json:"ownedBy,omitempty"`
+	Id                      *int64   `json:"id,omitempty"`
+	LastUpdateTimestamp     *int64   `json:"lastUpdateTimestamp,omitempty"`
+	Name                    string   `json:"name"`
+	Description             *string  `json:"description,omitempty"`
+	Identifier              *string  `json:"identifier,omitempty"`
+	StarredViews            []int64  `json:"starredViews,omitempty"`
+	SystemNotificationsRead []string `json:"systemNotificationsRead"`
+	HideUnavailableMonitors bool     `json:"hideUnavailableMonitors"`
+	HideUnavailableMetrics  bool     `json:"hideUnavailableMetrics"`
+	OwnedBy                 *string  `json:"ownedBy,omitempty"`
 }
 
 // NewUserProfile instantiates a new UserProfile object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserProfile(name string) *UserProfile {
+func NewUserProfile(name string, systemNotificationsRead []string, hideUnavailableMonitors bool, hideUnavailableMetrics bool) *UserProfile {
 	this := UserProfile{}
 	this.Name = name
+	this.SystemNotificationsRead = systemNotificationsRead
+	this.HideUnavailableMonitors = hideUnavailableMonitors
+	this.HideUnavailableMetrics = hideUnavailableMetrics
 	return &this
 }
 
@@ -228,6 +234,78 @@ func (o *UserProfile) SetStarredViews(v []int64) {
 	o.StarredViews = v
 }
 
+// GetSystemNotificationsRead returns the SystemNotificationsRead field value
+func (o *UserProfile) GetSystemNotificationsRead() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.SystemNotificationsRead
+}
+
+// GetSystemNotificationsReadOk returns a tuple with the SystemNotificationsRead field value
+// and a boolean to check if the value has been set.
+func (o *UserProfile) GetSystemNotificationsReadOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.SystemNotificationsRead, true
+}
+
+// SetSystemNotificationsRead sets field value
+func (o *UserProfile) SetSystemNotificationsRead(v []string) {
+	o.SystemNotificationsRead = v
+}
+
+// GetHideUnavailableMonitors returns the HideUnavailableMonitors field value
+func (o *UserProfile) GetHideUnavailableMonitors() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.HideUnavailableMonitors
+}
+
+// GetHideUnavailableMonitorsOk returns a tuple with the HideUnavailableMonitors field value
+// and a boolean to check if the value has been set.
+func (o *UserProfile) GetHideUnavailableMonitorsOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HideUnavailableMonitors, true
+}
+
+// SetHideUnavailableMonitors sets field value
+func (o *UserProfile) SetHideUnavailableMonitors(v bool) {
+	o.HideUnavailableMonitors = v
+}
+
+// GetHideUnavailableMetrics returns the HideUnavailableMetrics field value
+func (o *UserProfile) GetHideUnavailableMetrics() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.HideUnavailableMetrics
+}
+
+// GetHideUnavailableMetricsOk returns a tuple with the HideUnavailableMetrics field value
+// and a boolean to check if the value has been set.
+func (o *UserProfile) GetHideUnavailableMetricsOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HideUnavailableMetrics, true
+}
+
+// SetHideUnavailableMetrics sets field value
+func (o *UserProfile) SetHideUnavailableMetrics(v bool) {
+	o.HideUnavailableMetrics = v
+}
+
 // GetOwnedBy returns the OwnedBy field value if set, zero value otherwise.
 func (o *UserProfile) GetOwnedBy() string {
 	if o == nil || o.OwnedBy == nil {
@@ -279,6 +357,15 @@ func (o UserProfile) MarshalJSON() ([]byte, error) {
 	}
 	if o.StarredViews != nil {
 		toSerialize["starredViews"] = o.StarredViews
+	}
+	if true {
+		toSerialize["systemNotificationsRead"] = o.SystemNotificationsRead
+	}
+	if true {
+		toSerialize["hideUnavailableMonitors"] = o.HideUnavailableMonitors
+	}
+	if true {
+		toSerialize["hideUnavailableMetrics"] = o.HideUnavailableMetrics
 	}
 	if o.OwnedBy != nil {
 		toSerialize["ownedBy"] = o.OwnedBy
