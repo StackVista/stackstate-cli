@@ -219,8 +219,8 @@ Class | Method | HTTP request | Description
 *TopologySynchronizationApi* | [**PostTopologySynchronizationStreamClearErrors**](docs/TopologySynchronizationApi.md#posttopologysynchronizationstreamclearerrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
 *TracesApi* | [**GetSpan**](docs/TracesApi.md#getspan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span
 *TracesApi* | [**GetTrace**](docs/TracesApi.md#gettrace) | **Get** /traces/{traceId} | Fetch a trace
-*TracesApi* | [**QueryDuration**](docs/TracesApi.md#queryduration) | **Post** /traces/spans/duration/histogram | Query duration distribution
-*TracesApi* | [**QuerySpans**](docs/TracesApi.md#queryspans) | **Post** /traces/spans | Query for spans
+*TracesApi* | [**QueryDuration**](docs/TracesApi.md#queryduration) | **Post** /traces/duration/histogram | Query duration distribution
+*TracesApi* | [**QueryTraces**](docs/TracesApi.md#querytraces) | **Post** /traces/query | Query for traces
 *TracesApi* | [**SpanComponents**](docs/TracesApi.md#spancomponents) | **Post** /traces/components | Fetch components based on resource attributes
 *TracesApi* | [**SuggestionsAttributeName**](docs/TracesApi.md#suggestionsattributename) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
 *TracesApi* | [**SuggestionsAttributeValue**](docs/TracesApi.md#suggestionsattributevalue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
@@ -499,13 +499,10 @@ Class | Method | HTTP request | Description
  - [SpanKind](docs/SpanKind.md)
  - [SpanLink](docs/SpanLink.md)
  - [SpanParentType](docs/SpanParentType.md)
- - [SpanQuery](docs/SpanQuery.md)
  - [SpanSortDirection](docs/SpanSortDirection.md)
  - [SpanSortField](docs/SpanSortField.md)
  - [SpanSortOption](docs/SpanSortOption.md)
  - [SpanSuggestionField](docs/SpanSuggestionField.md)
- - [SpanSummary](docs/SpanSummary.md)
- - [Spans](docs/Spans.md)
  - [StackElementNotFound](docs/StackElementNotFound.md)
  - [StackPack](docs/StackPack.md)
  - [StackPackConfiguration](docs/StackPackConfiguration.md)
@@ -553,6 +550,10 @@ Class | Method | HTTP request | Description
  - [TraceApiSpanNotFound](docs/TraceApiSpanNotFound.md)
  - [TraceApiSpansBadRequest](docs/TraceApiSpansBadRequest.md)
  - [TraceApiTraceNotFound](docs/TraceApiTraceNotFound.md)
+ - [TraceFilter](docs/TraceFilter.md)
+ - [TraceIdentifier](docs/TraceIdentifier.md)
+ - [TraceQuery](docs/TraceQuery.md)
+ - [Traces](docs/Traces.md)
  - [UnlicensedSubscription](docs/UnlicensedSubscription.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)

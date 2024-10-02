@@ -15,12 +15,14 @@ import (
 
 var (
 	UnlockedStrategyChoices = []string{"fail", "skip", "overwrite"}
+	LockedStrategyChoices   = []string{"fail", "skip", "overwrite"}
 )
 
 type ApplyArgs struct {
 	Filepath         string
 	Namespace        string
 	UnlockedStrategy string
+	LockedStrategy   string
 	Timeout          int64
 }
 
@@ -41,6 +43,12 @@ func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 		UnlockedStrategyChoices,
 		"Strategy to use when encountering unlocked settings when applying settings to a namespace"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")))
+	pflags.EnumVar(cmd.Flags(), &args.LockedStrategy,
+		LockedStrategyFlag,
+		"",
+		LockedStrategyChoices,
+		"Strategy to use when encountering locked settings"+
+			fmt.Sprintf(" (must be { %s })", strings.Join(LockedStrategyChoices, " | ")))
 	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, TimeoutFlagShort, 0, TimeoutUsage)
 
 	return cmd
@@ -53,7 +61,7 @@ func RunSettingsApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 			return common.NewReadFileError(err, args.Filepath)
 		}
 
-		nodes, resp, err := doImport(cli.Context, api, string(fileBytes), args.Namespace, args.UnlockedStrategy, args.Timeout)
+		nodes, resp, err := doImport(cli.Context, api, string(fileBytes), args.Namespace, args.UnlockedStrategy, args.LockedStrategy, args.Timeout)
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

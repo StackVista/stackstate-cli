@@ -68,18 +68,18 @@ type TracesApi interface {
 	QueryDurationExecute(r ApiQueryDurationRequest) (*DurationHistogram, *http.Response, error)
 
 	/*
-		QuerySpans Query for spans
+		QueryTraces Query for traces
 
-		Query for spans using filters, get all spans for a trace by trace id. Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
+		Query for traces using filters. Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@return ApiQuerySpansRequest
+		@return ApiQueryTracesRequest
 	*/
-	QuerySpans(ctx context.Context) ApiQuerySpansRequest
+	QueryTraces(ctx context.Context) ApiQueryTracesRequest
 
-	// QuerySpansExecute executes the request
-	//  @return Spans
-	QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error)
+	// QueryTracesExecute executes the request
+	//  @return Traces
+	QueryTracesExecute(r ApiQueryTracesRequest) (*Traces, *http.Response, error)
 
 	/*
 		SpanComponents Fetch components based on resource attributes
@@ -481,7 +481,7 @@ type ApiQueryDurationRequest struct {
 	start        *int32
 	end          *int32
 	bucketsCount *int32
-	spanFilter   *SpanFilter
+	traceFilter  *TraceFilter
 }
 
 // Filter spans by start time &gt;&#x3D; value
@@ -502,9 +502,9 @@ func (r ApiQueryDurationRequest) BucketsCount(bucketsCount int32) ApiQueryDurati
 	return r
 }
 
-// Filter for spans
-func (r ApiQueryDurationRequest) SpanFilter(spanFilter SpanFilter) ApiQueryDurationRequest {
-	r.spanFilter = &spanFilter
+// Filter for traces
+func (r ApiQueryDurationRequest) TraceFilter(traceFilter TraceFilter) ApiQueryDurationRequest {
+	r.traceFilter = &traceFilter
 	return r
 }
 
@@ -542,7 +542,7 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/traces/spans/duration/histogram"
+	localVarPath := localBasePath + "/traces/duration/histogram"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -556,8 +556,8 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 	if r.bucketsCount == nil {
 		return localVarReturnValue, nil, reportError("bucketsCount is required and must be specified")
 	}
-	if r.spanFilter == nil {
-		return localVarReturnValue, nil, reportError("spanFilter is required and must be specified")
+	if r.traceFilter == nil {
+		return localVarReturnValue, nil, reportError("traceFilter is required and must be specified")
 	}
 
 	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
@@ -581,7 +581,7 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.spanFilter
+	localVarPostBody = r.traceFilter
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -680,81 +680,81 @@ func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*Dur
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiQuerySpansRequest struct {
+type ApiQueryTracesRequest struct {
 	ctx        context.Context
 	ApiService TracesApi
 	start      *int32
 	end        *int32
-	spanQuery  *SpanQuery
+	traceQuery *TraceQuery
 	pageSize   *int32
 	page       *int32
 }
 
 // Filter spans by start time &gt;&#x3D; value
-func (r ApiQuerySpansRequest) Start(start int32) ApiQuerySpansRequest {
+func (r ApiQueryTracesRequest) Start(start int32) ApiQueryTracesRequest {
 	r.start = &start
 	return r
 }
 
 // Filter spans by start time &lt; value
-func (r ApiQuerySpansRequest) End(end int32) ApiQuerySpansRequest {
+func (r ApiQueryTracesRequest) End(end int32) ApiQueryTracesRequest {
 	r.end = &end
 	return r
 }
 
-// Query for spans
-func (r ApiQuerySpansRequest) SpanQuery(spanQuery SpanQuery) ApiQuerySpansRequest {
-	r.spanQuery = &spanQuery
+// Query for traces
+func (r ApiQueryTracesRequest) TraceQuery(traceQuery TraceQuery) ApiQueryTracesRequest {
+	r.traceQuery = &traceQuery
 	return r
 }
 
 // Number of spans in 1 page
-func (r ApiQuerySpansRequest) PageSize(pageSize int32) ApiQuerySpansRequest {
+func (r ApiQueryTracesRequest) PageSize(pageSize int32) ApiQueryTracesRequest {
 	r.pageSize = &pageSize
 	return r
 }
 
 // Get the specified page (with pageSize # of spans), defaults to page 0
-func (r ApiQuerySpansRequest) Page(page int32) ApiQuerySpansRequest {
+func (r ApiQueryTracesRequest) Page(page int32) ApiQueryTracesRequest {
 	r.page = &page
 	return r
 }
 
-func (r ApiQuerySpansRequest) Execute() (*Spans, *http.Response, error) {
-	return r.ApiService.QuerySpansExecute(r)
+func (r ApiQueryTracesRequest) Execute() (*Traces, *http.Response, error) {
+	return r.ApiService.QueryTracesExecute(r)
 }
 
 /*
-QuerySpans Query for spans
+QueryTraces Query for traces
 
-Query for spans using filters, get all spans for a trace by trace id. Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
+Query for traces using filters. Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiQuerySpansRequest
+ @return ApiQueryTracesRequest
 */
-func (a *TracesApiService) QuerySpans(ctx context.Context) ApiQuerySpansRequest {
-	return ApiQuerySpansRequest{
+func (a *TracesApiService) QueryTraces(ctx context.Context) ApiQueryTracesRequest {
+	return ApiQueryTracesRequest{
 		ApiService: a,
 		ctx:        ctx,
 	}
 }
 
 // Execute executes the request
-//  @return Spans
-func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error) {
+//  @return Traces
+func (a *TracesApiService) QueryTracesExecute(r ApiQueryTracesRequest) (*Traces, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *Spans
+		localVarReturnValue *Traces
 	)
 
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.QuerySpans")
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.QueryTraces")
 	if err != nil {
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/traces/spans"
+	localVarPath := localBasePath + "/traces/query"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -765,8 +765,8 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 	if r.end == nil {
 		return localVarReturnValue, nil, reportError("end is required and must be specified")
 	}
-	if r.spanQuery == nil {
-		return localVarReturnValue, nil, reportError("spanQuery is required and must be specified")
+	if r.traceQuery == nil {
+		return localVarReturnValue, nil, reportError("traceQuery is required and must be specified")
 	}
 
 	localVarQueryParams.Add("start", parameterToString(*r.start, ""))
@@ -795,7 +795,7 @@ func (a *TracesApiService) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *h
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.spanQuery
+	localVarPostBody = r.traceQuery
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -1555,8 +1555,8 @@ type TracesApiMock struct {
 	GetTraceResponse                  GetTraceMockResponse
 	QueryDurationCalls                *[]QueryDurationCall
 	QueryDurationResponse             QueryDurationMockResponse
-	QuerySpansCalls                   *[]QuerySpansCall
-	QuerySpansResponse                QuerySpansMockResponse
+	QueryTracesCalls                  *[]QueryTracesCall
+	QueryTracesResponse               QueryTracesMockResponse
 	SpanComponentsCalls               *[]SpanComponentsCall
 	SpanComponentsResponse            SpanComponentsMockResponse
 	SuggestionsAttributeNameCalls     *[]SuggestionsAttributeNameCall
@@ -1571,7 +1571,7 @@ func NewTracesApiMock() TracesApiMock {
 	xGetSpanCalls := make([]GetSpanCall, 0)
 	xGetTraceCalls := make([]GetTraceCall, 0)
 	xQueryDurationCalls := make([]QueryDurationCall, 0)
-	xQuerySpansCalls := make([]QuerySpansCall, 0)
+	xQueryTracesCalls := make([]QueryTracesCall, 0)
 	xSpanComponentsCalls := make([]SpanComponentsCall, 0)
 	xSuggestionsAttributeNameCalls := make([]SuggestionsAttributeNameCall, 0)
 	xSuggestionsAttributeValueCalls := make([]SuggestionsAttributeValueCall, 0)
@@ -1580,7 +1580,7 @@ func NewTracesApiMock() TracesApiMock {
 		GetSpanCalls:                   &xGetSpanCalls,
 		GetTraceCalls:                  &xGetTraceCalls,
 		QueryDurationCalls:             &xQueryDurationCalls,
-		QuerySpansCalls:                &xQuerySpansCalls,
+		QueryTracesCalls:               &xQueryTracesCalls,
 		SpanComponentsCalls:            &xSpanComponentsCalls,
 		SuggestionsAttributeNameCalls:  &xSuggestionsAttributeNameCalls,
 		SuggestionsAttributeValueCalls: &xSuggestionsAttributeValueCalls,
@@ -1653,7 +1653,7 @@ type QueryDurationCall struct {
 	Pstart        *int32
 	Pend          *int32
 	PbucketsCount *int32
-	PspanFilter   *SpanFilter
+	PtraceFilter  *TraceFilter
 }
 
 func (mock TracesApiMock) QueryDuration(ctx context.Context) ApiQueryDurationRequest {
@@ -1668,43 +1668,43 @@ func (mock TracesApiMock) QueryDurationExecute(r ApiQueryDurationRequest) (*Dura
 		Pstart:        r.start,
 		Pend:          r.end,
 		PbucketsCount: r.bucketsCount,
-		PspanFilter:   r.spanFilter,
+		PtraceFilter:  r.traceFilter,
 	}
 	*mock.QueryDurationCalls = append(*mock.QueryDurationCalls, p)
 	return &mock.QueryDurationResponse.Result, mock.QueryDurationResponse.Response, mock.QueryDurationResponse.Error
 }
 
-type QuerySpansMockResponse struct {
-	Result   Spans
+type QueryTracesMockResponse struct {
+	Result   Traces
 	Response *http.Response
 	Error    error
 }
 
-type QuerySpansCall struct {
-	Pstart     *int32
-	Pend       *int32
-	PspanQuery *SpanQuery
-	PpageSize  *int32
-	Ppage      *int32
+type QueryTracesCall struct {
+	Pstart      *int32
+	Pend        *int32
+	PtraceQuery *TraceQuery
+	PpageSize   *int32
+	Ppage       *int32
 }
 
-func (mock TracesApiMock) QuerySpans(ctx context.Context) ApiQuerySpansRequest {
-	return ApiQuerySpansRequest{
+func (mock TracesApiMock) QueryTraces(ctx context.Context) ApiQueryTracesRequest {
+	return ApiQueryTracesRequest{
 		ApiService: mock,
 		ctx:        ctx,
 	}
 }
 
-func (mock TracesApiMock) QuerySpansExecute(r ApiQuerySpansRequest) (*Spans, *http.Response, error) {
-	p := QuerySpansCall{
-		Pstart:     r.start,
-		Pend:       r.end,
-		PspanQuery: r.spanQuery,
-		PpageSize:  r.pageSize,
-		Ppage:      r.page,
+func (mock TracesApiMock) QueryTracesExecute(r ApiQueryTracesRequest) (*Traces, *http.Response, error) {
+	p := QueryTracesCall{
+		Pstart:      r.start,
+		Pend:        r.end,
+		PtraceQuery: r.traceQuery,
+		PpageSize:   r.pageSize,
+		Ppage:       r.page,
 	}
-	*mock.QuerySpansCalls = append(*mock.QuerySpansCalls, p)
-	return &mock.QuerySpansResponse.Result, mock.QuerySpansResponse.Response, mock.QuerySpansResponse.Error
+	*mock.QueryTracesCalls = append(*mock.QueryTracesCalls, p)
+	return &mock.QueryTracesResponse.Result, mock.QueryTracesResponse.Response, mock.QueryTracesResponse.Error
 }
 
 type SpanComponentsMockResponse struct {

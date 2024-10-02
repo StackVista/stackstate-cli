@@ -8,6 +8,7 @@ const (
 	AllowReferencesFlag  = "allowed-namespace-refs"
 	NamespaceFlag        = "namespace"
 	UnlockedStrategyFlag = "unlocked-strategy"
+	LockedStrategyFlag   = "locked-strategy"
 	TimeoutFlag          = "timeout"
 	TimeoutFlagShort     = "t"
 	UnlockFlag           = "unlock"

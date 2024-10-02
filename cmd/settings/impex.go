@@ -29,13 +29,16 @@ func DoExport(ctx context.Context, api *stackstate_api.APIClient, ids []int64, n
 	return api.ExportApi.ExportSettings(ctx).Export(*exportArgs).Execute()
 }
 
-func doImport(ctx context.Context, api *stackstate_api.APIClient, body string, namespace string, unlockedStrategy string, timeout int64) ([]map[string]interface{}, *http.Response, error) {
+func doImport(ctx context.Context, api *stackstate_api.APIClient, body string, namespace string, unlockedStrategy string, lockedStrategy string, timeout int64) ([]map[string]interface{}, *http.Response, error) {
 	request := api.ImportApi.ImportSettings(ctx).Body(body)
 	if namespace != "" {
 		request = request.Namespace(namespace)
 	}
 	if unlockedStrategy != "" {
 		request = request.Unlocked(unlockedStrategy)
+	}
+	if lockedStrategy != "" {
+		request = request.Locked(lockedStrategy)
 	}
 	if timeout > 0 {
 		request = request.TimeoutSeconds(timeout)

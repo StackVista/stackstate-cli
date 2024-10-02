@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## ImportSettings
 
-> []map[string]interface{} ImportSettings(ctx).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
+> []map[string]interface{} ImportSettings(ctx).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Locked(locked).Execute()
 
 Import settings
 
@@ -33,10 +33,11 @@ func main() {
     timeoutSeconds := int64(789) // int64 |  (optional)
     namespace := "namespace_example" // string |  (optional)
     unlocked := "unlocked_example" // string |  (optional)
+    locked := "locked_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ImportApi.ImportSettings(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Execute()
+    resp, r, err := apiClient.ImportApi.ImportSettings(context.Background()).Body(body).TimeoutSeconds(timeoutSeconds).Namespace(namespace).Unlocked(unlocked).Locked(locked).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `ImportApi.ImportSettings``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -61,6 +62,7 @@ Name | Type | Description  | Notes
  **timeoutSeconds** | **int64** |  | 
  **namespace** | **string** |  | 
  **unlocked** | **string** |  | 
+ **locked** | **string** |  | 
 
 ### Return type
 

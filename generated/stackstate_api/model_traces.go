@@ -15,65 +15,65 @@ import (
 	"encoding/json"
 )
 
-// Spans struct for Spans
-type Spans struct {
-	// List of spans
-	Spans []SpanSummary `json:"spans"`
-	// Maximum number of the spans in the result.
+// Traces struct for Traces
+type Traces struct {
+	// List of traces
+	Traces []TraceIdentifier `json:"traces"`
+	// Maximum number of the traces in the result.
 	PageSize int32 `json:"pageSize"`
 	// The requested page.
 	Page int32 `json:"page"`
-	// The total number of matching spans.
+	// The total number of matching traces.
 	MatchesTotal int64 `json:"matchesTotal"`
 }
 
-// NewSpans instantiates a new Spans object
+// NewTraces instantiates a new Traces object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSpans(spans []SpanSummary, pageSize int32, page int32, matchesTotal int64) *Spans {
-	this := Spans{}
-	this.Spans = spans
+func NewTraces(traces []TraceIdentifier, pageSize int32, page int32, matchesTotal int64) *Traces {
+	this := Traces{}
+	this.Traces = traces
 	this.PageSize = pageSize
 	this.Page = page
 	this.MatchesTotal = matchesTotal
 	return &this
 }
 
-// NewSpansWithDefaults instantiates a new Spans object
+// NewTracesWithDefaults instantiates a new Traces object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSpansWithDefaults() *Spans {
-	this := Spans{}
+func NewTracesWithDefaults() *Traces {
+	this := Traces{}
 	return &this
 }
 
-// GetSpans returns the Spans field value
-func (o *Spans) GetSpans() []SpanSummary {
+// GetTraces returns the Traces field value
+func (o *Traces) GetTraces() []TraceIdentifier {
 	if o == nil {
-		var ret []SpanSummary
+		var ret []TraceIdentifier
 		return ret
 	}
 
-	return o.Spans
+	return o.Traces
 }
 
-// GetSpansOk returns a tuple with the Spans field value
+// GetTracesOk returns a tuple with the Traces field value
 // and a boolean to check if the value has been set.
-func (o *Spans) GetSpansOk() ([]SpanSummary, bool) {
+func (o *Traces) GetTracesOk() ([]TraceIdentifier, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.Spans, true
+	return o.Traces, true
 }
 
-// SetSpans sets field value
-func (o *Spans) SetSpans(v []SpanSummary) {
-	o.Spans = v
+// SetTraces sets field value
+func (o *Traces) SetTraces(v []TraceIdentifier) {
+	o.Traces = v
 }
 
 // GetPageSize returns the PageSize field value
-func (o *Spans) GetPageSize() int32 {
+func (o *Traces) GetPageSize() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -84,7 +84,7 @@ func (o *Spans) GetPageSize() int32 {
 
 // GetPageSizeOk returns a tuple with the PageSize field value
 // and a boolean to check if the value has been set.
-func (o *Spans) GetPageSizeOk() (*int32, bool) {
+func (o *Traces) GetPageSizeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,12 +92,12 @@ func (o *Spans) GetPageSizeOk() (*int32, bool) {
 }
 
 // SetPageSize sets field value
-func (o *Spans) SetPageSize(v int32) {
+func (o *Traces) SetPageSize(v int32) {
 	o.PageSize = v
 }
 
 // GetPage returns the Page field value
-func (o *Spans) GetPage() int32 {
+func (o *Traces) GetPage() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -108,7 +108,7 @@ func (o *Spans) GetPage() int32 {
 
 // GetPageOk returns a tuple with the Page field value
 // and a boolean to check if the value has been set.
-func (o *Spans) GetPageOk() (*int32, bool) {
+func (o *Traces) GetPageOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -116,12 +116,12 @@ func (o *Spans) GetPageOk() (*int32, bool) {
 }
 
 // SetPage sets field value
-func (o *Spans) SetPage(v int32) {
+func (o *Traces) SetPage(v int32) {
 	o.Page = v
 }
 
 // GetMatchesTotal returns the MatchesTotal field value
-func (o *Spans) GetMatchesTotal() int64 {
+func (o *Traces) GetMatchesTotal() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -132,7 +132,7 @@ func (o *Spans) GetMatchesTotal() int64 {
 
 // GetMatchesTotalOk returns a tuple with the MatchesTotal field value
 // and a boolean to check if the value has been set.
-func (o *Spans) GetMatchesTotalOk() (*int64, bool) {
+func (o *Traces) GetMatchesTotalOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -140,14 +140,14 @@ func (o *Spans) GetMatchesTotalOk() (*int64, bool) {
 }
 
 // SetMatchesTotal sets field value
-func (o *Spans) SetMatchesTotal(v int64) {
+func (o *Traces) SetMatchesTotal(v int64) {
 	o.MatchesTotal = v
 }
 
-func (o Spans) MarshalJSON() ([]byte, error) {
+func (o Traces) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["spans"] = o.Spans
+		toSerialize["traces"] = o.Traces
 	}
 	if true {
 		toSerialize["pageSize"] = o.PageSize
@@ -161,38 +161,38 @@ func (o Spans) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableSpans struct {
-	value *Spans
+type NullableTraces struct {
+	value *Traces
 	isSet bool
 }
 
-func (v NullableSpans) Get() *Spans {
+func (v NullableTraces) Get() *Traces {
 	return v.value
 }
 
-func (v *NullableSpans) Set(val *Spans) {
+func (v *NullableTraces) Set(val *Traces) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSpans) IsSet() bool {
+func (v NullableTraces) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSpans) Unset() {
+func (v *NullableTraces) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSpans(val *Spans) *NullableSpans {
-	return &NullableSpans{value: val, isSet: true}
+func NewNullableTraces(val *Traces) *NullableTraces {
+	return &NullableTraces{value: val, isSet: true}
 }
 
-func (v NullableSpans) MarshalJSON() ([]byte, error) {
+func (v NullableTraces) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSpans) UnmarshalJSON(src []byte) error {
+func (v *NullableTraces) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

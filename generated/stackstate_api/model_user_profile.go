@@ -17,28 +17,30 @@ import (
 
 // UserProfile struct for UserProfile
 type UserProfile struct {
-	Id                      *int64   `json:"id,omitempty"`
-	LastUpdateTimestamp     *int64   `json:"lastUpdateTimestamp,omitempty"`
-	Name                    string   `json:"name"`
-	Description             *string  `json:"description,omitempty"`
-	Identifier              *string  `json:"identifier,omitempty"`
-	StarredViews            []int64  `json:"starredViews,omitempty"`
-	SystemNotificationsRead []string `json:"systemNotificationsRead"`
-	HideUnavailableMonitors bool     `json:"hideUnavailableMonitors"`
-	HideUnavailableMetrics  bool     `json:"hideUnavailableMetrics"`
-	OwnedBy                 *string  `json:"ownedBy,omitempty"`
+	Id                         *int64   `json:"id,omitempty"`
+	LastUpdateTimestamp        *int64   `json:"lastUpdateTimestamp,omitempty"`
+	Name                       string   `json:"name"`
+	Description                *string  `json:"description,omitempty"`
+	Identifier                 *string  `json:"identifier,omitempty"`
+	StarredViews               []int64  `json:"starredViews,omitempty"`
+	SystemNotificationsRead    []string `json:"systemNotificationsRead"`
+	HideUnavailableMonitors    bool     `json:"hideUnavailableMonitors"`
+	HideUnavailableMetrics     bool     `json:"hideUnavailableMetrics"`
+	HideUnavailableConnections bool     `json:"hideUnavailableConnections"`
+	OwnedBy                    *string  `json:"ownedBy,omitempty"`
 }
 
 // NewUserProfile instantiates a new UserProfile object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUserProfile(name string, systemNotificationsRead []string, hideUnavailableMonitors bool, hideUnavailableMetrics bool) *UserProfile {
+func NewUserProfile(name string, systemNotificationsRead []string, hideUnavailableMonitors bool, hideUnavailableMetrics bool, hideUnavailableConnections bool) *UserProfile {
 	this := UserProfile{}
 	this.Name = name
 	this.SystemNotificationsRead = systemNotificationsRead
 	this.HideUnavailableMonitors = hideUnavailableMonitors
 	this.HideUnavailableMetrics = hideUnavailableMetrics
+	this.HideUnavailableConnections = hideUnavailableConnections
 	return &this
 }
 
@@ -306,6 +308,30 @@ func (o *UserProfile) SetHideUnavailableMetrics(v bool) {
 	o.HideUnavailableMetrics = v
 }
 
+// GetHideUnavailableConnections returns the HideUnavailableConnections field value
+func (o *UserProfile) GetHideUnavailableConnections() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.HideUnavailableConnections
+}
+
+// GetHideUnavailableConnectionsOk returns a tuple with the HideUnavailableConnections field value
+// and a boolean to check if the value has been set.
+func (o *UserProfile) GetHideUnavailableConnectionsOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.HideUnavailableConnections, true
+}
+
+// SetHideUnavailableConnections sets field value
+func (o *UserProfile) SetHideUnavailableConnections(v bool) {
+	o.HideUnavailableConnections = v
+}
+
 // GetOwnedBy returns the OwnedBy field value if set, zero value otherwise.
 func (o *UserProfile) GetOwnedBy() string {
 	if o == nil || o.OwnedBy == nil {
@@ -366,6 +392,9 @@ func (o UserProfile) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["hideUnavailableMetrics"] = o.HideUnavailableMetrics
+	}
+	if true {
+		toSerialize["hideUnavailableConnections"] = o.HideUnavailableConnections
 	}
 	if o.OwnedBy != nil {
 		toSerialize["ownedBy"] = o.OwnedBy
