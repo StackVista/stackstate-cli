@@ -52,6 +52,15 @@ paths:
           - skip
           - overwrite
           type: string
+      - in: query
+        name: locked
+        required: false
+        schema:
+          enum:
+          - fail
+          - skip
+          - overwrite
+          type: string
       requestBody:
         content:
           plain/text:
@@ -5146,12 +5155,11 @@ paths:
       summary: Get Kubernetes logs autocomplete values
       tags:
       - kubernetes_logs
-  /traces/spans:
+  /traces/query:
     post:
-      description: "Query for spans using filters, get all spans for a trace by trace\
-        \ id. Filters that accept an array of values match if any of the values match\
-        \ (think of a SQL IN expression)."
-      operationId: querySpans
+      description: Query for traces using filters. Filters that accept an array of
+        values match if any of the values match (think of a SQL IN expression).
+      operationId: queryTraces
       parameters:
       - description: Filter spans by start time >= value
         example: 1707117737
@@ -5190,14 +5198,14 @@ paths:
           minimum: 0
           type: integer
       requestBody:
-        $ref: '#/components/requestBodies/spanQuery'
+        $ref: '#/components/requestBodies/traceQuery'
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Spans'
-          description: Spans
+                $ref: '#/components/schemas/Traces'
+          description: Traces
         "400":
           content:
             application/json:
@@ -5210,10 +5218,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/TraceApiError'
           description: Server error response
-      summary: Query for spans
+      summary: Query for traces
       tags:
       - traces
-  /traces/spans/duration/histogram:
+  /traces/duration/histogram:
     post:
       description: Query for durations using filters.  Filters that accept an array
         of values match if any of the values match (think of a SQL IN expression).
@@ -5241,7 +5249,7 @@ paths:
           format: int32
           type: integer
       requestBody:
-        $ref: '#/components/requestBodies/spanFilter'
+        $ref: '#/components/requestBodies/traceFilter'
       responses:
         "200":
           content:
@@ -5740,19 +5748,19 @@ components:
           schema:
             $ref: '#/components/schemas/EventsHistogramRequest'
       required: true
-    spanQuery:
+    traceQuery:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SpanQuery'
-      description: Query for spans
+            $ref: '#/components/schemas/TraceQuery'
+      description: Query for traces
       required: true
-    spanFilter:
+    traceFilter:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SpanFilter'
-      description: Filter for spans
+            $ref: '#/components/schemas/TraceFilter'
+      description: Filter for traces
       required: true
     componentQuery:
       content:
@@ -6241,12 +6249,12 @@ components:
             $ref: '#/components/schemas/GetKubernetesLogsAutocompleteBadRequest'
       description: Can not get the logs autocomplete values because one or more request
         params are invalid.
-    spans:
+    traces:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Spans'
-      description: Spans
+            $ref: '#/components/schemas/Traces'
+      description: Traces
     traceApiSpansBadRequest:
       content:
         application/json:
@@ -8755,6 +8763,7 @@ components:
         description: description
         hideUnavailableMonitors: true
         id: 0
+        hideUnavailableConnections: true
         ownedBy: ownedBy
         hideUnavailableMetrics: true
       properties:
@@ -8785,9 +8794,12 @@ components:
           type: boolean
         hideUnavailableMetrics:
           type: boolean
+        hideUnavailableConnections:
+          type: boolean
         ownedBy:
           type: string
       required:
+      - hideUnavailableConnections
       - hideUnavailableMetrics
       - hideUnavailableMonitors
       - name
@@ -11674,9 +11686,9 @@ components:
       - message
       - to
       type: object
-    SpanQuery:
+    TraceQuery:
       example:
-        filter:
+        spanFilter:
           traceId:
           - 6942f450030e8c5f7411a23c26185aa2
           spanId:
@@ -11707,13 +11719,27 @@ components:
           direction: null
         - field: null
           direction: null
+        traceAttributes:
+          key:
+          - traceAttributes
+          - traceAttributes
       properties:
-        filter:
+        spanFilter:
           $ref: '#/components/schemas/SpanFilter'
+        traceAttributes:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: Filter traces by 1 or more attributes
+          type: object
         sortBy:
           items:
             $ref: '#/components/schemas/SpanSortOption'
           type: array
+      required:
+      - spanFilter
+      - traceAttributes
       type: object
     SpanFilter:
       example:
@@ -11874,84 +11900,45 @@ components:
       - Ascending
       - Descending
       type: string
-    Spans:
+    Traces:
       example:
-        spans:
+        traces:
         - traceId: traceId
           spanId: spanId
-          durationNanos: 1
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          spanName: spanName
-          statusCode: null
         - traceId: traceId
           spanId: spanId
-          durationNanos: 1
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          spanName: spanName
-          statusCode: null
-        pageSize: 5
-        page: 5
-        matchesTotal: 2
+        pageSize: 0
+        page: 6
+        matchesTotal: 1
       properties:
-        spans:
-          description: List of spans
+        traces:
+          description: List of traces
           items:
-            $ref: '#/components/schemas/SpanSummary'
+            $ref: '#/components/schemas/TraceIdentifier'
           type: array
         pageSize:
-          description: Maximum number of the spans in the result.
+          description: Maximum number of the traces in the result.
           type: integer
         page:
           description: The requested page.
           type: integer
         matchesTotal:
-          description: The total number of matching spans.
+          description: The total number of matching traces.
           format: int64
           type: integer
       required:
       - matchesTotal
       - page
       - pageSize
-      - spans
+      - traces
       type: object
-    SpanSummary:
+    TraceIdentifier:
+      description: "Identifier for a \"service trace\", the branch of an OTEL trace\
+        \ that corresponds to a single service entry span"
       example:
         traceId: traceId
         spanId: spanId
-        durationNanos: 1
-        startTime:
-          offsetNanos: 602745
-          timestamp: 0
-        endTime:
-          offsetNanos: 602745
-          timestamp: 0
-        serviceName: serviceName
-        parentSpanId: parentSpanId
-        spanName: spanName
-        statusCode: null
       properties:
-        startTime:
-          $ref: '#/components/schemas/InstantNanoPrecision'
-        endTime:
-          $ref: '#/components/schemas/InstantNanoPrecision'
-        durationNanos:
-          description: Duration of the span in nanoseconds
-          format: int64
-          type: integer
         traceId:
           description: "The unique identifier for the trace, all spans of the same\
             \ trace share the same trace_id"
@@ -11959,28 +11946,8 @@ components:
         spanId:
           description: The unique identifier of the span within the trace
           type: string
-        parentSpanId:
-          description: The id of the parent span of this span. Empty if this is the
-            root span
-          type: string
-        spanName:
-          description: "A description of the span's operation. For example, the name\
-            \ can be a qualified method name or a file name and a line number where\
-            \ the operation is called"
-          type: string
-        serviceName:
-          description: Logical name of the service for the span
-          type: string
-        statusCode:
-          $ref: '#/components/schemas/StatusCode'
       required:
-      - durationNanos
-      - endTime
-      - serviceName
       - spanId
-      - spanName
-      - startTime
-      - statusCode
       - traceId
       type: object
     TraceApiSpansBadRequest:
@@ -12057,6 +12024,52 @@ components:
           type: string
       required:
       - message
+      type: object
+    TraceFilter:
+      example:
+        spanFilter:
+          traceId:
+          - 6942f450030e8c5f7411a23c26185aa2
+          spanId:
+          - 1a607e3a97735e71
+          durationFromNanos: 500000
+          spanKind:
+          - Client
+          durationToNanos: 5000000
+          scopeName:
+          - scopeName
+          - scopeName
+          attributes:
+            key:
+            - attributes
+            - attributes
+          spanParentType:
+          - External
+          serviceName: orderService
+          spanName:
+          - GET /orders
+          statusCode:
+          - Error
+          scopeVersion:
+          - scopeVersion
+          - scopeVersion
+        traceAttributes:
+          key:
+          - traceAttributes
+          - traceAttributes
+      properties:
+        spanFilter:
+          $ref: '#/components/schemas/SpanFilter'
+        traceAttributes:
+          additionalProperties:
+            items:
+              type: string
+            type: array
+          description: Filter traces by 1 or more attributes
+          type: object
+      required:
+      - spanFilter
+      - traceAttributes
       type: object
     DurationHistogram:
       example:
@@ -12151,7 +12164,7 @@ components:
         traceId: traceId
         spans:
         - traceId: traceId
-          durationNanos: 0
+          durationNanos: 1
           spanKind: null
           scopeName: scopeName
           spanAttributes:
@@ -12198,7 +12211,7 @@ components:
               timestamp: 0
           statusCode: null
         - traceId: traceId
-          durationNanos: 0
+          durationNanos: 1
           spanKind: null
           scopeName: scopeName
           spanAttributes:
@@ -12260,7 +12273,7 @@ components:
     Span:
       example:
         traceId: traceId
-        durationNanos: 0
+        durationNanos: 1
         spanKind: null
         scopeName: scopeName
         spanAttributes:
@@ -12718,8 +12731,8 @@ components:
         agentData:
           $ref: '#/components/schemas/AgentData'
         nodeBudgetCount:
-          description: "The registration might count for more than one standard (4CPU,\
-            \ 16Gb) node"
+          description: "The number of standard (4CPU, 16Gb) nodes this agent counts\
+            \ for"
           type: integer
       required:
       - agentId

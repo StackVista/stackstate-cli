@@ -46,6 +46,7 @@ type ApiImportSettingsRequest struct {
 	timeoutSeconds *int64
 	namespace      *string
 	unlocked       *string
+	locked         *string
 }
 
 func (r ApiImportSettingsRequest) Body(body string) ApiImportSettingsRequest {
@@ -65,6 +66,11 @@ func (r ApiImportSettingsRequest) Namespace(namespace string) ApiImportSettingsR
 
 func (r ApiImportSettingsRequest) Unlocked(unlocked string) ApiImportSettingsRequest {
 	r.unlocked = &unlocked
+	return r
+}
+
+func (r ApiImportSettingsRequest) Locked(locked string) ApiImportSettingsRequest {
+	r.locked = &locked
 	return r
 }
 
@@ -119,6 +125,9 @@ func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]
 	}
 	if r.unlocked != nil {
 		localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
+	}
+	if r.locked != nil {
+		localVarQueryParams.Add("locked", parameterToString(*r.locked, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"plain/text"}
@@ -264,6 +273,7 @@ type ImportSettingsCall struct {
 	PtimeoutSeconds *int64
 	Pnamespace      *string
 	Punlocked       *string
+	Plocked         *string
 }
 
 func (mock ImportApiMock) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
@@ -279,6 +289,7 @@ func (mock ImportApiMock) ImportSettingsExecute(r ApiImportSettingsRequest) ([]m
 		PtimeoutSeconds: r.timeoutSeconds,
 		Pnamespace:      r.namespace,
 		Punlocked:       r.unlocked,
+		Plocked:         r.locked,
 	}
 	*mock.ImportSettingsCalls = append(*mock.ImportSettingsCalls, p)
 	return mock.ImportSettingsResponse.Result, mock.ImportSettingsResponse.Response, mock.ImportSettingsResponse.Error

@@ -13,13 +13,14 @@ Name | Type | Description | Notes
 **SystemNotificationsRead** | **[]string** |  | 
 **HideUnavailableMonitors** | **bool** |  | 
 **HideUnavailableMetrics** | **bool** |  | 
+**HideUnavailableConnections** | **bool** |  | 
 **OwnedBy** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewUserProfile
 
-`func NewUserProfile(name string, systemNotificationsRead []string, hideUnavailableMonitors bool, hideUnavailableMetrics bool, ) *UserProfile`
+`func NewUserProfile(name string, systemNotificationsRead []string, hideUnavailableMonitors bool, hideUnavailableMetrics bool, hideUnavailableConnections bool, ) *UserProfile`
 
 NewUserProfile instantiates a new UserProfile object
 This constructor will assign default values to properties that have it defined,
@@ -237,6 +238,26 @@ and a boolean to check if the value has been set.
 `func (o *UserProfile) SetHideUnavailableMetrics(v bool)`
 
 SetHideUnavailableMetrics sets HideUnavailableMetrics field to given value.
+
+
+### GetHideUnavailableConnections
+
+`func (o *UserProfile) GetHideUnavailableConnections() bool`
+
+GetHideUnavailableConnections returns the HideUnavailableConnections field if non-nil, zero value otherwise.
+
+### GetHideUnavailableConnectionsOk
+
+`func (o *UserProfile) GetHideUnavailableConnectionsOk() (*bool, bool)`
+
+GetHideUnavailableConnectionsOk returns a tuple with the HideUnavailableConnections field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHideUnavailableConnections
+
+`func (o *UserProfile) SetHideUnavailableConnections(v bool)`
+
+SetHideUnavailableConnections sets HideUnavailableConnections field to given value.
 
 
 ### GetOwnedBy

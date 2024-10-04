@@ -22,7 +22,7 @@ type AgentRegistration struct {
 	LeaseUntilEpochMs int64      `json:"leaseUntilEpochMs"`
 	RegisteredEpochMs int64      `json:"registeredEpochMs"`
 	AgentData         *AgentData `json:"agentData,omitempty"`
-	// The registration might count for more than one standard (4CPU, 16Gb) node
+	// The number of standard (4CPU, 16Gb) nodes this agent counts for
 	NodeBudgetCount int32 `json:"nodeBudgetCount"`
 }
 

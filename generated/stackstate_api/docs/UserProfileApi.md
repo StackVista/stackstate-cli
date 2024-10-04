@@ -91,7 +91,7 @@ import (
 )
 
 func main() {
-    userProfile := *openapiclient.NewUserProfile("Name_example", []string{"SystemNotificationsRead_example"}, false, false) // UserProfile | 
+    userProfile := *openapiclient.NewUserProfile("Name_example", []string{"SystemNotificationsRead_example"}, false, false, false) // UserProfile | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

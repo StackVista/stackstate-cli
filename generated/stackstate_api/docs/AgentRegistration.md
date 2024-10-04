@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **LeaseUntilEpochMs** | **int64** |  | 
 **RegisteredEpochMs** | **int64** |  | 
 **AgentData** | Pointer to [**AgentData**](AgentData.md) |  | [optional] 
-**NodeBudgetCount** | **int32** | The registration might count for more than one standard (4CPU, 16Gb) node | 
+**NodeBudgetCount** | **int32** | The number of standard (4CPU, 16Gb) nodes this agent counts for | 
 
 ## Methods
 

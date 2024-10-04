@@ -1,109 +1,109 @@
-# Spans
+# Traces
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Spans** | [**[]SpanSummary**](SpanSummary.md) | List of spans | 
-**PageSize** | **int32** | Maximum number of the spans in the result. | 
+**Traces** | [**[]TraceIdentifier**](TraceIdentifier.md) | List of traces | 
+**PageSize** | **int32** | Maximum number of the traces in the result. | 
 **Page** | **int32** | The requested page. | 
-**MatchesTotal** | **int64** | The total number of matching spans. | 
+**MatchesTotal** | **int64** | The total number of matching traces. | 
 
 ## Methods
 
-### NewSpans
+### NewTraces
 
-`func NewSpans(spans []SpanSummary, pageSize int32, page int32, matchesTotal int64, ) *Spans`
+`func NewTraces(traces []TraceIdentifier, pageSize int32, page int32, matchesTotal int64, ) *Traces`
 
-NewSpans instantiates a new Spans object
+NewTraces instantiates a new Traces object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewSpansWithDefaults
+### NewTracesWithDefaults
 
-`func NewSpansWithDefaults() *Spans`
+`func NewTracesWithDefaults() *Traces`
 
-NewSpansWithDefaults instantiates a new Spans object
+NewTracesWithDefaults instantiates a new Traces object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetSpans
+### GetTraces
 
-`func (o *Spans) GetSpans() []SpanSummary`
+`func (o *Traces) GetTraces() []TraceIdentifier`
 
-GetSpans returns the Spans field if non-nil, zero value otherwise.
+GetTraces returns the Traces field if non-nil, zero value otherwise.
 
-### GetSpansOk
+### GetTracesOk
 
-`func (o *Spans) GetSpansOk() (*[]SpanSummary, bool)`
+`func (o *Traces) GetTracesOk() (*[]TraceIdentifier, bool)`
 
-GetSpansOk returns a tuple with the Spans field if it's non-nil, zero value otherwise
+GetTracesOk returns a tuple with the Traces field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSpans
+### SetTraces
 
-`func (o *Spans) SetSpans(v []SpanSummary)`
+`func (o *Traces) SetTraces(v []TraceIdentifier)`
 
-SetSpans sets Spans field to given value.
+SetTraces sets Traces field to given value.
 
 
 ### GetPageSize
 
-`func (o *Spans) GetPageSize() int32`
+`func (o *Traces) GetPageSize() int32`
 
 GetPageSize returns the PageSize field if non-nil, zero value otherwise.
 
 ### GetPageSizeOk
 
-`func (o *Spans) GetPageSizeOk() (*int32, bool)`
+`func (o *Traces) GetPageSizeOk() (*int32, bool)`
 
 GetPageSizeOk returns a tuple with the PageSize field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPageSize
 
-`func (o *Spans) SetPageSize(v int32)`
+`func (o *Traces) SetPageSize(v int32)`
 
 SetPageSize sets PageSize field to given value.
 
 
 ### GetPage
 
-`func (o *Spans) GetPage() int32`
+`func (o *Traces) GetPage() int32`
 
 GetPage returns the Page field if non-nil, zero value otherwise.
 
 ### GetPageOk
 
-`func (o *Spans) GetPageOk() (*int32, bool)`
+`func (o *Traces) GetPageOk() (*int32, bool)`
 
 GetPageOk returns a tuple with the Page field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPage
 
-`func (o *Spans) SetPage(v int32)`
+`func (o *Traces) SetPage(v int32)`
 
 SetPage sets Page field to given value.
 
 
 ### GetMatchesTotal
 
-`func (o *Spans) GetMatchesTotal() int64`
+`func (o *Traces) GetMatchesTotal() int64`
 
 GetMatchesTotal returns the MatchesTotal field if non-nil, zero value otherwise.
 
 ### GetMatchesTotalOk
 
-`func (o *Spans) GetMatchesTotalOk() (*int64, bool)`
+`func (o *Traces) GetMatchesTotalOk() (*int64, bool)`
 
 GetMatchesTotalOk returns a tuple with the MatchesTotal field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetMatchesTotal
 
-`func (o *Spans) SetMatchesTotal(v int64)`
+`func (o *Traces) SetMatchesTotal(v int64)`
 
 SetMatchesTotal sets MatchesTotal field to given value.
 
