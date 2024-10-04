@@ -11,7 +11,6 @@ const (
 	LockedStrategyFlag   = "locked-strategy"
 	TimeoutFlag          = "timeout"
 	TimeoutFlagShort     = "t"
-	UnlockFlag           = "unlock"
 
 	TimeoutUsage = "Timeout in seconds"
 

@@ -29,7 +29,6 @@ type EditArgs struct {
 	UnlockedStrategy string
 	LockedStrategy   string
 	Timeout          int64
-	Unlock           bool
 }
 
 func SettingsEditCommand(cli *di.Deps) *cobra.Command {
@@ -57,7 +56,6 @@ func SettingsEditCommand(cli *di.Deps) *cobra.Command {
 			fmt.Sprintf(" (must be { %s })", strings.Join(LockedStrategyChoices, " | ")))
 	cmd.Flags().Int64VarP(&args.Timeout, TimeoutFlag, "t", 0, "Timeout in seconds")
 	stscobra.MarkMutexFlags(cmd, []string{IdsFlag, TypeNameFlag}, "filter", true)
-	cmd.Flags().BoolVar(&args.Unlock, UnlockFlag, false, "Unlocks the settings node before saving if needed")
 
 	return cmd
 }
@@ -86,13 +84,6 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 			}
 
 			return nil
-		}
-
-		if args.Unlock {
-			err := UnlockNodes(cli, api, args.Ids, WildCardType)
-			if err != nil {
-				return err
-			}
 		}
 
 		nodes, resp, err := doImport(cli.Context, api, string(c), "", args.UnlockedStrategy, args.LockedStrategy, args.Timeout)
