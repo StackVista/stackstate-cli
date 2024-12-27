@@ -80,7 +80,7 @@ if [[ -n "${STS_URL}" && -n "${STS_API_TOKEN}" ]]; then
   ${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN}
 fi
 
-if [ "$(whereis -q sts)" == "" ]; then
+if [ "$(whereis sts)" == "" ]; then
   printf "${RED}[WARNING]${NO_COLOR} Can not find 'sts' on the PATH or execute it. Consider adding the directory to your PATH: PATH=\"\$PATH:${TARGET_CLI_PATH}\"\n"
   printf "Type ${GREEN}${TARGET_CLI_PATH}/sts${NO_COLOR} to get started!\n"
 else
