@@ -61,7 +61,7 @@ jobs:
         run: |
           go-licenses report . > licenses.csv
       - name: Save license scan report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: license_scanning
           path: licenses.csv
@@ -141,7 +141,7 @@ jobs:
             --output-file /workspace/release-notes.md
             --title "CLI ${{ env.TAG }}"
       - name: Save release notes
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release-notes
           path: release-notes.md
@@ -162,7 +162,7 @@ jobs:
             --output-file /workspace/release-notes.json
             --title "CLI ${{ env.TAG }}"
       - name: Save JSON release notes
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: release-notes-json
           path: release-notes.json
