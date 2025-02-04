@@ -31,7 +31,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.21'
+          go-version: "1.21"
           cache: false
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v4
@@ -189,23 +189,19 @@ jobs:
       - name: Write latest version to file
         run: mkdir -p dist && echo "${{ env.TAG }}" > dist/LATEST_VERSION
 
-      - name: Publish latest version to S3
-        uses: keithweaver/aws-s3-github-action@v1.0.0
+      - name: Authenticate with AWS
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_DEFAULT_REGION }}
-          command: cp
-          source: dist/LATEST_VERSION
-          destination: ${{ env.S3_BUCKET }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Publish latest version to S3
+        run: |
+          echo "aws s3 cp dist/LATEST_VERSION ${{ env.S3_BUCKET }}"
+          aws s3 cp dist/LATEST_VERSION ${{ env.S3_BUCKET }}
 
       - name: Publish installers to S3
-        uses: keithweaver/aws-s3-github-action@v1.0.0
-        with:
-          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID}}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws_region: ${{ secrets.AWS_DEFAULT_REGION }}
-          command: cp
-          source: scripts/publish/installers/
-          destination: ${{ env.S3_BUCKET }}
-          flags: --recursive
+        run: |
+          echo "aws s3 cp scripts/publish/installers/ ${{ env.S3_BUCKET }} --recursive"
+          aws s3 cp scripts/publish/installers/ ${{ env.S3_BUCKET }} --recursive
