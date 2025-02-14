@@ -13,12 +13,25 @@ import (
 )
 
 func PrintConnectionSuccess(pr printer.Printer, apiUrl string, serverInfo *stackstate_api.ServerInfo) {
-	pr.Success(
-		fmt.Sprintf("Connection verified to %s (StackState version: %s)",
-			apiUrl,
-			client.VersionToString(serverInfo.Version),
-		),
-	)
+	if serverInfo.PlatformVersion != nil {
+		pr.Success(
+			fmt.Sprintf("Connection verified to %s (Platform version: %d.%d.%d)",
+				apiUrl,
+				serverInfo.PlatformVersion.Major,
+				serverInfo.PlatformVersion.Minor,
+				serverInfo.PlatformVersion.Patch,
+			),
+		)
+	} else {
+		// Fallback to serverInfo.Version if platformVersion is not present (an updated client could interact with a server not supporting platformVersion yet).
+		pr.Success(
+			fmt.Sprintf("Connection verified to %s (StackState version: %s)",
+				apiUrl,
+				client.VersionToString(serverInfo.Version),
+			),
+		)
+	}
+
 }
 
 func ValidateContext(cli *di.Deps, cmd *cobra.Command, cfg *config.StsContext) (*stackstate_api.ServerInfo, common.CLIError) {
