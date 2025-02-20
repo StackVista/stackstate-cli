@@ -17,22 +17,21 @@ import (
 
 // TopologyStreamListItem struct for TopologyStreamListItem
 type TopologyStreamListItem struct {
-	SyncIdentifier    NullableString     `json:"syncIdentifier,omitempty"`
-	NodeId            int64              `json:"nodeId"`
-	Name              string             `json:"name"`
-	CreatedRelations  int64              `json:"createdRelations"`
-	DeletedRelations  int64              `json:"deletedRelations"`
-	CreatedComponents int64              `json:"createdComponents"`
-	DeletedComponents int64              `json:"deletedComponents"`
-	Errors            int64              `json:"errors"`
-	Status            TopologySyncStatus `json:"status"`
+	SyncIdentifier    NullableString `json:"syncIdentifier,omitempty"`
+	NodeId            int64          `json:"nodeId"`
+	Name              string         `json:"name"`
+	CreatedRelations  int64          `json:"createdRelations"`
+	DeletedRelations  int64          `json:"deletedRelations"`
+	CreatedComponents int64          `json:"createdComponents"`
+	DeletedComponents int64          `json:"deletedComponents"`
+	Errors            int64          `json:"errors"`
 }
 
 // NewTopologyStreamListItem instantiates a new TopologyStreamListItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, status TopologySyncStatus) *TopologyStreamListItem {
+func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64) *TopologyStreamListItem {
 	this := TopologyStreamListItem{}
 	this.NodeId = nodeId
 	this.Name = name
@@ -41,7 +40,6 @@ func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64
 	this.CreatedComponents = createdComponents
 	this.DeletedComponents = deletedComponents
 	this.Errors = errors
-	this.Status = status
 	return &this
 }
 
@@ -264,30 +262,6 @@ func (o *TopologyStreamListItem) SetErrors(v int64) {
 	o.Errors = v
 }
 
-// GetStatus returns the Status field value
-func (o *TopologyStreamListItem) GetStatus() TopologySyncStatus {
-	if o == nil {
-		var ret TopologySyncStatus
-		return ret
-	}
-
-	return o.Status
-}
-
-// GetStatusOk returns a tuple with the Status field value
-// and a boolean to check if the value has been set.
-func (o *TopologyStreamListItem) GetStatusOk() (*TopologySyncStatus, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Status, true
-}
-
-// SetStatus sets field value
-func (o *TopologyStreamListItem) SetStatus(v TopologySyncStatus) {
-	o.Status = v
-}
-
 func (o TopologyStreamListItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.SyncIdentifier.IsSet() {
@@ -313,9 +287,6 @@ func (o TopologyStreamListItem) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["errors"] = o.Errors
-	}
-	if true {
-		toSerialize["status"] = o.Status
 	}
 	return json.Marshal(toSerialize)
 }

@@ -12,13 +12,12 @@ Name | Type | Description | Notes
 **CreatedComponents** | **int64** |  | 
 **DeletedComponents** | **int64** |  | 
 **Errors** | **int64** |  | 
-**Status** | [**TopologySyncStatus**](TopologySyncStatus.md) |  | 
 
 ## Methods
 
 ### NewTopologyStreamListItem
 
-`func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, status TopologySyncStatus, ) *TopologyStreamListItem`
+`func NewTopologyStreamListItem(nodeId int64, name string, createdRelations int64, deletedRelations int64, createdComponents int64, deletedComponents int64, errors int64, ) *TopologyStreamListItem`
 
 NewTopologyStreamListItem instantiates a new TopologyStreamListItem object
 This constructor will assign default values to properties that have it defined,
@@ -206,26 +205,6 @@ and a boolean to check if the value has been set.
 `func (o *TopologyStreamListItem) SetErrors(v int64)`
 
 SetErrors sets Errors field to given value.
-
-
-### GetStatus
-
-`func (o *TopologyStreamListItem) GetStatus() TopologySyncStatus`
-
-GetStatus returns the Status field if non-nil, zero value otherwise.
-
-### GetStatusOk
-
-`func (o *TopologyStreamListItem) GetStatusOk() (*TopologySyncStatus, bool)`
-
-GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetStatus
-
-`func (o *TopologyStreamListItem) SetStatus(v TopologySyncStatus)`
-
-SetStatus sets Status field to given value.
 
 
 
