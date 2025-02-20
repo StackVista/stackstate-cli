@@ -31,9 +31,11 @@ api_stackpack.go
 api_subject.go
 api_subscription.go
 api_system_notifications.go
+api_timeline.go
 api_topic.go
 api_topology_synchronization.go
 api_traces.go
+api_user_authorization.go
 api_user_profile.go
 api_user_session.go
 client.go
@@ -81,6 +83,7 @@ docs/ComponentHighlightMetricSection.md
 docs/ComponentHighlightMetricSectionAllOf.md
 docs/ComponentNotFoundError.md
 docs/ComponentQuery.md
+docs/ComponentViewArguments.md
 docs/CreateSubject.md
 docs/DataUnavailable.md
 docs/DependencyDirection.md
@@ -100,6 +103,7 @@ docs/EventCategoryBucket.md
 docs/EventComponent.md
 docs/EventCursor.md
 docs/EventElement.md
+docs/EventFilters.md
 docs/EventItemsWithTotal.md
 docs/EventListRequest.md
 docs/EventNotFoundError.md
@@ -297,6 +301,7 @@ docs/PromSeriesEnvelope.md
 docs/PromVector.md
 docs/PromVectorResult.md
 docs/ProvisionResponse.md
+docs/QueryViewArguments.md
 docs/ReleaseStatus.md
 docs/RequestError.md
 docs/RequestValidationError.md
@@ -359,6 +364,13 @@ docs/TeamsChannelRefId.md
 docs/TeamsChannelWriteSchema.md
 docs/TeamsNotificationChannel.md
 docs/TeamsNotificationChannelAllOf.md
+docs/TimelineApi.md
+docs/TimelineSummary.md
+docs/TimelineSummaryError.md
+docs/TimelineSummaryEventBucket.md
+docs/TimelineSummaryHealthChange.md
+docs/TimelineSummaryRequest.md
+docs/TimelineSummaryRequestArguments.md
 docs/TooManyActiveQueries.md
 docs/TooManyTopologyResults.md
 docs/Topic.md
@@ -373,7 +385,6 @@ docs/TopologyStreamListItem.md
 docs/TopologyStreamListItemWithErrorDetails.md
 docs/TopologyStreamMetrics.md
 docs/TopologySyncError.md
-docs/TopologySyncStatus.md
 docs/TopologySynchronizationApi.md
 docs/TopologyTimeOutOfRange.md
 docs/Trace.md
@@ -391,6 +402,7 @@ docs/Traces.md
 docs/TracesApi.md
 docs/UnlicensedSubscription.md
 docs/UnmatchedCheckState.md
+docs/UserAuthorizationApi.md
 docs/UserNameMismatchError.md
 docs/UserNotFoundError.md
 docs/UserNotLoggedInError.md
@@ -444,6 +456,7 @@ model_component_highlight_metric_section.go
 model_component_highlight_metric_section_all_of.go
 model_component_not_found_error.go
 model_component_query.go
+model_component_view_arguments.go
 model_create_subject.go
 model_data_unavailable.go
 model_dependency_direction.go
@@ -461,6 +474,7 @@ model_event_category_bucket.go
 model_event_component.go
 model_event_cursor.go
 model_event_element.go
+model_event_filters.go
 model_event_items_with_total.go
 model_event_list_request.go
 model_event_not_found_error.go
@@ -644,6 +658,7 @@ model_prom_series_envelope.go
 model_prom_vector.go
 model_prom_vector_result.go
 model_provision_response.go
+model_query_view_arguments.go
 model_release_status.go
 model_request_error.go
 model_request_validation_error.go
@@ -699,6 +714,12 @@ model_teams_channel_ref_id.go
 model_teams_channel_write_schema.go
 model_teams_notification_channel.go
 model_teams_notification_channel_all_of.go
+model_timeline_summary.go
+model_timeline_summary_error.go
+model_timeline_summary_event_bucket.go
+model_timeline_summary_health_change.go
+model_timeline_summary_request.go
+model_timeline_summary_request_arguments.go
 model_too_many_active_queries.go
 model_too_many_topology_results.go
 model_topic.go
@@ -712,7 +733,6 @@ model_topology_stream_list_item.go
 model_topology_stream_list_item_with_error_details.go
 model_topology_stream_metrics.go
 model_topology_sync_error.go
-model_topology_sync_status.go
 model_topology_time_out_of_range.go
 model_trace.go
 model_trace_api_error.go

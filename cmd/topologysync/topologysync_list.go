@@ -33,14 +33,13 @@ func FormatSyncTable(streams []stackstate_api.TopologyStreamListItem) printer.Ta
 			stream.NodeId,
 			stream.Name,
 			identifier,
-			stream.Status,
 			fmt.Sprintf("+%-4d %5s", stream.CreatedComponents, fmt.Sprintf("-%d", stream.DeletedComponents)),
 			fmt.Sprintf("+%-4d %5s", stream.CreatedRelations, fmt.Sprintf("-%d", stream.DeletedRelations)),
 			stream.Errors,
 		}
 	}
 	return printer.TableData{
-		Header:              []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
+		Header:              []string{"Id", "Name", "Identifier", "Components", "Relations", "Errors"},
 		Data:                data,
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
 	}

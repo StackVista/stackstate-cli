@@ -85,9 +85,9 @@ func TestTopologySyncDescribeErrors(t *testing.T) {
 
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
+			Header: []string{"Id", "Name", "Identifier", "Components", "Relations", "Errors"},
 			Data: [][]interface{}{
-				{Topo1.NodeId, Topo1.Name, "-", Topo1.Status, "+0       -0", "+0       -0", int64(0)},
+				{Topo1.NodeId, Topo1.Name, "-", "+0       -0", "+0       -0", int64(0)},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
 		},

@@ -10,12 +10,12 @@ import (
 )
 
 var (
-	Topo1 = stackstate_api.NewTopologyStreamListItem(int64(23), "Topo 1", 0, 0, 0, 0, 0, stackstate_api.TOPOLOGYSYNCSTATUS_RUNNING)
-	Topo2 = stackstate_api.NewTopologyStreamListItem(5, "Topo 2", 23, 5, 23, 5, 0, stackstate_api.TOPOLOGYSYNCSTATUS_DELETING)
+	Topo1 = stackstate_api.NewTopologyStreamListItem(int64(23), "Topo 1", 0, 0, 0, 0, 0)
+	Topo2 = stackstate_api.NewTopologyStreamListItem(5, "Topo 2", 23, 5, 23, 5, 0)
 
-	Topo3 = stackstate_api.NewTopologyStreamListItem(13, "Topo 3", 12345, 23, 23, 12345, 1, stackstate_api.TOPOLOGYSYNCSTATUS_DELETE_FAILED)
+	Topo3 = stackstate_api.NewTopologyStreamListItem(13, "Topo 3", 12345, 23, 23, 12345, 1)
 
-	Topo4 = stackstate_api.NewTopologyStreamListItem(7, "Topo 4", 12345, 12345, 12345, 12345, 23, stackstate_api.TOPOLOGYSYNCSTATUS_RESETTING)
+	Topo4 = stackstate_api.NewTopologyStreamListItem(7, "Topo 4", 12345, 12345, 12345, 12345, 23)
 
 	AllTopos = []stackstate_api.TopologyStreamListItem{*Topo1, *Topo2, *Topo3, *Topo4}
 
@@ -31,12 +31,12 @@ func TestTopologySyncListTable(t *testing.T) {
 
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
+			Header: []string{"Id", "Name", "Identifier", "Components", "Relations", "Errors"},
 			Data: [][]interface{}{
-				{Topo1.NodeId, Topo1.Name, "-", Topo1.Status, "+0       -0", "+0       -0", int64(0)},
-				{Topo2.NodeId, Topo2.Name, "-", Topo2.Status, "+23      -5", "+23      -5", int64(0)},
-				{Topo3.NodeId, Topo3.Name, "-", Topo3.Status, "+23   -12345", "+12345   -23", int64(1)},
-				{Topo4.NodeId, Topo4.Name, "-", Topo4.Status, "+12345 -12345", "+12345 -12345", int64(23)},
+				{Topo1.NodeId, Topo1.Name, "-", "+0       -0", "+0       -0", int64(0)},
+				{Topo2.NodeId, Topo2.Name, "-", "+23      -5", "+23      -5", int64(0)},
+				{Topo3.NodeId, Topo3.Name, "-", "+23   -12345", "+12345   -23", int64(1)},
+				{Topo4.NodeId, Topo4.Name, "-", "+12345 -12345", "+12345 -12345", int64(23)},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
 		},
