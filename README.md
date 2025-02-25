@@ -21,7 +21,7 @@ mkdir -p ~/.config/nix && echo "experimental-features = nix-command flakes" >> ~
 4. Enter development shell `nix develop`
 5. Run `go run main.go`
 
-It also possible to use nix phases to test `nix develop --check` and build the application `nix develop --build`, as specified in the Makefile, without entering the shell.
+It's also possible to use nix phases to test `nix develop --check` and build the application `nix develop --build`, as specified in the Makefile, without entering the shell.
 
 6. Read the [command development guide](CMD_DEVELOPMENT.md).
 

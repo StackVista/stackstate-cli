@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Version** | [**ServerVersion**](ServerVersion.md) |  | 
 **DeploymentMode** | **string** |  | 
+**PlatformVersion** | Pointer to **string** | The version value is a semantic version, based on the official Semantic Versioning spec (https://semver.org/). | [optional] 
 
 ## Methods
 
@@ -65,6 +66,31 @@ and a boolean to check if the value has been set.
 
 SetDeploymentMode sets DeploymentMode field to given value.
 
+
+### GetPlatformVersion
+
+`func (o *ServerInfo) GetPlatformVersion() string`
+
+GetPlatformVersion returns the PlatformVersion field if non-nil, zero value otherwise.
+
+### GetPlatformVersionOk
+
+`func (o *ServerInfo) GetPlatformVersionOk() (*string, bool)`
+
+GetPlatformVersionOk returns a tuple with the PlatformVersion field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetPlatformVersion
+
+`func (o *ServerInfo) SetPlatformVersion(v string)`
+
+SetPlatformVersion sets PlatformVersion field to given value.
+
+### HasPlatformVersion
+
+`func (o *ServerInfo) HasPlatformVersion() bool`
+
+HasPlatformVersion returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -19,6 +19,8 @@ import (
 type ServerInfo struct {
 	Version        ServerVersion `json:"version"`
 	DeploymentMode string        `json:"deploymentMode"`
+	// The version value is a semantic version, based on the official Semantic Versioning spec (https://semver.org/).
+	PlatformVersion *string `json:"platformVersion,omitempty"`
 }
 
 // NewServerInfo instantiates a new ServerInfo object
@@ -88,6 +90,38 @@ func (o *ServerInfo) SetDeploymentMode(v string) {
 	o.DeploymentMode = v
 }
 
+// GetPlatformVersion returns the PlatformVersion field value if set, zero value otherwise.
+func (o *ServerInfo) GetPlatformVersion() string {
+	if o == nil || o.PlatformVersion == nil {
+		var ret string
+		return ret
+	}
+	return *o.PlatformVersion
+}
+
+// GetPlatformVersionOk returns a tuple with the PlatformVersion field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServerInfo) GetPlatformVersionOk() (*string, bool) {
+	if o == nil || o.PlatformVersion == nil {
+		return nil, false
+	}
+	return o.PlatformVersion, true
+}
+
+// HasPlatformVersion returns a boolean if a field has been set.
+func (o *ServerInfo) HasPlatformVersion() bool {
+	if o != nil && o.PlatformVersion != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetPlatformVersion gets a reference to the given string and assigns it to the PlatformVersion field.
+func (o *ServerInfo) SetPlatformVersion(v string) {
+	o.PlatformVersion = &v
+}
+
 func (o ServerInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -95,6 +129,9 @@ func (o ServerInfo) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["deploymentMode"] = o.DeploymentMode
+	}
+	if o.PlatformVersion != nil {
+		toSerialize["platformVersion"] = o.PlatformVersion
 	}
 	return json.Marshal(toSerialize)
 }

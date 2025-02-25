@@ -65,7 +65,7 @@ func ParseDuration(strDuration string) (time.Duration, error) {
 	}
 	unitLength := durationMapping[unit]
 
-	value, parseFloatErr := strconv.ParseFloat(match[1], 64) //nolint:gomnd
+	value, parseFloatErr := strconv.ParseFloat(match[1], 64) //nolint:mnd
 	if parseFloatErr != nil {
 		return 0, newInvalidDurationValueError(strDuration, parseFloatErr)
 	}

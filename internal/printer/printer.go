@@ -165,7 +165,7 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 
 	resp := err.GetServerResponse()
 
-	//nolint:gomnd
+	//nolint:mnd
 	isErrorResponse := resp != nil && ((resp.StatusCode-200 < 0) || (resp.StatusCode-200 >= 100))
 
 	// get error string with HTTP status

@@ -125,7 +125,7 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 		// Nothing to do
 	case 1:
 		zerolog.SetGlobalLevel(zerolog.InfoLevel)
-	case 2: //nolint:gomnd
+	case 2: //nolint:mnd
 		zerolog.SetGlobalLevel(zerolog.DebugLevel)
 	default:
 		zerolog.SetGlobalLevel(zerolog.TraceLevel)

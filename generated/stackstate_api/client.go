@@ -106,11 +106,15 @@ type APIClient struct {
 
 	SystemNotificationsApi SystemNotificationsApi
 
+	TimelineApi TimelineApi
+
 	TopicApi TopicApi
 
 	TopologySynchronizationApi TopologySynchronizationApi
 
 	TracesApi TracesApi
+
+	UserAuthorizationApi UserAuthorizationApi
 
 	UserProfileApi UserProfileApi
 
@@ -161,9 +165,11 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.SubjectApi = (*SubjectApiService)(&c.common)
 	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)
 	c.SystemNotificationsApi = (*SystemNotificationsApiService)(&c.common)
+	c.TimelineApi = (*TimelineApiService)(&c.common)
 	c.TopicApi = (*TopicApiService)(&c.common)
 	c.TopologySynchronizationApi = (*TopologySynchronizationApiService)(&c.common)
 	c.TracesApi = (*TracesApiService)(&c.common)
+	c.UserAuthorizationApi = (*UserAuthorizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 	c.UserSessionApi = (*UserSessionApiService)(&c.common)
 
