@@ -129,8 +129,8 @@ func metricBucketToJson(name string, bucket []stackstate_api.MetricBucketValue, 
 	return map[string]interface{}{
 		"name":                               name,
 		fmt.Sprintf("now-%d", size):          metricValueOrDash(bucket, 0),
-		fmt.Sprintf("%d-%d", size, 2*size):   metricValueOrDash(bucket, 1), //nolint:gomnd
-		fmt.Sprintf("%d-%d", 2*size, 3*size): metricValueOrDash(bucket, 2), //nolint:gomnd
+		fmt.Sprintf("%d-%d", size, 2*size):   metricValueOrDash(bucket, 1), //nolint:mnd
+		fmt.Sprintf("%d-%d", 2*size, 3*size): metricValueOrDash(bucket, 2), //nolint:mnd
 	}
 }
 
@@ -150,14 +150,14 @@ func metricBucketToRow(name string, bucket []stackstate_api.MetricBucketValue) [
 		name,
 		metricValueOrDash(bucket, 0),
 		metricValueOrDash(bucket, 1),
-		metricValueOrDash(bucket, 2), //nolint:gomnd
+		metricValueOrDash(bucket, 2), //nolint:mnd
 	}
 }
 
 func streamMetricsToTable(metrics stackstate_api.HealthStreamMetrics) printer.TableData {
 	size := metrics.BucketSizeSeconds
 	return printer.TableData{
-		Header: []string{"Metric", fmt.Sprintf("%ds ago", size), fmt.Sprintf("%d-%ds ago", size, 2*size), fmt.Sprintf("%d-%ds ago", 2*size, 3*size)}, //nolint:gomnd
+		Header: []string{"Metric", fmt.Sprintf("%ds ago", size), fmt.Sprintf("%d-%ds ago", size, 2*size), fmt.Sprintf("%d-%ds ago", 2*size, 3*size)}, //nolint:mnd
 		Data: [][]interface{}{
 			metricBucketToRow("latency seconds", metrics.LatencySeconds),
 			metricBucketToRow("messages per seconds", metrics.MessagePerSecond),

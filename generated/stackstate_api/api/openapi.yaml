@@ -2597,6 +2597,34 @@ paths:
       summary: Get a list of available roles for this session
       tags:
       - userSession
+  /user/authorization/for:
+    get:
+      description: Is the current user authorized for the provided permission
+      operationId: getUserAuthorizationFor
+      parameters:
+      - in: query
+        name: permission
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: User is authorized
+        "400":
+          description: Provided permission does not exist
+        "401":
+          description: User is not authorized
+        "403":
+          description: User is forbidden for the provided permission
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Is the current user authorized for the provided permission
+      tags:
+      - userAuthorization
   /events:
     post:
       description: Gets you a list of events that exist for topology and time selections.
@@ -5635,6 +5663,30 @@ paths:
       summary: Overview of system notifications
       tags:
       - systemNotifications
+  /timeline/summary:
+    post:
+      description: Event summary and aggregated health changes for a topology over
+        a range of time
+      operationId: getTimelineSummary
+      requestBody:
+        $ref: '#/components/requestBodies/timelineSummaryRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineSummary'
+          description: Event summary and aggregated health changes over a range of
+            time
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineSummaryError'
+          description: Errors when computing events and health state
+      summary: Timeline summary
+      tags:
+      - timeline
   /dummy/dummy:
     get:
       description: ""
@@ -5768,6 +5820,13 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentQuery'
       description: Span properties to find matching components
+      required: true
+    timelineSummaryRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TimelineSummaryRequest'
+      description: Request for event summary and aggregated health over time
       required: true
   responses:
     genericErrorsResponse:
@@ -6334,6 +6393,18 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentNotFoundError'
       description: Component not found error
+    timelineSummaryResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TimelineSummary'
+      description: Event summary and aggregated health changes over a range of time
+    timelineSummaryErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TimelineSummaryError'
+      description: Errors when computing events and health state
     stackElementNotFound:
       content:
         application/json:
@@ -10149,6 +10220,7 @@ components:
     ServerInfo:
       example:
         deploymentMode: Saas
+        platformVersion: 1.2.3-alpha.1+build5678
         version:
           patch: 1
           major: 0
@@ -10163,6 +10235,11 @@ components:
           enum:
           - Saas
           - SelfHosted
+          type: string
+        platformVersion:
+          description: "The version value is a semantic version, based on the official\
+            \ Semantic Versioning spec (https://semver.org/)."
+          example: 1.2.3-alpha.1+build5678
           type: string
       required:
       - deploymentMode
@@ -10197,6 +10274,11 @@ components:
       - minor
       - patch
       type: object
+    SemanticVersion:
+      description: "The version value is a semantic version, based on the official\
+        \ Semantic Versioning spec (https://semver.org/)."
+      example: 1.2.3-alpha.1+build5678
+      type: string
     ServiceTokenCreatedResponse:
       example:
         name: name
@@ -12862,6 +12944,205 @@ components:
       - warning
       - problem
       type: string
+    TimelineSummaryRequest:
+      example:
+        eventFilters:
+          types:
+          - types
+          - types
+          sources:
+          - sources
+          - sources
+          categories:
+          - categories
+          - categories
+          tags:
+          - tags
+          - tags
+        arguments: null
+        startTime: 0
+        endTime: 6
+        histogramBucketCount: 1
+      properties:
+        arguments:
+          $ref: '#/components/schemas/TimelineSummaryRequest_arguments'
+        startTime:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+        endTime:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+        histogramBucketCount:
+          type: integer
+        eventFilters:
+          $ref: '#/components/schemas/EventFilters'
+      required:
+      - arguments
+      - histogramBucketCount
+      - startTime
+      type: object
+    ComponentViewArguments:
+      properties:
+        _type:
+          enum:
+          - ComponentViewArguments
+          type: string
+        componentIdentifier:
+          type: string
+        queryTime:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+      required:
+      - _type
+      - componentIdentifier
+      type: object
+    QueryViewArguments:
+      properties:
+        _type:
+          enum:
+          - QueryViewArguments
+          type: string
+        query:
+          type: string
+        queryTime:
+          description: Date/time representation in milliseconds since epoch (1970-01-01
+            00:00:00)
+          format: instant
+          type: integer
+      required:
+      - _type
+      - query
+      type: object
+    EventFilters:
+      example:
+        types:
+        - types
+        - types
+        sources:
+        - sources
+        - sources
+        categories:
+        - categories
+        - categories
+        tags:
+        - tags
+        - tags
+      properties:
+        types:
+          items:
+            type: string
+          type: array
+        tags:
+          items:
+            type: string
+          type: array
+        categories:
+          items:
+            type: string
+          type: array
+        sources:
+          items:
+            type: string
+          type: array
+      type: object
+    TimelineSummary:
+      example:
+        healthHistory:
+        - newHealth: null
+          _type: TimelineSummaryHealthChange
+          timestamp: 5
+        - newHealth: null
+          _type: TimelineSummaryHealthChange
+          timestamp: 5
+        buckets:
+        - _type: TimelineSummaryEventBucket
+          count: 0
+          endTimeEpochMillis: 1
+          startTimeEpochMillis: 6
+        - _type: TimelineSummaryEventBucket
+          count: 0
+          endTimeEpochMillis: 1
+          startTimeEpochMillis: 6
+        fromTime: 5
+      properties:
+        buckets:
+          items:
+            $ref: '#/components/schemas/TimelineSummaryEventBucket'
+          type: array
+        healthHistory:
+          items:
+            $ref: '#/components/schemas/TimelineSummaryHealthChange'
+          type: array
+        fromTime:
+          format: int64
+          type: integer
+      required:
+      - buckets
+      - fromTime
+      - healthHistory
+      type: object
+    TimelineSummaryEventBucket:
+      discriminator:
+        propertyName: _type
+      example:
+        _type: TimelineSummaryEventBucket
+        count: 0
+        endTimeEpochMillis: 1
+        startTimeEpochMillis: 6
+      properties:
+        _type:
+          enum:
+          - TimelineSummaryEventBucket
+          type: string
+        count:
+          format: int64
+          type: integer
+        startTimeEpochMillis:
+          format: int64
+          type: integer
+        endTimeEpochMillis:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - count
+      - startTimeEpochMillis
+      type: object
+    TimelineSummaryHealthChange:
+      discriminator:
+        propertyName: _type
+      example:
+        newHealth: null
+        _type: TimelineSummaryHealthChange
+        timestamp: 5
+      properties:
+        _type:
+          enum:
+          - TimelineSummaryHealthChange
+          type: string
+        timestamp:
+          format: int64
+          type: integer
+        newHealth:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - _type
+      - newHealth
+      - timestamp
+      type: object
+    TimelineSummaryError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
     StackElementNotFound:
       discriminator:
         propertyName: _type
@@ -13626,6 +13907,13 @@ components:
           type: string
       required:
       - _type
+      type: object
+    TimelineSummaryRequest_arguments:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ComponentViewArguments'
+      - $ref: '#/components/schemas/QueryViewArguments'
       type: object
   securitySchemes:
     ApiToken:

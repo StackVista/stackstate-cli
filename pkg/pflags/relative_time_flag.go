@@ -77,7 +77,7 @@ func ParseRelativeTime(clock Clock, s string) (time.Time, error) {
 		return result, nil
 	}
 
-	unixTime, err := strconv.ParseInt(s, 0, 64) //nolint:gomnd
+	unixTime, err := strconv.ParseInt(s, 0, 64) //nolint:mnd
 	if err != nil {
 		result, err := time.Parse(time.RFC3339, s)
 		if err != nil {

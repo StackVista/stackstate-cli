@@ -21,7 +21,7 @@ linters-settings:
           - github.com/stackvista
   lll:
     line-length: 250
-  gomnd:
+  mnd:
     checks:
       - argument
       - case
@@ -47,7 +47,7 @@ linters:
     - dupl
     - errcheck
     - exhaustive
-    - exportloopref
+    - copyloopvar
     - funlen
     - gochecknoinits
     - goconst
@@ -55,7 +55,7 @@ linters:
     - gocyclo
     - gofmt
     - goimports
-    - gomnd
+    - mnd
     - goprintffuncname
     # - gosec TODO: enable when fixed
     - gosimple

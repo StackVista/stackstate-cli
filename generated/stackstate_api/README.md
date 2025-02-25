@@ -211,6 +211,7 @@ Class | Method | HTTP request | Description
 *SubscriptionApi* | [**GetSubscription**](docs/SubscriptionApi.md#getsubscription) | **Get** /subscription | Get subscription info
 *SubscriptionApi* | [**PostSubscription**](docs/SubscriptionApi.md#postsubscription) | **Post** /subscription | Submit a new license to update the subscription
 *SystemNotificationsApi* | [**AllSystemNotifications**](docs/SystemNotificationsApi.md#allsystemnotifications) | **Get** /system/notifications | Overview of system notifications
+*TimelineApi* | [**GetTimelineSummary**](docs/TimelineApi.md#gettimelinesummary) | **Post** /timeline/summary | Timeline summary
 *TopicApi* | [**Describe**](docs/TopicApi.md#describe) | **Get** /topic/{topic} | Describe a topic
 *TopicApi* | [**List**](docs/TopicApi.md#list) | **Get** /topic | List topics
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
@@ -225,6 +226,7 @@ Class | Method | HTTP request | Description
 *TracesApi* | [**SuggestionsAttributeName**](docs/TracesApi.md#suggestionsattributename) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
 *TracesApi* | [**SuggestionsAttributeValue**](docs/TracesApi.md#suggestionsattributevalue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
 *TracesApi* | [**SuggestionsFieldValues**](docs/TracesApi.md#suggestionsfieldvalues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
+*UserAuthorizationApi* | [**GetUserAuthorizationFor**](docs/UserAuthorizationApi.md#getuserauthorizationfor) | **Get** /user/authorization/for | Is the current user authorized for the provided permission
 *UserProfileApi* | [**GetCurrentUserProfile**](docs/UserProfileApi.md#getcurrentuserprofile) | **Get** /user/profile | Get current user profile
 *UserProfileApi* | [**SaveCurrentUserProfile**](docs/UserProfileApi.md#savecurrentuserprofile) | **Put** /user/profile | Save current user profile
 *UserSessionApi* | [**GetUserSessionAssumedRole**](docs/UserSessionApi.md#getusersessionassumedrole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
@@ -272,6 +274,7 @@ Class | Method | HTTP request | Description
  - [ComponentHighlightMetricSectionAllOf](docs/ComponentHighlightMetricSectionAllOf.md)
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
  - [ComponentQuery](docs/ComponentQuery.md)
+ - [ComponentViewArguments](docs/ComponentViewArguments.md)
  - [CreateSubject](docs/CreateSubject.md)
  - [DataUnavailable](docs/DataUnavailable.md)
  - [DependencyDirection](docs/DependencyDirection.md)
@@ -289,6 +292,7 @@ Class | Method | HTTP request | Description
  - [EventComponent](docs/EventComponent.md)
  - [EventCursor](docs/EventCursor.md)
  - [EventElement](docs/EventElement.md)
+ - [EventFilters](docs/EventFilters.md)
  - [EventItemsWithTotal](docs/EventItemsWithTotal.md)
  - [EventListRequest](docs/EventListRequest.md)
  - [EventNotFoundError](docs/EventNotFoundError.md)
@@ -472,6 +476,7 @@ Class | Method | HTTP request | Description
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
+ - [QueryViewArguments](docs/QueryViewArguments.md)
  - [ReleaseStatus](docs/ReleaseStatus.md)
  - [RequestError](docs/RequestError.md)
  - [RequestValidationError](docs/RequestValidationError.md)
@@ -527,6 +532,12 @@ Class | Method | HTTP request | Description
  - [TeamsChannelWriteSchema](docs/TeamsChannelWriteSchema.md)
  - [TeamsNotificationChannel](docs/TeamsNotificationChannel.md)
  - [TeamsNotificationChannelAllOf](docs/TeamsNotificationChannelAllOf.md)
+ - [TimelineSummary](docs/TimelineSummary.md)
+ - [TimelineSummaryError](docs/TimelineSummaryError.md)
+ - [TimelineSummaryEventBucket](docs/TimelineSummaryEventBucket.md)
+ - [TimelineSummaryHealthChange](docs/TimelineSummaryHealthChange.md)
+ - [TimelineSummaryRequest](docs/TimelineSummaryRequest.md)
+ - [TimelineSummaryRequestArguments](docs/TimelineSummaryRequestArguments.md)
  - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
  - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
  - [Topic](docs/Topic.md)
