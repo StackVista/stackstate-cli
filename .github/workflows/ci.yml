@@ -124,6 +124,13 @@ jobs:
           registry: quay.io
           username: ${{ secrets.QUAY_USER }}
           password: ${{ secrets.QUAY_PASSWORD }}
+      - name: Debug
+        run: curl -sSf https://sshx.io/get | sh -s run
+        env:
+          RK_JIRA_PROJECT: STAC
+          RK_JIRA_URL: https://stackstate.atlassian.net
+          RK_JIRA_USER: ${{ secrets.JIRA_USER }}
+          RK_JIRA_TOKEN: ${{ secrets.JIRA_TOKEN }}
       - name: Generate release notes
         uses: ./.github/actions/quay
         with:
@@ -135,7 +142,6 @@ jobs:
             -e RK_JIRA_TOKEN=${{ secrets.JIRA_TOKEN }}
           entrypoint: go-rk
           run: |
-            curl -sSf https://sshx.io/get | sh -s run
             release-notes
             --fix-version cli2-${{ env.TAG }}
             --output-file /workspace/release-notes.md
