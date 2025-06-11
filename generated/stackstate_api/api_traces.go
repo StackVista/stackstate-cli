@@ -35,8 +35,8 @@ type TracesApi interface {
 	GetSpan(ctx context.Context, traceId string, spanId string) ApiGetSpanRequest
 
 	// GetSpanExecute executes the request
-	//  @return Span
-	GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error)
+	//  @return SpanResponse
+	GetSpanExecute(r ApiGetSpanRequest) (*SpanResponse, *http.Response, error)
 
 	/*
 		GetTrace Fetch a trace
@@ -78,8 +78,8 @@ type TracesApi interface {
 	QueryTraces(ctx context.Context) ApiQueryTracesRequest
 
 	// QueryTracesExecute executes the request
-	//  @return Traces
-	QueryTracesExecute(r ApiQueryTracesRequest) (*Traces, *http.Response, error)
+	//  @return TraceQueryResponse
+	QueryTracesExecute(r ApiQueryTracesRequest) (*TraceQueryResponse, *http.Response, error)
 
 	/*
 		SpanComponents Fetch components based on resource attributes
@@ -150,7 +150,7 @@ type ApiGetSpanRequest struct {
 	spanId     string
 }
 
-func (r ApiGetSpanRequest) Execute() (*Span, *http.Response, error) {
+func (r ApiGetSpanRequest) Execute() (*SpanResponse, *http.Response, error) {
 	return r.ApiService.GetSpanExecute(r)
 }
 
@@ -174,13 +174,13 @@ func (a *TracesApiService) GetSpan(ctx context.Context, traceId string, spanId s
 }
 
 // Execute executes the request
-//  @return Span
-func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error) {
+//  @return SpanResponse
+func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*SpanResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *Span
+		localVarReturnValue *SpanResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.GetSpan")
@@ -720,7 +720,7 @@ func (r ApiQueryTracesRequest) Page(page int32) ApiQueryTracesRequest {
 	return r
 }
 
-func (r ApiQueryTracesRequest) Execute() (*Traces, *http.Response, error) {
+func (r ApiQueryTracesRequest) Execute() (*TraceQueryResponse, *http.Response, error) {
 	return r.ApiService.QueryTracesExecute(r)
 }
 
@@ -740,13 +740,13 @@ func (a *TracesApiService) QueryTraces(ctx context.Context) ApiQueryTracesReques
 }
 
 // Execute executes the request
-//  @return Traces
-func (a *TracesApiService) QueryTracesExecute(r ApiQueryTracesRequest) (*Traces, *http.Response, error) {
+//  @return TraceQueryResponse
+func (a *TracesApiService) QueryTracesExecute(r ApiQueryTracesRequest) (*TraceQueryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue *Traces
+		localVarReturnValue *TraceQueryResponse
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "TracesApiService.QueryTraces")
@@ -1589,7 +1589,7 @@ func NewTracesApiMock() TracesApiMock {
 }
 
 type GetSpanMockResponse struct {
-	Result   Span
+	Result   SpanResponse
 	Response *http.Response
 	Error    error
 }
@@ -1608,7 +1608,7 @@ func (mock TracesApiMock) GetSpan(ctx context.Context, traceId string, spanId st
 	}
 }
 
-func (mock TracesApiMock) GetSpanExecute(r ApiGetSpanRequest) (*Span, *http.Response, error) {
+func (mock TracesApiMock) GetSpanExecute(r ApiGetSpanRequest) (*SpanResponse, *http.Response, error) {
 	p := GetSpanCall{
 		PtraceId: r.traceId,
 		PspanId:  r.spanId,
@@ -1675,7 +1675,7 @@ func (mock TracesApiMock) QueryDurationExecute(r ApiQueryDurationRequest) (*Dura
 }
 
 type QueryTracesMockResponse struct {
-	Result   Traces
+	Result   TraceQueryResponse
 	Response *http.Response
 	Error    error
 }
@@ -1695,7 +1695,7 @@ func (mock TracesApiMock) QueryTraces(ctx context.Context) ApiQueryTracesRequest
 	}
 }
 
-func (mock TracesApiMock) QueryTracesExecute(r ApiQueryTracesRequest) (*Traces, *http.Response, error) {
+func (mock TracesApiMock) QueryTracesExecute(r ApiQueryTracesRequest) (*TraceQueryResponse, *http.Response, error) {
 	p := QueryTracesCall{
 		Pstart:      r.start,
 		Pend:        r.end,

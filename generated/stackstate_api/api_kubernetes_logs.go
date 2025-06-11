@@ -67,12 +67,14 @@ type ApiGetKubernetesLogsRequest struct {
 	from           *int32
 	to             *int32
 	podUID         *string
+	cluster        *string
 	pageSize       *int32
 	page           *int32
 	query          *string
 	containerNames *[]string
 	direction      *LogsDirection
 	severity       *[]LogSeverity
+	topologyTime   *int32
 }
 
 // Logs initial timestamp.
@@ -90,6 +92,12 @@ func (r ApiGetKubernetesLogsRequest) To(to int32) ApiGetKubernetesLogsRequest {
 // Find only logs for the given pod UID.
 func (r ApiGetKubernetesLogsRequest) PodUID(podUID string) ApiGetKubernetesLogsRequest {
 	r.podUID = &podUID
+	return r
+}
+
+// Cluster name which identifies the scope of the RBAC data
+func (r ApiGetKubernetesLogsRequest) Cluster(cluster string) ApiGetKubernetesLogsRequest {
+	r.cluster = &cluster
 	return r
 }
 
@@ -126,6 +134,12 @@ func (r ApiGetKubernetesLogsRequest) Direction(direction LogsDirection) ApiGetKu
 // Search a specific log severity WARN, ERROR, OTHER.
 func (r ApiGetKubernetesLogsRequest) Severity(severity []LogSeverity) ApiGetKubernetesLogsRequest {
 	r.severity = &severity
+	return r
+}
+
+// A timestamp at which the pod existed. If not given the pod is queried at current time.
+func (r ApiGetKubernetesLogsRequest) TopologyTime(topologyTime int32) ApiGetKubernetesLogsRequest {
+	r.topologyTime = &topologyTime
 	return r
 }
 
@@ -175,6 +189,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	if r.podUID == nil {
 		return localVarReturnValue, nil, reportError("podUID is required and must be specified")
 	}
+	if r.cluster == nil {
+		return localVarReturnValue, nil, reportError("cluster is required and must be specified")
+	}
 
 	localVarQueryParams.Add("from", parameterToString(*r.from, ""))
 	localVarQueryParams.Add("to", parameterToString(*r.to, ""))
@@ -188,6 +205,7 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 		localVarQueryParams.Add("query", parameterToString(*r.query, ""))
 	}
 	localVarQueryParams.Add("podUID", parameterToString(*r.podUID, ""))
+	localVarQueryParams.Add("cluster", parameterToString(*r.cluster, ""))
 	if r.containerNames != nil {
 		localVarQueryParams.Add("containerNames", parameterToString(*r.containerNames, "csv"))
 	}
@@ -196,6 +214,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 	}
 	if r.severity != nil {
 		localVarQueryParams.Add("severity", parameterToString(*r.severity, "csv"))
+	}
+	if r.topologyTime != nil {
+		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -313,11 +334,13 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLo
 }
 
 type ApiGetKubernetesLogsAutocompleteRequest struct {
-	ctx        context.Context
-	ApiService KubernetesLogsApi
-	from       *int32
-	to         *int32
-	podUID     *string
+	ctx          context.Context
+	ApiService   KubernetesLogsApi
+	from         *int32
+	to           *int32
+	podUID       *string
+	cluster      *string
+	topologyTime *int32
 }
 
 // Logs initial timestamp.
@@ -335,6 +358,18 @@ func (r ApiGetKubernetesLogsAutocompleteRequest) To(to int32) ApiGetKubernetesLo
 // Find only logs for the given pod UID.
 func (r ApiGetKubernetesLogsAutocompleteRequest) PodUID(podUID string) ApiGetKubernetesLogsAutocompleteRequest {
 	r.podUID = &podUID
+	return r
+}
+
+// Cluster name which identifies the scope of the RBAC data
+func (r ApiGetKubernetesLogsAutocompleteRequest) Cluster(cluster string) ApiGetKubernetesLogsAutocompleteRequest {
+	r.cluster = &cluster
+	return r
+}
+
+// A timestamp at which the pod existed. If not given the pod is queried at current time.
+func (r ApiGetKubernetesLogsAutocompleteRequest) TopologyTime(topologyTime int32) ApiGetKubernetesLogsAutocompleteRequest {
+	r.topologyTime = &topologyTime
 	return r
 }
 
@@ -384,10 +419,17 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGet
 	if r.podUID == nil {
 		return localVarReturnValue, nil, reportError("podUID is required and must be specified")
 	}
+	if r.cluster == nil {
+		return localVarReturnValue, nil, reportError("cluster is required and must be specified")
+	}
 
 	localVarQueryParams.Add("from", parameterToString(*r.from, ""))
 	localVarQueryParams.Add("to", parameterToString(*r.to, ""))
 	localVarQueryParams.Add("podUID", parameterToString(*r.podUID, ""))
+	localVarQueryParams.Add("cluster", parameterToString(*r.cluster, ""))
+	if r.topologyTime != nil {
+		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -509,10 +551,12 @@ type ApiGetKubernetesLogsHistogramRequest struct {
 	from           *int32
 	to             *int32
 	podUID         *string
+	cluster        *string
 	bucketsCount   *int32
 	query          *string
 	containerNames *[]string
 	severity       *[]LogSeverity
+	topologyTime   *int32
 }
 
 // Logs initial timestamp.
@@ -530,6 +574,12 @@ func (r ApiGetKubernetesLogsHistogramRequest) To(to int32) ApiGetKubernetesLogsH
 // Find only logs for the given pod UID.
 func (r ApiGetKubernetesLogsHistogramRequest) PodUID(podUID string) ApiGetKubernetesLogsHistogramRequest {
 	r.podUID = &podUID
+	return r
+}
+
+// Cluster name which identifies the scope of the RBAC data
+func (r ApiGetKubernetesLogsHistogramRequest) Cluster(cluster string) ApiGetKubernetesLogsHistogramRequest {
+	r.cluster = &cluster
 	return r
 }
 
@@ -554,6 +604,12 @@ func (r ApiGetKubernetesLogsHistogramRequest) ContainerNames(containerNames []st
 // Search a specific log severity WARN, ERROR, OTHER.
 func (r ApiGetKubernetesLogsHistogramRequest) Severity(severity []LogSeverity) ApiGetKubernetesLogsHistogramRequest {
 	r.severity = &severity
+	return r
+}
+
+// A timestamp at which the pod existed. If not given the pod is queried at current time.
+func (r ApiGetKubernetesLogsHistogramRequest) TopologyTime(topologyTime int32) ApiGetKubernetesLogsHistogramRequest {
+	r.topologyTime = &topologyTime
 	return r
 }
 
@@ -603,6 +659,9 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 	if r.podUID == nil {
 		return localVarReturnValue, nil, reportError("podUID is required and must be specified")
 	}
+	if r.cluster == nil {
+		return localVarReturnValue, nil, reportError("cluster is required and must be specified")
+	}
 	if r.bucketsCount == nil {
 		return localVarReturnValue, nil, reportError("bucketsCount is required and must be specified")
 	}
@@ -613,12 +672,16 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKub
 		localVarQueryParams.Add("query", parameterToString(*r.query, ""))
 	}
 	localVarQueryParams.Add("podUID", parameterToString(*r.podUID, ""))
+	localVarQueryParams.Add("cluster", parameterToString(*r.cluster, ""))
 	if r.containerNames != nil {
 		localVarQueryParams.Add("containerNames", parameterToString(*r.containerNames, "csv"))
 	}
 	localVarQueryParams.Add("bucketsCount", parameterToString(*r.bucketsCount, ""))
 	if r.severity != nil {
 		localVarQueryParams.Add("severity", parameterToString(*r.severity, "csv"))
+	}
+	if r.topologyTime != nil {
+		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -769,12 +832,14 @@ type GetKubernetesLogsCall struct {
 	Pfrom           *int32
 	Pto             *int32
 	PpodUID         *string
+	Pcluster        *string
 	PpageSize       *int32
 	Ppage           *int32
 	Pquery          *string
 	PcontainerNames *[]string
 	Pdirection      *LogsDirection
 	Pseverity       *[]LogSeverity
+	PtopologyTime   *int32
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
@@ -789,12 +854,14 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsExecute(r ApiGetKubernetesLog
 		Pfrom:           r.from,
 		Pto:             r.to,
 		PpodUID:         r.podUID,
+		Pcluster:        r.cluster,
 		PpageSize:       r.pageSize,
 		Ppage:           r.page,
 		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
 		Pdirection:      r.direction,
 		Pseverity:       r.severity,
+		PtopologyTime:   r.topologyTime,
 	}
 	*mock.GetKubernetesLogsCalls = append(*mock.GetKubernetesLogsCalls, p)
 	return &mock.GetKubernetesLogsResponse.Result, mock.GetKubernetesLogsResponse.Response, mock.GetKubernetesLogsResponse.Error
@@ -807,9 +874,11 @@ type GetKubernetesLogsAutocompleteMockResponse struct {
 }
 
 type GetKubernetesLogsAutocompleteCall struct {
-	Pfrom   *int32
-	Pto     *int32
-	PpodUID *string
+	Pfrom         *int32
+	Pto           *int32
+	PpodUID       *string
+	Pcluster      *string
+	PtopologyTime *int32
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogsAutocomplete(ctx context.Context) ApiGetKubernetesLogsAutocompleteRequest {
@@ -821,9 +890,11 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsAutocomplete(ctx context.Cont
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogsAutocompleteExecute(r ApiGetKubernetesLogsAutocompleteRequest) (*GetKubernetesLogsAutocompleteResult, *http.Response, error) {
 	p := GetKubernetesLogsAutocompleteCall{
-		Pfrom:   r.from,
-		Pto:     r.to,
-		PpodUID: r.podUID,
+		Pfrom:         r.from,
+		Pto:           r.to,
+		PpodUID:       r.podUID,
+		Pcluster:      r.cluster,
+		PtopologyTime: r.topologyTime,
 	}
 	*mock.GetKubernetesLogsAutocompleteCalls = append(*mock.GetKubernetesLogsAutocompleteCalls, p)
 	return &mock.GetKubernetesLogsAutocompleteResponse.Result, mock.GetKubernetesLogsAutocompleteResponse.Response, mock.GetKubernetesLogsAutocompleteResponse.Error
@@ -839,10 +910,12 @@ type GetKubernetesLogsHistogramCall struct {
 	Pfrom           *int32
 	Pto             *int32
 	PpodUID         *string
+	Pcluster        *string
 	PbucketsCount   *int32
 	Pquery          *string
 	PcontainerNames *[]string
 	Pseverity       *[]LogSeverity
+	PtopologyTime   *int32
 }
 
 func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
@@ -857,10 +930,12 @@ func (mock KubernetesLogsApiMock) GetKubernetesLogsHistogramExecute(r ApiGetKube
 		Pfrom:           r.from,
 		Pto:             r.to,
 		PpodUID:         r.podUID,
+		Pcluster:        r.cluster,
 		PbucketsCount:   r.bucketsCount,
 		Pquery:          r.query,
 		PcontainerNames: r.containerNames,
 		Pseverity:       r.severity,
+		PtopologyTime:   r.topologyTime,
 	}
 	*mock.GetKubernetesLogsHistogramCalls = append(*mock.GetKubernetesLogsHistogramCalls, p)
 	return &mock.GetKubernetesLogsHistogramResponse.Result, mock.GetKubernetesLogsHistogramResponse.Response, mock.GetKubernetesLogsHistogramResponse.Error

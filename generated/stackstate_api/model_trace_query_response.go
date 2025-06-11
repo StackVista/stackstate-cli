@@ -15,10 +15,10 @@ import (
 	"encoding/json"
 )
 
-// Traces struct for Traces
-type Traces struct {
-	// List of traces
-	Traces []TraceIdentifier `json:"traces"`
+// TraceQueryResponse struct for TraceQueryResponse
+type TraceQueryResponse struct {
+	// List of traces matching the query
+	Traces []TraceQueryMatch `json:"traces"`
 	// Maximum number of the traces in the result.
 	PageSize int32 `json:"pageSize"`
 	// The requested page.
@@ -27,12 +27,12 @@ type Traces struct {
 	MatchesTotal int64 `json:"matchesTotal"`
 }
 
-// NewTraces instantiates a new Traces object
+// NewTraceQueryResponse instantiates a new TraceQueryResponse object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTraces(traces []TraceIdentifier, pageSize int32, page int32, matchesTotal int64) *Traces {
-	this := Traces{}
+func NewTraceQueryResponse(traces []TraceQueryMatch, pageSize int32, page int32, matchesTotal int64) *TraceQueryResponse {
+	this := TraceQueryResponse{}
 	this.Traces = traces
 	this.PageSize = pageSize
 	this.Page = page
@@ -40,18 +40,18 @@ func NewTraces(traces []TraceIdentifier, pageSize int32, page int32, matchesTota
 	return &this
 }
 
-// NewTracesWithDefaults instantiates a new Traces object
+// NewTraceQueryResponseWithDefaults instantiates a new TraceQueryResponse object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewTracesWithDefaults() *Traces {
-	this := Traces{}
+func NewTraceQueryResponseWithDefaults() *TraceQueryResponse {
+	this := TraceQueryResponse{}
 	return &this
 }
 
 // GetTraces returns the Traces field value
-func (o *Traces) GetTraces() []TraceIdentifier {
+func (o *TraceQueryResponse) GetTraces() []TraceQueryMatch {
 	if o == nil {
-		var ret []TraceIdentifier
+		var ret []TraceQueryMatch
 		return ret
 	}
 
@@ -60,7 +60,7 @@ func (o *Traces) GetTraces() []TraceIdentifier {
 
 // GetTracesOk returns a tuple with the Traces field value
 // and a boolean to check if the value has been set.
-func (o *Traces) GetTracesOk() ([]TraceIdentifier, bool) {
+func (o *TraceQueryResponse) GetTracesOk() ([]TraceQueryMatch, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -68,12 +68,12 @@ func (o *Traces) GetTracesOk() ([]TraceIdentifier, bool) {
 }
 
 // SetTraces sets field value
-func (o *Traces) SetTraces(v []TraceIdentifier) {
+func (o *TraceQueryResponse) SetTraces(v []TraceQueryMatch) {
 	o.Traces = v
 }
 
 // GetPageSize returns the PageSize field value
-func (o *Traces) GetPageSize() int32 {
+func (o *TraceQueryResponse) GetPageSize() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -84,7 +84,7 @@ func (o *Traces) GetPageSize() int32 {
 
 // GetPageSizeOk returns a tuple with the PageSize field value
 // and a boolean to check if the value has been set.
-func (o *Traces) GetPageSizeOk() (*int32, bool) {
+func (o *TraceQueryResponse) GetPageSizeOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -92,12 +92,12 @@ func (o *Traces) GetPageSizeOk() (*int32, bool) {
 }
 
 // SetPageSize sets field value
-func (o *Traces) SetPageSize(v int32) {
+func (o *TraceQueryResponse) SetPageSize(v int32) {
 	o.PageSize = v
 }
 
 // GetPage returns the Page field value
-func (o *Traces) GetPage() int32 {
+func (o *TraceQueryResponse) GetPage() int32 {
 	if o == nil {
 		var ret int32
 		return ret
@@ -108,7 +108,7 @@ func (o *Traces) GetPage() int32 {
 
 // GetPageOk returns a tuple with the Page field value
 // and a boolean to check if the value has been set.
-func (o *Traces) GetPageOk() (*int32, bool) {
+func (o *TraceQueryResponse) GetPageOk() (*int32, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -116,12 +116,12 @@ func (o *Traces) GetPageOk() (*int32, bool) {
 }
 
 // SetPage sets field value
-func (o *Traces) SetPage(v int32) {
+func (o *TraceQueryResponse) SetPage(v int32) {
 	o.Page = v
 }
 
 // GetMatchesTotal returns the MatchesTotal field value
-func (o *Traces) GetMatchesTotal() int64 {
+func (o *TraceQueryResponse) GetMatchesTotal() int64 {
 	if o == nil {
 		var ret int64
 		return ret
@@ -132,7 +132,7 @@ func (o *Traces) GetMatchesTotal() int64 {
 
 // GetMatchesTotalOk returns a tuple with the MatchesTotal field value
 // and a boolean to check if the value has been set.
-func (o *Traces) GetMatchesTotalOk() (*int64, bool) {
+func (o *TraceQueryResponse) GetMatchesTotalOk() (*int64, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -140,11 +140,11 @@ func (o *Traces) GetMatchesTotalOk() (*int64, bool) {
 }
 
 // SetMatchesTotal sets field value
-func (o *Traces) SetMatchesTotal(v int64) {
+func (o *TraceQueryResponse) SetMatchesTotal(v int64) {
 	o.MatchesTotal = v
 }
 
-func (o Traces) MarshalJSON() ([]byte, error) {
+func (o TraceQueryResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["traces"] = o.Traces
@@ -161,38 +161,38 @@ func (o Traces) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableTraces struct {
-	value *Traces
+type NullableTraceQueryResponse struct {
+	value *TraceQueryResponse
 	isSet bool
 }
 
-func (v NullableTraces) Get() *Traces {
+func (v NullableTraceQueryResponse) Get() *TraceQueryResponse {
 	return v.value
 }
 
-func (v *NullableTraces) Set(val *Traces) {
+func (v *NullableTraceQueryResponse) Set(val *TraceQueryResponse) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableTraces) IsSet() bool {
+func (v NullableTraceQueryResponse) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableTraces) Unset() {
+func (v *NullableTraceQueryResponse) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableTraces(val *Traces) *NullableTraces {
-	return &NullableTraces{value: val, isSet: true}
+func NewNullableTraceQueryResponse(val *TraceQueryResponse) *NullableTraceQueryResponse {
+	return &NullableTraceQueryResponse{value: val, isSet: true}
 }
 
-func (v NullableTraces) MarshalJSON() ([]byte, error) {
+func (v NullableTraceQueryResponse) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableTraces) UnmarshalJSON(src []byte) error {
+func (v *NullableTraceQueryResponse) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

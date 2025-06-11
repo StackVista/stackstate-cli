@@ -17,7 +17,7 @@ Method | HTTP request | Description
 
 ## GetSpan
 
-> Span GetSpan(ctx, traceId, spanId).Execute()
+> SpanResponse GetSpan(ctx, traceId, spanId).Execute()
 
 Get a span
 
@@ -46,7 +46,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.GetSpan``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `GetSpan`: Span
+    // response from `GetSpan`: SpanResponse
     fmt.Fprintf(os.Stdout, "Response from `TracesApi.GetSpan`: %v\n", resp)
 }
 ```
@@ -72,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Span**](Span.md)
+[**SpanResponse**](SpanResponse.md)
 
 ### Authorization
 
@@ -182,7 +182,7 @@ func main() {
     start := int32(1707117737) // int32 | Filter spans by start time >= value
     end := int32(1707121359) // int32 | Filter spans by start time < value
     bucketsCount := int32(56) // int32 | The number of histogram buckets.
-    traceFilter := *openapiclient.NewTraceFilter(*openapiclient.NewSpanFilter(), map[string][]string{"key": []string{"Inner_example"}}) // TraceFilter | Filter for traces
+    traceFilter := *openapiclient.NewTraceFilter(*openapiclient.NewSpanFilter()) // TraceFilter | Filter for traces
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -232,7 +232,7 @@ Name | Type | Description  | Notes
 
 ## QueryTraces
 
-> Traces QueryTraces(ctx).Start(start).End(end).TraceQuery(traceQuery).PageSize(pageSize).Page(page).Execute()
+> TraceQueryResponse QueryTraces(ctx).Start(start).End(end).TraceQuery(traceQuery).PageSize(pageSize).Page(page).Execute()
 
 Query for traces
 
@@ -253,7 +253,7 @@ import (
 func main() {
     start := int32(1707117737) // int32 | Filter spans by start time >= value
     end := int32(1707121359) // int32 | Filter spans by start time < value
-    traceQuery := *openapiclient.NewTraceQuery(*openapiclient.NewSpanFilter(), map[string][]string{"key": []string{"Inner_example"}}) // TraceQuery | Query for traces
+    traceQuery := *openapiclient.NewTraceQuery(*openapiclient.NewSpanFilter()) // TraceQuery | Query for traces
     pageSize := int32(30) // int32 | Number of spans in 1 page (optional) (default to 20)
     page := int32(4) // int32 | Get the specified page (with pageSize # of spans), defaults to page 0 (optional) (default to 0)
 
@@ -264,7 +264,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `TracesApi.QueryTraces``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `QueryTraces`: Traces
+    // response from `QueryTraces`: TraceQueryResponse
     fmt.Fprintf(os.Stdout, "Response from `TracesApi.QueryTraces`: %v\n", resp)
 }
 ```
@@ -288,7 +288,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Traces**](Traces.md)
+[**TraceQueryResponse**](TraceQueryResponse.md)
 
 ### Authorization
 

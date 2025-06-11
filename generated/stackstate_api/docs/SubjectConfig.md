@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Handle** | **string** |  | 
-**ScopeQuery** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -45,31 +44,6 @@ and a boolean to check if the value has been set.
 
 SetHandle sets Handle field to given value.
 
-
-### GetScopeQuery
-
-`func (o *SubjectConfig) GetScopeQuery() string`
-
-GetScopeQuery returns the ScopeQuery field if non-nil, zero value otherwise.
-
-### GetScopeQueryOk
-
-`func (o *SubjectConfig) GetScopeQueryOk() (*string, bool)`
-
-GetScopeQueryOk returns a tuple with the ScopeQuery field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetScopeQuery
-
-`func (o *SubjectConfig) SetScopeQuery(v string)`
-
-SetScopeQuery sets ScopeQuery field to given value.
-
-### HasScopeQuery
-
-`func (o *SubjectConfig) HasScopeQuery() bool`
-
-HasScopeQuery returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -15,22 +15,20 @@ import (
 	"encoding/json"
 )
 
-// TraceQuery struct for TraceQuery
+// TraceQuery Find traces that have a span that matches the primary filter and a span that matches the secondary filter. These could be the same, or two different spans of the same trace.
 type TraceQuery struct {
-	SpanFilter SpanFilter `json:"spanFilter"`
-	// Filter traces by 1 or more attributes
-	TraceAttributes map[string][]string `json:"traceAttributes"`
-	SortBy          []SpanSortOption    `json:"sortBy,omitempty"`
+	PrimarySpanFilter   SpanFilter       `json:"primarySpanFilter"`
+	SecondarySpanFilter *SpanFilter      `json:"secondarySpanFilter,omitempty"`
+	SortBy              []SpanSortOption `json:"sortBy,omitempty"`
 }
 
 // NewTraceQuery instantiates a new TraceQuery object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTraceQuery(spanFilter SpanFilter, traceAttributes map[string][]string) *TraceQuery {
+func NewTraceQuery(primarySpanFilter SpanFilter) *TraceQuery {
 	this := TraceQuery{}
-	this.SpanFilter = spanFilter
-	this.TraceAttributes = traceAttributes
+	this.PrimarySpanFilter = primarySpanFilter
 	return &this
 }
 
@@ -42,52 +40,60 @@ func NewTraceQueryWithDefaults() *TraceQuery {
 	return &this
 }
 
-// GetSpanFilter returns the SpanFilter field value
-func (o *TraceQuery) GetSpanFilter() SpanFilter {
+// GetPrimarySpanFilter returns the PrimarySpanFilter field value
+func (o *TraceQuery) GetPrimarySpanFilter() SpanFilter {
 	if o == nil {
 		var ret SpanFilter
 		return ret
 	}
 
-	return o.SpanFilter
+	return o.PrimarySpanFilter
 }
 
-// GetSpanFilterOk returns a tuple with the SpanFilter field value
+// GetPrimarySpanFilterOk returns a tuple with the PrimarySpanFilter field value
 // and a boolean to check if the value has been set.
-func (o *TraceQuery) GetSpanFilterOk() (*SpanFilter, bool) {
+func (o *TraceQuery) GetPrimarySpanFilterOk() (*SpanFilter, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.SpanFilter, true
+	return &o.PrimarySpanFilter, true
 }
 
-// SetSpanFilter sets field value
-func (o *TraceQuery) SetSpanFilter(v SpanFilter) {
-	o.SpanFilter = v
+// SetPrimarySpanFilter sets field value
+func (o *TraceQuery) SetPrimarySpanFilter(v SpanFilter) {
+	o.PrimarySpanFilter = v
 }
 
-// GetTraceAttributes returns the TraceAttributes field value
-func (o *TraceQuery) GetTraceAttributes() map[string][]string {
-	if o == nil {
-		var ret map[string][]string
+// GetSecondarySpanFilter returns the SecondarySpanFilter field value if set, zero value otherwise.
+func (o *TraceQuery) GetSecondarySpanFilter() SpanFilter {
+	if o == nil || o.SecondarySpanFilter == nil {
+		var ret SpanFilter
 		return ret
 	}
-
-	return o.TraceAttributes
+	return *o.SecondarySpanFilter
 }
 
-// GetTraceAttributesOk returns a tuple with the TraceAttributes field value
+// GetSecondarySpanFilterOk returns a tuple with the SecondarySpanFilter field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TraceQuery) GetTraceAttributesOk() (*map[string][]string, bool) {
-	if o == nil {
+func (o *TraceQuery) GetSecondarySpanFilterOk() (*SpanFilter, bool) {
+	if o == nil || o.SecondarySpanFilter == nil {
 		return nil, false
 	}
-	return &o.TraceAttributes, true
+	return o.SecondarySpanFilter, true
 }
 
-// SetTraceAttributes sets field value
-func (o *TraceQuery) SetTraceAttributes(v map[string][]string) {
-	o.TraceAttributes = v
+// HasSecondarySpanFilter returns a boolean if a field has been set.
+func (o *TraceQuery) HasSecondarySpanFilter() bool {
+	if o != nil && o.SecondarySpanFilter != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSecondarySpanFilter gets a reference to the given SpanFilter and assigns it to the SecondarySpanFilter field.
+func (o *TraceQuery) SetSecondarySpanFilter(v SpanFilter) {
+	o.SecondarySpanFilter = &v
 }
 
 // GetSortBy returns the SortBy field value if set, zero value otherwise.
@@ -125,10 +131,10 @@ func (o *TraceQuery) SetSortBy(v []SpanSortOption) {
 func (o TraceQuery) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["spanFilter"] = o.SpanFilter
+		toSerialize["primarySpanFilter"] = o.PrimarySpanFilter
 	}
-	if true {
-		toSerialize["traceAttributes"] = o.TraceAttributes
+	if o.SecondarySpanFilter != nil {
+		toSerialize["secondarySpanFilter"] = o.SecondarySpanFilter
 	}
 	if o.SortBy != nil {
 		toSerialize["sortBy"] = o.SortBy

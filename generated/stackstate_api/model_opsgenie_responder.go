@@ -17,15 +17,15 @@ import (
 
 // OpsgenieResponder struct for OpsgenieResponder
 type OpsgenieResponder struct {
-	ResponderType string `json:"responderType"`
-	Responder     string `json:"responder"`
+	ResponderType OpsgenieResponderType `json:"responderType"`
+	Responder     string                `json:"responder"`
 }
 
 // NewOpsgenieResponder instantiates a new OpsgenieResponder object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOpsgenieResponder(responderType string, responder string) *OpsgenieResponder {
+func NewOpsgenieResponder(responderType OpsgenieResponderType, responder string) *OpsgenieResponder {
 	this := OpsgenieResponder{}
 	this.ResponderType = responderType
 	this.Responder = responder
@@ -41,9 +41,9 @@ func NewOpsgenieResponderWithDefaults() *OpsgenieResponder {
 }
 
 // GetResponderType returns the ResponderType field value
-func (o *OpsgenieResponder) GetResponderType() string {
+func (o *OpsgenieResponder) GetResponderType() OpsgenieResponderType {
 	if o == nil {
-		var ret string
+		var ret OpsgenieResponderType
 		return ret
 	}
 
@@ -52,7 +52,7 @@ func (o *OpsgenieResponder) GetResponderType() string {
 
 // GetResponderTypeOk returns a tuple with the ResponderType field value
 // and a boolean to check if the value has been set.
-func (o *OpsgenieResponder) GetResponderTypeOk() (*string, bool) {
+func (o *OpsgenieResponder) GetResponderTypeOk() (*OpsgenieResponderType, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -60,7 +60,7 @@ func (o *OpsgenieResponder) GetResponderTypeOk() (*string, bool) {
 }
 
 // SetResponderType sets field value
-func (o *OpsgenieResponder) SetResponderType(v string) {
+func (o *OpsgenieResponder) SetResponderType(v OpsgenieResponderType) {
 	o.ResponderType = v
 }
 

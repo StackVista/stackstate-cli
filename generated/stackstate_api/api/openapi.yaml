@@ -1681,10 +1681,7 @@ paths:
         name: region
         required: true
         schema:
-          enum:
-          - EU
-          - US
-          type: string
+          $ref: '#/components/schemas/OpsgenieRegion'
       responses:
         "200":
           content:
@@ -3962,12 +3959,6 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Subject'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateSubject'
-        required: true
       responses:
         "200":
           description: Subject created
@@ -5019,6 +5010,12 @@ paths:
         schema:
           format: uuid
           type: string
+      - description: Cluster name which identifies the scope of the RBAC data
+        in: query
+        name: cluster
+        required: true
+        schema:
+          type: string
       - description: Find only logs for the given container names.
         in: query
         name: containerNames
@@ -5039,6 +5036,13 @@ paths:
           items:
             $ref: '#/components/schemas/LogSeverity'
           type: array
+      - description: A timestamp at which the pod existed. If not given the pod is
+          queried at current time.
+        in: query
+        name: topologyTime
+        schema:
+          format: instant
+          type: integer
       responses:
         "200":
           content:
@@ -5092,6 +5096,12 @@ paths:
         schema:
           format: uuid
           type: string
+      - description: Cluster name which identifies the scope of the RBAC data
+        in: query
+        name: cluster
+        required: true
+        schema:
+          type: string
       - description: Find only logs for the given container names.
         in: query
         name: containerNames
@@ -5114,6 +5124,13 @@ paths:
           items:
             $ref: '#/components/schemas/LogSeverity'
           type: array
+      - description: A timestamp at which the pod existed. If not given the pod is
+          queried at current time.
+        in: query
+        name: topologyTime
+        schema:
+          format: instant
+          type: integer
       responses:
         "200":
           content:
@@ -5160,6 +5177,19 @@ paths:
         schema:
           format: uuid
           type: string
+      - description: Cluster name which identifies the scope of the RBAC data
+        in: query
+        name: cluster
+        required: true
+        schema:
+          type: string
+      - description: A timestamp at which the pod existed. If not given the pod is
+          queried at current time.
+        in: query
+        name: topologyTime
+        schema:
+          format: instant
+          type: integer
       responses:
         "200":
           content:
@@ -5232,7 +5262,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Traces'
+                $ref: '#/components/schemas/TraceQueryResponse'
           description: Traces
         "400":
           content:
@@ -5355,7 +5385,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Span'
+                $ref: '#/components/schemas/SpanResponse'
           description: Span
         "404":
           content:
@@ -5678,6 +5708,12 @@ paths:
                 $ref: '#/components/schemas/TimelineSummary'
           description: Event summary and aggregated health changes over a range of
             time
+        "413":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TimelineSummaryOverflow'
+          description: Limit was reached during timeline processing
         "500":
           content:
             application/json:
@@ -5687,6 +5723,247 @@ paths:
       summary: Timeline summary
       tags:
       - timeline
+  /dashboards:
+    get:
+      description: "Get a list of dashboards, optionally filtered by name."
+      operationId: getDashboards
+      parameters:
+      - description: "If true, includes the full dashboard content in the response.\
+          \ Defaults to false (only metadata is returned) for retrieval endpoints.\
+          \ Defaults to true for create/update operations."
+        in: query
+        name: loadFullDashboard
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardList'
+          description: List of dashboards
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a list of dashboards
+      tags:
+      - dashboards
+    post:
+      description: Create a new dashboard. The dashboard can be private or public
+        based on the scope parameter.
+      operationId: createDashboard
+      requestBody:
+        $ref: '#/components/requestBodies/dashboardWriteRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardReadFullSchema'
+          description: A single fully loaded dashboard response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardClientErrors'
+          description: Dashboard client errors.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Create a new dashboard
+      tags:
+      - dashboards
+  /dashboards/{dashboardIdOrUrn}:
+    delete:
+      description: Delete a dashboard by its identifier. Only user-owned dashboards
+        can be deleted.
+      operationId: deleteDashboard
+      parameters:
+      - description: The identifier of a dashboard
+        in: path
+        name: dashboardIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/DashboardIdOrUrn'
+      responses:
+        "204":
+          description: "Dashboard deleted (return ok, but no content)."
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardClientErrors'
+          description: Dashboard client errors.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAuthorizationError'
+          description: Dashboard not found.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardNotFoundError'
+          description: Dashboard not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete a dashboard
+      tags:
+      - dashboards
+    get:
+      description: Get a dashboard by its identifier.
+      operationId: getDashboard
+      parameters:
+      - description: The identifier of a dashboard
+        in: path
+        name: dashboardIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/DashboardIdOrUrn'
+      - description: "If true, includes the full dashboard content in the response.\
+          \ Defaults to false (only metadata is returned) for retrieval endpoints.\
+          \ Defaults to true for create/update operations."
+        in: query
+        name: loadFullDashboard
+        required: false
+        schema:
+          default: false
+          type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardReadSchema'
+          description: A single dashboard
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardClientErrors'
+          description: Dashboard client errors.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardNotFoundError'
+          description: Dashboard not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a single dashboard
+      tags:
+      - dashboards
+    patch:
+      description: Patch an existing dashboard by its identifier. Only user-owned
+        dashboard can be patched.
+      operationId: patchDashboard
+      parameters:
+      - description: The identifier of a dashboard
+        in: path
+        name: dashboardIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/DashboardIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/dashboardPatchRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardReadFullSchema'
+          description: A single fully loaded dashboard response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardClientErrors'
+          description: Dashboard client errors.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAuthorizationError'
+          description: Dashboard not found.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardNotFoundError'
+          description: Dashboard not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Patch a dashboard
+      tags:
+      - dashboards
+  /dashboards/{dashboardIdOrUrn}/clone:
+    post:
+      description: Clone a dashboard by its identifier.
+      operationId: cloneDashboard
+      parameters:
+      - description: The identifier of a dashboard
+        in: path
+        name: dashboardIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/DashboardIdOrUrn'
+      requestBody:
+        $ref: '#/components/requestBodies/dashboardCloneRequest'
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardReadFullSchema'
+          description: A single fully loaded dashboard response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardClientErrors'
+          description: Dashboard client errors.
+        "403":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardAuthorizationError'
+          description: Dashboard not found.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardNotFoundError'
+          description: Dashboard not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Clone a dashboard
+      tags:
+      - dashboards
   /dummy/dummy:
     get:
       description: ""
@@ -5827,6 +6104,24 @@ components:
           schema:
             $ref: '#/components/schemas/TimelineSummaryRequest'
       description: Request for event summary and aggregated health over time
+      required: true
+    dashboardWriteRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardWriteSchema'
+      required: true
+    dashboardPatchRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardPatchSchema'
+      required: true
+    dashboardCloneRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardCloneSchema'
       required: true
   responses:
     genericErrorsResponse:
@@ -6308,11 +6603,11 @@ components:
             $ref: '#/components/schemas/GetKubernetesLogsAutocompleteBadRequest'
       description: Can not get the logs autocomplete values because one or more request
         params are invalid.
-    traces:
+    traceQueryResponse:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Traces'
+            $ref: '#/components/schemas/TraceQueryResponse'
       description: Traces
     traceApiSpansBadRequest:
       content:
@@ -6348,7 +6643,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Span'
+            $ref: '#/components/schemas/SpanResponse'
       description: Span
     traceApiSpanNotFound:
       content:
@@ -6399,12 +6694,54 @@ components:
           schema:
             $ref: '#/components/schemas/TimelineSummary'
       description: Event summary and aggregated health changes over a range of time
+    timelineSummaryOverflowResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TimelineSummaryOverflow'
+      description: Limit was reached during timeline processing
     timelineSummaryErrorResponse:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/TimelineSummaryError'
       description: Errors when computing events and health state
+    dashboards:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardList'
+      description: List of dashboards
+    dashboardFullSchema:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardReadFullSchema'
+      description: A single fully loaded dashboard response
+    dashboardClientErrors:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardClientErrors'
+      description: Dashboard client errors.
+    dashboard:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardReadSchema'
+      description: A single dashboard
+    dashboardNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardNotFoundError'
+      description: Dashboard not found.
+    dashboardAuthorizationError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/DashboardAuthorizationError'
+      description: Dashboard not found.
     stackElementNotFound:
       content:
         application/json:
@@ -8446,19 +8783,16 @@ components:
     OpsgenieChannelWriteSchema:
       example:
         genieKey: genieKey
-        region: EU
-        priority: P1
+        region: null
+        priority: null
         responders:
         - responder: responder
-          responderType: TEAM
+          responderType: null
         - responder: responder
-          responderType: TEAM
+          responderType: null
       properties:
         region:
-          enum:
-          - EU
-          - US
-          type: string
+          $ref: '#/components/schemas/OpsgenieRegion'
         genieKey:
           type: string
         responders:
@@ -8466,37 +8800,46 @@ components:
             $ref: '#/components/schemas/OpsgenieResponder'
           type: array
         priority:
-          enum:
-          - P1
-          - P2
-          - P3
-          - P4
-          - P5
-          type: string
+          $ref: '#/components/schemas/OpsgeniePriority'
       required:
       - genieKey
       - priority
       - region
       - responders
       type: object
+    OpsgenieRegion:
+      enum:
+      - EU
+      - US
+      type: string
     OpsgenieResponder:
       example:
         responder: responder
-        responderType: TEAM
+        responderType: null
       properties:
         responderType:
-          enum:
-          - TEAM
-          - USER
-          - SCHEDULE
-          - ESCALATION
-          type: string
+          $ref: '#/components/schemas/OpsgenieResponderType'
         responder:
           type: string
       required:
       - responder
       - responderType
       type: object
+    OpsgenieResponderType:
+      enum:
+      - TEAM
+      - USER
+      - SCHEDULE
+      - ESCALATION
+      type: string
+    OpsgeniePriority:
+      enum:
+      - P1
+      - P2
+      - P3
+      - P4
+      - P5
+      type: string
     OpsgenieNotificationChannel:
       allOf:
       - $ref: '#/components/schemas/BaseNotificationChannel'
@@ -8823,20 +9166,24 @@ components:
     UserProfile:
       example:
         identifier: identifier
+        displayName: displayName
+        starredViews:
+        - 1
+        - 1
+        description: description
+        starredDashboards:
+        - 5
+        - 5
+        hideUnavailableMonitors: true
+        hideUnavailableMetrics: true
         lastUpdateTimestamp: 6
         systemNotificationsRead:
         - systemNotificationsRead
         - systemNotificationsRead
-        starredViews:
-        - 1
-        - 1
         name: name
-        description: description
-        hideUnavailableMonitors: true
         id: 0
         hideUnavailableConnections: true
         ownedBy: ownedBy
-        hideUnavailableMetrics: true
       properties:
         id:
           format: int64
@@ -8848,11 +9195,18 @@ components:
           type: integer
         name:
           type: string
+        displayName:
+          type: string
         description:
           type: string
         identifier:
           type: string
         starredViews:
+          items:
+            format: int64
+            type: integer
+          type: array
+        starredDashboards:
           items:
             format: int64
             type: integer
@@ -10541,33 +10895,13 @@ components:
       type: array
     SubjectConfig:
       example:
-        scopeQuery: scopeQuery
         handle: handle
       properties:
         handle:
           type: string
-        scopeQuery:
-          type: string
       required:
       - handle
       type: object
-    Query:
-      type: string
-    CreateSubject:
-      example:
-        query: query
-        version: version
-      properties:
-        query:
-          type: string
-        version:
-          type: string
-      required:
-      - query
-      - version
-      type: object
-    Version:
-      type: string
     SubscriptionState:
       discriminator:
         propertyName: _type
@@ -11769,8 +12103,16 @@ components:
       - to
       type: object
     TraceQuery:
+      description: "Find traces that have a span that matches the primary filter and\
+        \ a span that matches the secondary filter. These could be the same, or two\
+        \ different spans of the same trace."
       example:
-        spanFilter:
+        sortBy:
+        - field: null
+          direction: null
+        - field: null
+          direction: null
+        primarySpanFilter:
           traceId:
           - 6942f450030e8c5f7411a23c26185aa2
           spanId:
@@ -11796,32 +12138,43 @@ components:
           scopeVersion:
           - scopeVersion
           - scopeVersion
-        sortBy:
-        - field: null
-          direction: null
-        - field: null
-          direction: null
-        traceAttributes:
-          key:
-          - traceAttributes
-          - traceAttributes
+        secondarySpanFilter:
+          traceId:
+          - 6942f450030e8c5f7411a23c26185aa2
+          spanId:
+          - 1a607e3a97735e71
+          durationFromNanos: 500000
+          spanKind:
+          - Client
+          durationToNanos: 5000000
+          scopeName:
+          - scopeName
+          - scopeName
+          attributes:
+            key:
+            - attributes
+            - attributes
+          spanParentType:
+          - External
+          serviceName: orderService
+          spanName:
+          - GET /orders
+          statusCode:
+          - Error
+          scopeVersion:
+          - scopeVersion
+          - scopeVersion
       properties:
-        spanFilter:
+        primarySpanFilter:
           $ref: '#/components/schemas/SpanFilter'
-        traceAttributes:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          description: Filter traces by 1 or more attributes
-          type: object
+        secondarySpanFilter:
+          $ref: '#/components/schemas/SpanFilter'
         sortBy:
           items:
             $ref: '#/components/schemas/SpanSortOption'
           type: array
       required:
-      - spanFilter
-      - traceAttributes
+      - primarySpanFilter
       type: object
     SpanFilter:
       example:
@@ -11982,21 +12335,19 @@ components:
       - Ascending
       - Descending
       type: string
-    Traces:
+    TraceQueryResponse:
       example:
         traces:
-        - traceId: traceId
-          spanId: spanId
-        - traceId: traceId
-          spanId: spanId
+        - null
+        - null
         pageSize: 0
         page: 6
         matchesTotal: 1
       properties:
         traces:
-          description: List of traces
+          description: List of traces matching the query
           items:
-            $ref: '#/components/schemas/TraceIdentifier'
+            $ref: '#/components/schemas/TraceQueryMatch'
           type: array
         pageSize:
           description: Maximum number of the traces in the result.
@@ -12014,13 +12365,188 @@ components:
       - pageSize
       - traces
       type: object
-    TraceIdentifier:
-      description: "Identifier for a \"service trace\", the branch of an OTEL trace\
-        \ that corresponds to a single service entry span"
+    TraceQueryMatch:
+      allOf:
+      - $ref: '#/components/schemas/Trace'
+      - $ref: '#/components/schemas/TraceQueryMatch_allOf'
+      description: "A trace that matched the query filters. It structurally matches\
+        \ the Trace schema, with extra fields representing \nthe result of the trace\
+        \ query.\n"
+    Trace:
       example:
         traceId: traceId
-        spanId: spanId
+        spans:
+        - traceId: traceId
+          durationNanos: 1
+          resourceId: resourceId
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+        - traceId: traceId
+          durationNanos: 1
+          resourceId: resourceId
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+        resources:
+          key: null
       properties:
+        traceId:
+          description: The id of the trace
+          type: string
+        spans:
+          description: All spans for the trace
+          items:
+            $ref: '#/components/schemas/Span'
+          type: array
+        resources:
+          additionalProperties:
+            $ref: '#/components/schemas/Attributes'
+          description: |
+            Map of resource identifiers to their corresponding resource attributes (key/value pairs). Keys are UUIDs used in the spans’ `resourceId` fields.
+          type: object
+      required:
+      - resources
+      - spans
+      - traceId
+      type: object
+    Span:
+      example:
+        traceId: traceId
+        durationNanos: 1
+        resourceId: resourceId
+        spanKind: null
+        scopeName: scopeName
+        spanAttributes:
+          key: spanAttributes
+        spanParentType: null
+        serviceName: serviceName
+        parentSpanId: parentSpanId
+        statusMessage: statusMessage
+        spanName: spanName
+        scopeVersion: scopeVersion
+        spanId: spanId
+        traceState: traceState
+        startTime:
+          offsetNanos: 602745
+          timestamp: 0
+        links:
+        - traceId: traceId
+          spanId: spanId
+          traceState: traceState
+          attributes:
+            key: attributes
+        - traceId: traceId
+          spanId: spanId
+          traceState: traceState
+          attributes:
+            key: attributes
+        endTime:
+          offsetNanos: 602745
+          timestamp: 0
+        events:
+        - name: name
+          attributes:
+            key: attributes
+          timestamp:
+            offsetNanos: 602745
+            timestamp: 0
+        - name: name
+          attributes:
+            key: attributes
+          timestamp:
+            offsetNanos: 602745
+            timestamp: 0
+        statusCode: null
+      properties:
+        startTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        endTime:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        durationNanos:
+          description: Duration of the span in nanoseconds
+          format: int64
+          type: integer
         traceId:
           description: "The unique identifier for the trace, all spans of the same\
             \ trace share the same trace_id"
@@ -12028,7 +12554,132 @@ components:
         spanId:
           description: The unique identifier of the span within the trace
           type: string
+        parentSpanId:
+          description: The id of the parent span of this span. Empty if this is the
+            root span
+          type: string
+        traceState:
+          description: Can contain vendor specific trace identification information
+            https://www.w3.org/TR/trace-context/#tracestate-header
+          type: string
+        spanName:
+          description: "A description of the span's operation. For example, the name\
+            \ can be a qualified method name or a file name and a line number where\
+            \ the operation is called"
+          type: string
+        serviceName:
+          description: Logical name of the service for the span
+          type: string
+        spanKind:
+          $ref: '#/components/schemas/SpanKind'
+        spanParentType:
+          $ref: '#/components/schemas/SpanParentType'
+        spanAttributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+        resourceId:
+          description: "Reference to shared resource attributes, used to deduplicate\
+            \ repeated resource data."
+          type: string
+        statusCode:
+          $ref: '#/components/schemas/StatusCode'
+        statusMessage:
+          description: Human readable message for the status
+          type: string
+        scopeName:
+          description: The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
+          type: string
+        scopeVersion:
+          description: The version for the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
+          type: string
+        events:
+          description: Time-stamped annotations on the span providing extra application
+            context
+          items:
+            $ref: '#/components/schemas/SpanEvent'
+          type: array
+        links:
+          description: Links to related spans in the same or in other traces
+          items:
+            $ref: '#/components/schemas/SpanLink'
+          type: array
       required:
+      - durationNanos
+      - endTime
+      - events
+      - links
+      - resourceId
+      - serviceName
+      - spanAttributes
+      - spanId
+      - spanKind
+      - spanName
+      - spanParentType
+      - startTime
+      - statusCode
+      - traceId
+      type: object
+    Attributes:
+      additionalProperties:
+        type: string
+      description: Set of key/value pairs providing extra contextual information.
+        Keys are unique.
+      type: object
+    SpanEvent:
+      description: "Event is a time-stamped annotation of the span, consisting of\
+        \ user-supplied text description and key-value pairs."
+      example:
+        name: name
+        attributes:
+          key: attributes
+        timestamp:
+          offsetNanos: 602745
+          timestamp: 0
+      properties:
+        timestamp:
+          $ref: '#/components/schemas/InstantNanoPrecision'
+        name:
+          type: string
+        attributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+      required:
+      - attributes
+      - name
+      - timestamp
+      type: object
+    SpanLink:
+      description: "A pointer from the current span to another span in the same trace\
+        \ or in a different trace. \nFor example, this can be used in batching operations,\
+        \ where a single batch handler processes \nmultiple requests from different\
+        \ traces or when the handler receives a request from a different project.\n"
+      example:
+        traceId: traceId
+        spanId: spanId
+        traceState: traceState
+        attributes:
+          key: attributes
+      properties:
+        traceId:
+          type: string
+        spanId:
+          type: string
+        traceState:
+          type: string
+        attributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+      required:
+      - attributes
       - spanId
       - traceId
       type: object
@@ -12108,8 +12759,11 @@ components:
       - message
       type: object
     TraceFilter:
+      description: "Filter traces that have a span that matches the primary filter\
+        \ and a span that matches the secondary filter. These could be the same, or\
+        \ two different spans of the same trace."
       example:
-        spanFilter:
+        primarySpanFilter:
           traceId:
           - 6942f450030e8c5f7411a23c26185aa2
           spanId:
@@ -12135,23 +12789,39 @@ components:
           scopeVersion:
           - scopeVersion
           - scopeVersion
-        traceAttributes:
-          key:
-          - traceAttributes
-          - traceAttributes
+        secondarySpanFilter:
+          traceId:
+          - 6942f450030e8c5f7411a23c26185aa2
+          spanId:
+          - 1a607e3a97735e71
+          durationFromNanos: 500000
+          spanKind:
+          - Client
+          durationToNanos: 5000000
+          scopeName:
+          - scopeName
+          - scopeName
+          attributes:
+            key:
+            - attributes
+            - attributes
+          spanParentType:
+          - External
+          serviceName: orderService
+          spanName:
+          - GET /orders
+          statusCode:
+          - Error
+          scopeVersion:
+          - scopeVersion
+          - scopeVersion
       properties:
-        spanFilter:
+        primarySpanFilter:
           $ref: '#/components/schemas/SpanFilter'
-        traceAttributes:
-          additionalProperties:
-            items:
-              type: string
-            type: array
-          description: Filter traces by 1 or more attributes
-          type: object
+        secondarySpanFilter:
+          $ref: '#/components/schemas/SpanFilter'
       required:
-      - spanFilter
-      - traceAttributes
+      - primarySpanFilter
       type: object
     DurationHistogram:
       example:
@@ -12241,319 +12911,78 @@ components:
       - q95
       - q99
       type: object
-    Trace:
-      example:
-        traceId: traceId
-        spans:
-        - traceId: traceId
-          durationNanos: 1
-          spanKind: null
-          scopeName: scopeName
-          spanAttributes:
-            key: spanAttributes
-          spanParentType: null
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          resourceAttributes:
-            key: resourceAttributes
-          statusMessage: statusMessage
-          spanName: spanName
-          scopeVersion: scopeVersion
-          spanId: spanId
-          traceState: traceState
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          links:
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          events:
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          statusCode: null
-        - traceId: traceId
-          durationNanos: 1
-          spanKind: null
-          scopeName: scopeName
-          spanAttributes:
-            key: spanAttributes
-          spanParentType: null
-          serviceName: serviceName
-          parentSpanId: parentSpanId
-          resourceAttributes:
-            key: resourceAttributes
-          statusMessage: statusMessage
-          spanName: spanName
-          scopeVersion: scopeVersion
-          spanId: spanId
-          traceState: traceState
-          startTime:
-            offsetNanos: 602745
-            timestamp: 0
-          links:
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          - traceId: traceId
-            spanId: spanId
-            traceState: traceState
-            attributes:
-              key: attributes
-          endTime:
-            offsetNanos: 602745
-            timestamp: 0
-          events:
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          - name: name
-            attributes:
-              key: attributes
-            timestamp:
-              offsetNanos: 602745
-              timestamp: 0
-          statusCode: null
-      properties:
-        traceId:
-          description: The id of the trace
-          type: string
-        spans:
-          description: All spans for the trace
-          items:
-            $ref: '#/components/schemas/Span'
-          type: array
-      required:
-      - spans
-      - traceId
-      type: object
-    Span:
-      example:
-        traceId: traceId
-        durationNanos: 1
-        spanKind: null
-        scopeName: scopeName
-        spanAttributes:
-          key: spanAttributes
-        spanParentType: null
-        serviceName: serviceName
-        parentSpanId: parentSpanId
-        resourceAttributes:
-          key: resourceAttributes
-        statusMessage: statusMessage
-        spanName: spanName
-        scopeVersion: scopeVersion
-        spanId: spanId
-        traceState: traceState
-        startTime:
-          offsetNanos: 602745
-          timestamp: 0
-        links:
-        - traceId: traceId
-          spanId: spanId
-          traceState: traceState
-          attributes:
-            key: attributes
-        - traceId: traceId
-          spanId: spanId
-          traceState: traceState
-          attributes:
-            key: attributes
-        endTime:
-          offsetNanos: 602745
-          timestamp: 0
-        events:
-        - name: name
-          attributes:
-            key: attributes
-          timestamp:
-            offsetNanos: 602745
-            timestamp: 0
-        - name: name
-          attributes:
-            key: attributes
-          timestamp:
-            offsetNanos: 602745
-            timestamp: 0
-        statusCode: null
-      properties:
-        startTime:
-          $ref: '#/components/schemas/InstantNanoPrecision'
-        endTime:
-          $ref: '#/components/schemas/InstantNanoPrecision'
-        durationNanos:
-          description: Duration of the span in nanoseconds
-          format: int64
-          type: integer
-        traceId:
-          description: "The unique identifier for the trace, all spans of the same\
-            \ trace share the same trace_id"
-          type: string
-        spanId:
-          description: The unique identifier of the span within the trace
-          type: string
-        parentSpanId:
-          description: The id of the parent span of this span. Empty if this is the
-            root span
-          type: string
-        traceState:
-          description: Can contain vendor specific trace identification information
-            https://www.w3.org/TR/trace-context/#tracestate-header
-          type: string
-        spanName:
-          description: "A description of the span's operation. For example, the name\
-            \ can be a qualified method name or a file name and a line number where\
-            \ the operation is called"
-          type: string
-        serviceName:
-          description: Logical name of the service for the span
-          type: string
-        spanKind:
-          $ref: '#/components/schemas/SpanKind'
-        spanParentType:
-          $ref: '#/components/schemas/SpanParentType'
-        resourceAttributes:
-          additionalProperties:
-            type: string
-          description: Set of key/value pairs providing extra contextual information.
-            Keys are unique.
-          type: object
-        spanAttributes:
-          additionalProperties:
-            type: string
-          description: Set of key/value pairs providing extra contextual information.
-            Keys are unique.
-          type: object
-        statusCode:
-          $ref: '#/components/schemas/StatusCode'
-        statusMessage:
-          description: Human readable message for the status
-          type: string
-        scopeName:
-          description: The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
-          type: string
-        scopeVersion:
-          description: The version for the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
-          type: string
-        events:
-          description: Time-stamped annotations on the span providing extra application
-            context
-          items:
-            $ref: '#/components/schemas/SpanEvent'
-          type: array
-        links:
-          description: Links to related spans in the same or in other traces
-          items:
-            $ref: '#/components/schemas/SpanLink'
-          type: array
-      required:
-      - durationNanos
-      - endTime
-      - events
-      - links
-      - resourceAttributes
-      - serviceName
-      - spanAttributes
-      - spanId
-      - spanKind
-      - spanName
-      - spanParentType
-      - startTime
-      - statusCode
-      - traceId
-      type: object
-    Attributes:
-      additionalProperties:
-        type: string
-      description: Set of key/value pairs providing extra contextual information.
-        Keys are unique.
-      type: object
-    SpanEvent:
-      description: "Event is a time-stamped annotation of the span, consisting of\
-        \ user-supplied text description and key-value pairs."
-      example:
-        name: name
-        attributes:
-          key: attributes
-        timestamp:
-          offsetNanos: 602745
-          timestamp: 0
-      properties:
-        timestamp:
-          $ref: '#/components/schemas/InstantNanoPrecision'
-        name:
-          type: string
-        attributes:
-          additionalProperties:
-            type: string
-          description: Set of key/value pairs providing extra contextual information.
-            Keys are unique.
-          type: object
-      required:
-      - attributes
-      - name
-      - timestamp
-      type: object
-    SpanLink:
-      description: "A pointer from the current span to another span in the same trace\
-        \ or in a different trace. \nFor example, this can be used in batching operations,\
-        \ where a single batch handler processes \nmultiple requests from different\
-        \ traces or when the handler receives a request from a different project.\n"
-      example:
-        traceId: traceId
-        spanId: spanId
-        traceState: traceState
-        attributes:
-          key: attributes
-      properties:
-        traceId:
-          type: string
-        spanId:
-          type: string
-        traceState:
-          type: string
-        attributes:
-          additionalProperties:
-            type: string
-          description: Set of key/value pairs providing extra contextual information.
-            Keys are unique.
-          type: object
-      required:
-      - attributes
-      - spanId
-      - traceId
-      type: object
     TraceApiTraceNotFound:
       properties:
         traceId:
           type: string
       required:
       - traceId
+      type: object
+    SpanResponse:
+      description: "The result of looking up a span. As an optimization to reduce\
+        \ duplication, resource attributes are inlined at the\nroot-level of the schema.\n"
+      example:
+        resourceAttributes:
+          key: resourceAttributes
+        span:
+          traceId: traceId
+          durationNanos: 1
+          resourceId: resourceId
+          spanKind: null
+          scopeName: scopeName
+          spanAttributes:
+            key: spanAttributes
+          spanParentType: null
+          serviceName: serviceName
+          parentSpanId: parentSpanId
+          statusMessage: statusMessage
+          spanName: spanName
+          scopeVersion: scopeVersion
+          spanId: spanId
+          traceState: traceState
+          startTime:
+            offsetNanos: 602745
+            timestamp: 0
+          links:
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          - traceId: traceId
+            spanId: spanId
+            traceState: traceState
+            attributes:
+              key: attributes
+          endTime:
+            offsetNanos: 602745
+            timestamp: 0
+          events:
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          - name: name
+            attributes:
+              key: attributes
+            timestamp:
+              offsetNanos: 602745
+              timestamp: 0
+          statusCode: null
+      properties:
+        span:
+          $ref: '#/components/schemas/Span'
+        resourceAttributes:
+          additionalProperties:
+            type: string
+          description: Set of key/value pairs providing extra contextual information.
+            Keys are unique.
+          type: object
+      required:
+      - resourceAttributes
+      - span
       type: object
     TraceApiSpanNotFound:
       properties:
@@ -13136,12 +13565,511 @@ components:
       - newHealth
       - timestamp
       type: object
+    TimelineSummaryOverflow:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
     TimelineSummaryError:
       properties:
         message:
           type: string
       required:
       - message
+      type: object
+    DashboardList:
+      example:
+        dashboards:
+        - null
+        - null
+      properties:
+        dashboards:
+          description: "List of dashboards, which can be either metadata or full representations."
+          items:
+            $ref: '#/components/schemas/DashboardReadSchema'
+          type: array
+      required:
+      - dashboards
+      type: object
+    DashboardReadSchema:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/DashboardReadMetadataSchema'
+      - $ref: '#/components/schemas/DashboardReadFullSchema'
+    DashboardReadMetadataSchema:
+      allOf:
+      - $ref: '#/components/schemas/DashboardReadBaseSchema'
+      - $ref: '#/components/schemas/DashboardReadMetadataSchema_allOf'
+    DashboardReadBaseSchema:
+      properties:
+        _type:
+          type: string
+        identifier:
+          description: The identifier of a dashboard. Either the system/graph ID or
+            URN of the resource.
+          pattern: "^urn:.+|[0-9]+$"
+          type: string
+        id:
+          format: int64
+          type: integer
+        name:
+          description: Name of the dashboard
+          type: string
+        description:
+          description: Description of the dashboard
+          type: string
+        scope:
+          $ref: '#/components/schemas/DashboardScope'
+        ownerId:
+          description: "The user id of the dashboard owner. A dashboard was either\
+            \ created by a user or from a StackPack. For a user, the identifier will\
+            \ be the system/graph ID, and for a StackPack, the field will be empty/omitted."
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - description
+      - id
+      - identifier
+      - lastUpdateTimestamp
+      - name
+      - scope
+      type: object
+    DashboardIdOrUrn:
+      description: The identifier of a dashboard. Either the system/graph ID or URN
+        of the resource.
+      pattern: "^urn:.+|[0-9]+$"
+      type: string
+    DashboardScope:
+      description: "Scope of the dashboard. 'publicDashboard' for accessible by everyone,\
+        \ 'privateDashboard' for owned and accessible by the current user."
+      enum:
+      - publicDashboard
+      - privateDashboard
+      type: string
+    DashboardReadFullSchema:
+      allOf:
+      - $ref: '#/components/schemas/DashboardReadBaseSchema'
+      - $ref: '#/components/schemas/DashboardReadFullSchema_allOf'
+    DashboardWriteSchema:
+      example:
+        scope: null
+        name: name
+        description: description
+        dashboard:
+          metadata:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            name: name
+            project: project
+            version: 0
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          kind: kind
+          spec:
+            duration: duration
+            variables:
+            - null
+            - null
+            datasources:
+              key:
+                default: true
+                plugin:
+                  kind: kind
+                  spec: "{}"
+                display:
+                  name: name
+                  description: description
+            refreshInterval: refreshInterval
+            panels:
+              key:
+                kind: kind
+                spec:
+                  plugin:
+                    kind: kind
+                    spec: "{}"
+                  display:
+                    name: name
+                    description: description
+                  links:
+                  - targetBlank: true
+                    name: name
+                    tooltip: tooltip
+                    renderVariables: true
+                    url: url
+                  - targetBlank: true
+                    name: name
+                    tooltip: tooltip
+                    renderVariables: true
+                    url: url
+                  queries:
+                  - kind: kind
+                    spec:
+                      plugin:
+                        kind: kind
+                        spec: "{}"
+                  - kind: kind
+                    spec:
+                      plugin:
+                        kind: kind
+                        spec: "{}"
+            display:
+              name: name
+              description: description
+            layouts:
+            - kind: null
+              spec:
+                display:
+                  title: title
+                  collapse:
+                    open: true
+                items:
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+            - kind: null
+              spec:
+                display:
+                  title: title
+                  collapse:
+                    open: true
+                items:
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+      properties:
+        name:
+          description: Name of the dashboard
+          type: string
+        description:
+          description: Description of the dashboard
+          type: string
+        scope:
+          $ref: '#/components/schemas/DashboardScope'
+        dashboard:
+          $ref: '#/components/schemas/PersesDashboard'
+      required:
+      - dashboard
+      - description
+      - name
+      - scope
+      type: object
+    DashboardClientErrors:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/DashboardInvalidIdentifierError'
+      - $ref: '#/components/schemas/DashboardValidationError'
+    DashboardInvalidIdentifierError:
+      properties:
+        _type:
+          enum:
+          - DashboardInvalidIdentifierError
+          type: string
+        message:
+          description: A detailed error message describing why the operation failed.
+          type: string
+        dashboardIdOrUrn:
+          type: string
+      required:
+      - _type
+      - dashboardIdOrUrn
+      - message
+      type: object
+    DashboardValidationError:
+      properties:
+        _type:
+          enum:
+          - DashboardValidationError
+          type: string
+        message:
+          description: A detailed error message describing why the operation failed.
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    DashboardNotFoundError:
+      properties:
+        message:
+          description: A detailed error message describing why the operation failed.
+          type: string
+        dashboardIdOrUrn:
+          type: string
+      required:
+      - dashboardIdOrUrn
+      - message
+      type: object
+    DashboardAuthorizationError:
+      properties:
+        message:
+          description: A detailed error message describing why the operation failed.
+          type: string
+        dashboardIdOrUrn:
+          type: string
+        userName:
+          type: string
+      required:
+      - dashboardIdOrUrn
+      - message
+      - userName
+      type: object
+    DashboardPatchSchema:
+      description: The provided fields are used to patch the corresponding fields
+        of a dashboard.
+      example:
+        scope: null
+        name: name
+        description: description
+        dashboard:
+          metadata:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            name: name
+            project: project
+            version: 0
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          kind: kind
+          spec:
+            duration: duration
+            variables:
+            - null
+            - null
+            datasources:
+              key:
+                default: true
+                plugin:
+                  kind: kind
+                  spec: "{}"
+                display:
+                  name: name
+                  description: description
+            refreshInterval: refreshInterval
+            panels:
+              key:
+                kind: kind
+                spec:
+                  plugin:
+                    kind: kind
+                    spec: "{}"
+                  display:
+                    name: name
+                    description: description
+                  links:
+                  - targetBlank: true
+                    name: name
+                    tooltip: tooltip
+                    renderVariables: true
+                    url: url
+                  - targetBlank: true
+                    name: name
+                    tooltip: tooltip
+                    renderVariables: true
+                    url: url
+                  queries:
+                  - kind: kind
+                    spec:
+                      plugin:
+                        kind: kind
+                        spec: "{}"
+                  - kind: kind
+                    spec:
+                      plugin:
+                        kind: kind
+                        spec: "{}"
+            display:
+              name: name
+              description: description
+            layouts:
+            - kind: null
+              spec:
+                display:
+                  title: title
+                  collapse:
+                    open: true
+                items:
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+            - kind: null
+              spec:
+                display:
+                  title: title
+                  collapse:
+                    open: true
+                items:
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+      properties:
+        name:
+          description: Name of the dashboard
+          type: string
+        description:
+          description: Description of the dashboard
+          type: string
+        scope:
+          $ref: '#/components/schemas/DashboardScope'
+        dashboard:
+          $ref: '#/components/schemas/PersesDashboard'
+      type: object
+    DashboardCloneSchema:
+      description: The provided fields are used to override the corresponding fields
+        of the new (cloned) dashboard.
+      example:
+        scope: null
+        name: name
+        description: description
+        dashboard:
+          metadata:
+            createdAt: 2000-01-23T04:56:07.000+00:00
+            name: name
+            project: project
+            version: 0
+            updatedAt: 2000-01-23T04:56:07.000+00:00
+          kind: kind
+          spec:
+            duration: duration
+            variables:
+            - null
+            - null
+            datasources:
+              key:
+                default: true
+                plugin:
+                  kind: kind
+                  spec: "{}"
+                display:
+                  name: name
+                  description: description
+            refreshInterval: refreshInterval
+            panels:
+              key:
+                kind: kind
+                spec:
+                  plugin:
+                    kind: kind
+                    spec: "{}"
+                  display:
+                    name: name
+                    description: description
+                  links:
+                  - targetBlank: true
+                    name: name
+                    tooltip: tooltip
+                    renderVariables: true
+                    url: url
+                  - targetBlank: true
+                    name: name
+                    tooltip: tooltip
+                    renderVariables: true
+                    url: url
+                  queries:
+                  - kind: kind
+                    spec:
+                      plugin:
+                        kind: kind
+                        spec: "{}"
+                  - kind: kind
+                    spec:
+                      plugin:
+                        kind: kind
+                        spec: "{}"
+            display:
+              name: name
+              description: description
+            layouts:
+            - kind: null
+              spec:
+                display:
+                  title: title
+                  collapse:
+                    open: true
+                items:
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+            - kind: null
+              spec:
+                display:
+                  title: title
+                  collapse:
+                    open: true
+                items:
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+                - x: 6
+                  width: 5
+                  "y": 1
+                  content:
+                    $ref: $ref
+                  height: 5
+      properties:
+        name:
+          description: Name of the dashboard. Required to make it easier so see which
+            dashboard is the new (cloned) dashboard.
+          type: string
+        description:
+          description: Description of the dashboard
+          type: string
+        scope:
+          $ref: '#/components/schemas/DashboardScope'
+        dashboard:
+          $ref: '#/components/schemas/PersesDashboard'
+      required:
+      - name
       type: object
     StackElementNotFound:
       discriminator:
@@ -13742,6 +14670,687 @@ components:
       - offsetNanos
       - timestamp
       type: object
+    PersesDashboard:
+      example:
+        metadata:
+          createdAt: 2000-01-23T04:56:07.000+00:00
+          name: name
+          project: project
+          version: 0
+          updatedAt: 2000-01-23T04:56:07.000+00:00
+        kind: kind
+        spec:
+          duration: duration
+          variables:
+          - null
+          - null
+          datasources:
+            key:
+              default: true
+              plugin:
+                kind: kind
+                spec: "{}"
+              display:
+                name: name
+                description: description
+          refreshInterval: refreshInterval
+          panels:
+            key:
+              kind: kind
+              spec:
+                plugin:
+                  kind: kind
+                  spec: "{}"
+                display:
+                  name: name
+                  description: description
+                links:
+                - targetBlank: true
+                  name: name
+                  tooltip: tooltip
+                  renderVariables: true
+                  url: url
+                - targetBlank: true
+                  name: name
+                  tooltip: tooltip
+                  renderVariables: true
+                  url: url
+                queries:
+                - kind: kind
+                  spec:
+                    plugin:
+                      kind: kind
+                      spec: "{}"
+                - kind: kind
+                  spec:
+                    plugin:
+                      kind: kind
+                      spec: "{}"
+          display:
+            name: name
+            description: description
+          layouts:
+          - kind: null
+            spec:
+              display:
+                title: title
+                collapse:
+                  open: true
+              items:
+              - x: 6
+                width: 5
+                "y": 1
+                content:
+                  $ref: $ref
+                height: 5
+              - x: 6
+                width: 5
+                "y": 1
+                content:
+                  $ref: $ref
+                height: 5
+          - kind: null
+            spec:
+              display:
+                title: title
+                collapse:
+                  open: true
+              items:
+              - x: 6
+                width: 5
+                "y": 1
+                content:
+                  $ref: $ref
+                height: 5
+              - x: 6
+                width: 5
+                "y": 1
+                content:
+                  $ref: $ref
+                height: 5
+      properties:
+        kind:
+          type: string
+        metadata:
+          $ref: '#/components/schemas/PersesProjectMetadata'
+        spec:
+          $ref: '#/components/schemas/PersesDashboardSpec'
+      type: object
+    PersesKind:
+      type: string
+    PersesProjectMetadata:
+      example:
+        createdAt: 2000-01-23T04:56:07.000+00:00
+        name: name
+        project: project
+        version: 0
+        updatedAt: 2000-01-23T04:56:07.000+00:00
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        name:
+          type: string
+        project:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        version:
+          format: uint64
+          type: integer
+      type: object
+    PersesDashboardSpec:
+      example:
+        duration: duration
+        variables:
+        - null
+        - null
+        datasources:
+          key:
+            default: true
+            plugin:
+              kind: kind
+              spec: "{}"
+            display:
+              name: name
+              description: description
+        refreshInterval: refreshInterval
+        panels:
+          key:
+            kind: kind
+            spec:
+              plugin:
+                kind: kind
+                spec: "{}"
+              display:
+                name: name
+                description: description
+              links:
+              - targetBlank: true
+                name: name
+                tooltip: tooltip
+                renderVariables: true
+                url: url
+              - targetBlank: true
+                name: name
+                tooltip: tooltip
+                renderVariables: true
+                url: url
+              queries:
+              - kind: kind
+                spec:
+                  plugin:
+                    kind: kind
+                    spec: "{}"
+              - kind: kind
+                spec:
+                  plugin:
+                    kind: kind
+                    spec: "{}"
+        display:
+          name: name
+          description: description
+        layouts:
+        - kind: null
+          spec:
+            display:
+              title: title
+              collapse:
+                open: true
+            items:
+            - x: 6
+              width: 5
+              "y": 1
+              content:
+                $ref: $ref
+              height: 5
+            - x: 6
+              width: 5
+              "y": 1
+              content:
+                $ref: $ref
+              height: 5
+        - kind: null
+          spec:
+            display:
+              title: title
+              collapse:
+                open: true
+            items:
+            - x: 6
+              width: 5
+              "y": 1
+              content:
+                $ref: $ref
+              height: 5
+            - x: 6
+              width: 5
+              "y": 1
+              content:
+                $ref: $ref
+              height: 5
+      properties:
+        datasources:
+          additionalProperties:
+            $ref: '#/components/schemas/PersesDatasourceSpec'
+          description: Datasources is an optional list of datasource definition.
+          type: object
+        display:
+          $ref: '#/components/schemas/PersesDashboardDisplaySpec'
+        duration:
+          description: "A Duration represents the elapsed time between two instants.\n\
+            It must be provided as a string like \"1h\", \"30m\", \"15s\".\n"
+          type: string
+        layouts:
+          items:
+            $ref: '#/components/schemas/PersesLayout'
+          type: array
+        panels:
+          additionalProperties:
+            $ref: '#/components/schemas/PersesPanel'
+          type: object
+        refreshInterval:
+          description: "A Duration represents the elapsed time between two instants.\n\
+            It must be provided as a string like \"1h\", \"30m\", \"15s\".\n"
+          type: string
+        variables:
+          items:
+            $ref: '#/components/schemas/PersesVariableTypes'
+          type: array
+      type: object
+    PersesDatasourceSpec:
+      example:
+        default: true
+        plugin:
+          kind: kind
+          spec: "{}"
+        display:
+          name: name
+          description: description
+      properties:
+        default:
+          type: boolean
+        display:
+          $ref: '#/components/schemas/PersesDashboardDisplaySpec'
+        plugin:
+          $ref: '#/components/schemas/PersesPlugin'
+      type: object
+    PersesDashboardDisplaySpec:
+      example:
+        name: name
+        description: description
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      type: object
+    PersesPlugin:
+      example:
+        kind: kind
+        spec: "{}"
+      properties:
+        kind:
+          type: string
+        spec:
+          type: object
+      type: object
+    PersesDuration:
+      description: "A Duration represents the elapsed time between two instants.\n\
+        It must be provided as a string like \"1h\", \"30m\", \"15s\".\n"
+      type: string
+    PersesLayout:
+      example:
+        kind: null
+        spec:
+          display:
+            title: title
+            collapse:
+              open: true
+          items:
+          - x: 6
+            width: 5
+            "y": 1
+            content:
+              $ref: $ref
+            height: 5
+          - x: 6
+            width: 5
+            "y": 1
+            content:
+              $ref: $ref
+            height: 5
+      properties:
+        kind:
+          $ref: '#/components/schemas/PersesLayoutKind'
+        spec:
+          $ref: '#/components/schemas/PersesLayoutSpec'
+      required:
+      - kind
+      - spec
+      type: object
+    PersesLayoutKind:
+      description: "Defines the layout type. Currently, only 'Grid' is supported."
+      enum:
+      - Grid
+      type: string
+    PersesLayoutSpec:
+      example:
+        display:
+          title: title
+          collapse:
+            open: true
+        items:
+        - x: 6
+          width: 5
+          "y": 1
+          content:
+            $ref: $ref
+          height: 5
+        - x: 6
+          width: 5
+          "y": 1
+          content:
+            $ref: $ref
+          height: 5
+      properties:
+        display:
+          $ref: '#/components/schemas/PersesGridLayoutDisplay'
+        items:
+          items:
+            $ref: '#/components/schemas/PersesGridItem'
+          type: array
+      required:
+      - items
+      type: object
+    PersesGridLayoutDisplay:
+      example:
+        title: title
+        collapse:
+          open: true
+      properties:
+        title:
+          description: The title of the grid layout.
+          type: string
+        collapse:
+          $ref: '#/components/schemas/PersesGridLayoutCollapse'
+      required:
+      - title
+      type: object
+    PersesGridLayoutCollapse:
+      example:
+        open: true
+      properties:
+        open:
+          description: Indicates whether the grid layout is collapsed.
+          type: boolean
+      required:
+      - open
+      type: object
+    PersesGridItem:
+      example:
+        x: 6
+        width: 5
+        "y": 1
+        content:
+          $ref: $ref
+        height: 5
+      properties:
+        x:
+          description: The x-coordinate of the item in the grid.
+          type: integer
+        "y":
+          description: The y-coordinate of the item in the grid.
+          type: integer
+        width:
+          description: The width of the item in the grid.
+          type: integer
+        height:
+          description: The height of the item in the grid.
+          type: integer
+        content:
+          $ref: '#/components/schemas/PersesJSONRef'
+      required:
+      - content
+      - height
+      - width
+      - x
+      - "y"
+      type: object
+    PersesJSONRef:
+      example:
+        $ref: $ref
+      properties:
+        $ref:
+          description: "The JSON reference pointing to the actual object. The property\
+            \ name '$ref' contains a reserved char, which gets stripped away when\
+            \ generated (it's possible to handle this but makes the generation code\
+            \ more complex). For now, consumers of this spec will need to omit the\
+            \ '$' in the property name."
+          type: string
+      required:
+      - $ref
+      type: object
+    PersesPanel:
+      example:
+        kind: kind
+        spec:
+          plugin:
+            kind: kind
+            spec: "{}"
+          display:
+            name: name
+            description: description
+          links:
+          - targetBlank: true
+            name: name
+            tooltip: tooltip
+            renderVariables: true
+            url: url
+          - targetBlank: true
+            name: name
+            tooltip: tooltip
+            renderVariables: true
+            url: url
+          queries:
+          - kind: kind
+            spec:
+              plugin:
+                kind: kind
+                spec: "{}"
+          - kind: kind
+            spec:
+              plugin:
+                kind: kind
+                spec: "{}"
+      properties:
+        kind:
+          type: string
+        spec:
+          $ref: '#/components/schemas/PersesPanelSpec'
+      type: object
+    PersesPanelSpec:
+      example:
+        plugin:
+          kind: kind
+          spec: "{}"
+        display:
+          name: name
+          description: description
+        links:
+        - targetBlank: true
+          name: name
+          tooltip: tooltip
+          renderVariables: true
+          url: url
+        - targetBlank: true
+          name: name
+          tooltip: tooltip
+          renderVariables: true
+          url: url
+        queries:
+        - kind: kind
+          spec:
+            plugin:
+              kind: kind
+              spec: "{}"
+        - kind: kind
+          spec:
+            plugin:
+              kind: kind
+              spec: "{}"
+      properties:
+        display:
+          $ref: '#/components/schemas/PersesPanelDisplay'
+        links:
+          items:
+            $ref: '#/components/schemas/PersesLink'
+          type: array
+        plugin:
+          $ref: '#/components/schemas/PersesPlugin'
+        queries:
+          items:
+            $ref: '#/components/schemas/PersesQuery'
+          type: array
+      type: object
+    PersesPanelDisplay:
+      example:
+        name: name
+        description: description
+      properties:
+        description:
+          type: string
+        name:
+          type: string
+      type: object
+    PersesLink:
+      example:
+        targetBlank: true
+        name: name
+        tooltip: tooltip
+        renderVariables: true
+        url: url
+      properties:
+        name:
+          type: string
+        renderVariables:
+          type: boolean
+        targetBlank:
+          type: boolean
+        tooltip:
+          type: string
+        url:
+          type: string
+      type: object
+    PersesQuery:
+      example:
+        kind: kind
+        spec:
+          plugin:
+            kind: kind
+            spec: "{}"
+      properties:
+        kind:
+          type: string
+        spec:
+          $ref: '#/components/schemas/PersesQuerySpec'
+      type: object
+    PersesQuerySpec:
+      example:
+        plugin:
+          kind: kind
+          spec: "{}"
+      properties:
+        plugin:
+          $ref: '#/components/schemas/PersesPlugin'
+      type: object
+    PersesVariableTypes:
+      discriminator:
+        mapping:
+          TextVariable: '#/components/schemas/PersesTextVariable'
+          ListVariable: '#/components/schemas/PersesListVariable'
+        propertyName: kind
+      oneOf:
+      - $ref: '#/components/schemas/PersesTextVariable'
+      - $ref: '#/components/schemas/PersesListVariable'
+    PersesTextVariable:
+      properties:
+        kind:
+          enum:
+          - TextVariable
+          type: string
+        spec:
+          $ref: '#/components/schemas/PersesTextVariableSpec'
+      required:
+      - kind
+      type: object
+    PersesTextVariableSpec:
+      properties:
+        name:
+          type: string
+        display:
+          $ref: '#/components/schemas/PersesVariableDisplaySpec'
+        value:
+          type: string
+        constant:
+          type: boolean
+      required:
+      - name
+      - value
+      type: object
+    PersesVariableDisplaySpec:
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        hidden:
+          type: boolean
+      type: object
+    PersesListVariable:
+      properties:
+        kind:
+          enum:
+          - ListVariable
+          type: string
+        spec:
+          $ref: '#/components/schemas/PersesListVariableSpec'
+      required:
+      - kind
+      type: object
+    PersesListVariableSpec:
+      properties:
+        name:
+          type: string
+        display:
+          $ref: '#/components/schemas/PersesVariableDisplaySpec'
+        defaultValue:
+          $ref: '#/components/schemas/PersesListVariableDefaultValue'
+        allowAllValue:
+          type: boolean
+        allowMultiple:
+          type: boolean
+        customAllValue:
+          type: string
+        capturingRegexp:
+          type: string
+        sort:
+          $ref: '#/components/schemas/PersesVariableSort'
+        plugin:
+          $ref: '#/components/schemas/PersesPlugin'
+      required:
+      - allowAllValue
+      - allowMultiple
+      - name
+      - plugin
+      type: object
+    PersesListVariableDefaultValue:
+      discriminator:
+        mapping:
+          singleValue: '#/components/schemas/PersesListVariableDefaultSingleValue'
+          sliceValues: '#/components/schemas/PersesListVariableDefaultSliceValues'
+        propertyName: kind
+      oneOf:
+      - $ref: '#/components/schemas/PersesListVariableDefaultSingleValue'
+      - $ref: '#/components/schemas/PersesListVariableDefaultSliceValues'
+      type: object
+    PersesListVariableDefaultSingleValue:
+      properties:
+        kind:
+          enum:
+          - singleValue
+          type: string
+        singleValue:
+          type: string
+      required:
+      - kind
+      - singleValue
+      type: object
+    PersesListVariableDefaultSliceValues:
+      properties:
+        kind:
+          enum:
+          - sliceValues
+          type: string
+        sliceValues:
+          items:
+            type: string
+          type: array
+      required:
+      - kind
+      - sliceValues
+      type: object
+    PersesVariableSort:
+      enum:
+      - none
+      - alphabetical-asc
+      - alphabetical-desc
+      - numerical-asc
+      - numerical-desc
+      - alphabetical-ci-asc
+      - alphabetical-ci-desc
+      type: string
     NodeTypes_nodeTypes_inner:
       example:
         typeName: typeName
@@ -13878,6 +15487,24 @@ components:
         type: number
       - format: sample_value
         type: string
+    TraceQueryMatch_allOf:
+      properties:
+        primaryFilterMatches:
+          description: Spans matching the primary filter
+          items:
+            description: The unique identifier of the span within the trace
+            type: string
+          type: array
+        secondaryFilterMatches:
+          description: Spans matching the secondary filter
+          items:
+            description: The unique identifier of the span within the trace
+            type: string
+          type: array
+      required:
+      - primaryFilterMatches
+      - secondaryFilterMatches
+      type: object
     MetricPerspectiveTab_allOf:
       properties:
         _type:
@@ -13914,6 +15541,24 @@ components:
       oneOf:
       - $ref: '#/components/schemas/ComponentViewArguments'
       - $ref: '#/components/schemas/QueryViewArguments'
+      type: object
+    DashboardReadMetadataSchema_allOf:
+      properties:
+        _type:
+          enum:
+          - DashboardReadMetadataSchema
+          type: string
+      type: object
+    DashboardReadFullSchema_allOf:
+      properties:
+        _type:
+          enum:
+          - DashboardReadFullSchema
+          type: string
+        dashboard:
+          $ref: '#/components/schemas/PersesDashboard'
+      required:
+      - dashboard
       type: object
   securitySchemes:
     ApiToken:
