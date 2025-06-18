@@ -2,9 +2,9 @@ package rbac
 
 import (
 	"fmt"
-	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"testing"
 
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
 )
