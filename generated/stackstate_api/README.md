@@ -281,6 +281,7 @@ Class | Method | HTTP request | Description
  - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
  - [ComponentQuery](docs/ComponentQuery.md)
  - [ComponentViewArguments](docs/ComponentViewArguments.md)
+ - [CreateSubject](docs/CreateSubject.md)
  - [DashboardAuthorizationError](docs/DashboardAuthorizationError.md)
  - [DashboardClientErrors](docs/DashboardClientErrors.md)
  - [DashboardCloneSchema](docs/DashboardCloneSchema.md)

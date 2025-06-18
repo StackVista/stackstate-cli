@@ -3959,6 +3959,12 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Subject'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSubject'
+        required: true
       responses:
         "200":
           description: Subject created
@@ -10902,6 +10908,15 @@ components:
       required:
       - handle
       type: object
+    CreateSubject:
+      example:
+        query: query
+      properties:
+        query:
+          type: string
+      type: object
+    Query:
+      type: string
     SubscriptionState:
       discriminator:
         propertyName: _type

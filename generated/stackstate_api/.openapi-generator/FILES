@@ -85,6 +85,7 @@ docs/ComponentHighlightMetricSectionAllOf.md
 docs/ComponentNotFoundError.md
 docs/ComponentQuery.md
 docs/ComponentViewArguments.md
+docs/CreateSubject.md
 docs/DashboardAuthorizationError.md
 docs/DashboardClientErrors.md
 docs/DashboardCloneSchema.md
@@ -510,6 +511,7 @@ model_component_highlight_metric_section_all_of.go
 model_component_not_found_error.go
 model_component_query.go
 model_component_view_arguments.go
+model_create_subject.go
 model_dashboard_authorization_error.go
 model_dashboard_client_errors.go
 model_dashboard_clone_schema.go

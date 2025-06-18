@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## CreateSubject
 
-> CreateSubject(ctx, subject).Execute()
+> CreateSubject(ctx, subject).CreateSubject(createSubject).Execute()
 
 Create a subject
 
@@ -33,10 +33,11 @@ import (
 
 func main() {
     subject := "subject_example" // string | 
+    createSubject := *openapiclient.NewCreateSubject() // CreateSubject | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SubjectApi.CreateSubject(context.Background(), subject).Execute()
+    resp, r, err := apiClient.SubjectApi.CreateSubject(context.Background(), subject).CreateSubject(createSubject).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `SubjectApi.CreateSubject``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -60,6 +61,7 @@ Other parameters are passed through a pointer to a apiCreateSubjectRequest struc
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **createSubject** | [**CreateSubject**](CreateSubject.md) |  | 
 
 ### Return type
 
@@ -71,7 +73,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

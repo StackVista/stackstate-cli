@@ -84,9 +84,15 @@ type SubjectApi interface {
 type SubjectApiService service
 
 type ApiCreateSubjectRequest struct {
-	ctx        context.Context
-	ApiService SubjectApi
-	subject    string
+	ctx           context.Context
+	ApiService    SubjectApi
+	subject       string
+	createSubject *CreateSubject
+}
+
+func (r ApiCreateSubjectRequest) CreateSubject(createSubject CreateSubject) ApiCreateSubjectRequest {
+	r.createSubject = &createSubject
+	return r
 }
 
 func (r ApiCreateSubjectRequest) Execute() (*http.Response, error) {
@@ -129,9 +135,12 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
+	if r.createSubject == nil {
+		return nil, reportError("createSubject is required and must be specified")
+	}
 
 	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
+	localVarHTTPContentTypes := []string{"application/json"}
 
 	// set Content-Type header
 	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
@@ -147,6 +156,8 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 	if localVarHTTPHeaderAccept != "" {
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
+	// body params
+	localVarPostBody = r.createSubject
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -737,7 +748,8 @@ type CreateSubjectMockResponse struct {
 }
 
 type CreateSubjectCall struct {
-	Psubject string
+	Psubject       string
+	PcreateSubject *CreateSubject
 }
 
 func (mock SubjectApiMock) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
@@ -750,7 +762,8 @@ func (mock SubjectApiMock) CreateSubject(ctx context.Context, subject string) Ap
 
 func (mock SubjectApiMock) CreateSubjectExecute(r ApiCreateSubjectRequest) (*http.Response, error) {
 	p := CreateSubjectCall{
-		Psubject: r.subject,
+		Psubject:       r.subject,
+		PcreateSubject: r.createSubject,
 	}
 	*mock.CreateSubjectCalls = append(*mock.CreateSubjectCalls, p)
 	return mock.CreateSubjectResponse.Response, mock.CreateSubjectResponse.Error
