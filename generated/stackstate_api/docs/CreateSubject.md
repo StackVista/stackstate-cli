@@ -4,14 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Query** | **string** |  | 
-**Version** | **string** |  | 
+**Query** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewCreateSubject
 
-`func NewCreateSubject(query string, version string, ) *CreateSubject`
+`func NewCreateSubject() *CreateSubject`
 
 NewCreateSubject instantiates a new CreateSubject object
 This constructor will assign default values to properties that have it defined,
@@ -45,26 +44,11 @@ and a boolean to check if the value has been set.
 
 SetQuery sets Query field to given value.
 
+### HasQuery
 
-### GetVersion
+`func (o *CreateSubject) HasQuery() bool`
 
-`func (o *CreateSubject) GetVersion() string`
-
-GetVersion returns the Version field if non-nil, zero value otherwise.
-
-### GetVersionOk
-
-`func (o *CreateSubject) GetVersionOk() (*string, bool)`
-
-GetVersionOk returns a tuple with the Version field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetVersion
-
-`func (o *CreateSubject) SetVersion(v string)`
-
-SetVersion sets Version field to given value.
-
+HasQuery returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

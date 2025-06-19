@@ -4,15 +4,15 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**SpanFilter** | [**SpanFilter**](SpanFilter.md) |  | 
-**TraceAttributes** | **map[string][]string** | Filter traces by 1 or more attributes | 
+**PrimarySpanFilter** | [**SpanFilter**](SpanFilter.md) |  | 
+**SecondarySpanFilter** | Pointer to [**SpanFilter**](SpanFilter.md) |  | [optional] 
 **SortBy** | Pointer to [**[]SpanSortOption**](SpanSortOption.md) |  | [optional] 
 
 ## Methods
 
 ### NewTraceQuery
 
-`func NewTraceQuery(spanFilter SpanFilter, traceAttributes map[string][]string, ) *TraceQuery`
+`func NewTraceQuery(primarySpanFilter SpanFilter, ) *TraceQuery`
 
 NewTraceQuery instantiates a new TraceQuery object
 This constructor will assign default values to properties that have it defined,
@@ -27,45 +27,50 @@ NewTraceQueryWithDefaults instantiates a new TraceQuery object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetSpanFilter
+### GetPrimarySpanFilter
 
-`func (o *TraceQuery) GetSpanFilter() SpanFilter`
+`func (o *TraceQuery) GetPrimarySpanFilter() SpanFilter`
 
-GetSpanFilter returns the SpanFilter field if non-nil, zero value otherwise.
+GetPrimarySpanFilter returns the PrimarySpanFilter field if non-nil, zero value otherwise.
 
-### GetSpanFilterOk
+### GetPrimarySpanFilterOk
 
-`func (o *TraceQuery) GetSpanFilterOk() (*SpanFilter, bool)`
+`func (o *TraceQuery) GetPrimarySpanFilterOk() (*SpanFilter, bool)`
 
-GetSpanFilterOk returns a tuple with the SpanFilter field if it's non-nil, zero value otherwise
+GetPrimarySpanFilterOk returns a tuple with the PrimarySpanFilter field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetSpanFilter
+### SetPrimarySpanFilter
 
-`func (o *TraceQuery) SetSpanFilter(v SpanFilter)`
+`func (o *TraceQuery) SetPrimarySpanFilter(v SpanFilter)`
 
-SetSpanFilter sets SpanFilter field to given value.
+SetPrimarySpanFilter sets PrimarySpanFilter field to given value.
 
 
-### GetTraceAttributes
+### GetSecondarySpanFilter
 
-`func (o *TraceQuery) GetTraceAttributes() map[string][]string`
+`func (o *TraceQuery) GetSecondarySpanFilter() SpanFilter`
 
-GetTraceAttributes returns the TraceAttributes field if non-nil, zero value otherwise.
+GetSecondarySpanFilter returns the SecondarySpanFilter field if non-nil, zero value otherwise.
 
-### GetTraceAttributesOk
+### GetSecondarySpanFilterOk
 
-`func (o *TraceQuery) GetTraceAttributesOk() (*map[string][]string, bool)`
+`func (o *TraceQuery) GetSecondarySpanFilterOk() (*SpanFilter, bool)`
 
-GetTraceAttributesOk returns a tuple with the TraceAttributes field if it's non-nil, zero value otherwise
+GetSecondarySpanFilterOk returns a tuple with the SecondarySpanFilter field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTraceAttributes
+### SetSecondarySpanFilter
 
-`func (o *TraceQuery) SetTraceAttributes(v map[string][]string)`
+`func (o *TraceQuery) SetSecondarySpanFilter(v SpanFilter)`
 
-SetTraceAttributes sets TraceAttributes field to given value.
+SetSecondarySpanFilter sets SecondarySpanFilter field to given value.
 
+### HasSecondarySpanFilter
+
+`func (o *TraceQuery) HasSecondarySpanFilter() bool`
+
+HasSecondarySpanFilter returns a boolean if a field has been set.
 
 ### GetSortBy
 

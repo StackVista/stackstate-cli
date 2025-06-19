@@ -33,7 +33,7 @@ import (
 
 func main() {
     subject := "subject_example" // string | 
-    createSubject := *openapiclient.NewCreateSubject("Query_example", "Version_example") // CreateSubject | 
+    createSubject := *openapiclient.NewCreateSubject() // CreateSubject | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

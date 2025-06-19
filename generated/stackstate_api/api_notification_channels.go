@@ -3164,7 +3164,7 @@ type ApiListOpsgenieRespondersRequest struct {
 	ctx        context.Context
 	ApiService NotificationChannelsApi
 	genieKey   *string
-	region     *string
+	region     *OpsgenieRegion
 }
 
 // OpsGenie API key
@@ -3174,7 +3174,7 @@ func (r ApiListOpsgenieRespondersRequest) GenieKey(genieKey string) ApiListOpsge
 }
 
 // OpsGenie region
-func (r ApiListOpsgenieRespondersRequest) Region(region string) ApiListOpsgenieRespondersRequest {
+func (r ApiListOpsgenieRespondersRequest) Region(region OpsgenieRegion) ApiListOpsgenieRespondersRequest {
 	r.region = &region
 	return r
 }
@@ -5918,7 +5918,7 @@ type ListOpsgenieRespondersMockResponse struct {
 
 type ListOpsgenieRespondersCall struct {
 	PgenieKey *string
-	Pregion   *string
+	Pregion   *OpsgenieRegion
 }
 
 func (mock NotificationChannelsApiMock) ListOpsgenieResponders(ctx context.Context) ApiListOpsgenieRespondersRequest {

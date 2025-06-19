@@ -17,18 +17,15 @@ import (
 
 // CreateSubject struct for CreateSubject
 type CreateSubject struct {
-	Query   string `json:"query"`
-	Version string `json:"version"`
+	Query *string `json:"query,omitempty"`
 }
 
 // NewCreateSubject instantiates a new CreateSubject object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewCreateSubject(query string, version string) *CreateSubject {
+func NewCreateSubject() *CreateSubject {
 	this := CreateSubject{}
-	this.Query = query
-	this.Version = version
 	return &this
 }
 
@@ -40,61 +37,42 @@ func NewCreateSubjectWithDefaults() *CreateSubject {
 	return &this
 }
 
-// GetQuery returns the Query field value
+// GetQuery returns the Query field value if set, zero value otherwise.
 func (o *CreateSubject) GetQuery() string {
-	if o == nil {
+	if o == nil || o.Query == nil {
 		var ret string
 		return ret
 	}
-
-	return o.Query
+	return *o.Query
 }
 
-// GetQueryOk returns a tuple with the Query field value
+// GetQueryOk returns a tuple with the Query field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CreateSubject) GetQueryOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Query == nil {
 		return nil, false
 	}
-	return &o.Query, true
+	return o.Query, true
 }
 
-// SetQuery sets field value
+// HasQuery returns a boolean if a field has been set.
+func (o *CreateSubject) HasQuery() bool {
+	if o != nil && o.Query != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetQuery gets a reference to the given string and assigns it to the Query field.
 func (o *CreateSubject) SetQuery(v string) {
-	o.Query = v
-}
-
-// GetVersion returns the Version field value
-func (o *CreateSubject) GetVersion() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Version
-}
-
-// GetVersionOk returns a tuple with the Version field value
-// and a boolean to check if the value has been set.
-func (o *CreateSubject) GetVersionOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Version, true
-}
-
-// SetVersion sets field value
-func (o *CreateSubject) SetVersion(v string) {
-	o.Version = v
+	o.Query = &v
 }
 
 func (o CreateSubject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
+	if o.Query != nil {
 		toSerialize["query"] = o.Query
-	}
-	if true {
-		toSerialize["version"] = o.Version
 	}
 	return json.Marshal(toSerialize)
 }

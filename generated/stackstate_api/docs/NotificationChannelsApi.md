@@ -123,7 +123,7 @@ import (
 )
 
 func main() {
-    opsgenieChannelWriteSchema := *openapiclient.NewOpsgenieChannelWriteSchema("Region_example", "GenieKey_example", []openapiclient.OpsgenieResponder{*openapiclient.NewOpsgenieResponder("ResponderType_example", "Responder_example")}, "Priority_example") // OpsgenieChannelWriteSchema | Create or update a opsgenie channel
+    opsgenieChannelWriteSchema := *openapiclient.NewOpsgenieChannelWriteSchema(openapiclient.OpsgenieRegion("EU"), "GenieKey_example", []openapiclient.OpsgenieResponder{*openapiclient.NewOpsgenieResponder(openapiclient.OpsgenieResponderType("TEAM"), "Responder_example")}, openapiclient.OpsgeniePriority("P1")) // OpsgenieChannelWriteSchema | Create or update a opsgenie channel
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -1145,7 +1145,7 @@ import (
 
 func main() {
     genieKey := "genieKey_example" // string | OpsGenie API key
-    region := "region_example" // string | OpsGenie region
+    region := openapiclient.OpsgenieRegion("EU") // OpsgenieRegion | OpsGenie region
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -1171,7 +1171,7 @@ Other parameters are passed through a pointer to a apiListOpsgenieRespondersRequ
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **genieKey** | **string** | OpsGenie API key | 
- **region** | **string** | OpsGenie region | 
+ **region** | [**OpsgenieRegion**](OpsgenieRegion.md) | OpsGenie region | 
 
 ### Return type
 
@@ -1827,7 +1827,7 @@ import (
 
 func main() {
     channelId := int64(789) // int64 | Channel identifier
-    opsgenieChannelWriteSchema := *openapiclient.NewOpsgenieChannelWriteSchema("Region_example", "GenieKey_example", []openapiclient.OpsgenieResponder{*openapiclient.NewOpsgenieResponder("ResponderType_example", "Responder_example")}, "Priority_example") // OpsgenieChannelWriteSchema | Create or update a opsgenie channel
+    opsgenieChannelWriteSchema := *openapiclient.NewOpsgenieChannelWriteSchema(openapiclient.OpsgenieRegion("EU"), "GenieKey_example", []openapiclient.OpsgenieResponder{*openapiclient.NewOpsgenieResponder(openapiclient.OpsgenieResponderType("TEAM"), "Responder_example")}, openapiclient.OpsgeniePriority("P1")) // OpsgenieChannelWriteSchema | Create or update a opsgenie channel
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

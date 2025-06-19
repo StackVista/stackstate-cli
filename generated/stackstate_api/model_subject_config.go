@@ -17,8 +17,7 @@ import (
 
 // SubjectConfig struct for SubjectConfig
 type SubjectConfig struct {
-	Handle     string  `json:"handle"`
-	ScopeQuery *string `json:"scopeQuery,omitempty"`
+	Handle string `json:"handle"`
 }
 
 // NewSubjectConfig instantiates a new SubjectConfig object
@@ -63,45 +62,10 @@ func (o *SubjectConfig) SetHandle(v string) {
 	o.Handle = v
 }
 
-// GetScopeQuery returns the ScopeQuery field value if set, zero value otherwise.
-func (o *SubjectConfig) GetScopeQuery() string {
-	if o == nil || o.ScopeQuery == nil {
-		var ret string
-		return ret
-	}
-	return *o.ScopeQuery
-}
-
-// GetScopeQueryOk returns a tuple with the ScopeQuery field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *SubjectConfig) GetScopeQueryOk() (*string, bool) {
-	if o == nil || o.ScopeQuery == nil {
-		return nil, false
-	}
-	return o.ScopeQuery, true
-}
-
-// HasScopeQuery returns a boolean if a field has been set.
-func (o *SubjectConfig) HasScopeQuery() bool {
-	if o != nil && o.ScopeQuery != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetScopeQuery gets a reference to the given string and assigns it to the ScopeQuery field.
-func (o *SubjectConfig) SetScopeQuery(v string) {
-	o.ScopeQuery = &v
-}
-
 func (o SubjectConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["handle"] = o.Handle
-	}
-	if o.ScopeQuery != nil {
-		toSerialize["scopeQuery"] = o.ScopeQuery
 	}
 	return json.Marshal(toSerialize)
 }

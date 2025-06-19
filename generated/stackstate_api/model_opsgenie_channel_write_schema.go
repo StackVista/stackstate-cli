@@ -17,17 +17,17 @@ import (
 
 // OpsgenieChannelWriteSchema struct for OpsgenieChannelWriteSchema
 type OpsgenieChannelWriteSchema struct {
-	Region     string              `json:"region"`
+	Region     OpsgenieRegion      `json:"region"`
 	GenieKey   string              `json:"genieKey"`
 	Responders []OpsgenieResponder `json:"responders"`
-	Priority   string              `json:"priority"`
+	Priority   OpsgeniePriority    `json:"priority"`
 }
 
 // NewOpsgenieChannelWriteSchema instantiates a new OpsgenieChannelWriteSchema object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOpsgenieChannelWriteSchema(region string, genieKey string, responders []OpsgenieResponder, priority string) *OpsgenieChannelWriteSchema {
+func NewOpsgenieChannelWriteSchema(region OpsgenieRegion, genieKey string, responders []OpsgenieResponder, priority OpsgeniePriority) *OpsgenieChannelWriteSchema {
 	this := OpsgenieChannelWriteSchema{}
 	this.Region = region
 	this.GenieKey = genieKey
@@ -45,9 +45,9 @@ func NewOpsgenieChannelWriteSchemaWithDefaults() *OpsgenieChannelWriteSchema {
 }
 
 // GetRegion returns the Region field value
-func (o *OpsgenieChannelWriteSchema) GetRegion() string {
+func (o *OpsgenieChannelWriteSchema) GetRegion() OpsgenieRegion {
 	if o == nil {
-		var ret string
+		var ret OpsgenieRegion
 		return ret
 	}
 
@@ -56,7 +56,7 @@ func (o *OpsgenieChannelWriteSchema) GetRegion() string {
 
 // GetRegionOk returns a tuple with the Region field value
 // and a boolean to check if the value has been set.
-func (o *OpsgenieChannelWriteSchema) GetRegionOk() (*string, bool) {
+func (o *OpsgenieChannelWriteSchema) GetRegionOk() (*OpsgenieRegion, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,7 +64,7 @@ func (o *OpsgenieChannelWriteSchema) GetRegionOk() (*string, bool) {
 }
 
 // SetRegion sets field value
-func (o *OpsgenieChannelWriteSchema) SetRegion(v string) {
+func (o *OpsgenieChannelWriteSchema) SetRegion(v OpsgenieRegion) {
 	o.Region = v
 }
 
@@ -117,9 +117,9 @@ func (o *OpsgenieChannelWriteSchema) SetResponders(v []OpsgenieResponder) {
 }
 
 // GetPriority returns the Priority field value
-func (o *OpsgenieChannelWriteSchema) GetPriority() string {
+func (o *OpsgenieChannelWriteSchema) GetPriority() OpsgeniePriority {
 	if o == nil {
-		var ret string
+		var ret OpsgeniePriority
 		return ret
 	}
 
@@ -128,7 +128,7 @@ func (o *OpsgenieChannelWriteSchema) GetPriority() string {
 
 // GetPriorityOk returns a tuple with the Priority field value
 // and a boolean to check if the value has been set.
-func (o *OpsgenieChannelWriteSchema) GetPriorityOk() (*string, bool) {
+func (o *OpsgenieChannelWriteSchema) GetPriorityOk() (*OpsgeniePriority, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -136,7 +136,7 @@ func (o *OpsgenieChannelWriteSchema) GetPriorityOk() (*string, bool) {
 }
 
 // SetPriority sets field value
-func (o *OpsgenieChannelWriteSchema) SetPriority(v string) {
+func (o *OpsgenieChannelWriteSchema) SetPriority(v OpsgeniePriority) {
 	o.Priority = v
 }
 

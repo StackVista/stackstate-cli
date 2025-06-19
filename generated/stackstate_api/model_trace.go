@@ -21,16 +21,19 @@ type Trace struct {
 	TraceId string `json:"traceId"`
 	// All spans for the trace
 	Spans []Span `json:"spans"`
+	// Map of resource identifiers to their corresponding resource attributes (key/value pairs). Keys are UUIDs used in the spans’ `resourceId` fields.
+	Resources map[string]map[string]string `json:"resources"`
 }
 
 // NewTrace instantiates a new Trace object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTrace(traceId string, spans []Span) *Trace {
+func NewTrace(traceId string, spans []Span, resources map[string]map[string]string) *Trace {
 	this := Trace{}
 	this.TraceId = traceId
 	this.Spans = spans
+	this.Resources = resources
 	return &this
 }
 
@@ -90,6 +93,30 @@ func (o *Trace) SetSpans(v []Span) {
 	o.Spans = v
 }
 
+// GetResources returns the Resources field value
+func (o *Trace) GetResources() map[string]map[string]string {
+	if o == nil {
+		var ret map[string]map[string]string
+		return ret
+	}
+
+	return o.Resources
+}
+
+// GetResourcesOk returns a tuple with the Resources field value
+// and a boolean to check if the value has been set.
+func (o *Trace) GetResourcesOk() (*map[string]map[string]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Resources, true
+}
+
+// SetResources sets field value
+func (o *Trace) SetResources(v map[string]map[string]string) {
+	o.Resources = v
+}
+
 func (o Trace) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -97,6 +124,9 @@ func (o Trace) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["spans"] = o.Spans
+	}
+	if true {
+		toSerialize["resources"] = o.Resources
 	}
 	return json.Marshal(toSerialize)
 }

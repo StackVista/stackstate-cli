@@ -1,3 +1,4 @@
+//nolint:dupl
 package rbac
 
 import (
@@ -24,7 +25,7 @@ func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)
 	cmd.MarkFlagRequired(Subject) //nolint:errcheck
 
-	cmd.Flags().StringVar(&args.Scope, Scope, DefaultScope, ScopeUsage)
+	cmd.Flags().StringVar(&args.Scope, Scope, "", ScopeUsage)
 
 	return cmd
 }
@@ -36,7 +37,11 @@ func RunCreateSubjectCommand(args *CreateSubjectArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		subject := stackstate_api.NewCreateSubject(args.Scope, DefaultSTQLVersion)
+		subject := stackstate_api.NewCreateSubject()
+		if args.Scope != "" {
+			subject.SetQuery(args.Scope)
+		}
+
 		resp, err := api.SubjectApi.CreateSubject(cli.Context, args.Subject).
 			CreateSubject(*subject).
 			Execute()

@@ -15,10 +15,10 @@ Name | Type | Description | Notes
 **Token** | **string** |  | 
 **VerifySsl** | **bool** |  | 
 **Metadata** | **map[string]string** |  | 
-**Region** | **string** |  | 
+**Region** | [**OpsgenieRegion**](OpsgenieRegion.md) |  | 
 **GenieKey** | **string** |  | 
 **Responders** | [**[]OpsgenieResponder**](OpsgenieResponder.md) |  | 
-**Priority** | **string** |  | 
+**Priority** | [**OpsgeniePriority**](OpsgeniePriority.md) |  | 
 **To** | **[]string** |  | 
 **Cc** | **[]string** |  | 
 **SubjectPrefix** | Pointer to **string** |  | [optional] 
@@ -27,7 +27,7 @@ Name | Type | Description | Notes
 
 ### NewNotificationChannel
 
-`func NewNotificationChannel(id int64, status NotificationChannelStatus, type_ string, slackWorkspace string, url string, token string, verifySsl bool, metadata map[string]string, region string, genieKey string, responders []OpsgenieResponder, priority string, to []string, cc []string, ) *NotificationChannel`
+`func NewNotificationChannel(id int64, status NotificationChannelStatus, type_ string, slackWorkspace string, url string, token string, verifySsl bool, metadata map[string]string, region OpsgenieRegion, genieKey string, responders []OpsgenieResponder, priority OpsgeniePriority, to []string, cc []string, ) *NotificationChannel`
 
 NewNotificationChannel instantiates a new NotificationChannel object
 This constructor will assign default values to properties that have it defined,
@@ -279,20 +279,20 @@ SetMetadata sets Metadata field to given value.
 
 ### GetRegion
 
-`func (o *NotificationChannel) GetRegion() string`
+`func (o *NotificationChannel) GetRegion() OpsgenieRegion`
 
 GetRegion returns the Region field if non-nil, zero value otherwise.
 
 ### GetRegionOk
 
-`func (o *NotificationChannel) GetRegionOk() (*string, bool)`
+`func (o *NotificationChannel) GetRegionOk() (*OpsgenieRegion, bool)`
 
 GetRegionOk returns a tuple with the Region field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRegion
 
-`func (o *NotificationChannel) SetRegion(v string)`
+`func (o *NotificationChannel) SetRegion(v OpsgenieRegion)`
 
 SetRegion sets Region field to given value.
 
@@ -339,20 +339,20 @@ SetResponders sets Responders field to given value.
 
 ### GetPriority
 
-`func (o *NotificationChannel) GetPriority() string`
+`func (o *NotificationChannel) GetPriority() OpsgeniePriority`
 
 GetPriority returns the Priority field if non-nil, zero value otherwise.
 
 ### GetPriorityOk
 
-`func (o *NotificationChannel) GetPriorityOk() (*string, bool)`
+`func (o *NotificationChannel) GetPriorityOk() (*OpsgeniePriority, bool)`
 
 GetPriorityOk returns a tuple with the Priority field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPriority
 
-`func (o *NotificationChannel) SetPriority(v string)`
+`func (o *NotificationChannel) SetPriority(v OpsgeniePriority)`
 
 SetPriority sets Priority field to given value.
 

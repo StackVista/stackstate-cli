@@ -20,9 +20,11 @@ type UserProfile struct {
 	Id                         *int64   `json:"id,omitempty"`
 	LastUpdateTimestamp        *int64   `json:"lastUpdateTimestamp,omitempty"`
 	Name                       string   `json:"name"`
+	DisplayName                *string  `json:"displayName,omitempty"`
 	Description                *string  `json:"description,omitempty"`
 	Identifier                 *string  `json:"identifier,omitempty"`
 	StarredViews               []int64  `json:"starredViews,omitempty"`
+	StarredDashboards          []int64  `json:"starredDashboards,omitempty"`
 	SystemNotificationsRead    []string `json:"systemNotificationsRead"`
 	HideUnavailableMonitors    bool     `json:"hideUnavailableMonitors"`
 	HideUnavailableMetrics     bool     `json:"hideUnavailableMetrics"`
@@ -140,6 +142,38 @@ func (o *UserProfile) SetName(v string) {
 	o.Name = v
 }
 
+// GetDisplayName returns the DisplayName field value if set, zero value otherwise.
+func (o *UserProfile) GetDisplayName() string {
+	if o == nil || o.DisplayName == nil {
+		var ret string
+		return ret
+	}
+	return *o.DisplayName
+}
+
+// GetDisplayNameOk returns a tuple with the DisplayName field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UserProfile) GetDisplayNameOk() (*string, bool) {
+	if o == nil || o.DisplayName == nil {
+		return nil, false
+	}
+	return o.DisplayName, true
+}
+
+// HasDisplayName returns a boolean if a field has been set.
+func (o *UserProfile) HasDisplayName() bool {
+	if o != nil && o.DisplayName != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDisplayName gets a reference to the given string and assigns it to the DisplayName field.
+func (o *UserProfile) SetDisplayName(v string) {
+	o.DisplayName = &v
+}
+
 // GetDescription returns the Description field value if set, zero value otherwise.
 func (o *UserProfile) GetDescription() string {
 	if o == nil || o.Description == nil {
@@ -234,6 +268,38 @@ func (o *UserProfile) HasStarredViews() bool {
 // SetStarredViews gets a reference to the given []int64 and assigns it to the StarredViews field.
 func (o *UserProfile) SetStarredViews(v []int64) {
 	o.StarredViews = v
+}
+
+// GetStarredDashboards returns the StarredDashboards field value if set, zero value otherwise.
+func (o *UserProfile) GetStarredDashboards() []int64 {
+	if o == nil || o.StarredDashboards == nil {
+		var ret []int64
+		return ret
+	}
+	return o.StarredDashboards
+}
+
+// GetStarredDashboardsOk returns a tuple with the StarredDashboards field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *UserProfile) GetStarredDashboardsOk() ([]int64, bool) {
+	if o == nil || o.StarredDashboards == nil {
+		return nil, false
+	}
+	return o.StarredDashboards, true
+}
+
+// HasStarredDashboards returns a boolean if a field has been set.
+func (o *UserProfile) HasStarredDashboards() bool {
+	if o != nil && o.StarredDashboards != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetStarredDashboards gets a reference to the given []int64 and assigns it to the StarredDashboards field.
+func (o *UserProfile) SetStarredDashboards(v []int64) {
+	o.StarredDashboards = v
 }
 
 // GetSystemNotificationsRead returns the SystemNotificationsRead field value
@@ -375,6 +441,9 @@ func (o UserProfile) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["name"] = o.Name
 	}
+	if o.DisplayName != nil {
+		toSerialize["displayName"] = o.DisplayName
+	}
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
@@ -383,6 +452,9 @@ func (o UserProfile) MarshalJSON() ([]byte, error) {
 	}
 	if o.StarredViews != nil {
 		toSerialize["starredViews"] = o.StarredViews
+	}
+	if o.StarredDashboards != nil {
+		toSerialize["starredDashboards"] = o.StarredDashboards
 	}
 	if true {
 		toSerialize["systemNotificationsRead"] = o.SystemNotificationsRead

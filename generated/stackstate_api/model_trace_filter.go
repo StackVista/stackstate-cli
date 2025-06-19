@@ -15,21 +15,19 @@ import (
 	"encoding/json"
 )
 
-// TraceFilter struct for TraceFilter
+// TraceFilter Filter traces that have a span that matches the primary filter and a span that matches the secondary filter. These could be the same, or two different spans of the same trace.
 type TraceFilter struct {
-	SpanFilter SpanFilter `json:"spanFilter"`
-	// Filter traces by 1 or more attributes
-	TraceAttributes map[string][]string `json:"traceAttributes"`
+	PrimarySpanFilter   SpanFilter  `json:"primarySpanFilter"`
+	SecondarySpanFilter *SpanFilter `json:"secondarySpanFilter,omitempty"`
 }
 
 // NewTraceFilter instantiates a new TraceFilter object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewTraceFilter(spanFilter SpanFilter, traceAttributes map[string][]string) *TraceFilter {
+func NewTraceFilter(primarySpanFilter SpanFilter) *TraceFilter {
 	this := TraceFilter{}
-	this.SpanFilter = spanFilter
-	this.TraceAttributes = traceAttributes
+	this.PrimarySpanFilter = primarySpanFilter
 	return &this
 }
 
@@ -41,61 +39,69 @@ func NewTraceFilterWithDefaults() *TraceFilter {
 	return &this
 }
 
-// GetSpanFilter returns the SpanFilter field value
-func (o *TraceFilter) GetSpanFilter() SpanFilter {
+// GetPrimarySpanFilter returns the PrimarySpanFilter field value
+func (o *TraceFilter) GetPrimarySpanFilter() SpanFilter {
 	if o == nil {
 		var ret SpanFilter
 		return ret
 	}
 
-	return o.SpanFilter
+	return o.PrimarySpanFilter
 }
 
-// GetSpanFilterOk returns a tuple with the SpanFilter field value
+// GetPrimarySpanFilterOk returns a tuple with the PrimarySpanFilter field value
 // and a boolean to check if the value has been set.
-func (o *TraceFilter) GetSpanFilterOk() (*SpanFilter, bool) {
+func (o *TraceFilter) GetPrimarySpanFilterOk() (*SpanFilter, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.SpanFilter, true
+	return &o.PrimarySpanFilter, true
 }
 
-// SetSpanFilter sets field value
-func (o *TraceFilter) SetSpanFilter(v SpanFilter) {
-	o.SpanFilter = v
+// SetPrimarySpanFilter sets field value
+func (o *TraceFilter) SetPrimarySpanFilter(v SpanFilter) {
+	o.PrimarySpanFilter = v
 }
 
-// GetTraceAttributes returns the TraceAttributes field value
-func (o *TraceFilter) GetTraceAttributes() map[string][]string {
-	if o == nil {
-		var ret map[string][]string
+// GetSecondarySpanFilter returns the SecondarySpanFilter field value if set, zero value otherwise.
+func (o *TraceFilter) GetSecondarySpanFilter() SpanFilter {
+	if o == nil || o.SecondarySpanFilter == nil {
+		var ret SpanFilter
 		return ret
 	}
-
-	return o.TraceAttributes
+	return *o.SecondarySpanFilter
 }
 
-// GetTraceAttributesOk returns a tuple with the TraceAttributes field value
+// GetSecondarySpanFilterOk returns a tuple with the SecondarySpanFilter field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *TraceFilter) GetTraceAttributesOk() (*map[string][]string, bool) {
-	if o == nil {
+func (o *TraceFilter) GetSecondarySpanFilterOk() (*SpanFilter, bool) {
+	if o == nil || o.SecondarySpanFilter == nil {
 		return nil, false
 	}
-	return &o.TraceAttributes, true
+	return o.SecondarySpanFilter, true
 }
 
-// SetTraceAttributes sets field value
-func (o *TraceFilter) SetTraceAttributes(v map[string][]string) {
-	o.TraceAttributes = v
+// HasSecondarySpanFilter returns a boolean if a field has been set.
+func (o *TraceFilter) HasSecondarySpanFilter() bool {
+	if o != nil && o.SecondarySpanFilter != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSecondarySpanFilter gets a reference to the given SpanFilter and assigns it to the SecondarySpanFilter field.
+func (o *TraceFilter) SetSecondarySpanFilter(v SpanFilter) {
+	o.SecondarySpanFilter = &v
 }
 
 func (o TraceFilter) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["spanFilter"] = o.SpanFilter
+		toSerialize["primarySpanFilter"] = o.PrimarySpanFilter
 	}
-	if true {
-		toSerialize["traceAttributes"] = o.TraceAttributes
+	if o.SecondarySpanFilter != nil {
+		toSerialize["secondarySpanFilter"] = o.SecondarySpanFilter
 	}
 	return json.Marshal(toSerialize)
 }

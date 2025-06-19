@@ -4,16 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Region** | **string** |  | 
+**Region** | [**OpsgenieRegion**](OpsgenieRegion.md) |  | 
 **GenieKey** | **string** |  | 
 **Responders** | [**[]OpsgenieResponder**](OpsgenieResponder.md) |  | 
-**Priority** | **string** |  | 
+**Priority** | [**OpsgeniePriority**](OpsgeniePriority.md) |  | 
 
 ## Methods
 
 ### NewOpsgenieChannelWriteSchema
 
-`func NewOpsgenieChannelWriteSchema(region string, genieKey string, responders []OpsgenieResponder, priority string, ) *OpsgenieChannelWriteSchema`
+`func NewOpsgenieChannelWriteSchema(region OpsgenieRegion, genieKey string, responders []OpsgenieResponder, priority OpsgeniePriority, ) *OpsgenieChannelWriteSchema`
 
 NewOpsgenieChannelWriteSchema instantiates a new OpsgenieChannelWriteSchema object
 This constructor will assign default values to properties that have it defined,
@@ -30,20 +30,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetRegion
 
-`func (o *OpsgenieChannelWriteSchema) GetRegion() string`
+`func (o *OpsgenieChannelWriteSchema) GetRegion() OpsgenieRegion`
 
 GetRegion returns the Region field if non-nil, zero value otherwise.
 
 ### GetRegionOk
 
-`func (o *OpsgenieChannelWriteSchema) GetRegionOk() (*string, bool)`
+`func (o *OpsgenieChannelWriteSchema) GetRegionOk() (*OpsgenieRegion, bool)`
 
 GetRegionOk returns a tuple with the Region field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRegion
 
-`func (o *OpsgenieChannelWriteSchema) SetRegion(v string)`
+`func (o *OpsgenieChannelWriteSchema) SetRegion(v OpsgenieRegion)`
 
 SetRegion sets Region field to given value.
 
@@ -90,20 +90,20 @@ SetResponders sets Responders field to given value.
 
 ### GetPriority
 
-`func (o *OpsgenieChannelWriteSchema) GetPriority() string`
+`func (o *OpsgenieChannelWriteSchema) GetPriority() OpsgeniePriority`
 
 GetPriority returns the Priority field if non-nil, zero value otherwise.
 
 ### GetPriorityOk
 
-`func (o *OpsgenieChannelWriteSchema) GetPriorityOk() (*string, bool)`
+`func (o *OpsgenieChannelWriteSchema) GetPriorityOk() (*OpsgeniePriority, bool)`
 
 GetPriorityOk returns a tuple with the Priority field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPriority
 
-`func (o *OpsgenieChannelWriteSchema) SetPriority(v string)`
+`func (o *OpsgenieChannelWriteSchema) SetPriority(v OpsgeniePriority)`
 
 SetPriority sets Priority field to given value.
 

@@ -24,8 +24,7 @@ func TestCreateSubjectJson(t *testing.T) {
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeSubject, calls[0].Psubject)
 
-	expectedSubject := stackstate_api.NewCreateSubject(DefaultScope, DefaultSTQLVersion)
-
+	expectedSubject := stackstate_api.NewCreateSubject()
 	assert.Equal(t, expectedSubject, calls[0].PcreateSubject)
 
 	expectedJson := []map[string]interface{}{
@@ -47,8 +46,8 @@ func TestCreateSubject(t *testing.T) {
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SomeOtherSubject, calls[0].Psubject)
 
-	otherExpectedSubject := stackstate_api.NewCreateSubject(SomeScope, DefaultSTQLVersion)
-
+	otherExpectedSubject := stackstate_api.NewCreateSubject()
+	otherExpectedSubject.SetQuery(SomeScope)
 	assert.Equal(t, otherExpectedSubject, calls[0].PcreateSubject)
 
 	expectedStrings := []string{

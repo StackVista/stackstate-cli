@@ -7,17 +7,17 @@ Name | Type | Description | Notes
 **Id** | **int64** |  | 
 **NotificationConfigurationId** | Pointer to **int64** |  | [optional] 
 **Status** | [**NotificationChannelStatus**](NotificationChannelStatus.md) |  | 
-**Region** | **string** |  | 
+**Region** | [**OpsgenieRegion**](OpsgenieRegion.md) |  | 
 **GenieKey** | **string** |  | 
 **Responders** | [**[]OpsgenieResponder**](OpsgenieResponder.md) |  | 
-**Priority** | **string** |  | 
+**Priority** | [**OpsgeniePriority**](OpsgeniePriority.md) |  | 
 **Type** | **string** |  | 
 
 ## Methods
 
 ### NewOpsgenieNotificationChannel
 
-`func NewOpsgenieNotificationChannel(id int64, status NotificationChannelStatus, region string, genieKey string, responders []OpsgenieResponder, priority string, type_ string, ) *OpsgenieNotificationChannel`
+`func NewOpsgenieNotificationChannel(id int64, status NotificationChannelStatus, region OpsgenieRegion, genieKey string, responders []OpsgenieResponder, priority OpsgeniePriority, type_ string, ) *OpsgenieNotificationChannel`
 
 NewOpsgenieNotificationChannel instantiates a new OpsgenieNotificationChannel object
 This constructor will assign default values to properties that have it defined,
@@ -99,20 +99,20 @@ SetStatus sets Status field to given value.
 
 ### GetRegion
 
-`func (o *OpsgenieNotificationChannel) GetRegion() string`
+`func (o *OpsgenieNotificationChannel) GetRegion() OpsgenieRegion`
 
 GetRegion returns the Region field if non-nil, zero value otherwise.
 
 ### GetRegionOk
 
-`func (o *OpsgenieNotificationChannel) GetRegionOk() (*string, bool)`
+`func (o *OpsgenieNotificationChannel) GetRegionOk() (*OpsgenieRegion, bool)`
 
 GetRegionOk returns a tuple with the Region field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRegion
 
-`func (o *OpsgenieNotificationChannel) SetRegion(v string)`
+`func (o *OpsgenieNotificationChannel) SetRegion(v OpsgenieRegion)`
 
 SetRegion sets Region field to given value.
 
@@ -159,20 +159,20 @@ SetResponders sets Responders field to given value.
 
 ### GetPriority
 
-`func (o *OpsgenieNotificationChannel) GetPriority() string`
+`func (o *OpsgenieNotificationChannel) GetPriority() OpsgeniePriority`
 
 GetPriority returns the Priority field if non-nil, zero value otherwise.
 
 ### GetPriorityOk
 
-`func (o *OpsgenieNotificationChannel) GetPriorityOk() (*string, bool)`
+`func (o *OpsgenieNotificationChannel) GetPriorityOk() (*OpsgeniePriority, bool)`
 
 GetPriorityOk returns a tuple with the Priority field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPriority
 
-`func (o *OpsgenieNotificationChannel) SetPriority(v string)`
+`func (o *OpsgenieNotificationChannel) SetPriority(v OpsgeniePriority)`
 
 SetPriority sets Priority field to given value.
 

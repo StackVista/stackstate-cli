@@ -20,10 +20,10 @@ type OpsgenieNotificationChannel struct {
 	Id                          int64                     `json:"id"`
 	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
 	Status                      NotificationChannelStatus `json:"status"`
-	Region                      string                    `json:"region"`
+	Region                      OpsgenieRegion            `json:"region"`
 	GenieKey                    string                    `json:"genieKey"`
 	Responders                  []OpsgenieResponder       `json:"responders"`
-	Priority                    string                    `json:"priority"`
+	Priority                    OpsgeniePriority          `json:"priority"`
 	Type                        string                    `json:"_type"`
 }
 
@@ -31,7 +31,7 @@ type OpsgenieNotificationChannel struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOpsgenieNotificationChannel(id int64, status NotificationChannelStatus, region string, genieKey string, responders []OpsgenieResponder, priority string, type_ string) *OpsgenieNotificationChannel {
+func NewOpsgenieNotificationChannel(id int64, status NotificationChannelStatus, region OpsgenieRegion, genieKey string, responders []OpsgenieResponder, priority OpsgeniePriority, type_ string) *OpsgenieNotificationChannel {
 	this := OpsgenieNotificationChannel{}
 	this.Id = id
 	this.Status = status
@@ -132,9 +132,9 @@ func (o *OpsgenieNotificationChannel) SetStatus(v NotificationChannelStatus) {
 }
 
 // GetRegion returns the Region field value
-func (o *OpsgenieNotificationChannel) GetRegion() string {
+func (o *OpsgenieNotificationChannel) GetRegion() OpsgenieRegion {
 	if o == nil {
-		var ret string
+		var ret OpsgenieRegion
 		return ret
 	}
 
@@ -143,7 +143,7 @@ func (o *OpsgenieNotificationChannel) GetRegion() string {
 
 // GetRegionOk returns a tuple with the Region field value
 // and a boolean to check if the value has been set.
-func (o *OpsgenieNotificationChannel) GetRegionOk() (*string, bool) {
+func (o *OpsgenieNotificationChannel) GetRegionOk() (*OpsgenieRegion, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -151,7 +151,7 @@ func (o *OpsgenieNotificationChannel) GetRegionOk() (*string, bool) {
 }
 
 // SetRegion sets field value
-func (o *OpsgenieNotificationChannel) SetRegion(v string) {
+func (o *OpsgenieNotificationChannel) SetRegion(v OpsgenieRegion) {
 	o.Region = v
 }
 
@@ -204,9 +204,9 @@ func (o *OpsgenieNotificationChannel) SetResponders(v []OpsgenieResponder) {
 }
 
 // GetPriority returns the Priority field value
-func (o *OpsgenieNotificationChannel) GetPriority() string {
+func (o *OpsgenieNotificationChannel) GetPriority() OpsgeniePriority {
 	if o == nil {
-		var ret string
+		var ret OpsgeniePriority
 		return ret
 	}
 
@@ -215,7 +215,7 @@ func (o *OpsgenieNotificationChannel) GetPriority() string {
 
 // GetPriorityOk returns a tuple with the Priority field value
 // and a boolean to check if the value has been set.
-func (o *OpsgenieNotificationChannel) GetPriorityOk() (*string, bool) {
+func (o *OpsgenieNotificationChannel) GetPriorityOk() (*OpsgeniePriority, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -223,7 +223,7 @@ func (o *OpsgenieNotificationChannel) GetPriorityOk() (*string, bool) {
 }
 
 // SetPriority sets field value
-func (o *OpsgenieNotificationChannel) SetPriority(v string) {
+func (o *OpsgenieNotificationChannel) SetPriority(v OpsgeniePriority) {
 	o.Priority = v
 }
 

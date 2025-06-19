@@ -7,9 +7,11 @@ Name | Type | Description | Notes
 **Id** | Pointer to **int64** |  | [optional] [readonly] 
 **LastUpdateTimestamp** | Pointer to **int64** |  | [optional] [readonly] 
 **Name** | **string** |  | 
+**DisplayName** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **Identifier** | Pointer to **string** |  | [optional] 
 **StarredViews** | Pointer to **[]int64** |  | [optional] 
+**StarredDashboards** | Pointer to **[]int64** |  | [optional] 
 **SystemNotificationsRead** | **[]string** |  | 
 **HideUnavailableMonitors** | **bool** |  | 
 **HideUnavailableMetrics** | **bool** |  | 
@@ -105,6 +107,31 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
+### GetDisplayName
+
+`func (o *UserProfile) GetDisplayName() string`
+
+GetDisplayName returns the DisplayName field if non-nil, zero value otherwise.
+
+### GetDisplayNameOk
+
+`func (o *UserProfile) GetDisplayNameOk() (*string, bool)`
+
+GetDisplayNameOk returns a tuple with the DisplayName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDisplayName
+
+`func (o *UserProfile) SetDisplayName(v string)`
+
+SetDisplayName sets DisplayName field to given value.
+
+### HasDisplayName
+
+`func (o *UserProfile) HasDisplayName() bool`
+
+HasDisplayName returns a boolean if a field has been set.
+
 ### GetDescription
 
 `func (o *UserProfile) GetDescription() string`
@@ -179,6 +206,31 @@ SetStarredViews sets StarredViews field to given value.
 `func (o *UserProfile) HasStarredViews() bool`
 
 HasStarredViews returns a boolean if a field has been set.
+
+### GetStarredDashboards
+
+`func (o *UserProfile) GetStarredDashboards() []int64`
+
+GetStarredDashboards returns the StarredDashboards field if non-nil, zero value otherwise.
+
+### GetStarredDashboardsOk
+
+`func (o *UserProfile) GetStarredDashboardsOk() (*[]int64, bool)`
+
+GetStarredDashboardsOk returns a tuple with the StarredDashboards field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStarredDashboards
+
+`func (o *UserProfile) SetStarredDashboards(v []int64)`
+
+SetStarredDashboards sets StarredDashboards field to given value.
+
+### HasStarredDashboards
+
+`func (o *UserProfile) HasStarredDashboards() bool`
+
+HasStarredDashboards returns a boolean if a field has been set.
 
 ### GetSystemNotificationsRead
 

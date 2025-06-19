@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ResponderType** | **string** |  | 
+**ResponderType** | [**OpsgenieResponderType**](OpsgenieResponderType.md) |  | 
 **Responder** | **string** |  | 
 
 ## Methods
 
 ### NewOpsgenieResponder
 
-`func NewOpsgenieResponder(responderType string, responder string, ) *OpsgenieResponder`
+`func NewOpsgenieResponder(responderType OpsgenieResponderType, responder string, ) *OpsgenieResponder`
 
 NewOpsgenieResponder instantiates a new OpsgenieResponder object
 This constructor will assign default values to properties that have it defined,
@@ -28,20 +28,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetResponderType
 
-`func (o *OpsgenieResponder) GetResponderType() string`
+`func (o *OpsgenieResponder) GetResponderType() OpsgenieResponderType`
 
 GetResponderType returns the ResponderType field if non-nil, zero value otherwise.
 
 ### GetResponderTypeOk
 
-`func (o *OpsgenieResponder) GetResponderTypeOk() (*string, bool)`
+`func (o *OpsgenieResponder) GetResponderTypeOk() (*OpsgenieResponderType, bool)`
 
 GetResponderTypeOk returns a tuple with the ResponderType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetResponderType
 
-`func (o *OpsgenieResponder) SetResponderType(v string)`
+`func (o *OpsgenieResponder) SetResponderType(v OpsgenieResponderType)`
 
 SetResponderType sets ResponderType field to given value.
 

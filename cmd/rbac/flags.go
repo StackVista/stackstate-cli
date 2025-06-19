@@ -17,7 +17,5 @@ const (
 		"For example, if your scope is \"label = 'A'\", then all STQL executed in StackState" +
 		" (e.g. Retrieving topology) will only return elements that have the label A"
 
-	DefaultResource    = "system"
-	DefaultScope       = "id = '-1'"
-	DefaultSTQLVersion = "0.0.1"
+	DefaultResource = "system"
 )

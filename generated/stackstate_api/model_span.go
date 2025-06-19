@@ -36,10 +36,10 @@ type Span struct {
 	SpanKind       SpanKind       `json:"spanKind"`
 	SpanParentType SpanParentType `json:"spanParentType"`
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
-	ResourceAttributes map[string]string `json:"resourceAttributes"`
-	// Set of key/value pairs providing extra contextual information. Keys are unique.
 	SpanAttributes map[string]string `json:"spanAttributes"`
-	StatusCode     StatusCode        `json:"statusCode"`
+	// Reference to shared resource attributes, used to deduplicate repeated resource data.
+	ResourceId string     `json:"resourceId"`
+	StatusCode StatusCode `json:"statusCode"`
 	// Human readable message for the status
 	StatusMessage *string `json:"statusMessage,omitempty"`
 	// The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
@@ -56,7 +56,7 @@ type Span struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, resourceAttributes map[string]string, spanAttributes map[string]string, statusCode StatusCode, events []SpanEvent, links []SpanLink) *Span {
+func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, spanAttributes map[string]string, resourceId string, statusCode StatusCode, events []SpanEvent, links []SpanLink) *Span {
 	this := Span{}
 	this.StartTime = startTime
 	this.EndTime = endTime
@@ -67,8 +67,8 @@ func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durat
 	this.ServiceName = serviceName
 	this.SpanKind = spanKind
 	this.SpanParentType = spanParentType
-	this.ResourceAttributes = resourceAttributes
 	this.SpanAttributes = spanAttributes
+	this.ResourceId = resourceId
 	this.StatusCode = statusCode
 	this.Events = events
 	this.Links = links
@@ -363,30 +363,6 @@ func (o *Span) SetSpanParentType(v SpanParentType) {
 	o.SpanParentType = v
 }
 
-// GetResourceAttributes returns the ResourceAttributes field value
-func (o *Span) GetResourceAttributes() map[string]string {
-	if o == nil {
-		var ret map[string]string
-		return ret
-	}
-
-	return o.ResourceAttributes
-}
-
-// GetResourceAttributesOk returns a tuple with the ResourceAttributes field value
-// and a boolean to check if the value has been set.
-func (o *Span) GetResourceAttributesOk() (*map[string]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ResourceAttributes, true
-}
-
-// SetResourceAttributes sets field value
-func (o *Span) SetResourceAttributes(v map[string]string) {
-	o.ResourceAttributes = v
-}
-
 // GetSpanAttributes returns the SpanAttributes field value
 func (o *Span) GetSpanAttributes() map[string]string {
 	if o == nil {
@@ -409,6 +385,30 @@ func (o *Span) GetSpanAttributesOk() (*map[string]string, bool) {
 // SetSpanAttributes sets field value
 func (o *Span) SetSpanAttributes(v map[string]string) {
 	o.SpanAttributes = v
+}
+
+// GetResourceId returns the ResourceId field value
+func (o *Span) GetResourceId() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.ResourceId
+}
+
+// GetResourceIdOk returns a tuple with the ResourceId field value
+// and a boolean to check if the value has been set.
+func (o *Span) GetResourceIdOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ResourceId, true
+}
+
+// SetResourceId sets field value
+func (o *Span) SetResourceId(v string) {
+	o.ResourceId = v
 }
 
 // GetStatusCode returns the StatusCode field value
@@ -615,10 +615,10 @@ func (o Span) MarshalJSON() ([]byte, error) {
 		toSerialize["spanParentType"] = o.SpanParentType
 	}
 	if true {
-		toSerialize["resourceAttributes"] = o.ResourceAttributes
+		toSerialize["spanAttributes"] = o.SpanAttributes
 	}
 	if true {
-		toSerialize["spanAttributes"] = o.SpanAttributes
+		toSerialize["resourceId"] = o.ResourceId
 	}
 	if true {
 		toSerialize["statusCode"] = o.StatusCode

@@ -12,21 +12,17 @@ import (
 var (
 	SomeScopeVar   = SomeScope
 	SubjectConfig1 = stackstate_api.SubjectConfig{
-		Handle:     SomeSubject,
-		ScopeQuery: &SomeScopeVar,
+		Handle: SomeSubject,
 	}
 
 	SomeOtherSubject = "handle"
-	SomeOtherScope   = "meaningOfLife = 23"
 
 	SubjectConfig2 = stackstate_api.SubjectConfig{
-		Handle:     SomeOtherSubject,
-		ScopeQuery: &SomeOtherScope,
+		Handle: SomeOtherSubject,
 	}
 
 	SubjectConfig3 = stackstate_api.SubjectConfig{
-		Handle:     SubjectHandle,
-		ScopeQuery: nil,
+		Handle: SubjectHandle,
 	}
 )
 
@@ -47,11 +43,11 @@ func TestDescribeSubjectsTable(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{"Subject", "Scope Query"},
+			Header: []string{"Subject"},
 			Data: [][]interface{}{
-				{SubjectConfig1.Handle, *SubjectConfig1.ScopeQuery},
-				{SubjectConfig2.Handle, *SubjectConfig2.ScopeQuery},
-				{SubjectConfig3.Handle, ""},
+				{SubjectConfig1.Handle},
+				{SubjectConfig2.Handle},
+				{SubjectConfig3.Handle},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 		},
@@ -100,9 +96,9 @@ func TestDescribeSubjectsTableWithFilter(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{"Subject", "Scope Query"},
+			Header: []string{"Subject"},
 			Data: [][]interface{}{
-				{SubjectConfig1.Handle, *SubjectConfig1.ScopeQuery},
+				{SubjectConfig1.Handle},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching subjects"},
 		},
@@ -130,12 +126,10 @@ func TestDescribeSubjectsJsonWithFilter(t *testing.T) {
 
 	expectedJson := []map[string]interface{}{
 		{
-			"handle":     SubjectConfig1.Handle,
-			"scopeQuery": *SubjectConfig1.ScopeQuery,
+			"handle": SubjectConfig1.Handle,
 		},
 		{
-			"handle":     SubjectConfig3.Handle,
-			"scopeQuery": "",
+			"handle": SubjectConfig3.Handle,
 		},
 	}
 

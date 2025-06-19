@@ -42,16 +42,14 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"handle":     subject.Handle,
-					"scopeQuery": safeDeref(subject.ScopeQuery),
+					"handle": subject.Handle,
 				})
 			} else {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Subject", "Scope Query"},
+					Header: []string{"Subject"},
 					Data: [][]interface{}{
 						{
 							subject.Handle,
-							safeDeref(subject.ScopeQuery),
 						},
 					},
 					MissingTableDataMsg: printer.NotFoundMsg{Types: "matching subjects"},
@@ -72,11 +70,11 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 				data := make([][]interface{}, 0)
 
 				for _, subject := range subjects {
-					data = append(data, []interface{}{subject.Handle, safeDeref(subject.ScopeQuery)})
+					data = append(data, []interface{}{subject.Handle})
 				}
 
 				cli.Printer.Table(printer.TableData{
-					Header:              []string{"Subject", "Scope Query"},
+					Header:              []string{"Subject"},
 					Data:                data,
 					MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 				})
@@ -84,11 +82,4 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 		}
 		return nil
 	}
-}
-
-func safeDeref(text *string) string {
-	if text == nil {
-		return ""
-	}
-	return *text
 }

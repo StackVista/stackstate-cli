@@ -15,8 +15,8 @@ Name | Type | Description | Notes
 **ServiceName** | **string** | Logical name of the service for the span | 
 **SpanKind** | [**SpanKind**](SpanKind.md) |  | 
 **SpanParentType** | [**SpanParentType**](SpanParentType.md) |  | 
-**ResourceAttributes** | **map[string]string** | Set of key/value pairs providing extra contextual information. Keys are unique. | 
 **SpanAttributes** | **map[string]string** | Set of key/value pairs providing extra contextual information. Keys are unique. | 
+**ResourceId** | **string** | Reference to shared resource attributes, used to deduplicate repeated resource data. | 
 **StatusCode** | [**StatusCode**](StatusCode.md) |  | 
 **StatusMessage** | Pointer to **string** | Human readable message for the status | [optional] 
 **ScopeName** | Pointer to **string** | The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope | [optional] 
@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewSpan
 
-`func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, resourceAttributes map[string]string, spanAttributes map[string]string, statusCode StatusCode, events []SpanEvent, links []SpanLink, ) *Span`
+`func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, spanAttributes map[string]string, resourceId string, statusCode StatusCode, events []SpanEvent, links []SpanLink, ) *Span`
 
 NewSpan instantiates a new Span object
 This constructor will assign default values to properties that have it defined,
@@ -273,26 +273,6 @@ and a boolean to check if the value has been set.
 SetSpanParentType sets SpanParentType field to given value.
 
 
-### GetResourceAttributes
-
-`func (o *Span) GetResourceAttributes() map[string]string`
-
-GetResourceAttributes returns the ResourceAttributes field if non-nil, zero value otherwise.
-
-### GetResourceAttributesOk
-
-`func (o *Span) GetResourceAttributesOk() (*map[string]string, bool)`
-
-GetResourceAttributesOk returns a tuple with the ResourceAttributes field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetResourceAttributes
-
-`func (o *Span) SetResourceAttributes(v map[string]string)`
-
-SetResourceAttributes sets ResourceAttributes field to given value.
-
-
 ### GetSpanAttributes
 
 `func (o *Span) GetSpanAttributes() map[string]string`
@@ -311,6 +291,26 @@ and a boolean to check if the value has been set.
 `func (o *Span) SetSpanAttributes(v map[string]string)`
 
 SetSpanAttributes sets SpanAttributes field to given value.
+
+
+### GetResourceId
+
+`func (o *Span) GetResourceId() string`
+
+GetResourceId returns the ResourceId field if non-nil, zero value otherwise.
+
+### GetResourceIdOk
+
+`func (o *Span) GetResourceIdOk() (*string, bool)`
+
+GetResourceIdOk returns a tuple with the ResourceId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetResourceId
+
+`func (o *Span) SetResourceId(v string)`
+
+SetResourceId sets ResourceId field to given value.
 
 
 ### GetStatusCode

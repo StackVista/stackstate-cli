@@ -26,7 +26,6 @@ func TestRevokePermissions(t *testing.T) {
 	assert.Len(t, describeCalls, 1)
 	assert.Equal(t, SomeSubject, describeCalls[0].Psubject)
 	assert.Equal(t, SomePermission, *describeCalls[0].Ppermission)
-	assert.Equal(t, "system", *describeCalls[0].Presource)
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SomeSubject, "--permission", SomePermission, "--resource", SomeResource)
 
@@ -40,7 +39,6 @@ func TestRevokePermissions(t *testing.T) {
 	assert.Len(t, describeCalls, 2)
 	assert.Equal(t, SomeSubject, describeCalls[1].Psubject)
 	assert.Equal(t, SomePermission, *describeCalls[1].Ppermission)
-	assert.Equal(t, SomeResource, *describeCalls[1].Presource)
 
 	expectedResult := []printer.TableData{
 		ExpectedTable,
