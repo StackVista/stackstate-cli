@@ -22,9 +22,9 @@ import (
 type UserAuthorizationApi interface {
 
 	/*
-		GetUserAuthorizationFor Is the current user authorized for the provided permission
+		GetUserAuthorizationFor Is the current user authorized for the provided permission and resource
 
-		Is the current user authorized for the provided permission
+		Is the current user authorized for the provided permission and resource
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 		@return ApiGetUserAuthorizationForRequest
@@ -39,13 +39,19 @@ type UserAuthorizationApi interface {
 type UserAuthorizationApiService service
 
 type ApiGetUserAuthorizationForRequest struct {
-	ctx        context.Context
-	ApiService UserAuthorizationApi
-	permission *string
+	ctx          context.Context
+	ApiService   UserAuthorizationApi
+	permission   *string
+	resourceName *string
 }
 
 func (r ApiGetUserAuthorizationForRequest) Permission(permission string) ApiGetUserAuthorizationForRequest {
 	r.permission = &permission
+	return r
+}
+
+func (r ApiGetUserAuthorizationForRequest) ResourceName(resourceName string) ApiGetUserAuthorizationForRequest {
+	r.resourceName = &resourceName
 	return r
 }
 
@@ -54,9 +60,9 @@ func (r ApiGetUserAuthorizationForRequest) Execute() (*http.Response, error) {
 }
 
 /*
-GetUserAuthorizationFor Is the current user authorized for the provided permission
+GetUserAuthorizationFor Is the current user authorized for the provided permission and resource
 
-Is the current user authorized for the provided permission
+Is the current user authorized for the provided permission and resource
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiGetUserAuthorizationForRequest
@@ -91,6 +97,9 @@ func (a *UserAuthorizationApiService) GetUserAuthorizationForExecute(r ApiGetUse
 	}
 
 	localVarQueryParams.Add("permission", parameterToString(*r.permission, ""))
+	if r.resourceName != nil {
+		localVarQueryParams.Add("resourceName", parameterToString(*r.resourceName, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -209,7 +218,8 @@ type GetUserAuthorizationForMockResponse struct {
 }
 
 type GetUserAuthorizationForCall struct {
-	Ppermission *string
+	Ppermission   *string
+	PresourceName *string
 }
 
 func (mock UserAuthorizationApiMock) GetUserAuthorizationFor(ctx context.Context) ApiGetUserAuthorizationForRequest {
@@ -221,7 +231,8 @@ func (mock UserAuthorizationApiMock) GetUserAuthorizationFor(ctx context.Context
 
 func (mock UserAuthorizationApiMock) GetUserAuthorizationForExecute(r ApiGetUserAuthorizationForRequest) (*http.Response, error) {
 	p := GetUserAuthorizationForCall{
-		Ppermission: r.permission,
+		Ppermission:   r.permission,
+		PresourceName: r.resourceName,
 	}
 	*mock.GetUserAuthorizationForCalls = append(*mock.GetUserAuthorizationForCalls, p)
 	return mock.GetUserAuthorizationForResponse.Response, mock.GetUserAuthorizationForResponse.Error

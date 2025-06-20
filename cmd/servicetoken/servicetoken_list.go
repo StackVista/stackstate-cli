@@ -44,11 +44,11 @@ func RunServiceTokenListCommand(cmd *cobra.Command, cli *di.Deps, api *stackstat
 			if serviceToken.Expiration != nil {
 				exp = time.UnixMilli(*serviceToken.Expiration).Format(DateFormat)
 			}
-			data = append(data, []interface{}{sid, serviceToken.Name, exp, serviceToken.Roles})
+			data = append(data, []interface{}{sid, serviceToken.Name, exp, serviceToken.Roles, serviceToken.DedicatedSubject})
 		}
 
 		cli.Printer.Table(printer.TableData{
-			Header:              []string{"id", "name", "expiration", "roles"},
+			Header:              []string{"id", "name", "expiration", "roles", "dedicated_Subject"},
 			Data:                data,
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "service tokens"},
 		})
