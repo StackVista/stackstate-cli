@@ -2596,12 +2596,18 @@ paths:
       - userSession
   /user/authorization/for:
     get:
-      description: Is the current user authorized for the provided permission
+      description: Is the current user authorized for the provided permission and
+        resource
       operationId: getUserAuthorizationFor
       parameters:
       - in: query
         name: permission
         required: true
+        schema:
+          type: string
+      - in: query
+        name: resourceName
+        required: false
         schema:
           type: string
       responses:
@@ -2619,7 +2625,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
-      summary: Is the current user authorized for the provided permission
+      summary: Is the current user authorized for the provided permission and resource
       tags:
       - userAuthorization
   /events:
@@ -10685,6 +10691,7 @@ components:
         - roles
         - roles
         name: name
+        dedicatedSubject: dedicatedSubject
       properties:
         name:
           type: string
@@ -10695,6 +10702,8 @@ components:
           items:
             type: string
           type: array
+        dedicatedSubject:
+          type: string
       required:
       - name
       - roles
@@ -10709,6 +10718,7 @@ components:
         description: description
         expiration: 1
         id: 0
+        dedicatedSubject: dedicatedSubject
       properties:
         id:
           format: int64
@@ -10729,6 +10739,8 @@ components:
           items:
             type: string
           type: array
+        dedicatedSubject:
+          type: string
       required:
       - name
       - roles

@@ -23,6 +23,7 @@ type ServiceToken struct {
 	Description         *string  `json:"description,omitempty"`
 	Expiration          *int64   `json:"expiration,omitempty"`
 	Roles               []string `json:"roles"`
+	DedicatedSubject    *string  `json:"dedicatedSubject,omitempty"`
 }
 
 // NewServiceToken instantiates a new ServiceToken object
@@ -220,6 +221,38 @@ func (o *ServiceToken) SetRoles(v []string) {
 	o.Roles = v
 }
 
+// GetDedicatedSubject returns the DedicatedSubject field value if set, zero value otherwise.
+func (o *ServiceToken) GetDedicatedSubject() string {
+	if o == nil || o.DedicatedSubject == nil {
+		var ret string
+		return ret
+	}
+	return *o.DedicatedSubject
+}
+
+// GetDedicatedSubjectOk returns a tuple with the DedicatedSubject field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ServiceToken) GetDedicatedSubjectOk() (*string, bool) {
+	if o == nil || o.DedicatedSubject == nil {
+		return nil, false
+	}
+	return o.DedicatedSubject, true
+}
+
+// HasDedicatedSubject returns a boolean if a field has been set.
+func (o *ServiceToken) HasDedicatedSubject() bool {
+	if o != nil && o.DedicatedSubject != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDedicatedSubject gets a reference to the given string and assigns it to the DedicatedSubject field.
+func (o *ServiceToken) SetDedicatedSubject(v string) {
+	o.DedicatedSubject = &v
+}
+
 func (o ServiceToken) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
@@ -239,6 +272,9 @@ func (o ServiceToken) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["roles"] = o.Roles
+	}
+	if o.DedicatedSubject != nil {
+		toSerialize["dedicatedSubject"] = o.DedicatedSubject
 	}
 	return json.Marshal(toSerialize)
 }

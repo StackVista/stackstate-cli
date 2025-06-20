@@ -37,10 +37,10 @@ func TestServiceTokenList(t *testing.T) {
 
 	tableData := []printer.TableData{
 		{
-			Header: []string{"id", "name", "expiration", "roles"},
+			Header: []string{"id", "name", "expiration", "roles", "dedicated_Subject"},
 			Data: [][]interface{}{
-				{int64(1), "test", "2020-05-22", []string{"test-role", "another-role"}},
-				{int64(2), "test2", "", []string{"test-role"}},
+				{int64(1), "test", "2020-05-22", []string{"test-role", "another-role"}, (*string)(nil)},
+				{int64(2), "test2", "", []string{"test-role"}, (*string)(nil)},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "service tokens"},
 		},

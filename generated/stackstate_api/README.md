@@ -232,7 +232,7 @@ Class | Method | HTTP request | Description
 *TracesApi* | [**SuggestionsAttributeName**](docs/TracesApi.md#suggestionsattributename) | **Get** /traces/spans/fields/attributes | Suggestions for attribute names
 *TracesApi* | [**SuggestionsAttributeValue**](docs/TracesApi.md#suggestionsattributevalue) | **Get** /traces/spans/fields/attributes/{attributeName}/values | Suggestions for attribute values
 *TracesApi* | [**SuggestionsFieldValues**](docs/TracesApi.md#suggestionsfieldvalues) | **Get** /traces/spans/fields/{field}/values | Suggestions for span fields
-*UserAuthorizationApi* | [**GetUserAuthorizationFor**](docs/UserAuthorizationApi.md#getuserauthorizationfor) | **Get** /user/authorization/for | Is the current user authorized for the provided permission
+*UserAuthorizationApi* | [**GetUserAuthorizationFor**](docs/UserAuthorizationApi.md#getuserauthorizationfor) | **Get** /user/authorization/for | Is the current user authorized for the provided permission and resource
 *UserProfileApi* | [**GetCurrentUserProfile**](docs/UserProfileApi.md#getcurrentuserprofile) | **Get** /user/profile | Get current user profile
 *UserProfileApi* | [**SaveCurrentUserProfile**](docs/UserProfileApi.md#savecurrentuserprofile) | **Put** /user/profile | Save current user profile
 *UserSessionApi* | [**GetUserSessionAssumedRole**](docs/UserSessionApi.md#getusersessionassumedrole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session

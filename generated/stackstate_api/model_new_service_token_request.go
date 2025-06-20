@@ -17,9 +17,10 @@ import (
 
 // NewServiceTokenRequest struct for NewServiceTokenRequest
 type NewServiceTokenRequest struct {
-	Name       string   `json:"name"`
-	ExpiryDate *int64   `json:"expiryDate,omitempty"`
-	Roles      []string `json:"roles"`
+	Name             string   `json:"name"`
+	ExpiryDate       *int64   `json:"expiryDate,omitempty"`
+	Roles            []string `json:"roles"`
+	DedicatedSubject *string  `json:"dedicatedSubject,omitempty"`
 }
 
 // NewNewServiceTokenRequest instantiates a new NewServiceTokenRequest object
@@ -121,6 +122,38 @@ func (o *NewServiceTokenRequest) SetRoles(v []string) {
 	o.Roles = v
 }
 
+// GetDedicatedSubject returns the DedicatedSubject field value if set, zero value otherwise.
+func (o *NewServiceTokenRequest) GetDedicatedSubject() string {
+	if o == nil || o.DedicatedSubject == nil {
+		var ret string
+		return ret
+	}
+	return *o.DedicatedSubject
+}
+
+// GetDedicatedSubjectOk returns a tuple with the DedicatedSubject field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *NewServiceTokenRequest) GetDedicatedSubjectOk() (*string, bool) {
+	if o == nil || o.DedicatedSubject == nil {
+		return nil, false
+	}
+	return o.DedicatedSubject, true
+}
+
+// HasDedicatedSubject returns a boolean if a field has been set.
+func (o *NewServiceTokenRequest) HasDedicatedSubject() bool {
+	if o != nil && o.DedicatedSubject != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDedicatedSubject gets a reference to the given string and assigns it to the DedicatedSubject field.
+func (o *NewServiceTokenRequest) SetDedicatedSubject(v string) {
+	o.DedicatedSubject = &v
+}
+
 func (o NewServiceTokenRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -131,6 +164,9 @@ func (o NewServiceTokenRequest) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["roles"] = o.Roles
+	}
+	if o.DedicatedSubject != nil {
+		toSerialize["dedicatedSubject"] = o.DedicatedSubject
 	}
 	return json.Marshal(toSerialize)
 }

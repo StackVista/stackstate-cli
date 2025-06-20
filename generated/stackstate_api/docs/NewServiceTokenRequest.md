@@ -7,6 +7,7 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **ExpiryDate** | Pointer to **int64** |  | [optional] 
 **Roles** | **[]string** |  | 
+**DedicatedSubject** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -91,6 +92,31 @@ and a boolean to check if the value has been set.
 
 SetRoles sets Roles field to given value.
 
+
+### GetDedicatedSubject
+
+`func (o *NewServiceTokenRequest) GetDedicatedSubject() string`
+
+GetDedicatedSubject returns the DedicatedSubject field if non-nil, zero value otherwise.
+
+### GetDedicatedSubjectOk
+
+`func (o *NewServiceTokenRequest) GetDedicatedSubjectOk() (*string, bool)`
+
+GetDedicatedSubjectOk returns a tuple with the DedicatedSubject field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDedicatedSubject
+
+`func (o *NewServiceTokenRequest) SetDedicatedSubject(v string)`
+
+SetDedicatedSubject sets DedicatedSubject field to given value.
+
+### HasDedicatedSubject
+
+`func (o *NewServiceTokenRequest) HasDedicatedSubject() bool`
+
+HasDedicatedSubject returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

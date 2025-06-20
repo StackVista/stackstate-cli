@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetUserAuthorizationFor**](UserAuthorizationApi.md#GetUserAuthorizationFor) | **Get** /user/authorization/for | Is the current user authorized for the provided permission
+[**GetUserAuthorizationFor**](UserAuthorizationApi.md#GetUserAuthorizationFor) | **Get** /user/authorization/for | Is the current user authorized for the provided permission and resource
 
 
 
 ## GetUserAuthorizationFor
 
-> GetUserAuthorizationFor(ctx).Permission(permission).Execute()
+> GetUserAuthorizationFor(ctx).Permission(permission).ResourceName(resourceName).Execute()
 
-Is the current user authorized for the provided permission
+Is the current user authorized for the provided permission and resource
 
 
 
@@ -30,10 +30,11 @@ import (
 
 func main() {
     permission := "permission_example" // string | 
+    resourceName := "resourceName_example" // string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.UserAuthorizationApi.GetUserAuthorizationFor(context.Background()).Permission(permission).Execute()
+    resp, r, err := apiClient.UserAuthorizationApi.GetUserAuthorizationFor(context.Background()).Permission(permission).ResourceName(resourceName).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `UserAuthorizationApi.GetUserAuthorizationFor``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -53,6 +54,7 @@ Other parameters are passed through a pointer to a apiGetUserAuthorizationForReq
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **permission** | **string** |  | 
+ **resourceName** | **string** |  | 
 
 ### Return type
 

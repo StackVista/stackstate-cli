@@ -16,9 +16,10 @@ const (
 )
 
 type CreateArgs struct {
-	Name       string
-	Expiration time.Time
-	Roles      []string
+	Name             string
+	Expiration       time.Time
+	Roles            []string
+	DedicatedSubject string
 }
 
 func CreateCommand(deps *di.Deps) *cobra.Command {
@@ -33,6 +34,7 @@ func CreateCommand(deps *di.Deps) *cobra.Command {
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the service token")
 	cmd.Flags().TimeVar(&args.Expiration, "expiration", time.Time{}, []string{DateFormat}, "Expiration date of the service token")
 	cmd.Flags().StringSliceVar(&args.Roles, "roles", []string{}, "Roles assigned to the service token")
+	cmd.Flags().StringVar(&args.DedicatedSubject, "dedicatedSubject", "", "Subject solely created for usage with this token. The dedicated subject is cleaned after the token is deleted")
 	cmd.MarkFlagRequired("roles") //nolint:errcheck
 	return cmd
 }
@@ -40,8 +42,9 @@ func CreateCommand(deps *di.Deps) *cobra.Command {
 func RunServiceTokenCreateCommand(args *CreateArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 		req := stackstate_api.NewServiceTokenRequest{
-			Name:  args.Name,
-			Roles: args.Roles,
+			Name:             args.Name,
+			Roles:            args.Roles,
+			DedicatedSubject: &args.DedicatedSubject,
 		}
 
 		if !args.Expiration.IsZero() {
