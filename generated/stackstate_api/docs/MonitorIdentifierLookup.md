@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **MetricQuery** | **string** |  | 
-**ComponentType** | **int64** |  | 
+**ComponentTypeName** | **string** |  | 
 **TopN** | Pointer to **int32** |  | [optional] 
 **Overrides** | Pointer to [**MonitorIdentifierLookupOverrides**](MonitorIdentifierLookupOverrides.md) |  | [optional] 
 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMonitorIdentifierLookup
 
-`func NewMonitorIdentifierLookup(metricQuery string, componentType int64, ) *MonitorIdentifierLookup`
+`func NewMonitorIdentifierLookup(metricQuery string, componentTypeName string, ) *MonitorIdentifierLookup`
 
 NewMonitorIdentifierLookup instantiates a new MonitorIdentifierLookup object
 This constructor will assign default values to properties that have it defined,
@@ -48,24 +48,24 @@ and a boolean to check if the value has been set.
 SetMetricQuery sets MetricQuery field to given value.
 
 
-### GetComponentType
+### GetComponentTypeName
 
-`func (o *MonitorIdentifierLookup) GetComponentType() int64`
+`func (o *MonitorIdentifierLookup) GetComponentTypeName() string`
 
-GetComponentType returns the ComponentType field if non-nil, zero value otherwise.
+GetComponentTypeName returns the ComponentTypeName field if non-nil, zero value otherwise.
 
-### GetComponentTypeOk
+### GetComponentTypeNameOk
 
-`func (o *MonitorIdentifierLookup) GetComponentTypeOk() (*int64, bool)`
+`func (o *MonitorIdentifierLookup) GetComponentTypeNameOk() (*string, bool)`
 
-GetComponentTypeOk returns a tuple with the ComponentType field if it's non-nil, zero value otherwise
+GetComponentTypeNameOk returns a tuple with the ComponentTypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComponentType
+### SetComponentTypeName
 
-`func (o *MonitorIdentifierLookup) SetComponentType(v int64)`
+`func (o *MonitorIdentifierLookup) SetComponentTypeName(v string)`
 
-SetComponentType sets ComponentType field to given value.
+SetComponentTypeName sets ComponentTypeName field to given value.
 
 
 ### GetTopN

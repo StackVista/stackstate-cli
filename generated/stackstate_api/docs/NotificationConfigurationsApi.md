@@ -34,7 +34,7 @@ import (
 )
 
 func main() {
-    notificationConfigurationWriteSchema := *openapiclient.NewNotificationConfigurationWriteSchema("Name_example", openapiclient.NotifyOnOptions("CRITICAL"), []openapiclient.MonitorReferenceId{openapiclient.MonitorReferenceId{ExternalMonitorDefId: openapiclient.NewExternalMonitorDefId("Type_example", int64(123))}}, []string{"MonitorTags_example"}, []int64{int64(123)}, []string{"ComponentTags_example"}, openapiclient.NotificationConfigurationStatusValue("ENABLED"), []openapiclient.ChannelReferenceId{openapiclient.ChannelReferenceId{EmailChannelRefId: openapiclient.NewEmailChannelRefId("Type_example", int64(123))}}) // NotificationConfigurationWriteSchema | Create or update a notification configuration
+    notificationConfigurationWriteSchema := *openapiclient.NewNotificationConfigurationWriteSchema("Name_example", openapiclient.NotifyOnOptions("CRITICAL"), []openapiclient.MonitorReferenceId{openapiclient.MonitorReferenceId{ExternalMonitorDefId: openapiclient.NewExternalMonitorDefId("Type_example", int64(123))}}, []string{"MonitorTags_example"}, []string{"ComponentTypeNames_example"}, []string{"ComponentTags_example"}, openapiclient.NotificationConfigurationStatusValue("ENABLED"), []openapiclient.ChannelReferenceId{openapiclient.ChannelReferenceId{EmailChannelRefId: openapiclient.NewEmailChannelRefId("Type_example", int64(123))}}) // NotificationConfigurationWriteSchema | Create or update a notification configuration
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -370,7 +370,7 @@ import (
 
 func main() {
     notificationConfigurationIdOrUrn := "notificationConfigurationIdOrUrn_example" // string | Notification identifier
-    notificationConfigurationWriteSchema := *openapiclient.NewNotificationConfigurationWriteSchema("Name_example", openapiclient.NotifyOnOptions("CRITICAL"), []openapiclient.MonitorReferenceId{openapiclient.MonitorReferenceId{ExternalMonitorDefId: openapiclient.NewExternalMonitorDefId("Type_example", int64(123))}}, []string{"MonitorTags_example"}, []int64{int64(123)}, []string{"ComponentTags_example"}, openapiclient.NotificationConfigurationStatusValue("ENABLED"), []openapiclient.ChannelReferenceId{openapiclient.ChannelReferenceId{EmailChannelRefId: openapiclient.NewEmailChannelRefId("Type_example", int64(123))}}) // NotificationConfigurationWriteSchema | Create or update a notification configuration
+    notificationConfigurationWriteSchema := *openapiclient.NewNotificationConfigurationWriteSchema("Name_example", openapiclient.NotifyOnOptions("CRITICAL"), []openapiclient.MonitorReferenceId{openapiclient.MonitorReferenceId{ExternalMonitorDefId: openapiclient.NewExternalMonitorDefId("Type_example", int64(123))}}, []string{"MonitorTags_example"}, []string{"ComponentTypeNames_example"}, []string{"ComponentTags_example"}, openapiclient.NotificationConfigurationStatusValue("ENABLED"), []openapiclient.ChannelReferenceId{openapiclient.ChannelReferenceId{EmailChannelRefId: openapiclient.NewEmailChannelRefId("Type_example", int64(123))}}) // NotificationConfigurationWriteSchema | Create or update a notification configuration
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

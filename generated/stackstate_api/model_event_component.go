@@ -17,22 +17,25 @@ import (
 
 // EventComponent struct for EventComponent
 type EventComponent struct {
-	Type            string `json:"_type"`
-	Id              int64  `json:"id"`
-	ComponentTypeId int64  `json:"componentTypeId"`
-	Name            string `json:"name"`
+	Type        string   `json:"_type"`
+	Id          int64    `json:"id"`
+	TypeName    string   `json:"typeName"`
+	Name        string   `json:"name"`
+	Identifiers []string `json:"identifiers"`
+	Iconbase64  *string  `json:"iconbase64,omitempty"`
 }
 
 // NewEventComponent instantiates a new EventComponent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventComponent(type_ string, id int64, componentTypeId int64, name string) *EventComponent {
+func NewEventComponent(type_ string, id int64, typeName string, name string, identifiers []string) *EventComponent {
 	this := EventComponent{}
 	this.Type = type_
 	this.Id = id
-	this.ComponentTypeId = componentTypeId
+	this.TypeName = typeName
 	this.Name = name
+	this.Identifiers = identifiers
 	return &this
 }
 
@@ -92,28 +95,28 @@ func (o *EventComponent) SetId(v int64) {
 	o.Id = v
 }
 
-// GetComponentTypeId returns the ComponentTypeId field value
-func (o *EventComponent) GetComponentTypeId() int64 {
+// GetTypeName returns the TypeName field value
+func (o *EventComponent) GetTypeName() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 
-	return o.ComponentTypeId
+	return o.TypeName
 }
 
-// GetComponentTypeIdOk returns a tuple with the ComponentTypeId field value
+// GetTypeNameOk returns a tuple with the TypeName field value
 // and a boolean to check if the value has been set.
-func (o *EventComponent) GetComponentTypeIdOk() (*int64, bool) {
+func (o *EventComponent) GetTypeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ComponentTypeId, true
+	return &o.TypeName, true
 }
 
-// SetComponentTypeId sets field value
-func (o *EventComponent) SetComponentTypeId(v int64) {
-	o.ComponentTypeId = v
+// SetTypeName sets field value
+func (o *EventComponent) SetTypeName(v string) {
+	o.TypeName = v
 }
 
 // GetName returns the Name field value
@@ -140,6 +143,62 @@ func (o *EventComponent) SetName(v string) {
 	o.Name = v
 }
 
+// GetIdentifiers returns the Identifiers field value
+func (o *EventComponent) GetIdentifiers() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.Identifiers
+}
+
+// GetIdentifiersOk returns a tuple with the Identifiers field value
+// and a boolean to check if the value has been set.
+func (o *EventComponent) GetIdentifiersOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Identifiers, true
+}
+
+// SetIdentifiers sets field value
+func (o *EventComponent) SetIdentifiers(v []string) {
+	o.Identifiers = v
+}
+
+// GetIconbase64 returns the Iconbase64 field value if set, zero value otherwise.
+func (o *EventComponent) GetIconbase64() string {
+	if o == nil || o.Iconbase64 == nil {
+		var ret string
+		return ret
+	}
+	return *o.Iconbase64
+}
+
+// GetIconbase64Ok returns a tuple with the Iconbase64 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EventComponent) GetIconbase64Ok() (*string, bool) {
+	if o == nil || o.Iconbase64 == nil {
+		return nil, false
+	}
+	return o.Iconbase64, true
+}
+
+// HasIconbase64 returns a boolean if a field has been set.
+func (o *EventComponent) HasIconbase64() bool {
+	if o != nil && o.Iconbase64 != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIconbase64 gets a reference to the given string and assigns it to the Iconbase64 field.
+func (o *EventComponent) SetIconbase64(v string) {
+	o.Iconbase64 = &v
+}
+
 func (o EventComponent) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -149,10 +208,16 @@ func (o EventComponent) MarshalJSON() ([]byte, error) {
 		toSerialize["id"] = o.Id
 	}
 	if true {
-		toSerialize["componentTypeId"] = o.ComponentTypeId
+		toSerialize["typeName"] = o.TypeName
 	}
 	if true {
 		toSerialize["name"] = o.Name
+	}
+	if true {
+		toSerialize["identifiers"] = o.Identifiers
+	}
+	if o.Iconbase64 != nil {
+		toSerialize["iconbase64"] = o.Iconbase64
 	}
 	return json.Marshal(toSerialize)
 }

@@ -56,8 +56,6 @@ type APIClient struct {
 
 	ApiTokenApi ApiTokenApi
 
-	AuthorizeIngestionApiKeyApi AuthorizeIngestionApiKeyApi
-
 	ComponentApi ComponentApi
 
 	DashboardsApi DashboardsApi
@@ -71,8 +69,6 @@ type APIClient struct {
 	HealthSynchronizationApi HealthSynchronizationApi
 
 	ImportApi ImportApi
-
-	IngestionApiKeyApi IngestionApiKeyApi
 
 	KubernetesLogsApi KubernetesLogsApi
 
@@ -142,7 +138,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.AgentLeasesApi = (*AgentLeasesApiService)(&c.common)
 	c.AgentRegistrationsApi = (*AgentRegistrationsApiService)(&c.common)
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
-	c.AuthorizeIngestionApiKeyApi = (*AuthorizeIngestionApiKeyApiService)(&c.common)
 	c.ComponentApi = (*ComponentApiService)(&c.common)
 	c.DashboardsApi = (*DashboardsApiService)(&c.common)
 	c.DummyApi = (*DummyApiService)(&c.common)
@@ -150,7 +145,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ExportApi = (*ExportApiService)(&c.common)
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
 	c.ImportApi = (*ImportApiService)(&c.common)
-	c.IngestionApiKeyApi = (*IngestionApiKeyApiService)(&c.common)
 	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
 	c.LayoutApi = (*LayoutApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)

@@ -6,9 +6,10 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Id** | **int64** |  | 
-**ComponentTypeId** | **int64** |  | 
+**TypeName** | **string** |  | 
 **Name** | **string** |  | 
-**RelationTypeId** | **int64** |  | 
+**Identifiers** | **[]string** |  | 
+**Iconbase64** | Pointer to **string** |  | [optional] 
 **Source** | [**EventComponent**](EventComponent.md) |  | 
 **Target** | [**EventComponent**](EventComponent.md) |  | 
 **DependencyDirection** | [**DependencyDirection**](DependencyDirection.md) |  | 
@@ -17,7 +18,7 @@ Name | Type | Description | Notes
 
 ### NewEventElement
 
-`func NewEventElement(type_ string, id int64, componentTypeId int64, name string, relationTypeId int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventElement`
+`func NewEventElement(type_ string, id int64, typeName string, name string, identifiers []string, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventElement`
 
 NewEventElement instantiates a new EventElement object
 This constructor will assign default values to properties that have it defined,
@@ -72,24 +73,24 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetComponentTypeId
+### GetTypeName
 
-`func (o *EventElement) GetComponentTypeId() int64`
+`func (o *EventElement) GetTypeName() string`
 
-GetComponentTypeId returns the ComponentTypeId field if non-nil, zero value otherwise.
+GetTypeName returns the TypeName field if non-nil, zero value otherwise.
 
-### GetComponentTypeIdOk
+### GetTypeNameOk
 
-`func (o *EventElement) GetComponentTypeIdOk() (*int64, bool)`
+`func (o *EventElement) GetTypeNameOk() (*string, bool)`
 
-GetComponentTypeIdOk returns a tuple with the ComponentTypeId field if it's non-nil, zero value otherwise
+GetTypeNameOk returns a tuple with the TypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComponentTypeId
+### SetTypeName
 
-`func (o *EventElement) SetComponentTypeId(v int64)`
+`func (o *EventElement) SetTypeName(v string)`
 
-SetComponentTypeId sets ComponentTypeId field to given value.
+SetTypeName sets TypeName field to given value.
 
 
 ### GetName
@@ -112,25 +113,50 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetRelationTypeId
+### GetIdentifiers
 
-`func (o *EventElement) GetRelationTypeId() int64`
+`func (o *EventElement) GetIdentifiers() []string`
 
-GetRelationTypeId returns the RelationTypeId field if non-nil, zero value otherwise.
+GetIdentifiers returns the Identifiers field if non-nil, zero value otherwise.
 
-### GetRelationTypeIdOk
+### GetIdentifiersOk
 
-`func (o *EventElement) GetRelationTypeIdOk() (*int64, bool)`
+`func (o *EventElement) GetIdentifiersOk() (*[]string, bool)`
 
-GetRelationTypeIdOk returns a tuple with the RelationTypeId field if it's non-nil, zero value otherwise
+GetIdentifiersOk returns a tuple with the Identifiers field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRelationTypeId
+### SetIdentifiers
 
-`func (o *EventElement) SetRelationTypeId(v int64)`
+`func (o *EventElement) SetIdentifiers(v []string)`
 
-SetRelationTypeId sets RelationTypeId field to given value.
+SetIdentifiers sets Identifiers field to given value.
 
+
+### GetIconbase64
+
+`func (o *EventElement) GetIconbase64() string`
+
+GetIconbase64 returns the Iconbase64 field if non-nil, zero value otherwise.
+
+### GetIconbase64Ok
+
+`func (o *EventElement) GetIconbase64Ok() (*string, bool)`
+
+GetIconbase64Ok returns a tuple with the Iconbase64 field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIconbase64
+
+`func (o *EventElement) SetIconbase64(v string)`
+
+SetIconbase64 sets Iconbase64 field to given value.
+
+### HasIconbase64
+
+`func (o *EventElement) HasIconbase64() bool`
+
+HasIconbase64 returns a boolean if a field has been set.
 
 ### GetSource
 

@@ -19,8 +19,9 @@ import (
 type EventRelation struct {
 	Type                string              `json:"_type"`
 	Id                  int64               `json:"id"`
-	RelationTypeId      int64               `json:"relationTypeId"`
+	TypeName            string              `json:"typeName"`
 	Name                *string             `json:"name,omitempty"`
+	Identifiers         []string            `json:"identifiers"`
 	Source              EventComponent      `json:"source"`
 	Target              EventComponent      `json:"target"`
 	DependencyDirection DependencyDirection `json:"dependencyDirection"`
@@ -30,11 +31,12 @@ type EventRelation struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEventRelation(type_ string, id int64, relationTypeId int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection) *EventRelation {
+func NewEventRelation(type_ string, id int64, typeName string, identifiers []string, source EventComponent, target EventComponent, dependencyDirection DependencyDirection) *EventRelation {
 	this := EventRelation{}
 	this.Type = type_
 	this.Id = id
-	this.RelationTypeId = relationTypeId
+	this.TypeName = typeName
+	this.Identifiers = identifiers
 	this.Source = source
 	this.Target = target
 	this.DependencyDirection = dependencyDirection
@@ -97,28 +99,28 @@ func (o *EventRelation) SetId(v int64) {
 	o.Id = v
 }
 
-// GetRelationTypeId returns the RelationTypeId field value
-func (o *EventRelation) GetRelationTypeId() int64 {
+// GetTypeName returns the TypeName field value
+func (o *EventRelation) GetTypeName() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 
-	return o.RelationTypeId
+	return o.TypeName
 }
 
-// GetRelationTypeIdOk returns a tuple with the RelationTypeId field value
+// GetTypeNameOk returns a tuple with the TypeName field value
 // and a boolean to check if the value has been set.
-func (o *EventRelation) GetRelationTypeIdOk() (*int64, bool) {
+func (o *EventRelation) GetTypeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.RelationTypeId, true
+	return &o.TypeName, true
 }
 
-// SetRelationTypeId sets field value
-func (o *EventRelation) SetRelationTypeId(v int64) {
-	o.RelationTypeId = v
+// SetTypeName sets field value
+func (o *EventRelation) SetTypeName(v string) {
+	o.TypeName = v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -151,6 +153,30 @@ func (o *EventRelation) HasName() bool {
 // SetName gets a reference to the given string and assigns it to the Name field.
 func (o *EventRelation) SetName(v string) {
 	o.Name = &v
+}
+
+// GetIdentifiers returns the Identifiers field value
+func (o *EventRelation) GetIdentifiers() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.Identifiers
+}
+
+// GetIdentifiersOk returns a tuple with the Identifiers field value
+// and a boolean to check if the value has been set.
+func (o *EventRelation) GetIdentifiersOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Identifiers, true
+}
+
+// SetIdentifiers sets field value
+func (o *EventRelation) SetIdentifiers(v []string) {
+	o.Identifiers = v
 }
 
 // GetSource returns the Source field value
@@ -234,10 +260,13 @@ func (o EventRelation) MarshalJSON() ([]byte, error) {
 		toSerialize["id"] = o.Id
 	}
 	if true {
-		toSerialize["relationTypeId"] = o.RelationTypeId
+		toSerialize["typeName"] = o.TypeName
 	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
+	}
+	if true {
+		toSerialize["identifiers"] = o.Identifiers
 	}
 	if true {
 		toSerialize["source"] = o.Source

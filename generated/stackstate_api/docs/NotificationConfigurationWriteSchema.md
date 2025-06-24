@@ -10,7 +10,7 @@ Name | Type | Description | Notes
 **NotifyHealthStates** | [**NotifyOnOptions**](NotifyOnOptions.md) |  | 
 **Monitors** | [**[]MonitorReferenceId**](MonitorReferenceId.md) |  | 
 **MonitorTags** | **[]string** |  | 
-**ComponentTypes** | **[]int64** |  | 
+**ComponentTypeNames** | **[]string** |  | 
 **ComponentTags** | **[]string** |  | 
 **Status** | [**NotificationConfigurationStatusValue**](NotificationConfigurationStatusValue.md) |  | 
 **NotificationChannels** | [**[]ChannelReferenceId**](ChannelReferenceId.md) |  | 
@@ -19,7 +19,7 @@ Name | Type | Description | Notes
 
 ### NewNotificationConfigurationWriteSchema
 
-`func NewNotificationConfigurationWriteSchema(name string, notifyHealthStates NotifyOnOptions, monitors []MonitorReferenceId, monitorTags []string, componentTypes []int64, componentTags []string, status NotificationConfigurationStatusValue, notificationChannels []ChannelReferenceId, ) *NotificationConfigurationWriteSchema`
+`func NewNotificationConfigurationWriteSchema(name string, notifyHealthStates NotifyOnOptions, monitors []MonitorReferenceId, monitorTags []string, componentTypeNames []string, componentTags []string, status NotificationConfigurationStatusValue, notificationChannels []ChannelReferenceId, ) *NotificationConfigurationWriteSchema`
 
 NewNotificationConfigurationWriteSchema instantiates a new NotificationConfigurationWriteSchema object
 This constructor will assign default values to properties that have it defined,
@@ -164,24 +164,24 @@ and a boolean to check if the value has been set.
 SetMonitorTags sets MonitorTags field to given value.
 
 
-### GetComponentTypes
+### GetComponentTypeNames
 
-`func (o *NotificationConfigurationWriteSchema) GetComponentTypes() []int64`
+`func (o *NotificationConfigurationWriteSchema) GetComponentTypeNames() []string`
 
-GetComponentTypes returns the ComponentTypes field if non-nil, zero value otherwise.
+GetComponentTypeNames returns the ComponentTypeNames field if non-nil, zero value otherwise.
 
-### GetComponentTypesOk
+### GetComponentTypeNamesOk
 
-`func (o *NotificationConfigurationWriteSchema) GetComponentTypesOk() (*[]int64, bool)`
+`func (o *NotificationConfigurationWriteSchema) GetComponentTypeNamesOk() (*[]string, bool)`
 
-GetComponentTypesOk returns a tuple with the ComponentTypes field if it's non-nil, zero value otherwise
+GetComponentTypeNamesOk returns a tuple with the ComponentTypeNames field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComponentTypes
+### SetComponentTypeNames
 
-`func (o *NotificationConfigurationWriteSchema) SetComponentTypes(v []int64)`
+`func (o *NotificationConfigurationWriteSchema) SetComponentTypeNames(v []string)`
 
-SetComponentTypes sets ComponentTypes field to given value.
+SetComponentTypeNames sets ComponentTypeNames field to given value.
 
 
 ### GetComponentTags

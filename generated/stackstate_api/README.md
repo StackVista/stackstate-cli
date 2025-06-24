@@ -90,7 +90,6 @@ Class | Method | HTTP request | Description
 *AgentLeasesApi* | [**AgentCheckLease**](docs/AgentLeasesApi.md#agentchecklease) | **Post** /agents/{agentId}/checkLease | Check the lease of an agent.
 *AgentRegistrationsApi* | [**AllAgentRegistrations**](docs/AgentRegistrationsApi.md#allagentregistrations) | **Get** /agents | Overview of registered agents
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
-*AuthorizeIngestionApiKeyApi* | [**AuthorizeIngestionApiKey**](docs/AuthorizeIngestionApiKeyApi.md#authorizeingestionapikey) | **Post** /security/ingestion/authorize | Check authorization for an Ingestion Api Key
 *ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrUrn}/healthHistory | Get a component health history
 *DashboardsApi* | [**CloneDashboard**](docs/DashboardsApi.md#clonedashboard) | **Post** /dashboards/{dashboardIdOrUrn}/clone | Clone a dashboard
 *DashboardsApi* | [**CreateDashboard**](docs/DashboardsApi.md#createdashboard) | **Post** /dashboards | Create a new dashboard
@@ -115,9 +114,6 @@ Class | Method | HTTP request | Description
 *HealthSynchronizationApi* | [**GetHealthSynchronizationSubStreamTopologyMatches**](docs/HealthSynchronizationApi.md#gethealthsynchronizationsubstreamtopologymatches) | **Get** /synchronization/health/streams/{healthStreamUrn}/substreams/{healthSyncSubStreamId}/topologyMatches | List health sync sub-stream check-states
 *HealthSynchronizationApi* | [**PostHealthSynchronizationStreamClearErrors**](docs/HealthSynchronizationApi.md#posthealthsynchronizationstreamclearerrors) | **Post** /synchronization/health/streams/{healthStreamUrn}/clearErrors | Clear health sync stream errors
 *ImportApi* | [**ImportSettings**](docs/ImportApi.md#importsettings) | **Post** /import | Import settings
-*IngestionApiKeyApi* | [**DeleteIngestionApiKey**](docs/IngestionApiKeyApi.md#deleteingestionapikey) | **Delete** /security/ingestion/api_keys/{ingestionApiKeyId} | Delete Ingestion Api Key
-*IngestionApiKeyApi* | [**GenerateIngestionApiKey**](docs/IngestionApiKeyApi.md#generateingestionapikey) | **Post** /security/ingestion/api_keys | Generate a new Ingestion Api Key
-*IngestionApiKeyApi* | [**GetIngestionApiKeys**](docs/IngestionApiKeyApi.md#getingestionapikeys) | **Get** /security/ingestion/api_keys | List Ingestion Api Keys
 *KubernetesLogsApi* | [**GetKubernetesLogs**](docs/KubernetesLogsApi.md#getkuberneteslogs) | **Get** /k8s/logs | Get Kubernetes logs
 *KubernetesLogsApi* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsApi.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
 *KubernetesLogsApi* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsApi.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
@@ -265,7 +261,6 @@ Class | Method | HTTP request | Description
  - [ArgumentTimeWindowVal](docs/ArgumentTimeWindowVal.md)
  - [ArgumentTopologyPromQLMetricVal](docs/ArgumentTopologyPromQLMetricVal.md)
  - [ArgumentTopologyQueryVal](docs/ArgumentTopologyQueryVal.md)
- - [AuthorizeIngestionApiKeyRequest](docs/AuthorizeIngestionApiKeyRequest.md)
  - [BaseLayoutHint](docs/BaseLayoutHint.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
  - [BaseNotificationChannel](docs/BaseNotificationChannel.md)
@@ -340,8 +335,6 @@ Class | Method | HTTP request | Description
  - [FAQ](docs/FAQ.md)
  - [FailingHealthStateValue](docs/FailingHealthStateValue.md)
  - [FullStackPack](docs/FullStackPack.md)
- - [GenerateIngestionApiKeyRequest](docs/GenerateIngestionApiKeyRequest.md)
- - [GeneratedIngestionApiKeyResponse](docs/GeneratedIngestionApiKeyResponse.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [GetCausingEventsBadRequest](docs/GetCausingEventsBadRequest.md)
@@ -375,9 +368,6 @@ Class | Method | HTTP request | Description
  - [HealthSubStreamStatus](docs/HealthSubStreamStatus.md)
  - [HealthSubStreamTransactionalIncrements](docs/HealthSubStreamTransactionalIncrements.md)
  - [IdentifierType](docs/IdentifierType.md)
- - [IngestionApiKey](docs/IngestionApiKey.md)
- - [IngestionApiKeyCreateError](docs/IngestionApiKeyCreateError.md)
- - [IngestionApiKeyInvalidExpiryError](docs/IngestionApiKeyInvalidExpiryError.md)
  - [InstantNanoPrecision](docs/InstantNanoPrecision.md)
  - [InvalidMonitorIdentifierError](docs/InvalidMonitorIdentifierError.md)
  - [InvalidNotificationConfigurationIdentifier](docs/InvalidNotificationConfigurationIdentifier.md)

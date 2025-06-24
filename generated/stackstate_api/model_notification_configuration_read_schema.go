@@ -23,7 +23,7 @@ type NotificationConfigurationReadSchema struct {
 	NotifyHealthStates   NotifyOnOptions                             `json:"notifyHealthStates"`
 	Monitors             []MonitorReferenceId                        `json:"monitors"`
 	MonitorTags          []string                                    `json:"monitorTags"`
-	ComponentTypes       []int64                                     `json:"componentTypes"`
+	ComponentTypeNames   []string                                    `json:"componentTypeNames"`
 	ComponentTags        []string                                    `json:"componentTags"`
 	Status               NotificationConfigurationStatusValue        `json:"status"`
 	NotificationChannels []ChannelReferenceId                        `json:"notificationChannels"`
@@ -36,13 +36,13 @@ type NotificationConfigurationReadSchema struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNotificationConfigurationReadSchema(name string, notifyHealthStates NotifyOnOptions, monitors []MonitorReferenceId, monitorTags []string, componentTypes []int64, componentTags []string, status NotificationConfigurationStatusValue, notificationChannels []ChannelReferenceId, id int64, lastUpdateTimestamp int64, runtimeStatus NotificationConfigurationRuntimeStatusValue) *NotificationConfigurationReadSchema {
+func NewNotificationConfigurationReadSchema(name string, notifyHealthStates NotifyOnOptions, monitors []MonitorReferenceId, monitorTags []string, componentTypeNames []string, componentTags []string, status NotificationConfigurationStatusValue, notificationChannels []ChannelReferenceId, id int64, lastUpdateTimestamp int64, runtimeStatus NotificationConfigurationRuntimeStatusValue) *NotificationConfigurationReadSchema {
 	this := NotificationConfigurationReadSchema{}
 	this.Name = name
 	this.NotifyHealthStates = notifyHealthStates
 	this.Monitors = monitors
 	this.MonitorTags = monitorTags
-	this.ComponentTypes = componentTypes
+	this.ComponentTypeNames = componentTypeNames
 	this.ComponentTags = componentTags
 	this.Status = status
 	this.NotificationChannels = notificationChannels
@@ -220,28 +220,28 @@ func (o *NotificationConfigurationReadSchema) SetMonitorTags(v []string) {
 	o.MonitorTags = v
 }
 
-// GetComponentTypes returns the ComponentTypes field value
-func (o *NotificationConfigurationReadSchema) GetComponentTypes() []int64 {
+// GetComponentTypeNames returns the ComponentTypeNames field value
+func (o *NotificationConfigurationReadSchema) GetComponentTypeNames() []string {
 	if o == nil {
-		var ret []int64
+		var ret []string
 		return ret
 	}
 
-	return o.ComponentTypes
+	return o.ComponentTypeNames
 }
 
-// GetComponentTypesOk returns a tuple with the ComponentTypes field value
+// GetComponentTypeNamesOk returns a tuple with the ComponentTypeNames field value
 // and a boolean to check if the value has been set.
-func (o *NotificationConfigurationReadSchema) GetComponentTypesOk() ([]int64, bool) {
+func (o *NotificationConfigurationReadSchema) GetComponentTypeNamesOk() ([]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ComponentTypes, true
+	return o.ComponentTypeNames, true
 }
 
-// SetComponentTypes sets field value
-func (o *NotificationConfigurationReadSchema) SetComponentTypes(v []int64) {
-	o.ComponentTypes = v
+// SetComponentTypeNames sets field value
+func (o *NotificationConfigurationReadSchema) SetComponentTypeNames(v []string) {
+	o.ComponentTypeNames = v
 }
 
 // GetComponentTags returns the ComponentTags field value
@@ -409,7 +409,7 @@ func (o NotificationConfigurationReadSchema) MarshalJSON() ([]byte, error) {
 		toSerialize["monitorTags"] = o.MonitorTags
 	}
 	if true {
-		toSerialize["componentTypes"] = o.ComponentTypes
+		toSerialize["componentTypeNames"] = o.ComponentTypeNames
 	}
 	if true {
 		toSerialize["componentTags"] = o.ComponentTags

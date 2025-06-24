@@ -22,8 +22,6 @@ type MonitorCheckStatusComponent struct {
 	Name       string  `json:"name"`
 	Type       string  `json:"type"`
 	Iconbase64 *string `json:"iconbase64,omitempty"`
-	Namespace  *string `json:"namespace,omitempty"`
-	Cluster    *string `json:"cluster,omitempty"`
 }
 
 // NewMonitorCheckStatusComponent instantiates a new MonitorCheckStatusComponent object
@@ -175,70 +173,6 @@ func (o *MonitorCheckStatusComponent) SetIconbase64(v string) {
 	o.Iconbase64 = &v
 }
 
-// GetNamespace returns the Namespace field value if set, zero value otherwise.
-func (o *MonitorCheckStatusComponent) GetNamespace() string {
-	if o == nil || o.Namespace == nil {
-		var ret string
-		return ret
-	}
-	return *o.Namespace
-}
-
-// GetNamespaceOk returns a tuple with the Namespace field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusComponent) GetNamespaceOk() (*string, bool) {
-	if o == nil || o.Namespace == nil {
-		return nil, false
-	}
-	return o.Namespace, true
-}
-
-// HasNamespace returns a boolean if a field has been set.
-func (o *MonitorCheckStatusComponent) HasNamespace() bool {
-	if o != nil && o.Namespace != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetNamespace gets a reference to the given string and assigns it to the Namespace field.
-func (o *MonitorCheckStatusComponent) SetNamespace(v string) {
-	o.Namespace = &v
-}
-
-// GetCluster returns the Cluster field value if set, zero value otherwise.
-func (o *MonitorCheckStatusComponent) GetCluster() string {
-	if o == nil || o.Cluster == nil {
-		var ret string
-		return ret
-	}
-	return *o.Cluster
-}
-
-// GetClusterOk returns a tuple with the Cluster field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusComponent) GetClusterOk() (*string, bool) {
-	if o == nil || o.Cluster == nil {
-		return nil, false
-	}
-	return o.Cluster, true
-}
-
-// HasCluster returns a boolean if a field has been set.
-func (o *MonitorCheckStatusComponent) HasCluster() bool {
-	if o != nil && o.Cluster != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetCluster gets a reference to the given string and assigns it to the Cluster field.
-func (o *MonitorCheckStatusComponent) SetCluster(v string) {
-	o.Cluster = &v
-}
-
 func (o MonitorCheckStatusComponent) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -255,12 +189,6 @@ func (o MonitorCheckStatusComponent) MarshalJSON() ([]byte, error) {
 	}
 	if o.Iconbase64 != nil {
 		toSerialize["iconbase64"] = o.Iconbase64
-	}
-	if o.Namespace != nil {
-		toSerialize["namespace"] = o.Namespace
-	}
-	if o.Cluster != nil {
-		toSerialize["cluster"] = o.Cluster
 	}
 	return json.Marshal(toSerialize)
 }

@@ -450,7 +450,7 @@ import (
 )
 
 func main() {
-    monitorIdentifierLookup := *openapiclient.NewMonitorIdentifierLookup("MetricQuery_example", int64(123)) // MonitorIdentifierLookup | Component type and metric query for identifier lookup
+    monitorIdentifierLookup := *openapiclient.NewMonitorIdentifierLookup("MetricQuery_example", "ComponentTypeName_example") // MonitorIdentifierLookup | Component type and metric query for identifier lookup
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
