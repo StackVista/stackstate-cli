@@ -6,7 +6,6 @@ api/openapi.yaml
 api_agent_leases.go
 api_agent_registrations.go
 api_api_token.go
-api_authorize_ingestion_api_key.go
 api_component.go
 api_dashboards.go
 api_dummy.go
@@ -14,7 +13,6 @@ api_event.go
 api_export.go
 api_health_synchronization.go
 api_import.go
-api_ingestion_api_key.go
 api_kubernetes_logs.go
 api_layout.go
 api_metric.go
@@ -67,8 +65,6 @@ docs/ArgumentStructTypeVal.md
 docs/ArgumentTimeWindowVal.md
 docs/ArgumentTopologyPromQLMetricVal.md
 docs/ArgumentTopologyQueryVal.md
-docs/AuthorizeIngestionApiKeyApi.md
-docs/AuthorizeIngestionApiKeyRequest.md
 docs/BaseLayoutHint.md
 docs/BaseMonitorError.md
 docs/BaseNotificationChannel.md
@@ -148,8 +144,6 @@ docs/ExternalMonitorDefId.md
 docs/FAQ.md
 docs/FailingHealthStateValue.md
 docs/FullStackPack.md
-docs/GenerateIngestionApiKeyRequest.md
-docs/GeneratedIngestionApiKeyResponse.md
 docs/GenericApiError.md
 docs/GenericErrorsResponse.md
 docs/GetCausingEventsBadRequest.md
@@ -185,10 +179,6 @@ docs/HealthSubStreamTransactionalIncrements.md
 docs/HealthSynchronizationApi.md
 docs/IdentifierType.md
 docs/ImportApi.md
-docs/IngestionApiKey.md
-docs/IngestionApiKeyApi.md
-docs/IngestionApiKeyCreateError.md
-docs/IngestionApiKeyInvalidExpiryError.md
 docs/InstantNanoPrecision.md
 docs/InvalidMonitorIdentifierError.md
 docs/InvalidNotificationConfigurationIdentifier.md
@@ -495,7 +485,6 @@ model_argument_struct_type_val.go
 model_argument_time_window_val.go
 model_argument_topology_prom_ql_metric_val.go
 model_argument_topology_query_val.go
-model_authorize_ingestion_api_key_request.go
 model_base_layout_hint.go
 model_base_monitor_error.go
 model_base_notification_channel.go
@@ -570,8 +559,6 @@ model_external_monitor_def_id.go
 model_failing_health_state_value.go
 model_faq.go
 model_full_stack_pack.go
-model_generate_ingestion_api_key_request.go
-model_generated_ingestion_api_key_response.go
 model_generic_api_error.go
 model_generic_errors_response.go
 model_get_causing_events_bad_request.go
@@ -605,9 +592,6 @@ model_health_sub_stream_snapshot.go
 model_health_sub_stream_status.go
 model_health_sub_stream_transactional_increments.go
 model_identifier_type.go
-model_ingestion_api_key.go
-model_ingestion_api_key_create_error.go
-model_ingestion_api_key_invalid_expiry_error.go
 model_instant_nano_precision.go
 model_invalid_monitor_identifier_error.go
 model_invalid_notification_configuration_identifier.go

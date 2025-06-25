@@ -9,8 +9,6 @@ Name | Type | Description | Notes
 **Name** | **string** |  | 
 **Type** | **string** |  | 
 **Iconbase64** | Pointer to **string** |  | [optional] 
-**Namespace** | Pointer to **string** |  | [optional] 
-**Cluster** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -135,56 +133,6 @@ SetIconbase64 sets Iconbase64 field to given value.
 `func (o *MonitorCheckStatusComponent) HasIconbase64() bool`
 
 HasIconbase64 returns a boolean if a field has been set.
-
-### GetNamespace
-
-`func (o *MonitorCheckStatusComponent) GetNamespace() string`
-
-GetNamespace returns the Namespace field if non-nil, zero value otherwise.
-
-### GetNamespaceOk
-
-`func (o *MonitorCheckStatusComponent) GetNamespaceOk() (*string, bool)`
-
-GetNamespaceOk returns a tuple with the Namespace field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetNamespace
-
-`func (o *MonitorCheckStatusComponent) SetNamespace(v string)`
-
-SetNamespace sets Namespace field to given value.
-
-### HasNamespace
-
-`func (o *MonitorCheckStatusComponent) HasNamespace() bool`
-
-HasNamespace returns a boolean if a field has been set.
-
-### GetCluster
-
-`func (o *MonitorCheckStatusComponent) GetCluster() string`
-
-GetCluster returns the Cluster field if non-nil, zero value otherwise.
-
-### GetClusterOk
-
-`func (o *MonitorCheckStatusComponent) GetClusterOk() (*string, bool)`
-
-GetClusterOk returns a tuple with the Cluster field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetCluster
-
-`func (o *MonitorCheckStatusComponent) SetCluster(v string)`
-
-SetCluster sets Cluster field to given value.
-
-### HasCluster
-
-`func (o *MonitorCheckStatusComponent) HasCluster() bool`
-
-HasCluster returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

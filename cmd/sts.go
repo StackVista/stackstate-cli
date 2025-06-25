@@ -28,7 +28,6 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(RbacCommand(cli))
 	cmd.AddCommand(TopicCommand(cli))
 	cmd.AddCommand(TopologySyncCommand(cli))
-	cmd.AddCommand(IngestionApiKeyCommand(cli))
 	cmd.AddCommand(AgentCommand(cli))
 
 	return cmd

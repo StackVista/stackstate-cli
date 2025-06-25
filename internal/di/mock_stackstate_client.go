@@ -34,7 +34,6 @@ type ApiMocks struct {
 	SubjectApi                 *stackstate_api.SubjectApiMock
 	TopicApi                   *stackstate_api.TopicApiMock
 	AgentRegistrationsApi      *stackstate_api.AgentRegistrationsApiMock
-	IngestionApiKeyApi         *stackstate_api.IngestionApiKeyApiMock
 	// Admin API:
 	RetentionApi *stackstate_admin_api.RetentionApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
@@ -58,7 +57,6 @@ func NewMockStackStateClient() MockStackStateClient {
 	permissionsApi := stackstate_api.NewPermissionsApiMock()
 	subjectApi := stackstate_api.NewSubjectApiMock()
 	topicApi := stackstate_api.NewTopicApiMock()
-	ingestionApiKeyApi := stackstate_api.NewIngestionApiKeyApiMock()
 	retentionApi := stackstate_admin_api.NewRetentionApiMock()
 	agentRegistrationsApi := stackstate_api.NewAgentRegistrationsApiMock()
 
@@ -80,7 +78,6 @@ func NewMockStackStateClient() MockStackStateClient {
 		PermissionsApi:             &permissionsApi,
 		SubjectApi:                 &subjectApi,
 		TopicApi:                   &topicApi,
-		IngestionApiKeyApi:         &ingestionApiKeyApi,
 		RetentionApi:               &retentionApi,
 		AgentRegistrationsApi:      &agentRegistrationsApi,
 	}
@@ -102,7 +99,6 @@ func NewMockStackStateClient() MockStackStateClient {
 		SubscriptionApi:            apiMocks.SubscriptionApi,
 		PermissionsApi:             apiMocks.PermissionsApi,
 		SubjectApi:                 apiMocks.SubjectApi,
-		IngestionApiKeyApi:         apiMocks.IngestionApiKeyApi,
 		TopicApi:                   apiMocks.TopicApi,
 		AgentRegistrationsApi:      apiMocks.AgentRegistrationsApi,
 	}

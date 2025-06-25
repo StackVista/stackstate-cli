@@ -6,14 +6,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Id** | **int64** |  | 
-**ComponentTypeId** | **int64** |  | 
+**TypeName** | **string** |  | 
 **Name** | **string** |  | 
+**Identifiers** | **[]string** |  | 
+**Iconbase64** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
 ### NewEventComponent
 
-`func NewEventComponent(type_ string, id int64, componentTypeId int64, name string, ) *EventComponent`
+`func NewEventComponent(type_ string, id int64, typeName string, name string, identifiers []string, ) *EventComponent`
 
 NewEventComponent instantiates a new EventComponent object
 This constructor will assign default values to properties that have it defined,
@@ -68,24 +70,24 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetComponentTypeId
+### GetTypeName
 
-`func (o *EventComponent) GetComponentTypeId() int64`
+`func (o *EventComponent) GetTypeName() string`
 
-GetComponentTypeId returns the ComponentTypeId field if non-nil, zero value otherwise.
+GetTypeName returns the TypeName field if non-nil, zero value otherwise.
 
-### GetComponentTypeIdOk
+### GetTypeNameOk
 
-`func (o *EventComponent) GetComponentTypeIdOk() (*int64, bool)`
+`func (o *EventComponent) GetTypeNameOk() (*string, bool)`
 
-GetComponentTypeIdOk returns a tuple with the ComponentTypeId field if it's non-nil, zero value otherwise
+GetTypeNameOk returns a tuple with the TypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComponentTypeId
+### SetTypeName
 
-`func (o *EventComponent) SetComponentTypeId(v int64)`
+`func (o *EventComponent) SetTypeName(v string)`
 
-SetComponentTypeId sets ComponentTypeId field to given value.
+SetTypeName sets TypeName field to given value.
 
 
 ### GetName
@@ -107,6 +109,51 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
+
+### GetIdentifiers
+
+`func (o *EventComponent) GetIdentifiers() []string`
+
+GetIdentifiers returns the Identifiers field if non-nil, zero value otherwise.
+
+### GetIdentifiersOk
+
+`func (o *EventComponent) GetIdentifiersOk() (*[]string, bool)`
+
+GetIdentifiersOk returns a tuple with the Identifiers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentifiers
+
+`func (o *EventComponent) SetIdentifiers(v []string)`
+
+SetIdentifiers sets Identifiers field to given value.
+
+
+### GetIconbase64
+
+`func (o *EventComponent) GetIconbase64() string`
+
+GetIconbase64 returns the Iconbase64 field if non-nil, zero value otherwise.
+
+### GetIconbase64Ok
+
+`func (o *EventComponent) GetIconbase64Ok() (*string, bool)`
+
+GetIconbase64Ok returns a tuple with the Iconbase64 field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIconbase64
+
+`func (o *EventComponent) SetIconbase64(v string)`
+
+SetIconbase64 sets Iconbase64 field to given value.
+
+### HasIconbase64
+
+`func (o *EventComponent) HasIconbase64() bool`
+
+HasIconbase64 returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

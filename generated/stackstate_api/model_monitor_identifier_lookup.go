@@ -17,20 +17,20 @@ import (
 
 // MonitorIdentifierLookup struct for MonitorIdentifierLookup
 type MonitorIdentifierLookup struct {
-	MetricQuery   string                            `json:"metricQuery"`
-	ComponentType int64                             `json:"componentType"`
-	TopN          *int32                            `json:"topN,omitempty"`
-	Overrides     *MonitorIdentifierLookupOverrides `json:"overrides,omitempty"`
+	MetricQuery       string                            `json:"metricQuery"`
+	ComponentTypeName string                            `json:"componentTypeName"`
+	TopN              *int32                            `json:"topN,omitempty"`
+	Overrides         *MonitorIdentifierLookupOverrides `json:"overrides,omitempty"`
 }
 
 // NewMonitorIdentifierLookup instantiates a new MonitorIdentifierLookup object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorIdentifierLookup(metricQuery string, componentType int64) *MonitorIdentifierLookup {
+func NewMonitorIdentifierLookup(metricQuery string, componentTypeName string) *MonitorIdentifierLookup {
 	this := MonitorIdentifierLookup{}
 	this.MetricQuery = metricQuery
-	this.ComponentType = componentType
+	this.ComponentTypeName = componentTypeName
 	return &this
 }
 
@@ -66,28 +66,28 @@ func (o *MonitorIdentifierLookup) SetMetricQuery(v string) {
 	o.MetricQuery = v
 }
 
-// GetComponentType returns the ComponentType field value
-func (o *MonitorIdentifierLookup) GetComponentType() int64 {
+// GetComponentTypeName returns the ComponentTypeName field value
+func (o *MonitorIdentifierLookup) GetComponentTypeName() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 
-	return o.ComponentType
+	return o.ComponentTypeName
 }
 
-// GetComponentTypeOk returns a tuple with the ComponentType field value
+// GetComponentTypeNameOk returns a tuple with the ComponentTypeName field value
 // and a boolean to check if the value has been set.
-func (o *MonitorIdentifierLookup) GetComponentTypeOk() (*int64, bool) {
+func (o *MonitorIdentifierLookup) GetComponentTypeNameOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ComponentType, true
+	return &o.ComponentTypeName, true
 }
 
-// SetComponentType sets field value
-func (o *MonitorIdentifierLookup) SetComponentType(v int64) {
-	o.ComponentType = v
+// SetComponentTypeName sets field value
+func (o *MonitorIdentifierLookup) SetComponentTypeName(v string) {
+	o.ComponentTypeName = v
 }
 
 // GetTopN returns the TopN field value if set, zero value otherwise.
@@ -160,7 +160,7 @@ func (o MonitorIdentifierLookup) MarshalJSON() ([]byte, error) {
 		toSerialize["metricQuery"] = o.MetricQuery
 	}
 	if true {
-		toSerialize["componentType"] = o.ComponentType
+		toSerialize["componentTypeName"] = o.ComponentTypeName
 	}
 	if o.TopN != nil {
 		toSerialize["topN"] = o.TopN

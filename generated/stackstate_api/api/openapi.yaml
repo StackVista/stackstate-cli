@@ -3626,117 +3626,6 @@ paths:
       summary: Delete service token
       tags:
       - serviceToken
-  /security/ingestion/api_keys:
-    get:
-      description: Returns only metadata without token itself
-      operationId: getIngestionApiKeys
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/IngestionApiKey'
-                type: array
-          description: All Ingestion Api Keys
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: List Ingestion Api Keys
-      tags:
-      - ingestionApiKey
-    post:
-      description: "Generates token and then returns it in the response, the token\
-        \ can't be obtained any more after that"
-      operationId: generateIngestionApiKey
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GenerateIngestionApiKeyRequest'
-        required: true
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GeneratedIngestionApiKeyResponse'
-          description: The newly generated Ingestion Api Key
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/IngestionApiKeyCreateError'
-          description: Invalid arguments
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Generate a new Ingestion Api Key
-      tags:
-      - ingestionApiKey
-  /security/ingestion/authorize:
-    post:
-      description: Checks if an ingestion api key is valid
-      operationId: authorizeIngestionApiKey
-      parameters:
-      - description: "By default, the endpoint uses only Ingestion API Keys, true\
-          \ value - to verify also Receiver API Key"
-        in: query
-        name: withReceiverKey
-        required: false
-        schema:
-          default: false
-          type: boolean
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/AuthorizeIngestionApiKeyRequest'
-        required: true
-      responses:
-        "204":
-          description: Ingestion Api Key is valid
-        "403":
-          description: Forbidden
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Check authorization for an Ingestion Api Key
-      tags:
-      - authorizeIngestionApiKey
-  /security/ingestion/api_keys/{ingestionApiKeyId}:
-    delete:
-      description: "Deleted token can't be used by sources, so all ingestion pipelines\
-        \ for that key will fail"
-      operationId: deleteIngestionApiKey
-      parameters:
-      - description: The identifier of a key
-        in: path
-        name: ingestionApiKeyId
-        required: true
-        schema:
-          $ref: '#/components/schemas/IngestionApiKeyId'
-      responses:
-        "204":
-          description: The key has been deleted
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Delete Ingestion Api Key
-      tags:
-      - ingestionApiKey
   /security/permissions/list:
     get:
       description: Get a list of available permissions
@@ -8090,25 +7979,24 @@ components:
       type: object
     MonitorIdentifierLookup:
       example:
-        componentType: 0
         metricQuery: metricQuery
         overrides:
-          timeSeries: 5
-          components: 1
-        topN: 6
+          timeSeries: 1
+          components: 6
+        componentTypeName: componentTypeName
+        topN: 0
       properties:
         metricQuery:
           type: string
-        componentType:
-          format: int64
-          type: integer
+        componentTypeName:
+          type: string
         topN:
           format: int32
           type: integer
         overrides:
           $ref: '#/components/schemas/MonitorIdentifierLookup_overrides'
       required:
-      - componentType
+      - componentTypeName
       - metricQuery
       type: object
     MonitorIdentifierSuggestions:
@@ -8332,10 +8220,8 @@ components:
         message: message
         component:
           identifier: identifier
-          cluster: cluster
           iconbase64: iconbase64
           name: name
-          namespace: namespace
           id: 1
           type: type
         troubleshootingSteps: troubleshootingSteps
@@ -8464,10 +8350,8 @@ components:
     MonitorCheckStatusComponent:
       example:
         identifier: identifier
-        cluster: cluster
         iconbase64: iconbase64
         name: name
-        namespace: namespace
         id: 1
         type: type
       properties:
@@ -8481,10 +8365,6 @@ components:
         type:
           type: string
         iconbase64:
-          type: string
-        namespace:
-          type: string
-        cluster:
           type: string
       required:
       - id
@@ -8518,10 +8398,8 @@ components:
         checkStatuses:
         - component:
             identifier: identifier
-            cluster: cluster
             iconbase64: iconbase64
             name: name
-            namespace: namespace
             id: 1
             type: type
           triggeredTimestamp: 5
@@ -8533,10 +8411,8 @@ components:
           id: 1
         - component:
             identifier: identifier
-            cluster: cluster
             iconbase64: iconbase64
             name: name
-            namespace: namespace
             id: 1
             type: type
           triggeredTimestamp: 5
@@ -8565,10 +8441,8 @@ components:
       example:
         component:
           identifier: identifier
-          cluster: cluster
           iconbase64: iconbase64
           name: name
-          namespace: namespace
           id: 1
           type: type
         triggeredTimestamp: 5
@@ -8931,11 +8805,11 @@ components:
         monitorTags:
         - monitorTags
         - monitorTags
+        componentTypeNames:
+        - componentTypeNames
+        - componentTypeNames
         notifyHealthStates: null
         name: name
-        componentTypes:
-        - 0
-        - 0
         description: description
         notificationChannels:
         - null
@@ -8961,10 +8835,9 @@ components:
           items:
             type: string
           type: array
-        componentTypes:
+        componentTypeNames:
           items:
-            format: int64
-            type: integer
+            type: string
           type: array
         componentTags:
           items:
@@ -8978,7 +8851,7 @@ components:
           type: array
       required:
       - componentTags
-      - componentTypes
+      - componentTypeNames
       - monitorTags
       - monitors
       - name
@@ -9583,16 +9456,22 @@ components:
         id:
           format: int64
           type: integer
-        componentTypeId:
-          format: int64
-          type: integer
+        typeName:
+          type: string
         name:
+          type: string
+        identifiers:
+          items:
+            type: string
+          type: array
+        iconbase64:
           type: string
       required:
       - _type
-      - componentTypeId
       - id
+      - identifiers
       - name
+      - typeName
       type: object
     EventRelation:
       properties:
@@ -9603,11 +9482,14 @@ components:
         id:
           format: int64
           type: integer
-        relationTypeId:
-          format: int64
-          type: integer
+        typeName:
+          type: string
         name:
           type: string
+        identifiers:
+          items:
+            type: string
+          type: array
         source:
           $ref: '#/components/schemas/EventComponent'
         target:
@@ -9618,9 +9500,10 @@ components:
       - _type
       - dependencyDirection
       - id
-      - relationTypeId
+      - identifiers
       - source
       - target
+      - typeName
       type: object
     DependencyDirection:
       enum:
@@ -10746,113 +10629,6 @@ components:
       - roles
       type: object
     ServiceTokenId:
-      format: int64
-      type: integer
-    IngestionApiKey:
-      example:
-        lastUpdateTimestamp: 6
-        name: name
-        description: description
-        expiration: 1
-        id: 0
-      properties:
-        id:
-          format: int64
-          readOnly: true
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        description:
-          type: string
-        expiration:
-          format: int64
-          type: integer
-      required:
-      - id
-      - lastUpdateTimestamp
-      - name
-      type: object
-    GeneratedIngestionApiKeyResponse:
-      example:
-        lastUpdateTimestamp: 6
-        apiKey: apiKey
-        name: name
-        description: description
-        expiration: 1
-        id: 0
-      properties:
-        id:
-          format: int64
-          readOnly: true
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          readOnly: true
-          type: integer
-        name:
-          type: string
-        description:
-          type: string
-        expiration:
-          format: int64
-          type: integer
-        apiKey:
-          type: string
-      required:
-      - apiKey
-      - id
-      - lastUpdateTimestamp
-      - name
-      type: object
-    IngestionApiKeyCreateError:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/IngestionApiKeyInvalidExpiryError'
-      required:
-      - _type
-    IngestionApiKeyInvalidExpiryError:
-      properties:
-        _type:
-          enum:
-          - IngestionApiKeyInvalidExpiryError
-          type: string
-        message:
-          type: string
-      required:
-      - _type
-      - message
-      type: object
-    GenerateIngestionApiKeyRequest:
-      example:
-        name: name
-        description: description
-        expiration: 0
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        expiration:
-          format: int64
-          type: integer
-      required:
-      - name
-      type: object
-    AuthorizeIngestionApiKeyRequest:
-      example:
-        apiKey: apiKey
-      properties:
-        apiKey:
-          type: string
-      required:
-      - apiKey
-      type: object
-    IngestionApiKeyId:
       format: int64
       type: integer
     Permissions:
@@ -15417,8 +15193,8 @@ components:
       type: object
     MonitorIdentifierLookup_overrides:
       example:
-        timeSeries: 5
-        components: 1
+        timeSeries: 1
+        components: 6
       properties:
         components:
           format: int32

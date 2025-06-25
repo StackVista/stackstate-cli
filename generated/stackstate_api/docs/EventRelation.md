@@ -6,8 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Id** | **int64** |  | 
-**RelationTypeId** | **int64** |  | 
+**TypeName** | **string** |  | 
 **Name** | Pointer to **string** |  | [optional] 
+**Identifiers** | **[]string** |  | 
 **Source** | [**EventComponent**](EventComponent.md) |  | 
 **Target** | [**EventComponent**](EventComponent.md) |  | 
 **DependencyDirection** | [**DependencyDirection**](DependencyDirection.md) |  | 
@@ -16,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewEventRelation
 
-`func NewEventRelation(type_ string, id int64, relationTypeId int64, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventRelation`
+`func NewEventRelation(type_ string, id int64, typeName string, identifiers []string, source EventComponent, target EventComponent, dependencyDirection DependencyDirection, ) *EventRelation`
 
 NewEventRelation instantiates a new EventRelation object
 This constructor will assign default values to properties that have it defined,
@@ -71,24 +72,24 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetRelationTypeId
+### GetTypeName
 
-`func (o *EventRelation) GetRelationTypeId() int64`
+`func (o *EventRelation) GetTypeName() string`
 
-GetRelationTypeId returns the RelationTypeId field if non-nil, zero value otherwise.
+GetTypeName returns the TypeName field if non-nil, zero value otherwise.
 
-### GetRelationTypeIdOk
+### GetTypeNameOk
 
-`func (o *EventRelation) GetRelationTypeIdOk() (*int64, bool)`
+`func (o *EventRelation) GetTypeNameOk() (*string, bool)`
 
-GetRelationTypeIdOk returns a tuple with the RelationTypeId field if it's non-nil, zero value otherwise
+GetTypeNameOk returns a tuple with the TypeName field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetRelationTypeId
+### SetTypeName
 
-`func (o *EventRelation) SetRelationTypeId(v int64)`
+`func (o *EventRelation) SetTypeName(v string)`
 
-SetRelationTypeId sets RelationTypeId field to given value.
+SetTypeName sets TypeName field to given value.
 
 
 ### GetName
@@ -115,6 +116,26 @@ SetName sets Name field to given value.
 `func (o *EventRelation) HasName() bool`
 
 HasName returns a boolean if a field has been set.
+
+### GetIdentifiers
+
+`func (o *EventRelation) GetIdentifiers() []string`
+
+GetIdentifiers returns the Identifiers field if non-nil, zero value otherwise.
+
+### GetIdentifiersOk
+
+`func (o *EventRelation) GetIdentifiersOk() (*[]string, bool)`
+
+GetIdentifiersOk returns a tuple with the Identifiers field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIdentifiers
+
+`func (o *EventRelation) SetIdentifiers(v []string)`
+
+SetIdentifiers sets Identifiers field to given value.
+
 
 ### GetSource
 
