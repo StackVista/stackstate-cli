@@ -53,7 +53,7 @@ type SubjectApi interface {
 	/*
 		GetSubject Get subject
 
-		Describe a subject and its scope
+		Describe a subject
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 		@param subject
@@ -413,7 +413,7 @@ func (r ApiGetSubjectRequest) Execute() (*SubjectConfig, *http.Response, error) 
 /*
 GetSubject Get subject
 
-Describe a subject and its scope
+Describe a subject
 
  @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @param subject

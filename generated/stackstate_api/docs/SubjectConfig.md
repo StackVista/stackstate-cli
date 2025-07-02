@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Handle** | **string** |  | 
+**Source** | [**SubjectSource**](SubjectSource.md) |  | 
 
 ## Methods
 
 ### NewSubjectConfig
 
-`func NewSubjectConfig(handle string, ) *SubjectConfig`
+`func NewSubjectConfig(handle string, source SubjectSource, ) *SubjectConfig`
 
 NewSubjectConfig instantiates a new SubjectConfig object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *SubjectConfig) SetHandle(v string)`
 
 SetHandle sets Handle field to given value.
+
+
+### GetSource
+
+`func (o *SubjectConfig) GetSource() SubjectSource`
+
+GetSource returns the Source field if non-nil, zero value otherwise.
+
+### GetSourceOk
+
+`func (o *SubjectConfig) GetSourceOk() (*SubjectSource, bool)`
+
+GetSourceOk returns a tuple with the Source field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSource
+
+`func (o *SubjectConfig) SetSource(v SubjectSource)`
+
+SetSource sets Source field to given value.
 
 
 
