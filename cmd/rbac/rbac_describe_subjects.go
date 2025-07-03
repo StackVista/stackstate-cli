@@ -43,13 +43,15 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"handle": subject.Handle,
+					"source": subject.Source,
 				})
 			} else {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Subject"},
+					Header: []string{"Subject", "Source"},
 					Data: [][]interface{}{
 						{
 							subject.Handle,
+							subject.Source,
 						},
 					},
 					MissingTableDataMsg: printer.NotFoundMsg{Types: "matching subjects"},
@@ -70,11 +72,11 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 				data := make([][]interface{}, 0)
 
 				for _, subject := range subjects {
-					data = append(data, []interface{}{subject.Handle})
+					data = append(data, []interface{}{subject.Handle, subject.Source})
 				}
 
 				cli.Printer.Table(printer.TableData{
-					Header:              []string{"Subject"},
+					Header:              []string{"Subject", "Source"},
 					Data:                data,
 					MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 				})

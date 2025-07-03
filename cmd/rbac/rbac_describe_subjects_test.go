@@ -13,16 +13,19 @@ var (
 	SomeScopeVar   = SomeScope
 	SubjectConfig1 = stackstate_api.SubjectConfig{
 		Handle: SomeSubject,
+		Source: stackstate_api.SUBJECTSOURCE_OBSERVABILITY,
 	}
 
 	SomeOtherSubject = "handle"
 
 	SubjectConfig2 = stackstate_api.SubjectConfig{
 		Handle: SomeOtherSubject,
+		Source: stackstate_api.SUBJECTSOURCE_OBSERVABILITY,
 	}
 
 	SubjectConfig3 = stackstate_api.SubjectConfig{
 		Handle: SubjectHandle,
+		Source: stackstate_api.SUBJECTSOURCE_OBSERVABILITY,
 	}
 )
 
@@ -43,11 +46,11 @@ func TestDescribeSubjectsTable(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{"Subject"},
+			Header: []string{"Subject", "Source"},
 			Data: [][]interface{}{
-				{SubjectConfig1.Handle},
-				{SubjectConfig2.Handle},
-				{SubjectConfig3.Handle},
+				{SubjectConfig1.Handle, SubjectConfig1.Source},
+				{SubjectConfig2.Handle, SubjectConfig1.Source},
+				{SubjectConfig3.Handle, SubjectConfig1.Source},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 		},
@@ -96,9 +99,9 @@ func TestDescribeSubjectsTableWithFilter(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{"Subject"},
+			Header: []string{"Subject", "Source"},
 			Data: [][]interface{}{
-				{SubjectConfig1.Handle},
+				{SubjectConfig1.Handle, SubjectConfig1.Source},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "matching subjects"},
 		},
@@ -127,9 +130,11 @@ func TestDescribeSubjectsJsonWithFilter(t *testing.T) {
 	expectedJson := []map[string]interface{}{
 		{
 			"handle": SubjectConfig1.Handle,
+			"source": SubjectConfig3.Source,
 		},
 		{
 			"handle": SubjectConfig3.Handle,
+			"source": SubjectConfig3.Source,
 		},
 	}
 

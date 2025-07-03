@@ -567,6 +567,7 @@ Class | Method | HTTP request | Description
  - [SubStreamList](docs/SubStreamList.md)
  - [SubStreamListItem](docs/SubStreamListItem.md)
  - [SubjectConfig](docs/SubjectConfig.md)
+ - [SubjectSource](docs/SubjectSource.md)
  - [Subscription](docs/Subscription.md)
  - [SubscriptionState](docs/SubscriptionState.md)
  - [Suggestions](docs/Suggestions.md)

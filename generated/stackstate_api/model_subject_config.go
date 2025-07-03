@@ -17,16 +17,18 @@ import (
 
 // SubjectConfig struct for SubjectConfig
 type SubjectConfig struct {
-	Handle string `json:"handle"`
+	Handle string        `json:"handle"`
+	Source SubjectSource `json:"source"`
 }
 
 // NewSubjectConfig instantiates a new SubjectConfig object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSubjectConfig(handle string) *SubjectConfig {
+func NewSubjectConfig(handle string, source SubjectSource) *SubjectConfig {
 	this := SubjectConfig{}
 	this.Handle = handle
+	this.Source = source
 	return &this
 }
 
@@ -62,10 +64,37 @@ func (o *SubjectConfig) SetHandle(v string) {
 	o.Handle = v
 }
 
+// GetSource returns the Source field value
+func (o *SubjectConfig) GetSource() SubjectSource {
+	if o == nil {
+		var ret SubjectSource
+		return ret
+	}
+
+	return o.Source
+}
+
+// GetSourceOk returns a tuple with the Source field value
+// and a boolean to check if the value has been set.
+func (o *SubjectConfig) GetSourceOk() (*SubjectSource, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Source, true
+}
+
+// SetSource sets field value
+func (o *SubjectConfig) SetSource(v SubjectSource) {
+	o.Source = v
+}
+
 func (o SubjectConfig) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["handle"] = o.Handle
+	}
+	if true {
+		toSerialize["source"] = o.Source
 	}
 	return json.Marshal(toSerialize)
 }

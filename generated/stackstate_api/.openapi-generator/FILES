@@ -393,6 +393,7 @@ docs/SubStreamList.md
 docs/SubStreamListItem.md
 docs/SubjectApi.md
 docs/SubjectConfig.md
+docs/SubjectSource.md
 docs/Subscription.md
 docs/SubscriptionApi.md
 docs/SubscriptionState.md
@@ -791,6 +792,7 @@ model_string_items_with_total.go
 model_sub_stream_list.go
 model_sub_stream_list_item.go
 model_subject_config.go
+model_subject_source.go
 model_subscription.go
 model_subscription_state.go
 model_suggestions.go

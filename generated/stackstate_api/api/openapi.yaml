@@ -3815,7 +3815,7 @@ paths:
       tags:
       - subject
     get:
-      description: Describe a subject and its scope
+      description: Describe a subject
       operationId: getSubject
       parameters:
       - in: path
@@ -10690,12 +10690,22 @@ components:
     SubjectConfig:
       example:
         handle: handle
+        source: null
       properties:
         handle:
           type: string
+        source:
+          $ref: '#/components/schemas/SubjectSource'
       required:
       - handle
+      - source
       type: object
+    SubjectSource:
+      enum:
+      - Static
+      - Observability
+      - Kubernetes
+      type: string
     CreateSubject:
       example:
         query: query
