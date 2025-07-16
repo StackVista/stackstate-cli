@@ -3541,6 +3541,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/ServerInfo'
           description: Server information
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
         "500":
           content:
             application/json:
