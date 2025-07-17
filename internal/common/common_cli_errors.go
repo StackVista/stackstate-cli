@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/util"
 )
 
@@ -39,9 +40,30 @@ func NewConnectError(err error, apiURL string, serverResponse *http.Response) CL
 	}
 
 	if statusCode == HTTPStatusUnauthorized {
+		var errMessage string
+
+		if apiErr, ok := err.(*stackstate_api.GenericOpenAPIError); ok {
+			if detailedErr, ok := apiErr.Model().(stackstate_api.GenericErrorsResponse); ok {
+				// Now you can access your 401 error details
+				var messages []string
+				for _, apiErr := range detailedErr.Errors {
+					messages = append(messages, apiErr.Message)
+				}
+				errMessage = strings.Join(messages, ", ")
+				// Some responses do not yield more than the 401, others give in the body the error message as the RefreshToken failed or so
+				if errMessage == "" {
+					errMessage = "invalid api-token"
+				}
+			} else {
+				errMessage = err.Error()
+			}
+		} else {
+			errMessage = err.Error()
+		}
+
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to %s: invalid api-token\n"+
-				"For more information: https://l.stackstate.com/cli-invalid-api-token", apiURL),
+			Err: fmt.Errorf("could not connect to %s: %s\n"+
+				"For more information: https://l.stackstate.com/cli-invalid-api-token", apiURL, errMessage),
 			exitCode: ConnectErrorExitCode,
 		}
 	} else {
