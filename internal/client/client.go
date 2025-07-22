@@ -3,6 +3,7 @@ package client
 import (
 	"context"
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"net/http"
 	"strings"
@@ -29,13 +30,20 @@ func NewStackStateClient(ctx context.Context,
 	apiToken string,
 	serviceToken string,
 	k8sServiceAccountToken string,
-	skipSSL bool) (StackStateClient, context.Context) {
+	skipSSL bool,
+	caCertData []byte) (StackStateClient, context.Context, common.CLIError) {
 	userAgent := fmt.Sprintf("StackStateCLI/%s", version)
 	apiURL := combineURLandPath(url, apiPath)
-	client, clientAuth := NewApiClient(ctx, isVerbose, pr, userAgent, apiURL, apiToken, serviceToken, k8sServiceAccountToken, skipSSL)
+	client, clientAuth, err := NewApiClient(ctx, isVerbose, pr, userAgent, apiURL, apiToken, serviceToken, k8sServiceAccountToken, skipSSL, caCertData)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	adminApiURL := combineURLandPath(url, adminApiPath)
-	adminClient, adminAuth := NewAdminApiClient(ctx, isVerbose, pr, userAgent, adminApiURL, apiToken, serviceToken, k8sServiceAccountToken, skipSSL)
+	adminClient, adminAuth, err := NewAdminApiClient(ctx, isVerbose, pr, userAgent, adminApiURL, apiToken, serviceToken, k8sServiceAccountToken, skipSSL, caCertData)
+	if err != nil {
+		return nil, nil, err
+	}
 
 	withClient := context.WithValue(
 		ctx,
@@ -54,7 +62,7 @@ func NewStackStateClient(ctx context.Context,
 		Context:     newCtx,
 		apiURL:      apiURL,
 		adminApiURL: adminApiURL,
-	}, newCtx
+	}, newCtx, nil
 }
 
 //nolint:dupl
@@ -68,10 +76,15 @@ func NewApiClient(
 	serviceToken string,
 	k8sServiceAccountToken string,
 	skipSSL bool,
-) (*stackstate_api.APIClient, map[string]stackstate_api.APIKey) {
+	caCertData []byte,
+) (*stackstate_api.APIClient, map[string]stackstate_api.APIKey, common.CLIError) {
 	configuration := stackstate_api.NewConfiguration()
-	if skipSSL {
-		configuration.HTTPClient = insecureHttpClient(ctx)
+	var err common.CLIError
+	if skipSSL || len(caCertData) != 0 {
+		configuration.HTTPClient, err = newTlsHttpClient(ctx, skipSSL, caCertData)
+		if err != nil {
+			return nil, nil, err
+		}
 	}
 
 	configuration.UserAgent = userAgent
@@ -111,7 +124,7 @@ func NewApiClient(
 		}
 	}
 
-	return client, auth
+	return client, auth, nil
 }
 
 //nolint:dupl
@@ -125,10 +138,15 @@ func NewAdminApiClient(
 	serviceToken string,
 	k8sServiceAccountToken string,
 	skipSSL bool,
-) (*stackstate_admin_api.APIClient, map[string]stackstate_admin_api.APIKey) {
+	caCertData []byte,
+) (*stackstate_admin_api.APIClient, map[string]stackstate_admin_api.APIKey, common.CLIError) {
 	configuration := stackstate_admin_api.NewConfiguration()
-	if skipSSL {
-		configuration.HTTPClient = insecureHttpClient(ctx)
+	var err common.CLIError
+	if skipSSL || len(caCertData) != 0 {
+		configuration.HTTPClient, err = newTlsHttpClient(ctx, skipSSL, caCertData)
+		if err != nil {
+			return nil, nil, err
+		}
 	}
 	configuration.UserAgent = userAgent
 	configuration.Servers[0] = stackstate_admin_api.ServerConfiguration{
@@ -167,16 +185,39 @@ func NewAdminApiClient(
 		}
 	}
 
-	return client, auth
+	return client, auth, nil
 }
 
-func insecureHttpClient(ctx context.Context) *http.Client {
-	log.Ctx(ctx).Warn().Msg("Using insecure HTTP client")
+func newTlsHttpClient(ctx context.Context, skipSSL bool, caCertData []byte) (*http.Client, common.CLIError) {
+	if !skipSSL && len(caCertData) == 0 {
+		return nil, common.NewAPIClientCreateError("either skipSSL must be set to true or caCertData must be provided")
+	}
+	if skipSSL {
+		log.Ctx(ctx).Warn().Msg("Using insecure HTTP client")
+		return &http.Client{
+			Transport: &http.Transport{
+				TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //nolint:gosec
+			},
+		}, nil
+	}
+	log.Ctx(ctx).Warn().Msg("Creating HTTP client with private CA or self-signed certificate")
+
+	caCertPool, err := x509.SystemCertPool()
+	if err != nil {
+		// If system CA pool is not available (rare), create empty pool
+		log.Ctx(ctx).Warn().Msgf("Could not load system CA pool: %v", err)
+		caCertPool = x509.NewCertPool()
+	}
+
+	if !caCertPool.AppendCertsFromPEM(caCertData) {
+		return nil, common.NewAPIClientCreateError("failed to parse a self-signed or private CA certificate")
+	}
+
 	return &http.Client{
 		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //nolint:gosec
+			TLSClientConfig: &tls.Config{RootCAs: caCertPool},
 		},
-	}
+	}, nil
 }
 
 type StdStackStateClient struct {

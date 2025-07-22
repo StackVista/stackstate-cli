@@ -9,6 +9,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func setupClient() (StackStateClient, *stackstate_api.ServerApiMock) {
@@ -125,5 +126,114 @@ func TestVersionCompatibilityCheck(t *testing.T) {
 
 	for _, test := range tests {
 		assert.Equal(t, test.Result, CheckVersionCompatibility(test.Server, test.Cmd))
+	}
+}
+
+type TlsHttpClientTest struct {
+	name         string
+	skipSSL      bool
+	caCertData   []byte
+	expectError  bool
+	errorMessage string
+	validateFunc func(t *testing.T, client *http.Client)
+}
+
+func TestNewTlsHttpClient(t *testing.T) {
+	validPEMCert := `-----BEGIN CERTIFICATE-----
+MIICJzCCAdGgAwIBAgIUV/aJj1fEcCgNU2FafY0uRLqy7mAwDQYJKoZIhvcNAQEL
+BQAwKTEnMCUGA1UEAwwedmlsaWFrb3Yuc2FuZGJveC5zdGFja3N0YXRlLmlvMCAX
+DTI1MDcyMTIwNDU1NloYDzIxMjUwNjI3MjA0NTU2WjApMScwJQYDVQQDDB52aWxp
+YWtvdi5zYW5kYm94LnN0YWNrc3RhdGUuaW8wXDANBgkqhkiG9w0BAQEFAANLADBI
+AkEAopQuOJfIkLCWJKT70hgbHJpUkEB+Za2p9uA1INRKM4Ar7dcV9muxNKOcJZ2s
+Vt+b+YSKW8rtmxNPQXuE2D4teQIDAQABo4HOMIHLMB0GA1UdDgQWBBQU0OLVQG12
+wMoEKHgqHmZyXSzZ3zAfBgNVHSMEGDAWgBQU0OLVQG12wMoEKHgqHmZyXSzZ3zAP
+BgNVHRMBAf8EBTADAQH/MHgGA1UdEQRxMG+CHnZpbGlha292LnNhbmRib3guc3Rh
+Y2tzdGF0ZS5pb4Ijb3RscC12aWxpYWtvdi5zYW5kYm94LnN0YWNrc3RhdGUuaW+C
+KG90bHAtaHR0cC12aWxpYWtvdi5zYW5kYm94LnN0YWNrc3RhdGUuaW8wDQYJKoZI
+hvcNAQELBQADQQAfYAVMeMRGlW+GZkzYOxdHiXX4AHHp9IloZPLmBG4LmvZC80hV
+K4cRUEGHkRxgk0h0c9wD8NdVR3QnE0nn6WPE
+-----END CERTIFICATE-----`
+
+	invalidPEMData := []byte("invalid cert data")
+
+	tests := []TlsHttpClientTest{
+		{
+			name:        "skipSSL true, no cert data",
+			skipSSL:     true,
+			caCertData:  nil,
+			expectError: false,
+			validateFunc: func(t *testing.T, client *http.Client) {
+				require.NotNil(t, client)
+				transport := client.Transport.(*http.Transport)
+				require.NotNil(t, transport.TLSClientConfig)
+				assert.True(t, transport.TLSClientConfig.InsecureSkipVerify)
+			},
+		},
+		{
+			name:        "skipSSL true, with cert data",
+			skipSSL:     true,
+			caCertData:  []byte(validPEMCert),
+			expectError: false,
+			validateFunc: func(t *testing.T, client *http.Client) {
+				require.NotNil(t, client)
+				transport := client.Transport.(*http.Transport)
+				require.NotNil(t, transport.TLSClientConfig)
+				assert.True(t, transport.TLSClientConfig.InsecureSkipVerify)
+			},
+		},
+		{
+			name:        "skipSSL false, valid cert data",
+			skipSSL:     false,
+			caCertData:  []byte(validPEMCert),
+			expectError: false,
+			validateFunc: func(t *testing.T, client *http.Client) {
+				require.NotNil(t, client)
+				transport := client.Transport.(*http.Transport)
+				require.NotNil(t, transport.TLSClientConfig)
+				assert.False(t, transport.TLSClientConfig.InsecureSkipVerify)
+				assert.NotNil(t, transport.TLSClientConfig.RootCAs)
+			},
+		},
+		{
+			name:         "skipSSL false, no cert data",
+			skipSSL:      false,
+			caCertData:   nil,
+			expectError:  true,
+			errorMessage: "either skipSSL must be set to true or caCertData must be provided",
+		},
+		{
+			name:         "skipSSL false, empty cert data",
+			skipSSL:      false,
+			caCertData:   []byte{},
+			expectError:  true,
+			errorMessage: "either skipSSL must be set to true or caCertData must be provided",
+		},
+		{
+			name:         "skipSSL false, invalid cert data",
+			skipSSL:      false,
+			caCertData:   invalidPEMData,
+			expectError:  true,
+			errorMessage: "failed to parse a self-signed or private CA certificate",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			ctx := context.Background()
+
+			client, err := newTlsHttpClient(ctx, test.skipSSL, test.caCertData)
+
+			if test.expectError {
+				require.Error(t, err)
+				assert.Contains(t, err.Error(), test.errorMessage)
+				assert.Nil(t, client)
+			} else {
+				require.NoError(t, err)
+				require.NotNil(t, client)
+				if test.validateFunc != nil {
+					test.validateFunc(t, client)
+				}
+			}
+		})
 	}
 }

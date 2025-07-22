@@ -1,6 +1,9 @@
 package context
 
 import (
+	"encoding/base64"
+	"os"
+
 	"github.com/spf13/cobra"
 	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
 	"github.com/stackvista/stackstate-cli/internal/common"
@@ -13,12 +16,15 @@ const (
 )
 
 type SaveArgs struct {
-	Name         string
-	URL          string
-	APIToken     string
-	ServiceToken string
-	APIPath      string
-	SkipValidate bool
+	Name             string
+	URL              string
+	APIToken         string
+	ServiceToken     string
+	APIPath          string
+	CaCertPath       string
+	CaCertBase64Data string
+	SkipValidate     bool
+	SkipSSLFlag      bool
 }
 
 func SaveCommand(cli *di.Deps) *cobra.Command {
@@ -36,7 +42,9 @@ func SaveCommand(cli *di.Deps) *cobra.Command {
 	cmd.Flags().StringVar(&args.ServiceToken, common.ServiceTokenFlag, "", common.ServiceTokenFlagUse)
 	cmd.Flags().StringVar(&args.APIPath, APIPathFlag, "/api", "Specify the path of the API end-point, e.g. the part that comes after the URL")
 	cmd.Flags().BoolVar(&args.SkipValidate, "skip-validate", false, "Skip validation of the context")
-
+	cmd.Flags().StringVar(&args.CaCertPath, common.CaCertPathFlag, "", common.CaCertPathFlagUse)
+	cmd.Flags().StringVar(&args.CaCertBase64Data, common.CaCertBase64DataFlag, "", common.CaCertBase64DataFlagUse)
+	cmd.Flags().BoolVar(&args.SkipSSLFlag, common.SkipSSLFlag, false, common.SkipSSLFlagUse)
 	cmd.MarkFlagRequired(common.URLFlag) //nolint:errcheck
 	stscobra.MarkMutexFlags(cmd, []string{common.APITokenFlag, common.ServiceTokenFlag, common.K8sSATokenFlag}, "tokens", true)
 
@@ -57,7 +65,22 @@ func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command
 				APIToken:     args.APIToken,
 				ServiceToken: args.ServiceToken,
 				APIPath:      args.APIPath,
+				SkipSSL:      args.SkipSSLFlag,
 			},
+		}
+		// Use private CA only if SkipSSL is not enabled
+		if !args.SkipSSLFlag {
+			// Providing CA certificate from file takes precedence over providing from the command line argument.
+			if args.CaCertPath != "" {
+				data, serr := os.ReadFile(args.CaCertPath)
+				if serr != nil {
+					return common.NewReadFileError(serr, args.CaCertPath)
+				}
+				namedCtx.Context.CaCertBase64Data = base64.StdEncoding.EncodeToString(data)
+				namedCtx.Context.CaCertPath = ""
+			} else if args.CaCertBase64Data != "" {
+				namedCtx.Context.CaCertBase64Data = args.CaCertBase64Data
+			}
 		}
 
 		if !args.SkipValidate {

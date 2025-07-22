@@ -31,18 +31,22 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	vp.BindPFlag("api-path", cmd.Flags().Lookup("api-path"))
 	vp.BindPFlag("context", cmd.Flags().Lookup("context"))
 	vp.BindPFlag("skip-ssl", cmd.Flags().Lookup("skip-ssl"))
+	vp.BindPFlag("ca-cert-path", cmd.Flags().Lookup("ca-cert-path"))
+	vp.BindPFlag("ca-cert-base64-data", cmd.Flags().Lookup("ca-cert-base64-data"))
 
 	// bind YAML
 	return &ViperConfig{
 		CurrentContext: vp.GetString("context"),
 		Context: &StsContext{
-			URL:            vp.GetString("url"),
-			APIToken:       vp.GetString("api-token"),
-			ServiceToken:   vp.GetString("service-token"),
-			K8sSAToken:     vp.GetString("k8s-sa-token"),
-			K8sSATokenPath: vp.GetString("k8s-sa-token-path"),
-			APIPath:        vp.GetString("api-path"),
-			SkipSSL:        vp.GetBool("skip-ssl"),
+			URL:              vp.GetString("url"),
+			APIToken:         vp.GetString("api-token"),
+			ServiceToken:     vp.GetString("service-token"),
+			K8sSAToken:       vp.GetString("k8s-sa-token"),
+			K8sSATokenPath:   vp.GetString("k8s-sa-token-path"),
+			APIPath:          vp.GetString("api-path"),
+			SkipSSL:          vp.GetBool("skip-ssl"),
+			CaCertBase64Data: vp.GetString("ca-cert-base64-data"),
+			CaCertPath:       vp.GetString("ca-cert-path"),
 		},
 	}
 }

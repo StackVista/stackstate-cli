@@ -50,7 +50,6 @@ func LoadCurrentContext(ctx context.Context, cmd *cobra.Command, viper *viper.Vi
 			logger.Info().Msg("Using Kubernetes ServiceAccount token for authentication")
 		}
 	}
-
 	if err := currentContext.Validate(currCtx); err != nil {
 		if loadError != nil {
 			return nil, loadError

@@ -37,5 +37,5 @@ func TestDeleteContext(t *testing.T) {
 	cfg, err := config.ReadConfig(cli.ConfigPath)
 	assert.NoError(t, err)
 
-	assert.Equal(t, 2, len(cfg.Contexts))
+	assert.Equal(t, 5, len(cfg.Contexts))
 }
