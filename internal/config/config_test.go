@@ -252,11 +252,11 @@ hvcNAQELBQADQQAfYAVMeMRGlW+GZkzYOxdHiXX4AHHp9IloZPLmBG4LmvZC80hV
 K4cRUEGHkRxgk0h0c9wD8NdVR3QnE0nn6WPE
 -----END CERTIFICATE-----`)
 
-	invalidPEMWrongType := []byte(`-----BEGIN PRIVATE KEY-----
+	invalidPEMWrongType := []byte(`-----BEGIN TEST KEY-----
 MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQg7S8j1SWx4gXGKVhR
 Q0W6ixfaWXFOQ5Xk7p9sX2BxE3FoRANCAAQ5YK1G2P3+nRjwKwVCT/ixkNXwlPuK
 rAHi2zCsHwKV+1gF7NqJEGbO6UBq0o4n9wGVoGkrRK5vHlL3HyFlxqSP
------END PRIVATE KEY-----`)
+-----END TEST KEY-----`)
 
 	invalidPEMData := []byte(`-----BEGIN CERTIFICATE-----
 invalid-cert-data
@@ -284,7 +284,7 @@ invalid-cert-data
 			name:        "invalid PEM block type",
 			certData:    invalidPEMWrongType,
 			expectError: true,
-			errorMsg:    "expected PEM block type CERTIFICATE, got PRIVATE KEY",
+			errorMsg:    "expected PEM block type CERTIFICATE, got TEST KEY",
 		},
 		{
 			name:        "invalid PEM certificate data",
