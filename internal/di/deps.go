@@ -2,7 +2,10 @@ package di
 
 import (
 	"context"
+	"encoding/base64"
+	"os"
 
+	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -100,7 +103,12 @@ func (cli *Deps) LoadContext(cmd *cobra.Command) common.CLIError {
 }
 
 func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) common.CLIError {
-	cli.Client, cli.Context = client.NewStackStateClient(
+	logger := log.Ctx(cmd.Context())
+	caCertData, err := getCaCertificate(context, logger)
+	if err != nil {
+		return err
+	}
+	cli.Client, cli.Context, err = client.NewStackStateClient(
 		cmd.Context(),
 		cli.IsVerBose,
 		cli.Printer,
@@ -112,8 +120,9 @@ func (cli *Deps) LoadClient(cmd *cobra.Command, context *config.StsContext) comm
 		context.ServiceToken,
 		context.K8sSAToken,
 		context.SkipSSL,
+		caCertData,
 	)
-	return nil
+	return err
 }
 
 type CmdWithAdminApiFn = func(
@@ -153,4 +162,36 @@ func (cli *Deps) CmdRunEWithAdminApi(runFn CmdWithAdminApiFn) func(*cobra.Comman
 
 func (cli *Deps) IsJson() bool {
 	return cli.Output == common.JSONOutput
+}
+
+func getCaCertificate(context *config.StsContext, logger *zerolog.Logger) ([]byte, common.CLIError) {
+	if context.SkipSSL {
+		if context.HasCaCertificateSet() {
+			logger.Warn().Msg("Both skip-ssl and one of ca-cert-path or ca-cert-base64-data are set. ca-cert-path and/or ca-cert-base64-data will be ignored.")
+		}
+		return []byte{}, nil
+	}
+	switch {
+	case context.HasCaCertificateFromFileSet() && context.HasCaCertificateFromArgSet():
+		logger.Warn().Msg("Both ca-cert-path and ca-cert-base64-data specified, ca-cert-path will be used.")
+		return readFile(context.CaCertPath)
+	case context.HasCaCertificateFromFileSet():
+		return readFile(context.CaCertPath)
+	case context.HasCaCertificateFromArgSet():
+		caCertData, err := base64.StdEncoding.DecodeString(context.CaCertBase64Data)
+		if err != nil {
+			return nil, common.NewAPIClientCreateError("CaCertBase64Data is not a valid base64 encoded string")
+		}
+		return caCertData, nil
+	default:
+		return []byte{}, nil
+	}
+}
+
+func readFile(path string) ([]byte, common.CLIError) {
+	caCertData, err := os.ReadFile(path)
+	if err != nil {
+		return nil, common.NewReadFileError(err, path)
+	}
+	return caCertData, nil
 }

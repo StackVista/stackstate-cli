@@ -1,6 +1,7 @@
 package common
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strings"
@@ -117,5 +118,14 @@ func NewAPIVersionError(err error) CLIError {
 		ServerResponse: nil,
 		showUsage:      true,
 		exitCode:       APIVersionErrorCode,
+	}
+}
+
+func NewAPIClientCreateError(message string) CLIError {
+	return StdCLIError{
+		Err:            errors.New(message),
+		ServerResponse: nil,
+		showUsage:      false,
+		exitCode:       APIClientCreateErrorCode,
 	}
 }

@@ -14,4 +14,5 @@ const (
 	NotFoundExitCode
 	ExecutionErrorCode
 	APIVersionErrorCode
+	APIClientCreateErrorCode
 )

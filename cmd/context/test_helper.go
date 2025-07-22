@@ -8,13 +8,23 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
+const (
+	//nolint:lll
+	selfSignedBase64Cert = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNKekNDQWRHZ0F3SUJBZ0lVVi9hSmoxZkVjQ2dOVTJGYWZZMHVSTHF5N21Bd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0tURW5NQ1VHQTFVRUF3d2VkbWxzYVdGcmIzWXVjMkZ1WkdKdmVDNXpkR0ZqYTNOMFlYUmxMbWx2TUNBWApEVEkxTURjeU1USXdORFUxTmxvWUR6SXhNalV3TmpJM01qQTBOVFUyV2pBcE1TY3dKUVlEVlFRRERCNTJhV3hwCllXdHZkaTV6WVc1a1ltOTRMbk4wWVdOcmMzUmhkR1V1YVc4d1hEQU5CZ2txaGtpRzl3MEJBUUVGQUFOTEFEQkkKQWtFQW9wUXVPSmZJa0xDV0pLVDcwaGdiSEpwVWtFQitaYTJwOXVBMUlOUktNNEFyN2RjVjltdXhOS09jSloycwpWdCtiK1lTS1c4cnRteE5QUVh1RTJENHRlUUlEQVFBQm80SE9NSUhMTUIwR0ExVWREZ1FXQkJRVTBPTFZRRzEyCndNb0VLSGdxSG1aeVhTelozekFmQmdOVkhTTUVHREFXZ0JRVTBPTFZRRzEyd01vRUtIZ3FIbVp5WFN6WjN6QVAKQmdOVkhSTUJBZjhFQlRBREFRSC9NSGdHQTFVZEVRUnhNRytDSG5acGJHbGhhMjkyTG5OaGJtUmliM2d1YzNSaApZMnR6ZEdGMFpTNXBiNElqYjNSc2NDMTJhV3hwWVd0dmRpNXpZVzVrWW05NExuTjBZV05yYzNSaGRHVXVhVytDCktHOTBiSEF0YUhSMGNDMTJhV3hwWVd0dmRpNXpZVzVrWW05NExuTjBZV05yYzNSaGRHVXVhVzh3RFFZSktvWkkKaHZjTkFRRUxCUUFEUVFBZllBVk1lTVJHbFcrR1prellPeGRIaVhYNEFISHA5SWxvWlBMbUJHNExtdlpDODBoVgpLNGNSVUVHSGtSeGdrMGgwYzl3RDhOZFZSM1FuRTBubjZXUEUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
+	//nolint:lll
+	privateCaBase64Cert = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUZiVENDQTFXZ0F3SUJBZ0lVVGdGVm56eFNpbGR6MC9VenQ2UVR0bGpyMWVZd0RRWUpLb1pJaHZjTkFRRUwKQlFBd1JURUxNQWtHQTFVRUJoTUNRVlV4RXpBUkJnTlZCQWdNQ2xOdmJXVXRVM1JoZEdVeElUQWZCZ05WQkFvTQpHRWx1ZEdWeWJtVjBJRmRwWkdkcGRITWdVSFI1SUV4MFpEQWdGdzB5TlRBM01qRXlNRFEzTlRCYUdBOHlNVEkxCk1EWXlOekl3TkRjMU1Gb3dSVEVMTUFrR0ExVUVCaE1DUVZVeEV6QVJCZ05WQkFnTUNsTnZiV1V0VTNSaGRHVXgKSVRBZkJnTlZCQW9NR0VsdWRHVnlibVYwSUZkcFpHZHBkSE1nVUhSNUlFeDBaRENDQWlJd0RRWUpLb1pJaHZjTgpBUUVCQlFBRGdnSVBBRENDQWdvQ2dnSUJBSTRjbEJlRFNoeEpBZ09lWjIyaERiaUViTVArc1dtRCsxVTdlNkZqCjhRelVVMkFWRkdvWjAwbEdUSDlxZVN4T1ZDMittWlBmb3ZTcmR0S2xYYm9PdEV0TldBZmhxZ2twOGh1ODRZb2UKaWxLT3YybWYvS0N0SzBPeTVkNlEwK3FPb2RPZVlIYlBLQk9vVDUya1FZMWZYeFNlNG8zc0tyZFQ3eGRhUi8xYgpiSGVUeWxuZmlmV3d0NmNiVlpOb1IxYmZ6ZnJYdjhkYk94emVqNWJ3SlVCeDNiaFI0UHN4Tm9JRDUrVUZMeHdxCmhOT3FZMEhIcU13djN2clYwQ2ZnWWNkZmRWaVBZalJvejNNaTBDallMRllmeWQ2eDF4azM3RTZ5MnVXQVoxY2EKVXJjSGlORVp6c0sxQTd1Y1BLWDh5WTVjWkY5MHBUMmhHWnNGT2NjQmxyYTZQVVA5ZXFwTm1pYm1zbWNXdzBWQwp6WEswenpkMUVnMzRnWlplQjI5eko1MWJ0QlNoazZqc3pRaUFlSElEeWJnOEdzYWhob2NPUjhEd3dtL3Ezekw2CnRiY0ZKZS9TWDFrQTE2TFZHMzZMYTRnb3IrQ1E5b1Zxb3N0OU1sQzBvRktoUmpoYnM5ZGdSWlJ5TFhMMEZ0UysKTDJIQ0NyY2krcUpwT2hjSTZQMDhzR1owOWlBd3h2c1AzYjY5S0J0RVlFREJmL29QSVJWSmRBYithMnBocVc5QgpoUGFYVXpGOFQ5QkJLQzJHKytIeHlKcTU3QlQ3T3FpNXRQTW91ZlRMRXNiQlgrNkViTVZmOGV5SllONjFKak0xCmJMOUZ1MFkwNW9NRFFQcC83RWk0dGp3TFQ1S2VuWGJWbnZUN0s0aGo5MTlNbXpBbytOOWNWeklvOVZNMEF0U0gKbk52SEFnTUJBQUdqVXpCUk1CMEdBMVVkRGdRV0JCUk5ETFFMNnkvL213Wi83SEtEWEdIMnhwNHVqakFmQmdOVgpIU01FR0RBV2dCUk5ETFFMNnkvL213Wi83SEtEWEdIMnhwNHVqakFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQTBHCkNTcUdTSWIzRFFFQkN3VUFBNElDQVFBM1FsWThnM2NmdWJ3akRmWnpXbVowWWhBUEgwb2lXTkhZd25YOTQvY2sKaWRjQzUzblRuVC9yN3lnZlNsVk8wbllUelg2YS8rWXFXWFczT0ZBcXZUREZYVis2bVhTb3FWQ0ptRlAzUVh6TwpuTmthcmEzcWhIKzZHVVE2RnFVaEpza1hZNHdMT05FT2Q2T1VlNmcwZ1NTalZJUkVxVWVYeWZvYUlJR1owNVNhClNVRDRVQnczT0U4ZVhWaTIyWHVCaWpTMWVTRHd6a3RDdWc5MW9BeWVlUGRpSWp5UGNiMmVQdzMyZE1JcDZoYU4KR1lFMnNPR3l0aWtKTnBnbmNqR3RGdkRaSzFkaVNvQWxzM21FR3hjVTdXd05WMlFzN24vTGJqbUNENjQ1WXRFWgozVnJZNG10bEs1dEN3RURNcUFYK3ZScXJ2L09CL1R0Z3FvUG5HdmJkdWNoNThyMGIyUmtyZ3BtaUt1a3FxRUc3ClJiQmJNeWlSMXpjWmJoQm9SbnkxcXVEWm52MmxmVUJUdHVpV1JIUDNSRTRBNEIrYnp4bTI0UkVYZHRTSVUrUXAKaytZZjNuRGg5Y1Z2akpMWDZ5dmdmOUN5ZHIyQ2FVM015aTBCdmUyUnVJUm15VXlFYkE1MWUzV1F0NVF6emU2TApSS3A1a0JQR2ZjRTRTMmdDdi9DYktqQjV2V1doY2tieW9NL0pJMVFpSU94U1puOHFGWXg3NFdkMEJsYTNNaFhNClBOcXo3eDZxb3pWa1FzWTRBK1FEOUhnZE1Rbms3QlhKR01tbzJ3OSszdVB2SGJCdXJSV0FTMXRISVlUVlA0MVkKYXlXci9wTncwVWsrS2drMkdXQmx2T3VZSXMzN2RnMkw3RkNUeGR2bXU2dHNpK3QvUEpqcTNFWGkweDFzcE1aWAo5UT09Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+)
+
 func setupConfig(t *testing.T, cli *di.MockDeps) {
 	cfg := &config.Config{
 		CurrentContext: "foo",
 		Contexts: []*config.NamedContext{
-			{Name: "foo", Context: newContext("http://foo.com", "apiToken", "", "", "/api")},
-			{Name: "bar", Context: newContext("http://bar.com", "", "svctok-xxxx", "", "/api/v1")},
-			{Name: "foobar", Context: newContext("http://bar.com", "", "", "eyJhbGc", "/api/v1")},
+			{Name: "foo", Context: newContext("http://foo.com", "apiToken", "", "", "/api", false, "")},
+			{Name: "bar", Context: newContext("http://bar.com", "", "svctok-xxxx", "", "/api/v1", false, "")},
+			{Name: "foobar", Context: newContext("http://bar.com", "", "", "eyJhbGc", "/api/v1", false, "")},
+			{Name: "skipssl", Context: newContext("http://bar.com", "", "", "eyJhbGc", "/api/v1", true, "")},
+			{Name: "privateca", Context: newContext("http://bar.com", "", "", "eyJhbGc", "/api/v1", false, privateCaBase64Cert)},
+			{Name: "selfsigned", Context: newContext("http://bar.com", "", "", "eyJhbGc", "/api/v1", false, selfSignedBase64Cert)},
 		},
 	}
 	cli.ConfigPath = filepath.Join(t.TempDir(), "config.yaml")
@@ -25,12 +35,14 @@ func setupConfig(t *testing.T, cli *di.MockDeps) {
 	}
 }
 
-func newContext(url, apiToken, serviceToken, k8sSAToken, apiPath string) *config.StsContext {
+func newContext(url, apiToken, serviceToken, k8sSAToken, apiPath string, skipSSL bool, caCertBase64Data string) *config.StsContext {
 	return &config.StsContext{
-		URL:          url,
-		APIToken:     apiToken,
-		ServiceToken: serviceToken,
-		K8sSAToken:   k8sSAToken,
-		APIPath:      apiPath,
+		URL:              url,
+		APIToken:         apiToken,
+		ServiceToken:     serviceToken,
+		K8sSAToken:       k8sSAToken,
+		APIPath:          apiPath,
+		SkipSSL:          skipSSL,
+		CaCertBase64Data: caCertBase64Data,
 	}
 }
