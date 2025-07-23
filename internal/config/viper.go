@@ -22,7 +22,7 @@ func Bind(cmd *cobra.Command, vp *viper.Viper) *ViperConfig {
 	vp.BindEnv("context", "STS_CLI_CONTEXT")
 	vp.BindEnv("skip-ssl", "STS_SKIP_SSL")
 	vp.BindEnv("ca-cert-path", "STS_CA_CERT_PATH")
-	vp.BindEnv("ca-cert-base64-data", "STS_CA_CERT_BASE64_PATH")
+	vp.BindEnv("ca-cert-base64-data", "STS_CA_CERT_BASE64_DATA")
 
 	// bind flags
 	vp.BindPFlag("url", cmd.Flags().Lookup("url"))
