@@ -7,6 +7,9 @@
 # STS_URL - url of the StackState instance to configure (empty means don't configure)
 # STS_API_TOKEN - API-TOKEN of the StackState instance to configure (empty means don't configure)
 # STS_CLI_LOCATION - Path you want to install CLI (empty means `/usr/local/bin`)
+# STS_CA_CERT_PATH - Path to CA certificate file for HTTPS verification
+# STS_CA_CERT_BASE64_DATA - Base64 encoded CA certificate data for HTTPS verification
+# STS_SKIP_SSL - Skip SSL verification (if set, CA cert options are ignored)
 #-----------------------------------
 
 #!/usr/bin/env bash
@@ -75,9 +78,32 @@ fi
 # Verify that 'sts' works
 ${TARGET_CLI_PATH}/sts > /dev/null 2>&1
 
+# Validate SSL/CA certificate environment variables
+if [[ -n "${STS_SKIP_SSL}" ]]; then
+  if [[ -n "${STS_CA_CERT_PATH}" || -n "${STS_CA_CERT_BASE64_DATA}" ]]; then
+    printf "${RED}[WARNING]${NO_COLOR} STS_SKIP_SSL is set, ignoring STS_CA_CERT_PATH and STS_CA_CERT_BASE64_DATA\n"
+  fi
+elif [[ -n "${STS_CA_CERT_PATH}" && -n "${STS_CA_CERT_BASE64_DATA}" ]]; then
+  printf "${RED}[WARNING]${NO_COLOR} Both STS_CA_CERT_PATH and STS_CA_CERT_BASE64_DATA are set, STS_CA_CERT_PATH takes precedence\n"
+fi
+
 # Configure the CLI if config parameters have been set
 if [[ -n "${STS_URL}" && -n "${STS_API_TOKEN}" ]]; then
-  ${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN}
+  if [[ -n "${STS_SKIP_SSL}" ]]; then
+    COMMAND="${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN} --skip-ssl"
+  elif [[ -n "${STS_CA_CERT_PATH}" ]]; then
+    COMMAND="${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN} --ca-cert-path ${STS_CA_CERT_PATH}"
+  elif [[ -n "${STS_CA_CERT_BASE64_DATA}" ]]; then
+    COMMAND="${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN} --ca-cert-base64-data ${STS_CA_CERT_BASE64_DATA}"
+  else
+    COMMAND="${TARGET_CLI_PATH}/sts context save --url ${STS_URL} --api-token ${STS_API_TOKEN}"
+  fi
+  ${COMMAND}
+  if [[ $? -ne 0 ]]; then
+    error "Failed to configure the CLI with the provided parameters. Please check your STS_URL and STS_API_TOKEN."
+  else
+    printf "Successfully configured the CLI with the provided parameters.\n"
+  fi
 fi
 
 if [ "$(whereis sts)" == "" ]; then

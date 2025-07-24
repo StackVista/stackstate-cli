@@ -16,7 +16,10 @@ new-module -name "StsCliInstaller" -scriptblock {
     param (
         [string]$StsUrl, # url of the StackState instance to configure (empty means don't configure)
         [string]$StsApiToken, # API-TOKEN of the StackState instance to configure (empty means don't configure)
-        [string]$StsCliVersion # version of the CLI to install (empty means latest)
+        [string]$StsCliVersion, # version of the CLI to install (empty means latest)
+        [string]$StsCaCertPath, # Path to CA certificate file for HTTPS verification
+        [string]$StsCaCertBase64Data, # Base64 encoded CA certificate data for HTTPS verification
+        [string]$StsSkipSsl # Skip SSL verification (if set, CA cert options are ignored)
     )
     # Stop on first error
     $ErrorActionPreference = "Stop"
@@ -66,7 +69,15 @@ new-module -name "StsCliInstaller" -scriptblock {
 
     # Configure the CLI if config parameters have been set
     if ($StsUrl -and $StsApiToken) {
-      & sts context save --url $StsUrl --api-token $StsApiToken
+      if ($StsSkipSsl -eq "true") {
+        & sts context save --url $StsUrl --api-token $StsApiToken --skip-ssl $StsSkipSsl
+      } elseif ($StsCaCertPath) {
+        & sts context save --url $StsUrl --api-token $StsApiToken --ca-cert-path $StsCaCertPath
+      } elseif ($StsCaCertBase64Data) {
+        & sts context save --url $StsUrl --api-token $StsApiToken --ca-cert-base64-data $StsCaCertBase64Data
+      } else {
+        & sts context save --url $StsUrl --api-token $StsApiToken
+      }
       if ($LastExitCode -ne 0) {
         return
       }
