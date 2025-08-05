@@ -17,7 +17,8 @@ import (
 
 // CreateSubject struct for CreateSubject
 type CreateSubject struct {
-	Query *string `json:"query,omitempty"`
+	Query   *string `json:"query,omitempty"`
+	Version *string `json:"version,omitempty"`
 }
 
 // NewCreateSubject instantiates a new CreateSubject object
@@ -69,10 +70,45 @@ func (o *CreateSubject) SetQuery(v string) {
 	o.Query = &v
 }
 
+// GetVersion returns the Version field value if set, zero value otherwise.
+func (o *CreateSubject) GetVersion() string {
+	if o == nil || o.Version == nil {
+		var ret string
+		return ret
+	}
+	return *o.Version
+}
+
+// GetVersionOk returns a tuple with the Version field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *CreateSubject) GetVersionOk() (*string, bool) {
+	if o == nil || o.Version == nil {
+		return nil, false
+	}
+	return o.Version, true
+}
+
+// HasVersion returns a boolean if a field has been set.
+func (o *CreateSubject) HasVersion() bool {
+	if o != nil && o.Version != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetVersion gets a reference to the given string and assigns it to the Version field.
+func (o *CreateSubject) SetVersion(v string) {
+	o.Version = &v
+}
+
 func (o CreateSubject) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Query != nil {
 		toSerialize["query"] = o.Query
+	}
+	if o.Version != nil {
+		toSerialize["version"] = o.Version
 	}
 	return json.Marshal(toSerialize)
 }

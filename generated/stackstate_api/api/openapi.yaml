@@ -10715,11 +10715,16 @@ components:
     CreateSubject:
       example:
         query: query
+        version: version
       properties:
         query:
           type: string
+        version:
+          type: string
       type: object
     Query:
+      type: string
+    Version:
       type: string
     SubscriptionState:
       discriminator:

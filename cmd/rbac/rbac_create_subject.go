@@ -40,6 +40,7 @@ func RunCreateSubjectCommand(args *CreateSubjectArgs) di.CmdWithApiFn {
 		subject := stackstate_api.NewCreateSubject()
 		if args.Scope != "" {
 			subject.SetQuery(args.Scope)
+			subject.SetVersion("0.0.1")
 		}
 
 		resp, err := api.SubjectApi.CreateSubject(cli.Context, args.Subject).
