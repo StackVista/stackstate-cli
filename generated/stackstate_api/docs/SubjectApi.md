@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## CreateSubject
 
-> CreateSubject(ctx, subject).CreateSubject(createSubject).Execute()
+> CreateSubject(ctx, subject).CreateSubject(createSubject).CreateOnly(createOnly).Execute()
 
 Create a subject
 
@@ -34,10 +34,11 @@ import (
 func main() {
     subject := "subject_example" // string | 
     createSubject := *openapiclient.NewCreateSubject() // CreateSubject | 
+    createOnly := true // bool |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SubjectApi.CreateSubject(context.Background(), subject).CreateSubject(createSubject).Execute()
+    resp, r, err := apiClient.SubjectApi.CreateSubject(context.Background(), subject).CreateSubject(createSubject).CreateOnly(createOnly).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `SubjectApi.CreateSubject``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -62,6 +63,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **createSubject** | [**CreateSubject**](CreateSubject.md) |  | 
+ **createOnly** | **bool** |  | 
 
 ### Return type
 

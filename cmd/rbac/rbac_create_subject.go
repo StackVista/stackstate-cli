@@ -9,8 +9,9 @@ import (
 )
 
 type CreateSubjectArgs struct {
-	Subject string
-	Scope   string
+	Subject    string
+	Scope      string
+	CreateOnly bool
 }
 
 func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
@@ -26,6 +27,7 @@ func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
 	cmd.MarkFlagRequired(Subject) //nolint:errcheck
 
 	cmd.Flags().StringVar(&args.Scope, Scope, "", ScopeUsage)
+	cmd.Flags().BoolVar(&args.CreateOnly, CreateOnly, false, CreateOnlyUsage)
 
 	return cmd
 }
@@ -45,6 +47,7 @@ func RunCreateSubjectCommand(args *CreateSubjectArgs) di.CmdWithApiFn {
 
 		resp, err := api.SubjectApi.CreateSubject(cli.Context, args.Subject).
 			CreateSubject(*subject).
+			CreateOnly(args.CreateOnly).
 			Execute()
 
 		if err != nil {

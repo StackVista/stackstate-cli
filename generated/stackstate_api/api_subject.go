@@ -88,10 +88,16 @@ type ApiCreateSubjectRequest struct {
 	ApiService    SubjectApi
 	subject       string
 	createSubject *CreateSubject
+	createOnly    *bool
 }
 
 func (r ApiCreateSubjectRequest) CreateSubject(createSubject CreateSubject) ApiCreateSubjectRequest {
 	r.createSubject = &createSubject
+	return r
+}
+
+func (r ApiCreateSubjectRequest) CreateOnly(createOnly bool) ApiCreateSubjectRequest {
+	r.createOnly = &createOnly
 	return r
 }
 
@@ -139,6 +145,9 @@ func (a *SubjectApiService) CreateSubjectExecute(r ApiCreateSubjectRequest) (*ht
 		return nil, reportError("createSubject is required and must be specified")
 	}
 
+	if r.createOnly != nil {
+		localVarQueryParams.Add("createOnly", parameterToString(*r.createOnly, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -750,6 +759,7 @@ type CreateSubjectMockResponse struct {
 type CreateSubjectCall struct {
 	Psubject       string
 	PcreateSubject *CreateSubject
+	PcreateOnly    *bool
 }
 
 func (mock SubjectApiMock) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
@@ -764,6 +774,7 @@ func (mock SubjectApiMock) CreateSubjectExecute(r ApiCreateSubjectRequest) (*htt
 	p := CreateSubjectCall{
 		Psubject:       r.subject,
 		PcreateSubject: r.createSubject,
+		PcreateOnly:    r.createOnly,
 	}
 	*mock.CreateSubjectCalls = append(*mock.CreateSubjectCalls, p)
 	return mock.CreateSubjectResponse.Response, mock.CreateSubjectResponse.Error

@@ -3860,6 +3860,11 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/Subject'
+      - in: query
+        name: createOnly
+        required: false
+        schema:
+          type: boolean
       requestBody:
         content:
           application/json:
