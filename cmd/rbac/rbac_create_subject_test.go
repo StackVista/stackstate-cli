@@ -48,6 +48,7 @@ func TestCreateSubject(t *testing.T) {
 
 	otherExpectedSubject := stackstate_api.NewCreateSubject()
 	otherExpectedSubject.SetQuery(SomeScope)
+	otherExpectedSubject.SetVersion("0.0.1")
 	assert.Equal(t, otherExpectedSubject, calls[0].PcreateSubject)
 
 	expectedStrings := []string{
