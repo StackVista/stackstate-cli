@@ -129,3 +129,12 @@ func NewAPIClientCreateError(message string) CLIError {
 		exitCode:       APIClientCreateErrorCode,
 	}
 }
+
+func NewRuntimeError(err error) CLIError {
+	return StdCLIError{
+		Err:            err,
+		ServerResponse: nil,
+		showUsage:      false,
+		exitCode:       ExecutionErrorCode,
+	}
+}
