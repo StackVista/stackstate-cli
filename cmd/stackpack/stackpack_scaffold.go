@@ -2,6 +2,7 @@ package stackpack
 
 import (
 	"fmt"
+	"os"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -65,7 +66,7 @@ sts stackpack scaffold --template-github-repo stackvista/my-templates --name my-
 	cmd.Flags().StringVar(&args.TemplateGitHubPath, "template-github-path", "", fmt.Sprintf("Path within the repository containing template subdirectories (default: %s)", defaultTemplateGitHubPath))
 
 	// Common flags
-	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", ".", "Target directory where scaffolded files will be created")
+	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", "", "Target directory where scaffolded files will be created. If not specified, uses current working directory")
 	cmd.Flags().StringVar(&args.Name, "name", "", "Name of the stackpack (required)")
 	cmd.Flags().StringVar(&args.TemplateName, "template-name", defaultTemplateName, fmt.Sprintf("Name of the template subdirectory to use (default: %s)", defaultTemplateName))
 	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing files without prompting")
@@ -83,6 +84,14 @@ func RunStackpackScaffoldCommand(args *ScaffoldArgs) func(cli *di.Deps, cmd *cob
 	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		// Create template source based on which source was specified
 		var source scaffold.TemplateSource
+		var err error
+
+		if args.DestinationDir == "" {
+			args.DestinationDir, err = os.Getwd()
+			if err != nil {
+				return common.NewRuntimeError(fmt.Errorf("failed to get current working directory: %w", err))
+			}
+		}
 
 		if args.TemplateLocalDir != "" {
 			source = scaffold.NewLocalDirSource(args.TemplateLocalDir, args.TemplateName)

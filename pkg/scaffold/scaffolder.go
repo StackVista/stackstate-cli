@@ -398,7 +398,7 @@ func (s *Scaffolder) copyToDestinationWithResult(renderedDir string) (*CopyResul
 			if !s.jsonOutput && s.printer != nil {
 				s.printer.PrintWarn("The following files already exist and would be overwritten:")
 				for _, file := range conflicts {
-					s.printer.PrintLn("  " + file)
+					s.printer.PrintLn("  " + filepath.Join(s.destination, file))
 				}
 				s.printer.PrintLn("")
 				s.printer.PrintLn("Use --force flag to overwrite existing files, or remove/rename the conflicting files.")

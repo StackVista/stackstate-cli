@@ -520,9 +520,6 @@ func TestStackpackScaffoldCommand_DefaultValues(t *testing.T) {
 	templateNameFlag := flags.Lookup("template-name")
 	assert.Equal(t, defaultTemplateName, templateNameFlag.DefValue)
 
-	destinationDirFlag := flags.Lookup("destination-dir")
-	assert.Equal(t, ".", destinationDirFlag.DefValue)
-
 	forceFlag := flags.Lookup("force")
 	assert.Equal(t, "false", forceFlag.DefValue)
 }
