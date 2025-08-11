@@ -40,9 +40,26 @@ func TestStackpackScaffoldCommand_RequiredFlags(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			if !tt.wantErr {
+				// Create temporary directory for successful command execution to avoid polluting current directory
+				tempDir, err := os.MkdirTemp("", "stackpack-required-flags-test-*")
+				require.NoError(t, err)
+				defer os.RemoveAll(tempDir)
+
+				// Change to temp directory so command uses it as default destination
+				originalWd, err := os.Getwd()
+				require.NoError(t, err)
+				defer func() {
+					err := os.Chdir(originalWd)
+					require.NoError(t, err, "Failed to change back to original working directory")
+				}()
+
+				err = os.Chdir(tempDir)
+				require.NoError(t, err)
+			}
+
 			cli, cmd := setupStackpackScaffoldCmd(t)
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
-			defer removeStackPack()
 
 			if tt.wantErr {
 				require.Error(t, err)
@@ -64,7 +81,6 @@ func TestStackpackScaffoldCommand_MutuallyExclusiveFlags(t *testing.T) {
 		"--template-local-dir", "./templates",
 		"--template-github-repo", "owner/repo",
 	)
-	defer removeStackPack()
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "template-github-repo")
 }
@@ -240,8 +256,6 @@ func TestStackpackScaffoldCommand_LocalDirSource(t *testing.T) {
 			cli, cmd := setupStackpackScaffoldCmd(t)
 
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
-			defer removeStackPack()
-
 			if tt.wantErr {
 				require.Error(t, err)
 			} else {
@@ -318,7 +332,6 @@ func TestStackpackScaffoldCommand_JSONOutput(t *testing.T) {
 			cli, cmd := setupStackpackScaffoldCmd(t)
 
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
-			defer removeStackPack()
 			require.NoError(t, err)
 
 			if tt.expectJson {
@@ -381,7 +394,6 @@ func TestStackpackScaffoldCommand_ForceFlag(t *testing.T) {
 			"--template-name", "generic",
 			"--destination-dir", destDir,
 		)
-		defer removeStackPack()
 		require.Error(t, err)
 		assert.Contains(t, err.Error(), "conflicting files exist")
 	})
@@ -397,7 +409,6 @@ func TestStackpackScaffoldCommand_ForceFlag(t *testing.T) {
 			"--force",
 		)
 
-		defer removeStackPack()
 		require.NoError(t, err)
 
 		// Verify the file was overwritten
@@ -441,7 +452,6 @@ template: <<.TemplateName>>
 		"--template-name", "custom-template",
 		"--destination-dir", destDir,
 	)
-	defer removeStackPack()
 
 	require.NoError(t, err)
 
@@ -609,7 +619,6 @@ display_name: <<.DisplayName>>
 			cli, cmd := setupStackpackScaffoldCmd(t)
 
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
-			defer removeStackPack()
 			require.NoError(t, err, tt.description)
 
 			// Verify the template variables were substituted correctly
@@ -627,7 +636,238 @@ display_name: <<.DisplayName>>
 	}
 }
 
-func removeStackPack() {
-	_ = os.RemoveAll("src")
-	_ = os.Remove("version.sbt")
+//nolint:funlen
+func TestValidateStackpackName(t *testing.T) {
+	tests := []struct {
+		name        string
+		stackName   string
+		wantErr     bool
+		errorSubstr string
+	}{
+		// Valid names
+		{
+			name:      "valid single letter",
+			stackName: "a",
+			wantErr:   false,
+		},
+		{
+			name:      "valid simple name",
+			stackName: "app",
+			wantErr:   false,
+		},
+		{
+			name:      "valid name with hyphens",
+			stackName: "my-stackpack",
+			wantErr:   false,
+		},
+		{
+			name:      "valid name with numbers",
+			stackName: "app123",
+			wantErr:   false,
+		},
+		{
+			name:      "valid complex name",
+			stackName: "my-app-v2-123",
+			wantErr:   false,
+		},
+		// Invalid names - starts with digit
+		{
+			name:        "invalid starts with digit",
+			stackName:   "1-stackpack",
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		{
+			name:        "invalid starts with number",
+			stackName:   "2app",
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		// Invalid names - starts with hyphen
+		{
+			name:        "invalid starts with hyphen",
+			stackName:   "-stackpack",
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		// Invalid names - uppercase letters
+		{
+			name:        "invalid uppercase first letter",
+			stackName:   "My-Stackpack",
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		{
+			name:        "invalid camelCase",
+			stackName:   "myApp",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name:        "invalid all uppercase",
+			stackName:   "APP",
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		// Invalid names - spaces
+		{
+			name:        "invalid with spaces",
+			stackName:   "my stackpack",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name:        "invalid app name with space",
+			stackName:   "app name",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		// Invalid names - special characters
+		{
+			name:        "invalid underscore",
+			stackName:   "my_stackpack",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name:        "invalid at symbol",
+			stackName:   "app@domain",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name:        "invalid dot",
+			stackName:   "stack.pack",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name:        "invalid slash",
+			stackName:   "my/app",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name:        "invalid colon",
+			stackName:   "app:v1",
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			err := validateStackpackName(tt.stackName)
+			if tt.wantErr {
+				require.Error(t, err, "Expected validation to fail for name '%s'", tt.stackName)
+				if tt.errorSubstr != "" {
+					assert.Contains(t, err.Error(), tt.errorSubstr, "Error message should contain expected substring")
+				}
+				assert.Contains(t, err.Error(), tt.stackName, "Error message should contain the invalid name")
+			} else {
+				require.NoError(t, err, "Expected validation to pass for name '%s'", tt.stackName)
+			}
+		})
+	}
+}
+
+func TestStackpackScaffoldCommand_NameValidation(t *testing.T) {
+	// Create temporary template directory for all tests to avoid GitHub template conflicts
+	tempDir, err := os.MkdirTemp("", "stackpack-validation-test-*")
+	require.NoError(t, err)
+	defer os.RemoveAll(tempDir)
+
+	// Create a mock template structure
+	templateDir := filepath.Join(tempDir, "templates")
+	genericTemplateDir := filepath.Join(templateDir, "generic")
+	err = os.MkdirAll(genericTemplateDir, 0755)
+	require.NoError(t, err)
+
+	// Create a simple test template file
+	templateFile := filepath.Join(genericTemplateDir, "test.txt")
+	err = os.WriteFile(templateFile, []byte("Test stackpack: <<.Name>>"), 0644)
+	require.NoError(t, err)
+
+	// Create destination directory
+	destDir := filepath.Join(tempDir, "destination")
+	err = os.MkdirAll(destDir, 0755)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name        string
+		args        []string
+		wantErr     bool
+		errorSubstr string
+	}{
+		{
+			name: "valid name passes validation",
+			args: []string{
+				"--name", "my-stackpack",
+				"--template-local-dir", templateDir,
+				"--destination-dir", destDir,
+			},
+			wantErr: false,
+		},
+		{
+			name: "invalid name with uppercase fails",
+			args: []string{
+				"--name", "My-Stackpack",
+				"--template-local-dir", templateDir,
+				"--destination-dir", destDir,
+			},
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		{
+			name: "invalid name with spaces fails",
+			args: []string{
+				"--name", "my stackpack",
+				"--template-local-dir", templateDir,
+				"--destination-dir", destDir,
+			},
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+		{
+			name: "invalid name starting with number fails",
+			args: []string{
+				"--name", "1-app",
+				"--template-local-dir", templateDir,
+				"--destination-dir", destDir,
+			},
+			wantErr:     true,
+			errorSubstr: "must start with a lowercase letter [a-z]",
+		},
+		{
+			name: "invalid name with underscore fails",
+			args: []string{
+				"--name", "my_app",
+				"--template-local-dir", templateDir,
+				"--destination-dir", destDir,
+			},
+			wantErr:     true,
+			errorSubstr: "lowercase letters, digits, and hyphens",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cli, cmd := setupStackpackScaffoldCmd(t)
+
+			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
+
+			if tt.wantErr {
+				require.Error(t, err, "Expected command to fail for invalid name")
+				if tt.errorSubstr != "" {
+					assert.Contains(t, err.Error(), tt.errorSubstr, "Error message should contain expected validation message")
+				}
+			} else {
+				require.NoError(t, err, "Expected command to succeed for valid name")
+
+				// Clean up destination for next test iteration
+				_ = os.RemoveAll(destDir)
+				_ = os.MkdirAll(destDir, 0755)
+			}
+		})
+	}
 }

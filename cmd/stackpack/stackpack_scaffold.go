@@ -3,6 +3,7 @@ package stackpack
 import (
 	"fmt"
 	"os"
+	"regexp"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -68,7 +69,7 @@ sts stackpack scaffold --template-github-repo stackvista/my-templates --name my-
 
 	// Common flags
 	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", "", "Target directory where scaffolded files will be created. If not specified, uses current working directory")
-	cmd.Flags().StringVar(&args.Name, "name", "", "Name of the stackpack (required)")
+	cmd.Flags().StringVar(&args.Name, "name", "", "Name of the stackpack (required). Must start with [a-z] and contain only lowercase letters, digits, and hyphens")
 	cmd.Flags().StringVar(&args.DisplayName, "display-name", "", "Name that's displayed on both the StackPack listing page and on the title of the StackPack page. If not provided, the value of --name will be used")
 	cmd.Flags().StringVar(&args.TemplateName, "template-name", defaultTemplateName, fmt.Sprintf("Name of the template subdirectory to use (default: %s)", defaultTemplateName))
 	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing files without prompting")
@@ -93,6 +94,11 @@ func RunStackpackScaffoldCommand(args *ScaffoldArgs) func(cli *di.Deps, cmd *cob
 			if err != nil {
 				return common.NewRuntimeError(fmt.Errorf("failed to get current working directory: %w", err))
 			}
+		}
+
+		// Validate stackpack name
+		if err := validateStackpackName(args.Name); err != nil {
+			return common.NewCLIArgParseError(err)
 		}
 
 		if args.TemplateLocalDir != "" {
@@ -163,6 +169,18 @@ func parseGitHubRepo(repoString string) (string, string, error) {
 		return "", "", fmt.Errorf("invalid GitHub repository format '%s', expected 'owner/repo'", repoString)
 	}
 	return parts[0], parts[1], nil
+}
+
+// validateStackpackName validates the stackpack name according to naming rules
+func validateStackpackName(name string) error {
+	// Pattern: starts with [a-z], followed by [a-z0-9-]*
+	validNamePattern := regexp.MustCompile(`^[a-z][a-z0-9-]*$`)
+
+	if !validNamePattern.MatchString(name) {
+		return fmt.Errorf("invalid stackpack name '%s': must start with a lowercase letter [a-z] and contain only lowercase letters, digits, and hyphens", name)
+	}
+
+	return nil
 }
 
 func displayNextSteps(cli *di.Deps, args *ScaffoldArgs) {
