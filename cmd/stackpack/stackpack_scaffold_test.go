@@ -554,8 +554,7 @@ func TestDisplayNextSteps(t *testing.T) {
 	assert.Contains(t, allOutput, "Next steps")
 	assert.Contains(t, allOutput, args.DestinationDir)
 	assert.Contains(t, allOutput, "Review the generated files")
-	assert.Contains(t, allOutput, "Customize the stackpack")
-	assert.Contains(t, allOutput, "Build your stackpack")
+	assert.Contains(t, allOutput, "for instructions on what to do next")
 }
 
 func TestStackpackScaffoldCommand_DisplayNameFallback(t *testing.T) {

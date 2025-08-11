@@ -3,6 +3,7 @@ package stackpack
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -186,9 +187,7 @@ func validateStackpackName(name string) error {
 func displayNextSteps(cli *di.Deps, args *ScaffoldArgs) {
 	cli.Printer.PrintLn("Next steps:")
 	cli.Printer.PrintLn("1. Review the generated files in: " + args.DestinationDir)
-	cli.Printer.PrintLn("2. Customize the stackpack configuration as needed")
-	cli.Printer.PrintLn("3. Build your stackpack locally")
-	cli.Printer.PrintLn("...")
+	cli.Printer.PrintLn(fmt.Sprintf("2. Check the %s for instructions on what to do next.", filepath.Join(args.DestinationDir, "README.md")))
 }
 
 func defaultIfEmptyString(value, defaultValue string) string {
