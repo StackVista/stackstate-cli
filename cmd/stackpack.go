@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/cmd/stackpack"
 	"github.com/stackvista/stackstate-cli/internal/di"
@@ -21,7 +23,11 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(stackpack.StackpackUpgradeCommand(cli))
 	cmd.AddCommand(stackpack.StackpackConfirmManualStepsCommand(cli))
 	cmd.AddCommand(stackpack.StackpackDescribeCommand(cli))
-	cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
+
+	// Only add scaffold command if experimental feature is enabled
+	if os.Getenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD") != "" {
+		cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
+	}
 
 	return cmd
 }
