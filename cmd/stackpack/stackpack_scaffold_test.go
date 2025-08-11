@@ -419,9 +419,10 @@ func TestStackpackScaffoldCommand_TemplateContextPassedCorrectly(t *testing.T) {
 	err = os.MkdirAll(customTemplateDir, 0755)
 	require.NoError(t, err)
 
-	// Create a test template file with both Name and TemplateName variables
+	// Create a test template file with Name, DisplayName, and TemplateName variables
 	templateFile := filepath.Join(customTemplateDir, "config.yaml")
 	templateContent := `name: <<.Name>>
+display_name: <<.DisplayName>>
 template: <<.TemplateName>>
 `
 	err = os.WriteFile(templateFile, []byte(templateContent), 0644)
@@ -450,6 +451,7 @@ template: <<.TemplateName>>
 	require.NoError(t, err)
 
 	expectedContent := `name: my-awesome-stackpack
+display_name: my-awesome-stackpack
 template: custom-template
 `
 	assert.Equal(t, expectedContent, string(content))
@@ -544,6 +546,85 @@ func TestDisplayNextSteps(t *testing.T) {
 	assert.Contains(t, allOutput, "Review the generated files")
 	assert.Contains(t, allOutput, "Customize the stackpack")
 	assert.Contains(t, allOutput, "Build your stackpack")
+}
+
+func TestStackpackScaffoldCommand_DisplayNameFallback(t *testing.T) {
+	// Create temporary directories for testing
+	tempDir, err := os.MkdirTemp("", "stackpack-scaffold-displayname-test-*")
+	require.NoError(t, err)
+	defer os.RemoveAll(tempDir)
+
+	// Create a mock template structure
+	templateDir := filepath.Join(tempDir, "templates")
+	customTemplateDir := filepath.Join(templateDir, "custom-template")
+	err = os.MkdirAll(customTemplateDir, 0755)
+	require.NoError(t, err)
+
+	// Create a test template file with DisplayName variable
+	templateFile := filepath.Join(customTemplateDir, "test-displayname.yaml")
+	templateContent := `name: <<.Name>>
+display_name: <<.DisplayName>>
+`
+	err = os.WriteFile(templateFile, []byte(templateContent), 0644)
+	require.NoError(t, err)
+
+	// Create destination directory
+	destDir := filepath.Join(tempDir, "destination")
+	err = os.MkdirAll(destDir, 0755)
+	require.NoError(t, err)
+
+	tests := []struct {
+		name                string
+		args                []string
+		expectedDisplayName string
+		description         string
+	}{
+		{
+			name: "with display-name flag provided",
+			args: []string{
+				"--name", "my-stackpack",
+				"--display-name", "My Awesome StackPack",
+				"--template-local-dir", templateDir,
+				"--template-name", "custom-template",
+				"--destination-dir", destDir,
+			},
+			expectedDisplayName: "My Awesome StackPack",
+			description:         "Should use provided display name",
+		},
+		{
+			name: "without display-name flag - should fallback to name",
+			args: []string{
+				"--name", "my-stackpack-fallback",
+				"--template-local-dir", templateDir,
+				"--template-name", "custom-template",
+				"--destination-dir", destDir,
+			},
+			expectedDisplayName: "my-stackpack-fallback",
+			description:         "Should fallback to name when display-name not provided",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			cli, cmd := setupStackpackScaffoldCmd(t)
+
+			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
+			defer removeStackPack()
+			require.NoError(t, err, tt.description)
+
+			// Verify the template variables were substituted correctly
+			createdFile := filepath.Join(destDir, "test-displayname.yaml")
+			content, err := os.ReadFile(createdFile)
+			require.NoError(t, err)
+
+			// Check that DisplayName was correctly used
+			assert.Contains(t, string(content), "display_name: "+tt.expectedDisplayName, tt.description)
+
+			// Clean up for next test iteration
+			_ = os.RemoveAll(destDir)
+			_ = os.MkdirAll(destDir, 0755)
+		})
+	}
 }
 
 func removeStackPack() {

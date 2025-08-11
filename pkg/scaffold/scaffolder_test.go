@@ -55,7 +55,7 @@ func (m *MockPrinter) PrintWarn(message string) {
 
 func TestNewScaffolder(t *testing.T) {
 	mockSource := &MockTemplateSource{stringResult: "mock-source"}
-	context := TemplateContext{Name: "test-name", TemplateName: "test-template"}
+	context := TemplateContext{Name: "test-name", DisplayName: "test-name", TemplateName: "test-template"}
 	mockPrinter := &MockPrinter{}
 
 	scaffolder := NewScaffolder(mockSource, "/test/dest", context, true, mockPrinter, false)
@@ -87,7 +87,7 @@ func TestScaffolder_validateArgs(t *testing.T) {
 	}{
 		{
 			name:      "valid args",
-			context:   TemplateContext{Name: "test-name", TemplateName: "test-template"},
+			context:   TemplateContext{Name: "test-name", DisplayName: "test-name", TemplateName: "test-template"},
 			sourceErr: nil,
 			wantErr:   false,
 		},

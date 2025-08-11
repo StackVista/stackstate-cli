@@ -13,10 +13,10 @@ import (
 )
 
 const (
-	defaultTemplateGitHubRepo = "stackvista/stac-22599" // Default path in GitHub repo for templates
-	defaultTemplateGitHubRef  = "main"                  // Default branch for GitHub templates
-	defaultTemplateGitHubPath = "templates"             // Default path in GitHub repo for templates
-	defaultTemplateName       = "generic"               // Default template name to use
+	defaultTemplateGitHubRepo = "StackVista/stackpack-templates" // Default path in GitHub repo for templates
+	defaultTemplateGitHubRef  = "main"                           // Default branch for GitHub templates
+	defaultTemplateGitHubPath = "templates"                      // Default path in GitHub repo for templates
+	defaultTemplateName       = "generic"                        // Default template name to use
 )
 
 type ScaffoldArgs struct {
@@ -31,6 +31,7 @@ type ScaffoldArgs struct {
 	// Common flags
 	DestinationDir string
 	Name           string
+	DisplayName    string
 	TemplateName   string
 	Force          bool
 }
@@ -68,6 +69,7 @@ sts stackpack scaffold --template-github-repo stackvista/my-templates --name my-
 	// Common flags
 	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", "", "Target directory where scaffolded files will be created. If not specified, uses current working directory")
 	cmd.Flags().StringVar(&args.Name, "name", "", "Name of the stackpack (required)")
+	cmd.Flags().StringVar(&args.DisplayName, "display-name", "", "Name that's displayed on both the StackPack listing page and on the title of the StackPack page. If not provided, the value of --name will be used")
 	cmd.Flags().StringVar(&args.TemplateName, "template-name", defaultTemplateName, fmt.Sprintf("Name of the template subdirectory to use (default: %s)", defaultTemplateName))
 	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing files without prompting")
 
@@ -110,8 +112,13 @@ func RunStackpackScaffoldCommand(args *ScaffoldArgs) func(cli *di.Deps, cmd *cob
 		}
 
 		// Create template context
+		displayName := args.DisplayName
+		if displayName == "" {
+			displayName = args.Name
+		}
 		context := scaffold.TemplateContext{
 			Name:         args.Name,
+			DisplayName:  displayName,
 			TemplateName: args.TemplateName,
 		}
 

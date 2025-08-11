@@ -18,6 +18,7 @@ const (
 // TemplateContext holds the variables for template rendering
 type TemplateContext struct {
 	Name         string // Stackpack name (e.g. "my-stackpack")
+	DisplayName  string // Display name for the stackpack
 	TemplateName string // Template name used for scaffolding
 }
 
