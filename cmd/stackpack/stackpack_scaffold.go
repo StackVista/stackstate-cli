@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	defaultTemplateGitHubRepo = "StackVista/stackpack-templates" // Default path in GitHub repo for templates
+	defaultTemplateGitHubRepo = "StackVista/stackpack-templates" // Default GitHub repository for templates
 	defaultTemplateGitHubRef  = "main"                           // Default branch for GitHub templates
 	defaultTemplateGitHubPath = "templates"                      // Default path in GitHub repo for templates
 	defaultTemplateName       = "generic"                        // Default template name to use
