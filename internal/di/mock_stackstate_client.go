@@ -34,6 +34,7 @@ type ApiMocks struct {
 	SubjectApi                 *stackstate_api.SubjectApiMock
 	TopicApi                   *stackstate_api.TopicApiMock
 	AgentRegistrationsApi      *stackstate_api.AgentRegistrationsApiMock
+	DashboardsApi              *stackstate_api.DashboardsApiMock
 	// Admin API:
 	RetentionApi *stackstate_admin_api.RetentionApiMock
 	// MISSING MOCK? You have to manually add new mocks here after generating a new API!
@@ -59,6 +60,7 @@ func NewMockStackStateClient() MockStackStateClient {
 	topicApi := stackstate_api.NewTopicApiMock()
 	retentionApi := stackstate_admin_api.NewRetentionApiMock()
 	agentRegistrationsApi := stackstate_api.NewAgentRegistrationsApiMock()
+	dashboardsApi := stackstate_api.NewDashboardsApiMock()
 
 	apiMocks := ApiMocks{
 		ApiTokenApi:                &apiTokenApi,
@@ -80,6 +82,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		TopicApi:                   &topicApi,
 		RetentionApi:               &retentionApi,
 		AgentRegistrationsApi:      &agentRegistrationsApi,
+		DashboardsApi:              &dashboardsApi,
 	}
 
 	apiClient := &stackstate_api.APIClient{
@@ -101,6 +104,7 @@ func NewMockStackStateClient() MockStackStateClient {
 		SubjectApi:                 apiMocks.SubjectApi,
 		TopicApi:                   apiMocks.TopicApi,
 		AgentRegistrationsApi:      apiMocks.AgentRegistrationsApi,
+		DashboardsApi:              apiMocks.DashboardsApi,
 	}
 
 	adminApiClient := &stackstate_admin_api.APIClient{

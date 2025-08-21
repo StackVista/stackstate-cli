@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"os"
+
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
@@ -30,6 +32,11 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(TopologySyncCommand(cli))
 	cmd.AddCommand(AgentCommand(cli))
 	cmd.AddCommand(UserSessionCommand(cli))
+
+	// Only add dashboard command if experimental feature is enabled
+	if os.Getenv("STS_EXPERIMENTAL_DASHBOARD") != "" {
+		cmd.AddCommand(DashboardCommand(cli))
+	}
 
 	return cmd
 }
