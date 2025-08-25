@@ -69,7 +69,7 @@ sts stackpack scaffold --template-github-repo stackvista/my-templates --name my-
 	cmd.Flags().StringVar(&args.TemplateGitHubPath, "template-github-path", "", fmt.Sprintf("Path within the repository containing template subdirectories (default: %s)", defaultTemplateGitHubPath))
 
 	// Common flags
-	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", "", "Target directory where scaffolded files will be created. If not specified, uses current working directory")
+	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", "", "Target directory where scaffolded files will be created. If not specified, creates a directory with the stackpack name in the current working directory")
 	cmd.Flags().StringVar(&args.Name, "name", "", "Name of the stackpack (required). Must start with [a-z] and contain only lowercase letters, digits, and hyphens")
 	cmd.Flags().StringVar(&args.DisplayName, "display-name", "", "Name that's displayed on both the StackPack listing page and on the title of the StackPack page. If not provided, the value of --name will be used")
 	cmd.Flags().StringVar(&args.TemplateName, "template-name", defaultTemplateName, fmt.Sprintf("Name of the template subdirectory to use (default: %s)", defaultTemplateName))
@@ -91,10 +91,11 @@ func RunStackpackScaffoldCommand(args *ScaffoldArgs) func(cli *di.Deps, cmd *cob
 		var err error
 
 		if args.DestinationDir == "" {
-			args.DestinationDir, err = os.Getwd()
+			currentDir, err := os.Getwd()
 			if err != nil {
 				return common.NewRuntimeError(fmt.Errorf("failed to get current working directory: %w", err))
 			}
+			args.DestinationDir = filepath.Join(currentDir, args.Name)
 		}
 
 		// Validate stackpack name
