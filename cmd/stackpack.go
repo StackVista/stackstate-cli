@@ -8,6 +8,10 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
+const (
+	experimentalStackpackEnvVar = "STS_EXPERIMENTAL_STACKPACK"
+)
+
 func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "stackpack",
@@ -24,9 +28,10 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(stackpack.StackpackConfirmManualStepsCommand(cli))
 	cmd.AddCommand(stackpack.StackpackDescribeCommand(cli))
 
-	// Only add scaffold command if experimental feature is enabled
-	if os.Getenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD") != "" {
+	// The not-production-ready commands
+	if os.Getenv(experimentalStackpackEnvVar) != "" {
 		cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
+		cmd.AddCommand(stackpack.StackpackPackageCommand(cli))
 	}
 
 	return cmd

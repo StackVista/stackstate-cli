@@ -45,20 +45,20 @@ func TestStackPackCommand_FeatureGating(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			// Store original environment value to restore later
-			originalValue := os.Getenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD")
+			originalValue := os.Getenv(experimentalStackpackEnvVar)
 			defer func() {
 				if originalValue == "" {
-					os.Unsetenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD")
+					os.Unsetenv(experimentalStackpackEnvVar)
 				} else {
-					os.Setenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD", originalValue)
+					os.Setenv(experimentalStackpackEnvVar, originalValue)
 				}
 			}()
 
 			// Set the environment variable for this test
 			if tt.envVarValue == "" {
-				os.Unsetenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD")
+				os.Unsetenv(experimentalStackpackEnvVar)
 			} else {
-				err := os.Setenv("STS_EXPERIMENTAL_STACKPACK_SCAFFOLD", tt.envVarValue)
+				err := os.Setenv(experimentalStackpackEnvVar, tt.envVarValue)
 				require.NoError(t, err)
 			}
 
