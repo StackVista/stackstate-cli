@@ -32,6 +32,7 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	if os.Getenv(experimentalStackpackEnvVar) != "" {
 		cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
 		cmd.AddCommand(stackpack.StackpackPackageCommand(cli))
+		cmd.AddCommand(stackpack.StackpackTestCommand(cli))
 	}
 
 	return cmd
