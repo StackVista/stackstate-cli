@@ -248,8 +248,8 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 
 // bumpSnapshotVersionWithBase increments cli-test version using a different base version for computation
 // Logic: If baseVersion contains "-cli-test.N", increments N to N+1
-// If no cli-test suffix exists, adds "-cli-test.1" to the base version
-// Examples: "1.0.0" -> "1.0.0-cli-test.1", "1.0.0-cli-test.5" -> "1.0.0-cli-test.6"
+// If no cli-test suffix exists, adds "-cli-test.10000" to the base version (high number for alphanumeric ordering)
+// Examples: "1.0.0" -> "1.0.0-cli-test.10000", "1.0.0-cli-test.10005" -> "1.0.0-cli-test.10006"
 func bumpSnapshotVersionWithBase(configPath, baseVersion string) (string, error) {
 	// Parse the base version using semver
 	version, err := semver.Parse(baseVersion)
@@ -273,15 +273,15 @@ func bumpSnapshotVersionWithBase(configPath, baseVersion string) (string, error)
 		var currentNum uint64
 
 		// Extract current cli-test number (handles both numeric and string formats)
-		if nextPart.VersionStr == "" {
+		if nextPart.IsNumeric() {
 			// Numeric format: use VersionNum directly
 			currentNum = nextPart.VersionNum
 		} else if num, err := strconv.ParseUint(nextPart.VersionStr, 10, 64); err == nil {
 			// String format: parse to number
 			currentNum = num
 		} else {
-			// Invalid format: reset to cli-test.1
-			newVersion = fmt.Sprintf("%d.%d.%d-cli-test.1", version.Major, version.Minor, version.Patch)
+			// Invalid format: reset to cli-test.10000
+			newVersion = fmt.Sprintf("%d.%d.%d-cli-test.10000", version.Major, version.Minor, version.Patch)
 			return newVersion, updateVersionInHocon(configPath, newVersion)
 		}
 
@@ -292,7 +292,7 @@ func bumpSnapshotVersionWithBase(configPath, baseVersion string) (string, error)
 			case i == cliTestIndex+1:
 				// Increment the cli-test number
 				newPreParts[i] = fmt.Sprintf("%d", currentNum+1)
-			case pre.VersionStr == "":
+			case pre.IsNumeric():
 				// Convert numeric pre-release parts to string
 				newPreParts[i] = fmt.Sprintf("%d", pre.VersionNum)
 			default:
@@ -302,8 +302,8 @@ func bumpSnapshotVersionWithBase(configPath, baseVersion string) (string, error)
 		}
 		newVersion = fmt.Sprintf("%d.%d.%d-%s", version.Major, version.Minor, version.Patch, strings.Join(newPreParts, "."))
 	} else {
-		// No cli-test found: add initial cli-test.1 suffix
-		newVersion = fmt.Sprintf("%d.%d.%d-cli-test.1", version.Major, version.Minor, version.Patch)
+		// No cli-test found: add initial cli-test.10000 suffix
+		newVersion = fmt.Sprintf("%d.%d.%d-cli-test.10000", version.Major, version.Minor, version.Patch)
 	}
 
 	return newVersion, updateVersionInHocon(configPath, newVersion)

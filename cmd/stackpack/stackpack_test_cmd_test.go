@@ -59,7 +59,7 @@ func TestBumpSnapshotVersion(t *testing.T) {
 		{
 			name:            "first cli-test version",
 			currentVersion:  "1.0.0",
-			expectedVersion: "1.0.0-cli-test.1",
+			expectedVersion: "1.0.0-cli-test.10000",
 		},
 		{
 			name:            "increment existing cli-test",
