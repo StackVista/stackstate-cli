@@ -1,8 +1,6 @@
 package stackpack
 
 import (
-	"sort"
-
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
@@ -24,19 +22,6 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 	}
 	cmd.Flags().BoolVar(&args.Installed, InstalledFlag, false, "Show only installed StackPacks")
 	return cmd
-}
-
-func fetchAllStackPacks(cli *di.Deps, api *stackstate_api.APIClient) ([]stackstate_api.FullStackPack, common.CLIError) {
-	stackPackList, resp, err := api.StackpackApi.StackPackList(cli.Context).Execute()
-	if err != nil {
-		return nil, common.NewResponseError(err, resp)
-	}
-
-	sort.SliceStable(stackPackList, func(i, j int) bool {
-		return stackPackList[i].Name < stackPackList[j].Name
-	})
-
-	return stackPackList, nil
 }
 
 func RunStackpackListCommand(args *ListArgs) di.CmdWithApiFn {

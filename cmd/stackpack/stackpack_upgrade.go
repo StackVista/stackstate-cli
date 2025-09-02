@@ -3,6 +3,7 @@ package stackpack
 import (
 	"fmt"
 	"strings"
+	"time"
 
 	"github.com/stackvista/stackstate-cli/pkg/pflags"
 
@@ -10,6 +11,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 var (
@@ -19,6 +21,8 @@ var (
 type UpgradeArgs struct {
 	TypeName         string
 	UnlockedStrategy string
+	Wait             bool          // New: whether to wait for upgrade to complete
+	Timeout          time.Duration // New: timeout for wait operation
 }
 
 func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
@@ -37,6 +41,8 @@ func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 		"Strategy use to upgrade StackPack instance"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
 	)
+	cmd.Flags().BoolVar(&args.Wait, "wait", false, "Wait for upgrade to complete")
+	cmd.Flags().DurationVar(&args.Timeout, "timeout", DefaultTimeout, "Timeout for waiting")
 	return cmd
 }
 func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
@@ -61,14 +67,78 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"success":         true,
-				"current-version": stack.GetVersion(),
-				"next-version":    stack.NextVersion.GetVersion(),
+
+		// New wait functionality: monitor upgrade until completion
+		if args.Wait {
+			if !cli.IsJson() {
+				cli.Printer.PrintLn("Waiting for upgrade to complete...")
+			}
+
+			// Use OperationWaiter to poll until all configurations are upgraded
+			waiter := NewOperationWaiter(cli, api)
+			waitErr := waiter.WaitForCompletion(WaitOptions{
+				StackPackName: args.TypeName,
+				Timeout:       args.Timeout,
+				PollInterval:  DefaultPollInterval,
 			})
+			if waitErr != nil {
+				// Use NewRuntimeError to avoid showing usage on operation failures
+				return common.NewRuntimeError(waitErr)
+			}
+
+			// Re-fetch final status for display after successful completion
+			stackPackList, cliErr := fetchAllStackPacks(cli, api)
+			if cliErr != nil {
+				return cliErr
+			}
+
+			finalStackPack, err := findStackPackByName(stackPackList, args.TypeName)
+			if err != nil {
+				return common.NewNotFoundError(err)
+			}
+
+			// Display final status
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"stackpack":       finalStackPack,
+					"status":          "completed",
+					"current-version": finalStackPack.GetVersion(),
+				})
+			} else {
+				cli.Printer.Success("StackPack upgrade completed successfully")
+
+				// Show configurations status
+				data := make([][]interface{}, 0)
+				for _, config := range finalStackPack.GetConfigurations() {
+					lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
+					data = append(data, []interface{}{
+						config.GetId(),
+						finalStackPack.GetName(),
+						config.GetStatus(),
+						config.GetStackPackVersion(),
+						lastUpdateTime,
+					})
+				}
+
+				cli.Printer.Table(
+					printer.TableData{
+						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Data:                data,
+						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.TypeName},
+					},
+				)
+			}
 		} else {
-			cli.Printer.Success(fmt.Sprintf("Successfully triggered upgrade from %s to %s", stack.GetVersion(), stack.NextVersion.GetVersion()))
+			// Original behavior - just show the immediate response
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"success":         true,
+					"current-version": stack.GetVersion(),
+					"next-version":    stack.NextVersion.GetVersion(),
+				})
+			} else {
+				cli.Printer.Success(fmt.Sprintf("Successfully triggered upgrade from %s to %s", stack.GetVersion(), stack.NextVersion.GetVersion()))
+			}
 		}
 
 		return nil

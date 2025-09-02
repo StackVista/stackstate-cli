@@ -17,6 +17,8 @@ type InstallArgs struct {
 	Name             string
 	UnlockedStrategy string
 	Params           map[string]string
+	Wait             bool          // New: whether to wait for installation to complete
+	Timeout          time.Duration // New: timeout for wait operation
 }
 
 func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
@@ -42,6 +44,8 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
 	)
 	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", args.Params, "List of parameters of the form \"key=value\"")
+	cmd.Flags().BoolVar(&args.Wait, "wait", false, "Wait for installation to complete")
+	cmd.Flags().DurationVar(&args.Timeout, "timeout", DefaultTimeout, "Timeout for waiting")
 	return cmd
 }
 
@@ -57,21 +61,83 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"instance": instance,
-			})
-		} else {
-			lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
+		// New wait functionality: monitor installation until completion
+		if args.Wait {
+			if !cli.IsJson() {
+				cli.Printer.PrintLn("Waiting for installation to complete...")
+			}
 
-			cli.Printer.Success("StackPack instance installed")
-			cli.Printer.Table(
-				printer.TableData{
-					Header:              []string{"id", "name", "status", "version", "last updated"},
-					Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
-					MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
-				},
-			)
+			// Use OperationWaiter to poll until all configurations are installed
+			waiter := NewOperationWaiter(cli, api)
+			waitErr := waiter.WaitForCompletion(WaitOptions{
+				StackPackName: args.Name,
+				Timeout:       args.Timeout,
+				PollInterval:  DefaultPollInterval,
+			})
+			if waitErr != nil {
+				// Use NewRuntimeError to avoid showing usage on operation failures
+				return common.NewRuntimeError(waitErr)
+			}
+
+			// Re-fetch final status for display after successful completion
+			stackPackList, cliErr := fetchAllStackPacks(cli, api)
+			if cliErr != nil {
+				return cliErr
+			}
+
+			finalStackPack, err := findStackPackByName(stackPackList, args.Name)
+			if err != nil {
+				return common.NewNotFoundError(err)
+			}
+
+			// Display final status
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"stackpack": finalStackPack,
+					"status":    "completed",
+				})
+			} else {
+				cli.Printer.Success("StackPack installation completed successfully")
+
+				// Show configurations status
+				data := make([][]interface{}, 0)
+				for _, config := range finalStackPack.GetConfigurations() {
+					lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
+					data = append(data, []interface{}{
+						config.GetId(),
+						finalStackPack.GetName(),
+						config.GetStatus(),
+						config.GetStackPackVersion(),
+						lastUpdateTime,
+					})
+				}
+
+				cli.Printer.Table(
+					printer.TableData{
+						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Data:                data,
+						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.Name},
+					},
+				)
+			}
+		} else {
+			// Original behavior - just show the immediate response
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"instance": instance,
+				})
+			} else {
+				lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
+
+				cli.Printer.Success("StackPack instance installation triggered")
+				cli.Printer.Table(
+					printer.TableData{
+						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
+						MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
+					},
+				)
+			}
 		}
 
 		return nil
