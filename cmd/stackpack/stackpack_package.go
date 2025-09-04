@@ -195,7 +195,7 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 				"source_dir":        args.StackpackDir,
 			})
 		} else {
-			cli.Printer.Successf("✓ Stackpack packaged successfully!")
+			cli.Printer.Successf("Stackpack packaged successfully!")
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn(fmt.Sprintf("Stackpack: %s (v%s)", stackpackInfo.Name, stackpackInfo.Version))
 			cli.Printer.PrintLn(fmt.Sprintf("Zip file: %s", args.ArchiveFile))

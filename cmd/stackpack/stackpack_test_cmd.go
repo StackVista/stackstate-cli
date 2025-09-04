@@ -160,7 +160,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		if err := copyDirectory(args.StackpackDir, tempStackpackDir); err != nil {
 			return common.NewRuntimeError(fmt.Errorf("failed to copy stackpack to temporary directory: %w", err))
 		}
-		cli.Printer.Success("✓ Temporary copy created")
+		cli.Printer.Success("Temporary copy created")
 
 		// Step 3: Update version in temporary copy
 		cli.Printer.PrintLn("")
@@ -171,7 +171,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		if err != nil {
 			return common.NewRuntimeError(fmt.Errorf("failed to bump version: %w", err))
 		}
-		cli.Printer.Success(fmt.Sprintf("✓ Version bumped to: %s", newVersion))
+		cli.Printer.Success(fmt.Sprintf("Version bumped to: %s", newVersion))
 
 		// Step 4: Package stackpack from temporary directory
 		cli.Printer.PrintLn("")
@@ -188,7 +188,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		if err := runPackageStep(cli, packageArgs); err != nil {
 			return err
 		}
-		cli.Printer.Success("✓ Stackpack packaged successfully")
+		cli.Printer.Success("Stackpack packaged successfully")
 
 		// Step 5: Confirm upload (if needed) and execute upload/install workflow
 		if !args.Yes {
@@ -208,7 +208,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		if err := runUploadStep(cli, api, serverInfo, uploadArgs); err != nil {
 			return err
 		}
-		cli.Printer.Success("✓ Stackpack uploaded successfully")
+		cli.Printer.Success("Stackpack uploaded successfully")
 
 		// Install or upgrade stackpack based on installation status
 		if installedVersion != "" {
@@ -222,7 +222,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 			if err := runUpgradeStep(cli, api, serverInfo, upgradeArgs); err != nil {
 				return err
 			}
-			cli.Printer.Success("✓ Stackpack upgraded successfully")
+			cli.Printer.Success("Stackpack upgraded successfully")
 		} else {
 			installArgs := &InstallArgs{
 				Name:             originalInfo.Name,
@@ -235,7 +235,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 			if err := runInstallStep(cli, api, serverInfo, installArgs); err != nil {
 				return err
 			}
-			cli.Printer.Success("✓ Stackpack installed successfully")
+			cli.Printer.Success("Stackpack installed successfully")
 		}
 
 		cli.Printer.PrintLn("")

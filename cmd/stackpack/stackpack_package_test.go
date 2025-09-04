@@ -79,7 +79,7 @@ func TestStackpackPackageCommand_DefaultBehavior(t *testing.T) {
 	// Verify text output
 	require.NotEmpty(t, *cli.MockPrinter.SuccessCalls)
 	successCall := (*cli.MockPrinter.SuccessCalls)[0]
-	assert.Contains(t, successCall, "✓ Stackpack packaged successfully!")
+	assert.Contains(t, successCall, "Stackpack packaged successfully!")
 
 	require.NotEmpty(t, *cli.MockPrinter.PrintLnCalls)
 	printLnCalls := *cli.MockPrinter.PrintLnCalls
@@ -143,7 +143,7 @@ func TestStackpackPackageCommand_ForceFlag(t *testing.T) {
 	// Verify success message
 	require.NotEmpty(t, *cli2.MockPrinter.SuccessCalls)
 	successCall := (*cli2.MockPrinter.SuccessCalls)[0]
-	assert.Contains(t, successCall, "✓ Stackpack packaged successfully!")
+	assert.Contains(t, successCall, "Stackpack packaged successfully!")
 }
 
 func TestStackpackPackageCommand_JSONOutput(t *testing.T) {
@@ -568,7 +568,7 @@ func TestStackpackPackageCommand_TextOutput(t *testing.T) {
 				// Verify success message
 				require.NotEmpty(t, *cli.MockPrinter.SuccessCalls)
 				successCall := (*cli.MockPrinter.SuccessCalls)[0]
-				assert.Contains(t, successCall, "✓ Stackpack packaged successfully!")
+				assert.Contains(t, successCall, "Stackpack packaged successfully!")
 
 				// Verify stackpack info is printed
 				printLnCalls := *cli.MockPrinter.PrintLnCalls

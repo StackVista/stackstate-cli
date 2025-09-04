@@ -105,7 +105,7 @@ func (w *OperationWaiter) WaitForCompletion(options WaitOptions) error {
 
 			// Return immediately if any configuration has failed
 			if len(errorMessages) > 0 {
-				return fmt.Errorf("stackpack '%s' installation failed:\n%s", options.StackPackName, strings.Join(errorMessages, "\n"))
+				return fmt.Errorf("stackpack '%s' failed:\n%s", options.StackPackName, strings.Join(errorMessages, "\n"))
 			}
 
 			// Success: all configurations are installed and none are provisioning
