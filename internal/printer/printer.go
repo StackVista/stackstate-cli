@@ -16,6 +16,7 @@ import (
 	"github.com/gookit/color"
 	"github.com/jedib0t/go-pretty/v6/table"
 	"github.com/jedib0t/go-pretty/v6/text"
+	"github.com/mattn/go-runewidth"
 	"github.com/pterm/pterm"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/util"
@@ -71,7 +72,6 @@ func NewStdPrinter(os string, stdOut io.Writer, stdErr io.Writer) *StdPrinter {
 		MaxWidth:   pterm.DefaultParagraph.MaxWidth,
 	}
 	pterm.EnableColor()
-
 	return x
 }
 
@@ -273,6 +273,8 @@ func (p *StdPrinter) Table(t TableData) {
 		columns := make(table.Row, 0)
 		for _, v := range row {
 			value := util.ToString(v)
+			// Remove emoji variation selectors to fix width calculation issues
+			value = removeEmojiVariationSelectors(value)
 			columns = append(columns, value)
 		}
 		rows = append(rows, columns)
@@ -308,8 +310,9 @@ func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box ta
 	for _, row := range data {
 		for i, v := range row {
 			value := util.ToString(v)
-			if columnWidths[i] < len(value) {
-				columnWidths[i] = len(value)
+			value = removeEmojiVariationSelectors(value)
+			if columnWidths[i] < runewidth.StringWidth(value) {
+				columnWidths[i] = runewidth.StringWidth(value)
 			}
 		}
 	}
@@ -337,6 +340,24 @@ func calcColumnWidth(header []string, data [][]interface{}, maxWidth int, box ta
 		}
 	}
 	return adjustedColumnWidths
+}
+
+// removeEmojiVariationSelectors removes Unicode variation selectors that cause
+// inconsistent width calculations across different terminals and libraries
+func removeEmojiVariationSelectors(s string) string {
+	runes := []rune(s)
+	result := make([]rune, 0, len(runes))
+
+	for _, r := range runes {
+		// Skip variation selectors:
+		// U+FE0E (VARIATION SELECTOR-15) - text presentation
+		// U+FE0F (VARIATION SELECTOR-16) - emoji presentation
+		if r == '\uFE0E' || r == '\uFE0F' {
+			continue
+		}
+		result = append(result, r)
+	}
+	return string(result)
 }
 
 func (p *StdPrinter) PrintLn(text string) {
