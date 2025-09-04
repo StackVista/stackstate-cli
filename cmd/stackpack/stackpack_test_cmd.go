@@ -215,6 +215,8 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 			upgradeArgs := &UpgradeArgs{
 				TypeName:         originalInfo.Name,
 				UnlockedStrategy: args.UnlockedStrategy,
+				Wait:             true,
+				Timeout:          DefaultTimeout,
 			}
 
 			if err := runUpgradeStep(cli, api, serverInfo, upgradeArgs); err != nil {
@@ -226,6 +228,8 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 				Name:             originalInfo.Name,
 				UnlockedStrategy: args.UnlockedStrategy,
 				Params:           args.Params,
+				Wait:             true,
+				Timeout:          DefaultTimeout,
 			}
 
 			if err := runInstallStep(cli, api, serverInfo, installArgs); err != nil {
