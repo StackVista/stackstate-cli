@@ -125,3 +125,79 @@ func TestStackpackInstallPrintsToJson(t *testing.T) {
 	)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 }
+
+func TestStackpackInstallHasWaitFlags(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := StackpackInstallCommand(&cli.Deps)
+
+	// Test that the wait and timeout flags exist
+	waitFlag := cmd.Flags().Lookup("wait")
+	assert.NotNil(t, waitFlag, "wait flag should exist")
+	assert.Equal(t, "false", waitFlag.DefValue, "wait flag default should be false")
+
+	timeoutFlag := cmd.Flags().Lookup("timeout")
+	assert.NotNil(t, timeoutFlag, "timeout flag should exist")
+	assert.Equal(t, "1m0s", timeoutFlag.DefValue, "timeout flag default should be 1m0s")
+}
+
+func TestStackpackInstallWithWaitError(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := StackpackInstallCommand(&cli.Deps)
+
+	validateWaitFlags(t, cmd)
+}
+
+func TestStackpackInstallWithWaitTimeout(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := StackpackInstallCommand(&cli.Deps)
+
+	configID := int64(12345)
+	timestamp := int64(1438167001716)
+
+	// Setup provision response
+	cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsResponse.Result = *mockProvisionResponse
+
+	// Setup stackpack list response with provisioning state (never completes)
+	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{
+		{
+			Name: name,
+			Configurations: []stackstate_api.StackPackConfiguration{
+				{
+					Id:                  &configID,
+					Status:              StatusProvisioning,
+					StackPackVersion:    provisionVersion,
+					LastUpdateTimestamp: &timestamp,
+					Config:              map[string]interface{}{},
+				},
+			},
+		},
+	}
+
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "install", "--name", name, "--wait", "--timeout", "50ms")
+
+	// Should return timeout error
+	assert.Error(t, err)
+	assert.Contains(t, err.Error(), "timeout waiting for stackpack")
+}
+
+func TestStackpackInstallWithWaitJsonFlags(t *testing.T) {
+	cli := di.NewMockDeps(t)
+	cmd := StackpackInstallCommand(&cli.Deps)
+
+	// Test that wait and timeout flags can be parsed with other flags
+	err := cmd.ParseFlags([]string{"--name", "test", "--wait", "--timeout", "100ms"})
+	assert.NoError(t, err)
+
+	// Verify flag values
+	waitValue, err := cmd.Flags().GetBool("wait")
+	assert.NoError(t, err)
+	assert.True(t, waitValue)
+
+	timeoutValue, err := cmd.Flags().GetDuration("timeout")
+	assert.NoError(t, err)
+	assert.Equal(t, 100*time.Millisecond, timeoutValue)
+
+	nameValue, err := cmd.Flags().GetString("name")
+	assert.NoError(t, err)
+	assert.Equal(t, "test", nameValue)
+}

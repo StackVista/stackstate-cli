@@ -13,7 +13,7 @@ import (
 func setupStackPacConfirmManualStepsCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackConfirmManualStepsCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsResponse.Result = "successful"
+	cli.MockClient.ApiMocks.StackpackApi.ConfirmManualStepsResponse.Result = successfulResponseResult
 	return &cli, cmd
 }
 
