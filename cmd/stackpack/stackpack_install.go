@@ -17,8 +17,8 @@ type InstallArgs struct {
 	Name             string
 	UnlockedStrategy string
 	Params           map[string]string
-	Wait             bool          // New: whether to wait for installation to complete
-	Timeout          time.Duration // New: timeout for wait operation
+	Wait             bool
+	Timeout          time.Duration
 }
 
 func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
@@ -61,7 +61,7 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		// New wait functionality: monitor installation until completion
+		// Wait functionality: monitor installation until completion
 		if args.Wait {
 			if !cli.IsJson() {
 				cli.Printer.PrintLn("Waiting for installation to complete...")
@@ -121,7 +121,6 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 				)
 			}
 		} else {
-			// Original behavior - just show the immediate response
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"instance": instance,

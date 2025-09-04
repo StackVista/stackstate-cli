@@ -21,8 +21,8 @@ var (
 type UpgradeArgs struct {
 	TypeName         string
 	UnlockedStrategy string
-	Wait             bool          // New: whether to wait for upgrade to complete
-	Timeout          time.Duration // New: timeout for wait operation
+	Wait             bool
+	Timeout          time.Duration
 }
 
 func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
@@ -68,7 +68,7 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		// New wait functionality: monitor upgrade until completion
+		// Wait functionality: monitor upgrade until completion
 		if args.Wait {
 			if !cli.IsJson() {
 				cli.Printer.PrintLn("Waiting for upgrade to complete...")
@@ -129,7 +129,6 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 				)
 			}
 		} else {
-			// Original behavior - just show the immediate response
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"success":         true,
