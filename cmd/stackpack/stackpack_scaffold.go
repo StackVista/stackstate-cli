@@ -155,7 +155,7 @@ func RunStackpackScaffoldCommand(args *ScaffoldArgs) func(cli *di.Deps, cmd *cob
 			})
 		} else {
 			// Display success message and next steps
-			cli.Printer.Successf("✓ Scaffold complete!")
+			cli.Printer.Successf("Scaffold complete!")
 			cli.Printer.PrintLn("")
 			displayNextSteps(cli, args)
 		}

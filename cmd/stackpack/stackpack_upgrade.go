@@ -61,7 +61,7 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 			return common.NewNotFoundError(err)
 		}
 		if !stack.HasNextVersion() {
-			return common.NewNotFoundError(fmt.Errorf("stackpack %s cannot be upgraded at this moment", args.TypeName))
+			return common.NewRuntimeError(fmt.Errorf("stackpack %s cannot be upgraded at this moment", args.TypeName))
 		}
 		_, resp, err = api.StackpackApi.UpgradeStackPack(cli.Context, args.TypeName).Unlocked(args.UnlockedStrategy).Execute()
 		if err != nil {
