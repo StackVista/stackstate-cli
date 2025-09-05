@@ -290,3 +290,73 @@ func TestPrintTableNoDataCustomMessage(t *testing.T) {
 	})
 	assert.Equal(t, "No cats found.\n", stdOut.String())
 }
+
+func TestPrintTableWithEmojiVariationSelectors(t *testing.T) {
+	p, stdOut, _ := setupPrinter()
+	p.SetUseColor(false)
+	p.Table(TableData{
+		Header: []string{"Name", "Status", "Description"},
+		Data: [][]interface{}{
+			{"Anton's demo dashboard 🌪️", "Active", "Weather dashboard"},
+			{"Fire tracker 🔥️", "Inactive", "Fire monitoring"},
+			{"Regular dashboard", "Active", "No emojis here"},
+			{"Mixed ️🌪️ selectors️", "Testing", "Complex case"},
+		},
+	})
+
+	// Expected output should have variation selectors removed
+	//nolint:lll
+	expected := "NAME                     | STATUS   | DESCRIPTION      \nAnton's demo dashboard 🌪 | Active   | Weather dashboard\nFire tracker 🔥          | Inactive | Fire monitoring  \nRegular dashboard        | Active   | No emojis here   \nMixed 🌪 selectors        | Testing  | Complex case     \n"
+	assert.Equal(t, expected, stdOut.String())
+}
+
+func TestRemoveEmojiVariationSelectors(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+	}{
+		{
+			name:     "text with variation selector 16 (emoji presentation)",
+			input:    "Anton's demo dashboard 🌪️",
+			expected: "Anton's demo dashboard 🌪",
+		},
+		{
+			name:     "text with variation selector 15 (text presentation)",
+			input:    "Number 1️⃣ with text selector",
+			expected: "Number 1⃣ with text selector",
+		},
+		{
+			name:     "text without variation selectors",
+			input:    "Regular text with emoji 🚀",
+			expected: "Regular text with emoji 🚀",
+		},
+		{
+			name:     "empty string",
+			input:    "",
+			expected: "",
+		},
+		{
+			name:     "only variation selectors",
+			input:    "\uFE0E\uFE0F",
+			expected: "",
+		},
+		{
+			name:     "multiple emojis with and without selectors",
+			input:    "Fire 🔥️ and water 💧 tornado 🌪️ rocket 🚀",
+			expected: "Fire 🔥 and water 💧 tornado 🌪 rocket 🚀",
+		},
+		{
+			name:     "text with both variation selectors",
+			input:    "Mix️ed\uFE0E selectors️",
+			expected: "Mixed selectors",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := removeEmojiVariationSelectors(tt.input)
+			assert.Equal(t, tt.expected, result)
+		})
+	}
+}
