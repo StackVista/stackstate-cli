@@ -1,77 +1,81 @@
+version: "2"
 run:
-  # default concurrency is a available CPU number
   concurrency: 4
-
-  # timeout for analysis, e.g. 30s, 5m, default is 1m
-  timeout: 5m
-
-  # exit code when at least one issue was found, default is 1
   issues-exit-code: 1
-
-  # include test files or not, default is true
   tests: true
-
-linters-settings:
-  depguard:
-    rules:
-      main:
-        list-mode: lax
-        allow:
-          - $gostd
-          - github.com/stackvista
-  lll:
-    line-length: 250
-  mnd:
-    checks:
-      - argument
-      - case
-      - condition
-      - return
-
-  nolintlint:
-    allow-unused: true # report any unused nolint directives
-    require-specific: true # don't require nolint directives to be specific about which linter is being skipped
-
-  stylecheck:
-
-  funlen:
-    lines: 100
-    statements: 60
-
 linters:
-  disable-all: true
+  default: none
   enable:
-    # - bodyclose TODO: enable when fixed
-    # - depguard
+    - copyloopvar
     - dogsled
     - dupl
     - errcheck
     - exhaustive
-    - copyloopvar
     - funlen
     - gochecknoinits
     - goconst
     - gocritic
     - gocyclo
-    - gofmt
-    - goimports
-    - mnd
     - goprintffuncname
-    # - gosec TODO: enable when fixed
-    - gosimple
     - govet
     - ineffassign
     - lll
     - misspell
+    - mnd
     - nakedret
     - noctx
     - nolintlint
-    # - revive TODO: enable when fixed
     - rowserrcheck
     - staticcheck
-    # - stylecheck TODO: enable when fixed
-    - typecheck
     - unconvert
     - unparam
     - unused
     - whitespace
+    # - gosec TODO: enable when fixed
+    # - bodyclose TODO: enable when fixed
+    # - depguard
+    # - revive TODO: enable when fixed
+    # - stylecheck TODO: enable when fixed
+  settings:
+    depguard:
+      rules:
+        main:
+          list-mode: lax
+          allow:
+            - $gostd
+            - github.com/stackvista
+    funlen:
+      lines: 100
+      statements: 60
+    lll:
+      line-length: 250
+    mnd:
+      checks:
+        - argument
+        - case
+        - condition
+        - return
+    nolintlint:
+      require-specific: true
+      allow-unused: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
