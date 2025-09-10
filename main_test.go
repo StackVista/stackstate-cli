@@ -190,7 +190,7 @@ func TestExitCodeOnError(t *testing.T) {
 		main()
 		return
 	}
-	cmd := exec.Command(os.Args[0], "-test.run=TestExitCodeOnError") //nolint:gosec
+	cmd := exec.Command(os.Args[0], "-test.run=TestExitCodeOnError") //nolint:gosec,noctx
 	cmd.Env = append(os.Environ(), "BE_CRASHER=1")
 	err := cmd.Run()
 	if e, ok := err.(*exec.ExitError); ok && !e.Success() {
