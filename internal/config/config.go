@@ -81,7 +81,7 @@ func (c *Config) GetContext(name string) (*NamedContext, common.CLIError) {
 		}
 	}
 
-	return nil, common.NewNotFoundError(fmt.Errorf("Context with name '%s' not found", name))
+	return nil, common.NewNotFoundError(fmt.Errorf("context with name '%s' not found", name))
 }
 
 // UnmarshalYAML unmarshals the StsContext YAML part into a struct, ensuring that any defaults are set.
@@ -153,7 +153,7 @@ func (c *StsContext) Validate(contextName string) common.CLIError {
 
 	authenticationTokens := util.RemoveEmpty([]string{c.APIToken, c.ServiceToken, c.K8sSAToken})
 	if len(authenticationTokens) > 1 {
-		errors = append(errors, fmt.Errorf("Can only specify one of {api-token | service-token | k8s-sa-token}"))
+		errors = append(errors, fmt.Errorf("can only specify one of {api-token | service-token | k8s-sa-token}"))
 	}
 
 	if c.HasCaCertificateFromArgSet() {

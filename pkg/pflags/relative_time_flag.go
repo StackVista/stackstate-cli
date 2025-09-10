@@ -116,7 +116,7 @@ func (d *RelativeTimeValue) Type() string {
 	return RelativeTimeFlagType
 }
 
-func (d *RelativeTimeValue) String() string { return d.Time.Format(time.RFC3339Nano) }
+func (d *RelativeTimeValue) String() string { return d.Format(time.RFC3339Nano) }
 
 // GetRelativeTime return the time value of a flag with the given name
 func GetRelativeTime(f *pflag.FlagSet, name string) (time.Time, error) {
