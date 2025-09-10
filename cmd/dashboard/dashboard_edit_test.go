@@ -223,8 +223,7 @@ func TestEditDashboardInvalidJson(t *testing.T) {
 	mockEditor := &MockEditor{
 		Content: []byte(`{"invalid": json syntax}`),
 	}
-	//nolint:staticcheck
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1234")
 
@@ -243,8 +242,7 @@ func TestEditDashboardEditorError(t *testing.T) {
 	mockEditor := &MockEditor{
 		Error: errors.New("editor failed to open"),
 	}
-	//nolint:staticcheck
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1234")
 
