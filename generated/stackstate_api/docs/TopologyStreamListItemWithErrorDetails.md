@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Item** | [**TopologyStreamListItem**](TopologyStreamListItem.md) |  | 
 **ErrorDetails** | [**[]TopologyStreamError**](TopologyStreamError.md) |  | 
+**Metrics** | Pointer to [**TopologyStreamMetrics**](TopologyStreamMetrics.md) |  | [optional] 
 
 ## Methods
 
@@ -65,6 +66,31 @@ and a boolean to check if the value has been set.
 
 SetErrorDetails sets ErrorDetails field to given value.
 
+
+### GetMetrics
+
+`func (o *TopologyStreamListItemWithErrorDetails) GetMetrics() TopologyStreamMetrics`
+
+GetMetrics returns the Metrics field if non-nil, zero value otherwise.
+
+### GetMetricsOk
+
+`func (o *TopologyStreamListItemWithErrorDetails) GetMetricsOk() (*TopologyStreamMetrics, bool)`
+
+GetMetricsOk returns a tuple with the Metrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetrics
+
+`func (o *TopologyStreamListItemWithErrorDetails) SetMetrics(v TopologyStreamMetrics)`
+
+SetMetrics sets Metrics field to given value.
+
+### HasMetrics
+
+`func (o *TopologyStreamListItemWithErrorDetails) HasMetrics() bool`
+
+HasMetrics returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -118,39 +118,14 @@ func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusAr
 	return nil
 }
 
-func metricValueOrDash(bucket []stackstate_api.MetricBucketValue, index int) interface{} {
-	if index < len(bucket) && bucket[index].HasValue() {
-		return bucket[index].GetValue()
-	}
-	return "-"
-}
-
-func metricBucketToJson(name string, bucket []stackstate_api.MetricBucketValue, size int32) map[string]interface{} {
-	return map[string]interface{}{
-		"name":                               name,
-		fmt.Sprintf("now-%d", size):          metricValueOrDash(bucket, 0),
-		fmt.Sprintf("%d-%d", size, 2*size):   metricValueOrDash(bucket, 1), //nolint:mnd
-		fmt.Sprintf("%d-%d", 2*size, 3*size): metricValueOrDash(bucket, 2), //nolint:mnd
-	}
-}
-
 func streamMetricsToJson(metrics stackstate_api.HealthStreamMetrics) []map[string]interface{} {
 	size := metrics.BucketSizeSeconds
 	return []map[string]interface{}{
-		metricBucketToJson("latency seconds", metrics.LatencySeconds, size),
-		metricBucketToJson("messages per seconds", metrics.MessagePerSecond, size),
-		metricBucketToJson("creates per seconds", metrics.CreatesPerSecond, size),
-		metricBucketToJson("updates per seconds", metrics.UpdatesPerSecond, size),
-		metricBucketToJson("deletes per seconds", metrics.DeletesPerSecond, size),
-	}
-}
-
-func metricBucketToRow(name string, bucket []stackstate_api.MetricBucketValue) []interface{} {
-	return []interface{}{
-		name,
-		metricValueOrDash(bucket, 0),
-		metricValueOrDash(bucket, 1),
-		metricValueOrDash(bucket, 2), //nolint:mnd
+		printer.MetricBucketToJson("latency seconds", metrics.LatencySeconds, size),
+		printer.MetricBucketToJson("messages per seconds", metrics.MessagePerSecond, size),
+		printer.MetricBucketToJson("creates per seconds", metrics.CreatesPerSecond, size),
+		printer.MetricBucketToJson("updates per seconds", metrics.UpdatesPerSecond, size),
+		printer.MetricBucketToJson("deletes per seconds", metrics.DeletesPerSecond, size),
 	}
 }
 
@@ -159,11 +134,11 @@ func streamMetricsToTable(metrics stackstate_api.HealthStreamMetrics) printer.Ta
 	return printer.TableData{
 		Header: []string{"Metric", fmt.Sprintf("%ds ago", size), fmt.Sprintf("%d-%ds ago", size, 2*size), fmt.Sprintf("%d-%ds ago", 2*size, 3*size)}, //nolint:mnd
 		Data: [][]interface{}{
-			metricBucketToRow("latency seconds", metrics.LatencySeconds),
-			metricBucketToRow("messages per seconds", metrics.MessagePerSecond),
-			metricBucketToRow("creates per seconds", metrics.CreatesPerSecond),
-			metricBucketToRow("updates per seconds", metrics.UpdatesPerSecond),
-			metricBucketToRow("deletes per seconds", metrics.DeletesPerSecond),
+			printer.MetricBucketToRow("latency seconds", metrics.LatencySeconds),
+			printer.MetricBucketToRow("messages per seconds", metrics.MessagePerSecond),
+			printer.MetricBucketToRow("creates per seconds", metrics.CreatesPerSecond),
+			printer.MetricBucketToRow("updates per seconds", metrics.UpdatesPerSecond),
+			printer.MetricBucketToRow("deletes per seconds", metrics.DeletesPerSecond),
 		},
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "metrics"},
 	}

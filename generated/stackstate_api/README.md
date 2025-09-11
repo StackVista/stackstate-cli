@@ -217,7 +217,6 @@ Class | Method | HTTP request | Description
 *TopicApi* | [**Describe**](docs/TopicApi.md#describe) | **Get** /topic/{topic} | Describe a topic
 *TopicApi* | [**List**](docs/TopicApi.md#list) | **Get** /topic | List topics
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreamById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreambyid) | **Get** /synchronization/topology/streams/sync | Overview of a specific Topology Stream, queried by node id or sync identifier
-*TopologySynchronizationApi* | [**GetTopologySynchronizationStreamStatusById**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreamstatusbyid) | **Get** /synchronization/topology/streams/status | Metrics of a specific Topology Stream, queried by node id
 *TopologySynchronizationApi* | [**GetTopologySynchronizationStreams**](docs/TopologySynchronizationApi.md#gettopologysynchronizationstreams) | **Get** /synchronization/topology/streams | Overview of the topology synchronization streams
 *TopologySynchronizationApi* | [**PostTopologySynchronizationStreamClearErrors**](docs/TopologySynchronizationApi.md#posttopologysynchronizationstreamclearerrors) | **Post** /synchronization/topology/streams/clearErrors | Clear all the errors related to a specific sync
 *TracesApi* | [**GetSpan**](docs/TracesApi.md#getspan) | **Get** /traces/{traceId}/spans/{spanId} | Get a span

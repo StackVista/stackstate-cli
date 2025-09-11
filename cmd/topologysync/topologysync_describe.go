@@ -72,6 +72,18 @@ func RunDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 				sync.Item,
 			}))
 
+			if sync.Metrics != nil {
+				cli.Printer.PrintLn("\nTopology Synchronization Metrics:")
+				size := sync.Metrics.BucketSizeSeconds
+				cli.Printer.Table(printer.TableData{
+					Header: []string{"Metric", fmt.Sprintf("%ds ago", size), fmt.Sprintf("%d-%ds ago", size, 2*size), fmt.Sprintf("%d-%ds ago", 2*size, 3*size)}, //nolint:mnd
+					Data: [][]interface{}{
+						printer.MetricBucketToRow("latency seconds", sync.Metrics.LatencySeconds),
+					},
+					MissingTableDataMsg: printer.NotFoundMsg{Types: "metrics"},
+				})
+			}
+
 			data := make([][]interface{}, len(sync.ErrorDetails))
 			for i, error := range sync.ErrorDetails {
 				id := "-"

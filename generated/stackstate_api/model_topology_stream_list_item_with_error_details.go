@@ -19,6 +19,7 @@ import (
 type TopologyStreamListItemWithErrorDetails struct {
 	Item         TopologyStreamListItem `json:"item"`
 	ErrorDetails []TopologyStreamError  `json:"errorDetails"`
+	Metrics      *TopologyStreamMetrics `json:"metrics,omitempty"`
 }
 
 // NewTopologyStreamListItemWithErrorDetails instantiates a new TopologyStreamListItemWithErrorDetails object
@@ -88,6 +89,38 @@ func (o *TopologyStreamListItemWithErrorDetails) SetErrorDetails(v []TopologyStr
 	o.ErrorDetails = v
 }
 
+// GetMetrics returns the Metrics field value if set, zero value otherwise.
+func (o *TopologyStreamListItemWithErrorDetails) GetMetrics() TopologyStreamMetrics {
+	if o == nil || o.Metrics == nil {
+		var ret TopologyStreamMetrics
+		return ret
+	}
+	return *o.Metrics
+}
+
+// GetMetricsOk returns a tuple with the Metrics field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TopologyStreamListItemWithErrorDetails) GetMetricsOk() (*TopologyStreamMetrics, bool) {
+	if o == nil || o.Metrics == nil {
+		return nil, false
+	}
+	return o.Metrics, true
+}
+
+// HasMetrics returns a boolean if a field has been set.
+func (o *TopologyStreamListItemWithErrorDetails) HasMetrics() bool {
+	if o != nil && o.Metrics != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMetrics gets a reference to the given TopologyStreamMetrics and assigns it to the Metrics field.
+func (o *TopologyStreamListItemWithErrorDetails) SetMetrics(v TopologyStreamMetrics) {
+	o.Metrics = &v
+}
+
 func (o TopologyStreamListItemWithErrorDetails) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -95,6 +128,9 @@ func (o TopologyStreamListItemWithErrorDetails) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["errorDetails"] = o.ErrorDetails
+	}
+	if o.Metrics != nil {
+		toSerialize["metrics"] = o.Metrics
 	}
 	return json.Marshal(toSerialize)
 }
