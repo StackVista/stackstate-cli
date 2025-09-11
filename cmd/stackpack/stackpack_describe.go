@@ -85,6 +85,7 @@ func RunStackpackDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			}
 		}
 
+		//nolint:staticcheck
 		notFound := fmt.Errorf("StackPack '%s' not found.", args.Name)
 		if cli.IsJson() {
 			cli.Printer.PrintErrJson(notFound)

@@ -96,7 +96,7 @@ func TestShouldEditDashboard(t *testing.T) {
 			"scope": "privateDashboard"
 		}`),
 	}
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234")
 
@@ -136,7 +136,7 @@ func TestShouldEditDashboardWithIdentifier(t *testing.T) {
 			"description": "Updated via identifier"
 		}`),
 	}
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "urn:custom:dashboard:edit-test")
 
@@ -153,7 +153,7 @@ func TestEditDashboardNoChanges(t *testing.T) {
 
 	// Custom editor that returns exactly the same content as input
 	noChangeEditor := &NoChangeEditor{}
-	cli.Deps.Editor = noChangeEditor
+	cli.Editor = noChangeEditor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234")
 
@@ -186,7 +186,7 @@ func TestEditDashboardWithJsonOutput(t *testing.T) {
 			"description": "Testing JSON output"
 		}`),
 	}
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234", "--output", "json")
 
@@ -204,7 +204,7 @@ func TestEditDashboardNoChangesJsonOutput(t *testing.T) {
 
 	// Use NoChangeEditor that returns exactly the same content
 	noChangeEditor := &NoChangeEditor{}
-	cli.Deps.Editor = noChangeEditor
+	cli.Editor = noChangeEditor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234", "--output", "json")
 
@@ -223,7 +223,7 @@ func TestEditDashboardInvalidJson(t *testing.T) {
 	mockEditor := &MockEditor{
 		Content: []byte(`{"invalid": json syntax}`),
 	}
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1234")
 
@@ -242,7 +242,7 @@ func TestEditDashboardEditorError(t *testing.T) {
 	mockEditor := &MockEditor{
 		Error: errors.New("editor failed to open"),
 	}
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1234")
 
@@ -275,7 +275,7 @@ func TestEditDashboardUsesReverseEditorByDefault(t *testing.T) {
 	mockEditor := &MockEditor{
 		Content: []byte(`{"name": "changed-by-reverse-editor"}`),
 	}
-	cli.Deps.Editor = mockEditor
+	cli.Editor = mockEditor
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--id", "1234")
 
@@ -324,7 +324,7 @@ func TestEditDashboardApiErrors(t *testing.T) {
 				mockEditor := &MockEditor{
 					Content: []byte(`{"name": "changed"}`),
 				}
-				cli.Deps.Editor = mockEditor
+				cli.Editor = mockEditor
 			}
 
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1234")

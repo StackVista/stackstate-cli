@@ -437,6 +437,7 @@ func TestConfirmUpload(t *testing.T) {
 	// In a real test environment, you'd mock the stdin reader
 
 	// Just verify the function signature is correct
+	//nolint:staticcheck
 	var confirmFunc func(*di.Deps, string) bool = confirmUpload
 	assert.NotNil(t, confirmFunc)
 

@@ -63,5 +63,5 @@ func CheckVersionCompatibility(version stackstate_api.ServerVersion, minVersion 
 }
 
 func NewAPIVersionMismatchError(got string, expected string) common.CLIError {
-	return common.NewAPIVersionError(fmt.Errorf("Incompatible API version: got '%s', but need '%s'-compatible version", got, expected))
+	return common.NewAPIVersionError(fmt.Errorf("incompatible API version: got '%s', but need '%s'-compatible version", got, expected))
 }

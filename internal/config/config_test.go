@@ -181,7 +181,7 @@ current-context: default
 	assert.NoError(t, err)
 	assert.ErrorContains(t, c.Contexts[0].Context.Validate(c.Contexts[0].Name), `Failed to validate the 'default' context:
 * URL localhost:8080 must start with "https://" or "http://"
-* Can only specify one of {api-token | service-token | k8s-sa-token}`)
+* can only specify one of {api-token | service-token | k8s-sa-token}`)
 }
 
 func TestMergeWithNoTokenOverride(t *testing.T) {
