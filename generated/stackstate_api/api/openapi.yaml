@@ -3402,46 +3402,6 @@ paths:
       required: true
       schema:
         $ref: '#/components/schemas/IdentifierType'
-  /synchronization/topology/streams/status:
-    get:
-      description: "Metrics of a specific Topology Stream, queried by node id"
-      operationId: getTopologySynchronizationStreamStatusById
-      parameters:
-      - allowReserved: true
-        in: query
-        name: identifier
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TopologyStreamMetrics'
-          description: A specific topology stream metrics
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/InvalidSyncIdentifier'
-          description: Bad request when specifying an invalid identifier
-        "404":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/TopologySyncError'
-          description: Sync with given identifier not found
-      summary: "Metrics of a specific Topology Stream, queried by node id"
-      tags:
-      - topologySynchronization
-    parameters:
-    - allowReserved: true
-      in: query
-      name: identifier
-      required: true
-      schema:
-        type: string
   /synchronization/topology/streams/clearErrors:
     parameters:
     - allowReserved: true
@@ -10230,6 +10190,11 @@ components:
           errors: 2
           createdComponents: 5
           status: null
+        metrics:
+          latencySeconds:
+          - value: 5.637376656633329
+          - value: 5.637376656633329
+          bucketSizeSeconds: 0
         errorDetails:
         - level: null
           externalId: externalId
@@ -10244,6 +10209,8 @@ components:
           items:
             $ref: '#/components/schemas/TopologyStreamError'
           type: array
+        metrics:
+          $ref: '#/components/schemas/TopologyStreamMetrics'
       required:
       - errorDetails
       - item
@@ -10268,6 +10235,22 @@ components:
       - level
       - message
       type: object
+    TopologyStreamMetrics:
+      example:
+        latencySeconds:
+        - value: 5.637376656633329
+        - value: 5.637376656633329
+        bucketSizeSeconds: 0
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
+      type: object
     IdentifierType:
       enum:
       - NodeId
@@ -10286,22 +10269,6 @@ components:
           type: string
       required:
       - message
-      type: object
-    TopologyStreamMetrics:
-      example:
-        latencySeconds:
-        - value: 5.637376656633329
-        - value: 5.637376656633329
-        bucketSizeSeconds: 0
-      properties:
-        bucketSizeSeconds:
-          type: integer
-        latencySeconds:
-          items:
-            $ref: '#/components/schemas/MetricBucketValue'
-          type: array
-      required:
-      - bucketSizeSeconds
       type: object
     ExecuteScriptResponse:
       example:
