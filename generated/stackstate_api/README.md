@@ -190,6 +190,10 @@ Class | Method | HTTP request | Description
 *NotificationConfigurationsApi* | [**GetNotificationConfigurationChannels**](docs/NotificationConfigurationsApi.md#getnotificationconfigurationchannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
 *NotificationConfigurationsApi* | [**GetNotificationConfigurations**](docs/NotificationConfigurationsApi.md#getnotificationconfigurations) | **Get** /notifications/configurations | Get all notification configurations
 *NotificationConfigurationsApi* | [**UpdateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#updatenotificationconfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
+*OtelMappingApi* | [**GetOtelComponentMappingStatus**](docs/OtelMappingApi.md#getotelcomponentmappingstatus) | **Get** /otel-component-mappings/{identifier}/status | Get the status of an otel component mapping synchronization.
+*OtelMappingApi* | [**GetOtelComponentMappings**](docs/OtelMappingApi.md#getotelcomponentmappings) | **Get** /otel-component-mappings | Get all otel component mappings.
+*OtelMappingApi* | [**GetOtelRelationMappingStatus**](docs/OtelMappingApi.md#getotelrelationmappingstatus) | **Get** /otel-relation-mappings/{identifier}/status | Get the status of an otel relation mapping synchronization.
+*OtelMappingApi* | [**GetOtelRelationMappings**](docs/OtelMappingApi.md#getotelrelationmappings) | **Get** /otel-relation-mappings | Get all otel relation mappings.
 *PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
 *PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
 *PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
@@ -470,6 +474,12 @@ Class | Method | HTTP request | Description
  - [OpsgenieRegion](docs/OpsgenieRegion.md)
  - [OpsgenieResponder](docs/OpsgenieResponder.md)
  - [OpsgenieResponderType](docs/OpsgenieResponderType.md)
+ - [OtelMappingApiError](docs/OtelMappingApiError.md)
+ - [OtelMappingError](docs/OtelMappingError.md)
+ - [OtelMappingItem](docs/OtelMappingItem.md)
+ - [OtelMappingMetrics](docs/OtelMappingMetrics.md)
+ - [OtelMappingStatus](docs/OtelMappingStatus.md)
+ - [OtelMappingStatusItem](docs/OtelMappingStatusItem.md)
  - [PermissionDescription](docs/PermissionDescription.md)
  - [Permissions](docs/Permissions.md)
  - [PersesDashboard](docs/PersesDashboard.md)

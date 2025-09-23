@@ -33,6 +33,12 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(AgentCommand(cli))
 	cmd.AddCommand(UserSessionCommand(cli))
 
+	// Experimental commands forotel mapping
+	if os.Getenv("STS_EXPERIMENTAL_OTEL_MAPPING") != "" {
+		cmd.AddCommand(OtelComponentMappingCommand(cli))
+		cmd.AddCommand(OtelRelationtMappingCommand(cli))
+	}
+
 	// Only add dashboard command if experimental feature is enabled
 	if os.Getenv("STS_EXPERIMENTAL_DASHBOARD") != "" {
 		cmd.AddCommand(DashboardCommand(cli))
