@@ -109,6 +109,18 @@ func TestErrToJson(t *testing.T) {
 }
 
 func TestColorUsedByDefault(t *testing.T) {
+	term := os.Getenv("TERM")
+	defer os.Setenv("TERM", term)
+	os.Setenv("TERM", "xterm-256color")
+
+	noColor := os.Getenv("NO_COLOR")
+	if _, exists := os.LookupEnv("NO_COLOR"); exists {
+		defer func() {
+			os.Setenv("NO_COLOR", noColor)
+		}()
+		os.Unsetenv("NO_COLOR")
+	}
+
 	cli, cmd := setupSTSCmd(t)
 
 	cmd.SetArgs([]string{"version"})
