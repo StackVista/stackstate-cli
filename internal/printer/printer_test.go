@@ -47,11 +47,11 @@ func TestPrintWithoutSymbolButWithColorOnWindows(t *testing.T) {
 	var stdOut, stdErr bytes.Buffer
 	p := NewStdPrinter("windows", &stdOut, &stdErr)
 	p.PrintErr(fmt.Errorf("test"))
-    // On Windows we don't use Unicode symbols, but colored text may vary by library/version.
-    // Assert content is present and no unicode cross mark appears.
-    s := stdErr.String()
-    assert.Contains(t, s, "[ERROR] Test\n")
-    assert.NotContains(t, s, "\u274C")
+	// On Windows we don't use Unicode symbols, but colored text may vary by library/version.
+	// Assert content is present and no unicode cross mark appears.
+	s := stdErr.String()
+	assert.Contains(t, s, "[ERROR] Test\n")
+	assert.NotContains(t, s, "\u274C")
 }
 
 func TestPrintStructAsJsonWithoutColor(t *testing.T) {
