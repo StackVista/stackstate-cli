@@ -128,7 +128,7 @@ jobs:
       - name: Generate release notes
         uses: ./.github/actions/quay
         with:
-          image: quay.io/stackstate/go-rk:v0.2.4
+          image: quay.io/stackstate/go-rk:v0.3.0
           options: >
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
@@ -148,7 +148,7 @@ jobs:
       - name: Generate JSON release notes
         uses: ./.github/actions/quay
         with:
-          image: quay.io/stackstate/go-rk:v0.2.4
+          image: quay.io/stackstate/go-rk:v0.3.0
           options: >
             -e RK_JIRA_PROJECT=STAC
             -e RK_JIRA_URL=https://stackstate.atlassian.net
