@@ -34,9 +34,6 @@ archives:
   format_overrides:
   - goos: windows
     format: zip
-  files:
-  - release-notes.md
-  - release-notes.json
 blobs:
   - provider: s3
     bucket: cli-dl.stackstate.com
