@@ -33,7 +33,7 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(AgentCommand(cli))
 	cmd.AddCommand(UserSessionCommand(cli))
 
-	// Experimental commands forotel mapping
+	// Experimental commands for otel mapping
 	if os.Getenv("STS_EXPERIMENTAL_OTEL_MAPPING") != "" {
 		cmd.AddCommand(OtelComponentMappingCommand(cli))
 		cmd.AddCommand(OtelRelationtMappingCommand(cli))
