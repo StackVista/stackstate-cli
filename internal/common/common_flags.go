@@ -38,7 +38,7 @@ func AddIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
 
 func AddRequiredIdentifierFlagVar(cmd *cobra.Command, v *string, use string) {
 	AddIdentifierFlagVar(cmd, v, use)
-	cmd.MarkFlagRequired(IDFlag) //nolint:errcheck
+	cmd.MarkFlagRequired(IdentifierFlag) //nolint:errcheck
 }
 
 func AddNameFlagVar(cmd *cobra.Command, v *string, use string) {

@@ -5836,6 +5836,122 @@ paths:
       summary: Clone a dashboard
       tags:
       - dashboards
+  /otel-component-mappings:
+    get:
+      operationId: getOtelComponentMappings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OtelMappingItem'
+                type: array
+          description: A list of all Otel Component Mappings
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Get all otel component mappings.
+      tags:
+      - otelMapping
+  /otel-component-mappings/{identifier}/status:
+    get:
+      operationId: getOtelComponentMappingStatus
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingStatus'
+          description: Otel Component Mappping Status data
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Otel mapping with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Get the status of an otel component mapping synchronization.
+      tags:
+      - otelMapping
+    parameters:
+    - in: path
+      name: identifier
+      required: true
+      schema:
+        type: string
+  /otel-relation-mappings:
+    get:
+      operationId: getOtelRelationMappings
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/OtelMappingItem'
+                type: array
+          description: A list of all Otel Relation Mappings
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Get all otel relation mappings.
+      tags:
+      - otelMapping
+  /otel-relation-mappings/{identifier}/status:
+    get:
+      operationId: getOtelRelationMappingStatus
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingStatus'
+          description: Otel Relation Mapping Status data
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Otel mapping with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Get the status of an otel relation mapping synchronization.
+      tags:
+      - otelMapping
+    parameters:
+    - in: path
+      name: identifier
+      required: true
+      schema:
+        type: string
   /dummy/dummy:
     get:
       description: ""
@@ -6614,6 +6730,18 @@ components:
           schema:
             $ref: '#/components/schemas/DashboardAuthorizationError'
       description: Dashboard not found.
+    OtelMappingErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OtelMappingApiError'
+      description: Error when handling the request on the server side.
+    OtelMappingNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/OtelMappingApiError'
+      description: Otel mapping with given identifier not found
     stackElementNotFound:
       content:
         application/json:
@@ -13866,6 +13994,116 @@ components:
           $ref: '#/components/schemas/PersesDashboard'
       required:
       - name
+      type: object
+    OtelMappingItem:
+      example:
+        identifier: identifier
+        name: name
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+      required:
+      - name
+      type: object
+    OtelMappingApiError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
+      type: object
+    OtelMappingStatus:
+      example:
+        item:
+          identifier: identifier
+          componentCount: 6
+          name: name
+          relationCount: 0
+        metrics:
+          latencySeconds:
+          - value: 5.637376656633329
+          - value: 5.637376656633329
+          bucketSizeSeconds: 1
+        errorDetails:
+        - issueId: issueId
+          level: null
+          message: message
+        - issueId: issueId
+          level: null
+          message: message
+      properties:
+        item:
+          $ref: '#/components/schemas/OtelMappingStatusItem'
+        errorDetails:
+          items:
+            $ref: '#/components/schemas/OtelMappingError'
+          type: array
+        metrics:
+          $ref: '#/components/schemas/OtelMappingMetrics'
+      required:
+      - errorDetails
+      - item
+      type: object
+    OtelMappingStatusItem:
+      example:
+        identifier: identifier
+        componentCount: 6
+        name: name
+        relationCount: 0
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        relationCount:
+          format: int64
+          type: integer
+        componentCount:
+          format: int64
+          type: integer
+      required:
+      - componentCount
+      - name
+      - relationCount
+      - status
+      type: object
+    OtelMappingErrors:
+      items:
+        $ref: '#/components/schemas/OtelMappingError'
+      type: array
+    OtelMappingError:
+      example:
+        issueId: issueId
+        level: null
+        message: message
+      properties:
+        level:
+          $ref: '#/components/schemas/MessageLevel'
+        message:
+          type: string
+        issueId:
+          type: string
+      required:
+      - level
+      - message
+      type: object
+    OtelMappingMetrics:
+      example:
+        latencySeconds:
+        - value: 5.637376656633329
+        - value: 5.637376656633329
+        bucketSizeSeconds: 1
+      properties:
+        bucketSizeSeconds:
+          type: integer
+        latencySeconds:
+          items:
+            $ref: '#/components/schemas/MetricBucketValue'
+          type: array
+      required:
+      - bucketSizeSeconds
       type: object
     StackElementNotFound:
       discriminator:
