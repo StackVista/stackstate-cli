@@ -7,9 +7,6 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
-// if cli.IsJson() {
-// cli.Printer.PrintJson(
-
 func OtelComponentMappingStatusCommand(deps *di.Deps) *cobra.Command {
 	args := &otelmapping.StatusArgs{}
 	cmd := &cobra.Command{

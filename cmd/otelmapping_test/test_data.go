@@ -1,4 +1,4 @@
-package otelmapping
+package otelmapping_test
 
 import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"

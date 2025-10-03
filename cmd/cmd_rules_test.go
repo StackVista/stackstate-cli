@@ -34,16 +34,27 @@ func TestNounsAndVerbsExistAsFilesInDirectories(t *testing.T) {
 }
 
 func TestVerbCommandCheckForJsonOuput(t *testing.T) {
+	var jsonCheckAllowList = map[string]struct{}{
+		"otelcomponentmapping/otelcomponentmapping_status.go": {},
+		"otelrelationmapping/otelrelationmapping_status.go":   {},
+	}
+
 	root := setupCmd(t)
 	for _, nounCmd := range root.Commands() {
 		for _, verbCmd := range nounCmd.Commands() {
 			nounName := strings.ReplaceAll(nounCmd.Name(), "-", "")
 			verbName := strings.ReplaceAll(verbCmd.Name(), "-", "_")
 			verCmdGoFile := fmt.Sprintf("%s/%s_%s.go", nounName, nounName, verbName)
+
+			if _, ok := jsonCheckAllowList[verCmdGoFile]; ok {
+				continue
+			}
+
 			verbCmdGoCode, err := os.ReadFile(verCmdGoFile)
 			if err != nil {
 				t.Fatal(err)
 			}
+
 			if !strings.Contains(string(verbCmdGoCode), "if cli.IsJson() {") {
 				t.Errorf("%s does not check whether to print to json!", verCmdGoFile)
 			}

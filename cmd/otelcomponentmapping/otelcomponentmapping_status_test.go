@@ -1,9 +1,10 @@
-package otelcomponentmapping
+package otelcomponentmapping_test
 
 import (
 	"testing"
 
-	"github.com/stackvista/stackstate-cli/cmd/otelmapping"
+	"github.com/stackvista/stackstate-cli/cmd/otelcomponentmapping"
+	"github.com/stackvista/stackstate-cli/cmd/otelmapping_test"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
 	"github.com/stretchr/testify/assert"
@@ -11,8 +12,8 @@ import (
 
 func TestOtelComponentMappingStatusJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
-	cmd := OtelComponentMappingStatusCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingStatusResponse.Result = *otelmapping.TestSomeOtelMappingStatus
+	cmd := otelcomponentmapping.OtelComponentMappingStatusCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingStatusResponse.Result = *otelmapping_test.TestSomeOtelMappingStatus
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "identifier", "-o", "json")
 
@@ -21,7 +22,7 @@ func TestOtelComponentMappingStatusJson(t *testing.T) {
 
 	expected := []map[string]interface{}{
 		{
-			"otel-component-mapping": otelmapping.TestSomeOtelMappingStatus,
+			"otel-component-mapping": otelmapping_test.TestSomeOtelMappingStatus,
 		},
 	}
 
@@ -30,8 +31,8 @@ func TestOtelComponentMappingStatusJson(t *testing.T) {
 
 func TestOtelComponentMappingStatusTable(t *testing.T) {
 	cli := di.NewMockDeps(t)
-	cmd := OtelComponentMappingStatusCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingStatusResponse.Result = *otelmapping.TestSomeOtelMappingStatus
+	cmd := otelcomponentmapping.OtelComponentMappingStatusCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingStatusResponse.Result = *otelmapping_test.TestSomeOtelMappingStatus
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "identifier")
 
@@ -42,22 +43,22 @@ func TestOtelComponentMappingStatusTable(t *testing.T) {
 		{
 			Header: []string{"Name", "Identifier", "Components", "Relations"},
 			Data: [][]interface{}{
-				{otelmapping.TestSomeOtelMappingStatusItem.Name, "identifier", otelmapping.TestComponentCount, otelmapping.TestRelationCount},
+				{otelmapping_test.TestSomeOtelMappingStatusItem.Name, "identifier", otelmapping_test.TestComponentCount, otelmapping_test.TestRelationCount},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "otel mappings"},
 		},
 		{
 			Header: []string{"Metric", "10s ago", "10-20s ago", "20-30s ago"},
 			Data: [][]interface{}{
-				{"latency seconds", otelmapping.TestMetricValue, otelmapping.TestMetricValue, otelmapping.TestMetricValue},
+				{"latency seconds", otelmapping_test.TestMetricValue, otelmapping_test.TestMetricValue, otelmapping_test.TestMetricValue},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "metrics"},
 		},
 		{
 			Header: []string{"Issue Id", "Level", "Message"},
 			Data: [][]interface{}{
-				{"-", otelmapping.TestError1.Level, otelmapping.TestError1.Message},
-				{"-", otelmapping.TestError2.Level, otelmapping.TestError2.Message},
+				{"-", otelmapping_test.TestError1.Level, otelmapping_test.TestError1.Message},
+				{"-", otelmapping_test.TestError2.Level, otelmapping_test.TestError2.Message},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "otel component mapping errors"},
 		},

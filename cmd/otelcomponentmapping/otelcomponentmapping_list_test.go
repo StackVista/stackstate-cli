@@ -1,9 +1,10 @@
-package otelcomponentmapping
+package otelcomponentmapping_test
 
 import (
 	"testing"
 
-	"github.com/stackvista/stackstate-cli/cmd/otelmapping"
+	"github.com/stackvista/stackstate-cli/cmd/otelcomponentmapping"
+	"github.com/stackvista/stackstate-cli/cmd/otelmapping_test"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
 	"github.com/stretchr/testify/assert"
@@ -11,8 +12,8 @@ import (
 
 func TestListOtelComponentMappingsJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
-	cmd := OtelComponentMappingListCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingsResponse.Result = otelmapping.TestAllMappingItems
+	cmd := otelcomponentmapping.OtelComponentMappingListCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingsResponse.Result = otelmapping_test.TestAllMappingItems
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-o", "json")
 
@@ -21,7 +22,7 @@ func TestListOtelComponentMappingsJson(t *testing.T) {
 
 	expected := []map[string]interface{}{
 		{
-			"otel component mappings": otelmapping.TestAllMappingItems,
+			"otel component mappings": otelmapping_test.TestAllMappingItems,
 		},
 	}
 
@@ -30,8 +31,8 @@ func TestListOtelComponentMappingsJson(t *testing.T) {
 
 func TestOtelComponentMappingListTable(t *testing.T) {
 	cli := di.NewMockDeps(t)
-	cmd := OtelComponentMappingListCommand(&cli.Deps)
-	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingsResponse.Result = otelmapping.TestAllMappingItems
+	cmd := otelcomponentmapping.OtelComponentMappingListCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelComponentMappingsResponse.Result = otelmapping_test.TestAllMappingItems
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd)
 
@@ -42,8 +43,8 @@ func TestOtelComponentMappingListTable(t *testing.T) {
 		{
 			Header: []string{"Name", "Identifier"},
 			Data: [][]interface{}{
-				{otelmapping.TestSomeOtelMappingItem.Name, "identifier"},
-				{otelmapping.TestSomeOtelMappingItem2.Name, "identifier2"},
+				{otelmapping_test.TestSomeOtelMappingItem.Name, "identifier"},
+				{otelmapping_test.TestSomeOtelMappingItem2.Name, "identifier2"},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "otel mappings"},
 		},
