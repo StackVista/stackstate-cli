@@ -21,6 +21,7 @@ api_monitor_check_status.go
 api_node.go
 api_notification_channels.go
 api_notification_configurations.go
+api_otel_mapping.go
 api_permissions.go
 api_problem.go
 api_scripting.go
@@ -290,6 +291,13 @@ docs/OpsgeniePriority.md
 docs/OpsgenieRegion.md
 docs/OpsgenieResponder.md
 docs/OpsgenieResponderType.md
+docs/OtelMappingApi.md
+docs/OtelMappingApiError.md
+docs/OtelMappingError.md
+docs/OtelMappingItem.md
+docs/OtelMappingMetrics.md
+docs/OtelMappingStatus.md
+docs/OtelMappingStatusItem.md
 docs/PermissionDescription.md
 docs/Permissions.md
 docs/PermissionsApi.md
@@ -696,6 +704,12 @@ model_opsgenie_priority.go
 model_opsgenie_region.go
 model_opsgenie_responder.go
 model_opsgenie_responder_type.go
+model_otel_mapping_api_error.go
+model_otel_mapping_error.go
+model_otel_mapping_item.go
+model_otel_mapping_metrics.go
+model_otel_mapping_status.go
+model_otel_mapping_status_item.go
 model_permission_description.go
 model_permissions.go
 model_perses_dashboard.go

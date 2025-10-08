@@ -86,6 +86,8 @@ type APIClient struct {
 
 	NotificationConfigurationsApi NotificationConfigurationsApi
 
+	OtelMappingApi OtelMappingApi
+
 	PermissionsApi PermissionsApi
 
 	ProblemApi ProblemApi
@@ -153,6 +155,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.NodeApi = (*NodeApiService)(&c.common)
 	c.NotificationChannelsApi = (*NotificationChannelsApiService)(&c.common)
 	c.NotificationConfigurationsApi = (*NotificationConfigurationsApiService)(&c.common)
+	c.OtelMappingApi = (*OtelMappingApiService)(&c.common)
 	c.PermissionsApi = (*PermissionsApiService)(&c.common)
 	c.ProblemApi = (*ProblemApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
