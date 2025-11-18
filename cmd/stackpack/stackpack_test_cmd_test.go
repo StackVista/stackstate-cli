@@ -97,7 +97,7 @@ displayName: "Test StackPack"`, tt.currentVersion)
 			assert.Equal(t, tt.expectedVersion, newVersion)
 
 			// Verify config file was updated
-			parser := &HoconParser{}
+			parser := &YamlParser{}
 			updatedInfo, err := parser.Parse(configPath)
 			require.NoError(t, err)
 			assert.Equal(t, tt.expectedVersion, updatedInfo.Version)
@@ -126,7 +126,7 @@ displayName: "Test StackPack"`, originalVersion)
 	require.NoError(t, err)
 
 	// Verify config file was updated and is still valid HOCON
-	parser := &HoconParser{}
+	parser := &YamlParser{}
 	updatedInfo, err := parser.Parse(configPath)
 	require.NoError(t, err)
 	assert.Equal(t, newVersion, updatedInfo.Version)

@@ -345,7 +345,7 @@ func TestStackpackPackageCommand_CreateOutputDirectory(t *testing.T) {
 	assert.NoError(t, err, "Zip file should be created in nested directory")
 }
 
-func TestHoconParser_Parse(t *testing.T) {
+func TestYamlParser_Parse(t *testing.T) {
 	tests := []struct {
 		name          string
 		content       string
@@ -355,48 +355,48 @@ func TestHoconParser_Parse(t *testing.T) {
 		errorContains string
 	}{
 		{
-			name: "valid HOCON with quotes",
-			content: `name = "my-stackpack"
-version = "1.2.3"`,
+			name: "valid YAML with quotes",
+			content: `name: "my-stackpack"
+version: "1.2.3"`,
 			expectedName: "my-stackpack",
 			expectedVer:  "1.2.3",
 			expectError:  false,
 		},
 		{
-			name: "valid HOCON without quotes",
-			content: `name = my-stackpack
-version = "1.2.3"`,
+			name: "valid YAML without quotes",
+			content: `name: my-stackpack
+version: "1.2.3"`,
 			expectedName: "my-stackpack",
 			expectedVer:  "1.2.3",
 			expectError:  false,
 		},
 		{
-			name: "HOCON with comments",
+			name: "YAML with comments",
 			content: `# This is a comment
-name = "test-app"
+name: "test-app"
 # Another comment
-version = "2.0.0"`,
+version: "2.0.0"`,
 			expectedName: "test-app",
 			expectedVer:  "2.0.0",
 			expectError:  false,
 		},
 		{
 			name:          "missing name",
-			content:       `version = "1.0.0"`,
+			content:       `version: "1.0.0"`,
 			expectError:   true,
-			errorContains: "name not found in stackpack.conf",
+			errorContains: "name not found in stackpack.yaml",
 		},
 		{
 			name:          "missing version",
-			content:       `name = "test"`,
+			content:       `name: "test"`,
 			expectError:   true,
-			errorContains: "version not found in stackpack.conf",
+			errorContains: "version not found in stackpack.yaml",
 		},
 		{
-			name:          "invalid HOCON syntax",
-			content:       `name = "test" { invalid`,
+			name:          "invalid YAML syntax",
+			content:       `name: "test" { invalid`,
 			expectError:   true,
-			errorContains: "failed to parse stackpack.conf file",
+			errorContains: "failed to parse stackpack.yaml file",
 		},
 	}
 
@@ -406,10 +406,10 @@ version = "2.0.0"`,
 			require.NoError(t, err)
 			defer os.RemoveAll(tempDir)
 
-			confPath := filepath.Join(tempDir, "test.conf")
+			confPath := filepath.Join(tempDir, "test.yaml")
 			require.NoError(t, os.WriteFile(confPath, []byte(tt.content), 0644))
 
-			parser := &HoconParser{}
+			parser := &YamlParser{}
 			result, err := parser.Parse(confPath)
 
 			if tt.expectError {

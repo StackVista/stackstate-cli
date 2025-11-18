@@ -7,9 +7,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 
-	"github.com/gurkankaymak/hocon"
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
@@ -36,39 +34,6 @@ type StackpackInfo struct {
 // StackpackConfigParser interface for parsing stackpack configuration
 type StackpackConfigParser interface {
 	Parse(filePath string) (*StackpackInfo, error)
-}
-
-// HoconParser implements StackpackConfigParser for HOCON format
-type HoconParser struct{}
-
-func (h *HoconParser) Parse(filePath string) (*StackpackInfo, error) {
-	// Read the file content
-	content, err := os.ReadFile(filePath)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file: %w", err)
-	}
-
-	// Parse stackpack.conf content
-	conf, err := hocon.ParseString(string(content))
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse stackpack.conf file: %w", err)
-	}
-
-	name := strings.Trim(conf.GetString("name"), `"`)
-	version := strings.Trim(conf.GetString("version"), `"`)
-
-	if name == "" {
-		return nil, fmt.Errorf("name not found in stackpack.conf")
-	}
-
-	if version == "" {
-		return nil, fmt.Errorf("version not found in stackpack.conf")
-	}
-
-	return &StackpackInfo{
-		Name:    name,
-		Version: version,
-	}, nil
 }
 
 // YamlParser implements StackpackConfigParser for YAML format (future)

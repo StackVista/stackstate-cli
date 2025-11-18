@@ -4,20 +4,20 @@
   nixConfig.bash-prompt = "STS CLI 2 $ ";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
-      let  
+      let
         pkgs = import nixpkgs { inherit system; overlays = [ ]; };
         pkgs-linux = import nixpkgs { system = "x86_64-linux"; overlays = [ ]; };
 
         # Dependencies used for both development and CI/CD
         sharedDeps = pkgs: (with pkgs; [
           bash
-          go_1_19
+          go_1_22
           gotools
           diffutils # Required for golangci-lint
           golangci-lint
@@ -36,7 +36,7 @@
         ]);
 
         darwinDevShellExtraDeps = pkgs: pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk_11_0; [
-          Libsystem 
+          Libsystem
           IOKit
         ]);
       in {
@@ -54,25 +54,16 @@
         devShell = self.devShells."${system}".dev;
 
         packages = {
-          sts = pkgs.buildGo119Module {
+          sts = pkgs.buildGo122Module {
             pname = "sts";
             version = "2.0.0";
 
             src = ./.;
 
-            # This hash locks the dependencies of this package.
-            # Change it to the provided when the go dependencies change.
-            # See https://www.tweag.io/blog/2021-03-04-gomod2nix/ for details.
-            #
-            # NOTE In case if your build fails due to incosistency in vendor modules
-            # Comment out the real hash and uncomment the fake one then on next `nix build .` run
-            # you will get a new real hash which can be used here.
-            #
-            # vendorSha256 = pkgs.lib.fakeSha256;
-            vendorSha256 = "sha256-aXTDHT1N+4Qpkuxb8vvBvP2VPyS5ofCgX6XFhJ5smUQ=";
+            vendorHash = "sha256-2WKvk8eD5nhq1QEgKsZZrRs8yHv1YkbVjoTzrTqvmb4=";
 
             postInstall = ''
-              mv $out/bin/stackstate-cli2 $out/bin/sts
+              mv $out/bin/stackstate-cli $out/bin/sts
             '';
           };
 
@@ -109,3 +100,4 @@
         };
       });
 }
+
