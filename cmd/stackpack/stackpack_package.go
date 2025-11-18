@@ -2,16 +2,16 @@ package stackpack
 
 import (
 	"archive/zip"
+	"bytes"
 	"fmt"
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 
-	"github.com/gurkankaymak/hocon"
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"gopkg.in/yaml.v3"
 )
 
 const (
@@ -36,45 +36,31 @@ type StackpackConfigParser interface {
 	Parse(filePath string) (*StackpackInfo, error)
 }
 
-// HoconParser implements StackpackConfigParser for HOCON format
-type HoconParser struct{}
+// YamlParser implements StackpackConfigParser for YAML format (future)
+type YamlParser struct{}
 
-func (h *HoconParser) Parse(filePath string) (*StackpackInfo, error) {
-	// Read the file content
+func (y *YamlParser) Parse(filePath string) (*StackpackInfo, error) {
 	content, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read file: %w", err)
 	}
 
-	// Parse stackpack.conf content
-	conf, err := hocon.ParseString(string(content))
-	if err != nil {
-		return nil, fmt.Errorf("failed to parse stackpack.conf file: %w", err)
+	dec := yaml.NewDecoder(bytes.NewBuffer(content))
+	cfg := &StackpackInfo{}
+
+	if err := dec.Decode(&cfg); err != nil {
+		return nil, fmt.Errorf("failed to parse stackpack.yaml file: %w", err)
 	}
 
-	name := strings.Trim(conf.GetString("name"), `"`)
-	version := strings.Trim(conf.GetString("version"), `"`)
-
-	if name == "" {
-		return nil, fmt.Errorf("name not found in stackpack.conf")
+	if cfg.Name == "" {
+		return nil, fmt.Errorf("name not found in stackpack.yaml")
 	}
 
-	if version == "" {
-		return nil, fmt.Errorf("version not found in stackpack.conf")
+	if cfg.Version == "" {
+		return nil, fmt.Errorf("version not found in stackpack.yaml")
 	}
 
-	return &StackpackInfo{
-		Name:    name,
-		Version: version,
-	}, nil
-}
-
-// YamlParser implements StackpackConfigParser for YAML format (future)
-type YamlParser struct{}
-
-func (y *YamlParser) Parse(filePath string) (*StackpackInfo, error) {
-	// TODO: Implement YAML parsing when format changes
-	return nil, fmt.Errorf("YAML format not yet implemented")
+	return cfg, nil
 }
 
 // Required files and directories for a valid stackpack
@@ -82,7 +68,7 @@ var requiredStackpackItems = []string{
 	"provisioning",
 	"README.md",
 	"resources",
-	"stackpack.conf",
+	"stackpack.yaml",
 }
 
 // StackpackPackageCommand creates the package subcommand
@@ -97,10 +83,10 @@ Creates a zip file containing all required stackpack files and directories:
 - provisioning/ (directory)
 - README.md (file)
 - resources/ (directory)
-- stackpack.conf (file)
+- stackpack.yaml (file)
 
 The zip file is named <stackpack_name>-<version>.zip where the name and
-version are extracted from stackpack.conf and created in the current directory.`,
+version are extracted from stackpack.yaml and created in the current directory.`,
 		Example: `# Package stackpack in current directory
 sts stackpack package
 
@@ -142,10 +128,10 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 		args.StackpackDir = absStackpackDir
 
 		// Parse stackpack.conf using HOCON parser to get name and version
-		parser := &HoconParser{}
-		stackpackInfo, err := parser.Parse(filepath.Join(args.StackpackDir, "stackpack.conf"))
+		parser := &YamlParser{}
+		stackpackInfo, err := parser.Parse(filepath.Join(args.StackpackDir, "stackpack.yaml"))
 		if err != nil {
-			return common.NewRuntimeError(fmt.Errorf("failed to parse stackpack.conf: %w", err))
+			return common.NewRuntimeError(fmt.Errorf("failed to parse stackpack.yaml: %w", err))
 		}
 
 		// Set default archive file path if not specified

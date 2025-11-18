@@ -18,7 +18,7 @@ import (
 )
 
 const (
-	stackpackConfigFile = "stackpack.conf"
+	stackpackConfigFile = "stackpack.yaml"
 )
 
 // TestArgs contains arguments for stackpack test command
@@ -96,7 +96,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		}
 
 		// Parse stackpack configuration to get original version
-		parser := &HoconParser{}
+		parser := &YamlParser{}
 		stackpackConf := filepath.Join(args.StackpackDir, stackpackConfigFile)
 		originalInfo, err := parser.Parse(stackpackConf)
 		if err != nil {
@@ -286,7 +286,7 @@ func bumpSnapshotVersionWithBase(configPath, baseVersion string) (string, error)
 		} else {
 			// Invalid format: reset to cli-test.10000
 			newVersion = fmt.Sprintf("%d.%d.%d-cli-test.10000", version.Major, version.Minor, version.Patch)
-			return newVersion, updateVersionInHocon(configPath, newVersion)
+			return newVersion, updateVersionInYaml(configPath, newVersion)
 		}
 
 		// Rebuild pre-release parts with incremented cli-test number
@@ -310,7 +310,7 @@ func bumpSnapshotVersionWithBase(configPath, baseVersion string) (string, error)
 		newVersion = fmt.Sprintf("%d.%d.%d-cli-test.10000", version.Major, version.Minor, version.Patch)
 	}
 
-	return newVersion, updateVersionInHocon(configPath, newVersion)
+	return newVersion, updateVersionInYaml(configPath, newVersion)
 }
 
 // confirmUpload prompts user for confirmation before upload
@@ -442,8 +442,8 @@ func copyFile(src, dst string, mode os.FileMode) error {
 	return err
 }
 
-// updateVersionInHocon updates the version field in a HOCON configuration using regex
-func updateVersionInHocon(configPath, newVersion string) error {
+// updateVersionInYaml updates the version field in a HOCON configuration using regex
+func updateVersionInYaml(configPath, newVersion string) error {
 	// Read the current config
 	content, err := os.ReadFile(configPath)
 	if err != nil {
@@ -451,16 +451,16 @@ func updateVersionInHocon(configPath, newVersion string) error {
 	}
 
 	// Parse as HOCON to validate structure
-	parser := &HoconParser{}
+	parser := &YamlParser{}
 	_, err = parser.Parse(configPath)
 	if err != nil {
-		return fmt.Errorf("failed to parse HOCON config: %w", err)
+		return fmt.Errorf("failed to parse Yaml config: %w", err)
 	}
 
 	// Use regex to replace version while preserving HOCON structure
 	// This is more reliable than string replacement as it targets the version field specifically
 	oldContent := string(content)
-	versionRegex := regexp.MustCompile(`(?m)^(\s*version\s*=\s*)"[^"]*"(.*)$`)
+	versionRegex := regexp.MustCompile(`(?m)^(\s*version\s*: \s*)"[^"]*"(.*)$`)
 	newContent := versionRegex.ReplaceAllString(oldContent, `${1}"`+newVersion+`"${2}`)
 
 	if oldContent == newContent {

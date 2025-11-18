@@ -27,15 +27,15 @@ func createTestStackpack(t *testing.T, dir string, name string, version string) 
 
 	// Create stackpack.conf
 	stackpackConf := fmt.Sprintf(`# schemaVersion -- Stackpack specification version.
-schemaVersion = "2.0"
+schemaVersion: "2.0"
 # name -- Name of the StackPack.
-name = "%s"
+name: "%s"
 # displayName -- Display name of the StackPack.
-displayName = "Test %s"
+displayName: "Test %s"
 # version -- Semantic version of the StackPack.
-version = "%s"
+version: "%s"
 `, name, name, version)
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.conf"), []byte(stackpackConf), 0644))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte(stackpackConf), 0644))
 
 	// Create README.md
 	readme := fmt.Sprintf("# %s\n\nThis is a test stackpack.", name)
@@ -196,7 +196,7 @@ func TestStackpackPackageCommand_MissingRequiredFiles(t *testing.T) {
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
-				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.conf"), []byte("name = \"test\"\nversion = \"1.0.0\""), 0644))
+				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("name: \"test\"\nversion: \"1.0.0\""), 0644))
 			},
 			expectedError: "required stackpack item not found: provisioning",
 		},
@@ -205,7 +205,7 @@ func TestStackpackPackageCommand_MissingRequiredFiles(t *testing.T) {
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
-				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.conf"), []byte("name = \"test\"\nversion = \"1.0.0\""), 0644))
+				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("name: \"test\"\nversion: \"1.0.0\""), 0644))
 			},
 			expectedError: "required stackpack item not found: README.md",
 		},
@@ -214,18 +214,18 @@ func TestStackpackPackageCommand_MissingRequiredFiles(t *testing.T) {
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
-				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.conf"), []byte("name = \"test\"\nversion = \"1.0.0\""), 0644))
+				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("name: \"test\"\nversion: \"1.0.0\""), 0644))
 			},
 			expectedError: "required stackpack item not found: resources",
 		},
 		{
-			name: "missing stackpack.conf file",
+			name: "missing stackpack.yaml file",
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
 			},
-			expectedError: "failed to parse stackpack.conf",
+			expectedError: "failed to parse stackpack.yaml",
 		},
 	}
 
@@ -255,37 +255,37 @@ func TestStackpackPackageCommand_InvalidStackpackConf(t *testing.T) {
 		expectedError string
 	}{
 		{
-			name:          "invalid HOCON syntax",
+			name:          "invalid YAML syntax",
 			confContent:   `name = "test" invalid syntax {`,
-			expectedError: "failed to parse stackpack.conf file",
+			expectedError: "failed to parse stackpack.yaml file",
 		},
 		{
 			name:          "missing name field",
-			confContent:   `version = "1.0.0"`,
-			expectedError: "name not found in stackpack.conf",
+			confContent:   `version: "1.0.0"`,
+			expectedError: "name not found in stackpack.yaml",
 		},
 		{
 			name:          "missing version field",
-			confContent:   `name = "test"`,
-			expectedError: "version not found in stackpack.conf",
+			confContent:   `name: "test"`,
+			expectedError: "version not found in stackpack.yaml",
 		},
 		{
 			name: "empty name field",
-			confContent: `name = ""
-version = "1.0.0"`,
-			expectedError: "name not found in stackpack.conf",
+			confContent: `name: ""
+version: "1.0.0"`,
+			expectedError: "name not found in stackpack.yaml",
 		},
 		{
 			name: "empty version field",
-			confContent: `name = "test"
-version = ""`,
-			expectedError: "version not found in stackpack.conf",
+			confContent: `name: "test"
+version: ""`,
+			expectedError: "version not found in stackpack.yaml",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			tempDir, err := os.MkdirTemp("", "stackpack-package-hocon-test-*")
+			tempDir, err := os.MkdirTemp("", "stackpack-package-yaml-test-*")
 			require.NoError(t, err)
 			defer os.RemoveAll(tempDir)
 
@@ -297,8 +297,8 @@ version = ""`,
 			require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "resources"), 0755))
 			require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "README.md"), []byte("readme"), 0644))
 
-			// Create invalid stackpack.conf
-			require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "stackpack.conf"), []byte(tt.confContent), 0644))
+			// Create invalid stackpack.yaml
+			require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "stackpack.yaml"), []byte(tt.confContent), 0644))
 
 			cli, cmd := setupStackPackPackageCmd(t)
 
@@ -314,7 +314,7 @@ func TestStackpackPackageCommand_NonExistentDirectory(t *testing.T) {
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "-d", "/non/existent/directory")
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "failed to parse stackpack.conf")
+	assert.Contains(t, err.Error(), "failed to parse stackpack.yaml")
 	assert.Contains(t, err.Error(), "no such file or directory")
 }
 
@@ -345,7 +345,7 @@ func TestStackpackPackageCommand_CreateOutputDirectory(t *testing.T) {
 	assert.NoError(t, err, "Zip file should be created in nested directory")
 }
 
-func TestHoconParser_Parse(t *testing.T) {
+func TestYamlParser_Parse(t *testing.T) {
 	tests := []struct {
 		name          string
 		content       string
@@ -355,48 +355,48 @@ func TestHoconParser_Parse(t *testing.T) {
 		errorContains string
 	}{
 		{
-			name: "valid HOCON with quotes",
-			content: `name = "my-stackpack"
-version = "1.2.3"`,
+			name: "valid YAML with quotes",
+			content: `name: "my-stackpack"
+version: "1.2.3"`,
 			expectedName: "my-stackpack",
 			expectedVer:  "1.2.3",
 			expectError:  false,
 		},
 		{
-			name: "valid HOCON without quotes",
-			content: `name = my-stackpack
-version = "1.2.3"`,
+			name: "valid YAML without quotes",
+			content: `name: my-stackpack
+version: "1.2.3"`,
 			expectedName: "my-stackpack",
 			expectedVer:  "1.2.3",
 			expectError:  false,
 		},
 		{
-			name: "HOCON with comments",
+			name: "YAML with comments",
 			content: `# This is a comment
-name = "test-app"
+name: "test-app"
 # Another comment
-version = "2.0.0"`,
+version: "2.0.0"`,
 			expectedName: "test-app",
 			expectedVer:  "2.0.0",
 			expectError:  false,
 		},
 		{
 			name:          "missing name",
-			content:       `version = "1.0.0"`,
+			content:       `version: "1.0.0"`,
 			expectError:   true,
-			errorContains: "name not found in stackpack.conf",
+			errorContains: "name not found in stackpack.yaml",
 		},
 		{
 			name:          "missing version",
-			content:       `name = "test"`,
+			content:       `name: "test"`,
 			expectError:   true,
-			errorContains: "version not found in stackpack.conf",
+			errorContains: "version not found in stackpack.yaml",
 		},
 		{
-			name:          "invalid HOCON syntax",
-			content:       `name = "test" { invalid`,
+			name:          "invalid YAML syntax",
+			content:       `name: "test" { invalid`,
 			expectError:   true,
-			errorContains: "failed to parse stackpack.conf file",
+			errorContains: "failed to parse stackpack.yaml file",
 		},
 	}
 
@@ -406,10 +406,10 @@ version = "2.0.0"`,
 			require.NoError(t, err)
 			defer os.RemoveAll(tempDir)
 
-			confPath := filepath.Join(tempDir, "test.conf")
+			confPath := filepath.Join(tempDir, "test.yaml")
 			require.NoError(t, os.WriteFile(confPath, []byte(tt.content), 0644))
 
-			parser := &HoconParser{}
+			parser := &YamlParser{}
 			result, err := parser.Parse(confPath)
 
 			if tt.expectError {
@@ -428,21 +428,12 @@ version = "2.0.0"`,
 	}
 }
 
-func TestHoconParser_ParseNonExistentFile(t *testing.T) {
-	parser := &HoconParser{}
-	result, err := parser.Parse("/non/existent/file.conf")
+func TestYamlParser_ParseNonExistentFile(t *testing.T) {
+	parser := &YamlParser{}
+	result, err := parser.Parse("/non/existent/file.yaml")
 
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to read file")
-	assert.Nil(t, result)
-}
-
-func TestYamlParser_Parse(t *testing.T) {
-	parser := &YamlParser{}
-	result, err := parser.Parse("any-path")
-
-	require.Error(t, err)
-	assert.Contains(t, err.Error(), "YAML format not yet implemented")
 	assert.Nil(t, result)
 }
 
@@ -459,7 +450,7 @@ func TestValidateStackpackDirectory(t *testing.T) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
-				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.conf"), []byte("conf"), 0644))
+				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("yaml"), 0644))
 			},
 			expectError: false,
 		},
@@ -468,7 +459,7 @@ func TestValidateStackpackDirectory(t *testing.T) {
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
-				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.conf"), []byte("conf"), 0644))
+				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("yaml"), 0644))
 			},
 			expectError:   true,
 			errorContains: "required stackpack item not found: provisioning",

@@ -85,10 +85,10 @@ func TestBumpSnapshotVersion(t *testing.T) {
 			require.NoError(t, err)
 			defer os.RemoveAll(tempDir)
 
-			configPath := filepath.Join(tempDir, "stackpack.conf")
-			configContent := fmt.Sprintf(`name = "test-stackpack"
-version = "%s"
-displayName = "Test StackPack"`, tt.currentVersion)
+			configPath := filepath.Join(tempDir, "stackpack.yaml")
+			configContent := fmt.Sprintf(`name: "test-stackpack"
+version: "%s"
+displayName: "Test StackPack"`, tt.currentVersion)
 			require.NoError(t, os.WriteFile(configPath, []byte(configContent), 0644))
 
 			// Test version bumping
@@ -97,7 +97,7 @@ displayName = "Test StackPack"`, tt.currentVersion)
 			assert.Equal(t, tt.expectedVersion, newVersion)
 
 			// Verify config file was updated
-			parser := &HoconParser{}
+			parser := &YamlParser{}
 			updatedInfo, err := parser.Parse(configPath)
 			require.NoError(t, err)
 			assert.Equal(t, tt.expectedVersion, updatedInfo.Version)
@@ -105,28 +105,28 @@ displayName = "Test StackPack"`, tt.currentVersion)
 	}
 }
 
-func TestUpdateVersionInHocon(t *testing.T) {
+func TestUpdateVersionInYaml(t *testing.T) {
 	// Create temporary config file
-	tempDir, err := os.MkdirTemp("", "stackpack-hocon-test-*")
+	tempDir, err := os.MkdirTemp("", "stackpack-yaml-test-*")
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	configPath := filepath.Join(tempDir, "stackpack.conf")
+	configPath := filepath.Join(tempDir, "stackpack.yaml")
 	originalVersion := "2.0.0"
 	newVersion := "2.0.0-cli-test.1"
 
 	// Create config with original version
-	configContent := fmt.Sprintf(`name = "test-stackpack"
-version = "%s"
-displayName = "Test StackPack"`, originalVersion)
+	configContent := fmt.Sprintf(`name: "test-stackpack"
+version: "%s"
+displayName: "Test StackPack"`, originalVersion)
 	require.NoError(t, os.WriteFile(configPath, []byte(configContent), 0644))
 
 	// Test version update using HOCON approach
-	err = updateVersionInHocon(configPath, newVersion)
+	err = updateVersionInYaml(configPath, newVersion)
 	require.NoError(t, err)
 
 	// Verify config file was updated and is still valid HOCON
-	parser := &HoconParser{}
+	parser := &YamlParser{}
 	updatedInfo, err := parser.Parse(configPath)
 	require.NoError(t, err)
 	assert.Equal(t, newVersion, updatedInfo.Version)
@@ -193,10 +193,10 @@ func TestStackpackTestCommand_RequiredFlags(t *testing.T) {
 					assert.Contains(t, err.Error(), tt.errorMessage)
 				}
 			} else if err != nil {
-				// Note: This will fail due to missing stackpack.conf, but that's expected
+				// Note: This will fail due to missing stackpack.yaml, but that's expected
 				// We're only testing flag parsing here
 				// Should fail on stackpack.conf parsing, not flag validation
-				assert.Contains(t, err.Error(), "stackpack.conf")
+				assert.Contains(t, err.Error(), "stackpack.yaml")
 			}
 		})
 	}
@@ -234,8 +234,8 @@ func TestStackpackTestCommand_DirectoryHandling(t *testing.T) {
 
 			// Should fail on API calls (upload/install), not on directory or config parsing
 			if err != nil {
-				// The error should not be about missing stackpack.conf or directory issues
-				assert.NotContains(t, err.Error(), "stackpack.conf")
+				// The error should not be about missing stackpack.yaml or directory issues
+				assert.NotContains(t, err.Error(), "stackpack.yaml")
 				assert.NotContains(t, err.Error(), "no such file or directory")
 			}
 		})
