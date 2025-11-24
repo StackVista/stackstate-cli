@@ -2,7 +2,7 @@ module github.com/stackvista/stackstate-cli
 
 go 1.24.0
 
-toolchain go1.24.7
+toolchain go1.24.9
 
 replace github.com/spf13/pflag => github.com/stackvista/pflag v1.22.0
 
@@ -22,10 +22,10 @@ require (
 
 require (
 	github.com/blang/semver/v4 v4.0.0
-	github.com/gurkankaymak/hocon v1.2.21
 	github.com/mattn/go-runewidth v0.0.15
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/spf13/pflag v1.0.5
+	golang.org/x/text v0.29.0
 	k8s.io/kubectl v0.29.4
 )
 
@@ -116,7 +116,6 @@ require (
 	golang.org/x/sync v0.17.0 // indirect
 	golang.org/x/sys v0.36.0 // indirect
 	golang.org/x/term v0.35.0 // indirect
-	golang.org/x/text v0.29.0 // indirect
 	google.golang.org/protobuf v1.33.0 // indirect
 	gopkg.in/evanphx/json-patch.v4 v4.12.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
