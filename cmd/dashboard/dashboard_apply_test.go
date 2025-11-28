@@ -41,32 +41,25 @@ func createTestApplyResult() sts.DashboardReadFullSchema {
 
 func TestShouldApplyDashboardCreate(t *testing.T) {
 	// Create a temporary file with dashboard JSON
-	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.json")
+	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.yaml")
 	if err != nil {
 		panic(err)
 	}
 	defer os.Remove(file.Name())
 
-	dashboardJSON := `{
-		"name": "applied-dashboard",
-		"description": "Dashboard created via apply",
-		"scope": "publicDashboard",
-		"dashboard": {
-			"spec": {
-				"layouts": [
-					{
-						"kind": "Grid",
-						"spec": {
-							"items": []
-						}
-					}
-				],
-				"panels": {}
-			}
-		}
-	}`
+	dashboardYAML := `name: applied-dashboard
+description: Dashboard created via apply
+scope: publicDashboard
+dashboard:
+  spec:
+    layouts:
+      - kind: Grid
+        spec:
+          items: []
+    panels: {}
+`
 
-	_, err = file.WriteString(dashboardJSON)
+	_, err = file.WriteString(dashboardYAML)
 	assert.Nil(t, err)
 	file.Close()
 
@@ -86,20 +79,19 @@ func TestShouldApplyDashboardCreate(t *testing.T) {
 
 func TestShouldApplyDashboardUpdate(t *testing.T) {
 	// Create a temporary file with dashboard update JSON (includes ID)
-	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.json")
+	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.yaml")
 	if err != nil {
 		panic(err)
 	}
 	defer os.Remove(file.Name())
 
-	updateJSON := `{
-		"id": 1234,
-		"name": "updated-dashboard",
-		"description": "Updated dashboard description",
-		"scope": "privateDashboard"
-	}`
+	updateYAML := `id: 1234
+name: updated-dashboard
+description: Updated dashboard description
+scope: privateDashboard
+`
 
-	_, err = file.WriteString(updateJSON)
+	_, err = file.WriteString(updateYAML)
 	assert.Nil(t, err)
 	file.Close()
 
@@ -125,25 +117,22 @@ func TestShouldApplyDashboardUpdate(t *testing.T) {
 }
 
 func TestShouldApplyDashboardWithJson(t *testing.T) {
-	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.json")
+	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.yaml")
 	if err != nil {
 		panic(err)
 	}
 	defer os.Remove(file.Name())
 
-	dashboardJSON := `{
-		"name": "json-output-dashboard",
-		"description": "Dashboard for JSON output test",
-		"scope": "publicDashboard",
-		"dashboard": {
-			"spec": {
-				"layouts": [],
-				"panels": {}
-			}
-		}
-	}`
+	dashboardYAML := `name: yaml-output-dashboard
+description: Dashboard for JSON output test
+scope: publicDashboard
+dashboard:
+  spec:
+    layouts: []
+    panels: {}
+`
 
-	_, err = file.WriteString(dashboardJSON)
+	_, err = file.WriteString(dashboardYAML)
 	assert.Nil(t, err)
 	file.Close()
 
@@ -174,28 +163,30 @@ func TestApplyDashboardInvalidFileType(t *testing.T) {
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", file.Name())
 
 	assert.NotNil(t, err)
-	assert.Contains(t, err.Error(), "unsupported file type: .txt. Only .json files are supported")
+	assert.Contains(t, err.Error(), "unsupported file type: .txt. Only .yaml files are supported")
 }
 
 func TestApplyDashboardMissingFile(t *testing.T) {
 	cli, cmd := setDashboardApplyCmd(t)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", "/nonexistent/file.json")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", "/nonexistent/file.yaml")
 
 	assert.NotNil(t, err)
 	assert.Contains(t, err.Error(), "cannot read file")
 }
 
 func TestApplyDashboardInvalidJSON(t *testing.T) {
-	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.json")
+	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.yaml")
 	if err != nil {
 		panic(err)
 	}
 	defer os.Remove(file.Name())
 
-	invalidJSON := `{"name": "test", "invalid": json}`
+	invalidYAML := `name: test
+invalid yaml
+`
 
-	_, err = file.WriteString(invalidJSON)
+	_, err = file.WriteString(invalidYAML)
 	assert.Nil(t, err)
 	file.Close()
 
@@ -204,20 +195,19 @@ func TestApplyDashboardInvalidJSON(t *testing.T) {
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", file.Name())
 
 	assert.NotNil(t, err)
-	assert.Contains(t, err.Error(), "failed to parse JSON")
+	assert.Contains(t, err.Error(), "failed to parse YAML")
 }
 
 func TestApplyDashboardMissingName(t *testing.T) {
-	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.json")
+	file, err := os.CreateTemp(os.TempDir(), "test_dashboard_*.yaml")
 	if err != nil {
 		panic(err)
 	}
 	defer os.Remove(file.Name())
 
-	invalidDashboard := `{
-		"description": "Dashboard without name",
-		"scope": "publicDashboard"
-	}`
+	invalidDashboard := `description: Dashboard without name
+scope: publicDashboard
+`
 
 	_, err = file.WriteString(invalidDashboard)
 	assert.Nil(t, err)

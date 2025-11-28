@@ -10,6 +10,7 @@ import (
 	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
 const LongDescription = `Edit a dashboard.
@@ -60,19 +61,19 @@ func RunDashboardEditCommand(args *EditArgs) di.CmdWithApiFn {
 		}
 
 		// Convert dashboard to pretty JSON for editing
-		originalJSON, err := json.MarshalIndent(dashboard, "", "  ")
+		originalYAML, err := yaml.Marshal(dashboard)
 		if err != nil {
-			return common.NewExecutionError(fmt.Errorf("failed to marshal dashboard to JSON: %v", err))
+			return common.NewExecutionError(fmt.Errorf("failed to marshal dashboard to YAML: %v", err))
 		}
 
 		// Open editor with the dashboard JSON
-		editedContent, err := cli.Editor.Edit("dashboard-", ".json", strings.NewReader(string(originalJSON)))
+		editedContent, err := cli.Editor.Edit("dashboard-", ".yaml", strings.NewReader(string(originalYAML)))
 		if err != nil {
 			return common.NewExecutionError(fmt.Errorf("failed to open editor: %v", err))
 		}
 
 		// Check if any changes were made
-		if strings.Compare(string(originalJSON), string(editedContent)) == 0 {
+		if strings.Compare(string(originalYAML), string(editedContent)) == 0 {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{"message": "No changes made"})
 			} else {
@@ -81,13 +82,13 @@ func RunDashboardEditCommand(args *EditArgs) di.CmdWithApiFn {
 			return nil
 		}
 
-		// Parse the edited JSON
+		// Parse the edited YAML
 		var editedDashboard map[string]interface{}
-		if err := json.Unmarshal(editedContent, &editedDashboard); err != nil {
-			return common.NewExecutionError(fmt.Errorf("failed to parse edited JSON: %v", err))
+		if err := yaml.Unmarshal(editedContent, &editedDashboard); err != nil {
+			return common.NewExecutionError(fmt.Errorf("failed to parse edited YAML: %v", err))
 		}
 
-		// Create patch schema from the edited JSON
+		// Create patch schema from the edited YAML
 		patchSchema := stackstate_api.NewDashboardPatchSchema()
 
 		if name, ok := editedDashboard["name"].(string); ok && name != "" {
