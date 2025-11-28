@@ -1,7 +1,6 @@
 package dashboard
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -11,6 +10,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
 // ApplyArgs contains arguments for dashboard apply command
@@ -22,12 +22,12 @@ func DashboardApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
 		Use:   "apply",
-		Short: "Create or edit a dashboard from JSON",
-		Long:  "Create or edit a dashboard from JSON file.",
+		Short: "Create or edit a dashboard from YAML",
+		Long:  "Create or edit a dashboard from YAML file.",
 		RunE:  cli.CmdRunEWithApi(RunDashboardApplyCommand(args)),
 	}
 
-	common.AddRequiredFileFlagVar(cmd, &args.File, "Path to a .json file with the dashboard definition")
+	common.AddRequiredFileFlagVar(cmd, &args.File, "Path to a .yaml file with the dashboard definition")
 
 	return cmd
 }
@@ -41,26 +41,26 @@ func RunDashboardApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 
 		// Determine file type by extension
 		ext := strings.ToLower(filepath.Ext(args.File))
-		if ext != ".json" {
-			return common.NewCLIArgParseError(fmt.Errorf("unsupported file type: %s. Only .json files are supported", ext))
+		if ext != ".yaml" {
+			return common.NewCLIArgParseError(fmt.Errorf("unsupported file type: %s. Only .yaml files are supported", ext))
 		}
 
-		return applyJSONDashboard(cli, api, fileBytes)
+		return applyYAMLDashboard(cli, api, fileBytes)
 	}
 }
 
-// applyJSONDashboard processes JSON dashboard file and determines create vs update operation
-func applyJSONDashboard(cli *di.Deps, api *stackstate_api.APIClient, fileBytes []byte) common.CLIError {
+// applyYAMLDashboard processes JSON dashboard file and determines create vs update operation
+func applyYAMLDashboard(cli *di.Deps, api *stackstate_api.APIClient, fileBytes []byte) common.CLIError {
 	// Parse the JSON to determine if it's a create or update operation
 	var dashboardData map[string]interface{}
-	if err := json.Unmarshal(fileBytes, &dashboardData); err != nil {
-		return common.NewCLIArgParseError(fmt.Errorf("failed to parse JSON: %v", err))
+	if err := yaml.Unmarshal(fileBytes, &dashboardData); err != nil {
+		return common.NewCLIArgParseError(fmt.Errorf("failed to parse YAML: %v", err))
 	}
 
 	// Check if it has an ID field (indicates update operation)
 	if idField, hasId := dashboardData["id"]; hasId {
 		// Update existing dashboard
-		dashboardId := fmt.Sprintf("%.0f", idField.(float64))
+		dashboardId := fmt.Sprintf("%.0d", idField.(int))
 		return updateDashboard(cli, api, dashboardId, dashboardData)
 	} else {
 		// Create new dashboard
@@ -71,8 +71,8 @@ func applyJSONDashboard(cli *di.Deps, api *stackstate_api.APIClient, fileBytes [
 // createDashboard creates a new dashboard from JSON schema
 func createDashboard(cli *di.Deps, api *stackstate_api.APIClient, fileBytes []byte) common.CLIError {
 	var writeSchema stackstate_api.DashboardWriteSchema
-	if err := json.Unmarshal(fileBytes, &writeSchema); err != nil {
-		return common.NewCLIArgParseError(fmt.Errorf("failed to parse JSON as DashboardWriteSchema: %v", err))
+	if err := yaml.Unmarshal(fileBytes, &writeSchema); err != nil {
+		return common.NewCLIArgParseError(fmt.Errorf("failed to parse YAML as DashboardWriteSchema: %v", err))
 	}
 
 	// Validate required fields
@@ -115,10 +115,10 @@ func updateDashboard(cli *di.Deps, api *stackstate_api.APIClient, dashboardId st
 	}
 	if dashboardContent, ok := dashboardData["dashboard"]; ok {
 		// Convert dashboard content to PersesDashboard
-		dashboardBytes, err := json.Marshal(dashboardContent)
+		dashboardBytes, err := yaml.Marshal(dashboardContent)
 		if err == nil {
 			var persesDashboard stackstate_api.PersesDashboard
-			if err := json.Unmarshal(dashboardBytes, &persesDashboard); err == nil {
+			if err := yaml.Unmarshal(dashboardBytes, &persesDashboard); err == nil {
 				patchSchema.SetDashboard(persesDashboard)
 			}
 		}

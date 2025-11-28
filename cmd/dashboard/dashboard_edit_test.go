@@ -87,14 +87,13 @@ func TestShouldEditDashboard(t *testing.T) {
 
 	// Replace the ReverseEditor with a MockEditor that returns edited content
 	mockEditor := &MockEditor{
-		Content: []byte(`{
-			"_type": "DashboardReadFullSchema",
-			"id": 1234,
-			"name": "edited-dashboard-name",
-			"identifier": "urn:custom:dashboard:edit-test",
-			"description": "Updated description",
-			"scope": "privateDashboard"
-		}`),
+		Content: []byte(`_type: DashboardReadFullSchema
+id: 1234
+name: edited-dashboard-name
+identifier: urn:custom:dashboard:edit-test
+description: Updated description
+scope: privateDashboard
+`),
 	}
 	cli.Editor = mockEditor
 
@@ -131,10 +130,9 @@ func TestShouldEditDashboardWithIdentifier(t *testing.T) {
 
 	// Replace editor with mock that returns changes
 	mockEditor := &MockEditor{
-		Content: []byte(`{
-			"name": "edited-with-identifier",
-			"description": "Updated via identifier"
-		}`),
+		Content: []byte(`name: edited-with-identifier
+description: Updated via identifier
+`),
 	}
 	cli.Editor = mockEditor
 
@@ -181,10 +179,9 @@ func TestEditDashboardWithJsonOutput(t *testing.T) {
 	cli.MockClient.ApiMocks.DashboardsApi.PatchDashboardResponse.Result = updatedDashboard
 
 	mockEditor := &MockEditor{
-		Content: []byte(`{
-			"name": "json-output-test",
-			"description": "Testing JSON output"
-		}`),
+		Content: []byte(`name: json-output-test
+description: Testing JSON output
+`),
 	}
 	cli.Editor = mockEditor
 
@@ -221,14 +218,14 @@ func TestEditDashboardInvalidJson(t *testing.T) {
 	cli.MockClient.ApiMocks.DashboardsApi.GetDashboardResponse.Result = originalDashboard
 
 	mockEditor := &MockEditor{
-		Content: []byte(`{"invalid": json syntax}`),
+		Content: []byte(`invalid yaml syntax`),
 	}
 	cli.Editor = mockEditor
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1234")
 
 	assert.NotNil(t, err)
-	assert.Contains(t, err.Error(), "failed to parse edited JSON")
+	assert.Contains(t, err.Error(), "failed to parse edited YAML")
 
 	// Verify no patch call was made
 	assert.Len(t, *cli.MockClient.ApiMocks.DashboardsApi.PatchDashboardCalls, 0)
@@ -273,7 +270,8 @@ func TestEditDashboardUsesReverseEditorByDefault(t *testing.T) {
 	// Use a MockEditor that makes a simple change instead of ReverseEditor
 	// ReverseEditor produces invalid JSON
 	mockEditor := &MockEditor{
-		Content: []byte(`{"name": "changed-by-reverse-editor"}`),
+		Content: []byte(`name: changed-by-reverse-editor
+`),
 	}
 	cli.Editor = mockEditor
 

@@ -48,12 +48,12 @@ func TestDashboardDescribe(t *testing.T) {
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--id", "1")
 	assert.Nil(t, err)
 
-	// Verify that the command printed the dashboard JSON
+	// Verify that the command printed the dashboard YAML
 	assert.Len(t, *cli.MockPrinter.PrintLnCalls, 1)
 	printedOutput := (*cli.MockPrinter.PrintLnCalls)[0]
-	assert.Contains(t, printedOutput, `"id": 1`)
-	assert.Contains(t, printedOutput, `"name": "aDashboard"`)
-	assert.Contains(t, printedOutput, `"identifier": "urn:custom:dashboard:aDashboard"`)
+	assert.Contains(t, printedOutput, `id: 1`)
+	assert.Contains(t, printedOutput, `name: aDashboard`)
+	assert.Contains(t, printedOutput, `identifier: urn:custom:dashboard:aDashboard`)
 }
 
 func TestDashboardDescribeWithIdentifier(t *testing.T) {
@@ -106,8 +106,8 @@ func TestDashboardDescribeToFile(t *testing.T) {
 	// Verify file contents
 	body, err := os.ReadFile(file.Name())
 	assert.Nil(t, err)
-	assert.Contains(t, string(body), `"id": 1`)
-	assert.Contains(t, string(body), `"name": "aDashboard"`)
+	assert.Contains(t, string(body), `id: 1`)
+	assert.Contains(t, string(body), `name: aDashboard`)
 }
 
 func TestDashboardDescribeToFileJson(t *testing.T) {
