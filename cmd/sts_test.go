@@ -7,8 +7,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const dashboardCommand = "dashboard"
-
 func TestSTSCommand(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := STSCommand(&cli.Deps)
