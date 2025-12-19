@@ -1,7 +1,6 @@
 package dashboard
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/spf13/cobra"
@@ -10,6 +9,7 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/util"
+	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
 type DescribeArgs struct {
@@ -22,7 +22,7 @@ func DashboardDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe",
-		Short: "Describe a dashboard in STY format",
+		Short: "Describe a dashboard in YAML format",
 		Long:  "Describe a dashboard in StackState Templated YAML.",
 		RunE:  cli.CmdRunEWithApi(RunDashboardDescribeCommand(args)),
 	}
@@ -48,11 +48,11 @@ func RunDashboardDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		jsonData, err := json.MarshalIndent(dashboard, "", "  ")
+		yamlData, err := yaml.Marshal(dashboard)
 		if err != nil {
 			return common.NewExecutionError(fmt.Errorf("failed to marshal dashboard: %v", err))
 		}
-		data := string(jsonData)
+		data := string(yamlData)
 
 		if args.FilePath != "" {
 			if err := util.WriteFile(args.FilePath, []byte(data)); err != nil {
