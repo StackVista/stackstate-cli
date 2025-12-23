@@ -48,7 +48,7 @@ func RunDashboardDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		yamlData, err := yaml.Marshal(dashboard)
+		yamlData, err := yaml.Marshal(dashboard.DashboardReadFullSchema)
 		if err != nil {
 			return common.NewExecutionError(fmt.Errorf("failed to marshal dashboard: %v", err))
 		}

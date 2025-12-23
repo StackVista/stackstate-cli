@@ -61,7 +61,7 @@ func RunDashboardEditCommand(args *EditArgs) di.CmdWithApiFn {
 		}
 
 		// Convert dashboard to pretty JSON for editing
-		originalYAML, err := yaml.Marshal(dashboard)
+		originalYAML, err := yaml.Marshal(dashboard.DashboardReadFullSchema)
 		if err != nil {
 			return common.NewExecutionError(fmt.Errorf("failed to marshal dashboard to YAML: %v", err))
 		}
