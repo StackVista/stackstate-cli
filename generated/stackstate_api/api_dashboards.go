@@ -134,9 +134,9 @@ CloneDashboard Clone a dashboard
 
 Clone a dashboard by its identifier.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param dashboardIdOrUrn The identifier of a dashboard
- @return ApiCloneDashboardRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param dashboardIdOrUrn The identifier of a dashboard
+	@return ApiCloneDashboardRequest
 */
 func (a *DashboardsApiService) CloneDashboard(ctx context.Context, dashboardIdOrUrn string) ApiCloneDashboardRequest {
 	return ApiCloneDashboardRequest{
@@ -147,7 +147,8 @@ func (a *DashboardsApiService) CloneDashboard(ctx context.Context, dashboardIdOr
 }
 
 // Execute executes the request
-//  @return DashboardReadFullSchema
+//
+//	@return DashboardReadFullSchema
 func (a *DashboardsApiService) CloneDashboardExecute(r ApiCloneDashboardRequest) (*DashboardReadFullSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -328,8 +329,8 @@ CreateDashboard Create a new dashboard
 
 Create a new dashboard. The dashboard can be private or public based on the scope parameter.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateDashboardRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateDashboardRequest
 */
 func (a *DashboardsApiService) CreateDashboard(ctx context.Context) ApiCreateDashboardRequest {
 	return ApiCreateDashboardRequest{
@@ -339,7 +340,8 @@ func (a *DashboardsApiService) CreateDashboard(ctx context.Context) ApiCreateDas
 }
 
 // Execute executes the request
-//  @return DashboardReadFullSchema
+//
+//	@return DashboardReadFullSchema
 func (a *DashboardsApiService) CreateDashboardExecute(r ApiCreateDashboardRequest) (*DashboardReadFullSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -494,9 +496,9 @@ DeleteDashboard Delete a dashboard
 
 Delete a dashboard by its identifier. Only user-owned dashboards can be deleted.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param dashboardIdOrUrn The identifier of a dashboard
- @return ApiDeleteDashboardRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param dashboardIdOrUrn The identifier of a dashboard
+	@return ApiDeleteDashboardRequest
 */
 func (a *DashboardsApiService) DeleteDashboard(ctx context.Context, dashboardIdOrUrn string) ApiDeleteDashboardRequest {
 	return ApiDeleteDashboardRequest{
@@ -674,9 +676,9 @@ GetDashboard Get a single dashboard
 
 Get a dashboard by its identifier.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param dashboardIdOrUrn The identifier of a dashboard
- @return ApiGetDashboardRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param dashboardIdOrUrn The identifier of a dashboard
+	@return ApiGetDashboardRequest
 */
 func (a *DashboardsApiService) GetDashboard(ctx context.Context, dashboardIdOrUrn string) ApiGetDashboardRequest {
 	return ApiGetDashboardRequest{
@@ -687,7 +689,8 @@ func (a *DashboardsApiService) GetDashboard(ctx context.Context, dashboardIdOrUr
 }
 
 // Execute executes the request
-//  @return DashboardReadSchema
+//
+//	@return DashboardReadSchema
 func (a *DashboardsApiService) GetDashboardExecute(r ApiGetDashboardRequest) (*DashboardReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -857,8 +860,8 @@ GetDashboards Get a list of dashboards
 
 Get a list of dashboards, optionally filtered by name.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetDashboardsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetDashboardsRequest
 */
 func (a *DashboardsApiService) GetDashboards(ctx context.Context) ApiGetDashboardsRequest {
 	return ApiGetDashboardsRequest{
@@ -868,7 +871,8 @@ func (a *DashboardsApiService) GetDashboards(ctx context.Context) ApiGetDashboar
 }
 
 // Execute executes the request
-//  @return DashboardList
+//
+//	@return DashboardList
 func (a *DashboardsApiService) GetDashboardsExecute(r ApiGetDashboardsRequest) (*DashboardList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1017,9 +1021,9 @@ PatchDashboard Patch a dashboard
 
 Patch an existing dashboard by its identifier. Only user-owned dashboard can be patched.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param dashboardIdOrUrn The identifier of a dashboard
- @return ApiPatchDashboardRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param dashboardIdOrUrn The identifier of a dashboard
+	@return ApiPatchDashboardRequest
 */
 func (a *DashboardsApiService) PatchDashboard(ctx context.Context, dashboardIdOrUrn string) ApiPatchDashboardRequest {
 	return ApiPatchDashboardRequest{
@@ -1030,7 +1034,8 @@ func (a *DashboardsApiService) PatchDashboard(ctx context.Context, dashboardIdOr
 }
 
 // Execute executes the request
-//  @return DashboardReadFullSchema
+//
+//	@return DashboardReadFullSchema
 func (a *DashboardsApiService) PatchDashboardExecute(r ApiPatchDashboardRequest) (*DashboardReadFullSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPatch

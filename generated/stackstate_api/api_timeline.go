@@ -60,8 +60,8 @@ GetTimelineSummary Timeline summary
 
 Event summary and aggregated health changes for a topology over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetTimelineSummaryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTimelineSummaryRequest
 */
 func (a *TimelineApiService) GetTimelineSummary(ctx context.Context) ApiGetTimelineSummaryRequest {
 	return ApiGetTimelineSummaryRequest{
@@ -71,7 +71,8 @@ func (a *TimelineApiService) GetTimelineSummary(ctx context.Context) ApiGetTimel
 }
 
 // Execute executes the request
-//  @return TimelineSummary
+//
+//	@return TimelineSummary
 func (a *TimelineApiService) GetTimelineSummaryExecute(r ApiGetTimelineSummaryRequest) (*TimelineSummary, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

@@ -53,8 +53,8 @@ AllSystemNotifications Overview of system notifications
 
 All active system notifications
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAllSystemNotificationsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAllSystemNotificationsRequest
 */
 func (a *SystemNotificationsApiService) AllSystemNotifications(ctx context.Context) ApiAllSystemNotificationsRequest {
 	return ApiAllSystemNotificationsRequest{
@@ -64,7 +64,8 @@ func (a *SystemNotificationsApiService) AllSystemNotifications(ctx context.Conte
 }
 
 // Execute executes the request
-//  @return SystemNotifications
+//
+//	@return SystemNotifications
 func (a *SystemNotificationsApiService) AllSystemNotificationsExecute(r ApiAllSystemNotificationsRequest) (*SystemNotifications, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

@@ -134,8 +134,8 @@ CreateNotificationConfiguration Create a new notification configuration
 
 Create a new notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateNotificationConfigurationRequest
 */
 func (a *NotificationConfigurationsApiService) CreateNotificationConfiguration(ctx context.Context) ApiCreateNotificationConfigurationRequest {
 	return ApiCreateNotificationConfigurationRequest{
@@ -145,7 +145,8 @@ func (a *NotificationConfigurationsApiService) CreateNotificationConfiguration(c
 }
 
 // Execute executes the request
-//  @return NotificationConfigurationReadSchema
+//
+//	@return NotificationConfigurationReadSchema
 func (a *NotificationConfigurationsApiService) CreateNotificationConfigurationExecute(r ApiCreateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -300,9 +301,9 @@ DeleteNotificationConfiguration Delete the notification configuration
 
 Delete the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiDeleteNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiDeleteNotificationConfigurationRequest
 */
 func (a *NotificationConfigurationsApiService) DeleteNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiDeleteNotificationConfigurationRequest {
 	return ApiDeleteNotificationConfigurationRequest{
@@ -463,9 +464,9 @@ GetNotificationConfiguration Get the notification configuration
 
 Get the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiGetNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiGetNotificationConfigurationRequest
 */
 func (a *NotificationConfigurationsApiService) GetNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationRequest {
 	return ApiGetNotificationConfigurationRequest{
@@ -476,7 +477,8 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfiguration(ctx 
 }
 
 // Execute executes the request
-//  @return NotificationConfigurationReadSchema
+//
+//	@return NotificationConfigurationReadSchema
 func (a *NotificationConfigurationsApiService) GetNotificationConfigurationExecute(r ApiGetNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -637,9 +639,9 @@ GetNotificationConfigurationChannels Get the channels for the notification confi
 
 Get the channels for the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiGetNotificationConfigurationChannelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiGetNotificationConfigurationChannelsRequest
 */
 func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChannels(ctx context.Context, notificationConfigurationIdOrUrn string) ApiGetNotificationConfigurationChannelsRequest {
 	return ApiGetNotificationConfigurationChannelsRequest{
@@ -650,7 +652,8 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChann
 }
 
 // Execute executes the request
-//  @return []NotificationChannel
+//
+//	@return []NotificationChannel
 func (a *NotificationConfigurationsApiService) GetNotificationConfigurationChannelsExecute(r ApiGetNotificationConfigurationChannelsRequest) ([]NotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -810,8 +813,8 @@ GetNotificationConfigurations Get all notification configurations
 
 Get all notification configurations
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetNotificationConfigurationsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetNotificationConfigurationsRequest
 */
 func (a *NotificationConfigurationsApiService) GetNotificationConfigurations(ctx context.Context) ApiGetNotificationConfigurationsRequest {
 	return ApiGetNotificationConfigurationsRequest{
@@ -821,7 +824,8 @@ func (a *NotificationConfigurationsApiService) GetNotificationConfigurations(ctx
 }
 
 // Execute executes the request
-//  @return []NotificationConfigurationReadSchema
+//
+//	@return []NotificationConfigurationReadSchema
 func (a *NotificationConfigurationsApiService) GetNotificationConfigurationsExecute(r ApiGetNotificationConfigurationsRequest) ([]NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -978,9 +982,9 @@ UpdateNotificationConfiguration Update the notification configuration
 
 Update the notification configuration
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param notificationConfigurationIdOrUrn Notification identifier
- @return ApiUpdateNotificationConfigurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param notificationConfigurationIdOrUrn Notification identifier
+	@return ApiUpdateNotificationConfigurationRequest
 */
 func (a *NotificationConfigurationsApiService) UpdateNotificationConfiguration(ctx context.Context, notificationConfigurationIdOrUrn string) ApiUpdateNotificationConfigurationRequest {
 	return ApiUpdateNotificationConfigurationRequest{
@@ -991,7 +995,8 @@ func (a *NotificationConfigurationsApiService) UpdateNotificationConfiguration(c
 }
 
 // Execute executes the request
-//  @return NotificationConfigurationReadSchema
+//
+//	@return NotificationConfigurationReadSchema
 func (a *NotificationConfigurationsApiService) UpdateNotificationConfigurationExecute(r ApiUpdateNotificationConfigurationRequest) (*NotificationConfigurationReadSchema, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

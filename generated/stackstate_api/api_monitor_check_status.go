@@ -93,9 +93,9 @@ GetMonitorCheckStatus Get a monitor check status
 
 Get a monitor check status by check state id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id The id of a monitor check status
- @return ApiGetMonitorCheckStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of a monitor check status
+	@return ApiGetMonitorCheckStatusRequest
 */
 func (a *MonitorCheckStatusApiService) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
 	return ApiGetMonitorCheckStatusRequest{
@@ -106,7 +106,8 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatus(ctx context.Context
 }
 
 // Execute executes the request
-//  @return MonitorCheckStatus
+//
+//	@return MonitorCheckStatus
 func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -291,9 +292,9 @@ GetMonitorCheckStatusHealthHistory Get a monitor check health history
 
 Get a monitor check status health history for a defined period of time by the check state id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id The id of a monitor check status
- @return ApiGetMonitorCheckStatusHealthHistoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of a monitor check status
+	@return ApiGetMonitorCheckStatusHealthHistoryRequest
 */
 func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
 	return ApiGetMonitorCheckStatusHealthHistoryRequest{
@@ -304,7 +305,8 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx co
 }
 
 // Execute executes the request
-//  @return MonitorCheckStatusHealthHistory
+//
+//	@return MonitorCheckStatusHealthHistory
 func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -472,9 +474,9 @@ GetMonitorCheckStatusRelatedFailures Get a monitor check related failures
 
 Get a monitor check status related failures by the check state id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param id The id of a monitor check status
- @return ApiGetMonitorCheckStatusRelatedFailuresRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param id The id of a monitor check status
+	@return ApiGetMonitorCheckStatusRelatedFailuresRequest
 */
 func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
 	return ApiGetMonitorCheckStatusRelatedFailuresRequest{
@@ -485,7 +487,8 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailures(ctx 
 }
 
 // Execute executes the request
-//  @return MonitorCheckStatusRelatedFailures
+//
+//	@return MonitorCheckStatusRelatedFailures
 func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

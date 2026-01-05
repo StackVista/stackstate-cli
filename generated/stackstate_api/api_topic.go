@@ -88,9 +88,9 @@ Describe Describe a topic
 
 List Kafka messages on the topic of choice
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param topic
- @return ApiDescribeRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param topic
+	@return ApiDescribeRequest
 */
 func (a *TopicApiService) Describe(ctx context.Context, topic string) ApiDescribeRequest {
 	return ApiDescribeRequest{
@@ -101,7 +101,8 @@ func (a *TopicApiService) Describe(ctx context.Context, topic string) ApiDescrib
 }
 
 // Execute executes the request
-//  @return Messages
+//
+//	@return Messages
 func (a *TopicApiService) DescribeExecute(r ApiDescribeRequest) (*Messages, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -270,8 +271,8 @@ List List topics
 
 List all Kafka topics available in StackState
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListRequest
 */
 func (a *TopicApiService) List(ctx context.Context) ApiListRequest {
 	return ApiListRequest{
@@ -281,7 +282,8 @@ func (a *TopicApiService) List(ctx context.Context) ApiListRequest {
 }
 
 // Execute executes the request
-//  @return []Topic
+//
+//	@return []Topic
 func (a *TopicApiService) ListExecute(r ApiListRequest) ([]Topic, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

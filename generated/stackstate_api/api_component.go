@@ -77,9 +77,9 @@ GetComponentHealthHistory Get a component health history
 
 Get a component health history for a defined period of time by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param componentIdOrUrn The id or identifier (urn) of a component
- @return ApiGetComponentHealthHistoryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentIdOrUrn The id or identifier (urn) of a component
+	@return ApiGetComponentHealthHistoryRequest
 */
 func (a *ComponentApiService) GetComponentHealthHistory(ctx context.Context, componentIdOrUrn string) ApiGetComponentHealthHistoryRequest {
 	return ApiGetComponentHealthHistoryRequest{
@@ -90,7 +90,8 @@ func (a *ComponentApiService) GetComponentHealthHistory(ctx context.Context, com
 }
 
 // Execute executes the request
-//  @return ComponentHealthHistory
+//
+//	@return ComponentHealthHistory
 func (a *ComponentApiService) GetComponentHealthHistoryExecute(r ApiGetComponentHealthHistoryRequest) (*ComponentHealthHistory, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

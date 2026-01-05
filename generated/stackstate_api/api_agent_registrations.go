@@ -53,8 +53,8 @@ AllAgentRegistrations Overview of registered agents
 
 Give an overview of all registered agents
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiAllAgentRegistrationsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiAllAgentRegistrationsRequest
 */
 func (a *AgentRegistrationsApiService) AllAgentRegistrations(ctx context.Context) ApiAllAgentRegistrationsRequest {
 	return ApiAllAgentRegistrationsRequest{
@@ -64,7 +64,8 @@ func (a *AgentRegistrationsApiService) AllAgentRegistrations(ctx context.Context
 }
 
 // Execute executes the request
-//  @return AgentRegistrations
+//
+//	@return AgentRegistrations
 func (a *AgentRegistrationsApiService) AllAgentRegistrationsExecute(r ApiAllAgentRegistrationsRequest) (*AgentRegistrations, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

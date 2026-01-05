@@ -81,8 +81,8 @@ GetUserSessionAssumedRole Get the assumed a role for the current session
 
 Get the assumed a role for the current session.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetUserSessionAssumedRoleRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetUserSessionAssumedRoleRequest
 */
 func (a *UserSessionApiService) GetUserSessionAssumedRole(ctx context.Context) ApiGetUserSessionAssumedRoleRequest {
 	return ApiGetUserSessionAssumedRoleRequest{
@@ -92,7 +92,8 @@ func (a *UserSessionApiService) GetUserSessionAssumedRole(ctx context.Context) A
 }
 
 // Execute executes the request
-//  @return Role
+//
+//	@return Role
 func (a *UserSessionApiService) GetUserSessionAssumedRoleExecute(r ApiGetUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -231,8 +232,8 @@ GetUserSessionAvailableRoles Get a list of available roles for this session
 
 Get a list of available roles for this session.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetUserSessionAvailableRolesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetUserSessionAvailableRolesRequest
 */
 func (a *UserSessionApiService) GetUserSessionAvailableRoles(ctx context.Context) ApiGetUserSessionAvailableRolesRequest {
 	return ApiGetUserSessionAvailableRolesRequest{
@@ -242,7 +243,8 @@ func (a *UserSessionApiService) GetUserSessionAvailableRoles(ctx context.Context
 }
 
 // Execute executes the request
-//  @return Roles
+//
+//	@return Roles
 func (a *UserSessionApiService) GetUserSessionAvailableRolesExecute(r ApiGetUserSessionAvailableRolesRequest) (*Roles, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -387,8 +389,8 @@ SaveUserSessionAssumedRole Set the assumed role for the current session
 
 Set the assumed role for the current session.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSaveUserSessionAssumedRoleRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSaveUserSessionAssumedRoleRequest
 */
 func (a *UserSessionApiService) SaveUserSessionAssumedRole(ctx context.Context) ApiSaveUserSessionAssumedRoleRequest {
 	return ApiSaveUserSessionAssumedRoleRequest{
@@ -398,7 +400,8 @@ func (a *UserSessionApiService) SaveUserSessionAssumedRole(ctx context.Context) 
 }
 
 // Execute executes the request
-//  @return Role
+//
+//	@return Role
 func (a *UserSessionApiService) SaveUserSessionAssumedRoleExecute(r ApiSaveUserSessionAssumedRoleRequest) (*Role, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

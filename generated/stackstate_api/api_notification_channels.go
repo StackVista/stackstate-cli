@@ -462,8 +462,8 @@ CreateEmailNotificationChannel Create a Email Notification channel
 
 Create Email Notification channel
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateEmailNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateEmailNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) CreateEmailNotificationChannel(ctx context.Context) ApiCreateEmailNotificationChannelRequest {
 	return ApiCreateEmailNotificationChannelRequest{
@@ -473,7 +473,8 @@ func (a *NotificationChannelsApiService) CreateEmailNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-//  @return EmailNotificationChannel
+//
+//	@return EmailNotificationChannel
 func (a *NotificationChannelsApiService) CreateEmailNotificationChannelExecute(r ApiCreateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -634,8 +635,8 @@ CreateOpsgenieNotificationChannel Create a Opsgenie Notification channel
 
 Create a Opsgenie Notification channel
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateOpsgenieNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannel(ctx context.Context) ApiCreateOpsgenieNotificationChannelRequest {
 	return ApiCreateOpsgenieNotificationChannelRequest{
@@ -645,7 +646,8 @@ func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannel(ctx c
 }
 
 // Execute executes the request
-//  @return OpsgenieNotificationChannel
+//
+//	@return OpsgenieNotificationChannel
 func (a *NotificationChannelsApiService) CreateOpsgenieNotificationChannelExecute(r ApiCreateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -806,8 +808,8 @@ CreateTeamsNotificationChannel Create a Teams Notification channel
 
 Create a Teams Notification channel
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateTeamsNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateTeamsNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) CreateTeamsNotificationChannel(ctx context.Context) ApiCreateTeamsNotificationChannelRequest {
 	return ApiCreateTeamsNotificationChannelRequest{
@@ -817,7 +819,8 @@ func (a *NotificationChannelsApiService) CreateTeamsNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-//  @return TeamsNotificationChannel
+//
+//	@return TeamsNotificationChannel
 func (a *NotificationChannelsApiService) CreateTeamsNotificationChannelExecute(r ApiCreateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -978,8 +981,8 @@ CreateWebhookNotificationChannel Create a Webhook Notification channel
 
 Create a Webhook Notification channel
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiCreateWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiCreateWebhookNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) CreateWebhookNotificationChannel(ctx context.Context) ApiCreateWebhookNotificationChannelRequest {
 	return ApiCreateWebhookNotificationChannelRequest{
@@ -989,7 +992,8 @@ func (a *NotificationChannelsApiService) CreateWebhookNotificationChannel(ctx co
 }
 
 // Execute executes the request
-//  @return WebhookNotificationChannel
+//
+//	@return WebhookNotificationChannel
 func (a *NotificationChannelsApiService) CreateWebhookNotificationChannelExecute(r ApiCreateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1144,9 +1148,9 @@ DeleteEmailNotificationChannel Delete the Email Notification channel by id
 
 Delete the email notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteEmailNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteEmailNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) DeleteEmailNotificationChannel(ctx context.Context, channelId int64) ApiDeleteEmailNotificationChannelRequest {
 	return ApiDeleteEmailNotificationChannelRequest{
@@ -1307,9 +1311,9 @@ DeleteOpsgenieNotificationChannel Delete the Opsgenie Notification channel by id
 
 Delete the opsgenie notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteOpsgenieNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) DeleteOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiDeleteOpsgenieNotificationChannelRequest {
 	return ApiDeleteOpsgenieNotificationChannelRequest{
@@ -1470,9 +1474,9 @@ DeleteSlackNotificationChannel Delete the Slack Notification channel by id
 
 Delete the slack notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteSlackNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteSlackNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) DeleteSlackNotificationChannel(ctx context.Context, channelId int64) ApiDeleteSlackNotificationChannelRequest {
 	return ApiDeleteSlackNotificationChannelRequest{
@@ -1633,9 +1637,9 @@ DeleteTeamsNotificationChannel Delete the Teams Notification channel by id
 
 Delete the teams notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteTeamsNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteTeamsNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) DeleteTeamsNotificationChannel(ctx context.Context, channelId int64) ApiDeleteTeamsNotificationChannelRequest {
 	return ApiDeleteTeamsNotificationChannelRequest{
@@ -1796,9 +1800,9 @@ DeleteWebhookNotificationChannel Delete the Webhook Notification channel by id
 
 Delete the webhook notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiDeleteWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiDeleteWebhookNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) DeleteWebhookNotificationChannel(ctx context.Context, channelId int64) ApiDeleteWebhookNotificationChannelRequest {
 	return ApiDeleteWebhookNotificationChannelRequest{
@@ -1959,9 +1963,9 @@ GetEmailNotificationChannel Get the Email Notification channel by id
 
 Get the email notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetEmailNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetEmailNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) GetEmailNotificationChannel(ctx context.Context, channelId int64) ApiGetEmailNotificationChannelRequest {
 	return ApiGetEmailNotificationChannelRequest{
@@ -1972,7 +1976,8 @@ func (a *NotificationChannelsApiService) GetEmailNotificationChannel(ctx context
 }
 
 // Execute executes the request
-//  @return EmailNotificationChannel
+//
+//	@return EmailNotificationChannel
 func (a *NotificationChannelsApiService) GetEmailNotificationChannelExecute(r ApiGetEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2132,8 +2137,8 @@ GetEmailNotificationStatus Email Notification channel status
 
 Email Notification channel status, test whether it can be used
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetEmailNotificationStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetEmailNotificationStatusRequest
 */
 func (a *NotificationChannelsApiService) GetEmailNotificationStatus(ctx context.Context) ApiGetEmailNotificationStatusRequest {
 	return ApiGetEmailNotificationStatusRequest{
@@ -2143,7 +2148,8 @@ func (a *NotificationChannelsApiService) GetEmailNotificationStatus(ctx context.
 }
 
 // Execute executes the request
-//  @return EmailNotificationStatus
+//
+//	@return EmailNotificationStatus
 func (a *NotificationChannelsApiService) GetEmailNotificationStatusExecute(r ApiGetEmailNotificationStatusRequest) (*EmailNotificationStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2293,9 +2299,9 @@ GetOpsgenieNotificationChannel Get the Opsgenie Notification channel by id
 
 Get the opsgenie notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetOpsgenieNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiGetOpsgenieNotificationChannelRequest {
 	return ApiGetOpsgenieNotificationChannelRequest{
@@ -2306,7 +2312,8 @@ func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-//  @return OpsgenieNotificationChannel
+//
+//	@return OpsgenieNotificationChannel
 func (a *NotificationChannelsApiService) GetOpsgenieNotificationChannelExecute(r ApiGetOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2467,9 +2474,9 @@ GetSlackNotificationChannel Get the Slack Notification channel by id
 
 Get the slack notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetSlackNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetSlackNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) GetSlackNotificationChannel(ctx context.Context, channelId int64) ApiGetSlackNotificationChannelRequest {
 	return ApiGetSlackNotificationChannelRequest{
@@ -2480,7 +2487,8 @@ func (a *NotificationChannelsApiService) GetSlackNotificationChannel(ctx context
 }
 
 // Execute executes the request
-//  @return SlackNotificationChannel
+//
+//	@return SlackNotificationChannel
 func (a *NotificationChannelsApiService) GetSlackNotificationChannelExecute(r ApiGetSlackNotificationChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2641,9 +2649,9 @@ GetTeamsNotificationChannel Get the Teams Notification channel by id
 
 Get the teams notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetTeamsNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetTeamsNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) GetTeamsNotificationChannel(ctx context.Context, channelId int64) ApiGetTeamsNotificationChannelRequest {
 	return ApiGetTeamsNotificationChannelRequest{
@@ -2654,7 +2662,8 @@ func (a *NotificationChannelsApiService) GetTeamsNotificationChannel(ctx context
 }
 
 // Execute executes the request
-//  @return TeamsNotificationChannel
+//
+//	@return TeamsNotificationChannel
 func (a *NotificationChannelsApiService) GetTeamsNotificationChannelExecute(r ApiGetTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2815,9 +2824,9 @@ GetWebhookNotificationChannel Get the Webhook Notification channel by id
 
 Get the webhook notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiGetWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiGetWebhookNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) GetWebhookNotificationChannel(ctx context.Context, channelId int64) ApiGetWebhookNotificationChannelRequest {
 	return ApiGetWebhookNotificationChannelRequest{
@@ -2828,7 +2837,8 @@ func (a *NotificationChannelsApiService) GetWebhookNotificationChannel(ctx conte
 }
 
 // Execute executes the request
-//  @return WebhookNotificationChannel
+//
+//	@return WebhookNotificationChannel
 func (a *NotificationChannelsApiService) GetWebhookNotificationChannelExecute(r ApiGetWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -2996,9 +3006,9 @@ JoinSlackChannel Join the specified Slack channel to send notifications
 
 Join the specified Slack channel and configure this notifiation channel to post notifications to the specified slack channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiJoinSlackChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiJoinSlackChannelRequest
 */
 func (a *NotificationChannelsApiService) JoinSlackChannel(ctx context.Context, channelId int64) ApiJoinSlackChannelRequest {
 	return ApiJoinSlackChannelRequest{
@@ -3009,7 +3019,8 @@ func (a *NotificationChannelsApiService) JoinSlackChannel(ctx context.Context, c
 }
 
 // Execute executes the request
-//  @return SlackNotificationChannel
+//
+//	@return SlackNotificationChannel
 func (a *NotificationChannelsApiService) JoinSlackChannelExecute(r ApiJoinSlackChannelRequest) (*SlackNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3188,8 +3199,8 @@ ListOpsgenieResponders List Opsgenie responders
 
 List Opsgenie responders
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListOpsgenieRespondersRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListOpsgenieRespondersRequest
 */
 func (a *NotificationChannelsApiService) ListOpsgenieResponders(ctx context.Context) ApiListOpsgenieRespondersRequest {
 	return ApiListOpsgenieRespondersRequest{
@@ -3199,7 +3210,8 @@ func (a *NotificationChannelsApiService) ListOpsgenieResponders(ctx context.Cont
 }
 
 // Execute executes the request
-//  @return []OpsgenieResponder
+//
+//	@return []OpsgenieResponder
 func (a *NotificationChannelsApiService) ListOpsgenieRespondersExecute(r ApiListOpsgenieRespondersRequest) ([]OpsgenieResponder, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -3357,9 +3369,9 @@ ListSlackChannels List all public Slack channels
 
 List all public Slack channels, used for selecting a channel for the notifications
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiListSlackChannelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiListSlackChannelsRequest
 */
 func (a *NotificationChannelsApiService) ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest {
 	return ApiListSlackChannelsRequest{
@@ -3370,7 +3382,8 @@ func (a *NotificationChannelsApiService) ListSlackChannels(ctx context.Context, 
 }
 
 // Execute executes the request
-//  @return []SlackChannel
+//
+//	@return []SlackChannel
 func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -3551,8 +3564,8 @@ SlackOAuthCallback The OAuth callback for Slack
 
 The OAuth callback for Slack, which is used to obtain the access token for the Slack channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSlackOAuthCallbackRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSlackOAuthCallbackRequest
 */
 func (a *NotificationChannelsApiService) SlackOAuthCallback(ctx context.Context) ApiSlackOAuthCallbackRequest {
 	return ApiSlackOAuthCallbackRequest{
@@ -3698,8 +3711,8 @@ SlackOauthRedirect Starts Slack OAuth2 flow
 
 Redirects to Slack to start an OAuth2 flow.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSlackOauthRedirectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSlackOauthRedirectRequest
 */
 func (a *NotificationChannelsApiService) SlackOauthRedirect(ctx context.Context) ApiSlackOauthRedirectRequest {
 	return ApiSlackOauthRedirectRequest{
@@ -3833,9 +3846,9 @@ TestEmailChannel Test the Email notification channel
 
 Test the email notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestEmailChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestEmailChannelRequest
 */
 func (a *NotificationChannelsApiService) TestEmailChannel(ctx context.Context, channelId int64) ApiTestEmailChannelRequest {
 	return ApiTestEmailChannelRequest{
@@ -3996,9 +4009,9 @@ TestOpsgenieChannel Test the Opsgenie notification channel
 
 Test the opsgenie notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestOpsgenieChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestOpsgenieChannelRequest
 */
 func (a *NotificationChannelsApiService) TestOpsgenieChannel(ctx context.Context, channelId int64) ApiTestOpsgenieChannelRequest {
 	return ApiTestOpsgenieChannelRequest{
@@ -4159,9 +4172,9 @@ TestSlackChannel Test the Notification channel
 
 Test the Notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestSlackChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestSlackChannelRequest
 */
 func (a *NotificationChannelsApiService) TestSlackChannel(ctx context.Context, channelId int64) ApiTestSlackChannelRequest {
 	return ApiTestSlackChannelRequest{
@@ -4322,9 +4335,9 @@ TestTeamsChannel Test the Teams notification channel
 
 Test the teams notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestTeamsChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestTeamsChannelRequest
 */
 func (a *NotificationChannelsApiService) TestTeamsChannel(ctx context.Context, channelId int64) ApiTestTeamsChannelRequest {
 	return ApiTestTeamsChannelRequest{
@@ -4485,9 +4498,9 @@ TestWebhookChannel Test the Webhook notification channel
 
 Test the webhook notification channel by sending a test message to the notification channel.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiTestWebhookChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiTestWebhookChannelRequest
 */
 func (a *NotificationChannelsApiService) TestWebhookChannel(ctx context.Context, channelId int64) ApiTestWebhookChannelRequest {
 	return ApiTestWebhookChannelRequest{
@@ -4655,9 +4668,9 @@ UpdateEmailNotificationChannel Update the Email Notification channel by id
 
 Update the email notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiUpdateEmailNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiUpdateEmailNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) UpdateEmailNotificationChannel(ctx context.Context, channelId int64) ApiUpdateEmailNotificationChannelRequest {
 	return ApiUpdateEmailNotificationChannelRequest{
@@ -4668,7 +4681,8 @@ func (a *NotificationChannelsApiService) UpdateEmailNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-//  @return EmailNotificationChannel
+//
+//	@return EmailNotificationChannel
 func (a *NotificationChannelsApiService) UpdateEmailNotificationChannelExecute(r ApiUpdateEmailNotificationChannelRequest) (*EmailNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -4841,9 +4855,9 @@ UpdateOpsgenieNotificationChannel Update the Opsgenie Notification channel by id
 
 Update the opsgenie notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiUpdateOpsgenieNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiUpdateOpsgenieNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannel(ctx context.Context, channelId int64) ApiUpdateOpsgenieNotificationChannelRequest {
 	return ApiUpdateOpsgenieNotificationChannelRequest{
@@ -4854,7 +4868,8 @@ func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannel(ctx c
 }
 
 // Execute executes the request
-//  @return OpsgenieNotificationChannel
+//
+//	@return OpsgenieNotificationChannel
 func (a *NotificationChannelsApiService) UpdateOpsgenieNotificationChannelExecute(r ApiUpdateOpsgenieNotificationChannelRequest) (*OpsgenieNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -5027,9 +5042,9 @@ UpdateTeamsNotificationChannel Update the Teams Notification channel by id
 
 Update the teams notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiUpdateTeamsNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiUpdateTeamsNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) UpdateTeamsNotificationChannel(ctx context.Context, channelId int64) ApiUpdateTeamsNotificationChannelRequest {
 	return ApiUpdateTeamsNotificationChannelRequest{
@@ -5040,7 +5055,8 @@ func (a *NotificationChannelsApiService) UpdateTeamsNotificationChannel(ctx cont
 }
 
 // Execute executes the request
-//  @return TeamsNotificationChannel
+//
+//	@return TeamsNotificationChannel
 func (a *NotificationChannelsApiService) UpdateTeamsNotificationChannelExecute(r ApiUpdateTeamsNotificationChannelRequest) (*TeamsNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut
@@ -5213,9 +5229,9 @@ UpdateWebhookNotificationChannel Update the Webhook Notification channel by id
 
 Update the webhook notification channel by id
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param channelId Channel identifier
- @return ApiUpdateWebhookNotificationChannelRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@return ApiUpdateWebhookNotificationChannelRequest
 */
 func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannel(ctx context.Context, channelId int64) ApiUpdateWebhookNotificationChannelRequest {
 	return ApiUpdateWebhookNotificationChannelRequest{
@@ -5226,7 +5242,8 @@ func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannel(ctx co
 }
 
 // Execute executes the request
-//  @return WebhookNotificationChannel
+//
+//	@return WebhookNotificationChannel
 func (a *NotificationChannelsApiService) UpdateWebhookNotificationChannelExecute(r ApiUpdateWebhookNotificationChannelRequest) (*WebhookNotificationChannel, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPut

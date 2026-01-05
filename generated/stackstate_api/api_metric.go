@@ -259,8 +259,8 @@ GetExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetExemplarsQueryRequest
 */
 func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplarsQueryRequest {
 	return ApiGetExemplarsQueryRequest{
@@ -270,7 +270,8 @@ func (a *MetricApiService) GetExemplarsQuery(ctx context.Context) ApiGetExemplar
 }
 
 // Execute executes the request
-//  @return PromExemplarEnvelope
+//
+//	@return PromExemplarEnvelope
 func (a *MetricApiService) GetExemplarsQueryExecute(r ApiGetExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -484,8 +485,8 @@ GetInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetInstantQueryRequest
 */
 func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQueryRequest {
 	return ApiGetInstantQueryRequest{
@@ -495,7 +496,8 @@ func (a *MetricApiService) GetInstantQuery(ctx context.Context) ApiGetInstantQue
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) GetInstantQueryExecute(r ApiGetInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -702,9 +704,9 @@ GetLabelValues List of label values for a provided label name
 
 The endpoint returns a list of label values for a provided label name
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param label Prometheus query label
- @return ApiGetLabelValuesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param label Prometheus query label
+	@return ApiGetLabelValuesRequest
 */
 func (a *MetricApiService) GetLabelValues(ctx context.Context, label string) ApiGetLabelValuesRequest {
 	return ApiGetLabelValuesRequest{
@@ -715,7 +717,8 @@ func (a *MetricApiService) GetLabelValues(ctx context.Context, label string) Api
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
+//
+//	@return PromLabelsEnvelope
 func (a *MetricApiService) GetLabelValuesExecute(r ApiGetLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -915,8 +918,8 @@ GetLabels List of label names
 
 The endpoint returns a list of label names
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetLabelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetLabelsRequest
 */
 func (a *MetricApiService) GetLabels(ctx context.Context) ApiGetLabelsRequest {
 	return ApiGetLabelsRequest{
@@ -926,7 +929,8 @@ func (a *MetricApiService) GetLabels(ctx context.Context) ApiGetLabelsRequest {
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
+//
+//	@return PromLabelsEnvelope
 func (a *MetricApiService) GetLabelsExecute(r ApiGetLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1118,8 +1122,8 @@ GetMetadata Metadata about metrics currently scraped from targets
 
 The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetMetadataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetMetadataRequest
 */
 func (a *MetricApiService) GetMetadata(ctx context.Context) ApiGetMetadataRequest {
 	return ApiGetMetadataRequest{
@@ -1129,7 +1133,8 @@ func (a *MetricApiService) GetMetadata(ctx context.Context) ApiGetMetadataReques
 }
 
 // Execute executes the request
-//  @return PromMetadataEnvelope
+//
+//	@return PromMetadataEnvelope
 func (a *MetricApiService) GetMetadataExecute(r ApiGetMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1360,8 +1365,8 @@ GetRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRangeQueryRequest
 */
 func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRequest {
 	return ApiGetRangeQueryRequest{
@@ -1371,7 +1376,8 @@ func (a *MetricApiService) GetRangeQuery(ctx context.Context) ApiGetRangeQueryRe
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) GetRangeQueryExecute(r ApiGetRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1589,8 +1595,8 @@ GetSeries List of time series that match a certain label set
 
 The endpoint returns the list of time series that match a certain label set
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetSeriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetSeriesRequest
 */
 func (a *MetricApiService) GetSeries(ctx context.Context) ApiGetSeriesRequest {
 	return ApiGetSeriesRequest{
@@ -1600,7 +1606,8 @@ func (a *MetricApiService) GetSeries(ctx context.Context) ApiGetSeriesRequest {
 }
 
 // Execute executes the request
-//  @return PromSeriesEnvelope
+//
+//	@return PromSeriesEnvelope
 func (a *MetricApiService) GetSeriesExecute(r ApiGetSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1800,8 +1807,8 @@ PostExemplarsQuery Experimental: Exemplars for a specific time range
 
 Experimental: The returns a list of exemplars for a valid PromQL query for a specific time range
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostExemplarsQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostExemplarsQueryRequest
 */
 func (a *MetricApiService) PostExemplarsQuery(ctx context.Context) ApiPostExemplarsQueryRequest {
 	return ApiPostExemplarsQueryRequest{
@@ -1811,7 +1818,8 @@ func (a *MetricApiService) PostExemplarsQuery(ctx context.Context) ApiPostExempl
 }
 
 // Execute executes the request
-//  @return PromExemplarEnvelope
+//
+//	@return PromExemplarEnvelope
 func (a *MetricApiService) PostExemplarsQueryExecute(r ApiPostExemplarsQueryRequest) (*PromExemplarEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2020,8 +2028,8 @@ PostInstantQuery Instant query at a single point in time
 
 The endpoint evaluates an instant query at a single point in time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostInstantQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostInstantQueryRequest
 */
 func (a *MetricApiService) PostInstantQuery(ctx context.Context) ApiPostInstantQueryRequest {
 	return ApiPostInstantQueryRequest{
@@ -2031,7 +2039,8 @@ func (a *MetricApiService) PostInstantQuery(ctx context.Context) ApiPostInstantQ
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) PostInstantQueryExecute(r ApiPostInstantQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2235,9 +2244,9 @@ PostLabelValues List of label values for a provided label name
 
 The endpoint returns a list of label values for a provided label name
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param label Prometheus query label
- @return ApiPostLabelValuesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param label Prometheus query label
+	@return ApiPostLabelValuesRequest
 */
 func (a *MetricApiService) PostLabelValues(ctx context.Context, label string) ApiPostLabelValuesRequest {
 	return ApiPostLabelValuesRequest{
@@ -2248,7 +2257,8 @@ func (a *MetricApiService) PostLabelValues(ctx context.Context, label string) Ap
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
+//
+//	@return PromLabelsEnvelope
 func (a *MetricApiService) PostLabelValuesExecute(r ApiPostLabelValuesRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2445,8 +2455,8 @@ PostLabels List of label names
 
 The endpoint returns a list of label names
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostLabelsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostLabelsRequest
 */
 func (a *MetricApiService) PostLabels(ctx context.Context) ApiPostLabelsRequest {
 	return ApiPostLabelsRequest{
@@ -2456,7 +2466,8 @@ func (a *MetricApiService) PostLabels(ctx context.Context) ApiPostLabelsRequest 
 }
 
 // Execute executes the request
-//  @return PromLabelsEnvelope
+//
+//	@return PromLabelsEnvelope
 func (a *MetricApiService) PostLabelsExecute(r ApiPostLabelsRequest) (*PromLabelsEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2646,8 +2657,8 @@ PostMetadata Metadata about metrics currently scraped from targets
 
 The endpoint returns metadata about metrics currently scraped from targets. However, it does not provide any target information. This is considered experimental and might change in the future
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostMetadataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostMetadataRequest
 */
 func (a *MetricApiService) PostMetadata(ctx context.Context) ApiPostMetadataRequest {
 	return ApiPostMetadataRequest{
@@ -2657,7 +2668,8 @@ func (a *MetricApiService) PostMetadata(ctx context.Context) ApiPostMetadataRequ
 }
 
 // Execute executes the request
-//  @return PromMetadataEnvelope
+//
+//	@return PromMetadataEnvelope
 func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -2880,8 +2892,8 @@ PostRangeQuery Query over a range of time
 
 The endpoint evaluates an expression query over a range of time
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostRangeQueryRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostRangeQueryRequest
 */
 func (a *MetricApiService) PostRangeQuery(ctx context.Context) ApiPostRangeQueryRequest {
 	return ApiPostRangeQueryRequest{
@@ -2891,7 +2903,8 @@ func (a *MetricApiService) PostRangeQuery(ctx context.Context) ApiPostRangeQuery
 }
 
 // Execute executes the request
-//  @return PromEnvelope
+//
+//	@return PromEnvelope
 func (a *MetricApiService) PostRangeQueryExecute(r ApiPostRangeQueryRequest) (*PromEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -3106,8 +3119,8 @@ PostSeries List of time series that match a certain label set
 
 The endpoint returns the list of time series that match a certain label set
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostSeriesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostSeriesRequest
 */
 func (a *MetricApiService) PostSeries(ctx context.Context) ApiPostSeriesRequest {
 	return ApiPostSeriesRequest{
@@ -3117,7 +3130,8 @@ func (a *MetricApiService) PostSeries(ctx context.Context) ApiPostSeriesRequest 
 }
 
 // Execute executes the request
-//  @return PromSeriesEnvelope
+//
+//	@return PromSeriesEnvelope
 func (a *MetricApiService) PostSeriesExecute(r ApiPostSeriesRequest) (*PromSeriesEnvelope, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

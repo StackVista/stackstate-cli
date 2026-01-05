@@ -159,10 +159,10 @@ GetSpan Get a span
 
 Get a single span for a trace
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param traceId The id of the trace
- @param spanId The id of the span
- @return ApiGetSpanRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param traceId The id of the trace
+	@param spanId The id of the span
+	@return ApiGetSpanRequest
 */
 func (a *TracesApiService) GetSpan(ctx context.Context, traceId string, spanId string) ApiGetSpanRequest {
 	return ApiGetSpanRequest{
@@ -174,7 +174,8 @@ func (a *TracesApiService) GetSpan(ctx context.Context, traceId string, spanId s
 }
 
 // Execute executes the request
-//  @return SpanResponse
+//
+//	@return SpanResponse
 func (a *TracesApiService) GetSpanExecute(r ApiGetSpanRequest) (*SpanResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -326,9 +327,9 @@ GetTrace Fetch a trace
 
 Get a full trace by id only
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param traceId The id of the trace
- @return ApiGetTraceRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param traceId The id of the trace
+	@return ApiGetTraceRequest
 */
 func (a *TracesApiService) GetTrace(ctx context.Context, traceId string) ApiGetTraceRequest {
 	return ApiGetTraceRequest{
@@ -339,7 +340,8 @@ func (a *TracesApiService) GetTrace(ctx context.Context, traceId string) ApiGetT
 }
 
 // Execute executes the request
-//  @return Trace
+//
+//	@return Trace
 func (a *TracesApiService) GetTraceExecute(r ApiGetTraceRequest) (*Trace, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -517,8 +519,8 @@ QueryDuration Query duration distribution
 
 Query for durations using filters.  Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiQueryDurationRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiQueryDurationRequest
 */
 func (a *TracesApiService) QueryDuration(ctx context.Context) ApiQueryDurationRequest {
 	return ApiQueryDurationRequest{
@@ -528,7 +530,8 @@ func (a *TracesApiService) QueryDuration(ctx context.Context) ApiQueryDurationRe
 }
 
 // Execute executes the request
-//  @return DurationHistogram
+//
+//	@return DurationHistogram
 func (a *TracesApiService) QueryDurationExecute(r ApiQueryDurationRequest) (*DurationHistogram, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -729,8 +732,8 @@ QueryTraces Query for traces
 
 Query for traces using filters. Filters that accept an array of values match if any of the values match (think of a SQL IN expression).
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiQueryTracesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiQueryTracesRequest
 */
 func (a *TracesApiService) QueryTraces(ctx context.Context) ApiQueryTracesRequest {
 	return ApiQueryTracesRequest{
@@ -740,7 +743,8 @@ func (a *TracesApiService) QueryTraces(ctx context.Context) ApiQueryTracesReques
 }
 
 // Execute executes the request
-//  @return TraceQueryResponse
+//
+//	@return TraceQueryResponse
 func (a *TracesApiService) QueryTracesExecute(r ApiQueryTracesRequest) (*TraceQueryResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -915,8 +919,8 @@ SpanComponents Fetch components based on resource attributes
 
 Based on the resource attributes on a span, retrieve components that have a TraceBinding for it.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSpanComponentsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSpanComponentsRequest
 */
 func (a *TracesApiService) SpanComponents(ctx context.Context) ApiSpanComponentsRequest {
 	return ApiSpanComponentsRequest{
@@ -926,7 +930,8 @@ func (a *TracesApiService) SpanComponents(ctx context.Context) ApiSpanComponents
 }
 
 // Execute executes the request
-//  @return SpanComponents
+//
+//	@return SpanComponents
 func (a *TracesApiService) SpanComponentsExecute(r ApiSpanComponentsRequest) (*SpanComponents, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -1077,8 +1082,8 @@ SuggestionsAttributeName Suggestions for attribute names
 
 Suggestions for attribute names, both resource and span attributes. Attributes match when their name contains the provided part, at most 100 suggestions will be returned. Make the part longer to get more accurate suggestions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSuggestionsAttributeNameRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSuggestionsAttributeNameRequest
 */
 func (a *TracesApiService) SuggestionsAttributeName(ctx context.Context) ApiSuggestionsAttributeNameRequest {
 	return ApiSuggestionsAttributeNameRequest{
@@ -1088,7 +1093,8 @@ func (a *TracesApiService) SuggestionsAttributeName(ctx context.Context) ApiSugg
 }
 
 // Execute executes the request
-//  @return Suggestions
+//
+//	@return Suggestions
 func (a *TracesApiService) SuggestionsAttributeNameExecute(r ApiSuggestionsAttributeNameRequest) (*Suggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1238,9 +1244,9 @@ SuggestionsAttributeValue Suggestions for attribute values
 
 Suggestions for attribute values, both resource and span attributes. Attribute values match when the value contains the provided part, at most 100 suggestions will be returned. Make the part longer to get more accurate suggestions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param attributeName Get suggestions for this attribute
- @return ApiSuggestionsAttributeValueRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param attributeName Get suggestions for this attribute
+	@return ApiSuggestionsAttributeValueRequest
 */
 func (a *TracesApiService) SuggestionsAttributeValue(ctx context.Context, attributeName string) ApiSuggestionsAttributeValueRequest {
 	return ApiSuggestionsAttributeValueRequest{
@@ -1251,7 +1257,8 @@ func (a *TracesApiService) SuggestionsAttributeValue(ctx context.Context, attrib
 }
 
 // Execute executes the request
-//  @return Suggestions
+//
+//	@return Suggestions
 func (a *TracesApiService) SuggestionsAttributeValueExecute(r ApiSuggestionsAttributeValueRequest) (*Suggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -1402,9 +1409,9 @@ SuggestionsFieldValues Suggestions for span fields
 
 Suggestions for values of of the span fields that can be filtered on except resource and span attributes. Values match when they contain the provided part, at most 100 suggestions will be returned. Make the part longer to get more accurate suggestions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param field Get suggestions for this field
- @return ApiSuggestionsFieldValuesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param field Get suggestions for this field
+	@return ApiSuggestionsFieldValuesRequest
 */
 func (a *TracesApiService) SuggestionsFieldValues(ctx context.Context, field SpanSuggestionField) ApiSuggestionsFieldValuesRequest {
 	return ApiSuggestionsFieldValuesRequest{
@@ -1415,7 +1422,8 @@ func (a *TracesApiService) SuggestionsFieldValues(ctx context.Context, field Spa
 }
 
 // Execute executes the request
-//  @return Suggestions
+//
+//	@return Suggestions
 func (a *TracesApiService) SuggestionsFieldValuesExecute(r ApiSuggestionsFieldValuesRequest) (*Suggestions, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
