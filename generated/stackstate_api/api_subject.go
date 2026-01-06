@@ -110,9 +110,9 @@ CreateSubject Create a subject
 
 Create a new security subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiCreateSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiCreateSubjectRequest
 */
 func (a *SubjectApiService) CreateSubject(ctx context.Context, subject string) ApiCreateSubjectRequest {
 	return ApiCreateSubjectRequest{
@@ -271,9 +271,9 @@ DeleteSubject Delete a subject
 
 Remove a security subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiDeleteSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiDeleteSubjectRequest
 */
 func (a *SubjectApiService) DeleteSubject(ctx context.Context, subject string) ApiDeleteSubjectRequest {
 	return ApiDeleteSubjectRequest{
@@ -424,9 +424,9 @@ GetSubject Get subject
 
 Describe a subject
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param subject
- @return ApiGetSubjectRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param subject
+	@return ApiGetSubjectRequest
 */
 func (a *SubjectApiService) GetSubject(ctx context.Context, subject string) ApiGetSubjectRequest {
 	return ApiGetSubjectRequest{
@@ -437,7 +437,8 @@ func (a *SubjectApiService) GetSubject(ctx context.Context, subject string) ApiG
 }
 
 // Execute executes the request
-//  @return SubjectConfig
+//
+//	@return SubjectConfig
 func (a *SubjectApiService) GetSubjectExecute(r ApiGetSubjectRequest) (*SubjectConfig, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -587,8 +588,8 @@ ListSubjects List subjects
 
 List all subjects and their scopes
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiListSubjectsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiListSubjectsRequest
 */
 func (a *SubjectApiService) ListSubjects(ctx context.Context) ApiListSubjectsRequest {
 	return ApiListSubjectsRequest{
@@ -598,7 +599,8 @@ func (a *SubjectApiService) ListSubjects(ctx context.Context) ApiListSubjectsReq
 }
 
 // Execute executes the request
-//  @return []SubjectConfig
+//
+//	@return []SubjectConfig
 func (a *SubjectApiService) ListSubjectsExecute(r ApiListSubjectsRequest) ([]SubjectConfig, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

@@ -92,8 +92,8 @@ GetTopologySynchronizationStreamById Overview of a specific Topology Stream, que
 
 Overview of a specific Topology Stream, queried by node id or sync identifier
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetTopologySynchronizationStreamByIdRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamByIdRequest
 */
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById(ctx context.Context) ApiGetTopologySynchronizationStreamByIdRequest {
 	return ApiGetTopologySynchronizationStreamByIdRequest{
@@ -103,7 +103,8 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamById
 }
 
 // Execute executes the request
-//  @return TopologyStreamListItemWithErrorDetails
+//
+//	@return TopologyStreamListItemWithErrorDetails
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamByIdExecute(r ApiGetTopologySynchronizationStreamByIdRequest) (*TopologyStreamListItemWithErrorDetails, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -260,8 +261,8 @@ GetTopologySynchronizationStreams Overview of the topology synchronization strea
 
 Overview of the topology synchronization streams
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetTopologySynchronizationStreamsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetTopologySynchronizationStreamsRequest
 */
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ctx context.Context) ApiGetTopologySynchronizationStreamsRequest {
 	return ApiGetTopologySynchronizationStreamsRequest{
@@ -271,7 +272,8 @@ func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreams(ct
 }
 
 // Execute executes the request
-//  @return TopologyStreamList
+//
+//	@return TopologyStreamList
 func (a *TopologySynchronizationApiService) GetTopologySynchronizationStreamsExecute(r ApiGetTopologySynchronizationStreamsRequest) (*TopologyStreamList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -413,8 +415,8 @@ PostTopologySynchronizationStreamClearErrors Clear all the errors related to a s
 
 Clear all the errors related to a specific sync
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiPostTopologySynchronizationStreamClearErrorsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostTopologySynchronizationStreamClearErrorsRequest
 */
 func (a *TopologySynchronizationApiService) PostTopologySynchronizationStreamClearErrors(ctx context.Context) ApiPostTopologySynchronizationStreamClearErrorsRequest {
 	return ApiPostTopologySynchronizationStreamClearErrorsRequest{

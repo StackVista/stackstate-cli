@@ -150,8 +150,8 @@ func (r ApiGetKubernetesLogsRequest) Execute() (*GetKubernetesLogsResult, *http.
 /*
 GetKubernetesLogs Get Kubernetes logs
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetKubernetesLogsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetKubernetesLogsRequest
 */
 func (a *KubernetesLogsApiService) GetKubernetesLogs(ctx context.Context) ApiGetKubernetesLogsRequest {
 	return ApiGetKubernetesLogsRequest{
@@ -161,7 +161,8 @@ func (a *KubernetesLogsApiService) GetKubernetesLogs(ctx context.Context) ApiGet
 }
 
 // Execute executes the request
-//  @return GetKubernetesLogsResult
+//
+//	@return GetKubernetesLogsResult
 func (a *KubernetesLogsApiService) GetKubernetesLogsExecute(r ApiGetKubernetesLogsRequest) (*GetKubernetesLogsResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -380,8 +381,8 @@ func (r ApiGetKubernetesLogsAutocompleteRequest) Execute() (*GetKubernetesLogsAu
 /*
 GetKubernetesLogsAutocomplete Get Kubernetes logs autocomplete values
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetKubernetesLogsAutocompleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetKubernetesLogsAutocompleteRequest
 */
 func (a *KubernetesLogsApiService) GetKubernetesLogsAutocomplete(ctx context.Context) ApiGetKubernetesLogsAutocompleteRequest {
 	return ApiGetKubernetesLogsAutocompleteRequest{
@@ -391,7 +392,8 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsAutocomplete(ctx context.Con
 }
 
 // Execute executes the request
-//  @return GetKubernetesLogsAutocompleteResult
+//
+//	@return GetKubernetesLogsAutocompleteResult
 func (a *KubernetesLogsApiService) GetKubernetesLogsAutocompleteExecute(r ApiGetKubernetesLogsAutocompleteRequest) (*GetKubernetesLogsAutocompleteResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -620,8 +622,8 @@ func (r ApiGetKubernetesLogsHistogramRequest) Execute() (*GetKubernetesLogsHisto
 /*
 GetKubernetesLogsHistogram Get Kubernetes logs histogram
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetKubernetesLogsHistogramRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetKubernetesLogsHistogramRequest
 */
 func (a *KubernetesLogsApiService) GetKubernetesLogsHistogram(ctx context.Context) ApiGetKubernetesLogsHistogramRequest {
 	return ApiGetKubernetesLogsHistogramRequest{
@@ -631,7 +633,8 @@ func (a *KubernetesLogsApiService) GetKubernetesLogsHistogram(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return GetKubernetesLogsHistogramResult
+//
+//	@return GetKubernetesLogsHistogramResult
 func (a *KubernetesLogsApiService) GetKubernetesLogsHistogramExecute(r ApiGetKubernetesLogsHistogramRequest) (*GetKubernetesLogsHistogramResult, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

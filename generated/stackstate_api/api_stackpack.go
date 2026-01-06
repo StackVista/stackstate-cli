@@ -133,10 +133,10 @@ ConfirmManualSteps Confirm manual steps
 
 Confirm manual steps of the stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @param stackPackInstanceId
- @return ApiConfirmManualStepsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param stackPackInstanceId
+	@return ApiConfirmManualStepsRequest
 */
 func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiConfirmManualStepsRequest {
 	return ApiConfirmManualStepsRequest{
@@ -148,7 +148,8 @@ func (a *StackpackApiService) ConfirmManualSteps(ctx context.Context, stackPackN
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -302,9 +303,9 @@ ProvisionDetails Provision API
 
 Provision details
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @return ApiProvisionDetailsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiProvisionDetailsRequest
 */
 func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackPackName string) ApiProvisionDetailsRequest {
 	return ApiProvisionDetailsRequest{
@@ -315,7 +316,8 @@ func (a *StackpackApiService) ProvisionDetails(ctx context.Context, stackPackNam
 }
 
 // Execute executes the request
-//  @return ProvisionResponse
+//
+//	@return ProvisionResponse
 func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsRequest) (*ProvisionResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -463,10 +465,10 @@ ProvisionUninstall Provision API
 
 Provision details
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @param stackPackInstanceId
- @return ApiProvisionUninstallRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param stackPackInstanceId
+	@return ApiProvisionUninstallRequest
 */
 func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackPackName string, stackPackInstanceId int64) ApiProvisionUninstallRequest {
 	return ApiProvisionUninstallRequest{
@@ -478,7 +480,8 @@ func (a *StackpackApiService) ProvisionUninstall(ctx context.Context, stackPackN
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -629,8 +632,8 @@ StackPackList StackPack API
 
 list of stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiStackPackListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackListRequest
 */
 func (a *StackpackApiService) StackPackList(ctx context.Context) ApiStackPackListRequest {
 	return ApiStackPackListRequest{
@@ -640,7 +643,8 @@ func (a *StackpackApiService) StackPackList(ctx context.Context) ApiStackPackLis
 }
 
 // Execute executes the request
-//  @return []FullStackPack
+//
+//	@return []FullStackPack
 func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -795,8 +799,8 @@ StackPackUpload StackPack API
 
 upload a StackPack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiStackPackUploadRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackUploadRequest
 */
 func (a *StackpackApiService) StackPackUpload(ctx context.Context) ApiStackPackUploadRequest {
 	return ApiStackPackUploadRequest{
@@ -806,7 +810,8 @@ func (a *StackpackApiService) StackPackUpload(ctx context.Context) ApiStackPackU
 }
 
 // Execute executes the request
-//  @return StackPack
+//
+//	@return StackPack
 func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -979,9 +984,9 @@ UpgradeStackPack Upgrade API
 
 Upgrade stackpack
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param stackPackName
- @return ApiUpgradeStackPackRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiUpgradeStackPackRequest
 */
 func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackPackName string) ApiUpgradeStackPackRequest {
 	return ApiUpgradeStackPackRequest{
@@ -992,7 +997,8 @@ func (a *StackpackApiService) UpgradeStackPack(ctx context.Context, stackPackNam
 }
 
 // Execute executes the request
-//  @return string
+//
+//	@return string
 func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

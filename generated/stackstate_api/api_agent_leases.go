@@ -62,9 +62,9 @@ AgentCheckLease Check the lease of an agent.
 
 Checks the lease of an agent and might register it if it does not exist yet.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param agentId The identifier of an agent
- @return ApiAgentCheckLeaseRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param agentId The identifier of an agent
+	@return ApiAgentCheckLeaseRequest
 */
 func (a *AgentLeasesApiService) AgentCheckLease(ctx context.Context, agentId string) ApiAgentCheckLeaseRequest {
 	return ApiAgentCheckLeaseRequest{
@@ -75,7 +75,8 @@ func (a *AgentLeasesApiService) AgentCheckLease(ctx context.Context, agentId str
 }
 
 // Execute executes the request
-//  @return AgentRegistration
+//
+//	@return AgentRegistration
 func (a *AgentLeasesApiService) AgentCheckLeaseExecute(r ApiAgentCheckLeaseRequest) (*AgentRegistration, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

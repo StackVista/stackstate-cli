@@ -64,8 +64,8 @@ GetUserAuthorizationFor Is the current user authorized for the provided permissi
 
 Is the current user authorized for the provided permission and resource
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetUserAuthorizationForRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetUserAuthorizationForRequest
 */
 func (a *UserAuthorizationApiService) GetUserAuthorizationFor(ctx context.Context) ApiGetUserAuthorizationForRequest {
 	return ApiGetUserAuthorizationForRequest{

@@ -83,8 +83,8 @@ ImportSettings Import settings
 
 Import setting nodes from STY or STJ definitions.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiImportSettingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiImportSettingsRequest
 */
 func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettingsRequest {
 	return ApiImportSettingsRequest{
@@ -94,7 +94,8 @@ func (a *ImportApiService) ImportSettings(ctx context.Context) ApiImportSettings
 }
 
 // Execute executes the request
-//  @return []map[string]interface{}
+//
+//	@return []map[string]interface{}
 func (a *ImportApiService) ImportSettingsExecute(r ApiImportSettingsRequest) ([]map[string]interface{}, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

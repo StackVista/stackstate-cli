@@ -50,10 +50,8 @@ func (r ApiDummyRequest) Execute() (*http.Response, error) {
 /*
 Dummy Dummy path to fix omission in openapi generation when a type is not included.
 
-
-
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiDummyRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiDummyRequest
 */
 func (a *DummyApiService) Dummy(ctx context.Context) ApiDummyRequest {
 	return ApiDummyRequest{

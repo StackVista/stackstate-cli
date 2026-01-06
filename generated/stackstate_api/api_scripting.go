@@ -59,8 +59,8 @@ ScriptExecute Execute script
 
 Execute a StackState Scripting Language or Template Language script with arbitrary arguments.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiScriptExecuteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiScriptExecuteRequest
 */
 func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecuteRequest {
 	return ApiScriptExecuteRequest{
@@ -70,7 +70,8 @@ func (a *ScriptingApiService) ScriptExecute(ctx context.Context) ApiScriptExecut
 }
 
 // Execute executes the request
-//  @return ExecuteScriptResponse
+//
+//	@return ExecuteScriptResponse
 func (a *ScriptingApiService) ScriptExecuteExecute(r ApiScriptExecuteRequest) (*ExecuteScriptResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

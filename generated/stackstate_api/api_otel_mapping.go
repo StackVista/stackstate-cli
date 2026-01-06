@@ -89,9 +89,9 @@ func (r ApiGetOtelComponentMappingStatusRequest) Execute() (*OtelMappingStatus, 
 /*
 GetOtelComponentMappingStatus Get the status of an otel component mapping synchronization.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param identifier
- @return ApiGetOtelComponentMappingStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param identifier
+	@return ApiGetOtelComponentMappingStatusRequest
 */
 func (a *OtelMappingApiService) GetOtelComponentMappingStatus(ctx context.Context, identifier string) ApiGetOtelComponentMappingStatusRequest {
 	return ApiGetOtelComponentMappingStatusRequest{
@@ -102,7 +102,8 @@ func (a *OtelMappingApiService) GetOtelComponentMappingStatus(ctx context.Contex
 }
 
 // Execute executes the request
-//  @return OtelMappingStatus
+//
+//	@return OtelMappingStatus
 func (a *OtelMappingApiService) GetOtelComponentMappingStatusExecute(r ApiGetOtelComponentMappingStatusRequest) (*OtelMappingStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -250,8 +251,8 @@ func (r ApiGetOtelComponentMappingsRequest) Execute() ([]OtelMappingItem, *http.
 /*
 GetOtelComponentMappings Get all otel component mappings.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetOtelComponentMappingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetOtelComponentMappingsRequest
 */
 func (a *OtelMappingApiService) GetOtelComponentMappings(ctx context.Context) ApiGetOtelComponentMappingsRequest {
 	return ApiGetOtelComponentMappingsRequest{
@@ -261,7 +262,8 @@ func (a *OtelMappingApiService) GetOtelComponentMappings(ctx context.Context) Ap
 }
 
 // Execute executes the request
-//  @return []OtelMappingItem
+//
+//	@return []OtelMappingItem
 func (a *OtelMappingApiService) GetOtelComponentMappingsExecute(r ApiGetOtelComponentMappingsRequest) ([]OtelMappingItem, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -399,9 +401,9 @@ func (r ApiGetOtelRelationMappingStatusRequest) Execute() (*OtelMappingStatus, *
 /*
 GetOtelRelationMappingStatus Get the status of an otel relation mapping synchronization.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param identifier
- @return ApiGetOtelRelationMappingStatusRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param identifier
+	@return ApiGetOtelRelationMappingStatusRequest
 */
 func (a *OtelMappingApiService) GetOtelRelationMappingStatus(ctx context.Context, identifier string) ApiGetOtelRelationMappingStatusRequest {
 	return ApiGetOtelRelationMappingStatusRequest{
@@ -412,7 +414,8 @@ func (a *OtelMappingApiService) GetOtelRelationMappingStatus(ctx context.Context
 }
 
 // Execute executes the request
-//  @return OtelMappingStatus
+//
+//	@return OtelMappingStatus
 func (a *OtelMappingApiService) GetOtelRelationMappingStatusExecute(r ApiGetOtelRelationMappingStatusRequest) (*OtelMappingStatus, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -560,8 +563,8 @@ func (r ApiGetOtelRelationMappingsRequest) Execute() ([]OtelMappingItem, *http.R
 /*
 GetOtelRelationMappings Get all otel relation mappings.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetOtelRelationMappingsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetOtelRelationMappingsRequest
 */
 func (a *OtelMappingApiService) GetOtelRelationMappings(ctx context.Context) ApiGetOtelRelationMappingsRequest {
 	return ApiGetOtelRelationMappingsRequest{
@@ -571,7 +574,8 @@ func (a *OtelMappingApiService) GetOtelRelationMappings(ctx context.Context) Api
 }
 
 // Execute executes the request
-//  @return []OtelMappingItem
+//
+//	@return []OtelMappingItem
 func (a *OtelMappingApiService) GetOtelRelationMappingsExecute(r ApiGetOtelRelationMappingsRequest) ([]OtelMappingItem, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

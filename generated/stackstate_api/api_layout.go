@@ -53,8 +53,8 @@ GetAllLayouts List layout hints
 
 List all available layout hints in the system
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetAllLayoutsRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetAllLayoutsRequest
 */
 func (a *LayoutApiService) GetAllLayouts(ctx context.Context) ApiGetAllLayoutsRequest {
 	return ApiGetAllLayoutsRequest{
@@ -64,7 +64,8 @@ func (a *LayoutApiService) GetAllLayouts(ctx context.Context) ApiGetAllLayoutsRe
 }
 
 // Execute executes the request
-//  @return LayoutList
+//
+//	@return LayoutList
 func (a *LayoutApiService) GetAllLayoutsExecute(r ApiGetAllLayoutsRequest) (*LayoutList, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet

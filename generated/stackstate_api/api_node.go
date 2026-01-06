@@ -141,10 +141,10 @@ Clone Clone a node with a new name
 
 Clone a node with a new name
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeIdOrUrn
- @return ApiCloneRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeIdOrUrn
+	@return ApiCloneRequest
 */
 func (a *NodeApiService) Clone(ctx context.Context, nodeType string, nodeIdOrUrn string) ApiCloneRequest {
 	return ApiCloneRequest{
@@ -156,7 +156,8 @@ func (a *NodeApiService) Clone(ctx context.Context, nodeType string, nodeIdOrUrn
 }
 
 // Execute executes the request
-//  @return Node
+//
+//	@return Node
 func (a *NodeApiService) CloneExecute(r ApiCloneRequest) (*Node, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -310,10 +311,10 @@ Delete Node deletion API
 
 Delete a locked node
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeId
- @return ApiDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeId
+	@return ApiDeleteRequest
 */
 func (a *NodeApiService) Delete(ctx context.Context, nodeType string, nodeId int64) ApiDeleteRequest {
 	return ApiDeleteRequest{
@@ -470,10 +471,10 @@ Lock Retrieve if a node is locked
 
 Retrieve if a node is locked
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeId
- @return ApiLockRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeId
+	@return ApiLockRequest
 */
 func (a *NodeApiService) Lock(ctx context.Context, nodeType string, nodeId int64) ApiLockRequest {
 	return ApiLockRequest{
@@ -485,7 +486,8 @@ func (a *NodeApiService) Lock(ctx context.Context, nodeType string, nodeId int64
 }
 
 // Execute executes the request
-//  @return LockedResponse
+//
+//	@return LockedResponse
 func (a *NodeApiService) LockExecute(r ApiLockRequest) (*LockedResponse, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -626,8 +628,8 @@ NodeListTypes Node API
 
 list all node types
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiNodeListTypesRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiNodeListTypesRequest
 */
 func (a *NodeApiService) NodeListTypes(ctx context.Context) ApiNodeListTypesRequest {
 	return ApiNodeListTypesRequest{
@@ -637,7 +639,8 @@ func (a *NodeApiService) NodeListTypes(ctx context.Context) ApiNodeListTypesRequ
 }
 
 // Execute executes the request
-//  @return NodeTypes
+//
+//	@return NodeTypes
 func (a *NodeApiService) NodeListTypesExecute(r ApiNodeListTypesRequest) (*NodeTypes, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -789,9 +792,9 @@ TypeList Node type API
 
 list all nodes of that type
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @return ApiTypeListRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@return ApiTypeListRequest
 */
 func (a *NodeApiService) TypeList(ctx context.Context, nodeType string) ApiTypeListRequest {
 	return ApiTypeListRequest{
@@ -802,7 +805,8 @@ func (a *NodeApiService) TypeList(ctx context.Context, nodeType string) ApiTypeL
 }
 
 // Execute executes the request
-//  @return []Node
+//
+//	@return []Node
 func (a *NodeApiService) TypeListExecute(r ApiTypeListRequest) ([]Node, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -950,10 +954,10 @@ Unlock Node unlock API
 
 Unlock a locked node
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @param nodeType
- @param nodeId
- @return ApiUnlockRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param nodeType
+	@param nodeId
+	@return ApiUnlockRequest
 */
 func (a *NodeApiService) Unlock(ctx context.Context, nodeType string, nodeId int64) ApiUnlockRequest {
 	return ApiUnlockRequest{
@@ -965,7 +969,8 @@ func (a *NodeApiService) Unlock(ctx context.Context, nodeType string, nodeId int
 }
 
 // Execute executes the request
-//  @return Node
+//
+//	@return Node
 func (a *NodeApiService) UnlockExecute(r ApiUnlockRequest) (*Node, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

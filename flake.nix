@@ -4,7 +4,7 @@
   nixConfig.bash-prompt = "STS CLI 2 $ ";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    nixpkgs.url = "github:nixos/nixpkgs";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -14,14 +14,22 @@
         pkgs = import nixpkgs { inherit system; overlays = [ ]; };
         pkgs-linux = import nixpkgs { system = "x86_64-linux"; overlays = [ ]; };
 
+        # Pin ONLY openapi-generator-cli to the old nixpkgs commit
+        openapiPinnedPkgs = import (builtins.fetchTarball {
+          url = "https://github.com/NixOS/nixpkgs/archive/4baef62b8eef25c97ac3e00804dce6920b2b850e.tar.gz";
+          sha256 = "sha256-uIcstZ0D5lEi6pDYupfsKLRLgC6ZmwdxsWzCE3li+IQ=";
+        }) {
+          inherit system;
+        };
+
         # Dependencies used for both development and CI/CD
         sharedDeps = pkgs: (with pkgs; [
           bash
-          go_1_22
+          go_1_24
           gotools
           diffutils # Required for golangci-lint
           golangci-lint
-          openapi-generator-cli
+          openapiPinnedPkgs.openapi-generator-cli
         ]);
 
         # Dependencies used only by CI/CD
@@ -54,16 +62,16 @@
         devShell = self.devShells."${system}".dev;
 
         packages = {
-          sts = pkgs.buildGo122Module {
+          sts = pkgs.buildGo124Module {
             pname = "sts";
             version = "2.0.0";
 
             src = ./.;
 
-            vendorHash = "sha256-2WKvk8eD5nhq1QEgKsZZrRs8yHv1YkbVjoTzrTqvmb4=";
+            vendorHash = "sha256-aXTDHT1N+4Qpkuxb8vvBvP2VPyS5ofCgX6XFhJ5smUQ=";
 
             postInstall = ''
-              mv $out/bin/stackstate-cli $out/bin/sts
+              mv $out/bin/stackstate-cli2 $out/bin/sts
             '';
           };
 
