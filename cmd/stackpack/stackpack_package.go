@@ -76,16 +76,16 @@ func StackpackPackageCommand(cli *di.Deps) *cobra.Command {
 	args := &PackageArgs{}
 	cmd := &cobra.Command{
 		Use:   "package",
-		Short: "Package a stackpack into a zip file",
-		Long: `Package a stackpack into a zip file.
+		Short: "Package a stackpack into an .sts file",
+		Long: `Package a stackpack into an .sts file.
 
-Creates a zip file containing all required stackpack files and directories:
+Creates an .sts file containing all required stackpack files and directories:
 - provisioning/ (directory)
 - README.md (file)
 - resources/ (directory)
 - stackpack.yaml (file)
 
-The zip file is named <stackpack_name>-<version>.zip where the name and
+The .sts file is named <stackpack_name>-<version>.sts where the name and
 version are extracted from stackpack.yaml and created in the current directory.`,
 		Example: `# Package stackpack in current directory
 sts stackpack package
@@ -94,16 +94,16 @@ sts stackpack package
 sts stackpack package -d ./my-stackpack
 
 # Package with custom archive filename
-sts stackpack package -f my-custom-archive.zip
+sts stackpack package -f my-custom-archive.sts
 
-# Force overwrite existing zip file
+# Force overwrite existing .sts file
 sts stackpack package --force`,
 		RunE: cli.CmdRunE(RunStackpackPackageCommand(args)),
 	}
 
 	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory (defaults to current directory)")
-	cmd.Flags().StringVarP(&args.ArchiveFile, "archive-file", "f", "", "Path to the zip file to create (defaults to <stackpack_name>-<version>.zip in current directory)")
-	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing zip file without prompting")
+	cmd.Flags().StringVarP(&args.ArchiveFile, "archive-file", "f", "", "Path to the .sts file to create (defaults to <stackpack_name>-<version>.sts in current directory)")
+	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing .sts file without prompting")
 
 	return cmd
 }
@@ -140,7 +140,7 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 			if err != nil {
 				return common.NewRuntimeError(fmt.Errorf("failed to get current working directory: %w", err))
 			}
-			zipFileName := fmt.Sprintf("%s-%s.zip", stackpackInfo.Name, stackpackInfo.Version)
+			zipFileName := fmt.Sprintf("%s-%s.sts", stackpackInfo.Name, stackpackInfo.Version)
 			args.ArchiveFile = filepath.Join(currentDir, zipFileName)
 		} else {
 			// Convert to absolute path
@@ -156,9 +156,9 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 			return common.NewCLIArgParseError(err)
 		}
 
-		// Check if zip file exists and handle force flag
+		// Check if .sts file exists and handle force flag
 		if _, err := os.Stat(args.ArchiveFile); err == nil && !args.Force {
-			return common.NewRuntimeError(fmt.Errorf("zip file already exists: %s (use --force to overwrite)", args.ArchiveFile))
+			return common.NewRuntimeError(fmt.Errorf(".sts file already exists: %s (use --force to overwrite)", args.ArchiveFile))
 		}
 
 		// Create output directory if it doesn't exist
@@ -167,9 +167,9 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 			return common.NewRuntimeError(fmt.Errorf("failed to create output directory: %w", err))
 		}
 
-		// Create zip file
+		// Create .sts file
 		if err := createStackpackZip(args.StackpackDir, args.ArchiveFile); err != nil {
-			return common.NewRuntimeError(fmt.Errorf("failed to create zip file: %w", err))
+			return common.NewRuntimeError(fmt.Errorf("failed to create .sts file: %w", err))
 		}
 
 		if cli.IsJson() {
@@ -184,7 +184,7 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 			cli.Printer.Successf("Stackpack packaged successfully!")
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn(fmt.Sprintf("Stackpack: %s (v%s)", stackpackInfo.Name, stackpackInfo.Version))
-			cli.Printer.PrintLn(fmt.Sprintf("Zip file: %s", args.ArchiveFile))
+			cli.Printer.PrintLn(fmt.Sprintf(".sts file: %s", args.ArchiveFile))
 		}
 
 		return nil
@@ -207,7 +207,7 @@ func validateStackpackDirectory(dir string) error {
 func createStackpackZip(sourceDir, zipPath string) error {
 	zipFile, err := os.Create(zipPath)
 	if err != nil {
-		return fmt.Errorf("failed to create zip file: %w", err)
+		return fmt.Errorf("failed to create .sts file: %w", err)
 	}
 	defer zipFile.Close()
 
