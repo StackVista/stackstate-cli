@@ -72,7 +72,7 @@ func TestStackpackPackageCommand_DefaultBehavior(t *testing.T) {
 	require.NoError(t, err)
 
 	// Verify zip file was created in current directory
-	expectedZipPath := filepath.Join(tempDir, "test-stackpack-1.0.0.zip")
+	expectedZipPath := filepath.Join(tempDir, "test-stackpack-1.0.0.sts")
 	_, err = os.Stat(expectedZipPath)
 	assert.NoError(t, err, "Zip file should be created")
 
@@ -97,7 +97,7 @@ func TestStackpackPackageCommand_CustomArchiveFile(t *testing.T) {
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 	createTestStackpack(t, stackpackDir, "my-stackpack", "2.1.0")
 
-	customZipPath := filepath.Join(tempDir, "custom-name.zip")
+	customZipPath := filepath.Join(tempDir, "custom-name.sts")
 	cli, cmd := setupStackPackPackageCmd(t)
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "-d", stackpackDir, "-f", customZipPath)
@@ -122,7 +122,7 @@ func TestStackpackPackageCommand_ForceFlag(t *testing.T) {
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 	createTestStackpack(t, stackpackDir, "test-stackpack", "1.0.0")
 
-	zipPath := filepath.Join(tempDir, "test-stackpack-1.0.0.zip")
+	zipPath := filepath.Join(tempDir, "test-stackpack-1.0.0.sts")
 
 	// Create existing zip file
 	require.NoError(t, os.WriteFile(zipPath, []byte("existing content"), 0644))
@@ -132,7 +132,7 @@ func TestStackpackPackageCommand_ForceFlag(t *testing.T) {
 	// Test without force flag - should fail
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "-d", stackpackDir, "-f", zipPath)
 	require.Error(t, err)
-	assert.Contains(t, err.Error(), "zip file already exists")
+	assert.Contains(t, err.Error(), ".sts file already exists")
 	assert.Contains(t, err.Error(), "--force")
 
 	// Test with force flag - should succeed
@@ -178,7 +178,7 @@ func TestStackpackPackageCommand_JSONOutput(t *testing.T) {
 	assert.Equal(t, true, jsonOutput["success"])
 	assert.Equal(t, "json-test", jsonOutput["stackpack_name"])
 	assert.Equal(t, "3.0.0", jsonOutput["stackpack_version"])
-	assert.Contains(t, jsonOutput["zip_file"], "json-test-3.0.0.zip")
+	assert.Contains(t, jsonOutput["zip_file"], "json-test-3.0.0.sts")
 	assert.Contains(t, jsonOutput["source_dir"], stackpackDir)
 
 	// Verify no text output for JSON mode
@@ -329,7 +329,7 @@ func TestStackpackPackageCommand_CreateOutputDirectory(t *testing.T) {
 
 	// Create nested output directory path that doesn't exist
 	outputDir := filepath.Join(tempDir, "output", "nested", "path")
-	zipPath := filepath.Join(outputDir, "custom.zip")
+	zipPath := filepath.Join(outputDir, "custom.sts")
 
 	cli, cmd := setupStackPackPackageCmd(t)
 

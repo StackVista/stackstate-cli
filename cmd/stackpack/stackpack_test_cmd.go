@@ -43,8 +43,8 @@ This command will:
 1. Read the stackpack name and version from ` + stackpackConfigFile + `
 2. Create a temporary copy of the stackpack directory
 3. Update the version in the temporary copy with -cli-test.N suffix
-4. Package the stackpack from the temporary copy into a zip file
-5. Upload the zip file to the server (with confirmation)
+4. Package the stackpack from the temporary copy into an .sts file 
+5. Upload the .sts file to the server (with confirmation)
 6. Install the stackpack (if not installed) or upgrade it (if already installed)
 
 The original stackpack directory is left untouched. The version is automatically incremented for each test run.
@@ -183,7 +183,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 
 		// Set archive file in current directory
 		currentDir, _ := os.Getwd()
-		packageArgs.ArchiveFile = filepath.Join(currentDir, fmt.Sprintf("%s-%s.zip", originalInfo.Name, newVersion))
+		packageArgs.ArchiveFile = filepath.Join(currentDir, fmt.Sprintf("%s-%s.sts", originalInfo.Name, newVersion))
 
 		if err := runPackageStep(cli, packageArgs); err != nil {
 			return err
@@ -241,9 +241,9 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		cli.Printer.PrintLn("")
 		cli.Printer.Success("🎉 Test sequence completed successfully!")
 
-		// Clean up zip file
+		// Clean up .sts file
 		if err := os.Remove(packageArgs.ArchiveFile); err != nil {
-			cli.Printer.PrintLn(fmt.Sprintf("Note: Could not clean up zip file %s: %v", packageArgs.ArchiveFile, err))
+			cli.Printer.PrintLn(fmt.Sprintf("Note: Could not clean up .sts file %s: %v", packageArgs.ArchiveFile, err))
 		}
 
 		return nil
