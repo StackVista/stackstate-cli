@@ -17,7 +17,6 @@ import (
 
 // ComponentHealthHistory struct for ComponentHealthHistory
 type ComponentHealthHistory struct {
-	Id        int64 `json:"id"`
 	StartTime int32 `json:"startTime"`
 	EndTime   int32 `json:"endTime"`
 	// List of health state changes ordered from most recent to oldest.
@@ -28,9 +27,8 @@ type ComponentHealthHistory struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewComponentHealthHistory(id int64, startTime int32, endTime int32, healthStateChanges []ComponentHealthChange) *ComponentHealthHistory {
+func NewComponentHealthHistory(startTime int32, endTime int32, healthStateChanges []ComponentHealthChange) *ComponentHealthHistory {
 	this := ComponentHealthHistory{}
-	this.Id = id
 	this.StartTime = startTime
 	this.EndTime = endTime
 	this.HealthStateChanges = healthStateChanges
@@ -43,30 +41,6 @@ func NewComponentHealthHistory(id int64, startTime int32, endTime int32, healthS
 func NewComponentHealthHistoryWithDefaults() *ComponentHealthHistory {
 	this := ComponentHealthHistory{}
 	return &this
-}
-
-// GetId returns the Id field value
-func (o *ComponentHealthHistory) GetId() int64 {
-	if o == nil {
-		var ret int64
-		return ret
-	}
-
-	return o.Id
-}
-
-// GetIdOk returns a tuple with the Id field value
-// and a boolean to check if the value has been set.
-func (o *ComponentHealthHistory) GetIdOk() (*int64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Id, true
-}
-
-// SetId sets field value
-func (o *ComponentHealthHistory) SetId(v int64) {
-	o.Id = v
 }
 
 // GetStartTime returns the StartTime field value
@@ -143,9 +117,6 @@ func (o *ComponentHealthHistory) SetHealthStateChanges(v []ComponentHealthChange
 
 func (o ComponentHealthHistory) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["id"] = o.Id
-	}
 	if true {
 		toSerialize["startTime"] = o.StartTime
 	}

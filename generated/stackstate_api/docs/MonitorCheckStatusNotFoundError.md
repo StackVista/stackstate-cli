@@ -4,14 +4,14 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int64** |  | 
+**Identifier** | **string** |  | 
 **Type** | **string** |  | 
 
 ## Methods
 
 ### NewMonitorCheckStatusNotFoundError
 
-`func NewMonitorCheckStatusNotFoundError(id int64, type_ string, ) *MonitorCheckStatusNotFoundError`
+`func NewMonitorCheckStatusNotFoundError(identifier string, type_ string, ) *MonitorCheckStatusNotFoundError`
 
 NewMonitorCheckStatusNotFoundError instantiates a new MonitorCheckStatusNotFoundError object
 This constructor will assign default values to properties that have it defined,
@@ -26,24 +26,24 @@ NewMonitorCheckStatusNotFoundErrorWithDefaults instantiates a new MonitorCheckSt
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetIdentifier
 
-`func (o *MonitorCheckStatusNotFoundError) GetId() int64`
+`func (o *MonitorCheckStatusNotFoundError) GetIdentifier() string`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetIdentifierOk
 
-`func (o *MonitorCheckStatusNotFoundError) GetIdOk() (*int64, bool)`
+`func (o *MonitorCheckStatusNotFoundError) GetIdentifierOk() (*string, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetIdentifier
 
-`func (o *MonitorCheckStatusNotFoundError) SetId(v int64)`
+`func (o *MonitorCheckStatusNotFoundError) SetIdentifier(v string)`
 
-SetId sets Id field to given value.
+SetIdentifier sets Identifier field to given value.
 
 
 ### GetType

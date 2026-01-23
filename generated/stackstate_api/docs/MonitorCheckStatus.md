@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Id** | **int64** |  | 
-**CheckStateId** | **string** |  | 
+**Identifier** | **string** |  | 
 **Message** | **string** |  | 
 **Reason** | Pointer to **string** |  | [optional] 
 **Health** | [**HealthStateValue**](HealthStateValue.md) |  | 
@@ -17,12 +17,13 @@ Name | Type | Description | Notes
 **MonitorDescription** | Pointer to **string** |  | [optional] 
 **TroubleshootingSteps** | Pointer to **string** |  | [optional] 
 **TopologyTime** | **int32** |  | 
+**Dummy** | **bool** |  | 
 
 ## Methods
 
 ### NewMonitorCheckStatus
 
-`func NewMonitorCheckStatus(id int64, checkStateId string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId MonitorReferenceId, monitorName string, topologyTime int32, ) *MonitorCheckStatus`
+`func NewMonitorCheckStatus(id int64, identifier string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId MonitorReferenceId, monitorName string, topologyTime int32, dummy bool, ) *MonitorCheckStatus`
 
 NewMonitorCheckStatus instantiates a new MonitorCheckStatus object
 This constructor will assign default values to properties that have it defined,
@@ -57,24 +58,24 @@ and a boolean to check if the value has been set.
 SetId sets Id field to given value.
 
 
-### GetCheckStateId
+### GetIdentifier
 
-`func (o *MonitorCheckStatus) GetCheckStateId() string`
+`func (o *MonitorCheckStatus) GetIdentifier() string`
 
-GetCheckStateId returns the CheckStateId field if non-nil, zero value otherwise.
+GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
 
-### GetCheckStateIdOk
+### GetIdentifierOk
 
-`func (o *MonitorCheckStatus) GetCheckStateIdOk() (*string, bool)`
+`func (o *MonitorCheckStatus) GetIdentifierOk() (*string, bool)`
 
-GetCheckStateIdOk returns a tuple with the CheckStateId field if it's non-nil, zero value otherwise
+GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCheckStateId
+### SetIdentifier
 
-`func (o *MonitorCheckStatus) SetCheckStateId(v string)`
+`func (o *MonitorCheckStatus) SetIdentifier(v string)`
 
-SetCheckStateId sets CheckStateId field to given value.
+SetIdentifier sets Identifier field to given value.
 
 
 ### GetMessage
@@ -310,6 +311,26 @@ and a boolean to check if the value has been set.
 `func (o *MonitorCheckStatus) SetTopologyTime(v int32)`
 
 SetTopologyTime sets TopologyTime field to given value.
+
+
+### GetDummy
+
+`func (o *MonitorCheckStatus) GetDummy() bool`
+
+GetDummy returns the Dummy field if non-nil, zero value otherwise.
+
+### GetDummyOk
+
+`func (o *MonitorCheckStatus) GetDummyOk() (*bool, bool)`
+
+GetDummyOk returns a tuple with the Dummy field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetDummy
+
+`func (o *MonitorCheckStatus) SetDummy(v bool)`
+
+SetDummy sets Dummy field to given value.
 
 
 

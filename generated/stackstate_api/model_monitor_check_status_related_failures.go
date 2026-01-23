@@ -17,7 +17,7 @@ import (
 
 // MonitorCheckStatusRelatedFailures struct for MonitorCheckStatusRelatedFailures
 type MonitorCheckStatusRelatedFailures struct {
-	CheckStatusId int64                                          `json:"checkStatusId"`
+	Identifier    string                                         `json:"identifier"`
 	TopologyTime  int32                                          `json:"topologyTime"`
 	CheckStatuses []MonitorCheckStatusRelatedFailuresCheckStatus `json:"checkStatuses"`
 }
@@ -26,9 +26,9 @@ type MonitorCheckStatusRelatedFailures struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCheckStatusRelatedFailures(checkStatusId int64, topologyTime int32, checkStatuses []MonitorCheckStatusRelatedFailuresCheckStatus) *MonitorCheckStatusRelatedFailures {
+func NewMonitorCheckStatusRelatedFailures(identifier string, topologyTime int32, checkStatuses []MonitorCheckStatusRelatedFailuresCheckStatus) *MonitorCheckStatusRelatedFailures {
 	this := MonitorCheckStatusRelatedFailures{}
-	this.CheckStatusId = checkStatusId
+	this.Identifier = identifier
 	this.TopologyTime = topologyTime
 	this.CheckStatuses = checkStatuses
 	return &this
@@ -42,28 +42,28 @@ func NewMonitorCheckStatusRelatedFailuresWithDefaults() *MonitorCheckStatusRelat
 	return &this
 }
 
-// GetCheckStatusId returns the CheckStatusId field value
-func (o *MonitorCheckStatusRelatedFailures) GetCheckStatusId() int64 {
+// GetIdentifier returns the Identifier field value
+func (o *MonitorCheckStatusRelatedFailures) GetIdentifier() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 
-	return o.CheckStatusId
+	return o.Identifier
 }
 
-// GetCheckStatusIdOk returns a tuple with the CheckStatusId field value
+// GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusRelatedFailures) GetCheckStatusIdOk() (*int64, bool) {
+func (o *MonitorCheckStatusRelatedFailures) GetIdentifierOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CheckStatusId, true
+	return &o.Identifier, true
 }
 
-// SetCheckStatusId sets field value
-func (o *MonitorCheckStatusRelatedFailures) SetCheckStatusId(v int64) {
-	o.CheckStatusId = v
+// SetIdentifier sets field value
+func (o *MonitorCheckStatusRelatedFailures) SetIdentifier(v string) {
+	o.Identifier = v
 }
 
 // GetTopologyTime returns the TopologyTime field value
@@ -117,7 +117,7 @@ func (o *MonitorCheckStatusRelatedFailures) SetCheckStatuses(v []MonitorCheckSta
 func (o MonitorCheckStatusRelatedFailures) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["checkStatusId"] = o.CheckStatusId
+		toSerialize["identifier"] = o.Identifier
 	}
 	if true {
 		toSerialize["topologyTime"] = o.TopologyTime

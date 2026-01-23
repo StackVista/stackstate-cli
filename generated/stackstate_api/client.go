@@ -58,6 +58,8 @@ type APIClient struct {
 
 	ComponentApi ComponentApi
 
+	ComponentPresentationApi ComponentPresentationApi
+
 	DashboardsApi DashboardsApi
 
 	DummyApi DummyApi
@@ -141,6 +143,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.AgentRegistrationsApi = (*AgentRegistrationsApiService)(&c.common)
 	c.ApiTokenApi = (*ApiTokenApiService)(&c.common)
 	c.ComponentApi = (*ComponentApiService)(&c.common)
+	c.ComponentPresentationApi = (*ComponentPresentationApiService)(&c.common)
 	c.DashboardsApi = (*DashboardsApiService)(&c.common)
 	c.DummyApi = (*DummyApiService)(&c.common)
 	c.EventApi = (*EventApiService)(&c.common)

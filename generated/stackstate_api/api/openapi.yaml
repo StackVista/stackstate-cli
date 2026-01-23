@@ -1056,18 +1056,17 @@ paths:
       summary: List monitors overview
       tags:
       - monitor
-  /monitor/checkStatus/{id}:
+  /monitor/checkStatus/{identifier}:
     get:
       description: Get a monitor check status by check state id
       operationId: getMonitorCheckStatus
       parameters:
       - description: The id of a monitor check status
         in: path
-        name: id
+        name: identifier
         required: true
         schema:
-          format: int64
-          type: integer
+          type: string
       - description: A timestamp at which resources will be queried. If not given
           the resources are queried at current time.
         in: query
@@ -1104,7 +1103,7 @@ paths:
       summary: Get a monitor check status
       tags:
       - monitorCheckStatus
-  /monitor/checkStatus/{id}/relatedFailures:
+  /monitor/checkStatus/{identifier}/relatedFailures:
     get:
       description: Get a monitor check status related failures by the check state
         id
@@ -1112,11 +1111,10 @@ paths:
       parameters:
       - description: The id of a monitor check status
         in: path
-        name: id
+        name: identifier
         required: true
         schema:
-          format: int64
-          type: integer
+          type: string
       - description: A timestamp at which resources will be queried. If not given
           the resources are queried at current time.
         in: query
@@ -1153,7 +1151,7 @@ paths:
       summary: Get a monitor check related failures
       tags:
       - monitorCheckStatus
-  /monitor/checkStatus/{id}/healthHistory:
+  /monitor/checkStatus/{identifier}/healthHistory:
     get:
       description: Get a monitor check status health history for a defined period
         of time by the check state id
@@ -1161,11 +1159,10 @@ paths:
       parameters:
       - description: The id of a monitor check status
         in: path
-        name: id
+        name: identifier
         required: true
         schema:
-          format: int64
-          type: integer
+          type: string
       - description: The start time of a time range to query resources.
         in: query
         name: startTime
@@ -1177,14 +1174,6 @@ paths:
           the endTime is set to current time.
         in: query
         name: endTime
-        required: false
-        schema:
-          format: instant
-          type: integer
-      - description: A timestamp at which resources will be queried. If not given
-          the resources are queried at current time.
-        in: query
-        name: topologyTime
         required: false
         schema:
           format: instant
@@ -1353,14 +1342,20 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/ChannelId'
+      - description: Slack list cursor
+        in: query
+        name: cursor
+        required: false
+        schema:
+          type: string
       responses:
         "200":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SlackChannels'
-          description: Array of all available Slack channels to which StackState can
-            send messages.
+                $ref: '#/components/schemas/SlackChannelsChunk'
+          description: Chunk of available Slack channels to which StackState can send
+            messages.
         "400":
           content:
             application/json:
@@ -1380,6 +1375,52 @@ paths:
                 $ref: '#/components/schemas/NotificationChannelError'
           description: Error while executing the request.
       summary: List all public Slack channels
+      tags:
+      - notification_channels
+  /notifications/channels/slack/{channelId}/slackChannelDetails/{slackChannelId}:
+    get:
+      description: "Get Slack channel details, used for validating a channel for the\
+        \ notifications"
+      operationId: slackChannelDetails
+      parameters:
+      - description: Channel identifier
+        in: path
+        name: channelId
+        required: true
+        schema:
+          $ref: '#/components/schemas/ChannelId'
+      - description: Slack Channel identifier
+        in: path
+        name: slackChannelId
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SlackChannel'
+          description: Details of a Slack channel to which StackState can send messages.
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelNotFound'
+          description: Notification channel was not found in the database
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotificationChannelError'
+          description: Error while executing the request.
+      summary: Get Slack channel details
       tags:
       - notification_channels
   /notifications/channels/slack/{channelId}/joinSlackChannel:
@@ -3671,6 +3712,10 @@ paths:
         name: permission
         schema:
           $ref: '#/components/schemas/Permission'
+      - in: query
+        name: source
+        schema:
+          $ref: '#/components/schemas/SubjectSource'
       responses:
         "200":
           content:
@@ -5425,7 +5470,7 @@ paths:
   /components/{componentIdOrUrn}/healthHistory:
     get:
       description: Get a component health history for a defined period of time by
-        id
+        id or identifier
       operationId: getComponentHealthHistory
       parameters:
       - description: The id or identifier (urn) of a component
@@ -5449,10 +5494,45 @@ paths:
         schema:
           format: instant
           type: integer
-      - description: A timestamp at which resources will be queried. If not given
-          the resources are queried at current time.
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentHealthHistory'
+          description: Component health history
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a component health history
+      tags:
+      - component
+  /components/{componentIdOrUrn}/checkStates:
+    get:
+      description: Get a component checkstates for a defined period of time by id
+        or identifier
+      operationId: getComponentCheckStates
+      parameters:
+      - description: The id or identifier (urn) of a component
+        in: path
+        name: componentIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: The start time of a time range to query resources.
         in: query
-        name: topologyTime
+        name: startTime
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources. If not given
+          the endTime is set to current time.
+        in: query
+        name: endTime
         required: false
         schema:
           format: instant
@@ -5462,21 +5542,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ComponentHealthHistory'
-          description: Component health history
-        "400":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ComponentNotFoundError'
-          description: Component not found error
+                $ref: '#/components/schemas/ComponentCheckStates'
+          description: Checkstate Histories
         "500":
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
-      summary: Get a component health history
+      summary: Get a component checkstates
       tags:
       - component
   /agents/{agentId}/checkLease:
@@ -5848,6 +5922,10 @@ paths:
                   $ref: '#/components/schemas/OtelMappingItem'
                 type: array
           description: A list of all Otel Component Mappings
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
         "500":
           content:
             application/json:
@@ -5857,6 +5935,107 @@ paths:
       summary: Get all otel component mappings.
       tags:
       - otelMapping
+    put:
+      operationId: upsertOtelComponentMappings
+      requestBody:
+        $ref: '#/components/requestBodies/OtelComponentMappingUpsertRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingItem'
+          description: Otel Component Mapping upserted successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Upserts (creates/updates) an OTel Component Mappings.
+      tags:
+      - otelMapping
+  /otel-component-mappings/{identifier}:
+    delete:
+      operationId: deleteOtelComponentMapping
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Otel Component Mapping deleted successfully
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Otel mapping with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Deletes an OTel Component Mapping.
+      tags:
+      - otelMapping
+    get:
+      operationId: getOtelComponentMapping
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelComponentMapping'
+          description: Otel Component Mapping specification
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Otel mapping with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Get an OTel Component Mapping.
+      tags:
+      - otelMapping
+    parameters:
+    - in: path
+      name: identifier
+      required: true
+      schema:
+        type: string
   /otel-component-mappings/{identifier}/status:
     get:
       operationId: getOtelComponentMappingStatus
@@ -5873,6 +6052,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/OtelMappingStatus'
           description: Otel Component Mappping Status data
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
         "404":
           content:
             application/json:
@@ -5906,6 +6089,10 @@ paths:
                   $ref: '#/components/schemas/OtelMappingItem'
                 type: array
           description: A list of all Otel Relation Mappings
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
         "500":
           content:
             application/json:
@@ -5915,6 +6102,107 @@ paths:
       summary: Get all otel relation mappings.
       tags:
       - otelMapping
+    put:
+      operationId: upsertOtelRelationMappings
+      requestBody:
+        $ref: '#/components/requestBodies/OtelRelationmappingUpsertRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingItem'
+          description: Otel Relation Mapping created successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Upserts (creates/updates) an OTel Relation Mappings.
+      tags:
+      - otelMapping
+  /otel-relation-mappings/{identifier}:
+    delete:
+      operationId: deleteOtelRelationMapping
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Otel Relation Mapping deleted successfully
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Otel mapping with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Deletes an OTel Relation Mapping.
+      tags:
+      - otelMapping
+    get:
+      operationId: getOtelRelationMapping
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelRelationMapping'
+          description: Otel Component Relation specification
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Otel mapping with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OtelMappingApiError'
+          description: Error when handling the request on the server side.
+      summary: Get an OTel Relation Mapping.
+      tags:
+      - otelMapping
+    parameters:
+    - in: path
+      name: identifier
+      required: true
+      schema:
+        type: string
   /otel-relation-mappings/{identifier}/status:
     get:
       operationId: getOtelRelationMappingStatus
@@ -5931,6 +6219,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/OtelMappingStatus'
           description: Otel Relation Mapping Status data
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
         "404":
           content:
             application/json:
@@ -5946,6 +6238,136 @@ paths:
       summary: Get the status of an otel relation mapping synchronization.
       tags:
       - otelMapping
+    parameters:
+    - in: path
+      name: identifier
+      required: true
+      schema:
+        type: string
+  /component-presentations:
+    get:
+      operationId: getComponentPresentations
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/ComponentPresentation'
+                type: array
+          description: A list of all Component Presentations
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+      summary: List all component presentations
+      tags:
+      - componentPresentation
+    put:
+      operationId: upsertComponentPresentations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ComponentPresentation'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentation'
+          description: Component presentation upserted successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+      summary: Upserts (creates/updates) a component presentation
+      tags:
+      - componentPresentation
+  /component-presentations/{identifier}:
+    delete:
+      operationId: deleteComponentPresentationByIdentifier
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Component presentation deleted successfully
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Component Presentation with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+      summary: Delete a component presentation by Identifier
+      tags:
+      - componentPresentation
+    get:
+      operationId: getComponentPresentationByIdentifier
+      parameters:
+      - in: path
+        name: identifier
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentation'
+          description: Component presentation retrieved successfully
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Component Presentation with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+      summary: Get a component presentation by Identifier
+      tags:
+      - componentPresentation
     parameters:
     - in: path
       name: identifier
@@ -6111,6 +6533,20 @@ components:
           schema:
             $ref: '#/components/schemas/DashboardCloneSchema'
       required: true
+    OtelComponentMappingUpsertRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/upsertOtelComponentMappings_request'
+      description: Otel Component Mapping to create/update
+      required: true
+    OtelRelationmappingUpsertRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/upsertOtelRelationMappings_request'
+      description: Otel Relation Mapping to create/update
+      required: true
   responses:
     genericErrorsResponse:
       content:
@@ -6245,13 +6681,19 @@ components:
           schema:
             $ref: '#/components/schemas/NotificationChannelNotFound'
       description: Notification channel was not found in the database
-    slackChannels:
+    slackChannelsChunk:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SlackChannels'
-      description: Array of all available Slack channels to which StackState can send
+            $ref: '#/components/schemas/SlackChannelsChunk'
+      description: Chunk of available Slack channels to which StackState can send
         messages.
+    slackChannelDetails:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SlackChannel'
+      description: Details of a Slack channel to which StackState can send messages.
     webhookNotificationChannel:
       content:
         application/json:
@@ -6670,12 +7112,12 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentHealthHistory'
       description: Component health history
-    componentNotFoundError:
+    componentCheckStates:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ComponentNotFoundError'
-      description: Component not found error
+            $ref: '#/components/schemas/ComponentCheckStates'
+      description: Checkstate Histories
     timelineSummaryResponse:
       content:
         application/json:
@@ -6742,6 +7184,18 @@ components:
           schema:
             $ref: '#/components/schemas/OtelMappingApiError'
       description: Otel mapping with given identifier not found
+    ComponentPresentationErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentPresentationApiError'
+      description: Error when handling the request on the server side.
+    ComponentPresentationNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ComponentPresentationApiError'
+      description: Component Presentation with given identifier not found
     stackElementNotFound:
       content:
         application/json:
@@ -8311,12 +8765,13 @@ components:
     MonitorCheckStatus:
       example:
         topologyTime: 5
+        identifier: identifier
         reason: reason
         monitorId: null
         monitorName: monitorName
         health: null
-        checkStateId: checkStateId
         message: message
+        dummy: true
         component:
           identifier: identifier
           iconbase64: iconbase64
@@ -8356,7 +8811,7 @@ components:
         id:
           format: int64
           type: integer
-        checkStateId:
+        identifier:
           type: string
         message:
           type: string
@@ -8384,11 +8839,14 @@ components:
         topologyTime:
           format: instant
           type: integer
+        dummy:
+          type: boolean
       required:
-      - checkStateId
       - component
+      - dummy
       - health
       - id
+      - identifier
       - message
       - metrics
       - monitorId
@@ -8479,52 +8937,50 @@ components:
       type: object
     MonitorCheckStatusNotFoundError:
       properties:
-        id:
-          format: int64
-          type: integer
+        identifier:
+          type: string
         _type:
           enum:
           - MonitorNotFoundError
           type: string
       required:
       - _type
-      - id
+      - identifier
       type: object
     MonitorCheckStatusRelatedFailures:
       example:
-        topologyTime: 6
-        checkStatusId: 0
+        topologyTime: 0
+        identifier: identifier
         checkStatuses:
-        - component:
+        - identifier: identifier
+          component:
             identifier: identifier
             iconbase64: iconbase64
             name: name
             id: 1
             type: type
-          triggeredTimestamp: 5
+          triggeredTimestamp: 1
           topology:
-            distance: 5
+            distance: 6
             relation: SELF
           name: name
           health: null
-          id: 1
-        - component:
+        - identifier: identifier
+          component:
             identifier: identifier
             iconbase64: iconbase64
             name: name
             id: 1
             type: type
-          triggeredTimestamp: 5
+          triggeredTimestamp: 1
           topology:
-            distance: 5
+            distance: 6
             relation: SELF
           name: name
           health: null
-          id: 1
       properties:
-        checkStatusId:
-          format: int64
-          type: integer
+        identifier:
+          type: string
         topologyTime:
           format: instant
           type: integer
@@ -8533,28 +8989,27 @@ components:
             $ref: '#/components/schemas/MonitorCheckStatusRelatedFailuresCheckStatus'
           type: array
       required:
-      - checkStatusId
       - checkStatuses
+      - identifier
       - topologyTime
     MonitorCheckStatusRelatedFailuresCheckStatus:
       example:
+        identifier: identifier
         component:
           identifier: identifier
           iconbase64: iconbase64
           name: name
           id: 1
           type: type
-        triggeredTimestamp: 5
+        triggeredTimestamp: 1
         topology:
-          distance: 5
+          distance: 6
           relation: SELF
         name: name
         health: null
-        id: 1
       properties:
-        id:
-          format: int64
-          type: integer
+        identifier:
+          type: string
         health:
           $ref: '#/components/schemas/HealthStateValue'
         name:
@@ -8569,13 +9024,13 @@ components:
       required:
       - component
       - health
-      - id
+      - identifier
       - name
       - topology
       - triggeredTimestamp
     MonitorCheckStatusRelatedFailuresTopology:
       example:
-        distance: 5
+        distance: 6
         relation: SELF
       properties:
         distance:
@@ -8592,18 +9047,17 @@ components:
       - relation
     MonitorCheckStatusHealthHistory:
       example:
-        checkStatusId: 0
-        startTime: 6
-        endTime: 1
+        identifier: identifier
+        startTime: 0
+        endTime: 6
         healthStateChanges:
         - newHealth: null
-          timestamp: 5
+          timestamp: 1
         - newHealth: null
-          timestamp: 5
+          timestamp: 1
       properties:
-        checkStatusId:
-          format: int64
-          type: integer
+        identifier:
+          type: string
         startTime:
           format: instant
           type: integer
@@ -8616,14 +9070,14 @@ components:
             $ref: '#/components/schemas/MonitorCheckStatusHealthChange'
           type: array
       required:
-      - checkStatusId
       - endTime
       - healthStateChanges
+      - identifier
       - startTime
     MonitorCheckStatusHealthChange:
       example:
         newHealth: null
-        timestamp: 5
+        timestamp: 1
       properties:
         timestamp:
           format: int64
@@ -8710,10 +9164,24 @@ components:
       - channelId
       - message
       type: object
-    SlackChannels:
-      items:
-        $ref: '#/components/schemas/SlackChannel'
-      type: array
+    SlackChannelsChunk:
+      example:
+        next_cursor: next_cursor
+        channels:
+        - name: name
+          id: id
+        - name: name
+          id: id
+      properties:
+        channels:
+          items:
+            $ref: '#/components/schemas/SlackChannel'
+          type: array
+        next_cursor:
+          type: string
+      required:
+      - channels
+      type: object
     SlackChannel:
       example:
         name: name
@@ -10761,12 +11229,19 @@ components:
         subjectHandle: subjectHandle
         permissions:
           key: null
+        fromSources:
+        - null
+        - null
       properties:
         subjectHandle:
           type: string
+        fromSources:
+          items:
+            $ref: '#/components/schemas/SubjectSource'
+          type: array
         permissions:
           additionalProperties:
-            $ref: '#/components/schemas/PermissionList'
+            $ref: '#/components/schemas/PermissionMap'
           type: object
       required:
       - permissions
@@ -10774,6 +11249,12 @@ components:
       type: object
     Subject:
       type: string
+    PermissionMap:
+      additionalProperties:
+        items:
+          $ref: '#/components/schemas/Permission'
+        type: array
+      type: object
     GrantPermission:
       example:
         permission: permission
@@ -10788,6 +11269,12 @@ components:
       - resourceName
       type: object
     Resource:
+      type: string
+    SubjectSource:
+      enum:
+      - Static
+      - Observability
+      - Kubernetes
       type: string
     SubjectList:
       items:
@@ -10806,12 +11293,6 @@ components:
       - handle
       - source
       type: object
-    SubjectSource:
-      enum:
-      - Static
-      - Observability
-      - Kubernetes
-      type: string
     CreateSubject:
       example:
         query: query
@@ -13063,18 +13544,14 @@ components:
       type: string
     ComponentHealthHistory:
       example:
-        startTime: 6
-        id: 0
-        endTime: 1
+        startTime: 0
+        endTime: 6
         healthStateChanges:
         - newHealth: null
-          timestamp: 5
+          timestamp: 1
         - newHealth: null
-          timestamp: 5
+          timestamp: 1
       properties:
-        id:
-          format: int64
-          type: integer
         startTime:
           format: instant
           type: integer
@@ -13089,12 +13566,11 @@ components:
       required:
       - endTime
       - healthStateChanges
-      - id
       - startTime
     ComponentHealthChange:
       example:
         newHealth: null
-        timestamp: 5
+        timestamp: 1
       properties:
         timestamp:
           format: int64
@@ -13104,24 +13580,46 @@ components:
       required:
       - newHealth
       - timestamp
-    ComponentNotFoundError:
-      discriminator:
-        propertyName: _type
+    ComponentCheckStates:
+      example:
+        checkStateIds:
+        - identifier: identifier
+          startTime: 0
+          endTime: 6
+          idOrIdentifier: idOrIdentifier
+        - identifier: identifier
+          startTime: 0
+          endTime: 6
+          idOrIdentifier: idOrIdentifier
       properties:
-        _type:
-          enum:
-          - ComponentNotFoundError
+        checkStateIds:
+          items:
+            $ref: '#/components/schemas/ComponentCheckState'
+          type: array
+      required:
+      - checkStateIds
+    ComponentCheckState:
+      example:
+        identifier: identifier
+        startTime: 0
+        endTime: 6
+        idOrIdentifier: idOrIdentifier
+      properties:
+        identifier:
           type: string
-        componentId:
-          format: int64
+        idOrIdentifier:
+          type: string
+        startTime:
+          format: instant
+          type: integer
+        endTime:
+          format: instant
           type: integer
       required:
-      - _type
-      - componentId
-      type: object
-    ComponentId:
-      format: int64
-      type: integer
+      - endTime
+      - idOrIdentifier
+      - identifier
+      - startTime
     CheckLeaseRequest:
       example:
         apiKey: apiKey
@@ -14014,6 +14512,472 @@ components:
       required:
       - message
       type: object
+    OtelInput:
+      description: Combines input signals and conditional resource/scope/metric/span
+        mappings.
+      example:
+        resource:
+          condition: condition
+          scope:
+            condition: condition
+            metric:
+              condition: condition
+              datapoint:
+                condition: condition
+                action: null
+              action: null
+            action: null
+            span:
+              condition: condition
+              action: null
+          action: null
+        signal:
+        - null
+        - null
+      properties:
+        signal:
+          items:
+            $ref: '#/components/schemas/OtelInputSignal'
+          minItems: 1
+          type: array
+        resource:
+          $ref: '#/components/schemas/OtelInputResource'
+      required:
+      - resource
+      - signal
+      type: object
+    OtelInputSignalList:
+      items:
+        $ref: '#/components/schemas/OtelInputSignal'
+      minItems: 1
+      type: array
+    OtelInputSignal:
+      description: "Signals exported by OpenTelemetry, which determine which data\
+        \ models and\nattribute maps are available for expression evaluation in an\
+        \ OTel topology\nmapping.\n\nEach signal enables access to a specific set\
+        \ of fields and attribute maps\ncoming from the corresponding OTel data pipeline\
+        \ level.\n\nFields/attributes available per signal:\n\n  • **TRACES**\n  Provides\
+        \ access to:\n    - `resource.attributes`\n    - `scope.name`, `scope.version`,\
+        \ `scope.attributes`\n    - `span.name`, `span.kind`, `span.statusMessage`,\
+        \ `span.statusCode`, `span.attributes`\n\n  • **METRICS**\n  Provides access\
+        \ to:\n    - `resource.attributes`\n    - `scope.name`, `scope.version`, `scope.attributes`\n\
+        \    - `metric.name`, `metric.description`, `metric.unit`\n    - `datapoint.attributes`\n\
+        \n  • **LOGS**\n  Not yet supported.\n\nFor example, if the signal is `METRICS`,\
+        \ expressions may reference:\n`resource.attributes[\"service.name\"]`, `scope.attributes[\"\
+        env\"]`,\n`metric.name`, or `datapoint.attributes[\"status\"]`."
+      enum:
+      - TRACES
+      - METRICS
+      - LOGS
+      type: string
+    OtelInputResource:
+      description: "Defines the conditional mapping at the resource level.\nIf omitted,\
+        \ `condition` defaults to `true` and `action` defaults to `CONTINUE`."
+      example:
+        condition: condition
+        scope:
+          condition: condition
+          metric:
+            condition: condition
+            datapoint:
+              condition: condition
+              action: null
+            action: null
+          action: null
+          span:
+            condition: condition
+            action: null
+        action: null
+      properties:
+        condition:
+          description: A Cel expression that must return a boolean
+          type: string
+        action:
+          $ref: '#/components/schemas/OtelInputConditionAction'
+        scope:
+          $ref: '#/components/schemas/OtelInputScope'
+      type: object
+    OtelBooleanExpression:
+      description: A Cel expression that must return a boolean
+      type: string
+    OtelInputConditionAction:
+      enum:
+      - CREATE
+      - CONTINUE
+      type: string
+    OtelInputScope:
+      description: "Defines conditional mapping at the resource -> scope level.\n\
+        If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`."
+      example:
+        condition: condition
+        metric:
+          condition: condition
+          datapoint:
+            condition: condition
+            action: null
+          action: null
+        action: null
+        span:
+          condition: condition
+          action: null
+      properties:
+        condition:
+          description: A Cel expression that must return a boolean
+          type: string
+        action:
+          $ref: '#/components/schemas/OtelInputConditionAction'
+        metric:
+          $ref: '#/components/schemas/OtelInputMetric'
+        span:
+          $ref: '#/components/schemas/OtelInputSpan'
+      type: object
+    OtelInputMetric:
+      description: "Defines conditional mapping at the resource -> scope -> metric\
+        \ level.\nIf omitted, `condition` defaults to `true` and `action` defaults\
+        \ to `CONTINUE`."
+      example:
+        condition: condition
+        datapoint:
+          condition: condition
+          action: null
+        action: null
+      properties:
+        condition:
+          description: A Cel expression that must return a boolean
+          type: string
+        action:
+          $ref: '#/components/schemas/OtelInputConditionAction'
+        datapoint:
+          $ref: '#/components/schemas/OtelInputDatapoint'
+      type: object
+    OtelInputDatapoint:
+      description: "Defines conditional mapping at the resource -> scope -> metric\
+        \ -> datapoint level.\nIf omitted, `condition` defaults to `true` and `action`\
+        \ defaults to `CONTINUE`."
+      example:
+        condition: condition
+        action: null
+      properties:
+        condition:
+          description: A Cel expression that must return a boolean
+          type: string
+        action:
+          $ref: '#/components/schemas/OtelInputConditionAction'
+      type: object
+    OtelInputSpan:
+      description: "Defines conditional mapping at the resource -> scope -> span level.\n\
+        If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`."
+      example:
+        condition: condition
+        action: null
+      properties:
+        condition:
+          description: A Cel expression that must return a boolean
+          type: string
+        action:
+          $ref: '#/components/schemas/OtelInputConditionAction'
+      type: object
+    OtelComponentMappingOutput:
+      example:
+        identifier: identifier
+        domainIdentifier: domainIdentifier
+        domainName: domainName
+        name: name
+        typeName: typeName
+        typeIdentifier: typeIdentifier
+        layerIdentifier: layerIdentifier
+        optional:
+          additionalIdentifiers:
+          - null
+          - null
+          version: version
+          tags:
+          - pattern: pattern
+            source: source
+            target: target
+          - pattern: pattern
+            source: source
+            target: target
+        layerName: layerName
+        required:
+          additionalIdentifiers:
+          - null
+          - null
+          version: version
+          tags:
+          - pattern: pattern
+            source: source
+            target: target
+          - pattern: pattern
+            source: source
+            target: target
+      properties:
+        identifier:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        name:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        typeName:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        typeIdentifier:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        layerName:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        layerIdentifier:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        domainName:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        domainIdentifier:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        required:
+          $ref: '#/components/schemas/OtelComponentMappingFieldMapping'
+        optional:
+          $ref: '#/components/schemas/OtelComponentMappingFieldMapping'
+      required:
+      - domainName
+      - identifier
+      - layerName
+      - name
+      - typeName
+      type: object
+    OtelStringExpression:
+      description: "An expression that must produce a string. It must be one of these\
+        \ formats:\n  - A plain string, for example `\"this is a plain string\"`\n\
+        \  - A string containing a CEL expression within curly braces `${}`, for example\
+        \ \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+        `\nA string with only a cel expression is also valid as long as it is within\
+        \ a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+        `."
+      type: string
+    OtelComponentMappingFieldMapping:
+      example:
+        additionalIdentifiers:
+        - null
+        - null
+        version: version
+        tags:
+        - pattern: pattern
+          source: source
+          target: target
+        - pattern: pattern
+          source: source
+          target: target
+      properties:
+        additionalIdentifiers:
+          items:
+            $ref: '#/components/schemas/OtelStringExpression'
+          type: array
+        version:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        tags:
+          items:
+            $ref: '#/components/schemas/OtelTagMapping'
+          type: array
+      type: object
+    OtelTagMapping:
+      description: "Defines how a tag should be mapped from an input source to an\
+        \ output target, optionally using a regex pattern."
+      example:
+        pattern: pattern
+        source: source
+        target: target
+      properties:
+        source:
+          description: "An expression that can produce any type. It uses the CEL expression\
+            \ within curly braces `${}` syntax.\nVariables use it to store any type\
+            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
+            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
+            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+            \ like this: `vars.inTestNamespace`."
+          type: string
+        target:
+          description: Name of the target tag key to which the value should be mapped.
+          type: string
+        pattern:
+          description: "Optional regex pattern applied to the source value. Capturing\
+            \ groups can be referenced in the target (e.g., ${1})."
+          type: string
+      required:
+      - source
+      - target
+      type: object
+    OtelAnyExpression:
+      description: "An expression that can produce any type. It uses the CEL expression\
+        \ within curly braces `${}` syntax.\nVariables use it to store any type of\
+        \ value. For example, to store a boolean in a variable named  `inTestNamespace`\
+        \ assign \nit the expression `\"${resource.attributes['service.namespace']\
+        \ == 'test'}\"`. The variable can now be used directly in the conditions like\
+        \ this: `vars.inTestNamespace`."
+      type: string
+    OtelVariableMapping:
+      example:
+        name: name
+        value: value
+      properties:
+        name:
+          type: string
+        value:
+          description: "An expression that can produce any type. It uses the CEL expression\
+            \ within curly braces `${}` syntax.\nVariables use it to store any type\
+            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
+            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
+            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+            \ like this: `vars.inTestNamespace`."
+          type: string
+      required:
+      - name
+      - value
+      type: object
+    OtelComponentMapping:
+      example:
+        output:
+          identifier: identifier
+          domainIdentifier: domainIdentifier
+          domainName: domainName
+          name: name
+          typeName: typeName
+          typeIdentifier: typeIdentifier
+          layerIdentifier: layerIdentifier
+          optional:
+            additionalIdentifiers:
+            - null
+            - null
+            version: version
+            tags:
+            - pattern: pattern
+              source: source
+              target: target
+            - pattern: pattern
+              source: source
+              target: target
+          layerName: layerName
+          required:
+            additionalIdentifiers:
+            - null
+            - null
+            version: version
+            tags:
+            - pattern: pattern
+              source: source
+              target: target
+            - pattern: pattern
+              source: source
+              target: target
+        identifier: identifier
+        input:
+          resource:
+            condition: condition
+            scope:
+              condition: condition
+              metric:
+                condition: condition
+                datapoint:
+                  condition: condition
+                  action: null
+                action: null
+              action: null
+              span:
+                condition: condition
+                action: null
+            action: null
+          signal:
+          - null
+          - null
+        name: name
+        description: description
+        expireAfter: 0
+        vars:
+        - name: name
+          value: value
+        - name: name
+          value: value
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        input:
+          $ref: '#/components/schemas/OtelInput'
+        output:
+          $ref: '#/components/schemas/OtelComponentMappingOutput'
+        vars:
+          items:
+            $ref: '#/components/schemas/OtelVariableMapping'
+          type: array
+        expireAfter:
+          format: int64
+          type: integer
+      required:
+      - expireAfter
+      - identifier
+      - input
+      - name
+      - output
+      type: object
     OtelMappingStatus:
       example:
         item:
@@ -14104,6 +15068,153 @@ components:
           type: array
       required:
       - bucketSizeSeconds
+      type: object
+    OtelRelationMappingOutput:
+      example:
+        sourceId: sourceId
+        targetId: targetId
+        typeName: typeName
+        typeIdentifier: typeIdentifier
+      properties:
+        sourceId:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        targetId:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        typeName:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+        typeIdentifier:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A string containing a CEL expression within curly braces `${}`,\
+            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
+            `\nA string with only a cel expression is also valid as long as it is\
+            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
+            `."
+          type: string
+      required:
+      - sourceId
+      - targetId
+      - typeName
+      type: object
+    OtelRelationMapping:
+      example:
+        output:
+          sourceId: sourceId
+          targetId: targetId
+          typeName: typeName
+          typeIdentifier: typeIdentifier
+        identifier: identifier
+        input:
+          resource:
+            condition: condition
+            scope:
+              condition: condition
+              metric:
+                condition: condition
+                datapoint:
+                  condition: condition
+                  action: null
+                action: null
+              action: null
+              span:
+                condition: condition
+                action: null
+            action: null
+          signal:
+          - null
+          - null
+        name: name
+        description: description
+        expireAfter: 0
+        vars:
+        - name: name
+          value: value
+        - name: name
+          value: value
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        input:
+          $ref: '#/components/schemas/OtelInput'
+        output:
+          $ref: '#/components/schemas/OtelRelationMappingOutput'
+        vars:
+          items:
+            $ref: '#/components/schemas/OtelVariableMapping'
+          type: array
+        expireAfter:
+          format: int64
+          type: integer
+      required:
+      - expireAfter
+      - identifier
+      - input
+      - name
+      - output
+      type: object
+    ComponentPresentation:
+      example:
+        presentation:
+          icon: icon
+        identifier: identifier
+        name: name
+        description: description
+        expireAfterMs: 0
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        presentation:
+          $ref: '#/components/schemas/PresentationDefinition'
+        expireAfterMs:
+          format: int64
+          type: integer
+      required:
+      - identifier
+      - name
+      - presentation
+      type: object
+    PresentationDefinition:
+      example:
+        icon: icon
+      properties:
+        icon:
+          type: string
+      type: object
+    ComponentPresentationApiError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
       type: object
     StackElementNotFound:
       discriminator:
@@ -15385,6 +16496,58 @@ components:
       - alphabetical-ci-asc
       - alphabetical-ci-desc
       type: string
+    upsertOtelComponentMappings_request:
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        input:
+          $ref: '#/components/schemas/OtelInput'
+        output:
+          $ref: '#/components/schemas/OtelComponentMappingOutput'
+        vars:
+          items:
+            $ref: '#/components/schemas/OtelVariableMapping'
+          type: array
+        expireAfter:
+          format: int64
+          type: integer
+      required:
+      - expireAfter
+      - identifier
+      - input
+      - name
+      - output
+      type: object
+    upsertOtelRelationMappings_request:
+      properties:
+        identifier:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        input:
+          $ref: '#/components/schemas/OtelInput'
+        output:
+          $ref: '#/components/schemas/OtelRelationMappingOutput'
+        vars:
+          items:
+            $ref: '#/components/schemas/OtelVariableMapping'
+          type: array
+        expireAfter:
+          format: int64
+          type: integer
+      required:
+      - expireAfter
+      - identifier
+      - input
+      - name
+      - output
+      type: object
     NodeTypes_nodeTypes_inner:
       example:
         typeName: typeName

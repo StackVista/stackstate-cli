@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CheckStatusId** | **int64** |  | 
+**Identifier** | **string** |  | 
 **StartTime** | **int32** |  | 
 **EndTime** | **int32** |  | 
 **HealthStateChanges** | [**[]MonitorCheckStatusHealthChange**](MonitorCheckStatusHealthChange.md) | List of health state changes ordered from most recent to oldest. | 
@@ -13,7 +13,7 @@ Name | Type | Description | Notes
 
 ### NewMonitorCheckStatusHealthHistory
 
-`func NewMonitorCheckStatusHealthHistory(checkStatusId int64, startTime int32, endTime int32, healthStateChanges []MonitorCheckStatusHealthChange, ) *MonitorCheckStatusHealthHistory`
+`func NewMonitorCheckStatusHealthHistory(identifier string, startTime int32, endTime int32, healthStateChanges []MonitorCheckStatusHealthChange, ) *MonitorCheckStatusHealthHistory`
 
 NewMonitorCheckStatusHealthHistory instantiates a new MonitorCheckStatusHealthHistory object
 This constructor will assign default values to properties that have it defined,
@@ -28,24 +28,24 @@ NewMonitorCheckStatusHealthHistoryWithDefaults instantiates a new MonitorCheckSt
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetCheckStatusId
+### GetIdentifier
 
-`func (o *MonitorCheckStatusHealthHistory) GetCheckStatusId() int64`
+`func (o *MonitorCheckStatusHealthHistory) GetIdentifier() string`
 
-GetCheckStatusId returns the CheckStatusId field if non-nil, zero value otherwise.
+GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
 
-### GetCheckStatusIdOk
+### GetIdentifierOk
 
-`func (o *MonitorCheckStatusHealthHistory) GetCheckStatusIdOk() (*int64, bool)`
+`func (o *MonitorCheckStatusHealthHistory) GetIdentifierOk() (*string, bool)`
 
-GetCheckStatusIdOk returns a tuple with the CheckStatusId field if it's non-nil, zero value otherwise
+GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCheckStatusId
+### SetIdentifier
 
-`func (o *MonitorCheckStatusHealthHistory) SetCheckStatusId(v int64)`
+`func (o *MonitorCheckStatusHealthHistory) SetIdentifier(v string)`
 
-SetCheckStatusId sets CheckStatusId field to given value.
+SetIdentifier sets Identifier field to given value.
 
 
 ### GetStartTime

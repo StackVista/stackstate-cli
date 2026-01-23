@@ -5,13 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SubjectHandle** | **string** |  | 
-**Permissions** | **map[string][]string** |  | 
+**FromSources** | Pointer to [**[]SubjectSource**](SubjectSource.md) |  | [optional] 
+**Permissions** | [**map[string]map[string][]string**](map.md) |  | 
 
 ## Methods
 
 ### NewPermissionDescription
 
-`func NewPermissionDescription(subjectHandle string, permissions map[string][]string, ) *PermissionDescription`
+`func NewPermissionDescription(subjectHandle string, permissions map[string]map[string][]string, ) *PermissionDescription`
 
 NewPermissionDescription instantiates a new PermissionDescription object
 This constructor will assign default values to properties that have it defined,
@@ -46,22 +47,47 @@ and a boolean to check if the value has been set.
 SetSubjectHandle sets SubjectHandle field to given value.
 
 
+### GetFromSources
+
+`func (o *PermissionDescription) GetFromSources() []SubjectSource`
+
+GetFromSources returns the FromSources field if non-nil, zero value otherwise.
+
+### GetFromSourcesOk
+
+`func (o *PermissionDescription) GetFromSourcesOk() (*[]SubjectSource, bool)`
+
+GetFromSourcesOk returns a tuple with the FromSources field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFromSources
+
+`func (o *PermissionDescription) SetFromSources(v []SubjectSource)`
+
+SetFromSources sets FromSources field to given value.
+
+### HasFromSources
+
+`func (o *PermissionDescription) HasFromSources() bool`
+
+HasFromSources returns a boolean if a field has been set.
+
 ### GetPermissions
 
-`func (o *PermissionDescription) GetPermissions() map[string][]string`
+`func (o *PermissionDescription) GetPermissions() map[string]map[string][]string`
 
 GetPermissions returns the Permissions field if non-nil, zero value otherwise.
 
 ### GetPermissionsOk
 
-`func (o *PermissionDescription) GetPermissionsOk() (*map[string][]string, bool)`
+`func (o *PermissionDescription) GetPermissionsOk() (*map[string]map[string][]string, bool)`
 
 GetPermissionsOk returns a tuple with the Permissions field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetPermissions
 
-`func (o *PermissionDescription) SetPermissions(v map[string][]string)`
+`func (o *PermissionDescription) SetPermissions(v map[string]map[string][]string)`
 
 SetPermissions sets Permissions field to given value.
 

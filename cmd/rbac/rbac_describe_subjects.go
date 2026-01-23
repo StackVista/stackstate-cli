@@ -1,15 +1,20 @@
 package rbac
 
 import (
+	"fmt"
+	"strings"
+
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 type DescribeSubjectsArgs struct {
 	Subject string
+	Source  string
 }
 
 func DescribeSubjectsCommand(deps *di.Deps) *cobra.Command {
@@ -22,6 +27,7 @@ func DescribeSubjectsCommand(deps *di.Deps) *cobra.Command {
 	}
 
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)
+	pflags.EnumVar(cmd.Flags(), &args.Source, Source, "", SourceChoices, SourceUsage)
 
 	return cmd
 }
@@ -33,45 +39,34 @@ func RunDescribeSubjectsCommand(args *DescribeSubjectsArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		if args.Subject != "" {
-			subject, resp, err := api.SubjectApi.GetSubject(cli.Context, args.Subject).Execute()
+		// Why do wre use the list api instead of the GetSubject api for retrieving a subject? The reason is that due to rbac
+		// subjects can come from multiple sources. Instead of updating the GetSubject api in a breaking way, we have deprecated that
+		// api and use the list api with a client side filter to get all subjects.
+		subjects, resp, err := api.SubjectApi.ListSubjects(cli.Context).Execute()
 
-			if err != nil {
-				return common.NewResponseError(err, resp)
-			}
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
 
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{
-					"handle": subject.Handle,
-					"source": subject.Source,
-				})
-			} else {
-				cli.Printer.Table(printer.TableData{
-					Header: []string{"Subject", "Source"},
-					Data: [][]interface{}{
-						{
-							subject.Handle,
-							subject.Source,
-						},
-					},
-					MissingTableDataMsg: printer.NotFoundMsg{Types: "matching subjects"},
-				})
+		filteredSubjects := make([]stackstate_api.SubjectConfig, 0)
+
+		for _, subject := range subjects {
+			if (args.Subject == "" || subject.Handle == args.Subject) && (args.Source == "" || strings.EqualFold(string(subject.Source), args.Source)) {
+				filteredSubjects = append(filteredSubjects, subject)
 			}
+		}
+
+		if len(filteredSubjects) == 0 && args.Subject != "" {
+			return common.NewNotFoundError(fmt.Errorf("could not find subject: '%s'", args.Subject))
 		} else {
-			subjects, resp, err := api.SubjectApi.ListSubjects(cli.Context).Execute()
-
-			if err != nil {
-				return common.NewResponseError(err, resp)
-			}
-
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"subjects": subjects,
+					"subjects": filteredSubjects,
 				})
 			} else {
 				data := make([][]interface{}, 0)
 
-				for _, subject := range subjects {
+				for _, subject := range filteredSubjects {
 					data = append(data, []interface{}{subject.Handle, subject.Source})
 				}
 

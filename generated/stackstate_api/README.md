@@ -90,7 +90,12 @@ Class | Method | HTTP request | Description
 *AgentLeasesApi* | [**AgentCheckLease**](docs/AgentLeasesApi.md#agentchecklease) | **Post** /agents/{agentId}/checkLease | Check the lease of an agent.
 *AgentRegistrationsApi* | [**AllAgentRegistrations**](docs/AgentRegistrationsApi.md#allagentregistrations) | **Get** /agents | Overview of registered agents
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+*ComponentApi* | [**GetComponentCheckStates**](docs/ComponentApi.md#getcomponentcheckstates) | **Get** /components/{componentIdOrUrn}/checkStates | Get a component checkstates
 *ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrUrn}/healthHistory | Get a component health history
+*ComponentPresentationApi* | [**DeleteComponentPresentationByIdentifier**](docs/ComponentPresentationApi.md#deletecomponentpresentationbyidentifier) | **Delete** /component-presentations/{identifier} | Delete a component presentation by Identifier
+*ComponentPresentationApi* | [**GetComponentPresentationByIdentifier**](docs/ComponentPresentationApi.md#getcomponentpresentationbyidentifier) | **Get** /component-presentations/{identifier} | Get a component presentation by Identifier
+*ComponentPresentationApi* | [**GetComponentPresentations**](docs/ComponentPresentationApi.md#getcomponentpresentations) | **Get** /component-presentations | List all component presentations
+*ComponentPresentationApi* | [**UpsertComponentPresentations**](docs/ComponentPresentationApi.md#upsertcomponentpresentations) | **Put** /component-presentations | Upserts (creates/updates) a component presentation
 *DashboardsApi* | [**CloneDashboard**](docs/DashboardsApi.md#clonedashboard) | **Post** /dashboards/{dashboardIdOrUrn}/clone | Clone a dashboard
 *DashboardsApi* | [**CreateDashboard**](docs/DashboardsApi.md#createdashboard) | **Post** /dashboards | Create a new dashboard
 *DashboardsApi* | [**DeleteDashboard**](docs/DashboardsApi.md#deletedashboard) | **Delete** /dashboards/{dashboardIdOrUrn} | Delete a dashboard
@@ -146,9 +151,9 @@ Class | Method | HTTP request | Description
 *MonitorApi* | [**RunMonitor**](docs/MonitorApi.md#runmonitor) | **Post** /monitors/{monitorIdOrUrn}/run | Run a monitor
 *MonitorApi* | [**TestMonitorFunction**](docs/MonitorApi.md#testmonitorfunction) | **Post** /monitors/{monitorFunctionIdOrUrn}/test | Test a monitor
 *MonitorApi* | [**TestMonitorFunctionCheckStates**](docs/MonitorApi.md#testmonitorfunctioncheckstates) | **Post** /monitors/{monitorFunctionIdOrUrn}/test/checkStates | Test a monitor
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health history
-*MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatus**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatus) | **Get** /monitor/checkStatus/{identifier} | Get a monitor check status
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatusHealthHistory**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatushealthhistory) | **Get** /monitor/checkStatus/{identifier}/healthHistory | Get a monitor check health history
+*MonitorCheckStatusApi* | [**GetMonitorCheckStatusRelatedFailures**](docs/MonitorCheckStatusApi.md#getmonitorcheckstatusrelatedfailures) | **Get** /monitor/checkStatus/{identifier}/relatedFailures | Get a monitor check related failures
 *NodeApi* | [**Clone**](docs/NodeApi.md#clone) | **Post** /node/{nodeType}/{nodeIdOrUrn}/clone | Clone a node with a new name
 *NodeApi* | [**Delete**](docs/NodeApi.md#delete) | **Delete** /node/{nodeType}/{nodeId} | Node deletion API
 *NodeApi* | [**Lock**](docs/NodeApi.md#lock) | **Get** /node/{nodeType}/{nodeId}/islocked | Retrieve if a node is locked
@@ -173,6 +178,7 @@ Class | Method | HTTP request | Description
 *NotificationChannelsApi* | [**JoinSlackChannel**](docs/NotificationChannelsApi.md#joinslackchannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
 *NotificationChannelsApi* | [**ListOpsgenieResponders**](docs/NotificationChannelsApi.md#listopsgenieresponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
 *NotificationChannelsApi* | [**ListSlackChannels**](docs/NotificationChannelsApi.md#listslackchannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
+*NotificationChannelsApi* | [**SlackChannelDetails**](docs/NotificationChannelsApi.md#slackchanneldetails) | **Get** /notifications/channels/slack/{channelId}/slackChannelDetails/{slackChannelId} | Get Slack channel details
 *NotificationChannelsApi* | [**SlackOAuthCallback**](docs/NotificationChannelsApi.md#slackoauthcallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
 *NotificationChannelsApi* | [**SlackOauthRedirect**](docs/NotificationChannelsApi.md#slackoauthredirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
 *NotificationChannelsApi* | [**TestEmailChannel**](docs/NotificationChannelsApi.md#testemailchannel) | **Post** /notifications/channels/email/{channelId}/test | Test the Email notification channel
@@ -190,10 +196,16 @@ Class | Method | HTTP request | Description
 *NotificationConfigurationsApi* | [**GetNotificationConfigurationChannels**](docs/NotificationConfigurationsApi.md#getnotificationconfigurationchannels) | **Get** /notifications/configurations/{notificationConfigurationIdOrUrn}/channels | Get the channels for the notification configuration
 *NotificationConfigurationsApi* | [**GetNotificationConfigurations**](docs/NotificationConfigurationsApi.md#getnotificationconfigurations) | **Get** /notifications/configurations | Get all notification configurations
 *NotificationConfigurationsApi* | [**UpdateNotificationConfiguration**](docs/NotificationConfigurationsApi.md#updatenotificationconfiguration) | **Put** /notifications/configurations/{notificationConfigurationIdOrUrn} | Update the notification configuration
+*OtelMappingApi* | [**DeleteOtelComponentMapping**](docs/OtelMappingApi.md#deleteotelcomponentmapping) | **Delete** /otel-component-mappings/{identifier} | Deletes an OTel Component Mapping.
+*OtelMappingApi* | [**DeleteOtelRelationMapping**](docs/OtelMappingApi.md#deleteotelrelationmapping) | **Delete** /otel-relation-mappings/{identifier} | Deletes an OTel Relation Mapping.
+*OtelMappingApi* | [**GetOtelComponentMapping**](docs/OtelMappingApi.md#getotelcomponentmapping) | **Get** /otel-component-mappings/{identifier} | Get an OTel Component Mapping.
 *OtelMappingApi* | [**GetOtelComponentMappingStatus**](docs/OtelMappingApi.md#getotelcomponentmappingstatus) | **Get** /otel-component-mappings/{identifier}/status | Get the status of an otel component mapping synchronization.
 *OtelMappingApi* | [**GetOtelComponentMappings**](docs/OtelMappingApi.md#getotelcomponentmappings) | **Get** /otel-component-mappings | Get all otel component mappings.
+*OtelMappingApi* | [**GetOtelRelationMapping**](docs/OtelMappingApi.md#getotelrelationmapping) | **Get** /otel-relation-mappings/{identifier} | Get an OTel Relation Mapping.
 *OtelMappingApi* | [**GetOtelRelationMappingStatus**](docs/OtelMappingApi.md#getotelrelationmappingstatus) | **Get** /otel-relation-mappings/{identifier}/status | Get the status of an otel relation mapping synchronization.
 *OtelMappingApi* | [**GetOtelRelationMappings**](docs/OtelMappingApi.md#getotelrelationmappings) | **Get** /otel-relation-mappings | Get all otel relation mappings.
+*OtelMappingApi* | [**UpsertOtelComponentMappings**](docs/OtelMappingApi.md#upsertotelcomponentmappings) | **Put** /otel-component-mappings | Upserts (creates/updates) an OTel Component Mappings.
+*OtelMappingApi* | [**UpsertOtelRelationMappings**](docs/OtelMappingApi.md#upsertotelrelationmappings) | **Put** /otel-relation-mappings | Upserts (creates/updates) an OTel Relation Mappings.
 *PermissionsApi* | [**DescribePermissions**](docs/PermissionsApi.md#describepermissions) | **Get** /security/permissions/{subject} | Describe permissions
 *PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
 *PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
@@ -272,11 +284,14 @@ Class | Method | HTTP request | Description
  - [ChannelReferenceId](docs/ChannelReferenceId.md)
  - [CheckLeaseRequest](docs/CheckLeaseRequest.md)
  - [ComparatorWithoutEquality](docs/ComparatorWithoutEquality.md)
+ - [ComponentCheckState](docs/ComponentCheckState.md)
+ - [ComponentCheckStates](docs/ComponentCheckStates.md)
  - [ComponentHealthChange](docs/ComponentHealthChange.md)
  - [ComponentHealthHistory](docs/ComponentHealthHistory.md)
  - [ComponentHighlightMetricSection](docs/ComponentHighlightMetricSection.md)
  - [ComponentHighlightMetricSectionAllOf](docs/ComponentHighlightMetricSectionAllOf.md)
- - [ComponentNotFoundError](docs/ComponentNotFoundError.md)
+ - [ComponentPresentation](docs/ComponentPresentation.md)
+ - [ComponentPresentationApiError](docs/ComponentPresentationApiError.md)
  - [ComponentQuery](docs/ComponentQuery.md)
  - [ComponentViewArguments](docs/ComponentViewArguments.md)
  - [CreateSubject](docs/CreateSubject.md)
@@ -474,12 +489,27 @@ Class | Method | HTTP request | Description
  - [OpsgenieRegion](docs/OpsgenieRegion.md)
  - [OpsgenieResponder](docs/OpsgenieResponder.md)
  - [OpsgenieResponderType](docs/OpsgenieResponderType.md)
+ - [OtelComponentMapping](docs/OtelComponentMapping.md)
+ - [OtelComponentMappingFieldMapping](docs/OtelComponentMappingFieldMapping.md)
+ - [OtelComponentMappingOutput](docs/OtelComponentMappingOutput.md)
+ - [OtelInput](docs/OtelInput.md)
+ - [OtelInputConditionAction](docs/OtelInputConditionAction.md)
+ - [OtelInputDatapoint](docs/OtelInputDatapoint.md)
+ - [OtelInputMetric](docs/OtelInputMetric.md)
+ - [OtelInputResource](docs/OtelInputResource.md)
+ - [OtelInputScope](docs/OtelInputScope.md)
+ - [OtelInputSignal](docs/OtelInputSignal.md)
+ - [OtelInputSpan](docs/OtelInputSpan.md)
  - [OtelMappingApiError](docs/OtelMappingApiError.md)
  - [OtelMappingError](docs/OtelMappingError.md)
  - [OtelMappingItem](docs/OtelMappingItem.md)
  - [OtelMappingMetrics](docs/OtelMappingMetrics.md)
  - [OtelMappingStatus](docs/OtelMappingStatus.md)
  - [OtelMappingStatusItem](docs/OtelMappingStatusItem.md)
+ - [OtelRelationMapping](docs/OtelRelationMapping.md)
+ - [OtelRelationMappingOutput](docs/OtelRelationMappingOutput.md)
+ - [OtelTagMapping](docs/OtelTagMapping.md)
+ - [OtelVariableMapping](docs/OtelVariableMapping.md)
  - [PermissionDescription](docs/PermissionDescription.md)
  - [Permissions](docs/Permissions.md)
  - [PersesDashboard](docs/PersesDashboard.md)
@@ -511,6 +541,7 @@ Class | Method | HTTP request | Description
  - [PersesVariableDisplaySpec](docs/PersesVariableDisplaySpec.md)
  - [PersesVariableSort](docs/PersesVariableSort.md)
  - [PersesVariableTypes](docs/PersesVariableTypes.md)
+ - [PresentationDefinition](docs/PresentationDefinition.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromData](docs/PromData.md)
  - [PromDataResult](docs/PromDataResult.md)
@@ -546,6 +577,7 @@ Class | Method | HTTP request | Description
  - [SlackChannel](docs/SlackChannel.md)
  - [SlackChannelId](docs/SlackChannelId.md)
  - [SlackChannelRefId](docs/SlackChannelRefId.md)
+ - [SlackChannelsChunk](docs/SlackChannelsChunk.md)
  - [SlackNotificationChannel](docs/SlackNotificationChannel.md)
  - [SlackNotificationChannelAllOf](docs/SlackNotificationChannelAllOf.md)
  - [SourceLink](docs/SourceLink.md)
@@ -624,6 +656,8 @@ Class | Method | HTTP request | Description
  - [TraceQueryResponse](docs/TraceQueryResponse.md)
  - [UnlicensedSubscription](docs/UnlicensedSubscription.md)
  - [UnmatchedCheckState](docs/UnmatchedCheckState.md)
+ - [UpsertOtelComponentMappingsRequest](docs/UpsertOtelComponentMappingsRequest.md)
+ - [UpsertOtelRelationMappingsRequest](docs/UpsertOtelRelationMappingsRequest.md)
  - [UserNameMismatchError](docs/UserNameMismatchError.md)
  - [UserNotFoundError](docs/UserNotFoundError.md)
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)

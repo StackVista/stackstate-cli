@@ -18,7 +18,7 @@ import (
 // MonitorCheckStatus struct for MonitorCheckStatus
 type MonitorCheckStatus struct {
 	Id                   int64                       `json:"id"`
-	CheckStateId         string                      `json:"checkStateId"`
+	Identifier           string                      `json:"identifier"`
 	Message              string                      `json:"message"`
 	Reason               *string                     `json:"reason,omitempty"`
 	Health               HealthStateValue            `json:"health"`
@@ -30,16 +30,17 @@ type MonitorCheckStatus struct {
 	MonitorDescription   *string                     `json:"monitorDescription,omitempty"`
 	TroubleshootingSteps *string                     `json:"troubleshootingSteps,omitempty"`
 	TopologyTime         int32                       `json:"topologyTime"`
+	Dummy                bool                        `json:"dummy"`
 }
 
 // NewMonitorCheckStatus instantiates a new MonitorCheckStatus object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCheckStatus(id int64, checkStateId string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId MonitorReferenceId, monitorName string, topologyTime int32) *MonitorCheckStatus {
+func NewMonitorCheckStatus(id int64, identifier string, message string, health HealthStateValue, triggeredTimestamp int32, metrics []MonitorCheckStatusMetric, component MonitorCheckStatusComponent, monitorId MonitorReferenceId, monitorName string, topologyTime int32, dummy bool) *MonitorCheckStatus {
 	this := MonitorCheckStatus{}
 	this.Id = id
-	this.CheckStateId = checkStateId
+	this.Identifier = identifier
 	this.Message = message
 	this.Health = health
 	this.TriggeredTimestamp = triggeredTimestamp
@@ -48,6 +49,7 @@ func NewMonitorCheckStatus(id int64, checkStateId string, message string, health
 	this.MonitorId = monitorId
 	this.MonitorName = monitorName
 	this.TopologyTime = topologyTime
+	this.Dummy = dummy
 	return &this
 }
 
@@ -83,28 +85,28 @@ func (o *MonitorCheckStatus) SetId(v int64) {
 	o.Id = v
 }
 
-// GetCheckStateId returns the CheckStateId field value
-func (o *MonitorCheckStatus) GetCheckStateId() string {
+// GetIdentifier returns the Identifier field value
+func (o *MonitorCheckStatus) GetIdentifier() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.CheckStateId
+	return o.Identifier
 }
 
-// GetCheckStateIdOk returns a tuple with the CheckStateId field value
+// GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatus) GetCheckStateIdOk() (*string, bool) {
+func (o *MonitorCheckStatus) GetIdentifierOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CheckStateId, true
+	return &o.Identifier, true
 }
 
-// SetCheckStateId sets field value
-func (o *MonitorCheckStatus) SetCheckStateId(v string) {
-	o.CheckStateId = v
+// SetIdentifier sets field value
+func (o *MonitorCheckStatus) SetIdentifier(v string) {
+	o.Identifier = v
 }
 
 // GetMessage returns the Message field value
@@ -395,13 +397,37 @@ func (o *MonitorCheckStatus) SetTopologyTime(v int32) {
 	o.TopologyTime = v
 }
 
+// GetDummy returns the Dummy field value
+func (o *MonitorCheckStatus) GetDummy() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.Dummy
+}
+
+// GetDummyOk returns a tuple with the Dummy field value
+// and a boolean to check if the value has been set.
+func (o *MonitorCheckStatus) GetDummyOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Dummy, true
+}
+
+// SetDummy sets field value
+func (o *MonitorCheckStatus) SetDummy(v bool) {
+	o.Dummy = v
+}
+
 func (o MonitorCheckStatus) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["id"] = o.Id
 	}
 	if true {
-		toSerialize["checkStateId"] = o.CheckStateId
+		toSerialize["identifier"] = o.Identifier
 	}
 	if true {
 		toSerialize["message"] = o.Message
@@ -435,6 +461,9 @@ func (o MonitorCheckStatus) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["topologyTime"] = o.TopologyTime
+	}
+	if true {
+		toSerialize["dummy"] = o.Dummy
 	}
 	return json.Marshal(toSerialize)
 }

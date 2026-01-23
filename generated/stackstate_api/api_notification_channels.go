@@ -278,8 +278,24 @@ type NotificationChannelsApi interface {
 	ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest
 
 	// ListSlackChannelsExecute executes the request
-	//  @return []SlackChannel
-	ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error)
+	//  @return SlackChannelsChunk
+	ListSlackChannelsExecute(r ApiListSlackChannelsRequest) (*SlackChannelsChunk, *http.Response, error)
+
+	/*
+		SlackChannelDetails Get Slack channel details
+
+		Get Slack channel details, used for validating a channel for the notifications
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param channelId Channel identifier
+		@param slackChannelId Slack Channel identifier
+		@return ApiSlackChannelDetailsRequest
+	*/
+	SlackChannelDetails(ctx context.Context, channelId int64, slackChannelId string) ApiSlackChannelDetailsRequest
+
+	// SlackChannelDetailsExecute executes the request
+	//  @return SlackChannel
+	SlackChannelDetailsExecute(r ApiSlackChannelDetailsRequest) (*SlackChannel, *http.Response, error)
 
 	/*
 		SlackOAuthCallback The OAuth callback for Slack
@@ -3358,9 +3374,16 @@ type ApiListSlackChannelsRequest struct {
 	ctx        context.Context
 	ApiService NotificationChannelsApi
 	channelId  int64
+	cursor     *string
 }
 
-func (r ApiListSlackChannelsRequest) Execute() ([]SlackChannel, *http.Response, error) {
+// Slack list cursor
+func (r ApiListSlackChannelsRequest) Cursor(cursor string) ApiListSlackChannelsRequest {
+	r.cursor = &cursor
+	return r
+}
+
+func (r ApiListSlackChannelsRequest) Execute() (*SlackChannelsChunk, *http.Response, error) {
 	return r.ApiService.ListSlackChannelsExecute(r)
 }
 
@@ -3383,13 +3406,13 @@ func (a *NotificationChannelsApiService) ListSlackChannels(ctx context.Context, 
 
 // Execute executes the request
 //
-//	@return []SlackChannel
-func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
+//	@return SlackChannelsChunk
+func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) (*SlackChannelsChunk, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
 		localVarPostBody    interface{}
 		formFiles           []formFile
-		localVarReturnValue []SlackChannel
+		localVarReturnValue *SlackChannelsChunk
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.ListSlackChannels")
@@ -3399,6 +3422,188 @@ func (a *NotificationChannelsApiService) ListSlackChannelsExecute(r ApiListSlack
 
 	localVarPath := localBasePath + "/notifications/channels/slack/{channelId}/listSlackChannels"
 	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.cursor != nil {
+		localVarQueryParams.Add("cursor", parameterToString(*r.cursor, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v NotificationChannelNotFound
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v NotificationChannelError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiSlackChannelDetailsRequest struct {
+	ctx            context.Context
+	ApiService     NotificationChannelsApi
+	channelId      int64
+	slackChannelId string
+}
+
+func (r ApiSlackChannelDetailsRequest) Execute() (*SlackChannel, *http.Response, error) {
+	return r.ApiService.SlackChannelDetailsExecute(r)
+}
+
+/*
+SlackChannelDetails Get Slack channel details
+
+Get Slack channel details, used for validating a channel for the notifications
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param channelId Channel identifier
+	@param slackChannelId Slack Channel identifier
+	@return ApiSlackChannelDetailsRequest
+*/
+func (a *NotificationChannelsApiService) SlackChannelDetails(ctx context.Context, channelId int64, slackChannelId string) ApiSlackChannelDetailsRequest {
+	return ApiSlackChannelDetailsRequest{
+		ApiService:     a,
+		ctx:            ctx,
+		channelId:      channelId,
+		slackChannelId: slackChannelId,
+	}
+}
+
+// Execute executes the request
+//
+//	@return SlackChannel
+func (a *NotificationChannelsApiService) SlackChannelDetailsExecute(r ApiSlackChannelDetailsRequest) (*SlackChannel, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *SlackChannel
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "NotificationChannelsApiService.SlackChannelDetails")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/notifications/channels/slack/{channelId}/slackChannelDetails/{slackChannelId}"
+	localVarPath = strings.Replace(localVarPath, "{"+"channelId"+"}", url.PathEscape(parameterToString(r.channelId, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"slackChannelId"+"}", url.PathEscape(parameterToString(r.slackChannelId, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -5435,6 +5640,8 @@ type NotificationChannelsApiMock struct {
 	ListOpsgenieRespondersResponse            ListOpsgenieRespondersMockResponse
 	ListSlackChannelsCalls                    *[]ListSlackChannelsCall
 	ListSlackChannelsResponse                 ListSlackChannelsMockResponse
+	SlackChannelDetailsCalls                  *[]SlackChannelDetailsCall
+	SlackChannelDetailsResponse               SlackChannelDetailsMockResponse
 	SlackOAuthCallbackCalls                   *[]SlackOAuthCallbackCall
 	SlackOAuthCallbackResponse                SlackOAuthCallbackMockResponse
 	SlackOauthRedirectCalls                   *[]SlackOauthRedirectCall
@@ -5478,6 +5685,7 @@ func NewNotificationChannelsApiMock() NotificationChannelsApiMock {
 	xJoinSlackChannelCalls := make([]JoinSlackChannelCall, 0)
 	xListOpsgenieRespondersCalls := make([]ListOpsgenieRespondersCall, 0)
 	xListSlackChannelsCalls := make([]ListSlackChannelsCall, 0)
+	xSlackChannelDetailsCalls := make([]SlackChannelDetailsCall, 0)
 	xSlackOAuthCallbackCalls := make([]SlackOAuthCallbackCall, 0)
 	xSlackOauthRedirectCalls := make([]SlackOauthRedirectCall, 0)
 	xTestEmailChannelCalls := make([]TestEmailChannelCall, 0)
@@ -5508,6 +5716,7 @@ func NewNotificationChannelsApiMock() NotificationChannelsApiMock {
 		JoinSlackChannelCalls:                  &xJoinSlackChannelCalls,
 		ListOpsgenieRespondersCalls:            &xListOpsgenieRespondersCalls,
 		ListSlackChannelsCalls:                 &xListSlackChannelsCalls,
+		SlackChannelDetailsCalls:               &xSlackChannelDetailsCalls,
 		SlackOAuthCallbackCalls:                &xSlackOAuthCallbackCalls,
 		SlackOauthRedirectCalls:                &xSlackOauthRedirectCalls,
 		TestEmailChannelCalls:                  &xTestEmailChannelCalls,
@@ -5955,13 +6164,14 @@ func (mock NotificationChannelsApiMock) ListOpsgenieRespondersExecute(r ApiListO
 }
 
 type ListSlackChannelsMockResponse struct {
-	Result   []SlackChannel
+	Result   SlackChannelsChunk
 	Response *http.Response
 	Error    error
 }
 
 type ListSlackChannelsCall struct {
 	PchannelId int64
+	Pcursor    *string
 }
 
 func (mock NotificationChannelsApiMock) ListSlackChannels(ctx context.Context, channelId int64) ApiListSlackChannelsRequest {
@@ -5972,12 +6182,42 @@ func (mock NotificationChannelsApiMock) ListSlackChannels(ctx context.Context, c
 	}
 }
 
-func (mock NotificationChannelsApiMock) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) ([]SlackChannel, *http.Response, error) {
+func (mock NotificationChannelsApiMock) ListSlackChannelsExecute(r ApiListSlackChannelsRequest) (*SlackChannelsChunk, *http.Response, error) {
 	p := ListSlackChannelsCall{
 		PchannelId: r.channelId,
+		Pcursor:    r.cursor,
 	}
 	*mock.ListSlackChannelsCalls = append(*mock.ListSlackChannelsCalls, p)
-	return mock.ListSlackChannelsResponse.Result, mock.ListSlackChannelsResponse.Response, mock.ListSlackChannelsResponse.Error
+	return &mock.ListSlackChannelsResponse.Result, mock.ListSlackChannelsResponse.Response, mock.ListSlackChannelsResponse.Error
+}
+
+type SlackChannelDetailsMockResponse struct {
+	Result   SlackChannel
+	Response *http.Response
+	Error    error
+}
+
+type SlackChannelDetailsCall struct {
+	PchannelId      int64
+	PslackChannelId string
+}
+
+func (mock NotificationChannelsApiMock) SlackChannelDetails(ctx context.Context, channelId int64, slackChannelId string) ApiSlackChannelDetailsRequest {
+	return ApiSlackChannelDetailsRequest{
+		ApiService:     mock,
+		ctx:            ctx,
+		channelId:      channelId,
+		slackChannelId: slackChannelId,
+	}
+}
+
+func (mock NotificationChannelsApiMock) SlackChannelDetailsExecute(r ApiSlackChannelDetailsRequest) (*SlackChannel, *http.Response, error) {
+	p := SlackChannelDetailsCall{
+		PchannelId:      r.channelId,
+		PslackChannelId: r.slackChannelId,
+	}
+	*mock.SlackChannelDetailsCalls = append(*mock.SlackChannelDetailsCalls, p)
+	return &mock.SlackChannelDetailsResponse.Result, mock.SlackChannelDetailsResponse.Response, mock.SlackChannelDetailsResponse.Error
 }
 
 type SlackOAuthCallbackMockResponse struct {
