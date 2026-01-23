@@ -49,7 +49,7 @@ func RunRevokePermissionsCommand(args *RevokePermissionsArgs) di.CmdWithApiFn {
 			return common.NewResponseError(revokeErr, revokeResp)
 		}
 
-		description, descrResp, descrErr := describePermissions(cli, api, args.Subject, args.Permission, "").Execute()
+		description, descrResp, descrErr := describePermissions(cli, api, args.Subject, args.Permission, "", "").Execute()
 
 		if descrErr != nil {
 			return common.NewResponseError(descrErr, descrResp)
@@ -62,7 +62,7 @@ func RunRevokePermissionsCommand(args *RevokePermissionsArgs) di.CmdWithApiFn {
 			})
 		} else {
 			cli.Printer.Successf("Revoked permission '%s' on '%s' from subject '%s'", args.Permission, args.Resource, args.Subject)
-			printPermissionsTable(cli, description.Permissions)
+			printPermissionsTable(cli, nil, description.Permissions)
 		}
 
 		return nil

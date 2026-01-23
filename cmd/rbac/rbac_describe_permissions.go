@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"fmt"
 	"sort"
 	"strings"
 
@@ -51,13 +52,30 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 			return common.NewResponseError(err, resp)
 		}
 
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"subject":     description.SubjectHandle,
-				"permissions": description.Permissions,
-			})
+		sourceStrings := make([]string, 0)
+		if description.FromSources != nil {
+			for _, s := range description.FromSources {
+				sourceStrings = append(sourceStrings, string(s))
+			}
 		} else {
-			printPermissionsTable(cli, description.Permissions)
+			sourceStrings = nil
+		}
+
+		if cli.IsJson() {
+			if sourceStrings != nil {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"subject":     description.SubjectHandle,
+					"permissions": description.Permissions,
+					"sources":     sourceStrings,
+				})
+			} else {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"subject":     description.SubjectHandle,
+					"permissions": description.Permissions,
+				})
+			}
+		} else {
+			printPermissionsTable(cli, sourceStrings, description.Permissions)
 		}
 
 		return nil
@@ -85,7 +103,7 @@ func capitalizeFirst(s string) string {
 	return strings.ToUpper(s[:1]) + strings.ToLower(s[1:])
 }
 
-func printPermissionsTable(cli *di.Deps, permissionsList map[string][]string) {
+func printPermissionsTable(cli *di.Deps, sources []string, permissionsList map[string][]string) {
 	keys := make([]string, len(permissionsList))
 	for key := range permissionsList {
 		keys = append(keys, key)
@@ -104,6 +122,11 @@ func printPermissionsTable(cli *di.Deps, permissionsList map[string][]string) {
 		for _, permission := range permissions {
 			data = append(data, []interface{}{permission, resource})
 		}
+	}
+
+	if sources != nil {
+		cli.Printer.PrintLn(fmt.Sprintf("Got subject from the following subject sources: %s", strings.Join(sources, ", ")))
+		cli.Printer.PrintLn("")
 	}
 
 	cli.Printer.Table(printer.TableData{

@@ -11241,7 +11241,7 @@ components:
           type: array
         permissions:
           additionalProperties:
-            $ref: '#/components/schemas/PermissionMap'
+            $ref: '#/components/schemas/PermissionList'
           type: object
       required:
       - permissions
@@ -11249,12 +11249,6 @@ components:
       type: object
     Subject:
       type: string
-    PermissionMap:
-      additionalProperties:
-        items:
-          $ref: '#/components/schemas/Permission'
-        type: array
-      type: object
     GrantPermission:
       example:
         permission: permission

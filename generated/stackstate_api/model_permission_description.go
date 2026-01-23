@@ -17,16 +17,16 @@ import (
 
 // PermissionDescription struct for PermissionDescription
 type PermissionDescription struct {
-	SubjectHandle string                         `json:"subjectHandle"`
-	FromSources   []SubjectSource                `json:"fromSources,omitempty"`
-	Permissions   map[string]map[string][]string `json:"permissions"`
+	SubjectHandle string              `json:"subjectHandle"`
+	FromSources   []SubjectSource     `json:"fromSources,omitempty"`
+	Permissions   map[string][]string `json:"permissions"`
 }
 
 // NewPermissionDescription instantiates a new PermissionDescription object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPermissionDescription(subjectHandle string, permissions map[string]map[string][]string) *PermissionDescription {
+func NewPermissionDescription(subjectHandle string, permissions map[string][]string) *PermissionDescription {
 	this := PermissionDescription{}
 	this.SubjectHandle = subjectHandle
 	this.Permissions = permissions
@@ -98,9 +98,9 @@ func (o *PermissionDescription) SetFromSources(v []SubjectSource) {
 }
 
 // GetPermissions returns the Permissions field value
-func (o *PermissionDescription) GetPermissions() map[string]map[string][]string {
+func (o *PermissionDescription) GetPermissions() map[string][]string {
 	if o == nil {
-		var ret map[string]map[string][]string
+		var ret map[string][]string
 		return ret
 	}
 
@@ -109,7 +109,7 @@ func (o *PermissionDescription) GetPermissions() map[string]map[string][]string 
 
 // GetPermissionsOk returns a tuple with the Permissions field value
 // and a boolean to check if the value has been set.
-func (o *PermissionDescription) GetPermissionsOk() (*map[string]map[string][]string, bool) {
+func (o *PermissionDescription) GetPermissionsOk() (*map[string][]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -117,7 +117,7 @@ func (o *PermissionDescription) GetPermissionsOk() (*map[string]map[string][]str
 }
 
 // SetPermissions sets field value
-func (o *PermissionDescription) SetPermissions(v map[string]map[string][]string) {
+func (o *PermissionDescription) SetPermissions(v map[string][]string) {
 	o.Permissions = v
 }
 
