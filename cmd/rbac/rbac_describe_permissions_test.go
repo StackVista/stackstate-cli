@@ -182,5 +182,5 @@ func TestPermissionsDescribeWithSourcesTable(t *testing.T) {
 	}
 
 	assert.Equal(t, expected, *cli.MockPrinter.TableCalls)
-	assert.Equal(t, []string([]string{"Got subject from the following subject sources: Static", ""}), *cli.MockPrinter.PrintLnCalls)
+	assert.Equal(t, []string{"Got subject from the following subject sources: Static", ""}, *cli.MockPrinter.PrintLnCalls)
 }

@@ -209,5 +209,4 @@ func TestProduceNotFoundWithSubjectFilter(t *testing.T) {
 	assert.EqualError(t, err, "could not find subject: 'bladibla'")
 	calls := *cli.MockClient.ApiMocks.SubjectApi.ListSubjectsCalls
 	assert.Len(t, calls, 1)
-
 }
