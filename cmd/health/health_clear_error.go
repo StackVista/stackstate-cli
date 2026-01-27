@@ -20,7 +20,7 @@ func HealthClearErrorCommand(cli *di.Deps) *cobra.Command {
 		Short: "Clear errors from a health synchronization stream",
 		Long: `Clear errors from a health synchronization stream, allowing it to resume normal operation. Use this after resolving the underlying cause of synchronization errors.
 
-More info: https://l.stackstate.com/cli-health-synchronization`,
+More info: https://l.stackstate.com/cli-health-synchronization.`,
 		Example: `# clear errors from a health stream
 sts health clear-error --urn urn:health:my-stream`,
 		RunE: cli.CmdRunEWithApi(RunHealthClearErrorCommand(args)),

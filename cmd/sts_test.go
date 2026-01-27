@@ -14,7 +14,7 @@ func TestSTSCommand(t *testing.T) {
 	assert.Equal(t, "sts", cmd.Use)
 	assert.Equal(t, "SUSE Observability: topology-powered observability", cmd.Short)
 	assert.Equal(t, "SUSE Observability: topology-powered observability.", cmd.Long)
-	assert.Contains(t, cmd.UsageTemplate(), "For more information about this CLI visit https://l.stackstate.com/cli")
+	assert.Contains(t, cmd.UsageTemplate(), "For more information about this CLI visit https://documentation.suse.com/cloudnative/suse-observability/latest/en/setup/cli/cli-sts.html\n")
 }
 
 func TestSTSCommandContainsExpectedSubcommands(t *testing.T) {
@@ -65,7 +65,7 @@ func TestSTSCommandUsageTemplate(t *testing.T) {
 	cmd := STSCommand(&cli.Deps)
 
 	usageTemplate := cmd.UsageTemplate()
-	assert.Contains(t, usageTemplate, "For more information about this CLI visit https://l.stackstate.com/cli")
+	assert.Contains(t, usageTemplate, "For more information about this CLI visit https://documentation.suse.com/cloudnative/suse-observability/latest/en/setup/cli/cli-sts.html\n")
 
 	// Verify it contains the standard usage template plus our addition
 	assert.Contains(t, usageTemplate, "Usage:")

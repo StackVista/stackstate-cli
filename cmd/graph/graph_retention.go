@@ -28,7 +28,7 @@ func RetentionCommand(deps *di.Deps) *cobra.Command {
 		Use:   "retention",
 		Short: "Manage the SUSE Observability Graph data retention (DEPRECATED !! FUNCTIONALITY IS REMOVED IN LATEST VERSION OF PLATFORM)",
 		Long: `View and configure how long the SUSE Observability data graph retains data.
-More info can ben found at https://documentation.suse.com/cloudnative/suse-observability/latest/en/setup/data-management/data_retention.html`,
+More info can ben found at https://documentation.suse.com/cloudnative/suse-observability/latest/en/setup/data-management/data_retention.html.`,
 		RunE: deps.CmdRunEWithAdminApi(RunRetentionCommand(args)),
 	}
 
