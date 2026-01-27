@@ -21,10 +21,15 @@ type ListArgs struct {
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	args := &ListArgs{}
 	cmd := &cobra.Command{
-		Use:   "list",
-		Short: "List all settings",
-		Long:  "List all settings of a certain type. To list all types run \"sts settings list-types\".",
-		RunE:  cli.CmdRunEWithApi(RunSettingsListCommand(args)),
+		Use:   "list --type TYPE",
+		Short: "List all settings of a specific type",
+		Long:  "List all settings of a specific type. Use 'sts settings list-types' to see available types. Can filter by namespace or owner.",
+		Example: `# list all monitors
+sts settings list --type Monitor
+
+# list settings owned by a StackPack
+sts settings list --type QueryView --owned-by urn:stackpack:kubernetes`,
+		RunE: cli.CmdRunEWithApi(RunSettingsListCommand(args)),
 	}
 	cmd.Flags().StringVar(&args.TypeName, TypeNameFlag, "", "Name of the setting type to list")
 	cmd.MarkFlagRequired(TypeNameFlag) //nolint:errcheck

@@ -29,10 +29,15 @@ type ApplyArgs struct {
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply",
-		Short: "Apply saved settings",
-		Long:  "Apply saved settings with StackState Templated YAML.",
-		RunE:  cli.CmdRunEWithApi(RunSettingsApplyCommand(args)),
+		Use:   "apply --file FILE",
+		Short: "Import settings from an STY or STJ file",
+		Long:  "Import settings from an STY (SUSE Observability YAML) or STJ (SUSE Observability JSON) file. Can import to a specific namespace with conflict resolution strategies.",
+		Example: `# apply settings from file
+sts settings apply --file my-settings.sty
+
+# apply to namespace, skip conflicts with existing unlocked settings
+sts settings apply --file my-settings.sty --namespace my-namespace --unlocked-strategy skip`,
+		RunE: cli.CmdRunEWithApi(RunSettingsApplyCommand(args)),
 	}
 	common.AddRequiredFileFlagVar(cmd, &args.Filepath, "Path to a .sty or .stj file with the settings to import")
 	cmd.Flags().StringVar(&args.Namespace, NamespaceFlag, "", "Name of the namespace to overwrite"+

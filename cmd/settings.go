@@ -9,8 +9,8 @@ import (
 func SettingsCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "settings",
-		Short: "Manage settings",
-		Long:  "View, manage, export and import settings.",
+		Short: "Manage SUSE Observability configuration nodes",
+		Long:  "Manage SUSE Observability configuration nodes. Settings include monitors, dashboards, views, and other configurable objects.",
 	}
 	cmd.AddCommand(settings.SettingsApplyCommand(cli))
 	cmd.AddCommand(settings.SettingsListTypesCommand(cli))

@@ -9,8 +9,8 @@ import (
 func TopicCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "topic",
-		Short: "Manage the StackState Kafka topics",
-		Long:  "Manage the StackState Kafka topics.",
+		Short: "Inspect Kafka topics for debugging",
+		Long:  "Inspect Kafka topics used by SUSE Observability. Useful for debugging data ingestion issues.",
 	}
 
 	cmd.AddCommand(topic.ListCommand(deps))

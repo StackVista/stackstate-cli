@@ -9,8 +9,8 @@ import (
 func OtelComponentMappingCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "otel-component-mapping",
-		Short: "Manage the Otel Component Mapping",
-		Long:  "Manage the Otel Component Mapping.",
+		Short: "Manage OpenTelemetry component mappings",
+		Long:  "Manage OpenTelemetry component mappings. Maps OTel resources to topology components.",
 	}
 
 	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingListCommand(deps))

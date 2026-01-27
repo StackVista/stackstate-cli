@@ -9,8 +9,8 @@ import (
 func MonitorCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "monitor",
-		Short: "Manage monitors",
-		Long:  "Manage, test and develop monitors.",
+		Short: "Manage SUSE Observability monitors",
+		Long:  "Manage SUSE Observability monitors. Monitors evaluate health state for components in the topology based on metric data and other inputs.",
 	}
 	cmd.AddCommand(monitor.MonitorListCommand(cli))
 	cmd.AddCommand(monitor.MonitorApplyCommand(cli))

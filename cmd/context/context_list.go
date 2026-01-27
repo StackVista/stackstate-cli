@@ -11,9 +11,14 @@ import (
 func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List available contexts",
-		Long:  "List available contexts in the config file.",
-		RunE:  deps.CmdRunEWithConfig(RunContextListCommand),
+		Short: "List all configured connection contexts",
+		Long:  "List all connection contexts saved in the CLI configuration file, showing the context name and server URL for each.",
+		Example: `# list all contexts
+sts context list
+
+# list contexts in JSON format
+sts context list -o json`,
+		RunE: deps.CmdRunEWithConfig(RunContextListCommand),
 	}
 
 	return cmd

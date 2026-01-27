@@ -16,10 +16,15 @@ type GrantPermissionsArgs struct {
 func GrantPermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &GrantPermissionsArgs{}
 	cmd := &cobra.Command{
-		Use:   "grant",
+		Use:   "grant --subject SUBJECT --permission PERMISSION",
 		Short: "Grant a permission to a subject",
-		Long:  "Grant a permission to a subject.",
-		RunE:  deps.CmdRunEWithApi(RunGrantPermissionsCommand(args)),
+		Long:  "Grant a permission to a subject on a resource. Use 'sts rbac list-permissions' to see available permissions.",
+		Example: `# grant access-view permission to all resources
+sts rbac grant --subject my-team --permission access-view
+
+# grant permission on a specific resource
+sts rbac grant --subject my-team --permission access-view --resource "label = 'production'"`,
+		RunE: deps.CmdRunEWithApi(RunGrantPermissionsCommand(args)),
 	}
 
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)

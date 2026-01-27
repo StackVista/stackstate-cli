@@ -14,13 +14,15 @@ type UpdateArgs struct {
 func UpdateCommand(deps *di.Deps) *cobra.Command {
 	args := &UpdateArgs{}
 	cmd := &cobra.Command{
-		Use:   "update",
-		Short: "Update the license",
-		Long:  "Update the license.",
-		RunE:  deps.CmdRunEWithApi(runLicenseUpdateCommand(args)),
+		Use:   "update --key KEY",
+		Short: "Update the license with a new license key",
+		Long:  "Update the SUSE Observability license with a new license key. The new license takes effect immediately.",
+		Example: `# update the license
+sts license update --key "your-license-key"`,
+		RunE: deps.CmdRunEWithApi(runLicenseUpdateCommand(args)),
 	}
 
-	cmd.Flags().StringVar(&args.Key, "key", "", "The license key")
+	cmd.Flags().StringVar(&args.Key, "key", "", "The new license key")
 	cmd.MarkFlagRequired("key") //nolint:errcheck
 
 	return cmd

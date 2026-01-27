@@ -14,9 +14,11 @@ import (
 func ListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List service tokens",
-		Long:  "List all service tokens.",
-		RunE:  cli.CmdRunEWithApi(RunServiceTokenListCommand),
+		Short: "List all service tokens",
+		Long:  "List all service tokens. Shows name, expiration date, roles, and dedicated subject.",
+		Example: `# list all service tokens
+sts service-token list`,
+		RunE: cli.CmdRunEWithApi(RunServiceTokenListCommand),
 	}
 
 	return cmd

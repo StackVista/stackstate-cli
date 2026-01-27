@@ -9,8 +9,8 @@ import (
 func DashboardCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "dashboard",
-		Short: "Manage dashboards",
-		Long:  "Manage, test and develop dashboards.",
+		Short: "Manage SUSE Observability dashboards",
+		Long:  "Manage SUSE Observability dashboards. Dashboards provide customizable views for visualizing metrics, topology, and other observability data.",
 	}
 	cmd.AddCommand(dashboard.DashboardListCommand(cli))
 	cmd.AddCommand(dashboard.DashboardDescribeCommand(cli))

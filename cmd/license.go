@@ -9,8 +9,8 @@ import (
 func LicenseCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "license",
-		Short: "Manage StackState license",
-		Long:  "Manage StackState license.",
+		Short: "View and update the SUSE Observability license",
+		Long:  "View and update the SUSE Observability license. The license controls feature availability and usage limits.",
 	}
 
 	cmd.AddCommand(license.ShowCommand(deps))

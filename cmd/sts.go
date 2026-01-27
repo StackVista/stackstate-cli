@@ -10,11 +10,11 @@ import (
 func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "sts",
-		Short: "StackState: topology-powered observability", // never actually visible
-		Long:  "StackState: topology-powered observability.",
+		Short: "SUSE Observability: topology-powered observability", // never actually visible
+		Long:  "SUSE Observability: topology-powered observability.",
 	}
 	cmd.SetUsageTemplate(cmd.UsageTemplate() +
-		"For more information about this CLI visit https://l.stackstate.com/cli\n",
+		"For more information about this CLI visit https://documentation.suse.com/cloudnative/suse-observability/latest/en/setup/cli/cli-sts.html\n",
 	)
 
 	cmd.AddCommand(ContextCommand(cli))

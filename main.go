@@ -147,7 +147,7 @@ func PreRunCommand(cli *di.Deps, cmd *cobra.Command) error {
 // For commands that have sub-commands we can show a simpler usage template.
 func setUsageTemplates(sts *cobra.Command) {
 	cobraCommand := cobra.Command{}
-	fullTemplate := "{{if .Version}}Minimum supported StackState version: {{.Version}}\n\n{{end}}" + cobraCommand.UsageTemplate()
+	fullTemplate := "{{if .Version}}Minimum supported SUSE Observability version: {{.Version}}\n\n{{end}}" + cobraCommand.UsageTemplate()
 	subCommandTemplate := `Usage:{{if .HasAvailableSubCommands}}
   {{.CommandPath}} [command]{{end}}{{if gt (len .Aliases) 0}}
 
@@ -162,7 +162,7 @@ Additional help topics:{{range .Commands}}{{if .IsAdditionalHelpTopicCommand}}
 
 Use "{{.CommandPath}} [command] --help" for more information about a command.{{end}}
 `
-	versionTemplate := "minimum supported StackState version: {{.Version}}"
+	versionTemplate := "minimum supported SUSE Observability version: {{.Version}}"
 	sts.SetVersionTemplate(versionTemplate)
 
 	stscobra.ForAllCmd(sts, func(c *cobra.Command) {

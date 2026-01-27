@@ -9,8 +9,8 @@ import (
 func ContextCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "context",
-		Short: "Manage StackState contexts",
-		Long:  "Manage connections to different StackState servers.",
+		Short: "Manage CLI connection contexts for SUSE Observability servers",
+		Long:  `Manage CLI connection contexts. A context stores the URL and authentication credentials for a SUSE Observability server, allowing you to switch between different servers or environments without re-entering connection details.`,
 	}
 
 	cmd.AddCommand(context.SaveCommand(cli))

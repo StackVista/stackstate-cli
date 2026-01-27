@@ -16,10 +16,12 @@ type DeleteArgs struct {
 func DeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
+		Use:   "delete --id ID",
 		Short: "Delete a service token",
-		Long:  "Delete a service token.",
-		RunE:  deps.CmdRunEWithApi(RunServiceTokenDeleteCommand(args)),
+		Long:  "Delete a service token by ID. This also removes any dedicated subject associated with the token.",
+		Example: `# delete a service token
+sts service-token delete --id 123456789`,
+		RunE: deps.CmdRunEWithApi(RunServiceTokenDeleteCommand(args)),
 	}
 
 	common.AddRequiredIDFlagVar(cmd, &args.ID, "ID of the service token to delete")

@@ -11,9 +11,11 @@ import (
 func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List available topics",
-		Long:  "List available topics.",
-		RunE:  deps.CmdRunEWithApi(RunListCommand),
+		Short: "List all available Kafka topics",
+		Long:  "List all Kafka topics available in SUSE Observability.",
+		Example: `# list all topics
+sts topic list`,
+		RunE: deps.CmdRunEWithApi(RunListCommand),
 	}
 
 	return cmd

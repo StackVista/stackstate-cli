@@ -21,10 +21,15 @@ type StatusArgs struct {
 func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 	args := &StatusArgs{}
 	cmd := &cobra.Command{
-		Use:   "status",
-		Short: "Get the status of a monitor",
-		Long:  "Get the status of a single monitor.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorStatusCommand(args)),
+		Use:   "status {--id ID | --identifier URN}",
+		Short: "Show detailed runtime status of a monitor",
+		Long:  `Show detailed runtime status of a monitor including health state counts, stream metrics, errors, and topology matching results.`,
+		Example: `# show monitor status by ID
+sts monitor status --id 123456789
+
+# show monitor status by identifier
+sts monitor status --identifier urn:stackpack:my-monitor`,
+		RunE: cli.CmdRunEWithApi(RunMonitorStatusCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)

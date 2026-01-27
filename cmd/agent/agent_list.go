@@ -16,9 +16,14 @@ import (
 func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List all registered agents",
-		Long:  "List all registered agents.",
-		RunE:  deps.CmdRunEWithApi(RunListCommand),
+		Short: "List all registered agents with their lease status",
+		Long:  `List all registered agents showing their lease status (active, limited, stale), registration time, hardware info, and node budget. Displays totals for each lease status.`,
+		Example: `# list all agents
+sts agent list
+
+# list agents in JSON format for scripting
+sts agent list -o json`,
+		RunE: deps.CmdRunEWithApi(RunListCommand),
 	}
 
 	return cmd

@@ -13,9 +13,14 @@ import (
 func DashboardListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List all dashboards",
-		Long:  "List all dashboards.",
-		RunE:  cli.CmdRunEWithApi(RunDashboardListCommand),
+		Short: "List all dashboards with their metadata",
+		Long:  "List all dashboards showing ID, identifier, name, description, and scope for each.",
+		Example: `# list all dashboards
+sts dashboard list
+
+# list dashboards in JSON format
+sts dashboard list -o json`,
+		RunE: cli.CmdRunEWithApi(RunDashboardListCommand),
 	}
 	return cmd
 }

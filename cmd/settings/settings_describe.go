@@ -22,10 +22,18 @@ type DescribeArgs struct {
 func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Describe settings in STY format",
-		Long:  "Describe settings in StackState Templated YAML.",
-		RunE:  cli.CmdRunEWithApi(RunSettingsDescribeCommand(args)),
+		Use:   "describe {--ids IDS | --namespace NAMESPACE | --type TYPE}",
+		Short: "Export settings to STY format",
+		Long:  "Export settings to STY (SUSE Observability YAML) format. Filter by IDs, namespace, or type. Output can be saved to a file for backup or migration.",
+		Example: `# export specific settings by ID
+sts settings describe --ids 123,456 --file backup.sty
+
+# export all settings in a namespace
+sts settings describe --namespace my-namespace --file namespace-backup.sty
+
+# export all settings of a type to stdout
+sts settings describe --type Monitor`,
+		RunE: cli.CmdRunEWithApi(RunSettingsDescribeCommand(args)),
 	}
 	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "List of ids to describe")
 	cmd.Flags().StringVar(&args.Namespace, Namespace, "", "Namespace to describe")

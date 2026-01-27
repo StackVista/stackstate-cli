@@ -14,10 +14,12 @@ import (
 func StackpackListParameterCommand(cli *di.Deps) *cobra.Command {
 	args := &ListPropertiesArgs{}
 	cmd := &cobra.Command{
-		Use:   "list-parameters",
-		Short: "List all parameters",
-		Long:  "List all parameters required for a StackPack's installation.",
-		RunE:  cli.CmdRunEWithApi(RunStackpackListParameterCommand(args)),
+		Use:   "list-parameters --name NAME",
+		Short: "List installation parameters for a StackPack",
+		Long:  "List all parameters required to install a StackPack. Use these parameter names with 'sts stackpack install -p key=value'.",
+		Example: `# list parameters for the kubernetes StackPack
+sts stackpack list-parameters --name kubernetes`,
+		RunE: cli.CmdRunEWithApi(RunStackpackListParameterCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
 	return cmd

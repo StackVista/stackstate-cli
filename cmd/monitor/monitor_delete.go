@@ -18,10 +18,15 @@ type DeleteArgs struct {
 func MonitorDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
-		Short: "Delete a monitor",
-		Long:  "Delete a monitor.",
-		RunE:  cli.CmdRunEWithApi(RunDeleteMonitorCommand(args)),
+		Use:   "delete {--id ID | --identifier URN}",
+		Short: "Delete a monitor permanently",
+		Long:  "Delete a monitor by its ID or identifier. This removes the monitor and all its associated health states.",
+		Example: `# delete a monitor by ID
+sts monitor delete --id 123456789
+
+# delete a monitor by identifier
+sts monitor delete --identifier urn:stackpack:my-monitor`,
+		RunE: cli.CmdRunEWithApi(RunDeleteMonitorCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)

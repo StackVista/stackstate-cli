@@ -10,9 +10,14 @@ import (
 func ShowCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show",
-		Short: "Show the current context",
-		Long:  "Show the current context.",
-		RunE:  deps.CmdRunEWithConfig(RunContextShowCommand),
+		Short: "Display the currently active context",
+		Long:  "Display the name of the currently active connection context. Use 'sts context list' to see all available contexts.",
+		Example: `# show the current context name
+sts context show
+
+# show current context details in JSON format
+sts context show -o json`,
+		RunE: deps.CmdRunEWithConfig(RunContextShowCommand),
 	}
 
 	return cmd

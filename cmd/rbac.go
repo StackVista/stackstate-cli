@@ -9,8 +9,8 @@ import (
 func RbacCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "rbac",
-		Short: "Manage the StackState RBAC",
-		Long:  "Manage the StackState rule-based access control configuration.",
+		Short: "Manage role-based access control",
+		Long:  "Manage role-based access control (RBAC) configuration. Create subjects, assign permissions, and control access to resources.",
 	}
 
 	cmd.AddCommand(rbac.CreateSubjectCommand(deps))

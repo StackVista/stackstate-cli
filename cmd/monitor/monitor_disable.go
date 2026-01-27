@@ -13,10 +13,15 @@ import (
 func MonitorDisableCommand(cli *di.Deps) *cobra.Command {
 	args := &IdArgs{}
 	cmd := &cobra.Command{
-		Use:   "disable",
-		Short: "Disable a monitor",
-		Long:  "Disable a monitor.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorDisableCommand(args, sts.MONITORSTATUSVALUE_DISABLED.Ptr())),
+		Use:   "disable {--id ID | --identifier URN}",
+		Short: "Disable a monitor to stop it from running",
+		Long:  "Disable a monitor to prevent it from running on its scheduled interval. A disabled monitor will not produce new health states.",
+		Example: `# disable a monitor by ID
+sts monitor disable --id 123456789
+
+# disable a monitor by identifier
+sts monitor disable --identifier urn:stackpack:my-monitor`,
+		RunE: cli.CmdRunEWithApi(RunMonitorDisableCommand(args, sts.MONITORSTATUSVALUE_DISABLED.Ptr())),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)

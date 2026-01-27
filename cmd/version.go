@@ -10,9 +10,11 @@ import (
 func VersionCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
-		Short: "Display version info",
-		Long:  "Display the version of this StackState CLI.",
-		RunE:  cli.CmdRunE(RunVersionCommand),
+		Short: "Display CLI version information",
+		Long:  "Display the version, build date, and commit hash of the SUSE Observability CLI.",
+		Example: `# show version information
+sts version`,
+		RunE: cli.CmdRunE(RunVersionCommand),
 	}
 	return cmd
 }

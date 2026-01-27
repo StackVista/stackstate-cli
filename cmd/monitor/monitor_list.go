@@ -13,9 +13,14 @@ import (
 func MonitorListCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List all monitors",
-		Long:  "List all monitors.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorListCommand),
+		Short: "List all monitors with their status",
+		Long:  "List all monitors showing ID, status, identifier, name, function ID, and tags for each.",
+		Example: `# list all monitors
+sts monitor list
+
+# list monitors in JSON format
+sts monitor list -o json`,
+		RunE: cli.CmdRunEWithApi(RunMonitorListCommand),
 	}
 	return cmd
 }

@@ -27,13 +27,13 @@ func DeleteExpiredDataCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteExpiredDataArgs{}
 	cmd := &cobra.Command{
 		Use:   "delete-expired-data",
-		Short: "Delete expired data from StackState (DEPRECATED !! FUNCTIONALITY IS REMOVED IN LATEST VERSION OF PLATFORM)",
-		Long: "Schedule deletion of expired data from StackState.\n" +
-			"If --immediate is specified, removes data immediately and restarts StackState.",
+		Short: "Delete expired data from SUSE Observability (DEPRECATED !! FUNCTIONALITY IS REMOVED IN LATEST VERSION OF PLATFORM)",
+		Long: `Schedule deletion of expired data from SUSE Observability.
+If --immediate is specified, removes data immediately and restarts SUSE Observability.`,
 		RunE: deps.CmdRunEWithAdminApi(RunDeleteExpiredDataCommand(args)),
 	}
 
-	cmd.Flags().BoolVar(&args.Immediate, Immediate, false, "Remove expired data immediately and restart StackState")
+	cmd.Flags().BoolVar(&args.Immediate, Immediate, false, "Remove expired data immediately and restart SUSE Observability")
 
 	return cmd
 }

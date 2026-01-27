@@ -16,10 +16,15 @@ type SetArgs struct {
 func SetCommand(cli *di.Deps) *cobra.Command {
 	args := &SetArgs{}
 	cmd := &cobra.Command{
-		Use:   "set",
-		Short: "Set the current context",
-		Long:  "Set the current context.",
-		RunE:  cli.CmdRunEWithConfig(RunContextSetCommand(args, cli)),
+		Use:   "set --name NAME",
+		Short: "Set the active context to use for CLI commands",
+		Long:  "Set the active connection context. All subsequent CLI commands will use this context's server URL and credentials.",
+		Example: `# switch to the production context
+sts context set --name production
+
+# switch to a different environment
+sts context set --name staging`,
+		RunE: cli.CmdRunEWithConfig(RunContextSetCommand(args, cli)),
 	}
 
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the context")

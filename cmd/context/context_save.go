@@ -30,10 +30,18 @@ type SaveArgs struct {
 func SaveCommand(cli *di.Deps) *cobra.Command {
 	args := &SaveArgs{}
 	cmd := &cobra.Command{
-		Use:   "save",
-		Short: "Save a context",
-		Long:  "Save a context to the local config file.",
-		RunE:  cli.CmdRunE(RunContextSaveCommand(args)),
+		Use:   "save --url URL {--api-token TOKEN | --service-token TOKEN}",
+		Short: "Save a connection context to the CLI configuration",
+		Long:  `Save a connection context to the CLI configuration file. The context stores the server URL and authentication credentials. After saving, this context becomes the current active context.`,
+		Example: `# save a context with an API token
+sts context save --name production --url https://stackstate.example.com --api-token xxxx-xxxx
+
+# save a context with a service token for CI/CD pipelines
+sts context save --name ci --url https://stackstate.example.com --service-token xxxx-xxxx
+
+# save a context with a custom CA certificate
+sts context save --name production --url https://stackstate.example.com --api-token xxxx-xxxx --ca-cert /path/to/ca.crt`,
+		RunE: cli.CmdRunE(RunContextSaveCommand(args)),
 	}
 
 	common.AddNameFlagVarVal(cmd, &args.Name, "default", "Name of the context")

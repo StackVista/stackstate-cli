@@ -28,10 +28,15 @@ type UpgradeArgs struct {
 func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 	args := &UpgradeArgs{}
 	cmd := &cobra.Command{
-		Use:   "upgrade",
-		Short: "Upgrade a StackPack",
-		Long:  "Upgrade a StackPack instance to the next version.",
-		RunE:  cli.CmdRunEWithApi(RunStackpackUpgradeCommand(args)),
+		Use:   "upgrade --name NAME",
+		Short: "Upgrade a StackPack to the next version",
+		Long:  "Upgrade all instances of a StackPack to the next available version. Check 'sts stackpack list' to see available upgrades.",
+		Example: `# upgrade a StackPack
+sts stackpack upgrade --name kubernetes
+
+# upgrade and wait for completion
+sts stackpack upgrade --name kubernetes --wait`,
+		RunE: cli.CmdRunEWithApi(RunStackpackUpgradeCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,

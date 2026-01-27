@@ -12,8 +12,8 @@ func TestSTSCommand(t *testing.T) {
 	cmd := STSCommand(&cli.Deps)
 
 	assert.Equal(t, "sts", cmd.Use)
-	assert.Equal(t, "StackState: topology-powered observability", cmd.Short)
-	assert.Equal(t, "StackState: topology-powered observability.", cmd.Long)
+	assert.Equal(t, "SUSE Observability: topology-powered observability", cmd.Short)
+	assert.Equal(t, "SUSE Observability: topology-powered observability.", cmd.Long)
 	assert.Contains(t, cmd.UsageTemplate(), "For more information about this CLI visit https://l.stackstate.com/cli")
 }
 

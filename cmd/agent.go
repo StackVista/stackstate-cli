@@ -9,8 +9,8 @@ import (
 func AgentCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "agent",
-		Short: "Manage the StackState agents",
-		Long:  "Manage the StackState agents.",
+		Short: "Manage SUSE Observability agents and their registrations",
+		Long:  `Manage SUSE Observability agents. Agents collect and send topology, telemetry, and traces data from monitored systems to SUSE Observability.`,
 	}
 
 	cmd.AddCommand(agent.ListCommand(deps))

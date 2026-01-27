@@ -17,10 +17,15 @@ type CreateSubjectArgs struct {
 func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
 	args := &CreateSubjectArgs{}
 	cmd := &cobra.Command{
-		Use:   "create-subject",
+		Use:   "create-subject --subject SUBJECT",
 		Short: "Create a new security subject",
-		Long:  "Create a new security subject.",
-		RunE:  deps.CmdRunEWithApi(RunCreateSubjectCommand(args)),
+		Long:  "Create a new security subject for RBAC. Subjects can be users or groups that can be granted permissions.",
+		Example: `# create a new subject
+sts rbac create-subject --subject my-team
+
+# create a subject with a scope query
+sts rbac create-subject --subject my-team --scope "label = 'production'"`,
+		RunE: deps.CmdRunEWithApi(RunCreateSubjectCommand(args)),
 	}
 
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)

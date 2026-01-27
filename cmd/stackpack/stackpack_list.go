@@ -16,9 +16,14 @@ func StackpackListCommand(cli *di.Deps) *cobra.Command {
 	args := &ListArgs{}
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "List stackpacks",
-		Long:  "List available StackPacks.",
-		RunE:  cli.CmdRunEWithApi(RunStackpackListCommand(args)),
+		Short: "List available StackPacks",
+		Long:  "List all StackPacks available on the server. Shows installed version, next available version, and instance count.",
+		Example: `# list all StackPacks
+sts stackpack list
+
+# list only installed StackPacks
+sts stackpack list --installed`,
+		RunE: cli.CmdRunEWithApi(RunStackpackListCommand(args)),
 	}
 	cmd.Flags().BoolVar(&args.Installed, InstalledFlag, false, "Show only installed StackPacks")
 	return cmd

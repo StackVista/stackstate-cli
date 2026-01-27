@@ -9,8 +9,8 @@ import (
 func HealthCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "health",
-		Short: "Synchronize health",
-		Long:  "Health synchronization related commands.",
+		Short: "Manage health synchronization streams",
+		Long:  "Manage health synchronization streams. Health streams receive check states from external systems and synchronize them with the SUSE Observability topology.",
 	}
 	cmd.AddCommand(health.HealthListCommand(cli))
 	cmd.AddCommand(health.HealthDeleteCommand(cli))

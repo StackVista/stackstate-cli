@@ -14,10 +14,15 @@ type ValidateArgs struct {
 func ValidateCommand(cli *di.Deps) *cobra.Command {
 	args := &ValidateArgs{}
 	cmd := &cobra.Command{
-		Use:   "validate",
-		Short: "Validate context",
-		Long:  "Validate a context.",
-		RunE:  cli.CmdRunEWithConfig(RunValidateCommand(args)),
+		Use:   "validate [--name NAME]",
+		Short: "Validate that a context can connect to the server",
+		Long:  "Validate a connection context by attempting to connect to the SUSE Observability server. Validates the current context if no name is specified.",
+		Example: `# validate the current context
+sts context validate
+
+# validate a specific context
+sts context validate --name production`,
+		RunE: cli.CmdRunEWithConfig(RunValidateCommand(args)),
 	}
 
 	common.AddNameFlagVar(cmd, &args.Name, "Name of the context")

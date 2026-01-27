@@ -9,8 +9,8 @@ import (
 func UserSessionCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "user-session",
-		Short: "Inspect user session",
-		Long:  "Inspect user session.",
+		Short: "Inspect the current user session",
+		Long:  "Inspect the current user session. View session information and available roles.",
 	}
 	cmd.AddCommand(usersession.GetUserSessionRolesCommand(deps))
 	return cmd

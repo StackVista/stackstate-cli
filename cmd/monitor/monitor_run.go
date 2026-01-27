@@ -22,10 +22,15 @@ type RunArgs struct {
 func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	args := &RunArgs{}
 	cmd := &cobra.Command{
-		Use:   "run",
-		Short: "Run a monitor",
-		Long:  "Run a monitor. Does not save the states of the monitor run, unless `--yes` is specified.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorRunCommand(args)),
+		Use:   "run {--id ID | --identifier URN}",
+		Short: "Execute a monitor and display the results",
+		Long:  `Execute a monitor and display the results. By default runs in dry-run mode without saving health states. Use --yes to persist the resulting health states.`,
+		Example: `# dry-run a monitor (no state changes)
+sts monitor run --id 123456789
+
+# run a monitor and save the health states
+sts monitor run --identifier urn:stackpack:my-monitor --yes`,
+		RunE: cli.CmdRunEWithApi(RunMonitorRunCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)

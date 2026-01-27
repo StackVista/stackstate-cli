@@ -9,8 +9,8 @@ import (
 func OtelRelationtMappingCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "otel-relation-mapping",
-		Short: "Manage the Otel Relation Mapping",
-		Long:  "Manage the Otel Relation Mapping.",
+		Short: "Manage OpenTelemetry relation mappings",
+		Long:  "Manage OpenTelemetry relation mappings. Maps OTel resources to topology relations.",
 	}
 
 	cmd.AddCommand(otelrelationmapping.OtelRelationMappingListCommand(deps))

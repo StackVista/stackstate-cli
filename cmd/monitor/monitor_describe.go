@@ -19,10 +19,15 @@ type DescribeArgs struct {
 func MonitorDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Describe a monitor in STY format",
-		Long:  "Describe a monitor in StackState Templated YAML.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorDescribeCommand(args)),
+		Use:   "describe --id ID",
+		Short: "Export a monitor definition in STY format",
+		Long:  "Export the monitor definition in STY (SUSE Observability YAML) format. Output can be printed to stdout or saved to a file for backup or migration.",
+		Example: `# describe a monitor to stdout
+sts monitor describe --id 123456789
+
+# export a monitor to a file
+sts monitor describe --id 123456789 --file my-monitor.sty`,
+		RunE: cli.CmdRunEWithApi(RunMonitorDescribeCommand(args)),
 	}
 
 	common.AddRequiredIDFlagVar(cmd, &args.ID, IDFlagUsage)

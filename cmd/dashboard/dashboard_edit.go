@@ -13,14 +13,6 @@ import (
 	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
-const LongDescription = `Edit a dashboard.
-
-The edit command allows you to directly edit any StackState Dashboard. It will open
-the editor defined by your EDITOR environment variables.
-
-The dashboard will be presented as JSON format for editing.
-`
-
 type EditArgs struct {
 	ID         int64
 	Identifier string
@@ -29,10 +21,15 @@ type EditArgs struct {
 func DashboardEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit",
-		Short: "Edit a dashboard",
-		Long:  LongDescription,
-		RunE:  cli.CmdRunEWithApi(RunDashboardEditCommand(args)),
+		Use:   "edit {--id ID | --identifier URN}",
+		Short: "Edit a dashboard interactively in your default editor",
+		Long:  "Edit a dashboard interactively. Opens the dashboard YAML in the editor defined by your EDITOR environment variable. Changes are applied when you save and close the editor.",
+		Example: `# edit a dashboard by ID
+sts dashboard edit --id 123456789
+
+# edit a dashboard by identifier
+sts dashboard edit --identifier urn:stackpack:my-dashboard`,
+		RunE: cli.CmdRunEWithApi(RunDashboardEditCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, "ID of the dashboard")

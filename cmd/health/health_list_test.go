@@ -22,7 +22,7 @@ func setupHealthListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	}
 	cli.MockClient.ApiMocks.HealthSynchronizationApi.GetHealthSynchronizationSubStreamOverviewResponse.Result = stackstate_api.SubStreamList{
 		SubStreams: []stackstate_api.SubStreamListItem{{
-			SubStreamId:     "StackState Server",
+			SubStreamId:     "SUSE Observability Server",
 			CheckStateCount: 36,
 		}},
 	}
@@ -66,7 +66,7 @@ func TestHealthListUrnPrintToTable(t *testing.T) {
 	expectedTableCall := []printer.TableData{
 		{
 			Header:              []string{"Sub stream id", "Check state count"},
-			Data:                [][]interface{}{{"StackState Server", int32(36)}},
+			Data:                [][]interface{}{{"SUSE Observability Server", int32(36)}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "health sub-stream"},
 		},
 	}
@@ -80,7 +80,7 @@ func TestHealthListUrnPrintToJson(t *testing.T) {
 	assert.Equal(t,
 		[]map[string]interface{}{{
 			"sub-stream": []map[string]interface{}{{
-				"sub_stream_id":     "StackState Server",
+				"sub_stream_id":     "SUSE Observability Server",
 				"check_state_count": int32(36),
 			}},
 		}},
