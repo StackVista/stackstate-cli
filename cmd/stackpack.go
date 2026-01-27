@@ -15,8 +15,8 @@ const (
 func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "stackpack",
-		Short: "Manage stackpacks",
-		Long:  "Manage and upload StackPacks.",
+		Short: "Manage StackPacks and their instances",
+		Long:  "Manage StackPacks and their instances. StackPacks are packages that extend SUSE Observability with integrations and pre-configured monitors.",
 	}
 	cmd.AddCommand(stackpack.StackpackUploadCommand(cli))
 	cmd.AddCommand(stackpack.StackpackListCommand(cli))

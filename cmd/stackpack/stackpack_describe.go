@@ -23,10 +23,12 @@ type DescribeArgs struct {
 func StackpackDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Describe a StackPack",
-		Long:  "Describe a StackPack.",
-		RunE:  cli.CmdRunEWithApi(RunStackpackDescribeCommand(args)),
+		Use:   "describe --name NAME",
+		Short: "Show detailed information about a StackPack",
+		Long:  "Show detailed information about a StackPack including version, categories, integrations, parameters, and installed instances.",
+		Example: `# describe the kubernetes StackPack
+sts stackpack describe --name kubernetes`,
+		RunE: cli.CmdRunEWithApi(RunStackpackDescribeCommand(args)),
 	}
 	cmd.Flags().StringVar(&args.Name, Name, "", NameUsage)
 	cmd.MarkFlagRequired(Name) //nolint:errcheck

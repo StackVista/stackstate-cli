@@ -23,7 +23,7 @@ func PrintConnectionSuccess(pr printer.Printer, apiUrl string, serverInfo *stack
 	} else {
 		// Fallback to serverInfo.Version if platformVersion is not present (an updated client could interact with a server not supporting PlatformVersion yet).
 		pr.Success(
-			fmt.Sprintf("Connection verified to %s (StackState version: %s)",
+			fmt.Sprintf("Connection verified to %s (SUSE Observability version: %s)",
 				apiUrl,
 				client.VersionToString(serverInfo.Version),
 			),

@@ -18,10 +18,12 @@ type ApplyArgs struct {
 func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply",
-		Short: "Create or edit a monitor from STY",
-		Long:  "Create or edit a monitor from StackState Templated YAML.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorApplyCommand(args)),
+		Use:   "apply --file FILE",
+		Short: "Create or update a monitor from an STY file",
+		Long:  "Create or update a monitor from an STY (SUSE Observability YAML) file. If the monitor already exists, it will be updated.",
+		Example: `# apply a monitor definition
+sts monitor apply --file my-monitor.sty`,
+		RunE: cli.CmdRunEWithApi(RunMonitorApplyCommand(args)),
 	}
 
 	common.AddRequiredFileFlagVar(cmd, &args.File, FileFlagUsage)

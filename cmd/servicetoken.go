@@ -9,8 +9,8 @@ import (
 func ServiceTokenCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "service-token",
-		Short: "Manage service tokens",
-		Long:  "Manage service tokens.",
+		Short: "Manage service tokens for API authentication",
+		Long:  "Manage service tokens for API authentication. Service tokens allow programmatic access to SUSE Observability.",
 	}
 	cmd.AddCommand(servicetoken.CreateCommand(deps))
 	cmd.AddCommand(servicetoken.DeleteCommand(deps))

@@ -13,9 +13,9 @@ import (
 	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
-const LongDescription = `Edit settings in StackState Templated JSON.
+const LongDescription = `Edit settings in STY format.
 
-The edit command allows you to directly edit any StackState type you can retrieve via the API. It will open
+The edit command allows you to directly edit any SUSE Observability type you can retrieve via the API. It will open
 the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
 Windows.
 When '--unlock' is specified, the CLI will always unlock the settings node when editing it.
@@ -34,10 +34,15 @@ type EditArgs struct {
 func SettingsEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit",
-		Short: "Edit settings in STY format",
+		Use:   "edit {--ids IDS | --type TYPE}",
+		Short: "Edit settings interactively in an editor",
 		Long:  LongDescription,
-		RunE:  cli.CmdRunEWithApi(RunSettingsEditCommand(args)),
+		Example: `# edit specific settings by ID
+sts settings edit --ids 123456789
+
+# edit all settings of a type
+sts settings edit --type Monitor`,
+		RunE: cli.CmdRunEWithApi(RunSettingsEditCommand(args)),
 	}
 	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "List of ids to edit")
 	cmd.Flags().StringSliceVar(&args.NodeTypes, TypeNameFlag, nil, "List of types to edit")

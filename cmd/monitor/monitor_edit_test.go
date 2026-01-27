@@ -44,7 +44,7 @@ func TestShouldOfferCloneMonitor(t *testing.T) {
 	assert.Len(t, *cli.MockClient.ApiMocks.NodeApi.LockCalls, 1)
 	assert.Len(t, *cli.MockClient.ApiMocks.NodeApi.UnlockCalls, 0)
 	assert.Len(t, *cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls, 0)
-	assert.Equal(t, "The monitor  that you are trying is locked (StackState specific), it cannot be edited", (*cli.MockPrinter.PrintLnCalls)[0])
+	assert.Equal(t, "The monitor  that you are trying is locked (SUSE Observability specific), it cannot be edited", (*cli.MockPrinter.PrintLnCalls)[0])
 }
 
 func TestEditWithUnlock(t *testing.T) {

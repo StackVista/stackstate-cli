@@ -20,12 +20,20 @@ type StatusArgs struct {
 func HealthStatusCommand(cli *di.Deps) *cobra.Command {
 	args := &StatusArgs{}
 	cmd := &cobra.Command{
-		Use:   "status",
-		Short: "Status of the stream",
-		Long:  "Status of an active health synchronization stream.",
-		RunE:  cli.CmdRunEWithApi(RunHealthStatusCommand(args)),
+		Use:   "status --urn URN",
+		Short: "Show detailed status of a health synchronization stream",
+		Long:  `Show detailed status of a health synchronization stream including metrics, errors, and consistency state. Use --sub-stream to check a specific sub-stream, or --topology to see topology element matches.`,
+		Example: `# show stream status
+sts health status --urn urn:health:my-stream
+
+# show sub-stream status
+sts health status --urn urn:health:my-stream --sub-stream my-sub-stream
+
+# show topology matches for check states
+sts health status --urn urn:health:my-stream --topology`,
+		RunE: cli.CmdRunEWithApi(RunHealthStatusCommand(args)),
 	}
-	common.AddRequiredUrnFlagVar(cmd, &args.Urn, "Urn of the stream")
+	common.AddRequiredUrnFlagVar(cmd, &args.Urn, "URN of the health synchronization stream")
 	cmd.Flags().StringVar(&args.SubStream, SubStreamFlag, "", SubStreamFlagUsage)
 	cmd.Flags().BoolVar(&args.Topology, TopologyFlag, false, TopologyFlagUsage)
 

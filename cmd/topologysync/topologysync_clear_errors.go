@@ -16,10 +16,15 @@ type ClearErrorsArgs struct {
 func ClearErrorsCommand(deps *di.Deps) *cobra.Command {
 	args := &ClearErrorsArgs{}
 	cmd := &cobra.Command{
-		Use:   "clear-errors",
-		Short: "Clear the errors from an active topology synchronization",
-		Long:  "Clear the errors from an active topology synchronization.",
-		RunE:  deps.CmdRunEWithApi(RunClearErrorsCommand(args)),
+		Use:   "clear-errors {--id ID | --identifier URN}",
+		Short: "Clear errors from a topology synchronization",
+		Long:  "Clear all errors from a topology synchronization. Use this after resolving the underlying data issues.",
+		Example: `# clear errors by ID
+sts topology-sync clear-errors --id 123456789
+
+# clear errors by identifier
+sts topology-sync clear-errors --identifier urn:stackpack:kubernetes:sync`,
+		RunE: deps.CmdRunEWithApi(RunClearErrorsCommand(args)),
 	}
 	cmd.Flags().Int64VarP(&args.ID, common.IDFlag, common.IDFlagShort, 0, "The ID of a topology synchronization")
 	cmd.Flags().StringVar(&args.Identifier, common.IdentifierFlag, "", "The identifier of a topology synchronization")

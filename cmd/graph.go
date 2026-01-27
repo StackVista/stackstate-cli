@@ -9,8 +9,8 @@ import (
 func GraphCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "graph",
-		Short: "Manage the StackState Graph",
-		Long:  "Manage the StackState Graph.",
+		Short: "Manage the SUSE Observability topology graph data",
+		Long:  "Manage the SUSE Observability topology graph, including data retention settings and cleanup operations.",
 	}
 
 	cmd.AddCommand(graph.RetentionCommand(deps))

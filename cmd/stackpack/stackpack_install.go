@@ -26,13 +26,14 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 		Params: make(map[string]string),
 	}
 	cmd := &cobra.Command{
-		Use:   "install",
-		Short: "Install a StackPack",
-		Long: "Install an instance of a StackPack. " +
-			"Be aware that each StackPack has a different set of parameters. " +
-			"Run \"sts stackpack list-parameters --name NAME\" to list all of them.",
-		Example: "# install an example StackPack with a full name and URL parameter\n" +
-			"sts stackpack install --name example -p \"full_name=First Last\" -p URL=https://stackstate.com",
+		Use:   "install --name NAME",
+		Short: "Install a new instance of a StackPack",
+		Long:  `Install a new instance of a StackPack. Use 'sts stackpack list-parameters --name NAME' to see required parameters.`,
+		Example: `# install an example StackPack with parameters
+sts stackpack install --name example -p "full_name=First Last" -p URL=https://stackstate.com
+
+# install and wait for completion
+sts stackpack install --name kubernetes -p cluster_name=production --wait`,
 		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")

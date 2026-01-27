@@ -19,10 +19,15 @@ type DescribePermissionsArgs struct {
 func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribePermissionsArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe-permissions",
-		Short: "Show permissions of a subject",
-		Long:  "Show permissions of a subject.",
-		RunE:  deps.CmdRunEWithApi(RunDescribePermissionsCommand(args)),
+		Use:   "describe-permissions --subject SUBJECT",
+		Short: "Show permissions granted to a subject",
+		Long:  "Show all permissions granted to a subject. Can filter by permission type or resource.",
+		Example: `# show all permissions for a subject
+sts rbac describe-permissions --subject my-team
+
+# filter by permission type
+sts rbac describe-permissions --subject my-team --permission access-view`,
+		RunE: deps.CmdRunEWithApi(RunDescribePermissionsCommand(args)),
 	}
 
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)

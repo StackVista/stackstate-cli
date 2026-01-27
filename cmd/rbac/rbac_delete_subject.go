@@ -15,10 +15,12 @@ type DeleteSubjectArgs struct {
 func DeleteSubjectCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteSubjectArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete-subject",
+		Use:   "delete-subject --subject SUBJECT",
 		Short: "Delete a security subject",
-		Long:  "Delete a security subject from StackState.",
-		RunE:  deps.CmdRunEWithApi(RunDeleteSubjectCommand(args)),
+		Long:  "Delete a security subject and revoke all its permissions. This operation cannot be undone.",
+		Example: `# delete a subject
+sts rbac delete-subject --subject my-team`,
+		RunE: deps.CmdRunEWithApi(RunDeleteSubjectCommand(args)),
 	}
 
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)

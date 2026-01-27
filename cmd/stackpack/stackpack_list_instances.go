@@ -14,10 +14,12 @@ import (
 func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 	args := &ListPropertiesArgs{}
 	cmd := &cobra.Command{
-		Use:   "list-instances",
+		Use:   "list-instances --name NAME",
 		Short: "List installed instances of a StackPack",
-		Long:  "List all installed instances of a StackPack.",
-		RunE:  cli.CmdRunEWithApi(RunStackpackListInstanceCommand(args)),
+		Long:  "List all installed instances of a StackPack. Shows instance ID, status, version, and last update time.",
+		Example: `# list instances of the kubernetes StackPack
+sts stackpack list-instances --name kubernetes`,
+		RunE: cli.CmdRunEWithApi(RunStackpackListInstanceCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the instance")
 	return cmd

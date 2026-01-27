@@ -16,10 +16,12 @@ type DeleteArgs struct {
 func DeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
-		Short: "Delete a context",
-		Long:  "Delete a context from the local config file.",
-		RunE:  cli.CmdRunEWithConfig(RunContextDeleteCommand(args)),
+		Use:   "delete --name NAME",
+		Short: "Delete a saved context from the CLI configuration",
+		Long:  "Delete a connection context from the CLI configuration file. The currently active context cannot be deleted; switch to a different context first.",
+		Example: `# delete an unused context
+sts context delete --name old-staging`,
+		RunE: cli.CmdRunEWithConfig(RunContextDeleteCommand(args)),
 	}
 
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the context")

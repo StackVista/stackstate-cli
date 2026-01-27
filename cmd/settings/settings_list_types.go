@@ -13,9 +13,11 @@ import (
 func SettingsListTypesCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-types",
-		Short: "List all types of settings available",
-		Long:  "List all types of settings available.",
-		RunE:  cli.CmdRunEWithApi(RunSettingsListTypesCommand),
+		Short: "List all available setting types",
+		Long:  "List all available setting types. Use these type names with 'sts settings list --type TYPE' to list settings of that type.",
+		Example: `# list all available types
+sts settings list-types`,
+		RunE: cli.CmdRunEWithApi(RunSettingsListTypesCommand),
 	}
 
 	return cmd

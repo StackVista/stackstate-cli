@@ -16,9 +16,14 @@ func DescribeSubjectsCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeSubjectsArgs{}
 	cmd := &cobra.Command{
 		Use:   "describe-subjects",
-		Short: "List the subjects available in StackState",
-		Long:  "List the subjects available in StackState.",
-		RunE:  deps.CmdRunEWithApi(RunDescribeSubjectsCommand(args)),
+		Short: "List all subjects or describe a specific subject",
+		Long:  "List all security subjects or describe a specific subject. Shows subject handle and source.",
+		Example: `# list all subjects
+sts rbac describe-subjects
+
+# describe a specific subject
+sts rbac describe-subjects --subject my-team`,
+		RunE: deps.CmdRunEWithApi(RunDescribeSubjectsCommand(args)),
 	}
 
 	cmd.Flags().StringVar(&args.Subject, Subject, "", SubjectUsage)

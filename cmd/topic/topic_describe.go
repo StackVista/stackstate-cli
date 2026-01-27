@@ -39,10 +39,15 @@ type DescribeArgs struct {
 func DescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Describe a given topic",
-		Long:  "Describe a given topic.",
-		RunE:  deps.CmdRunEWithApi(RunDescribeCommand(args)),
+		Use:   "describe --name NAME",
+		Short: "Read messages from a Kafka topic",
+		Long:  "Read messages from a Kafka topic. Can filter by partition and offset, and save output to a file.",
+		Example: `# read latest 10 messages from a topic
+sts topic describe --name sts_topo_process_agents
+
+# read messages from a specific offset and save to file
+sts topic describe --name sts_topo_process_agents --offset 100 --limit 50 --file messages.json`,
+		RunE: deps.CmdRunEWithApi(RunDescribeCommand(args)),
 	}
 
 	cmd.Flags().StringVar(&args.Name, Name, "", NameUsage)

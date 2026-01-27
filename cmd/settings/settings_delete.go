@@ -18,10 +18,15 @@ type DeleteArgs struct {
 func SettingsDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
-		Short: "Delete one or more graph nodes from StackState",
-		Long:  "Delete one or more graph nodes from StackState.",
-		RunE:  cli.CmdRunEWithApi(RunSettingsDeleteCommand(args)),
+		Use:   "delete --ids IDS",
+		Short: "Delete settings by ID",
+		Long:  "Delete one or more settings by their IDs. This operation cannot be undone.",
+		Example: `# delete a setting
+sts settings delete --ids 123456789
+
+# delete multiple settings
+sts settings delete --ids 123,456,789`,
+		RunE: cli.CmdRunEWithApi(RunSettingsDeleteCommand(args)),
 	}
 	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "The IDs of nodes to delete")
 	cmd.MarkFlagRequired(IdsFlag) //nolint:errcheck

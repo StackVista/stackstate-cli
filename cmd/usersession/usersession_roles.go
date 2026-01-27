@@ -10,9 +10,11 @@ import (
 func GetUserSessionRolesCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "roles",
-		Short: "Get user roles",
-		Long:  "Get roles for current user session.",
-		RunE:  cli.CmdRunEWithApi(RunUserSessionRolesCommand),
+		Short: "List available roles for the current session",
+		Long:  "List all roles available to the current user session.",
+		Example: `# list roles for current session
+sts user-session roles`,
+		RunE: cli.CmdRunEWithApi(RunUserSessionRolesCommand),
 	}
 
 	return cmd

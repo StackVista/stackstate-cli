@@ -24,10 +24,15 @@ type DescribeArgs struct {
 func DescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Show the details of an active Topology synchronization",
-		Long:  "Show the details of an active Topology synchronization.",
-		RunE:  deps.CmdRunEWithApi(RunDescribeCommand(args)),
+		Use:   "describe {--id ID | --identifier URN}",
+		Short: "Show detailed status of a topology synchronization",
+		Long:  "Show detailed status of a topology synchronization including metrics, latency, and error details.",
+		Example: `# describe a synchronization by ID
+sts topology-sync describe --id 123456789
+
+# describe by identifier
+sts topology-sync describe --identifier urn:stackpack:kubernetes:sync`,
+		RunE: deps.CmdRunEWithApi(RunDescribeCommand(args)),
 	}
 	cmd.Flags().Int64VarP(&args.ID, common.IDFlag, common.IDFlagShort, 0, "The ID of a topology synchronization")
 	cmd.Flags().StringVar(&args.Identifier, common.IdentifierFlag, "", "The identifier of a topology synchronization")

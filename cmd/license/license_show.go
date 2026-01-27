@@ -12,9 +12,14 @@ import (
 func ShowCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "show",
-		Short: "Show the license information",
-		Long:  "Show the license information.",
-		RunE:  deps.CmdRunEWithApi(runLicenseShowCommand),
+		Short: "Display current license details and expiration",
+		Long:  "Display the current SUSE Observability license information including plan type, expiration date, and usage limits.",
+		Example: `# show license information
+sts license show
+
+# show license in JSON format
+sts license show -o json`,
+		RunE: deps.CmdRunEWithApi(runLicenseShowCommand),
 	}
 	return cmd
 }

@@ -14,9 +14,11 @@ import (
 func ListCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "Lists active Topology Synchronizations",
-		Long:  "Lists active Topology Synchronizations.",
-		RunE:  deps.CmdRunEWithApi(RunListCommand),
+		Short: "List all active topology synchronizations",
+		Long:  "List all active topology synchronizations. Shows status, component and relation counts, and error counts.",
+		Example: `# list all topology synchronizations
+sts topology-sync list`,
+		RunE: deps.CmdRunEWithApi(RunListCommand),
 	}
 
 	return cmd

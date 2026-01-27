@@ -9,8 +9,8 @@ import (
 func TopologySyncCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "topology-sync",
-		Short: "Manage the StackState Topology Synchronization",
-		Long:  "Manage the StackState Topology Synchronization.",
+		Short: "Monitor topology synchronization streams",
+		Long:  "Monitor and manage topology synchronization streams. View sync status, metrics, and clear errors from data sources.",
 	}
 
 	cmd.AddCommand(topologysync.ListCommand(deps))

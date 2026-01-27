@@ -9,8 +9,8 @@ import (
 func ScriptCommand(cli *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "script",
-		Short: "Run scripts",
-		Long:  "Run, test and develop scripts.",
+		Short: "Execute STSL scripts on the server",
+		Long:  "Execute STSL (SUSE Observability Scripting Language) scripts on the server. Scripts can query topology, metrics, and other data.",
 	}
 	cmd.AddCommand(script.ScriptRunCommand(cli))
 

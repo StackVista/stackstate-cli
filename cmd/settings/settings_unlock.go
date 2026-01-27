@@ -19,10 +19,14 @@ type UnlockArgs struct {
 func SettingsUnlockCommand(cli *di.Deps) *cobra.Command {
 	args := &UnlockArgs{}
 	cmd := &cobra.Command{
-		Use:   "unlock",
-		Short: "Unlock graph nodes which are locked because of a dependency within StackState",
-		Long: "Unlock graph nodes which are locked because of a dependency within StackState. " +
-			"Unlocking nodes might block future upgrades of StackPacks.",
+		Use:   "unlock --ids IDS",
+		Short: "Unlock settings locked by StackPacks",
+		Long:  `Unlock settings locked by StackPacks to allow editing. Warning: Unlocking settings may prevent StackPacks from upgrading correctly.`,
+		Example: `# unlock a setting by ID
+sts settings unlock --ids 123456789
+
+# unlock multiple settings
+sts settings unlock --ids 123,456,789`,
 		RunE: cli.CmdRunEWithApi(RunSettingsUnlockCommand(args)),
 	}
 	cmd.Flags().Int64SliceVar(&args.Ids, IdsFlag, nil, "The IDs of nodes to unlock")

@@ -27,14 +27,14 @@ const (
 func ScriptRunCommand(cli *di.Deps) *cobra.Command {
 	args := &ScriptRunArgs{}
 	cmd := &cobra.Command{
-		Use:   "run",
-		Short: "Run an STSL script",
-		Long:  "Run an STSL script.",
-		Example: "# run a script from file\n" +
-			"sts script run --file \"path/to/my.script\"\n" +
-			"\n" +
-			"# run a script with variables provided by an arguments-script\n" +
-			"sts script run --script \"x+y\" --arguments-script \"[x: 1, y: 2]\"",
+		Use:   "run {--script SCRIPT | --file FILE}",
+		Short: "Execute an STSL script on the server",
+		Long:  "Execute an STSL (SUSE Observability Scripting Language) script on the server. Scripts can be provided inline or loaded from a file. Use --arguments-script to pass variables to the script.",
+		Example: `# run a script from file
+sts script run --file "path/to/my.script"
+
+# run a script with variables provided by an arguments-script
+sts script run --script "x+y" --arguments-script "[x: 1, y: 2]"`,
 		RunE: cli.CmdRunEWithApi(RunScriptRunCommand(args)),
 	}
 

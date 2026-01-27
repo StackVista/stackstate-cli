@@ -21,10 +21,15 @@ type ApplyArgs struct {
 func DashboardApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply",
-		Short: "Create or edit a dashboard from YAML",
-		Long:  "Create or edit a dashboard from YAML file.",
-		RunE:  cli.CmdRunEWithApi(RunDashboardApplyCommand(args)),
+		Use:   "apply --file FILE",
+		Short: "Create or update a dashboard from a YAML file",
+		Long:  "Create or update a dashboard from a YAML file. If the YAML contains an 'id' field, the existing dashboard is updated; otherwise a new dashboard is created.",
+		Example: `# create a new dashboard from file
+sts dashboard apply --file new-dashboard.yaml
+
+# update an existing dashboard (file must contain 'id' field)
+sts dashboard apply --file updated-dashboard.yaml`,
+		RunE: cli.CmdRunEWithApi(RunDashboardApplyCommand(args)),
 	}
 
 	common.AddRequiredFileFlagVar(cmd, &args.File, "Path to a .yaml file with the dashboard definition")

@@ -17,10 +17,11 @@ type ManualStepsArgs struct {
 func StackpackConfirmManualStepsCommand(cli *di.Deps) *cobra.Command {
 	args := &ManualStepsArgs{}
 	cmd := &cobra.Command{
-		Use:   "confirm-manual-steps",
-		Short: "Confirm manual steps of StackPack",
-		Long: "During some installation of StackPacks manual actions/steps must be taken by the user in order for the installation to complete. " +
-			"These steps can not be verified by the system and only require a confirmation from the user. This command sends such a confirmation.",
+		Use:   "confirm-manual-steps --name NAME --id ID",
+		Short: "Confirm completion of manual installation steps",
+		Long:  `Confirm that manual installation steps have been completed for a StackPack instance. Some StackPacks require manual actions that cannot be verified automatically.`,
+		Example: `# confirm manual steps for a StackPack instance
+sts stackpack confirm-manual-steps --name kubernetes --id 123456789`,
 		RunE: cli.CmdRunEWithApi(RunStackpackConfirmManualStepsCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")

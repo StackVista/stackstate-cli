@@ -25,10 +25,15 @@ type CreateArgs struct {
 func CreateCommand(deps *di.Deps) *cobra.Command {
 	args := &CreateArgs{}
 	cmd := &cobra.Command{
-		Use:   "create",
-		Short: "Create a service token",
-		Long:  "Create a new service token for authentication with StackState.",
-		RunE:  deps.CmdRunEWithApi(RunServiceTokenCreateCommand(args)),
+		Use:   "create --name NAME --roles ROLES",
+		Short: "Create a new service token",
+		Long:  "Create a new service token for API authentication. The token is shown once upon creation and cannot be retrieved later.",
+		Example: `# create a token with admin role
+sts service-token create --name my-token --roles stackstate-admin
+
+# create a token with expiration date
+sts service-token create --name my-token --roles stackstate-power-user --expiration 2025-12-31`,
+		RunE: deps.CmdRunEWithApi(RunServiceTokenCreateCommand(args)),
 	}
 
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the service token")

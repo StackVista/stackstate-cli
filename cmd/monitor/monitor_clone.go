@@ -18,10 +18,15 @@ type CloneArgs struct {
 func MonitorCloneCommand(cli *di.Deps) *cobra.Command {
 	args := &CloneArgs{}
 	cmd := &cobra.Command{
-		Use:   "clone",
-		Short: "Clone a monitor",
-		Long:  "Clones a monitor.",
-		RunE:  cli.CmdRunEWithApi(RunMonitorCloneCommand(args)),
+		Use:   "clone {--id ID | --identifier URN} --name NAME",
+		Short: "Clone an existing monitor to create an editable copy",
+		Long:  `Clone an existing monitor to create a new copy with a different name. This is useful for creating custom versions of locked monitors from StackPacks.`,
+		Example: `# clone a monitor by ID
+sts monitor clone --id 123456789 --name "My Custom Monitor"
+
+# clone a monitor by identifier
+sts monitor clone --identifier urn:stackpack:my-monitor --name "Custom Copy"`,
+		RunE: cli.CmdRunEWithApi(RunMonitorCloneCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)

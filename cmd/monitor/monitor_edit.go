@@ -13,15 +13,6 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
-const LongDescription = `Edit a monitor.
-
-The edit command allows you to directly edit any StackState Monitor. It will open
-the editor defined by your VISUAL, or EDITOR environment variables, or fall back to 'vi' for Linux or 'notepad' for
-Windows.
-When '--unlock' is specified, the CLI will always unlock the Monitor when editing it.
-This might introduce changes that prevent the originating StackPack from upgrading correctly. Any changes you make are not the responsibility of the StackPack developer.
-`
-
 const MonitorNodeType = "Monitor"
 
 type EditArgs struct {
@@ -33,10 +24,15 @@ type EditArgs struct {
 func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit",
-		Short: "Edit a monitor",
-		Long:  LongDescription,
-		RunE:  cli.CmdRunEWithApi(RunMonitorEditCommand(args)),
+		Use:   "edit {--id ID | --identifier URN}",
+		Short: "Edit a monitor interactively in your default editor",
+		Long:  `Edit a monitor interactively. Opens the monitor definition in the editor defined by your VISUAL or EDITOR environment variable. Locked monitors (from StackPacks) require cloning first.`,
+		Example: `# edit a monitor by ID
+sts monitor edit --id 123456789
+
+# edit a monitor by identifier
+sts monitor edit --identifier urn:stackpack:my-monitor`,
+		RunE: cli.CmdRunEWithApi(RunMonitorEditCommand(args)),
 	}
 
 	common.AddIDFlagVar(cmd, &args.ID, IDFlagUsage)
@@ -77,7 +73,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 
 		if locked.NodeLocked != nil && !args.Unlock {
 			// Print message for the user
-			cli.Printer.PrintLn(fmt.Sprintf("The monitor %s that you are trying is locked (StackState specific), it cannot be edited", monitorName))
+			cli.Printer.PrintLn(fmt.Sprintf("The monitor %s that you are trying is locked (SUSE Observability specific), it cannot be edited", monitorName))
 			cli.Printer.PrintLn("")
 			cli.Printer.PrintLn("To change the behaviour of this monitor you need to follow the following steps:")
 			cli.Printer.PrintLn(fmt.Sprintf("1. Clone the monitor:\n\tsts monitor clone -i %d --name <new-name>", id))

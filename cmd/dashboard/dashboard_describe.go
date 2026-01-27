@@ -21,10 +21,15 @@ type DescribeArgs struct {
 func DashboardDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
-		Short: "Describe a dashboard in YAML format",
-		Long:  "Describe a dashboard in StackState Templated YAML.",
-		RunE:  cli.CmdRunEWithApi(RunDashboardDescribeCommand(args)),
+		Use:   "describe {--id ID | --identifier URN}",
+		Short: "Export a dashboard definition in YAML format",
+		Long:  "Export the full dashboard definition in YAML format. Output can be printed to stdout or saved to a file for backup or migration purposes.",
+		Example: `# describe a dashboard by ID
+sts dashboard describe --id 123456789
+
+# describe a dashboard by identifier and save to file
+sts dashboard describe --identifier urn:stackpack:my-dashboard --file dashboard.yaml`,
+		RunE: cli.CmdRunEWithApi(RunDashboardDescribeCommand(args)),
 	}
 
 	cmd.Flags().Int64Var(&args.ID, "id", 0, "ID of the dashboard")

@@ -16,12 +16,14 @@ type DeleteArgs struct {
 func HealthDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
-		Short: "Delete stream",
-		Long:  "Delete a health synchronization stream.",
-		RunE:  cli.CmdRunEWithApi(RunHealthDeleteCommand(args)),
+		Use:   "delete --urn URN",
+		Short: "Delete a health synchronization stream",
+		Long:  "Delete a health synchronization stream and all its sub-streams. This removes all check states associated with the stream.",
+		Example: `# delete a health stream
+sts health delete --urn urn:health:my-stream`,
+		RunE: cli.CmdRunEWithApi(RunHealthDeleteCommand(args)),
 	}
-	common.AddRequiredUrnFlagVar(cmd, &args.Urn, "Urn of the health synchronization stream")
+	common.AddRequiredUrnFlagVar(cmd, &args.Urn, "URN of the health synchronization stream to delete")
 
 	return cmd
 }

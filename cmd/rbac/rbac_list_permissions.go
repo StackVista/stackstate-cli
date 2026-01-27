@@ -12,9 +12,11 @@ import (
 func ListPermissionsCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "list-permissions",
-		Short: "List available permissions",
-		Long:  "List available permissions.",
-		RunE:  deps.CmdRunEWithApi(RunListPermissionsCommand),
+		Short: "List all available permission types",
+		Long:  "List all available permission types that can be granted to subjects.",
+		Example: `# list all available permissions
+sts rbac list-permissions`,
+		RunE: deps.CmdRunEWithApi(RunListPermissionsCommand),
 	}
 
 	return cmd
