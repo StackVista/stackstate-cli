@@ -95,8 +95,8 @@ GetRetentionEpoch Get retention epoch
 
 Get StackGraph retention epoch.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRetentionEpochRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRetentionEpochRequest
 */
 func (a *RetentionApiService) GetRetentionEpoch(ctx context.Context) ApiGetRetentionEpochRequest {
 	return ApiGetRetentionEpochRequest{
@@ -106,7 +106,8 @@ func (a *RetentionApiService) GetRetentionEpoch(ctx context.Context) ApiGetReten
 }
 
 // Execute executes the request
-//  @return EpochTx
+//
+//	@return EpochTx
 func (a *RetentionApiService) GetRetentionEpochExecute(r ApiGetRetentionEpochRequest) (*EpochTx, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -255,8 +256,8 @@ GetRetentionWindow Get retention window
 
 Get StackGraph retention window.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiGetRetentionWindowRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiGetRetentionWindowRequest
 */
 func (a *RetentionApiService) GetRetentionWindow(ctx context.Context) ApiGetRetentionWindowRequest {
 	return ApiGetRetentionWindowRequest{
@@ -266,7 +267,8 @@ func (a *RetentionApiService) GetRetentionWindow(ctx context.Context) ApiGetRete
 }
 
 // Execute executes the request
-//  @return WindowMs
+//
+//	@return WindowMs
 func (a *RetentionApiService) GetRetentionWindowExecute(r ApiGetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodGet
@@ -422,8 +424,8 @@ RemoveExpiredData Remove expired data from StackGraph
 
 Either schedule removal or immediately remove expired data from StackGraph
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiRemoveExpiredDataRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiRemoveExpiredDataRequest
 */
 func (a *RetentionApiService) RemoveExpiredData(ctx context.Context) ApiRemoveExpiredDataRequest {
 	return ApiRemoveExpiredDataRequest{
@@ -433,7 +435,8 @@ func (a *RetentionApiService) RemoveExpiredData(ctx context.Context) ApiRemoveEx
 }
 
 // Execute executes the request
-//  @return RemovalProgress
+//
+//	@return RemovalProgress
 func (a *RetentionApiService) RemoveExpiredDataExecute(r ApiRemoveExpiredDataRequest) (*RemovalProgress, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost
@@ -599,8 +602,8 @@ SetRetentionWindow Set retention window
 
 Set StackGraph retention window and optionally schedule data removal.
 
- @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
- @return ApiSetRetentionWindowRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiSetRetentionWindowRequest
 */
 func (a *RetentionApiService) SetRetentionWindow(ctx context.Context) ApiSetRetentionWindowRequest {
 	return ApiSetRetentionWindowRequest{
@@ -610,7 +613,8 @@ func (a *RetentionApiService) SetRetentionWindow(ctx context.Context) ApiSetRete
 }
 
 // Execute executes the request
-//  @return WindowMs
+//
+//	@return WindowMs
 func (a *RetentionApiService) SetRetentionWindowExecute(r ApiSetRetentionWindowRequest) (*WindowMs, *http.Response, error) {
 	var (
 		localVarHTTPMethod  = http.MethodPost

@@ -11,10 +11,12 @@ func OtelComponentMappingStatusCommand(deps *di.Deps) *cobra.Command {
 	args := &otelmapping.StatusArgs{}
 	cmd := &cobra.Command{
 		Use:   "status",
-		Short: "Get the status of an Otel Component Mappings",
-		Long:  "Get the status of an Otel Component Mappings.",
+		Short: "Get the status of an OTel Component Mappings",
+		Long:  "Get the status of an OTel Component Mappings.",
 		RunE:  deps.CmdRunEWithApi(otelmapping.RunStatus(args, "component", otelmapping.FetchComponentStatus)),
 	}
-	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier of the Otel Component Mapping")
+
+	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier of the OTel Component Mapping")
+
 	return cmd
 }
