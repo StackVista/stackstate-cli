@@ -17,9 +17,9 @@ import (
 
 // MonitorCheckStatusHealthHistory struct for MonitorCheckStatusHealthHistory
 type MonitorCheckStatusHealthHistory struct {
-	CheckStatusId int64 `json:"checkStatusId"`
-	StartTime     int32 `json:"startTime"`
-	EndTime       int32 `json:"endTime"`
+	Identifier string `json:"identifier"`
+	StartTime  int32  `json:"startTime"`
+	EndTime    int32  `json:"endTime"`
 	// List of health state changes ordered from most recent to oldest.
 	HealthStateChanges []MonitorCheckStatusHealthChange `json:"healthStateChanges"`
 }
@@ -28,9 +28,9 @@ type MonitorCheckStatusHealthHistory struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCheckStatusHealthHistory(checkStatusId int64, startTime int32, endTime int32, healthStateChanges []MonitorCheckStatusHealthChange) *MonitorCheckStatusHealthHistory {
+func NewMonitorCheckStatusHealthHistory(identifier string, startTime int32, endTime int32, healthStateChanges []MonitorCheckStatusHealthChange) *MonitorCheckStatusHealthHistory {
 	this := MonitorCheckStatusHealthHistory{}
-	this.CheckStatusId = checkStatusId
+	this.Identifier = identifier
 	this.StartTime = startTime
 	this.EndTime = endTime
 	this.HealthStateChanges = healthStateChanges
@@ -45,28 +45,28 @@ func NewMonitorCheckStatusHealthHistoryWithDefaults() *MonitorCheckStatusHealthH
 	return &this
 }
 
-// GetCheckStatusId returns the CheckStatusId field value
-func (o *MonitorCheckStatusHealthHistory) GetCheckStatusId() int64 {
+// GetIdentifier returns the Identifier field value
+func (o *MonitorCheckStatusHealthHistory) GetIdentifier() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 
-	return o.CheckStatusId
+	return o.Identifier
 }
 
-// GetCheckStatusIdOk returns a tuple with the CheckStatusId field value
+// GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusHealthHistory) GetCheckStatusIdOk() (*int64, bool) {
+func (o *MonitorCheckStatusHealthHistory) GetIdentifierOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.CheckStatusId, true
+	return &o.Identifier, true
 }
 
-// SetCheckStatusId sets field value
-func (o *MonitorCheckStatusHealthHistory) SetCheckStatusId(v int64) {
-	o.CheckStatusId = v
+// SetIdentifier sets field value
+func (o *MonitorCheckStatusHealthHistory) SetIdentifier(v string) {
+	o.Identifier = v
 }
 
 // GetStartTime returns the StartTime field value
@@ -144,7 +144,7 @@ func (o *MonitorCheckStatusHealthHistory) SetHealthStateChanges(v []MonitorCheck
 func (o MonitorCheckStatusHealthHistory) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["checkStatusId"] = o.CheckStatusId
+		toSerialize["identifier"] = o.Identifier
 	}
 	if true {
 		toSerialize["startTime"] = o.StartTime

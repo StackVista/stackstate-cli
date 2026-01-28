@@ -1,7 +1,13 @@
 package rbac
 
+import (
+	"fmt"
+	"strings"
+)
+
 const (
 	Subject    = "subject"
+	Source     = "source"
 	Permission = "permission"
 	Resource   = "resource"
 	Scope      = "scope"
@@ -20,4 +26,9 @@ const (
 	CreateOnlyUsage = "Fail when a subject with the same name already exists"
 
 	DefaultResource = "system"
+)
+
+var (
+	SourceChoices = []string{"static", "observability", "kubernetes"}
+	SourceUsage   = "Get the subject from a specific authorization source" + fmt.Sprintf(" (must be { %s })", strings.Join(SourceChoices, " | "))
 )

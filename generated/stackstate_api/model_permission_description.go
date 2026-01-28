@@ -18,6 +18,7 @@ import (
 // PermissionDescription struct for PermissionDescription
 type PermissionDescription struct {
 	SubjectHandle string              `json:"subjectHandle"`
+	FromSources   []SubjectSource     `json:"fromSources,omitempty"`
 	Permissions   map[string][]string `json:"permissions"`
 }
 
@@ -64,6 +65,38 @@ func (o *PermissionDescription) SetSubjectHandle(v string) {
 	o.SubjectHandle = v
 }
 
+// GetFromSources returns the FromSources field value if set, zero value otherwise.
+func (o *PermissionDescription) GetFromSources() []SubjectSource {
+	if o == nil || o.FromSources == nil {
+		var ret []SubjectSource
+		return ret
+	}
+	return o.FromSources
+}
+
+// GetFromSourcesOk returns a tuple with the FromSources field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PermissionDescription) GetFromSourcesOk() ([]SubjectSource, bool) {
+	if o == nil || o.FromSources == nil {
+		return nil, false
+	}
+	return o.FromSources, true
+}
+
+// HasFromSources returns a boolean if a field has been set.
+func (o *PermissionDescription) HasFromSources() bool {
+	if o != nil && o.FromSources != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetFromSources gets a reference to the given []SubjectSource and assigns it to the FromSources field.
+func (o *PermissionDescription) SetFromSources(v []SubjectSource) {
+	o.FromSources = v
+}
+
 // GetPermissions returns the Permissions field value
 func (o *PermissionDescription) GetPermissions() map[string][]string {
 	if o == nil {
@@ -92,6 +125,9 @@ func (o PermissionDescription) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["subjectHandle"] = o.SubjectHandle
+	}
+	if o.FromSources != nil {
+		toSerialize["fromSources"] = o.FromSources
 	}
 	if true {
 		toSerialize["permissions"] = o.Permissions

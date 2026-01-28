@@ -28,10 +28,10 @@ type MonitorCheckStatusApi interface {
 		Get a monitor check status by check state id
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param id The id of a monitor check status
+		@param identifier The id of a monitor check status
 		@return ApiGetMonitorCheckStatusRequest
 	*/
-	GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest
+	GetMonitorCheckStatus(ctx context.Context, identifier string) ApiGetMonitorCheckStatusRequest
 
 	// GetMonitorCheckStatusExecute executes the request
 	//  @return MonitorCheckStatus
@@ -43,10 +43,10 @@ type MonitorCheckStatusApi interface {
 		Get a monitor check status health history for a defined period of time by the check state id
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param id The id of a monitor check status
+		@param identifier The id of a monitor check status
 		@return ApiGetMonitorCheckStatusHealthHistoryRequest
 	*/
-	GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest
+	GetMonitorCheckStatusHealthHistory(ctx context.Context, identifier string) ApiGetMonitorCheckStatusHealthHistoryRequest
 
 	// GetMonitorCheckStatusHealthHistoryExecute executes the request
 	//  @return MonitorCheckStatusHealthHistory
@@ -58,10 +58,10 @@ type MonitorCheckStatusApi interface {
 		Get a monitor check status related failures by the check state id
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param id The id of a monitor check status
+		@param identifier The id of a monitor check status
 		@return ApiGetMonitorCheckStatusRelatedFailuresRequest
 	*/
-	GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest
+	GetMonitorCheckStatusRelatedFailures(ctx context.Context, identifier string) ApiGetMonitorCheckStatusRelatedFailuresRequest
 
 	// GetMonitorCheckStatusRelatedFailuresExecute executes the request
 	//  @return MonitorCheckStatusRelatedFailures
@@ -74,7 +74,7 @@ type MonitorCheckStatusApiService service
 type ApiGetMonitorCheckStatusRequest struct {
 	ctx          context.Context
 	ApiService   MonitorCheckStatusApi
-	id           int64
+	identifier   string
 	topologyTime *int32
 }
 
@@ -94,14 +94,14 @@ GetMonitorCheckStatus Get a monitor check status
 Get a monitor check status by check state id
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param id The id of a monitor check status
+	@param identifier The id of a monitor check status
 	@return ApiGetMonitorCheckStatusRequest
 */
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
+func (a *MonitorCheckStatusApiService) GetMonitorCheckStatus(ctx context.Context, identifier string) ApiGetMonitorCheckStatusRequest {
 	return ApiGetMonitorCheckStatusRequest{
 		ApiService: a,
 		ctx:        ctx,
-		id:         id,
+		identifier: identifier,
 	}
 }
 
@@ -121,8 +121,8 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/monitor/checkStatus/{id}"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath := localBasePath + "/monitor/checkStatus/{identifier}"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -257,12 +257,11 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusExecute(r ApiGetMoni
 }
 
 type ApiGetMonitorCheckStatusHealthHistoryRequest struct {
-	ctx          context.Context
-	ApiService   MonitorCheckStatusApi
-	id           int64
-	startTime    *int32
-	endTime      *int32
-	topologyTime *int32
+	ctx        context.Context
+	ApiService MonitorCheckStatusApi
+	identifier string
+	startTime  *int32
+	endTime    *int32
 }
 
 // The start time of a time range to query resources.
@@ -277,12 +276,6 @@ func (r ApiGetMonitorCheckStatusHealthHistoryRequest) EndTime(endTime int32) Api
 	return r
 }
 
-// A timestamp at which resources will be queried. If not given the resources are queried at current time.
-func (r ApiGetMonitorCheckStatusHealthHistoryRequest) TopologyTime(topologyTime int32) ApiGetMonitorCheckStatusHealthHistoryRequest {
-	r.topologyTime = &topologyTime
-	return r
-}
-
 func (r ApiGetMonitorCheckStatusHealthHistoryRequest) Execute() (*MonitorCheckStatusHealthHistory, *http.Response, error) {
 	return r.ApiService.GetMonitorCheckStatusHealthHistoryExecute(r)
 }
@@ -293,14 +286,14 @@ GetMonitorCheckStatusHealthHistory Get a monitor check health history
 Get a monitor check status health history for a defined period of time by the check state id
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param id The id of a monitor check status
+	@param identifier The id of a monitor check status
 	@return ApiGetMonitorCheckStatusHealthHistoryRequest
 */
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
+func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistory(ctx context.Context, identifier string) ApiGetMonitorCheckStatusHealthHistoryRequest {
 	return ApiGetMonitorCheckStatusHealthHistoryRequest{
 		ApiService: a,
 		ctx:        ctx,
-		id:         id,
+		identifier: identifier,
 	}
 }
 
@@ -320,8 +313,8 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/monitor/checkStatus/{id}/healthHistory"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath := localBasePath + "/monitor/checkStatus/{identifier}/healthHistory"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -333,9 +326,6 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
 	if r.endTime != nil {
 		localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
-	}
-	if r.topologyTime != nil {
-		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -455,7 +445,7 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusHealthHistoryExecute
 type ApiGetMonitorCheckStatusRelatedFailuresRequest struct {
 	ctx          context.Context
 	ApiService   MonitorCheckStatusApi
-	id           int64
+	identifier   string
 	topologyTime *int32
 }
 
@@ -475,14 +465,14 @@ GetMonitorCheckStatusRelatedFailures Get a monitor check related failures
 Get a monitor check status related failures by the check state id
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param id The id of a monitor check status
+	@param identifier The id of a monitor check status
 	@return ApiGetMonitorCheckStatusRelatedFailuresRequest
 */
-func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
+func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailures(ctx context.Context, identifier string) ApiGetMonitorCheckStatusRelatedFailuresRequest {
 	return ApiGetMonitorCheckStatusRelatedFailuresRequest{
 		ApiService: a,
 		ctx:        ctx,
-		id:         id,
+		identifier: identifier,
 	}
 }
 
@@ -502,8 +492,8 @@ func (a *MonitorCheckStatusApiService) GetMonitorCheckStatusRelatedFailuresExecu
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/monitor/checkStatus/{id}/relatedFailures"
-	localVarPath = strings.Replace(localVarPath, "{"+"id"+"}", url.PathEscape(parameterToString(r.id, "")), -1)
+	localVarPath := localBasePath + "/monitor/checkStatus/{identifier}/relatedFailures"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -668,21 +658,21 @@ type GetMonitorCheckStatusMockResponse struct {
 }
 
 type GetMonitorCheckStatusCall struct {
-	Pid           int64
+	Pidentifier   string
 	PtopologyTime *int32
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatus(ctx context.Context, id int64) ApiGetMonitorCheckStatusRequest {
+func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatus(ctx context.Context, identifier string) ApiGetMonitorCheckStatusRequest {
 	return ApiGetMonitorCheckStatusRequest{
 		ApiService: mock,
 		ctx:        ctx,
-		id:         id,
+		identifier: identifier,
 	}
 }
 
 func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusExecute(r ApiGetMonitorCheckStatusRequest) (*MonitorCheckStatus, *http.Response, error) {
 	p := GetMonitorCheckStatusCall{
-		Pid:           r.id,
+		Pidentifier:   r.identifier,
 		PtopologyTime: r.topologyTime,
 	}
 	*mock.GetMonitorCheckStatusCalls = append(*mock.GetMonitorCheckStatusCalls, p)
@@ -696,26 +686,24 @@ type GetMonitorCheckStatusHealthHistoryMockResponse struct {
 }
 
 type GetMonitorCheckStatusHealthHistoryCall struct {
-	Pid           int64
-	PstartTime    *int32
-	PendTime      *int32
-	PtopologyTime *int32
+	Pidentifier string
+	PstartTime  *int32
+	PendTime    *int32
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx context.Context, id int64) ApiGetMonitorCheckStatusHealthHistoryRequest {
+func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistory(ctx context.Context, identifier string) ApiGetMonitorCheckStatusHealthHistoryRequest {
 	return ApiGetMonitorCheckStatusHealthHistoryRequest{
 		ApiService: mock,
 		ctx:        ctx,
-		id:         id,
+		identifier: identifier,
 	}
 }
 
 func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusHealthHistoryExecute(r ApiGetMonitorCheckStatusHealthHistoryRequest) (*MonitorCheckStatusHealthHistory, *http.Response, error) {
 	p := GetMonitorCheckStatusHealthHistoryCall{
-		Pid:           r.id,
-		PstartTime:    r.startTime,
-		PendTime:      r.endTime,
-		PtopologyTime: r.topologyTime,
+		Pidentifier: r.identifier,
+		PstartTime:  r.startTime,
+		PendTime:    r.endTime,
 	}
 	*mock.GetMonitorCheckStatusHealthHistoryCalls = append(*mock.GetMonitorCheckStatusHealthHistoryCalls, p)
 	return &mock.GetMonitorCheckStatusHealthHistoryResponse.Result, mock.GetMonitorCheckStatusHealthHistoryResponse.Response, mock.GetMonitorCheckStatusHealthHistoryResponse.Error
@@ -728,21 +716,21 @@ type GetMonitorCheckStatusRelatedFailuresMockResponse struct {
 }
 
 type GetMonitorCheckStatusRelatedFailuresCall struct {
-	Pid           int64
+	Pidentifier   string
 	PtopologyTime *int32
 }
 
-func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusRelatedFailures(ctx context.Context, id int64) ApiGetMonitorCheckStatusRelatedFailuresRequest {
+func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusRelatedFailures(ctx context.Context, identifier string) ApiGetMonitorCheckStatusRelatedFailuresRequest {
 	return ApiGetMonitorCheckStatusRelatedFailuresRequest{
 		ApiService: mock,
 		ctx:        ctx,
-		id:         id,
+		identifier: identifier,
 	}
 }
 
 func (mock MonitorCheckStatusApiMock) GetMonitorCheckStatusRelatedFailuresExecute(r ApiGetMonitorCheckStatusRelatedFailuresRequest) (*MonitorCheckStatusRelatedFailures, *http.Response, error) {
 	p := GetMonitorCheckStatusRelatedFailuresCall{
-		Pid:           r.id,
+		Pidentifier:   r.identifier,
 		PtopologyTime: r.topologyTime,
 	}
 	*mock.GetMonitorCheckStatusRelatedFailuresCalls = append(*mock.GetMonitorCheckStatusRelatedFailuresCalls, p)

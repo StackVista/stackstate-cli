@@ -4,15 +4,15 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**GetMonitorCheckStatus**](MonitorCheckStatusApi.md#GetMonitorCheckStatus) | **Get** /monitor/checkStatus/{id} | Get a monitor check status
-[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusApi.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{id}/healthHistory | Get a monitor check health history
-[**GetMonitorCheckStatusRelatedFailures**](MonitorCheckStatusApi.md#GetMonitorCheckStatusRelatedFailures) | **Get** /monitor/checkStatus/{id}/relatedFailures | Get a monitor check related failures
+[**GetMonitorCheckStatus**](MonitorCheckStatusApi.md#GetMonitorCheckStatus) | **Get** /monitor/checkStatus/{identifier} | Get a monitor check status
+[**GetMonitorCheckStatusHealthHistory**](MonitorCheckStatusApi.md#GetMonitorCheckStatusHealthHistory) | **Get** /monitor/checkStatus/{identifier}/healthHistory | Get a monitor check health history
+[**GetMonitorCheckStatusRelatedFailures**](MonitorCheckStatusApi.md#GetMonitorCheckStatusRelatedFailures) | **Get** /monitor/checkStatus/{identifier}/relatedFailures | Get a monitor check related failures
 
 
 
 ## GetMonitorCheckStatus
 
-> MonitorCheckStatus GetMonitorCheckStatus(ctx, id).TopologyTime(topologyTime).Execute()
+> MonitorCheckStatus GetMonitorCheckStatus(ctx, identifier).TopologyTime(topologyTime).Execute()
 
 Get a monitor check status
 
@@ -31,12 +31,12 @@ import (
 )
 
 func main() {
-    id := int64(789) // int64 | The id of a monitor check status
+    identifier := "identifier_example" // string | The id of a monitor check status
     topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatus(context.Background(), id).TopologyTime(topologyTime).Execute()
+    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatus(context.Background(), identifier).TopologyTime(topologyTime).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatus``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -52,7 +52,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **int64** | The id of a monitor check status | 
+**identifier** | **string** | The id of a monitor check status | 
 
 ### Other Parameters
 
@@ -84,7 +84,7 @@ Name | Type | Description  | Notes
 
 ## GetMonitorCheckStatusHealthHistory
 
-> MonitorCheckStatusHealthHistory GetMonitorCheckStatusHealthHistory(ctx, id).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
+> MonitorCheckStatusHealthHistory GetMonitorCheckStatusHealthHistory(ctx, identifier).StartTime(startTime).EndTime(endTime).Execute()
 
 Get a monitor check health history
 
@@ -103,14 +103,13 @@ import (
 )
 
 func main() {
-    id := int64(789) // int64 | The id of a monitor check status
+    identifier := "identifier_example" // string | The id of a monitor check status
     startTime := int32(56) // int32 | The start time of a time range to query resources.
     endTime := int32(56) // int32 | The end time of a time range to query resources. If not given the endTime is set to current time. (optional)
-    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory(context.Background(), id).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
+    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory(context.Background(), identifier).StartTime(startTime).EndTime(endTime).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatusHealthHistory``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -126,7 +125,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **int64** | The id of a monitor check status | 
+**identifier** | **string** | The id of a monitor check status | 
 
 ### Other Parameters
 
@@ -138,7 +137,6 @@ Name | Type | Description  | Notes
 
  **startTime** | **int32** | The start time of a time range to query resources. | 
  **endTime** | **int32** | The end time of a time range to query resources. If not given the endTime is set to current time. | 
- **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried at current time. | 
 
 ### Return type
 
@@ -160,7 +158,7 @@ Name | Type | Description  | Notes
 
 ## GetMonitorCheckStatusRelatedFailures
 
-> MonitorCheckStatusRelatedFailures GetMonitorCheckStatusRelatedFailures(ctx, id).TopologyTime(topologyTime).Execute()
+> MonitorCheckStatusRelatedFailures GetMonitorCheckStatusRelatedFailures(ctx, identifier).TopologyTime(topologyTime).Execute()
 
 Get a monitor check related failures
 
@@ -179,12 +177,12 @@ import (
 )
 
 func main() {
-    id := int64(789) // int64 | The id of a monitor check status
+    identifier := "identifier_example" // string | The id of a monitor check status
     topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusRelatedFailures(context.Background(), id).TopologyTime(topologyTime).Execute()
+    resp, r, err := apiClient.MonitorCheckStatusApi.GetMonitorCheckStatusRelatedFailures(context.Background(), identifier).TopologyTime(topologyTime).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `MonitorCheckStatusApi.GetMonitorCheckStatusRelatedFailures``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -200,7 +198,7 @@ func main() {
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 **ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**id** | **int64** | The id of a monitor check status | 
+**identifier** | **string** | The id of a monitor check status | 
 
 ### Other Parameters
 

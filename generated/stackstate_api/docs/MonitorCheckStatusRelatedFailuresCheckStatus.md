@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **int64** |  | 
+**Identifier** | **string** |  | 
 **Health** | [**HealthStateValue**](HealthStateValue.md) |  | 
 **Name** | **string** |  | 
 **Component** | [**MonitorCheckStatusComponent**](MonitorCheckStatusComponent.md) |  | 
@@ -15,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewMonitorCheckStatusRelatedFailuresCheckStatus
 
-`func NewMonitorCheckStatusRelatedFailuresCheckStatus(id int64, health HealthStateValue, name string, component MonitorCheckStatusComponent, topology MonitorCheckStatusRelatedFailuresTopology, triggeredTimestamp int32, ) *MonitorCheckStatusRelatedFailuresCheckStatus`
+`func NewMonitorCheckStatusRelatedFailuresCheckStatus(identifier string, health HealthStateValue, name string, component MonitorCheckStatusComponent, topology MonitorCheckStatusRelatedFailuresTopology, triggeredTimestamp int32, ) *MonitorCheckStatusRelatedFailuresCheckStatus`
 
 NewMonitorCheckStatusRelatedFailuresCheckStatus instantiates a new MonitorCheckStatusRelatedFailuresCheckStatus object
 This constructor will assign default values to properties that have it defined,
@@ -30,24 +30,24 @@ NewMonitorCheckStatusRelatedFailuresCheckStatusWithDefaults instantiates a new M
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetId
+### GetIdentifier
 
-`func (o *MonitorCheckStatusRelatedFailuresCheckStatus) GetId() int64`
+`func (o *MonitorCheckStatusRelatedFailuresCheckStatus) GetIdentifier() string`
 
-GetId returns the Id field if non-nil, zero value otherwise.
+GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
 
-### GetIdOk
+### GetIdentifierOk
 
-`func (o *MonitorCheckStatusRelatedFailuresCheckStatus) GetIdOk() (*int64, bool)`
+`func (o *MonitorCheckStatusRelatedFailuresCheckStatus) GetIdentifierOk() (*string, bool)`
 
-GetIdOk returns a tuple with the Id field if it's non-nil, zero value otherwise
+GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetId
+### SetIdentifier
 
-`func (o *MonitorCheckStatusRelatedFailuresCheckStatus) SetId(v int64)`
+`func (o *MonitorCheckStatusRelatedFailuresCheckStatus) SetIdentifier(v string)`
 
-SetId sets Id field to given value.
+SetIdentifier sets Identifier field to given value.
 
 
 ### GetHealth

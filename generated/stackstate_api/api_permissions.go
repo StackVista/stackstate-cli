@@ -89,6 +89,7 @@ type ApiDescribePermissionsRequest struct {
 	subject    string
 	resource   *string
 	permission *string
+	source     *SubjectSource
 }
 
 func (r ApiDescribePermissionsRequest) Resource(resource string) ApiDescribePermissionsRequest {
@@ -98,6 +99,11 @@ func (r ApiDescribePermissionsRequest) Resource(resource string) ApiDescribePerm
 
 func (r ApiDescribePermissionsRequest) Permission(permission string) ApiDescribePermissionsRequest {
 	r.permission = &permission
+	return r
+}
+
+func (r ApiDescribePermissionsRequest) Source(source SubjectSource) ApiDescribePermissionsRequest {
+	r.source = &source
 	return r
 }
 
@@ -150,6 +156,9 @@ func (a *PermissionsApiService) DescribePermissionsExecute(r ApiDescribePermissi
 	}
 	if r.permission != nil {
 		localVarQueryParams.Add("permission", parameterToString(*r.permission, ""))
+	}
+	if r.source != nil {
+		localVarQueryParams.Add("source", parameterToString(*r.source, ""))
 	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
@@ -810,6 +819,7 @@ type DescribePermissionsCall struct {
 	Psubject    string
 	Presource   *string
 	Ppermission *string
+	Psource     *SubjectSource
 }
 
 func (mock PermissionsApiMock) DescribePermissions(ctx context.Context, subject string) ApiDescribePermissionsRequest {
@@ -825,6 +835,7 @@ func (mock PermissionsApiMock) DescribePermissionsExecute(r ApiDescribePermissio
 		Psubject:    r.subject,
 		Presource:   r.resource,
 		Ppermission: r.permission,
+		Psource:     r.source,
 	}
 	*mock.DescribePermissionsCalls = append(*mock.DescribePermissionsCalls, p)
 	return &mock.DescribePermissionsResponse.Result, mock.DescribePermissionsResponse.Response, mock.DescribePermissionsResponse.Error

@@ -22,6 +22,7 @@ Method | HTTP request | Description
 [**JoinSlackChannel**](NotificationChannelsApi.md#JoinSlackChannel) | **Post** /notifications/channels/slack/{channelId}/joinSlackChannel | Join the specified Slack channel to send notifications
 [**ListOpsgenieResponders**](NotificationChannelsApi.md#ListOpsgenieResponders) | **Get** /notifications/channels/opsgenie/responders | List Opsgenie responders
 [**ListSlackChannels**](NotificationChannelsApi.md#ListSlackChannels) | **Get** /notifications/channels/slack/{channelId}/listSlackChannels | List all public Slack channels
+[**SlackChannelDetails**](NotificationChannelsApi.md#SlackChannelDetails) | **Get** /notifications/channels/slack/{channelId}/slackChannelDetails/{slackChannelId} | Get Slack channel details
 [**SlackOAuthCallback**](NotificationChannelsApi.md#SlackOAuthCallback) | **Get** /notifications/channels/slack/oauth-callback | The OAuth callback for Slack
 [**SlackOauthRedirect**](NotificationChannelsApi.md#SlackOauthRedirect) | **Get** /notifications/channels/slack/oauth-redirect | Starts Slack OAuth2 flow
 [**TestEmailChannel**](NotificationChannelsApi.md#TestEmailChannel) | **Post** /notifications/channels/email/{channelId}/test | Test the Email notification channel
@@ -1193,7 +1194,7 @@ Name | Type | Description  | Notes
 
 ## ListSlackChannels
 
-> []SlackChannel ListSlackChannels(ctx, channelId).Execute()
+> SlackChannelsChunk ListSlackChannels(ctx, channelId).Cursor(cursor).Execute()
 
 List all public Slack channels
 
@@ -1213,15 +1214,16 @@ import (
 
 func main() {
     channelId := int64(789) // int64 | Channel identifier
+    cursor := "cursor_example" // string | Slack list cursor (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.NotificationChannelsApi.ListSlackChannels(context.Background(), channelId).Execute()
+    resp, r, err := apiClient.NotificationChannelsApi.ListSlackChannels(context.Background(), channelId).Cursor(cursor).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.ListSlackChannels``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `ListSlackChannels`: []SlackChannel
+    // response from `ListSlackChannels`: SlackChannelsChunk
     fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.ListSlackChannels`: %v\n", resp)
 }
 ```
@@ -1242,10 +1244,84 @@ Other parameters are passed through a pointer to a apiListSlackChannelsRequest s
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
+ **cursor** | **string** | Slack list cursor | 
 
 ### Return type
 
-[**[]SlackChannel**](SlackChannel.md)
+[**SlackChannelsChunk**](SlackChannelsChunk.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## SlackChannelDetails
+
+> SlackChannel SlackChannelDetails(ctx, channelId, slackChannelId).Execute()
+
+Get Slack channel details
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    channelId := int64(789) // int64 | Channel identifier
+    slackChannelId := "slackChannelId_example" // string | Slack Channel identifier
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.NotificationChannelsApi.SlackChannelDetails(context.Background(), channelId, slackChannelId).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `NotificationChannelsApi.SlackChannelDetails``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `SlackChannelDetails`: SlackChannel
+    fmt.Fprintf(os.Stdout, "Response from `NotificationChannelsApi.SlackChannelDetails`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**channelId** | **int64** | Channel identifier | 
+**slackChannelId** | **string** | Slack Channel identifier | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiSlackChannelDetailsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+[**SlackChannel**](SlackChannel.md)
 
 ### Authorization
 

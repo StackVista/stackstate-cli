@@ -23,6 +23,43 @@ import (
 type OtelMappingApi interface {
 
 	/*
+		DeleteOtelComponentMapping Deletes an OTel Component Mapping.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param identifier
+		@return ApiDeleteOtelComponentMappingRequest
+	*/
+	DeleteOtelComponentMapping(ctx context.Context, identifier string) ApiDeleteOtelComponentMappingRequest
+
+	// DeleteOtelComponentMappingExecute executes the request
+	DeleteOtelComponentMappingExecute(r ApiDeleteOtelComponentMappingRequest) (*http.Response, error)
+
+	/*
+		DeleteOtelRelationMapping Deletes an OTel Relation Mapping.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param identifier
+		@return ApiDeleteOtelRelationMappingRequest
+	*/
+	DeleteOtelRelationMapping(ctx context.Context, identifier string) ApiDeleteOtelRelationMappingRequest
+
+	// DeleteOtelRelationMappingExecute executes the request
+	DeleteOtelRelationMappingExecute(r ApiDeleteOtelRelationMappingRequest) (*http.Response, error)
+
+	/*
+		GetOtelComponentMapping Get an OTel Component Mapping.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param identifier
+		@return ApiGetOtelComponentMappingRequest
+	*/
+	GetOtelComponentMapping(ctx context.Context, identifier string) ApiGetOtelComponentMappingRequest
+
+	// GetOtelComponentMappingExecute executes the request
+	//  @return OtelComponentMapping
+	GetOtelComponentMappingExecute(r ApiGetOtelComponentMappingRequest) (*OtelComponentMapping, *http.Response, error)
+
+	/*
 		GetOtelComponentMappingStatus Get the status of an otel component mapping synchronization.
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -48,6 +85,19 @@ type OtelMappingApi interface {
 	GetOtelComponentMappingsExecute(r ApiGetOtelComponentMappingsRequest) ([]OtelMappingItem, *http.Response, error)
 
 	/*
+		GetOtelRelationMapping Get an OTel Relation Mapping.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param identifier
+		@return ApiGetOtelRelationMappingRequest
+	*/
+	GetOtelRelationMapping(ctx context.Context, identifier string) ApiGetOtelRelationMappingRequest
+
+	// GetOtelRelationMappingExecute executes the request
+	//  @return OtelRelationMapping
+	GetOtelRelationMappingExecute(r ApiGetOtelRelationMappingRequest) (*OtelRelationMapping, *http.Response, error)
+
+	/*
 		GetOtelRelationMappingStatus Get the status of an otel relation mapping synchronization.
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -71,10 +121,499 @@ type OtelMappingApi interface {
 	// GetOtelRelationMappingsExecute executes the request
 	//  @return []OtelMappingItem
 	GetOtelRelationMappingsExecute(r ApiGetOtelRelationMappingsRequest) ([]OtelMappingItem, *http.Response, error)
+
+	/*
+		UpsertOtelComponentMappings Upserts (creates/updates) an OTel Component Mappings.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiUpsertOtelComponentMappingsRequest
+	*/
+	UpsertOtelComponentMappings(ctx context.Context) ApiUpsertOtelComponentMappingsRequest
+
+	// UpsertOtelComponentMappingsExecute executes the request
+	//  @return OtelMappingItem
+	UpsertOtelComponentMappingsExecute(r ApiUpsertOtelComponentMappingsRequest) (*OtelMappingItem, *http.Response, error)
+
+	/*
+		UpsertOtelRelationMappings Upserts (creates/updates) an OTel Relation Mappings.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiUpsertOtelRelationMappingsRequest
+	*/
+	UpsertOtelRelationMappings(ctx context.Context) ApiUpsertOtelRelationMappingsRequest
+
+	// UpsertOtelRelationMappingsExecute executes the request
+	//  @return OtelMappingItem
+	UpsertOtelRelationMappingsExecute(r ApiUpsertOtelRelationMappingsRequest) (*OtelMappingItem, *http.Response, error)
 }
 
 // OtelMappingApiService OtelMappingApi service
 type OtelMappingApiService service
+
+type ApiDeleteOtelComponentMappingRequest struct {
+	ctx        context.Context
+	ApiService OtelMappingApi
+	identifier string
+}
+
+func (r ApiDeleteOtelComponentMappingRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteOtelComponentMappingExecute(r)
+}
+
+/*
+DeleteOtelComponentMapping Deletes an OTel Component Mapping.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param identifier
+	@return ApiDeleteOtelComponentMappingRequest
+*/
+func (a *OtelMappingApiService) DeleteOtelComponentMapping(ctx context.Context, identifier string) ApiDeleteOtelComponentMappingRequest {
+	return ApiDeleteOtelComponentMappingRequest{
+		ApiService: a,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+// Execute executes the request
+func (a *OtelMappingApiService) DeleteOtelComponentMappingExecute(r ApiDeleteOtelComponentMappingRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelMappingApiService.DeleteOtelComponentMapping")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/otel-component-mappings/{identifier}"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiDeleteOtelRelationMappingRequest struct {
+	ctx        context.Context
+	ApiService OtelMappingApi
+	identifier string
+}
+
+func (r ApiDeleteOtelRelationMappingRequest) Execute() (*http.Response, error) {
+	return r.ApiService.DeleteOtelRelationMappingExecute(r)
+}
+
+/*
+DeleteOtelRelationMapping Deletes an OTel Relation Mapping.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param identifier
+	@return ApiDeleteOtelRelationMappingRequest
+*/
+func (a *OtelMappingApiService) DeleteOtelRelationMapping(ctx context.Context, identifier string) ApiDeleteOtelRelationMappingRequest {
+	return ApiDeleteOtelRelationMappingRequest{
+		ApiService: a,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+// Execute executes the request
+func (a *OtelMappingApiService) DeleteOtelRelationMappingExecute(r ApiDeleteOtelRelationMappingRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelMappingApiService.DeleteOtelRelationMapping")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/otel-relation-mappings/{identifier}"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiGetOtelComponentMappingRequest struct {
+	ctx        context.Context
+	ApiService OtelMappingApi
+	identifier string
+}
+
+func (r ApiGetOtelComponentMappingRequest) Execute() (*OtelComponentMapping, *http.Response, error) {
+	return r.ApiService.GetOtelComponentMappingExecute(r)
+}
+
+/*
+GetOtelComponentMapping Get an OTel Component Mapping.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param identifier
+	@return ApiGetOtelComponentMappingRequest
+*/
+func (a *OtelMappingApiService) GetOtelComponentMapping(ctx context.Context, identifier string) ApiGetOtelComponentMappingRequest {
+	return ApiGetOtelComponentMappingRequest{
+		ApiService: a,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+// Execute executes the request
+//
+//	@return OtelComponentMapping
+func (a *OtelMappingApiService) GetOtelComponentMappingExecute(r ApiGetOtelComponentMappingRequest) (*OtelComponentMapping, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *OtelComponentMapping
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelMappingApiService.GetOtelComponentMapping")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/otel-component-mappings/{identifier}"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiGetOtelComponentMappingStatusRequest struct {
 	ctx        context.Context
@@ -363,6 +902,169 @@ func (a *OtelMappingApiService) GetOtelComponentMappingsExecute(r ApiGetOtelComp
 		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiGetOtelRelationMappingRequest struct {
+	ctx        context.Context
+	ApiService OtelMappingApi
+	identifier string
+}
+
+func (r ApiGetOtelRelationMappingRequest) Execute() (*OtelRelationMapping, *http.Response, error) {
+	return r.ApiService.GetOtelRelationMappingExecute(r)
+}
+
+/*
+GetOtelRelationMapping Get an OTel Relation Mapping.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param identifier
+	@return ApiGetOtelRelationMappingRequest
+*/
+func (a *OtelMappingApiService) GetOtelRelationMapping(ctx context.Context, identifier string) ApiGetOtelRelationMappingRequest {
+	return ApiGetOtelRelationMappingRequest{
+		ApiService: a,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+// Execute executes the request
+//
+//	@return OtelRelationMapping
+func (a *OtelMappingApiService) GetOtelRelationMappingExecute(r ApiGetOtelRelationMappingRequest) (*OtelRelationMapping, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *OtelRelationMapping
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelMappingApiService.GetOtelRelationMapping")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/otel-relation-mappings/{identifier}"
+	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
 			var v OtelMappingApiError
@@ -700,32 +1402,474 @@ func (a *OtelMappingApiService) GetOtelRelationMappingsExecute(r ApiGetOtelRelat
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiUpsertOtelComponentMappingsRequest struct {
+	ctx                                context.Context
+	ApiService                         OtelMappingApi
+	upsertOtelComponentMappingsRequest *UpsertOtelComponentMappingsRequest
+}
+
+// Otel Component Mapping to create/update
+func (r ApiUpsertOtelComponentMappingsRequest) UpsertOtelComponentMappingsRequest(upsertOtelComponentMappingsRequest UpsertOtelComponentMappingsRequest) ApiUpsertOtelComponentMappingsRequest {
+	r.upsertOtelComponentMappingsRequest = &upsertOtelComponentMappingsRequest
+	return r
+}
+
+func (r ApiUpsertOtelComponentMappingsRequest) Execute() (*OtelMappingItem, *http.Response, error) {
+	return r.ApiService.UpsertOtelComponentMappingsExecute(r)
+}
+
+/*
+UpsertOtelComponentMappings Upserts (creates/updates) an OTel Component Mappings.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpsertOtelComponentMappingsRequest
+*/
+func (a *OtelMappingApiService) UpsertOtelComponentMappings(ctx context.Context) ApiUpsertOtelComponentMappingsRequest {
+	return ApiUpsertOtelComponentMappingsRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return OtelMappingItem
+func (a *OtelMappingApiService) UpsertOtelComponentMappingsExecute(r ApiUpsertOtelComponentMappingsRequest) (*OtelMappingItem, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *OtelMappingItem
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelMappingApiService.UpsertOtelComponentMappings")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/otel-component-mappings"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.upsertOtelComponentMappingsRequest == nil {
+		return localVarReturnValue, nil, reportError("upsertOtelComponentMappingsRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.upsertOtelComponentMappingsRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiUpsertOtelRelationMappingsRequest struct {
+	ctx                               context.Context
+	ApiService                        OtelMappingApi
+	upsertOtelRelationMappingsRequest *UpsertOtelRelationMappingsRequest
+}
+
+// Otel Relation Mapping to create/update
+func (r ApiUpsertOtelRelationMappingsRequest) UpsertOtelRelationMappingsRequest(upsertOtelRelationMappingsRequest UpsertOtelRelationMappingsRequest) ApiUpsertOtelRelationMappingsRequest {
+	r.upsertOtelRelationMappingsRequest = &upsertOtelRelationMappingsRequest
+	return r
+}
+
+func (r ApiUpsertOtelRelationMappingsRequest) Execute() (*OtelMappingItem, *http.Response, error) {
+	return r.ApiService.UpsertOtelRelationMappingsExecute(r)
+}
+
+/*
+UpsertOtelRelationMappings Upserts (creates/updates) an OTel Relation Mappings.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiUpsertOtelRelationMappingsRequest
+*/
+func (a *OtelMappingApiService) UpsertOtelRelationMappings(ctx context.Context) ApiUpsertOtelRelationMappingsRequest {
+	return ApiUpsertOtelRelationMappingsRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return OtelMappingItem
+func (a *OtelMappingApiService) UpsertOtelRelationMappingsExecute(r ApiUpsertOtelRelationMappingsRequest) (*OtelMappingItem, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPut
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *OtelMappingItem
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "OtelMappingApiService.UpsertOtelRelationMappings")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/otel-relation-mappings"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.upsertOtelRelationMappingsRequest == nil {
+		return localVarReturnValue, nil, reportError("upsertOtelRelationMappingsRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.upsertOtelRelationMappingsRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v OtelMappingApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
 type OtelMappingApiMock struct {
+	DeleteOtelComponentMappingCalls       *[]DeleteOtelComponentMappingCall
+	DeleteOtelComponentMappingResponse    DeleteOtelComponentMappingMockResponse
+	DeleteOtelRelationMappingCalls        *[]DeleteOtelRelationMappingCall
+	DeleteOtelRelationMappingResponse     DeleteOtelRelationMappingMockResponse
+	GetOtelComponentMappingCalls          *[]GetOtelComponentMappingCall
+	GetOtelComponentMappingResponse       GetOtelComponentMappingMockResponse
 	GetOtelComponentMappingStatusCalls    *[]GetOtelComponentMappingStatusCall
 	GetOtelComponentMappingStatusResponse GetOtelComponentMappingStatusMockResponse
 	GetOtelComponentMappingsCalls         *[]GetOtelComponentMappingsCall
 	GetOtelComponentMappingsResponse      GetOtelComponentMappingsMockResponse
+	GetOtelRelationMappingCalls           *[]GetOtelRelationMappingCall
+	GetOtelRelationMappingResponse        GetOtelRelationMappingMockResponse
 	GetOtelRelationMappingStatusCalls     *[]GetOtelRelationMappingStatusCall
 	GetOtelRelationMappingStatusResponse  GetOtelRelationMappingStatusMockResponse
 	GetOtelRelationMappingsCalls          *[]GetOtelRelationMappingsCall
 	GetOtelRelationMappingsResponse       GetOtelRelationMappingsMockResponse
+	UpsertOtelComponentMappingsCalls      *[]UpsertOtelComponentMappingsCall
+	UpsertOtelComponentMappingsResponse   UpsertOtelComponentMappingsMockResponse
+	UpsertOtelRelationMappingsCalls       *[]UpsertOtelRelationMappingsCall
+	UpsertOtelRelationMappingsResponse    UpsertOtelRelationMappingsMockResponse
 }
 
 func NewOtelMappingApiMock() OtelMappingApiMock {
+	xDeleteOtelComponentMappingCalls := make([]DeleteOtelComponentMappingCall, 0)
+	xDeleteOtelRelationMappingCalls := make([]DeleteOtelRelationMappingCall, 0)
+	xGetOtelComponentMappingCalls := make([]GetOtelComponentMappingCall, 0)
 	xGetOtelComponentMappingStatusCalls := make([]GetOtelComponentMappingStatusCall, 0)
 	xGetOtelComponentMappingsCalls := make([]GetOtelComponentMappingsCall, 0)
+	xGetOtelRelationMappingCalls := make([]GetOtelRelationMappingCall, 0)
 	xGetOtelRelationMappingStatusCalls := make([]GetOtelRelationMappingStatusCall, 0)
 	xGetOtelRelationMappingsCalls := make([]GetOtelRelationMappingsCall, 0)
+	xUpsertOtelComponentMappingsCalls := make([]UpsertOtelComponentMappingsCall, 0)
+	xUpsertOtelRelationMappingsCalls := make([]UpsertOtelRelationMappingsCall, 0)
 	return OtelMappingApiMock{
+		DeleteOtelComponentMappingCalls:    &xDeleteOtelComponentMappingCalls,
+		DeleteOtelRelationMappingCalls:     &xDeleteOtelRelationMappingCalls,
+		GetOtelComponentMappingCalls:       &xGetOtelComponentMappingCalls,
 		GetOtelComponentMappingStatusCalls: &xGetOtelComponentMappingStatusCalls,
 		GetOtelComponentMappingsCalls:      &xGetOtelComponentMappingsCalls,
+		GetOtelRelationMappingCalls:        &xGetOtelRelationMappingCalls,
 		GetOtelRelationMappingStatusCalls:  &xGetOtelRelationMappingStatusCalls,
 		GetOtelRelationMappingsCalls:       &xGetOtelRelationMappingsCalls,
+		UpsertOtelComponentMappingsCalls:   &xUpsertOtelComponentMappingsCalls,
+		UpsertOtelRelationMappingsCalls:    &xUpsertOtelRelationMappingsCalls,
 	}
+}
+
+type DeleteOtelComponentMappingMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type DeleteOtelComponentMappingCall struct {
+	Pidentifier string
+}
+
+func (mock OtelMappingApiMock) DeleteOtelComponentMapping(ctx context.Context, identifier string) ApiDeleteOtelComponentMappingRequest {
+	return ApiDeleteOtelComponentMappingRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+func (mock OtelMappingApiMock) DeleteOtelComponentMappingExecute(r ApiDeleteOtelComponentMappingRequest) (*http.Response, error) {
+	p := DeleteOtelComponentMappingCall{
+		Pidentifier: r.identifier,
+	}
+	*mock.DeleteOtelComponentMappingCalls = append(*mock.DeleteOtelComponentMappingCalls, p)
+	return mock.DeleteOtelComponentMappingResponse.Response, mock.DeleteOtelComponentMappingResponse.Error
+}
+
+type DeleteOtelRelationMappingMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type DeleteOtelRelationMappingCall struct {
+	Pidentifier string
+}
+
+func (mock OtelMappingApiMock) DeleteOtelRelationMapping(ctx context.Context, identifier string) ApiDeleteOtelRelationMappingRequest {
+	return ApiDeleteOtelRelationMappingRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+func (mock OtelMappingApiMock) DeleteOtelRelationMappingExecute(r ApiDeleteOtelRelationMappingRequest) (*http.Response, error) {
+	p := DeleteOtelRelationMappingCall{
+		Pidentifier: r.identifier,
+	}
+	*mock.DeleteOtelRelationMappingCalls = append(*mock.DeleteOtelRelationMappingCalls, p)
+	return mock.DeleteOtelRelationMappingResponse.Response, mock.DeleteOtelRelationMappingResponse.Error
+}
+
+type GetOtelComponentMappingMockResponse struct {
+	Result   OtelComponentMapping
+	Response *http.Response
+	Error    error
+}
+
+type GetOtelComponentMappingCall struct {
+	Pidentifier string
+}
+
+func (mock OtelMappingApiMock) GetOtelComponentMapping(ctx context.Context, identifier string) ApiGetOtelComponentMappingRequest {
+	return ApiGetOtelComponentMappingRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+func (mock OtelMappingApiMock) GetOtelComponentMappingExecute(r ApiGetOtelComponentMappingRequest) (*OtelComponentMapping, *http.Response, error) {
+	p := GetOtelComponentMappingCall{
+		Pidentifier: r.identifier,
+	}
+	*mock.GetOtelComponentMappingCalls = append(*mock.GetOtelComponentMappingCalls, p)
+	return &mock.GetOtelComponentMappingResponse.Result, mock.GetOtelComponentMappingResponse.Response, mock.GetOtelComponentMappingResponse.Error
 }
 
 type GetOtelComponentMappingStatusMockResponse struct {
@@ -776,6 +1920,32 @@ func (mock OtelMappingApiMock) GetOtelComponentMappingsExecute(r ApiGetOtelCompo
 	return mock.GetOtelComponentMappingsResponse.Result, mock.GetOtelComponentMappingsResponse.Response, mock.GetOtelComponentMappingsResponse.Error
 }
 
+type GetOtelRelationMappingMockResponse struct {
+	Result   OtelRelationMapping
+	Response *http.Response
+	Error    error
+}
+
+type GetOtelRelationMappingCall struct {
+	Pidentifier string
+}
+
+func (mock OtelMappingApiMock) GetOtelRelationMapping(ctx context.Context, identifier string) ApiGetOtelRelationMappingRequest {
+	return ApiGetOtelRelationMappingRequest{
+		ApiService: mock,
+		ctx:        ctx,
+		identifier: identifier,
+	}
+}
+
+func (mock OtelMappingApiMock) GetOtelRelationMappingExecute(r ApiGetOtelRelationMappingRequest) (*OtelRelationMapping, *http.Response, error) {
+	p := GetOtelRelationMappingCall{
+		Pidentifier: r.identifier,
+	}
+	*mock.GetOtelRelationMappingCalls = append(*mock.GetOtelRelationMappingCalls, p)
+	return &mock.GetOtelRelationMappingResponse.Result, mock.GetOtelRelationMappingResponse.Response, mock.GetOtelRelationMappingResponse.Error
+}
+
 type GetOtelRelationMappingStatusMockResponse struct {
 	Result   OtelMappingStatus
 	Response *http.Response
@@ -822,4 +1992,54 @@ func (mock OtelMappingApiMock) GetOtelRelationMappingsExecute(r ApiGetOtelRelati
 	p := GetOtelRelationMappingsCall{}
 	*mock.GetOtelRelationMappingsCalls = append(*mock.GetOtelRelationMappingsCalls, p)
 	return mock.GetOtelRelationMappingsResponse.Result, mock.GetOtelRelationMappingsResponse.Response, mock.GetOtelRelationMappingsResponse.Error
+}
+
+type UpsertOtelComponentMappingsMockResponse struct {
+	Result   OtelMappingItem
+	Response *http.Response
+	Error    error
+}
+
+type UpsertOtelComponentMappingsCall struct {
+	PupsertOtelComponentMappingsRequest *UpsertOtelComponentMappingsRequest
+}
+
+func (mock OtelMappingApiMock) UpsertOtelComponentMappings(ctx context.Context) ApiUpsertOtelComponentMappingsRequest {
+	return ApiUpsertOtelComponentMappingsRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock OtelMappingApiMock) UpsertOtelComponentMappingsExecute(r ApiUpsertOtelComponentMappingsRequest) (*OtelMappingItem, *http.Response, error) {
+	p := UpsertOtelComponentMappingsCall{
+		PupsertOtelComponentMappingsRequest: r.upsertOtelComponentMappingsRequest,
+	}
+	*mock.UpsertOtelComponentMappingsCalls = append(*mock.UpsertOtelComponentMappingsCalls, p)
+	return &mock.UpsertOtelComponentMappingsResponse.Result, mock.UpsertOtelComponentMappingsResponse.Response, mock.UpsertOtelComponentMappingsResponse.Error
+}
+
+type UpsertOtelRelationMappingsMockResponse struct {
+	Result   OtelMappingItem
+	Response *http.Response
+	Error    error
+}
+
+type UpsertOtelRelationMappingsCall struct {
+	PupsertOtelRelationMappingsRequest *UpsertOtelRelationMappingsRequest
+}
+
+func (mock OtelMappingApiMock) UpsertOtelRelationMappings(ctx context.Context) ApiUpsertOtelRelationMappingsRequest {
+	return ApiUpsertOtelRelationMappingsRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock OtelMappingApiMock) UpsertOtelRelationMappingsExecute(r ApiUpsertOtelRelationMappingsRequest) (*OtelMappingItem, *http.Response, error) {
+	p := UpsertOtelRelationMappingsCall{
+		PupsertOtelRelationMappingsRequest: r.upsertOtelRelationMappingsRequest,
+	}
+	*mock.UpsertOtelRelationMappingsCalls = append(*mock.UpsertOtelRelationMappingsCalls, p)
+	return &mock.UpsertOtelRelationMappingsResponse.Result, mock.UpsertOtelRelationMappingsResponse.Response, mock.UpsertOtelRelationMappingsResponse.Error
 }

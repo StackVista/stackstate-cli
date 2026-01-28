@@ -17,17 +17,17 @@ import (
 
 // MonitorCheckStatusNotFoundError struct for MonitorCheckStatusNotFoundError
 type MonitorCheckStatusNotFoundError struct {
-	Id   int64  `json:"id"`
-	Type string `json:"_type"`
+	Identifier string `json:"identifier"`
+	Type       string `json:"_type"`
 }
 
 // NewMonitorCheckStatusNotFoundError instantiates a new MonitorCheckStatusNotFoundError object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorCheckStatusNotFoundError(id int64, type_ string) *MonitorCheckStatusNotFoundError {
+func NewMonitorCheckStatusNotFoundError(identifier string, type_ string) *MonitorCheckStatusNotFoundError {
 	this := MonitorCheckStatusNotFoundError{}
-	this.Id = id
+	this.Identifier = identifier
 	this.Type = type_
 	return &this
 }
@@ -40,28 +40,28 @@ func NewMonitorCheckStatusNotFoundErrorWithDefaults() *MonitorCheckStatusNotFoun
 	return &this
 }
 
-// GetId returns the Id field value
-func (o *MonitorCheckStatusNotFoundError) GetId() int64 {
+// GetIdentifier returns the Identifier field value
+func (o *MonitorCheckStatusNotFoundError) GetIdentifier() string {
 	if o == nil {
-		var ret int64
+		var ret string
 		return ret
 	}
 
-	return o.Id
+	return o.Identifier
 }
 
-// GetIdOk returns a tuple with the Id field value
+// GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusNotFoundError) GetIdOk() (*int64, bool) {
+func (o *MonitorCheckStatusNotFoundError) GetIdentifierOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Id, true
+	return &o.Identifier, true
 }
 
-// SetId sets field value
-func (o *MonitorCheckStatusNotFoundError) SetId(v int64) {
-	o.Id = v
+// SetIdentifier sets field value
+func (o *MonitorCheckStatusNotFoundError) SetIdentifier(v string) {
+	o.Identifier = v
 }
 
 // GetType returns the Type field value
@@ -91,7 +91,7 @@ func (o *MonitorCheckStatusNotFoundError) SetType(v string) {
 func (o MonitorCheckStatusNotFoundError) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["id"] = o.Id
+		toSerialize["identifier"] = o.Identifier
 	}
 	if true {
 		toSerialize["_type"] = o.Type

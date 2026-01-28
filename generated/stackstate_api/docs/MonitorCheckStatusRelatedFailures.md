@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CheckStatusId** | **int64** |  | 
+**Identifier** | **string** |  | 
 **TopologyTime** | **int32** |  | 
 **CheckStatuses** | [**[]MonitorCheckStatusRelatedFailuresCheckStatus**](MonitorCheckStatusRelatedFailuresCheckStatus.md) |  | 
 
@@ -12,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewMonitorCheckStatusRelatedFailures
 
-`func NewMonitorCheckStatusRelatedFailures(checkStatusId int64, topologyTime int32, checkStatuses []MonitorCheckStatusRelatedFailuresCheckStatus, ) *MonitorCheckStatusRelatedFailures`
+`func NewMonitorCheckStatusRelatedFailures(identifier string, topologyTime int32, checkStatuses []MonitorCheckStatusRelatedFailuresCheckStatus, ) *MonitorCheckStatusRelatedFailures`
 
 NewMonitorCheckStatusRelatedFailures instantiates a new MonitorCheckStatusRelatedFailures object
 This constructor will assign default values to properties that have it defined,
@@ -27,24 +27,24 @@ NewMonitorCheckStatusRelatedFailuresWithDefaults instantiates a new MonitorCheck
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetCheckStatusId
+### GetIdentifier
 
-`func (o *MonitorCheckStatusRelatedFailures) GetCheckStatusId() int64`
+`func (o *MonitorCheckStatusRelatedFailures) GetIdentifier() string`
 
-GetCheckStatusId returns the CheckStatusId field if non-nil, zero value otherwise.
+GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
 
-### GetCheckStatusIdOk
+### GetIdentifierOk
 
-`func (o *MonitorCheckStatusRelatedFailures) GetCheckStatusIdOk() (*int64, bool)`
+`func (o *MonitorCheckStatusRelatedFailures) GetIdentifierOk() (*string, bool)`
 
-GetCheckStatusIdOk returns a tuple with the CheckStatusId field if it's non-nil, zero value otherwise
+GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCheckStatusId
+### SetIdentifier
 
-`func (o *MonitorCheckStatusRelatedFailures) SetCheckStatusId(v int64)`
+`func (o *MonitorCheckStatusRelatedFailures) SetIdentifier(v string)`
 
-SetCheckStatusId sets CheckStatusId field to given value.
+SetIdentifier sets Identifier field to given value.
 
 
 ### GetTopologyTime

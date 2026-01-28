@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## DescribePermissions
 
-> PermissionDescription DescribePermissions(ctx, subject).Resource(resource).Permission(permission).Execute()
+> PermissionDescription DescribePermissions(ctx, subject).Resource(resource).Permission(permission).Source(source).Execute()
 
 Describe permissions
 
@@ -35,10 +35,11 @@ func main() {
     subject := "subject_example" // string | 
     resource := "resource_example" // string |  (optional)
     permission := "permission_example" // string |  (optional)
+    source := openapiclient.SubjectSource("Static") // SubjectSource |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.PermissionsApi.DescribePermissions(context.Background(), subject).Resource(resource).Permission(permission).Execute()
+    resp, r, err := apiClient.PermissionsApi.DescribePermissions(context.Background(), subject).Resource(resource).Permission(permission).Source(source).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `PermissionsApi.DescribePermissions``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -66,6 +67,7 @@ Name | Type | Description  | Notes
 
  **resource** | **string** |  | 
  **permission** | **string** |  | 
+ **source** | [**SubjectSource**](SubjectSource.md) |  | 
 
 ### Return type
 
