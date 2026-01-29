@@ -17,10 +17,10 @@ import (
 
 // MetricPerspectiveSection struct for MetricPerspectiveSection
 type MetricPerspectiveSection struct {
-	Name   string  `json:"name"`
-	Weight float32 `json:"weight"`
-	Type   string  `json:"_type"`
-	Tab    string  `json:"tab"`
+	Name   string  `json:"name" yaml:"name"`
+	Weight float32 `json:"weight" yaml:"weight"`
+	Type   string  `json:"_type" yaml:"_type"`
+	Tab    string  `json:"tab" yaml:"tab"`
 }
 
 // NewMetricPerspectiveSection instantiates a new MetricPerspectiveSection object

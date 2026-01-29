@@ -18,14 +18,14 @@ import (
 // PersesGridItem struct for PersesGridItem
 type PersesGridItem struct {
 	// The x-coordinate of the item in the grid.
-	X int32 `json:"x"`
+	X int32 `json:"x" yaml:"x"`
 	// The y-coordinate of the item in the grid.
-	Y int32 `json:"y"`
+	Y int32 `json:"y" yaml:"y"`
 	// The width of the item in the grid.
-	Width int32 `json:"width"`
+	Width int32 `json:"width" yaml:"width"`
 	// The height of the item in the grid.
-	Height  int32         `json:"height"`
-	Content PersesJSONRef `json:"content"`
+	Height  int32         `json:"height" yaml:"height"`
+	Content PersesJSONRef `json:"content" yaml:"content"`
 }
 
 // NewPersesGridItem instantiates a new PersesGridItem object

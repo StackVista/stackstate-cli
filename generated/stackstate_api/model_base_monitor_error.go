@@ -17,8 +17,8 @@ import (
 
 // BaseMonitorError struct for BaseMonitorError
 type BaseMonitorError struct {
-	MonitorId     *string `json:"monitorId,omitempty"`
-	MonitorIdType *string `json:"monitorIdType,omitempty"`
+	MonitorId     *string `json:"monitorId,omitempty" yaml:"monitorId,omitempty"`
+	MonitorIdType *string `json:"monitorIdType,omitempty" yaml:"monitorIdType,omitempty"`
 }
 
 // NewBaseMonitorError instantiates a new BaseMonitorError object

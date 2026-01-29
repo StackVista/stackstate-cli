@@ -17,10 +17,10 @@ import (
 
 // EventFilters struct for EventFilters
 type EventFilters struct {
-	Types      []string `json:"types,omitempty"`
-	Tags       []string `json:"tags,omitempty"`
-	Categories []string `json:"categories,omitempty"`
-	Sources    []string `json:"sources,omitempty"`
+	Types      []string `json:"types,omitempty" yaml:"types,omitempty"`
+	Tags       []string `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Categories []string `json:"categories,omitempty" yaml:"categories,omitempty"`
+	Sources    []string `json:"sources,omitempty" yaml:"sources,omitempty"`
 }
 
 // NewEventFilters instantiates a new EventFilters object

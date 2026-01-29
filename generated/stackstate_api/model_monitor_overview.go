@@ -17,10 +17,10 @@ import (
 
 // MonitorOverview struct for MonitorOverview
 type MonitorOverview struct {
-	Monitor        Monitor               `json:"monitor"`
-	Function       MonitorFunction       `json:"function"`
-	Errors         []MonitorError        `json:"errors,omitempty"`
-	RuntimeMetrics MonitorRuntimeMetrics `json:"runtimeMetrics"`
+	Monitor        Monitor               `json:"monitor" yaml:"monitor"`
+	Function       MonitorFunction       `json:"function" yaml:"function"`
+	Errors         []MonitorError        `json:"errors,omitempty" yaml:"errors,omitempty"`
+	RuntimeMetrics MonitorRuntimeMetrics `json:"runtimeMetrics" yaml:"runtimeMetrics"`
 }
 
 // NewMonitorOverview instantiates a new MonitorOverview object

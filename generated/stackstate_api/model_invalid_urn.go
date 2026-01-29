@@ -17,8 +17,8 @@ import (
 
 // InvalidUrn struct for InvalidUrn
 type InvalidUrn struct {
-	Urn     string `json:"urn"`
-	Message string `json:"message"`
+	Urn     string `json:"urn" yaml:"urn"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewInvalidUrn instantiates a new InvalidUrn object

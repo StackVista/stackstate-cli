@@ -17,8 +17,8 @@ import (
 
 // ExternalMonitorDefId struct for ExternalMonitorDefId
 type ExternalMonitorDefId struct {
-	Type string `json:"_type"`
-	Id   int64  `json:"id"`
+	Type string `json:"_type" yaml:"_type"`
+	Id   int64  `json:"id" yaml:"id"`
 }
 
 // NewExternalMonitorDefId instantiates a new ExternalMonitorDefId object

@@ -17,9 +17,9 @@ import (
 
 // BaseNotificationChannel struct for BaseNotificationChannel
 type BaseNotificationChannel struct {
-	Id                          int64                     `json:"id"`
-	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
-	Status                      NotificationChannelStatus `json:"status"`
+	Id                          int64                     `json:"id" yaml:"id"`
+	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty" yaml:"notificationConfigurationId,omitempty"`
+	Status                      NotificationChannelStatus `json:"status" yaml:"status"`
 }
 
 // NewBaseNotificationChannel instantiates a new BaseNotificationChannel object

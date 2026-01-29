@@ -17,10 +17,10 @@ import (
 
 // GetKubernetesLogsInvalidPagination struct for GetKubernetesLogsInvalidPagination
 type GetKubernetesLogsInvalidPagination struct {
-	Type     string `json:"_type"`
-	Message  string `json:"message"`
-	PageSize int32  `json:"pageSize"`
-	Page     int32  `json:"page"`
+	Type     string `json:"_type" yaml:"_type"`
+	Message  string `json:"message" yaml:"message"`
+	PageSize int32  `json:"pageSize" yaml:"pageSize"`
+	Page     int32  `json:"page" yaml:"page"`
 }
 
 // NewGetKubernetesLogsInvalidPagination instantiates a new GetKubernetesLogsInvalidPagination object

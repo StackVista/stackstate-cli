@@ -17,13 +17,13 @@ import (
 
 // UpsertOtelRelationMappingsRequest struct for UpsertOtelRelationMappingsRequest
 type UpsertOtelRelationMappingsRequest struct {
-	Identifier  string                    `json:"identifier"`
-	Name        string                    `json:"name"`
-	Description *string                   `json:"description,omitempty"`
-	Input       OtelInput                 `json:"input"`
-	Output      OtelRelationMappingOutput `json:"output"`
-	Vars        []OtelVariableMapping     `json:"vars,omitempty"`
-	ExpireAfter int64                     `json:"expireAfter"`
+	Identifier  string                    `json:"identifier" yaml:"identifier"`
+	Name        string                    `json:"name" yaml:"name"`
+	Description *string                   `json:"description,omitempty" yaml:"description,omitempty"`
+	Input       OtelInput                 `json:"input" yaml:"input"`
+	Output      OtelRelationMappingOutput `json:"output" yaml:"output"`
+	Vars        []OtelVariableMapping     `json:"vars,omitempty" yaml:"vars,omitempty"`
+	ExpireAfter int64                     `json:"expireAfter" yaml:"expireAfter"`
 }
 
 // NewUpsertOtelRelationMappingsRequest instantiates a new UpsertOtelRelationMappingsRequest object

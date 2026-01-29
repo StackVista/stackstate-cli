@@ -17,12 +17,12 @@ import (
 
 // MonitorCheckStatusMetric struct for MonitorCheckStatusMetric
 type MonitorCheckStatusMetric struct {
-	Type        string                    `json:"_type"`
-	Name        string                    `json:"name"`
-	Description *string                   `json:"description,omitempty"`
-	Unit        *string                   `json:"unit,omitempty"`
-	Step        *string                   `json:"step,omitempty"`
-	Queries     []MonitorCheckStatusQuery `json:"queries"`
+	Type        string                    `json:"_type" yaml:"_type"`
+	Name        string                    `json:"name" yaml:"name"`
+	Description *string                   `json:"description,omitempty" yaml:"description,omitempty"`
+	Unit        *string                   `json:"unit,omitempty" yaml:"unit,omitempty"`
+	Step        *string                   `json:"step,omitempty" yaml:"step,omitempty"`
+	Queries     []MonitorCheckStatusQuery `json:"queries" yaml:"queries"`
 }
 
 // NewMonitorCheckStatusMetric instantiates a new MonitorCheckStatusMetric object

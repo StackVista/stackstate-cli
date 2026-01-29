@@ -18,13 +18,13 @@ import (
 // OtelRelationMappingOutput struct for OtelRelationMappingOutput
 type OtelRelationMappingOutput struct {
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	SourceId string `json:"sourceId"`
+	SourceId string `json:"sourceId" yaml:"sourceId"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	TargetId string `json:"targetId"`
+	TargetId string `json:"targetId" yaml:"targetId"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	TypeName string `json:"typeName"`
+	TypeName string `json:"typeName" yaml:"typeName"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	TypeIdentifier *string `json:"typeIdentifier,omitempty"`
+	TypeIdentifier *string `json:"typeIdentifier,omitempty" yaml:"typeIdentifier,omitempty"`
 }
 
 // NewOtelRelationMappingOutput instantiates a new OtelRelationMappingOutput object

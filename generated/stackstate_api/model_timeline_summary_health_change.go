@@ -17,9 +17,9 @@ import (
 
 // TimelineSummaryHealthChange struct for TimelineSummaryHealthChange
 type TimelineSummaryHealthChange struct {
-	Type      string           `json:"_type"`
-	Timestamp int64            `json:"timestamp"`
-	NewHealth HealthStateValue `json:"newHealth"`
+	Type      string           `json:"_type" yaml:"_type"`
+	Timestamp int64            `json:"timestamp" yaml:"timestamp"`
+	NewHealth HealthStateValue `json:"newHealth" yaml:"newHealth"`
 }
 
 // NewTimelineSummaryHealthChange instantiates a new TimelineSummaryHealthChange object

@@ -17,8 +17,8 @@ import (
 
 // EmailChannelRefId struct for EmailChannelRefId
 type EmailChannelRefId struct {
-	Type string `json:"_type"`
-	Id   int64  `json:"id"`
+	Type string `json:"_type" yaml:"_type"`
+	Id   int64  `json:"id" yaml:"id"`
 }
 
 // NewEmailChannelRefId instantiates a new EmailChannelRefId object

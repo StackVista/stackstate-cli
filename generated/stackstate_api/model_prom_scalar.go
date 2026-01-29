@@ -17,9 +17,9 @@ import (
 
 // PromScalar struct for PromScalar
 type PromScalar struct {
-	ResultType string `json:"resultType"`
+	ResultType string `json:"resultType" yaml:"resultType"`
 	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string.
-	Result []PromSampleInner `json:"result"`
+	Result []PromSampleInner `json:"result" yaml:"result"`
 }
 
 // NewPromScalar instantiates a new PromScalar object

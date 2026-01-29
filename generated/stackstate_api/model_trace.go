@@ -18,11 +18,11 @@ import (
 // Trace struct for Trace
 type Trace struct {
 	// The id of the trace
-	TraceId string `json:"traceId"`
+	TraceId string `json:"traceId" yaml:"traceId"`
 	// All spans for the trace
-	Spans []Span `json:"spans"`
+	Spans []Span `json:"spans" yaml:"spans"`
 	// Map of resource identifiers to their corresponding resource attributes (key/value pairs). Keys are UUIDs used in the spans’ `resourceId` fields.
-	Resources map[string]map[string]string `json:"resources"`
+	Resources map[string]map[string]string `json:"resources" yaml:"resources"`
 }
 
 // NewTrace instantiates a new Trace object

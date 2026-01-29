@@ -17,7 +17,7 @@ import (
 
 // SubStreamList struct for SubStreamList
 type SubStreamList struct {
-	SubStreams []SubStreamListItem `json:"subStreams"`
+	SubStreams []SubStreamListItem `json:"subStreams" yaml:"subStreams"`
 }
 
 // NewSubStreamList instantiates a new SubStreamList object

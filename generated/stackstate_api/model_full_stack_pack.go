@@ -17,28 +17,28 @@ import (
 
 // FullStackPack struct for FullStackPack
 type FullStackPack struct {
-	Name                string                   `json:"name"`
-	DisplayName         string                   `json:"displayName"`
-	Version             string                   `json:"version"`
-	Logo                *string                  `json:"logo,omitempty"`
-	Categories          []string                 `json:"categories"`
-	IsNew               bool                     `json:"isNew"`
-	IsMultiConfig       bool                     `json:"isMultiConfig"`
-	OverviewUrl         *string                  `json:"overviewUrl,omitempty"`
-	DetailedOverviewUrl *string                  `json:"detailedOverviewUrl,omitempty"`
-	ResourcesUrl        *string                  `json:"resourcesUrl,omitempty"`
-	Faqs                []FAQ                    `json:"faqs"`
-	ConfigurationUrls   [][]string               `json:"configurationUrls"`
-	ReleaseStatus       ReleaseStatus            `json:"releaseStatus"`
-	Steps               []StackPackStep          `json:"steps"`
-	Integrations        []StackPackIntegration   `json:"integrations"`
-	ReleaseNotes        *string                  `json:"releaseNotes,omitempty"`
-	UpgradeInstructions *string                  `json:"upgradeInstructions,omitempty"`
-	Configurations      []StackPackConfiguration `json:"configurations"`
-	NextVersion         *FullStackPack           `json:"nextVersion,omitempty"`
-	LatestVersion       *FullStackPack           `json:"latestVersion,omitempty"`
-	CanUninstall        bool                     `json:"canUninstall"`
-	IsCompatible        bool                     `json:"isCompatible"`
+	Name                string                   `json:"name" yaml:"name"`
+	DisplayName         string                   `json:"displayName" yaml:"displayName"`
+	Version             string                   `json:"version" yaml:"version"`
+	Logo                *string                  `json:"logo,omitempty" yaml:"logo,omitempty"`
+	Categories          []string                 `json:"categories" yaml:"categories"`
+	IsNew               bool                     `json:"isNew" yaml:"isNew"`
+	IsMultiConfig       bool                     `json:"isMultiConfig" yaml:"isMultiConfig"`
+	OverviewUrl         *string                  `json:"overviewUrl,omitempty" yaml:"overviewUrl,omitempty"`
+	DetailedOverviewUrl *string                  `json:"detailedOverviewUrl,omitempty" yaml:"detailedOverviewUrl,omitempty"`
+	ResourcesUrl        *string                  `json:"resourcesUrl,omitempty" yaml:"resourcesUrl,omitempty"`
+	Faqs                []FAQ                    `json:"faqs" yaml:"faqs"`
+	ConfigurationUrls   [][]string               `json:"configurationUrls" yaml:"configurationUrls"`
+	ReleaseStatus       ReleaseStatus            `json:"releaseStatus" yaml:"releaseStatus"`
+	Steps               []StackPackStep          `json:"steps" yaml:"steps"`
+	Integrations        []StackPackIntegration   `json:"integrations" yaml:"integrations"`
+	ReleaseNotes        *string                  `json:"releaseNotes,omitempty" yaml:"releaseNotes,omitempty"`
+	UpgradeInstructions *string                  `json:"upgradeInstructions,omitempty" yaml:"upgradeInstructions,omitempty"`
+	Configurations      []StackPackConfiguration `json:"configurations" yaml:"configurations"`
+	NextVersion         *FullStackPack           `json:"nextVersion,omitempty" yaml:"nextVersion,omitempty"`
+	LatestVersion       *FullStackPack           `json:"latestVersion,omitempty" yaml:"latestVersion,omitempty"`
+	CanUninstall        bool                     `json:"canUninstall" yaml:"canUninstall"`
+	IsCompatible        bool                     `json:"isCompatible" yaml:"isCompatible"`
 }
 
 // NewFullStackPack instantiates a new FullStackPack object

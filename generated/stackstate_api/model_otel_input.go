@@ -17,8 +17,8 @@ import (
 
 // OtelInput Combines input signals and conditional resource/scope/metric/span mappings.
 type OtelInput struct {
-	Signal   []OtelInputSignal `json:"signal"`
-	Resource OtelInputResource `json:"resource"`
+	Signal   []OtelInputSignal `json:"signal" yaml:"signal"`
+	Resource OtelInputResource `json:"resource" yaml:"resource"`
 }
 
 // NewOtelInput instantiates a new OtelInput object

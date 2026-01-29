@@ -17,8 +17,8 @@ import (
 
 // SubjectConfig struct for SubjectConfig
 type SubjectConfig struct {
-	Handle string        `json:"handle"`
-	Source SubjectSource `json:"source"`
+	Handle string        `json:"handle" yaml:"handle"`
+	Source SubjectSource `json:"source" yaml:"source"`
 }
 
 // NewSubjectConfig instantiates a new SubjectConfig object

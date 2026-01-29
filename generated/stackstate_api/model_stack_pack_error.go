@@ -17,9 +17,9 @@ import (
 
 // StackPackError struct for StackPackError
 type StackPackError struct {
-	Retryable bool                   `json:"retryable"`
-	Action    *string                `json:"action,omitempty"`
-	Error     map[string]interface{} `json:"error"`
+	Retryable bool                   `json:"retryable" yaml:"retryable"`
+	Action    *string                `json:"action,omitempty" yaml:"action,omitempty"`
+	Error     map[string]interface{} `json:"error" yaml:"error"`
 }
 
 // NewStackPackError instantiates a new StackPackError object

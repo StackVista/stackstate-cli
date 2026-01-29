@@ -17,7 +17,7 @@ import (
 
 // MonitorCheckStatusApiError struct for MonitorCheckStatusApiError
 type MonitorCheckStatusApiError struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewMonitorCheckStatusApiError instantiates a new MonitorCheckStatusApiError object

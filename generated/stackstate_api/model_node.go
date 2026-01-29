@@ -17,15 +17,15 @@ import (
 
 // Node struct for Node
 type Node struct {
-	TypeName            string  `json:"typeName"`
-	Id                  int64   `json:"id"`
-	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp"`
-	Identifier          *string `json:"identifier,omitempty"`
-	Name                *string `json:"name,omitempty"`
-	Description         *string `json:"description,omitempty"`
-	OwnedBy             *string `json:"ownedBy,omitempty"`
-	Manual              *bool   `json:"manual,omitempty"`
-	IsSettingsNode      *bool   `json:"isSettingsNode,omitempty"`
+	TypeName            string  `json:"typeName" yaml:"typeName"`
+	Id                  int64   `json:"id" yaml:"id"`
+	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp" yaml:"lastUpdateTimestamp"`
+	Identifier          *string `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	Name                *string `json:"name,omitempty" yaml:"name,omitempty"`
+	Description         *string `json:"description,omitempty" yaml:"description,omitempty"`
+	OwnedBy             *string `json:"ownedBy,omitempty" yaml:"ownedBy,omitempty"`
+	Manual              *bool   `json:"manual,omitempty" yaml:"manual,omitempty"`
+	IsSettingsNode      *bool   `json:"isSettingsNode,omitempty" yaml:"isSettingsNode,omitempty"`
 }
 
 // NewNode instantiates a new Node object

@@ -18,9 +18,9 @@ import (
 // ComponentQuery struct for ComponentQuery
 type ComponentQuery struct {
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
-	ResourceAttributes map[string]string `json:"resourceAttributes"`
+	ResourceAttributes map[string]string `json:"resourceAttributes" yaml:"resourceAttributes"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	Instant *int32 `json:"instant,omitempty"`
+	Instant *int32 `json:"instant,omitempty" yaml:"instant,omitempty"`
 }
 
 // NewComponentQuery instantiates a new ComponentQuery object

@@ -17,10 +17,10 @@ import (
 
 // DashboardInvalidIdentifierError struct for DashboardInvalidIdentifierError
 type DashboardInvalidIdentifierError struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 	// A detailed error message describing why the operation failed.
-	Message          string `json:"message"`
-	DashboardIdOrUrn string `json:"dashboardIdOrUrn"`
+	Message          string `json:"message" yaml:"message"`
+	DashboardIdOrUrn string `json:"dashboardIdOrUrn" yaml:"dashboardIdOrUrn"`
 }
 
 // NewDashboardInvalidIdentifierError instantiates a new DashboardInvalidIdentifierError object

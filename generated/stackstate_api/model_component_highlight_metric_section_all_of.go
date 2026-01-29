@@ -17,7 +17,7 @@ import (
 
 // ComponentHighlightMetricSectionAllOf struct for ComponentHighlightMetricSectionAllOf
 type ComponentHighlightMetricSectionAllOf struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewComponentHighlightMetricSectionAllOf instantiates a new ComponentHighlightMetricSectionAllOf object

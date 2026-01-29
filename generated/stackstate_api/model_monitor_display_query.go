@@ -17,9 +17,9 @@ import (
 
 // MonitorDisplayQuery struct for MonitorDisplayQuery
 type MonitorDisplayQuery struct {
-	Query                       string  `json:"query"`
-	Alias                       *string `json:"alias,omitempty"`
-	ComponentIdentifierTemplate *string `json:"componentIdentifierTemplate,omitempty"`
+	Query                       string  `json:"query" yaml:"query"`
+	Alias                       *string `json:"alias,omitempty" yaml:"alias,omitempty"`
+	ComponentIdentifierTemplate *string `json:"componentIdentifierTemplate,omitempty" yaml:"componentIdentifierTemplate,omitempty"`
 }
 
 // NewMonitorDisplayQuery instantiates a new MonitorDisplayQuery object

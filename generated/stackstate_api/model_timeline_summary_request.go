@@ -17,13 +17,13 @@ import (
 
 // TimelineSummaryRequest struct for TimelineSummaryRequest
 type TimelineSummaryRequest struct {
-	Arguments TimelineSummaryRequestArguments `json:"arguments"`
+	Arguments TimelineSummaryRequestArguments `json:"arguments" yaml:"arguments"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	StartTime int32 `json:"startTime"`
+	StartTime int32 `json:"startTime" yaml:"startTime"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	EndTime              *int32        `json:"endTime,omitempty"`
-	HistogramBucketCount int32         `json:"histogramBucketCount"`
-	EventFilters         *EventFilters `json:"eventFilters,omitempty"`
+	EndTime              *int32        `json:"endTime,omitempty" yaml:"endTime,omitempty"`
+	HistogramBucketCount int32         `json:"histogramBucketCount" yaml:"histogramBucketCount"`
+	EventFilters         *EventFilters `json:"eventFilters,omitempty" yaml:"eventFilters,omitempty"`
 }
 
 // NewTimelineSummaryRequest instantiates a new TimelineSummaryRequest object

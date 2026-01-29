@@ -17,8 +17,8 @@ import (
 
 // GetKubernetesLogsAutocompleteResult struct for GetKubernetesLogsAutocompleteResult
 type GetKubernetesLogsAutocompleteResult struct {
-	ContainerNames []string      `json:"containerNames"`
-	Levels         []LogSeverity `json:"levels"`
+	ContainerNames []string      `json:"containerNames" yaml:"containerNames"`
+	Levels         []LogSeverity `json:"levels" yaml:"levels"`
 }
 
 // NewGetKubernetesLogsAutocompleteResult instantiates a new GetKubernetesLogsAutocompleteResult object

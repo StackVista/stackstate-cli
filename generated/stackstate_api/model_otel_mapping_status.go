@@ -17,9 +17,9 @@ import (
 
 // OtelMappingStatus struct for OtelMappingStatus
 type OtelMappingStatus struct {
-	Item         OtelMappingStatusItem `json:"item"`
-	ErrorDetails []OtelMappingError    `json:"errorDetails"`
-	Metrics      *OtelMappingMetrics   `json:"metrics,omitempty"`
+	Item         OtelMappingStatusItem `json:"item" yaml:"item"`
+	ErrorDetails []OtelMappingError    `json:"errorDetails" yaml:"errorDetails"`
+	Metrics      *OtelMappingMetrics   `json:"metrics,omitempty" yaml:"metrics,omitempty"`
 }
 
 // NewOtelMappingStatus instantiates a new OtelMappingStatus object

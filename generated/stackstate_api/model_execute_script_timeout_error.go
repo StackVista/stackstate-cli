@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptTimeoutError struct for ExecuteScriptTimeoutError
 type ExecuteScriptTimeoutError struct {
-	Type      string `json:"_type"`
-	Message   string `json:"message"`
-	TimeoutMs int32  `json:"timeoutMs"`
+	Type      string `json:"_type" yaml:"_type"`
+	Message   string `json:"message" yaml:"message"`
+	TimeoutMs int32  `json:"timeoutMs" yaml:"timeoutMs"`
 }
 
 // NewExecuteScriptTimeoutError instantiates a new ExecuteScriptTimeoutError object

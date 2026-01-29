@@ -17,9 +17,9 @@ import (
 
 // TraceApiInvalidPagination struct for TraceApiInvalidPagination
 type TraceApiInvalidPagination struct {
-	Type     string `json:"_type"`
-	Message  string `json:"message"`
-	PageSize int32  `json:"pageSize"`
+	Type     string `json:"_type" yaml:"_type"`
+	Message  string `json:"message" yaml:"message"`
+	PageSize int32  `json:"pageSize" yaml:"pageSize"`
 }
 
 // NewTraceApiInvalidPagination instantiates a new TraceApiInvalidPagination object

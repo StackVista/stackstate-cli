@@ -17,13 +17,13 @@ import (
 
 // MonitorPatch struct for MonitorPatch
 type MonitorPatch struct {
-	Name            *string             `json:"name,omitempty"`
-	Identifier      *string             `json:"identifier,omitempty"`
-	Description     *string             `json:"description,omitempty"`
-	RemediationHint *string             `json:"remediationHint,omitempty"`
-	IntervalSeconds *int32              `json:"intervalSeconds,omitempty"`
-	Tags            []string            `json:"tags,omitempty"`
-	Status          *MonitorStatusValue `json:"status,omitempty"`
+	Name            *string             `json:"name,omitempty" yaml:"name,omitempty"`
+	Identifier      *string             `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	Description     *string             `json:"description,omitempty" yaml:"description,omitempty"`
+	RemediationHint *string             `json:"remediationHint,omitempty" yaml:"remediationHint,omitempty"`
+	IntervalSeconds *int32              `json:"intervalSeconds,omitempty" yaml:"intervalSeconds,omitempty"`
+	Tags            []string            `json:"tags,omitempty" yaml:"tags,omitempty"`
+	Status          *MonitorStatusValue `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 // NewMonitorPatch instantiates a new MonitorPatch object

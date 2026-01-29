@@ -17,7 +17,7 @@ import (
 
 // EmailNotificationStatus struct for EmailNotificationStatus
 type EmailNotificationStatus struct {
-	ValidConfiguration bool `json:"validConfiguration"`
+	ValidConfiguration bool `json:"validConfiguration" yaml:"validConfiguration"`
 }
 
 // NewEmailNotificationStatus instantiates a new EmailNotificationStatus object

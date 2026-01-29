@@ -17,8 +17,8 @@ import (
 
 // PromDataResult struct for PromDataResult
 type PromDataResult struct {
-	Metric map[string]string   `json:"metric"`
-	Values [][]PromSampleInner `json:"values"`
+	Metric map[string]string   `json:"metric" yaml:"metric"`
+	Values [][]PromSampleInner `json:"values" yaml:"values"`
 }
 
 // NewPromDataResult instantiates a new PromDataResult object

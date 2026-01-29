@@ -17,11 +17,11 @@ import (
 
 // PromQLMetric struct for PromQLMetric
 type PromQLMetric struct {
-	Type          string `json:"_type"`
-	Id            *int64 `json:"id,omitempty"`
-	Query         string `json:"query"`
-	Unit          string `json:"unit"`
-	AliasTemplate string `json:"aliasTemplate"`
+	Type          string `json:"_type" yaml:"_type"`
+	Id            *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	Query         string `json:"query" yaml:"query"`
+	Unit          string `json:"unit" yaml:"unit"`
+	AliasTemplate string `json:"aliasTemplate" yaml:"aliasTemplate"`
 }
 
 // NewPromQLMetric instantiates a new PromQLMetric object

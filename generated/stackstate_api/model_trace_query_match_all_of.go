@@ -18,9 +18,9 @@ import (
 // TraceQueryMatchAllOf struct for TraceQueryMatchAllOf
 type TraceQueryMatchAllOf struct {
 	// Spans matching the primary filter
-	PrimaryFilterMatches []string `json:"primaryFilterMatches"`
+	PrimaryFilterMatches []string `json:"primaryFilterMatches" yaml:"primaryFilterMatches"`
 	// Spans matching the secondary filter
-	SecondaryFilterMatches []string `json:"secondaryFilterMatches"`
+	SecondaryFilterMatches []string `json:"secondaryFilterMatches" yaml:"secondaryFilterMatches"`
 }
 
 // NewTraceQueryMatchAllOf instantiates a new TraceQueryMatchAllOf object

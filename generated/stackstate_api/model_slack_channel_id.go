@@ -17,7 +17,7 @@ import (
 
 // SlackChannelId struct for SlackChannelId
 type SlackChannelId struct {
-	Id string `json:"id"`
+	Id string `json:"id" yaml:"id"`
 }
 
 // NewSlackChannelId instantiates a new SlackChannelId object

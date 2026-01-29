@@ -17,9 +17,9 @@ import (
 
 // PromVectorResult struct for PromVectorResult
 type PromVectorResult struct {
-	Metric map[string]string `json:"metric"`
+	Metric map[string]string `json:"metric" yaml:"metric"`
 	// This is always a tuple represented as an array with in first position the unix timestamp as  a float with precision 3 in seconds) and in second position the sample value as a string.
-	Value []PromSampleInner `json:"value"`
+	Value []PromSampleInner `json:"value" yaml:"value"`
 }
 
 // NewPromVectorResult instantiates a new PromVectorResult object

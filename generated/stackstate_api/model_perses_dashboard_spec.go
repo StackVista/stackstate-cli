@@ -18,15 +18,15 @@ import (
 // PersesDashboardSpec struct for PersesDashboardSpec
 type PersesDashboardSpec struct {
 	// Datasources is an optional list of datasource definition.
-	Datasources *map[string]PersesDatasourceSpec `json:"datasources,omitempty"`
-	Display     *PersesDashboardDisplaySpec      `json:"display,omitempty"`
+	Datasources *map[string]PersesDatasourceSpec `json:"datasources,omitempty" yaml:"datasources,omitempty"`
+	Display     *PersesDashboardDisplaySpec      `json:"display,omitempty" yaml:"display,omitempty"`
 	// A Duration represents the elapsed time between two instants. It must be provided as a string like \"1h\", \"30m\", \"15s\".
-	Duration *string                 `json:"duration,omitempty"`
-	Layouts  []PersesLayout          `json:"layouts,omitempty"`
-	Panels   *map[string]PersesPanel `json:"panels,omitempty"`
+	Duration *string                 `json:"duration,omitempty" yaml:"duration,omitempty"`
+	Layouts  []PersesLayout          `json:"layouts,omitempty" yaml:"layouts,omitempty"`
+	Panels   *map[string]PersesPanel `json:"panels,omitempty" yaml:"panels,omitempty"`
 	// A Duration represents the elapsed time between two instants. It must be provided as a string like \"1h\", \"30m\", \"15s\".
-	RefreshInterval *string               `json:"refreshInterval,omitempty"`
-	Variables       []PersesVariableTypes `json:"variables,omitempty"`
+	RefreshInterval *string               `json:"refreshInterval,omitempty" yaml:"refreshInterval,omitempty"`
+	Variables       []PersesVariableTypes `json:"variables,omitempty" yaml:"variables,omitempty"`
 }
 
 // NewPersesDashboardSpec instantiates a new PersesDashboardSpec object

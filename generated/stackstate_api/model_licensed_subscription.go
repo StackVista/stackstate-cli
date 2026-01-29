@@ -17,8 +17,8 @@ import (
 
 // LicensedSubscription struct for LicensedSubscription
 type LicensedSubscription struct {
-	Type         string       `json:"_type"`
-	Subscription Subscription `json:"subscription"`
+	Type         string       `json:"_type" yaml:"_type"`
+	Subscription Subscription `json:"subscription" yaml:"subscription"`
 }
 
 // NewLicensedSubscription instantiates a new LicensedSubscription object

@@ -18,7 +18,7 @@ import (
 // DashboardList struct for DashboardList
 type DashboardList struct {
 	// List of dashboards, which can be either metadata or full representations.
-	Dashboards []DashboardReadSchema `json:"dashboards"`
+	Dashboards []DashboardReadSchema `json:"dashboards" yaml:"dashboards"`
 }
 
 // NewDashboardList instantiates a new DashboardList object

@@ -17,8 +17,8 @@ import (
 
 // ServiceTokenInvalidExpiryError struct for ServiceTokenInvalidExpiryError
 type ServiceTokenInvalidExpiryError struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewServiceTokenInvalidExpiryError instantiates a new ServiceTokenInvalidExpiryError object

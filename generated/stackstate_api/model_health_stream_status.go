@@ -17,12 +17,12 @@ import (
 
 // HealthStreamStatus struct for HealthStreamStatus
 type HealthStreamStatus struct {
-	Partition        int32                  `json:"partition"`
-	ConsistencyModel string                 `json:"consistencyModel"`
-	RecoverMessage   *string                `json:"recoverMessage,omitempty"`
-	GlobalErrors     []HealthStreamError    `json:"globalErrors,omitempty"`
-	AggregateMetrics HealthStreamMetrics    `json:"aggregateMetrics"`
-	MainStreamStatus *HealthSubStreamStatus `json:"mainStreamStatus,omitempty"`
+	Partition        int32                  `json:"partition" yaml:"partition"`
+	ConsistencyModel string                 `json:"consistencyModel" yaml:"consistencyModel"`
+	RecoverMessage   *string                `json:"recoverMessage,omitempty" yaml:"recoverMessage,omitempty"`
+	GlobalErrors     []HealthStreamError    `json:"globalErrors,omitempty" yaml:"globalErrors,omitempty"`
+	AggregateMetrics HealthStreamMetrics    `json:"aggregateMetrics" yaml:"aggregateMetrics"`
+	MainStreamStatus *HealthSubStreamStatus `json:"mainStreamStatus,omitempty" yaml:"mainStreamStatus,omitempty"`
 }
 
 // NewHealthStreamStatus instantiates a new HealthStreamStatus object

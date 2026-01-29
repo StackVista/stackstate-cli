@@ -17,8 +17,8 @@ import (
 
 // OpsgenieResponder struct for OpsgenieResponder
 type OpsgenieResponder struct {
-	ResponderType OpsgenieResponderType `json:"responderType"`
-	Responder     string                `json:"responder"`
+	ResponderType OpsgenieResponderType `json:"responderType" yaml:"responderType"`
+	Responder     string                `json:"responder" yaml:"responder"`
 }
 
 // NewOpsgenieResponder instantiates a new OpsgenieResponder object

@@ -17,10 +17,10 @@ import (
 
 // Message struct for Message
 type Message struct {
-	Key       string                 `json:"key"`
-	Partition int32                  `json:"partition"`
-	Offset    int64                  `json:"offset"`
-	Message   map[string]interface{} `json:"message"`
+	Key       string                 `json:"key" yaml:"key"`
+	Partition int32                  `json:"partition" yaml:"partition"`
+	Offset    int64                  `json:"offset" yaml:"offset"`
+	Message   map[string]interface{} `json:"message" yaml:"message"`
 }
 
 // NewMessage instantiates a new Message object

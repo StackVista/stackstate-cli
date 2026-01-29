@@ -17,7 +17,7 @@ import (
 
 // DashboardReadMetadataSchemaAllOf struct for DashboardReadMetadataSchemaAllOf
 type DashboardReadMetadataSchemaAllOf struct {
-	Type *string `json:"_type,omitempty"`
+	Type *string `json:"_type,omitempty" yaml:"_type,omitempty"`
 }
 
 // NewDashboardReadMetadataSchemaAllOf instantiates a new DashboardReadMetadataSchemaAllOf object

@@ -18,7 +18,7 @@ import (
 // PersesJSONRef struct for PersesJSONRef
 type PersesJSONRef struct {
 	// The JSON reference pointing to the actual object. The property name '$ref' contains a reserved char, which gets stripped away when generated (it's possible to handle this but makes the generation code more complex). For now, consumers of this spec will need to omit the '$' in the property name.
-	Ref string `json:"$ref"`
+	Ref string `json:"$ref" yaml:"$ref"`
 }
 
 // NewPersesJSONRef instantiates a new PersesJSONRef object

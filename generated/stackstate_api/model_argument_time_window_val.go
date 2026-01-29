@@ -17,11 +17,11 @@ import (
 
 // ArgumentTimeWindowVal struct for ArgumentTimeWindowVal
 type ArgumentTimeWindowVal struct {
-	Type                string `json:"_type"`
-	Id                  *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64  `json:"parameter"`
-	ValueMs             int64  `json:"valueMs"`
+	Type                string `json:"_type" yaml:"_type"`
+	Id                  *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64  `json:"parameter" yaml:"parameter"`
+	ValueMs             int64  `json:"valueMs" yaml:"valueMs"`
 }
 
 // NewArgumentTimeWindowVal instantiates a new ArgumentTimeWindowVal object

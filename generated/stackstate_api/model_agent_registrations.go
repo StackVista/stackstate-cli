@@ -17,7 +17,7 @@ import (
 
 // AgentRegistrations struct for AgentRegistrations
 type AgentRegistrations struct {
-	Agents []AgentRegistration `json:"agents"`
+	Agents []AgentRegistration `json:"agents" yaml:"agents"`
 }
 
 // NewAgentRegistrations instantiates a new AgentRegistrations object

@@ -17,9 +17,9 @@ import (
 
 // TraceQuery Find traces that have a span that matches the primary filter and a span that matches the secondary filter. These could be the same, or two different spans of the same trace.
 type TraceQuery struct {
-	PrimarySpanFilter   SpanFilter       `json:"primarySpanFilter"`
-	SecondarySpanFilter *SpanFilter      `json:"secondarySpanFilter,omitempty"`
-	SortBy              []SpanSortOption `json:"sortBy,omitempty"`
+	PrimarySpanFilter   SpanFilter       `json:"primarySpanFilter" yaml:"primarySpanFilter"`
+	SecondarySpanFilter *SpanFilter      `json:"secondarySpanFilter,omitempty" yaml:"secondarySpanFilter,omitempty"`
+	SortBy              []SpanSortOption `json:"sortBy,omitempty" yaml:"sortBy,omitempty"`
 }
 
 // NewTraceQuery instantiates a new TraceQuery object

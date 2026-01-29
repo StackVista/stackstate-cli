@@ -17,19 +17,19 @@ import (
 
 // StackPack struct for StackPack
 type StackPack struct {
-	Name                string        `json:"name"`
-	DisplayName         string        `json:"displayName"`
-	Version             string        `json:"version"`
-	Logo                *string       `json:"logo,omitempty"`
-	Categories          []string      `json:"categories"`
-	IsNew               bool          `json:"isNew"`
-	OverviewUrl         *string       `json:"overviewUrl,omitempty"`
-	DetailedOverviewUrl *string       `json:"detailedOverviewUrl,omitempty"`
-	ResourcesUrl        *string       `json:"resourcesUrl,omitempty"`
-	Faqs                []FAQ         `json:"faqs"`
-	ConfigurationUrls   [][]string    `json:"configurationUrls"`
-	ReleaseStatus       ReleaseStatus `json:"releaseStatus"`
-	IsCompatible        bool          `json:"isCompatible"`
+	Name                string        `json:"name" yaml:"name"`
+	DisplayName         string        `json:"displayName" yaml:"displayName"`
+	Version             string        `json:"version" yaml:"version"`
+	Logo                *string       `json:"logo,omitempty" yaml:"logo,omitempty"`
+	Categories          []string      `json:"categories" yaml:"categories"`
+	IsNew               bool          `json:"isNew" yaml:"isNew"`
+	OverviewUrl         *string       `json:"overviewUrl,omitempty" yaml:"overviewUrl,omitempty"`
+	DetailedOverviewUrl *string       `json:"detailedOverviewUrl,omitempty" yaml:"detailedOverviewUrl,omitempty"`
+	ResourcesUrl        *string       `json:"resourcesUrl,omitempty" yaml:"resourcesUrl,omitempty"`
+	Faqs                []FAQ         `json:"faqs" yaml:"faqs"`
+	ConfigurationUrls   [][]string    `json:"configurationUrls" yaml:"configurationUrls"`
+	ReleaseStatus       ReleaseStatus `json:"releaseStatus" yaml:"releaseStatus"`
+	IsCompatible        bool          `json:"isCompatible" yaml:"isCompatible"`
 }
 
 // NewStackPack instantiates a new StackPack object

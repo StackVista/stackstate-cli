@@ -17,7 +17,7 @@ import (
 
 // MonitorPreview struct for MonitorPreview
 type MonitorPreview struct {
-	Arguments []Argument `json:"arguments,omitempty"`
+	Arguments []Argument `json:"arguments,omitempty" yaml:"arguments,omitempty"`
 }
 
 // NewMonitorPreview instantiates a new MonitorPreview object

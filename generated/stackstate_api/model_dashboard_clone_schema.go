@@ -18,11 +18,11 @@ import (
 // DashboardCloneSchema The provided fields are used to override the corresponding fields of the new (cloned) dashboard.
 type DashboardCloneSchema struct {
 	// Name of the dashboard. Required to make it easier so see which dashboard is the new (cloned) dashboard.
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 	// Description of the dashboard
-	Description *string          `json:"description,omitempty"`
-	Scope       *DashboardScope  `json:"scope,omitempty"`
-	Dashboard   *PersesDashboard `json:"dashboard,omitempty"`
+	Description *string          `json:"description,omitempty" yaml:"description,omitempty"`
+	Scope       *DashboardScope  `json:"scope,omitempty" yaml:"scope,omitempty"`
+	Dashboard   *PersesDashboard `json:"dashboard,omitempty" yaml:"dashboard,omitempty"`
 }
 
 // NewDashboardCloneSchema instantiates a new DashboardCloneSchema object

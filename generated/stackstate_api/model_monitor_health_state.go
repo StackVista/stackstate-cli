@@ -17,13 +17,13 @@ import (
 
 // MonitorHealthState struct for MonitorHealthState
 type MonitorHealthState struct {
-	Id                          string                     `json:"id"`
-	State                       HealthStateValue           `json:"state"`
-	TopologyIdentifier          string                     `json:"topologyIdentifier"`
-	DisplayTimeSeries           []MonitorDisplayTimeSeries `json:"displayTimeSeries,omitempty"`
-	RemediationHintTemplateData map[string]interface{}     `json:"remediationHintTemplateData,omitempty"`
-	Message                     *string                    `json:"message,omitempty"`
-	Reason                      *string                    `json:"reason,omitempty"`
+	Id                          string                     `json:"id" yaml:"id"`
+	State                       HealthStateValue           `json:"state" yaml:"state"`
+	TopologyIdentifier          string                     `json:"topologyIdentifier" yaml:"topologyIdentifier"`
+	DisplayTimeSeries           []MonitorDisplayTimeSeries `json:"displayTimeSeries,omitempty" yaml:"displayTimeSeries,omitempty"`
+	RemediationHintTemplateData map[string]interface{}     `json:"remediationHintTemplateData,omitempty" yaml:"remediationHintTemplateData,omitempty"`
+	Message                     *string                    `json:"message,omitempty" yaml:"message,omitempty"`
+	Reason                      *string                    `json:"reason,omitempty" yaml:"reason,omitempty"`
 }
 
 // NewMonitorHealthState instantiates a new MonitorHealthState object

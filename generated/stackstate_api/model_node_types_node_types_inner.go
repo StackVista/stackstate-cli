@@ -17,8 +17,8 @@ import (
 
 // NodeTypesNodeTypesInner struct for NodeTypesNodeTypesInner
 type NodeTypesNodeTypesInner struct {
-	TypeName    string `json:"typeName"`
-	Description string `json:"description"`
+	TypeName    string `json:"typeName" yaml:"typeName"`
+	Description string `json:"description" yaml:"description"`
 }
 
 // NewNodeTypesNodeTypesInner instantiates a new NodeTypesNodeTypesInner object

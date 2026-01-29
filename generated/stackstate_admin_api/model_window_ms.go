@@ -17,7 +17,7 @@ import (
 
 // WindowMs struct for WindowMs
 type WindowMs struct {
-	WindowMs int64 `json:"windowMs"`
+	WindowMs int64 `json:"windowMs" yaml:"windowMs"`
 }
 
 // NewWindowMs instantiates a new WindowMs object

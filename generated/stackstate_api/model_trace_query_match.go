@@ -18,15 +18,15 @@ import (
 // TraceQueryMatch A trace that matched the query filters. It structurally matches the Trace schema, with extra fields representing  the result of the trace query.
 type TraceQueryMatch struct {
 	// The id of the trace
-	TraceId string `json:"traceId"`
+	TraceId string `json:"traceId" yaml:"traceId"`
 	// All spans for the trace
-	Spans []Span `json:"spans"`
+	Spans []Span `json:"spans" yaml:"spans"`
 	// Map of resource identifiers to their corresponding resource attributes (key/value pairs). Keys are UUIDs used in the spans’ `resourceId` fields.
-	Resources map[string]map[string]string `json:"resources"`
+	Resources map[string]map[string]string `json:"resources" yaml:"resources"`
 	// Spans matching the primary filter
-	PrimaryFilterMatches []string `json:"primaryFilterMatches"`
+	PrimaryFilterMatches []string `json:"primaryFilterMatches" yaml:"primaryFilterMatches"`
 	// Spans matching the secondary filter
-	SecondaryFilterMatches []string `json:"secondaryFilterMatches"`
+	SecondaryFilterMatches []string `json:"secondaryFilterMatches" yaml:"secondaryFilterMatches"`
 }
 
 // NewTraceQueryMatch instantiates a new TraceQueryMatch object

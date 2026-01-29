@@ -17,8 +17,8 @@ import (
 
 // TopologyStreamMetrics struct for TopologyStreamMetrics
 type TopologyStreamMetrics struct {
-	BucketSizeSeconds int32               `json:"bucketSizeSeconds"`
-	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty"`
+	BucketSizeSeconds int32               `json:"bucketSizeSeconds" yaml:"bucketSizeSeconds"`
+	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty" yaml:"latencySeconds,omitempty"`
 }
 
 // NewTopologyStreamMetrics instantiates a new TopologyStreamMetrics object

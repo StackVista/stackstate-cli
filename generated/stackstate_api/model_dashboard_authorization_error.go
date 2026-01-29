@@ -18,9 +18,9 @@ import (
 // DashboardAuthorizationError struct for DashboardAuthorizationError
 type DashboardAuthorizationError struct {
 	// A detailed error message describing why the operation failed.
-	Message          string `json:"message"`
-	DashboardIdOrUrn string `json:"dashboardIdOrUrn"`
-	UserName         string `json:"userName"`
+	Message          string `json:"message" yaml:"message"`
+	DashboardIdOrUrn string `json:"dashboardIdOrUrn" yaml:"dashboardIdOrUrn"`
+	UserName         string `json:"userName" yaml:"userName"`
 }
 
 // NewDashboardAuthorizationError instantiates a new DashboardAuthorizationError object

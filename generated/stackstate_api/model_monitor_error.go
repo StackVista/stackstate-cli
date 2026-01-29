@@ -17,9 +17,9 @@ import (
 
 // MonitorError struct for MonitorError
 type MonitorError struct {
-	Error string       `json:"error"`
-	Count int32        `json:"count"`
-	Level MessageLevel `json:"level"`
+	Error string       `json:"error" yaml:"error"`
+	Count int32        `json:"count" yaml:"count"`
+	Level MessageLevel `json:"level" yaml:"level"`
 }
 
 // NewMonitorError instantiates a new MonitorError object

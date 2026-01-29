@@ -17,11 +17,11 @@ import (
 
 // ArgumentTopologyQueryVal struct for ArgumentTopologyQueryVal
 type ArgumentTopologyQueryVal struct {
-	Type                string `json:"_type"`
-	Id                  *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64  `json:"parameter"`
-	Query               string `json:"query"`
+	Type                string `json:"_type" yaml:"_type"`
+	Id                  *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64  `json:"parameter" yaml:"parameter"`
+	Query               string `json:"query" yaml:"query"`
 }
 
 // NewArgumentTopologyQueryVal instantiates a new ArgumentTopologyQueryVal object

@@ -17,9 +17,9 @@ import (
 
 // MultipleMatchesCheckState struct for MultipleMatchesCheckState
 type MultipleMatchesCheckState struct {
-	CheckStateId              string `json:"checkStateId"`
-	TopologyElementIdentifier string `json:"topologyElementIdentifier"`
-	MatchCount                int32  `json:"matchCount"`
+	CheckStateId              string `json:"checkStateId" yaml:"checkStateId"`
+	TopologyElementIdentifier string `json:"topologyElementIdentifier" yaml:"topologyElementIdentifier"`
+	MatchCount                int32  `json:"matchCount" yaml:"matchCount"`
 }
 
 // NewMultipleMatchesCheckState instantiates a new MultipleMatchesCheckState object

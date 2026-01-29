@@ -17,7 +17,7 @@ import (
 
 // EpochTx struct for EpochTx
 type EpochTx struct {
-	EpochTx int64 `json:"epochTx"`
+	EpochTx int64 `json:"epochTx" yaml:"epochTx"`
 }
 
 // NewEpochTx instantiates a new EpochTx object

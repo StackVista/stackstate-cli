@@ -17,8 +17,8 @@ import (
 
 // CheckLeaseRequest struct for CheckLeaseRequest
 type CheckLeaseRequest struct {
-	ApiKey    string     `json:"apiKey"`
-	AgentData *AgentData `json:"agentData,omitempty"`
+	ApiKey    string     `json:"apiKey" yaml:"apiKey"`
+	AgentData *AgentData `json:"agentData,omitempty" yaml:"agentData,omitempty"`
 }
 
 // NewCheckLeaseRequest instantiates a new CheckLeaseRequest object

@@ -17,9 +17,9 @@ import (
 
 // NotificationChannelNotFound struct for NotificationChannelNotFound
 type NotificationChannelNotFound struct {
-	Message   string `json:"message"`
-	ChannelId string `json:"channelId"`
-	Type      string `json:"_type"`
+	Message   string `json:"message" yaml:"message"`
+	ChannelId string `json:"channelId" yaml:"channelId"`
+	Type      string `json:"_type" yaml:"_type"`
 }
 
 // NewNotificationChannelNotFound instantiates a new NotificationChannelNotFound object

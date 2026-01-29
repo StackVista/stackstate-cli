@@ -17,7 +17,7 @@ import (
 
 // PresentationDefinition struct for PresentationDefinition
 type PresentationDefinition struct {
-	Icon *string `json:"icon,omitempty"`
+	Icon *string `json:"icon,omitempty" yaml:"icon,omitempty"`
 }
 
 // NewPresentationDefinition instantiates a new PresentationDefinition object

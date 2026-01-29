@@ -17,8 +17,8 @@ import (
 
 // InvalidNotificationConfigurationIdentifier struct for InvalidNotificationConfigurationIdentifier
 type InvalidNotificationConfigurationIdentifier struct {
-	NotificationConfigurationIdOrUrn string `json:"notificationConfigurationIdOrUrn"`
-	Type                             string `json:"_type"`
+	NotificationConfigurationIdOrUrn string `json:"notificationConfigurationIdOrUrn" yaml:"notificationConfigurationIdOrUrn"`
+	Type                             string `json:"_type" yaml:"_type"`
 }
 
 // NewInvalidNotificationConfigurationIdentifier instantiates a new InvalidNotificationConfigurationIdentifier object

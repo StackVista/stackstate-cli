@@ -17,7 +17,7 @@ import (
 
 // Permissions struct for Permissions
 type Permissions struct {
-	Permissions []string `json:"permissions"`
+	Permissions []string `json:"permissions" yaml:"permissions"`
 }
 
 // NewPermissions instantiates a new Permissions object

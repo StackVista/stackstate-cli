@@ -17,19 +17,19 @@ import (
 
 // DashboardReadFullSchema struct for DashboardReadFullSchema
 type DashboardReadFullSchema struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 	// The identifier of a dashboard. Either the system/graph ID or URN of the resource.
-	Identifier string `json:"identifier"`
-	Id         int64  `json:"id"`
+	Identifier string `json:"identifier" yaml:"identifier"`
+	Id         int64  `json:"id" yaml:"id"`
 	// Name of the dashboard
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 	// Description of the dashboard
-	Description string         `json:"description"`
-	Scope       DashboardScope `json:"scope"`
+	Description string         `json:"description" yaml:"description"`
+	Scope       DashboardScope `json:"scope" yaml:"scope"`
 	// The user id of the dashboard owner. A dashboard was either created by a user or from a StackPack. For a user, the identifier will be the system/graph ID, and for a StackPack, the field will be empty/omitted.
-	OwnerId             *int64          `json:"ownerId,omitempty"`
-	LastUpdateTimestamp int64           `json:"lastUpdateTimestamp"`
-	Dashboard           PersesDashboard `json:"dashboard"`
+	OwnerId             *int64          `json:"ownerId,omitempty" yaml:"ownerId,omitempty"`
+	LastUpdateTimestamp int64           `json:"lastUpdateTimestamp" yaml:"lastUpdateTimestamp"`
+	Dashboard           PersesDashboard `json:"dashboard" yaml:"dashboard"`
 }
 
 // NewDashboardReadFullSchema instantiates a new DashboardReadFullSchema object

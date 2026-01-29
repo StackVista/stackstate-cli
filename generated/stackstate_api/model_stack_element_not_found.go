@@ -17,12 +17,12 @@ import (
 
 // StackElementNotFound struct for StackElementNotFound
 type StackElementNotFound struct {
-	Type             string `json:"_type"`
-	ObjectType       string `json:"objectType"`
-	ObjectId         string `json:"objectId"`
-	Message          string `json:"message"`
-	ExistedEarlierMs *int64 `json:"existedEarlierMs,omitempty"`
-	ExistsLaterMs    *int64 `json:"existsLaterMs,omitempty"`
+	Type             string `json:"_type" yaml:"_type"`
+	ObjectType       string `json:"objectType" yaml:"objectType"`
+	ObjectId         string `json:"objectId" yaml:"objectId"`
+	Message          string `json:"message" yaml:"message"`
+	ExistedEarlierMs *int64 `json:"existedEarlierMs,omitempty" yaml:"existedEarlierMs,omitempty"`
+	ExistsLaterMs    *int64 `json:"existsLaterMs,omitempty" yaml:"existsLaterMs,omitempty"`
 }
 
 // NewStackElementNotFound instantiates a new StackElementNotFound object

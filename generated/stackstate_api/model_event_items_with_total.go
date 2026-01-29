@@ -17,8 +17,8 @@ import (
 
 // EventItemsWithTotal struct for EventItemsWithTotal
 type EventItemsWithTotal struct {
-	Items []TopologyEvent `json:"items"`
-	Total int64           `json:"total"`
+	Items []TopologyEvent `json:"items" yaml:"items"`
+	Total int64           `json:"total" yaml:"total"`
 }
 
 // NewEventItemsWithTotal instantiates a new EventItemsWithTotal object

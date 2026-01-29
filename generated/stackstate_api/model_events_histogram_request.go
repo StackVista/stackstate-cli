@@ -17,14 +17,14 @@ import (
 
 // EventsHistogramRequest struct for EventsHistogramRequest
 type EventsHistogramRequest struct {
-	TopologyTimestamp          *int32          `json:"topologyTimestamp,omitempty"`
-	StartTimestampMs           int32           `json:"startTimestampMs"`
-	EndTimestampMs             int32           `json:"endTimestampMs"`
-	TopologyQuery              string          `json:"topologyQuery"`
-	IncludeConnectedComponents *bool           `json:"includeConnectedComponents,omitempty"`
-	EventTypes                 []string        `json:"eventTypes,omitempty"`
-	EventCategories            []EventCategory `json:"eventCategories,omitempty"`
-	HistogramBucketCount       int32           `json:"histogramBucketCount"`
+	TopologyTimestamp          *int32          `json:"topologyTimestamp,omitempty" yaml:"topologyTimestamp,omitempty"`
+	StartTimestampMs           int32           `json:"startTimestampMs" yaml:"startTimestampMs"`
+	EndTimestampMs             int32           `json:"endTimestampMs" yaml:"endTimestampMs"`
+	TopologyQuery              string          `json:"topologyQuery" yaml:"topologyQuery"`
+	IncludeConnectedComponents *bool           `json:"includeConnectedComponents,omitempty" yaml:"includeConnectedComponents,omitempty"`
+	EventTypes                 []string        `json:"eventTypes,omitempty" yaml:"eventTypes,omitempty"`
+	EventCategories            []EventCategory `json:"eventCategories,omitempty" yaml:"eventCategories,omitempty"`
+	HistogramBucketCount       int32           `json:"histogramBucketCount" yaml:"histogramBucketCount"`
 }
 
 // NewEventsHistogramRequest instantiates a new EventsHistogramRequest object

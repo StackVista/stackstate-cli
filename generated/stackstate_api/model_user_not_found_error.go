@@ -17,8 +17,8 @@ import (
 
 // UserNotFoundError struct for UserNotFoundError
 type UserNotFoundError struct {
-	Type string `json:"_type"`
-	Name string `json:"name"`
+	Type string `json:"_type" yaml:"_type"`
+	Name string `json:"name" yaml:"name"`
 }
 
 // NewUserNotFoundError instantiates a new UserNotFoundError object

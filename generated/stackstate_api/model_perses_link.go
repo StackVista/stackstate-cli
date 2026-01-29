@@ -17,11 +17,11 @@ import (
 
 // PersesLink struct for PersesLink
 type PersesLink struct {
-	Name            *string `json:"name,omitempty"`
-	RenderVariables *bool   `json:"renderVariables,omitempty"`
-	TargetBlank     *bool   `json:"targetBlank,omitempty"`
-	Tooltip         *string `json:"tooltip,omitempty"`
-	Url             *string `json:"url,omitempty"`
+	Name            *string `json:"name,omitempty" yaml:"name,omitempty"`
+	RenderVariables *bool   `json:"renderVariables,omitempty" yaml:"renderVariables,omitempty"`
+	TargetBlank     *bool   `json:"targetBlank,omitempty" yaml:"targetBlank,omitempty"`
+	Tooltip         *string `json:"tooltip,omitempty" yaml:"tooltip,omitempty"`
+	Url             *string `json:"url,omitempty" yaml:"url,omitempty"`
 }
 
 // NewPersesLink instantiates a new PersesLink object

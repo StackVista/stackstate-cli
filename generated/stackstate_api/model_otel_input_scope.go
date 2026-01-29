@@ -18,10 +18,10 @@ import (
 // OtelInputScope Defines conditional mapping at the resource -> scope level. If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`.
 type OtelInputScope struct {
 	// A Cel expression that must return a boolean
-	Condition *string                   `json:"condition,omitempty"`
-	Action    *OtelInputConditionAction `json:"action,omitempty"`
-	Metric    *OtelInputMetric          `json:"metric,omitempty"`
-	Span      *OtelInputSpan            `json:"span,omitempty"`
+	Condition *string                   `json:"condition,omitempty" yaml:"condition,omitempty"`
+	Action    *OtelInputConditionAction `json:"action,omitempty" yaml:"action,omitempty"`
+	Metric    *OtelInputMetric          `json:"metric,omitempty" yaml:"metric,omitempty"`
+	Span      *OtelInputSpan            `json:"span,omitempty" yaml:"span,omitempty"`
 }
 
 // NewOtelInputScope instantiates a new OtelInputScope object

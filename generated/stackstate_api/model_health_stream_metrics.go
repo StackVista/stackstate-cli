@@ -17,12 +17,12 @@ import (
 
 // HealthStreamMetrics struct for HealthStreamMetrics
 type HealthStreamMetrics struct {
-	BucketSizeSeconds int32               `json:"bucketSizeSeconds"`
-	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty"`
-	MessagePerSecond  []MetricBucketValue `json:"messagePerSecond,omitempty"`
-	CreatesPerSecond  []MetricBucketValue `json:"createsPerSecond,omitempty"`
-	UpdatesPerSecond  []MetricBucketValue `json:"updatesPerSecond,omitempty"`
-	DeletesPerSecond  []MetricBucketValue `json:"deletesPerSecond,omitempty"`
+	BucketSizeSeconds int32               `json:"bucketSizeSeconds" yaml:"bucketSizeSeconds"`
+	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty" yaml:"latencySeconds,omitempty"`
+	MessagePerSecond  []MetricBucketValue `json:"messagePerSecond,omitempty" yaml:"messagePerSecond,omitempty"`
+	CreatesPerSecond  []MetricBucketValue `json:"createsPerSecond,omitempty" yaml:"createsPerSecond,omitempty"`
+	UpdatesPerSecond  []MetricBucketValue `json:"updatesPerSecond,omitempty" yaml:"updatesPerSecond,omitempty"`
+	DeletesPerSecond  []MetricBucketValue `json:"deletesPerSecond,omitempty" yaml:"deletesPerSecond,omitempty"`
 }
 
 // NewHealthStreamMetrics instantiates a new HealthStreamMetrics object

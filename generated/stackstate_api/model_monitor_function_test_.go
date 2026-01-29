@@ -17,7 +17,7 @@ import (
 
 // MonitorFunctionTest struct for MonitorFunctionTest
 type MonitorFunctionTest struct {
-	Arguments []Argument `json:"arguments"`
+	Arguments []Argument `json:"arguments" yaml:"arguments"`
 }
 
 // NewMonitorFunctionTest instantiates a new MonitorFunctionTest object

@@ -17,11 +17,11 @@ import (
 
 // TeamsNotificationChannel struct for TeamsNotificationChannel
 type TeamsNotificationChannel struct {
-	Id                          int64                     `json:"id"`
-	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
-	Status                      NotificationChannelStatus `json:"status"`
-	Url                         string                    `json:"url"`
-	Type                        string                    `json:"_type"`
+	Id                          int64                     `json:"id" yaml:"id"`
+	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty" yaml:"notificationConfigurationId,omitempty"`
+	Status                      NotificationChannelStatus `json:"status" yaml:"status"`
+	Url                         string                    `json:"url" yaml:"url"`
+	Type                        string                    `json:"_type" yaml:"_type"`
 }
 
 // NewTeamsNotificationChannel instantiates a new TeamsNotificationChannel object

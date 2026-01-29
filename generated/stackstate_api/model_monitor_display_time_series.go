@@ -17,10 +17,10 @@ import (
 
 // MonitorDisplayTimeSeries struct for MonitorDisplayTimeSeries
 type MonitorDisplayTimeSeries struct {
-	Name        string                `json:"name"`
-	Queries     []MonitorDisplayQuery `json:"queries"`
-	Description *string               `json:"description,omitempty"`
-	Unit        *string               `json:"unit,omitempty"`
+	Name        string                `json:"name" yaml:"name"`
+	Queries     []MonitorDisplayQuery `json:"queries" yaml:"queries"`
+	Description *string               `json:"description,omitempty" yaml:"description,omitempty"`
+	Unit        *string               `json:"unit,omitempty" yaml:"unit,omitempty"`
 }
 
 // NewMonitorDisplayTimeSeries instantiates a new MonitorDisplayTimeSeries object

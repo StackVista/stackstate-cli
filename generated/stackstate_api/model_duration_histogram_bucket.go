@@ -18,15 +18,15 @@ import (
 // DurationHistogramBucket struct for DurationHistogramBucket
 type DurationHistogramBucket struct {
 	// Number of successful traces with a duration between (lowerNanos, upperNanos].
-	OkCount int32 `json:"okCount"`
+	OkCount int32 `json:"okCount" yaml:"okCount"`
 	// Number of erroneous traces with a duration between (lowerNanos, upperNanos].
-	ErrorCount int32 `json:"errorCount"`
+	ErrorCount int32 `json:"errorCount" yaml:"errorCount"`
 	// Number of traces with unset status and a duration between (lowerNanos, upperNanos].
-	UnsetCount int32 `json:"unsetCount"`
+	UnsetCount int32 `json:"unsetCount" yaml:"unsetCount"`
 	// Lower limit on trace duration
-	LowerNanos *int64 `json:"lowerNanos,omitempty"`
+	LowerNanos *int64 `json:"lowerNanos,omitempty" yaml:"lowerNanos,omitempty"`
 	// Upper limit on trace duration
-	UpperNanos *int64 `json:"upperNanos,omitempty"`
+	UpperNanos *int64 `json:"upperNanos,omitempty" yaml:"upperNanos,omitempty"`
 }
 
 // NewDurationHistogramBucket instantiates a new DurationHistogramBucket object

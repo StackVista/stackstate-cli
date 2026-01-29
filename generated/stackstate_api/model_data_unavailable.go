@@ -17,10 +17,10 @@ import (
 
 // DataUnavailable struct for DataUnavailable
 type DataUnavailable struct {
-	Type             string `json:"_type"`
-	Message          string `json:"message"`
-	RequestTimeMs    int32  `json:"requestTimeMs"`
-	AvailableSinceMs int32  `json:"availableSinceMs"`
+	Type             string `json:"_type" yaml:"_type"`
+	Message          string `json:"message" yaml:"message"`
+	RequestTimeMs    int32  `json:"requestTimeMs" yaml:"requestTimeMs"`
+	AvailableSinceMs int32  `json:"availableSinceMs" yaml:"availableSinceMs"`
 }
 
 // NewDataUnavailable instantiates a new DataUnavailable object

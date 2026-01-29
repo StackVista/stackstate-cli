@@ -17,12 +17,12 @@ import (
 
 // TopologyPromQLMetric struct for TopologyPromQLMetric
 type TopologyPromQLMetric struct {
-	Type          string `json:"_type"`
-	Id            *int64 `json:"id,omitempty"`
-	PromQLQuery   string `json:"promQLQuery"`
-	Unit          string `json:"unit"`
-	AliasTemplate string `json:"aliasTemplate"`
-	TopologyQuery string `json:"topologyQuery"`
+	Type          string `json:"_type" yaml:"_type"`
+	Id            *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	PromQLQuery   string `json:"promQLQuery" yaml:"promQLQuery"`
+	Unit          string `json:"unit" yaml:"unit"`
+	AliasTemplate string `json:"aliasTemplate" yaml:"aliasTemplate"`
+	TopologyQuery string `json:"topologyQuery" yaml:"topologyQuery"`
 }
 
 // NewTopologyPromQLMetric instantiates a new TopologyPromQLMetric object

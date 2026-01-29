@@ -17,10 +17,10 @@ import (
 
 // AgentData struct for AgentData
 type AgentData struct {
-	Platform      string `json:"platform"`
-	CoreCount     int32  `json:"coreCount"`
-	MemoryBytes   int64  `json:"memoryBytes"`
-	KernelVersion string `json:"kernelVersion"`
+	Platform      string `json:"platform" yaml:"platform"`
+	CoreCount     int32  `json:"coreCount" yaml:"coreCount"`
+	MemoryBytes   int64  `json:"memoryBytes" yaml:"memoryBytes"`
+	KernelVersion string `json:"kernelVersion" yaml:"kernelVersion"`
 }
 
 // NewAgentData instantiates a new AgentData object

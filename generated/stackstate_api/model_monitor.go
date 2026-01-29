@@ -17,23 +17,23 @@ import (
 
 // Monitor struct for Monitor
 type Monitor struct {
-	Id                  int64                     `json:"id"`
-	Name                string                    `json:"name"`
-	Identifier          *string                   `json:"identifier,omitempty"`
-	Description         *string                   `json:"description,omitempty"`
-	FunctionId          int64                     `json:"functionId"`
-	Arguments           []map[string]interface{}  `json:"arguments"`
-	RemediationHint     *string                   `json:"remediationHint,omitempty"`
-	IntervalSeconds     int32                     `json:"intervalSeconds"`
-	Tags                []string                  `json:"tags"`
-	Source              string                    `json:"source"`
-	SourceDetails       *string                   `json:"sourceDetails,omitempty"`
-	CanEdit             bool                      `json:"canEdit"`
-	CanClone            bool                      `json:"canClone"`
-	Status              MonitorStatusValue        `json:"status"`
-	RuntimeStatus       MonitorRuntimeStatusValue `json:"runtimeStatus"`
-	Dummy               *bool                     `json:"dummy,omitempty"`
-	LastUpdateTimestamp int64                     `json:"lastUpdateTimestamp"`
+	Id                  int64                     `json:"id" yaml:"id"`
+	Name                string                    `json:"name" yaml:"name"`
+	Identifier          *string                   `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	Description         *string                   `json:"description,omitempty" yaml:"description,omitempty"`
+	FunctionId          int64                     `json:"functionId" yaml:"functionId"`
+	Arguments           []map[string]interface{}  `json:"arguments" yaml:"arguments"`
+	RemediationHint     *string                   `json:"remediationHint,omitempty" yaml:"remediationHint,omitempty"`
+	IntervalSeconds     int32                     `json:"intervalSeconds" yaml:"intervalSeconds"`
+	Tags                []string                  `json:"tags" yaml:"tags"`
+	Source              string                    `json:"source" yaml:"source"`
+	SourceDetails       *string                   `json:"sourceDetails,omitempty" yaml:"sourceDetails,omitempty"`
+	CanEdit             bool                      `json:"canEdit" yaml:"canEdit"`
+	CanClone            bool                      `json:"canClone" yaml:"canClone"`
+	Status              MonitorStatusValue        `json:"status" yaml:"status"`
+	RuntimeStatus       MonitorRuntimeStatusValue `json:"runtimeStatus" yaml:"runtimeStatus"`
+	Dummy               *bool                     `json:"dummy,omitempty" yaml:"dummy,omitempty"`
+	LastUpdateTimestamp int64                     `json:"lastUpdateTimestamp" yaml:"lastUpdateTimestamp"`
 }
 
 // NewMonitor instantiates a new Monitor object
