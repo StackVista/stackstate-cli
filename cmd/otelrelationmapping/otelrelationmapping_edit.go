@@ -39,12 +39,7 @@ sts otel-relation-mapping edit --identifier urn:stackpack:stackpack-name:shared:
 
 func RunEditRelationMappingCommand(args *EditArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if args.Identifier == "" {
-			return common.NewCLIArgParseError(fmt.Errorf("--identifier is required"))
-		}
-		identifier := args.Identifier
-
-		mapping, resp, err := api.OtelMappingApi.GetOtelRelationMapping(cli.Context, identifier).Execute()
+		mapping, resp, err := api.OtelMappingApi.GetOtelRelationMapping(cli.Context, args.Identifier).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

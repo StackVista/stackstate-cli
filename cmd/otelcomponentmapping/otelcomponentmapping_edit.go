@@ -41,10 +41,6 @@ sts otel-component-mapping edit --identifier urn:stackpack:stackpack-name:shared
 
 func RunEditComponentMappingCommand(args *EditArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if args.Identifier == "" {
-			return common.NewCLIArgParseError(fmt.Errorf("--identifier is required"))
-		}
-
 		mapping, resp, err := api.OtelMappingApi.GetOtelComponentMapping(cli.Context, args.Identifier).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)

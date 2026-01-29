@@ -38,12 +38,7 @@ sts otel-component-mapping describe --identifier urn:stackpack:stackpack-name:sh
 
 func RunDescribeComponentMappingCommand(args *DescribeArgs) di.CmdWithApiFn {
 	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-		if args.Identifier == "" {
-			return common.NewCLIArgParseError(fmt.Errorf("--identifier is required"))
-		}
-		ref := args.Identifier
-
-		mapping, resp, err := api.OtelMappingApi.GetOtelComponentMapping(cli.Context, ref).Execute()
+		mapping, resp, err := api.OtelMappingApi.GetOtelComponentMapping(cli.Context, args.Identifier).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}

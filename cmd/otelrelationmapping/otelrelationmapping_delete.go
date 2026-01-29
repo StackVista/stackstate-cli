@@ -36,10 +36,6 @@ func RunDeleteRelationMappingCommand(args *DeleteArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		if args.Identifier == "" {
-			return common.NewCLIArgParseError(fmt.Errorf("--identifier is required"))
-		}
-
 		resp, err := api.OtelMappingApi.DeleteOtelRelationMapping(cli.Context, args.Identifier).Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
