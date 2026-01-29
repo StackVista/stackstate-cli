@@ -76,7 +76,7 @@ func RunDashboardDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 		} else {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"data":   data,
+					"data":   dashboard,
 					"format": "json",
 				})
 			} else {
