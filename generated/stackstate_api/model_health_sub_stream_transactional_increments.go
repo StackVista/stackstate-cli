@@ -17,9 +17,9 @@ import (
 
 // HealthSubStreamTransactionalIncrements struct for HealthSubStreamTransactionalIncrements
 type HealthSubStreamTransactionalIncrements struct {
-	Type       string `json:"_type"`
-	Offset     int64  `json:"offset"`
-	BatchIndex *int64 `json:"batchIndex,omitempty"`
+	Type       string `json:"_type" yaml:"_type"`
+	Offset     int64  `json:"offset" yaml:"offset"`
+	BatchIndex *int64 `json:"batchIndex,omitempty" yaml:"batchIndex,omitempty"`
 }
 
 // NewHealthSubStreamTransactionalIncrements instantiates a new HealthSubStreamTransactionalIncrements object

@@ -17,9 +17,9 @@ import (
 
 // HealthSubStreamExpiry struct for HealthSubStreamExpiry
 type HealthSubStreamExpiry struct {
-	Type             string `json:"_type"`
-	ExpiryIntervalMs int32  `json:"expiryIntervalMs"`
-	RepeatIntervalMs int32  `json:"repeatIntervalMs"`
+	Type             string `json:"_type" yaml:"_type"`
+	ExpiryIntervalMs int32  `json:"expiryIntervalMs" yaml:"expiryIntervalMs"`
+	RepeatIntervalMs int32  `json:"repeatIntervalMs" yaml:"repeatIntervalMs"`
 }
 
 // NewHealthSubStreamExpiry instantiates a new HealthSubStreamExpiry object

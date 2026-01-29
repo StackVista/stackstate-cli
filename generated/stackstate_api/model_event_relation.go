@@ -17,14 +17,14 @@ import (
 
 // EventRelation struct for EventRelation
 type EventRelation struct {
-	Type                string              `json:"_type"`
-	Id                  int64               `json:"id"`
-	TypeName            string              `json:"typeName"`
-	Name                *string             `json:"name,omitempty"`
-	Identifiers         []string            `json:"identifiers"`
-	Source              EventComponent      `json:"source"`
-	Target              EventComponent      `json:"target"`
-	DependencyDirection DependencyDirection `json:"dependencyDirection"`
+	Type                string              `json:"_type" yaml:"_type"`
+	Id                  int64               `json:"id" yaml:"id"`
+	TypeName            string              `json:"typeName" yaml:"typeName"`
+	Name                *string             `json:"name,omitempty" yaml:"name,omitempty"`
+	Identifiers         []string            `json:"identifiers" yaml:"identifiers"`
+	Source              EventComponent      `json:"source" yaml:"source"`
+	Target              EventComponent      `json:"target" yaml:"target"`
+	DependencyDirection DependencyDirection `json:"dependencyDirection" yaml:"dependencyDirection"`
 }
 
 // NewEventRelation instantiates a new EventRelation object

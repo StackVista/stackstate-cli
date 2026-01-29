@@ -17,9 +17,9 @@ import (
 
 // MonitorCheckStatusRelatedFailures struct for MonitorCheckStatusRelatedFailures
 type MonitorCheckStatusRelatedFailures struct {
-	Identifier    string                                         `json:"identifier"`
-	TopologyTime  int32                                          `json:"topologyTime"`
-	CheckStatuses []MonitorCheckStatusRelatedFailuresCheckStatus `json:"checkStatuses"`
+	Identifier    string                                         `json:"identifier" yaml:"identifier"`
+	TopologyTime  int32                                          `json:"topologyTime" yaml:"topologyTime"`
+	CheckStatuses []MonitorCheckStatusRelatedFailuresCheckStatus `json:"checkStatuses" yaml:"checkStatuses"`
 }
 
 // NewMonitorCheckStatusRelatedFailures instantiates a new MonitorCheckStatusRelatedFailures object

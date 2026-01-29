@@ -17,8 +17,8 @@ import (
 
 // CreateSubject struct for CreateSubject
 type CreateSubject struct {
-	Query   *string `json:"query,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Query   *string `json:"query,omitempty" yaml:"query,omitempty"`
+	Version *string `json:"version,omitempty" yaml:"version,omitempty"`
 }
 
 // NewCreateSubject instantiates a new CreateSubject object

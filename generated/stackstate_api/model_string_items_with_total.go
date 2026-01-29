@@ -17,8 +17,8 @@ import (
 
 // StringItemsWithTotal struct for StringItemsWithTotal
 type StringItemsWithTotal struct {
-	Items []string `json:"items"`
-	Total int64    `json:"total"`
+	Items []string `json:"items" yaml:"items"`
+	Total int64    `json:"total" yaml:"total"`
 }
 
 // NewStringItemsWithTotal instantiates a new StringItemsWithTotal object

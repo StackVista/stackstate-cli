@@ -17,11 +17,11 @@ import (
 
 // SpanComponent struct for SpanComponent
 type SpanComponent struct {
-	Id          int64            `json:"id"`
-	Identifier  string           `json:"identifier"`
-	Name        string           `json:"name"`
-	Type        string           `json:"type"`
-	HealthState HealthStateValue `json:"healthState"`
+	Id          int64            `json:"id" yaml:"id"`
+	Identifier  string           `json:"identifier" yaml:"identifier"`
+	Name        string           `json:"name" yaml:"name"`
+	Type        string           `json:"type" yaml:"type"`
+	HealthState HealthStateValue `json:"healthState" yaml:"healthState"`
 }
 
 // NewSpanComponent instantiates a new SpanComponent object

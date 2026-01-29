@@ -17,7 +17,7 @@ import (
 
 // ComponentCheckStates struct for ComponentCheckStates
 type ComponentCheckStates struct {
-	CheckStateIds []ComponentCheckState `json:"checkStateIds"`
+	CheckStateIds []ComponentCheckState `json:"checkStateIds" yaml:"checkStateIds"`
 }
 
 // NewComponentCheckStates instantiates a new ComponentCheckStates object

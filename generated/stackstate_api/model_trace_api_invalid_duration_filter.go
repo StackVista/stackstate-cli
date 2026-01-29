@@ -17,10 +17,10 @@ import (
 
 // TraceApiInvalidDurationFilter struct for TraceApiInvalidDurationFilter
 type TraceApiInvalidDurationFilter struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
-	From    int64  `json:"from"`
-	To      int64  `json:"to"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
+	From    int64  `json:"from" yaml:"from"`
+	To      int64  `json:"to" yaml:"to"`
 }
 
 // NewTraceApiInvalidDurationFilter instantiates a new TraceApiInvalidDurationFilter object

@@ -17,10 +17,10 @@ import (
 
 // ComponentHealthHistory struct for ComponentHealthHistory
 type ComponentHealthHistory struct {
-	StartTime int32 `json:"startTime"`
-	EndTime   int32 `json:"endTime"`
+	StartTime int32 `json:"startTime" yaml:"startTime"`
+	EndTime   int32 `json:"endTime" yaml:"endTime"`
 	// List of health state changes ordered from most recent to oldest.
-	HealthStateChanges []ComponentHealthChange `json:"healthStateChanges"`
+	HealthStateChanges []ComponentHealthChange `json:"healthStateChanges" yaml:"healthStateChanges"`
 }
 
 // NewComponentHealthHistory instantiates a new ComponentHealthHistory object

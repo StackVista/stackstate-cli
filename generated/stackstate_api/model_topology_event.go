@@ -17,20 +17,20 @@ import (
 
 // TopologyEvent struct for TopologyEvent
 type TopologyEvent struct {
-	Identifier         string                 `json:"identifier"`
-	SourceIdentifier   *string                `json:"sourceIdentifier,omitempty"`
-	ElementIdentifiers []string               `json:"elementIdentifiers"`
-	Elements           []EventElement         `json:"elements"`
-	Source             string                 `json:"source"`
-	Category           EventCategory          `json:"category"`
-	Description        *string                `json:"description,omitempty"`
-	Name               string                 `json:"name"`
-	SourceLinks        []SourceLink           `json:"sourceLinks"`
-	Data               map[string]interface{} `json:"data"`
-	EventType          string                 `json:"eventType"`
-	EventTime          int64                  `json:"eventTime"`
-	ProcessedTime      int64                  `json:"processedTime"`
-	Tags               []EventTag             `json:"tags"`
+	Identifier         string                 `json:"identifier" yaml:"identifier"`
+	SourceIdentifier   *string                `json:"sourceIdentifier,omitempty" yaml:"sourceIdentifier,omitempty"`
+	ElementIdentifiers []string               `json:"elementIdentifiers" yaml:"elementIdentifiers"`
+	Elements           []EventElement         `json:"elements" yaml:"elements"`
+	Source             string                 `json:"source" yaml:"source"`
+	Category           EventCategory          `json:"category" yaml:"category"`
+	Description        *string                `json:"description,omitempty" yaml:"description,omitempty"`
+	Name               string                 `json:"name" yaml:"name"`
+	SourceLinks        []SourceLink           `json:"sourceLinks" yaml:"sourceLinks"`
+	Data               map[string]interface{} `json:"data" yaml:"data"`
+	EventType          string                 `json:"eventType" yaml:"eventType"`
+	EventTime          int64                  `json:"eventTime" yaml:"eventTime"`
+	ProcessedTime      int64                  `json:"processedTime" yaml:"processedTime"`
+	Tags               []EventTag             `json:"tags" yaml:"tags"`
 }
 
 // NewTopologyEvent instantiates a new TopologyEvent object

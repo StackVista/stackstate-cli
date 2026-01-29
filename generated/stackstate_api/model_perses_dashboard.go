@@ -17,9 +17,9 @@ import (
 
 // PersesDashboard struct for PersesDashboard
 type PersesDashboard struct {
-	Kind     *string                `json:"kind,omitempty"`
-	Metadata *PersesProjectMetadata `json:"metadata,omitempty"`
-	Spec     *PersesDashboardSpec   `json:"spec,omitempty"`
+	Kind     *string                `json:"kind,omitempty" yaml:"kind,omitempty"`
+	Metadata *PersesProjectMetadata `json:"metadata,omitempty" yaml:"metadata,omitempty"`
+	Spec     *PersesDashboardSpec   `json:"spec,omitempty" yaml:"spec,omitempty"`
 }
 
 // NewPersesDashboard instantiates a new PersesDashboard object

@@ -17,9 +17,9 @@ import (
 
 // TopologyStreamListItemWithErrorDetails struct for TopologyStreamListItemWithErrorDetails
 type TopologyStreamListItemWithErrorDetails struct {
-	Item         TopologyStreamListItem `json:"item"`
-	ErrorDetails []TopologyStreamError  `json:"errorDetails"`
-	Metrics      *TopologyStreamMetrics `json:"metrics,omitempty"`
+	Item         TopologyStreamListItem `json:"item" yaml:"item"`
+	ErrorDetails []TopologyStreamError  `json:"errorDetails" yaml:"errorDetails"`
+	Metrics      *TopologyStreamMetrics `json:"metrics,omitempty" yaml:"metrics,omitempty"`
 }
 
 // NewTopologyStreamListItemWithErrorDetails instantiates a new TopologyStreamListItemWithErrorDetails object

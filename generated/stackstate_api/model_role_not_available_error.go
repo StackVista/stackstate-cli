@@ -17,8 +17,8 @@ import (
 
 // RoleNotAvailableError struct for RoleNotAvailableError
 type RoleNotAvailableError struct {
-	Type string `json:"_type"`
-	Role string `json:"role"`
+	Type string `json:"_type" yaml:"_type"`
+	Role string `json:"role" yaml:"role"`
 }
 
 // NewRoleNotAvailableError instantiates a new RoleNotAvailableError object

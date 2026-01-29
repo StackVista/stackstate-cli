@@ -17,9 +17,9 @@ import (
 
 // TopologyStreamError struct for TopologyStreamError
 type TopologyStreamError struct {
-	Level      MessageLevel `json:"level"`
-	Message    string       `json:"message"`
-	ExternalId *string      `json:"externalId,omitempty"`
+	Level      MessageLevel `json:"level" yaml:"level"`
+	Message    string       `json:"message" yaml:"message"`
+	ExternalId *string      `json:"externalId,omitempty" yaml:"externalId,omitempty"`
 }
 
 // NewTopologyStreamError instantiates a new TopologyStreamError object

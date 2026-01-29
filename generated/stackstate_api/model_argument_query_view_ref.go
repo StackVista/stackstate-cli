@@ -17,11 +17,11 @@ import (
 
 // ArgumentQueryViewRef struct for ArgumentQueryViewRef
 type ArgumentQueryViewRef struct {
-	Type                string `json:"_type"`
-	Id                  *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64  `json:"parameter"`
-	QueryView           int64  `json:"queryView"`
+	Type                string `json:"_type" yaml:"_type"`
+	Id                  *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64  `json:"parameter" yaml:"parameter"`
+	QueryView           int64  `json:"queryView" yaml:"queryView"`
 }
 
 // NewArgumentQueryViewRef instantiates a new ArgumentQueryViewRef object

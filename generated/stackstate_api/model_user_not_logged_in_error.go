@@ -17,7 +17,7 @@ import (
 
 // UserNotLoggedInError struct for UserNotLoggedInError
 type UserNotLoggedInError struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewUserNotLoggedInError instantiates a new UserNotLoggedInError object

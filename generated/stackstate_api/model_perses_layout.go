@@ -17,8 +17,8 @@ import (
 
 // PersesLayout struct for PersesLayout
 type PersesLayout struct {
-	Kind PersesLayoutKind `json:"kind"`
-	Spec PersesLayoutSpec `json:"spec"`
+	Kind PersesLayoutKind `json:"kind" yaml:"kind"`
+	Spec PersesLayoutSpec `json:"spec" yaml:"spec"`
 }
 
 // NewPersesLayout instantiates a new PersesLayout object

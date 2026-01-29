@@ -17,11 +17,11 @@ import (
 
 // ProvisionResponse struct for ProvisionResponse
 type ProvisionResponse struct {
-	Id                  *int64  `json:"id,omitempty"`
-	Status              *string `json:"status,omitempty"`
-	Name                *string `json:"name,omitempty"`
-	StackPackVersion    *string `json:"stackPackVersion,omitempty"`
-	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
+	Id                  *int64  `json:"id,omitempty" yaml:"id,omitempty"`
+	Status              *string `json:"status,omitempty" yaml:"status,omitempty"`
+	Name                *string `json:"name,omitempty" yaml:"name,omitempty"`
+	StackPackVersion    *string `json:"stackPackVersion,omitempty" yaml:"stackPackVersion,omitempty"`
+	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
 }
 
 // NewProvisionResponse instantiates a new ProvisionResponse object

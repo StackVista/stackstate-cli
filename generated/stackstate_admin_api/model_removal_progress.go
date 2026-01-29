@@ -17,7 +17,7 @@ import (
 
 // RemovalProgress struct for RemovalProgress
 type RemovalProgress struct {
-	Progress RemovalProgressProgress `json:"progress"`
+	Progress RemovalProgressProgress `json:"progress" yaml:"progress"`
 }
 
 // NewRemovalProgress instantiates a new RemovalProgress object

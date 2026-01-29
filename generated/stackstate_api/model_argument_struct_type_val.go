@@ -17,11 +17,11 @@ import (
 
 // ArgumentStructTypeVal struct for ArgumentStructTypeVal
 type ArgumentStructTypeVal struct {
-	Type                string `json:"_type"`
-	Id                  *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64  `json:"parameter"`
-	Value               string `json:"value"`
+	Type                string `json:"_type" yaml:"_type"`
+	Id                  *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64  `json:"parameter" yaml:"parameter"`
+	Value               string `json:"value" yaml:"value"`
 }
 
 // NewArgumentStructTypeVal instantiates a new ArgumentStructTypeVal object

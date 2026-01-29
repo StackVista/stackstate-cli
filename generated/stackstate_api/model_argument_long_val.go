@@ -17,11 +17,11 @@ import (
 
 // ArgumentLongVal struct for ArgumentLongVal
 type ArgumentLongVal struct {
-	Type                string `json:"_type"`
-	Id                  *int64 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64  `json:"parameter"`
-	Value               int64  `json:"value"`
+	Type                string `json:"_type" yaml:"_type"`
+	Id                  *int64 `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64  `json:"parameter" yaml:"parameter"`
+	Value               int64  `json:"value" yaml:"value"`
 }
 
 // NewArgumentLongVal instantiates a new ArgumentLongVal object

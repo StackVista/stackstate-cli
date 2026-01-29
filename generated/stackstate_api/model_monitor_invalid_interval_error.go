@@ -17,8 +17,8 @@ import (
 
 // MonitorInvalidIntervalError struct for MonitorInvalidIntervalError
 type MonitorInvalidIntervalError struct {
-	IntervalSeconds int32  `json:"intervalSeconds"`
-	Type            string `json:"_type"`
+	IntervalSeconds int32  `json:"intervalSeconds" yaml:"intervalSeconds"`
+	Type            string `json:"_type" yaml:"_type"`
 }
 
 // NewMonitorInvalidIntervalError instantiates a new MonitorInvalidIntervalError object

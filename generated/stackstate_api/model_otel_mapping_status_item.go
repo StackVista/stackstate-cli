@@ -17,10 +17,10 @@ import (
 
 // OtelMappingStatusItem struct for OtelMappingStatusItem
 type OtelMappingStatusItem struct {
-	Name           string  `json:"name"`
-	Identifier     *string `json:"identifier,omitempty"`
-	RelationCount  int64   `json:"relationCount"`
-	ComponentCount int64   `json:"componentCount"`
+	Name           string  `json:"name" yaml:"name"`
+	Identifier     *string `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	RelationCount  int64   `json:"relationCount" yaml:"relationCount"`
+	ComponentCount int64   `json:"componentCount" yaml:"componentCount"`
 }
 
 // NewOtelMappingStatusItem instantiates a new OtelMappingStatusItem object

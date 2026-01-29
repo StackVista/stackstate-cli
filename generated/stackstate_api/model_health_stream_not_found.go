@@ -17,8 +17,8 @@ import (
 
 // HealthStreamNotFound struct for HealthStreamNotFound
 type HealthStreamNotFound struct {
-	Type string `json:"_type"`
-	Urn  string `json:"urn"`
+	Type string `json:"_type" yaml:"_type"`
+	Urn  string `json:"urn" yaml:"urn"`
 }
 
 // NewHealthStreamNotFound instantiates a new HealthStreamNotFound object

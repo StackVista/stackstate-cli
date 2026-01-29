@@ -17,11 +17,11 @@ import (
 
 // LimitOutOfRange struct for LimitOutOfRange
 type LimitOutOfRange struct {
-	Type       string `json:"_type"`
-	Message    string `json:"message"`
-	Limit      int32  `json:"limit"`
-	LowerBound int32  `json:"lowerBound"`
-	UpperBound int32  `json:"upperBound"`
+	Type       string `json:"_type" yaml:"_type"`
+	Message    string `json:"message" yaml:"message"`
+	Limit      int32  `json:"limit" yaml:"limit"`
+	LowerBound int32  `json:"lowerBound" yaml:"lowerBound"`
+	UpperBound int32  `json:"upperBound" yaml:"upperBound"`
 }
 
 // NewLimitOutOfRange instantiates a new LimitOutOfRange object

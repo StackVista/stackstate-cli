@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptExecutionError struct for ExecuteScriptExecutionError
 type ExecuteScriptExecutionError struct {
-	Type    string `json:"_type"`
-	Reason  string `json:"reason"`
-	Message string `json:"message"`
+	Type    string `json:"_type" yaml:"_type"`
+	Reason  string `json:"reason" yaml:"reason"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewExecuteScriptExecutionError instantiates a new ExecuteScriptExecutionError object

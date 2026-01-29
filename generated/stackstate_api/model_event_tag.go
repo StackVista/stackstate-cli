@@ -17,8 +17,8 @@ import (
 
 // EventTag struct for EventTag
 type EventTag struct {
-	Key   string `json:"key"`
-	Value string `json:"value"`
+	Key   string `json:"key" yaml:"key"`
+	Value string `json:"value" yaml:"value"`
 }
 
 // NewEventTag instantiates a new EventTag object

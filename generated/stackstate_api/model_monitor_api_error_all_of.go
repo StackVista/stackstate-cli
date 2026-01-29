@@ -17,8 +17,8 @@ import (
 
 // MonitorApiErrorAllOf struct for MonitorApiErrorAllOf
 type MonitorApiErrorAllOf struct {
-	StatusCode string `json:"statusCode"`
-	Message    string `json:"message"`
+	StatusCode string `json:"statusCode" yaml:"statusCode"`
+	Message    string `json:"message" yaml:"message"`
 }
 
 // NewMonitorApiErrorAllOf instantiates a new MonitorApiErrorAllOf object

@@ -17,7 +17,7 @@ import (
 
 // ComponentPresentationApiError struct for ComponentPresentationApiError
 type ComponentPresentationApiError struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewComponentPresentationApiError instantiates a new ComponentPresentationApiError object

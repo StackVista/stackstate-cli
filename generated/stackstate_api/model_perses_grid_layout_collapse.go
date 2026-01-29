@@ -18,7 +18,7 @@ import (
 // PersesGridLayoutCollapse struct for PersesGridLayoutCollapse
 type PersesGridLayoutCollapse struct {
 	// Indicates whether the grid layout is collapsed.
-	Open bool `json:"open"`
+	Open bool `json:"open" yaml:"open"`
 }
 
 // NewPersesGridLayoutCollapse instantiates a new PersesGridLayoutCollapse object

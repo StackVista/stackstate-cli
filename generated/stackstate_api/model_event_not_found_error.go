@@ -17,8 +17,8 @@ import (
 
 // EventNotFoundError struct for EventNotFoundError
 type EventNotFoundError struct {
-	Type    string `json:"_type"`
-	EventId string `json:"eventId"`
+	Type    string `json:"_type" yaml:"_type"`
+	EventId string `json:"eventId" yaml:"eventId"`
 }
 
 // NewEventNotFoundError instantiates a new EventNotFoundError object

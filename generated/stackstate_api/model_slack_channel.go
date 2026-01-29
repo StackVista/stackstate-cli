@@ -17,8 +17,8 @@ import (
 
 // SlackChannel struct for SlackChannel
 type SlackChannel struct {
-	Name string `json:"name"`
-	Id   string `json:"id"`
+	Name string `json:"name" yaml:"name"`
+	Id   string `json:"id" yaml:"id"`
 }
 
 // NewSlackChannel instantiates a new SlackChannel object

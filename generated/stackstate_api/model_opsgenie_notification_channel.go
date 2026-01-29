@@ -17,14 +17,14 @@ import (
 
 // OpsgenieNotificationChannel struct for OpsgenieNotificationChannel
 type OpsgenieNotificationChannel struct {
-	Id                          int64                     `json:"id"`
-	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
-	Status                      NotificationChannelStatus `json:"status"`
-	Region                      OpsgenieRegion            `json:"region"`
-	GenieKey                    string                    `json:"genieKey"`
-	Responders                  []OpsgenieResponder       `json:"responders"`
-	Priority                    OpsgeniePriority          `json:"priority"`
-	Type                        string                    `json:"_type"`
+	Id                          int64                     `json:"id" yaml:"id"`
+	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty" yaml:"notificationConfigurationId,omitempty"`
+	Status                      NotificationChannelStatus `json:"status" yaml:"status"`
+	Region                      OpsgenieRegion            `json:"region" yaml:"region"`
+	GenieKey                    string                    `json:"genieKey" yaml:"genieKey"`
+	Responders                  []OpsgenieResponder       `json:"responders" yaml:"responders"`
+	Priority                    OpsgeniePriority          `json:"priority" yaml:"priority"`
+	Type                        string                    `json:"_type" yaml:"_type"`
 }
 
 // NewOpsgenieNotificationChannel instantiates a new OpsgenieNotificationChannel object

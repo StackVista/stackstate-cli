@@ -18,11 +18,11 @@ import (
 // DashboardWriteSchema struct for DashboardWriteSchema
 type DashboardWriteSchema struct {
 	// Name of the dashboard
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 	// Description of the dashboard
-	Description string          `json:"description"`
-	Scope       DashboardScope  `json:"scope"`
-	Dashboard   PersesDashboard `json:"dashboard"`
+	Description string          `json:"description" yaml:"description"`
+	Scope       DashboardScope  `json:"scope" yaml:"scope"`
+	Dashboard   PersesDashboard `json:"dashboard" yaml:"dashboard"`
 }
 
 // NewDashboardWriteSchema instantiates a new DashboardWriteSchema object

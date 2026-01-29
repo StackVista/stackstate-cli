@@ -17,10 +17,10 @@ import (
 
 // TimelineSummaryEventBucket struct for TimelineSummaryEventBucket
 type TimelineSummaryEventBucket struct {
-	Type                 string `json:"_type"`
-	Count                int64  `json:"count"`
-	StartTimeEpochMillis int64  `json:"startTimeEpochMillis"`
-	EndTimeEpochMillis   *int64 `json:"endTimeEpochMillis,omitempty"`
+	Type                 string `json:"_type" yaml:"_type"`
+	Count                int64  `json:"count" yaml:"count"`
+	StartTimeEpochMillis int64  `json:"startTimeEpochMillis" yaml:"startTimeEpochMillis"`
+	EndTimeEpochMillis   *int64 `json:"endTimeEpochMillis,omitempty" yaml:"endTimeEpochMillis,omitempty"`
 }
 
 // NewTimelineSummaryEventBucket instantiates a new TimelineSummaryEventBucket object

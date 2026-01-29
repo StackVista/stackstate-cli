@@ -17,8 +17,8 @@ import (
 
 // OpsgenieChannelRefId struct for OpsgenieChannelRefId
 type OpsgenieChannelRefId struct {
-	Type string `json:"_type"`
-	Id   int64  `json:"id"`
+	Type string `json:"_type" yaml:"_type"`
+	Id   int64  `json:"id" yaml:"id"`
 }
 
 // NewOpsgenieChannelRefId instantiates a new OpsgenieChannelRefId object

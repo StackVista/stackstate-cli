@@ -17,7 +17,7 @@ import (
 
 // TraceApiTraceNotFound struct for TraceApiTraceNotFound
 type TraceApiTraceNotFound struct {
-	TraceId string `json:"traceId"`
+	TraceId string `json:"traceId" yaml:"traceId"`
 }
 
 // NewTraceApiTraceNotFound instantiates a new TraceApiTraceNotFound object

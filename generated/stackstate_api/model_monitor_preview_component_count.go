@@ -18,9 +18,9 @@ import (
 // MonitorPreviewComponentCount struct for MonitorPreviewComponentCount
 type MonitorPreviewComponentCount struct {
 	// The number of unique identifiers for the total health state count. Only available when there non-empty identifiers.
-	UniqueIdentifiers int32 `json:"uniqueIdentifiers"`
+	UniqueIdentifiers int32 `json:"uniqueIdentifiers" yaml:"uniqueIdentifiers"`
 	// The number of components for the identifiers: matchingComponents <= uniqueIdentifiers. Only available when there non-empty identifiers.
-	MatchingComponents int32 `json:"matchingComponents"`
+	MatchingComponents int32 `json:"matchingComponents" yaml:"matchingComponents"`
 }
 
 // NewMonitorPreviewComponentCount instantiates a new MonitorPreviewComponentCount object

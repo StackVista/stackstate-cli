@@ -17,9 +17,9 @@ import (
 
 // GetKubernetesLogsInvalidQuery struct for GetKubernetesLogsInvalidQuery
 type GetKubernetesLogsInvalidQuery struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
-	Query   string `json:"query"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
+	Query   string `json:"query" yaml:"query"`
 }
 
 // NewGetKubernetesLogsInvalidQuery instantiates a new GetKubernetesLogsInvalidQuery object

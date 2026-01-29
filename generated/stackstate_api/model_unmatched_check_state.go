@@ -17,8 +17,8 @@ import (
 
 // UnmatchedCheckState struct for UnmatchedCheckState
 type UnmatchedCheckState struct {
-	CheckStateId              string `json:"checkStateId"`
-	TopologyElementIdentifier string `json:"topologyElementIdentifier"`
+	CheckStateId              string `json:"checkStateId" yaml:"checkStateId"`
+	TopologyElementIdentifier string `json:"topologyElementIdentifier" yaml:"topologyElementIdentifier"`
 }
 
 // NewUnmatchedCheckState instantiates a new UnmatchedCheckState object

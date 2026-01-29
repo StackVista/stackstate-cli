@@ -17,8 +17,8 @@ import (
 
 // PersesListVariableDefaultSliceValues struct for PersesListVariableDefaultSliceValues
 type PersesListVariableDefaultSliceValues struct {
-	Kind        string   `json:"kind"`
-	SliceValues []string `json:"sliceValues"`
+	Kind        string   `json:"kind" yaml:"kind"`
+	SliceValues []string `json:"sliceValues" yaml:"sliceValues"`
 }
 
 // NewPersesListVariableDefaultSliceValues instantiates a new PersesListVariableDefaultSliceValues object

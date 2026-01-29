@@ -17,9 +17,9 @@ import (
 
 // SubStreamListItem struct for SubStreamListItem
 type SubStreamListItem struct {
-	SubStreamId     string                          `json:"subStreamId"`
-	SubStreamState  HealthSubStreamConsistencyState `json:"subStreamState"`
-	CheckStateCount int32                           `json:"checkStateCount"`
+	SubStreamId     string                          `json:"subStreamId" yaml:"subStreamId"`
+	SubStreamState  HealthSubStreamConsistencyState `json:"subStreamState" yaml:"subStreamState"`
+	CheckStateCount int32                           `json:"checkStateCount" yaml:"checkStateCount"`
 }
 
 // NewSubStreamListItem instantiates a new SubStreamListItem object

@@ -17,7 +17,7 @@ import (
 
 // MonitorList struct for MonitorList
 type MonitorList struct {
-	Monitors []Monitor `json:"monitors"`
+	Monitors []Monitor `json:"monitors" yaml:"monitors"`
 }
 
 // NewMonitorList instantiates a new MonitorList object

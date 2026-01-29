@@ -17,10 +17,10 @@ import (
 
 // OpsgenieChannelWriteSchema struct for OpsgenieChannelWriteSchema
 type OpsgenieChannelWriteSchema struct {
-	Region     OpsgenieRegion      `json:"region"`
-	GenieKey   string              `json:"genieKey"`
-	Responders []OpsgenieResponder `json:"responders"`
-	Priority   OpsgeniePriority    `json:"priority"`
+	Region     OpsgenieRegion      `json:"region" yaml:"region"`
+	GenieKey   string              `json:"genieKey" yaml:"genieKey"`
+	Responders []OpsgenieResponder `json:"responders" yaml:"responders"`
+	Priority   OpsgeniePriority    `json:"priority" yaml:"priority"`
 }
 
 // NewOpsgenieChannelWriteSchema instantiates a new OpsgenieChannelWriteSchema object

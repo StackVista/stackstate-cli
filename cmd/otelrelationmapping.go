@@ -6,7 +6,7 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
-func OtelRelationtMappingCommand(deps *di.Deps) *cobra.Command {
+func OtelRelationMappingCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "otel-relation-mapping",
 		Short: "Manage OpenTelemetry relation mappings",
@@ -15,6 +15,10 @@ func OtelRelationtMappingCommand(deps *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(otelrelationmapping.OtelRelationMappingListCommand(deps))
 	cmd.AddCommand(otelrelationmapping.OtelRelationMappingStatusCommand(deps))
+	cmd.AddCommand(otelrelationmapping.OtelRelationMappingDescribeCommand(deps))
+	cmd.AddCommand(otelrelationmapping.OtelRelationMappingDeleteCommand(deps))
+	cmd.AddCommand(otelrelationmapping.OtelRelationMappingEditCommand(deps))
+	cmd.AddCommand(otelrelationmapping.OtelRelationMappingApplyCommand(deps))
 
 	return cmd
 }

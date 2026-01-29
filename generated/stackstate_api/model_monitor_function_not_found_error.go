@@ -17,9 +17,9 @@ import (
 
 // MonitorFunctionNotFoundError struct for MonitorFunctionNotFoundError
 type MonitorFunctionNotFoundError struct {
-	MonitorFunctionId     string `json:"monitorFunctionId"`
-	MonitorFunctionIdType string `json:"monitorFunctionIdType"`
-	Type                  string `json:"_type"`
+	MonitorFunctionId     string `json:"monitorFunctionId" yaml:"monitorFunctionId"`
+	MonitorFunctionIdType string `json:"monitorFunctionIdType" yaml:"monitorFunctionIdType"`
+	Type                  string `json:"_type" yaml:"_type"`
 }
 
 // NewMonitorFunctionNotFoundError instantiates a new MonitorFunctionNotFoundError object

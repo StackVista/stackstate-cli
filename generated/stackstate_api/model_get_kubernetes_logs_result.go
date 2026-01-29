@@ -18,13 +18,13 @@ import (
 // GetKubernetesLogsResult struct for GetKubernetesLogsResult
 type GetKubernetesLogsResult struct {
 	// List of log records ordered by timestamps in ascending order.
-	Logs []KubernetesLogRecord `json:"logs"`
+	Logs []KubernetesLogRecord `json:"logs" yaml:"logs"`
 	// Maximum number of the log lines in the result.
-	PageSize int32 `json:"pageSize"`
+	PageSize int32 `json:"pageSize" yaml:"pageSize"`
 	// The requested logs page.
-	Page int32 `json:"page"`
+	Page int32 `json:"page" yaml:"page"`
 	// The total amount of matching logs for the requested search criteria.
-	MatchesTotal int64 `json:"matchesTotal"`
+	MatchesTotal int64 `json:"matchesTotal" yaml:"matchesTotal"`
 }
 
 // NewGetKubernetesLogsResult instantiates a new GetKubernetesLogsResult object

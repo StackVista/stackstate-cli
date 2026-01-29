@@ -18,17 +18,17 @@ import (
 // MonitorPreviewResult struct for MonitorPreviewResult
 type MonitorPreviewResult struct {
 	// Representing the total count of the monitor results.
-	HealthStatesCount int32 `json:"healthStatesCount"`
+	HealthStatesCount int32 `json:"healthStatesCount" yaml:"healthStatesCount"`
 	// Representing the count of the monitor results that are UNKNOWN in the result.
-	UnknownCount int32 `json:"unknownCount"`
+	UnknownCount int32 `json:"unknownCount" yaml:"unknownCount"`
 	// Representing the count of the monitor results that are CLEAR in the result.
-	ClearCount int32 `json:"clearCount"`
+	ClearCount int32 `json:"clearCount" yaml:"clearCount"`
 	// Representing the count of the monitor results that are DEVIATING in the result.
-	DeviatingCount int32 `json:"deviatingCount"`
+	DeviatingCount int32 `json:"deviatingCount" yaml:"deviatingCount"`
 	// Representing the count of the monitor results that are CRITICAL in the result.
-	CriticalCount   int32                         `json:"criticalCount"`
-	ComponentCounts *MonitorPreviewComponentCount `json:"componentCounts,omitempty"`
-	Errors          []string                      `json:"errors"`
+	CriticalCount   int32                         `json:"criticalCount" yaml:"criticalCount"`
+	ComponentCounts *MonitorPreviewComponentCount `json:"componentCounts,omitempty" yaml:"componentCounts,omitempty"`
+	Errors          []string                      `json:"errors" yaml:"errors"`
 }
 
 // NewMonitorPreviewResult instantiates a new MonitorPreviewResult object

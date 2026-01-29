@@ -17,9 +17,9 @@ import (
 
 // Subscription struct for Subscription
 type Subscription struct {
-	Tenant            string `json:"tenant"`
-	ExpiryTimestampMs *int64 `json:"expiryTimestampMs,omitempty"`
-	Plan              string `json:"plan"`
+	Tenant            string `json:"tenant" yaml:"tenant"`
+	ExpiryTimestampMs *int64 `json:"expiryTimestampMs,omitempty" yaml:"expiryTimestampMs,omitempty"`
+	Plan              string `json:"plan" yaml:"plan"`
 }
 
 // NewSubscription instantiates a new Subscription object

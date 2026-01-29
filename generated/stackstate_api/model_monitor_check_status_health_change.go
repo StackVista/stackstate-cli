@@ -17,8 +17,8 @@ import (
 
 // MonitorCheckStatusHealthChange struct for MonitorCheckStatusHealthChange
 type MonitorCheckStatusHealthChange struct {
-	Timestamp int64            `json:"timestamp"`
-	NewHealth HealthStateValue `json:"newHealth"`
+	Timestamp int64            `json:"timestamp" yaml:"timestamp"`
+	NewHealth HealthStateValue `json:"newHealth" yaml:"newHealth"`
 }
 
 // NewMonitorCheckStatusHealthChange instantiates a new MonitorCheckStatusHealthChange object

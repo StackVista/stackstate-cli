@@ -17,9 +17,9 @@ import (
 
 // NotificationConfigurationNotFound struct for NotificationConfigurationNotFound
 type NotificationConfigurationNotFound struct {
-	Message                          string `json:"message"`
-	NotificationConfigurationIdOrUrn string `json:"notificationConfigurationIdOrUrn"`
-	Type                             string `json:"_type"`
+	Message                          string `json:"message" yaml:"message"`
+	NotificationConfigurationIdOrUrn string `json:"notificationConfigurationIdOrUrn" yaml:"notificationConfigurationIdOrUrn"`
+	Type                             string `json:"_type" yaml:"_type"`
 }
 
 // NewNotificationConfigurationNotFound instantiates a new NotificationConfigurationNotFound object

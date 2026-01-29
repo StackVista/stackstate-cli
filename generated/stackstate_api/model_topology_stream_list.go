@@ -17,7 +17,7 @@ import (
 
 // TopologyStreamList struct for TopologyStreamList
 type TopologyStreamList struct {
-	Streams []TopologyStreamListItem `json:"streams"`
+	Streams []TopologyStreamListItem `json:"streams" yaml:"streams"`
 }
 
 // NewTopologyStreamList instantiates a new TopologyStreamList object

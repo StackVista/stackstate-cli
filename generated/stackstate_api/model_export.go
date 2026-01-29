@@ -17,10 +17,10 @@ import (
 
 // Export struct for Export
 type Export struct {
-	NodesWithIds    []int64  `json:"nodesWithIds,omitempty"`
-	AllNodesOfTypes []string `json:"allNodesOfTypes,omitempty"`
-	Namespace       *string  `json:"namespace,omitempty"`
-	AllowReferences []string `json:"allowReferences,omitempty"`
+	NodesWithIds    []int64  `json:"nodesWithIds,omitempty" yaml:"nodesWithIds,omitempty"`
+	AllNodesOfTypes []string `json:"allNodesOfTypes,omitempty" yaml:"allNodesOfTypes,omitempty"`
+	Namespace       *string  `json:"namespace,omitempty" yaml:"namespace,omitempty"`
+	AllowReferences []string `json:"allowReferences,omitempty" yaml:"allowReferences,omitempty"`
 }
 
 // NewExport instantiates a new Export object

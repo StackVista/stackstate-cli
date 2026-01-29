@@ -17,7 +17,7 @@ import (
 
 // PersesQuerySpec struct for PersesQuerySpec
 type PersesQuerySpec struct {
-	Plugin *PersesPlugin `json:"plugin,omitempty"`
+	Plugin *PersesPlugin `json:"plugin,omitempty" yaml:"plugin,omitempty"`
 }
 
 // NewPersesQuerySpec instantiates a new PersesQuerySpec object

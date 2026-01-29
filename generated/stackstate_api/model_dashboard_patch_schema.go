@@ -18,11 +18,11 @@ import (
 // DashboardPatchSchema The provided fields are used to patch the corresponding fields of a dashboard.
 type DashboardPatchSchema struct {
 	// Name of the dashboard
-	Name *string `json:"name,omitempty"`
+	Name *string `json:"name,omitempty" yaml:"name,omitempty"`
 	// Description of the dashboard
-	Description *string          `json:"description,omitempty"`
-	Scope       *DashboardScope  `json:"scope,omitempty"`
-	Dashboard   *PersesDashboard `json:"dashboard,omitempty"`
+	Description *string          `json:"description,omitempty" yaml:"description,omitempty"`
+	Scope       *DashboardScope  `json:"scope,omitempty" yaml:"scope,omitempty"`
+	Dashboard   *PersesDashboard `json:"dashboard,omitempty" yaml:"dashboard,omitempty"`
 }
 
 // NewDashboardPatchSchema instantiates a new DashboardPatchSchema object

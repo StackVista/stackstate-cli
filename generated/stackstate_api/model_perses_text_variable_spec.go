@@ -17,10 +17,10 @@ import (
 
 // PersesTextVariableSpec struct for PersesTextVariableSpec
 type PersesTextVariableSpec struct {
-	Name     string                     `json:"name"`
-	Display  *PersesVariableDisplaySpec `json:"display,omitempty"`
-	Value    string                     `json:"value"`
-	Constant *bool                      `json:"constant,omitempty"`
+	Name     string                     `json:"name" yaml:"name"`
+	Display  *PersesVariableDisplaySpec `json:"display,omitempty" yaml:"display,omitempty"`
+	Value    string                     `json:"value" yaml:"value"`
+	Constant *bool                      `json:"constant,omitempty" yaml:"constant,omitempty"`
 }
 
 // NewPersesTextVariableSpec instantiates a new PersesTextVariableSpec object

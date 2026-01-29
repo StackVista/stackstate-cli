@@ -17,9 +17,9 @@ import (
 
 // SpanResponse The result of looking up a span. As an optimization to reduce duplication, resource attributes are inlined at the root-level of the schema.
 type SpanResponse struct {
-	Span Span `json:"span"`
+	Span Span `json:"span" yaml:"span"`
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
-	ResourceAttributes map[string]string `json:"resourceAttributes"`
+	ResourceAttributes map[string]string `json:"resourceAttributes" yaml:"resourceAttributes"`
 }
 
 // NewSpanResponse instantiates a new SpanResponse object

@@ -17,7 +17,7 @@ import (
 
 // TopologySyncError struct for TopologySyncError
 type TopologySyncError struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewTopologySyncError instantiates a new TopologySyncError object

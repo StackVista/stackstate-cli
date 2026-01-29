@@ -17,8 +17,8 @@ import (
 
 // InvalidMonitorIdentifierError struct for InvalidMonitorIdentifierError
 type InvalidMonitorIdentifierError struct {
-	MonitorIdOrUrn string `json:"monitorIdOrUrn"`
-	Type           string `json:"_type"`
+	MonitorIdOrUrn string `json:"monitorIdOrUrn" yaml:"monitorIdOrUrn"`
+	Type           string `json:"_type" yaml:"_type"`
 }
 
 // NewInvalidMonitorIdentifierError instantiates a new InvalidMonitorIdentifierError object

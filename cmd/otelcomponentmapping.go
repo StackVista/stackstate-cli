@@ -15,6 +15,10 @@ func OtelComponentMappingCommand(deps *di.Deps) *cobra.Command {
 
 	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingListCommand(deps))
 	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingStatusCommand(deps))
+	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingDescribeCommand(deps))
+	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingDeleteCommand(deps))
+	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingEditCommand(deps))
+	cmd.AddCommand(otelcomponentmapping.OtelComponentMappingApplyCommand(deps))
 
 	return cmd
 }

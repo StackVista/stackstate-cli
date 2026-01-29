@@ -18,11 +18,11 @@ import (
 // OtelTagMapping Defines how a tag should be mapped from an input source to an output target, optionally using a regex pattern.
 type OtelTagMapping struct {
 	// An expression that can produce any type. It uses the CEL expression within curly braces `${}` syntax. Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign  it the expression `\"${resource.attributes['service.namespace'] == 'test'}\"`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
-	Source string `json:"source"`
+	Source string `json:"source" yaml:"source"`
 	// Name of the target tag key to which the value should be mapped.
-	Target string `json:"target"`
+	Target string `json:"target" yaml:"target"`
 	// Optional regex pattern applied to the source value. Capturing groups can be referenced in the target (e.g., ${1}).
-	Pattern *string `json:"pattern,omitempty"`
+	Pattern *string `json:"pattern,omitempty" yaml:"pattern,omitempty"`
 }
 
 // NewOtelTagMapping instantiates a new OtelTagMapping object

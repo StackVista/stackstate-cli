@@ -18,23 +18,23 @@ import (
 // MonitorRuntimeMetrics struct for MonitorRuntimeMetrics
 type MonitorRuntimeMetrics struct {
 	// Representing the total count of the monitor results.
-	HealthStatesCount *int32 `json:"healthStatesCount,omitempty"`
+	HealthStatesCount *int32 `json:"healthStatesCount,omitempty" yaml:"healthStatesCount,omitempty"`
 	// Representing the total count of the monitor results that are not mapped to topology.
-	UnmappedHealthStatesCount *int32 `json:"unmappedHealthStatesCount,omitempty"`
+	UnmappedHealthStatesCount *int32 `json:"unmappedHealthStatesCount,omitempty" yaml:"unmappedHealthStatesCount,omitempty"`
 	// Representing the count of the monitor results that are UNKNOWN and are mapped to topology.
-	UnknownCount *int32 `json:"unknownCount,omitempty"`
+	UnknownCount *int32 `json:"unknownCount,omitempty" yaml:"unknownCount,omitempty"`
 	// Representing the count of the monitor results that are CLEAR and are mapped to topology.
-	ClearCount *int32 `json:"clearCount,omitempty"`
+	ClearCount *int32 `json:"clearCount,omitempty" yaml:"clearCount,omitempty"`
 	// Representing the count of the monitor results that are DEVIATING and are mapped to topology.
-	DeviatingCount *int32 `json:"deviatingCount,omitempty"`
+	DeviatingCount *int32 `json:"deviatingCount,omitempty" yaml:"deviatingCount,omitempty"`
 	// Representing the count of the monitor results that are CRITICAL and are mapped to topology.
-	CriticalCount *int32 `json:"criticalCount,omitempty"`
+	CriticalCount *int32 `json:"criticalCount,omitempty" yaml:"criticalCount,omitempty"`
 	// Representing the epoch millis of the last monitor run.
-	LastRunTimestamp *int64 `json:"lastRunTimestamp,omitempty"`
+	LastRunTimestamp *int64 `json:"lastRunTimestamp,omitempty" yaml:"lastRunTimestamp,omitempty"`
 	// Representing the epoch millis of the last monitor successful run.
-	LastSuccessfulRunTimestamp *int64 `json:"lastSuccessfulRunTimestamp,omitempty"`
+	LastSuccessfulRunTimestamp *int64 `json:"lastSuccessfulRunTimestamp,omitempty" yaml:"lastSuccessfulRunTimestamp,omitempty"`
 	// Representing the epoch millis of the last monitor failed run.
-	LastFailedRunTimestamp *int64 `json:"lastFailedRunTimestamp,omitempty"`
+	LastFailedRunTimestamp *int64 `json:"lastFailedRunTimestamp,omitempty" yaml:"lastFailedRunTimestamp,omitempty"`
 }
 
 // NewMonitorRuntimeMetrics instantiates a new MonitorRuntimeMetrics object

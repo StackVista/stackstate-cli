@@ -17,8 +17,8 @@ import (
 
 // PersesPanelDisplay struct for PersesPanelDisplay
 type PersesPanelDisplay struct {
-	Description *string `json:"description,omitempty"`
-	Name        *string `json:"name,omitempty"`
+	Description *string `json:"description,omitempty" yaml:"description,omitempty"`
+	Name        *string `json:"name,omitempty" yaml:"name,omitempty"`
 }
 
 // NewPersesPanelDisplay instantiates a new PersesPanelDisplay object

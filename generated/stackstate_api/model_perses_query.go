@@ -17,8 +17,8 @@ import (
 
 // PersesQuery struct for PersesQuery
 type PersesQuery struct {
-	Kind *string          `json:"kind,omitempty"`
-	Spec *PersesQuerySpec `json:"spec,omitempty"`
+	Kind *string          `json:"kind,omitempty" yaml:"kind,omitempty"`
+	Spec *PersesQuerySpec `json:"spec,omitempty" yaml:"spec,omitempty"`
 }
 
 // NewPersesQuery instantiates a new PersesQuery object

@@ -18,23 +18,23 @@ import (
 // OtelComponentMappingOutput struct for OtelComponentMappingOutput
 type OtelComponentMappingOutput struct {
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	Identifier string `json:"identifier"`
+	Identifier string `json:"identifier" yaml:"identifier"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	TypeName string `json:"typeName"`
+	TypeName string `json:"typeName" yaml:"typeName"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	TypeIdentifier *string `json:"typeIdentifier,omitempty"`
+	TypeIdentifier *string `json:"typeIdentifier,omitempty" yaml:"typeIdentifier,omitempty"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	LayerName string `json:"layerName"`
+	LayerName string `json:"layerName" yaml:"layerName"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	LayerIdentifier *string `json:"layerIdentifier,omitempty"`
+	LayerIdentifier *string `json:"layerIdentifier,omitempty" yaml:"layerIdentifier,omitempty"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	DomainName string `json:"domainName"`
+	DomainName string `json:"domainName" yaml:"domainName"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	DomainIdentifier *string                           `json:"domainIdentifier,omitempty"`
-	Required         *OtelComponentMappingFieldMapping `json:"required,omitempty"`
-	Optional         *OtelComponentMappingFieldMapping `json:"optional,omitempty"`
+	DomainIdentifier *string                           `json:"domainIdentifier,omitempty" yaml:"domainIdentifier,omitempty"`
+	Required         *OtelComponentMappingFieldMapping `json:"required,omitempty" yaml:"required,omitempty"`
+	Optional         *OtelComponentMappingFieldMapping `json:"optional,omitempty" yaml:"optional,omitempty"`
 }
 
 // NewOtelComponentMappingOutput instantiates a new OtelComponentMappingOutput object

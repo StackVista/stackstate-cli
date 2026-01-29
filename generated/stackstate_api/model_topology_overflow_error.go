@@ -17,8 +17,8 @@ import (
 
 // TopologyOverflowError struct for TopologyOverflowError
 type TopologyOverflowError struct {
-	Type    string `json:"_type"`
-	MaxSize int32  `json:"maxSize"`
+	Type    string `json:"_type" yaml:"_type"`
+	MaxSize int32  `json:"maxSize" yaml:"maxSize"`
 }
 
 // NewTopologyOverflowError instantiates a new TopologyOverflowError object

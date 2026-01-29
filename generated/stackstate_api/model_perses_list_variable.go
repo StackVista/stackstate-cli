@@ -17,8 +17,8 @@ import (
 
 // PersesListVariable struct for PersesListVariable
 type PersesListVariable struct {
-	Kind string                  `json:"kind"`
-	Spec *PersesListVariableSpec `json:"spec,omitempty"`
+	Kind string                  `json:"kind" yaml:"kind"`
+	Spec *PersesListVariableSpec `json:"spec,omitempty" yaml:"spec,omitempty"`
 }
 
 // NewPersesListVariable instantiates a new PersesListVariable object

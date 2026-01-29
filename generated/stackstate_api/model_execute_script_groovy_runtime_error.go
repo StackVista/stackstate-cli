@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptGroovyRuntimeError struct for ExecuteScriptGroovyRuntimeError
 type ExecuteScriptGroovyRuntimeError struct {
-	Type     string          `json:"_type"`
-	Message  string          `json:"message"`
-	Location *ScriptLocation `json:"location,omitempty"`
+	Type     string          `json:"_type" yaml:"_type"`
+	Message  string          `json:"message" yaml:"message"`
+	Location *ScriptLocation `json:"location,omitempty" yaml:"location,omitempty"`
 }
 
 // NewExecuteScriptGroovyRuntimeError instantiates a new ExecuteScriptGroovyRuntimeError object

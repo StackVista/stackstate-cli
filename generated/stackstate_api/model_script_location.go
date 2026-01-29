@@ -17,8 +17,8 @@ import (
 
 // ScriptLocation struct for ScriptLocation
 type ScriptLocation struct {
-	Line   int32 `json:"line"`
-	Column int32 `json:"column"`
+	Line   int32 `json:"line" yaml:"line"`
+	Column int32 `json:"column" yaml:"column"`
 }
 
 // NewScriptLocation instantiates a new ScriptLocation object

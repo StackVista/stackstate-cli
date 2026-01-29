@@ -17,17 +17,17 @@ import (
 
 // EventListRequest struct for EventListRequest
 type EventListRequest struct {
-	StartTimestampMs           int32           `json:"startTimestampMs"`
-	EndTimestampMs             int32           `json:"endTimestampMs"`
-	TopologyQuery              string          `json:"topologyQuery"`
-	IncludeConnectedComponents *bool           `json:"includeConnectedComponents,omitempty"`
-	Limit                      int32           `json:"limit"`
-	PlayHeadTimestampMs        *int32          `json:"playHeadTimestampMs,omitempty"`
-	EventTypes                 []string        `json:"eventTypes,omitempty"`
-	EventTags                  []string        `json:"eventTags,omitempty"`
-	EventCategories            []EventCategory `json:"eventCategories,omitempty"`
-	EventSources               []string        `json:"eventSources,omitempty"`
-	Cursor                     *EventCursor    `json:"cursor,omitempty"`
+	StartTimestampMs           int32           `json:"startTimestampMs" yaml:"startTimestampMs"`
+	EndTimestampMs             int32           `json:"endTimestampMs" yaml:"endTimestampMs"`
+	TopologyQuery              string          `json:"topologyQuery" yaml:"topologyQuery"`
+	IncludeConnectedComponents *bool           `json:"includeConnectedComponents,omitempty" yaml:"includeConnectedComponents,omitempty"`
+	Limit                      int32           `json:"limit" yaml:"limit"`
+	PlayHeadTimestampMs        *int32          `json:"playHeadTimestampMs,omitempty" yaml:"playHeadTimestampMs,omitempty"`
+	EventTypes                 []string        `json:"eventTypes,omitempty" yaml:"eventTypes,omitempty"`
+	EventTags                  []string        `json:"eventTags,omitempty" yaml:"eventTags,omitempty"`
+	EventCategories            []EventCategory `json:"eventCategories,omitempty" yaml:"eventCategories,omitempty"`
+	EventSources               []string        `json:"eventSources,omitempty" yaml:"eventSources,omitempty"`
+	Cursor                     *EventCursor    `json:"cursor,omitempty" yaml:"cursor,omitempty"`
 }
 
 // NewEventListRequest instantiates a new EventListRequest object
