@@ -14939,6 +14939,7 @@ components:
           signal:
           - null
           - null
+        _type: OtelComponentMapping
         name: name
         description: description
         expireAfter: 0
@@ -14948,6 +14949,10 @@ components:
         - name: name
           value: value
       properties:
+        _type:
+          enum:
+          - OtelComponentMapping
+          type: string
         identifier:
           type: string
         name:
@@ -14966,6 +14971,7 @@ components:
           format: int64
           type: integer
       required:
+      - _type
       - expireAfter
       - identifier
       - input
@@ -15138,6 +15144,7 @@ components:
           signal:
           - null
           - null
+        _type: OtelRelationMapping
         name: name
         description: description
         expireAfter: 0
@@ -15147,6 +15154,10 @@ components:
         - name: name
           value: value
       properties:
+        _type:
+          enum:
+          - OtelRelationMapping
+          type: string
         identifier:
           type: string
         name:
@@ -15165,6 +15176,7 @@ components:
           format: int64
           type: integer
       required:
+      - _type
       - expireAfter
       - identifier
       - input
