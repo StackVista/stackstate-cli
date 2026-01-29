@@ -13,7 +13,9 @@ func OtelComponentMappingStatusCommand(deps *di.Deps) *cobra.Command {
 		Use:   "status",
 		Short: "Get the status of an OTel Component Mappings",
 		Long:  "Get the status of an OTel Component Mappings.",
-		RunE:  deps.CmdRunEWithApi(otelmapping.RunStatus(args, "component", otelmapping.FetchComponentStatus)),
+		Example: `# get the status of a component mapping
+sts otel-component-mapping status --identifier urn:stackpack:stackpack-name:shared:otel-component-mapping:service`,
+		RunE: deps.CmdRunEWithApi(otelmapping.RunStatus(args, "component", otelmapping.FetchComponentStatus)),
 	}
 
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier of the OTel Component Mapping")

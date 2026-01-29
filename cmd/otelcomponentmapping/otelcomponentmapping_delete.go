@@ -16,10 +16,12 @@ type DeleteArgs struct {
 func OtelComponentMappingDeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
+		Use:   "delete --identifier URN",
 		Short: "Delete an OTel Component Mapping by identifier (URN)",
 		Long:  "Delete an OTel Component Mapping by identifier (URN)",
-		RunE:  deps.CmdRunEWithApi(RunDeleteComponentMappingCommand(args)),
+		Example: `# delete a component mapping by identifier
+sts otel-component-mapping delete --identifier urn:stackpack:stackpack-name:shared:otel-component-mapping:service`,
+		RunE: deps.CmdRunEWithApi(RunDeleteComponentMappingCommand(args)),
 	}
 
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier (URN) of the Component Mapping to delete")

@@ -16,10 +16,12 @@ type DeleteArgs struct {
 func OtelRelationMappingDeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete",
+		Use:   "delete --identifier URN",
 		Short: "Delete an OTel Relation Mapping by identifier (URN)",
 		Long:  "Delete an OTel Relation Mapping by identifier (URN).",
-		RunE:  deps.CmdRunEWithApi(RunDeleteRelationMappingCommand(args)),
+		Example: `# delete a relation mapping by identifier
+sts otel-relation-mapping delete --identifier urn:stackpack:stackpack-name:shared:otel-relation-mapping:database`,
+		RunE: deps.CmdRunEWithApi(RunDeleteRelationMappingCommand(args)),
 	}
 
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier (URN) of the Relation Mapping to delete")

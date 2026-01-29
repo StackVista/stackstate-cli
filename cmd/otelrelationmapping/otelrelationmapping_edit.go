@@ -26,10 +26,12 @@ type EditArgs struct {
 func OtelRelationMappingEditCommand(deps *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit",
+		Use:   "edit --identifier URN",
 		Short: "Edit an OTel Relation Mapping using $EDITOR",
 		Long:  LongDescription,
-		RunE:  deps.CmdRunEWithApi(RunEditRelationMappingCommand(args)),
+		Example: `# edit a relation mapping using your editor
+sts otel-relation-mapping edit --identifier urn:stackpack:stackpack-name:shared:otel-relation-mapping:database`,
+		RunE: deps.CmdRunEWithApi(RunEditRelationMappingCommand(args)),
 	}
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier (URN) of the Relation Mapping")
 	return cmd

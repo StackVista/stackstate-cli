@@ -26,10 +26,12 @@ type EditArgs struct {
 func OtelComponentMappingEditCommand(deps *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit",
+		Use:   "edit --identifier URN",
 		Short: "Edit an OTel Component Mapping using $EDITOR",
 		Long:  LongDescription,
-		RunE:  deps.CmdRunEWithApi(RunEditComponentMappingCommand(args)),
+		Example: `# edit a component mapping using your editor
+sts otel-component-mapping edit --identifier urn:stackpack:stackpack-name:shared:otel-component-mapping:service`,
+		RunE: deps.CmdRunEWithApi(RunEditComponentMappingCommand(args)),
 	}
 
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier (URN) of the Component Mapping")

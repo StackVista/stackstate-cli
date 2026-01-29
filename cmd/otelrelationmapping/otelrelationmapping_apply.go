@@ -20,10 +20,15 @@ type ApplyArgs struct {
 func OtelRelationMappingApplyCommand(deps *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply",
+		Use:   "apply --file FILE",
 		Short: "Create or edit an OTel Relation Mapping from YAML",
 		Long:  "Create or edit an OTel Relation Mapping from YAML file.",
-		RunE:  deps.CmdRunEWithApi(RunApplyRelationMappingCommand(args)),
+		Example: `# create a new OTel relation mapping from a YAML file
+sts otel-relation-mapping apply --file new-relation-mapping.yaml
+
+# update an existing relation mapping
+sts otel-relation-mapping apply --file updated-relation-mapping.yaml`,
+		RunE: deps.CmdRunEWithApi(RunApplyRelationMappingCommand(args)),
 	}
 
 	common.AddRequiredFileFlagVar(cmd, &args.File, "Path to .yaml file with the mapping definition")

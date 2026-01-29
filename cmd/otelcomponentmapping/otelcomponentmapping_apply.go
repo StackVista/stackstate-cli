@@ -20,10 +20,15 @@ type ApplyArgs struct {
 func OtelComponentMappingApplyCommand(deps *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply",
+		Use:   "apply --file FILE",
 		Short: "Create or edit an OTel Component Mapping from YAML",
 		Long:  "Create or edit a OTel Component Mapping from YAML file.",
-		RunE:  deps.CmdRunEWithApi(RunApplyComponentMappingCommand(args)),
+		Example: `# create a new OTel component mapping from a YAML file
+sts otel-component-mapping apply --file new-component-mapping.yaml
+
+# update an existing mapping
+sts otel-component-mapping apply --file updated-component-mapping.yaml`,
+		RunE: deps.CmdRunEWithApi(RunApplyComponentMappingCommand(args)),
 	}
 
 	common.AddRequiredFileFlagVar(cmd, &args.File, "Path to a .yaml file with the mapping definition")

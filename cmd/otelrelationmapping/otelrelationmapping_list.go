@@ -18,7 +18,12 @@ func OtelRelationMappingListCommand(deps *di.Deps) *cobra.Command {
 		Use:   "list",
 		Short: "Lists active OTel Relation Mappings",
 		Long:  "Lists active OTel Relation Mappings.",
-		RunE:  deps.CmdRunEWithApi(RunListRelationMappingCommand(args)),
+		Example: `# list all OTel relation mappings
+sts otel-relation-mapping list
+
+# list all relation mappings in JSON format
+sts otel-relation-mapping list -o json`,
+		RunE: deps.CmdRunEWithApi(RunListRelationMappingCommand(args)),
 	}
 
 	return cmd

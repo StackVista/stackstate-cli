@@ -19,10 +19,15 @@ type DescribeArgs struct {
 func OtelRelationMappingDescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
+		Use:   "describe --identifier URN",
 		Short: "Describe an OTel Relation Mapping by identifier (URN)",
 		Long:  "Describe an OTel Relation Mapping by identifier (URN). Optionally write to output file.",
-		RunE:  deps.CmdRunEWithApi(RunDescribeRelationMappingCommand(args)),
+		Example: `# describe an OTel relation mapping by identifier
+sts otel-relation-mapping describe --identifier urn:stackpack:stackpack-name:shared:otel-relation-mapping:database
+
+# output relation mapping to a file
+sts otel-relation-mapping describe --identifier urn:stackpack:stackpack-name:shared:otel-relation-mapping:database --file exported.yaml`,
+		RunE: deps.CmdRunEWithApi(RunDescribeRelationMappingCommand(args)),
 	}
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier (URN) of the Relation Mapping")
 	common.AddFileFlagVar(cmd, &args.FilePath, "Path to the output file")

@@ -15,7 +15,12 @@ func OtelComponentMappingListCommand(deps *di.Deps) *cobra.Command {
 		Use:   "list",
 		Short: "Lists active OTel Component Mappings",
 		Long:  "Lists active OTel Component Mappings.",
-		RunE:  deps.CmdRunEWithApi(RunListComponentCommand),
+		Example: `# list all OTel component mappings
+sts otel-component-mapping list
+
+# list all component mappings in JSON format
+sts otel-component-mapping list -o json`,
+		RunE: deps.CmdRunEWithApi(RunListComponentCommand),
 	}
 
 	return cmd

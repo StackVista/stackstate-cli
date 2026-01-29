@@ -19,10 +19,15 @@ type DescribeArgs struct {
 func OtelComponentMappingDescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe",
+		Use:   "describe --identifier URN",
 		Short: "Describe an Otel Component Mapping",
 		Long:  "Describe an Otel Component Mapping by identifier (URN). Optionally write to output file.",
-		RunE:  deps.CmdRunEWithApi(RunDescribeComponentMappingCommand(args)),
+		Example: `# describe an OTel component mapping by identifier
+sts otel-component-mapping describe --identifier urn:stackpack:stackpack-name:shared:otel-component-mapping:service
+
+# output mapping to a file
+sts otel-component-mapping describe --identifier urn:stackpack:stackpack-name:shared:otel-component-mapping:service --file exported.yaml`,
+		RunE: deps.CmdRunEWithApi(RunDescribeComponentMappingCommand(args)),
 	}
 
 	common.AddRequiredIdentifierFlagVar(cmd, &args.Identifier, "Identifier (URN) of the Component Mapping")
