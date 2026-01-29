@@ -17,7 +17,7 @@ import (
 
 // TraceApiError struct for TraceApiError
 type TraceApiError struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewTraceApiError instantiates a new TraceApiError object

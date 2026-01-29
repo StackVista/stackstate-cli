@@ -17,8 +17,8 @@ import (
 
 // ExecuteScriptSyntaxErrorsErrorsInner struct for ExecuteScriptSyntaxErrorsErrorsInner
 type ExecuteScriptSyntaxErrorsErrorsInner struct {
-	Message  string         `json:"message"`
-	Location ScriptLocation `json:"location"`
+	Message  string         `json:"message" yaml:"message"`
+	Location ScriptLocation `json:"location" yaml:"location"`
 }
 
 // NewExecuteScriptSyntaxErrorsErrorsInner instantiates a new ExecuteScriptSyntaxErrorsErrorsInner object

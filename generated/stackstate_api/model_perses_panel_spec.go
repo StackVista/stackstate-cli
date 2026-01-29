@@ -17,10 +17,10 @@ import (
 
 // PersesPanelSpec struct for PersesPanelSpec
 type PersesPanelSpec struct {
-	Display *PersesPanelDisplay `json:"display,omitempty"`
-	Links   []PersesLink        `json:"links,omitempty"`
-	Plugin  *PersesPlugin       `json:"plugin,omitempty"`
-	Queries []PersesQuery       `json:"queries,omitempty"`
+	Display *PersesPanelDisplay `json:"display,omitempty" yaml:"display,omitempty"`
+	Links   []PersesLink        `json:"links,omitempty" yaml:"links,omitempty"`
+	Plugin  *PersesPlugin       `json:"plugin,omitempty" yaml:"plugin,omitempty"`
+	Queries []PersesQuery       `json:"queries,omitempty" yaml:"queries,omitempty"`
 }
 
 // NewPersesPanelSpec instantiates a new PersesPanelSpec object

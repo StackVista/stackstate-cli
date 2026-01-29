@@ -18,8 +18,8 @@ import (
 // KubernetesLogSeverityHistogramBucket struct for KubernetesLogSeverityHistogramBucket
 type KubernetesLogSeverityHistogramBucket struct {
 	// Total logs record count for a particular log severity in the bucket.
-	Count    int64       `json:"count"`
-	Severity LogSeverity `json:"severity"`
+	Count    int64       `json:"count" yaml:"count"`
+	Severity LogSeverity `json:"severity" yaml:"severity"`
 }
 
 // NewKubernetesLogSeverityHistogramBucket instantiates a new KubernetesLogSeverityHistogramBucket object

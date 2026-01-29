@@ -17,10 +17,10 @@ import (
 
 // SpanEvent Event is a time-stamped annotation of the span, consisting of user-supplied text description and key-value pairs.
 type SpanEvent struct {
-	Timestamp InstantNanoPrecision `json:"timestamp"`
-	Name      string               `json:"name"`
+	Timestamp InstantNanoPrecision `json:"timestamp" yaml:"timestamp"`
+	Name      string               `json:"name" yaml:"name"`
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
-	Attributes map[string]string `json:"attributes"`
+	Attributes map[string]string `json:"attributes" yaml:"attributes"`
 }
 
 // NewSpanEvent instantiates a new SpanEvent object

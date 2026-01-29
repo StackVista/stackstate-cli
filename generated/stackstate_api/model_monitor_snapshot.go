@@ -17,9 +17,9 @@ import (
 
 // MonitorSnapshot struct for MonitorSnapshot
 type MonitorSnapshot struct {
-	FirstBatch   *bool                `json:"firstBatch,omitempty"`
-	LastBatch    *bool                `json:"lastBatch,omitempty"`
-	HealthStates []MonitorHealthState `json:"healthStates"`
+	FirstBatch   *bool                `json:"firstBatch,omitempty" yaml:"firstBatch,omitempty"`
+	LastBatch    *bool                `json:"lastBatch,omitempty" yaml:"lastBatch,omitempty"`
+	HealthStates []MonitorHealthState `json:"healthStates" yaml:"healthStates"`
 }
 
 // NewMonitorSnapshot instantiates a new MonitorSnapshot object

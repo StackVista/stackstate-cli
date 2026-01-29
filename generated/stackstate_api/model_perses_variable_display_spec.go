@@ -17,9 +17,9 @@ import (
 
 // PersesVariableDisplaySpec struct for PersesVariableDisplaySpec
 type PersesVariableDisplaySpec struct {
-	Name        *string `json:"name,omitempty"`
-	Description *string `json:"description,omitempty"`
-	Hidden      *bool   `json:"hidden,omitempty"`
+	Name        *string `json:"name,omitempty" yaml:"name,omitempty"`
+	Description *string `json:"description,omitempty" yaml:"description,omitempty"`
+	Hidden      *bool   `json:"hidden,omitempty" yaml:"hidden,omitempty"`
 }
 
 // NewPersesVariableDisplaySpec instantiates a new PersesVariableDisplaySpec object

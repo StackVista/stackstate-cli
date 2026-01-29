@@ -18,8 +18,8 @@ import (
 // DashboardNotFoundError struct for DashboardNotFoundError
 type DashboardNotFoundError struct {
 	// A detailed error message describing why the operation failed.
-	Message          string `json:"message"`
-	DashboardIdOrUrn string `json:"dashboardIdOrUrn"`
+	Message          string `json:"message" yaml:"message"`
+	DashboardIdOrUrn string `json:"dashboardIdOrUrn" yaml:"dashboardIdOrUrn"`
 }
 
 // NewDashboardNotFoundError instantiates a new DashboardNotFoundError object

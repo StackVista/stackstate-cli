@@ -17,7 +17,7 @@ import (
 
 // MonitorNotFoundErrorAllOf struct for MonitorNotFoundErrorAllOf
 type MonitorNotFoundErrorAllOf struct {
-	Type *string `json:"_type,omitempty"`
+	Type *string `json:"_type,omitempty" yaml:"_type,omitempty"`
 }
 
 // NewMonitorNotFoundErrorAllOf instantiates a new MonitorNotFoundErrorAllOf object

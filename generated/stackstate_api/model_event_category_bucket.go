@@ -18,8 +18,8 @@ import (
 // EventCategoryBucket struct for EventCategoryBucket
 type EventCategoryBucket struct {
 	// Total events count for a particular category in the bucket.
-	Count    int64         `json:"count"`
-	Category EventCategory `json:"category"`
+	Count    int64         `json:"count" yaml:"count"`
+	Category EventCategory `json:"category" yaml:"category"`
 }
 
 // NewEventCategoryBucket instantiates a new EventCategoryBucket object

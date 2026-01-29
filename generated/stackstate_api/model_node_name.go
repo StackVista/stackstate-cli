@@ -17,7 +17,7 @@ import (
 
 // NodeName struct for NodeName
 type NodeName struct {
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 }
 
 // NewNodeName instantiates a new NodeName object

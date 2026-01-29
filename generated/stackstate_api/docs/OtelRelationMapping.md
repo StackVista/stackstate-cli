@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**Type** | **string** |  | 
 **Identifier** | **string** |  | 
 **Name** | **string** |  | 
 **Description** | Pointer to **string** |  | [optional] 
@@ -16,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewOtelRelationMapping
 
-`func NewOtelRelationMapping(identifier string, name string, input OtelInput, output OtelRelationMappingOutput, expireAfter int64, ) *OtelRelationMapping`
+`func NewOtelRelationMapping(type_ string, identifier string, name string, input OtelInput, output OtelRelationMappingOutput, expireAfter int64, ) *OtelRelationMapping`
 
 NewOtelRelationMapping instantiates a new OtelRelationMapping object
 This constructor will assign default values to properties that have it defined,
@@ -30,6 +31,26 @@ will change when the set of required properties is changed
 NewOtelRelationMappingWithDefaults instantiates a new OtelRelationMapping object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetType
+
+`func (o *OtelRelationMapping) GetType() string`
+
+GetType returns the Type field if non-nil, zero value otherwise.
+
+### GetTypeOk
+
+`func (o *OtelRelationMapping) GetTypeOk() (*string, bool)`
+
+GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetType
+
+`func (o *OtelRelationMapping) SetType(v string)`
+
+SetType sets Type field to given value.
+
 
 ### GetIdentifier
 

@@ -17,7 +17,7 @@ import (
 
 // EventsHistogram struct for EventsHistogram
 type EventsHistogram struct {
-	Buckets []EventBucket `json:"buckets"`
+	Buckets []EventBucket `json:"buckets" yaml:"buckets"`
 }
 
 // NewEventsHistogram instantiates a new EventsHistogram object

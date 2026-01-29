@@ -18,9 +18,9 @@ import (
 // OtelInputMetric Defines conditional mapping at the resource -> scope -> metric level. If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`.
 type OtelInputMetric struct {
 	// A Cel expression that must return a boolean
-	Condition *string                   `json:"condition,omitempty"`
-	Action    *OtelInputConditionAction `json:"action,omitempty"`
-	Datapoint *OtelInputDatapoint       `json:"datapoint,omitempty"`
+	Condition *string                   `json:"condition,omitempty" yaml:"condition,omitempty"`
+	Action    *OtelInputConditionAction `json:"action,omitempty" yaml:"action,omitempty"`
+	Datapoint *OtelInputDatapoint       `json:"datapoint,omitempty" yaml:"datapoint,omitempty"`
 }
 
 // NewOtelInputMetric instantiates a new OtelInputMetric object

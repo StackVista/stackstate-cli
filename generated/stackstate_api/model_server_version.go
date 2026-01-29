@@ -17,12 +17,12 @@ import (
 
 // ServerVersion struct for ServerVersion
 type ServerVersion struct {
-	Major  int32  `json:"major"`
-	Minor  int32  `json:"minor"`
-	Patch  int32  `json:"patch"`
-	Diff   string `json:"diff"`
-	Commit string `json:"commit"`
-	IsDev  bool   `json:"isDev"`
+	Major  int32  `json:"major" yaml:"major"`
+	Minor  int32  `json:"minor" yaml:"minor"`
+	Patch  int32  `json:"patch" yaml:"patch"`
+	Diff   string `json:"diff" yaml:"diff"`
+	Commit string `json:"commit" yaml:"commit"`
+	IsDev  bool   `json:"isDev" yaml:"isDev"`
 }
 
 // NewServerVersion instantiates a new ServerVersion object

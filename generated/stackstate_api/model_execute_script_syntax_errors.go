@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptSyntaxErrors struct for ExecuteScriptSyntaxErrors
 type ExecuteScriptSyntaxErrors struct {
-	Type    string                                 `json:"_type"`
-	Message string                                 `json:"message"`
-	Errors  []ExecuteScriptSyntaxErrorsErrorsInner `json:"errors"`
+	Type    string                                 `json:"_type" yaml:"_type"`
+	Message string                                 `json:"message" yaml:"message"`
+	Errors  []ExecuteScriptSyntaxErrorsErrorsInner `json:"errors" yaml:"errors"`
 }
 
 // NewExecuteScriptSyntaxErrors instantiates a new ExecuteScriptSyntaxErrors object

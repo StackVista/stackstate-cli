@@ -17,8 +17,8 @@ import (
 
 // PromMatrix struct for PromMatrix
 type PromMatrix struct {
-	ResultType string           `json:"resultType"`
-	Result     []PromDataResult `json:"result"`
+	ResultType string           `json:"resultType" yaml:"resultType"`
+	Result     []PromDataResult `json:"result" yaml:"result"`
 }
 
 // NewPromMatrix instantiates a new PromMatrix object

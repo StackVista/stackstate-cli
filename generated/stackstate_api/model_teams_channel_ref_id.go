@@ -17,8 +17,8 @@ import (
 
 // TeamsChannelRefId struct for TeamsChannelRefId
 type TeamsChannelRefId struct {
-	Type string `json:"_type"`
-	Id   int64  `json:"id"`
+	Type string `json:"_type" yaml:"_type"`
+	Id   int64  `json:"id" yaml:"id"`
 }
 
 // NewTeamsChannelRefId instantiates a new TeamsChannelRefId object

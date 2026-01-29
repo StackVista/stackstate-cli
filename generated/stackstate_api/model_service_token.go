@@ -17,13 +17,13 @@ import (
 
 // ServiceToken struct for ServiceToken
 type ServiceToken struct {
-	Id                  *int64   `json:"id,omitempty"`
-	LastUpdateTimestamp *int64   `json:"lastUpdateTimestamp,omitempty"`
-	Name                string   `json:"name"`
-	Description         *string  `json:"description,omitempty"`
-	Expiration          *int64   `json:"expiration,omitempty"`
-	Roles               []string `json:"roles"`
-	DedicatedSubject    *string  `json:"dedicatedSubject,omitempty"`
+	Id                  *int64   `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64   `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Name                string   `json:"name" yaml:"name"`
+	Description         *string  `json:"description,omitempty" yaml:"description,omitempty"`
+	Expiration          *int64   `json:"expiration,omitempty" yaml:"expiration,omitempty"`
+	Roles               []string `json:"roles" yaml:"roles"`
+	DedicatedSubject    *string  `json:"dedicatedSubject,omitempty" yaml:"dedicatedSubject,omitempty"`
 }
 
 // NewServiceToken instantiates a new ServiceToken object

@@ -17,7 +17,7 @@ import (
 
 // CausingEventsAreNotAvailableForTheTime struct for CausingEventsAreNotAvailableForTheTime
 type CausingEventsAreNotAvailableForTheTime struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewCausingEventsAreNotAvailableForTheTime instantiates a new CausingEventsAreNotAvailableForTheTime object

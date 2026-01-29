@@ -17,7 +17,7 @@ import (
 
 // Suggestions struct for Suggestions
 type Suggestions struct {
-	Suggestions []string `json:"suggestions"`
+	Suggestions []string `json:"suggestions" yaml:"suggestions"`
 }
 
 // NewSuggestions instantiates a new Suggestions object

@@ -17,11 +17,11 @@ import (
 
 // ArgumentPromQLMetricVal struct for ArgumentPromQLMetricVal
 type ArgumentPromQLMetricVal struct {
-	Type                string       `json:"_type"`
-	Id                  *int64       `json:"id,omitempty"`
-	LastUpdateTimestamp *int64       `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64        `json:"parameter"`
-	Value               PromQLMetric `json:"value"`
+	Type                string       `json:"_type" yaml:"_type"`
+	Id                  *int64       `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64       `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64        `json:"parameter" yaml:"parameter"`
+	Value               PromQLMetric `json:"value" yaml:"value"`
 }
 
 // NewArgumentPromQLMetricVal instantiates a new ArgumentPromQLMetricVal object

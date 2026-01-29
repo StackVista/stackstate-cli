@@ -17,7 +17,7 @@ import (
 
 // NewLicense struct for NewLicense
 type NewLicense struct {
-	Key string `json:"key"`
+	Key string `json:"key" yaml:"key"`
 }
 
 // NewNewLicense instantiates a new NewLicense object

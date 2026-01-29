@@ -17,8 +17,8 @@ import (
 
 // PersesPanel struct for PersesPanel
 type PersesPanel struct {
-	Kind *string          `json:"kind,omitempty"`
-	Spec *PersesPanelSpec `json:"spec,omitempty"`
+	Kind *string          `json:"kind,omitempty" yaml:"kind,omitempty"`
+	Spec *PersesPanelSpec `json:"spec,omitempty" yaml:"spec,omitempty"`
 }
 
 // NewPersesPanel instantiates a new PersesPanel object

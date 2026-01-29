@@ -17,9 +17,9 @@ import (
 
 // GetTopologyTimeout struct for GetTopologyTimeout
 type GetTopologyTimeout struct {
-	Type           string `json:"_type"`
-	Message        string `json:"message"`
-	TimeoutSeconds int32  `json:"timeoutSeconds"`
+	Type           string `json:"_type" yaml:"_type"`
+	Message        string `json:"message" yaml:"message"`
+	TimeoutSeconds int32  `json:"timeoutSeconds" yaml:"timeoutSeconds"`
 }
 
 // NewGetTopologyTimeout instantiates a new GetTopologyTimeout object

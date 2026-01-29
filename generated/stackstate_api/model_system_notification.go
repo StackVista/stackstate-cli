@@ -17,12 +17,12 @@ import (
 
 // SystemNotification struct for SystemNotification
 type SystemNotification struct {
-	NotificationId          string                     `json:"notificationId"`
-	Title                   string                     `json:"title"`
-	Severity                SystemNotificationSeverity `json:"severity"`
-	NotificationTimeEpochMs int64                      `json:"notificationTimeEpochMs"`
-	Content                 string                     `json:"content"`
-	Toast                   bool                       `json:"toast"`
+	NotificationId          string                     `json:"notificationId" yaml:"notificationId"`
+	Title                   string                     `json:"title" yaml:"title"`
+	Severity                SystemNotificationSeverity `json:"severity" yaml:"severity"`
+	NotificationTimeEpochMs int64                      `json:"notificationTimeEpochMs" yaml:"notificationTimeEpochMs"`
+	Content                 string                     `json:"content" yaml:"content"`
+	Toast                   bool                       `json:"toast" yaml:"toast"`
 }
 
 // NewSystemNotification instantiates a new SystemNotification object

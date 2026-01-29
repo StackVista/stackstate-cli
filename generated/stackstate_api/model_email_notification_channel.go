@@ -17,13 +17,13 @@ import (
 
 // EmailNotificationChannel struct for EmailNotificationChannel
 type EmailNotificationChannel struct {
-	Id                          int64                     `json:"id"`
-	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
-	Status                      NotificationChannelStatus `json:"status"`
-	To                          []string                  `json:"to"`
-	Cc                          []string                  `json:"cc"`
-	SubjectPrefix               *string                   `json:"subjectPrefix,omitempty"`
-	Type                        string                    `json:"_type"`
+	Id                          int64                     `json:"id" yaml:"id"`
+	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty" yaml:"notificationConfigurationId,omitempty"`
+	Status                      NotificationChannelStatus `json:"status" yaml:"status"`
+	To                          []string                  `json:"to" yaml:"to"`
+	Cc                          []string                  `json:"cc" yaml:"cc"`
+	SubjectPrefix               *string                   `json:"subjectPrefix,omitempty" yaml:"subjectPrefix,omitempty"`
+	Type                        string                    `json:"_type" yaml:"_type"`
 }
 
 // NewEmailNotificationChannel instantiates a new EmailNotificationChannel object

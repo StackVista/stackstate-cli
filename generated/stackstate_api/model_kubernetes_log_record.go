@@ -18,14 +18,14 @@ import (
 
 // KubernetesLogRecord struct for KubernetesLogRecord
 type KubernetesLogRecord struct {
-	Timestamp     time.Time                `json:"timestamp"`
-	Message       string                   `json:"message"`
-	Highlights    []KubernetesLogHighlight `json:"highlights"`
-	PodName       string                   `json:"podName"`
-	PodUID        string                   `json:"podUID"`
-	ContainerName string                   `json:"containerName"`
-	Severity      LogSeverity              `json:"severity"`
-	Level         LogLevel                 `json:"level"`
+	Timestamp     time.Time                `json:"timestamp" yaml:"timestamp"`
+	Message       string                   `json:"message" yaml:"message"`
+	Highlights    []KubernetesLogHighlight `json:"highlights" yaml:"highlights"`
+	PodName       string                   `json:"podName" yaml:"podName"`
+	PodUID        string                   `json:"podUID" yaml:"podUID"`
+	ContainerName string                   `json:"containerName" yaml:"containerName"`
+	Severity      LogSeverity              `json:"severity" yaml:"severity"`
+	Level         LogLevel                 `json:"level" yaml:"level"`
 }
 
 // NewKubernetesLogRecord instantiates a new KubernetesLogRecord object

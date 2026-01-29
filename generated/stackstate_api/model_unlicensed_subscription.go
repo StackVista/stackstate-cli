@@ -17,8 +17,8 @@ import (
 
 // UnlicensedSubscription struct for UnlicensedSubscription
 type UnlicensedSubscription struct {
-	Type   string `json:"_type"`
-	Reason string `json:"reason"`
+	Type   string `json:"_type" yaml:"_type"`
+	Reason string `json:"reason" yaml:"reason"`
 }
 
 // NewUnlicensedSubscription instantiates a new UnlicensedSubscription object

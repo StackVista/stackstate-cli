@@ -18,29 +18,29 @@ import (
 // SpanFilter struct for SpanFilter
 type SpanFilter struct {
 	// Filter spans by service name
-	ServiceName []string `json:"serviceName,omitempty"`
+	ServiceName []string `json:"serviceName,omitempty" yaml:"serviceName,omitempty"`
 	// Filter spans by name
-	SpanName []string `json:"spanName,omitempty"`
+	SpanName []string `json:"spanName,omitempty" yaml:"spanName,omitempty"`
 	// Filter spans by 1 or more attributes
-	Attributes *map[string][]string `json:"attributes,omitempty"`
+	Attributes *map[string][]string `json:"attributes,omitempty" yaml:"attributes,omitempty"`
 	// Filter span by kind
-	SpanKind []SpanKind `json:"spanKind,omitempty"`
+	SpanKind []SpanKind `json:"spanKind,omitempty" yaml:"spanKind,omitempty"`
 	// Filter span by parent type
-	SpanParentType []SpanParentType `json:"spanParentType,omitempty"`
+	SpanParentType []SpanParentType `json:"spanParentType,omitempty" yaml:"spanParentType,omitempty"`
 	// Filter spans by duration >= value, in nanoseconds
-	DurationFromNanos *int64 `json:"durationFromNanos,omitempty"`
+	DurationFromNanos *int64 `json:"durationFromNanos,omitempty" yaml:"durationFromNanos,omitempty"`
 	// Filter spans by duration < value, in nanoseconds
-	DurationToNanos *int64 `json:"durationToNanos,omitempty"`
+	DurationToNanos *int64 `json:"durationToNanos,omitempty" yaml:"durationToNanos,omitempty"`
 	// Filter spans by the StatusCode
-	StatusCode []StatusCode `json:"statusCode,omitempty"`
+	StatusCode []StatusCode `json:"statusCode,omitempty" yaml:"statusCode,omitempty"`
 	// Filter spans by trace id, use only this filter to get a complete trace
-	TraceId []string `json:"traceId,omitempty"`
+	TraceId []string `json:"traceId,omitempty" yaml:"traceId,omitempty"`
 	// Filter spans by span id, use only this filter to get a single span
-	SpanId []string `json:"spanId,omitempty"`
+	SpanId []string `json:"spanId,omitempty" yaml:"spanId,omitempty"`
 	// Filter spans by scope
-	ScopeName []string `json:"scopeName,omitempty"`
+	ScopeName []string `json:"scopeName,omitempty" yaml:"scopeName,omitempty"`
 	// Filter spans by scope version
-	ScopeVersion []string `json:"scopeVersion,omitempty"`
+	ScopeVersion []string `json:"scopeVersion,omitempty" yaml:"scopeVersion,omitempty"`
 }
 
 // NewSpanFilter instantiates a new SpanFilter object

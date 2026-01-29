@@ -17,8 +17,8 @@ import (
 
 // PromExemplarData struct for PromExemplarData
 type PromExemplarData struct {
-	SeriesLabels map[string]string `json:"seriesLabels"`
-	Exemplars    []PromExemplar    `json:"exemplars"`
+	SeriesLabels map[string]string `json:"seriesLabels" yaml:"seriesLabels"`
+	Exemplars    []PromExemplar    `json:"exemplars" yaml:"exemplars"`
 }
 
 // NewPromExemplarData instantiates a new PromExemplarData object

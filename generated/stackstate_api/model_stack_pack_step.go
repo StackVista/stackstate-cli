@@ -17,9 +17,9 @@ import (
 
 // StackPackStep struct for StackPackStep
 type StackPackStep struct {
-	Display *string             `json:"display,omitempty"`
-	Name    *string             `json:"name,omitempty"`
-	Value   *StackPackStepValue `json:"value,omitempty"`
+	Display *string             `json:"display,omitempty" yaml:"display,omitempty"`
+	Name    *string             `json:"name,omitempty" yaml:"name,omitempty"`
+	Value   *StackPackStepValue `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
 // NewStackPackStep instantiates a new StackPackStep object

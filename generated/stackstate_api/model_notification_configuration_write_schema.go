@@ -17,16 +17,16 @@ import (
 
 // NotificationConfigurationWriteSchema struct for NotificationConfigurationWriteSchema
 type NotificationConfigurationWriteSchema struct {
-	Name                 string                               `json:"name"`
-	Identifier           *string                              `json:"identifier,omitempty"`
-	Description          *string                              `json:"description,omitempty"`
-	NotifyHealthStates   NotifyOnOptions                      `json:"notifyHealthStates"`
-	Monitors             []MonitorReferenceId                 `json:"monitors"`
-	MonitorTags          []string                             `json:"monitorTags"`
-	ComponentTypeNames   []string                             `json:"componentTypeNames"`
-	ComponentTags        []string                             `json:"componentTags"`
-	Status               NotificationConfigurationStatusValue `json:"status"`
-	NotificationChannels []ChannelReferenceId                 `json:"notificationChannels"`
+	Name                 string                               `json:"name" yaml:"name"`
+	Identifier           *string                              `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	Description          *string                              `json:"description,omitempty" yaml:"description,omitempty"`
+	NotifyHealthStates   NotifyOnOptions                      `json:"notifyHealthStates" yaml:"notifyHealthStates"`
+	Monitors             []MonitorReferenceId                 `json:"monitors" yaml:"monitors"`
+	MonitorTags          []string                             `json:"monitorTags" yaml:"monitorTags"`
+	ComponentTypeNames   []string                             `json:"componentTypeNames" yaml:"componentTypeNames"`
+	ComponentTags        []string                             `json:"componentTags" yaml:"componentTags"`
+	Status               NotificationConfigurationStatusValue `json:"status" yaml:"status"`
+	NotificationChannels []ChannelReferenceId                 `json:"notificationChannels" yaml:"notificationChannels"`
 }
 
 // NewNotificationConfigurationWriteSchema instantiates a new NotificationConfigurationWriteSchema object

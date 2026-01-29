@@ -17,7 +17,7 @@ import (
 
 // TimelineSummaryError struct for TimelineSummaryError
 type TimelineSummaryError struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewTimelineSummaryError instantiates a new TimelineSummaryError object

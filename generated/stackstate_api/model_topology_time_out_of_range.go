@@ -17,11 +17,11 @@ import (
 
 // TopologyTimeOutOfRange struct for TopologyTimeOutOfRange
 type TopologyTimeOutOfRange struct {
-	Type           string `json:"_type"`
-	Message        string `json:"message"`
-	TopologyTimeMs int32  `json:"topologyTimeMs"`
-	LowerBoundMs   int32  `json:"lowerBoundMs"`
-	UpperBound     string `json:"upperBound"`
+	Type           string `json:"_type" yaml:"_type"`
+	Message        string `json:"message" yaml:"message"`
+	TopologyTimeMs int32  `json:"topologyTimeMs" yaml:"topologyTimeMs"`
+	LowerBoundMs   int32  `json:"lowerBoundMs" yaml:"lowerBoundMs"`
+	UpperBound     string `json:"upperBound" yaml:"upperBound"`
 }
 
 // NewTopologyTimeOutOfRange instantiates a new TopologyTimeOutOfRange object

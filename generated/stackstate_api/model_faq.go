@@ -17,8 +17,8 @@ import (
 
 // FAQ struct for FAQ
 type FAQ struct {
-	Question string `json:"question"`
-	Answer   string `json:"answer"`
+	Question string `json:"question" yaml:"question"`
+	Answer   string `json:"answer" yaml:"answer"`
 }
 
 // NewFAQ instantiates a new FAQ object

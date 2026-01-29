@@ -17,39 +17,39 @@ import (
 
 // Span struct for Span
 type Span struct {
-	StartTime InstantNanoPrecision `json:"startTime"`
-	EndTime   InstantNanoPrecision `json:"endTime"`
+	StartTime InstantNanoPrecision `json:"startTime" yaml:"startTime"`
+	EndTime   InstantNanoPrecision `json:"endTime" yaml:"endTime"`
 	// Duration of the span in nanoseconds
-	DurationNanos int64 `json:"durationNanos"`
+	DurationNanos int64 `json:"durationNanos" yaml:"durationNanos"`
 	// The unique identifier for the trace, all spans of the same trace share the same trace_id
-	TraceId string `json:"traceId"`
+	TraceId string `json:"traceId" yaml:"traceId"`
 	// The unique identifier of the span within the trace
-	SpanId string `json:"spanId"`
+	SpanId string `json:"spanId" yaml:"spanId"`
 	// The id of the parent span of this span. Empty if this is the root span
-	ParentSpanId *string `json:"parentSpanId,omitempty"`
+	ParentSpanId *string `json:"parentSpanId,omitempty" yaml:"parentSpanId,omitempty"`
 	// Can contain vendor specific trace identification information https://www.w3.org/TR/trace-context/#tracestate-header
-	TraceState *string `json:"traceState,omitempty"`
+	TraceState *string `json:"traceState,omitempty" yaml:"traceState,omitempty"`
 	// A description of the span's operation. For example, the name can be a qualified method name or a file name and a line number where the operation is called
-	SpanName string `json:"spanName"`
+	SpanName string `json:"spanName" yaml:"spanName"`
 	// Logical name of the service for the span
-	ServiceName    string         `json:"serviceName"`
-	SpanKind       SpanKind       `json:"spanKind"`
-	SpanParentType SpanParentType `json:"spanParentType"`
+	ServiceName    string         `json:"serviceName" yaml:"serviceName"`
+	SpanKind       SpanKind       `json:"spanKind" yaml:"spanKind"`
+	SpanParentType SpanParentType `json:"spanParentType" yaml:"spanParentType"`
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
-	SpanAttributes map[string]string `json:"spanAttributes"`
+	SpanAttributes map[string]string `json:"spanAttributes" yaml:"spanAttributes"`
 	// Reference to shared resource attributes, used to deduplicate repeated resource data.
-	ResourceId string     `json:"resourceId"`
-	StatusCode StatusCode `json:"statusCode"`
+	ResourceId string     `json:"resourceId" yaml:"resourceId"`
+	StatusCode StatusCode `json:"statusCode" yaml:"statusCode"`
 	// Human readable message for the status
-	StatusMessage *string `json:"statusMessage,omitempty"`
+	StatusMessage *string `json:"statusMessage,omitempty" yaml:"statusMessage,omitempty"`
 	// The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
-	ScopeName *string `json:"scopeName,omitempty"`
+	ScopeName *string `json:"scopeName,omitempty" yaml:"scopeName,omitempty"`
 	// The version for the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
-	ScopeVersion *string `json:"scopeVersion,omitempty"`
+	ScopeVersion *string `json:"scopeVersion,omitempty" yaml:"scopeVersion,omitempty"`
 	// Time-stamped annotations on the span providing extra application context
-	Events []SpanEvent `json:"events"`
+	Events []SpanEvent `json:"events" yaml:"events"`
 	// Links to related spans in the same or in other traces
-	Links []SpanLink `json:"links"`
+	Links []SpanLink `json:"links" yaml:"links"`
 }
 
 // NewSpan instantiates a new Span object

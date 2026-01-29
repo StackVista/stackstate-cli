@@ -17,7 +17,7 @@ import (
 
 // Messages struct for Messages
 type Messages struct {
-	Messages []Message `json:"messages"`
+	Messages []Message `json:"messages" yaml:"messages"`
 }
 
 // NewMessages instantiates a new Messages object

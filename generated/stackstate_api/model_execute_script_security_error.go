@@ -17,8 +17,8 @@ import (
 
 // ExecuteScriptSecurityError struct for ExecuteScriptSecurityError
 type ExecuteScriptSecurityError struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewExecuteScriptSecurityError instantiates a new ExecuteScriptSecurityError object

@@ -17,11 +17,11 @@ import (
 
 // ArgumentComparatorWithoutEqualityVal struct for ArgumentComparatorWithoutEqualityVal
 type ArgumentComparatorWithoutEqualityVal struct {
-	Type                string                    `json:"_type"`
-	Id                  *int64                    `json:"id,omitempty"`
-	LastUpdateTimestamp *int64                    `json:"lastUpdateTimestamp,omitempty"`
-	Parameter           int64                     `json:"parameter"`
-	Value               ComparatorWithoutEquality `json:"value"`
+	Type                string                    `json:"_type" yaml:"_type"`
+	Id                  *int64                    `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64                    `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Parameter           int64                     `json:"parameter" yaml:"parameter"`
+	Value               ComparatorWithoutEquality `json:"value" yaml:"value"`
 }
 
 // NewArgumentComparatorWithoutEqualityVal instantiates a new ArgumentComparatorWithoutEqualityVal object

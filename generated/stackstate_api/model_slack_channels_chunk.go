@@ -17,8 +17,8 @@ import (
 
 // SlackChannelsChunk struct for SlackChannelsChunk
 type SlackChannelsChunk struct {
-	Channels   []SlackChannel `json:"channels"`
-	NextCursor *string        `json:"next_cursor,omitempty"`
+	Channels   []SlackChannel `json:"channels" yaml:"channels"`
+	NextCursor *string        `json:"next_cursor,omitempty" yaml:"next_cursor,omitempty"`
 }
 
 // NewSlackChannelsChunk instantiates a new SlackChannelsChunk object

@@ -17,15 +17,15 @@ import (
 
 // StackPackIntegration struct for StackPackIntegration
 type StackPackIntegration struct {
-	Name        string   `json:"name"`
-	DisplayName string   `json:"displayName"`
-	Logo        *string  `json:"logo,omitempty"`
-	BrandIcon   *string  `json:"brandIcon,omitempty"`
-	Categories  []string `json:"categories"`
-	IsNew       bool     `json:"isNew"`
-	OverviewUrl *string  `json:"overviewUrl,omitempty"`
-	ResourceUrl *string  `json:"resourceUrl,omitempty"`
-	Faqs        []FAQ    `json:"faqs"`
+	Name        string   `json:"name" yaml:"name"`
+	DisplayName string   `json:"displayName" yaml:"displayName"`
+	Logo        *string  `json:"logo,omitempty" yaml:"logo,omitempty"`
+	BrandIcon   *string  `json:"brandIcon,omitempty" yaml:"brandIcon,omitempty"`
+	Categories  []string `json:"categories" yaml:"categories"`
+	IsNew       bool     `json:"isNew" yaml:"isNew"`
+	OverviewUrl *string  `json:"overviewUrl,omitempty" yaml:"overviewUrl,omitempty"`
+	ResourceUrl *string  `json:"resourceUrl,omitempty" yaml:"resourceUrl,omitempty"`
+	Faqs        []FAQ    `json:"faqs" yaml:"faqs"`
 }
 
 // NewStackPackIntegration instantiates a new StackPackIntegration object

@@ -17,9 +17,9 @@ import (
 
 // TopologyMatchResult struct for TopologyMatchResult
 type TopologyMatchResult struct {
-	MatchedCheckStates         int32                       `json:"matchedCheckStates"`
-	UnmatchedCheckStates       []UnmatchedCheckState       `json:"unmatchedCheckStates"`
-	MultipleMatchesCheckStates []MultipleMatchesCheckState `json:"multipleMatchesCheckStates"`
+	MatchedCheckStates         int32                       `json:"matchedCheckStates" yaml:"matchedCheckStates"`
+	UnmatchedCheckStates       []UnmatchedCheckState       `json:"unmatchedCheckStates" yaml:"unmatchedCheckStates"`
+	MultipleMatchesCheckStates []MultipleMatchesCheckState `json:"multipleMatchesCheckStates" yaml:"multipleMatchesCheckStates"`
 }
 
 // NewTopologyMatchResult instantiates a new TopologyMatchResult object

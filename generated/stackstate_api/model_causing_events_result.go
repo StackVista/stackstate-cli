@@ -17,8 +17,8 @@ import (
 
 // CausingEventsResult struct for CausingEventsResult
 type CausingEventsResult struct {
-	Type  string          `json:"_type"`
-	Items []TopologyEvent `json:"items"`
+	Type  string          `json:"_type" yaml:"_type"`
+	Items []TopologyEvent `json:"items" yaml:"items"`
 }
 
 // NewCausingEventsResult instantiates a new CausingEventsResult object

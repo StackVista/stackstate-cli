@@ -17,8 +17,8 @@ import (
 
 // LayoutApiError struct for LayoutApiError
 type LayoutApiError struct {
-	StatusCode string `json:"statusCode"`
-	Message    string `json:"message"`
+	StatusCode string `json:"statusCode" yaml:"statusCode"`
+	Message    string `json:"message" yaml:"message"`
 }
 
 // NewLayoutApiError instantiates a new LayoutApiError object

@@ -18,8 +18,8 @@ import (
 // PersesGridLayoutDisplay struct for PersesGridLayoutDisplay
 type PersesGridLayoutDisplay struct {
 	// The title of the grid layout.
-	Title    string                    `json:"title"`
-	Collapse *PersesGridLayoutCollapse `json:"collapse,omitempty"`
+	Title    string                    `json:"title" yaml:"title"`
+	Collapse *PersesGridLayoutCollapse `json:"collapse,omitempty" yaml:"collapse,omitempty"`
 }
 
 // NewPersesGridLayoutDisplay instantiates a new PersesGridLayoutDisplay object

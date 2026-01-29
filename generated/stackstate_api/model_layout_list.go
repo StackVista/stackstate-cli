@@ -17,7 +17,7 @@ import (
 
 // LayoutList struct for LayoutList
 type LayoutList struct {
-	Layouts []LayoutHint `json:"layouts"`
+	Layouts []LayoutHint `json:"layouts" yaml:"layouts"`
 }
 
 // NewLayoutList instantiates a new LayoutList object

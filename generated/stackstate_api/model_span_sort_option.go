@@ -17,8 +17,8 @@ import (
 
 // SpanSortOption struct for SpanSortOption
 type SpanSortOption struct {
-	Field     SpanSortField     `json:"field"`
-	Direction SpanSortDirection `json:"direction"`
+	Field     SpanSortField     `json:"field" yaml:"field"`
+	Direction SpanSortDirection `json:"direction" yaml:"direction"`
 }
 
 // NewSpanSortOption instantiates a new SpanSortOption object

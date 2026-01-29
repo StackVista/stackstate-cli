@@ -17,10 +17,10 @@ import (
 
 // MonitorIdentifierLookup struct for MonitorIdentifierLookup
 type MonitorIdentifierLookup struct {
-	MetricQuery       string                            `json:"metricQuery"`
-	ComponentTypeName string                            `json:"componentTypeName"`
-	TopN              *int32                            `json:"topN,omitempty"`
-	Overrides         *MonitorIdentifierLookupOverrides `json:"overrides,omitempty"`
+	MetricQuery       string                            `json:"metricQuery" yaml:"metricQuery"`
+	ComponentTypeName string                            `json:"componentTypeName" yaml:"componentTypeName"`
+	TopN              *int32                            `json:"topN,omitempty" yaml:"topN,omitempty"`
+	Overrides         *MonitorIdentifierLookupOverrides `json:"overrides,omitempty" yaml:"overrides,omitempty"`
 }
 
 // NewMonitorIdentifierLookup instantiates a new MonitorIdentifierLookup object

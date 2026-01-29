@@ -17,11 +17,11 @@ import (
 
 // MonitorCheckStatusHealthHistory struct for MonitorCheckStatusHealthHistory
 type MonitorCheckStatusHealthHistory struct {
-	Identifier string `json:"identifier"`
-	StartTime  int32  `json:"startTime"`
-	EndTime    int32  `json:"endTime"`
+	Identifier string `json:"identifier" yaml:"identifier"`
+	StartTime  int32  `json:"startTime" yaml:"startTime"`
+	EndTime    int32  `json:"endTime" yaml:"endTime"`
 	// List of health state changes ordered from most recent to oldest.
-	HealthStateChanges []MonitorCheckStatusHealthChange `json:"healthStateChanges"`
+	HealthStateChanges []MonitorCheckStatusHealthChange `json:"healthStateChanges" yaml:"healthStateChanges"`
 }
 
 // NewMonitorCheckStatusHealthHistory instantiates a new MonitorCheckStatusHealthHistory object

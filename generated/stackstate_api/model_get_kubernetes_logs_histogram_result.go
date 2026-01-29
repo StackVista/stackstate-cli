@@ -17,7 +17,7 @@ import (
 
 // GetKubernetesLogsHistogramResult struct for GetKubernetesLogsHistogramResult
 type GetKubernetesLogsHistogramResult struct {
-	Buckets []KubernetesLogHistogramBucket `json:"buckets"`
+	Buckets []KubernetesLogHistogramBucket `json:"buckets" yaml:"buckets"`
 }
 
 // NewGetKubernetesLogsHistogramResult instantiates a new GetKubernetesLogsHistogramResult object

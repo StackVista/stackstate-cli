@@ -17,20 +17,20 @@ import (
 
 // MonitorCheckStatus struct for MonitorCheckStatus
 type MonitorCheckStatus struct {
-	Id                   int64                       `json:"id"`
-	Identifier           string                      `json:"identifier"`
-	Message              string                      `json:"message"`
-	Reason               *string                     `json:"reason,omitempty"`
-	Health               HealthStateValue            `json:"health"`
-	TriggeredTimestamp   int32                       `json:"triggeredTimestamp"`
-	Metrics              []MonitorCheckStatusMetric  `json:"metrics"`
-	Component            MonitorCheckStatusComponent `json:"component"`
-	MonitorId            MonitorReferenceId          `json:"monitorId"`
-	MonitorName          string                      `json:"monitorName"`
-	MonitorDescription   *string                     `json:"monitorDescription,omitempty"`
-	TroubleshootingSteps *string                     `json:"troubleshootingSteps,omitempty"`
-	TopologyTime         int32                       `json:"topologyTime"`
-	Dummy                bool                        `json:"dummy"`
+	Id                   int64                       `json:"id" yaml:"id"`
+	Identifier           string                      `json:"identifier" yaml:"identifier"`
+	Message              string                      `json:"message" yaml:"message"`
+	Reason               *string                     `json:"reason,omitempty" yaml:"reason,omitempty"`
+	Health               HealthStateValue            `json:"health" yaml:"health"`
+	TriggeredTimestamp   int32                       `json:"triggeredTimestamp" yaml:"triggeredTimestamp"`
+	Metrics              []MonitorCheckStatusMetric  `json:"metrics" yaml:"metrics"`
+	Component            MonitorCheckStatusComponent `json:"component" yaml:"component"`
+	MonitorId            MonitorReferenceId          `json:"monitorId" yaml:"monitorId"`
+	MonitorName          string                      `json:"monitorName" yaml:"monitorName"`
+	MonitorDescription   *string                     `json:"monitorDescription,omitempty" yaml:"monitorDescription,omitempty"`
+	TroubleshootingSteps *string                     `json:"troubleshootingSteps,omitempty" yaml:"troubleshootingSteps,omitempty"`
+	TopologyTime         int32                       `json:"topologyTime" yaml:"topologyTime"`
+	Dummy                bool                        `json:"dummy" yaml:"dummy"`
 }
 
 // NewMonitorCheckStatus instantiates a new MonitorCheckStatus object

@@ -17,10 +17,10 @@ import (
 
 // ExecuteScriptWrongReturnTypeError struct for ExecuteScriptWrongReturnTypeError
 type ExecuteScriptWrongReturnTypeError struct {
-	Type               string `json:"_type"`
-	Message            string `json:"message"`
-	ActualReturnType   string `json:"actualReturnType"`
-	ExpectedReturnType string `json:"expectedReturnType"`
+	Type               string `json:"_type" yaml:"_type"`
+	Message            string `json:"message" yaml:"message"`
+	ActualReturnType   string `json:"actualReturnType" yaml:"actualReturnType"`
+	ExpectedReturnType string `json:"expectedReturnType" yaml:"expectedReturnType"`
 }
 
 // NewExecuteScriptWrongReturnTypeError instantiates a new ExecuteScriptWrongReturnTypeError object

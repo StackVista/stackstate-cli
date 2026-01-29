@@ -17,7 +17,7 @@ import (
 
 // NodeUnlocked struct for NodeUnlocked
 type NodeUnlocked struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewNodeUnlocked instantiates a new NodeUnlocked object

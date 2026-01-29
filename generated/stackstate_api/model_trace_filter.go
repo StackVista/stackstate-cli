@@ -17,8 +17,8 @@ import (
 
 // TraceFilter Filter traces that have a span that matches the primary filter and a span that matches the secondary filter. These could be the same, or two different spans of the same trace.
 type TraceFilter struct {
-	PrimarySpanFilter   SpanFilter  `json:"primarySpanFilter"`
-	SecondarySpanFilter *SpanFilter `json:"secondarySpanFilter,omitempty"`
+	PrimarySpanFilter   SpanFilter  `json:"primarySpanFilter" yaml:"primarySpanFilter"`
+	SecondarySpanFilter *SpanFilter `json:"secondarySpanFilter,omitempty" yaml:"secondarySpanFilter,omitempty"`
 }
 
 // NewTraceFilter instantiates a new TraceFilter object

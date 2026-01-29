@@ -17,15 +17,15 @@ import (
 
 // PersesListVariableSpec struct for PersesListVariableSpec
 type PersesListVariableSpec struct {
-	Name            string                          `json:"name"`
-	Display         *PersesVariableDisplaySpec      `json:"display,omitempty"`
-	DefaultValue    *PersesListVariableDefaultValue `json:"defaultValue,omitempty"`
-	AllowAllValue   bool                            `json:"allowAllValue"`
-	AllowMultiple   bool                            `json:"allowMultiple"`
-	CustomAllValue  *string                         `json:"customAllValue,omitempty"`
-	CapturingRegexp *string                         `json:"capturingRegexp,omitempty"`
-	Sort            *PersesVariableSort             `json:"sort,omitempty"`
-	Plugin          PersesPlugin                    `json:"plugin"`
+	Name            string                          `json:"name" yaml:"name"`
+	Display         *PersesVariableDisplaySpec      `json:"display,omitempty" yaml:"display,omitempty"`
+	DefaultValue    *PersesListVariableDefaultValue `json:"defaultValue,omitempty" yaml:"defaultValue,omitempty"`
+	AllowAllValue   bool                            `json:"allowAllValue" yaml:"allowAllValue"`
+	AllowMultiple   bool                            `json:"allowMultiple" yaml:"allowMultiple"`
+	CustomAllValue  *string                         `json:"customAllValue,omitempty" yaml:"customAllValue,omitempty"`
+	CapturingRegexp *string                         `json:"capturingRegexp,omitempty" yaml:"capturingRegexp,omitempty"`
+	Sort            *PersesVariableSort             `json:"sort,omitempty" yaml:"sort,omitempty"`
+	Plugin          PersesPlugin                    `json:"plugin" yaml:"plugin"`
 }
 
 // NewPersesListVariableSpec instantiates a new PersesListVariableSpec object

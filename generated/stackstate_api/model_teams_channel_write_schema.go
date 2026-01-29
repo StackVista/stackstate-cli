@@ -17,7 +17,7 @@ import (
 
 // TeamsChannelWriteSchema struct for TeamsChannelWriteSchema
 type TeamsChannelWriteSchema struct {
-	Url string `json:"url"`
+	Url string `json:"url" yaml:"url"`
 }
 
 // NewTeamsChannelWriteSchema instantiates a new TeamsChannelWriteSchema object

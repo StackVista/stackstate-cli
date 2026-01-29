@@ -10,34 +10,39 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
+type ListArgs struct{}
+
 func OtelRelationMappingListCommand(deps *di.Deps) *cobra.Command {
+	args := &ListArgs{}
 	cmd := &cobra.Command{
 		Use:   "list",
-		Short: "Lists active Otel Component Mappings",
-		Long:  "Lists active Otel Component Mappings.",
-		RunE:  deps.CmdRunEWithApi(RunListComponentCommand),
+		Short: "Lists active OTel Relation Mappings",
+		Long:  "Lists active OTel Relation Mappings.",
+		RunE:  deps.CmdRunEWithApi(RunListRelationMappingCommand(args)),
 	}
 
 	return cmd
 }
 
-func RunListComponentCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
-	mappingsList, resp, err := api.OtelMappingApi.GetOtelRelationMappings(cli.Context).Execute()
-	if err != nil {
-		return common.NewResponseError(err, resp)
-	}
+func RunListRelationMappingCommand(_ *ListArgs) di.CmdWithApiFn {
+	return func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
+		mappingsList, resp, err := api.OtelMappingApi.GetOtelRelationMappings(cli.Context).Execute()
+		if err != nil {
+			return common.NewResponseError(err, resp)
+		}
 
-	sort.SliceStable(mappingsList, func(i, j int) bool {
-		return mappingsList[i].Name < mappingsList[j].Name
-	})
-
-	if cli.IsJson() {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"otel relation mappings": mappingsList,
+		sort.SliceStable(mappingsList, func(i, j int) bool {
+			return mappingsList[i].Name < mappingsList[j].Name
 		})
-	} else {
-		cli.Printer.Table(otelmapping.FormatOtelMappingTable(mappingsList))
-	}
 
-	return nil
+		if cli.IsJson() {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"otel_relation_mappings": mappingsList,
+			})
+		} else {
+			cli.Printer.Table(otelmapping.FormatOtelMappingTable(mappingsList))
+		}
+
+		return nil
+	}
 }

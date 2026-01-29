@@ -17,10 +17,10 @@ import (
 
 // HealthSubStreamStatus struct for HealthSubStreamStatus
 type HealthSubStreamStatus struct {
-	Errors          []HealthStreamError             `json:"errors,omitempty"`
-	Metrics         HealthStreamMetrics             `json:"metrics"`
-	SubStreamState  HealthSubStreamConsistencyState `json:"subStreamState"`
-	CheckStateCount int32                           `json:"checkStateCount"`
+	Errors          []HealthStreamError             `json:"errors,omitempty" yaml:"errors,omitempty"`
+	Metrics         HealthStreamMetrics             `json:"metrics" yaml:"metrics"`
+	SubStreamState  HealthSubStreamConsistencyState `json:"subStreamState" yaml:"subStreamState"`
+	CheckStateCount int32                           `json:"checkStateCount" yaml:"checkStateCount"`
 }
 
 // NewHealthSubStreamStatus instantiates a new HealthSubStreamStatus object

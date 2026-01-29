@@ -17,11 +17,11 @@ import (
 
 // SpanLink A pointer from the current span to another span in the same trace or in a different trace.  For example, this can be used in batching operations, where a single batch handler processes  multiple requests from different traces or when the handler receives a request from a different project.
 type SpanLink struct {
-	TraceId    string  `json:"traceId"`
-	SpanId     string  `json:"spanId"`
-	TraceState *string `json:"traceState,omitempty"`
+	TraceId    string  `json:"traceId" yaml:"traceId"`
+	SpanId     string  `json:"spanId" yaml:"spanId"`
+	TraceState *string `json:"traceState,omitempty" yaml:"traceState,omitempty"`
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
-	Attributes map[string]string `json:"attributes"`
+	Attributes map[string]string `json:"attributes" yaml:"attributes"`
 }
 
 // NewSpanLink instantiates a new SpanLink object

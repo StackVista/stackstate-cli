@@ -18,12 +18,12 @@ import (
 // KubernetesLogHistogramBucket struct for KubernetesLogHistogramBucket
 type KubernetesLogHistogramBucket struct {
 	// Total logs record count in the bucket.
-	Count int64 `json:"count"`
+	Count int64 `json:"count" yaml:"count"`
 	// The bucket initial timestamp.
-	StartTime int32 `json:"startTime"`
+	StartTime int32 `json:"startTime" yaml:"startTime"`
 	// The bucket final timestamp.
-	EndTime            int32                                  `json:"endTime"`
-	LogSeverityBuckets []KubernetesLogSeverityHistogramBucket `json:"logSeverityBuckets"`
+	EndTime            int32                                  `json:"endTime" yaml:"endTime"`
+	LogSeverityBuckets []KubernetesLogSeverityHistogramBucket `json:"logSeverityBuckets" yaml:"logSeverityBuckets"`
 }
 
 // NewKubernetesLogHistogramBucket instantiates a new KubernetesLogHistogramBucket object

@@ -17,8 +17,8 @@ import (
 
 // WebhookChannelRefId struct for WebhookChannelRefId
 type WebhookChannelRefId struct {
-	Type string `json:"_type"`
-	Id   int64  `json:"id"`
+	Type string `json:"_type" yaml:"_type"`
+	Id   int64  `json:"id" yaml:"id"`
 }
 
 // NewWebhookChannelRefId instantiates a new WebhookChannelRefId object

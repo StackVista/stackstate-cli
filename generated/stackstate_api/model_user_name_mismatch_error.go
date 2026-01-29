@@ -17,8 +17,8 @@ import (
 
 // UserNameMismatchError struct for UserNameMismatchError
 type UserNameMismatchError struct {
-	Type string `json:"_type"`
-	Name string `json:"name"`
+	Type string `json:"_type" yaml:"_type"`
+	Name string `json:"name" yaml:"name"`
 }
 
 // NewUserNameMismatchError instantiates a new UserNameMismatchError object

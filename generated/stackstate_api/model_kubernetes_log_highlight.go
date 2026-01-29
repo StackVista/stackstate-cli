@@ -18,9 +18,9 @@ import (
 // KubernetesLogHighlight struct for KubernetesLogHighlight
 type KubernetesLogHighlight struct {
 	// Index of character in the message to start the highlight (0-based)
-	StartIndex int32 `json:"startIndex"`
+	StartIndex int32 `json:"startIndex" yaml:"startIndex"`
 	// Index of character in the message to end the highlight (0-based)
-	EndIndex int32 `json:"endIndex"`
+	EndIndex int32 `json:"endIndex" yaml:"endIndex"`
 }
 
 // NewKubernetesLogHighlight instantiates a new KubernetesLogHighlight object

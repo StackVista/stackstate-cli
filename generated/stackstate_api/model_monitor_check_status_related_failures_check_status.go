@@ -17,12 +17,12 @@ import (
 
 // MonitorCheckStatusRelatedFailuresCheckStatus struct for MonitorCheckStatusRelatedFailuresCheckStatus
 type MonitorCheckStatusRelatedFailuresCheckStatus struct {
-	Identifier         string                                    `json:"identifier"`
-	Health             HealthStateValue                          `json:"health"`
-	Name               string                                    `json:"name"`
-	Component          MonitorCheckStatusComponent               `json:"component"`
-	Topology           MonitorCheckStatusRelatedFailuresTopology `json:"topology"`
-	TriggeredTimestamp int32                                     `json:"triggeredTimestamp"`
+	Identifier         string                                    `json:"identifier" yaml:"identifier"`
+	Health             HealthStateValue                          `json:"health" yaml:"health"`
+	Name               string                                    `json:"name" yaml:"name"`
+	Component          MonitorCheckStatusComponent               `json:"component" yaml:"component"`
+	Topology           MonitorCheckStatusRelatedFailuresTopology `json:"topology" yaml:"topology"`
+	TriggeredTimestamp int32                                     `json:"triggeredTimestamp" yaml:"triggeredTimestamp"`
 }
 
 // NewMonitorCheckStatusRelatedFailuresCheckStatus instantiates a new MonitorCheckStatusRelatedFailuresCheckStatus object

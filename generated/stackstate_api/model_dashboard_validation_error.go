@@ -17,9 +17,9 @@ import (
 
 // DashboardValidationError struct for DashboardValidationError
 type DashboardValidationError struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 	// A detailed error message describing why the operation failed.
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewDashboardValidationError instantiates a new DashboardValidationError object

@@ -17,7 +17,7 @@ import (
 
 // OtelMappingApiError struct for OtelMappingApiError
 type OtelMappingApiError struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewOtelMappingApiError instantiates a new OtelMappingApiError object

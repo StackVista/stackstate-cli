@@ -17,10 +17,10 @@ import (
 
 // GenericErrorsResponse struct for GenericErrorsResponse
 type GenericErrorsResponse struct {
-	Type            *string           `json:"_type,omitempty"`
-	TrackingKey     string            `json:"trackingKey"`
-	ServerTimestamp int64             `json:"serverTimestamp"`
-	Errors          []GenericApiError `json:"errors"`
+	Type            *string           `json:"_type,omitempty" yaml:"_type,omitempty"`
+	TrackingKey     string            `json:"trackingKey" yaml:"trackingKey"`
+	ServerTimestamp int64             `json:"serverTimestamp" yaml:"serverTimestamp"`
+	Errors          []GenericApiError `json:"errors" yaml:"errors"`
 }
 
 // NewGenericErrorsResponse instantiates a new GenericErrorsResponse object

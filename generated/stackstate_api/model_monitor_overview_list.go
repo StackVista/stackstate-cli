@@ -17,7 +17,7 @@ import (
 
 // MonitorOverviewList struct for MonitorOverviewList
 type MonitorOverviewList struct {
-	Monitors []MonitorOverview `json:"monitors"`
+	Monitors []MonitorOverview `json:"monitors" yaml:"monitors"`
 }
 
 // NewMonitorOverviewList instantiates a new MonitorOverviewList object

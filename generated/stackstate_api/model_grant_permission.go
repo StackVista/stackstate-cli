@@ -17,8 +17,8 @@ import (
 
 // GrantPermission struct for GrantPermission
 type GrantPermission struct {
-	Permission   string `json:"permission"`
-	ResourceName string `json:"resourceName"`
+	Permission   string `json:"permission" yaml:"permission"`
+	ResourceName string `json:"resourceName" yaml:"resourceName"`
 }
 
 // NewGrantPermission instantiates a new GrantPermission object

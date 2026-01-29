@@ -17,7 +17,7 @@ import (
 
 // TeamsNotificationChannelAllOf struct for TeamsNotificationChannelAllOf
 type TeamsNotificationChannelAllOf struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewTeamsNotificationChannelAllOf instantiates a new TeamsNotificationChannelAllOf object

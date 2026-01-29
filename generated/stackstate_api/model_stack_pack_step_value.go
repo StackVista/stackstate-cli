@@ -17,7 +17,7 @@ import (
 
 // StackPackStepValue struct for StackPackStepValue
 type StackPackStepValue struct {
-	Type *string `json:"_type,omitempty"`
+	Type *string `json:"_type,omitempty" yaml:"_type,omitempty"`
 }
 
 // NewStackPackStepValue instantiates a new StackPackStepValue object

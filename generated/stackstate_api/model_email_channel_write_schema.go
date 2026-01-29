@@ -17,9 +17,9 @@ import (
 
 // EmailChannelWriteSchema struct for EmailChannelWriteSchema
 type EmailChannelWriteSchema struct {
-	To            []string `json:"to"`
-	Cc            []string `json:"cc"`
-	SubjectPrefix *string  `json:"subjectPrefix,omitempty"`
+	To            []string `json:"to" yaml:"to"`
+	Cc            []string `json:"cc" yaml:"cc"`
+	SubjectPrefix *string  `json:"subjectPrefix,omitempty" yaml:"subjectPrefix,omitempty"`
 }
 
 // NewEmailChannelWriteSchema instantiates a new EmailChannelWriteSchema object

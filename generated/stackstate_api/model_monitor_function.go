@@ -17,11 +17,11 @@ import (
 
 // MonitorFunction struct for MonitorFunction
 type MonitorFunction struct {
-	Id                  int64   `json:"id"`
-	Name                string  `json:"name"`
-	Identifier          *string `json:"identifier,omitempty"`
-	Description         *string `json:"description,omitempty"`
-	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp"`
+	Id                  int64   `json:"id" yaml:"id"`
+	Name                string  `json:"name" yaml:"name"`
+	Identifier          *string `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	Description         *string `json:"description,omitempty" yaml:"description,omitempty"`
+	LastUpdateTimestamp int64   `json:"lastUpdateTimestamp" yaml:"lastUpdateTimestamp"`
 }
 
 // NewMonitorFunction instantiates a new MonitorFunction object

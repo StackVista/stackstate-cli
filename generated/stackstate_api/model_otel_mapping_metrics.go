@@ -17,8 +17,8 @@ import (
 
 // OtelMappingMetrics struct for OtelMappingMetrics
 type OtelMappingMetrics struct {
-	BucketSizeSeconds int32               `json:"bucketSizeSeconds"`
-	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty"`
+	BucketSizeSeconds int32               `json:"bucketSizeSeconds" yaml:"bucketSizeSeconds"`
+	LatencySeconds    []MetricBucketValue `json:"latencySeconds,omitempty" yaml:"latencySeconds,omitempty"`
 }
 
 // NewOtelMappingMetrics instantiates a new OtelMappingMetrics object

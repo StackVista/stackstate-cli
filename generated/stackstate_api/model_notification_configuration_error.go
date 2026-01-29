@@ -17,8 +17,8 @@ import (
 
 // NotificationConfigurationError struct for NotificationConfigurationError
 type NotificationConfigurationError struct {
-	Message string `json:"message"`
-	Type    string `json:"_type"`
+	Message string `json:"message" yaml:"message"`
+	Type    string `json:"_type" yaml:"_type"`
 }
 
 // NewNotificationConfigurationError instantiates a new NotificationConfigurationError object

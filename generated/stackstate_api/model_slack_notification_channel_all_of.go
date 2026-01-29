@@ -17,10 +17,10 @@ import (
 
 // SlackNotificationChannelAllOf struct for SlackNotificationChannelAllOf
 type SlackNotificationChannelAllOf struct {
-	Type           string  `json:"_type"`
-	SlackWorkspace string  `json:"slackWorkspace"`
-	SlackChannel   *string `json:"slackChannel,omitempty"`
-	SlackChannelId *string `json:"slackChannelId,omitempty"`
+	Type           string  `json:"_type" yaml:"_type"`
+	SlackWorkspace string  `json:"slackWorkspace" yaml:"slackWorkspace"`
+	SlackChannel   *string `json:"slackChannel,omitempty" yaml:"slackChannel,omitempty"`
+	SlackChannelId *string `json:"slackChannelId,omitempty" yaml:"slackChannelId,omitempty"`
 }
 
 // NewSlackNotificationChannelAllOf instantiates a new SlackNotificationChannelAllOf object

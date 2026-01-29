@@ -17,10 +17,10 @@ import (
 
 // MonitorApiError struct for MonitorApiError
 type MonitorApiError struct {
-	MonitorId     *string `json:"monitorId,omitempty"`
-	MonitorIdType *string `json:"monitorIdType,omitempty"`
-	StatusCode    string  `json:"statusCode"`
-	Message       string  `json:"message"`
+	MonitorId     *string `json:"monitorId,omitempty" yaml:"monitorId,omitempty"`
+	MonitorIdType *string `json:"monitorIdType,omitempty" yaml:"monitorIdType,omitempty"`
+	StatusCode    string  `json:"statusCode" yaml:"statusCode"`
+	Message       string  `json:"message" yaml:"message"`
 }
 
 // NewMonitorApiError instantiates a new MonitorApiError object

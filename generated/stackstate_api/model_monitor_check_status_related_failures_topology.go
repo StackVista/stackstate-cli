@@ -17,8 +17,8 @@ import (
 
 // MonitorCheckStatusRelatedFailuresTopology struct for MonitorCheckStatusRelatedFailuresTopology
 type MonitorCheckStatusRelatedFailuresTopology struct {
-	Distance int32  `json:"distance"`
-	Relation string `json:"relation"`
+	Distance int32  `json:"distance" yaml:"distance"`
+	Relation string `json:"relation" yaml:"relation"`
 }
 
 // NewMonitorCheckStatusRelatedFailuresTopology instantiates a new MonitorCheckStatusRelatedFailuresTopology object

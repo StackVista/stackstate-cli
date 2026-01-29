@@ -17,9 +17,9 @@ import (
 
 // ExecuteScriptRequest struct for ExecuteScriptRequest
 type ExecuteScriptRequest struct {
-	TimeoutMs       *int32  `json:"timeoutMs,omitempty"`
-	Script          string  `json:"script"`
-	ArgumentsScript *string `json:"argumentsScript,omitempty"`
+	TimeoutMs       *int32  `json:"timeoutMs,omitempty" yaml:"timeoutMs,omitempty"`
+	Script          string  `json:"script" yaml:"script"`
+	ArgumentsScript *string `json:"argumentsScript,omitempty" yaml:"argumentsScript,omitempty"`
 }
 
 // NewExecuteScriptRequest instantiates a new ExecuteScriptRequest object

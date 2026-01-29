@@ -17,8 +17,8 @@ import (
 
 // SourceLink struct for SourceLink
 type SourceLink struct {
-	Title string `json:"title"`
-	Url   string `json:"url"`
+	Title string `json:"title" yaml:"title"`
+	Url   string `json:"url" yaml:"url"`
 }
 
 // NewSourceLink instantiates a new SourceLink object

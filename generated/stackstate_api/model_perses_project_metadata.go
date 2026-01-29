@@ -18,11 +18,11 @@ import (
 
 // PersesProjectMetadata struct for PersesProjectMetadata
 type PersesProjectMetadata struct {
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	Name      *string    `json:"name,omitempty"`
-	Project   *string    `json:"project,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	Version   *int32     `json:"version,omitempty"`
+	CreatedAt *time.Time `json:"createdAt,omitempty" yaml:"createdAt,omitempty"`
+	Name      *string    `json:"name,omitempty" yaml:"name,omitempty"`
+	Project   *string    `json:"project,omitempty" yaml:"project,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty" yaml:"updatedAt,omitempty"`
+	Version   *int32     `json:"version,omitempty" yaml:"version,omitempty"`
 }
 
 // NewPersesProjectMetadata instantiates a new PersesProjectMetadata object

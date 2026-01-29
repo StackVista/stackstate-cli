@@ -17,8 +17,8 @@ import (
 
 // MonitorCheckStatusNotFoundError struct for MonitorCheckStatusNotFoundError
 type MonitorCheckStatusNotFoundError struct {
-	Identifier string `json:"identifier"`
-	Type       string `json:"_type"`
+	Identifier string `json:"identifier" yaml:"identifier"`
+	Type       string `json:"_type" yaml:"_type"`
 }
 
 // NewMonitorCheckStatusNotFoundError instantiates a new MonitorCheckStatusNotFoundError object

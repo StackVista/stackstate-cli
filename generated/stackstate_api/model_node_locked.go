@@ -17,8 +17,8 @@ import (
 
 // NodeLocked struct for NodeLocked
 type NodeLocked struct {
-	Type  string `json:"_type"`
-	Owner string `json:"owner"`
+	Type  string `json:"_type" yaml:"_type"`
+	Owner string `json:"owner" yaml:"owner"`
 }
 
 // NewNodeLocked instantiates a new NodeLocked object

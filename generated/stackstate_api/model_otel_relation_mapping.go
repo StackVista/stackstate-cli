@@ -17,21 +17,23 @@ import (
 
 // OtelRelationMapping struct for OtelRelationMapping
 type OtelRelationMapping struct {
-	Identifier  string                    `json:"identifier"`
-	Name        string                    `json:"name"`
-	Description *string                   `json:"description,omitempty"`
-	Input       OtelInput                 `json:"input"`
-	Output      OtelRelationMappingOutput `json:"output"`
-	Vars        []OtelVariableMapping     `json:"vars,omitempty"`
-	ExpireAfter int64                     `json:"expireAfter"`
+	Type        string                    `json:"_type" yaml:"_type"`
+	Identifier  string                    `json:"identifier" yaml:"identifier"`
+	Name        string                    `json:"name" yaml:"name"`
+	Description *string                   `json:"description,omitempty" yaml:"description,omitempty"`
+	Input       OtelInput                 `json:"input" yaml:"input"`
+	Output      OtelRelationMappingOutput `json:"output" yaml:"output"`
+	Vars        []OtelVariableMapping     `json:"vars,omitempty" yaml:"vars,omitempty"`
+	ExpireAfter int64                     `json:"expireAfter" yaml:"expireAfter"`
 }
 
 // NewOtelRelationMapping instantiates a new OtelRelationMapping object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOtelRelationMapping(identifier string, name string, input OtelInput, output OtelRelationMappingOutput, expireAfter int64) *OtelRelationMapping {
+func NewOtelRelationMapping(type_ string, identifier string, name string, input OtelInput, output OtelRelationMappingOutput, expireAfter int64) *OtelRelationMapping {
 	this := OtelRelationMapping{}
+	this.Type = type_
 	this.Identifier = identifier
 	this.Name = name
 	this.Input = input
@@ -46,6 +48,30 @@ func NewOtelRelationMapping(identifier string, name string, input OtelInput, out
 func NewOtelRelationMappingWithDefaults() *OtelRelationMapping {
 	this := OtelRelationMapping{}
 	return &this
+}
+
+// GetType returns the Type field value
+func (o *OtelRelationMapping) GetType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value
+// and a boolean to check if the value has been set.
+func (o *OtelRelationMapping) GetTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Type, true
+}
+
+// SetType sets field value
+func (o *OtelRelationMapping) SetType(v string) {
+	o.Type = v
 }
 
 // GetIdentifier returns the Identifier field value
@@ -234,6 +260,9 @@ func (o *OtelRelationMapping) SetExpireAfter(v int64) {
 
 func (o OtelRelationMapping) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["_type"] = o.Type
+	}
 	if true {
 		toSerialize["identifier"] = o.Identifier
 	}

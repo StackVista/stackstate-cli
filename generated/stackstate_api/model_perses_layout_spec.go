@@ -17,8 +17,8 @@ import (
 
 // PersesLayoutSpec struct for PersesLayoutSpec
 type PersesLayoutSpec struct {
-	Display *PersesGridLayoutDisplay `json:"display,omitempty"`
-	Items   []PersesGridItem         `json:"items"`
+	Display *PersesGridLayoutDisplay `json:"display,omitempty" yaml:"display,omitempty"`
+	Items   []PersesGridItem         `json:"items" yaml:"items"`
 }
 
 // NewPersesLayoutSpec instantiates a new PersesLayoutSpec object

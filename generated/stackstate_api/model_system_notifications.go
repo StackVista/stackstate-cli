@@ -17,7 +17,7 @@ import (
 
 // SystemNotifications struct for SystemNotifications
 type SystemNotifications struct {
-	Notifications []SystemNotification `json:"notifications"`
+	Notifications []SystemNotification `json:"notifications" yaml:"notifications"`
 }
 
 // NewSystemNotifications instantiates a new SystemNotifications object

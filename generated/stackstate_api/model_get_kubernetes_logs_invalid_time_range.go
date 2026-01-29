@@ -17,12 +17,12 @@ import (
 
 // GetKubernetesLogsInvalidTimeRange struct for GetKubernetesLogsInvalidTimeRange
 type GetKubernetesLogsInvalidTimeRange struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	From int32 `json:"from"`
+	From int32 `json:"from" yaml:"from"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	To int32 `json:"to"`
+	To int32 `json:"to" yaml:"to"`
 }
 
 // NewGetKubernetesLogsInvalidTimeRange instantiates a new GetKubernetesLogsInvalidTimeRange object

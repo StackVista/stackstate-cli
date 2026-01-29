@@ -17,8 +17,8 @@ import (
 
 // OtelMappingItem struct for OtelMappingItem
 type OtelMappingItem struct {
-	Name       string  `json:"name"`
-	Identifier *string `json:"identifier,omitempty"`
+	Name       string  `json:"name" yaml:"name"`
+	Identifier *string `json:"identifier,omitempty" yaml:"identifier,omitempty"`
 }
 
 // NewOtelMappingItem instantiates a new OtelMappingItem object

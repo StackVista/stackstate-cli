@@ -17,7 +17,7 @@ import (
 
 // TooManyTopologyResults struct for TooManyTopologyResults
 type TooManyTopologyResults struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewTooManyTopologyResults instantiates a new TooManyTopologyResults object

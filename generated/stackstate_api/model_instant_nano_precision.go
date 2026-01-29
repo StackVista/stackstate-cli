@@ -18,9 +18,9 @@ import (
 // InstantNanoPrecision A custom representation for a date/time that needs better than milliseconds precision. Simply using nanoseconds since epoch results in integers that are too big to be represented correctly in Javascript (which is limited to 2^53-1). Instead this uses the standard representation of milliseconds since epoch with a nanosecond offset. Calculate nanoseconds since epoch like this `nanosSinceEpoch = timestamp * 1000000 + offsetNanos`.
 type InstantNanoPrecision struct {
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	Timestamp int32 `json:"timestamp"`
+	Timestamp int32 `json:"timestamp" yaml:"timestamp"`
 	// Offset in nanoseconds (relative to the timestamp). Especially useful when comparing start and/or end times of spans, for example when rendering a trace chart.
-	OffsetNanos int32 `json:"offsetNanos"`
+	OffsetNanos int32 `json:"offsetNanos" yaml:"offsetNanos"`
 }
 
 // NewInstantNanoPrecision instantiates a new InstantNanoPrecision object

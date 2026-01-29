@@ -17,11 +17,11 @@ import (
 
 // MonitorStatus struct for MonitorStatus
 type MonitorStatus struct {
-	Monitor             Monitor              `json:"monitor"`
-	Function            MonitorFunction      `json:"function"`
-	Errors              []MonitorError       `json:"errors,omitempty"`
-	Metrics             MonitorMetrics       `json:"metrics"`
-	TopologyMatchResult *TopologyMatchResult `json:"topologyMatchResult,omitempty"`
+	Monitor             Monitor              `json:"monitor" yaml:"monitor"`
+	Function            MonitorFunction      `json:"function" yaml:"function"`
+	Errors              []MonitorError       `json:"errors,omitempty" yaml:"errors,omitempty"`
+	Metrics             MonitorMetrics       `json:"metrics" yaml:"metrics"`
+	TopologyMatchResult *TopologyMatchResult `json:"topologyMatchResult,omitempty" yaml:"topologyMatchResult,omitempty"`
 }
 
 // NewMonitorStatus instantiates a new MonitorStatus object

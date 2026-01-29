@@ -17,9 +17,9 @@ import (
 
 // MonitorCheckStatusQuery struct for MonitorCheckStatusQuery
 type MonitorCheckStatusQuery struct {
-	Query                       string  `json:"query"`
-	Alias                       *string `json:"alias,omitempty"`
-	ComponentIdentifierTemplate *string `json:"componentIdentifierTemplate,omitempty"`
+	Query                       string  `json:"query" yaml:"query"`
+	Alias                       *string `json:"alias,omitempty" yaml:"alias,omitempty"`
+	ComponentIdentifierTemplate *string `json:"componentIdentifierTemplate,omitempty" yaml:"componentIdentifierTemplate,omitempty"`
 }
 
 // NewMonitorCheckStatusQuery instantiates a new MonitorCheckStatusQuery object

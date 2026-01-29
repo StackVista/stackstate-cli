@@ -17,8 +17,8 @@ import (
 
 // RequestValidationError struct for RequestValidationError
 type RequestValidationError struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewRequestValidationError instantiates a new RequestValidationError object

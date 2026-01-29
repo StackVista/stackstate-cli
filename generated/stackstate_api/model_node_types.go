@@ -17,7 +17,7 @@ import (
 
 // NodeTypes struct for NodeTypes
 type NodeTypes struct {
-	NodeTypes []NodeTypesNodeTypesInner `json:"nodeTypes"`
+	NodeTypes []NodeTypesNodeTypesInner `json:"nodeTypes" yaml:"nodeTypes"`
 }
 
 // NewNodeTypes instantiates a new NodeTypes object

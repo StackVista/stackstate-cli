@@ -17,9 +17,9 @@ import (
 
 // PermissionDescription struct for PermissionDescription
 type PermissionDescription struct {
-	SubjectHandle string              `json:"subjectHandle"`
-	FromSources   []SubjectSource     `json:"fromSources,omitempty"`
-	Permissions   map[string][]string `json:"permissions"`
+	SubjectHandle string              `json:"subjectHandle" yaml:"subjectHandle"`
+	FromSources   []SubjectSource     `json:"fromSources,omitempty" yaml:"fromSources,omitempty"`
+	Permissions   map[string][]string `json:"permissions" yaml:"permissions"`
 }
 
 // NewPermissionDescription instantiates a new PermissionDescription object

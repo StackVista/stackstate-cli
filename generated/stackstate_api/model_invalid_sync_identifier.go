@@ -17,7 +17,7 @@ import (
 
 // InvalidSyncIdentifier struct for InvalidSyncIdentifier
 type InvalidSyncIdentifier struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewInvalidSyncIdentifier instantiates a new InvalidSyncIdentifier object

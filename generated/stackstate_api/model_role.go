@@ -17,7 +17,7 @@ import (
 
 // Role struct for Role
 type Role struct {
-	Role *string `json:"role,omitempty"`
+	Role *string `json:"role,omitempty" yaml:"role,omitempty"`
 }
 
 // NewRole instantiates a new Role object

@@ -17,9 +17,9 @@ import (
 
 // OtelVariableMapping struct for OtelVariableMapping
 type OtelVariableMapping struct {
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 	// An expression that can produce any type. It uses the CEL expression within curly braces `${}` syntax. Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign  it the expression `\"${resource.attributes['service.namespace'] == 'test'}\"`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
-	Value string `json:"value"`
+	Value string `json:"value" yaml:"value"`
 }
 
 // NewOtelVariableMapping instantiates a new OtelVariableMapping object

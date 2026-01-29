@@ -17,12 +17,12 @@ import (
 
 // ViewCheckState struct for ViewCheckState
 type ViewCheckState struct {
-	CheckStateId        string           `json:"checkStateId"`
-	HealthState         HealthStateValue `json:"healthState"`
-	ComponentName       *string          `json:"componentName,omitempty"`
-	ComponentIdentifier string           `json:"componentIdentifier"`
-	ComponentType       *string          `json:"componentType,omitempty"`
-	LastUpdateTimestamp int64            `json:"lastUpdateTimestamp"`
+	CheckStateId        string           `json:"checkStateId" yaml:"checkStateId"`
+	HealthState         HealthStateValue `json:"healthState" yaml:"healthState"`
+	ComponentName       *string          `json:"componentName,omitempty" yaml:"componentName,omitempty"`
+	ComponentIdentifier string           `json:"componentIdentifier" yaml:"componentIdentifier"`
+	ComponentType       *string          `json:"componentType,omitempty" yaml:"componentType,omitempty"`
+	LastUpdateTimestamp int64            `json:"lastUpdateTimestamp" yaml:"lastUpdateTimestamp"`
 }
 
 // NewViewCheckState instantiates a new ViewCheckState object

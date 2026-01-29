@@ -17,9 +17,9 @@ import (
 
 // PersesDatasourceSpec struct for PersesDatasourceSpec
 type PersesDatasourceSpec struct {
-	Default *bool                       `json:"default,omitempty"`
-	Display *PersesDashboardDisplaySpec `json:"display,omitempty"`
-	Plugin  *PersesPlugin               `json:"plugin,omitempty"`
+	Default *bool                       `json:"default,omitempty" yaml:"default,omitempty"`
+	Display *PersesDashboardDisplaySpec `json:"display,omitempty" yaml:"display,omitempty"`
+	Plugin  *PersesPlugin               `json:"plugin,omitempty" yaml:"plugin,omitempty"`
 }
 
 // NewPersesDatasourceSpec instantiates a new PersesDatasourceSpec object

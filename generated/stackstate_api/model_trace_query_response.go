@@ -18,13 +18,13 @@ import (
 // TraceQueryResponse struct for TraceQueryResponse
 type TraceQueryResponse struct {
 	// List of traces matching the query
-	Traces []TraceQueryMatch `json:"traces"`
+	Traces []TraceQueryMatch `json:"traces" yaml:"traces"`
 	// Maximum number of the traces in the result.
-	PageSize int32 `json:"pageSize"`
+	PageSize int32 `json:"pageSize" yaml:"pageSize"`
 	// The requested page.
-	Page int32 `json:"page"`
+	Page int32 `json:"page" yaml:"page"`
 	// The total number of matching traces.
-	MatchesTotal int64 `json:"matchesTotal"`
+	MatchesTotal int64 `json:"matchesTotal" yaml:"matchesTotal"`
 }
 
 // NewTraceQueryResponse instantiates a new TraceQueryResponse object

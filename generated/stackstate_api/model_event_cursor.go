@@ -17,8 +17,8 @@ import (
 
 // EventCursor struct for EventCursor
 type EventCursor struct {
-	LastEventTimestampMs int64  `json:"lastEventTimestampMs"`
-	LastEventId          string `json:"lastEventId"`
+	LastEventTimestampMs int64  `json:"lastEventTimestampMs" yaml:"lastEventTimestampMs"`
+	LastEventId          string `json:"lastEventId" yaml:"lastEventId"`
 }
 
 // NewEventCursor instantiates a new EventCursor object

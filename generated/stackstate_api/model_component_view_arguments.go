@@ -17,10 +17,10 @@ import (
 
 // ComponentViewArguments struct for ComponentViewArguments
 type ComponentViewArguments struct {
-	Type                string `json:"_type"`
-	ComponentIdentifier string `json:"componentIdentifier"`
+	Type                string `json:"_type" yaml:"_type"`
+	ComponentIdentifier string `json:"componentIdentifier" yaml:"componentIdentifier"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	QueryTime *int32 `json:"queryTime,omitempty"`
+	QueryTime *int32 `json:"queryTime,omitempty" yaml:"queryTime,omitempty"`
 }
 
 // NewComponentViewArguments instantiates a new ComponentViewArguments object

@@ -17,7 +17,7 @@ import (
 
 // OpsgenieNotificationChannelAllOf struct for OpsgenieNotificationChannelAllOf
 type OpsgenieNotificationChannelAllOf struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewOpsgenieNotificationChannelAllOf instantiates a new OpsgenieNotificationChannelAllOf object

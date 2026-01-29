@@ -17,9 +17,9 @@ import (
 
 // MonitorIdentifierSuggestion struct for MonitorIdentifierSuggestion
 type MonitorIdentifierSuggestion struct {
-	IdentifierTemplate string  `json:"identifierTemplate"`
-	Score              float32 `json:"score"`
-	TotalMatches       int64   `json:"totalMatches"`
+	IdentifierTemplate string  `json:"identifierTemplate" yaml:"identifierTemplate"`
+	Score              float32 `json:"score" yaml:"score"`
+	TotalMatches       int64   `json:"totalMatches" yaml:"totalMatches"`
 }
 
 // NewMonitorIdentifierSuggestion instantiates a new MonitorIdentifierSuggestion object

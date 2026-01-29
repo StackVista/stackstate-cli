@@ -17,10 +17,10 @@ import (
 
 // ComponentCheckState struct for ComponentCheckState
 type ComponentCheckState struct {
-	Identifier     string `json:"identifier"`
-	IdOrIdentifier string `json:"idOrIdentifier"`
-	StartTime      int32  `json:"startTime"`
-	EndTime        int32  `json:"endTime"`
+	Identifier     string `json:"identifier" yaml:"identifier"`
+	IdOrIdentifier string `json:"idOrIdentifier" yaml:"idOrIdentifier"`
+	StartTime      int32  `json:"startTime" yaml:"startTime"`
+	EndTime        int32  `json:"endTime" yaml:"endTime"`
 }
 
 // NewComponentCheckState instantiates a new ComponentCheckState object

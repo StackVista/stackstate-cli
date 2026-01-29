@@ -17,8 +17,8 @@ import (
 
 // PersesPlugin struct for PersesPlugin
 type PersesPlugin struct {
-	Kind *string                `json:"kind,omitempty"`
-	Spec map[string]interface{} `json:"spec,omitempty"`
+	Kind *string                `json:"kind,omitempty" yaml:"kind,omitempty"`
+	Spec map[string]interface{} `json:"spec,omitempty" yaml:"spec,omitempty"`
 }
 
 // NewPersesPlugin instantiates a new PersesPlugin object

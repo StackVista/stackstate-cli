@@ -17,11 +17,11 @@ import (
 
 // ComponentPresentation struct for ComponentPresentation
 type ComponentPresentation struct {
-	Identifier    string                 `json:"identifier"`
-	Name          string                 `json:"name"`
-	Description   *string                `json:"description,omitempty"`
-	Presentation  PresentationDefinition `json:"presentation"`
-	ExpireAfterMs *int64                 `json:"expireAfterMs,omitempty"`
+	Identifier    string                 `json:"identifier" yaml:"identifier"`
+	Name          string                 `json:"name" yaml:"name"`
+	Description   *string                `json:"description,omitempty" yaml:"description,omitempty"`
+	Presentation  PresentationDefinition `json:"presentation" yaml:"presentation"`
+	ExpireAfterMs *int64                 `json:"expireAfterMs,omitempty" yaml:"expireAfterMs,omitempty"`
 }
 
 // NewComponentPresentation instantiates a new ComponentPresentation object

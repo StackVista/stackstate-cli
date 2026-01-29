@@ -18,8 +18,8 @@ import (
 // DurationHistogram struct for DurationHistogram
 type DurationHistogram struct {
 	// List of duration buckets
-	Buckets   []DurationHistogramBucket `json:"buckets"`
-	Quantiles DurationQuantiles         `json:"quantiles"`
+	Buckets   []DurationHistogramBucket `json:"buckets" yaml:"buckets"`
+	Quantiles DurationQuantiles         `json:"quantiles" yaml:"quantiles"`
 }
 
 // NewDurationHistogram instantiates a new DurationHistogram object

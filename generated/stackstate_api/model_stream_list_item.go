@@ -17,9 +17,9 @@ import (
 
 // StreamListItem struct for StreamListItem
 type StreamListItem struct {
-	Urn              string `json:"urn"`
-	ConsistencyModel string `json:"consistencyModel"`
-	SubStreams       int32  `json:"subStreams"`
+	Urn              string `json:"urn" yaml:"urn"`
+	ConsistencyModel string `json:"consistencyModel" yaml:"consistencyModel"`
+	SubStreams       int32  `json:"subStreams" yaml:"subStreams"`
 }
 
 // NewStreamListItem instantiates a new StreamListItem object

@@ -17,8 +17,8 @@ import (
 
 // MonitorIdentifierLookupOverrides struct for MonitorIdentifierLookupOverrides
 type MonitorIdentifierLookupOverrides struct {
-	Components int32 `json:"components"`
-	TimeSeries int32 `json:"timeSeries"`
+	Components int32 `json:"components" yaml:"components"`
+	TimeSeries int32 `json:"timeSeries" yaml:"timeSeries"`
 }
 
 // NewMonitorIdentifierLookupOverrides instantiates a new MonitorIdentifierLookupOverrides object

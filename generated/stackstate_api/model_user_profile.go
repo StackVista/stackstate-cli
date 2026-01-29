@@ -17,19 +17,19 @@ import (
 
 // UserProfile struct for UserProfile
 type UserProfile struct {
-	Id                         *int64   `json:"id,omitempty"`
-	LastUpdateTimestamp        *int64   `json:"lastUpdateTimestamp,omitempty"`
-	Name                       string   `json:"name"`
-	DisplayName                *string  `json:"displayName,omitempty"`
-	Description                *string  `json:"description,omitempty"`
-	Identifier                 *string  `json:"identifier,omitempty"`
-	StarredViews               []int64  `json:"starredViews,omitempty"`
-	StarredDashboards          []int64  `json:"starredDashboards,omitempty"`
-	SystemNotificationsRead    []string `json:"systemNotificationsRead"`
-	HideUnavailableMonitors    bool     `json:"hideUnavailableMonitors"`
-	HideUnavailableMetrics     bool     `json:"hideUnavailableMetrics"`
-	HideUnavailableConnections bool     `json:"hideUnavailableConnections"`
-	OwnedBy                    *string  `json:"ownedBy,omitempty"`
+	Id                         *int64   `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp        *int64   `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Name                       string   `json:"name" yaml:"name"`
+	DisplayName                *string  `json:"displayName,omitempty" yaml:"displayName,omitempty"`
+	Description                *string  `json:"description,omitempty" yaml:"description,omitempty"`
+	Identifier                 *string  `json:"identifier,omitempty" yaml:"identifier,omitempty"`
+	StarredViews               []int64  `json:"starredViews,omitempty" yaml:"starredViews,omitempty"`
+	StarredDashboards          []int64  `json:"starredDashboards,omitempty" yaml:"starredDashboards,omitempty"`
+	SystemNotificationsRead    []string `json:"systemNotificationsRead" yaml:"systemNotificationsRead"`
+	HideUnavailableMonitors    bool     `json:"hideUnavailableMonitors" yaml:"hideUnavailableMonitors"`
+	HideUnavailableMetrics     bool     `json:"hideUnavailableMetrics" yaml:"hideUnavailableMetrics"`
+	HideUnavailableConnections bool     `json:"hideUnavailableConnections" yaml:"hideUnavailableConnections"`
+	OwnedBy                    *string  `json:"ownedBy,omitempty" yaml:"ownedBy,omitempty"`
 }
 
 // NewUserProfile instantiates a new UserProfile object

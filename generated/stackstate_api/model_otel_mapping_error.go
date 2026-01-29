@@ -17,9 +17,9 @@ import (
 
 // OtelMappingError struct for OtelMappingError
 type OtelMappingError struct {
-	Level   MessageLevel `json:"level"`
-	Message string       `json:"message"`
-	IssueId *string      `json:"issueId,omitempty"`
+	Level   MessageLevel `json:"level" yaml:"level"`
+	Message string       `json:"message" yaml:"message"`
+	IssueId *string      `json:"issueId,omitempty" yaml:"issueId,omitempty"`
 }
 
 // NewOtelMappingError instantiates a new OtelMappingError object

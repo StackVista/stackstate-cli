@@ -17,14 +17,14 @@ import (
 
 // WebhookNotificationChannel struct for WebhookNotificationChannel
 type WebhookNotificationChannel struct {
-	Id                          int64                     `json:"id"`
-	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
-	Status                      NotificationChannelStatus `json:"status"`
-	Url                         string                    `json:"url"`
-	Token                       string                    `json:"token"`
-	VerifySsl                   bool                      `json:"verifySsl"`
-	Metadata                    map[string]string         `json:"metadata"`
-	Type                        string                    `json:"_type"`
+	Id                          int64                     `json:"id" yaml:"id"`
+	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty" yaml:"notificationConfigurationId,omitempty"`
+	Status                      NotificationChannelStatus `json:"status" yaml:"status"`
+	Url                         string                    `json:"url" yaml:"url"`
+	Token                       string                    `json:"token" yaml:"token"`
+	VerifySsl                   bool                      `json:"verifySsl" yaml:"verifySsl"`
+	Metadata                    map[string]string         `json:"metadata" yaml:"metadata"`
+	Type                        string                    `json:"_type" yaml:"_type"`
 }
 
 // NewWebhookNotificationChannel instantiates a new WebhookNotificationChannel object

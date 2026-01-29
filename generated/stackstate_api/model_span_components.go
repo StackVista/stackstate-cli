@@ -17,7 +17,7 @@ import (
 
 // SpanComponents struct for SpanComponents
 type SpanComponents struct {
-	Components []SpanComponent `json:"components"`
+	Components []SpanComponent `json:"components" yaml:"components"`
 }
 
 // NewSpanComponents instantiates a new SpanComponents object

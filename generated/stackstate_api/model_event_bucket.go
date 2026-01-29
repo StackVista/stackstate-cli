@@ -18,12 +18,12 @@ import (
 // EventBucket struct for EventBucket
 type EventBucket struct {
 	// Total logs record count in the bucket.
-	Count int64 `json:"count"`
+	Count int64 `json:"count" yaml:"count"`
 	// The bucket initial timestamp.
-	StartTime int32 `json:"startTime"`
+	StartTime int32 `json:"startTime" yaml:"startTime"`
 	// The bucket final timestamp.
-	EndTime         int32                 `json:"endTime"`
-	CategoryBuckets []EventCategoryBucket `json:"categoryBuckets"`
+	EndTime         int32                 `json:"endTime" yaml:"endTime"`
+	CategoryBuckets []EventCategoryBucket `json:"categoryBuckets" yaml:"categoryBuckets"`
 }
 
 // NewEventBucket instantiates a new EventBucket object

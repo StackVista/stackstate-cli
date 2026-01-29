@@ -17,10 +17,10 @@ import (
 
 // NotificationChannelStatusError struct for NotificationChannelStatusError
 type NotificationChannelStatusError struct {
-	Category    string `json:"category"`
-	Count       int32  `json:"count"`
-	Message     string `json:"message"`
-	FirstSeenMs int32  `json:"firstSeenMs"`
+	Category    string `json:"category" yaml:"category"`
+	Count       int32  `json:"count" yaml:"count"`
+	Message     string `json:"message" yaml:"message"`
+	FirstSeenMs int32  `json:"firstSeenMs" yaml:"firstSeenMs"`
 }
 
 // NewNotificationChannelStatusError instantiates a new NotificationChannelStatusError object

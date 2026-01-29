@@ -17,10 +17,10 @@ import (
 
 // OtelComponentMappingFieldMapping struct for OtelComponentMappingFieldMapping
 type OtelComponentMappingFieldMapping struct {
-	AdditionalIdentifiers []string `json:"additionalIdentifiers,omitempty"`
+	AdditionalIdentifiers []string `json:"additionalIdentifiers,omitempty" yaml:"additionalIdentifiers,omitempty"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
-	Version *string          `json:"version,omitempty"`
-	Tags    []OtelTagMapping `json:"tags,omitempty"`
+	Version *string          `json:"version,omitempty" yaml:"version,omitempty"`
+	Tags    []OtelTagMapping `json:"tags,omitempty" yaml:"tags,omitempty"`
 }
 
 // NewOtelComponentMappingFieldMapping instantiates a new OtelComponentMappingFieldMapping object

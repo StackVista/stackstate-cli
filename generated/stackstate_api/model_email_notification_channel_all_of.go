@@ -17,7 +17,7 @@ import (
 
 // EmailNotificationChannelAllOf struct for EmailNotificationChannelAllOf
 type EmailNotificationChannelAllOf struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewEmailNotificationChannelAllOf instantiates a new EmailNotificationChannelAllOf object

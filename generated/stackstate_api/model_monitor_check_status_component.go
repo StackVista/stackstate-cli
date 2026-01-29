@@ -17,11 +17,11 @@ import (
 
 // MonitorCheckStatusComponent struct for MonitorCheckStatusComponent
 type MonitorCheckStatusComponent struct {
-	Id         int64   `json:"id"`
-	Identifier string  `json:"identifier"`
-	Name       string  `json:"name"`
-	Type       string  `json:"type"`
-	Iconbase64 *string `json:"iconbase64,omitempty"`
+	Id         int64   `json:"id" yaml:"id"`
+	Identifier string  `json:"identifier" yaml:"identifier"`
+	Name       string  `json:"name" yaml:"name"`
+	Type       string  `json:"type" yaml:"type"`
+	Iconbase64 *string `json:"iconbase64,omitempty" yaml:"iconbase64,omitempty"`
 }
 
 // NewMonitorCheckStatusComponent instantiates a new MonitorCheckStatusComponent object

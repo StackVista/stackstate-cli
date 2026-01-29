@@ -17,7 +17,7 @@ import (
 
 // TimelineSummaryOverflow struct for TimelineSummaryOverflow
 type TimelineSummaryOverflow struct {
-	Message string `json:"message"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewTimelineSummaryOverflow instantiates a new TimelineSummaryOverflow object

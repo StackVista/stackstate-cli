@@ -17,13 +17,13 @@ import (
 
 // AgentRegistration struct for AgentRegistration
 type AgentRegistration struct {
-	AgentId           string     `json:"agentId"`
-	Lease             AgentLease `json:"lease"`
-	LeaseUntilEpochMs int64      `json:"leaseUntilEpochMs"`
-	RegisteredEpochMs int64      `json:"registeredEpochMs"`
-	AgentData         *AgentData `json:"agentData,omitempty"`
+	AgentId           string     `json:"agentId" yaml:"agentId"`
+	Lease             AgentLease `json:"lease" yaml:"lease"`
+	LeaseUntilEpochMs int64      `json:"leaseUntilEpochMs" yaml:"leaseUntilEpochMs"`
+	RegisteredEpochMs int64      `json:"registeredEpochMs" yaml:"registeredEpochMs"`
+	AgentData         *AgentData `json:"agentData,omitempty" yaml:"agentData,omitempty"`
 	// The number of standard (4CPU, 16Gb) nodes this agent counts for
-	NodeBudgetCount int32 `json:"nodeBudgetCount"`
+	NodeBudgetCount int32 `json:"nodeBudgetCount" yaml:"nodeBudgetCount"`
 }
 
 // NewAgentRegistration instantiates a new AgentRegistration object

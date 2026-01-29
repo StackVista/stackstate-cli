@@ -17,8 +17,8 @@ import (
 
 // ComponentHealthChange struct for ComponentHealthChange
 type ComponentHealthChange struct {
-	Timestamp int64            `json:"timestamp"`
-	NewHealth HealthStateValue `json:"newHealth"`
+	Timestamp int64            `json:"timestamp" yaml:"timestamp"`
+	NewHealth HealthStateValue `json:"newHealth" yaml:"newHealth"`
 }
 
 // NewComponentHealthChange instantiates a new ComponentHealthChange object

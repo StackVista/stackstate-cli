@@ -17,7 +17,7 @@ import (
 
 // Topic struct for Topic
 type Topic struct {
-	Name string `json:"name"`
+	Name string `json:"name" yaml:"name"`
 }
 
 // NewTopic instantiates a new Topic object

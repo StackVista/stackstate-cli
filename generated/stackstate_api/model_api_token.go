@@ -17,11 +17,11 @@ import (
 
 // ApiToken struct for ApiToken
 type ApiToken struct {
-	Id                  *int64  `json:"id,omitempty"`
-	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty"`
-	Name                string  `json:"name"`
-	Description         *string `json:"description,omitempty"`
-	Token               string  `json:"token"`
+	Id                  *int64  `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64  `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Name                string  `json:"name" yaml:"name"`
+	Description         *string `json:"description,omitempty" yaml:"description,omitempty"`
+	Token               string  `json:"token" yaml:"token"`
 }
 
 // NewApiToken instantiates a new ApiToken object

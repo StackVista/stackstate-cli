@@ -17,10 +17,10 @@ import (
 
 // NewServiceTokenRequest struct for NewServiceTokenRequest
 type NewServiceTokenRequest struct {
-	Name             string   `json:"name"`
-	ExpiryDate       *int64   `json:"expiryDate,omitempty"`
-	Roles            []string `json:"roles"`
-	DedicatedSubject *string  `json:"dedicatedSubject,omitempty"`
+	Name             string   `json:"name" yaml:"name"`
+	ExpiryDate       *int64   `json:"expiryDate,omitempty" yaml:"expiryDate,omitempty"`
+	Roles            []string `json:"roles" yaml:"roles"`
+	DedicatedSubject *string  `json:"dedicatedSubject,omitempty" yaml:"dedicatedSubject,omitempty"`
 }
 
 // NewNewServiceTokenRequest instantiates a new NewServiceTokenRequest object

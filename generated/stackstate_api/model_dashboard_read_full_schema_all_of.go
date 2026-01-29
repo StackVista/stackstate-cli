@@ -17,8 +17,8 @@ import (
 
 // DashboardReadFullSchemaAllOf struct for DashboardReadFullSchemaAllOf
 type DashboardReadFullSchemaAllOf struct {
-	Type      *string         `json:"_type,omitempty"`
-	Dashboard PersesDashboard `json:"dashboard"`
+	Type      *string         `json:"_type,omitempty" yaml:"_type,omitempty"`
+	Dashboard PersesDashboard `json:"dashboard" yaml:"dashboard"`
 }
 
 // NewDashboardReadFullSchemaAllOf instantiates a new DashboardReadFullSchemaAllOf object

@@ -17,12 +17,12 @@ import (
 
 // StackPackConfiguration struct for StackPackConfiguration
 type StackPackConfiguration struct {
-	Id                  *int64                 `json:"id,omitempty"`
-	LastUpdateTimestamp *int64                 `json:"lastUpdateTimestamp,omitempty"`
-	Status              string                 `json:"status"`
-	Error               *StackPackError        `json:"error,omitempty"`
-	StackPackVersion    string                 `json:"stackPackVersion"`
-	Config              map[string]interface{} `json:"config"`
+	Id                  *int64                 `json:"id,omitempty" yaml:"id,omitempty"`
+	LastUpdateTimestamp *int64                 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
+	Status              string                 `json:"status" yaml:"status"`
+	Error               *StackPackError        `json:"error,omitempty" yaml:"error,omitempty"`
+	StackPackVersion    string                 `json:"stackPackVersion" yaml:"stackPackVersion"`
+	Config              map[string]interface{} `json:"config" yaml:"config"`
 }
 
 // NewStackPackConfiguration instantiates a new StackPackConfiguration object

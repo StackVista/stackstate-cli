@@ -17,7 +17,7 @@ import (
 
 // MetricBucketValue struct for MetricBucketValue
 type MetricBucketValue struct {
-	Value *float64 `json:"value,omitempty"`
+	Value *float64 `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
 // NewMetricBucketValue instantiates a new MetricBucketValue object

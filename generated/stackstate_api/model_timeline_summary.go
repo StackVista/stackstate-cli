@@ -17,9 +17,9 @@ import (
 
 // TimelineSummary struct for TimelineSummary
 type TimelineSummary struct {
-	Buckets       []TimelineSummaryEventBucket  `json:"buckets"`
-	HealthHistory []TimelineSummaryHealthChange `json:"healthHistory"`
-	FromTime      int64                         `json:"fromTime"`
+	Buckets       []TimelineSummaryEventBucket  `json:"buckets" yaml:"buckets"`
+	HealthHistory []TimelineSummaryHealthChange `json:"healthHistory" yaml:"healthHistory"`
+	FromTime      int64                         `json:"fromTime" yaml:"fromTime"`
 }
 
 // NewTimelineSummary instantiates a new TimelineSummary object

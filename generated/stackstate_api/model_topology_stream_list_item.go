@@ -17,15 +17,15 @@ import (
 
 // TopologyStreamListItem struct for TopologyStreamListItem
 type TopologyStreamListItem struct {
-	SyncIdentifier    NullableString     `json:"syncIdentifier,omitempty"`
-	NodeId            int64              `json:"nodeId"`
-	Name              string             `json:"name"`
-	CreatedRelations  int64              `json:"createdRelations"`
-	DeletedRelations  int64              `json:"deletedRelations"`
-	CreatedComponents int64              `json:"createdComponents"`
-	DeletedComponents int64              `json:"deletedComponents"`
-	Errors            int64              `json:"errors"`
-	Status            TopologySyncStatus `json:"status"`
+	SyncIdentifier    NullableString     `json:"syncIdentifier,omitempty" yaml:"syncIdentifier,omitempty"`
+	NodeId            int64              `json:"nodeId" yaml:"nodeId"`
+	Name              string             `json:"name" yaml:"name"`
+	CreatedRelations  int64              `json:"createdRelations" yaml:"createdRelations"`
+	DeletedRelations  int64              `json:"deletedRelations" yaml:"deletedRelations"`
+	CreatedComponents int64              `json:"createdComponents" yaml:"createdComponents"`
+	DeletedComponents int64              `json:"deletedComponents" yaml:"deletedComponents"`
+	Errors            int64              `json:"errors" yaml:"errors"`
+	Status            TopologySyncStatus `json:"status" yaml:"status"`
 }
 
 // NewTopologyStreamListItem instantiates a new TopologyStreamListItem object

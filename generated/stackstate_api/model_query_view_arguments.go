@@ -17,10 +17,10 @@ import (
 
 // QueryViewArguments struct for QueryViewArguments
 type QueryViewArguments struct {
-	Type  string `json:"_type"`
-	Query string `json:"query"`
+	Type  string `json:"_type" yaml:"_type"`
+	Query string `json:"query" yaml:"query"`
 	// Date/time representation in milliseconds since epoch (1970-01-01 00:00:00)
-	QueryTime *int32 `json:"queryTime,omitempty"`
+	QueryTime *int32 `json:"queryTime,omitempty" yaml:"queryTime,omitempty"`
 }
 
 // NewQueryViewArguments instantiates a new QueryViewArguments object

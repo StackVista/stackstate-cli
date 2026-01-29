@@ -17,9 +17,9 @@ import (
 
 // MonitorIdentifierSuggestions struct for MonitorIdentifierSuggestions
 type MonitorIdentifierSuggestions struct {
-	Suggestions         []MonitorIdentifierSuggestion `json:"suggestions"`
-	ComponentsInspected int64                         `json:"componentsInspected"`
-	TimeseriesInspected int64                         `json:"timeseriesInspected"`
+	Suggestions         []MonitorIdentifierSuggestion `json:"suggestions" yaml:"suggestions"`
+	ComponentsInspected int64                         `json:"componentsInspected" yaml:"componentsInspected"`
+	TimeseriesInspected int64                         `json:"timeseriesInspected" yaml:"timeseriesInspected"`
 }
 
 // NewMonitorIdentifierSuggestions instantiates a new MonitorIdentifierSuggestions object

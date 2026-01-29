@@ -17,7 +17,7 @@ import (
 
 // MetricPerspectiveTabAllOf struct for MetricPerspectiveTabAllOf
 type MetricPerspectiveTabAllOf struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewMetricPerspectiveTabAllOf instantiates a new MetricPerspectiveTabAllOf object

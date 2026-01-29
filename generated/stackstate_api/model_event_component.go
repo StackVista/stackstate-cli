@@ -17,12 +17,12 @@ import (
 
 // EventComponent struct for EventComponent
 type EventComponent struct {
-	Type        string   `json:"_type"`
-	Id          int64    `json:"id"`
-	TypeName    string   `json:"typeName"`
-	Name        string   `json:"name"`
-	Identifiers []string `json:"identifiers"`
-	Iconbase64  *string  `json:"iconbase64,omitempty"`
+	Type        string   `json:"_type" yaml:"_type"`
+	Id          int64    `json:"id" yaml:"id"`
+	TypeName    string   `json:"typeName" yaml:"typeName"`
+	Name        string   `json:"name" yaml:"name"`
+	Identifiers []string `json:"identifiers" yaml:"identifiers"`
+	Iconbase64  *string  `json:"iconbase64,omitempty" yaml:"iconbase64,omitempty"`
 }
 
 // NewEventComponent instantiates a new EventComponent object

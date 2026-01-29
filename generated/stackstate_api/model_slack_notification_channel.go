@@ -17,13 +17,13 @@ import (
 
 // SlackNotificationChannel struct for SlackNotificationChannel
 type SlackNotificationChannel struct {
-	Id                          int64                     `json:"id"`
-	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty"`
-	Status                      NotificationChannelStatus `json:"status"`
-	Type                        string                    `json:"_type"`
-	SlackWorkspace              string                    `json:"slackWorkspace"`
-	SlackChannel                *string                   `json:"slackChannel,omitempty"`
-	SlackChannelId              *string                   `json:"slackChannelId,omitempty"`
+	Id                          int64                     `json:"id" yaml:"id"`
+	NotificationConfigurationId *int64                    `json:"notificationConfigurationId,omitempty" yaml:"notificationConfigurationId,omitempty"`
+	Status                      NotificationChannelStatus `json:"status" yaml:"status"`
+	Type                        string                    `json:"_type" yaml:"_type"`
+	SlackWorkspace              string                    `json:"slackWorkspace" yaml:"slackWorkspace"`
+	SlackChannel                *string                   `json:"slackChannel,omitempty" yaml:"slackChannel,omitempty"`
+	SlackChannelId              *string                   `json:"slackChannelId,omitempty" yaml:"slackChannelId,omitempty"`
 }
 
 // NewSlackNotificationChannel instantiates a new SlackNotificationChannel object

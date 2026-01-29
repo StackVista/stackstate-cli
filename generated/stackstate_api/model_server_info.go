@@ -17,10 +17,10 @@ import (
 
 // ServerInfo struct for ServerInfo
 type ServerInfo struct {
-	Version        ServerVersion `json:"version"`
-	DeploymentMode string        `json:"deploymentMode"`
+	Version        ServerVersion `json:"version" yaml:"version"`
+	DeploymentMode string        `json:"deploymentMode" yaml:"deploymentMode"`
 	// The version value is a semantic version, based on the official Semantic Versioning spec (https://semver.org/).
-	PlatformVersion *string `json:"platformVersion,omitempty"`
+	PlatformVersion *string `json:"platformVersion,omitempty" yaml:"platformVersion,omitempty"`
 }
 
 // NewServerInfo instantiates a new ServerInfo object

@@ -17,7 +17,7 @@ import (
 
 // NotificationChannelStatus struct for NotificationChannelStatus
 type NotificationChannelStatus struct {
-	Errors []NotificationChannelStatusError `json:"errors"`
+	Errors []NotificationChannelStatusError `json:"errors" yaml:"errors"`
 }
 
 // NewNotificationChannelStatus instantiates a new NotificationChannelStatus object

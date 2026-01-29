@@ -17,11 +17,11 @@ import (
 
 // PromExemplarEnvelope struct for PromExemplarEnvelope
 type PromExemplarEnvelope struct {
-	Status    string             `json:"status"`
-	Data      []PromExemplarData `json:"data,omitempty"`
-	ErrorType *string            `json:"errorType,omitempty"`
-	Error     *string            `json:"error,omitempty"`
-	Warnings  []string           `json:"warnings,omitempty"`
+	Status    string             `json:"status" yaml:"status"`
+	Data      []PromExemplarData `json:"data,omitempty" yaml:"data,omitempty"`
+	ErrorType *string            `json:"errorType,omitempty" yaml:"errorType,omitempty"`
+	Error     *string            `json:"error,omitempty" yaml:"error,omitempty"`
+	Warnings  []string           `json:"warnings,omitempty" yaml:"warnings,omitempty"`
 }
 
 // NewPromExemplarEnvelope instantiates a new PromExemplarEnvelope object

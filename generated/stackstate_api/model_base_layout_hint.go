@@ -17,8 +17,8 @@ import (
 
 // BaseLayoutHint struct for BaseLayoutHint
 type BaseLayoutHint struct {
-	Name   string  `json:"name"`
-	Weight float32 `json:"weight"`
+	Name   string  `json:"name" yaml:"name"`
+	Weight float32 `json:"weight" yaml:"weight"`
 }
 
 // NewBaseLayoutHint instantiates a new BaseLayoutHint object

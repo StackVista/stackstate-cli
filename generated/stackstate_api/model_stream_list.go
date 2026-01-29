@@ -17,7 +17,7 @@ import (
 
 // StreamList struct for StreamList
 type StreamList struct {
-	Items []StreamListItem `json:"items"`
+	Items []StreamListItem `json:"items" yaml:"items"`
 }
 
 // NewStreamList instantiates a new StreamList object

@@ -17,8 +17,8 @@ import (
 
 // TooManyActiveQueries struct for TooManyActiveQueries
 type TooManyActiveQueries struct {
-	Type    string `json:"_type"`
-	Message string `json:"message"`
+	Type    string `json:"_type" yaml:"_type"`
+	Message string `json:"message" yaml:"message"`
 }
 
 // NewTooManyActiveQueries instantiates a new TooManyActiveQueries object

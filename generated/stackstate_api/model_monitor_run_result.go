@@ -17,7 +17,7 @@ import (
 
 // MonitorRunResult struct for MonitorRunResult
 type MonitorRunResult struct {
-	Result map[string]interface{} `json:"result"`
+	Result map[string]interface{} `json:"result" yaml:"result"`
 }
 
 // NewMonitorRunResult instantiates a new MonitorRunResult object

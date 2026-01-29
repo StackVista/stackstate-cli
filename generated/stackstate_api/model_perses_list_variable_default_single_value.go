@@ -17,8 +17,8 @@ import (
 
 // PersesListVariableDefaultSingleValue struct for PersesListVariableDefaultSingleValue
 type PersesListVariableDefaultSingleValue struct {
-	Kind        string `json:"kind"`
-	SingleValue string `json:"singleValue"`
+	Kind        string `json:"kind" yaml:"kind"`
+	SingleValue string `json:"singleValue" yaml:"singleValue"`
 }
 
 // NewPersesListVariableDefaultSingleValue instantiates a new PersesListVariableDefaultSingleValue object

@@ -22,7 +22,7 @@ func TestOtelRelationMappingListJson(t *testing.T) {
 
 	expected := []map[string]interface{}{
 		{
-			"otel relation mappings": otelmapping_test.TestAllMappingItems,
+			"otel_relation_mappings": otelmapping_test.TestAllMappingItems,
 		},
 	}
 

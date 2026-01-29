@@ -17,7 +17,7 @@ import (
 
 // WebhookNotificationChannelAllOf struct for WebhookNotificationChannelAllOf
 type WebhookNotificationChannelAllOf struct {
-	Type string `json:"_type"`
+	Type string `json:"_type" yaml:"_type"`
 }
 
 // NewWebhookNotificationChannelAllOf instantiates a new WebhookNotificationChannelAllOf object

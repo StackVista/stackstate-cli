@@ -17,11 +17,11 @@ import (
 
 // PromMetadataEnvelope struct for PromMetadataEnvelope
 type PromMetadataEnvelope struct {
-	Status    string                          `json:"status"`
-	Data      *map[string][]map[string]string `json:"data,omitempty"`
-	ErrorType *string                         `json:"errorType,omitempty"`
-	Error     *string                         `json:"error,omitempty"`
-	Warnings  []string                        `json:"warnings,omitempty"`
+	Status    string                          `json:"status" yaml:"status"`
+	Data      *map[string][]map[string]string `json:"data,omitempty" yaml:"data,omitempty"`
+	ErrorType *string                         `json:"errorType,omitempty" yaml:"errorType,omitempty"`
+	Error     *string                         `json:"error,omitempty" yaml:"error,omitempty"`
+	Warnings  []string                        `json:"warnings,omitempty" yaml:"warnings,omitempty"`
 }
 
 // NewPromMetadataEnvelope instantiates a new PromMetadataEnvelope object

@@ -17,8 +17,8 @@ import (
 
 // MonitorMetrics struct for MonitorMetrics
 type MonitorMetrics struct {
-	HealthSyncServiceMetrics *HealthStreamMetrics  `json:"healthSyncServiceMetrics,omitempty"`
-	RuntimeMetrics           MonitorRuntimeMetrics `json:"runtimeMetrics"`
+	HealthSyncServiceMetrics *HealthStreamMetrics  `json:"healthSyncServiceMetrics,omitempty" yaml:"healthSyncServiceMetrics,omitempty"`
+	RuntimeMetrics           MonitorRuntimeMetrics `json:"runtimeMetrics" yaml:"runtimeMetrics"`
 }
 
 // NewMonitorMetrics instantiates a new MonitorMetrics object

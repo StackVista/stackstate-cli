@@ -17,7 +17,7 @@ import (
 
 // MonitorCheckStates struct for MonitorCheckStates
 type MonitorCheckStates struct {
-	States []ViewCheckState `json:"states"`
+	States []ViewCheckState `json:"states" yaml:"states"`
 }
 
 // NewMonitorCheckStates instantiates a new MonitorCheckStates object

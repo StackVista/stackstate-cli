@@ -17,9 +17,9 @@ import (
 
 // HealthSubStreamSnapshot struct for HealthSubStreamSnapshot
 type HealthSubStreamSnapshot struct {
-	Type             string `json:"_type"`
-	ExpiryIntervalMs *int32 `json:"expiryIntervalMs,omitempty"`
-	RepeatIntervalMs int32  `json:"repeatIntervalMs"`
+	Type             string `json:"_type" yaml:"_type"`
+	ExpiryIntervalMs *int32 `json:"expiryIntervalMs,omitempty" yaml:"expiryIntervalMs,omitempty"`
+	RepeatIntervalMs int32  `json:"repeatIntervalMs" yaml:"repeatIntervalMs"`
 }
 
 // NewHealthSubStreamSnapshot instantiates a new HealthSubStreamSnapshot object

@@ -17,9 +17,9 @@ import (
 
 // ServiceTokenCreatedResponse struct for ServiceTokenCreatedResponse
 type ServiceTokenCreatedResponse struct {
-	Name       string `json:"name"`
-	Token      string `json:"token"`
-	Expiration *int64 `json:"expiration,omitempty"`
+	Name       string `json:"name" yaml:"name"`
+	Token      string `json:"token" yaml:"token"`
+	Expiration *int64 `json:"expiration,omitempty" yaml:"expiration,omitempty"`
 }
 
 // NewServiceTokenCreatedResponse instantiates a new ServiceTokenCreatedResponse object

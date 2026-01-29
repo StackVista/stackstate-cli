@@ -17,8 +17,8 @@ import (
 
 // ExpiredSubscription struct for ExpiredSubscription
 type ExpiredSubscription struct {
-	Type         string       `json:"_type"`
-	Subscription Subscription `json:"subscription"`
+	Type         string       `json:"_type" yaml:"_type"`
+	Subscription Subscription `json:"subscription" yaml:"subscription"`
 }
 
 // NewExpiredSubscription instantiates a new ExpiredSubscription object

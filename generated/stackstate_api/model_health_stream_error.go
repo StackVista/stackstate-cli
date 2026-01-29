@@ -17,10 +17,10 @@ import (
 
 // HealthStreamError struct for HealthStreamError
 type HealthStreamError struct {
-	ErrorCode string `json:"errorCode"`
-	Level     string `json:"level"`
-	Error     string `json:"error"`
-	Count     int32  `json:"count"`
+	ErrorCode string `json:"errorCode" yaml:"errorCode"`
+	Level     string `json:"level" yaml:"level"`
+	Error     string `json:"error" yaml:"error"`
+	Count     int32  `json:"count" yaml:"count"`
 }
 
 // NewHealthStreamError instantiates a new HealthStreamError object

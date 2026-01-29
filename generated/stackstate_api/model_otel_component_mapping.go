@@ -17,21 +17,23 @@ import (
 
 // OtelComponentMapping struct for OtelComponentMapping
 type OtelComponentMapping struct {
-	Identifier  string                     `json:"identifier"`
-	Name        string                     `json:"name"`
-	Description *string                    `json:"description,omitempty"`
-	Input       OtelInput                  `json:"input"`
-	Output      OtelComponentMappingOutput `json:"output"`
-	Vars        []OtelVariableMapping      `json:"vars,omitempty"`
-	ExpireAfter int64                      `json:"expireAfter"`
+	Type        string                     `json:"_type" yaml:"_type"`
+	Identifier  string                     `json:"identifier" yaml:"identifier"`
+	Name        string                     `json:"name" yaml:"name"`
+	Description *string                    `json:"description,omitempty" yaml:"description,omitempty"`
+	Input       OtelInput                  `json:"input" yaml:"input"`
+	Output      OtelComponentMappingOutput `json:"output" yaml:"output"`
+	Vars        []OtelVariableMapping      `json:"vars,omitempty" yaml:"vars,omitempty"`
+	ExpireAfter int64                      `json:"expireAfter" yaml:"expireAfter"`
 }
 
 // NewOtelComponentMapping instantiates a new OtelComponentMapping object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOtelComponentMapping(identifier string, name string, input OtelInput, output OtelComponentMappingOutput, expireAfter int64) *OtelComponentMapping {
+func NewOtelComponentMapping(type_ string, identifier string, name string, input OtelInput, output OtelComponentMappingOutput, expireAfter int64) *OtelComponentMapping {
 	this := OtelComponentMapping{}
+	this.Type = type_
 	this.Identifier = identifier
 	this.Name = name
 	this.Input = input
@@ -46,6 +48,30 @@ func NewOtelComponentMapping(identifier string, name string, input OtelInput, ou
 func NewOtelComponentMappingWithDefaults() *OtelComponentMapping {
 	this := OtelComponentMapping{}
 	return &this
+}
+
+// GetType returns the Type field value
+func (o *OtelComponentMapping) GetType() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Type
+}
+
+// GetTypeOk returns a tuple with the Type field value
+// and a boolean to check if the value has been set.
+func (o *OtelComponentMapping) GetTypeOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Type, true
+}
+
+// SetType sets field value
+func (o *OtelComponentMapping) SetType(v string) {
+	o.Type = v
 }
 
 // GetIdentifier returns the Identifier field value
@@ -234,6 +260,9 @@ func (o *OtelComponentMapping) SetExpireAfter(v int64) {
 
 func (o OtelComponentMapping) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["_type"] = o.Type
+	}
 	if true {
 		toSerialize["identifier"] = o.Identifier
 	}

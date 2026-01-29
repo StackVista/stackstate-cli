@@ -17,10 +17,10 @@ import (
 
 // WebhookChannelWriteSchema struct for WebhookChannelWriteSchema
 type WebhookChannelWriteSchema struct {
-	Url       string            `json:"url"`
-	Token     string            `json:"token"`
-	VerifySsl bool              `json:"verifySsl"`
-	Metadata  map[string]string `json:"metadata"`
+	Url       string            `json:"url" yaml:"url"`
+	Token     string            `json:"token" yaml:"token"`
+	VerifySsl bool              `json:"verifySsl" yaml:"verifySsl"`
+	Metadata  map[string]string `json:"metadata" yaml:"metadata"`
 }
 
 // NewWebhookChannelWriteSchema instantiates a new WebhookChannelWriteSchema object

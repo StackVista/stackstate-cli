@@ -17,9 +17,9 @@ import (
 
 // NotificationConfigurationReadSchemaAllOf struct for NotificationConfigurationReadSchemaAllOf
 type NotificationConfigurationReadSchemaAllOf struct {
-	Id                  int64                                       `json:"id"`
-	LastUpdateTimestamp int64                                       `json:"lastUpdateTimestamp"`
-	RuntimeStatus       NotificationConfigurationRuntimeStatusValue `json:"runtimeStatus"`
+	Id                  int64                                       `json:"id" yaml:"id"`
+	LastUpdateTimestamp int64                                       `json:"lastUpdateTimestamp" yaml:"lastUpdateTimestamp"`
+	RuntimeStatus       NotificationConfigurationRuntimeStatusValue `json:"runtimeStatus" yaml:"runtimeStatus"`
 }
 
 // NewNotificationConfigurationReadSchemaAllOf instantiates a new NotificationConfigurationReadSchemaAllOf object

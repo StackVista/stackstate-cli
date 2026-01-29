@@ -17,9 +17,9 @@ import (
 
 // NotificationChannelError struct for NotificationChannelError
 type NotificationChannelError struct {
-	Message   string `json:"message"`
-	ChannelId string `json:"channelId"`
-	Type      string `json:"_type"`
+	Message   string `json:"message" yaml:"message"`
+	ChannelId string `json:"channelId" yaml:"channelId"`
+	Type      string `json:"_type" yaml:"_type"`
 }
 
 // NewNotificationChannelError instantiates a new NotificationChannelError object

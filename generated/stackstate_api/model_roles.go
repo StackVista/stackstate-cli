@@ -17,7 +17,7 @@ import (
 
 // Roles struct for Roles
 type Roles struct {
-	Roles []string `json:"roles"`
+	Roles []string `json:"roles" yaml:"roles"`
 }
 
 // NewRoles instantiates a new Roles object

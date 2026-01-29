@@ -17,10 +17,10 @@ import (
 
 // DurationQuantiles struct for DurationQuantiles
 type DurationQuantiles struct {
-	Q50 float64 `json:"q50"`
-	Q90 float64 `json:"q90"`
-	Q95 float64 `json:"q95"`
-	Q99 float64 `json:"q99"`
+	Q50 float64 `json:"q50" yaml:"q50"`
+	Q90 float64 `json:"q90" yaml:"q90"`
+	Q95 float64 `json:"q95" yaml:"q95"`
+	Q99 float64 `json:"q99" yaml:"q99"`
 }
 
 // NewDurationQuantiles instantiates a new DurationQuantiles object

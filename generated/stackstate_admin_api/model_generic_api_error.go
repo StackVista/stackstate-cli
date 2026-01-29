@@ -17,9 +17,9 @@ import (
 
 // GenericApiError struct for GenericApiError
 type GenericApiError struct {
-	Type      string `json:"_type"`
-	Message   string `json:"message"`
-	ErrorCode *int64 `json:"errorCode,omitempty"`
+	Type      string `json:"_type" yaml:"_type"`
+	Message   string `json:"message" yaml:"message"`
+	ErrorCode *int64 `json:"errorCode,omitempty" yaml:"errorCode,omitempty"`
 }
 
 // NewGenericApiError instantiates a new GenericApiError object
