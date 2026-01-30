@@ -21,21 +21,21 @@ const (
 	stackpackConfigFile = "stackpack.yaml"
 )
 
-// TestArgs contains arguments for stackpack test command
-type TestArgs struct {
+// TestDeployArgs contains arguments for stackpack test-deploy command
+type TestDeployArgs struct {
 	StackpackDir     string
 	Params           map[string]string
 	Yes              bool
 	UnlockedStrategy string
 }
 
-// StackpackTestCommand creates the test subcommand
-func StackpackTestCommand(cli *di.Deps) *cobra.Command {
-	args := &TestArgs{
+// StackpackTestDeployCommand creates the test-deploy subcommand
+func StackpackTestDeployCommand(cli *di.Deps) *cobra.Command {
+	args := &TestDeployArgs{
 		Params: make(map[string]string),
 	}
 	cmd := &cobra.Command{
-		Use:   "test",
+		Use:   "test-deploy",
 		Short: "Test a stackpack by packaging, uploading, and installing/upgrading",
 		Long: `Test a stackpack by running package, upload, and install/upgrade commands in sequence.
 
@@ -50,17 +50,17 @@ This command will:
 The original stackpack directory is left untouched. The version is automatically incremented for each test run.
 The stackpack name is read from ` + stackpackConfigFile + `, so no --name flag is required.`,
 		Example: `# Test stackpack with confirmation
-sts stackpack test -p "param1=value1"
+sts stackpack test-deploy -p "param1=value1"
 
 # Skip confirmation prompt
-sts stackpack test --yes
+sts stackpack test-deploy --yes
 
 # Test stackpack in specific directory with unlocked strategy
-sts stackpack test -d ./my-stackpack --yes --unlocked-strategy force
+sts stackpack test-deploy -d ./my-stackpack --yes --unlocked-strategy force
 
 # Test with custom unlocked strategy
-sts stackpack test --unlocked-strategy skip --yes`,
-		RunE: cli.CmdRunEWithApi(RunStackpackTestCommand(args)),
+sts stackpack test-deploy --unlocked-strategy skip --yes`,
+		RunE: cli.CmdRunEWithApi(RunStackpackTestDeployCommand(args)),
 	}
 
 	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory (defaults to current directory)")
@@ -71,19 +71,19 @@ sts stackpack test --unlocked-strategy skip --yes`,
 	return cmd
 }
 
-// RunStackpackTestCommand executes the test command
+// RunStackpackTestDeployCommand executes the test-deploy command
 //
 //nolint:funlen
-func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
+func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		// Warn if JSON output is requested - not meaningful for test command
+		// Warn if JSON output is requested - not meaningful for test-deploy command
 		if cli.IsJson() {
-			cli.Printer.PrintLn("Warning: JSON output format is not meaningful for the test command, proceeding with text output")
+			cli.Printer.PrintLn("Warning: JSON output format is not meaningful for the test-deploy command, proceeding with text output")
 		}
 
 		// Set default stackpack directory
@@ -103,7 +103,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 			return common.NewRuntimeError(fmt.Errorf("failed to parse %s: %w", stackpackConfigFile, err))
 		}
 
-		cli.Printer.Success("Starting stackpack test sequence...")
+		cli.Printer.Success("Starting stackpack test-deploy sequence...")
 		cli.Printer.PrintLn(fmt.Sprintf("  Stackpack: %s (current version: %s)", originalInfo.Name, originalInfo.Version))
 		cli.Printer.PrintLn("")
 
@@ -239,7 +239,7 @@ func RunStackpackTestCommand(args *TestArgs) di.CmdWithApiFn {
 		}
 
 		cli.Printer.PrintLn("")
-		cli.Printer.Success("🎉 Test sequence completed successfully!")
+		cli.Printer.Success("🎉 Test-deploy sequence completed successfully!")
 
 		// Clean up .sts file
 		if err := os.Remove(packageArgs.ArchiveFile); err != nil {
