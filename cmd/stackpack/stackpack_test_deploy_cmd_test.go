@@ -14,18 +14,18 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// setupStackpackTestCmd creates a test command with mock dependencies
-func setupStackpackTestCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
+// setupStackpackTestDeployCmd creates a test command with mock dependencies
+func setupStackpackTestDeployCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
-	cmd := StackpackTestCommand(&cli.Deps)
+	cmd := StackpackTestDeployCommand(&cli.Deps)
 	return &cli, cmd
 }
 
-func TestStackpackTestCommand_FlagsAndStructure(t *testing.T) {
-	_, cmd := setupStackpackTestCmd(t)
+func TestStackpackTestDeployCommand_FlagsAndStructure(t *testing.T) {
+	_, cmd := setupStackpackTestDeployCmd(t)
 
 	// Test command structure
-	assert.Equal(t, "test", cmd.Use)
+	assert.Equal(t, "test-deploy", cmd.Use)
 	assert.Contains(t, cmd.Short, "Test a stackpack")
 	assert.Contains(t, cmd.Long, "package, upload, and install")
 	assert.NotEmpty(t, cmd.Example)
@@ -163,7 +163,7 @@ func TestCopyDirectory(t *testing.T) {
 	assert.Equal(t, testContent, string(copiedContent2))
 }
 
-func TestStackpackTestCommand_RequiredFlags(t *testing.T) {
+func TestStackpackTestDeployCommand_RequiredFlags(t *testing.T) {
 	tests := []struct {
 		name         string
 		args         []string
@@ -184,7 +184,7 @@ func TestStackpackTestCommand_RequiredFlags(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			cli, cmd := setupStackpackTestCmd(t)
+			cli, cmd := setupStackpackTestDeployCmd(t)
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
 
 			if tt.wantErr {
@@ -202,7 +202,7 @@ func TestStackpackTestCommand_RequiredFlags(t *testing.T) {
 	}
 }
 
-func TestStackpackTestCommand_DirectoryHandling(t *testing.T) {
+func TestStackpackTestDeployCommand_DirectoryHandling(t *testing.T) {
 	// Create temporary directory with valid stackpack structure
 	tempDir, err := os.MkdirTemp("", "stackpack-test-dir-*")
 	require.NoError(t, err)
@@ -214,7 +214,7 @@ func TestStackpackTestCommand_DirectoryHandling(t *testing.T) {
 	// Create required files
 	createTestStackpack(t, stackpackDir, "test-stackpack", "1.0.0")
 
-	cli, cmd := setupStackpackTestCmd(t)
+	cli, cmd := setupStackpackTestDeployCmd(t)
 
 	tests := []struct {
 		name string
@@ -384,7 +384,7 @@ func TestCompareVersionsSemver(t *testing.T) {
 	}
 }
 
-func TestStackpackTestCommand_InstallUpgradeLogic(t *testing.T) {
+func TestStackpackTestDeployCommand_InstallUpgradeLogic(t *testing.T) {
 	tests := []struct {
 		name             string
 		installedVersion string
