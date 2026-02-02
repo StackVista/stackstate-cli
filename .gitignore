@@ -24,3 +24,5 @@ release-notes.json
 
 .localdev/
 stackstate-cli
+
+.claude

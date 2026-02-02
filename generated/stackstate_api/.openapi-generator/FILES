@@ -16,6 +16,7 @@ api_health_synchronization.go
 api_import.go
 api_kubernetes_logs.go
 api_layout.go
+api_main_menu.go
 api_metric.go
 api_monitor.go
 api_monitor_check_status.go
@@ -28,6 +29,7 @@ api_problem.go
 api_scripting.go
 api_server.go
 api_service_token.go
+api_snapshot.go
 api_stackpack.go
 api_subject.go
 api_subscription.go
@@ -205,6 +207,9 @@ docs/LockedResponse.md
 docs/LogLevel.md
 docs/LogSeverity.md
 docs/LogsDirection.md
+docs/MainMenuApi.md
+docs/MainMenuGroup.md
+docs/MainMenuViewItem.md
 docs/Message.md
 docs/MessageLevel.md
 docs/Messages.md
@@ -370,6 +375,9 @@ docs/PromSeriesEnvelope.md
 docs/PromVector.md
 docs/PromVectorResult.md
 docs/ProvisionResponse.md
+docs/QueryMetadata.md
+docs/QueryParsingFailure.md
+docs/QuerySnapshotResult.md
 docs/QueryViewArguments.md
 docs/ReleaseStatus.md
 docs/RequestError.md
@@ -393,6 +401,7 @@ docs/SlackChannelRefId.md
 docs/SlackChannelsChunk.md
 docs/SlackNotificationChannel.md
 docs/SlackNotificationChannelAllOf.md
+docs/SnapshotApi.md
 docs/SourceLink.md
 docs/Span.md
 docs/SpanComponent.md
@@ -488,6 +497,7 @@ docs/UserProfileApi.md
 docs/UserProfileSaveError.md
 docs/UserSessionApi.md
 docs/ViewCheckState.md
+docs/ViewSnapshotRequest.md
 docs/WebhookChannelRefId.md
 docs/WebhookChannelWriteSchema.md
 docs/WebhookNotificationChannel.md
@@ -646,6 +656,8 @@ model_locked_response.go
 model_log_level.go
 model_log_severity.go
 model_logs_direction.go
+model_main_menu_group.go
+model_main_menu_view_item.go
 model_message.go
 model_message_level.go
 model_messages.go
@@ -802,6 +814,9 @@ model_prom_series_envelope.go
 model_prom_vector.go
 model_prom_vector_result.go
 model_provision_response.go
+model_query_metadata.go
+model_query_parsing_failure.go
+model_query_snapshot_result.go
 model_query_view_arguments.go
 model_release_status.go
 model_request_error.go
@@ -906,6 +921,7 @@ model_user_not_logged_in_error.go
 model_user_profile.go
 model_user_profile_save_error.go
 model_view_check_state.go
+model_view_snapshot_request.go
 model_webhook_channel_ref_id.go
 model_webhook_channel_write_schema.go
 model_webhook_notification_channel.go

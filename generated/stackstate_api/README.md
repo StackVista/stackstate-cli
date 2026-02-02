@@ -123,6 +123,7 @@ Class | Method | HTTP request | Description
 *KubernetesLogsApi* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsApi.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
 *KubernetesLogsApi* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsApi.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
 *LayoutApi* | [**GetAllLayouts**](docs/LayoutApi.md#getalllayouts) | **Get** /layouts | List layout hints
+*MainMenuApi* | [**MainMenuGet**](docs/MainMenuApi.md#mainmenuget) | **Get** /main-menu | Get Main Menu
 *MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 *MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
 *MetricApi* | [**GetLabelValues**](docs/MetricApi.md#getlabelvalues) | **Get** /metrics/label/{label}/values | List of label values for a provided label name
@@ -216,6 +217,7 @@ Class | Method | HTTP request | Description
 *ServiceTokenApi* | [**CreateNewServiceToken**](docs/ServiceTokenApi.md#createnewservicetoken) | **Post** /security/tokens | Create new service token
 *ServiceTokenApi* | [**DeleteServiceToken**](docs/ServiceTokenApi.md#deleteservicetoken) | **Delete** /security/tokens/{serviceTokenId} | Delete service token
 *ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/tokens | Get service tokens
+*SnapshotApi* | [**QuerySnapshot**](docs/SnapshotApi.md#querysnapshot) | **Post** /snapshot | Query topology snapshot
 *StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
 *StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
@@ -404,6 +406,8 @@ Class | Method | HTTP request | Description
  - [LogLevel](docs/LogLevel.md)
  - [LogSeverity](docs/LogSeverity.md)
  - [LogsDirection](docs/LogsDirection.md)
+ - [MainMenuGroup](docs/MainMenuGroup.md)
+ - [MainMenuViewItem](docs/MainMenuViewItem.md)
  - [Message](docs/Message.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [Messages](docs/Messages.md)
@@ -560,6 +564,9 @@ Class | Method | HTTP request | Description
  - [PromVector](docs/PromVector.md)
  - [PromVectorResult](docs/PromVectorResult.md)
  - [ProvisionResponse](docs/ProvisionResponse.md)
+ - [QueryMetadata](docs/QueryMetadata.md)
+ - [QueryParsingFailure](docs/QueryParsingFailure.md)
+ - [QuerySnapshotResult](docs/QuerySnapshotResult.md)
  - [QueryViewArguments](docs/QueryViewArguments.md)
  - [ReleaseStatus](docs/ReleaseStatus.md)
  - [RequestError](docs/RequestError.md)
@@ -664,6 +671,7 @@ Class | Method | HTTP request | Description
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
  - [ViewCheckState](docs/ViewCheckState.md)
+ - [ViewSnapshotRequest](docs/ViewSnapshotRequest.md)
  - [WebhookChannelRefId](docs/WebhookChannelRefId.md)
  - [WebhookChannelWriteSchema](docs/WebhookChannelWriteSchema.md)
  - [WebhookNotificationChannel](docs/WebhookNotificationChannel.md)

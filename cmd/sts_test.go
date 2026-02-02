@@ -38,6 +38,7 @@ func TestSTSCommandContainsExpectedSubcommands(t *testing.T) {
 		"agent",
 		"user-session",
 		"dashboard",
+		"topology",
 	}
 
 	// Verify expected commands are present
@@ -57,7 +58,7 @@ func TestSTSCommandStructure(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := STSCommand(&cli.Deps)
 
-	assert.Len(t, cmd.Commands(), 16, "Expected 16 subcommands")
+	assert.Len(t, cmd.Commands(), 17, "Expected 17 subcommands")
 }
 
 func TestSTSCommandUsageTemplate(t *testing.T) {
