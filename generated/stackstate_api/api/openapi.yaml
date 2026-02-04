@@ -6408,7 +6408,7 @@ paths:
           format: int64
           type: integer
       requestBody:
-        $ref: '#/components/requestBodies/viewSnapshotRequest'
+        $ref: '#/components/requestBodies/SnapshotRequest'
       responses:
         "200":
           content:
@@ -6608,11 +6608,11 @@ components:
             $ref: '#/components/schemas/upsertOtelRelationMappings_request'
       description: Otel Relation Mapping to create/update
       required: true
-    viewSnapshotRequest:
+    SnapshotRequest:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ViewSnapshotRequest'
+            $ref: '#/components/schemas/SnapshotRequest'
       description: Request body for querying a topology snapshot
       required: true
   responses:
@@ -15348,7 +15348,7 @@ components:
           type: string
       required:
       - viewIdentifier
-    ViewSnapshotRequest:
+    SnapshotRequest:
       example:
         metadata:
           minGroupSize: 0
@@ -15362,14 +15362,13 @@ components:
           connectedComponents: true
           groupingEnabled: true
           groupedByDomain: true
-        viewId: 1
         query: query
-        _type: ViewSnapshotRequest
+        _type: SnapshotRequest
         queryVersion: 0.0.1
       properties:
         _type:
           enum:
-          - ViewSnapshotRequest
+          - SnapshotRequest
           type: string
         query:
           description: STQL query string
@@ -15380,10 +15379,6 @@ components:
           type: string
         metadata:
           $ref: '#/components/schemas/QueryMetadata'
-        viewId:
-          format: int64
-          nullable: true
-          type: integer
       required:
       - _type
       - metadata
@@ -15446,20 +15441,19 @@ components:
     QuerySnapshotResult:
       description: |
         Query succeeded (or encountered a runtime error that's part of the result).
-        The viewSnapshotResponse uses existing DTO types for nested structures.
+        The SnapshotResponse uses existing DTO types for nested structures.
       example:
-        viewId: 0
-        viewSnapshotResponse: "{}"
         _type: QuerySnapshotResult
+        snapshotResponse: "{}"
       properties:
         _type:
           description: Discriminator field
           enum:
           - QuerySnapshotResult
           type: string
-        viewSnapshotResponse:
+        snapshotResponse:
           description: |
-            The query result or error response. This is opaque at the API level but contains one of:
+            The query result or error response. This is opaque at the API level but contains one of the following DTO types:
             - ViewSnapshot (success)
             - ViewSnapshotFetchTimeout (error)
             - ViewSnapshotTooManyActiveQueries (error)
@@ -15467,14 +15461,9 @@ components:
             - ViewSnapshotDataUnavailable (error)
             Use the _type field to discriminate between types.
           type: object
-        viewId:
-          description: Optional view ID associated with this result
-          format: int64
-          nullable: true
-          type: integer
       required:
       - _type
-      - viewSnapshotResponse
+      - snapshotResponse
       type: object
     QueryParsingFailure:
       description: |

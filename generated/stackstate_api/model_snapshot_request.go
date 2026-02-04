@@ -15,22 +15,21 @@ import (
 	"encoding/json"
 )
 
-// ViewSnapshotRequest struct for ViewSnapshotRequest
-type ViewSnapshotRequest struct {
+// SnapshotRequest struct for SnapshotRequest
+type SnapshotRequest struct {
 	Type string `json:"_type" yaml:"_type"`
 	// STQL query string
 	Query        string        `json:"query" yaml:"query"`
 	QueryVersion string        `json:"queryVersion" yaml:"queryVersion"`
 	Metadata     QueryMetadata `json:"metadata" yaml:"metadata"`
-	ViewId       NullableInt64 `json:"viewId,omitempty" yaml:"viewId,omitempty"`
 }
 
-// NewViewSnapshotRequest instantiates a new ViewSnapshotRequest object
+// NewSnapshotRequest instantiates a new SnapshotRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewViewSnapshotRequest(type_ string, query string, queryVersion string, metadata QueryMetadata) *ViewSnapshotRequest {
-	this := ViewSnapshotRequest{}
+func NewSnapshotRequest(type_ string, query string, queryVersion string, metadata QueryMetadata) *SnapshotRequest {
+	this := SnapshotRequest{}
 	this.Type = type_
 	this.Query = query
 	this.QueryVersion = queryVersion
@@ -38,16 +37,16 @@ func NewViewSnapshotRequest(type_ string, query string, queryVersion string, met
 	return &this
 }
 
-// NewViewSnapshotRequestWithDefaults instantiates a new ViewSnapshotRequest object
+// NewSnapshotRequestWithDefaults instantiates a new SnapshotRequest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewViewSnapshotRequestWithDefaults() *ViewSnapshotRequest {
-	this := ViewSnapshotRequest{}
+func NewSnapshotRequestWithDefaults() *SnapshotRequest {
+	this := SnapshotRequest{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *ViewSnapshotRequest) GetType() string {
+func (o *SnapshotRequest) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -58,7 +57,7 @@ func (o *ViewSnapshotRequest) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *ViewSnapshotRequest) GetTypeOk() (*string, bool) {
+func (o *SnapshotRequest) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -66,12 +65,12 @@ func (o *ViewSnapshotRequest) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *ViewSnapshotRequest) SetType(v string) {
+func (o *SnapshotRequest) SetType(v string) {
 	o.Type = v
 }
 
 // GetQuery returns the Query field value
-func (o *ViewSnapshotRequest) GetQuery() string {
+func (o *SnapshotRequest) GetQuery() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -82,7 +81,7 @@ func (o *ViewSnapshotRequest) GetQuery() string {
 
 // GetQueryOk returns a tuple with the Query field value
 // and a boolean to check if the value has been set.
-func (o *ViewSnapshotRequest) GetQueryOk() (*string, bool) {
+func (o *SnapshotRequest) GetQueryOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -90,12 +89,12 @@ func (o *ViewSnapshotRequest) GetQueryOk() (*string, bool) {
 }
 
 // SetQuery sets field value
-func (o *ViewSnapshotRequest) SetQuery(v string) {
+func (o *SnapshotRequest) SetQuery(v string) {
 	o.Query = v
 }
 
 // GetQueryVersion returns the QueryVersion field value
-func (o *ViewSnapshotRequest) GetQueryVersion() string {
+func (o *SnapshotRequest) GetQueryVersion() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -106,7 +105,7 @@ func (o *ViewSnapshotRequest) GetQueryVersion() string {
 
 // GetQueryVersionOk returns a tuple with the QueryVersion field value
 // and a boolean to check if the value has been set.
-func (o *ViewSnapshotRequest) GetQueryVersionOk() (*string, bool) {
+func (o *SnapshotRequest) GetQueryVersionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -114,12 +113,12 @@ func (o *ViewSnapshotRequest) GetQueryVersionOk() (*string, bool) {
 }
 
 // SetQueryVersion sets field value
-func (o *ViewSnapshotRequest) SetQueryVersion(v string) {
+func (o *SnapshotRequest) SetQueryVersion(v string) {
 	o.QueryVersion = v
 }
 
 // GetMetadata returns the Metadata field value
-func (o *ViewSnapshotRequest) GetMetadata() QueryMetadata {
+func (o *SnapshotRequest) GetMetadata() QueryMetadata {
 	if o == nil {
 		var ret QueryMetadata
 		return ret
@@ -130,7 +129,7 @@ func (o *ViewSnapshotRequest) GetMetadata() QueryMetadata {
 
 // GetMetadataOk returns a tuple with the Metadata field value
 // and a boolean to check if the value has been set.
-func (o *ViewSnapshotRequest) GetMetadataOk() (*QueryMetadata, bool) {
+func (o *SnapshotRequest) GetMetadataOk() (*QueryMetadata, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -138,54 +137,11 @@ func (o *ViewSnapshotRequest) GetMetadataOk() (*QueryMetadata, bool) {
 }
 
 // SetMetadata sets field value
-func (o *ViewSnapshotRequest) SetMetadata(v QueryMetadata) {
+func (o *SnapshotRequest) SetMetadata(v QueryMetadata) {
 	o.Metadata = v
 }
 
-// GetViewId returns the ViewId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *ViewSnapshotRequest) GetViewId() int64 {
-	if o == nil || o.ViewId.Get() == nil {
-		var ret int64
-		return ret
-	}
-	return *o.ViewId.Get()
-}
-
-// GetViewIdOk returns a tuple with the ViewId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *ViewSnapshotRequest) GetViewIdOk() (*int64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.ViewId.Get(), o.ViewId.IsSet()
-}
-
-// HasViewId returns a boolean if a field has been set.
-func (o *ViewSnapshotRequest) HasViewId() bool {
-	if o != nil && o.ViewId.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetViewId gets a reference to the given NullableInt64 and assigns it to the ViewId field.
-func (o *ViewSnapshotRequest) SetViewId(v int64) {
-	o.ViewId.Set(&v)
-}
-
-// SetViewIdNil sets the value for ViewId to be an explicit nil
-func (o *ViewSnapshotRequest) SetViewIdNil() {
-	o.ViewId.Set(nil)
-}
-
-// UnsetViewId ensures that no value is present for ViewId, not even an explicit nil
-func (o *ViewSnapshotRequest) UnsetViewId() {
-	o.ViewId.Unset()
-}
-
-func (o ViewSnapshotRequest) MarshalJSON() ([]byte, error) {
+func (o SnapshotRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["_type"] = o.Type
@@ -199,44 +155,41 @@ func (o ViewSnapshotRequest) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["metadata"] = o.Metadata
 	}
-	if o.ViewId.IsSet() {
-		toSerialize["viewId"] = o.ViewId.Get()
-	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableViewSnapshotRequest struct {
-	value *ViewSnapshotRequest
+type NullableSnapshotRequest struct {
+	value *SnapshotRequest
 	isSet bool
 }
 
-func (v NullableViewSnapshotRequest) Get() *ViewSnapshotRequest {
+func (v NullableSnapshotRequest) Get() *SnapshotRequest {
 	return v.value
 }
 
-func (v *NullableViewSnapshotRequest) Set(val *ViewSnapshotRequest) {
+func (v *NullableSnapshotRequest) Set(val *SnapshotRequest) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableViewSnapshotRequest) IsSet() bool {
+func (v NullableSnapshotRequest) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableViewSnapshotRequest) Unset() {
+func (v *NullableSnapshotRequest) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableViewSnapshotRequest(val *ViewSnapshotRequest) *NullableViewSnapshotRequest {
-	return &NullableViewSnapshotRequest{value: val, isSet: true}
+func NewNullableSnapshotRequest(val *SnapshotRequest) *NullableSnapshotRequest {
+	return &NullableSnapshotRequest{value: val, isSet: true}
 }
 
-func (v NullableViewSnapshotRequest) MarshalJSON() ([]byte, error) {
+func (v NullableSnapshotRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableViewSnapshotRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableSnapshotRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

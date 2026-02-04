@@ -86,15 +86,15 @@ func RunInspectCommand(
 		true,
 	)
 
-	request := stackstate_api.NewViewSnapshotRequest(
-		"ViewSnapshotRequest",
+	request := stackstate_api.NewSnapshotRequest(
+		"SnapshotRequest",
 		query,
 		"0.0.1",
 		*metadata,
 	)
 
 	result, resp, err := api.SnapshotApi.QuerySnapshot(cli.Context).
-		ViewSnapshotRequest(*request).
+		SnapshotRequest(*request).
 		Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
@@ -104,7 +104,7 @@ func RunInspectCommand(
 	components, parseErr := parseSnapshotResponse(result, cli.CurrentContext.URL)
 	if parseErr != nil {
 		// Check if the error is a typed error from the response by examining the _type discriminator
-		if typedErr := handleViewSnapshotError(result.ViewSnapshotResponse, resp); typedErr != nil {
+		if typedErr := handleSnapshotError(result.SnapshotResponse, resp); typedErr != nil {
 			return typedErr
 		}
 		return common.NewExecutionError(parseErr)
@@ -166,8 +166,8 @@ type ComponentMetadata struct {
 	Environments   map[int64]string
 }
 
-// handleViewSnapshotError checks if the response is a typed error by examining the _type discriminator
-func handleViewSnapshotError(respMap map[string]interface{}, resp *http.Response) common.CLIError {
+// handleSnapshotError checks if the response is a typed error by examining the _type discriminator
+func handleSnapshotError(respMap map[string]interface{}, resp *http.Response) common.CLIError {
 	if respMap == nil {
 		return nil
 	}
@@ -177,6 +177,7 @@ func handleViewSnapshotError(respMap map[string]interface{}, resp *http.Response
 		return nil
 	}
 
+	// Note: the `View` prefix on the error types comes from the existing (Scala) DTO types
 	switch responseType {
 	case "ViewSnapshotFetchTimeout":
 		if usedTimeoutSeconds, ok := respMap["usedTimeoutSeconds"].(float64); ok {
@@ -217,18 +218,19 @@ func parseSnapshotResponse(
 	result *stackstate_api.QuerySnapshotResult,
 	baseURL string,
 ) ([]Component, error) {
-	// ViewSnapshotResponse is already typed as map[string]interface{} from the generated API
-	respMap := result.ViewSnapshotResponse
+	// SnapshotResponse is already typed as map[string]interface{} from the generated API
+	respMap := result.SnapshotResponse
 	if respMap == nil {
 		return nil, fmt.Errorf("response data is nil")
 	}
 
-	// Check if this is a ViewSnapshot (success) or an error type
+	// Check if this is a Snapshot (success) or an error type
 	respType, ok := respMap["_type"].(string)
 	if !ok {
 		return nil, fmt.Errorf("response has no _type discriminator")
 	}
 
+	// Note: the `View` prefix on response type comes from the existing (Scala) DTO types
 	// If it's not a ViewSnapshot, it's an error type - return empty components and let error handler deal with it
 	if respType != "ViewSnapshot" {
 		return nil, fmt.Errorf("response is an error type: %s", respType)
@@ -263,7 +265,7 @@ var metadataFieldMapping = []struct {
 }
 
 // parseMetadata extracts component type, layer, domain, and environment metadata
-// from the opaque ViewSnapshot response using a table-driven approach.
+// from the opaque Snapshot response using a table-driven approach.
 func parseMetadata(respMap map[string]interface{}) ComponentMetadata {
 	metadata := ComponentMetadata{
 		ComponentTypes: make(map[int64]string),

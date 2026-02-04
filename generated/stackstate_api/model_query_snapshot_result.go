@@ -15,24 +15,22 @@ import (
 	"encoding/json"
 )
 
-// QuerySnapshotResult Query succeeded (or encountered a runtime error that's part of the result). The viewSnapshotResponse uses existing DTO types for nested structures.
+// QuerySnapshotResult Query succeeded (or encountered a runtime error that's part of the result). The SnapshotResponse uses existing DTO types for nested structures.
 type QuerySnapshotResult struct {
 	// Discriminator field
 	Type string `json:"_type" yaml:"_type"`
-	// The query result or error response. This is opaque at the API level but contains one of: - ViewSnapshot (success) - ViewSnapshotFetchTimeout (error) - ViewSnapshotTooManyActiveQueries (error) - ViewSnapshotTopologySizeOverflow (error) - ViewSnapshotDataUnavailable (error) Use the _type field to discriminate between types.
-	ViewSnapshotResponse map[string]interface{} `json:"viewSnapshotResponse" yaml:"viewSnapshotResponse"`
-	// Optional view ID associated with this result
-	ViewId NullableInt64 `json:"viewId,omitempty" yaml:"viewId,omitempty"`
+	// The query result or error response. This is opaque at the API level but contains one of the following DTO types: - ViewSnapshot (success) - ViewSnapshotFetchTimeout (error) - ViewSnapshotTooManyActiveQueries (error) - ViewSnapshotTopologySizeOverflow (error) - ViewSnapshotDataUnavailable (error) Use the _type field to discriminate between types.
+	SnapshotResponse map[string]interface{} `json:"snapshotResponse" yaml:"snapshotResponse"`
 }
 
 // NewQuerySnapshotResult instantiates a new QuerySnapshotResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewQuerySnapshotResult(type_ string, viewSnapshotResponse map[string]interface{}) *QuerySnapshotResult {
+func NewQuerySnapshotResult(type_ string, snapshotResponse map[string]interface{}) *QuerySnapshotResult {
 	this := QuerySnapshotResult{}
 	this.Type = type_
-	this.ViewSnapshotResponse = viewSnapshotResponse
+	this.SnapshotResponse = snapshotResponse
 	return &this
 }
 
@@ -68,71 +66,28 @@ func (o *QuerySnapshotResult) SetType(v string) {
 	o.Type = v
 }
 
-// GetViewSnapshotResponse returns the ViewSnapshotResponse field value
-func (o *QuerySnapshotResult) GetViewSnapshotResponse() map[string]interface{} {
+// GetSnapshotResponse returns the SnapshotResponse field value
+func (o *QuerySnapshotResult) GetSnapshotResponse() map[string]interface{} {
 	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
 
-	return o.ViewSnapshotResponse
+	return o.SnapshotResponse
 }
 
-// GetViewSnapshotResponseOk returns a tuple with the ViewSnapshotResponse field value
+// GetSnapshotResponseOk returns a tuple with the SnapshotResponse field value
 // and a boolean to check if the value has been set.
-func (o *QuerySnapshotResult) GetViewSnapshotResponseOk() (map[string]interface{}, bool) {
+func (o *QuerySnapshotResult) GetSnapshotResponseOk() (map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ViewSnapshotResponse, true
+	return o.SnapshotResponse, true
 }
 
-// SetViewSnapshotResponse sets field value
-func (o *QuerySnapshotResult) SetViewSnapshotResponse(v map[string]interface{}) {
-	o.ViewSnapshotResponse = v
-}
-
-// GetViewId returns the ViewId field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *QuerySnapshotResult) GetViewId() int64 {
-	if o == nil || o.ViewId.Get() == nil {
-		var ret int64
-		return ret
-	}
-	return *o.ViewId.Get()
-}
-
-// GetViewIdOk returns a tuple with the ViewId field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-// NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *QuerySnapshotResult) GetViewIdOk() (*int64, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.ViewId.Get(), o.ViewId.IsSet()
-}
-
-// HasViewId returns a boolean if a field has been set.
-func (o *QuerySnapshotResult) HasViewId() bool {
-	if o != nil && o.ViewId.IsSet() {
-		return true
-	}
-
-	return false
-}
-
-// SetViewId gets a reference to the given NullableInt64 and assigns it to the ViewId field.
-func (o *QuerySnapshotResult) SetViewId(v int64) {
-	o.ViewId.Set(&v)
-}
-
-// SetViewIdNil sets the value for ViewId to be an explicit nil
-func (o *QuerySnapshotResult) SetViewIdNil() {
-	o.ViewId.Set(nil)
-}
-
-// UnsetViewId ensures that no value is present for ViewId, not even an explicit nil
-func (o *QuerySnapshotResult) UnsetViewId() {
-	o.ViewId.Unset()
+// SetSnapshotResponse sets field value
+func (o *QuerySnapshotResult) SetSnapshotResponse(v map[string]interface{}) {
+	o.SnapshotResponse = v
 }
 
 func (o QuerySnapshotResult) MarshalJSON() ([]byte, error) {
@@ -141,10 +96,7 @@ func (o QuerySnapshotResult) MarshalJSON() ([]byte, error) {
 		toSerialize["_type"] = o.Type
 	}
 	if true {
-		toSerialize["viewSnapshotResponse"] = o.ViewSnapshotResponse
-	}
-	if o.ViewId.IsSet() {
-		toSerialize["viewId"] = o.ViewId.Get()
+		toSerialize["snapshotResponse"] = o.SnapshotResponse
 	}
 	return json.Marshal(toSerialize)
 }

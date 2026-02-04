@@ -402,6 +402,7 @@ docs/SlackChannelsChunk.md
 docs/SlackNotificationChannel.md
 docs/SlackNotificationChannelAllOf.md
 docs/SnapshotApi.md
+docs/SnapshotRequest.md
 docs/SourceLink.md
 docs/Span.md
 docs/SpanComponent.md
@@ -497,7 +498,6 @@ docs/UserProfileApi.md
 docs/UserProfileSaveError.md
 docs/UserSessionApi.md
 docs/ViewCheckState.md
-docs/ViewSnapshotRequest.md
 docs/WebhookChannelRefId.md
 docs/WebhookChannelWriteSchema.md
 docs/WebhookNotificationChannel.md
@@ -837,6 +837,7 @@ model_slack_channel_ref_id.go
 model_slack_channels_chunk.go
 model_slack_notification_channel.go
 model_slack_notification_channel_all_of.go
+model_snapshot_request.go
 model_source_link.go
 model_span.go
 model_span_component.go
@@ -921,7 +922,6 @@ model_user_not_logged_in_error.go
 model_user_profile.go
 model_user_profile_save_error.go
 model_view_check_state.go
-model_view_snapshot_request.go
 model_webhook_channel_ref_id.go
 model_webhook_channel_write_schema.go
 model_webhook_notification_channel.go
