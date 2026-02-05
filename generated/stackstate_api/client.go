@@ -76,6 +76,8 @@ type APIClient struct {
 
 	LayoutApi LayoutApi
 
+	MainMenuApi MainMenuApi
+
 	MetricApi MetricApi
 
 	MonitorApi MonitorApi
@@ -99,6 +101,8 @@ type APIClient struct {
 	ServerApi ServerApi
 
 	ServiceTokenApi ServiceTokenApi
+
+	SnapshotApi SnapshotApi
 
 	StackpackApi StackpackApi
 
@@ -152,6 +156,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ImportApi = (*ImportApiService)(&c.common)
 	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
 	c.LayoutApi = (*LayoutApiService)(&c.common)
+	c.MainMenuApi = (*MainMenuApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
 	c.MonitorCheckStatusApi = (*MonitorCheckStatusApiService)(&c.common)
@@ -164,6 +169,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)
 	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)
+	c.SnapshotApi = (*SnapshotApiService)(&c.common)
 	c.StackpackApi = (*StackpackApiService)(&c.common)
 	c.SubjectApi = (*SubjectApiService)(&c.common)
 	c.SubscriptionApi = (*SubscriptionApiService)(&c.common)

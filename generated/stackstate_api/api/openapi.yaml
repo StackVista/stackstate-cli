@@ -6374,6 +6374,67 @@ paths:
       required: true
       schema:
         type: string
+  /main-menu:
+    get:
+      description: Get Main Menu
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/MainMenuGroup'
+                type: array
+          description: Main Menu
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get Main Menu
+      tags:
+      - MainMenu
+  /snapshot:
+    post:
+      operationId: querySnapshot
+      parameters:
+      - description: Query timeout in milliseconds
+        in: query
+        name: timeout-ms
+        required: false
+        schema:
+          default: 30000
+          format: int64
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/SnapshotRequest'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuerySnapshotResult'
+          description: Snapshot query result
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QueryParsingFailure'
+          description: Query parsing failed
+        "401":
+          description: User is not authorized
+        "403":
+          description: User is forbidden for the provided permission
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Query topology snapshot
+      tags:
+      - snapshot
   /dummy/dummy:
     get:
       description: ""
@@ -6546,6 +6607,13 @@ components:
           schema:
             $ref: '#/components/schemas/upsertOtelRelationMappings_request'
       description: Otel Relation Mapping to create/update
+      required: true
+    SnapshotRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SnapshotRequest'
+      description: Request body for querying a topology snapshot
       required: true
   responses:
     genericErrorsResponse:
@@ -7196,6 +7264,26 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentPresentationApiError'
       description: Component Presentation with given identifier not found
+    mainMenuGroup:
+      content:
+        application/json:
+          schema:
+            items:
+              $ref: '#/components/schemas/MainMenuGroup'
+            type: array
+      description: Main Menu
+    querySnapshotResult:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuerySnapshotResult'
+      description: Snapshot query result
+    queryParsingFailure:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QueryParsingFailure'
+      description: Query parsing failed
     stackElementNotFound:
       content:
         application/json:
@@ -15221,6 +15309,177 @@ components:
           type: string
       required:
       - message
+      type: object
+    MainMenuGroup:
+      example:
+        identifier: identifier
+        iconbase64: iconbase64
+        name: name
+        description: description
+        defaultOpen: true
+        items:
+        - viewIdentifier: viewIdentifier
+        - viewIdentifier: viewIdentifier
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        description:
+          type: string
+        defaultOpen:
+          type: boolean
+        iconbase64:
+          type: string
+        items:
+          items:
+            $ref: '#/components/schemas/MainMenuViewItem'
+          type: array
+      required:
+      - defaultOpen
+      - iconbase64
+      - items
+      - name
+    MainMenuViewItem:
+      example:
+        viewIdentifier: viewIdentifier
+      properties:
+        viewIdentifier:
+          type: string
+      required:
+      - viewIdentifier
+    SnapshotRequest:
+      example:
+        metadata:
+          minGroupSize: 0
+          neighboringComponents: true
+          groupedByRelation: true
+          autoGrouping: true
+          groupedByLayer: true
+          queryTime: 6
+          showFullComponent: true
+          showIndirectRelations: true
+          connectedComponents: true
+          groupingEnabled: true
+          groupedByDomain: true
+        query: query
+        _type: SnapshotRequest
+        queryVersion: 0.0.1
+      properties:
+        _type:
+          enum:
+          - SnapshotRequest
+          type: string
+        query:
+          description: STQL query string
+          type: string
+        queryVersion:
+          example: 0.0.1
+          pattern: ^\d+\.\d+\.\d+$
+          type: string
+        metadata:
+          $ref: '#/components/schemas/QueryMetadata'
+      required:
+      - _type
+      - metadata
+      - query
+      - queryVersion
+      type: object
+    QueryMetadata:
+      description: Query execution settings
+      example:
+        minGroupSize: 0
+        neighboringComponents: true
+        groupedByRelation: true
+        autoGrouping: true
+        groupedByLayer: true
+        queryTime: 6
+        showFullComponent: true
+        showIndirectRelations: true
+        connectedComponents: true
+        groupingEnabled: true
+        groupedByDomain: true
+      properties:
+        groupingEnabled:
+          type: boolean
+        showIndirectRelations:
+          type: boolean
+        minGroupSize:
+          format: int64
+          type: integer
+        groupedByLayer:
+          type: boolean
+        groupedByDomain:
+          type: boolean
+        groupedByRelation:
+          type: boolean
+        queryTime:
+          description: Unix timestamp in milliseconds
+          format: int64
+          nullable: true
+          type: integer
+        autoGrouping:
+          type: boolean
+        connectedComponents:
+          type: boolean
+        neighboringComponents:
+          type: boolean
+        showFullComponent:
+          type: boolean
+      required:
+      - autoGrouping
+      - connectedComponents
+      - groupedByDomain
+      - groupedByLayer
+      - groupedByRelation
+      - groupingEnabled
+      - minGroupSize
+      - neighboringComponents
+      - showFullComponent
+      - showIndirectRelations
+      type: object
+    QuerySnapshotResult:
+      description: |
+        Query succeeded (or encountered a runtime error that's part of the result).
+        The SnapshotResponse uses existing DTO types for nested structures.
+      example:
+        _type: QuerySnapshotResult
+        snapshotResponse: "{}"
+      properties:
+        _type:
+          description: Discriminator field
+          enum:
+          - QuerySnapshotResult
+          type: string
+        snapshotResponse:
+          description: |
+            The query result or error response. This is opaque at the API level but contains one of the following DTO types:
+            - ViewSnapshot (success)
+            - ViewSnapshotFetchTimeout (error)
+            - ViewSnapshotTooManyActiveQueries (error)
+            - ViewSnapshotTopologySizeOverflow (error)
+            - ViewSnapshotDataUnavailable (error)
+            Use the _type field to discriminate between types.
+          type: object
+      required:
+      - _type
+      - snapshotResponse
+      type: object
+    QueryParsingFailure:
+      description: |
+        Query parsing failed. The reason field contains the error message.
+      properties:
+        _type:
+          description: Discriminator field
+          enum:
+          - QueryParsingFailure
+          type: string
+        reason:
+          description: Error message describing why the query failed to parse
+          type: string
+      required:
+      - _type
+      - reason
       type: object
     StackElementNotFound:
       discriminator:
