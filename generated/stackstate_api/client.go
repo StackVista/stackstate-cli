@@ -96,6 +96,8 @@ type APIClient struct {
 
 	ProblemApi ProblemApi
 
+	RelationApi RelationApi
+
 	ScriptingApi ScriptingApi
 
 	ServerApi ServerApi
@@ -166,6 +168,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.OtelMappingApi = (*OtelMappingApiService)(&c.common)
 	c.PermissionsApi = (*PermissionsApiService)(&c.common)
 	c.ProblemApi = (*ProblemApiService)(&c.common)
+	c.RelationApi = (*RelationApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
 	c.ServerApi = (*ServerApiService)(&c.common)
 	c.ServiceTokenApi = (*ServiceTokenApiService)(&c.common)

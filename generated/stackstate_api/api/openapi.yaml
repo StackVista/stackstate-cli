@@ -5467,6 +5467,41 @@ paths:
       summary: List layout hints
       tags:
       - layout
+  /components/{componentIdOrUrn}:
+    get:
+      description: Get full component details
+      operationId: getFullComponent
+      parameters:
+      - description: The id or identifier (urn) of a component
+        in: path
+        name: componentIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullComponent'
+          description: Full component
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get full component
+      tags:
+      - component
   /components/{componentIdOrUrn}/healthHistory:
     get:
       description: Get a component health history for a defined period of time by
@@ -5553,6 +5588,139 @@ paths:
       summary: Get a component checkstates
       tags:
       - component
+  /components/{componentIdOrUrn}/bindmetric:
+    get:
+      description: Bind the variables in a metric binding to a component to get valid
+        queries for fetching metric data
+      operationId: getComponentMetricBinding
+      parameters:
+      - description: The id or identifier (urn) of a component
+        in: path
+        name: componentIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: The identifier (urn) of a metric binding
+        in: query
+        name: metricBindingIdentifier
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoundMetric'
+          description: Bound metric
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a bound metric binding to a component
+      tags:
+      - component
+  /components/{componentIdOrUrn}/boundMetricsWithData:
+    get:
+      description: Bound metric bindings for metrics that have data for a component
+      operationId: getComponentMetricsWithData
+      parameters:
+      - description: The id or identifier (urn) of a component
+        in: path
+        name: componentIdOrUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/ComponentIdOrUrn'
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      - description: The start time of a time range to query resources.
+        in: query
+        name: startTime
+        required: true
+        schema:
+          format: instant
+          type: integer
+      - description: The end time of a time range to query resources.
+        in: query
+        name: endTime
+        required: true
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoundMetrics'
+          description: Bound metrics
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Bound metric bindings that have data for a component
+      tags:
+      - component
+  /relations/{relationId}:
+    get:
+      description: Get full relation details
+      operationId: getFullRelation
+      parameters:
+      - description: The id of a relation
+        in: path
+        name: relationId
+        required: true
+        schema:
+          format: int64
+          type: integer
+      - description: A timestamp at which resources will be queried. If not given
+          the resources are queried at current time.
+        in: query
+        name: topologyTime
+        required: false
+        schema:
+          format: instant
+          type: integer
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullRelation'
+          description: Full relation
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StackElementNotFound'
+          description: Error when handling an element which cannot be found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get full relation
+      tags:
+      - relation
   /agents/{agentId}/checkLease:
     post:
       description: Checks the lease of an agent and might register it if it does not
@@ -6408,7 +6576,7 @@ paths:
           format: int64
           type: integer
       requestBody:
-        $ref: '#/components/requestBodies/SnapshotRequest'
+        $ref: '#/components/requestBodies/ViewSnapshotRequest'
       responses:
         "200":
           content:
@@ -6608,11 +6776,11 @@ components:
             $ref: '#/components/schemas/upsertOtelRelationMappings_request'
       description: Otel Relation Mapping to create/update
       required: true
-    SnapshotRequest:
+    ViewSnapshotRequest:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SnapshotRequest'
+            $ref: '#/components/schemas/ViewSnapshotRequest'
       description: Request body for querying a topology snapshot
       required: true
   responses:
@@ -7174,6 +7342,12 @@ components:
           schema:
             $ref: '#/components/schemas/LayoutApiError'
       description: container for all error response
+    fullComponent:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FullComponent'
+      description: Full component
     componentHealthHistory:
       content:
         application/json:
@@ -7186,6 +7360,30 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentCheckStates'
       description: Checkstate Histories
+    boundMetric:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BoundMetric'
+      description: Bound metric
+    boundMetrics:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/BoundMetrics'
+      description: Bound metrics
+    fullRelation:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/FullRelation'
+      description: Full relation
+    stackElementNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StackElementNotFound'
+      description: Error when handling an element which cannot be found.
     timelineSummaryResponse:
       content:
         application/json:
@@ -7272,24 +7470,18 @@ components:
               $ref: '#/components/schemas/MainMenuGroup'
             type: array
       description: Main Menu
-    querySnapshotResult:
+    viewQuerySnapshotResult:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/QuerySnapshotResult'
       description: Snapshot query result
-    queryParsingFailure:
+    viewQueryParsingFailure:
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/QueryParsingFailure'
       description: Query parsing failed
-    stackElementNotFound:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/StackElementNotFound'
-      description: Error when handling an element which cannot be found.
   schemas:
     GenericErrorsResponse:
       properties:
@@ -10160,12 +10352,6 @@ components:
       - target
       - typeName
       type: object
-    DependencyDirection:
-      enum:
-      - one-way
-      - none
-      - both
-      type: string
     SourceLink:
       example:
         title: title
@@ -12740,7 +12926,7 @@ components:
           example:
           - Error
           items:
-            $ref: '#/components/schemas/StatusCode'
+            $ref: '#/components/schemas/SpanStatusCode'
           type: array
         traceId:
           description: "Filter spans by trace id, use only this filter to get a complete\
@@ -12771,12 +12957,12 @@ components:
       type: object
     SpanKind:
       enum:
-      - Unspecified
       - Client
-      - Server
-      - Internal
       - Consumer
+      - Internal
       - Producer
+      - Server
+      - Unspecified
       type: string
     SpanParentType:
       enum:
@@ -12784,11 +12970,11 @@ components:
       - Internal
       - Root
       type: string
-    StatusCode:
+    SpanStatusCode:
       enum:
-      - Unset
       - Error
       - Ok
+      - Unset
       type: string
     SpanSortOption:
       example:
@@ -12811,7 +12997,7 @@ components:
       - SpanKind
       - SpanParentType
       - DurationNanos
-      - StatusCode
+      - SpanStatusCode
       - TraceId
       - SpanId
       - ScopeName
@@ -13072,7 +13258,7 @@ components:
             \ repeated resource data."
           type: string
         statusCode:
-          $ref: '#/components/schemas/StatusCode'
+          $ref: '#/components/schemas/SpanStatusCode'
         statusMessage:
           description: Human readable message for the status
           type: string
@@ -13624,6 +13810,943 @@ components:
     ComponentIdOrUrn:
       pattern: "^urn:.+|[0-9]+$"
       type: string
+    FullComponent:
+      example:
+        highlights:
+          showLastChange: true
+          namePlural: namePlural
+          externalComponent:
+            externalIdSelector: externalIdSelector
+            showConfiguration: true
+            showStatus: true
+          showLogs: true
+          about:
+            fields:
+            - fields
+            - fields
+          metrics:
+          - bindings:
+            - bindings
+            - bindings
+            name: name
+            description: description
+            defaultExpanded: true
+          - bindings:
+            - bindings
+            - bindings
+            name: name
+            description: description
+            defaultExpanded: true
+          fields:
+          - valueExtractor: null
+            display: null
+            label:
+              helpBubbleText: helpBubbleText
+              title: title
+            fieldId: fieldId
+          - valueExtractor: null
+            display: null
+            label:
+              helpBubbleText: helpBubbleText
+              title: title
+            fieldId: fieldId
+          events:
+            showEvents: true
+            relatedResourcesTemplate: relatedResourcesTemplate
+          relatedResources:
+          - hint: hint
+            stql: stql
+            title: title
+            viewTypeIdentifier: viewTypeIdentifier
+            resourceType: resourceType
+          - hint: hint
+            stql: stql
+            title: title
+            viewTypeIdentifier: viewTypeIdentifier
+            resourceType: resourceType
+        data:
+          lastUpdateTimestamp: 6
+          synced:
+          - syncName: syncName
+            lastUpdateTimestamp: 5
+            elementTypeTag: elementTypeTag
+            sourceProperties: "{}"
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 1
+            status: "{}"
+          - syncName: syncName
+            lastUpdateTimestamp: 5
+            elementTypeTag: elementTypeTag
+            sourceProperties: "{}"
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 1
+            status: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          domainName: domainName
+          name: name
+          description: description
+          health: null
+          id: 0
+          layerName: layerName
+          version: version
+          properties:
+            key: properties
+          tags:
+          - tags
+          - tags
+        iconbase64: iconbase64
+        typeName: typeName
+        boundTraces:
+          filter:
+            traceId:
+            - 6942f450030e8c5f7411a23c26185aa2
+            spanId:
+            - 1a607e3a97735e71
+            durationFromNanos: 500000
+            spanKind:
+            - Client
+            durationToNanos: 5000000
+            scopeName:
+            - scopeName
+            - scopeName
+            attributes:
+              key:
+              - attributes
+              - attributes
+            spanParentType:
+            - External
+            serviceName: orderService
+            spanName:
+            - GET /orders
+            statusCode:
+            - Error
+            scopeVersion:
+            - scopeVersion
+            - scopeVersion
+        actions:
+        - name: name
+          description: description
+          id: 5
+        - name: name
+          description: description
+          id: 5
+        boundMetrics:
+        - layout:
+            metricPerspective:
+              tab: tab
+              weight: 2
+              section: section
+            componentSummary:
+              weight: 9
+            componentHighlight:
+              weight: 7
+              section: section
+          dummy: true
+          identifier: identifier
+          unit: unit
+          valuation: null
+          boundQueries:
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          name: name
+          chartType: null
+          description: description
+          alias: alias
+          tags:
+            key: tags
+        - layout:
+            metricPerspective:
+              tab: tab
+              weight: 2
+              section: section
+            componentSummary:
+              weight: 9
+            componentHighlight:
+              weight: 7
+              section: section
+          dummy: true
+          identifier: identifier
+          unit: unit
+          valuation: null
+          boundQueries:
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          name: name
+          chartType: null
+          description: description
+          alias: alias
+          tags:
+            key: tags
+      properties:
+        typeName:
+          type: string
+        iconbase64:
+          type: string
+        data:
+          $ref: '#/components/schemas/ComponentData'
+        highlights:
+          $ref: '#/components/schemas/ComponentTypeHighlights'
+        actions:
+          items:
+            $ref: '#/components/schemas/ComponentAction'
+          type: array
+        boundMetrics:
+          items:
+            $ref: '#/components/schemas/BoundMetric'
+          type: array
+        boundTraces:
+          $ref: '#/components/schemas/BoundTraces'
+      required:
+      - actions
+      - boundMetrics
+      - data
+      - typeName
+    ComponentData:
+      example:
+        lastUpdateTimestamp: 6
+        synced:
+        - syncName: syncName
+          lastUpdateTimestamp: 5
+          elementTypeTag: elementTypeTag
+          sourceProperties: "{}"
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 1
+          status: "{}"
+        - syncName: syncName
+          lastUpdateTimestamp: 5
+          elementTypeTag: elementTypeTag
+          sourceProperties: "{}"
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 1
+          status: "{}"
+        identifiers:
+        - identifiers
+        - identifiers
+        domainName: domainName
+        name: name
+        description: description
+        health: null
+        id: 0
+        layerName: layerName
+        version: version
+        properties:
+          key: properties
+        tags:
+        - tags
+        - tags
+      properties:
+        id:
+          format: int64
+          type: integer
+        identifiers:
+          items:
+            type: string
+          type: array
+        name:
+          type: string
+        description:
+          type: string
+        version:
+          type: string
+        tags:
+          items:
+            type: string
+          type: array
+        properties:
+          additionalProperties:
+            type: string
+          type: object
+        layerName:
+          type: string
+        domainName:
+          type: string
+        health:
+          $ref: '#/components/schemas/HealthStateValue'
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        synced:
+          items:
+            $ref: '#/components/schemas/ExternalComponent'
+          type: array
+      required:
+      - name
+      - properties
+      - synced
+      - tags
+    ExternalComponent:
+      example:
+        syncName: syncName
+        lastUpdateTimestamp: 5
+        elementTypeTag: elementTypeTag
+        sourceProperties: "{}"
+        data: "{}"
+        identifiers:
+        - identifiers
+        - identifiers
+        externalId: externalId
+        id: 1
+        status: "{}"
+      properties:
+        externalId:
+          type: string
+        identifiers:
+          items:
+            type: string
+          type: array
+        data:
+          type: object
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        elementTypeTag:
+          type: string
+        syncName:
+          type: string
+        sourceProperties:
+          type: object
+        status:
+          type: object
+      required:
+      - data
+      - identifiers
+      - sourceProperties
+      - syncName
+    ComponentTypeHighlights:
+      example:
+        showLastChange: true
+        namePlural: namePlural
+        externalComponent:
+          externalIdSelector: externalIdSelector
+          showConfiguration: true
+          showStatus: true
+        showLogs: true
+        about:
+          fields:
+          - fields
+          - fields
+        metrics:
+        - bindings:
+          - bindings
+          - bindings
+          name: name
+          description: description
+          defaultExpanded: true
+        - bindings:
+          - bindings
+          - bindings
+          name: name
+          description: description
+          defaultExpanded: true
+        fields:
+        - valueExtractor: null
+          display: null
+          label:
+            helpBubbleText: helpBubbleText
+            title: title
+          fieldId: fieldId
+        - valueExtractor: null
+          display: null
+          label:
+            helpBubbleText: helpBubbleText
+            title: title
+          fieldId: fieldId
+        events:
+          showEvents: true
+          relatedResourcesTemplate: relatedResourcesTemplate
+        relatedResources:
+        - hint: hint
+          stql: stql
+          title: title
+          viewTypeIdentifier: viewTypeIdentifier
+          resourceType: resourceType
+        - hint: hint
+          stql: stql
+          title: title
+          viewTypeIdentifier: viewTypeIdentifier
+          resourceType: resourceType
+      properties:
+        namePlural:
+          type: string
+        fields:
+          items:
+            $ref: '#/components/schemas/ComponentTypeField'
+          type: array
+        about:
+          $ref: '#/components/schemas/ComponentTypeAbout'
+        events:
+          $ref: '#/components/schemas/ComponentTypeEvents'
+        showLogs:
+          type: boolean
+        showLastChange:
+          type: boolean
+        externalComponent:
+          $ref: '#/components/schemas/ComponentTypeExternalComponent'
+        relatedResources:
+          items:
+            $ref: '#/components/schemas/ComponentTypeRelatedResources'
+          type: array
+        metrics:
+          items:
+            $ref: '#/components/schemas/ComponentHighlightMetrics'
+          type: array
+      required:
+      - about
+      - events
+      - externalComponent
+      - fields
+      - metrics
+      - namePlural
+      - relatedResources
+      - showLastChange
+      - showLogs
+    ComponentTypeField:
+      example:
+        valueExtractor: null
+        display: null
+        label:
+          helpBubbleText: helpBubbleText
+          title: title
+        fieldId: fieldId
+      properties:
+        fieldId:
+          type: string
+        label:
+          $ref: '#/components/schemas/ComponentTypeLabel'
+        valueExtractor:
+          $ref: '#/components/schemas/ComponentTypeValueExtractor'
+        display:
+          $ref: '#/components/schemas/ComponentTypeFieldDisplay'
+      required:
+      - display
+      - fieldId
+      - label
+      - valueExtractor
+    ComponentTypeLabel:
+      example:
+        helpBubbleText: helpBubbleText
+        title: title
+      properties:
+        title:
+          type: string
+        helpBubbleText:
+          type: string
+      required:
+      - title
+    ComponentTypeValueExtractor:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ComponentTypeSource'
+      - $ref: '#/components/schemas/CompositeSource'
+      - $ref: '#/components/schemas/ConstantSource'
+      - $ref: '#/components/schemas/HealthSource'
+      - $ref: '#/components/schemas/IdentifiersSource'
+      - $ref: '#/components/schemas/LastUpdatedTimestampSource'
+      - $ref: '#/components/schemas/NameSource'
+      - $ref: '#/components/schemas/PropertySource'
+      - $ref: '#/components/schemas/TagSource'
+      - $ref: '#/components/schemas/TagsSource'
+    ComponentTypeSource:
+      properties:
+        _type:
+          enum:
+          - ComponentTypeSource
+          type: string
+      required:
+      - _type
+    CompositeSource:
+      properties:
+        _type:
+          enum:
+          - CompositeSource
+          type: string
+        sources:
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentTypeValueExtractor'
+          type: object
+      required:
+      - _type
+      - sources
+    ConstantSource:
+      properties:
+        _type:
+          enum:
+          - ConstantSource
+          type: string
+        value:
+          type: string
+      required:
+      - _type
+      - value
+    HealthSource:
+      properties:
+        _type:
+          enum:
+          - HealthSource
+          type: string
+      required:
+      - _type
+    IdentifiersSource:
+      properties:
+        _type:
+          enum:
+          - IdentifiersSource
+          type: string
+      required:
+      - _type
+    LastUpdatedTimestampSource:
+      properties:
+        _type:
+          enum:
+          - LastUpdatedTimestampSource
+          type: string
+      required:
+      - _type
+    NameSource:
+      properties:
+        _type:
+          enum:
+          - NameSource
+          type: string
+      required:
+      - _type
+    PropertySource:
+      properties:
+        _type:
+          enum:
+          - PropertySource
+          type: string
+        key:
+          type: string
+        defaultValue:
+          type: string
+      required:
+      - _type
+      - key
+    TagSource:
+      properties:
+        _type:
+          enum:
+          - TagSource
+          type: string
+        tagName:
+          type: string
+      required:
+      - _type
+      - tagName
+    TagsSource:
+      properties:
+        _type:
+          enum:
+          - TagsSource
+          type: string
+      required:
+      - _type
+    ComponentTypeFieldDisplay:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ComponentLinkDisplay'
+      - $ref: '#/components/schemas/DurationDisplay'
+      - $ref: '#/components/schemas/HealthBadgeDisplay'
+      - $ref: '#/components/schemas/HealthCircleDisplay'
+      - $ref: '#/components/schemas/PromQLDisplay'
+      - $ref: '#/components/schemas/RatioDisplay'
+      - $ref: '#/components/schemas/ReadyStatusDisplay'
+      - $ref: '#/components/schemas/TagDisplay'
+      - $ref: '#/components/schemas/TextDisplay'
+      - $ref: '#/components/schemas/ViewTimeLink'
+      required:
+      - _type
+    ComponentLinkDisplay:
+      properties:
+        _type:
+          enum:
+          - ComponentLinkDisplay
+          type: string
+      required:
+      - _type
+    DurationDisplay:
+      properties:
+        _type:
+          enum:
+          - DurationDisplay
+          type: string
+      required:
+      - _type
+    HealthBadgeDisplay:
+      properties:
+        _type:
+          enum:
+          - HealthBadgeDisplay
+          type: string
+      required:
+      - _type
+    HealthCircleDisplay:
+      properties:
+        _type:
+          enum:
+          - HealthCircleDisplay
+          type: string
+      required:
+      - _type
+    PromQLDisplay:
+      properties:
+        _type:
+          enum:
+          - PromQLDisplay
+          type: string
+      required:
+      - _type
+    RatioDisplay:
+      properties:
+        _type:
+          enum:
+          - RatioDisplay
+          type: string
+      required:
+      - _type
+    ReadyStatusDisplay:
+      properties:
+        _type:
+          enum:
+          - RatioDisplay
+          type: string
+      required:
+      - _type
+    TagDisplay:
+      properties:
+        _type:
+          enum:
+          - TagDisplay
+          type: string
+        singular:
+          type: string
+      required:
+      - _type
+    TextDisplay:
+      properties:
+        _type:
+          enum:
+          - TextDisplay
+          type: string
+      required:
+      - _type
+    ViewTimeLink:
+      properties:
+        _type:
+          enum:
+          - ViewTimeLink
+          type: string
+      required:
+      - _type
+    ComponentTypeAbout:
+      example:
+        fields:
+        - fields
+        - fields
+      properties:
+        fields:
+          items:
+            type: string
+          type: array
+      required:
+      - fields
+    ComponentTypeEvents:
+      example:
+        showEvents: true
+        relatedResourcesTemplate: relatedResourcesTemplate
+      properties:
+        showEvents:
+          type: boolean
+        relatedResourcesTemplate:
+          type: string
+      required:
+      - showEvents
+    ComponentTypeExternalComponent:
+      example:
+        externalIdSelector: externalIdSelector
+        showConfiguration: true
+        showStatus: true
+      properties:
+        showConfiguration:
+          type: boolean
+        showStatus:
+          type: boolean
+        externalIdSelector:
+          type: string
+      required:
+      - externalIdSelector
+      - showConfiguration
+      - showStatus
+    ComponentTypeRelatedResources:
+      example:
+        hint: hint
+        stql: stql
+        title: title
+        viewTypeIdentifier: viewTypeIdentifier
+        resourceType: resourceType
+      properties:
+        resourceType:
+          type: string
+        title:
+          type: string
+        stql:
+          type: string
+        hint:
+          type: string
+        viewTypeIdentifier:
+          type: string
+      required:
+      - resourceType
+      - stql
+      - title
+    ComponentHighlightMetrics:
+      example:
+        bindings:
+        - bindings
+        - bindings
+        name: name
+        description: description
+        defaultExpanded: true
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        bindings:
+          items:
+            type: string
+          type: array
+        defaultExpanded:
+          type: boolean
+      required:
+      - bindings
+      - defaultExpanded
+      - name
+    ComponentAction:
+      example:
+        name: name
+        description: description
+        id: 5
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+      required:
+      - id
+      - name
+    BoundMetric:
+      example:
+        layout:
+          metricPerspective:
+            tab: tab
+            weight: 2
+            section: section
+          componentSummary:
+            weight: 9
+          componentHighlight:
+            weight: 7
+            section: section
+        dummy: true
+        identifier: identifier
+        unit: unit
+        valuation: null
+        boundQueries:
+        - expression: expression
+          componentIdentifierTemplate: componentIdentifierTemplate
+          alias: alias
+          primary: true
+        - expression: expression
+          componentIdentifierTemplate: componentIdentifierTemplate
+          alias: alias
+          primary: true
+        name: name
+        chartType: null
+        description: description
+        alias: alias
+        tags:
+          key: tags
+      properties:
+        name:
+          type: string
+        identifier:
+          type: string
+        boundQueries:
+          items:
+            $ref: '#/components/schemas/BoundMetricQuery'
+          type: array
+        description:
+          type: string
+        unit:
+          type: string
+        chartType:
+          $ref: '#/components/schemas/ChartType'
+        alias:
+          type: string
+        valuation:
+          $ref: '#/components/schemas/MetricValuation'
+        tags:
+          additionalProperties:
+            type: string
+          type: object
+        layout:
+          $ref: '#/components/schemas/MetricBindingLayout'
+        dummy:
+          type: boolean
+      required:
+      - boundQueries
+      - chartType
+      - name
+      - tags
+    BoundMetricQuery:
+      example:
+        expression: expression
+        componentIdentifierTemplate: componentIdentifierTemplate
+        alias: alias
+        primary: true
+      properties:
+        expression:
+          type: string
+        alias:
+          type: string
+        componentIdentifierTemplate:
+          type: string
+        primary:
+          type: boolean
+      required:
+      - alias
+      - expression
+    ChartType:
+      enum:
+      - line
+      type: string
+    MetricValuation:
+      enum:
+      - higher-is-better
+      - lower-is-better
+      type: string
+    MetricBindingLayout:
+      example:
+        metricPerspective:
+          tab: tab
+          weight: 2
+          section: section
+        componentSummary:
+          weight: 9
+        componentHighlight:
+          weight: 7
+          section: section
+      properties:
+        metricPerspective:
+          $ref: '#/components/schemas/MetricPerspectiveLocation'
+        componentHighlight:
+          $ref: '#/components/schemas/ComponentHighlightLocation'
+        componentSummary:
+          $ref: '#/components/schemas/ComponentSummaryLocation'
+    MetricPerspectiveLocation:
+      example:
+        tab: tab
+        weight: 2
+        section: section
+      properties:
+        tab:
+          type: string
+        section:
+          type: string
+        weight:
+          type: integer
+      required:
+      - section
+      - tab
+    ComponentHighlightLocation:
+      example:
+        weight: 7
+        section: section
+      properties:
+        section:
+          type: string
+        weight:
+          type: integer
+      required:
+      - section
+    ComponentSummaryLocation:
+      example:
+        weight: 9
+      properties:
+        weight:
+          type: integer
+    BoundTraces:
+      example:
+        filter:
+          traceId:
+          - 6942f450030e8c5f7411a23c26185aa2
+          spanId:
+          - 1a607e3a97735e71
+          durationFromNanos: 500000
+          spanKind:
+          - Client
+          durationToNanos: 5000000
+          scopeName:
+          - scopeName
+          - scopeName
+          attributes:
+            key:
+            - attributes
+            - attributes
+          spanParentType:
+          - External
+          serviceName: orderService
+          spanName:
+          - GET /orders
+          statusCode:
+          - Error
+          scopeVersion:
+          - scopeVersion
+          - scopeVersion
+      properties:
+        filter:
+          $ref: '#/components/schemas/SpanFilter'
+      required:
+      - filter
     ComponentHealthHistory:
       example:
         startTime: 0
@@ -13664,7 +14787,7 @@ components:
       - timestamp
     ComponentCheckStates:
       example:
-        checkStateIds:
+        checkStates:
         - identifier: identifier
           startTime: 0
           endTime: 6
@@ -13674,12 +14797,12 @@ components:
           endTime: 6
           idOrIdentifier: idOrIdentifier
       properties:
-        checkStateIds:
+        checkStates:
           items:
             $ref: '#/components/schemas/ComponentCheckState'
           type: array
       required:
-      - checkStateIds
+      - checkStates
     ComponentCheckState:
       example:
         identifier: identifier
@@ -13702,6 +14825,630 @@ components:
       - idOrIdentifier
       - identifier
       - startTime
+    BoundMetrics:
+      example:
+        boundMetrics:
+        - layout:
+            metricPerspective:
+              tab: tab
+              weight: 2
+              section: section
+            componentSummary:
+              weight: 9
+            componentHighlight:
+              weight: 7
+              section: section
+          dummy: true
+          identifier: identifier
+          unit: unit
+          valuation: null
+          boundQueries:
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          name: name
+          chartType: null
+          description: description
+          alias: alias
+          tags:
+            key: tags
+        - layout:
+            metricPerspective:
+              tab: tab
+              weight: 2
+              section: section
+            componentSummary:
+              weight: 9
+            componentHighlight:
+              weight: 7
+              section: section
+          dummy: true
+          identifier: identifier
+          unit: unit
+          valuation: null
+          boundQueries:
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          name: name
+          chartType: null
+          description: description
+          alias: alias
+          tags:
+            key: tags
+      properties:
+        boundMetrics:
+          items:
+            $ref: '#/components/schemas/BoundMetric'
+          type: array
+      required:
+      - boundMetrics
+    FullRelation:
+      example:
+        data:
+          dependencyDirection: null
+          lastUpdateTimestamp: 5
+          synced:
+          - syncName: syncName
+            lastUpdateTimestamp: 6
+            elementTypeTag: elementTypeTag
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 0
+          - syncName: syncName
+            lastUpdateTimestamp: 6
+            elementTypeTag: elementTypeTag
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 0
+          identifiers:
+          - identifiers
+          - identifiers
+          name: name
+          health: null
+          description: description
+          id: 1
+          tags:
+          - tags
+          - tags
+        typeName: typeName
+        source:
+          highlights:
+            showLastChange: true
+            namePlural: namePlural
+            externalComponent:
+              externalIdSelector: externalIdSelector
+              showConfiguration: true
+              showStatus: true
+            showLogs: true
+            about:
+              fields:
+              - fields
+              - fields
+            metrics:
+            - bindings:
+              - bindings
+              - bindings
+              name: name
+              description: description
+              defaultExpanded: true
+            - bindings:
+              - bindings
+              - bindings
+              name: name
+              description: description
+              defaultExpanded: true
+            fields:
+            - valueExtractor: null
+              display: null
+              label:
+                helpBubbleText: helpBubbleText
+                title: title
+              fieldId: fieldId
+            - valueExtractor: null
+              display: null
+              label:
+                helpBubbleText: helpBubbleText
+                title: title
+              fieldId: fieldId
+            events:
+              showEvents: true
+              relatedResourcesTemplate: relatedResourcesTemplate
+            relatedResources:
+            - hint: hint
+              stql: stql
+              title: title
+              viewTypeIdentifier: viewTypeIdentifier
+              resourceType: resourceType
+            - hint: hint
+              stql: stql
+              title: title
+              viewTypeIdentifier: viewTypeIdentifier
+              resourceType: resourceType
+          data:
+            lastUpdateTimestamp: 6
+            synced:
+            - syncName: syncName
+              lastUpdateTimestamp: 5
+              elementTypeTag: elementTypeTag
+              sourceProperties: "{}"
+              data: "{}"
+              identifiers:
+              - identifiers
+              - identifiers
+              externalId: externalId
+              id: 1
+              status: "{}"
+            - syncName: syncName
+              lastUpdateTimestamp: 5
+              elementTypeTag: elementTypeTag
+              sourceProperties: "{}"
+              data: "{}"
+              identifiers:
+              - identifiers
+              - identifiers
+              externalId: externalId
+              id: 1
+              status: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            domainName: domainName
+            name: name
+            description: description
+            health: null
+            id: 0
+            layerName: layerName
+            version: version
+            properties:
+              key: properties
+            tags:
+            - tags
+            - tags
+          iconbase64: iconbase64
+          typeName: typeName
+          boundTraces:
+            filter:
+              traceId:
+              - 6942f450030e8c5f7411a23c26185aa2
+              spanId:
+              - 1a607e3a97735e71
+              durationFromNanos: 500000
+              spanKind:
+              - Client
+              durationToNanos: 5000000
+              scopeName:
+              - scopeName
+              - scopeName
+              attributes:
+                key:
+                - attributes
+                - attributes
+              spanParentType:
+              - External
+              serviceName: orderService
+              spanName:
+              - GET /orders
+              statusCode:
+              - Error
+              scopeVersion:
+              - scopeVersion
+              - scopeVersion
+          actions:
+          - name: name
+            description: description
+            id: 5
+          - name: name
+            description: description
+            id: 5
+          boundMetrics:
+          - layout:
+              metricPerspective:
+                tab: tab
+                weight: 2
+                section: section
+              componentSummary:
+                weight: 9
+              componentHighlight:
+                weight: 7
+                section: section
+            dummy: true
+            identifier: identifier
+            unit: unit
+            valuation: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            chartType: null
+            description: description
+            alias: alias
+            tags:
+              key: tags
+          - layout:
+              metricPerspective:
+                tab: tab
+                weight: 2
+                section: section
+              componentSummary:
+                weight: 9
+              componentHighlight:
+                weight: 7
+                section: section
+            dummy: true
+            identifier: identifier
+            unit: unit
+            valuation: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            chartType: null
+            description: description
+            alias: alias
+            tags:
+              key: tags
+        target:
+          highlights:
+            showLastChange: true
+            namePlural: namePlural
+            externalComponent:
+              externalIdSelector: externalIdSelector
+              showConfiguration: true
+              showStatus: true
+            showLogs: true
+            about:
+              fields:
+              - fields
+              - fields
+            metrics:
+            - bindings:
+              - bindings
+              - bindings
+              name: name
+              description: description
+              defaultExpanded: true
+            - bindings:
+              - bindings
+              - bindings
+              name: name
+              description: description
+              defaultExpanded: true
+            fields:
+            - valueExtractor: null
+              display: null
+              label:
+                helpBubbleText: helpBubbleText
+                title: title
+              fieldId: fieldId
+            - valueExtractor: null
+              display: null
+              label:
+                helpBubbleText: helpBubbleText
+                title: title
+              fieldId: fieldId
+            events:
+              showEvents: true
+              relatedResourcesTemplate: relatedResourcesTemplate
+            relatedResources:
+            - hint: hint
+              stql: stql
+              title: title
+              viewTypeIdentifier: viewTypeIdentifier
+              resourceType: resourceType
+            - hint: hint
+              stql: stql
+              title: title
+              viewTypeIdentifier: viewTypeIdentifier
+              resourceType: resourceType
+          data:
+            lastUpdateTimestamp: 6
+            synced:
+            - syncName: syncName
+              lastUpdateTimestamp: 5
+              elementTypeTag: elementTypeTag
+              sourceProperties: "{}"
+              data: "{}"
+              identifiers:
+              - identifiers
+              - identifiers
+              externalId: externalId
+              id: 1
+              status: "{}"
+            - syncName: syncName
+              lastUpdateTimestamp: 5
+              elementTypeTag: elementTypeTag
+              sourceProperties: "{}"
+              data: "{}"
+              identifiers:
+              - identifiers
+              - identifiers
+              externalId: externalId
+              id: 1
+              status: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            domainName: domainName
+            name: name
+            description: description
+            health: null
+            id: 0
+            layerName: layerName
+            version: version
+            properties:
+              key: properties
+            tags:
+            - tags
+            - tags
+          iconbase64: iconbase64
+          typeName: typeName
+          boundTraces:
+            filter:
+              traceId:
+              - 6942f450030e8c5f7411a23c26185aa2
+              spanId:
+              - 1a607e3a97735e71
+              durationFromNanos: 500000
+              spanKind:
+              - Client
+              durationToNanos: 5000000
+              scopeName:
+              - scopeName
+              - scopeName
+              attributes:
+                key:
+                - attributes
+                - attributes
+              spanParentType:
+              - External
+              serviceName: orderService
+              spanName:
+              - GET /orders
+              statusCode:
+              - Error
+              scopeVersion:
+              - scopeVersion
+              - scopeVersion
+          actions:
+          - name: name
+            description: description
+            id: 5
+          - name: name
+            description: description
+            id: 5
+          boundMetrics:
+          - layout:
+              metricPerspective:
+                tab: tab
+                weight: 2
+                section: section
+              componentSummary:
+                weight: 9
+              componentHighlight:
+                weight: 7
+                section: section
+            dummy: true
+            identifier: identifier
+            unit: unit
+            valuation: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            chartType: null
+            description: description
+            alias: alias
+            tags:
+              key: tags
+          - layout:
+              metricPerspective:
+                tab: tab
+                weight: 2
+                section: section
+              componentSummary:
+                weight: 9
+              componentHighlight:
+                weight: 7
+                section: section
+            dummy: true
+            identifier: identifier
+            unit: unit
+            valuation: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            chartType: null
+            description: description
+            alias: alias
+            tags:
+              key: tags
+      properties:
+        data:
+          $ref: '#/components/schemas/RelationData'
+        source:
+          $ref: '#/components/schemas/FullComponent'
+        target:
+          $ref: '#/components/schemas/FullComponent'
+        typeName:
+          type: string
+      required:
+      - data
+      - source
+      - target
+      - typeName
+    RelationData:
+      example:
+        dependencyDirection: null
+        lastUpdateTimestamp: 5
+        synced:
+        - syncName: syncName
+          lastUpdateTimestamp: 6
+          elementTypeTag: elementTypeTag
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 0
+        - syncName: syncName
+          lastUpdateTimestamp: 6
+          elementTypeTag: elementTypeTag
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 0
+        identifiers:
+        - identifiers
+        - identifiers
+        name: name
+        health: null
+        description: description
+        id: 1
+        tags:
+        - tags
+        - tags
+      properties:
+        tags:
+          items:
+            type: string
+          type: array
+        health:
+          $ref: '#/components/schemas/HealthStateValue'
+        synced:
+          items:
+            $ref: '#/components/schemas/ExternalRelation'
+          type: array
+        identifiers:
+          items:
+            type: string
+          type: array
+        description:
+          type: string
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        name:
+          type: string
+        dependencyDirection:
+          $ref: '#/components/schemas/DependencyDirection'
+      required:
+      - dependencyDirection
+      - identifiers
+      - synced
+      - tags
+    ExternalRelation:
+      example:
+        syncName: syncName
+        lastUpdateTimestamp: 6
+        elementTypeTag: elementTypeTag
+        data: "{}"
+        identifiers:
+        - identifiers
+        - identifiers
+        externalId: externalId
+        id: 0
+      properties:
+        externalId:
+          type: string
+        identifiers:
+          items:
+            type: string
+          type: array
+        data:
+          type: object
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        elementTypeTag:
+          type: string
+        syncName:
+          type: string
+      required:
+      - data
+      - identifiers
+      - syncName
+    DependencyDirection:
+      enum:
+      - one-way
+      - none
+      - both
+      type: string
+    StackElementNotFound:
+      discriminator:
+        propertyName: _type
+      properties:
+        _type:
+          enum:
+          - StackElementNotFound
+          type: string
+        objectType:
+          type: string
+        objectId:
+          type: string
+        message:
+          type: string
+        existedEarlierMs:
+          format: int64
+          type: integer
+        existsLaterMs:
+          format: int64
+          type: integer
+      required:
+      - _type
+      - message
+      - objectId
+      - objectType
+      type: object
     CheckLeaseRequest:
       example:
         apiKey: apiKey
@@ -15274,11 +17021,20 @@ components:
     ComponentPresentation:
       example:
         presentation:
-          icon: icon
+          overview:
+            mainMenu:
+              iconbase64: iconbase64
+              group: group
+              order: 0.8008281904610115
+            title: title
+          iconbase64: iconbase64
+          name:
+            plural: plural
+            singular: singular
         identifier: identifier
         name: name
         description: description
-        expireAfterMs: 0
+        expireAfterMs: 6
       properties:
         identifier:
           type: string
@@ -15298,10 +17054,68 @@ components:
       type: object
     PresentationDefinition:
       example:
-        icon: icon
+        overview:
+          mainMenu:
+            iconbase64: iconbase64
+            group: group
+            order: 0.8008281904610115
+          title: title
+        iconbase64: iconbase64
+        name:
+          plural: plural
+          singular: singular
       properties:
-        icon:
+        iconbase64:
           type: string
+        name:
+          $ref: '#/components/schemas/PresentationName'
+        overview:
+          $ref: '#/components/schemas/PresentationOverview'
+      type: object
+    PresentationName:
+      example:
+        plural: plural
+        singular: singular
+      properties:
+        singular:
+          type: string
+        plural:
+          type: string
+      required:
+      - plural
+      - singular
+      type: object
+    PresentationOverview:
+      example:
+        mainMenu:
+          iconbase64: iconbase64
+          group: group
+          order: 0.8008281904610115
+        title: title
+      properties:
+        title:
+          type: string
+        mainMenu:
+          $ref: '#/components/schemas/PresentationMainMenu'
+      required:
+      - title
+      type: object
+    PresentationMainMenu:
+      example:
+        iconbase64: iconbase64
+        group: group
+        order: 0.8008281904610115
+      properties:
+        group:
+          type: string
+        iconbase64:
+          type: string
+        order:
+          format: double
+          type: number
+      required:
+      - group
+      - order
       type: object
     ComponentPresentationApiError:
       properties:
@@ -15318,8 +17132,12 @@ components:
         description: description
         defaultOpen: true
         items:
-        - viewIdentifier: viewIdentifier
-        - viewIdentifier: viewIdentifier
+        - identifier: identifier
+          iconbase64: iconbase64
+          title: title
+        - identifier: identifier
+          iconbase64: iconbase64
+          title: title
       properties:
         name:
           type: string
@@ -15342,13 +17160,21 @@ components:
       - name
     MainMenuViewItem:
       example:
-        viewIdentifier: viewIdentifier
+        identifier: identifier
+        iconbase64: iconbase64
+        title: title
       properties:
-        viewIdentifier:
+        identifier:
+          description: Either a viewIdentifier or a componentPresentationIdentifier
+          type: string
+        title:
+          type: string
+        iconbase64:
           type: string
       required:
-      - viewIdentifier
-    SnapshotRequest:
+      - identifier
+      - title
+    ViewSnapshotRequest:
       example:
         metadata:
           minGroupSize: 0
@@ -15362,13 +17188,14 @@ components:
           connectedComponents: true
           groupingEnabled: true
           groupedByDomain: true
+        viewId: 1
         query: query
-        _type: SnapshotRequest
+        _type: ViewSnapshotRequest
         queryVersion: 0.0.1
       properties:
         _type:
           enum:
-          - SnapshotRequest
+          - ViewSnapshotRequest
           type: string
         query:
           description: STQL query string
@@ -15379,6 +17206,12 @@ components:
           type: string
         metadata:
           $ref: '#/components/schemas/QueryMetadata'
+        viewId:
+          description: View identifier that gets mapped back in the response. Preserved
+            for compatibility when this API got moved to OpenAPI. Not used for any
+            processing.
+          format: int64
+          type: integer
       required:
       - _type
       - metadata
@@ -15443,15 +17276,16 @@ components:
         Query succeeded (or encountered a runtime error that's part of the result).
         The SnapshotResponse uses existing DTO types for nested structures.
       example:
+        viewId: 0
+        viewSnapshotResponse: "{}"
         _type: QuerySnapshotResult
-        snapshotResponse: "{}"
       properties:
         _type:
           description: Discriminator field
           enum:
           - QuerySnapshotResult
           type: string
-        snapshotResponse:
+        viewSnapshotResponse:
           description: |
             The query result or error response. This is opaque at the API level but contains one of the following DTO types:
             - ViewSnapshot (success)
@@ -15461,9 +17295,15 @@ components:
             - ViewSnapshotDataUnavailable (error)
             Use the _type field to discriminate between types.
           type: object
+        viewId:
+          description: View identifier that was provided in the ViewSnapshotRequest.
+            Preserved for compatibility when this API got moved to OpenAPI. Not used
+            for any processing.
+          format: int64
+          type: integer
       required:
       - _type
-      - snapshotResponse
+      - viewSnapshotResponse
       type: object
     QueryParsingFailure:
       description: |
@@ -15480,32 +17320,6 @@ components:
       required:
       - _type
       - reason
-      type: object
-    StackElementNotFound:
-      discriminator:
-        propertyName: _type
-      properties:
-        _type:
-          enum:
-          - StackElementNotFound
-          type: string
-        objectType:
-          type: string
-        objectId:
-          type: string
-        message:
-          type: string
-        existedEarlierMs:
-          format: int64
-          type: integer
-        existsLaterMs:
-          format: int64
-          type: integer
-      required:
-      - _type
-      - message
-      - objectId
-      - objectType
       type: object
     Argument:
       discriminator:

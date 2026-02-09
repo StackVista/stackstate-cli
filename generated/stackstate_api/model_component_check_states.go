@@ -17,16 +17,16 @@ import (
 
 // ComponentCheckStates struct for ComponentCheckStates
 type ComponentCheckStates struct {
-	CheckStateIds []ComponentCheckState `json:"checkStateIds" yaml:"checkStateIds"`
+	CheckStates []ComponentCheckState `json:"checkStates" yaml:"checkStates"`
 }
 
 // NewComponentCheckStates instantiates a new ComponentCheckStates object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewComponentCheckStates(checkStateIds []ComponentCheckState) *ComponentCheckStates {
+func NewComponentCheckStates(checkStates []ComponentCheckState) *ComponentCheckStates {
 	this := ComponentCheckStates{}
-	this.CheckStateIds = checkStateIds
+	this.CheckStates = checkStates
 	return &this
 }
 
@@ -38,34 +38,34 @@ func NewComponentCheckStatesWithDefaults() *ComponentCheckStates {
 	return &this
 }
 
-// GetCheckStateIds returns the CheckStateIds field value
-func (o *ComponentCheckStates) GetCheckStateIds() []ComponentCheckState {
+// GetCheckStates returns the CheckStates field value
+func (o *ComponentCheckStates) GetCheckStates() []ComponentCheckState {
 	if o == nil {
 		var ret []ComponentCheckState
 		return ret
 	}
 
-	return o.CheckStateIds
+	return o.CheckStates
 }
 
-// GetCheckStateIdsOk returns a tuple with the CheckStateIds field value
+// GetCheckStatesOk returns a tuple with the CheckStates field value
 // and a boolean to check if the value has been set.
-func (o *ComponentCheckStates) GetCheckStateIdsOk() ([]ComponentCheckState, bool) {
+func (o *ComponentCheckStates) GetCheckStatesOk() ([]ComponentCheckState, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.CheckStateIds, true
+	return o.CheckStates, true
 }
 
-// SetCheckStateIds sets field value
-func (o *ComponentCheckStates) SetCheckStateIds(v []ComponentCheckState) {
-	o.CheckStateIds = v
+// SetCheckStates sets field value
+func (o *ComponentCheckStates) SetCheckStates(v []ComponentCheckState) {
+	o.CheckStates = v
 }
 
 func (o ComponentCheckStates) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["checkStateIds"] = o.CheckStateIds
+		toSerialize["checkStates"] = o.CheckStates
 	}
 	return json.Marshal(toSerialize)
 }

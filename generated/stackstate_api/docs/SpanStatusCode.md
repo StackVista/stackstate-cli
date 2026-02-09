@@ -1,0 +1,15 @@
+# SpanStatusCode
+
+## Enum
+
+
+* `ERROR` (value: `"Error"`)
+
+* `OK` (value: `"Ok"`)
+
+* `UNSET` (value: `"Unset"`)
+
+
+[[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
+
+

@@ -17,7 +17,7 @@ Name | Type | Description | Notes
 **SpanParentType** | [**SpanParentType**](SpanParentType.md) |  | 
 **SpanAttributes** | **map[string]string** | Set of key/value pairs providing extra contextual information. Keys are unique. | 
 **ResourceId** | **string** | Reference to shared resource attributes, used to deduplicate repeated resource data. | 
-**StatusCode** | [**StatusCode**](StatusCode.md) |  | 
+**StatusCode** | [**SpanStatusCode**](SpanStatusCode.md) |  | 
 **StatusMessage** | Pointer to **string** | Human readable message for the status | [optional] 
 **ScopeName** | Pointer to **string** | The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope | [optional] 
 **ScopeVersion** | Pointer to **string** | The version for the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope | [optional] 
@@ -28,7 +28,7 @@ Name | Type | Description | Notes
 
 ### NewSpan
 
-`func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, spanAttributes map[string]string, resourceId string, statusCode StatusCode, events []SpanEvent, links []SpanLink, ) *Span`
+`func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, spanAttributes map[string]string, resourceId string, statusCode SpanStatusCode, events []SpanEvent, links []SpanLink, ) *Span`
 
 NewSpan instantiates a new Span object
 This constructor will assign default values to properties that have it defined,
@@ -315,20 +315,20 @@ SetResourceId sets ResourceId field to given value.
 
 ### GetStatusCode
 
-`func (o *Span) GetStatusCode() StatusCode`
+`func (o *Span) GetStatusCode() SpanStatusCode`
 
 GetStatusCode returns the StatusCode field if non-nil, zero value otherwise.
 
 ### GetStatusCodeOk
 
-`func (o *Span) GetStatusCodeOk() (*StatusCode, bool)`
+`func (o *Span) GetStatusCodeOk() (*SpanStatusCode, bool)`
 
 GetStatusCodeOk returns a tuple with the StatusCode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatusCode
 
-`func (o *Span) SetStatusCode(v StatusCode)`
+`func (o *Span) SetStatusCode(v SpanStatusCode)`
 
 SetStatusCode sets StatusCode field to given value.
 

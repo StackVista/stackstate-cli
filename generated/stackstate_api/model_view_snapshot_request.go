@@ -15,21 +15,23 @@ import (
 	"encoding/json"
 )
 
-// SnapshotRequest struct for SnapshotRequest
-type SnapshotRequest struct {
+// ViewSnapshotRequest struct for ViewSnapshotRequest
+type ViewSnapshotRequest struct {
 	Type string `json:"_type" yaml:"_type"`
 	// STQL query string
 	Query        string        `json:"query" yaml:"query"`
 	QueryVersion string        `json:"queryVersion" yaml:"queryVersion"`
 	Metadata     QueryMetadata `json:"metadata" yaml:"metadata"`
+	// View identifier that gets mapped back in the response. Preserved for compatibility when this API got moved to OpenAPI. Not used for any processing.
+	ViewId *int64 `json:"viewId,omitempty" yaml:"viewId,omitempty"`
 }
 
-// NewSnapshotRequest instantiates a new SnapshotRequest object
+// NewViewSnapshotRequest instantiates a new ViewSnapshotRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSnapshotRequest(type_ string, query string, queryVersion string, metadata QueryMetadata) *SnapshotRequest {
-	this := SnapshotRequest{}
+func NewViewSnapshotRequest(type_ string, query string, queryVersion string, metadata QueryMetadata) *ViewSnapshotRequest {
+	this := ViewSnapshotRequest{}
 	this.Type = type_
 	this.Query = query
 	this.QueryVersion = queryVersion
@@ -37,16 +39,16 @@ func NewSnapshotRequest(type_ string, query string, queryVersion string, metadat
 	return &this
 }
 
-// NewSnapshotRequestWithDefaults instantiates a new SnapshotRequest object
+// NewViewSnapshotRequestWithDefaults instantiates a new ViewSnapshotRequest object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewSnapshotRequestWithDefaults() *SnapshotRequest {
-	this := SnapshotRequest{}
+func NewViewSnapshotRequestWithDefaults() *ViewSnapshotRequest {
+	this := ViewSnapshotRequest{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *SnapshotRequest) GetType() string {
+func (o *ViewSnapshotRequest) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -57,7 +59,7 @@ func (o *SnapshotRequest) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *SnapshotRequest) GetTypeOk() (*string, bool) {
+func (o *ViewSnapshotRequest) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,12 +67,12 @@ func (o *SnapshotRequest) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *SnapshotRequest) SetType(v string) {
+func (o *ViewSnapshotRequest) SetType(v string) {
 	o.Type = v
 }
 
 // GetQuery returns the Query field value
-func (o *SnapshotRequest) GetQuery() string {
+func (o *ViewSnapshotRequest) GetQuery() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -81,7 +83,7 @@ func (o *SnapshotRequest) GetQuery() string {
 
 // GetQueryOk returns a tuple with the Query field value
 // and a boolean to check if the value has been set.
-func (o *SnapshotRequest) GetQueryOk() (*string, bool) {
+func (o *ViewSnapshotRequest) GetQueryOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -89,12 +91,12 @@ func (o *SnapshotRequest) GetQueryOk() (*string, bool) {
 }
 
 // SetQuery sets field value
-func (o *SnapshotRequest) SetQuery(v string) {
+func (o *ViewSnapshotRequest) SetQuery(v string) {
 	o.Query = v
 }
 
 // GetQueryVersion returns the QueryVersion field value
-func (o *SnapshotRequest) GetQueryVersion() string {
+func (o *ViewSnapshotRequest) GetQueryVersion() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -105,7 +107,7 @@ func (o *SnapshotRequest) GetQueryVersion() string {
 
 // GetQueryVersionOk returns a tuple with the QueryVersion field value
 // and a boolean to check if the value has been set.
-func (o *SnapshotRequest) GetQueryVersionOk() (*string, bool) {
+func (o *ViewSnapshotRequest) GetQueryVersionOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -113,12 +115,12 @@ func (o *SnapshotRequest) GetQueryVersionOk() (*string, bool) {
 }
 
 // SetQueryVersion sets field value
-func (o *SnapshotRequest) SetQueryVersion(v string) {
+func (o *ViewSnapshotRequest) SetQueryVersion(v string) {
 	o.QueryVersion = v
 }
 
 // GetMetadata returns the Metadata field value
-func (o *SnapshotRequest) GetMetadata() QueryMetadata {
+func (o *ViewSnapshotRequest) GetMetadata() QueryMetadata {
 	if o == nil {
 		var ret QueryMetadata
 		return ret
@@ -129,7 +131,7 @@ func (o *SnapshotRequest) GetMetadata() QueryMetadata {
 
 // GetMetadataOk returns a tuple with the Metadata field value
 // and a boolean to check if the value has been set.
-func (o *SnapshotRequest) GetMetadataOk() (*QueryMetadata, bool) {
+func (o *ViewSnapshotRequest) GetMetadataOk() (*QueryMetadata, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -137,11 +139,43 @@ func (o *SnapshotRequest) GetMetadataOk() (*QueryMetadata, bool) {
 }
 
 // SetMetadata sets field value
-func (o *SnapshotRequest) SetMetadata(v QueryMetadata) {
+func (o *ViewSnapshotRequest) SetMetadata(v QueryMetadata) {
 	o.Metadata = v
 }
 
-func (o SnapshotRequest) MarshalJSON() ([]byte, error) {
+// GetViewId returns the ViewId field value if set, zero value otherwise.
+func (o *ViewSnapshotRequest) GetViewId() int64 {
+	if o == nil || o.ViewId == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ViewId
+}
+
+// GetViewIdOk returns a tuple with the ViewId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ViewSnapshotRequest) GetViewIdOk() (*int64, bool) {
+	if o == nil || o.ViewId == nil {
+		return nil, false
+	}
+	return o.ViewId, true
+}
+
+// HasViewId returns a boolean if a field has been set.
+func (o *ViewSnapshotRequest) HasViewId() bool {
+	if o != nil && o.ViewId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetViewId gets a reference to the given int64 and assigns it to the ViewId field.
+func (o *ViewSnapshotRequest) SetViewId(v int64) {
+	o.ViewId = &v
+}
+
+func (o ViewSnapshotRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["_type"] = o.Type
@@ -155,41 +189,44 @@ func (o SnapshotRequest) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["metadata"] = o.Metadata
 	}
+	if o.ViewId != nil {
+		toSerialize["viewId"] = o.ViewId
+	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableSnapshotRequest struct {
-	value *SnapshotRequest
+type NullableViewSnapshotRequest struct {
+	value *ViewSnapshotRequest
 	isSet bool
 }
 
-func (v NullableSnapshotRequest) Get() *SnapshotRequest {
+func (v NullableViewSnapshotRequest) Get() *ViewSnapshotRequest {
 	return v.value
 }
 
-func (v *NullableSnapshotRequest) Set(val *SnapshotRequest) {
+func (v *NullableViewSnapshotRequest) Set(val *ViewSnapshotRequest) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableSnapshotRequest) IsSet() bool {
+func (v NullableViewSnapshotRequest) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableSnapshotRequest) Unset() {
+func (v *NullableViewSnapshotRequest) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableSnapshotRequest(val *SnapshotRequest) *NullableSnapshotRequest {
-	return &NullableSnapshotRequest{value: val, isSet: true}
+func NewNullableViewSnapshotRequest(val *ViewSnapshotRequest) *NullableViewSnapshotRequest {
+	return &NullableViewSnapshotRequest{value: val, isSet: true}
 }
 
-func (v NullableSnapshotRequest) MarshalJSON() ([]byte, error) {
+func (v NullableViewSnapshotRequest) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableSnapshotRequest) UnmarshalJSON(src []byte) error {
+func (v *NullableViewSnapshotRequest) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

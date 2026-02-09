@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**CheckStateIds** | [**[]ComponentCheckState**](ComponentCheckState.md) |  | 
+**CheckStates** | [**[]ComponentCheckState**](ComponentCheckState.md) |  | 
 
 ## Methods
 
 ### NewComponentCheckStates
 
-`func NewComponentCheckStates(checkStateIds []ComponentCheckState, ) *ComponentCheckStates`
+`func NewComponentCheckStates(checkStates []ComponentCheckState, ) *ComponentCheckStates`
 
 NewComponentCheckStates instantiates a new ComponentCheckStates object
 This constructor will assign default values to properties that have it defined,
@@ -25,24 +25,24 @@ NewComponentCheckStatesWithDefaults instantiates a new ComponentCheckStates obje
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetCheckStateIds
+### GetCheckStates
 
-`func (o *ComponentCheckStates) GetCheckStateIds() []ComponentCheckState`
+`func (o *ComponentCheckStates) GetCheckStates() []ComponentCheckState`
 
-GetCheckStateIds returns the CheckStateIds field if non-nil, zero value otherwise.
+GetCheckStates returns the CheckStates field if non-nil, zero value otherwise.
 
-### GetCheckStateIdsOk
+### GetCheckStatesOk
 
-`func (o *ComponentCheckStates) GetCheckStateIdsOk() (*[]ComponentCheckState, bool)`
+`func (o *ComponentCheckStates) GetCheckStatesOk() (*[]ComponentCheckState, bool)`
 
-GetCheckStateIdsOk returns a tuple with the CheckStateIds field if it's non-nil, zero value otherwise
+GetCheckStatesOk returns a tuple with the CheckStates field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetCheckStateIds
+### SetCheckStates
 
-`func (o *ComponentCheckStates) SetCheckStateIds(v []ComponentCheckState)`
+`func (o *ComponentCheckStates) SetCheckStates(v []ComponentCheckState)`
 
-SetCheckStateIds sets CheckStateIds field to given value.
+SetCheckStates sets CheckStates field to given value.
 
 
 

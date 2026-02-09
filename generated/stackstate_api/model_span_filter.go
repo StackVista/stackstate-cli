@@ -32,7 +32,7 @@ type SpanFilter struct {
 	// Filter spans by duration < value, in nanoseconds
 	DurationToNanos *int64 `json:"durationToNanos,omitempty" yaml:"durationToNanos,omitempty"`
 	// Filter spans by the StatusCode
-	StatusCode []StatusCode `json:"statusCode,omitempty" yaml:"statusCode,omitempty"`
+	StatusCode []SpanStatusCode `json:"statusCode,omitempty" yaml:"statusCode,omitempty"`
 	// Filter spans by trace id, use only this filter to get a complete trace
 	TraceId []string `json:"traceId,omitempty" yaml:"traceId,omitempty"`
 	// Filter spans by span id, use only this filter to get a single span
@@ -285,9 +285,9 @@ func (o *SpanFilter) SetDurationToNanos(v int64) {
 }
 
 // GetStatusCode returns the StatusCode field value if set, zero value otherwise.
-func (o *SpanFilter) GetStatusCode() []StatusCode {
+func (o *SpanFilter) GetStatusCode() []SpanStatusCode {
 	if o == nil || o.StatusCode == nil {
-		var ret []StatusCode
+		var ret []SpanStatusCode
 		return ret
 	}
 	return o.StatusCode
@@ -295,7 +295,7 @@ func (o *SpanFilter) GetStatusCode() []StatusCode {
 
 // GetStatusCodeOk returns a tuple with the StatusCode field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *SpanFilter) GetStatusCodeOk() ([]StatusCode, bool) {
+func (o *SpanFilter) GetStatusCodeOk() ([]SpanStatusCode, bool) {
 	if o == nil || o.StatusCode == nil {
 		return nil, false
 	}
@@ -311,8 +311,8 @@ func (o *SpanFilter) HasStatusCode() bool {
 	return false
 }
 
-// SetStatusCode gets a reference to the given []StatusCode and assigns it to the StatusCode field.
-func (o *SpanFilter) SetStatusCode(v []StatusCode) {
+// SetStatusCode gets a reference to the given []SpanStatusCode and assigns it to the StatusCode field.
+func (o *SpanFilter) SetStatusCode(v []SpanStatusCode) {
 	o.StatusCode = v
 }
 

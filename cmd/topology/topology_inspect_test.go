@@ -21,7 +21,7 @@ func setInspectCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 func mockSnapshotResponse() sts.QuerySnapshotResult {
 	return sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
-		SnapshotResponse: map[string]interface{}{
+		ViewSnapshotResponse: map[string]interface{}{
 			"_type": "ViewSnapshot",
 			"components": []interface{}{
 				map[string]interface{}{
@@ -121,7 +121,7 @@ func TestTopologyInspectWithTags(t *testing.T) {
 
 	// Verify query contains both tags ANDed
 	call := calls[0]
-	request := call.PsnapshotRequest
+	request := call.PviewSnapshotRequest
 	expectedQuery := `type = "test type" AND label = "service.namespace:test" AND label = "service.name:myservice"`
 	assert.Equal(t, expectedQuery, request.Query)
 }
@@ -141,7 +141,7 @@ func TestTopologyInspectWithIdentifiers(t *testing.T) {
 
 	// Verify query contains identifiers in IN clause
 	call := calls[0]
-	request := call.PsnapshotRequest
+	request := call.PviewSnapshotRequest
 	expectedQuery := `type = "test type" AND identifier IN ("urn:test:1", "urn:test:2")`
 	assert.Equal(t, expectedQuery, request.Query)
 }
@@ -150,7 +150,7 @@ func TestTopologyInspectNoResults(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
-		SnapshotResponse: map[string]interface{}{
+		ViewSnapshotResponse: map[string]interface{}{
 			"_type":      "ViewSnapshot",
 			"components": []interface{}{},
 			"metadata": map[string]interface{}{
@@ -178,7 +178,7 @@ func TestTopologyInspectMultipleIdentifiers(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	responseData := mockSnapshotResponse()
 	// Modify to include multiple identifiers
-	components := responseData.SnapshotResponse["components"].([]interface{})
+	components := responseData.ViewSnapshotResponse["components"].([]interface{})
 	comp := components[0].(map[string]interface{})
 	comp["identifiers"] = []interface{}{"urn:test:1", "urn:test:2", "urn:test:3"}
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = responseData
@@ -199,7 +199,7 @@ func TestTopologyInspectURLEncoding(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	responseData := mockSnapshotResponse()
 	// Set identifier with special characters
-	components := responseData.SnapshotResponse["components"].([]interface{})
+	components := responseData.ViewSnapshotResponse["components"].([]interface{})
 	comp := components[0].(map[string]interface{})
 	comp["identifiers"] = []interface{}{"urn:opentelemetry:namespace/service:component/name"}
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = responseData
@@ -219,11 +219,11 @@ func TestTopologyInspectWithEnvironment(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	responseData := mockSnapshotResponse()
 	// Add environment to component
-	components := responseData.SnapshotResponse["components"].([]interface{})
+	components := responseData.ViewSnapshotResponse["components"].([]interface{})
 	comp := components[0].(map[string]interface{})
 	comp["environment"] = float64(123)
 	// Add environment to metadata
-	metadata := responseData.SnapshotResponse["metadata"].(map[string]interface{})
+	metadata := responseData.ViewSnapshotResponse["metadata"].(map[string]interface{})
 	metadata["environments"] = []interface{}{
 		map[string]interface{}{
 			"id":   float64(123),
@@ -292,7 +292,7 @@ func TestTopologyInspectFetchTimeout(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
-		SnapshotResponse: map[string]interface{}{
+		ViewSnapshotResponse: map[string]interface{}{
 			"_type":              "ViewSnapshotFetchTimeout",
 			"usedTimeoutSeconds": float64(30),
 		},
@@ -310,7 +310,7 @@ func TestTopologyInspectTooManyActiveQueries(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
-		SnapshotResponse: map[string]interface{}{
+		ViewSnapshotResponse: map[string]interface{}{
 			"_type": "ViewSnapshotTooManyActiveQueries",
 		},
 	}
@@ -327,7 +327,7 @@ func TestTopologyInspectTopologySizeOverflow(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
-		SnapshotResponse: map[string]interface{}{
+		ViewSnapshotResponse: map[string]interface{}{
 			"_type":   "ViewSnapshotTopologySizeOverflow",
 			"maxSize": float64(10000),
 		},
@@ -345,7 +345,7 @@ func TestTopologyInspectDataUnavailable(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
-		SnapshotResponse: map[string]interface{}{
+		ViewSnapshotResponse: map[string]interface{}{
 			"_type":                 "ViewSnapshotDataUnavailable",
 			"unavailableAtEpochMs":  float64(1000000),
 			"availableSinceEpochMs": float64(1609459200000),

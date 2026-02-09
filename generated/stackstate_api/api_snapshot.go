@@ -38,15 +38,15 @@ type SnapshotApi interface {
 type SnapshotApiService service
 
 type ApiQuerySnapshotRequest struct {
-	ctx             context.Context
-	ApiService      SnapshotApi
-	snapshotRequest *SnapshotRequest
-	timeoutMs       *int64
+	ctx                 context.Context
+	ApiService          SnapshotApi
+	viewSnapshotRequest *ViewSnapshotRequest
+	timeoutMs           *int64
 }
 
 // Request body for querying a topology snapshot
-func (r ApiQuerySnapshotRequest) SnapshotRequest(snapshotRequest SnapshotRequest) ApiQuerySnapshotRequest {
-	r.snapshotRequest = &snapshotRequest
+func (r ApiQuerySnapshotRequest) ViewSnapshotRequest(viewSnapshotRequest ViewSnapshotRequest) ApiQuerySnapshotRequest {
+	r.viewSnapshotRequest = &viewSnapshotRequest
 	return r
 }
 
@@ -94,8 +94,8 @@ func (a *SnapshotApiService) QuerySnapshotExecute(r ApiQuerySnapshotRequest) (*Q
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
-	if r.snapshotRequest == nil {
-		return localVarReturnValue, nil, reportError("snapshotRequest is required and must be specified")
+	if r.viewSnapshotRequest == nil {
+		return localVarReturnValue, nil, reportError("viewSnapshotRequest is required and must be specified")
 	}
 
 	if r.timeoutMs != nil {
@@ -119,7 +119,7 @@ func (a *SnapshotApiService) QuerySnapshotExecute(r ApiQuerySnapshotRequest) (*Q
 		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
 	}
 	// body params
-	localVarPostBody = r.snapshotRequest
+	localVarPostBody = r.viewSnapshotRequest
 	if r.ctx != nil {
 		// API Key Authentication
 		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
@@ -241,8 +241,8 @@ type QuerySnapshotMockResponse struct {
 }
 
 type QuerySnapshotCall struct {
-	PsnapshotRequest *SnapshotRequest
-	PtimeoutMs       *int64
+	PviewSnapshotRequest *ViewSnapshotRequest
+	PtimeoutMs           *int64
 }
 
 func (mock SnapshotApiMock) QuerySnapshot(ctx context.Context) ApiQuerySnapshotRequest {
@@ -254,8 +254,8 @@ func (mock SnapshotApiMock) QuerySnapshot(ctx context.Context) ApiQuerySnapshotR
 
 func (mock SnapshotApiMock) QuerySnapshotExecute(r ApiQuerySnapshotRequest) (*QuerySnapshotResult, *http.Response, error) {
 	p := QuerySnapshotCall{
-		PsnapshotRequest: r.snapshotRequest,
-		PtimeoutMs:       r.timeoutMs,
+		PviewSnapshotRequest: r.viewSnapshotRequest,
+		PtimeoutMs:           r.timeoutMs,
 	}
 	*mock.QuerySnapshotCalls = append(*mock.QuerySnapshotCalls, p)
 	return &mock.QuerySnapshotResponse.Result, mock.QuerySnapshotResponse.Response, mock.QuerySnapshotResponse.Error

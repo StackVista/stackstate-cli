@@ -4,7 +4,9 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Icon** | Pointer to **string** |  | [optional] 
+**Iconbase64** | Pointer to **string** |  | [optional] 
+**Name** | Pointer to [**PresentationName**](PresentationName.md) |  | [optional] 
+**Overview** | Pointer to [**PresentationOverview**](PresentationOverview.md) |  | [optional] 
 
 ## Methods
 
@@ -25,30 +27,80 @@ NewPresentationDefinitionWithDefaults instantiates a new PresentationDefinition 
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetIcon
+### GetIconbase64
 
-`func (o *PresentationDefinition) GetIcon() string`
+`func (o *PresentationDefinition) GetIconbase64() string`
 
-GetIcon returns the Icon field if non-nil, zero value otherwise.
+GetIconbase64 returns the Iconbase64 field if non-nil, zero value otherwise.
 
-### GetIconOk
+### GetIconbase64Ok
 
-`func (o *PresentationDefinition) GetIconOk() (*string, bool)`
+`func (o *PresentationDefinition) GetIconbase64Ok() (*string, bool)`
 
-GetIconOk returns a tuple with the Icon field if it's non-nil, zero value otherwise
+GetIconbase64Ok returns a tuple with the Iconbase64 field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIcon
+### SetIconbase64
 
-`func (o *PresentationDefinition) SetIcon(v string)`
+`func (o *PresentationDefinition) SetIconbase64(v string)`
 
-SetIcon sets Icon field to given value.
+SetIconbase64 sets Iconbase64 field to given value.
 
-### HasIcon
+### HasIconbase64
 
-`func (o *PresentationDefinition) HasIcon() bool`
+`func (o *PresentationDefinition) HasIconbase64() bool`
 
-HasIcon returns a boolean if a field has been set.
+HasIconbase64 returns a boolean if a field has been set.
+
+### GetName
+
+`func (o *PresentationDefinition) GetName() PresentationName`
+
+GetName returns the Name field if non-nil, zero value otherwise.
+
+### GetNameOk
+
+`func (o *PresentationDefinition) GetNameOk() (*PresentationName, bool)`
+
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetName
+
+`func (o *PresentationDefinition) SetName(v PresentationName)`
+
+SetName sets Name field to given value.
+
+### HasName
+
+`func (o *PresentationDefinition) HasName() bool`
+
+HasName returns a boolean if a field has been set.
+
+### GetOverview
+
+`func (o *PresentationDefinition) GetOverview() PresentationOverview`
+
+GetOverview returns the Overview field if non-nil, zero value otherwise.
+
+### GetOverviewOk
+
+`func (o *PresentationDefinition) GetOverviewOk() (*PresentationOverview, bool)`
+
+GetOverviewOk returns a tuple with the Overview field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetOverview
+
+`func (o *PresentationDefinition) SetOverview(v PresentationOverview)`
+
+SetOverview sets Overview field to given value.
+
+### HasOverview
+
+`func (o *PresentationDefinition) HasOverview() bool`
+
+HasOverview returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
