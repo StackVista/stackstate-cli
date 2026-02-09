@@ -21,22 +21,22 @@ type SpanKind string
 
 // List of SpanKind
 const (
-	SPANKIND_UNSPECIFIED SpanKind = "Unspecified"
 	SPANKIND_CLIENT      SpanKind = "Client"
-	SPANKIND_SERVER      SpanKind = "Server"
-	SPANKIND_INTERNAL    SpanKind = "Internal"
 	SPANKIND_CONSUMER    SpanKind = "Consumer"
+	SPANKIND_INTERNAL    SpanKind = "Internal"
 	SPANKIND_PRODUCER    SpanKind = "Producer"
+	SPANKIND_SERVER      SpanKind = "Server"
+	SPANKIND_UNSPECIFIED SpanKind = "Unspecified"
 )
 
 // All allowed values of SpanKind enum
 var AllowedSpanKindEnumValues = []SpanKind{
-	"Unspecified",
 	"Client",
-	"Server",
-	"Internal",
 	"Consumer",
+	"Internal",
 	"Producer",
+	"Server",
+	"Unspecified",
 }
 
 func (v *SpanKind) UnmarshalJSON(src []byte) error {

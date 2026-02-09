@@ -38,8 +38,8 @@ type Span struct {
 	// Set of key/value pairs providing extra contextual information. Keys are unique.
 	SpanAttributes map[string]string `json:"spanAttributes" yaml:"spanAttributes"`
 	// Reference to shared resource attributes, used to deduplicate repeated resource data.
-	ResourceId string     `json:"resourceId" yaml:"resourceId"`
-	StatusCode StatusCode `json:"statusCode" yaml:"statusCode"`
+	ResourceId string         `json:"resourceId" yaml:"resourceId"`
+	StatusCode SpanStatusCode `json:"statusCode" yaml:"statusCode"`
 	// Human readable message for the status
 	StatusMessage *string `json:"statusMessage,omitempty" yaml:"statusMessage,omitempty"`
 	// The name of the instrumentation scope for the span https://opentelemetry.io/docs/specs/otel/glossary/#instrumentation-scope
@@ -56,7 +56,7 @@ type Span struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, spanAttributes map[string]string, resourceId string, statusCode StatusCode, events []SpanEvent, links []SpanLink) *Span {
+func NewSpan(startTime InstantNanoPrecision, endTime InstantNanoPrecision, durationNanos int64, traceId string, spanId string, spanName string, serviceName string, spanKind SpanKind, spanParentType SpanParentType, spanAttributes map[string]string, resourceId string, statusCode SpanStatusCode, events []SpanEvent, links []SpanLink) *Span {
 	this := Span{}
 	this.StartTime = startTime
 	this.EndTime = endTime
@@ -412,9 +412,9 @@ func (o *Span) SetResourceId(v string) {
 }
 
 // GetStatusCode returns the StatusCode field value
-func (o *Span) GetStatusCode() StatusCode {
+func (o *Span) GetStatusCode() SpanStatusCode {
 	if o == nil {
-		var ret StatusCode
+		var ret SpanStatusCode
 		return ret
 	}
 
@@ -423,7 +423,7 @@ func (o *Span) GetStatusCode() StatusCode {
 
 // GetStatusCodeOk returns a tuple with the StatusCode field value
 // and a boolean to check if the value has been set.
-func (o *Span) GetStatusCodeOk() (*StatusCode, bool) {
+func (o *Span) GetStatusCodeOk() (*SpanStatusCode, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -431,7 +431,7 @@ func (o *Span) GetStatusCodeOk() (*StatusCode, bool) {
 }
 
 // SetStatusCode sets field value
-func (o *Span) SetStatusCode(v StatusCode) {
+func (o *Span) SetStatusCode(v SpanStatusCode) {
 	o.StatusCode = v
 }
 

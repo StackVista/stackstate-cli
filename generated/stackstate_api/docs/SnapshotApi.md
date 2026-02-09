@@ -10,7 +10,7 @@ Method | HTTP request | Description
 
 ## QuerySnapshot
 
-> QuerySnapshotResult QuerySnapshot(ctx).SnapshotRequest(snapshotRequest).TimeoutMs(timeoutMs).Execute()
+> QuerySnapshotResult QuerySnapshot(ctx).ViewSnapshotRequest(viewSnapshotRequest).TimeoutMs(timeoutMs).Execute()
 
 Query topology snapshot
 
@@ -27,12 +27,12 @@ import (
 )
 
 func main() {
-    snapshotRequest := *openapiclient.NewSnapshotRequest("Type_example", "Query_example", "0.0.1", *openapiclient.NewQueryMetadata(false, false, int64(123), false, false, false, false, false, false, false)) // SnapshotRequest | Request body for querying a topology snapshot
+    viewSnapshotRequest := *openapiclient.NewViewSnapshotRequest("Type_example", "Query_example", "0.0.1", *openapiclient.NewQueryMetadata(false, false, int64(123), false, false, false, false, false, false, false)) // ViewSnapshotRequest | Request body for querying a topology snapshot
     timeoutMs := int64(789) // int64 | Query timeout in milliseconds (optional) (default to 30000)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.SnapshotApi.QuerySnapshot(context.Background()).SnapshotRequest(snapshotRequest).TimeoutMs(timeoutMs).Execute()
+    resp, r, err := apiClient.SnapshotApi.QuerySnapshot(context.Background()).ViewSnapshotRequest(viewSnapshotRequest).TimeoutMs(timeoutMs).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `SnapshotApi.QuerySnapshot``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -53,7 +53,7 @@ Other parameters are passed through a pointer to a apiQuerySnapshotRequest struc
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **snapshotRequest** | [**SnapshotRequest**](SnapshotRequest.md) | Request body for querying a topology snapshot | 
+ **viewSnapshotRequest** | [**ViewSnapshotRequest**](ViewSnapshotRequest.md) | Request body for querying a topology snapshot | 
  **timeoutMs** | **int64** | Query timeout in milliseconds | [default to 30000]
 
 ### Return type

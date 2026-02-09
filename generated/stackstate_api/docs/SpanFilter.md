@@ -11,7 +11,7 @@ Name | Type | Description | Notes
 **SpanParentType** | Pointer to [**[]SpanParentType**](SpanParentType.md) | Filter span by parent type | [optional] 
 **DurationFromNanos** | Pointer to **int64** | Filter spans by duration &gt;&#x3D; value, in nanoseconds | [optional] 
 **DurationToNanos** | Pointer to **int64** | Filter spans by duration &lt; value, in nanoseconds | [optional] 
-**StatusCode** | Pointer to [**[]StatusCode**](StatusCode.md) | Filter spans by the StatusCode | [optional] 
+**StatusCode** | Pointer to [**[]SpanStatusCode**](SpanStatusCode.md) | Filter spans by the StatusCode | [optional] 
 **TraceId** | Pointer to **[]string** | Filter spans by trace id, use only this filter to get a complete trace | [optional] 
 **SpanId** | Pointer to **[]string** | Filter spans by span id, use only this filter to get a single span | [optional] 
 **ScopeName** | Pointer to **[]string** | Filter spans by scope | [optional] 
@@ -213,20 +213,20 @@ HasDurationToNanos returns a boolean if a field has been set.
 
 ### GetStatusCode
 
-`func (o *SpanFilter) GetStatusCode() []StatusCode`
+`func (o *SpanFilter) GetStatusCode() []SpanStatusCode`
 
 GetStatusCode returns the StatusCode field if non-nil, zero value otherwise.
 
 ### GetStatusCodeOk
 
-`func (o *SpanFilter) GetStatusCodeOk() (*[]StatusCode, bool)`
+`func (o *SpanFilter) GetStatusCodeOk() (*[]SpanStatusCode, bool)`
 
 GetStatusCodeOk returns a tuple with the StatusCode field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetStatusCode
 
-`func (o *SpanFilter) SetStatusCode(v []StatusCode)`
+`func (o *SpanFilter) SetStatusCode(v []SpanStatusCode)`
 
 SetStatusCode sets StatusCode field to given value.
 

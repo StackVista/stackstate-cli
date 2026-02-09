@@ -27,7 +27,7 @@ const (
 	SPANSORTFIELD_SPAN_KIND        SpanSortField = "SpanKind"
 	SPANSORTFIELD_SPAN_PARENT_TYPE SpanSortField = "SpanParentType"
 	SPANSORTFIELD_DURATION_NANOS   SpanSortField = "DurationNanos"
-	SPANSORTFIELD_STATUS_CODE      SpanSortField = "StatusCode"
+	SPANSORTFIELD_SPAN_STATUS_CODE SpanSortField = "SpanStatusCode"
 	SPANSORTFIELD_TRACE_ID         SpanSortField = "TraceId"
 	SPANSORTFIELD_SPAN_ID          SpanSortField = "SpanId"
 	SPANSORTFIELD_SCOPE_NAME       SpanSortField = "ScopeName"
@@ -42,7 +42,7 @@ var AllowedSpanSortFieldEnumValues = []SpanSortField{
 	"SpanKind",
 	"SpanParentType",
 	"DurationNanos",
-	"StatusCode",
+	"SpanStatusCode",
 	"TraceId",
 	"SpanId",
 	"ScopeName",

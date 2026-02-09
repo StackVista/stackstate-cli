@@ -17,16 +17,20 @@ import (
 
 // MainMenuViewItem struct for MainMenuViewItem
 type MainMenuViewItem struct {
-	ViewIdentifier string `json:"viewIdentifier" yaml:"viewIdentifier"`
+	// Either a viewIdentifier or a componentPresentationIdentifier
+	Identifier string  `json:"identifier" yaml:"identifier"`
+	Title      string  `json:"title" yaml:"title"`
+	Iconbase64 *string `json:"iconbase64,omitempty" yaml:"iconbase64,omitempty"`
 }
 
 // NewMainMenuViewItem instantiates a new MainMenuViewItem object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMainMenuViewItem(viewIdentifier string) *MainMenuViewItem {
+func NewMainMenuViewItem(identifier string, title string) *MainMenuViewItem {
 	this := MainMenuViewItem{}
-	this.ViewIdentifier = viewIdentifier
+	this.Identifier = identifier
+	this.Title = title
 	return &this
 }
 
@@ -38,34 +42,96 @@ func NewMainMenuViewItemWithDefaults() *MainMenuViewItem {
 	return &this
 }
 
-// GetViewIdentifier returns the ViewIdentifier field value
-func (o *MainMenuViewItem) GetViewIdentifier() string {
+// GetIdentifier returns the Identifier field value
+func (o *MainMenuViewItem) GetIdentifier() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.ViewIdentifier
+	return o.Identifier
 }
 
-// GetViewIdentifierOk returns a tuple with the ViewIdentifier field value
+// GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
-func (o *MainMenuViewItem) GetViewIdentifierOk() (*string, bool) {
+func (o *MainMenuViewItem) GetIdentifierOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ViewIdentifier, true
+	return &o.Identifier, true
 }
 
-// SetViewIdentifier sets field value
-func (o *MainMenuViewItem) SetViewIdentifier(v string) {
-	o.ViewIdentifier = v
+// SetIdentifier sets field value
+func (o *MainMenuViewItem) SetIdentifier(v string) {
+	o.Identifier = v
+}
+
+// GetTitle returns the Title field value
+func (o *MainMenuViewItem) GetTitle() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Title
+}
+
+// GetTitleOk returns a tuple with the Title field value
+// and a boolean to check if the value has been set.
+func (o *MainMenuViewItem) GetTitleOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Title, true
+}
+
+// SetTitle sets field value
+func (o *MainMenuViewItem) SetTitle(v string) {
+	o.Title = v
+}
+
+// GetIconbase64 returns the Iconbase64 field value if set, zero value otherwise.
+func (o *MainMenuViewItem) GetIconbase64() string {
+	if o == nil || o.Iconbase64 == nil {
+		var ret string
+		return ret
+	}
+	return *o.Iconbase64
+}
+
+// GetIconbase64Ok returns a tuple with the Iconbase64 field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MainMenuViewItem) GetIconbase64Ok() (*string, bool) {
+	if o == nil || o.Iconbase64 == nil {
+		return nil, false
+	}
+	return o.Iconbase64, true
+}
+
+// HasIconbase64 returns a boolean if a field has been set.
+func (o *MainMenuViewItem) HasIconbase64() bool {
+	if o != nil && o.Iconbase64 != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIconbase64 gets a reference to the given string and assigns it to the Iconbase64 field.
+func (o *MainMenuViewItem) SetIconbase64(v string) {
+	o.Iconbase64 = &v
 }
 
 func (o MainMenuViewItem) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["viewIdentifier"] = o.ViewIdentifier
+		toSerialize["identifier"] = o.Identifier
+	}
+	if true {
+		toSerialize["title"] = o.Title
+	}
+	if o.Iconbase64 != nil {
+		toSerialize["iconbase64"] = o.Iconbase64
 	}
 	return json.Marshal(toSerialize)
 }

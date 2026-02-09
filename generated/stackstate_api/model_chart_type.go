@@ -16,54 +16,50 @@ import (
 	"fmt"
 )
 
-// StatusCode the model 'StatusCode'
-type StatusCode string
+// ChartType the model 'ChartType'
+type ChartType string
 
-// List of StatusCode
+// List of ChartType
 const (
-	STATUSCODE_UNSET StatusCode = "Unset"
-	STATUSCODE_ERROR StatusCode = "Error"
-	STATUSCODE_OK    StatusCode = "Ok"
+	CHARTTYPE_LINE ChartType = "line"
 )
 
-// All allowed values of StatusCode enum
-var AllowedStatusCodeEnumValues = []StatusCode{
-	"Unset",
-	"Error",
-	"Ok",
+// All allowed values of ChartType enum
+var AllowedChartTypeEnumValues = []ChartType{
+	"line",
 }
 
-func (v *StatusCode) UnmarshalJSON(src []byte) error {
+func (v *ChartType) UnmarshalJSON(src []byte) error {
 	var value string
 	err := json.Unmarshal(src, &value)
 	if err != nil {
 		return err
 	}
-	enumTypeValue := StatusCode(value)
-	for _, existing := range AllowedStatusCodeEnumValues {
+	enumTypeValue := ChartType(value)
+	for _, existing := range AllowedChartTypeEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
 		}
 	}
 
-	return fmt.Errorf("%+v is not a valid StatusCode", value)
+	return fmt.Errorf("%+v is not a valid ChartType", value)
 }
 
-// NewStatusCodeFromValue returns a pointer to a valid StatusCode
+// NewChartTypeFromValue returns a pointer to a valid ChartType
 // for the value passed as argument, or an error if the value passed is not allowed by the enum
-func NewStatusCodeFromValue(v string) (*StatusCode, error) {
-	ev := StatusCode(v)
+func NewChartTypeFromValue(v string) (*ChartType, error) {
+	ev := ChartType(v)
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for StatusCode: valid values are %v", v, AllowedStatusCodeEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for ChartType: valid values are %v", v, AllowedChartTypeEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
-func (v StatusCode) IsValid() bool {
-	for _, existing := range AllowedStatusCodeEnumValues {
+func (v ChartType) IsValid() bool {
+	for _, existing := range AllowedChartTypeEnumValues {
 		if existing == v {
 			return true
 		}
@@ -71,43 +67,43 @@ func (v StatusCode) IsValid() bool {
 	return false
 }
 
-// Ptr returns reference to StatusCode value
-func (v StatusCode) Ptr() *StatusCode {
+// Ptr returns reference to ChartType value
+func (v ChartType) Ptr() *ChartType {
 	return &v
 }
 
-type NullableStatusCode struct {
-	value *StatusCode
+type NullableChartType struct {
+	value *ChartType
 	isSet bool
 }
 
-func (v NullableStatusCode) Get() *StatusCode {
+func (v NullableChartType) Get() *ChartType {
 	return v.value
 }
 
-func (v *NullableStatusCode) Set(val *StatusCode) {
+func (v *NullableChartType) Set(val *ChartType) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableStatusCode) IsSet() bool {
+func (v NullableChartType) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableStatusCode) Unset() {
+func (v *NullableChartType) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableStatusCode(val *StatusCode) *NullableStatusCode {
-	return &NullableStatusCode{value: val, isSet: true}
+func NewNullableChartType(val *ChartType) *NullableChartType {
+	return &NullableChartType{value: val, isSet: true}
 }
 
-func (v NullableStatusCode) MarshalJSON() ([]byte, error) {
+func (v NullableChartType) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableStatusCode) UnmarshalJSON(src []byte) error {
+func (v *NullableChartType) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

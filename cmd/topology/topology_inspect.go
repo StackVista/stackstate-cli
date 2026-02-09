@@ -86,7 +86,7 @@ func RunInspectCommand(
 		true,
 	)
 
-	request := stackstate_api.NewSnapshotRequest(
+	request := stackstate_api.NewViewSnapshotRequest(
 		"SnapshotRequest",
 		query,
 		"0.0.1",
@@ -94,7 +94,7 @@ func RunInspectCommand(
 	)
 
 	result, resp, err := api.SnapshotApi.QuerySnapshot(cli.Context).
-		SnapshotRequest(*request).
+		ViewSnapshotRequest(*request).
 		Execute()
 	if err != nil {
 		return common.NewResponseError(err, resp)
@@ -104,7 +104,7 @@ func RunInspectCommand(
 	components, parseErr := parseSnapshotResponse(result, cli.CurrentContext.URL)
 	if parseErr != nil {
 		// Check if the error is a typed error from the response by examining the _type discriminator
-		if typedErr := handleSnapshotError(result.SnapshotResponse, resp); typedErr != nil {
+		if typedErr := handleSnapshotError(result.ViewSnapshotResponse, resp); typedErr != nil {
 			return typedErr
 		}
 		return common.NewExecutionError(parseErr)
@@ -219,7 +219,7 @@ func parseSnapshotResponse(
 	baseURL string,
 ) ([]Component, error) {
 	// SnapshotResponse is already typed as map[string]interface{} from the generated API
-	respMap := result.SnapshotResponse
+	respMap := result.ViewSnapshotResponse
 	if respMap == nil {
 		return nil, fmt.Errorf("response data is nil")
 	}

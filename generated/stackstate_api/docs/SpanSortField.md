@@ -15,7 +15,7 @@
 
 * `DURATION_NANOS` (value: `"DurationNanos"`)
 
-* `STATUS_CODE` (value: `"StatusCode"`)
+* `SPAN_STATUS_CODE` (value: `"SpanStatusCode"`)
 
 * `TRACE_ID` (value: `"TraceId"`)
 

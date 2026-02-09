@@ -20,17 +20,19 @@ type QuerySnapshotResult struct {
 	// Discriminator field
 	Type string `json:"_type" yaml:"_type"`
 	// The query result or error response. This is opaque at the API level but contains one of the following DTO types: - ViewSnapshot (success) - ViewSnapshotFetchTimeout (error) - ViewSnapshotTooManyActiveQueries (error) - ViewSnapshotTopologySizeOverflow (error) - ViewSnapshotDataUnavailable (error) Use the _type field to discriminate between types.
-	SnapshotResponse map[string]interface{} `json:"snapshotResponse" yaml:"snapshotResponse"`
+	ViewSnapshotResponse map[string]interface{} `json:"viewSnapshotResponse" yaml:"viewSnapshotResponse"`
+	// View identifier that was provided in the ViewSnapshotRequest. Preserved for compatibility when this API got moved to OpenAPI. Not used for any processing.
+	ViewId *int64 `json:"viewId,omitempty" yaml:"viewId,omitempty"`
 }
 
 // NewQuerySnapshotResult instantiates a new QuerySnapshotResult object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewQuerySnapshotResult(type_ string, snapshotResponse map[string]interface{}) *QuerySnapshotResult {
+func NewQuerySnapshotResult(type_ string, viewSnapshotResponse map[string]interface{}) *QuerySnapshotResult {
 	this := QuerySnapshotResult{}
 	this.Type = type_
-	this.SnapshotResponse = snapshotResponse
+	this.ViewSnapshotResponse = viewSnapshotResponse
 	return &this
 }
 
@@ -66,28 +68,60 @@ func (o *QuerySnapshotResult) SetType(v string) {
 	o.Type = v
 }
 
-// GetSnapshotResponse returns the SnapshotResponse field value
-func (o *QuerySnapshotResult) GetSnapshotResponse() map[string]interface{} {
+// GetViewSnapshotResponse returns the ViewSnapshotResponse field value
+func (o *QuerySnapshotResult) GetViewSnapshotResponse() map[string]interface{} {
 	if o == nil {
 		var ret map[string]interface{}
 		return ret
 	}
 
-	return o.SnapshotResponse
+	return o.ViewSnapshotResponse
 }
 
-// GetSnapshotResponseOk returns a tuple with the SnapshotResponse field value
+// GetViewSnapshotResponseOk returns a tuple with the ViewSnapshotResponse field value
 // and a boolean to check if the value has been set.
-func (o *QuerySnapshotResult) GetSnapshotResponseOk() (map[string]interface{}, bool) {
+func (o *QuerySnapshotResult) GetViewSnapshotResponseOk() (map[string]interface{}, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.SnapshotResponse, true
+	return o.ViewSnapshotResponse, true
 }
 
-// SetSnapshotResponse sets field value
-func (o *QuerySnapshotResult) SetSnapshotResponse(v map[string]interface{}) {
-	o.SnapshotResponse = v
+// SetViewSnapshotResponse sets field value
+func (o *QuerySnapshotResult) SetViewSnapshotResponse(v map[string]interface{}) {
+	o.ViewSnapshotResponse = v
+}
+
+// GetViewId returns the ViewId field value if set, zero value otherwise.
+func (o *QuerySnapshotResult) GetViewId() int64 {
+	if o == nil || o.ViewId == nil {
+		var ret int64
+		return ret
+	}
+	return *o.ViewId
+}
+
+// GetViewIdOk returns a tuple with the ViewId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *QuerySnapshotResult) GetViewIdOk() (*int64, bool) {
+	if o == nil || o.ViewId == nil {
+		return nil, false
+	}
+	return o.ViewId, true
+}
+
+// HasViewId returns a boolean if a field has been set.
+func (o *QuerySnapshotResult) HasViewId() bool {
+	if o != nil && o.ViewId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetViewId gets a reference to the given int64 and assigns it to the ViewId field.
+func (o *QuerySnapshotResult) SetViewId(v int64) {
+	o.ViewId = &v
 }
 
 func (o QuerySnapshotResult) MarshalJSON() ([]byte, error) {
@@ -96,7 +130,10 @@ func (o QuerySnapshotResult) MarshalJSON() ([]byte, error) {
 		toSerialize["_type"] = o.Type
 	}
 	if true {
-		toSerialize["snapshotResponse"] = o.SnapshotResponse
+		toSerialize["viewSnapshotResponse"] = o.ViewSnapshotResponse
+	}
+	if o.ViewId != nil {
+		toSerialize["viewId"] = o.ViewId
 	}
 	return json.Marshal(toSerialize)
 }
