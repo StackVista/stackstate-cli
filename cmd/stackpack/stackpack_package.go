@@ -67,7 +67,7 @@ func (y *YamlParser) Parse(filePath string) (*StackpackInfo, error) {
 var requiredStackpackItems = []string{
 	"stackpack.yaml",
 	"README.md",
-	"provisioning",
+	"settings",
 	"resources",
 }
 
@@ -88,7 +88,7 @@ func StackpackPackageCommand(cli *di.Deps) *cobra.Command {
 Creates an .sts file containing all stackpack files and directories:
 - stackpack.yaml (file)
 - README.md (file)
-- provisioning/ (directory)
+- settings/ (directory)
 - resources/ (directory)
 - icons/ (directory, optional)
 - includes/ (directory, optional)
