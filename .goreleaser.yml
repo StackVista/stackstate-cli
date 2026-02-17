@@ -48,6 +48,7 @@ dockers:
   dockerfile: docker/Dockerfile.goreleaser
   build_flag_templates:
   - "--platform=linux/amd64"
+  - "--provenance=false"
 - image_templates:
   - "stackstate/stackstate-cli2:{{ .Version }}-arm64v8"
   ids:
@@ -57,6 +58,7 @@ dockers:
   dockerfile: docker/Dockerfile.goreleaser
   build_flag_templates:
   - "--platform=linux/arm64/v8"
+  - "--provenance=false"
 docker_manifests:
 - name_template: stackstate/stackstate-cli2:{{ .Version }}
   image_templates:
