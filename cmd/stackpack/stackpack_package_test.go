@@ -22,7 +22,7 @@ func setupStackPackPackageCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 // createTestStackpack creates a valid stackpack directory structure for testing
 func createTestStackpack(t *testing.T, dir string, name string, version string) {
 	// Create required directories
-	require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
+	require.NoError(t, os.MkdirAll(filepath.Join(dir, "settings"), 0755))
 	require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 
 	// Create stackpack.conf
@@ -42,7 +42,7 @@ version: "%s"
 	require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte(readme), 0644))
 
 	// Create test files in subdirectories
-	require.NoError(t, os.WriteFile(filepath.Join(dir, "provisioning", "test.sty"), []byte("test provisioning"), 0644))
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "settings", "test.sty"), []byte("test settings"), 0644))
 	require.NoError(t, os.WriteFile(filepath.Join(dir, "resources", "overview.md"), []byte("test overview"), 0644))
 }
 
@@ -192,18 +192,18 @@ func TestStackpackPackageCommand_MissingRequiredFiles(t *testing.T) {
 		expectedError string
 	}{
 		{
-			name: "missing provisioning directory",
+			name: "missing settings directory",
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("name: \"test\"\nversion: \"1.0.0\""), 0644))
 			},
-			expectedError: "required stackpack item not found: provisioning",
+			expectedError: "required stackpack item not found: settings",
 		},
 		{
 			name: "missing README.md file",
 			setupFunc: func(dir string) {
-				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
+				require.NoError(t, os.MkdirAll(filepath.Join(dir, "settings"), 0755))
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("name: \"test\"\nversion: \"1.0.0\""), 0644))
 			},
@@ -212,7 +212,7 @@ func TestStackpackPackageCommand_MissingRequiredFiles(t *testing.T) {
 		{
 			name: "missing resources directory",
 			setupFunc: func(dir string) {
-				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
+				require.NoError(t, os.MkdirAll(filepath.Join(dir, "settings"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("name: \"test\"\nversion: \"1.0.0\""), 0644))
 			},
@@ -221,7 +221,7 @@ func TestStackpackPackageCommand_MissingRequiredFiles(t *testing.T) {
 		{
 			name: "missing stackpack.yaml file",
 			setupFunc: func(dir string) {
-				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
+				require.NoError(t, os.MkdirAll(filepath.Join(dir, "settings"), 0755))
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
 			},
@@ -293,7 +293,7 @@ version: ""`,
 			require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 
 			// Create required directories and files except stackpack.conf
-			require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "provisioning"), 0755))
+			require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "settings"), 0755))
 			require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "resources"), 0755))
 			require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "README.md"), []byte("readme"), 0644))
 
@@ -447,7 +447,7 @@ func TestValidateStackpackDirectory(t *testing.T) {
 		{
 			name: "valid stackpack directory",
 			setupFunc: func(dir string) {
-				require.NoError(t, os.MkdirAll(filepath.Join(dir, "provisioning"), 0755))
+				require.NoError(t, os.MkdirAll(filepath.Join(dir, "settings"), 0755))
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("yaml"), 0644))
@@ -455,14 +455,14 @@ func TestValidateStackpackDirectory(t *testing.T) {
 			expectError: false,
 		},
 		{
-			name: "missing provisioning directory",
+			name: "missing settings directory",
 			setupFunc: func(dir string) {
 				require.NoError(t, os.MkdirAll(filepath.Join(dir, "resources"), 0755))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "README.md"), []byte("readme"), 0644))
 				require.NoError(t, os.WriteFile(filepath.Join(dir, "stackpack.yaml"), []byte("yaml"), 0644))
 			},
 			expectError:   true,
-			errorContains: "required stackpack item not found: provisioning",
+			errorContains: "required stackpack item not found: settings",
 		},
 		{
 			name: "missing all required items",
@@ -470,7 +470,7 @@ func TestValidateStackpackDirectory(t *testing.T) {
 				// Create empty directory
 			},
 			expectError:   true,
-			errorContains: "required stackpack item not found: provisioning",
+			errorContains: "required stackpack item not found: stackpack.yaml",
 		},
 	}
 

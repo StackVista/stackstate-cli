@@ -65,10 +65,16 @@ func (y *YamlParser) Parse(filePath string) (*StackpackInfo, error) {
 
 // Required files and directories for a valid stackpack
 var requiredStackpackItems = []string{
-	"provisioning",
-	"README.md",
-	"resources",
 	"stackpack.yaml",
+	"README.md",
+	"settings",
+	"resources",
+}
+
+// Optional files and directories for a valid stackpack
+var optionalStackpackItems = []string{
+	"icons",
+	"includes",
 }
 
 // StackpackPackageCommand creates the package subcommand
@@ -79,11 +85,13 @@ func StackpackPackageCommand(cli *di.Deps) *cobra.Command {
 		Short: "Package a stackpack into an .sts file",
 		Long: `Package a stackpack into an .sts file.
 
-Creates an .sts file containing all required stackpack files and directories:
-- provisioning/ (directory)
-- README.md (file)
-- resources/ (directory)
+Creates an .sts file containing all stackpack files and directories:
 - stackpack.yaml (file)
+- README.md (file)
+- settings/ (directory)
+- resources/ (directory)
+- icons/ (directory, optional)
+- includes/ (directory, optional)
 
 The .sts file is named <stackpack_name>-<version>.sts where the name and
 version are extracted from stackpack.yaml and created in the current directory.`,
@@ -218,6 +226,17 @@ func createStackpackZip(sourceDir, zipPath string) error {
 	for _, item := range requiredStackpackItems {
 		itemPath := filepath.Join(sourceDir, item)
 		if err := addToZip(zipWriter, itemPath, item); err != nil {
+			return fmt.Errorf("failed to add %s to zip: %w", item, err)
+		}
+	}
+
+	// Add each optional item to the zip
+	for _, item := range optionalStackpackItems {
+		itemPath := filepath.Join(sourceDir, item)
+		if err := addToZip(zipWriter, itemPath, item); err != nil {
+			if os.IsNotExist(err) {
+				continue
+			}
 			return fmt.Errorf("failed to add %s to zip: %w", item, err)
 		}
 	}
