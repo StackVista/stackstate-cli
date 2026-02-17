@@ -212,7 +212,10 @@ func TestStackpackTestDeployCommand_DirectoryHandling(t *testing.T) {
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 
 	// Create required files
-	createTestStackpack(t, stackpackDir, "test-stackpack", "1.0.0")
+	stackpackName := "test-stackpack"
+	stackPackCurrentVersion := "1.0.0"
+	createTestStackpack(t, stackpackDir, stackpackName, stackPackCurrentVersion)
+	stackpackTestArchive := fmt.Sprintf("%s-%s-cli-test.10000.sts", stackpackName, stackPackCurrentVersion)
 
 	cli, cmd := setupStackpackTestDeployCmd(t)
 
@@ -231,6 +234,7 @@ func TestStackpackTestDeployCommand_DirectoryHandling(t *testing.T) {
 			// Note: This test will fail at the API call stage since we're using mock deps
 			// But we can verify that directory parsing works
 			_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, tt.args...)
+			defer os.Remove(stackpackTestArchive)
 
 			// Should fail on API calls (upload/install), not on directory or config parsing
 			if err != nil {
