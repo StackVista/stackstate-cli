@@ -29,7 +29,7 @@ func DashboardCloneCommand(cli *di.Deps) *cobra.Command {
 sts dashboard clone --id 123456789 --name My Dashboard Copy
 
 # clone a dashboard as private
-sts dashboard clone --identifier urn:stackpack:my-dashboard --name Private Copy --scope privateDashboard`,
+sts dashboard clone --identifier urn:stackpack:my-dashboard --name "Private Copy" --scope privateDashboard`,
 		RunE: cli.CmdRunEWithApi(RunDashboardCloneCommand(args)),
 	}
 
