@@ -21,7 +21,7 @@ type ListArgs struct {
 func SettingsListCommand(cli *di.Deps) *cobra.Command {
 	args := &ListArgs{}
 	cmd := &cobra.Command{
-		Use:   "list --type TYPE",
+		Use:   "list",
 		Short: "List all settings of a specific type",
 		Long:  "List all settings of a specific type. Use 'sts settings list-types' to see available types. Can filter by namespace or owner.",
 		Example: `# list all monitors

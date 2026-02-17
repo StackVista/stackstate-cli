@@ -18,7 +18,7 @@ type DeleteArgs struct {
 func MonitorDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete {--id ID | --identifier URN}",
+		Use:   "delete",
 		Short: "Delete a monitor permanently",
 		Long:  "Delete a monitor by its ID or identifier. This removes the monitor and all its associated health states.",
 		Example: `# delete a monitor by ID

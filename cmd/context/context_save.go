@@ -30,7 +30,7 @@ type SaveArgs struct {
 func SaveCommand(cli *di.Deps) *cobra.Command {
 	args := &SaveArgs{}
 	cmd := &cobra.Command{
-		Use:   "save --url URL {--api-token TOKEN | --service-token TOKEN}",
+		Use:   "save",
 		Short: "Save a connection context to the CLI configuration",
 		Long:  `Save a connection context to the CLI configuration file. The context stores the server URL and authentication credentials. After saving, this context becomes the current active context.`,
 		Example: `# save a context with an API token

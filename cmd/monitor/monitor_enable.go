@@ -13,7 +13,7 @@ import (
 func MonitorEnableCommand(cli *di.Deps) *cobra.Command {
 	args := &IdArgs{}
 	cmd := &cobra.Command{
-		Use:   "enable {--id ID | --identifier URN}",
+		Use:   "enable",
 		Short: "Enable a disabled monitor to resume scheduled execution",
 		Long:  "Enable a disabled monitor to resume running on its configured schedule. The monitor will start producing health states again.",
 		Example: `# enable a monitor by ID

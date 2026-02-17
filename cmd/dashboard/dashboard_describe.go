@@ -21,7 +21,7 @@ type DescribeArgs struct {
 func DashboardDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe {--id ID | --identifier URN}",
+		Use:   "describe",
 		Short: "Export a dashboard definition in YAML format",
 		Long:  "Export the full dashboard definition in YAML format. Output can be printed to stdout or saved to a file for backup or migration purposes.",
 		Example: `# describe a dashboard by ID

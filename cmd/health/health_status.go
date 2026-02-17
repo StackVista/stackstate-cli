@@ -20,7 +20,7 @@ type StatusArgs struct {
 func HealthStatusCommand(cli *di.Deps) *cobra.Command {
 	args := &StatusArgs{}
 	cmd := &cobra.Command{
-		Use:   "status --urn URN",
+		Use:   "status",
 		Short: "Show detailed status of a health synchronization stream",
 		Long:  `Show detailed status of a health synchronization stream including metrics, errors, and consistency state. Use --sub-stream to check a specific sub-stream, or --topology to see topology element matches.`,
 		Example: `# show stream status

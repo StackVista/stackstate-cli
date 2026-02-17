@@ -18,7 +18,7 @@ type DeleteArgs struct {
 func SettingsDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete --ids IDS",
+		Use:   "delete",
 		Short: "Delete settings by ID",
 		Long:  "Delete one or more settings by their IDs. This operation cannot be undone.",
 		Example: `# delete a setting

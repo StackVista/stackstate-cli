@@ -23,7 +23,7 @@ type DescribeArgs struct {
 func StackpackDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe --name NAME",
+		Use:   "describe",
 		Short: "Show detailed information about a StackPack",
 		Long:  "Show detailed information about a StackPack including version, categories, integrations, parameters, and installed instances.",
 		Example: `# describe the kubernetes StackPack

@@ -19,7 +19,7 @@ type DeleteArgs struct {
 func DashboardDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete {--id ID | --identifier URN}",
+		Use:   "delete",
 		Short: "Delete a dashboard permanently",
 		Long:  "Delete a dashboard by its ID or identifier. Only user-owned dashboards can be deleted.",
 		Example: `# delete a dashboard by ID

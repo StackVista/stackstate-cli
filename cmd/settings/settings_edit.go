@@ -34,7 +34,7 @@ type EditArgs struct {
 func SettingsEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit {--ids IDS | --type TYPE}",
+		Use:   "edit",
 		Short: "Edit settings interactively in an editor",
 		Long:  LongDescription,
 		Example: `# edit specific settings by ID

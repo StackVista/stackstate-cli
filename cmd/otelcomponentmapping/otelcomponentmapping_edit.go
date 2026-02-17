@@ -26,7 +26,7 @@ type EditArgs struct {
 func OtelComponentMappingEditCommand(deps *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit --identifier URN",
+		Use:   "edit",
 		Short: "Edit an OTel Component Mapping using $EDITOR",
 		Long:  LongDescription,
 		Example: `# edit a component mapping using your editor

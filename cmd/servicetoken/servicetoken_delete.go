@@ -16,7 +16,7 @@ type DeleteArgs struct {
 func DeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete --id ID",
+		Use:   "delete",
 		Short: "Delete a service token",
 		Long:  "Delete a service token by ID. This also removes any dedicated subject associated with the token.",
 		Example: `# delete a service token

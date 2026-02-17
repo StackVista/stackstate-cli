@@ -17,7 +17,7 @@ type ManualStepsArgs struct {
 func StackpackConfirmManualStepsCommand(cli *di.Deps) *cobra.Command {
 	args := &ManualStepsArgs{}
 	cmd := &cobra.Command{
-		Use:   "confirm-manual-steps --name NAME --id ID",
+		Use:   "confirm-manual-steps",
 		Short: "Confirm completion of manual installation steps",
 		Long:  `Confirm that manual installation steps have been completed for a StackPack instance. Some StackPacks require manual actions that cannot be verified automatically.`,
 		Example: `# confirm manual steps for a StackPack instance

@@ -26,7 +26,7 @@ type EditArgs struct {
 func OtelRelationMappingEditCommand(deps *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit --identifier URN",
+		Use:   "edit",
 		Short: "Edit an OTel Relation Mapping using $EDITOR",
 		Long:  LongDescription,
 		Example: `# edit a relation mapping using your editor

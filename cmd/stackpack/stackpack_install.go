@@ -26,7 +26,7 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 		Params: make(map[string]string),
 	}
 	cmd := &cobra.Command{
-		Use:   "install --name NAME",
+		Use:   "install",
 		Short: "Install a new instance of a StackPack",
 		Long:  `Install a new instance of a StackPack. Use 'sts stackpack list-parameters --name NAME' to see required parameters.`,
 		Example: `# install an example StackPack with parameters

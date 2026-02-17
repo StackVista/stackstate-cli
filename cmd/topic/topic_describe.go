@@ -39,7 +39,7 @@ type DescribeArgs struct {
 func DescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe --name NAME",
+		Use:   "describe",
 		Short: "Read messages from a Kafka topic",
 		Long:  "Read messages from a Kafka topic. Can filter by partition and offset, and save output to a file.",
 		Example: `# read latest 10 messages from a topic

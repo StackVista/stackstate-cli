@@ -25,7 +25,7 @@ type CreateArgs struct {
 func CreateCommand(deps *di.Deps) *cobra.Command {
 	args := &CreateArgs{}
 	cmd := &cobra.Command{
-		Use:   "create --name NAME --roles ROLES",
+		Use:   "create",
 		Short: "Create a new service token",
 		Long:  "Create a new service token for API authentication. The token is shown once upon creation and cannot be retrieved later.",
 		Example: `# create a token with admin role

@@ -27,7 +27,7 @@ const (
 func ScriptRunCommand(cli *di.Deps) *cobra.Command {
 	args := &ScriptRunArgs{}
 	cmd := &cobra.Command{
-		Use:   "run {--script SCRIPT | --file FILE}",
+		Use:   "run",
 		Short: "Execute an STSL script on the server",
 		Long:  "Execute an STSL (SUSE Observability Scripting Language) script on the server. Scripts can be provided inline or loaded from a file. Use --arguments-script to pass variables to the script.",
 		Example: `# run a script from file

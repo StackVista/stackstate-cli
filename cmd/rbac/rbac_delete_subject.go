@@ -15,7 +15,7 @@ type DeleteSubjectArgs struct {
 func DeleteSubjectCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteSubjectArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete-subject --subject SUBJECT",
+		Use:   "delete-subject",
 		Short: "Delete a security subject",
 		Long:  "Delete a security subject and revoke all its permissions. This operation cannot be undone.",
 		Example: `# delete a subject

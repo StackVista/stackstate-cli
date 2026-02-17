@@ -18,7 +18,7 @@ type UploadArgs struct {
 func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 	args := &UploadArgs{}
 	cmd := &cobra.Command{
-		Use:   "upload --file FILE",
+		Use:   "upload",
 		Short: "Upload a StackPack file to the server",
 		Long:  "Upload a StackPack file (.sts) to SUSE Observability. After upload, the StackPack can be installed using 'sts stackpack install'.",
 		Example: `# upload a StackPack

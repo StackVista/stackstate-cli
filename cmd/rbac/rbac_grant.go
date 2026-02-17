@@ -16,7 +16,7 @@ type GrantPermissionsArgs struct {
 func GrantPermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &GrantPermissionsArgs{}
 	cmd := &cobra.Command{
-		Use:   "grant --subject SUBJECT --permission PERMISSION",
+		Use:   "grant",
 		Short: "Grant a permission to a subject",
 		Long:  "Grant a permission to a subject on a resource. Use 'sts rbac list-permissions' to see available permissions.",
 		Example: `# grant access-view permission to all resources
