@@ -29,7 +29,7 @@ type ApplyArgs struct {
 func SettingsApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply --file FILE",
+		Use:   "apply",
 		Short: "Import settings from an STY or STJ file",
 		Long:  "Import settings from an STY (SUSE Observability YAML) or STJ (SUSE Observability JSON) file. Can import to a specific namespace with conflict resolution strategies.",
 		Example: `# apply settings from file

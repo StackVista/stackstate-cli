@@ -16,7 +16,7 @@ type DeleteArgs struct {
 func OtelComponentMappingDeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete --identifier URN",
+		Use:   "delete",
 		Short: "Delete an OTel Component Mapping by identifier (URN)",
 		Long:  "Delete an OTel Component Mapping by identifier (URN)",
 		Example: `# delete a component mapping by identifier

@@ -106,12 +106,10 @@ From CMD_DEVELOPMENT.md - critical rules for consistency:
 Per ADR 001: CLI `--help` output is the **authoritative source** for command documentation. External docs provide overviews only. This means help text must be self-sufficient, consistent, and include practical examples.
 
 ### Use Field Rules
-- **Noun-level commands**: `Use: "context"` (command appended automatically)
-- **Noun-verb commands**: `Use: "save --url URL {--api-token TOKEN | --service-token TOKEN}"`
-- **Required flags**: Show without brackets: `--url URL`
-- **Mutually exclusive required**: Group in `{}` with `|`: `{--api-token TOKEN | --service-token TOKEN}`
-- **Mutually exclusive optional**: Group in `[]` with `|`: `[--format JSON | --format YAML]`
-- **Flag values**: Use UPPER-CASE placeholders: `URL`, `TOKEN`, `FILE`
+- **IMPORTANT**: Do NOT include flags in the `Use` field. Required flags and mutually exclusive flag groups are **auto-generated** by `AddRequiredFlagsToUseString()` in `main.go` based on flag annotations set by `MarkMutexFlags()`. Including flags manually causes duplication in the help output.
+- **Noun-level commands**: `Use: "context"` (command name only)
+- **Noun-verb commands**: `Use: "delete"` (verb name only, no flags)
+- **Positional arguments only**: If the command takes positional arguments, include them: `Use: "describe [NAME]"`
 
 ### Short Field Rules
 - Start with **imperative verb** (Save, List, Delete, Show, Set, Validate)
@@ -162,7 +160,7 @@ sts context save --name ci-pipeline --url https://suse-observability.example.com
 
 ### Quality Checklist
 For every cobra.Command:
-- [ ] `Use` shows required flags and mutex groups correctly
+- [ ] `Use` contains only the command name
 - [ ] `Short` starts with verb, no period, adds context beyond command name
 - [ ] `Long` adds value beyond `Short`, ends with period, explains domain concepts
 - [ ] `Example` has 2-3 realistic, copy-pasteable examples with lowercase comments

@@ -18,7 +18,7 @@ type ApplyArgs struct {
 func MonitorApplyCommand(cli *di.Deps) *cobra.Command {
 	args := &ApplyArgs{}
 	cmd := &cobra.Command{
-		Use:   "apply --file FILE",
+		Use:   "apply",
 		Short: "Create or update a monitor from an STY file",
 		Long:  "Create or update a monitor from an STY (SUSE Observability YAML) file. If the monitor already exists, it will be updated.",
 		Example: `# apply a monitor definition

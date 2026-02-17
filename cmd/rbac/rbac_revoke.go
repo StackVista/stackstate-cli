@@ -16,7 +16,7 @@ type RevokePermissionsArgs struct {
 func RevokePermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &RevokePermissionsArgs{}
 	cmd := &cobra.Command{
-		Use:   "revoke --subject SUBJECT --permission PERMISSION",
+		Use:   "revoke",
 		Short: "Revoke a permission from a subject",
 		Long:  "Revoke a previously granted permission from a subject on a resource.",
 		Example: `# revoke access-view permission from all resources

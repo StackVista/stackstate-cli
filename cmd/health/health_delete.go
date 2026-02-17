@@ -16,7 +16,7 @@ type DeleteArgs struct {
 func HealthDeleteCommand(cli *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete --urn URN",
+		Use:   "delete",
 		Short: "Delete a health synchronization stream",
 		Long:  "Delete a health synchronization stream and all its sub-streams. This removes all check states associated with the stream.",
 		Example: `# delete a health stream

@@ -23,7 +23,7 @@ type DescribePermissionsArgs struct {
 func DescribePermissionsCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribePermissionsArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe-permissions --subject SUBJECT",
+		Use:   "describe-permissions",
 		Short: "Show permissions granted to a subject",
 		Long:  "Show all permissions granted to a subject. Can filter by permission type or resource.",
 		Example: `# show all permissions for a subject

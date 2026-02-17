@@ -14,7 +14,7 @@ import (
 func StackpackListInstanceCommand(cli *di.Deps) *cobra.Command {
 	args := &ListPropertiesArgs{}
 	cmd := &cobra.Command{
-		Use:   "list-instances --name NAME",
+		Use:   "list-instances",
 		Short: "List installed instances of a StackPack",
 		Long:  "List all installed instances of a StackPack. Shows instance ID, status, version, and last update time.",
 		Example: `# list instances of the kubernetes StackPack

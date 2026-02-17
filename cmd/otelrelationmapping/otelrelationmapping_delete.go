@@ -16,7 +16,7 @@ type DeleteArgs struct {
 func OtelRelationMappingDeleteCommand(deps *di.Deps) *cobra.Command {
 	args := &DeleteArgs{}
 	cmd := &cobra.Command{
-		Use:   "delete --identifier URN",
+		Use:   "delete",
 		Short: "Delete an OTel Relation Mapping by identifier (URN)",
 		Long:  "Delete an OTel Relation Mapping by identifier (URN).",
 		Example: `# delete a relation mapping by identifier

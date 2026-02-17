@@ -15,7 +15,7 @@ type ListArgs struct {
 func HealthListCommand(cli *di.Deps) *cobra.Command {
 	args := &ListArgs{}
 	cmd := &cobra.Command{
-		Use:   "list [--urn URN]",
+		Use:   "list",
 		Short: "List health synchronization streams or sub-streams",
 		Long:  "List all health synchronization streams. If a stream URN is provided, lists the sub-streams within that stream instead.",
 		Example: `# list all health streams

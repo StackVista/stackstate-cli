@@ -16,7 +16,7 @@ type ClearErrorsArgs struct {
 func ClearErrorsCommand(deps *di.Deps) *cobra.Command {
 	args := &ClearErrorsArgs{}
 	cmd := &cobra.Command{
-		Use:   "clear-errors {--id ID | --identifier URN}",
+		Use:   "clear-errors",
 		Short: "Clear errors from a topology synchronization",
 		Long:  "Clear all errors from a topology synchronization. Use this after resolving the underlying data issues.",
 		Example: `# clear errors by ID

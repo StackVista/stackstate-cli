@@ -13,7 +13,7 @@ import (
 func MonitorDisableCommand(cli *di.Deps) *cobra.Command {
 	args := &IdArgs{}
 	cmd := &cobra.Command{
-		Use:   "disable {--id ID | --identifier URN}",
+		Use:   "disable",
 		Short: "Disable a monitor to stop it from running",
 		Long:  "Disable a monitor to prevent it from running on its scheduled interval. A disabled monitor will not produce new health states.",
 		Example: `# disable a monitor by ID

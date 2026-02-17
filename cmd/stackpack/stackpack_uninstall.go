@@ -17,7 +17,7 @@ type UninstallArgs struct {
 func StackpackUninstallCommand(cli *di.Deps) *cobra.Command {
 	args := &UninstallArgs{}
 	cmd := &cobra.Command{
-		Use:   "uninstall --name NAME --id ID",
+		Use:   "uninstall",
 		Short: "Uninstall a StackPack instance",
 		Long:  "Uninstall a StackPack instance by name and ID. Use 'sts stackpack list-instances' to find instance IDs.",
 		Example: `# uninstall a StackPack instance

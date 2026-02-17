@@ -28,7 +28,7 @@ type UpgradeArgs struct {
 func StackpackUpgradeCommand(cli *di.Deps) *cobra.Command {
 	args := &UpgradeArgs{}
 	cmd := &cobra.Command{
-		Use:   "upgrade --name NAME",
+		Use:   "upgrade",
 		Short: "Upgrade a StackPack to the next version",
 		Long:  "Upgrade all instances of a StackPack to the next available version. Check 'sts stackpack list' to see available upgrades.",
 		Example: `# upgrade a StackPack

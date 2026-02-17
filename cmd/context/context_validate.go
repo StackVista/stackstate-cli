@@ -14,7 +14,7 @@ type ValidateArgs struct {
 func ValidateCommand(cli *di.Deps) *cobra.Command {
 	args := &ValidateArgs{}
 	cmd := &cobra.Command{
-		Use:   "validate [--name NAME]",
+		Use:   "validate",
 		Short: "Validate that a context can connect to the server",
 		Long:  "Validate a connection context by attempting to connect to the SUSE Observability server. Validates the current context if no name is specified.",
 		Example: `# validate the current context

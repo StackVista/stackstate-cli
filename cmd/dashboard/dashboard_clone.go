@@ -22,14 +22,14 @@ type CloneArgs struct {
 func DashboardCloneCommand(cli *di.Deps) *cobra.Command {
 	args := &CloneArgs{}
 	cmd := &cobra.Command{
-		Use:   "clone {--id ID | --identifier URN} --name NAME",
+		Use:   "clone",
 		Short: "Clone an existing dashboard to create a new copy",
 		Long:  "Clone an existing dashboard to create a new copy with a different name. Optionally set a new description and scope for the cloned dashboard.",
 		Example: `# clone a dashboard by ID
 sts dashboard clone --id 123456789 --name My Dashboard Copy
 
 # clone a dashboard as private
-sts dashboard clone --identifier urn:stackpack:my-dashboard --name Private Copy --scope privateDashboard`,
+sts dashboard clone --identifier urn:stackpack:my-dashboard --name "Private Copy" --scope privateDashboard`,
 		RunE: cli.CmdRunEWithApi(RunDashboardCloneCommand(args)),
 	}
 

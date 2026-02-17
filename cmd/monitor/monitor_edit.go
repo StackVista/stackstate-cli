@@ -24,7 +24,7 @@ type EditArgs struct {
 func MonitorEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit {--id ID | --identifier URN}",
+		Use:   "edit",
 		Short: "Edit a monitor interactively in your default editor",
 		Long:  `Edit a monitor interactively. Opens the monitor definition in the editor defined by your VISUAL or EDITOR environment variable. Locked monitors (from StackPacks) require cloning first.`,
 		Example: `# edit a monitor by ID

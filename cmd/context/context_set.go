@@ -16,7 +16,7 @@ type SetArgs struct {
 func SetCommand(cli *di.Deps) *cobra.Command {
 	args := &SetArgs{}
 	cmd := &cobra.Command{
-		Use:   "set --name NAME",
+		Use:   "set",
 		Short: "Set the active context to use for CLI commands",
 		Long:  "Set the active connection context. All subsequent CLI commands will use this context's server URL and credentials.",
 		Example: `# switch to the production context

@@ -16,7 +16,7 @@ type ClearErrorArgs struct {
 func HealthClearErrorCommand(cli *di.Deps) *cobra.Command {
 	args := &ClearErrorArgs{}
 	cmd := &cobra.Command{
-		Use:   "clear-error --urn URN",
+		Use:   "clear-error",
 		Short: "Clear errors from a health synchronization stream",
 		Long: `Clear errors from a health synchronization stream, allowing it to resume normal operation. Use this after resolving the underlying cause of synchronization errors.
 

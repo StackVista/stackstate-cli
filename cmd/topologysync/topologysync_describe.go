@@ -24,7 +24,7 @@ type DescribeArgs struct {
 func DescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe {--id ID | --identifier URN}",
+		Use:   "describe",
 		Short: "Show detailed status of a topology synchronization",
 		Long:  "Show detailed status of a topology synchronization including metrics, latency, and error details.",
 		Example: `# describe a synchronization by ID

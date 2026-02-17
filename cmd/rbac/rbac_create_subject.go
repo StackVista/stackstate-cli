@@ -17,7 +17,7 @@ type CreateSubjectArgs struct {
 func CreateSubjectCommand(deps *di.Deps) *cobra.Command {
 	args := &CreateSubjectArgs{}
 	cmd := &cobra.Command{
-		Use:   "create-subject --subject SUBJECT",
+		Use:   "create-subject",
 		Short: "Create a new security subject",
 		Long:  "Create a new security subject for RBAC. Subjects can be users or groups that can be granted permissions.",
 		Example: `# create a new subject

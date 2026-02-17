@@ -22,7 +22,7 @@ type DescribeArgs struct {
 func SettingsDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe {--ids IDS | --namespace NAMESPACE | --type TYPE}",
+		Use:   "describe",
 		Short: "Export settings to STY format",
 		Long:  "Export settings to STY (SUSE Observability YAML) format. Filter by IDs, namespace, or type. Output can be saved to a file for backup or migration.",
 		Example: `# export specific settings by ID

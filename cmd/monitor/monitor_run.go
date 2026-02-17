@@ -22,7 +22,7 @@ type RunArgs struct {
 func MonitorRunCommand(cli *di.Deps) *cobra.Command {
 	args := &RunArgs{}
 	cmd := &cobra.Command{
-		Use:   "run {--id ID | --identifier URN}",
+		Use:   "run",
 		Short: "Execute a monitor and display the results",
 		Long:  `Execute a monitor and display the results. By default runs in dry-run mode without saving health states. Use --yes to persist the resulting health states.`,
 		Example: `# dry-run a monitor (no state changes)

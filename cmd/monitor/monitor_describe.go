@@ -19,7 +19,7 @@ type DescribeArgs struct {
 func MonitorDescribeCommand(cli *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe --id ID",
+		Use:   "describe",
 		Short: "Export a monitor definition in STY format",
 		Long:  "Export the monitor definition in STY (SUSE Observability YAML) format. Output can be printed to stdout or saved to a file for backup or migration.",
 		Example: `# describe a monitor to stdout

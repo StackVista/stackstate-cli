@@ -14,7 +14,7 @@ type UpdateArgs struct {
 func UpdateCommand(deps *di.Deps) *cobra.Command {
 	args := &UpdateArgs{}
 	cmd := &cobra.Command{
-		Use:   "update --key KEY",
+		Use:   "update",
 		Short: "Update the license with a new license key",
 		Long:  "Update the SUSE Observability license with a new license key. The new license takes effect immediately.",
 		Example: `# update the license

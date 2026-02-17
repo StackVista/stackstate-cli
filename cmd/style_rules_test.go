@@ -12,12 +12,8 @@ import (
 )
 
 var (
-	startWithLowerCaseWordExceptions = `StackState`                                                                      //nolint:unused,varcheck
-	startWithLowerCaseWord           = regexp.MustCompile(`^([a-z][a-z0-9-]*|` + startWithLowerCaseWordExceptions + `)`) //nolint:unused,varcheck
-	startWithUpperCaseWord           = regexp.MustCompile(`^[A-Z0-9]`)
-	endsWithFullStop                 = regexp.MustCompile(`\s*\.\s*$`)
-	startsLowerCaseExceptions        = `\.sty`                                                          //nolint:unused,varcheck
-	startsLowerCase                  = regexp.MustCompile(`^([a-z]|` + startsLowerCaseExceptions + `)`) //nolint:unused,varcheck
+	startWithUpperCaseWord = regexp.MustCompile(`^[A-Z0-9]`)
+	endsWithFullStop       = regexp.MustCompile(`\s*\.\s*$`)
 )
 
 func setupCmd(t *testing.T) *cobra.Command {
@@ -25,7 +21,7 @@ func setupCmd(t *testing.T) *cobra.Command {
 	return STSCommand(&cli.Deps)
 }
 
-//--- cmd.Use ---
+// --- cmd.Use ---
 
 func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 	root := setupCmd(t)
@@ -44,17 +40,16 @@ func TestEachNounCommandHasVerbsAndEachVerbHasNoChildren(t *testing.T) {
 	}
 }
 
-func TestUseStartsWithLowerCaseWord(t *testing.T) {
+func TestUseShouldOnlyContainCommandName(t *testing.T) {
 	root := setupCmd(t)
-	r := regexp.MustCompile(`^[a-z][a-z0-9-]*`)
 	stscobra.ForAllCmd(root, func(cmd *cobra.Command) {
-		if !r.MatchString(cmd.Use) {
-			assert.Fail(t, cmd.Use+" does not match "+r.String())
+		if cmd.Use != cmd.Name() {
+			assert.Fail(t, cmd.CommandPath()+" Use field should only contain the command name: "+cmd.Use)
 		}
 	})
 }
 
-//--- cmd.Short ---
+// --- cmd.Short ---
 
 func TestShortShouldExist(t *testing.T) {
 	root := setupCmd(t)
@@ -83,7 +78,7 @@ func TestShortShouldNotEndWithFullStop(t *testing.T) {
 	})
 }
 
-//--- cmd.Long ---
+// --- cmd.Long ---
 
 func TestLongShouldExist(t *testing.T) {
 	root := setupCmd(t)
@@ -112,7 +107,7 @@ func TestLongShouldEndWithAFullStop(t *testing.T) {
 	})
 }
 
-//--- flag.Usage ---
+// --- flag.Usage ---
 
 func TestFlagUsageShouldNotEndWithFullStop(t *testing.T) {
 	root := setupCmd(t)
@@ -132,7 +127,7 @@ func TestFlagUsageShouldStartWithUpperCase(t *testing.T) {
 	})
 }
 
-//--- flag.Shorthand ---
+// --- flag.Shorthand ---
 
 func TestFlagShortHandMustBeConsistentAmongstCommands(t *testing.T) {
 	root := setupCmd(t)

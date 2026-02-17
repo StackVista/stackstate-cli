@@ -21,7 +21,7 @@ type EditArgs struct {
 func DashboardEditCommand(cli *di.Deps) *cobra.Command {
 	args := &EditArgs{}
 	cmd := &cobra.Command{
-		Use:   "edit {--id ID | --identifier URN}",
+		Use:   "edit",
 		Short: "Edit a dashboard interactively in your default editor",
 		Long:  "Edit a dashboard interactively. Opens the dashboard YAML in the editor defined by your EDITOR environment variable. Changes are applied when you save and close the editor.",
 		Example: `# edit a dashboard by ID

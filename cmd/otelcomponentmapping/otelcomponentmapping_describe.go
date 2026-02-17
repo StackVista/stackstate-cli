@@ -19,7 +19,7 @@ type DescribeArgs struct {
 func OtelComponentMappingDescribeCommand(deps *di.Deps) *cobra.Command {
 	args := &DescribeArgs{}
 	cmd := &cobra.Command{
-		Use:   "describe --identifier URN",
+		Use:   "describe",
 		Short: "Describe an Otel Component Mapping",
 		Long:  "Describe an Otel Component Mapping by identifier (URN). Optionally write to output file.",
 		Example: `# describe an OTel component mapping by identifier

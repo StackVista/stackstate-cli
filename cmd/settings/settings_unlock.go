@@ -19,7 +19,7 @@ type UnlockArgs struct {
 func SettingsUnlockCommand(cli *di.Deps) *cobra.Command {
 	args := &UnlockArgs{}
 	cmd := &cobra.Command{
-		Use:   "unlock --ids IDS",
+		Use:   "unlock",
 		Short: "Unlock settings locked by StackPacks",
 		Long:  `Unlock settings locked by StackPacks to allow editing. Warning: Unlocking settings may prevent StackPacks from upgrading correctly.`,
 		Example: `# unlock a setting by ID

@@ -21,7 +21,7 @@ type StatusArgs struct {
 func MonitorStatusCommand(cli *di.Deps) *cobra.Command {
 	args := &StatusArgs{}
 	cmd := &cobra.Command{
-		Use:   "status {--id ID | --identifier URN}",
+		Use:   "status",
 		Short: "Show detailed runtime status of a monitor",
 		Long:  `Show detailed runtime status of a monitor including health state counts, stream metrics, errors, and topology matching results.`,
 		Example: `# show monitor status by ID
