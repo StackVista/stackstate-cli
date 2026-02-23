@@ -8,7 +8,7 @@ Name | Type | Description | Notes
 **Identifier** | **string** |  | 
 **Name** | **string** |  | 
 **Type** | **string** |  | 
-**Iconbase64** | Pointer to **string** |  | [optional] 
+**Icon** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -109,30 +109,30 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetIconbase64
+### GetIcon
 
-`func (o *MonitorCheckStatusComponent) GetIconbase64() string`
+`func (o *MonitorCheckStatusComponent) GetIcon() string`
 
-GetIconbase64 returns the Iconbase64 field if non-nil, zero value otherwise.
+GetIcon returns the Icon field if non-nil, zero value otherwise.
 
-### GetIconbase64Ok
+### GetIconOk
 
-`func (o *MonitorCheckStatusComponent) GetIconbase64Ok() (*string, bool)`
+`func (o *MonitorCheckStatusComponent) GetIconOk() (*string, bool)`
 
-GetIconbase64Ok returns a tuple with the Iconbase64 field if it's non-nil, zero value otherwise
+GetIconOk returns a tuple with the Icon field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIconbase64
+### SetIcon
 
-`func (o *MonitorCheckStatusComponent) SetIconbase64(v string)`
+`func (o *MonitorCheckStatusComponent) SetIcon(v string)`
 
-SetIconbase64 sets Iconbase64 field to given value.
+SetIcon sets Icon field to given value.
 
-### HasIconbase64
+### HasIcon
 
-`func (o *MonitorCheckStatusComponent) HasIconbase64() bool`
+`func (o *MonitorCheckStatusComponent) HasIcon() bool`
 
-HasIconbase64 returns a boolean if a field has been set.
+HasIcon returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

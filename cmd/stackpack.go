@@ -33,6 +33,7 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 		cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
 		cmd.AddCommand(stackpack.StackpackPackageCommand(cli))
 		cmd.AddCommand(stackpack.StackpackTestDeployCommand(cli))
+		cmd.AddCommand(stackpack.StackpackValidateCommand(cli))
 	}
 
 	return cmd

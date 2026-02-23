@@ -9,7 +9,7 @@ Name | Type | Description | Notes
 **TypeName** | **string** |  | 
 **Name** | **string** |  | 
 **Identifiers** | **[]string** |  | 
-**Iconbase64** | Pointer to **string** |  | [optional] 
+**Icon** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -130,30 +130,30 @@ and a boolean to check if the value has been set.
 SetIdentifiers sets Identifiers field to given value.
 
 
-### GetIconbase64
+### GetIcon
 
-`func (o *EventComponent) GetIconbase64() string`
+`func (o *EventComponent) GetIcon() string`
 
-GetIconbase64 returns the Iconbase64 field if non-nil, zero value otherwise.
+GetIcon returns the Icon field if non-nil, zero value otherwise.
 
-### GetIconbase64Ok
+### GetIconOk
 
-`func (o *EventComponent) GetIconbase64Ok() (*string, bool)`
+`func (o *EventComponent) GetIconOk() (*string, bool)`
 
-GetIconbase64Ok returns a tuple with the Iconbase64 field if it's non-nil, zero value otherwise
+GetIconOk returns a tuple with the Icon field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIconbase64
+### SetIcon
 
-`func (o *EventComponent) SetIconbase64(v string)`
+`func (o *EventComponent) SetIcon(v string)`
 
-SetIconbase64 sets Iconbase64 field to given value.
+SetIcon sets Icon field to given value.
 
-### HasIconbase64
+### HasIcon
 
-`func (o *EventComponent) HasIconbase64() bool`
+`func (o *EventComponent) HasIcon() bool`
 
-HasIconbase64 returns a boolean if a field has been set.
+HasIcon returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -22,7 +22,7 @@ type EventComponent struct {
 	TypeName    string   `json:"typeName" yaml:"typeName"`
 	Name        string   `json:"name" yaml:"name"`
 	Identifiers []string `json:"identifiers" yaml:"identifiers"`
-	Iconbase64  *string  `json:"iconbase64,omitempty" yaml:"iconbase64,omitempty"`
+	Icon        *string  `json:"icon,omitempty" yaml:"icon,omitempty"`
 }
 
 // NewEventComponent instantiates a new EventComponent object
@@ -167,36 +167,36 @@ func (o *EventComponent) SetIdentifiers(v []string) {
 	o.Identifiers = v
 }
 
-// GetIconbase64 returns the Iconbase64 field value if set, zero value otherwise.
-func (o *EventComponent) GetIconbase64() string {
-	if o == nil || o.Iconbase64 == nil {
+// GetIcon returns the Icon field value if set, zero value otherwise.
+func (o *EventComponent) GetIcon() string {
+	if o == nil || o.Icon == nil {
 		var ret string
 		return ret
 	}
-	return *o.Iconbase64
+	return *o.Icon
 }
 
-// GetIconbase64Ok returns a tuple with the Iconbase64 field value if set, nil otherwise
+// GetIconOk returns a tuple with the Icon field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *EventComponent) GetIconbase64Ok() (*string, bool) {
-	if o == nil || o.Iconbase64 == nil {
+func (o *EventComponent) GetIconOk() (*string, bool) {
+	if o == nil || o.Icon == nil {
 		return nil, false
 	}
-	return o.Iconbase64, true
+	return o.Icon, true
 }
 
-// HasIconbase64 returns a boolean if a field has been set.
-func (o *EventComponent) HasIconbase64() bool {
-	if o != nil && o.Iconbase64 != nil {
+// HasIcon returns a boolean if a field has been set.
+func (o *EventComponent) HasIcon() bool {
+	if o != nil && o.Icon != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetIconbase64 gets a reference to the given string and assigns it to the Iconbase64 field.
-func (o *EventComponent) SetIconbase64(v string) {
-	o.Iconbase64 = &v
+// SetIcon gets a reference to the given string and assigns it to the Icon field.
+func (o *EventComponent) SetIcon(v string) {
+	o.Icon = &v
 }
 
 func (o EventComponent) MarshalJSON() ([]byte, error) {
@@ -216,8 +216,8 @@ func (o EventComponent) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["identifiers"] = o.Identifiers
 	}
-	if o.Iconbase64 != nil {
-		toSerialize["iconbase64"] = o.Iconbase64
+	if o.Icon != nil {
+		toSerialize["icon"] = o.Icon
 	}
 	return json.Marshal(toSerialize)
 }

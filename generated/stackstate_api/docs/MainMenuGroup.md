@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **Identifier** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **DefaultOpen** | **bool** |  | 
-**Iconbase64** | **string** |  | 
+**Icon** | **string** |  | 
 **Items** | [**[]MainMenuViewItem**](MainMenuViewItem.md) |  | 
 
 ## Methods
 
 ### NewMainMenuGroup
 
-`func NewMainMenuGroup(name string, defaultOpen bool, iconbase64 string, items []MainMenuViewItem, ) *MainMenuGroup`
+`func NewMainMenuGroup(name string, defaultOpen bool, icon string, items []MainMenuViewItem, ) *MainMenuGroup`
 
 NewMainMenuGroup instantiates a new MainMenuGroup object
 This constructor will assign default values to properties that have it defined,
@@ -120,24 +120,24 @@ and a boolean to check if the value has been set.
 SetDefaultOpen sets DefaultOpen field to given value.
 
 
-### GetIconbase64
+### GetIcon
 
-`func (o *MainMenuGroup) GetIconbase64() string`
+`func (o *MainMenuGroup) GetIcon() string`
 
-GetIconbase64 returns the Iconbase64 field if non-nil, zero value otherwise.
+GetIcon returns the Icon field if non-nil, zero value otherwise.
 
-### GetIconbase64Ok
+### GetIconOk
 
-`func (o *MainMenuGroup) GetIconbase64Ok() (*string, bool)`
+`func (o *MainMenuGroup) GetIconOk() (*string, bool)`
 
-GetIconbase64Ok returns a tuple with the Iconbase64 field if it's non-nil, zero value otherwise
+GetIconOk returns a tuple with the Icon field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetIconbase64
+### SetIcon
 
-`func (o *MainMenuGroup) SetIconbase64(v string)`
+`func (o *MainMenuGroup) SetIcon(v string)`
 
-SetIconbase64 sets Iconbase64 field to given value.
+SetIcon sets Icon field to given value.
 
 
 ### GetItems
