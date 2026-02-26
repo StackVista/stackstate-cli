@@ -9,8 +9,8 @@ Method | HTTP request | Description
 [**ProvisionUninstall**](StackpackApi.md#ProvisionUninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
 [**StackPackList**](StackpackApi.md#StackPackList) | **Get** /stackpack | StackPack API
 [**StackPackUpload**](StackpackApi.md#StackPackUpload) | **Post** /stackpack | StackPack API
+[**StackPackValidate**](StackpackApi.md#StackPackValidate) | **Post** /stackpack/validate | Validate API
 [**UpgradeStackPack**](StackpackApi.md#UpgradeStackPack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
-[**ValidateStackPack**](StackpackApi.md#ValidateStackPack) | **Post** /stackpack/{stackPackName}/validate | Validate API
 
 
 
@@ -361,6 +361,72 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## StackPackValidate
+
+> string StackPackValidate(ctx).StackPack(stackPack).Execute()
+
+Validate API
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackPack := os.NewFile(1234, "some_file") // *os.File |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.StackPackValidate(context.Background()).StackPack(stackPack).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackPackValidate``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `StackPackValidate`: string
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackPackValidate`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiStackPackValidateRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **stackPack** | ***os.File** |  | 
+
+### Return type
+
+**string**
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: multipart/form-data
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## UpgradeStackPack
 
 > string UpgradeStackPack(ctx, stackPackName).Unlocked(unlocked).Execute()
@@ -414,76 +480,6 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **unlocked** | **string** |  | 
-
-### Return type
-
-**string**
-
-### Authorization
-
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## ValidateStackPack
-
-> string ValidateStackPack(ctx, stackPackName).Execute()
-
-Validate API
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    stackPackName := "stackPackName_example" // string | 
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ValidateStackPack(context.Background(), stackPackName).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ValidateStackPack``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `ValidateStackPack`: string
-    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.ValidateStackPack`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**stackPackName** | **string** |  | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiValidateStackPackRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
 
 ### Return type
 

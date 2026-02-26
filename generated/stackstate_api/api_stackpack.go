@@ -99,6 +99,20 @@ type StackpackApi interface {
 	StackPackUploadExecute(r ApiStackPackUploadRequest) (*StackPack, *http.Response, error)
 
 	/*
+		StackPackValidate Validate API
+
+		Validate a stackpack's setting declarations
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiStackPackValidateRequest
+	*/
+	StackPackValidate(ctx context.Context) ApiStackPackValidateRequest
+
+	// StackPackValidateExecute executes the request
+	//  @return string
+	StackPackValidateExecute(r ApiStackPackValidateRequest) (string, *http.Response, error)
+
+	/*
 		UpgradeStackPack Upgrade API
 
 		Upgrade stackpack
@@ -112,21 +126,6 @@ type StackpackApi interface {
 	// UpgradeStackPackExecute executes the request
 	//  @return string
 	UpgradeStackPackExecute(r ApiUpgradeStackPackRequest) (string, *http.Response, error)
-
-	/*
-		ValidateStackPack Validate API
-
-		Validate a stackpack's setting declarations
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param stackPackName
-		@return ApiValidateStackPackRequest
-	*/
-	ValidateStackPack(ctx context.Context, stackPackName string) ApiValidateStackPackRequest
-
-	// ValidateStackPackExecute executes the request
-	//  @return string
-	ValidateStackPackExecute(r ApiValidateStackPackRequest) (string, *http.Response, error)
 }
 
 // StackpackApiService StackpackApi service
@@ -978,6 +977,190 @@ func (a *StackpackApiService) StackPackUploadExecute(r ApiStackPackUploadRequest
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiStackPackValidateRequest struct {
+	ctx        context.Context
+	ApiService StackpackApi
+	stackPack  **os.File
+}
+
+func (r ApiStackPackValidateRequest) StackPack(stackPack *os.File) ApiStackPackValidateRequest {
+	r.stackPack = &stackPack
+	return r
+}
+
+func (r ApiStackPackValidateRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.StackPackValidateExecute(r)
+}
+
+/*
+StackPackValidate Validate API
+
+Validate a stackpack's setting declarations
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiStackPackValidateRequest
+*/
+func (a *StackpackApiService) StackPackValidate(ctx context.Context) ApiStackPackValidateRequest {
+	return ApiStackPackValidateRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return string
+func (a *StackpackApiService) StackPackValidateExecute(r ApiStackPackValidateRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackValidate")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/validate"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"multipart/form-data"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	var stackPackLocalVarFormFileName string
+	var stackPackLocalVarFileName string
+	var stackPackLocalVarFileBytes []byte
+
+	stackPackLocalVarFormFileName = "stackPack"
+
+	var stackPackLocalVarFile *os.File
+	if r.stackPack != nil {
+		stackPackLocalVarFile = *r.stackPack
+	}
+	if stackPackLocalVarFile != nil {
+		fbs, _ := ioutil.ReadAll(stackPackLocalVarFile)
+		stackPackLocalVarFileBytes = fbs
+		stackPackLocalVarFileName = stackPackLocalVarFile.Name()
+		stackPackLocalVarFile.Close()
+	}
+	formFiles = append(formFiles, formFile{fileBytes: stackPackLocalVarFileBytes, fileName: stackPackLocalVarFileName, formFileName: stackPackLocalVarFormFileName})
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpgradeStackPackRequest struct {
 	ctx           context.Context
 	ApiService    StackpackApi
@@ -1143,171 +1326,6 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiValidateStackPackRequest struct {
-	ctx           context.Context
-	ApiService    StackpackApi
-	stackPackName string
-}
-
-func (r ApiValidateStackPackRequest) Execute() (string, *http.Response, error) {
-	return r.ApiService.ValidateStackPackExecute(r)
-}
-
-/*
-ValidateStackPack Validate API
-
-Validate a stackpack's setting declarations
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param stackPackName
-	@return ApiValidateStackPackRequest
-*/
-func (a *StackpackApiService) ValidateStackPack(ctx context.Context, stackPackName string) ApiValidateStackPackRequest {
-	return ApiValidateStackPackRequest{
-		ApiService:    a,
-		ctx:           ctx,
-		stackPackName: stackPackName,
-	}
-}
-
-// Execute executes the request
-//
-//	@return string
-func (a *StackpackApiService) ValidateStackPackExecute(r ApiValidateStackPackRequest) (string, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodPost
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue string
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.ValidateStackPack")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/stackpack/{stackPackName}/validate"
-	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Token"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceBearer"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 400 {
-			var v []string
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-			return localVarReturnValue, localVarHTTPResponse, newErr
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
@@ -1323,10 +1341,10 @@ type StackpackApiMock struct {
 	StackPackListResponse      StackPackListMockResponse
 	StackPackUploadCalls       *[]StackPackUploadCall
 	StackPackUploadResponse    StackPackUploadMockResponse
+	StackPackValidateCalls     *[]StackPackValidateCall
+	StackPackValidateResponse  StackPackValidateMockResponse
 	UpgradeStackPackCalls      *[]UpgradeStackPackCall
 	UpgradeStackPackResponse   UpgradeStackPackMockResponse
-	ValidateStackPackCalls     *[]ValidateStackPackCall
-	ValidateStackPackResponse  ValidateStackPackMockResponse
 }
 
 func NewStackpackApiMock() StackpackApiMock {
@@ -1335,16 +1353,16 @@ func NewStackpackApiMock() StackpackApiMock {
 	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
 	xStackPackListCalls := make([]StackPackListCall, 0)
 	xStackPackUploadCalls := make([]StackPackUploadCall, 0)
+	xStackPackValidateCalls := make([]StackPackValidateCall, 0)
 	xUpgradeStackPackCalls := make([]UpgradeStackPackCall, 0)
-	xValidateStackPackCalls := make([]ValidateStackPackCall, 0)
 	return StackpackApiMock{
 		ConfirmManualStepsCalls: &xConfirmManualStepsCalls,
 		ProvisionDetailsCalls:   &xProvisionDetailsCalls,
 		ProvisionUninstallCalls: &xProvisionUninstallCalls,
 		StackPackListCalls:      &xStackPackListCalls,
 		StackPackUploadCalls:    &xStackPackUploadCalls,
+		StackPackValidateCalls:  &xStackPackValidateCalls,
 		UpgradeStackPackCalls:   &xUpgradeStackPackCalls,
-		ValidateStackPackCalls:  &xValidateStackPackCalls,
 	}
 }
 
@@ -1483,6 +1501,31 @@ func (mock StackpackApiMock) StackPackUploadExecute(r ApiStackPackUploadRequest)
 	return &mock.StackPackUploadResponse.Result, mock.StackPackUploadResponse.Response, mock.StackPackUploadResponse.Error
 }
 
+type StackPackValidateMockResponse struct {
+	Result   string
+	Response *http.Response
+	Error    error
+}
+
+type StackPackValidateCall struct {
+	PstackPack **os.File
+}
+
+func (mock StackpackApiMock) StackPackValidate(ctx context.Context) ApiStackPackValidateRequest {
+	return ApiStackPackValidateRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock StackpackApiMock) StackPackValidateExecute(r ApiStackPackValidateRequest) (string, *http.Response, error) {
+	p := StackPackValidateCall{
+		PstackPack: r.stackPack,
+	}
+	*mock.StackPackValidateCalls = append(*mock.StackPackValidateCalls, p)
+	return mock.StackPackValidateResponse.Result, mock.StackPackValidateResponse.Response, mock.StackPackValidateResponse.Error
+}
+
 type UpgradeStackPackMockResponse struct {
 	Result   string
 	Response *http.Response
@@ -1509,30 +1552,4 @@ func (mock StackpackApiMock) UpgradeStackPackExecute(r ApiUpgradeStackPackReques
 	}
 	*mock.UpgradeStackPackCalls = append(*mock.UpgradeStackPackCalls, p)
 	return mock.UpgradeStackPackResponse.Result, mock.UpgradeStackPackResponse.Response, mock.UpgradeStackPackResponse.Error
-}
-
-type ValidateStackPackMockResponse struct {
-	Result   string
-	Response *http.Response
-	Error    error
-}
-
-type ValidateStackPackCall struct {
-	PstackPackName string
-}
-
-func (mock StackpackApiMock) ValidateStackPack(ctx context.Context, stackPackName string) ApiValidateStackPackRequest {
-	return ApiValidateStackPackRequest{
-		ApiService:    mock,
-		ctx:           ctx,
-		stackPackName: stackPackName,
-	}
-}
-
-func (mock StackpackApiMock) ValidateStackPackExecute(r ApiValidateStackPackRequest) (string, *http.Response, error) {
-	p := ValidateStackPackCall{
-		PstackPackName: r.stackPackName,
-	}
-	*mock.ValidateStackPackCalls = append(*mock.ValidateStackPackCalls, p)
-	return mock.ValidateStackPackResponse.Result, mock.ValidateStackPackResponse.Response, mock.ValidateStackPackResponse.Error
 }

@@ -1,25 +1,20 @@
 package stackpack
 
 import (
-	"context"
 	"fmt"
 	"os"
-	"os/exec"
 	"path/filepath"
 
 	"github.com/spf13/cobra"
+	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
 // ValidateArgs contains arguments for stackpack validate command
 type ValidateArgs struct {
-	Name          string
 	StackpackDir  string
 	StackpackFile string
-	DockerImage   string
-
-	dockerRunner func([]string) error
 }
 
 // StackpackValidateCommand creates the validate subcommand
@@ -32,146 +27,127 @@ func stackpackValidateCommandWithArgs(cli *di.Deps, args *ValidateArgs) *cobra.C
 	cmd := &cobra.Command{
 		Use:   "validate",
 		Short: "Validate a stackpack",
-		Long: `Validate a stackpack using either the API or Docker mode.
+		Long: `Validate a stackpack against a SUSE Observability server.
 
-In API mode (when a configured backend context is active), this command calls POST /stackpack/{name}/validate
-against the live instance.
+This command validates a stackpack by uploading it to the server.
+- If a directory is provided, it is automatically packaged into a .sts file before uploading
+- If a .sts file is provided, it is uploaded directly
 
-In Docker mode (when --image is specified), it spins up quay.io/stackstate/stackstate-server:<tag>
-with stack-pack-validator as the entrypoint.
+Exactly one of --stackpack-directory or --stackpack-file must be specified.
 
 This command is experimental and requires STS_EXPERIMENTAL_STACKPACK environment variable to be set.`,
-		Example: `# Validate using API
-sts stackpack validate --name my-stackpack
+		Example: `# Validate a stackpack directory (automatically packaged)
+sts stackpack validate --stackpack-directory ./my-stackpack
 
-# Validate using Docker with a directory
-sts stackpack validate --image quay.io/stackstate/stackstate-server:latest --stackpack-directory ./my-stackpack
-
-# Validate using Docker with a file
-sts stackpack validate --image quay.io/stackstate/stackstate-server:latest --stackpack-file ./my-stackpack.sts`,
-		RunE: cli.CmdRunE(RunStackpackValidateCommand(args)),
+# Validate a pre-packaged .sts file
+sts stackpack validate --stackpack-file ./my-stackpack.sts`,
+		RunE: cli.CmdRunEWithApi(RunStackpackValidateCommand(args)),
 	}
 
-	cmd.Flags().StringVarP(&args.Name, "name", "n", "", "Stackpack name (required for API mode)")
-	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory (Docker mode)")
-	cmd.Flags().StringVarP(&args.StackpackFile, "stackpack-file", "f", "", "Path to .sts file (Docker mode)")
-	cmd.Flags().StringVar(&args.DockerImage, "image", "", "Docker image reference (triggers Docker mode)")
-
-	// Set default docker runner if not already set
-	if args.dockerRunner == nil {
-		args.dockerRunner = defaultDockerRunner
-	}
+	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory")
+	cmd.Flags().StringVarP(&args.StackpackFile, "stackpack-file", "f", "", "Path to .sts file")
 
 	return cmd
 }
 
 // RunStackpackValidateCommand executes the validate command
-func RunStackpackValidateCommand(args *ValidateArgs) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
-		// Determine mode: use Docker if image is provided, otherwise check if context is available
-		useDocker := args.DockerImage != ""
-		if !useDocker {
-			// Try to load context if not already loaded
-			if cli.CurrentContext == nil {
-				_ = cli.LoadContext(cmd) // Silently ignore error, context is optional
-			}
-			// Use docker mode if no context or no URL
-			useDocker = cli.CurrentContext == nil || cli.CurrentContext.URL == ""
+func RunStackpackValidateCommand(args *ValidateArgs) di.CmdWithApiFn {
+	return func(
+		cmd *cobra.Command,
+		cli *di.Deps,
+		api *stackstate_api.APIClient,
+		serverInfo *stackstate_api.ServerInfo,
+	) common.CLIError {
+		// Validate exactly one of directory or file is set
+		if (args.StackpackDir == "" && args.StackpackFile == "") ||
+			(args.StackpackDir != "" && args.StackpackFile != "") {
+			return common.NewCLIArgParseError(fmt.Errorf("exactly one of --stackpack-directory or --stackpack-file must be specified"))
 		}
 
-		if useDocker {
-			return runDockerValidation(args)
-		}
-		return runAPIValidation(cli, cmd, args)
-	}
-}
-
-// runAPIValidation validates stackpack via API
-func runAPIValidation(cli *di.Deps, cmd *cobra.Command, args *ValidateArgs) common.CLIError {
-	if args.Name == "" {
-		return common.NewCLIArgParseError(fmt.Errorf("stackpack name is required (use --name)"))
-	}
-
-	// Ensure client is loaded
-	if cli.Client == nil {
-		err := cli.LoadClient(cmd, cli.CurrentContext)
+		// Prepare file to validate - if directory is provided, package it first
+		fileToValidate, cleanup, err := prepareStackpackFile(args)
 		if err != nil {
 			return err
 		}
-	}
+		defer cleanup()
 
-	// Connect to API
-	api, _, connectErr := cli.Client.Connect()
-	if connectErr != nil {
-		return common.NewRuntimeError(fmt.Errorf("failed to connect to API: %w", connectErr))
-	}
+		// Open the file
+		file, openErr := os.Open(fileToValidate)
+		if openErr != nil {
+			return common.NewRuntimeError(fmt.Errorf("failed to open stackpack file: %w", openErr))
+		}
+		defer file.Close()
 
-	// Call validate endpoint
-	_, resp, validateErr := api.StackpackApi.ValidateStackPack(cli.Context, args.Name).Execute()
-	if validateErr != nil {
-		return common.NewResponseError(validateErr, resp)
-	}
+		// Call validate endpoint
+		result, resp, validateErr := api.StackpackApi.StackPackValidate(cli.Context).StackPack(file).Execute()
+		if validateErr != nil {
+			return common.NewResponseError(validateErr, resp)
+		}
 
-	if cli.IsJson() {
-		cli.Printer.PrintJson(map[string]interface{}{
-			"success": true,
-		})
-	} else {
-		cli.Printer.Success("Stackpack validation successful!")
-	}
+		if cli.IsJson() {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"success": true,
+				"result":  result,
+			})
+		} else {
+			cli.Printer.Success("Stackpack validation successful!")
+			if result != "" {
+				fmt.Println(result)
+			}
+		}
 
-	return nil
+		return nil
+	}
 }
 
-// runDockerValidation validates stackpack via Docker
-func runDockerValidation(args *ValidateArgs) common.CLIError {
-	// Validate required flags
-	if args.DockerImage == "" {
-		return common.NewCLIArgParseError(fmt.Errorf("--image is required for Docker mode"))
-	}
-
-	// Validate exactly one of directory or file is set
-	if (args.StackpackDir == "" && args.StackpackFile == "") ||
-		(args.StackpackDir != "" && args.StackpackFile != "") {
-		return common.NewCLIArgParseError(fmt.Errorf("exactly one of --stackpack-directory or --stackpack-file must be specified"))
-	}
-
-	// Check docker is available
-	if _, err := exec.LookPath("docker"); err != nil {
-		return common.NewRuntimeError(fmt.Errorf("docker is not available: %w", err))
-	}
-
-	// Build docker command arguments
-	dockerArgs := []string{"run", "--rm", "--entrypoint", "/opt/docker/bin/stack-pack-validator"}
-
-	if args.StackpackDir != "" {
-		// Convert to absolute path
-		absDir, err := filepath.Abs(args.StackpackDir)
-		if err != nil {
-			return common.NewRuntimeError(fmt.Errorf("failed to resolve stackpack directory: %w", err))
+// prepareStackpackFile returns the path to the stackpack file to validate.
+// If a directory is provided, it packages it into a temporary .sts file.
+// Returns the file path and a cleanup function that should be deferred.
+func prepareStackpackFile(args *ValidateArgs) (string, func(), common.CLIError) {
+	if args.StackpackFile != "" {
+		// Use provided .sts file directly
+		if _, err := os.Stat(args.StackpackFile); err != nil {
+			return "", func() {}, common.NewRuntimeError(fmt.Errorf("failed to access stackpack file: %w", err))
 		}
-		dockerArgs = append(dockerArgs, "-v", fmt.Sprintf("%s:/stackpack", absDir), args.DockerImage, "-directory", "/stackpack")
-	} else {
-		// Convert to absolute path
-		absFile, err := filepath.Abs(args.StackpackFile)
-		if err != nil {
-			return common.NewRuntimeError(fmt.Errorf("failed to resolve stackpack file: %w", err))
-		}
-		dockerArgs = append(dockerArgs, "-v", fmt.Sprintf("%s:/stackpack.sts", absFile), args.DockerImage, "-file", "/stackpack.sts")
+		return args.StackpackFile, func() {}, nil
 	}
 
-	// Execute docker command
-	if err := args.dockerRunner(dockerArgs); err != nil {
-		return common.NewRuntimeError(fmt.Errorf("docker validation failed: %w", err))
+	// Package the directory
+	absDir, err := filepath.Abs(args.StackpackDir)
+	if err != nil {
+		return "", func() {}, common.NewRuntimeError(fmt.Errorf("failed to resolve stackpack directory: %w", err))
 	}
 
-	return nil
-}
+	// Validate stackpack directory
+	if err := validateStackpackDirectory(absDir); err != nil {
+		return "", func() {}, common.NewCLIArgParseError(err)
+	}
 
-// defaultDockerRunner executes docker command with streaming output
-func defaultDockerRunner(dockerArgs []string) error {
-	cmd := exec.CommandContext(context.Background(), "docker", dockerArgs...)
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
-	return cmd.Run()
+	// Parse stackpack info
+	parser := &YamlParser{}
+	stackpackInfo, err := parser.Parse(filepath.Join(absDir, "stackpack.yaml"))
+	if err != nil {
+		return "", func() {}, common.NewRuntimeError(fmt.Errorf("failed to parse stackpack.yaml: %w", err))
+	}
+
+	// Create temporary .sts file
+	tmpFile, err := os.CreateTemp("", fmt.Sprintf("%s-*.sts", stackpackInfo.Name))
+	if err != nil {
+		return "", func() {}, common.NewRuntimeError(fmt.Errorf("failed to create temporary file: %w", err))
+	}
+	tmpFile.Close()
+	tmpPath := tmpFile.Name()
+
+	// Package stackpack into temporary file
+	if err := createStackpackZip(absDir, tmpPath); err != nil {
+		os.Remove(tmpPath) // Clean up on error
+		return "", func() {}, common.NewRuntimeError(fmt.Errorf("failed to package stackpack: %w", err))
+	}
+
+	// Return cleanup function that removes the temporary file
+	cleanup := func() {
+		os.Remove(tmpPath)
+	}
+
+	return tmpPath, cleanup, nil
 }

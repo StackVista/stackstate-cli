@@ -364,6 +364,39 @@ paths:
       summary: StackPack API
       tags:
       - stackpack
+  /stackpack/validate:
+    post:
+      description: Validate a stackpack's setting declarations
+      operationId: stackPackValidate
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StackPackUpload'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: validation successful
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Validate API
+      tags:
+      - stackpack
   /stackpack/{stackPackName}/provision:
     post:
       description: Provision details
@@ -401,40 +434,6 @@ paths:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
       summary: Provision API
-      tags:
-      - stackpack
-  /stackpack/{stackPackName}/validate:
-    post:
-      description: Validate a stackpack's setting declarations
-      operationId: validateStackPack
-      parameters:
-      - in: path
-        name: stackPackName
-        required: true
-        schema:
-          type: string
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: string
-          description: validation successful
-        "400":
-          content:
-            application/json:
-              schema:
-                items:
-                  type: string
-                type: array
-          description: bad request
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GenericErrorsResponse'
-          description: Error when handling the request on the server side.
-      summary: Validate API
       tags:
       - stackpack
   /stackpack/{stackPackName}/deprovision/{stackPackInstanceId}:
