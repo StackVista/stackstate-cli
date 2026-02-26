@@ -227,6 +227,7 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
 *StackpackApi* | [**StackPackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
 *StackpackApi* | [**StackPackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
+*StackpackApi* | [**StackPackValidate**](docs/StackpackApi.md#stackpackvalidate) | **Post** /stackpack/validate | Validate API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
 *SubjectApi* | [**CreateSubject**](docs/SubjectApi.md#createsubject) | **Put** /security/subjects/{subject} | Create a subject
 *SubjectApi* | [**DeleteSubject**](docs/SubjectApi.md#deletesubject) | **Delete** /security/subjects/{subject} | Delete a subject

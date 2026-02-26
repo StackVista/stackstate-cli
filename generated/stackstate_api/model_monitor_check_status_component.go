@@ -21,7 +21,7 @@ type MonitorCheckStatusComponent struct {
 	Identifier string  `json:"identifier" yaml:"identifier"`
 	Name       string  `json:"name" yaml:"name"`
 	Type       string  `json:"type" yaml:"type"`
-	Iconbase64 *string `json:"iconbase64,omitempty" yaml:"iconbase64,omitempty"`
+	Icon       *string `json:"icon,omitempty" yaml:"icon,omitempty"`
 }
 
 // NewMonitorCheckStatusComponent instantiates a new MonitorCheckStatusComponent object
@@ -141,36 +141,36 @@ func (o *MonitorCheckStatusComponent) SetType(v string) {
 	o.Type = v
 }
 
-// GetIconbase64 returns the Iconbase64 field value if set, zero value otherwise.
-func (o *MonitorCheckStatusComponent) GetIconbase64() string {
-	if o == nil || o.Iconbase64 == nil {
+// GetIcon returns the Icon field value if set, zero value otherwise.
+func (o *MonitorCheckStatusComponent) GetIcon() string {
+	if o == nil || o.Icon == nil {
 		var ret string
 		return ret
 	}
-	return *o.Iconbase64
+	return *o.Icon
 }
 
-// GetIconbase64Ok returns a tuple with the Iconbase64 field value if set, nil otherwise
+// GetIconOk returns a tuple with the Icon field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MonitorCheckStatusComponent) GetIconbase64Ok() (*string, bool) {
-	if o == nil || o.Iconbase64 == nil {
+func (o *MonitorCheckStatusComponent) GetIconOk() (*string, bool) {
+	if o == nil || o.Icon == nil {
 		return nil, false
 	}
-	return o.Iconbase64, true
+	return o.Icon, true
 }
 
-// HasIconbase64 returns a boolean if a field has been set.
-func (o *MonitorCheckStatusComponent) HasIconbase64() bool {
-	if o != nil && o.Iconbase64 != nil {
+// HasIcon returns a boolean if a field has been set.
+func (o *MonitorCheckStatusComponent) HasIcon() bool {
+	if o != nil && o.Icon != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetIconbase64 gets a reference to the given string and assigns it to the Iconbase64 field.
-func (o *MonitorCheckStatusComponent) SetIconbase64(v string) {
-	o.Iconbase64 = &v
+// SetIcon gets a reference to the given string and assigns it to the Icon field.
+func (o *MonitorCheckStatusComponent) SetIcon(v string) {
+	o.Icon = &v
 }
 
 func (o MonitorCheckStatusComponent) MarshalJSON() ([]byte, error) {
@@ -187,8 +187,8 @@ func (o MonitorCheckStatusComponent) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["type"] = o.Type
 	}
-	if o.Iconbase64 != nil {
-		toSerialize["iconbase64"] = o.Iconbase64
+	if o.Icon != nil {
+		toSerialize["icon"] = o.Icon
 	}
 	return json.Marshal(toSerialize)
 }

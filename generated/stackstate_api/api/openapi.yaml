@@ -364,6 +364,39 @@ paths:
       summary: StackPack API
       tags:
       - stackpack
+  /stackpack/validate:
+    post:
+      description: Validate a stackpack's setting declarations
+      operationId: stackPackValidate
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/StackPackUpload'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: validation successful
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Validate API
+      tags:
+      - stackpack
   /stackpack/{stackPackName}/provision:
     post:
       description: Provision details
@@ -9054,8 +9087,8 @@ components:
         dummy: true
         component:
           identifier: identifier
-          iconbase64: iconbase64
           name: name
+          icon: icon
           id: 1
           type: type
         troubleshootingSteps: troubleshootingSteps
@@ -9187,8 +9220,8 @@ components:
     MonitorCheckStatusComponent:
       example:
         identifier: identifier
-        iconbase64: iconbase64
         name: name
+        icon: icon
         id: 1
         type: type
       properties:
@@ -9201,7 +9234,7 @@ components:
           type: string
         type:
           type: string
-        iconbase64:
+        icon:
           type: string
       required:
       - id
@@ -9235,8 +9268,8 @@ components:
         - identifier: identifier
           component:
             identifier: identifier
-            iconbase64: iconbase64
             name: name
+            icon: icon
             id: 1
             type: type
           triggeredTimestamp: 1
@@ -9248,8 +9281,8 @@ components:
         - identifier: identifier
           component:
             identifier: identifier
-            iconbase64: iconbase64
             name: name
+            icon: icon
             id: 1
             type: type
           triggeredTimestamp: 1
@@ -9277,8 +9310,8 @@ components:
         identifier: identifier
         component:
           identifier: identifier
-          iconbase64: iconbase64
           name: name
+          icon: icon
           id: 1
           type: type
         triggeredTimestamp: 1
@@ -10311,7 +10344,7 @@ components:
           items:
             type: string
           type: array
-        iconbase64:
+        icon:
           type: string
       required:
       - _type
@@ -13904,8 +13937,8 @@ components:
           tags:
           - tags
           - tags
-        iconbase64: iconbase64
         typeName: typeName
+        icon: icon
         boundTraces:
           filter:
             traceId:
@@ -14002,7 +14035,7 @@ components:
       properties:
         typeName:
           type: string
-        iconbase64:
+        icon:
           type: string
         data:
           $ref: '#/components/schemas/ComponentData'
@@ -15021,8 +15054,8 @@ components:
             tags:
             - tags
             - tags
-          iconbase64: iconbase64
           typeName: typeName
+          icon: icon
           boundTraces:
             filter:
               traceId:
@@ -15209,8 +15242,8 @@ components:
             tags:
             - tags
             - tags
-          iconbase64: iconbase64
           typeName: typeName
+          icon: icon
           boundTraces:
             filter:
               traceId:
@@ -17023,11 +17056,11 @@ components:
         presentation:
           overview:
             mainMenu:
-              iconbase64: iconbase64
+              icon: icon
               group: group
               order: 0.8008281904610115
             title: title
-          iconbase64: iconbase64
+          icon: icon
           name:
             plural: plural
             singular: singular
@@ -17056,16 +17089,16 @@ components:
       example:
         overview:
           mainMenu:
-            iconbase64: iconbase64
+            icon: icon
             group: group
             order: 0.8008281904610115
           title: title
-        iconbase64: iconbase64
+        icon: icon
         name:
           plural: plural
           singular: singular
       properties:
-        iconbase64:
+        icon:
           type: string
         name:
           $ref: '#/components/schemas/PresentationName'
@@ -17088,7 +17121,7 @@ components:
     PresentationOverview:
       example:
         mainMenu:
-          iconbase64: iconbase64
+          icon: icon
           group: group
           order: 0.8008281904610115
         title: title
@@ -17102,13 +17135,13 @@ components:
       type: object
     PresentationMainMenu:
       example:
-        iconbase64: iconbase64
+        icon: icon
         group: group
         order: 0.8008281904610115
       properties:
         group:
           type: string
-        iconbase64:
+        icon:
           type: string
         order:
           format: double
@@ -17127,16 +17160,16 @@ components:
     MainMenuGroup:
       example:
         identifier: identifier
-        iconbase64: iconbase64
         name: name
+        icon: icon
         description: description
         defaultOpen: true
         items:
         - identifier: identifier
-          iconbase64: iconbase64
+          icon: icon
           title: title
         - identifier: identifier
-          iconbase64: iconbase64
+          icon: icon
           title: title
       properties:
         name:
@@ -17147,7 +17180,7 @@ components:
           type: string
         defaultOpen:
           type: boolean
-        iconbase64:
+        icon:
           type: string
         items:
           items:
@@ -17155,13 +17188,13 @@ components:
           type: array
       required:
       - defaultOpen
-      - iconbase64
+      - icon
       - items
       - name
     MainMenuViewItem:
       example:
         identifier: identifier
-        iconbase64: iconbase64
+        icon: icon
         title: title
       properties:
         identifier:
@@ -17169,7 +17202,7 @@ components:
           type: string
         title:
           type: string
-        iconbase64:
+        icon:
           type: string
       required:
       - identifier

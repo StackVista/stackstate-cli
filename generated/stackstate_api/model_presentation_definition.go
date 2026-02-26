@@ -17,9 +17,9 @@ import (
 
 // PresentationDefinition struct for PresentationDefinition
 type PresentationDefinition struct {
-	Iconbase64 *string               `json:"iconbase64,omitempty" yaml:"iconbase64,omitempty"`
-	Name       *PresentationName     `json:"name,omitempty" yaml:"name,omitempty"`
-	Overview   *PresentationOverview `json:"overview,omitempty" yaml:"overview,omitempty"`
+	Icon     *string               `json:"icon,omitempty" yaml:"icon,omitempty"`
+	Name     *PresentationName     `json:"name,omitempty" yaml:"name,omitempty"`
+	Overview *PresentationOverview `json:"overview,omitempty" yaml:"overview,omitempty"`
 }
 
 // NewPresentationDefinition instantiates a new PresentationDefinition object
@@ -39,36 +39,36 @@ func NewPresentationDefinitionWithDefaults() *PresentationDefinition {
 	return &this
 }
 
-// GetIconbase64 returns the Iconbase64 field value if set, zero value otherwise.
-func (o *PresentationDefinition) GetIconbase64() string {
-	if o == nil || o.Iconbase64 == nil {
+// GetIcon returns the Icon field value if set, zero value otherwise.
+func (o *PresentationDefinition) GetIcon() string {
+	if o == nil || o.Icon == nil {
 		var ret string
 		return ret
 	}
-	return *o.Iconbase64
+	return *o.Icon
 }
 
-// GetIconbase64Ok returns a tuple with the Iconbase64 field value if set, nil otherwise
+// GetIconOk returns a tuple with the Icon field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PresentationDefinition) GetIconbase64Ok() (*string, bool) {
-	if o == nil || o.Iconbase64 == nil {
+func (o *PresentationDefinition) GetIconOk() (*string, bool) {
+	if o == nil || o.Icon == nil {
 		return nil, false
 	}
-	return o.Iconbase64, true
+	return o.Icon, true
 }
 
-// HasIconbase64 returns a boolean if a field has been set.
-func (o *PresentationDefinition) HasIconbase64() bool {
-	if o != nil && o.Iconbase64 != nil {
+// HasIcon returns a boolean if a field has been set.
+func (o *PresentationDefinition) HasIcon() bool {
+	if o != nil && o.Icon != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetIconbase64 gets a reference to the given string and assigns it to the Iconbase64 field.
-func (o *PresentationDefinition) SetIconbase64(v string) {
-	o.Iconbase64 = &v
+// SetIcon gets a reference to the given string and assigns it to the Icon field.
+func (o *PresentationDefinition) SetIcon(v string) {
+	o.Icon = &v
 }
 
 // GetName returns the Name field value if set, zero value otherwise.
@@ -137,8 +137,8 @@ func (o *PresentationDefinition) SetOverview(v PresentationOverview) {
 
 func (o PresentationDefinition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Iconbase64 != nil {
-		toSerialize["iconbase64"] = o.Iconbase64
+	if o.Icon != nil {
+		toSerialize["icon"] = o.Icon
 	}
 	if o.Name != nil {
 		toSerialize["name"] = o.Name
