@@ -16,52 +16,9 @@ func setStateCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	return &cli, cmd
 }
 
-func mockSnapshotResponseWithState() sts.QuerySnapshotResult {
-	return sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
-		ViewSnapshotResponse: map[string]interface{}{
-			"_type": "ViewSnapshot",
-			"components": []interface{}{
-				map[string]interface{}{
-					"id":          float64(229404307680647),
-					"name":        "test-component",
-					"type":        float64(239975151751041),
-					"layer":       float64(186771622698247),
-					"domain":      float64(209616858431909),
-					"identifiers": []interface{}{"urn:test:component:1"},
-					"tags":        []interface{}{"service.namespace:test"},
-					"state": map[string]interface{}{
-						"healthState": "CRITICAL",
-					},
-				},
-			},
-			"metadata": map[string]interface{}{
-				"componentTypes": []interface{}{
-					map[string]interface{}{
-						"id":   float64(239975151751041),
-						"name": "test type",
-					},
-				},
-				"layers": []interface{}{
-					map[string]interface{}{
-						"id":   float64(186771622698247),
-						"name": "Test Layer",
-					},
-				},
-				"domains": []interface{}{
-					map[string]interface{}{
-						"id":   float64(209616858431909),
-						"name": "Test Domain",
-					},
-				},
-			},
-		},
-	}
-}
-
 func TestTopologyStateJson(t *testing.T) {
 	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponseWithState()
+	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "test type", "-o", "json")
 
@@ -84,7 +41,7 @@ func TestTopologyStateJson(t *testing.T) {
 
 func TestTopologyStateTable(t *testing.T) {
 	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponseWithState()
+	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "test type")
 
@@ -109,7 +66,7 @@ func TestTopologyStateTable(t *testing.T) {
 
 func TestTopologyStateWithTags(t *testing.T) {
 	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponseWithState()
+	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd,
 		"--type", "test type",
@@ -128,7 +85,7 @@ func TestTopologyStateWithTags(t *testing.T) {
 
 func TestTopologyStateWithIdentifiers(t *testing.T) {
 	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponseWithState()
+	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd,
 		"--type", "test type",
@@ -266,7 +223,7 @@ func TestTopologyStateLimit(t *testing.T) {
 
 func TestTopologyStateWithSTQL(t *testing.T) {
 	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponseWithState()
+	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--stql", `type = "custom" AND healthState = "CRITICAL"`)
 
@@ -281,7 +238,7 @@ func TestTopologyStateWithSTQL(t *testing.T) {
 
 func TestTopologyStateSTQLMutuallyExclusiveWithType(t *testing.T) {
 	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponseWithState()
+	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--type", "test type", "--stql", "type = \"test\"")
 
