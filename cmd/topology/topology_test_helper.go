@@ -4,6 +4,7 @@ import (
 	sts "github.com/stackvista/stackstate-cli/generated/stackstate_api"
 )
 
+//nolint:mnd
 func mockSnapshotResponse() sts.QuerySnapshotResult {
 	return sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
