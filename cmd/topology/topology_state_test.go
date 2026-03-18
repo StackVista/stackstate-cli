@@ -220,29 +220,3 @@ func TestTopologyStateLimit(t *testing.T) {
 	table := tableCalls[0]
 	assert.Len(t, table.Data, 2) // Only 2 components due to limit
 }
-
-func TestTopologyStateWithSTQL(t *testing.T) {
-	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
-
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--stql", `type = "custom" AND healthState = "CRITICAL"`)
-
-	calls := *cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotCalls
-	assert.Len(t, calls, 1)
-
-	// Verify the custom STQL query is used directly
-	call := calls[0]
-	request := call.PviewSnapshotRequest
-	assert.Equal(t, `type = "custom" AND healthState = "CRITICAL"`, request.Query)
-}
-
-func TestTopologyStateSTQLMutuallyExclusiveWithType(t *testing.T) {
-	cli, cmd := setStateCmd(t)
-	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()
-
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--type", "test type", "--stql", "type = \"test\"")
-
-	assert.Error(t, err)
-	assert.Contains(t, err.Error(), "type")
-	assert.Contains(t, err.Error(), "stql")
-}

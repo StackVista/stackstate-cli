@@ -6,7 +6,6 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
-	stscobra "github.com/stackvista/stackstate-cli/internal/cobra"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
@@ -17,7 +16,6 @@ type StateArgs struct {
 	Tags          []string
 	Identifiers   []string
 	Limit         int
-	STQL          string
 }
 
 func StateCommand(cli *di.Deps) *cobra.Command {
@@ -45,10 +43,7 @@ sts topology state --type "otel service instance" --identifier "urn:opentelemetr
 sts topology state --type "otel service instance" --limit 10
 
 # show state and display as JSON
-sts topology state --type "otel service instance" -o json
-
-# show state using a custom STQL query
-sts topology state --stql 'type = "otel service instance" AND healthState = "CRITICAL"'`,
+sts topology state --type "otel service instance" -o json`,
 		RunE: cli.CmdRunEWithApi(func(cmd *cobra.Command, cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo) common.CLIError {
 			return RunStateCommand(cmd, cli, api, serverInfo, args)
 		}),
@@ -58,8 +53,6 @@ sts topology state --stql 'type = "otel service instance" AND healthState = "CRI
 	cmd.Flags().StringSliceVar(&args.Tags, "tag", []string{}, "Filter by tags in format 'tag-name:tag-value' (multiple allowed, ANDed together)")
 	cmd.Flags().StringSliceVar(&args.Identifiers, "identifier", []string{}, "Filter by component identifiers (multiple allowed, ANDed together)")
 	cmd.Flags().IntVar(&args.Limit, "limit", 0, "Maximum number of components to output (must be positive)")
-	cmd.Flags().StringVar(&args.STQL, "stql", "", "STQL query to select components (mutually exclusive with --type, --tag, --identifier)")
-	stscobra.MarkMutexFlags(cmd, []string{"type", "stql"}, "query", true)
 
 	return cmd
 }
@@ -75,12 +68,7 @@ func RunStateCommand(
 		return common.NewExecutionError(fmt.Errorf("limit must be a positive number, got: %d", args.Limit))
 	}
 
-	var query string
-	if args.STQL != "" {
-		query = args.STQL
-	} else {
-		query = buildSTQLQuery(args.ComponentType, args.Tags, args.Identifiers)
-	}
+	query := buildSTQLQuery(args.ComponentType, args.Tags, args.Identifiers)
 
 	metadata := stackstate_api.NewQueryMetadata(
 		false,
