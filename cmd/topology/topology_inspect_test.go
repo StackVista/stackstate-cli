@@ -18,47 +18,6 @@ func setInspectCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	return &cli, cmd
 }
 
-func mockSnapshotResponse() sts.QuerySnapshotResult {
-	return sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
-		ViewSnapshotResponse: map[string]interface{}{
-			"_type": "ViewSnapshot",
-			"components": []interface{}{
-				map[string]interface{}{
-					"id":          float64(229404307680647),
-					"name":        "test-component",
-					"type":        float64(239975151751041),
-					"layer":       float64(186771622698247),
-					"domain":      float64(209616858431909),
-					"identifiers": []interface{}{"urn:test:component:1"},
-					"tags":        []interface{}{"service.namespace:test"},
-					"properties":  map[string]interface{}{"key": "value"},
-				},
-			},
-			"metadata": map[string]interface{}{
-				"componentTypes": []interface{}{
-					map[string]interface{}{
-						"id":   float64(239975151751041),
-						"name": "test type",
-					},
-				},
-				"layers": []interface{}{
-					map[string]interface{}{
-						"id":   float64(186771622698247),
-						"name": "Test Layer",
-					},
-				},
-				"domains": []interface{}{
-					map[string]interface{}{
-						"id":   float64(209616858431909),
-						"name": "Test Domain",
-					},
-				},
-			},
-		},
-	}
-}
-
 func TestTopologyInspectJson(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = mockSnapshotResponse()

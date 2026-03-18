@@ -13,6 +13,7 @@ func TopologyCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Inspect SUSE Observability topology components. Query and display topology components using component types, tags, and identifiers.",
 	}
 	cmd.AddCommand(topology.InspectCommand(cli))
+	cmd.AddCommand(topology.StateCommand(cli))
 
 	return cmd
 }
