@@ -19,16 +19,18 @@ import (
 type PresentationName struct {
 	Singular string `json:"singular" yaml:"singular"`
 	Plural   string `json:"plural" yaml:"plural"`
+	Title    string `json:"title" yaml:"title"`
 }
 
 // NewPresentationName instantiates a new PresentationName object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPresentationName(singular string, plural string) *PresentationName {
+func NewPresentationName(singular string, plural string, title string) *PresentationName {
 	this := PresentationName{}
 	this.Singular = singular
 	this.Plural = plural
+	this.Title = title
 	return &this
 }
 
@@ -88,6 +90,30 @@ func (o *PresentationName) SetPlural(v string) {
 	o.Plural = v
 }
 
+// GetTitle returns the Title field value
+func (o *PresentationName) GetTitle() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.Title
+}
+
+// GetTitleOk returns a tuple with the Title field value
+// and a boolean to check if the value has been set.
+func (o *PresentationName) GetTitleOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Title, true
+}
+
+// SetTitle sets field value
+func (o *PresentationName) SetTitle(v string) {
+	o.Title = v
+}
+
 func (o PresentationName) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -95,6 +121,9 @@ func (o PresentationName) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["plural"] = o.Plural
+	}
+	if true {
+		toSerialize["title"] = o.Title
 	}
 	return json.Marshal(toSerialize)
 }

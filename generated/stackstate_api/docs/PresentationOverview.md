@@ -4,14 +4,16 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Title** | **string** |  | 
+**Name** | [**PresentationName**](PresentationName.md) |  | 
 **MainMenu** | Pointer to [**PresentationMainMenu**](PresentationMainMenu.md) |  | [optional] 
+**Columns** | [**[]OverviewColumnDefinition**](OverviewColumnDefinition.md) |  | 
+**FixedColumns** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 
 ### NewPresentationOverview
 
-`func NewPresentationOverview(title string, ) *PresentationOverview`
+`func NewPresentationOverview(name PresentationName, columns []OverviewColumnDefinition, ) *PresentationOverview`
 
 NewPresentationOverview instantiates a new PresentationOverview object
 This constructor will assign default values to properties that have it defined,
@@ -26,24 +28,24 @@ NewPresentationOverviewWithDefaults instantiates a new PresentationOverview obje
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetTitle
+### GetName
 
-`func (o *PresentationOverview) GetTitle() string`
+`func (o *PresentationOverview) GetName() PresentationName`
 
-GetTitle returns the Title field if non-nil, zero value otherwise.
+GetName returns the Name field if non-nil, zero value otherwise.
 
-### GetTitleOk
+### GetNameOk
 
-`func (o *PresentationOverview) GetTitleOk() (*string, bool)`
+`func (o *PresentationOverview) GetNameOk() (*PresentationName, bool)`
 
-GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
+GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTitle
+### SetName
 
-`func (o *PresentationOverview) SetTitle(v string)`
+`func (o *PresentationOverview) SetName(v PresentationName)`
 
-SetTitle sets Title field to given value.
+SetName sets Name field to given value.
 
 
 ### GetMainMenu
@@ -70,6 +72,51 @@ SetMainMenu sets MainMenu field to given value.
 `func (o *PresentationOverview) HasMainMenu() bool`
 
 HasMainMenu returns a boolean if a field has been set.
+
+### GetColumns
+
+`func (o *PresentationOverview) GetColumns() []OverviewColumnDefinition`
+
+GetColumns returns the Columns field if non-nil, zero value otherwise.
+
+### GetColumnsOk
+
+`func (o *PresentationOverview) GetColumnsOk() (*[]OverviewColumnDefinition, bool)`
+
+GetColumnsOk returns a tuple with the Columns field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetColumns
+
+`func (o *PresentationOverview) SetColumns(v []OverviewColumnDefinition)`
+
+SetColumns sets Columns field to given value.
+
+
+### GetFixedColumns
+
+`func (o *PresentationOverview) GetFixedColumns() int32`
+
+GetFixedColumns returns the FixedColumns field if non-nil, zero value otherwise.
+
+### GetFixedColumnsOk
+
+`func (o *PresentationOverview) GetFixedColumnsOk() (*int32, bool)`
+
+GetFixedColumnsOk returns a tuple with the FixedColumns field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFixedColumns
+
+`func (o *PresentationOverview) SetFixedColumns(v int32)`
+
+SetFixedColumns sets FixedColumns field to given value.
+
+### HasFixedColumns
+
+`func (o *PresentationOverview) HasFixedColumns() bool`
+
+HasFixedColumns returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

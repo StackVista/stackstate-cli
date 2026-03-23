@@ -27,7 +27,7 @@ import (
 )
 
 func main() {
-    viewSnapshotRequest := *openapiclient.NewViewSnapshotRequest("Type_example", "Query_example", "0.0.1", *openapiclient.NewQueryMetadata(false, false, int64(123), false, false, false, false, false, false, false)) // ViewSnapshotRequest | Request body for querying a topology snapshot
+    viewSnapshotRequest := *openapiclient.NewViewSnapshotRequest("Query_example", "0.0.1", *openapiclient.NewQueryMetadata(false, false, int64(123), false, false, false, false, false, false, false)) // ViewSnapshotRequest | Request body for querying a topology snapshot
     timeoutMs := int64(789) // int64 | Query timeout in milliseconds (optional) (default to 30000)
 
     configuration := openapiclient.NewConfiguration()

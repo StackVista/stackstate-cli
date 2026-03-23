@@ -22,7 +22,7 @@ type ComponentTypeFieldDisplay struct {
 	DurationDisplay      *DurationDisplay
 	HealthBadgeDisplay   *HealthBadgeDisplay
 	HealthCircleDisplay  *HealthCircleDisplay
-	PromQLDisplay        *PromQLDisplay
+	PromqlDisplay        *PromqlDisplay
 	RatioDisplay         *RatioDisplay
 	ReadyStatusDisplay   *ReadyStatusDisplay
 	TagDisplay           *TagDisplay
@@ -58,10 +58,10 @@ func HealthCircleDisplayAsComponentTypeFieldDisplay(v *HealthCircleDisplay) Comp
 	}
 }
 
-// PromQLDisplayAsComponentTypeFieldDisplay is a convenience function that returns PromQLDisplay wrapped in ComponentTypeFieldDisplay
-func PromQLDisplayAsComponentTypeFieldDisplay(v *PromQLDisplay) ComponentTypeFieldDisplay {
+// PromqlDisplayAsComponentTypeFieldDisplay is a convenience function that returns PromqlDisplay wrapped in ComponentTypeFieldDisplay
+func PromqlDisplayAsComponentTypeFieldDisplay(v *PromqlDisplay) ComponentTypeFieldDisplay {
 	return ComponentTypeFieldDisplay{
-		PromQLDisplay: v,
+		PromqlDisplay: v,
 	}
 }
 
@@ -158,15 +158,15 @@ func (dst *ComponentTypeFieldDisplay) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// check if the discriminator value is 'PromQLDisplay'
-	if jsonDict["_type"] == "PromQLDisplay" {
-		// try to unmarshal JSON data into PromQLDisplay
-		err = json.Unmarshal(data, &dst.PromQLDisplay)
+	// check if the discriminator value is 'PromqlDisplay'
+	if jsonDict["_type"] == "PromqlDisplay" {
+		// try to unmarshal JSON data into PromqlDisplay
+		err = json.Unmarshal(data, &dst.PromqlDisplay)
 		if err == nil {
-			return nil // data stored in dst.PromQLDisplay, return on the first match
+			return nil // data stored in dst.PromqlDisplay, return on the first match
 		} else {
-			dst.PromQLDisplay = nil
-			return fmt.Errorf("Failed to unmarshal ComponentTypeFieldDisplay as PromQLDisplay: %s", err.Error())
+			dst.PromqlDisplay = nil
+			return fmt.Errorf("Failed to unmarshal ComponentTypeFieldDisplay as PromqlDisplay: %s", err.Error())
 		}
 	}
 
@@ -251,8 +251,8 @@ func (src ComponentTypeFieldDisplay) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.HealthCircleDisplay)
 	}
 
-	if src.PromQLDisplay != nil {
-		return json.Marshal(&src.PromQLDisplay)
+	if src.PromqlDisplay != nil {
+		return json.Marshal(&src.PromqlDisplay)
 	}
 
 	if src.RatioDisplay != nil {
@@ -299,8 +299,8 @@ func (obj *ComponentTypeFieldDisplay) GetActualInstance() interface{} {
 		return obj.HealthCircleDisplay
 	}
 
-	if obj.PromQLDisplay != nil {
-		return obj.PromQLDisplay
+	if obj.PromqlDisplay != nil {
+		return obj.PromqlDisplay
 	}
 
 	if obj.RatioDisplay != nil {

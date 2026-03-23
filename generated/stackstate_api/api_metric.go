@@ -193,6 +193,21 @@ type MetricApi interface {
 	PostMetadataExecute(r ApiPostMetadataRequest) (*PromMetadataEnvelope, *http.Response, error)
 
 	/*
+		PostQueryBatch Batch execution of multiple PromQL queries
+
+		Executes multiple PromQL queries in a single request to reduce HTTP overhead. Each query is executed independently and results are returned in a single response. Partial failures are supported: individual queries may fail while others succeed.
+
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@return ApiPostQueryBatchRequest
+	*/
+	PostQueryBatch(ctx context.Context) ApiPostQueryBatchRequest
+
+	// PostQueryBatchExecute executes the request
+	//  @return PromBatchEnvelope
+	PostQueryBatchExecute(r ApiPostQueryBatchRequest) (*PromBatchEnvelope, *http.Response, error)
+
+	/*
 		PostRangeQuery Query over a range of time
 
 		The endpoint evaluates an expression query over a range of time
@@ -2830,6 +2845,188 @@ func (a *MetricApiService) PostMetadataExecute(r ApiPostMetadataRequest) (*PromM
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiPostQueryBatchRequest struct {
+	ctx                   context.Context
+	ApiService            MetricApi
+	promBatchQueryRequest *PromBatchQueryRequest
+}
+
+func (r ApiPostQueryBatchRequest) PromBatchQueryRequest(promBatchQueryRequest PromBatchQueryRequest) ApiPostQueryBatchRequest {
+	r.promBatchQueryRequest = &promBatchQueryRequest
+	return r
+}
+
+func (r ApiPostQueryBatchRequest) Execute() (*PromBatchEnvelope, *http.Response, error) {
+	return r.ApiService.PostQueryBatchExecute(r)
+}
+
+/*
+PostQueryBatch Batch execution of multiple PromQL queries
+
+Executes multiple PromQL queries in a single request to reduce HTTP overhead. Each query is executed independently and results are returned in a single response. Partial failures are supported: individual queries may fail while others succeed.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiPostQueryBatchRequest
+*/
+func (a *MetricApiService) PostQueryBatch(ctx context.Context) ApiPostQueryBatchRequest {
+	return ApiPostQueryBatchRequest{
+		ApiService: a,
+		ctx:        ctx,
+	}
+}
+
+// Execute executes the request
+//
+//	@return PromBatchEnvelope
+func (a *MetricApiService) PostQueryBatchExecute(r ApiPostQueryBatchRequest) (*PromBatchEnvelope, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PromBatchEnvelope
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "MetricApiService.PostQueryBatch")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/metrics/query_batch"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.promBatchQueryRequest == nil {
+		return localVarReturnValue, nil, reportError("promBatchQueryRequest is required and must be specified")
+	}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.promBatchQueryRequest
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v PromEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 503 {
+			var v PromEnvelope
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiPostRangeQueryRequest struct {
 	ctx                   context.Context
 	ApiService            MetricApi
@@ -3328,6 +3525,8 @@ type MetricApiMock struct {
 	PostLabelsResponse         PostLabelsMockResponse
 	PostMetadataCalls          *[]PostMetadataCall
 	PostMetadataResponse       PostMetadataMockResponse
+	PostQueryBatchCalls        *[]PostQueryBatchCall
+	PostQueryBatchResponse     PostQueryBatchMockResponse
 	PostRangeQueryCalls        *[]PostRangeQueryCall
 	PostRangeQueryResponse     PostRangeQueryMockResponse
 	PostSeriesCalls            *[]PostSeriesCall
@@ -3347,6 +3546,7 @@ func NewMetricApiMock() MetricApiMock {
 	xPostLabelValuesCalls := make([]PostLabelValuesCall, 0)
 	xPostLabelsCalls := make([]PostLabelsCall, 0)
 	xPostMetadataCalls := make([]PostMetadataCall, 0)
+	xPostQueryBatchCalls := make([]PostQueryBatchCall, 0)
 	xPostRangeQueryCalls := make([]PostRangeQueryCall, 0)
 	xPostSeriesCalls := make([]PostSeriesCall, 0)
 	return MetricApiMock{
@@ -3362,6 +3562,7 @@ func NewMetricApiMock() MetricApiMock {
 		PostLabelValuesCalls:    &xPostLabelValuesCalls,
 		PostLabelsCalls:         &xPostLabelsCalls,
 		PostMetadataCalls:       &xPostMetadataCalls,
+		PostQueryBatchCalls:     &xPostQueryBatchCalls,
 		PostRangeQueryCalls:     &xPostRangeQueryCalls,
 		PostSeriesCalls:         &xPostSeriesCalls,
 	}
@@ -3733,6 +3934,31 @@ func (mock MetricApiMock) PostMetadataExecute(r ApiPostMetadataRequest) (*PromMe
 	}
 	*mock.PostMetadataCalls = append(*mock.PostMetadataCalls, p)
 	return &mock.PostMetadataResponse.Result, mock.PostMetadataResponse.Response, mock.PostMetadataResponse.Error
+}
+
+type PostQueryBatchMockResponse struct {
+	Result   PromBatchEnvelope
+	Response *http.Response
+	Error    error
+}
+
+type PostQueryBatchCall struct {
+	PpromBatchQueryRequest *PromBatchQueryRequest
+}
+
+func (mock MetricApiMock) PostQueryBatch(ctx context.Context) ApiPostQueryBatchRequest {
+	return ApiPostQueryBatchRequest{
+		ApiService: mock,
+		ctx:        ctx,
+	}
+}
+
+func (mock MetricApiMock) PostQueryBatchExecute(r ApiPostQueryBatchRequest) (*PromBatchEnvelope, *http.Response, error) {
+	p := PostQueryBatchCall{
+		PpromBatchQueryRequest: r.promBatchQueryRequest,
+	}
+	*mock.PostQueryBatchCalls = append(*mock.PostQueryBatchCalls, p)
+	return &mock.PostQueryBatchResponse.Result, mock.PostQueryBatchResponse.Response, mock.PostQueryBatchResponse.Error
 }
 
 type PostRangeQueryMockResponse struct {

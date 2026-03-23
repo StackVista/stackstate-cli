@@ -7,14 +7,15 @@ Name | Type | Description | Notes
 **Identifier** | **string** |  | 
 **Name** | **string** |  | 
 **Description** | Pointer to **string** |  | [optional] 
+**Binding** | [**ComponentPresentationQueryBinding**](ComponentPresentationQueryBinding.md) |  | 
+**Rank** | Pointer to [**ComponentPresentationRank**](ComponentPresentationRank.md) |  | [optional] 
 **Presentation** | [**PresentationDefinition**](PresentationDefinition.md) |  | 
-**ExpireAfterMs** | Pointer to **int64** |  | [optional] 
 
 ## Methods
 
 ### NewComponentPresentation
 
-`func NewComponentPresentation(identifier string, name string, presentation PresentationDefinition, ) *ComponentPresentation`
+`func NewComponentPresentation(identifier string, name string, binding ComponentPresentationQueryBinding, presentation PresentationDefinition, ) *ComponentPresentation`
 
 NewComponentPresentation instantiates a new ComponentPresentation object
 This constructor will assign default values to properties that have it defined,
@@ -94,6 +95,51 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
+### GetBinding
+
+`func (o *ComponentPresentation) GetBinding() ComponentPresentationQueryBinding`
+
+GetBinding returns the Binding field if non-nil, zero value otherwise.
+
+### GetBindingOk
+
+`func (o *ComponentPresentation) GetBindingOk() (*ComponentPresentationQueryBinding, bool)`
+
+GetBindingOk returns a tuple with the Binding field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBinding
+
+`func (o *ComponentPresentation) SetBinding(v ComponentPresentationQueryBinding)`
+
+SetBinding sets Binding field to given value.
+
+
+### GetRank
+
+`func (o *ComponentPresentation) GetRank() ComponentPresentationRank`
+
+GetRank returns the Rank field if non-nil, zero value otherwise.
+
+### GetRankOk
+
+`func (o *ComponentPresentation) GetRankOk() (*ComponentPresentationRank, bool)`
+
+GetRankOk returns a tuple with the Rank field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRank
+
+`func (o *ComponentPresentation) SetRank(v ComponentPresentationRank)`
+
+SetRank sets Rank field to given value.
+
+### HasRank
+
+`func (o *ComponentPresentation) HasRank() bool`
+
+HasRank returns a boolean if a field has been set.
+
 ### GetPresentation
 
 `func (o *ComponentPresentation) GetPresentation() PresentationDefinition`
@@ -113,31 +159,6 @@ and a boolean to check if the value has been set.
 
 SetPresentation sets Presentation field to given value.
 
-
-### GetExpireAfterMs
-
-`func (o *ComponentPresentation) GetExpireAfterMs() int64`
-
-GetExpireAfterMs returns the ExpireAfterMs field if non-nil, zero value otherwise.
-
-### GetExpireAfterMsOk
-
-`func (o *ComponentPresentation) GetExpireAfterMsOk() (*int64, bool)`
-
-GetExpireAfterMsOk returns a tuple with the ExpireAfterMs field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetExpireAfterMs
-
-`func (o *ComponentPresentation) SetExpireAfterMs(v int64)`
-
-SetExpireAfterMs sets ExpireAfterMs field to given value.
-
-### HasExpireAfterMs
-
-`func (o *ComponentPresentation) HasExpireAfterMs() bool`
-
-HasExpireAfterMs returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

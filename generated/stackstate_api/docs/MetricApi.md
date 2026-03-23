@@ -16,6 +16,7 @@ Method | HTTP request | Description
 [**PostLabelValues**](MetricApi.md#PostLabelValues) | **Post** /metrics/label/{label}/values | List of label values for a provided label name
 [**PostLabels**](MetricApi.md#PostLabels) | **Post** /metrics/labels | List of label names
 [**PostMetadata**](MetricApi.md#PostMetadata) | **Post** /metrics/metadata | Metadata about metrics currently scraped from targets
+[**PostQueryBatch**](MetricApi.md#PostQueryBatch) | **Post** /metrics/query_batch | Batch execution of multiple PromQL queries
 [**PostRangeQuery**](MetricApi.md#PostRangeQuery) | **Post** /metrics/query_range | Query over a range of time
 [**PostSeries**](MetricApi.md#PostSeries) | **Post** /metrics/series | List of time series that match a certain label set
 
@@ -880,6 +881,72 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
 - **Content-Type**: application/x-www-form-urlencoded
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## PostQueryBatch
+
+> PromBatchEnvelope PostQueryBatch(ctx).PromBatchQueryRequest(promBatchQueryRequest).Execute()
+
+Batch execution of multiple PromQL queries
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    promBatchQueryRequest := *openapiclient.NewPromBatchQueryRequest([]openapiclient.PromBatchQueryItem{openapiclient.PromBatchQueryItem{PromBatchInstantQuery: openapiclient.NewPromBatchInstantQuery("Id_example", "Type_example", "Query_example")}}) // PromBatchQueryRequest | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.MetricApi.PostQueryBatch(context.Background()).PromBatchQueryRequest(promBatchQueryRequest).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `MetricApi.PostQueryBatch``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `PostQueryBatch`: PromBatchEnvelope
+    fmt.Fprintf(os.Stdout, "Response from `MetricApi.PostQueryBatch`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiPostQueryBatchRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **promBatchQueryRequest** | [**PromBatchQueryRequest**](PromBatchQueryRequest.md) |  | 
+
+### Return type
+
+[**PromBatchEnvelope**](PromBatchEnvelope.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
 - **Accept**: application/json
 
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)

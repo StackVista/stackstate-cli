@@ -17,7 +17,6 @@ import (
 
 // ViewSnapshotRequest struct for ViewSnapshotRequest
 type ViewSnapshotRequest struct {
-	Type string `json:"_type" yaml:"_type"`
 	// STQL query string
 	Query        string        `json:"query" yaml:"query"`
 	QueryVersion string        `json:"queryVersion" yaml:"queryVersion"`
@@ -30,9 +29,8 @@ type ViewSnapshotRequest struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewViewSnapshotRequest(type_ string, query string, queryVersion string, metadata QueryMetadata) *ViewSnapshotRequest {
+func NewViewSnapshotRequest(query string, queryVersion string, metadata QueryMetadata) *ViewSnapshotRequest {
 	this := ViewSnapshotRequest{}
-	this.Type = type_
 	this.Query = query
 	this.QueryVersion = queryVersion
 	this.Metadata = metadata
@@ -45,30 +43,6 @@ func NewViewSnapshotRequest(type_ string, query string, queryVersion string, met
 func NewViewSnapshotRequestWithDefaults() *ViewSnapshotRequest {
 	this := ViewSnapshotRequest{}
 	return &this
-}
-
-// GetType returns the Type field value
-func (o *ViewSnapshotRequest) GetType() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Type
-}
-
-// GetTypeOk returns a tuple with the Type field value
-// and a boolean to check if the value has been set.
-func (o *ViewSnapshotRequest) GetTypeOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Type, true
-}
-
-// SetType sets field value
-func (o *ViewSnapshotRequest) SetType(v string) {
-	o.Type = v
 }
 
 // GetQuery returns the Query field value
@@ -177,9 +151,6 @@ func (o *ViewSnapshotRequest) SetViewId(v int64) {
 
 func (o ViewSnapshotRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["_type"] = o.Type
-	}
 	if true {
 		toSerialize["query"] = o.Query
 	}
