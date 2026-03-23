@@ -12,13 +12,13 @@ func mockSnapshotResponse() sts.QuerySnapshotResult {
 			"_type": "ViewSnapshot",
 			"components": []interface{}{
 				map[string]interface{}{
-					"id":             float64(229404307680647),
-					"name":           "test-component",
-					"typeIdentifier": "urn:test:component-type:test",
-					"layer":          float64(186771622698247),
-					"domain":         float64(209616858431909),
-					"identifiers":    []interface{}{"urn:test:component:1"},
-					"tags":           []interface{}{"service.namespace:test"},
+					"id":               float64(229404307680647),
+					"name":             "test-component",
+					"typeIdentifier":   "urn:test:component-type:test",
+					"layerIdentifier":  "urn:test:layer:test",
+					"domainIdentifier": "urn:test:domain:test",
+					"identifiers":      []interface{}{"urn:test:component:1"},
+					"tags":             []interface{}{"service.namespace:test"},
 					"state": map[string]interface{}{
 						"healthState": "CRITICAL",
 					},
@@ -33,14 +33,14 @@ func mockSnapshotResponse() sts.QuerySnapshotResult {
 				},
 				"layers": []interface{}{
 					map[string]interface{}{
-						"id":   float64(186771622698247),
-						"name": "Test Layer",
+						"identifier": "urn:test:layer:test",
+						"name":       "Test Layer",
 					},
 				},
 				"domains": []interface{}{
 					map[string]interface{}{
-						"id":   float64(209616858431909),
-						"name": "Test Domain",
+						"identifier": "urn:test:domain:test",
+						"name":       "Test Domain",
 					},
 				},
 			},
