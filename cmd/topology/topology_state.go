@@ -84,7 +84,6 @@ func RunStateCommand(
 	)
 
 	request := stackstate_api.NewViewSnapshotRequest(
-		"SnapshotRequest",
 		query,
 		"0.0.1",
 		*metadata,
@@ -174,12 +173,12 @@ func parseComponentStateFromMap(compMap map[string]interface{}, metadata Compone
 		cs.Name = name
 	}
 
-	// Parse type
-	if typeID, ok := compMap["type"].(float64); ok {
-		if typeName, found := metadata.ComponentTypes[int64(typeID)]; found {
+	// Parse type from typeIdentifier and lookup from component type metadata
+	if typeIdentifier, ok := compMap["typeIdentifier"].(string); ok {
+		if typeName, found := metadata.ComponentTypes[typeIdentifier]; found {
 			cs.Type = typeName
 		} else {
-			cs.Type = fmt.Sprintf("Unknown (%d)", int64(typeID))
+			cs.Type = "Unknown"
 		}
 	}
 

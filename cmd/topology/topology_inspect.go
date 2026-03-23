@@ -13,6 +13,8 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
+const UNKNOWN = "unknown"
+
 type InspectArgs struct {
 	ComponentType string
 	Tags          []string
@@ -87,7 +89,6 @@ func RunInspectCommand(
 	)
 
 	request := stackstate_api.NewViewSnapshotRequest(
-		"SnapshotRequest",
 		query,
 		"0.0.1",
 		*metadata,
@@ -155,15 +156,13 @@ type Component struct {
 	Properties  map[string]interface{} `json:"properties"`
 	Layer       map[string]interface{} `json:"layer"`
 	Domain      map[string]interface{} `json:"domain"`
-	Environment map[string]interface{} `json:"environment,omitempty"`
 	Link        string                 `json:"link"`
 }
 
 type ComponentMetadata struct {
-	ComponentTypes map[int64]string
-	Layers         map[int64]string
-	Domains        map[int64]string
-	Environments   map[int64]string
+	ComponentTypes map[string]string
+	Layers         map[string]string
+	Domains        map[string]string
 }
 
 // handleSnapshotError checks if the response is a typed error by examining the _type discriminator
@@ -256,22 +255,20 @@ func parseSnapshotResponse(
 // all metadata categories in a single loop.
 var metadataFieldMapping = []struct {
 	field  string
-	setter func(*ComponentMetadata) *map[int64]string
+	setter func(*ComponentMetadata, interface{})
 }{
-	{"componentTypes", func(m *ComponentMetadata) *map[int64]string { return &m.ComponentTypes }},
-	{"layers", func(m *ComponentMetadata) *map[int64]string { return &m.Layers }},
-	{"domains", func(m *ComponentMetadata) *map[int64]string { return &m.Domains }},
-	{"environments", func(m *ComponentMetadata) *map[int64]string { return &m.Environments }},
+	{"componentTypes", func(m *ComponentMetadata, val interface{}) { m.ComponentTypes = parseMetadataByIdentifier(val) }},
+	{"layers", func(m *ComponentMetadata, val interface{}) { m.Layers = parseMetadataByIdentifier(val) }},
+	{"domains", func(m *ComponentMetadata, val interface{}) { m.Domains = parseMetadataByIdentifier(val) }},
 }
 
-// parseMetadata extracts component type, layer, domain, and environment metadata
+// parseMetadata extracts component type, layer, and domain metadata
 // from the opaque Snapshot response using a table-driven approach.
 func parseMetadata(respMap map[string]interface{}) ComponentMetadata {
 	metadata := ComponentMetadata{
-		ComponentTypes: make(map[int64]string),
-		Layers:         make(map[int64]string),
-		Domains:        make(map[int64]string),
-		Environments:   make(map[int64]string),
+		ComponentTypes: make(map[string]string),
+		Layers:         make(map[string]string),
+		Domains:        make(map[string]string),
 	}
 
 	metadataMap, ok := respMap["metadata"].(map[string]interface{})
@@ -281,23 +278,21 @@ func parseMetadata(respMap map[string]interface{}) ComponentMetadata {
 
 	for _, mapping := range metadataFieldMapping {
 		if fieldValue, ok := metadataMap[mapping.field]; ok {
-			*mapping.setter(&metadata) = parseMetadataField(fieldValue)
+			mapping.setter(&metadata, fieldValue)
 		}
 	}
 
 	return metadata
 }
 
-// parseMetadataField extracts id/name pairs from a metadata field.
-// Each item in the slice should have "id" and "name" fields.
-func parseMetadataField(metadataValue interface{}) map[int64]string {
-	result := make(map[int64]string)
+// parseMetadataByIdentifier extracts metadata items by identifier.
+func parseMetadataByIdentifier(metadataValue interface{}) map[string]string {
+	result := make(map[string]string)
 
 	if metadataValue == nil {
 		return result
 	}
 
-	// The JSON decoder produces []interface{} for arrays
 	items, ok := metadataValue.([]interface{})
 	if !ok {
 		return result
@@ -305,10 +300,10 @@ func parseMetadataField(metadataValue interface{}) map[int64]string {
 
 	for _, item := range items {
 		if itemMap, ok := item.(map[string]interface{}); ok {
-			id, idOk := itemMap["id"].(float64)
+			identifier, idOk := itemMap["identifier"].(string)
 			name, nameOk := itemMap["name"].(string)
 			if idOk && nameOk {
-				result[int64(id)] = name
+				result[identifier] = name
 			}
 		}
 	}
@@ -331,12 +326,12 @@ func parseComponentFromMap(compMap map[string]interface{}, metadata ComponentMet
 		comp.Name = name
 	}
 
-	// Parse type (first id and then lookup from component type metadata)
-	if typeID, ok := compMap["type"].(float64); ok {
-		if typeName, found := metadata.ComponentTypes[int64(typeID)]; found {
+	// Parse type from typeIdentifier and lookup from component type metadata
+	if typeIdentifier, ok := compMap["typeIdentifier"].(string); ok {
+		if typeName, found := metadata.ComponentTypes[typeIdentifier]; found {
 			comp.Type = typeName
 		} else {
-			comp.Type = fmt.Sprintf("Unknown (%d)", int64(typeID))
+			comp.Type = UNKNOWN
 		}
 	}
 
@@ -363,10 +358,9 @@ func parseComponentFromMap(compMap map[string]interface{}, metadata ComponentMet
 		comp.Properties = propertiesRaw
 	}
 
-	// Parse layer, domain, and environment references
-	comp.Layer = parseComponentReference(compMap, "layer", metadata.Layers)
-	comp.Domain = parseComponentReference(compMap, "domain", metadata.Domains)
-	comp.Environment = parseComponentReference(compMap, "environment", metadata.Environments)
+	// Parse layer and domain references
+	comp.Layer = parseComponentReference(compMap, "layerIdentifier", metadata.Layers)
+	comp.Domain = parseComponentReference(compMap, "domainIdentifier", metadata.Domains)
 
 	// Build link
 	if len(comp.Identifiers) > 0 {
@@ -376,19 +370,18 @@ func parseComponentFromMap(compMap map[string]interface{}, metadata ComponentMet
 	return comp
 }
 
-// parseComponentReference extracts a reference field (layer, domain, or environment)
+// parseComponentReference extracts a reference field (layer or domain)
 // from a component and looks up its name in the provided metadata map.
-// Returns a map with "id" and "name" keys, or nil if the field is not present.
-func parseComponentReference(compMap map[string]interface{}, fieldName string, metadataMap map[int64]string) map[string]interface{} {
-	if refID, ok := compMap[fieldName].(float64); ok {
-		refIDInt := int64(refID)
-		refName := "Unknown"
-		if name, found := metadataMap[refIDInt]; found {
+// Returns a map with "identifier" and "name" keys, or nil if the field is not present.
+func parseComponentReference(compMap map[string]interface{}, identifierFieldName string, metadataMap map[string]string) map[string]interface{} {
+	if refIdentifier, ok := compMap[identifierFieldName].(string); ok {
+		refName := UNKNOWN
+		if name, found := metadataMap[refIdentifier]; found {
 			refName = name
 		}
 		return map[string]interface{}{
-			"id":   refIDInt,
-			"name": refName,
+			"identifier": refIdentifier,
+			"name":       refName,
 		}
 	}
 	return nil

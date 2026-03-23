@@ -15,19 +15,22 @@ import (
 	"encoding/json"
 )
 
-// PresentationOverview struct for PresentationOverview
+// PresentationOverview Overview presentation definition. The `columns` field defines the columns to show in the overview table. The `flags` field can be used to enable/disable functionalities. If multiple ComponentPresentations match, columns are merged by `columnId` according to binding rank. Absence of the field means no overview is shown.
 type PresentationOverview struct {
-	Title    string                `json:"title" yaml:"title"`
-	MainMenu *PresentationMainMenu `json:"mainMenu,omitempty" yaml:"mainMenu,omitempty"`
+	Name         PresentationName           `json:"name" yaml:"name"`
+	MainMenu     *PresentationMainMenu      `json:"mainMenu,omitempty" yaml:"mainMenu,omitempty"`
+	Columns      []OverviewColumnDefinition `json:"columns" yaml:"columns"`
+	FixedColumns *int32                     `json:"fixedColumns,omitempty" yaml:"fixedColumns,omitempty"`
 }
 
 // NewPresentationOverview instantiates a new PresentationOverview object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPresentationOverview(title string) *PresentationOverview {
+func NewPresentationOverview(name PresentationName, columns []OverviewColumnDefinition) *PresentationOverview {
 	this := PresentationOverview{}
-	this.Title = title
+	this.Name = name
+	this.Columns = columns
 	return &this
 }
 
@@ -39,28 +42,28 @@ func NewPresentationOverviewWithDefaults() *PresentationOverview {
 	return &this
 }
 
-// GetTitle returns the Title field value
-func (o *PresentationOverview) GetTitle() string {
+// GetName returns the Name field value
+func (o *PresentationOverview) GetName() PresentationName {
 	if o == nil {
-		var ret string
+		var ret PresentationName
 		return ret
 	}
 
-	return o.Title
+	return o.Name
 }
 
-// GetTitleOk returns a tuple with the Title field value
+// GetNameOk returns a tuple with the Name field value
 // and a boolean to check if the value has been set.
-func (o *PresentationOverview) GetTitleOk() (*string, bool) {
+func (o *PresentationOverview) GetNameOk() (*PresentationName, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Title, true
+	return &o.Name, true
 }
 
-// SetTitle sets field value
-func (o *PresentationOverview) SetTitle(v string) {
-	o.Title = v
+// SetName sets field value
+func (o *PresentationOverview) SetName(v PresentationName) {
+	o.Name = v
 }
 
 // GetMainMenu returns the MainMenu field value if set, zero value otherwise.
@@ -95,13 +98,75 @@ func (o *PresentationOverview) SetMainMenu(v PresentationMainMenu) {
 	o.MainMenu = &v
 }
 
+// GetColumns returns the Columns field value
+func (o *PresentationOverview) GetColumns() []OverviewColumnDefinition {
+	if o == nil {
+		var ret []OverviewColumnDefinition
+		return ret
+	}
+
+	return o.Columns
+}
+
+// GetColumnsOk returns a tuple with the Columns field value
+// and a boolean to check if the value has been set.
+func (o *PresentationOverview) GetColumnsOk() ([]OverviewColumnDefinition, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Columns, true
+}
+
+// SetColumns sets field value
+func (o *PresentationOverview) SetColumns(v []OverviewColumnDefinition) {
+	o.Columns = v
+}
+
+// GetFixedColumns returns the FixedColumns field value if set, zero value otherwise.
+func (o *PresentationOverview) GetFixedColumns() int32 {
+	if o == nil || o.FixedColumns == nil {
+		var ret int32
+		return ret
+	}
+	return *o.FixedColumns
+}
+
+// GetFixedColumnsOk returns a tuple with the FixedColumns field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationOverview) GetFixedColumnsOk() (*int32, bool) {
+	if o == nil || o.FixedColumns == nil {
+		return nil, false
+	}
+	return o.FixedColumns, true
+}
+
+// HasFixedColumns returns a boolean if a field has been set.
+func (o *PresentationOverview) HasFixedColumns() bool {
+	if o != nil && o.FixedColumns != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetFixedColumns gets a reference to the given int32 and assigns it to the FixedColumns field.
+func (o *PresentationOverview) SetFixedColumns(v int32) {
+	o.FixedColumns = &v
+}
+
 func (o PresentationOverview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["title"] = o.Title
+		toSerialize["name"] = o.Name
 	}
 	if o.MainMenu != nil {
 		toSerialize["mainMenu"] = o.MainMenu
+	}
+	if true {
+		toSerialize["columns"] = o.Columns
+	}
+	if o.FixedColumns != nil {
+		toSerialize["fixedColumns"] = o.FixedColumns
 	}
 	return json.Marshal(toSerialize)
 }

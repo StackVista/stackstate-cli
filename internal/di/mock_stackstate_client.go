@@ -121,7 +121,7 @@ func NewMockStackStateClient() MockStackStateClient {
 
 	// NOTE Used for min version checks.
 	mockAPIVersion := stackstate_api.ServerVersion{Major: 5, Minor: 1, Patch: 0} //nolint:mnd
-	mockServerInfo := stackstate_api.NewServerInfo(mockAPIVersion, "SaaS")
+	mockServerInfo := stackstate_api.NewServerInfo(mockAPIVersion, "SaaS", []stackstate_api.ApplicationDomain{"observability"})
 
 	return MockStackStateClient{
 		apiClient:         apiClient,

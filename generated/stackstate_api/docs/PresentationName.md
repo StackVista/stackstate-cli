@@ -6,12 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Singular** | **string** |  | 
 **Plural** | **string** |  | 
+**Title** | **string** |  | 
 
 ## Methods
 
 ### NewPresentationName
 
-`func NewPresentationName(singular string, plural string, ) *PresentationName`
+`func NewPresentationName(singular string, plural string, title string, ) *PresentationName`
 
 NewPresentationName instantiates a new PresentationName object
 This constructor will assign default values to properties that have it defined,
@@ -64,6 +65,26 @@ and a boolean to check if the value has been set.
 `func (o *PresentationName) SetPlural(v string)`
 
 SetPlural sets Plural field to given value.
+
+
+### GetTitle
+
+`func (o *PresentationName) GetTitle() string`
+
+GetTitle returns the Title field if non-nil, zero value otherwise.
+
+### GetTitleOk
+
+`func (o *PresentationName) GetTitleOk() (*string, bool)`
+
+GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTitle
+
+`func (o *PresentationName) SetTitle(v string)`
+
+SetTitle sets Title field to given value.
 
 
 

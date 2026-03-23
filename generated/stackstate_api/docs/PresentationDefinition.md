@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Icon** | Pointer to **string** |  | [optional] 
-**Name** | Pointer to [**PresentationName**](PresentationName.md) |  | [optional] 
 **Overview** | Pointer to [**PresentationOverview**](PresentationOverview.md) |  | [optional] 
 
 ## Methods
@@ -51,31 +50,6 @@ SetIcon sets Icon field to given value.
 `func (o *PresentationDefinition) HasIcon() bool`
 
 HasIcon returns a boolean if a field has been set.
-
-### GetName
-
-`func (o *PresentationDefinition) GetName() PresentationName`
-
-GetName returns the Name field if non-nil, zero value otherwise.
-
-### GetNameOk
-
-`func (o *PresentationDefinition) GetNameOk() (*PresentationName, bool)`
-
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetName
-
-`func (o *PresentationDefinition) SetName(v PresentationName)`
-
-SetName sets Name field to given value.
-
-### HasName
-
-`func (o *PresentationDefinition) HasName() bool`
-
-HasName returns a boolean if a field has been set.
 
 ### GetOverview
 

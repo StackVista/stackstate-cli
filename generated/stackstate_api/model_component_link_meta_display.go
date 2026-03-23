@@ -15,31 +15,31 @@ import (
 	"encoding/json"
 )
 
-// PromQLDisplay struct for PromQLDisplay
-type PromQLDisplay struct {
+// ComponentLinkMetaDisplay struct for ComponentLinkMetaDisplay
+type ComponentLinkMetaDisplay struct {
 	Type string `json:"_type" yaml:"_type"`
 }
 
-// NewPromQLDisplay instantiates a new PromQLDisplay object
+// NewComponentLinkMetaDisplay instantiates a new ComponentLinkMetaDisplay object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPromQLDisplay(type_ string) *PromQLDisplay {
-	this := PromQLDisplay{}
+func NewComponentLinkMetaDisplay(type_ string) *ComponentLinkMetaDisplay {
+	this := ComponentLinkMetaDisplay{}
 	this.Type = type_
 	return &this
 }
 
-// NewPromQLDisplayWithDefaults instantiates a new PromQLDisplay object
+// NewComponentLinkMetaDisplayWithDefaults instantiates a new ComponentLinkMetaDisplay object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewPromQLDisplayWithDefaults() *PromQLDisplay {
-	this := PromQLDisplay{}
+func NewComponentLinkMetaDisplayWithDefaults() *ComponentLinkMetaDisplay {
+	this := ComponentLinkMetaDisplay{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *PromQLDisplay) GetType() string {
+func (o *ComponentLinkMetaDisplay) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -50,7 +50,7 @@ func (o *PromQLDisplay) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *PromQLDisplay) GetTypeOk() (*string, bool) {
+func (o *ComponentLinkMetaDisplay) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -58,11 +58,11 @@ func (o *PromQLDisplay) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *PromQLDisplay) SetType(v string) {
+func (o *ComponentLinkMetaDisplay) SetType(v string) {
 	o.Type = v
 }
 
-func (o PromQLDisplay) MarshalJSON() ([]byte, error) {
+func (o ComponentLinkMetaDisplay) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["_type"] = o.Type
@@ -70,38 +70,38 @@ func (o PromQLDisplay) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullablePromQLDisplay struct {
-	value *PromQLDisplay
+type NullableComponentLinkMetaDisplay struct {
+	value *ComponentLinkMetaDisplay
 	isSet bool
 }
 
-func (v NullablePromQLDisplay) Get() *PromQLDisplay {
+func (v NullableComponentLinkMetaDisplay) Get() *ComponentLinkMetaDisplay {
 	return v.value
 }
 
-func (v *NullablePromQLDisplay) Set(val *PromQLDisplay) {
+func (v *NullableComponentLinkMetaDisplay) Set(val *ComponentLinkMetaDisplay) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullablePromQLDisplay) IsSet() bool {
+func (v NullableComponentLinkMetaDisplay) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullablePromQLDisplay) Unset() {
+func (v *NullableComponentLinkMetaDisplay) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullablePromQLDisplay(val *PromQLDisplay) *NullablePromQLDisplay {
-	return &NullablePromQLDisplay{value: val, isSet: true}
+func NewNullableComponentLinkMetaDisplay(val *ComponentLinkMetaDisplay) *NullableComponentLinkMetaDisplay {
+	return &NullableComponentLinkMetaDisplay{value: val, isSet: true}
 }
 
-func (v NullablePromQLDisplay) MarshalJSON() ([]byte, error) {
+func (v NullableComponentLinkMetaDisplay) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullablePromQLDisplay) UnmarshalJSON(src []byte) error {
+func (v *NullableComponentLinkMetaDisplay) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

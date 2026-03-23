@@ -20,17 +20,19 @@ type ServerInfo struct {
 	Version        ServerVersion `json:"version" yaml:"version"`
 	DeploymentMode string        `json:"deploymentMode" yaml:"deploymentMode"`
 	// The version value is a semantic version, based on the official Semantic Versioning spec (https://semver.org/).
-	PlatformVersion *string `json:"platformVersion,omitempty" yaml:"platformVersion,omitempty"`
+	PlatformVersion    *string             `json:"platformVersion,omitempty" yaml:"platformVersion,omitempty"`
+	ApplicationDomains []ApplicationDomain `json:"applicationDomains" yaml:"applicationDomains"`
 }
 
 // NewServerInfo instantiates a new ServerInfo object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewServerInfo(version ServerVersion, deploymentMode string) *ServerInfo {
+func NewServerInfo(version ServerVersion, deploymentMode string, applicationDomains []ApplicationDomain) *ServerInfo {
 	this := ServerInfo{}
 	this.Version = version
 	this.DeploymentMode = deploymentMode
+	this.ApplicationDomains = applicationDomains
 	return &this
 }
 
@@ -122,6 +124,30 @@ func (o *ServerInfo) SetPlatformVersion(v string) {
 	o.PlatformVersion = &v
 }
 
+// GetApplicationDomains returns the ApplicationDomains field value
+func (o *ServerInfo) GetApplicationDomains() []ApplicationDomain {
+	if o == nil {
+		var ret []ApplicationDomain
+		return ret
+	}
+
+	return o.ApplicationDomains
+}
+
+// GetApplicationDomainsOk returns a tuple with the ApplicationDomains field value
+// and a boolean to check if the value has been set.
+func (o *ServerInfo) GetApplicationDomainsOk() ([]ApplicationDomain, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.ApplicationDomains, true
+}
+
+// SetApplicationDomains sets field value
+func (o *ServerInfo) SetApplicationDomains(v []ApplicationDomain) {
+	o.ApplicationDomains = v
+}
+
 func (o ServerInfo) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -132,6 +158,9 @@ func (o ServerInfo) MarshalJSON() ([]byte, error) {
 	}
 	if o.PlatformVersion != nil {
 		toSerialize["platformVersion"] = o.PlatformVersion
+	}
+	if true {
+		toSerialize["applicationDomains"] = o.ApplicationDomains
 	}
 	return json.Marshal(toSerialize)
 }

@@ -223,7 +223,7 @@ import (
 )
 
 func main() {
-    componentPresentation := *openapiclient.NewComponentPresentation("Identifier_example", "Name_example", *openapiclient.NewPresentationDefinition()) // ComponentPresentation | 
+    componentPresentation := *openapiclient.NewComponentPresentation("Identifier_example", "Name_example", *openapiclient.NewComponentPresentationQueryBinding("Query_example"), *openapiclient.NewPresentationDefinition()) // ComponentPresentation | 
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

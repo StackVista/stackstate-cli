@@ -17,21 +17,23 @@ import (
 
 // ComponentPresentation struct for ComponentPresentation
 type ComponentPresentation struct {
-	Identifier    string                 `json:"identifier" yaml:"identifier"`
-	Name          string                 `json:"name" yaml:"name"`
-	Description   *string                `json:"description,omitempty" yaml:"description,omitempty"`
-	Presentation  PresentationDefinition `json:"presentation" yaml:"presentation"`
-	ExpireAfterMs *int64                 `json:"expireAfterMs,omitempty" yaml:"expireAfterMs,omitempty"`
+	Identifier   string                            `json:"identifier" yaml:"identifier"`
+	Name         string                            `json:"name" yaml:"name"`
+	Description  *string                           `json:"description,omitempty" yaml:"description,omitempty"`
+	Binding      ComponentPresentationQueryBinding `json:"binding" yaml:"binding"`
+	Rank         *ComponentPresentationRank        `json:"rank,omitempty" yaml:"rank,omitempty"`
+	Presentation PresentationDefinition            `json:"presentation" yaml:"presentation"`
 }
 
 // NewComponentPresentation instantiates a new ComponentPresentation object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewComponentPresentation(identifier string, name string, presentation PresentationDefinition) *ComponentPresentation {
+func NewComponentPresentation(identifier string, name string, binding ComponentPresentationQueryBinding, presentation PresentationDefinition) *ComponentPresentation {
 	this := ComponentPresentation{}
 	this.Identifier = identifier
 	this.Name = name
+	this.Binding = binding
 	this.Presentation = presentation
 	return &this
 }
@@ -124,6 +126,62 @@ func (o *ComponentPresentation) SetDescription(v string) {
 	o.Description = &v
 }
 
+// GetBinding returns the Binding field value
+func (o *ComponentPresentation) GetBinding() ComponentPresentationQueryBinding {
+	if o == nil {
+		var ret ComponentPresentationQueryBinding
+		return ret
+	}
+
+	return o.Binding
+}
+
+// GetBindingOk returns a tuple with the Binding field value
+// and a boolean to check if the value has been set.
+func (o *ComponentPresentation) GetBindingOk() (*ComponentPresentationQueryBinding, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Binding, true
+}
+
+// SetBinding sets field value
+func (o *ComponentPresentation) SetBinding(v ComponentPresentationQueryBinding) {
+	o.Binding = v
+}
+
+// GetRank returns the Rank field value if set, zero value otherwise.
+func (o *ComponentPresentation) GetRank() ComponentPresentationRank {
+	if o == nil || o.Rank == nil {
+		var ret ComponentPresentationRank
+		return ret
+	}
+	return *o.Rank
+}
+
+// GetRankOk returns a tuple with the Rank field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *ComponentPresentation) GetRankOk() (*ComponentPresentationRank, bool) {
+	if o == nil || o.Rank == nil {
+		return nil, false
+	}
+	return o.Rank, true
+}
+
+// HasRank returns a boolean if a field has been set.
+func (o *ComponentPresentation) HasRank() bool {
+	if o != nil && o.Rank != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRank gets a reference to the given ComponentPresentationRank and assigns it to the Rank field.
+func (o *ComponentPresentation) SetRank(v ComponentPresentationRank) {
+	o.Rank = &v
+}
+
 // GetPresentation returns the Presentation field value
 func (o *ComponentPresentation) GetPresentation() PresentationDefinition {
 	if o == nil {
@@ -148,38 +206,6 @@ func (o *ComponentPresentation) SetPresentation(v PresentationDefinition) {
 	o.Presentation = v
 }
 
-// GetExpireAfterMs returns the ExpireAfterMs field value if set, zero value otherwise.
-func (o *ComponentPresentation) GetExpireAfterMs() int64 {
-	if o == nil || o.ExpireAfterMs == nil {
-		var ret int64
-		return ret
-	}
-	return *o.ExpireAfterMs
-}
-
-// GetExpireAfterMsOk returns a tuple with the ExpireAfterMs field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *ComponentPresentation) GetExpireAfterMsOk() (*int64, bool) {
-	if o == nil || o.ExpireAfterMs == nil {
-		return nil, false
-	}
-	return o.ExpireAfterMs, true
-}
-
-// HasExpireAfterMs returns a boolean if a field has been set.
-func (o *ComponentPresentation) HasExpireAfterMs() bool {
-	if o != nil && o.ExpireAfterMs != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetExpireAfterMs gets a reference to the given int64 and assigns it to the ExpireAfterMs field.
-func (o *ComponentPresentation) SetExpireAfterMs(v int64) {
-	o.ExpireAfterMs = &v
-}
-
 func (o ComponentPresentation) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -192,10 +218,13 @@ func (o ComponentPresentation) MarshalJSON() ([]byte, error) {
 		toSerialize["description"] = o.Description
 	}
 	if true {
-		toSerialize["presentation"] = o.Presentation
+		toSerialize["binding"] = o.Binding
 	}
-	if o.ExpireAfterMs != nil {
-		toSerialize["expireAfterMs"] = o.ExpireAfterMs
+	if o.Rank != nil {
+		toSerialize["rank"] = o.Rank
+	}
+	if true {
+		toSerialize["presentation"] = o.Presentation
 	}
 	return json.Marshal(toSerialize)
 }

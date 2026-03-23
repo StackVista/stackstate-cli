@@ -7,12 +7,13 @@ Name | Type | Description | Notes
 **Version** | [**ServerVersion**](ServerVersion.md) |  | 
 **DeploymentMode** | **string** |  | 
 **PlatformVersion** | Pointer to **string** | The version value is a semantic version, based on the official Semantic Versioning spec (https://semver.org/). | [optional] 
+**ApplicationDomains** | [**[]ApplicationDomain**](ApplicationDomain.md) |  | 
 
 ## Methods
 
 ### NewServerInfo
 
-`func NewServerInfo(version ServerVersion, deploymentMode string, ) *ServerInfo`
+`func NewServerInfo(version ServerVersion, deploymentMode string, applicationDomains []ApplicationDomain, ) *ServerInfo`
 
 NewServerInfo instantiates a new ServerInfo object
 This constructor will assign default values to properties that have it defined,
@@ -91,6 +92,26 @@ SetPlatformVersion sets PlatformVersion field to given value.
 `func (o *ServerInfo) HasPlatformVersion() bool`
 
 HasPlatformVersion returns a boolean if a field has been set.
+
+### GetApplicationDomains
+
+`func (o *ServerInfo) GetApplicationDomains() []ApplicationDomain`
+
+GetApplicationDomains returns the ApplicationDomains field if non-nil, zero value otherwise.
+
+### GetApplicationDomainsOk
+
+`func (o *ServerInfo) GetApplicationDomainsOk() (*[]ApplicationDomain, bool)`
+
+GetApplicationDomainsOk returns a tuple with the ApplicationDomains field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetApplicationDomains
+
+`func (o *ServerInfo) SetApplicationDomains(v []ApplicationDomain)`
+
+SetApplicationDomains sets ApplicationDomains field to given value.
+
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

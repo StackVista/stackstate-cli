@@ -4295,6 +4295,47 @@ paths:
       summary: Query over a range of time
       tags:
       - metric
+  /metrics/query_batch:
+    post:
+      description: "Executes multiple PromQL queries in a single request to reduce\
+        \ HTTP overhead. Each query is executed independently and results are returned\
+        \ in a single response. Partial failures are supported: individual queries\
+        \ may fail while others succeed.\n"
+      operationId: postQueryBatch
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromBatchQueryRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromBatchEnvelope'
+          description: Batch query response
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: Parameters are missing or incorrect
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+        "503":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromEnvelope'
+          description: when queries time out or abort
+      summary: Batch execution of multiple PromQL queries
+      tags:
+      - metric
   /metrics/query_exemplars:
     get:
       description: "Experimental: The returns a list of exemplars for a valid PromQL\
@@ -6636,6 +6677,40 @@ paths:
       summary: Query topology snapshot
       tags:
       - snapshot
+  /overview/{presentationOrViewUrn}:
+    post:
+      operationId: getOverview
+      parameters:
+      - description: "A Component Presentation Identifier, legacy View (QueryView,\
+          \ ViewType) URNs are be supported for backward compatibility"
+        in: path
+        name: presentationOrViewUrn
+        required: true
+        schema:
+          $ref: '#/components/schemas/PresentationOrViewIdentifier'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OverviewRequest'
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverviewPageResponse'
+          description: Overview data
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverviewErrorResponse'
+          description: Bad request. The request was invalid or cannot be otherwise
+            served.
+      summary: Get overview data for components
+      tags:
+      - overview
   /dummy/dummy:
     get:
       description: ""
@@ -7167,6 +7242,12 @@ components:
           schema:
             $ref: '#/components/schemas/PromEnvelope'
       description: when queries time out or abort
+    successBatchEnvelope:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PromBatchEnvelope'
+      description: Batch query response
     successExemplarEnvelope:
       content:
         application/json:
@@ -11350,6 +11431,9 @@ components:
     ServerInfo:
       example:
         deploymentMode: Saas
+        applicationDomains:
+        - null
+        - null
         platformVersion: 1.2.3-alpha.1+build5678
         version:
           patch: 1
@@ -11371,7 +11455,14 @@ components:
             \ Semantic Versioning spec (https://semver.org/)."
           example: 1.2.3-alpha.1+build5678
           type: string
+        applicationDomains:
+          items:
+            $ref: '#/components/schemas/ApplicationDomain'
+          minItems: 1
+          type: array
+          uniqueItems: true
       required:
+      - applicationDomains
       - deploymentMode
       - version
       type: object
@@ -11408,6 +11499,11 @@ components:
       description: "The version value is a semantic version, based on the official\
         \ Semantic Versioning spec (https://semver.org/)."
       example: 1.2.3-alpha.1+build5678
+      type: string
+    ApplicationDomain:
+      enum:
+      - Observability
+      - Security
       type: string
     ServiceTokenCreatedResponse:
       example:
@@ -12100,6 +12196,158 @@ components:
       type: object
     PromAligned:
       type: boolean
+    PromBatchQueryRequest:
+      description: "Executes multiple query items in one request. If both request-level\
+        \ timeout and item-level timeout are set, item-level timeout takes precedence.\n"
+      example:
+        queries:
+        - null
+        - null
+        timeout: timeout
+      properties:
+        queries:
+          description: List of queries to execute.
+          items:
+            $ref: '#/components/schemas/PromBatchQueryItem'
+          minItems: 1
+          type: array
+        timeout:
+          pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
+          type: string
+      required:
+      - queries
+      type: object
+    PromBatchQueryItem:
+      discriminator:
+        mapping:
+          instant: '#/components/schemas/PromBatchInstantQuery'
+          range: '#/components/schemas/PromBatchRangeQuery'
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/PromBatchInstantQuery'
+      - $ref: '#/components/schemas/PromBatchRangeQuery'
+    PromBatchInstantQuery:
+      properties:
+        id:
+          type: string
+        _type:
+          enum:
+          - instant
+          type: string
+        query:
+          type: string
+        time:
+          pattern: "(^((?:(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?))(Z|[\\\
+            +-]\\d{2}:\\d{2})?)$)|(^[0-9]{10}$)"
+          type: string
+        step:
+          pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
+          type: string
+        timeout:
+          pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
+          type: string
+        post_filter:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
+      - id
+      - query
+      type: object
+    PromBatchRangeQuery:
+      properties:
+        id:
+          type: string
+        _type:
+          enum:
+          - range
+          type: string
+        query:
+          type: string
+        start:
+          pattern: "(^((?:(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?))(Z|[\\\
+            +-]\\d{2}:\\d{2})?)$)|(^[0-9]{10}$)"
+          type: string
+        end:
+          pattern: "(^((?:(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?))(Z|[\\\
+            +-]\\d{2}:\\d{2})?)$)|(^[0-9]{10}$)"
+          type: string
+        step:
+          pattern: "(^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$)|(^[0-9]+$)"
+          type: string
+        timeout:
+          pattern: "^((([0-9]+)y)?(([0-9]+)w)?(([0-9]+)d)?(([0-9]+)h)?(([0-9]+)m)?(([0-9]+)s)?(([0-9]+)ms)?|0)$"
+          type: string
+        aligned:
+          type: boolean
+        maxNumberOfDataPoints:
+          format: int64
+          type: integer
+        post_filter:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
+      - end
+      - id
+      - query
+      - start
+      - step
+      type: object
+    PromBatchEnvelope:
+      example:
+        results:
+        - null
+        - null
+      properties:
+        results:
+          items:
+            $ref: '#/components/schemas/PromBatchResult'
+          type: array
+      required:
+      - results
+      type: object
+    PromBatchResult:
+      discriminator:
+        mapping:
+          success: '#/components/schemas/PromBatchSuccess'
+          error: '#/components/schemas/PromBatchError'
+        propertyName: resultType
+      oneOf:
+      - $ref: '#/components/schemas/PromBatchSuccess'
+      - $ref: '#/components/schemas/PromBatchError'
+    PromBatchSuccess:
+      properties:
+        id:
+          type: string
+        resultType:
+          enum:
+          - success
+          type: string
+        data:
+          $ref: '#/components/schemas/PromEnvelope'
+      required:
+      - data
+      - id
+      - resultType
+      type: object
+    PromBatchError:
+      properties:
+        id:
+          type: string
+        resultType:
+          enum:
+          - error
+          type: string
+        error:
+          type: string
+      required:
+      - error
+      - id
+      - resultType
+      type: object
     PromExemplarEnvelope:
       example:
         data:
@@ -14178,419 +14426,6 @@ components:
       - identifiers
       - sourceProperties
       - syncName
-    ComponentTypeHighlights:
-      example:
-        showLastChange: true
-        namePlural: namePlural
-        externalComponent:
-          externalIdSelector: externalIdSelector
-          showConfiguration: true
-          showStatus: true
-        showLogs: true
-        about:
-          fields:
-          - fields
-          - fields
-        metrics:
-        - bindings:
-          - bindings
-          - bindings
-          name: name
-          description: description
-          defaultExpanded: true
-        - bindings:
-          - bindings
-          - bindings
-          name: name
-          description: description
-          defaultExpanded: true
-        fields:
-        - valueExtractor: null
-          display: null
-          label:
-            helpBubbleText: helpBubbleText
-            title: title
-          fieldId: fieldId
-        - valueExtractor: null
-          display: null
-          label:
-            helpBubbleText: helpBubbleText
-            title: title
-          fieldId: fieldId
-        events:
-          showEvents: true
-          relatedResourcesTemplate: relatedResourcesTemplate
-        relatedResources:
-        - hint: hint
-          stql: stql
-          title: title
-          viewTypeIdentifier: viewTypeIdentifier
-          resourceType: resourceType
-        - hint: hint
-          stql: stql
-          title: title
-          viewTypeIdentifier: viewTypeIdentifier
-          resourceType: resourceType
-      properties:
-        namePlural:
-          type: string
-        fields:
-          items:
-            $ref: '#/components/schemas/ComponentTypeField'
-          type: array
-        about:
-          $ref: '#/components/schemas/ComponentTypeAbout'
-        events:
-          $ref: '#/components/schemas/ComponentTypeEvents'
-        showLogs:
-          type: boolean
-        showLastChange:
-          type: boolean
-        externalComponent:
-          $ref: '#/components/schemas/ComponentTypeExternalComponent'
-        relatedResources:
-          items:
-            $ref: '#/components/schemas/ComponentTypeRelatedResources'
-          type: array
-        metrics:
-          items:
-            $ref: '#/components/schemas/ComponentHighlightMetrics'
-          type: array
-      required:
-      - about
-      - events
-      - externalComponent
-      - fields
-      - metrics
-      - namePlural
-      - relatedResources
-      - showLastChange
-      - showLogs
-    ComponentTypeField:
-      example:
-        valueExtractor: null
-        display: null
-        label:
-          helpBubbleText: helpBubbleText
-          title: title
-        fieldId: fieldId
-      properties:
-        fieldId:
-          type: string
-        label:
-          $ref: '#/components/schemas/ComponentTypeLabel'
-        valueExtractor:
-          $ref: '#/components/schemas/ComponentTypeValueExtractor'
-        display:
-          $ref: '#/components/schemas/ComponentTypeFieldDisplay'
-      required:
-      - display
-      - fieldId
-      - label
-      - valueExtractor
-    ComponentTypeLabel:
-      example:
-        helpBubbleText: helpBubbleText
-        title: title
-      properties:
-        title:
-          type: string
-        helpBubbleText:
-          type: string
-      required:
-      - title
-    ComponentTypeValueExtractor:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/ComponentTypeSource'
-      - $ref: '#/components/schemas/CompositeSource'
-      - $ref: '#/components/schemas/ConstantSource'
-      - $ref: '#/components/schemas/HealthSource'
-      - $ref: '#/components/schemas/IdentifiersSource'
-      - $ref: '#/components/schemas/LastUpdatedTimestampSource'
-      - $ref: '#/components/schemas/NameSource'
-      - $ref: '#/components/schemas/PropertySource'
-      - $ref: '#/components/schemas/TagSource'
-      - $ref: '#/components/schemas/TagsSource'
-    ComponentTypeSource:
-      properties:
-        _type:
-          enum:
-          - ComponentTypeSource
-          type: string
-      required:
-      - _type
-    CompositeSource:
-      properties:
-        _type:
-          enum:
-          - CompositeSource
-          type: string
-        sources:
-          additionalProperties:
-            $ref: '#/components/schemas/ComponentTypeValueExtractor'
-          type: object
-      required:
-      - _type
-      - sources
-    ConstantSource:
-      properties:
-        _type:
-          enum:
-          - ConstantSource
-          type: string
-        value:
-          type: string
-      required:
-      - _type
-      - value
-    HealthSource:
-      properties:
-        _type:
-          enum:
-          - HealthSource
-          type: string
-      required:
-      - _type
-    IdentifiersSource:
-      properties:
-        _type:
-          enum:
-          - IdentifiersSource
-          type: string
-      required:
-      - _type
-    LastUpdatedTimestampSource:
-      properties:
-        _type:
-          enum:
-          - LastUpdatedTimestampSource
-          type: string
-      required:
-      - _type
-    NameSource:
-      properties:
-        _type:
-          enum:
-          - NameSource
-          type: string
-      required:
-      - _type
-    PropertySource:
-      properties:
-        _type:
-          enum:
-          - PropertySource
-          type: string
-        key:
-          type: string
-        defaultValue:
-          type: string
-      required:
-      - _type
-      - key
-    TagSource:
-      properties:
-        _type:
-          enum:
-          - TagSource
-          type: string
-        tagName:
-          type: string
-      required:
-      - _type
-      - tagName
-    TagsSource:
-      properties:
-        _type:
-          enum:
-          - TagsSource
-          type: string
-      required:
-      - _type
-    ComponentTypeFieldDisplay:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/ComponentLinkDisplay'
-      - $ref: '#/components/schemas/DurationDisplay'
-      - $ref: '#/components/schemas/HealthBadgeDisplay'
-      - $ref: '#/components/schemas/HealthCircleDisplay'
-      - $ref: '#/components/schemas/PromQLDisplay'
-      - $ref: '#/components/schemas/RatioDisplay'
-      - $ref: '#/components/schemas/ReadyStatusDisplay'
-      - $ref: '#/components/schemas/TagDisplay'
-      - $ref: '#/components/schemas/TextDisplay'
-      - $ref: '#/components/schemas/ViewTimeLink'
-      required:
-      - _type
-    ComponentLinkDisplay:
-      properties:
-        _type:
-          enum:
-          - ComponentLinkDisplay
-          type: string
-      required:
-      - _type
-    DurationDisplay:
-      properties:
-        _type:
-          enum:
-          - DurationDisplay
-          type: string
-      required:
-      - _type
-    HealthBadgeDisplay:
-      properties:
-        _type:
-          enum:
-          - HealthBadgeDisplay
-          type: string
-      required:
-      - _type
-    HealthCircleDisplay:
-      properties:
-        _type:
-          enum:
-          - HealthCircleDisplay
-          type: string
-      required:
-      - _type
-    PromQLDisplay:
-      properties:
-        _type:
-          enum:
-          - PromQLDisplay
-          type: string
-      required:
-      - _type
-    RatioDisplay:
-      properties:
-        _type:
-          enum:
-          - RatioDisplay
-          type: string
-      required:
-      - _type
-    ReadyStatusDisplay:
-      properties:
-        _type:
-          enum:
-          - RatioDisplay
-          type: string
-      required:
-      - _type
-    TagDisplay:
-      properties:
-        _type:
-          enum:
-          - TagDisplay
-          type: string
-        singular:
-          type: string
-      required:
-      - _type
-    TextDisplay:
-      properties:
-        _type:
-          enum:
-          - TextDisplay
-          type: string
-      required:
-      - _type
-    ViewTimeLink:
-      properties:
-        _type:
-          enum:
-          - ViewTimeLink
-          type: string
-      required:
-      - _type
-    ComponentTypeAbout:
-      example:
-        fields:
-        - fields
-        - fields
-      properties:
-        fields:
-          items:
-            type: string
-          type: array
-      required:
-      - fields
-    ComponentTypeEvents:
-      example:
-        showEvents: true
-        relatedResourcesTemplate: relatedResourcesTemplate
-      properties:
-        showEvents:
-          type: boolean
-        relatedResourcesTemplate:
-          type: string
-      required:
-      - showEvents
-    ComponentTypeExternalComponent:
-      example:
-        externalIdSelector: externalIdSelector
-        showConfiguration: true
-        showStatus: true
-      properties:
-        showConfiguration:
-          type: boolean
-        showStatus:
-          type: boolean
-        externalIdSelector:
-          type: string
-      required:
-      - externalIdSelector
-      - showConfiguration
-      - showStatus
-    ComponentTypeRelatedResources:
-      example:
-        hint: hint
-        stql: stql
-        title: title
-        viewTypeIdentifier: viewTypeIdentifier
-        resourceType: resourceType
-      properties:
-        resourceType:
-          type: string
-        title:
-          type: string
-        stql:
-          type: string
-        hint:
-          type: string
-        viewTypeIdentifier:
-          type: string
-      required:
-      - resourceType
-      - stql
-      - title
-    ComponentHighlightMetrics:
-      example:
-        bindings:
-        - bindings
-        - bindings
-        name: name
-        description: description
-        defaultExpanded: true
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        bindings:
-          items:
-            type: string
-          type: array
-        defaultExpanded:
-          type: boolean
-      required:
-      - bindings
-      - defaultExpanded
-      - name
     ComponentAction:
       example:
         name: name
@@ -17055,19 +16890,30 @@ components:
       example:
         presentation:
           overview:
+            fixedColumns: 1
             mainMenu:
               icon: icon
               group: group
-              order: 0.8008281904610115
-            title: title
+              order: 6.027456183070403
+            columns:
+            - columnId: columnId
+              projection: null
+              title: title
+            - columnId: columnId
+              projection: null
+              title: title
+            name:
+              plural: plural
+              singular: singular
+              title: title
           icon: icon
-          name:
-            plural: plural
-            singular: singular
         identifier: identifier
         name: name
         description: description
-        expireAfterMs: 6
+        binding:
+          query: query
+        rank:
+          specificity: 0.8008281904610115
       properties:
         identifier:
           type: string
@@ -17075,80 +16921,17 @@ components:
           type: string
         description:
           type: string
+        binding:
+          $ref: '#/components/schemas/ComponentPresentationQueryBinding'
+        rank:
+          $ref: '#/components/schemas/ComponentPresentationRank'
         presentation:
           $ref: '#/components/schemas/PresentationDefinition'
-        expireAfterMs:
-          format: int64
-          type: integer
       required:
+      - binding
       - identifier
       - name
       - presentation
-      type: object
-    PresentationDefinition:
-      example:
-        overview:
-          mainMenu:
-            icon: icon
-            group: group
-            order: 0.8008281904610115
-          title: title
-        icon: icon
-        name:
-          plural: plural
-          singular: singular
-      properties:
-        icon:
-          type: string
-        name:
-          $ref: '#/components/schemas/PresentationName'
-        overview:
-          $ref: '#/components/schemas/PresentationOverview'
-      type: object
-    PresentationName:
-      example:
-        plural: plural
-        singular: singular
-      properties:
-        singular:
-          type: string
-        plural:
-          type: string
-      required:
-      - plural
-      - singular
-      type: object
-    PresentationOverview:
-      example:
-        mainMenu:
-          icon: icon
-          group: group
-          order: 0.8008281904610115
-        title: title
-      properties:
-        title:
-          type: string
-        mainMenu:
-          $ref: '#/components/schemas/PresentationMainMenu'
-      required:
-      - title
-      type: object
-    PresentationMainMenu:
-      example:
-        icon: icon
-        group: group
-        order: 0.8008281904610115
-      properties:
-        group:
-          type: string
-        icon:
-          type: string
-        order:
-          format: double
-          type: number
-      required:
-      - group
-      - order
       type: object
     ComponentPresentationApiError:
       properties:
@@ -17223,13 +17006,8 @@ components:
           groupedByDomain: true
         viewId: 1
         query: query
-        _type: ViewSnapshotRequest
         queryVersion: 0.0.1
       properties:
-        _type:
-          enum:
-          - ViewSnapshotRequest
-          type: string
         query:
           description: STQL query string
           type: string
@@ -17354,6 +17132,544 @@ components:
       - _type
       - reason
       type: object
+    OverviewPageResponse:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/OverviewPageResult'
+      - $ref: '#/components/schemas/OverviewFetchTimeout'
+      - $ref: '#/components/schemas/OverviewTooManyActiveQueries'
+      - $ref: '#/components/schemas/OverviewTopologySizeOverflow'
+      - $ref: '#/components/schemas/OverviewDataUnavailable'
+    OverviewPageResult:
+      properties:
+        _type:
+          enum:
+          - OverviewPageResult
+          type: string
+        metadata:
+          $ref: '#/components/schemas/OverviewMetadata'
+        data:
+          items:
+            $ref: '#/components/schemas/OverviewRow'
+          type: array
+        pagination:
+          $ref: '#/components/schemas/PaginationResponse'
+      required:
+      - _type
+      - data
+      - metadata
+      - pagination
+      type: object
+    OverviewMetadata:
+      properties:
+        columns:
+          items:
+            $ref: '#/components/schemas/OverviewColumnMeta'
+          type: array
+        sorting:
+          description: |
+            The effective sorting applied to the overview results.
+          items:
+            $ref: '#/components/schemas/OverviewSorting'
+          type: array
+        fixedColumns:
+          type: integer
+      required:
+      - columns
+      - fixedColumns
+      - sorting
+      type: object
+    OverviewColumnMeta:
+      properties:
+        columnId:
+          type: string
+        title:
+          type: string
+        display:
+          $ref: '#/components/schemas/OverviewColumnMetaDisplay'
+        sortable:
+          type: boolean
+        searchable:
+          type: boolean
+        order:
+          type: integer
+      required:
+      - columnId
+      - display
+      - order
+      - searchable
+      - sortable
+      - title
+      type: object
+    OverviewColumnMetaDisplay:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricChartMetaDisplay'
+      - $ref: '#/components/schemas/ComponentLinkMetaDisplay'
+      - $ref: '#/components/schemas/HealthMetaDisplay'
+      - $ref: '#/components/schemas/TextMetaDisplay'
+      - $ref: '#/components/schemas/NumericMetaDisplay'
+      - $ref: '#/components/schemas/DurationMetaDisplay'
+      - $ref: '#/components/schemas/ReadyStatusMetaDisplay'
+      - $ref: '#/components/schemas/LinkMetaDisplay'
+    MetricChartMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - MetricChartMetaDisplay
+          type: string
+        unit:
+          nullable: true
+          type: string
+        decimalPlaces:
+          nullable: true
+          type: integer
+        showChart:
+          nullable: true
+          type: boolean
+        locked:
+          type: boolean
+      required:
+      - _type
+      - locked
+      type: object
+    ComponentLinkMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - ComponentLinkMetaDisplay
+          type: string
+      required:
+      - _type
+      type: object
+    HealthMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - HealthMetaDisplay
+          type: string
+      required:
+      - _type
+      type: object
+    TextMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - TextMetaDisplay
+          type: string
+      required:
+      - _type
+      type: object
+    NumericMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - NumericMetaDisplay
+          type: string
+        unit:
+          nullable: true
+          type: string
+      required:
+      - _type
+      type: object
+    DurationMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - DurationMetaDisplay
+          type: string
+      required:
+      - _type
+      type: object
+    ReadyStatusMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - ReadyStatusMetaDisplay
+          type: string
+      required:
+      - _type
+      type: object
+    LinkMetaDisplay:
+      properties:
+        _type:
+          enum:
+          - LinkMetaDisplay
+          type: string
+        external:
+          type: boolean
+      required:
+      - _type
+      - external
+      type: object
+    OverviewSorting:
+      example:
+        columnId: columnId
+        direction: null
+      properties:
+        columnId:
+          type: string
+        direction:
+          $ref: '#/components/schemas/OverviewSortingDirection'
+      required:
+      - columnId
+      - direction
+      type: object
+    OverviewSortingDirection:
+      enum:
+      - Ascending
+      - Descending
+      type: string
+    OverviewRow:
+      properties:
+        componentIdentifier:
+          type: string
+        cells:
+          additionalProperties:
+            $ref: '#/components/schemas/CellValue'
+          type: object
+      required:
+      - cells
+      - componentIdentifier
+      type: object
+    CellValue:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricCell'
+      - $ref: '#/components/schemas/LinkCell'
+      - $ref: '#/components/schemas/ComponentLinkCell'
+      - $ref: '#/components/schemas/HealthCell'
+      - $ref: '#/components/schemas/TextCell'
+      - $ref: '#/components/schemas/NumericCell'
+      - $ref: '#/components/schemas/DurationCell'
+      - $ref: '#/components/schemas/ReadyStatusCell'
+    MetricCell:
+      properties:
+        _type:
+          enum:
+          - MetricCell
+          type: string
+        individualQuery:
+          description: The frontend can use the individual query to refresh the metrics
+            (at interval). Allows to keep the current behaviour of making individual
+            calls for each row.
+          type: string
+      required:
+      - _type
+      - individualQuery
+      type: object
+    LinkCell:
+      properties:
+        _type:
+          enum:
+          - LinkCell
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+      required:
+      - _type
+      - name
+      - url
+      type: object
+    ComponentLinkCell:
+      properties:
+        _type:
+          enum:
+          - ComponentLinkCell
+          type: string
+        name:
+          type: string
+        componentId:
+          type: string
+      required:
+      - _type
+      - componentId
+      - name
+      type: object
+    HealthCell:
+      properties:
+        _type:
+          enum:
+          - HealthCell
+          type: string
+        state:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - _type
+      - state
+      type: object
+    TextCell:
+      properties:
+        _type:
+          enum:
+          - TextCell
+          type: string
+        value:
+          type: string
+      required:
+      - _type
+      - value
+      type: object
+    NumericCell:
+      properties:
+        _type:
+          enum:
+          - NumericCell
+          type: string
+        value:
+          type: number
+      required:
+      - _type
+      - value
+      type: object
+    DurationCell:
+      properties:
+        _type:
+          enum:
+          - DurationCell
+          type: string
+        startDate:
+          format: instant
+          type: integer
+        endDate:
+          format: instant
+          nullable: true
+          type: integer
+      required:
+      - _type
+      - startDate
+      type: object
+    ReadyStatusCell:
+      properties:
+        _type:
+          enum:
+          - ReadyStatusCell
+          type: string
+        ready:
+          type: integer
+        total:
+          type: integer
+        status:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - _type
+      - ready
+      - total
+      type: object
+    PaginationResponse:
+      properties:
+        total:
+          description: |
+            Total number of items matching the ComponentPresentation
+            before applying column filters or search.
+          type: integer
+        filtered:
+          description: "Total number of items after filters/search are applied,\n\
+            but before pagination.\n"
+          nullable: true
+          type: integer
+        elementName:
+          type: string
+        elementNamePlural:
+          type: string
+        startCursor:
+          nullable: true
+          type: string
+        endCursor:
+          nullable: true
+          type: string
+      required:
+      - elementName
+      - elementNamePlural
+      - total
+      type: object
+    OverviewFetchTimeout:
+      properties:
+        _type:
+          enum:
+          - OverviewFetchTimeout
+          type: string
+        usedTimeoutSeconds:
+          description: Timeout used for the overview request (seconds).
+          format: int64
+          type: integer
+      required:
+      - _type
+      - usedTimeoutSeconds
+      type: object
+    OverviewTooManyActiveQueries:
+      properties:
+        _type:
+          enum:
+          - OverviewTooManyActiveQueries
+          type: string
+      required:
+      - _type
+      type: object
+    OverviewTopologySizeOverflow:
+      properties:
+        _type:
+          enum:
+          - OverviewTopologySizeOverflow
+          type: string
+        maxSize:
+          description: Maximum allowed topology size.
+          type: integer
+      required:
+      - _type
+      - maxSize
+      type: object
+    OverviewDataUnavailable:
+      properties:
+        _type:
+          enum:
+          - OverviewDataUnavailable
+          type: string
+        unavailableAtEpochMs:
+          description: Time when data became unavailable (epoch ms).
+          format: int64
+          type: integer
+        availableSinceEpochMs:
+          description: Time when data became available again (epoch ms).
+          format: int64
+          type: integer
+      required:
+      - _type
+      - availableSinceEpochMs
+      - unavailableAtEpochMs
+      type: object
+    OverviewErrorResponse:
+      properties:
+        _type:
+          enum:
+          - OverviewErrorResponse
+          type: string
+        errorMessage:
+          description: Error message describing why the overview request failed.
+          type: string
+      required:
+      - _type
+      - errorMessage
+      type: object
+    OverviewRequest:
+      example:
+        topologyTime: 0
+        pagination:
+          cursor:
+            cursor: cursor
+            direction: null
+          limit: 301
+        query: query
+        sorting:
+        - columnId: columnId
+          direction: null
+        - columnId: columnId
+          direction: null
+        filters:
+          tagFilters:
+          - tagFilters
+          - tagFilters
+          columnFilters:
+            key:
+              search: search
+              columnId: columnId
+      properties:
+        query:
+          description: STQL query string to retrieve and project using the presentationOrViewUrn
+            (helpful for related resources)
+          type: string
+        topologyTime:
+          description: A timestamp at which resources will be queried. If not given
+            the resources are queried at current time.
+          format: instant
+          type: integer
+        filters:
+          $ref: '#/components/schemas/OverviewFilters'
+        pagination:
+          $ref: '#/components/schemas/OverviewPaginationRequest'
+        sorting:
+          items:
+            $ref: '#/components/schemas/OverviewSorting'
+          type: array
+      type: object
+    OverviewFilters:
+      example:
+        tagFilters:
+        - tagFilters
+        - tagFilters
+        columnFilters:
+          key:
+            search: search
+            columnId: columnId
+      properties:
+        tagFilters:
+          description: Tags are grouped by their key.  For each key at least one of
+            the values matches.
+          items:
+            type: string
+          type: array
+        columnFilters:
+          additionalProperties:
+            $ref: '#/components/schemas/OverviewColumnFilter'
+          description: Map of columnId to filter
+          type: object
+      type: object
+    OverviewColumnFilter:
+      example:
+        search: search
+        columnId: columnId
+      properties:
+        columnId:
+          type: string
+        search:
+          type: string
+      required:
+      - columnId
+      - search
+      type: object
+    OverviewPaginationRequest:
+      example:
+        cursor:
+          cursor: cursor
+          direction: null
+        limit: 301
+      properties:
+        cursor:
+          $ref: '#/components/schemas/OverviewPaginationCursor'
+        limit:
+          default: 50
+          maximum: 500
+          minimum: 1
+          type: integer
+      type: object
+    OverviewPaginationCursor:
+      example:
+        cursor: cursor
+        direction: null
+      properties:
+        cursor:
+          description: Opaque cursor returned from previous request
+          nullable: true
+          type: string
+        direction:
+          $ref: '#/components/schemas/OverviewPaginationDirection'
+      required:
+      - cursor
+      - direction
+      type: object
+    OverviewPaginationDirection:
+      enum:
+      - Back
+      - Forward
+      type: string
+    PresentationOrViewIdentifier:
+      pattern: ^urn.*$
+      type: string
     Argument:
       discriminator:
         propertyName: _type
@@ -17927,6 +18243,419 @@ components:
       - offsetNanos
       - timestamp
       type: object
+    ComponentTypeHighlights:
+      example:
+        showLastChange: true
+        namePlural: namePlural
+        externalComponent:
+          externalIdSelector: externalIdSelector
+          showConfiguration: true
+          showStatus: true
+        showLogs: true
+        about:
+          fields:
+          - fields
+          - fields
+        metrics:
+        - bindings:
+          - bindings
+          - bindings
+          name: name
+          description: description
+          defaultExpanded: true
+        - bindings:
+          - bindings
+          - bindings
+          name: name
+          description: description
+          defaultExpanded: true
+        fields:
+        - valueExtractor: null
+          display: null
+          label:
+            helpBubbleText: helpBubbleText
+            title: title
+          fieldId: fieldId
+        - valueExtractor: null
+          display: null
+          label:
+            helpBubbleText: helpBubbleText
+            title: title
+          fieldId: fieldId
+        events:
+          showEvents: true
+          relatedResourcesTemplate: relatedResourcesTemplate
+        relatedResources:
+        - hint: hint
+          stql: stql
+          title: title
+          viewTypeIdentifier: viewTypeIdentifier
+          resourceType: resourceType
+        - hint: hint
+          stql: stql
+          title: title
+          viewTypeIdentifier: viewTypeIdentifier
+          resourceType: resourceType
+      properties:
+        namePlural:
+          type: string
+        fields:
+          items:
+            $ref: '#/components/schemas/ComponentTypeField'
+          type: array
+        about:
+          $ref: '#/components/schemas/ComponentTypeAbout'
+        events:
+          $ref: '#/components/schemas/ComponentTypeEvents'
+        showLogs:
+          type: boolean
+        showLastChange:
+          type: boolean
+        externalComponent:
+          $ref: '#/components/schemas/ComponentTypeExternalComponent'
+        relatedResources:
+          items:
+            $ref: '#/components/schemas/ComponentTypeRelatedResources'
+          type: array
+        metrics:
+          items:
+            $ref: '#/components/schemas/ComponentHighlightMetrics'
+          type: array
+      required:
+      - about
+      - events
+      - externalComponent
+      - fields
+      - metrics
+      - namePlural
+      - relatedResources
+      - showLastChange
+      - showLogs
+    ComponentTypeField:
+      example:
+        valueExtractor: null
+        display: null
+        label:
+          helpBubbleText: helpBubbleText
+          title: title
+        fieldId: fieldId
+      properties:
+        fieldId:
+          type: string
+        label:
+          $ref: '#/components/schemas/ComponentTypeLabel'
+        valueExtractor:
+          $ref: '#/components/schemas/ComponentTypeValueExtractor'
+        display:
+          $ref: '#/components/schemas/ComponentTypeFieldDisplay'
+      required:
+      - display
+      - fieldId
+      - label
+      - valueExtractor
+    ComponentTypeLabel:
+      example:
+        helpBubbleText: helpBubbleText
+        title: title
+      properties:
+        title:
+          type: string
+        helpBubbleText:
+          type: string
+      required:
+      - title
+    ComponentTypeValueExtractor:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ComponentTypeSource'
+      - $ref: '#/components/schemas/CompositeSource'
+      - $ref: '#/components/schemas/ConstantSource'
+      - $ref: '#/components/schemas/HealthSource'
+      - $ref: '#/components/schemas/IdentifiersSource'
+      - $ref: '#/components/schemas/LastUpdatedTimestampSource'
+      - $ref: '#/components/schemas/NameSource'
+      - $ref: '#/components/schemas/PropertySource'
+      - $ref: '#/components/schemas/TagSource'
+      - $ref: '#/components/schemas/TagsSource'
+    ComponentTypeSource:
+      properties:
+        _type:
+          enum:
+          - ComponentTypeSource
+          type: string
+      required:
+      - _type
+    CompositeSource:
+      properties:
+        _type:
+          enum:
+          - CompositeSource
+          type: string
+        sources:
+          additionalProperties:
+            $ref: '#/components/schemas/ComponentTypeValueExtractor'
+          type: object
+      required:
+      - _type
+      - sources
+    ConstantSource:
+      properties:
+        _type:
+          enum:
+          - ConstantSource
+          type: string
+        value:
+          type: string
+      required:
+      - _type
+      - value
+    HealthSource:
+      properties:
+        _type:
+          enum:
+          - HealthSource
+          type: string
+      required:
+      - _type
+    IdentifiersSource:
+      properties:
+        _type:
+          enum:
+          - IdentifiersSource
+          type: string
+      required:
+      - _type
+    LastUpdatedTimestampSource:
+      properties:
+        _type:
+          enum:
+          - LastUpdatedTimestampSource
+          type: string
+      required:
+      - _type
+    NameSource:
+      properties:
+        _type:
+          enum:
+          - NameSource
+          type: string
+      required:
+      - _type
+    PropertySource:
+      properties:
+        _type:
+          enum:
+          - PropertySource
+          type: string
+        key:
+          type: string
+        defaultValue:
+          type: string
+      required:
+      - _type
+      - key
+    TagSource:
+      properties:
+        _type:
+          enum:
+          - TagSource
+          type: string
+        tagName:
+          type: string
+      required:
+      - _type
+      - tagName
+    TagsSource:
+      properties:
+        _type:
+          enum:
+          - TagsSource
+          type: string
+      required:
+      - _type
+    ComponentTypeFieldDisplay:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ComponentLinkDisplay'
+      - $ref: '#/components/schemas/DurationDisplay'
+      - $ref: '#/components/schemas/HealthBadgeDisplay'
+      - $ref: '#/components/schemas/HealthCircleDisplay'
+      - $ref: '#/components/schemas/PromqlDisplay'
+      - $ref: '#/components/schemas/RatioDisplay'
+      - $ref: '#/components/schemas/ReadyStatusDisplay'
+      - $ref: '#/components/schemas/TagDisplay'
+      - $ref: '#/components/schemas/TextDisplay'
+      - $ref: '#/components/schemas/ViewTimeLink'
+      required:
+      - _type
+    ComponentLinkDisplay:
+      properties:
+        _type:
+          enum:
+          - ComponentLinkDisplay
+          type: string
+      required:
+      - _type
+    DurationDisplay:
+      properties:
+        _type:
+          enum:
+          - DurationDisplay
+          type: string
+      required:
+      - _type
+    HealthBadgeDisplay:
+      properties:
+        _type:
+          enum:
+          - HealthBadgeDisplay
+          type: string
+      required:
+      - _type
+    HealthCircleDisplay:
+      properties:
+        _type:
+          enum:
+          - HealthCircleDisplay
+          type: string
+      required:
+      - _type
+    PromqlDisplay:
+      properties:
+        _type:
+          enum:
+          - PromqlDisplay
+          type: string
+      required:
+      - _type
+    RatioDisplay:
+      properties:
+        _type:
+          enum:
+          - RatioDisplay
+          type: string
+      required:
+      - _type
+    ReadyStatusDisplay:
+      properties:
+        _type:
+          enum:
+          - RatioDisplay
+          type: string
+      required:
+      - _type
+    TagDisplay:
+      properties:
+        _type:
+          enum:
+          - TagDisplay
+          type: string
+        singular:
+          type: string
+      required:
+      - _type
+    TextDisplay:
+      properties:
+        _type:
+          enum:
+          - TextDisplay
+          type: string
+      required:
+      - _type
+    ViewTimeLink:
+      properties:
+        _type:
+          enum:
+          - ViewTimeLink
+          type: string
+      required:
+      - _type
+    ComponentTypeAbout:
+      example:
+        fields:
+        - fields
+        - fields
+      properties:
+        fields:
+          items:
+            type: string
+          type: array
+      required:
+      - fields
+    ComponentTypeEvents:
+      example:
+        showEvents: true
+        relatedResourcesTemplate: relatedResourcesTemplate
+      properties:
+        showEvents:
+          type: boolean
+        relatedResourcesTemplate:
+          type: string
+      required:
+      - showEvents
+    ComponentTypeExternalComponent:
+      example:
+        externalIdSelector: externalIdSelector
+        showConfiguration: true
+        showStatus: true
+      properties:
+        showConfiguration:
+          type: boolean
+        showStatus:
+          type: boolean
+        externalIdSelector:
+          type: string
+      required:
+      - externalIdSelector
+      - showConfiguration
+      - showStatus
+    ComponentTypeRelatedResources:
+      example:
+        hint: hint
+        stql: stql
+        title: title
+        viewTypeIdentifier: viewTypeIdentifier
+        resourceType: resourceType
+      properties:
+        resourceType:
+          type: string
+        title:
+          type: string
+        stql:
+          type: string
+        hint:
+          type: string
+        viewTypeIdentifier:
+          type: string
+      required:
+      - resourceType
+      - stql
+      - title
+    ComponentHighlightMetrics:
+      example:
+        bindings:
+        - bindings
+        - bindings
+        name: name
+        description: description
+        defaultExpanded: true
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        bindings:
+          items:
+            type: string
+          type: array
+        defaultExpanded:
+          type: boolean
+      required:
+      - bindings
+      - defaultExpanded
+      - name
     PersesDashboard:
       example:
         metadata:
@@ -18608,6 +19337,302 @@ components:
       - alphabetical-ci-asc
       - alphabetical-ci-desc
       type: string
+    ComponentPresentationQueryBinding:
+      example:
+        query: query
+      properties:
+        query:
+          description: Stq query that defines to which components does the presentation
+            applies to.
+          type: string
+      required:
+      - query
+      type: object
+    ComponentPresentationRank:
+      example:
+        specificity: 0.8008281904610115
+      properties:
+        specificity:
+          description: Determines how much of a "specialization" this presentation
+            is. Higher number means more specific. This is used to determine which
+            presentation to use when multiple presentations match.
+          format: double
+          type: number
+      required:
+      - specificity
+      type: object
+    PresentationDefinition:
+      example:
+        overview:
+          fixedColumns: 1
+          mainMenu:
+            icon: icon
+            group: group
+            order: 6.027456183070403
+          columns:
+          - columnId: columnId
+            projection: null
+            title: title
+          - columnId: columnId
+            projection: null
+            title: title
+          name:
+            plural: plural
+            singular: singular
+            title: title
+        icon: icon
+      properties:
+        icon:
+          type: string
+        overview:
+          $ref: '#/components/schemas/PresentationOverview'
+      type: object
+    PresentationOverview:
+      description: "Overview presentation definition. The `columns` field defines\
+        \ the columns to show in the overview table. The `flags` field can be used\
+        \ to enable/disable functionalities.\nIf multiple ComponentPresentations match,\
+        \ columns are merged by `columnId` according to binding rank. Absence of the\
+        \ field means no overview is shown.\n"
+      example:
+        fixedColumns: 1
+        mainMenu:
+          icon: icon
+          group: group
+          order: 6.027456183070403
+        columns:
+        - columnId: columnId
+          projection: null
+          title: title
+        - columnId: columnId
+          projection: null
+          title: title
+        name:
+          plural: plural
+          singular: singular
+          title: title
+      properties:
+        name:
+          $ref: '#/components/schemas/PresentationName'
+        mainMenu:
+          $ref: '#/components/schemas/PresentationMainMenu'
+        columns:
+          items:
+            $ref: '#/components/schemas/OverviewColumnDefinition'
+          type: array
+        fixedColumns:
+          type: integer
+      required:
+      - columns
+      - name
+      - title
+      type: object
+    PresentationName:
+      example:
+        plural: plural
+        singular: singular
+        title: title
+      properties:
+        singular:
+          type: string
+        plural:
+          type: string
+        title:
+          type: string
+      required:
+      - plural
+      - singular
+      - title
+      type: object
+    PresentationMainMenu:
+      example:
+        icon: icon
+        group: group
+        order: 6.027456183070403
+      properties:
+        group:
+          type: string
+        icon:
+          type: string
+        order:
+          format: double
+          type: number
+      required:
+      - group
+      - order
+      type: object
+    OverviewColumnDefinition:
+      description: "Definition of a column in the overview presentation. The `columnId`\
+        \ field is used to identify the column and merge columns from different presentations.\
+        \ If only the `columnId` is provided, the column will be rendered from the\
+        \ next more specific presentation definition."
+      example:
+        columnId: columnId
+        projection: null
+        title: title
+      properties:
+        columnId:
+          type: string
+        title:
+          type: string
+        projection:
+          $ref: '#/components/schemas/OverviewColumnProjection'
+      required:
+      - columnId
+      type: object
+    OverviewColumnProjection:
+      description: Display type and value for the column.
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/MetricChartProjection'
+      - $ref: '#/components/schemas/ComponentLinkProjection'
+      - $ref: '#/components/schemas/HealthProjection'
+      - $ref: '#/components/schemas/TextProjection'
+      - $ref: '#/components/schemas/NumericProjection'
+      - $ref: '#/components/schemas/DurationProjection'
+      - $ref: '#/components/schemas/ReadyStatusProjection'
+      - $ref: '#/components/schemas/ContainerImageProjection'
+    MetricChartProjection:
+      properties:
+        _type:
+          enum:
+          - MetricChartProjection
+          type: string
+        showChart:
+          type: boolean
+        decimalPlaces:
+          type: integer
+        unit:
+          type: string
+        query:
+          description: Individual metric query that returns a timeseries for a specific
+            cell.
+          type: string
+      required:
+      - _type
+      - query
+      type: object
+    ComponentLinkProjection:
+      properties:
+        _type:
+          enum:
+          - ComponentLinkProjection
+          type: string
+        name:
+          description: Cel expression that returns a string that represents the name
+            of the component to link to
+          type: string
+        componentIdentifier:
+          description: Cel expression that returns a string that represents the componentIdentifier
+            in order to build the link
+          type: string
+      required:
+      - _type
+      - componentIdentifier
+      - name
+      type: object
+    HealthProjection:
+      properties:
+        _type:
+          enum:
+          - HealthProjection
+          type: string
+        value:
+          description: Cel expression that returns a string that represents a valid
+            HealthState
+          type: string
+      required:
+      - _type
+      - value
+      type: object
+    TextProjection:
+      properties:
+        _type:
+          enum:
+          - TextProjection
+          type: string
+        value:
+          description: Cel expression that returns a string
+          type: string
+      required:
+      - _type
+      - value
+      type: object
+    NumericProjection:
+      properties:
+        _type:
+          enum:
+          - NumericProjection
+          type: string
+        value:
+          description: Cel expression that returns a number
+          type: string
+        unit:
+          nullable: true
+          type: string
+        decimalPlaces:
+          type: integer
+      required:
+      - _type
+      - value
+      type: object
+    DurationProjection:
+      properties:
+        _type:
+          enum:
+          - DurationProjection
+          type: string
+        startDate:
+          description: Cel expression that returns a date
+          type: string
+        endDate:
+          description: Cel expression that returns a date
+          type: string
+      required:
+      - _type
+      - startDate
+      type: object
+    ReadyStatusProjection:
+      description: Helps rendering columns as Ready containers for K8s pods or Completions
+        for K8s jobs
+      properties:
+        _type:
+          enum:
+          - ReadyStatusProjection
+          type: string
+        readyNumber:
+          description: Cel expression that returns a number
+          type: string
+        totalNumber:
+          description: Cel expression that returns a number
+          type: string
+        readyStatus:
+          description: Cel expression that returns a string that represents a valid
+            HealthState
+          type: string
+      required:
+      - _type
+      - readyNumber
+      - totalNumber
+      type: object
+    ContainerImageProjection:
+      description: Helps rendering links for docker images
+      properties:
+        _type:
+          enum:
+          - ContainerImageProjection
+          type: string
+        imageId:
+          description: Cel expression that returns a string
+          type: string
+        imageName:
+          description: Cel expression that returns a string
+          type: string
+      required:
+      - _type
+      - imageId
+      - imageName
+      type: object
     upsertOtelComponentMappings_request:
       properties:
         identifier:

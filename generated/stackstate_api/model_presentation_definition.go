@@ -18,7 +18,6 @@ import (
 // PresentationDefinition struct for PresentationDefinition
 type PresentationDefinition struct {
 	Icon     *string               `json:"icon,omitempty" yaml:"icon,omitempty"`
-	Name     *PresentationName     `json:"name,omitempty" yaml:"name,omitempty"`
 	Overview *PresentationOverview `json:"overview,omitempty" yaml:"overview,omitempty"`
 }
 
@@ -71,38 +70,6 @@ func (o *PresentationDefinition) SetIcon(v string) {
 	o.Icon = &v
 }
 
-// GetName returns the Name field value if set, zero value otherwise.
-func (o *PresentationDefinition) GetName() PresentationName {
-	if o == nil || o.Name == nil {
-		var ret PresentationName
-		return ret
-	}
-	return *o.Name
-}
-
-// GetNameOk returns a tuple with the Name field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *PresentationDefinition) GetNameOk() (*PresentationName, bool) {
-	if o == nil || o.Name == nil {
-		return nil, false
-	}
-	return o.Name, true
-}
-
-// HasName returns a boolean if a field has been set.
-func (o *PresentationDefinition) HasName() bool {
-	if o != nil && o.Name != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetName gets a reference to the given PresentationName and assigns it to the Name field.
-func (o *PresentationDefinition) SetName(v PresentationName) {
-	o.Name = &v
-}
-
 // GetOverview returns the Overview field value if set, zero value otherwise.
 func (o *PresentationDefinition) GetOverview() PresentationOverview {
 	if o == nil || o.Overview == nil {
@@ -139,9 +106,6 @@ func (o PresentationDefinition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Icon != nil {
 		toSerialize["icon"] = o.Icon
-	}
-	if o.Name != nil {
-		toSerialize["name"] = o.Name
 	}
 	if o.Overview != nil {
 		toSerialize["overview"] = o.Overview
