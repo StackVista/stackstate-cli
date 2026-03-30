@@ -5,14 +5,14 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
-**StartDate** | **string** | Cel expression that returns a date | 
-**EndDate** | Pointer to **string** | Cel expression that returns a date | [optional] 
+**StartTime** | **string** | Cel expression that returns an ISO8601 formatted timestamp | 
+**EndTime** | Pointer to **string** | Cel expression that returns an ISO8601 formatted timestamp | [optional] 
 
 ## Methods
 
 ### NewDurationProjection
 
-`func NewDurationProjection(type_ string, startDate string, ) *DurationProjection`
+`func NewDurationProjection(type_ string, startTime string, ) *DurationProjection`
 
 NewDurationProjection instantiates a new DurationProjection object
 This constructor will assign default values to properties that have it defined,
@@ -47,50 +47,50 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetStartDate
+### GetStartTime
 
-`func (o *DurationProjection) GetStartDate() string`
+`func (o *DurationProjection) GetStartTime() string`
 
-GetStartDate returns the StartDate field if non-nil, zero value otherwise.
+GetStartTime returns the StartTime field if non-nil, zero value otherwise.
 
-### GetStartDateOk
+### GetStartTimeOk
 
-`func (o *DurationProjection) GetStartDateOk() (*string, bool)`
+`func (o *DurationProjection) GetStartTimeOk() (*string, bool)`
 
-GetStartDateOk returns a tuple with the StartDate field if it's non-nil, zero value otherwise
+GetStartTimeOk returns a tuple with the StartTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetStartDate
+### SetStartTime
 
-`func (o *DurationProjection) SetStartDate(v string)`
+`func (o *DurationProjection) SetStartTime(v string)`
 
-SetStartDate sets StartDate field to given value.
+SetStartTime sets StartTime field to given value.
 
 
-### GetEndDate
+### GetEndTime
 
-`func (o *DurationProjection) GetEndDate() string`
+`func (o *DurationProjection) GetEndTime() string`
 
-GetEndDate returns the EndDate field if non-nil, zero value otherwise.
+GetEndTime returns the EndTime field if non-nil, zero value otherwise.
 
-### GetEndDateOk
+### GetEndTimeOk
 
-`func (o *DurationProjection) GetEndDateOk() (*string, bool)`
+`func (o *DurationProjection) GetEndTimeOk() (*string, bool)`
 
-GetEndDateOk returns a tuple with the EndDate field if it's non-nil, zero value otherwise
+GetEndTimeOk returns a tuple with the EndTime field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetEndDate
+### SetEndTime
 
-`func (o *DurationProjection) SetEndDate(v string)`
+`func (o *DurationProjection) SetEndTime(v string)`
 
-SetEndDate sets EndDate field to given value.
+SetEndTime sets EndTime field to given value.
 
-### HasEndDate
+### HasEndTime
 
-`func (o *DurationProjection) HasEndDate() bool`
+`func (o *DurationProjection) HasEndTime() bool`
 
-HasEndDate returns a boolean if a field has been set.
+HasEndTime returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

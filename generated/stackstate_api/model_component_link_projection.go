@@ -20,19 +20,19 @@ type ComponentLinkProjection struct {
 	Type string `json:"_type" yaml:"_type"`
 	// Cel expression that returns a string that represents the name of the component to link to
 	Name string `json:"name" yaml:"name"`
-	// Cel expression that returns a string that represents the componentIdentifier in order to build the link
-	ComponentIdentifier string `json:"componentIdentifier" yaml:"componentIdentifier"`
+	// Cel expression that returns a string that represents the identifier in order to build the link
+	Identifier string `json:"identifier" yaml:"identifier"`
 }
 
 // NewComponentLinkProjection instantiates a new ComponentLinkProjection object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewComponentLinkProjection(type_ string, name string, componentIdentifier string) *ComponentLinkProjection {
+func NewComponentLinkProjection(type_ string, name string, identifier string) *ComponentLinkProjection {
 	this := ComponentLinkProjection{}
 	this.Type = type_
 	this.Name = name
-	this.ComponentIdentifier = componentIdentifier
+	this.Identifier = identifier
 	return &this
 }
 
@@ -92,28 +92,28 @@ func (o *ComponentLinkProjection) SetName(v string) {
 	o.Name = v
 }
 
-// GetComponentIdentifier returns the ComponentIdentifier field value
-func (o *ComponentLinkProjection) GetComponentIdentifier() string {
+// GetIdentifier returns the Identifier field value
+func (o *ComponentLinkProjection) GetIdentifier() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.ComponentIdentifier
+	return o.Identifier
 }
 
-// GetComponentIdentifierOk returns a tuple with the ComponentIdentifier field value
+// GetIdentifierOk returns a tuple with the Identifier field value
 // and a boolean to check if the value has been set.
-func (o *ComponentLinkProjection) GetComponentIdentifierOk() (*string, bool) {
+func (o *ComponentLinkProjection) GetIdentifierOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.ComponentIdentifier, true
+	return &o.Identifier, true
 }
 
-// SetComponentIdentifier sets field value
-func (o *ComponentLinkProjection) SetComponentIdentifier(v string) {
-	o.ComponentIdentifier = v
+// SetIdentifier sets field value
+func (o *ComponentLinkProjection) SetIdentifier(v string) {
+	o.Identifier = v
 }
 
 func (o ComponentLinkProjection) MarshalJSON() ([]byte, error) {
@@ -125,7 +125,7 @@ func (o ComponentLinkProjection) MarshalJSON() ([]byte, error) {
 		toSerialize["name"] = o.Name
 	}
 	if true {
-		toSerialize["componentIdentifier"] = o.ComponentIdentifier
+		toSerialize["identifier"] = o.Identifier
 	}
 	return json.Marshal(toSerialize)
 }

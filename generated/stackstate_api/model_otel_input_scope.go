@@ -22,6 +22,7 @@ type OtelInputScope struct {
 	Action    *OtelInputConditionAction `json:"action,omitempty" yaml:"action,omitempty"`
 	Metric    *OtelInputMetric          `json:"metric,omitempty" yaml:"metric,omitempty"`
 	Span      *OtelInputSpan            `json:"span,omitempty" yaml:"span,omitempty"`
+	Log       *OtelInputLog             `json:"log,omitempty" yaml:"log,omitempty"`
 }
 
 // NewOtelInputScope instantiates a new OtelInputScope object
@@ -169,6 +170,38 @@ func (o *OtelInputScope) SetSpan(v OtelInputSpan) {
 	o.Span = &v
 }
 
+// GetLog returns the Log field value if set, zero value otherwise.
+func (o *OtelInputScope) GetLog() OtelInputLog {
+	if o == nil || o.Log == nil {
+		var ret OtelInputLog
+		return ret
+	}
+	return *o.Log
+}
+
+// GetLogOk returns a tuple with the Log field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OtelInputScope) GetLogOk() (*OtelInputLog, bool) {
+	if o == nil || o.Log == nil {
+		return nil, false
+	}
+	return o.Log, true
+}
+
+// HasLog returns a boolean if a field has been set.
+func (o *OtelInputScope) HasLog() bool {
+	if o != nil && o.Log != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLog gets a reference to the given OtelInputLog and assigns it to the Log field.
+func (o *OtelInputScope) SetLog(v OtelInputLog) {
+	o.Log = &v
+}
+
 func (o OtelInputScope) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Condition != nil {
@@ -182,6 +215,9 @@ func (o OtelInputScope) MarshalJSON() ([]byte, error) {
 	}
 	if o.Span != nil {
 		toSerialize["span"] = o.Span
+	}
+	if o.Log != nil {
+		toSerialize["log"] = o.Log
 	}
 	return json.Marshal(toSerialize)
 }

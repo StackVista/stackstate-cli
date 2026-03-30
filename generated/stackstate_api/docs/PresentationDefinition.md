@@ -6,6 +6,8 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Icon** | Pointer to **string** |  | [optional] 
 **Overview** | Pointer to [**PresentationOverview**](PresentationOverview.md) |  | [optional] 
+**Highlight** | Pointer to [**PresentationHighlight**](PresentationHighlight.md) |  | [optional] 
+**Filters** | Pointer to [**[]ComponentPresentationFilter**](ComponentPresentationFilter.md) |  | [optional] 
 
 ## Methods
 
@@ -75,6 +77,56 @@ SetOverview sets Overview field to given value.
 `func (o *PresentationDefinition) HasOverview() bool`
 
 HasOverview returns a boolean if a field has been set.
+
+### GetHighlight
+
+`func (o *PresentationDefinition) GetHighlight() PresentationHighlight`
+
+GetHighlight returns the Highlight field if non-nil, zero value otherwise.
+
+### GetHighlightOk
+
+`func (o *PresentationDefinition) GetHighlightOk() (*PresentationHighlight, bool)`
+
+GetHighlightOk returns a tuple with the Highlight field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHighlight
+
+`func (o *PresentationDefinition) SetHighlight(v PresentationHighlight)`
+
+SetHighlight sets Highlight field to given value.
+
+### HasHighlight
+
+`func (o *PresentationDefinition) HasHighlight() bool`
+
+HasHighlight returns a boolean if a field has been set.
+
+### GetFilters
+
+`func (o *PresentationDefinition) GetFilters() []ComponentPresentationFilter`
+
+GetFilters returns the Filters field if non-nil, zero value otherwise.
+
+### GetFiltersOk
+
+`func (o *PresentationDefinition) GetFiltersOk() (*[]ComponentPresentationFilter, bool)`
+
+GetFiltersOk returns a tuple with the Filters field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFilters
+
+`func (o *PresentationDefinition) SetFilters(v []ComponentPresentationFilter)`
+
+SetFilters sets Filters field to given value.
+
+### HasFilters
+
+`func (o *PresentationDefinition) HasFilters() bool`
+
+HasFilters returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

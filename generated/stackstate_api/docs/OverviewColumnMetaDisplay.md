@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **DecimalPlaces** | Pointer to **NullableInt32** |  | [optional] 
 **ShowChart** | Pointer to **NullableBool** |  | [optional] 
 **Locked** | **bool** |  | 
+**MetricId** | Pointer to [**MetricBindingId**](MetricBindingId.md) |  | [optional] 
 **External** | **bool** |  | 
 
 ## Methods
@@ -174,6 +175,31 @@ and a boolean to check if the value has been set.
 
 SetLocked sets Locked field to given value.
 
+
+### GetMetricId
+
+`func (o *OverviewColumnMetaDisplay) GetMetricId() MetricBindingId`
+
+GetMetricId returns the MetricId field if non-nil, zero value otherwise.
+
+### GetMetricIdOk
+
+`func (o *OverviewColumnMetaDisplay) GetMetricIdOk() (*MetricBindingId, bool)`
+
+GetMetricIdOk returns a tuple with the MetricId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetricId
+
+`func (o *OverviewColumnMetaDisplay) SetMetricId(v MetricBindingId)`
+
+SetMetricId sets MetricId field to given value.
+
+### HasMetricId
+
+`func (o *OverviewColumnMetaDisplay) HasMetricId() bool`
+
+HasMetricId returns a boolean if a field has been set.
 
 ### GetExternal
 

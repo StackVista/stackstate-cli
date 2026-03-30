@@ -4,10 +4,11 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**DeleteComponentPresentationByIdentifier**](ComponentPresentationApi.md#DeleteComponentPresentationByIdentifier) | **Delete** /component-presentations/{identifier} | Delete a component presentation by Identifier
-[**GetComponentPresentationByIdentifier**](ComponentPresentationApi.md#GetComponentPresentationByIdentifier) | **Get** /component-presentations/{identifier} | Get a component presentation by Identifier
-[**GetComponentPresentations**](ComponentPresentationApi.md#GetComponentPresentations) | **Get** /component-presentations | List all component presentations
-[**UpsertComponentPresentations**](ComponentPresentationApi.md#UpsertComponentPresentations) | **Put** /component-presentations | Upserts (creates/updates) a component presentation
+[**DeleteComponentPresentationByIdentifier**](ComponentPresentationApi.md#DeleteComponentPresentationByIdentifier) | **Delete** /presentations/{identifier} | Delete a component presentation by Identifier
+[**GetComponentPresentationByIdentifier**](ComponentPresentationApi.md#GetComponentPresentationByIdentifier) | **Get** /presentations/{identifier} | Get a component presentation by Identifier
+[**GetComponentPresentations**](ComponentPresentationApi.md#GetComponentPresentations) | **Get** /presentations | List all component presentations
+[**GetPresentationFilters**](ComponentPresentationApi.md#GetPresentationFilters) | **Get** /presentations/{presentationOrViewUrn}/filters | Get resolved filters for a presentation
+[**UpsertComponentPresentations**](ComponentPresentationApi.md#UpsertComponentPresentations) | **Put** /presentations | Upserts (creates/updates) a component presentation
 
 
 
@@ -189,6 +190,76 @@ Other parameters are passed through a pointer to a apiGetComponentPresentationsR
 ### Return type
 
 [**[]ComponentPresentation**](ComponentPresentation.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetPresentationFilters
+
+> PresentationFiltersResponse GetPresentationFilters(ctx, presentationOrViewUrn).Execute()
+
+Get resolved filters for a presentation
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    presentationOrViewUrn := "presentationOrViewUrn_example" // string | A Component Presentation Identifier, legacy View (QueryView, ViewType) URNs are supported for backward compatibility
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ComponentPresentationApi.GetPresentationFilters(context.Background(), presentationOrViewUrn).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ComponentPresentationApi.GetPresentationFilters``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetPresentationFilters`: PresentationFiltersResponse
+    fmt.Fprintf(os.Stdout, "Response from `ComponentPresentationApi.GetPresentationFilters`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**presentationOrViewUrn** | **string** | A Component Presentation Identifier, legacy View (QueryView, ViewType) URNs are supported for backward compatibility | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetPresentationFiltersRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**PresentationFiltersResponse**](PresentationFiltersResponse.md)
 
 ### Authorization
 

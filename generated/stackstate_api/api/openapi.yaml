@@ -6486,7 +6486,7 @@ paths:
       required: true
       schema:
         type: string
-  /component-presentations:
+  /presentations:
     get:
       operationId: getComponentPresentations
       responses:
@@ -6545,7 +6545,7 @@ paths:
       summary: Upserts (creates/updates) a component presentation
       tags:
       - componentPresentation
-  /component-presentations/{identifier}:
+  /presentations/{identifier}:
     delete:
       operationId: deleteComponentPresentationByIdentifier
       parameters:
@@ -6711,6 +6711,61 @@ paths:
       summary: Get overview data for components
       tags:
       - overview
+  /presentations/{presentationOrViewUrn}/filters:
+    get:
+      description: |
+        Returns the effective filter definitions after applying merge semantics
+        across matching ComponentPresentations. The result reflects which filters
+        the frontend should render for the given presentation.
+      operationId: getPresentationFilters
+      parameters:
+      - description: "A Component Presentation Identifier, legacy View (QueryView,\
+          \ ViewType) URNs are supported for backward compatibility"
+        in: path
+        name: presentationOrViewUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PresentationFiltersResponse'
+          description: Resolved filter definitions
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Component Presentation with given identifier not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ComponentPresentationApiError'
+          description: Error when handling the request on the server side.
+      summary: Get resolved filters for a presentation
+      tags:
+      - componentPresentation
+    parameters:
+    - description: "A Component Presentation Identifier, legacy View (QueryView, ViewType)\
+        \ URNs are supported for backward compatibility"
+      in: path
+      name: presentationOrViewUrn
+      required: true
+      schema:
+        type: string
   /dummy/dummy:
     get:
       description: ""
@@ -14101,10 +14156,6 @@ components:
             showConfiguration: true
             showStatus: true
           showLogs: true
-          about:
-            fields:
-            - fields
-            - fields
           metrics:
           - bindings:
             - bindings
@@ -14118,19 +14169,6 @@ components:
             name: name
             description: description
             defaultExpanded: true
-          fields:
-          - valueExtractor: null
-            display: null
-            label:
-              helpBubbleText: helpBubbleText
-              title: title
-            fieldId: fieldId
-          - valueExtractor: null
-            display: null
-            label:
-              helpBubbleText: helpBubbleText
-              title: title
-            fieldId: fieldId
           events:
             showEvents: true
             relatedResourcesTemplate: relatedResourcesTemplate
@@ -14214,6 +14252,9 @@ components:
             scopeVersion:
             - scopeVersion
             - scopeVersion
+        fields:
+        - null
+        - null
         actions:
         - name: name
           description: description
@@ -14285,10 +14326,14 @@ components:
           type: string
         icon:
           type: string
+        fields:
+          items:
+            $ref: '#/components/schemas/ComponentField'
+          type: array
         data:
           $ref: '#/components/schemas/ComponentData'
         highlights:
-          $ref: '#/components/schemas/ComponentTypeHighlights'
+          $ref: '#/components/schemas/LegacyComponentHighlights'
         actions:
           items:
             $ref: '#/components/schemas/ComponentAction'
@@ -14303,7 +14348,75 @@ components:
       - actions
       - boundMetrics
       - data
+      - fields
       - typeName
+    ComponentField:
+      description: Display type and value for the field.
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ErrorField'
+      - $ref: '#/components/schemas/MetricField'
+      - $ref: '#/components/schemas/LinkField'
+      - $ref: '#/components/schemas/ComponentLinkField'
+      - $ref: '#/components/schemas/HealthField'
+      - $ref: '#/components/schemas/TextField'
+      - $ref: '#/components/schemas/NumericField'
+      - $ref: '#/components/schemas/DurationField'
+      - $ref: '#/components/schemas/RatioField'
+      - $ref: '#/components/schemas/MapField'
+    ErrorField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/ErrorField_allOf'
+    BaseComponentField:
+      properties:
+        fieldId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+      required:
+      - fieldId
+      - title
+      type: object
+    MetricField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/MetricField_allOf'
+    LinkField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/LinkField_allOf'
+    ComponentLinkField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/ComponentLinkField_allOf'
+    HealthField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/HealthField_allOf'
+    TextField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/TextField_allOf'
+    NumericField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/NumericField_allOf'
+    DurationField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/DurationField_allOf'
+    RatioField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/RatioField_allOf'
+    MapField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/MapField_allOf'
     ComponentData:
       example:
         lastUpdateTimestamp: 6
@@ -14426,6 +14539,69 @@ components:
       - identifiers
       - sourceProperties
       - syncName
+    LegacyComponentHighlights:
+      example:
+        showLastChange: true
+        namePlural: namePlural
+        externalComponent:
+          externalIdSelector: externalIdSelector
+          showConfiguration: true
+          showStatus: true
+        showLogs: true
+        metrics:
+        - bindings:
+          - bindings
+          - bindings
+          name: name
+          description: description
+          defaultExpanded: true
+        - bindings:
+          - bindings
+          - bindings
+          name: name
+          description: description
+          defaultExpanded: true
+        events:
+          showEvents: true
+          relatedResourcesTemplate: relatedResourcesTemplate
+        relatedResources:
+        - hint: hint
+          stql: stql
+          title: title
+          viewTypeIdentifier: viewTypeIdentifier
+          resourceType: resourceType
+        - hint: hint
+          stql: stql
+          title: title
+          viewTypeIdentifier: viewTypeIdentifier
+          resourceType: resourceType
+      properties:
+        namePlural:
+          type: string
+        events:
+          $ref: '#/components/schemas/ComponentTypeEvents'
+        showLogs:
+          type: boolean
+        showLastChange:
+          type: boolean
+        externalComponent:
+          $ref: '#/components/schemas/ComponentTypeExternalComponent'
+        relatedResources:
+          items:
+            $ref: '#/components/schemas/ComponentTypeRelatedResources'
+          type: array
+        metrics:
+          items:
+            $ref: '#/components/schemas/ComponentHighlightMetrics'
+          type: array
+      required:
+      - events
+      - externalComponent
+      - metrics
+      - namePlural
+      - relatedResources
+      - showLastChange
+      - showLogs
     ComponentAction:
       example:
         name: name
@@ -14805,10 +14981,6 @@ components:
               showConfiguration: true
               showStatus: true
             showLogs: true
-            about:
-              fields:
-              - fields
-              - fields
             metrics:
             - bindings:
               - bindings
@@ -14822,19 +14994,6 @@ components:
               name: name
               description: description
               defaultExpanded: true
-            fields:
-            - valueExtractor: null
-              display: null
-              label:
-                helpBubbleText: helpBubbleText
-                title: title
-              fieldId: fieldId
-            - valueExtractor: null
-              display: null
-              label:
-                helpBubbleText: helpBubbleText
-                title: title
-              fieldId: fieldId
             events:
               showEvents: true
               relatedResourcesTemplate: relatedResourcesTemplate
@@ -14918,6 +15077,9 @@ components:
               scopeVersion:
               - scopeVersion
               - scopeVersion
+          fields:
+          - null
+          - null
           actions:
           - name: name
             description: description
@@ -14993,10 +15155,6 @@ components:
               showConfiguration: true
               showStatus: true
             showLogs: true
-            about:
-              fields:
-              - fields
-              - fields
             metrics:
             - bindings:
               - bindings
@@ -15010,19 +15168,6 @@ components:
               name: name
               description: description
               defaultExpanded: true
-            fields:
-            - valueExtractor: null
-              display: null
-              label:
-                helpBubbleText: helpBubbleText
-                title: title
-              fieldId: fieldId
-            - valueExtractor: null
-              display: null
-              label:
-                helpBubbleText: helpBubbleText
-                title: title
-              fieldId: fieldId
             events:
               showEvents: true
               relatedResourcesTemplate: relatedResourcesTemplate
@@ -15106,6 +15251,9 @@ components:
               scopeVersion:
               - scopeVersion
               - scopeVersion
+          fields:
+          - null
+          - null
           actions:
           - name: name
             description: description
@@ -16223,6 +16371,9 @@ components:
                 condition: condition
                 action: null
               action: null
+            log:
+              condition: condition
+              action: null
             action: null
             span:
               condition: condition
@@ -16259,7 +16410,9 @@ components:
         \ `span.statusCode`, `span.attributes`\n\n  • **METRICS**\n  Provides access\
         \ to:\n    - `resource.attributes`\n    - `scope.name`, `scope.version`, `scope.attributes`\n\
         \    - `metric.name`, `metric.description`, `metric.unit`\n    - `datapoint.attributes`\n\
-        \n  • **LOGS**\n  Not yet supported.\n\nFor example, if the signal is `METRICS`,\
+        \n  • **LOGS**\n  Provides access to:\n    - `resource.attributes`\n    -\
+        \ `scope.name`, `scope.version`, `scope.attributes`\n    - `log.eventName`,\
+        \ `log.attributes`, `log.body`\n\nFor example, if the signal is `METRICS`,\
         \ expressions may reference:\n`resource.attributes[\"service.name\"]`, `scope.attributes[\"\
         env\"]`,\n`metric.name`, or `datapoint.attributes[\"status\"]`."
       enum:
@@ -16279,6 +16432,9 @@ components:
             datapoint:
               condition: condition
               action: null
+            action: null
+          log:
+            condition: condition
             action: null
           action: null
           span:
@@ -16313,6 +16469,9 @@ components:
             condition: condition
             action: null
           action: null
+        log:
+          condition: condition
+          action: null
         action: null
         span:
           condition: condition
@@ -16327,6 +16486,8 @@ components:
           $ref: '#/components/schemas/OtelInputMetric'
         span:
           $ref: '#/components/schemas/OtelInputSpan'
+        log:
+          $ref: '#/components/schemas/OtelInputLog'
       type: object
     OtelInputMetric:
       description: "Defines conditional mapping at the resource -> scope -> metric\
@@ -16374,6 +16535,19 @@ components:
         action:
           $ref: '#/components/schemas/OtelInputConditionAction'
       type: object
+    OtelInputLog:
+      description: "Defines conditional mapping at the resource -> scope -> log level.\n\
+        If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`."
+      example:
+        condition: condition
+        action: null
+      properties:
+        condition:
+          description: A Cel expression that must return a boolean
+          type: string
+        action:
+          $ref: '#/components/schemas/OtelInputConditionAction'
+      type: object
     OtelComponentMappingOutput:
       example:
         identifier: identifier
@@ -16384,6 +16558,7 @@ components:
         typeIdentifier: typeIdentifier
         layerIdentifier: layerIdentifier
         optional:
+          configuration: configuration
           additionalIdentifiers:
           - null
           - null
@@ -16395,8 +16570,10 @@ components:
           - pattern: pattern
             source: source
             target: target
+          status: status
         layerName: layerName
         required:
+          configuration: configuration
           additionalIdentifiers:
           - null
           - null
@@ -16408,6 +16585,7 @@ components:
           - pattern: pattern
             source: source
             target: target
+          status: status
       properties:
         identifier:
           description: "An expression that must produce a string. It must be one of\
@@ -16503,6 +16681,7 @@ components:
       type: string
     OtelComponentMappingFieldMapping:
       example:
+        configuration: configuration
         additionalIdentifiers:
         - null
         - null
@@ -16514,6 +16693,7 @@ components:
         - pattern: pattern
           source: source
           target: target
+        status: status
       properties:
         additionalIdentifiers:
           items:
@@ -16532,6 +16712,22 @@ components:
           items:
             $ref: '#/components/schemas/OtelTagMapping'
           type: array
+        configuration:
+          description: "An expression that can produce any type. It uses the CEL expression\
+            \ within curly braces `${}` syntax.\nVariables use it to store any type\
+            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
+            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
+            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+            \ like this: `vars.inTestNamespace`."
+          type: string
+        status:
+          description: "An expression that can produce any type. It uses the CEL expression\
+            \ within curly braces `${}` syntax.\nVariables use it to store any type\
+            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
+            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
+            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+            \ like this: `vars.inTestNamespace`."
+          type: string
       type: object
     OtelTagMapping:
       description: "Defines how a tag should be mapped from an input source to an\
@@ -16598,6 +16794,7 @@ components:
           typeIdentifier: typeIdentifier
           layerIdentifier: layerIdentifier
           optional:
+            configuration: configuration
             additionalIdentifiers:
             - null
             - null
@@ -16609,8 +16806,10 @@ components:
             - pattern: pattern
               source: source
               target: target
+            status: status
           layerName: layerName
           required:
+            configuration: configuration
             additionalIdentifiers:
             - null
             - null
@@ -16622,6 +16821,7 @@ components:
             - pattern: pattern
               source: source
               target: target
+            status: status
         identifier: identifier
         input:
           resource:
@@ -16633,6 +16833,9 @@ components:
                 datapoint:
                   condition: condition
                   action: null
+                action: null
+              log:
+                condition: condition
                 action: null
               action: null
               span:
@@ -16839,6 +17042,9 @@ components:
                   condition: condition
                   action: null
                 action: null
+              log:
+                condition: condition
+                action: null
               action: null
               span:
                 condition: condition
@@ -16906,7 +17112,33 @@ components:
               plural: plural
               singular: singular
               title: title
+          highlight:
+            title: title
+            fields:
+            - description: description
+              projection: null
+              title: title
+              fieldId: fieldId
+              order: 5.962133916683182
+            - description: description
+              projection: null
+              title: title
+              fieldId: fieldId
+              order: 5.962133916683182
           icon: icon
+          filters:
+          - filterId: filterId
+            filter: null
+            menuSection: menuSection
+            displayName:
+              plural: plural
+              singular: singular
+          - filterId: filterId
+            filter: null
+            menuSection: menuSection
+            displayName:
+              plural: plural
+              singular: singular
         identifier: identifier
         name: name
         description: description
@@ -17206,7 +17438,7 @@ components:
       discriminator:
         propertyName: _type
       oneOf:
-      - $ref: '#/components/schemas/MetricChartMetaDisplay'
+      - $ref: '#/components/schemas/MetricMetaDisplay'
       - $ref: '#/components/schemas/ComponentLinkMetaDisplay'
       - $ref: '#/components/schemas/HealthMetaDisplay'
       - $ref: '#/components/schemas/TextMetaDisplay'
@@ -17214,11 +17446,11 @@ components:
       - $ref: '#/components/schemas/DurationMetaDisplay'
       - $ref: '#/components/schemas/ReadyStatusMetaDisplay'
       - $ref: '#/components/schemas/LinkMetaDisplay'
-    MetricChartMetaDisplay:
+    MetricMetaDisplay:
       properties:
         _type:
           enum:
-          - MetricChartMetaDisplay
+          - MetricMetaDisplay
           type: string
         unit:
           nullable: true
@@ -17231,9 +17463,18 @@ components:
           type: boolean
         locked:
           type: boolean
+        metricId:
+          $ref: '#/components/schemas/MetricBindingId'
       required:
       - _type
       - locked
+      type: object
+    MetricBindingId:
+      properties:
+        identifier:
+          type: string
+      required:
+      - identifier
       type: object
     ComponentLinkMetaDisplay:
       properties:
@@ -17670,6 +17911,61 @@ components:
     PresentationOrViewIdentifier:
       pattern: ^urn.*$
       type: string
+    PresentationFiltersResponse:
+      example:
+        menuSection: menuSection
+        filters:
+        - null
+        - null
+      properties:
+        filters:
+          description: "Presentation filters in display order. Earlier items are primary\
+            \ (filter bar),\nlater items are secondary (\"More\" section).\n"
+          items:
+            $ref: '#/components/schemas/PresentationFilter'
+          type: array
+        menuSection:
+          description: Label for the section within "More" tab when secondary filters
+            are present.
+          type: string
+      required:
+      - filters
+      - menuSection
+      type: object
+    PresentationFilter:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/PresentationTagFilter'
+    PresentationTagFilter:
+      properties:
+        _type:
+          enum:
+          - PresentationTagFilter
+          type: string
+        filterId:
+          type: string
+        displayName:
+          $ref: '#/components/schemas/PresentationFilterName'
+        tagKey:
+          description: Tag key to use for filtering.
+          type: string
+      required:
+      - _type
+      - displayName
+      - filterId
+      - tagKey
+      type: object
+    PresentationFilterName:
+      properties:
+        singular:
+          type: string
+        plural:
+          type: string
+      required:
+      - plural
+      - singular
+      type: object
     Argument:
       discriminator:
         propertyName: _type
@@ -18243,347 +18539,6 @@ components:
       - offsetNanos
       - timestamp
       type: object
-    ComponentTypeHighlights:
-      example:
-        showLastChange: true
-        namePlural: namePlural
-        externalComponent:
-          externalIdSelector: externalIdSelector
-          showConfiguration: true
-          showStatus: true
-        showLogs: true
-        about:
-          fields:
-          - fields
-          - fields
-        metrics:
-        - bindings:
-          - bindings
-          - bindings
-          name: name
-          description: description
-          defaultExpanded: true
-        - bindings:
-          - bindings
-          - bindings
-          name: name
-          description: description
-          defaultExpanded: true
-        fields:
-        - valueExtractor: null
-          display: null
-          label:
-            helpBubbleText: helpBubbleText
-            title: title
-          fieldId: fieldId
-        - valueExtractor: null
-          display: null
-          label:
-            helpBubbleText: helpBubbleText
-            title: title
-          fieldId: fieldId
-        events:
-          showEvents: true
-          relatedResourcesTemplate: relatedResourcesTemplate
-        relatedResources:
-        - hint: hint
-          stql: stql
-          title: title
-          viewTypeIdentifier: viewTypeIdentifier
-          resourceType: resourceType
-        - hint: hint
-          stql: stql
-          title: title
-          viewTypeIdentifier: viewTypeIdentifier
-          resourceType: resourceType
-      properties:
-        namePlural:
-          type: string
-        fields:
-          items:
-            $ref: '#/components/schemas/ComponentTypeField'
-          type: array
-        about:
-          $ref: '#/components/schemas/ComponentTypeAbout'
-        events:
-          $ref: '#/components/schemas/ComponentTypeEvents'
-        showLogs:
-          type: boolean
-        showLastChange:
-          type: boolean
-        externalComponent:
-          $ref: '#/components/schemas/ComponentTypeExternalComponent'
-        relatedResources:
-          items:
-            $ref: '#/components/schemas/ComponentTypeRelatedResources'
-          type: array
-        metrics:
-          items:
-            $ref: '#/components/schemas/ComponentHighlightMetrics'
-          type: array
-      required:
-      - about
-      - events
-      - externalComponent
-      - fields
-      - metrics
-      - namePlural
-      - relatedResources
-      - showLastChange
-      - showLogs
-    ComponentTypeField:
-      example:
-        valueExtractor: null
-        display: null
-        label:
-          helpBubbleText: helpBubbleText
-          title: title
-        fieldId: fieldId
-      properties:
-        fieldId:
-          type: string
-        label:
-          $ref: '#/components/schemas/ComponentTypeLabel'
-        valueExtractor:
-          $ref: '#/components/schemas/ComponentTypeValueExtractor'
-        display:
-          $ref: '#/components/schemas/ComponentTypeFieldDisplay'
-      required:
-      - display
-      - fieldId
-      - label
-      - valueExtractor
-    ComponentTypeLabel:
-      example:
-        helpBubbleText: helpBubbleText
-        title: title
-      properties:
-        title:
-          type: string
-        helpBubbleText:
-          type: string
-      required:
-      - title
-    ComponentTypeValueExtractor:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/ComponentTypeSource'
-      - $ref: '#/components/schemas/CompositeSource'
-      - $ref: '#/components/schemas/ConstantSource'
-      - $ref: '#/components/schemas/HealthSource'
-      - $ref: '#/components/schemas/IdentifiersSource'
-      - $ref: '#/components/schemas/LastUpdatedTimestampSource'
-      - $ref: '#/components/schemas/NameSource'
-      - $ref: '#/components/schemas/PropertySource'
-      - $ref: '#/components/schemas/TagSource'
-      - $ref: '#/components/schemas/TagsSource'
-    ComponentTypeSource:
-      properties:
-        _type:
-          enum:
-          - ComponentTypeSource
-          type: string
-      required:
-      - _type
-    CompositeSource:
-      properties:
-        _type:
-          enum:
-          - CompositeSource
-          type: string
-        sources:
-          additionalProperties:
-            $ref: '#/components/schemas/ComponentTypeValueExtractor'
-          type: object
-      required:
-      - _type
-      - sources
-    ConstantSource:
-      properties:
-        _type:
-          enum:
-          - ConstantSource
-          type: string
-        value:
-          type: string
-      required:
-      - _type
-      - value
-    HealthSource:
-      properties:
-        _type:
-          enum:
-          - HealthSource
-          type: string
-      required:
-      - _type
-    IdentifiersSource:
-      properties:
-        _type:
-          enum:
-          - IdentifiersSource
-          type: string
-      required:
-      - _type
-    LastUpdatedTimestampSource:
-      properties:
-        _type:
-          enum:
-          - LastUpdatedTimestampSource
-          type: string
-      required:
-      - _type
-    NameSource:
-      properties:
-        _type:
-          enum:
-          - NameSource
-          type: string
-      required:
-      - _type
-    PropertySource:
-      properties:
-        _type:
-          enum:
-          - PropertySource
-          type: string
-        key:
-          type: string
-        defaultValue:
-          type: string
-      required:
-      - _type
-      - key
-    TagSource:
-      properties:
-        _type:
-          enum:
-          - TagSource
-          type: string
-        tagName:
-          type: string
-      required:
-      - _type
-      - tagName
-    TagsSource:
-      properties:
-        _type:
-          enum:
-          - TagsSource
-          type: string
-      required:
-      - _type
-    ComponentTypeFieldDisplay:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/ComponentLinkDisplay'
-      - $ref: '#/components/schemas/DurationDisplay'
-      - $ref: '#/components/schemas/HealthBadgeDisplay'
-      - $ref: '#/components/schemas/HealthCircleDisplay'
-      - $ref: '#/components/schemas/PromqlDisplay'
-      - $ref: '#/components/schemas/RatioDisplay'
-      - $ref: '#/components/schemas/ReadyStatusDisplay'
-      - $ref: '#/components/schemas/TagDisplay'
-      - $ref: '#/components/schemas/TextDisplay'
-      - $ref: '#/components/schemas/ViewTimeLink'
-      required:
-      - _type
-    ComponentLinkDisplay:
-      properties:
-        _type:
-          enum:
-          - ComponentLinkDisplay
-          type: string
-      required:
-      - _type
-    DurationDisplay:
-      properties:
-        _type:
-          enum:
-          - DurationDisplay
-          type: string
-      required:
-      - _type
-    HealthBadgeDisplay:
-      properties:
-        _type:
-          enum:
-          - HealthBadgeDisplay
-          type: string
-      required:
-      - _type
-    HealthCircleDisplay:
-      properties:
-        _type:
-          enum:
-          - HealthCircleDisplay
-          type: string
-      required:
-      - _type
-    PromqlDisplay:
-      properties:
-        _type:
-          enum:
-          - PromqlDisplay
-          type: string
-      required:
-      - _type
-    RatioDisplay:
-      properties:
-        _type:
-          enum:
-          - RatioDisplay
-          type: string
-      required:
-      - _type
-    ReadyStatusDisplay:
-      properties:
-        _type:
-          enum:
-          - RatioDisplay
-          type: string
-      required:
-      - _type
-    TagDisplay:
-      properties:
-        _type:
-          enum:
-          - TagDisplay
-          type: string
-        singular:
-          type: string
-      required:
-      - _type
-    TextDisplay:
-      properties:
-        _type:
-          enum:
-          - TextDisplay
-          type: string
-      required:
-      - _type
-    ViewTimeLink:
-      properties:
-        _type:
-          enum:
-          - ViewTimeLink
-          type: string
-      required:
-      - _type
-    ComponentTypeAbout:
-      example:
-        fields:
-        - fields
-        - fields
-      properties:
-        fields:
-          items:
-            type: string
-          type: array
-      required:
-      - fields
     ComponentTypeEvents:
       example:
         showEvents: true
@@ -19362,6 +19317,10 @@ components:
       - specificity
       type: object
     PresentationDefinition:
+      description: "Component presentation definition.\nIf multiple ComponentPresentations\
+        \ match, `filters` are merged by filter identity with the most specific presentation\
+        \ winning.\nAbsence of the field keeps legacy behavior (for example, ViewType-based\
+        \ filters) unchanged.\n"
       example:
         overview:
           fixedColumns: 1
@@ -19380,12 +19339,44 @@ components:
             plural: plural
             singular: singular
             title: title
+        highlight:
+          title: title
+          fields:
+          - description: description
+            projection: null
+            title: title
+            fieldId: fieldId
+            order: 5.962133916683182
+          - description: description
+            projection: null
+            title: title
+            fieldId: fieldId
+            order: 5.962133916683182
         icon: icon
+        filters:
+        - filterId: filterId
+          filter: null
+          menuSection: menuSection
+          displayName:
+            plural: plural
+            singular: singular
+        - filterId: filterId
+          filter: null
+          menuSection: menuSection
+          displayName:
+            plural: plural
+            singular: singular
       properties:
         icon:
           type: string
         overview:
           $ref: '#/components/schemas/PresentationOverview'
+        highlight:
+          $ref: '#/components/schemas/PresentationHighlight'
+        filters:
+          items:
+            $ref: '#/components/schemas/ComponentPresentationFilter'
+          type: array
       type: object
     PresentationOverview:
       description: "Overview presentation definition. The `columns` field defines\
@@ -19424,7 +19415,6 @@ components:
       required:
       - columns
       - name
-      - title
       type: object
     PresentationName:
       example:
@@ -19475,28 +19465,42 @@ components:
         title:
           type: string
         projection:
-          $ref: '#/components/schemas/OverviewColumnProjection'
+          $ref: '#/components/schemas/ComponentOverviewProjection'
       required:
       - columnId
       type: object
-    OverviewColumnProjection:
-      description: Display type and value for the column.
+    ComponentOverviewProjection:
+      description: Display type and value for the field.
       discriminator:
         propertyName: _type
       oneOf:
-      - $ref: '#/components/schemas/MetricChartProjection'
-      - $ref: '#/components/schemas/ComponentLinkProjection'
       - $ref: '#/components/schemas/HealthProjection'
+      - $ref: '#/components/schemas/MetricProjection'
+      - $ref: '#/components/schemas/ComponentLinkProjection'
       - $ref: '#/components/schemas/TextProjection'
       - $ref: '#/components/schemas/NumericProjection'
       - $ref: '#/components/schemas/DurationProjection'
-      - $ref: '#/components/schemas/ReadyStatusProjection'
+      - $ref: '#/components/schemas/RatioProjection'
       - $ref: '#/components/schemas/ContainerImageProjection'
-    MetricChartProjection:
+    HealthProjection:
       properties:
         _type:
           enum:
-          - MetricChartProjection
+          - HealthProjection
+          type: string
+        value:
+          description: Cel expression that returns a string that represents a valid
+            HealthState
+          type: string
+      required:
+      - _type
+      - value
+      type: object
+    MetricProjection:
+      properties:
+        _type:
+          enum:
+          - MetricProjection
           type: string
         showChart:
           type: boolean
@@ -19522,28 +19526,14 @@ components:
           description: Cel expression that returns a string that represents the name
             of the component to link to
           type: string
-        componentIdentifier:
-          description: Cel expression that returns a string that represents the componentIdentifier
+        identifier:
+          description: Cel expression that returns a string that represents the identifier
             in order to build the link
           type: string
       required:
       - _type
-      - componentIdentifier
+      - identifier
       - name
-      type: object
-    HealthProjection:
-      properties:
-        _type:
-          enum:
-          - HealthProjection
-          type: string
-        value:
-          description: Cel expression that returns a string that represents a valid
-            HealthState
-          type: string
-      required:
-      - _type
-      - value
       type: object
     TextProjection:
       properties:
@@ -19554,6 +19544,10 @@ components:
         value:
           description: Cel expression that returns a string
           type: string
+        asTag:
+          default: false
+          description: Should the value be rendered as a tag or as plain text
+          type: boolean
       required:
       - _type
       - value
@@ -19582,38 +19576,37 @@ components:
           enum:
           - DurationProjection
           type: string
-        startDate:
-          description: Cel expression that returns a date
+        startTime:
+          description: Cel expression that returns an ISO8601 formatted timestamp
           type: string
-        endDate:
-          description: Cel expression that returns a date
+        endTime:
+          description: Cel expression that returns an ISO8601 formatted timestamp
           type: string
       required:
       - _type
-      - startDate
+      - startTime
       type: object
-    ReadyStatusProjection:
-      description: Helps rendering columns as Ready containers for K8s pods or Completions
-        for K8s jobs
+    RatioProjection:
+      description: Helps rendering columns that summarize success rates
       properties:
         _type:
           enum:
-          - ReadyStatusProjection
+          - RatioProjection
           type: string
-        readyNumber:
+        numerator:
           description: Cel expression that returns a number
           type: string
-        totalNumber:
+        denominator:
           description: Cel expression that returns a number
           type: string
-        readyStatus:
+        status:
           description: Cel expression that returns a string that represents a valid
             HealthState
           type: string
       required:
       - _type
-      - readyNumber
-      - totalNumber
+      - denominator
+      - numerator
       type: object
     ContainerImageProjection:
       description: Helps rendering links for docker images
@@ -19632,6 +19625,158 @@ components:
       - _type
       - imageId
       - imageName
+      type: object
+    PresentationHighlight:
+      description: "Highlight presentation definition. The `fields` define the fields\
+        \ to show in the ab. The `flags` field can be used to enable/disable functionalities.\n\
+        If multiple ComponentPresentations match, columns are merged by `columnId`\
+        \ according to binding rank. Absence of the field means no overview is shown.\n"
+      example:
+        title: title
+        fields:
+        - description: description
+          projection: null
+          title: title
+          fieldId: fieldId
+          order: 5.962133916683182
+        - description: description
+          projection: null
+          title: title
+          fieldId: fieldId
+          order: 5.962133916683182
+      properties:
+        title:
+          type: string
+        fields:
+          items:
+            $ref: '#/components/schemas/PresentationHighlightField'
+          type: array
+      required:
+      - fields
+      - title
+      type: object
+    PresentationHighlightField:
+      description: Definition of a field in the highlight presentation. The `fieldId`
+        field is used to identify the field and merge fields from different presentations.
+      example:
+        description: description
+        projection: null
+        title: title
+        fieldId: fieldId
+        order: 5.962133916683182
+      properties:
+        fieldId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        order:
+          format: double
+          type: number
+        projection:
+          $ref: '#/components/schemas/ComponentHighlightProjection'
+      required:
+      - fieldId
+      - order
+      - title
+      type: object
+    ComponentHighlightProjection:
+      description: Display type and value for the field.
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/HealthProjection'
+      - $ref: '#/components/schemas/MetricProjection'
+      - $ref: '#/components/schemas/ComponentLinkProjection'
+      - $ref: '#/components/schemas/TextProjection'
+      - $ref: '#/components/schemas/NumericProjection'
+      - $ref: '#/components/schemas/DurationProjection'
+      - $ref: '#/components/schemas/RatioProjection'
+      - $ref: '#/components/schemas/ContainerImageProjection'
+      - $ref: '#/components/schemas/MapProjection'
+    MapProjection:
+      properties:
+        _type:
+          enum:
+          - MapProjection
+          type: string
+        value:
+          description: "Cel expression that returns a map<string,dyn>"
+          type: string
+        asTags:
+          default: true
+          type: boolean
+      required:
+      - _type
+      - value
+      type: object
+    ComponentPresentationFilter:
+      description: "Filter definition for ComponentPresentation.\nWhen only `filterId`\
+        \ is provided, the filter references a definition from a less specific presentation.\n\
+        Merge semantics for matching ComponentPresentations:\n1) The most specific\
+        \ matching ComponentPresentation's filter list determines which `filterId`s\
+        \ are active.\n   Only filters whose `filterId` appears in that list are rendered.\n\
+        2) For each active `filterId`, scalar fields (`displayName`, `menuSection`,\
+        \ `filter`, etc.) are resolved by\n   falling back through less specific presentations\
+        \ that define the same `filterId`, most specific value wins.\n3) Array position\
+        \ determines display order: earlier items are primary (filter bar),\n   later\
+        \ items are secondary (\"More\" section).\n"
+      example:
+        filterId: filterId
+        filter: null
+        menuSection: menuSection
+        displayName:
+          plural: plural
+          singular: singular
+      properties:
+        filterId:
+          description: |
+            Stable identity used for deduplication and cross-stackpack compatibility.
+          type: string
+        displayName:
+          $ref: '#/components/schemas/FilterName'
+        menuSection:
+          description: |
+            Label to group filters in the UI.
+          type: string
+        filter:
+          $ref: '#/components/schemas/ComponentPresentationFilterDefinition'
+      required:
+      - filterId
+      type: object
+    FilterName:
+      example:
+        plural: plural
+        singular: singular
+      properties:
+        singular:
+          type: string
+        plural:
+          type: string
+      required:
+      - plural
+      - singular
+      type: object
+    ComponentPresentationFilterDefinition:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TagFilter'
+    TagFilter:
+      description: |
+        Tag-based filter. Uses indexed tags via `tagKey`.
+      properties:
+        _type:
+          enum:
+          - TagFilter
+          type: string
+        tagKey:
+          description: Tag key used for filtering and value lookup.
+          type: string
+      required:
+      - _type
+      - tagKey
       type: object
     upsertOtelComponentMappings_request:
       properties:
@@ -19868,6 +20013,163 @@ components:
           type: string
       required:
       - _type
+      type: object
+    ErrorField_allOf:
+      properties:
+        _type:
+          enum:
+          - ErrorField
+          type: string
+        message:
+          type: string
+      required:
+      - _type
+      - message
+      type: object
+    MetricField_allOf:
+      properties:
+        _type:
+          enum:
+          - MetricField
+          type: string
+        query:
+          description: The frontend can use the query to refresh the metrics (at interval).
+            Allows to keep the current behaviour of making individual calls for each
+            row.
+          type: string
+        unit:
+          type: string
+        decimalPlaces:
+          type: integer
+      required:
+      - _type
+      - query
+      type: object
+    LinkField_allOf:
+      properties:
+        _type:
+          enum:
+          - LinkField
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+      required:
+      - _type
+      - name
+      - url
+      type: object
+    ComponentLinkField_allOf:
+      properties:
+        _type:
+          enum:
+          - ComponentLinkField
+          type: string
+        name:
+          type: string
+        identifier:
+          type: string
+      required:
+      - _type
+      - identifier
+      - name
+      type: object
+    HealthField_allOf:
+      properties:
+        _type:
+          enum:
+          - HealthField
+          type: string
+        state:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - _type
+      - state
+      type: object
+    TextField_allOf:
+      properties:
+        _type:
+          enum:
+          - TextField
+          type: string
+        value:
+          type: string
+        asTag:
+          default: false
+          type: boolean
+      required:
+      - _type
+      - asTag
+      - value
+      type: object
+    NumericField_allOf:
+      properties:
+        _type:
+          enum:
+          - NumericField
+          type: string
+        value:
+          type: number
+        unit:
+          type: string
+        decimalPlaces:
+          type: integer
+      required:
+      - _type
+      - value
+      type: object
+    DurationField_allOf:
+      properties:
+        _type:
+          enum:
+          - DurationField
+          type: string
+        startTime:
+          format: instant
+          type: integer
+        endTime:
+          format: instant
+          nullable: true
+          type: integer
+      required:
+      - _type
+      - startTime
+      type: object
+    RatioField_allOf:
+      properties:
+        _type:
+          enum:
+          - RatioField
+          type: string
+        numerator:
+          type: number
+        denominator:
+          type: number
+        status:
+          $ref: '#/components/schemas/HealthStateValue'
+      required:
+      - _type
+      - denominator
+      - numerator
+      type: object
+    MapField_allOf:
+      properties:
+        _type:
+          enum:
+          - MapField
+          type: string
+        values:
+          additionalProperties:
+            type: string
+          type: object
+        asTag:
+          default: false
+          type: boolean
+      required:
+      - _type
+      - asTag
+      - values
       type: object
     TimelineSummaryRequest_arguments:
       discriminator:

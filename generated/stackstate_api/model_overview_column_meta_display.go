@@ -22,7 +22,7 @@ type OverviewColumnMetaDisplay struct {
 	DurationMetaDisplay      *DurationMetaDisplay
 	HealthMetaDisplay        *HealthMetaDisplay
 	LinkMetaDisplay          *LinkMetaDisplay
-	MetricChartMetaDisplay   *MetricChartMetaDisplay
+	MetricMetaDisplay        *MetricMetaDisplay
 	NumericMetaDisplay       *NumericMetaDisplay
 	ReadyStatusMetaDisplay   *ReadyStatusMetaDisplay
 	TextMetaDisplay          *TextMetaDisplay
@@ -56,10 +56,10 @@ func LinkMetaDisplayAsOverviewColumnMetaDisplay(v *LinkMetaDisplay) OverviewColu
 	}
 }
 
-// MetricChartMetaDisplayAsOverviewColumnMetaDisplay is a convenience function that returns MetricChartMetaDisplay wrapped in OverviewColumnMetaDisplay
-func MetricChartMetaDisplayAsOverviewColumnMetaDisplay(v *MetricChartMetaDisplay) OverviewColumnMetaDisplay {
+// MetricMetaDisplayAsOverviewColumnMetaDisplay is a convenience function that returns MetricMetaDisplay wrapped in OverviewColumnMetaDisplay
+func MetricMetaDisplayAsOverviewColumnMetaDisplay(v *MetricMetaDisplay) OverviewColumnMetaDisplay {
 	return OverviewColumnMetaDisplay{
-		MetricChartMetaDisplay: v,
+		MetricMetaDisplay: v,
 	}
 }
 
@@ -142,15 +142,15 @@ func (dst *OverviewColumnMetaDisplay) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// check if the discriminator value is 'MetricChartMetaDisplay'
-	if jsonDict["_type"] == "MetricChartMetaDisplay" {
-		// try to unmarshal JSON data into MetricChartMetaDisplay
-		err = json.Unmarshal(data, &dst.MetricChartMetaDisplay)
+	// check if the discriminator value is 'MetricMetaDisplay'
+	if jsonDict["_type"] == "MetricMetaDisplay" {
+		// try to unmarshal JSON data into MetricMetaDisplay
+		err = json.Unmarshal(data, &dst.MetricMetaDisplay)
 		if err == nil {
-			return nil // data stored in dst.MetricChartMetaDisplay, return on the first match
+			return nil // data stored in dst.MetricMetaDisplay, return on the first match
 		} else {
-			dst.MetricChartMetaDisplay = nil
-			return fmt.Errorf("Failed to unmarshal OverviewColumnMetaDisplay as MetricChartMetaDisplay: %s", err.Error())
+			dst.MetricMetaDisplay = nil
+			return fmt.Errorf("Failed to unmarshal OverviewColumnMetaDisplay as MetricMetaDisplay: %s", err.Error())
 		}
 	}
 
@@ -211,8 +211,8 @@ func (src OverviewColumnMetaDisplay) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.LinkMetaDisplay)
 	}
 
-	if src.MetricChartMetaDisplay != nil {
-		return json.Marshal(&src.MetricChartMetaDisplay)
+	if src.MetricMetaDisplay != nil {
+		return json.Marshal(&src.MetricMetaDisplay)
 	}
 
 	if src.NumericMetaDisplay != nil {
@@ -251,8 +251,8 @@ func (obj *OverviewColumnMetaDisplay) GetActualInstance() interface{} {
 		return obj.LinkMetaDisplay
 	}
 
-	if obj.MetricChartMetaDisplay != nil {
-		return obj.MetricChartMetaDisplay
+	if obj.MetricMetaDisplay != nil {
+		return obj.MetricMetaDisplay
 	}
 
 	if obj.NumericMetaDisplay != nil {

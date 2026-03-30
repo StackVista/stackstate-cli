@@ -6,8 +6,9 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TypeName** | **string** |  | 
 **Icon** | Pointer to **string** |  | [optional] 
+**Fields** | [**[]ComponentField**](ComponentField.md) |  | 
 **Data** | [**ComponentData**](ComponentData.md) |  | 
-**Highlights** | Pointer to [**ComponentTypeHighlights**](ComponentTypeHighlights.md) |  | [optional] 
+**Highlights** | Pointer to [**LegacyComponentHighlights**](LegacyComponentHighlights.md) |  | [optional] 
 **Actions** | [**[]ComponentAction**](ComponentAction.md) |  | 
 **BoundMetrics** | [**[]BoundMetric**](BoundMetric.md) |  | 
 **BoundTraces** | Pointer to [**BoundTraces**](BoundTraces.md) |  | [optional] 
@@ -16,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewFullComponent
 
-`func NewFullComponent(typeName string, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric, ) *FullComponent`
+`func NewFullComponent(typeName string, fields []ComponentField, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric, ) *FullComponent`
 
 NewFullComponent instantiates a new FullComponent object
 This constructor will assign default values to properties that have it defined,
@@ -76,6 +77,26 @@ SetIcon sets Icon field to given value.
 
 HasIcon returns a boolean if a field has been set.
 
+### GetFields
+
+`func (o *FullComponent) GetFields() []ComponentField`
+
+GetFields returns the Fields field if non-nil, zero value otherwise.
+
+### GetFieldsOk
+
+`func (o *FullComponent) GetFieldsOk() (*[]ComponentField, bool)`
+
+GetFieldsOk returns a tuple with the Fields field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetFields
+
+`func (o *FullComponent) SetFields(v []ComponentField)`
+
+SetFields sets Fields field to given value.
+
+
 ### GetData
 
 `func (o *FullComponent) GetData() ComponentData`
@@ -98,20 +119,20 @@ SetData sets Data field to given value.
 
 ### GetHighlights
 
-`func (o *FullComponent) GetHighlights() ComponentTypeHighlights`
+`func (o *FullComponent) GetHighlights() LegacyComponentHighlights`
 
 GetHighlights returns the Highlights field if non-nil, zero value otherwise.
 
 ### GetHighlightsOk
 
-`func (o *FullComponent) GetHighlightsOk() (*ComponentTypeHighlights, bool)`
+`func (o *FullComponent) GetHighlightsOk() (*LegacyComponentHighlights, bool)`
 
 GetHighlightsOk returns a tuple with the Highlights field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetHighlights
 
-`func (o *FullComponent) SetHighlights(v ComponentTypeHighlights)`
+`func (o *FullComponent) SetHighlights(v LegacyComponentHighlights)`
 
 SetHighlights sets Highlights field to given value.
 

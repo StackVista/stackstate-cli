@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Action** | Pointer to [**OtelInputConditionAction**](OtelInputConditionAction.md) |  | [optional] 
 **Metric** | Pointer to [**OtelInputMetric**](OtelInputMetric.md) |  | [optional] 
 **Span** | Pointer to [**OtelInputSpan**](OtelInputSpan.md) |  | [optional] 
+**Log** | Pointer to [**OtelInputLog**](OtelInputLog.md) |  | [optional] 
 
 ## Methods
 
@@ -127,6 +128,31 @@ SetSpan sets Span field to given value.
 `func (o *OtelInputScope) HasSpan() bool`
 
 HasSpan returns a boolean if a field has been set.
+
+### GetLog
+
+`func (o *OtelInputScope) GetLog() OtelInputLog`
+
+GetLog returns the Log field if non-nil, zero value otherwise.
+
+### GetLogOk
+
+`func (o *OtelInputScope) GetLogOk() (*OtelInputLog, bool)`
+
+GetLogOk returns a tuple with the Log field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLog
+
+`func (o *OtelInputScope) SetLog(v OtelInputLog)`
+
+SetLog sets Log field to given value.
+
+### HasLog
+
+`func (o *OtelInputScope) HasLog() bool`
+
+HasLog returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

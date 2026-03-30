@@ -17,22 +17,24 @@ import (
 
 // FullComponent struct for FullComponent
 type FullComponent struct {
-	TypeName     string                   `json:"typeName" yaml:"typeName"`
-	Icon         *string                  `json:"icon,omitempty" yaml:"icon,omitempty"`
-	Data         ComponentData            `json:"data" yaml:"data"`
-	Highlights   *ComponentTypeHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
-	Actions      []ComponentAction        `json:"actions" yaml:"actions"`
-	BoundMetrics []BoundMetric            `json:"boundMetrics" yaml:"boundMetrics"`
-	BoundTraces  *BoundTraces             `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
+	TypeName     string                     `json:"typeName" yaml:"typeName"`
+	Icon         *string                    `json:"icon,omitempty" yaml:"icon,omitempty"`
+	Fields       []ComponentField           `json:"fields" yaml:"fields"`
+	Data         ComponentData              `json:"data" yaml:"data"`
+	Highlights   *LegacyComponentHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
+	Actions      []ComponentAction          `json:"actions" yaml:"actions"`
+	BoundMetrics []BoundMetric              `json:"boundMetrics" yaml:"boundMetrics"`
+	BoundTraces  *BoundTraces               `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
 }
 
 // NewFullComponent instantiates a new FullComponent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFullComponent(typeName string, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric) *FullComponent {
+func NewFullComponent(typeName string, fields []ComponentField, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric) *FullComponent {
 	this := FullComponent{}
 	this.TypeName = typeName
+	this.Fields = fields
 	this.Data = data
 	this.Actions = actions
 	this.BoundMetrics = boundMetrics
@@ -103,6 +105,30 @@ func (o *FullComponent) SetIcon(v string) {
 	o.Icon = &v
 }
 
+// GetFields returns the Fields field value
+func (o *FullComponent) GetFields() []ComponentField {
+	if o == nil {
+		var ret []ComponentField
+		return ret
+	}
+
+	return o.Fields
+}
+
+// GetFieldsOk returns a tuple with the Fields field value
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetFieldsOk() ([]ComponentField, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Fields, true
+}
+
+// SetFields sets field value
+func (o *FullComponent) SetFields(v []ComponentField) {
+	o.Fields = v
+}
+
 // GetData returns the Data field value
 func (o *FullComponent) GetData() ComponentData {
 	if o == nil {
@@ -128,9 +154,9 @@ func (o *FullComponent) SetData(v ComponentData) {
 }
 
 // GetHighlights returns the Highlights field value if set, zero value otherwise.
-func (o *FullComponent) GetHighlights() ComponentTypeHighlights {
+func (o *FullComponent) GetHighlights() LegacyComponentHighlights {
 	if o == nil || o.Highlights == nil {
-		var ret ComponentTypeHighlights
+		var ret LegacyComponentHighlights
 		return ret
 	}
 	return *o.Highlights
@@ -138,7 +164,7 @@ func (o *FullComponent) GetHighlights() ComponentTypeHighlights {
 
 // GetHighlightsOk returns a tuple with the Highlights field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *FullComponent) GetHighlightsOk() (*ComponentTypeHighlights, bool) {
+func (o *FullComponent) GetHighlightsOk() (*LegacyComponentHighlights, bool) {
 	if o == nil || o.Highlights == nil {
 		return nil, false
 	}
@@ -154,8 +180,8 @@ func (o *FullComponent) HasHighlights() bool {
 	return false
 }
 
-// SetHighlights gets a reference to the given ComponentTypeHighlights and assigns it to the Highlights field.
-func (o *FullComponent) SetHighlights(v ComponentTypeHighlights) {
+// SetHighlights gets a reference to the given LegacyComponentHighlights and assigns it to the Highlights field.
+func (o *FullComponent) SetHighlights(v LegacyComponentHighlights) {
 	o.Highlights = &v
 }
 
@@ -246,6 +272,9 @@ func (o FullComponent) MarshalJSON() ([]byte, error) {
 	}
 	if o.Icon != nil {
 		toSerialize["icon"] = o.Icon
+	}
+	if true {
+		toSerialize["fields"] = o.Fields
 	}
 	if true {
 		toSerialize["data"] = o.Data
