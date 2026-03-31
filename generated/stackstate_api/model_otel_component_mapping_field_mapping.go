@@ -18,12 +18,12 @@ import (
 // OtelComponentMappingFieldMapping struct for OtelComponentMappingFieldMapping
 type OtelComponentMappingFieldMapping struct {
 	AdditionalIdentifiers []string `json:"additionalIdentifiers,omitempty" yaml:"additionalIdentifiers,omitempty"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
+	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
 	Version *string          `json:"version,omitempty" yaml:"version,omitempty"`
 	Tags    []OtelTagMapping `json:"tags,omitempty" yaml:"tags,omitempty"`
-	// An expression that can produce any type. It uses the CEL expression within curly braces `${}` syntax. Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign  it the expression `\"${resource.attributes['service.namespace'] == 'test'}\"`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
+	// An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign it the expression `resource.attributes['service.namespace'] == 'test'`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
 	Configuration *string `json:"configuration,omitempty" yaml:"configuration,omitempty"`
-	// An expression that can produce any type. It uses the CEL expression within curly braces `${}` syntax. Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign  it the expression `\"${resource.attributes['service.namespace'] == 'test'}\"`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
+	// An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign it the expression `resource.attributes['service.namespace'] == 'test'`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
 	Status *string `json:"status,omitempty" yaml:"status,omitempty"`
 }
 

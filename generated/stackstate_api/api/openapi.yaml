@@ -16590,74 +16590,42 @@ components:
         identifier:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         name:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         typeName:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         typeIdentifier:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         layerName:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         layerIdentifier:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         domainName:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         domainIdentifier:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         required:
           $ref: '#/components/schemas/OtelComponentMappingFieldMapping'
@@ -16673,11 +16641,7 @@ components:
     OtelStringExpression:
       description: "An expression that must produce a string. It must be one of these\
         \ formats:\n  - A plain string, for example `\"this is a plain string\"`\n\
-        \  - A string containing a CEL expression within curly braces `${}`, for example\
-        \ \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-        `\nA string with only a cel expression is also valid as long as it is within\
-        \ a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-        `."
+        \  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
       type: string
     OtelComponentMappingFieldMapping:
       example:
@@ -16702,30 +16666,24 @@ components:
         version:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         tags:
           items:
             $ref: '#/components/schemas/OtelTagMapping'
           type: array
         configuration:
-          description: "An expression that can produce any type. It uses the CEL expression\
-            \ within curly braces `${}` syntax.\nVariables use it to store any type\
-            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
-            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
-            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+          description: "An expression that can produce any type. \nVariables use it\
+            \ to store any type of value. For example, to store a boolean in a variable\
+            \ named  `inTestNamespace` assign\nit the expression `resource.attributes['service.namespace']\
+            \ == 'test'`. The variable can now be used directly in the conditions\
             \ like this: `vars.inTestNamespace`."
           type: string
         status:
-          description: "An expression that can produce any type. It uses the CEL expression\
-            \ within curly braces `${}` syntax.\nVariables use it to store any type\
-            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
-            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
-            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+          description: "An expression that can produce any type. \nVariables use it\
+            \ to store any type of value. For example, to store a boolean in a variable\
+            \ named  `inTestNamespace` assign\nit the expression `resource.attributes['service.namespace']\
+            \ == 'test'`. The variable can now be used directly in the conditions\
             \ like this: `vars.inTestNamespace`."
           type: string
       type: object
@@ -16738,11 +16696,10 @@ components:
         target: target
       properties:
         source:
-          description: "An expression that can produce any type. It uses the CEL expression\
-            \ within curly braces `${}` syntax.\nVariables use it to store any type\
-            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
-            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
-            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+          description: "An expression that can produce any type. \nVariables use it\
+            \ to store any type of value. For example, to store a boolean in a variable\
+            \ named  `inTestNamespace` assign\nit the expression `resource.attributes['service.namespace']\
+            \ == 'test'`. The variable can now be used directly in the conditions\
             \ like this: `vars.inTestNamespace`."
           type: string
         target:
@@ -16757,11 +16714,10 @@ components:
       - target
       type: object
     OtelAnyExpression:
-      description: "An expression that can produce any type. It uses the CEL expression\
-        \ within curly braces `${}` syntax.\nVariables use it to store any type of\
-        \ value. For example, to store a boolean in a variable named  `inTestNamespace`\
-        \ assign \nit the expression `\"${resource.attributes['service.namespace']\
-        \ == 'test'}\"`. The variable can now be used directly in the conditions like\
+      description: "An expression that can produce any type. \nVariables use it to\
+        \ store any type of value. For example, to store a boolean in a variable named\
+        \  `inTestNamespace` assign\nit the expression `resource.attributes['service.namespace']\
+        \ == 'test'`. The variable can now be used directly in the conditions like\
         \ this: `vars.inTestNamespace`."
       type: string
     OtelVariableMapping:
@@ -16772,11 +16728,10 @@ components:
         name:
           type: string
         value:
-          description: "An expression that can produce any type. It uses the CEL expression\
-            \ within curly braces `${}` syntax.\nVariables use it to store any type\
-            \ of value. For example, to store a boolean in a variable named  `inTestNamespace`\
-            \ assign \nit the expression `\"${resource.attributes['service.namespace']\
-            \ == 'test'}\"`. The variable can now be used directly in the conditions\
+          description: "An expression that can produce any type. \nVariables use it\
+            \ to store any type of value. For example, to store a boolean in a variable\
+            \ named  `inTestNamespace` assign\nit the expression `resource.attributes['service.namespace']\
+            \ == 'test'`. The variable can now be used directly in the conditions\
             \ like this: `vars.inTestNamespace`."
           type: string
       required:
@@ -16985,38 +16940,22 @@ components:
         sourceId:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         targetId:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         typeName:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         typeIdentifier:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A string containing a CEL expression within curly braces `${}`,\
-            \ for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"\
-            `\nA string with only a cel expression is also valid as long as it is\
-            \ within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"\
-            `."
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
       required:
       - sourceId
