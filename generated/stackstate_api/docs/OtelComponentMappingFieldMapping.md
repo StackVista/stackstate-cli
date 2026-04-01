@@ -5,8 +5,10 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **AdditionalIdentifiers** | Pointer to **[]string** |  | [optional] 
-**Version** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A string containing a CEL expression within curly braces &#x60;${}&#x60;, for example \&quot;a string with a cel expression: &#x60;${resource.attributes[&#39;service.namespace&#39;]}\&quot;&#x60; A string with only a cel expression is also valid as long as it is within a &#x60;${}&#x60; section, for example &#x60;\&quot;${resource.attributes[&#39;service.namespace&#39;]}\&quot;&#x60;. | [optional] 
+**Version** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
 **Tags** | Pointer to [**[]OtelTagMapping**](OtelTagMapping.md) |  | [optional] 
+**Configuration** | Pointer to **string** | An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  &#x60;inTestNamespace&#x60; assign it the expression &#x60;resource.attributes[&#39;service.namespace&#39;] &#x3D;&#x3D; &#39;test&#39;&#x60;. The variable can now be used directly in the conditions like this: &#x60;vars.inTestNamespace&#x60;. | [optional] 
+**Status** | Pointer to **string** | An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  &#x60;inTestNamespace&#x60; assign it the expression &#x60;resource.attributes[&#39;service.namespace&#39;] &#x3D;&#x3D; &#39;test&#39;&#x60;. The variable can now be used directly in the conditions like this: &#x60;vars.inTestNamespace&#x60;. | [optional] 
 
 ## Methods
 
@@ -101,6 +103,56 @@ SetTags sets Tags field to given value.
 `func (o *OtelComponentMappingFieldMapping) HasTags() bool`
 
 HasTags returns a boolean if a field has been set.
+
+### GetConfiguration
+
+`func (o *OtelComponentMappingFieldMapping) GetConfiguration() string`
+
+GetConfiguration returns the Configuration field if non-nil, zero value otherwise.
+
+### GetConfigurationOk
+
+`func (o *OtelComponentMappingFieldMapping) GetConfigurationOk() (*string, bool)`
+
+GetConfigurationOk returns a tuple with the Configuration field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetConfiguration
+
+`func (o *OtelComponentMappingFieldMapping) SetConfiguration(v string)`
+
+SetConfiguration sets Configuration field to given value.
+
+### HasConfiguration
+
+`func (o *OtelComponentMappingFieldMapping) HasConfiguration() bool`
+
+HasConfiguration returns a boolean if a field has been set.
+
+### GetStatus
+
+`func (o *OtelComponentMappingFieldMapping) GetStatus() string`
+
+GetStatus returns the Status field if non-nil, zero value otherwise.
+
+### GetStatusOk
+
+`func (o *OtelComponentMappingFieldMapping) GetStatusOk() (*string, bool)`
+
+GetStatusOk returns a tuple with the Status field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetStatus
+
+`func (o *OtelComponentMappingFieldMapping) SetStatus(v string)`
+
+SetStatus sets Status field to given value.
+
+### HasStatus
+
+`func (o *OtelComponentMappingFieldMapping) HasStatus() bool`
+
+HasStatus returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

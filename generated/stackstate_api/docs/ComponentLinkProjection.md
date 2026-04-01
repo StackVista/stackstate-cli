@@ -6,13 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Name** | **string** | Cel expression that returns a string that represents the name of the component to link to | 
-**ComponentIdentifier** | **string** | Cel expression that returns a string that represents the componentIdentifier in order to build the link | 
+**Identifier** | **string** | Cel expression that returns a string that represents the identifier in order to build the link | 
 
 ## Methods
 
 ### NewComponentLinkProjection
 
-`func NewComponentLinkProjection(type_ string, name string, componentIdentifier string, ) *ComponentLinkProjection`
+`func NewComponentLinkProjection(type_ string, name string, identifier string, ) *ComponentLinkProjection`
 
 NewComponentLinkProjection instantiates a new ComponentLinkProjection object
 This constructor will assign default values to properties that have it defined,
@@ -67,24 +67,24 @@ and a boolean to check if the value has been set.
 SetName sets Name field to given value.
 
 
-### GetComponentIdentifier
+### GetIdentifier
 
-`func (o *ComponentLinkProjection) GetComponentIdentifier() string`
+`func (o *ComponentLinkProjection) GetIdentifier() string`
 
-GetComponentIdentifier returns the ComponentIdentifier field if non-nil, zero value otherwise.
+GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
 
-### GetComponentIdentifierOk
+### GetIdentifierOk
 
-`func (o *ComponentLinkProjection) GetComponentIdentifierOk() (*string, bool)`
+`func (o *ComponentLinkProjection) GetIdentifierOk() (*string, bool)`
 
-GetComponentIdentifierOk returns a tuple with the ComponentIdentifier field if it's non-nil, zero value otherwise
+GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComponentIdentifier
+### SetIdentifier
 
-`func (o *ComponentLinkProjection) SetComponentIdentifier(v string)`
+`func (o *ComponentLinkProjection) SetIdentifier(v string)`
 
-SetComponentIdentifier sets ComponentIdentifier field to given value.
+SetIdentifier sets Identifier field to given value.
 
 
 

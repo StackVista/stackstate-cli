@@ -17,9 +17,9 @@ import (
 
 // OverviewColumnDefinition Definition of a column in the overview presentation. The `columnId` field is used to identify the column and merge columns from different presentations. If only the `columnId` is provided, the column will be rendered from the next more specific presentation definition.
 type OverviewColumnDefinition struct {
-	ColumnId   string                    `json:"columnId" yaml:"columnId"`
-	Title      *string                   `json:"title,omitempty" yaml:"title,omitempty"`
-	Projection *OverviewColumnProjection `json:"projection,omitempty" yaml:"projection,omitempty"`
+	ColumnId   string                       `json:"columnId" yaml:"columnId"`
+	Title      *string                      `json:"title,omitempty" yaml:"title,omitempty"`
+	Projection *ComponentOverviewProjection `json:"projection,omitempty" yaml:"projection,omitempty"`
 }
 
 // NewOverviewColumnDefinition instantiates a new OverviewColumnDefinition object
@@ -97,9 +97,9 @@ func (o *OverviewColumnDefinition) SetTitle(v string) {
 }
 
 // GetProjection returns the Projection field value if set, zero value otherwise.
-func (o *OverviewColumnDefinition) GetProjection() OverviewColumnProjection {
+func (o *OverviewColumnDefinition) GetProjection() ComponentOverviewProjection {
 	if o == nil || o.Projection == nil {
-		var ret OverviewColumnProjection
+		var ret ComponentOverviewProjection
 		return ret
 	}
 	return *o.Projection
@@ -107,7 +107,7 @@ func (o *OverviewColumnDefinition) GetProjection() OverviewColumnProjection {
 
 // GetProjectionOk returns a tuple with the Projection field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OverviewColumnDefinition) GetProjectionOk() (*OverviewColumnProjection, bool) {
+func (o *OverviewColumnDefinition) GetProjectionOk() (*ComponentOverviewProjection, bool) {
 	if o == nil || o.Projection == nil {
 		return nil, false
 	}
@@ -123,8 +123,8 @@ func (o *OverviewColumnDefinition) HasProjection() bool {
 	return false
 }
 
-// SetProjection gets a reference to the given OverviewColumnProjection and assigns it to the Projection field.
-func (o *OverviewColumnDefinition) SetProjection(v OverviewColumnProjection) {
+// SetProjection gets a reference to the given ComponentOverviewProjection and assigns it to the Projection field.
+func (o *OverviewColumnDefinition) SetProjection(v ComponentOverviewProjection) {
 	o.Projection = &v
 }
 

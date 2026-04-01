@@ -20,6 +20,8 @@ type TextProjection struct {
 	Type string `json:"_type" yaml:"_type"`
 	// Cel expression that returns a string
 	Value string `json:"value" yaml:"value"`
+	// Should the value be rendered as a tag or as plain text
+	AsTag *bool `json:"asTag,omitempty" yaml:"asTag,omitempty"`
 }
 
 // NewTextProjection instantiates a new TextProjection object
@@ -30,6 +32,8 @@ func NewTextProjection(type_ string, value string) *TextProjection {
 	this := TextProjection{}
 	this.Type = type_
 	this.Value = value
+	var asTag bool = false
+	this.AsTag = &asTag
 	return &this
 }
 
@@ -38,6 +42,8 @@ func NewTextProjection(type_ string, value string) *TextProjection {
 // but it doesn't guarantee that properties required by API are set
 func NewTextProjectionWithDefaults() *TextProjection {
 	this := TextProjection{}
+	var asTag bool = false
+	this.AsTag = &asTag
 	return &this
 }
 
@@ -89,6 +95,38 @@ func (o *TextProjection) SetValue(v string) {
 	o.Value = v
 }
 
+// GetAsTag returns the AsTag field value if set, zero value otherwise.
+func (o *TextProjection) GetAsTag() bool {
+	if o == nil || o.AsTag == nil {
+		var ret bool
+		return ret
+	}
+	return *o.AsTag
+}
+
+// GetAsTagOk returns a tuple with the AsTag field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *TextProjection) GetAsTagOk() (*bool, bool) {
+	if o == nil || o.AsTag == nil {
+		return nil, false
+	}
+	return o.AsTag, true
+}
+
+// HasAsTag returns a boolean if a field has been set.
+func (o *TextProjection) HasAsTag() bool {
+	if o != nil && o.AsTag != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetAsTag gets a reference to the given bool and assigns it to the AsTag field.
+func (o *TextProjection) SetAsTag(v bool) {
+	o.AsTag = &v
+}
+
 func (o TextProjection) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -96,6 +134,9 @@ func (o TextProjection) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["value"] = o.Value
+	}
+	if o.AsTag != nil {
+		toSerialize["asTag"] = o.AsTag
 	}
 	return json.Marshal(toSerialize)
 }

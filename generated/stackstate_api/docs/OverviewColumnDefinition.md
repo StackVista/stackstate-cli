@@ -6,7 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **ColumnId** | **string** |  | 
 **Title** | Pointer to **string** |  | [optional] 
-**Projection** | Pointer to [**OverviewColumnProjection**](OverviewColumnProjection.md) |  | [optional] 
+**Projection** | Pointer to [**ComponentOverviewProjection**](ComponentOverviewProjection.md) |  | [optional] 
 
 ## Methods
 
@@ -74,20 +74,20 @@ HasTitle returns a boolean if a field has been set.
 
 ### GetProjection
 
-`func (o *OverviewColumnDefinition) GetProjection() OverviewColumnProjection`
+`func (o *OverviewColumnDefinition) GetProjection() ComponentOverviewProjection`
 
 GetProjection returns the Projection field if non-nil, zero value otherwise.
 
 ### GetProjectionOk
 
-`func (o *OverviewColumnDefinition) GetProjectionOk() (*OverviewColumnProjection, bool)`
+`func (o *OverviewColumnDefinition) GetProjectionOk() (*ComponentOverviewProjection, bool)`
 
 GetProjectionOk returns a tuple with the Projection field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetProjection
 
-`func (o *OverviewColumnDefinition) SetProjection(v OverviewColumnProjection)`
+`func (o *OverviewColumnDefinition) SetProjection(v ComponentOverviewProjection)`
 
 SetProjection sets Projection field to given value.
 

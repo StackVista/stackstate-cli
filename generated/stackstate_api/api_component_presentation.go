@@ -60,6 +60,24 @@ type ComponentPresentationApi interface {
 	GetComponentPresentationsExecute(r ApiGetComponentPresentationsRequest) ([]ComponentPresentation, *http.Response, error)
 
 	/*
+			GetPresentationFilters Get resolved filters for a presentation
+
+			Returns the effective filter definitions after applying merge semantics
+		across matching ComponentPresentations. The result reflects which filters
+		the frontend should render for the given presentation.
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param presentationOrViewUrn A Component Presentation Identifier, legacy View (QueryView, ViewType) URNs are supported for backward compatibility
+			@return ApiGetPresentationFiltersRequest
+	*/
+	GetPresentationFilters(ctx context.Context, presentationOrViewUrn string) ApiGetPresentationFiltersRequest
+
+	// GetPresentationFiltersExecute executes the request
+	//  @return PresentationFiltersResponse
+	GetPresentationFiltersExecute(r ApiGetPresentationFiltersRequest) (*PresentationFiltersResponse, *http.Response, error)
+
+	/*
 		UpsertComponentPresentations Upserts (creates/updates) a component presentation
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
@@ -113,7 +131,7 @@ func (a *ComponentPresentationApiService) DeleteComponentPresentationByIdentifie
 		return nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/component-presentations/{identifier}"
+	localVarPath := localBasePath + "/presentations/{identifier}"
 	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -267,7 +285,7 @@ func (a *ComponentPresentationApiService) GetComponentPresentationByIdentifierEx
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/component-presentations/{identifier}"
+	localVarPath := localBasePath + "/presentations/{identifier}"
 	localVarPath = strings.Replace(localVarPath, "{"+"identifier"+"}", url.PathEscape(parameterToString(r.identifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
@@ -427,7 +445,7 @@ func (a *ComponentPresentationApiService) GetComponentPresentationsExecute(r Api
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/component-presentations"
+	localVarPath := localBasePath + "/presentations"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -538,6 +556,183 @@ func (a *ComponentPresentationApiService) GetComponentPresentationsExecute(r Api
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetPresentationFiltersRequest struct {
+	ctx                   context.Context
+	ApiService            ComponentPresentationApi
+	presentationOrViewUrn string
+}
+
+func (r ApiGetPresentationFiltersRequest) Execute() (*PresentationFiltersResponse, *http.Response, error) {
+	return r.ApiService.GetPresentationFiltersExecute(r)
+}
+
+/*
+GetPresentationFilters Get resolved filters for a presentation
+
+Returns the effective filter definitions after applying merge semantics
+across matching ComponentPresentations. The result reflects which filters
+the frontend should render for the given presentation.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param presentationOrViewUrn A Component Presentation Identifier, legacy View (QueryView, ViewType) URNs are supported for backward compatibility
+	@return ApiGetPresentationFiltersRequest
+*/
+func (a *ComponentPresentationApiService) GetPresentationFilters(ctx context.Context, presentationOrViewUrn string) ApiGetPresentationFiltersRequest {
+	return ApiGetPresentationFiltersRequest{
+		ApiService:            a,
+		ctx:                   ctx,
+		presentationOrViewUrn: presentationOrViewUrn,
+	}
+}
+
+// Execute executes the request
+//
+//	@return PresentationFiltersResponse
+func (a *ComponentPresentationApiService) GetPresentationFiltersExecute(r ApiGetPresentationFiltersRequest) (*PresentationFiltersResponse, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *PresentationFiltersResponse
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentPresentationApiService.GetPresentationFilters")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/presentations/{presentationOrViewUrn}/filters"
+	localVarPath = strings.Replace(localVarPath, "{"+"presentationOrViewUrn"+"}", url.PathEscape(parameterToString(r.presentationOrViewUrn, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ComponentPresentationApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v ComponentPresentationApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v ComponentPresentationApiError
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiUpsertComponentPresentationsRequest struct {
 	ctx                   context.Context
 	ApiService            ComponentPresentationApi
@@ -582,7 +777,7 @@ func (a *ComponentPresentationApiService) UpsertComponentPresentationsExecute(r 
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/component-presentations"
+	localVarPath := localBasePath + "/presentations"
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -719,6 +914,8 @@ type ComponentPresentationApiMock struct {
 	GetComponentPresentationByIdentifierResponse    GetComponentPresentationByIdentifierMockResponse
 	GetComponentPresentationsCalls                  *[]GetComponentPresentationsCall
 	GetComponentPresentationsResponse               GetComponentPresentationsMockResponse
+	GetPresentationFiltersCalls                     *[]GetPresentationFiltersCall
+	GetPresentationFiltersResponse                  GetPresentationFiltersMockResponse
 	UpsertComponentPresentationsCalls               *[]UpsertComponentPresentationsCall
 	UpsertComponentPresentationsResponse            UpsertComponentPresentationsMockResponse
 }
@@ -727,11 +924,13 @@ func NewComponentPresentationApiMock() ComponentPresentationApiMock {
 	xDeleteComponentPresentationByIdentifierCalls := make([]DeleteComponentPresentationByIdentifierCall, 0)
 	xGetComponentPresentationByIdentifierCalls := make([]GetComponentPresentationByIdentifierCall, 0)
 	xGetComponentPresentationsCalls := make([]GetComponentPresentationsCall, 0)
+	xGetPresentationFiltersCalls := make([]GetPresentationFiltersCall, 0)
 	xUpsertComponentPresentationsCalls := make([]UpsertComponentPresentationsCall, 0)
 	return ComponentPresentationApiMock{
 		DeleteComponentPresentationByIdentifierCalls: &xDeleteComponentPresentationByIdentifierCalls,
 		GetComponentPresentationByIdentifierCalls:    &xGetComponentPresentationByIdentifierCalls,
 		GetComponentPresentationsCalls:               &xGetComponentPresentationsCalls,
+		GetPresentationFiltersCalls:                  &xGetPresentationFiltersCalls,
 		UpsertComponentPresentationsCalls:            &xUpsertComponentPresentationsCalls,
 	}
 }
@@ -807,6 +1006,32 @@ func (mock ComponentPresentationApiMock) GetComponentPresentationsExecute(r ApiG
 	p := GetComponentPresentationsCall{}
 	*mock.GetComponentPresentationsCalls = append(*mock.GetComponentPresentationsCalls, p)
 	return mock.GetComponentPresentationsResponse.Result, mock.GetComponentPresentationsResponse.Response, mock.GetComponentPresentationsResponse.Error
+}
+
+type GetPresentationFiltersMockResponse struct {
+	Result   PresentationFiltersResponse
+	Response *http.Response
+	Error    error
+}
+
+type GetPresentationFiltersCall struct {
+	PpresentationOrViewUrn string
+}
+
+func (mock ComponentPresentationApiMock) GetPresentationFilters(ctx context.Context, presentationOrViewUrn string) ApiGetPresentationFiltersRequest {
+	return ApiGetPresentationFiltersRequest{
+		ApiService:            mock,
+		ctx:                   ctx,
+		presentationOrViewUrn: presentationOrViewUrn,
+	}
+}
+
+func (mock ComponentPresentationApiMock) GetPresentationFiltersExecute(r ApiGetPresentationFiltersRequest) (*PresentationFiltersResponse, *http.Response, error) {
+	p := GetPresentationFiltersCall{
+		PpresentationOrViewUrn: r.presentationOrViewUrn,
+	}
+	*mock.GetPresentationFiltersCalls = append(*mock.GetPresentationFiltersCalls, p)
+	return &mock.GetPresentationFiltersResponse.Result, mock.GetPresentationFiltersResponse.Response, mock.GetPresentationFiltersResponse.Error
 }
 
 type UpsertComponentPresentationsMockResponse struct {

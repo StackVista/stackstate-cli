@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Source** | **string** | An expression that can produce any type. It uses the CEL expression within curly braces &#x60;${}&#x60; syntax. Variables use it to store any type of value. For example, to store a boolean in a variable named  &#x60;inTestNamespace&#x60; assign  it the expression &#x60;\&quot;${resource.attributes[&#39;service.namespace&#39;] &#x3D;&#x3D; &#39;test&#39;}\&quot;&#x60;. The variable can now be used directly in the conditions like this: &#x60;vars.inTestNamespace&#x60;. | 
+**Source** | **string** | An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  &#x60;inTestNamespace&#x60; assign it the expression &#x60;resource.attributes[&#39;service.namespace&#39;] &#x3D;&#x3D; &#39;test&#39;&#x60;. The variable can now be used directly in the conditions like this: &#x60;vars.inTestNamespace&#x60;. | 
 **Target** | **string** | Name of the target tag key to which the value should be mapped. | 
 **Pattern** | Pointer to **string** | Optional regex pattern applied to the source value. Capturing groups can be referenced in the target (e.g., ${1}). | [optional] 
 

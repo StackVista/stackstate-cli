@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Value** | **string** | Cel expression that returns a string | 
+**AsTag** | Pointer to **bool** | Should the value be rendered as a tag or as plain text | [optional] [default to false]
 
 ## Methods
 
@@ -65,6 +66,31 @@ and a boolean to check if the value has been set.
 
 SetValue sets Value field to given value.
 
+
+### GetAsTag
+
+`func (o *TextProjection) GetAsTag() bool`
+
+GetAsTag returns the AsTag field if non-nil, zero value otherwise.
+
+### GetAsTagOk
+
+`func (o *TextProjection) GetAsTagOk() (*bool, bool)`
+
+GetAsTagOk returns a tuple with the AsTag field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetAsTag
+
+`func (o *TextProjection) SetAsTag(v bool)`
+
+SetAsTag sets AsTag field to given value.
+
+### HasAsTag
+
+`func (o *TextProjection) HasAsTag() bool`
+
+HasAsTag returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

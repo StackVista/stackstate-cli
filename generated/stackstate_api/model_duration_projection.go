@@ -18,20 +18,20 @@ import (
 // DurationProjection struct for DurationProjection
 type DurationProjection struct {
 	Type string `json:"_type" yaml:"_type"`
-	// Cel expression that returns a date
-	StartDate string `json:"startDate" yaml:"startDate"`
-	// Cel expression that returns a date
-	EndDate *string `json:"endDate,omitempty" yaml:"endDate,omitempty"`
+	// Cel expression that returns an ISO8601 formatted timestamp
+	StartTime string `json:"startTime" yaml:"startTime"`
+	// Cel expression that returns an ISO8601 formatted timestamp
+	EndTime *string `json:"endTime,omitempty" yaml:"endTime,omitempty"`
 }
 
 // NewDurationProjection instantiates a new DurationProjection object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewDurationProjection(type_ string, startDate string) *DurationProjection {
+func NewDurationProjection(type_ string, startTime string) *DurationProjection {
 	this := DurationProjection{}
 	this.Type = type_
-	this.StartDate = startDate
+	this.StartTime = startTime
 	return &this
 }
 
@@ -67,60 +67,60 @@ func (o *DurationProjection) SetType(v string) {
 	o.Type = v
 }
 
-// GetStartDate returns the StartDate field value
-func (o *DurationProjection) GetStartDate() string {
+// GetStartTime returns the StartTime field value
+func (o *DurationProjection) GetStartTime() string {
 	if o == nil {
 		var ret string
 		return ret
 	}
 
-	return o.StartDate
+	return o.StartTime
 }
 
-// GetStartDateOk returns a tuple with the StartDate field value
+// GetStartTimeOk returns a tuple with the StartTime field value
 // and a boolean to check if the value has been set.
-func (o *DurationProjection) GetStartDateOk() (*string, bool) {
+func (o *DurationProjection) GetStartTimeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.StartDate, true
+	return &o.StartTime, true
 }
 
-// SetStartDate sets field value
-func (o *DurationProjection) SetStartDate(v string) {
-	o.StartDate = v
+// SetStartTime sets field value
+func (o *DurationProjection) SetStartTime(v string) {
+	o.StartTime = v
 }
 
-// GetEndDate returns the EndDate field value if set, zero value otherwise.
-func (o *DurationProjection) GetEndDate() string {
-	if o == nil || o.EndDate == nil {
+// GetEndTime returns the EndTime field value if set, zero value otherwise.
+func (o *DurationProjection) GetEndTime() string {
+	if o == nil || o.EndTime == nil {
 		var ret string
 		return ret
 	}
-	return *o.EndDate
+	return *o.EndTime
 }
 
-// GetEndDateOk returns a tuple with the EndDate field value if set, nil otherwise
+// GetEndTimeOk returns a tuple with the EndTime field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *DurationProjection) GetEndDateOk() (*string, bool) {
-	if o == nil || o.EndDate == nil {
+func (o *DurationProjection) GetEndTimeOk() (*string, bool) {
+	if o == nil || o.EndTime == nil {
 		return nil, false
 	}
-	return o.EndDate, true
+	return o.EndTime, true
 }
 
-// HasEndDate returns a boolean if a field has been set.
-func (o *DurationProjection) HasEndDate() bool {
-	if o != nil && o.EndDate != nil {
+// HasEndTime returns a boolean if a field has been set.
+func (o *DurationProjection) HasEndTime() bool {
+	if o != nil && o.EndTime != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetEndDate gets a reference to the given string and assigns it to the EndDate field.
-func (o *DurationProjection) SetEndDate(v string) {
-	o.EndDate = &v
+// SetEndTime gets a reference to the given string and assigns it to the EndTime field.
+func (o *DurationProjection) SetEndTime(v string) {
+	o.EndTime = &v
 }
 
 func (o DurationProjection) MarshalJSON() ([]byte, error) {
@@ -129,10 +129,10 @@ func (o DurationProjection) MarshalJSON() ([]byte, error) {
 		toSerialize["_type"] = o.Type
 	}
 	if true {
-		toSerialize["startDate"] = o.StartDate
+		toSerialize["startTime"] = o.StartTime
 	}
-	if o.EndDate != nil {
-		toSerialize["endDate"] = o.EndDate
+	if o.EndTime != nil {
+		toSerialize["endTime"] = o.EndTime
 	}
 	return json.Marshal(toSerialize)
 }

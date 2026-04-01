@@ -15,10 +15,12 @@ import (
 	"encoding/json"
 )
 
-// PresentationDefinition struct for PresentationDefinition
+// PresentationDefinition Component presentation definition. If multiple ComponentPresentations match, `filters` are merged by filter identity with the most specific presentation winning. Absence of the field keeps legacy behavior (for example, ViewType-based filters) unchanged.
 type PresentationDefinition struct {
-	Icon     *string               `json:"icon,omitempty" yaml:"icon,omitempty"`
-	Overview *PresentationOverview `json:"overview,omitempty" yaml:"overview,omitempty"`
+	Icon      *string                       `json:"icon,omitempty" yaml:"icon,omitempty"`
+	Overview  *PresentationOverview         `json:"overview,omitempty" yaml:"overview,omitempty"`
+	Highlight *PresentationHighlight        `json:"highlight,omitempty" yaml:"highlight,omitempty"`
+	Filters   []ComponentPresentationFilter `json:"filters,omitempty" yaml:"filters,omitempty"`
 }
 
 // NewPresentationDefinition instantiates a new PresentationDefinition object
@@ -102,6 +104,70 @@ func (o *PresentationDefinition) SetOverview(v PresentationOverview) {
 	o.Overview = &v
 }
 
+// GetHighlight returns the Highlight field value if set, zero value otherwise.
+func (o *PresentationDefinition) GetHighlight() PresentationHighlight {
+	if o == nil || o.Highlight == nil {
+		var ret PresentationHighlight
+		return ret
+	}
+	return *o.Highlight
+}
+
+// GetHighlightOk returns a tuple with the Highlight field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationDefinition) GetHighlightOk() (*PresentationHighlight, bool) {
+	if o == nil || o.Highlight == nil {
+		return nil, false
+	}
+	return o.Highlight, true
+}
+
+// HasHighlight returns a boolean if a field has been set.
+func (o *PresentationDefinition) HasHighlight() bool {
+	if o != nil && o.Highlight != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetHighlight gets a reference to the given PresentationHighlight and assigns it to the Highlight field.
+func (o *PresentationDefinition) SetHighlight(v PresentationHighlight) {
+	o.Highlight = &v
+}
+
+// GetFilters returns the Filters field value if set, zero value otherwise.
+func (o *PresentationDefinition) GetFilters() []ComponentPresentationFilter {
+	if o == nil || o.Filters == nil {
+		var ret []ComponentPresentationFilter
+		return ret
+	}
+	return o.Filters
+}
+
+// GetFiltersOk returns a tuple with the Filters field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationDefinition) GetFiltersOk() ([]ComponentPresentationFilter, bool) {
+	if o == nil || o.Filters == nil {
+		return nil, false
+	}
+	return o.Filters, true
+}
+
+// HasFilters returns a boolean if a field has been set.
+func (o *PresentationDefinition) HasFilters() bool {
+	if o != nil && o.Filters != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetFilters gets a reference to the given []ComponentPresentationFilter and assigns it to the Filters field.
+func (o *PresentationDefinition) SetFilters(v []ComponentPresentationFilter) {
+	o.Filters = v
+}
+
 func (o PresentationDefinition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Icon != nil {
@@ -109,6 +175,12 @@ func (o PresentationDefinition) MarshalJSON() ([]byte, error) {
 	}
 	if o.Overview != nil {
 		toSerialize["overview"] = o.Overview
+	}
+	if o.Highlight != nil {
+		toSerialize["highlight"] = o.Highlight
+	}
+	if o.Filters != nil {
+		toSerialize["filters"] = o.Filters
 	}
 	return json.Marshal(toSerialize)
 }

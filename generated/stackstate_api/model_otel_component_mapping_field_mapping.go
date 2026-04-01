@@ -18,9 +18,13 @@ import (
 // OtelComponentMappingFieldMapping struct for OtelComponentMappingFieldMapping
 type OtelComponentMappingFieldMapping struct {
 	AdditionalIdentifiers []string `json:"additionalIdentifiers,omitempty" yaml:"additionalIdentifiers,omitempty"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A string containing a CEL expression within curly braces `${}`, for example \"a string with a cel expression: `${resource.attributes['service.namespace']}\"` A string with only a cel expression is also valid as long as it is within a `${}` section, for example `\"${resource.attributes['service.namespace']}\"`.
+	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
 	Version *string          `json:"version,omitempty" yaml:"version,omitempty"`
 	Tags    []OtelTagMapping `json:"tags,omitempty" yaml:"tags,omitempty"`
+	// An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign it the expression `resource.attributes['service.namespace'] == 'test'`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
+	Configuration *string `json:"configuration,omitempty" yaml:"configuration,omitempty"`
+	// An expression that can produce any type.  Variables use it to store any type of value. For example, to store a boolean in a variable named  `inTestNamespace` assign it the expression `resource.attributes['service.namespace'] == 'test'`. The variable can now be used directly in the conditions like this: `vars.inTestNamespace`.
+	Status *string `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
 // NewOtelComponentMappingFieldMapping instantiates a new OtelComponentMappingFieldMapping object
@@ -136,6 +140,70 @@ func (o *OtelComponentMappingFieldMapping) SetTags(v []OtelTagMapping) {
 	o.Tags = v
 }
 
+// GetConfiguration returns the Configuration field value if set, zero value otherwise.
+func (o *OtelComponentMappingFieldMapping) GetConfiguration() string {
+	if o == nil || o.Configuration == nil {
+		var ret string
+		return ret
+	}
+	return *o.Configuration
+}
+
+// GetConfigurationOk returns a tuple with the Configuration field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OtelComponentMappingFieldMapping) GetConfigurationOk() (*string, bool) {
+	if o == nil || o.Configuration == nil {
+		return nil, false
+	}
+	return o.Configuration, true
+}
+
+// HasConfiguration returns a boolean if a field has been set.
+func (o *OtelComponentMappingFieldMapping) HasConfiguration() bool {
+	if o != nil && o.Configuration != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetConfiguration gets a reference to the given string and assigns it to the Configuration field.
+func (o *OtelComponentMappingFieldMapping) SetConfiguration(v string) {
+	o.Configuration = &v
+}
+
+// GetStatus returns the Status field value if set, zero value otherwise.
+func (o *OtelComponentMappingFieldMapping) GetStatus() string {
+	if o == nil || o.Status == nil {
+		var ret string
+		return ret
+	}
+	return *o.Status
+}
+
+// GetStatusOk returns a tuple with the Status field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *OtelComponentMappingFieldMapping) GetStatusOk() (*string, bool) {
+	if o == nil || o.Status == nil {
+		return nil, false
+	}
+	return o.Status, true
+}
+
+// HasStatus returns a boolean if a field has been set.
+func (o *OtelComponentMappingFieldMapping) HasStatus() bool {
+	if o != nil && o.Status != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetStatus gets a reference to the given string and assigns it to the Status field.
+func (o *OtelComponentMappingFieldMapping) SetStatus(v string) {
+	o.Status = &v
+}
+
 func (o OtelComponentMappingFieldMapping) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.AdditionalIdentifiers != nil {
@@ -146,6 +214,12 @@ func (o OtelComponentMappingFieldMapping) MarshalJSON() ([]byte, error) {
 	}
 	if o.Tags != nil {
 		toSerialize["tags"] = o.Tags
+	}
+	if o.Configuration != nil {
+		toSerialize["configuration"] = o.Configuration
+	}
+	if o.Status != nil {
+		toSerialize["status"] = o.Status
 	}
 	return json.Marshal(toSerialize)
 }
