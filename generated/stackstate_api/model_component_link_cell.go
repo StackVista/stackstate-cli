@@ -17,20 +17,17 @@ import (
 
 // ComponentLinkCell struct for ComponentLinkCell
 type ComponentLinkCell struct {
-	Type        string `json:"_type" yaml:"_type"`
-	Name        string `json:"name" yaml:"name"`
-	ComponentId string `json:"componentId" yaml:"componentId"`
+	Type      string         `json:"_type" yaml:"_type"`
+	Component *ComponentLink `json:"component,omitempty" yaml:"component,omitempty"`
 }
 
 // NewComponentLinkCell instantiates a new ComponentLinkCell object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewComponentLinkCell(type_ string, name string, componentId string) *ComponentLinkCell {
+func NewComponentLinkCell(type_ string) *ComponentLinkCell {
 	this := ComponentLinkCell{}
 	this.Type = type_
-	this.Name = name
-	this.ComponentId = componentId
 	return &this
 }
 
@@ -66,52 +63,36 @@ func (o *ComponentLinkCell) SetType(v string) {
 	o.Type = v
 }
 
-// GetName returns the Name field value
-func (o *ComponentLinkCell) GetName() string {
-	if o == nil {
-		var ret string
+// GetComponent returns the Component field value if set, zero value otherwise.
+func (o *ComponentLinkCell) GetComponent() ComponentLink {
+	if o == nil || o.Component == nil {
+		var ret ComponentLink
 		return ret
 	}
-
-	return o.Name
+	return *o.Component
 }
 
-// GetNameOk returns a tuple with the Name field value
+// GetComponentOk returns a tuple with the Component field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ComponentLinkCell) GetNameOk() (*string, bool) {
-	if o == nil {
+func (o *ComponentLinkCell) GetComponentOk() (*ComponentLink, bool) {
+	if o == nil || o.Component == nil {
 		return nil, false
 	}
-	return &o.Name, true
+	return o.Component, true
 }
 
-// SetName sets field value
-func (o *ComponentLinkCell) SetName(v string) {
-	o.Name = v
-}
-
-// GetComponentId returns the ComponentId field value
-func (o *ComponentLinkCell) GetComponentId() string {
-	if o == nil {
-		var ret string
-		return ret
+// HasComponent returns a boolean if a field has been set.
+func (o *ComponentLinkCell) HasComponent() bool {
+	if o != nil && o.Component != nil {
+		return true
 	}
 
-	return o.ComponentId
+	return false
 }
 
-// GetComponentIdOk returns a tuple with the ComponentId field value
-// and a boolean to check if the value has been set.
-func (o *ComponentLinkCell) GetComponentIdOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ComponentId, true
-}
-
-// SetComponentId sets field value
-func (o *ComponentLinkCell) SetComponentId(v string) {
-	o.ComponentId = v
+// SetComponent gets a reference to the given ComponentLink and assigns it to the Component field.
+func (o *ComponentLinkCell) SetComponent(v ComponentLink) {
+	o.Component = &v
 }
 
 func (o ComponentLinkCell) MarshalJSON() ([]byte, error) {
@@ -119,11 +100,8 @@ func (o ComponentLinkCell) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["_type"] = o.Type
 	}
-	if true {
-		toSerialize["name"] = o.Name
-	}
-	if true {
-		toSerialize["componentId"] = o.ComponentId
+	if o.Component != nil {
+		toSerialize["component"] = o.Component
 	}
 	return json.Marshal(toSerialize)
 }

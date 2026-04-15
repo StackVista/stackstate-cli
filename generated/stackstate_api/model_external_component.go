@@ -26,18 +26,20 @@ type ExternalComponent struct {
 	SyncName            string                 `json:"syncName" yaml:"syncName"`
 	SourceProperties    map[string]interface{} `json:"sourceProperties" yaml:"sourceProperties"`
 	Status              map[string]interface{} `json:"status,omitempty" yaml:"status,omitempty"`
+	Tags                []string               `json:"tags" yaml:"tags"`
 }
 
 // NewExternalComponent instantiates a new ExternalComponent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExternalComponent(identifiers []string, data map[string]interface{}, syncName string, sourceProperties map[string]interface{}) *ExternalComponent {
+func NewExternalComponent(identifiers []string, data map[string]interface{}, syncName string, sourceProperties map[string]interface{}, tags []string) *ExternalComponent {
 	this := ExternalComponent{}
 	this.Identifiers = identifiers
 	this.Data = data
 	this.SyncName = syncName
 	this.SourceProperties = sourceProperties
+	this.Tags = tags
 	return &this
 }
 
@@ -305,6 +307,30 @@ func (o *ExternalComponent) SetStatus(v map[string]interface{}) {
 	o.Status = v
 }
 
+// GetTags returns the Tags field value
+func (o *ExternalComponent) GetTags() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.Tags
+}
+
+// GetTagsOk returns a tuple with the Tags field value
+// and a boolean to check if the value has been set.
+func (o *ExternalComponent) GetTagsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Tags, true
+}
+
+// SetTags sets field value
+func (o *ExternalComponent) SetTags(v []string) {
+	o.Tags = v
+}
+
 func (o ExternalComponent) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ExternalId != nil {
@@ -333,6 +359,9 @@ func (o ExternalComponent) MarshalJSON() ([]byte, error) {
 	}
 	if o.Status != nil {
 		toSerialize["status"] = o.Status
+	}
+	if true {
+		toSerialize["tags"] = o.Tags
 	}
 	return json.Marshal(toSerialize)
 }

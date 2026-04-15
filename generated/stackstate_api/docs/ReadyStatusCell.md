@@ -5,15 +5,15 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
-**Ready** | **int32** |  | 
-**Total** | **int32** |  | 
+**Ready** | Pointer to **int32** |  | [optional] 
+**Total** | Pointer to **int32** |  | [optional] 
 **Status** | Pointer to [**HealthStateValue**](HealthStateValue.md) |  | [optional] 
 
 ## Methods
 
 ### NewReadyStatusCell
 
-`func NewReadyStatusCell(type_ string, ready int32, total int32, ) *ReadyStatusCell`
+`func NewReadyStatusCell(type_ string, ) *ReadyStatusCell`
 
 NewReadyStatusCell instantiates a new ReadyStatusCell object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +67,11 @@ and a boolean to check if the value has been set.
 
 SetReady sets Ready field to given value.
 
+### HasReady
+
+`func (o *ReadyStatusCell) HasReady() bool`
+
+HasReady returns a boolean if a field has been set.
 
 ### GetTotal
 
@@ -87,6 +92,11 @@ and a boolean to check if the value has been set.
 
 SetTotal sets Total field to given value.
 
+### HasTotal
+
+`func (o *ReadyStatusCell) HasTotal() bool`
+
+HasTotal returns a boolean if a field has been set.
 
 ### GetStatus
 

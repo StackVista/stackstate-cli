@@ -17,22 +17,24 @@ import (
 
 // FullRelation struct for FullRelation
 type FullRelation struct {
-	Data     RelationData  `json:"data" yaml:"data"`
-	Source   FullComponent `json:"source" yaml:"source"`
-	Target   FullComponent `json:"target" yaml:"target"`
-	TypeName string        `json:"typeName" yaml:"typeName"`
+	Data     RelationData       `json:"data" yaml:"data"`
+	Source   FullComponent      `json:"source" yaml:"source"`
+	Target   FullComponent      `json:"target" yaml:"target"`
+	TypeName string             `json:"typeName" yaml:"typeName"`
+	Synced   []ExternalRelation `json:"synced" yaml:"synced"`
 }
 
 // NewFullRelation instantiates a new FullRelation object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFullRelation(data RelationData, source FullComponent, target FullComponent, typeName string) *FullRelation {
+func NewFullRelation(data RelationData, source FullComponent, target FullComponent, typeName string, synced []ExternalRelation) *FullRelation {
 	this := FullRelation{}
 	this.Data = data
 	this.Source = source
 	this.Target = target
 	this.TypeName = typeName
+	this.Synced = synced
 	return &this
 }
 
@@ -140,6 +142,30 @@ func (o *FullRelation) SetTypeName(v string) {
 	o.TypeName = v
 }
 
+// GetSynced returns the Synced field value
+func (o *FullRelation) GetSynced() []ExternalRelation {
+	if o == nil {
+		var ret []ExternalRelation
+		return ret
+	}
+
+	return o.Synced
+}
+
+// GetSyncedOk returns a tuple with the Synced field value
+// and a boolean to check if the value has been set.
+func (o *FullRelation) GetSyncedOk() ([]ExternalRelation, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Synced, true
+}
+
+// SetSynced sets field value
+func (o *FullRelation) SetSynced(v []ExternalRelation) {
+	o.Synced = v
+}
+
 func (o FullRelation) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -153,6 +179,9 @@ func (o FullRelation) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["typeName"] = o.TypeName
+	}
+	if true {
+		toSerialize["synced"] = o.Synced
 	}
 	return json.Marshal(toSerialize)
 }

@@ -17,27 +17,21 @@ import (
 
 // LegacyComponentHighlights struct for LegacyComponentHighlights
 type LegacyComponentHighlights struct {
-	NamePlural        string                          `json:"namePlural" yaml:"namePlural"`
-	Events            ComponentTypeEvents             `json:"events" yaml:"events"`
-	ShowLogs          bool                            `json:"showLogs" yaml:"showLogs"`
-	ShowLastChange    bool                            `json:"showLastChange" yaml:"showLastChange"`
-	ExternalComponent ComponentTypeExternalComponent  `json:"externalComponent" yaml:"externalComponent"`
-	RelatedResources  []ComponentTypeRelatedResources `json:"relatedResources" yaml:"relatedResources"`
-	Metrics           []ComponentHighlightMetrics     `json:"metrics" yaml:"metrics"`
+	NamePlural string                      `json:"namePlural" yaml:"namePlural"`
+	Events     ComponentTypeEvents         `json:"events" yaml:"events"`
+	ShowLogs   bool                        `json:"showLogs" yaml:"showLogs"`
+	Metrics    []ComponentHighlightMetrics `json:"metrics" yaml:"metrics"`
 }
 
 // NewLegacyComponentHighlights instantiates a new LegacyComponentHighlights object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLegacyComponentHighlights(namePlural string, events ComponentTypeEvents, showLogs bool, showLastChange bool, externalComponent ComponentTypeExternalComponent, relatedResources []ComponentTypeRelatedResources, metrics []ComponentHighlightMetrics) *LegacyComponentHighlights {
+func NewLegacyComponentHighlights(namePlural string, events ComponentTypeEvents, showLogs bool, metrics []ComponentHighlightMetrics) *LegacyComponentHighlights {
 	this := LegacyComponentHighlights{}
 	this.NamePlural = namePlural
 	this.Events = events
 	this.ShowLogs = showLogs
-	this.ShowLastChange = showLastChange
-	this.ExternalComponent = externalComponent
-	this.RelatedResources = relatedResources
 	this.Metrics = metrics
 	return &this
 }
@@ -122,78 +116,6 @@ func (o *LegacyComponentHighlights) SetShowLogs(v bool) {
 	o.ShowLogs = v
 }
 
-// GetShowLastChange returns the ShowLastChange field value
-func (o *LegacyComponentHighlights) GetShowLastChange() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.ShowLastChange
-}
-
-// GetShowLastChangeOk returns a tuple with the ShowLastChange field value
-// and a boolean to check if the value has been set.
-func (o *LegacyComponentHighlights) GetShowLastChangeOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ShowLastChange, true
-}
-
-// SetShowLastChange sets field value
-func (o *LegacyComponentHighlights) SetShowLastChange(v bool) {
-	o.ShowLastChange = v
-}
-
-// GetExternalComponent returns the ExternalComponent field value
-func (o *LegacyComponentHighlights) GetExternalComponent() ComponentTypeExternalComponent {
-	if o == nil {
-		var ret ComponentTypeExternalComponent
-		return ret
-	}
-
-	return o.ExternalComponent
-}
-
-// GetExternalComponentOk returns a tuple with the ExternalComponent field value
-// and a boolean to check if the value has been set.
-func (o *LegacyComponentHighlights) GetExternalComponentOk() (*ComponentTypeExternalComponent, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ExternalComponent, true
-}
-
-// SetExternalComponent sets field value
-func (o *LegacyComponentHighlights) SetExternalComponent(v ComponentTypeExternalComponent) {
-	o.ExternalComponent = v
-}
-
-// GetRelatedResources returns the RelatedResources field value
-func (o *LegacyComponentHighlights) GetRelatedResources() []ComponentTypeRelatedResources {
-	if o == nil {
-		var ret []ComponentTypeRelatedResources
-		return ret
-	}
-
-	return o.RelatedResources
-}
-
-// GetRelatedResourcesOk returns a tuple with the RelatedResources field value
-// and a boolean to check if the value has been set.
-func (o *LegacyComponentHighlights) GetRelatedResourcesOk() ([]ComponentTypeRelatedResources, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.RelatedResources, true
-}
-
-// SetRelatedResources sets field value
-func (o *LegacyComponentHighlights) SetRelatedResources(v []ComponentTypeRelatedResources) {
-	o.RelatedResources = v
-}
-
 // GetMetrics returns the Metrics field value
 func (o *LegacyComponentHighlights) GetMetrics() []ComponentHighlightMetrics {
 	if o == nil {
@@ -228,15 +150,6 @@ func (o LegacyComponentHighlights) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["showLogs"] = o.ShowLogs
-	}
-	if true {
-		toSerialize["showLastChange"] = o.ShowLastChange
-	}
-	if true {
-		toSerialize["externalComponent"] = o.ExternalComponent
-	}
-	if true {
-		toSerialize["relatedResources"] = o.RelatedResources
 	}
 	if true {
 		toSerialize["metrics"] = o.Metrics

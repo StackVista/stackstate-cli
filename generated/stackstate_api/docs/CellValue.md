@@ -8,20 +8,20 @@ Name | Type | Description | Notes
 **IndividualQuery** | **string** | The frontend can use the individual query to refresh the metrics (at interval). Allows to keep the current behaviour of making individual calls for each row. | 
 **Name** | **string** |  | 
 **Url** | **string** |  | 
-**ComponentId** | **string** |  | 
+**Component** | Pointer to [**ComponentLink**](ComponentLink.md) |  | [optional] 
 **State** | [**HealthStateValue**](HealthStateValue.md) |  | 
 **Value** | **float32** |  | 
 **StartDate** | **int32** |  | 
 **EndDate** | Pointer to **NullableInt32** |  | [optional] 
-**Ready** | **int32** |  | 
-**Total** | **int32** |  | 
+**Ready** | Pointer to **int32** |  | [optional] 
+**Total** | Pointer to **int32** |  | [optional] 
 **Status** | Pointer to [**HealthStateValue**](HealthStateValue.md) |  | [optional] 
 
 ## Methods
 
 ### NewCellValue
 
-`func NewCellValue(type_ string, individualQuery string, name string, url string, componentId string, state HealthStateValue, value float32, startDate int32, ready int32, total int32, ) *CellValue`
+`func NewCellValue(type_ string, individualQuery string, name string, url string, state HealthStateValue, value float32, startDate int32, ) *CellValue`
 
 NewCellValue instantiates a new CellValue object
 This constructor will assign default values to properties that have it defined,
@@ -116,25 +116,30 @@ and a boolean to check if the value has been set.
 SetUrl sets Url field to given value.
 
 
-### GetComponentId
+### GetComponent
 
-`func (o *CellValue) GetComponentId() string`
+`func (o *CellValue) GetComponent() ComponentLink`
 
-GetComponentId returns the ComponentId field if non-nil, zero value otherwise.
+GetComponent returns the Component field if non-nil, zero value otherwise.
 
-### GetComponentIdOk
+### GetComponentOk
 
-`func (o *CellValue) GetComponentIdOk() (*string, bool)`
+`func (o *CellValue) GetComponentOk() (*ComponentLink, bool)`
 
-GetComponentIdOk returns a tuple with the ComponentId field if it's non-nil, zero value otherwise
+GetComponentOk returns a tuple with the Component field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetComponentId
+### SetComponent
 
-`func (o *CellValue) SetComponentId(v string)`
+`func (o *CellValue) SetComponent(v ComponentLink)`
 
-SetComponentId sets ComponentId field to given value.
+SetComponent sets Component field to given value.
 
+### HasComponent
+
+`func (o *CellValue) HasComponent() bool`
+
+HasComponent returns a boolean if a field has been set.
 
 ### GetState
 
@@ -250,6 +255,11 @@ and a boolean to check if the value has been set.
 
 SetReady sets Ready field to given value.
 
+### HasReady
+
+`func (o *CellValue) HasReady() bool`
+
+HasReady returns a boolean if a field has been set.
 
 ### GetTotal
 
@@ -270,6 +280,11 @@ and a boolean to check if the value has been set.
 
 SetTotal sets Total field to given value.
 
+### HasTotal
+
+`func (o *CellValue) HasTotal() bool`
+
+HasTotal returns a boolean if a field has been set.
 
 ### GetStatus
 

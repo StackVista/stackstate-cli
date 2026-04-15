@@ -24,17 +24,19 @@ type ExternalRelation struct {
 	LastUpdateTimestamp *int64                 `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
 	ElementTypeTag      *string                `json:"elementTypeTag,omitempty" yaml:"elementTypeTag,omitempty"`
 	SyncName            string                 `json:"syncName" yaml:"syncName"`
+	Tags                []string               `json:"tags" yaml:"tags"`
 }
 
 // NewExternalRelation instantiates a new ExternalRelation object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewExternalRelation(identifiers []string, data map[string]interface{}, syncName string) *ExternalRelation {
+func NewExternalRelation(identifiers []string, data map[string]interface{}, syncName string, tags []string) *ExternalRelation {
 	this := ExternalRelation{}
 	this.Identifiers = identifiers
 	this.Data = data
 	this.SyncName = syncName
+	this.Tags = tags
 	return &this
 }
 
@@ -246,6 +248,30 @@ func (o *ExternalRelation) SetSyncName(v string) {
 	o.SyncName = v
 }
 
+// GetTags returns the Tags field value
+func (o *ExternalRelation) GetTags() []string {
+	if o == nil {
+		var ret []string
+		return ret
+	}
+
+	return o.Tags
+}
+
+// GetTagsOk returns a tuple with the Tags field value
+// and a boolean to check if the value has been set.
+func (o *ExternalRelation) GetTagsOk() ([]string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Tags, true
+}
+
+// SetTags sets field value
+func (o *ExternalRelation) SetTags(v []string) {
+	o.Tags = v
+}
+
 func (o ExternalRelation) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.ExternalId != nil {
@@ -268,6 +294,9 @@ func (o ExternalRelation) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["syncName"] = o.SyncName
+	}
+	if true {
+		toSerialize["tags"] = o.Tags
 	}
 	return json.Marshal(toSerialize)
 }

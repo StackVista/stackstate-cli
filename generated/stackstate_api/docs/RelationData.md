@@ -6,7 +6,6 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Tags** | **[]string** |  | 
 **Health** | Pointer to [**HealthStateValue**](HealthStateValue.md) |  | [optional] 
-**Synced** | [**[]ExternalRelation**](ExternalRelation.md) |  | 
 **Identifiers** | **[]string** |  | 
 **Description** | Pointer to **string** |  | [optional] 
 **Id** | Pointer to **int64** |  | [optional] 
@@ -18,7 +17,7 @@ Name | Type | Description | Notes
 
 ### NewRelationData
 
-`func NewRelationData(tags []string, synced []ExternalRelation, identifiers []string, dependencyDirection DependencyDirection, ) *RelationData`
+`func NewRelationData(tags []string, identifiers []string, dependencyDirection DependencyDirection, ) *RelationData`
 
 NewRelationData instantiates a new RelationData object
 This constructor will assign default values to properties that have it defined,
@@ -77,26 +76,6 @@ SetHealth sets Health field to given value.
 `func (o *RelationData) HasHealth() bool`
 
 HasHealth returns a boolean if a field has been set.
-
-### GetSynced
-
-`func (o *RelationData) GetSynced() []ExternalRelation`
-
-GetSynced returns the Synced field if non-nil, zero value otherwise.
-
-### GetSyncedOk
-
-`func (o *RelationData) GetSyncedOk() (*[]ExternalRelation, bool)`
-
-GetSyncedOk returns a tuple with the Synced field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSynced
-
-`func (o *RelationData) SetSynced(v []ExternalRelation)`
-
-SetSynced sets Synced field to given value.
-
 
 ### GetIdentifiers
 

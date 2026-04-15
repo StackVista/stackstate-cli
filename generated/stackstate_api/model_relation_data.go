@@ -19,7 +19,6 @@ import (
 type RelationData struct {
 	Tags                []string            `json:"tags" yaml:"tags"`
 	Health              *HealthStateValue   `json:"health,omitempty" yaml:"health,omitempty"`
-	Synced              []ExternalRelation  `json:"synced" yaml:"synced"`
 	Identifiers         []string            `json:"identifiers" yaml:"identifiers"`
 	Description         *string             `json:"description,omitempty" yaml:"description,omitempty"`
 	Id                  *int64              `json:"id,omitempty" yaml:"id,omitempty"`
@@ -32,10 +31,9 @@ type RelationData struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewRelationData(tags []string, synced []ExternalRelation, identifiers []string, dependencyDirection DependencyDirection) *RelationData {
+func NewRelationData(tags []string, identifiers []string, dependencyDirection DependencyDirection) *RelationData {
 	this := RelationData{}
 	this.Tags = tags
-	this.Synced = synced
 	this.Identifiers = identifiers
 	this.DependencyDirection = dependencyDirection
 	return &this
@@ -103,30 +101,6 @@ func (o *RelationData) HasHealth() bool {
 // SetHealth gets a reference to the given HealthStateValue and assigns it to the Health field.
 func (o *RelationData) SetHealth(v HealthStateValue) {
 	o.Health = &v
-}
-
-// GetSynced returns the Synced field value
-func (o *RelationData) GetSynced() []ExternalRelation {
-	if o == nil {
-		var ret []ExternalRelation
-		return ret
-	}
-
-	return o.Synced
-}
-
-// GetSyncedOk returns a tuple with the Synced field value
-// and a boolean to check if the value has been set.
-func (o *RelationData) GetSyncedOk() ([]ExternalRelation, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Synced, true
-}
-
-// SetSynced sets field value
-func (o *RelationData) SetSynced(v []ExternalRelation) {
-	o.Synced = v
 }
 
 // GetIdentifiers returns the Identifiers field value
@@ -312,9 +286,6 @@ func (o RelationData) MarshalJSON() ([]byte, error) {
 	}
 	if o.Health != nil {
 		toSerialize["health"] = o.Health
-	}
-	if true {
-		toSerialize["synced"] = o.Synced
 	}
 	if true {
 		toSerialize["identifiers"] = o.Identifiers

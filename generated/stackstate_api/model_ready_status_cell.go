@@ -18,8 +18,8 @@ import (
 // ReadyStatusCell struct for ReadyStatusCell
 type ReadyStatusCell struct {
 	Type   string            `json:"_type" yaml:"_type"`
-	Ready  int32             `json:"ready" yaml:"ready"`
-	Total  int32             `json:"total" yaml:"total"`
+	Ready  *int32            `json:"ready,omitempty" yaml:"ready,omitempty"`
+	Total  *int32            `json:"total,omitempty" yaml:"total,omitempty"`
 	Status *HealthStateValue `json:"status,omitempty" yaml:"status,omitempty"`
 }
 
@@ -27,11 +27,9 @@ type ReadyStatusCell struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewReadyStatusCell(type_ string, ready int32, total int32) *ReadyStatusCell {
+func NewReadyStatusCell(type_ string) *ReadyStatusCell {
 	this := ReadyStatusCell{}
 	this.Type = type_
-	this.Ready = ready
-	this.Total = total
 	return &this
 }
 
@@ -67,52 +65,68 @@ func (o *ReadyStatusCell) SetType(v string) {
 	o.Type = v
 }
 
-// GetReady returns the Ready field value
+// GetReady returns the Ready field value if set, zero value otherwise.
 func (o *ReadyStatusCell) GetReady() int32 {
-	if o == nil {
+	if o == nil || o.Ready == nil {
 		var ret int32
 		return ret
 	}
-
-	return o.Ready
+	return *o.Ready
 }
 
-// GetReadyOk returns a tuple with the Ready field value
+// GetReadyOk returns a tuple with the Ready field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadyStatusCell) GetReadyOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Ready == nil {
 		return nil, false
 	}
-	return &o.Ready, true
+	return o.Ready, true
 }
 
-// SetReady sets field value
+// HasReady returns a boolean if a field has been set.
+func (o *ReadyStatusCell) HasReady() bool {
+	if o != nil && o.Ready != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetReady gets a reference to the given int32 and assigns it to the Ready field.
 func (o *ReadyStatusCell) SetReady(v int32) {
-	o.Ready = v
+	o.Ready = &v
 }
 
-// GetTotal returns the Total field value
+// GetTotal returns the Total field value if set, zero value otherwise.
 func (o *ReadyStatusCell) GetTotal() int32 {
-	if o == nil {
+	if o == nil || o.Total == nil {
 		var ret int32
 		return ret
 	}
-
-	return o.Total
+	return *o.Total
 }
 
-// GetTotalOk returns a tuple with the Total field value
+// GetTotalOk returns a tuple with the Total field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *ReadyStatusCell) GetTotalOk() (*int32, bool) {
-	if o == nil {
+	if o == nil || o.Total == nil {
 		return nil, false
 	}
-	return &o.Total, true
+	return o.Total, true
 }
 
-// SetTotal sets field value
+// HasTotal returns a boolean if a field has been set.
+func (o *ReadyStatusCell) HasTotal() bool {
+	if o != nil && o.Total != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetTotal gets a reference to the given int32 and assigns it to the Total field.
 func (o *ReadyStatusCell) SetTotal(v int32) {
-	o.Total = v
+	o.Total = &v
 }
 
 // GetStatus returns the Status field value if set, zero value otherwise.
@@ -152,10 +166,10 @@ func (o ReadyStatusCell) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["_type"] = o.Type
 	}
-	if true {
+	if o.Ready != nil {
 		toSerialize["ready"] = o.Ready
 	}
-	if true {
+	if o.Total != nil {
 		toSerialize["total"] = o.Total
 	}
 	if o.Status != nil {

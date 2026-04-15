@@ -7,6 +7,9 @@ Name | Type | Description | Notes
 **TypeName** | **string** |  | 
 **Icon** | Pointer to **string** |  | [optional] 
 **Fields** | [**[]ComponentField**](ComponentField.md) |  | 
+**Synced** | [**[]ExternalComponent**](ExternalComponent.md) |  | 
+**Provisioning** | Pointer to [**ComponentProvisioning**](ComponentProvisioning.md) |  | [optional] 
+**RelatedResources** | [**[]RelatedResource**](RelatedResource.md) | Resolved related resource definitions in display order. Backend populates from both legacy and new presentation definitions. | 
 **Data** | [**ComponentData**](ComponentData.md) |  | 
 **Highlights** | Pointer to [**LegacyComponentHighlights**](LegacyComponentHighlights.md) |  | [optional] 
 **Actions** | [**[]ComponentAction**](ComponentAction.md) |  | 
@@ -17,7 +20,7 @@ Name | Type | Description | Notes
 
 ### NewFullComponent
 
-`func NewFullComponent(typeName string, fields []ComponentField, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric, ) *FullComponent`
+`func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric, ) *FullComponent`
 
 NewFullComponent instantiates a new FullComponent object
 This constructor will assign default values to properties that have it defined,
@@ -95,6 +98,71 @@ and a boolean to check if the value has been set.
 `func (o *FullComponent) SetFields(v []ComponentField)`
 
 SetFields sets Fields field to given value.
+
+
+### GetSynced
+
+`func (o *FullComponent) GetSynced() []ExternalComponent`
+
+GetSynced returns the Synced field if non-nil, zero value otherwise.
+
+### GetSyncedOk
+
+`func (o *FullComponent) GetSyncedOk() (*[]ExternalComponent, bool)`
+
+GetSyncedOk returns a tuple with the Synced field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSynced
+
+`func (o *FullComponent) SetSynced(v []ExternalComponent)`
+
+SetSynced sets Synced field to given value.
+
+
+### GetProvisioning
+
+`func (o *FullComponent) GetProvisioning() ComponentProvisioning`
+
+GetProvisioning returns the Provisioning field if non-nil, zero value otherwise.
+
+### GetProvisioningOk
+
+`func (o *FullComponent) GetProvisioningOk() (*ComponentProvisioning, bool)`
+
+GetProvisioningOk returns a tuple with the Provisioning field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetProvisioning
+
+`func (o *FullComponent) SetProvisioning(v ComponentProvisioning)`
+
+SetProvisioning sets Provisioning field to given value.
+
+### HasProvisioning
+
+`func (o *FullComponent) HasProvisioning() bool`
+
+HasProvisioning returns a boolean if a field has been set.
+
+### GetRelatedResources
+
+`func (o *FullComponent) GetRelatedResources() []RelatedResource`
+
+GetRelatedResources returns the RelatedResources field if non-nil, zero value otherwise.
+
+### GetRelatedResourcesOk
+
+`func (o *FullComponent) GetRelatedResourcesOk() (*[]RelatedResource, bool)`
+
+GetRelatedResourcesOk returns a tuple with the RelatedResources field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRelatedResources
+
+`func (o *FullComponent) SetRelatedResources(v []RelatedResource)`
+
+SetRelatedResources sets RelatedResources field to given value.
 
 
 ### GetData

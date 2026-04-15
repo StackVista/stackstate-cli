@@ -28,10 +28,10 @@ type ComponentApi interface {
 		Get a component checkstates for a defined period of time by id or identifier
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrUrn The id or identifier (urn) of a component
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
 		@return ApiGetComponentCheckStatesRequest
 	*/
-	GetComponentCheckStates(ctx context.Context, componentIdOrUrn string) ApiGetComponentCheckStatesRequest
+	GetComponentCheckStates(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentCheckStatesRequest
 
 	// GetComponentCheckStatesExecute executes the request
 	//  @return ComponentCheckStates
@@ -43,10 +43,10 @@ type ComponentApi interface {
 		Get a component health history for a defined period of time by id or identifier
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrUrn The id or identifier (urn) of a component
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
 		@return ApiGetComponentHealthHistoryRequest
 	*/
-	GetComponentHealthHistory(ctx context.Context, componentIdOrUrn string) ApiGetComponentHealthHistoryRequest
+	GetComponentHealthHistory(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentHealthHistoryRequest
 
 	// GetComponentHealthHistoryExecute executes the request
 	//  @return ComponentHealthHistory
@@ -58,10 +58,10 @@ type ComponentApi interface {
 		Bind the variables in a metric binding to a component to get valid queries for fetching metric data
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrUrn The id or identifier (urn) of a component
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
 		@return ApiGetComponentMetricBindingRequest
 	*/
-	GetComponentMetricBinding(ctx context.Context, componentIdOrUrn string) ApiGetComponentMetricBindingRequest
+	GetComponentMetricBinding(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricBindingRequest
 
 	// GetComponentMetricBindingExecute executes the request
 	//  @return BoundMetric
@@ -73,10 +73,10 @@ type ComponentApi interface {
 		Bound metric bindings for metrics that have data for a component
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrUrn The id or identifier (urn) of a component
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
 		@return ApiGetComponentMetricsWithDataRequest
 	*/
-	GetComponentMetricsWithData(ctx context.Context, componentIdOrUrn string) ApiGetComponentMetricsWithDataRequest
+	GetComponentMetricsWithData(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricsWithDataRequest
 
 	// GetComponentMetricsWithDataExecute executes the request
 	//  @return BoundMetrics
@@ -88,10 +88,10 @@ type ComponentApi interface {
 		Get full component details
 
 		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrUrn The id or identifier (urn) of a component
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
 		@return ApiGetFullComponentRequest
 	*/
-	GetFullComponent(ctx context.Context, componentIdOrUrn string) ApiGetFullComponentRequest
+	GetFullComponent(ctx context.Context, componentIdOrIdentifier string) ApiGetFullComponentRequest
 
 	// GetFullComponentExecute executes the request
 	//  @return FullComponent
@@ -102,11 +102,11 @@ type ComponentApi interface {
 type ComponentApiService service
 
 type ApiGetComponentCheckStatesRequest struct {
-	ctx              context.Context
-	ApiService       ComponentApi
-	componentIdOrUrn string
-	startTime        *int32
-	endTime          *int32
+	ctx                     context.Context
+	ApiService              ComponentApi
+	componentIdOrIdentifier string
+	startTime               *int32
+	endTime                 *int32
 }
 
 // The start time of a time range to query resources.
@@ -131,14 +131,14 @@ GetComponentCheckStates Get a component checkstates
 Get a component checkstates for a defined period of time by id or identifier
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrUrn The id or identifier (urn) of a component
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
 	@return ApiGetComponentCheckStatesRequest
 */
-func (a *ComponentApiService) GetComponentCheckStates(ctx context.Context, componentIdOrUrn string) ApiGetComponentCheckStatesRequest {
+func (a *ComponentApiService) GetComponentCheckStates(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentCheckStatesRequest {
 	return ApiGetComponentCheckStatesRequest{
-		ApiService:       a,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
@@ -158,8 +158,8 @@ func (a *ComponentApiService) GetComponentCheckStatesExecute(r ApiGetComponentCh
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/components/{componentIdOrUrn}/checkStates"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrUrn"+"}", url.PathEscape(parameterToString(r.componentIdOrUrn, "")), -1)
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/checkStates"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -278,11 +278,11 @@ func (a *ComponentApiService) GetComponentCheckStatesExecute(r ApiGetComponentCh
 }
 
 type ApiGetComponentHealthHistoryRequest struct {
-	ctx              context.Context
-	ApiService       ComponentApi
-	componentIdOrUrn string
-	startTime        *int32
-	endTime          *int32
+	ctx                     context.Context
+	ApiService              ComponentApi
+	componentIdOrIdentifier string
+	startTime               *int32
+	endTime                 *int32
 }
 
 // The start time of a time range to query resources.
@@ -307,14 +307,14 @@ GetComponentHealthHistory Get a component health history
 Get a component health history for a defined period of time by id or identifier
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrUrn The id or identifier (urn) of a component
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
 	@return ApiGetComponentHealthHistoryRequest
 */
-func (a *ComponentApiService) GetComponentHealthHistory(ctx context.Context, componentIdOrUrn string) ApiGetComponentHealthHistoryRequest {
+func (a *ComponentApiService) GetComponentHealthHistory(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentHealthHistoryRequest {
 	return ApiGetComponentHealthHistoryRequest{
-		ApiService:       a,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
@@ -334,8 +334,8 @@ func (a *ComponentApiService) GetComponentHealthHistoryExecute(r ApiGetComponent
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/components/{componentIdOrUrn}/healthHistory"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrUrn"+"}", url.PathEscape(parameterToString(r.componentIdOrUrn, "")), -1)
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/healthHistory"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -456,7 +456,7 @@ func (a *ComponentApiService) GetComponentHealthHistoryExecute(r ApiGetComponent
 type ApiGetComponentMetricBindingRequest struct {
 	ctx                     context.Context
 	ApiService              ComponentApi
-	componentIdOrUrn        string
+	componentIdOrIdentifier string
 	metricBindingIdentifier *string
 	topologyTime            *int32
 }
@@ -483,14 +483,14 @@ GetComponentMetricBinding Get a bound metric binding to a component
 Bind the variables in a metric binding to a component to get valid queries for fetching metric data
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrUrn The id or identifier (urn) of a component
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
 	@return ApiGetComponentMetricBindingRequest
 */
-func (a *ComponentApiService) GetComponentMetricBinding(ctx context.Context, componentIdOrUrn string) ApiGetComponentMetricBindingRequest {
+func (a *ComponentApiService) GetComponentMetricBinding(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricBindingRequest {
 	return ApiGetComponentMetricBindingRequest{
-		ApiService:       a,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
@@ -510,8 +510,8 @@ func (a *ComponentApiService) GetComponentMetricBindingExecute(r ApiGetComponent
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/components/{componentIdOrUrn}/bindmetric"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrUrn"+"}", url.PathEscape(parameterToString(r.componentIdOrUrn, "")), -1)
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/bindmetric"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -630,12 +630,12 @@ func (a *ComponentApiService) GetComponentMetricBindingExecute(r ApiGetComponent
 }
 
 type ApiGetComponentMetricsWithDataRequest struct {
-	ctx              context.Context
-	ApiService       ComponentApi
-	componentIdOrUrn string
-	startTime        *int32
-	endTime          *int32
-	topologyTime     *int32
+	ctx                     context.Context
+	ApiService              ComponentApi
+	componentIdOrIdentifier string
+	startTime               *int32
+	endTime                 *int32
+	topologyTime            *int32
 }
 
 // The start time of a time range to query resources.
@@ -666,14 +666,14 @@ GetComponentMetricsWithData Bound metric bindings that have data for a component
 Bound metric bindings for metrics that have data for a component
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrUrn The id or identifier (urn) of a component
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
 	@return ApiGetComponentMetricsWithDataRequest
 */
-func (a *ComponentApiService) GetComponentMetricsWithData(ctx context.Context, componentIdOrUrn string) ApiGetComponentMetricsWithDataRequest {
+func (a *ComponentApiService) GetComponentMetricsWithData(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricsWithDataRequest {
 	return ApiGetComponentMetricsWithDataRequest{
-		ApiService:       a,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
@@ -693,8 +693,8 @@ func (a *ComponentApiService) GetComponentMetricsWithDataExecute(r ApiGetCompone
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/components/{componentIdOrUrn}/boundMetricsWithData"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrUrn"+"}", url.PathEscape(parameterToString(r.componentIdOrUrn, "")), -1)
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/boundMetricsWithData"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -817,10 +817,10 @@ func (a *ComponentApiService) GetComponentMetricsWithDataExecute(r ApiGetCompone
 }
 
 type ApiGetFullComponentRequest struct {
-	ctx              context.Context
-	ApiService       ComponentApi
-	componentIdOrUrn string
-	topologyTime     *int32
+	ctx                     context.Context
+	ApiService              ComponentApi
+	componentIdOrIdentifier string
+	topologyTime            *int32
 }
 
 // A timestamp at which resources will be queried. If not given the resources are queried at current time.
@@ -839,14 +839,14 @@ GetFullComponent Get full component
 Get full component details
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrUrn The id or identifier (urn) of a component
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
 	@return ApiGetFullComponentRequest
 */
-func (a *ComponentApiService) GetFullComponent(ctx context.Context, componentIdOrUrn string) ApiGetFullComponentRequest {
+func (a *ComponentApiService) GetFullComponent(ctx context.Context, componentIdOrIdentifier string) ApiGetFullComponentRequest {
 	return ApiGetFullComponentRequest{
-		ApiService:       a,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
@@ -866,8 +866,8 @@ func (a *ComponentApiService) GetFullComponentExecute(r ApiGetFullComponentReque
 		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
-	localVarPath := localBasePath + "/components/{componentIdOrUrn}"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrUrn"+"}", url.PathEscape(parameterToString(r.componentIdOrUrn, "")), -1)
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
 
 	localVarHeaderParams := make(map[string]string)
 	localVarQueryParams := url.Values{}
@@ -1020,24 +1020,24 @@ type GetComponentCheckStatesMockResponse struct {
 }
 
 type GetComponentCheckStatesCall struct {
-	PcomponentIdOrUrn string
-	PstartTime        *int32
-	PendTime          *int32
+	PcomponentIdOrIdentifier string
+	PstartTime               *int32
+	PendTime                 *int32
 }
 
-func (mock ComponentApiMock) GetComponentCheckStates(ctx context.Context, componentIdOrUrn string) ApiGetComponentCheckStatesRequest {
+func (mock ComponentApiMock) GetComponentCheckStates(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentCheckStatesRequest {
 	return ApiGetComponentCheckStatesRequest{
-		ApiService:       mock,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentCheckStatesExecute(r ApiGetComponentCheckStatesRequest) (*ComponentCheckStates, *http.Response, error) {
 	p := GetComponentCheckStatesCall{
-		PcomponentIdOrUrn: r.componentIdOrUrn,
-		PstartTime:        r.startTime,
-		PendTime:          r.endTime,
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
+		PstartTime:               r.startTime,
+		PendTime:                 r.endTime,
 	}
 	*mock.GetComponentCheckStatesCalls = append(*mock.GetComponentCheckStatesCalls, p)
 	return &mock.GetComponentCheckStatesResponse.Result, mock.GetComponentCheckStatesResponse.Response, mock.GetComponentCheckStatesResponse.Error
@@ -1050,24 +1050,24 @@ type GetComponentHealthHistoryMockResponse struct {
 }
 
 type GetComponentHealthHistoryCall struct {
-	PcomponentIdOrUrn string
-	PstartTime        *int32
-	PendTime          *int32
+	PcomponentIdOrIdentifier string
+	PstartTime               *int32
+	PendTime                 *int32
 }
 
-func (mock ComponentApiMock) GetComponentHealthHistory(ctx context.Context, componentIdOrUrn string) ApiGetComponentHealthHistoryRequest {
+func (mock ComponentApiMock) GetComponentHealthHistory(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentHealthHistoryRequest {
 	return ApiGetComponentHealthHistoryRequest{
-		ApiService:       mock,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentHealthHistoryExecute(r ApiGetComponentHealthHistoryRequest) (*ComponentHealthHistory, *http.Response, error) {
 	p := GetComponentHealthHistoryCall{
-		PcomponentIdOrUrn: r.componentIdOrUrn,
-		PstartTime:        r.startTime,
-		PendTime:          r.endTime,
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
+		PstartTime:               r.startTime,
+		PendTime:                 r.endTime,
 	}
 	*mock.GetComponentHealthHistoryCalls = append(*mock.GetComponentHealthHistoryCalls, p)
 	return &mock.GetComponentHealthHistoryResponse.Result, mock.GetComponentHealthHistoryResponse.Response, mock.GetComponentHealthHistoryResponse.Error
@@ -1080,22 +1080,22 @@ type GetComponentMetricBindingMockResponse struct {
 }
 
 type GetComponentMetricBindingCall struct {
-	PcomponentIdOrUrn        string
+	PcomponentIdOrIdentifier string
 	PmetricBindingIdentifier *string
 	PtopologyTime            *int32
 }
 
-func (mock ComponentApiMock) GetComponentMetricBinding(ctx context.Context, componentIdOrUrn string) ApiGetComponentMetricBindingRequest {
+func (mock ComponentApiMock) GetComponentMetricBinding(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricBindingRequest {
 	return ApiGetComponentMetricBindingRequest{
-		ApiService:       mock,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentMetricBindingExecute(r ApiGetComponentMetricBindingRequest) (*BoundMetric, *http.Response, error) {
 	p := GetComponentMetricBindingCall{
-		PcomponentIdOrUrn:        r.componentIdOrUrn,
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
 		PmetricBindingIdentifier: r.metricBindingIdentifier,
 		PtopologyTime:            r.topologyTime,
 	}
@@ -1110,26 +1110,26 @@ type GetComponentMetricsWithDataMockResponse struct {
 }
 
 type GetComponentMetricsWithDataCall struct {
-	PcomponentIdOrUrn string
-	PstartTime        *int32
-	PendTime          *int32
-	PtopologyTime     *int32
+	PcomponentIdOrIdentifier string
+	PstartTime               *int32
+	PendTime                 *int32
+	PtopologyTime            *int32
 }
 
-func (mock ComponentApiMock) GetComponentMetricsWithData(ctx context.Context, componentIdOrUrn string) ApiGetComponentMetricsWithDataRequest {
+func (mock ComponentApiMock) GetComponentMetricsWithData(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricsWithDataRequest {
 	return ApiGetComponentMetricsWithDataRequest{
-		ApiService:       mock,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
 func (mock ComponentApiMock) GetComponentMetricsWithDataExecute(r ApiGetComponentMetricsWithDataRequest) (*BoundMetrics, *http.Response, error) {
 	p := GetComponentMetricsWithDataCall{
-		PcomponentIdOrUrn: r.componentIdOrUrn,
-		PstartTime:        r.startTime,
-		PendTime:          r.endTime,
-		PtopologyTime:     r.topologyTime,
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
+		PstartTime:               r.startTime,
+		PendTime:                 r.endTime,
+		PtopologyTime:            r.topologyTime,
 	}
 	*mock.GetComponentMetricsWithDataCalls = append(*mock.GetComponentMetricsWithDataCalls, p)
 	return &mock.GetComponentMetricsWithDataResponse.Result, mock.GetComponentMetricsWithDataResponse.Response, mock.GetComponentMetricsWithDataResponse.Error
@@ -1142,22 +1142,22 @@ type GetFullComponentMockResponse struct {
 }
 
 type GetFullComponentCall struct {
-	PcomponentIdOrUrn string
-	PtopologyTime     *int32
+	PcomponentIdOrIdentifier string
+	PtopologyTime            *int32
 }
 
-func (mock ComponentApiMock) GetFullComponent(ctx context.Context, componentIdOrUrn string) ApiGetFullComponentRequest {
+func (mock ComponentApiMock) GetFullComponent(ctx context.Context, componentIdOrIdentifier string) ApiGetFullComponentRequest {
 	return ApiGetFullComponentRequest{
-		ApiService:       mock,
-		ctx:              ctx,
-		componentIdOrUrn: componentIdOrUrn,
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
 	}
 }
 
 func (mock ComponentApiMock) GetFullComponentExecute(r ApiGetFullComponentRequest) (*FullComponent, *http.Response, error) {
 	p := GetFullComponentCall{
-		PcomponentIdOrUrn: r.componentIdOrUrn,
-		PtopologyTime:     r.topologyTime,
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
+		PtopologyTime:            r.topologyTime,
 	}
 	*mock.GetFullComponentCalls = append(*mock.GetFullComponentCalls, p)
 	return &mock.GetFullComponentResponse.Result, mock.GetFullComponentResponse.Response, mock.GetFullComponentResponse.Error
