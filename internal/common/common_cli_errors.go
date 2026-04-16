@@ -51,27 +51,32 @@ func NewConnectError(err error, apiURL string, serverResponse *http.Response) CL
 					messages = append(messages, apiErr.Message)
 				}
 				errMessage = strings.Join(messages, ", ")
-				// Some responses do not yield more than the 401, others give in the body the error message as the RefreshToken failed or so
-				if errMessage == "" {
-					errMessage = "invalid api-token"
-				}
-			} else {
-				errMessage = err.Error()
+			}
+
+			if errMessage == "" {
+				errMessage = string(apiErr.Body())
 			}
 		} else {
 			errMessage = err.Error()
 		}
 
 		return StdCLIError{
-			Err: fmt.Errorf("could not connect to %s: %s\n"+
+			Err: fmt.Errorf("authentication failed when connecting to %s: %s\n"+
 				"For more information: https://l.stackstate.com/cli-invalid-api-token", apiURL, errMessage),
 			exitCode: ConnectErrorExitCode,
 		}
-	} else {
+	}
+
+	if apiErr, ok := err.(*stackstate_api.GenericOpenAPIError); ok {
 		return StdCLIError{
-			Err:      fmt.Errorf("could not connect to %s (%s)", apiURL, err),
+			Err:      fmt.Errorf("could not connect to %s (%s): %s", apiURL, err.Error(), string(apiErr.Body())),
 			exitCode: ConnectErrorExitCode,
 		}
+	}
+
+	return StdCLIError{
+		Err:      fmt.Errorf("could not connect to %s due to %s: ", apiURL, err),
+		exitCode: ConnectErrorExitCode,
 	}
 }
 

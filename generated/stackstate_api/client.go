@@ -524,7 +524,7 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 		}
 		return nil
 	}
-	return errors.New("undefined response type")
+	return errors.New(fmt.Sprintf("fatal: could not unmarshal content type: '%s' into '%T'", contentType, v))
 }
 
 // Add a file to the multipart request
