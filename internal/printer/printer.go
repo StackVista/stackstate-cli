@@ -193,6 +193,11 @@ func (p *StdPrinter) printCLIError(err common.CLIError) {
 				}
 			}
 		}
+	} else if isErrorResponse && strings.Split(resp.Header.Get("Content-Type"), ";")[0] == "text/plain" {
+		bodyb, err := io.ReadAll(resp.Body)
+		if err == nil {
+			bodyStr = string(bodyb)
+		}
 	}
 
 	color.Fprintf(p.stdErr,

@@ -154,6 +154,21 @@ func TestPrintCLIErrorWith503WithColor(t *testing.T) {
 	assert.Equal(t, expected, stdErr.String())
 }
 
+func TestPrintCLIErrorWithTextResponse(t *testing.T) {
+	p, _, stdErr := setupPrinter()
+	p.SetUseColor(true)
+
+	resp := http.Response{
+		Status: "403 Forbidden",
+		Header: map[string][]string{"Content-Type": {"text/plain; charset=UTF-8"}},
+		Body:   io.NopCloser(strings.NewReader(`bigproblem`)),
+	}
+	p.PrintErr(common.NewResponseError(fmt.Errorf(""), &resp))
+
+	expected := "\u274C 403 Forbidden\nbigproblem\n"
+	assert.Equal(t, expected, stdErr.String())
+}
+
 func TestPrintCLIError101WithoutColor(t *testing.T) {
 	p, _, _ := setupPrinter()
 	p.SetUseColor(false)
