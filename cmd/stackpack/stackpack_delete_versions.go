@@ -17,11 +17,11 @@ const (
 )
 
 type DeleteVersionsArgs struct {
-	Name string
-	From string
-	To   string
-	All  bool
-	Dev  bool
+	Name    string
+	From    string
+	To      string
+	All     bool
+	DevOnly bool
 }
 
 func StackpackDeleteVersionsCommand(cli *di.Deps) *cobra.Command {
@@ -36,15 +36,15 @@ sts stackpack delete-versions --name kubernetes --to 1.5.0
 # delete versions in a specific range
 sts stackpack delete-versions --name kubernetes --from 1.0.0 --to 1.5.0
 
-# delete all development (SNAPSHOT) versions
-sts stackpack delete-versions --name kubernetes --all --dev`,
+# delete all development (SNAPSHOT) versions only
+sts stackpack delete-versions --name kubernetes --all --dev-only`,
 		RunE: cli.CmdRunEWithApi(RunStackpackDeleteVersionsCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
 	cmd.Flags().StringVar(&args.From, FromFlag, "", "Inclusive lower bound: delete versions >= this version")
 	cmd.Flags().StringVar(&args.To, ToFlag, "", "Inclusive upper bound: delete versions <= this version")
 	cmd.Flags().BoolVar(&args.All, AllFlag, false, "Delete all versions (cannot be combined with --from or --to)")
-	cmd.Flags().BoolVar(&args.Dev, DevFlag, false, "Restrict to development versions only (e.g. SNAPSHOT)")
+	cmd.Flags().BoolVar(&args.DevOnly, DevOnlyFlag, false, "Restrict to development versions only (e.g. SNAPSHOT)")
 	return cmd
 }
 
@@ -72,7 +72,7 @@ func RunStackpackDeleteVersionsCommand(args *DeleteVersionsArgs) di.CmdWithApiFn
 		if args.All {
 			req = req.All(true)
 		}
-		if args.Dev {
+		if args.DevOnly {
 			req = req.Dev(true)
 		}
 

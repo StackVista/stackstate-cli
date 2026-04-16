@@ -8,5 +8,5 @@ const (
 	UnlockedStrategyFlag = "unlocked-strategy"
 	VersionFlag          = "version"
 	AllFlag              = "all"
-	DevFlag              = "dev"
+	DevOnlyFlag          = "dev-only"
 )

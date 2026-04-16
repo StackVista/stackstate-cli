@@ -61,9 +61,9 @@ func TestStackpackDeleteVersionsWithAll(t *testing.T) {
 	assert.Nil(t, call.Pdev)
 }
 
-func TestStackpackDeleteVersionsWithAllAndDev(t *testing.T) {
+func TestStackpackDeleteVersionsWithAllAndDevOnly(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--all", "--dev")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--all", "--dev-only")
 
 	assert.Equal(t, 1, len(*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls))
 	call := (*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls)[0]
