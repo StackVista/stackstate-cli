@@ -18,9 +18,10 @@ import (
 // OtelInputMetric Defines conditional mapping at the resource -> scope -> metric level. If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`.
 type OtelInputMetric struct {
 	// A Cel expression that must return a boolean
-	Condition *string                   `json:"condition,omitempty" yaml:"condition,omitempty"`
-	Action    *OtelInputConditionAction `json:"action,omitempty" yaml:"action,omitempty"`
-	Datapoint *OtelInputDatapoint       `json:"datapoint,omitempty" yaml:"datapoint,omitempty"`
+	Condition *string `json:"condition,omitempty" yaml:"condition,omitempty"`
+	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
+	Action    *string             `json:"action,omitempty" yaml:"action,omitempty"`
+	Datapoint *OtelInputDatapoint `json:"datapoint,omitempty" yaml:"datapoint,omitempty"`
 }
 
 // NewOtelInputMetric instantiates a new OtelInputMetric object
@@ -73,9 +74,9 @@ func (o *OtelInputMetric) SetCondition(v string) {
 }
 
 // GetAction returns the Action field value if set, zero value otherwise.
-func (o *OtelInputMetric) GetAction() OtelInputConditionAction {
+func (o *OtelInputMetric) GetAction() string {
 	if o == nil || o.Action == nil {
-		var ret OtelInputConditionAction
+		var ret string
 		return ret
 	}
 	return *o.Action
@@ -83,7 +84,7 @@ func (o *OtelInputMetric) GetAction() OtelInputConditionAction {
 
 // GetActionOk returns a tuple with the Action field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OtelInputMetric) GetActionOk() (*OtelInputConditionAction, bool) {
+func (o *OtelInputMetric) GetActionOk() (*string, bool) {
 	if o == nil || o.Action == nil {
 		return nil, false
 	}
@@ -99,8 +100,8 @@ func (o *OtelInputMetric) HasAction() bool {
 	return false
 }
 
-// SetAction gets a reference to the given OtelInputConditionAction and assigns it to the Action field.
-func (o *OtelInputMetric) SetAction(v OtelInputConditionAction) {
+// SetAction gets a reference to the given string and assigns it to the Action field.
+func (o *OtelInputMetric) SetAction(v string) {
 	o.Action = &v
 }
 

@@ -16595,16 +16595,16 @@ components:
               condition: condition
               datapoint:
                 condition: condition
-                action: null
-              action: null
+                action: action
+              action: action
             log:
               condition: condition
-              action: null
-            action: null
+              action: action
+            action: action
             span:
               condition: condition
-              action: null
-          action: null
+              action: action
+          action: action
         signal:
         - null
         - null
@@ -16657,32 +16657,35 @@ components:
             condition: condition
             datapoint:
               condition: condition
-              action: null
-            action: null
+              action: action
+            action: action
           log:
             condition: condition
-            action: null
-          action: null
+            action: action
+          action: action
           span:
             condition: condition
-            action: null
-        action: null
+            action: action
+        action: action
       properties:
         condition:
           description: A Cel expression that must return a boolean
           type: string
         action:
-          $ref: '#/components/schemas/OtelInputConditionAction'
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
         scope:
           $ref: '#/components/schemas/OtelInputScope'
       type: object
     OtelBooleanExpression:
       description: A Cel expression that must return a boolean
       type: string
-    OtelInputConditionAction:
-      enum:
-      - CREATE
-      - CONTINUE
+    OtelStringExpression:
+      description: "An expression that must produce a string. It must be one of these\
+        \ formats:\n  - A plain string, for example `\"this is a plain string\"`\n\
+        \  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
       type: string
     OtelInputScope:
       description: "Defines conditional mapping at the resource -> scope level.\n\
@@ -16693,21 +16696,24 @@ components:
           condition: condition
           datapoint:
             condition: condition
-            action: null
-          action: null
+            action: action
+          action: action
         log:
           condition: condition
-          action: null
-        action: null
+          action: action
+        action: action
         span:
           condition: condition
-          action: null
+          action: action
       properties:
         condition:
           description: A Cel expression that must return a boolean
           type: string
         action:
-          $ref: '#/components/schemas/OtelInputConditionAction'
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
         metric:
           $ref: '#/components/schemas/OtelInputMetric'
         span:
@@ -16723,14 +16729,17 @@ components:
         condition: condition
         datapoint:
           condition: condition
-          action: null
-        action: null
+          action: action
+        action: action
       properties:
         condition:
           description: A Cel expression that must return a boolean
           type: string
         action:
-          $ref: '#/components/schemas/OtelInputConditionAction'
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
         datapoint:
           $ref: '#/components/schemas/OtelInputDatapoint'
       type: object
@@ -16740,39 +16749,48 @@ components:
         \ defaults to `CONTINUE`."
       example:
         condition: condition
-        action: null
+        action: action
       properties:
         condition:
           description: A Cel expression that must return a boolean
           type: string
         action:
-          $ref: '#/components/schemas/OtelInputConditionAction'
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
       type: object
     OtelInputSpan:
       description: "Defines conditional mapping at the resource -> scope -> span level.\n\
         If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`."
       example:
         condition: condition
-        action: null
+        action: action
       properties:
         condition:
           description: A Cel expression that must return a boolean
           type: string
         action:
-          $ref: '#/components/schemas/OtelInputConditionAction'
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
       type: object
     OtelInputLog:
       description: "Defines conditional mapping at the resource -> scope -> log level.\n\
         If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`."
       example:
         condition: condition
-        action: null
+        action: action
       properties:
         condition:
           description: A Cel expression that must return a boolean
           type: string
         action:
-          $ref: '#/components/schemas/OtelInputConditionAction'
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
       type: object
     OtelComponentMappingOutput:
       example:
@@ -16864,11 +16882,6 @@ components:
       - name
       - typeName
       type: object
-    OtelStringExpression:
-      description: "An expression that must produce a string. It must be one of these\
-        \ formats:\n  - A plain string, for example `\"this is a plain string\"`\n\
-        \  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-      type: string
     OtelComponentMappingFieldMapping:
       example:
         configuration: configuration
@@ -17013,16 +17026,16 @@ components:
                 condition: condition
                 datapoint:
                   condition: condition
-                  action: null
-                action: null
+                  action: action
+                action: action
               log:
                 condition: condition
-                action: null
-              action: null
+                action: action
+              action: action
               span:
                 condition: condition
-                action: null
-            action: null
+                action: action
+            action: action
           signal:
           - null
           - null
@@ -17205,16 +17218,16 @@ components:
                 condition: condition
                 datapoint:
                   condition: condition
-                  action: null
-                action: null
+                  action: action
+                action: action
               log:
                 condition: condition
-                action: null
-              action: null
+                action: action
+              action: action
               span:
                 condition: condition
-                action: null
-            action: null
+                action: action
+            action: action
           signal:
           - null
           - null

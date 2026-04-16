@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Condition** | Pointer to **string** | A Cel expression that must return a boolean | [optional] 
-**Action** | Pointer to [**OtelInputConditionAction**](OtelInputConditionAction.md) |  | [optional] 
+**Action** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
 
 ## Methods
 
@@ -53,20 +53,20 @@ HasCondition returns a boolean if a field has been set.
 
 ### GetAction
 
-`func (o *OtelInputLog) GetAction() OtelInputConditionAction`
+`func (o *OtelInputLog) GetAction() string`
 
 GetAction returns the Action field if non-nil, zero value otherwise.
 
 ### GetActionOk
 
-`func (o *OtelInputLog) GetActionOk() (*OtelInputConditionAction, bool)`
+`func (o *OtelInputLog) GetActionOk() (*string, bool)`
 
 GetActionOk returns a tuple with the Action field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetAction
 
-`func (o *OtelInputLog) SetAction(v OtelInputConditionAction)`
+`func (o *OtelInputLog) SetAction(v string)`
 
 SetAction sets Action field to given value.
 
