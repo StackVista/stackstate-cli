@@ -21,12 +21,12 @@ func StackpackDeleteVersionCommand(cli *di.Deps) *cobra.Command {
 		Short: "Delete a specific version of a StackPack",
 		Long:  "Delete a specific version of a StackPack from the server. The version cannot be deleted if it is currently in use by an installed instance.",
 		Example: `# delete version 1.0.0 of the kubernetes StackPack
-sts stackpack delete-version --name kubernetes --version 1.0.0`,
+sts stackpack delete-version --name kubernetes --stackpack-version 1.0.0`,
 		RunE: cli.CmdRunEWithApi(RunStackpackDeleteVersionCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
-	cmd.Flags().StringVar(&args.Version, VersionFlag, "", "Version to delete")
-	cmd.MarkFlagRequired(VersionFlag) //nolint:errcheck
+	cmd.Flags().StringVar(&args.Version, StackpackVersionFlag, "", "Version to delete")
+	cmd.MarkFlagRequired(StackpackVersionFlag) //nolint:errcheck
 	return cmd
 }
 
