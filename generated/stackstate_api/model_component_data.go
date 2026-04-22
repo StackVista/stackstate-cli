@@ -17,30 +17,28 @@ import (
 
 // ComponentData struct for ComponentData
 type ComponentData struct {
-	Id                  *int64              `json:"id,omitempty" yaml:"id,omitempty"`
-	Identifiers         []string            `json:"identifiers,omitempty" yaml:"identifiers,omitempty"`
-	Name                string              `json:"name" yaml:"name"`
-	Description         *string             `json:"description,omitempty" yaml:"description,omitempty"`
-	Version             *string             `json:"version,omitempty" yaml:"version,omitempty"`
-	Tags                []string            `json:"tags" yaml:"tags"`
-	Properties          map[string]string   `json:"properties" yaml:"properties"`
-	LayerName           *string             `json:"layerName,omitempty" yaml:"layerName,omitempty"`
-	DomainName          *string             `json:"domainName,omitempty" yaml:"domainName,omitempty"`
-	Health              *HealthStateValue   `json:"health,omitempty" yaml:"health,omitempty"`
-	LastUpdateTimestamp *int64              `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
-	Synced              []ExternalComponent `json:"synced" yaml:"synced"`
+	Id                  *int64            `json:"id,omitempty" yaml:"id,omitempty"`
+	Identifiers         []string          `json:"identifiers,omitempty" yaml:"identifiers,omitempty"`
+	Name                string            `json:"name" yaml:"name"`
+	Description         *string           `json:"description,omitempty" yaml:"description,omitempty"`
+	Version             *string           `json:"version,omitempty" yaml:"version,omitempty"`
+	Tags                []string          `json:"tags" yaml:"tags"`
+	Properties          map[string]string `json:"properties" yaml:"properties"`
+	LayerName           *string           `json:"layerName,omitempty" yaml:"layerName,omitempty"`
+	DomainName          *string           `json:"domainName,omitempty" yaml:"domainName,omitempty"`
+	Health              *HealthStateValue `json:"health,omitempty" yaml:"health,omitempty"`
+	LastUpdateTimestamp *int64            `json:"lastUpdateTimestamp,omitempty" yaml:"lastUpdateTimestamp,omitempty"`
 }
 
 // NewComponentData instantiates a new ComponentData object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewComponentData(name string, tags []string, properties map[string]string, synced []ExternalComponent) *ComponentData {
+func NewComponentData(name string, tags []string, properties map[string]string) *ComponentData {
 	this := ComponentData{}
 	this.Name = name
 	this.Tags = tags
 	this.Properties = properties
-	this.Synced = synced
 	return &this
 }
 
@@ -380,30 +378,6 @@ func (o *ComponentData) SetLastUpdateTimestamp(v int64) {
 	o.LastUpdateTimestamp = &v
 }
 
-// GetSynced returns the Synced field value
-func (o *ComponentData) GetSynced() []ExternalComponent {
-	if o == nil {
-		var ret []ExternalComponent
-		return ret
-	}
-
-	return o.Synced
-}
-
-// GetSyncedOk returns a tuple with the Synced field value
-// and a boolean to check if the value has been set.
-func (o *ComponentData) GetSyncedOk() ([]ExternalComponent, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Synced, true
-}
-
-// SetSynced sets field value
-func (o *ComponentData) SetSynced(v []ExternalComponent) {
-	o.Synced = v
-}
-
 func (o ComponentData) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Id != nil {
@@ -438,9 +412,6 @@ func (o ComponentData) MarshalJSON() ([]byte, error) {
 	}
 	if o.LastUpdateTimestamp != nil {
 		toSerialize["lastUpdateTimestamp"] = o.LastUpdateTimestamp
-	}
-	if true {
-		toSerialize["synced"] = o.Synced
 	}
 	return json.Marshal(toSerialize)
 }

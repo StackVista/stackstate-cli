@@ -15,13 +15,12 @@ Name | Type | Description | Notes
 **DomainName** | Pointer to **string** |  | [optional] 
 **Health** | Pointer to [**HealthStateValue**](HealthStateValue.md) |  | [optional] 
 **LastUpdateTimestamp** | Pointer to **int64** |  | [optional] 
-**Synced** | [**[]ExternalComponent**](ExternalComponent.md) |  | 
 
 ## Methods
 
 ### NewComponentData
 
-`func NewComponentData(name string, tags []string, properties map[string]string, synced []ExternalComponent, ) *ComponentData`
+`func NewComponentData(name string, tags []string, properties map[string]string, ) *ComponentData`
 
 NewComponentData instantiates a new ComponentData object
 This constructor will assign default values to properties that have it defined,
@@ -295,26 +294,6 @@ SetLastUpdateTimestamp sets LastUpdateTimestamp field to given value.
 `func (o *ComponentData) HasLastUpdateTimestamp() bool`
 
 HasLastUpdateTimestamp returns a boolean if a field has been set.
-
-### GetSynced
-
-`func (o *ComponentData) GetSynced() []ExternalComponent`
-
-GetSynced returns the Synced field if non-nil, zero value otherwise.
-
-### GetSyncedOk
-
-`func (o *ComponentData) GetSyncedOk() (*[]ExternalComponent, bool)`
-
-GetSyncedOk returns a tuple with the Synced field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetSynced
-
-`func (o *ComponentData) SetSynced(v []ExternalComponent)`
-
-SetSynced sets Synced field to given value.
-
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

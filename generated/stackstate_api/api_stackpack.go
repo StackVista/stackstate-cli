@@ -71,6 +71,44 @@ type StackpackApi interface {
 	ProvisionUninstallExecute(r ApiProvisionUninstallRequest) (string, *http.Response, error)
 
 	/*
+		StackPackDeleteVersion Delete a StackPack version
+
+		Delete a specific version of a StackPack. Fails if the version is currently in use.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param stackPackName
+		@param version Version string (e.g. '1.2.3')
+		@return ApiStackPackDeleteVersionRequest
+	*/
+	StackPackDeleteVersion(ctx context.Context, stackPackName string, version string) ApiStackPackDeleteVersionRequest
+
+	// StackPackDeleteVersionExecute executes the request
+	StackPackDeleteVersionExecute(r ApiStackPackDeleteVersionRequest) (*http.Response, error)
+
+	/*
+			StackPackDeleteVersions Delete StackPack versions
+
+			Delete versions of a StackPack. Versions currently in use are skipped.
+
+		Supported parameter combinations:
+		- `?to=X` — delete all versions up to and including X
+		- `?from=X` — delete all versions from X onwards
+		- `?from=X&to=Y` — delete versions in the inclusive range [X, Y]
+		- `?all=true` — delete all versions
+		- Any of the above combined with `&dev=true` to restrict to development versions only
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param stackPackName
+			@return ApiStackPackDeleteVersionsRequest
+	*/
+	StackPackDeleteVersions(ctx context.Context, stackPackName string) ApiStackPackDeleteVersionsRequest
+
+	// StackPackDeleteVersionsExecute executes the request
+	//  @return DeleteVersionsResult
+	StackPackDeleteVersionsExecute(r ApiStackPackDeleteVersionsRequest) (*DeleteVersionsResult, *http.Response, error)
+
+	/*
 		StackPackList StackPack API
 
 		list of stackpack
@@ -83,6 +121,21 @@ type StackpackApi interface {
 	// StackPackListExecute executes the request
 	//  @return []FullStackPack
 	StackPackListExecute(r ApiStackPackListRequest) ([]FullStackPack, *http.Response, error)
+
+	/*
+		StackPackListVersions List StackPack versions
+
+		List all available versions of a StackPack
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param stackPackName
+		@return ApiStackPackListVersionsRequest
+	*/
+	StackPackListVersions(ctx context.Context, stackPackName string) ApiStackPackListVersionsRequest
+
+	// StackPackListVersionsExecute executes the request
+	//  @return []StackPackVersionInfo
+	StackPackListVersionsExecute(r ApiStackPackListVersionsRequest) ([]StackPackVersionInfo, *http.Response, error)
 
 	/*
 		StackPackUpload StackPack API
@@ -632,6 +685,405 @@ func (a *StackpackApiService) ProvisionUninstallExecute(r ApiProvisionUninstallR
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiStackPackDeleteVersionRequest struct {
+	ctx           context.Context
+	ApiService    StackpackApi
+	stackPackName string
+	version       string
+}
+
+func (r ApiStackPackDeleteVersionRequest) Execute() (*http.Response, error) {
+	return r.ApiService.StackPackDeleteVersionExecute(r)
+}
+
+/*
+StackPackDeleteVersion Delete a StackPack version
+
+Delete a specific version of a StackPack. Fails if the version is currently in use.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@param version Version string (e.g. '1.2.3')
+	@return ApiStackPackDeleteVersionRequest
+*/
+func (a *StackpackApiService) StackPackDeleteVersion(ctx context.Context, stackPackName string, version string) ApiStackPackDeleteVersionRequest {
+	return ApiStackPackDeleteVersionRequest{
+		ApiService:    a,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+		version:       version,
+	}
+}
+
+// Execute executes the request
+func (a *StackpackApiService) StackPackDeleteVersionExecute(r ApiStackPackDeleteVersionRequest) (*http.Response, error) {
+	var (
+		localVarHTTPMethod = http.MethodDelete
+		localVarPostBody   interface{}
+		formFiles          []formFile
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackDeleteVersion")
+	if err != nil {
+		return nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/versions/{version}"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
+	localVarPath = strings.Replace(localVarPath, "{"+"version"+"}", url.PathEscape(parameterToString(r.version, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarHTTPResponse, newErr
+	}
+
+	return localVarHTTPResponse, nil
+}
+
+type ApiStackPackDeleteVersionsRequest struct {
+	ctx           context.Context
+	ApiService    StackpackApi
+	stackPackName string
+	from          *string
+	to            *string
+	all           *bool
+	dev           *bool
+}
+
+// Inclusive lower bound. Deletes versions &gt;&#x3D; this version. Can be used alone or combined with &#39;to&#39; for a range.
+func (r ApiStackPackDeleteVersionsRequest) From(from string) ApiStackPackDeleteVersionsRequest {
+	r.from = &from
+	return r
+}
+
+// Inclusive upper bound. Deletes versions &lt;&#x3D; this version. Can be used alone or combined with &#39;from&#39; for a range.
+func (r ApiStackPackDeleteVersionsRequest) To(to string) ApiStackPackDeleteVersionsRequest {
+	r.to = &to
+	return r
+}
+
+// Delete all versions. Cannot be combined with &#39;from&#39; or &#39;to&#39;.
+func (r ApiStackPackDeleteVersionsRequest) All(all bool) ApiStackPackDeleteVersionsRequest {
+	r.all = &all
+	return r
+}
+
+// Filter to development versions only (versions with metadata, e.g. SNAPSHOT). Can be combined with any scope selector.
+func (r ApiStackPackDeleteVersionsRequest) Dev(dev bool) ApiStackPackDeleteVersionsRequest {
+	r.dev = &dev
+	return r
+}
+
+func (r ApiStackPackDeleteVersionsRequest) Execute() (*DeleteVersionsResult, *http.Response, error) {
+	return r.ApiService.StackPackDeleteVersionsExecute(r)
+}
+
+/*
+StackPackDeleteVersions Delete StackPack versions
+
+Delete versions of a StackPack. Versions currently in use are skipped.
+
+Supported parameter combinations:
+- `?to=X` — delete all versions up to and including X
+- `?from=X` — delete all versions from X onwards
+- `?from=X&to=Y` — delete versions in the inclusive range [X, Y]
+- `?all=true` — delete all versions
+- Any of the above combined with `&dev=true` to restrict to development versions only
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiStackPackDeleteVersionsRequest
+*/
+func (a *StackpackApiService) StackPackDeleteVersions(ctx context.Context, stackPackName string) ApiStackPackDeleteVersionsRequest {
+	return ApiStackPackDeleteVersionsRequest{
+		ApiService:    a,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+	}
+}
+
+// Execute executes the request
+//
+//	@return DeleteVersionsResult
+func (a *StackpackApiService) StackPackDeleteVersionsExecute(r ApiStackPackDeleteVersionsRequest) (*DeleteVersionsResult, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodDelete
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *DeleteVersionsResult
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackDeleteVersions")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/versions"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	if r.from != nil {
+		localVarQueryParams.Add("from", parameterToString(*r.from, ""))
+	}
+	if r.to != nil {
+		localVarQueryParams.Add("to", parameterToString(*r.to, ""))
+	}
+	if r.all != nil {
+		localVarQueryParams.Add("all", parameterToString(*r.all, ""))
+	}
+	if r.dev != nil {
+		localVarQueryParams.Add("dev", parameterToString(*r.dev, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v DeleteVersionsResult
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 type ApiStackPackListRequest struct {
 	ctx        context.Context
 	ApiService StackpackApi
@@ -760,6 +1212,171 @@ func (a *StackpackApiService) StackPackListExecute(r ApiStackPackListRequest) ([
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiStackPackListVersionsRequest struct {
+	ctx           context.Context
+	ApiService    StackpackApi
+	stackPackName string
+}
+
+func (r ApiStackPackListVersionsRequest) Execute() ([]StackPackVersionInfo, *http.Response, error) {
+	return r.ApiService.StackPackListVersionsExecute(r)
+}
+
+/*
+StackPackListVersions List StackPack versions
+
+List all available versions of a StackPack
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiStackPackListVersionsRequest
+*/
+func (a *StackpackApiService) StackPackListVersions(ctx context.Context, stackPackName string) ApiStackPackListVersionsRequest {
+	return ApiStackPackListVersionsRequest{
+		ApiService:    a,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+	}
+}
+
+// Execute executes the request
+//
+//	@return []StackPackVersionInfo
+func (a *StackpackApiService) StackPackListVersionsExecute(r ApiStackPackListVersionsRequest) ([]StackPackVersionInfo, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue []StackPackVersionInfo
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.StackPackListVersions")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/versions"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
 			var v []string
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
@@ -1331,38 +1948,50 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 // ---------------------------------------------
 
 type StackpackApiMock struct {
-	ConfirmManualStepsCalls    *[]ConfirmManualStepsCall
-	ConfirmManualStepsResponse ConfirmManualStepsMockResponse
-	ProvisionDetailsCalls      *[]ProvisionDetailsCall
-	ProvisionDetailsResponse   ProvisionDetailsMockResponse
-	ProvisionUninstallCalls    *[]ProvisionUninstallCall
-	ProvisionUninstallResponse ProvisionUninstallMockResponse
-	StackPackListCalls         *[]StackPackListCall
-	StackPackListResponse      StackPackListMockResponse
-	StackPackUploadCalls       *[]StackPackUploadCall
-	StackPackUploadResponse    StackPackUploadMockResponse
-	StackPackValidateCalls     *[]StackPackValidateCall
-	StackPackValidateResponse  StackPackValidateMockResponse
-	UpgradeStackPackCalls      *[]UpgradeStackPackCall
-	UpgradeStackPackResponse   UpgradeStackPackMockResponse
+	ConfirmManualStepsCalls         *[]ConfirmManualStepsCall
+	ConfirmManualStepsResponse      ConfirmManualStepsMockResponse
+	ProvisionDetailsCalls           *[]ProvisionDetailsCall
+	ProvisionDetailsResponse        ProvisionDetailsMockResponse
+	ProvisionUninstallCalls         *[]ProvisionUninstallCall
+	ProvisionUninstallResponse      ProvisionUninstallMockResponse
+	StackPackDeleteVersionCalls     *[]StackPackDeleteVersionCall
+	StackPackDeleteVersionResponse  StackPackDeleteVersionMockResponse
+	StackPackDeleteVersionsCalls    *[]StackPackDeleteVersionsCall
+	StackPackDeleteVersionsResponse StackPackDeleteVersionsMockResponse
+	StackPackListCalls              *[]StackPackListCall
+	StackPackListResponse           StackPackListMockResponse
+	StackPackListVersionsCalls      *[]StackPackListVersionsCall
+	StackPackListVersionsResponse   StackPackListVersionsMockResponse
+	StackPackUploadCalls            *[]StackPackUploadCall
+	StackPackUploadResponse         StackPackUploadMockResponse
+	StackPackValidateCalls          *[]StackPackValidateCall
+	StackPackValidateResponse       StackPackValidateMockResponse
+	UpgradeStackPackCalls           *[]UpgradeStackPackCall
+	UpgradeStackPackResponse        UpgradeStackPackMockResponse
 }
 
 func NewStackpackApiMock() StackpackApiMock {
 	xConfirmManualStepsCalls := make([]ConfirmManualStepsCall, 0)
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
 	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
+	xStackPackDeleteVersionCalls := make([]StackPackDeleteVersionCall, 0)
+	xStackPackDeleteVersionsCalls := make([]StackPackDeleteVersionsCall, 0)
 	xStackPackListCalls := make([]StackPackListCall, 0)
+	xStackPackListVersionsCalls := make([]StackPackListVersionsCall, 0)
 	xStackPackUploadCalls := make([]StackPackUploadCall, 0)
 	xStackPackValidateCalls := make([]StackPackValidateCall, 0)
 	xUpgradeStackPackCalls := make([]UpgradeStackPackCall, 0)
 	return StackpackApiMock{
-		ConfirmManualStepsCalls: &xConfirmManualStepsCalls,
-		ProvisionDetailsCalls:   &xProvisionDetailsCalls,
-		ProvisionUninstallCalls: &xProvisionUninstallCalls,
-		StackPackListCalls:      &xStackPackListCalls,
-		StackPackUploadCalls:    &xStackPackUploadCalls,
-		StackPackValidateCalls:  &xStackPackValidateCalls,
-		UpgradeStackPackCalls:   &xUpgradeStackPackCalls,
+		ConfirmManualStepsCalls:      &xConfirmManualStepsCalls,
+		ProvisionDetailsCalls:        &xProvisionDetailsCalls,
+		ProvisionUninstallCalls:      &xProvisionUninstallCalls,
+		StackPackDeleteVersionCalls:  &xStackPackDeleteVersionCalls,
+		StackPackDeleteVersionsCalls: &xStackPackDeleteVersionsCalls,
+		StackPackListCalls:           &xStackPackListCalls,
+		StackPackListVersionsCalls:   &xStackPackListVersionsCalls,
+		StackPackUploadCalls:         &xStackPackUploadCalls,
+		StackPackValidateCalls:       &xStackPackValidateCalls,
+		UpgradeStackPackCalls:        &xUpgradeStackPackCalls,
 	}
 }
 
@@ -1454,6 +2083,68 @@ func (mock StackpackApiMock) ProvisionUninstallExecute(r ApiProvisionUninstallRe
 	return mock.ProvisionUninstallResponse.Result, mock.ProvisionUninstallResponse.Response, mock.ProvisionUninstallResponse.Error
 }
 
+type StackPackDeleteVersionMockResponse struct {
+	Response *http.Response
+	Error    error
+}
+
+type StackPackDeleteVersionCall struct {
+	PstackPackName string
+	Pversion       string
+}
+
+func (mock StackpackApiMock) StackPackDeleteVersion(ctx context.Context, stackPackName string, version string) ApiStackPackDeleteVersionRequest {
+	return ApiStackPackDeleteVersionRequest{
+		ApiService:    mock,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+		version:       version,
+	}
+}
+
+func (mock StackpackApiMock) StackPackDeleteVersionExecute(r ApiStackPackDeleteVersionRequest) (*http.Response, error) {
+	p := StackPackDeleteVersionCall{
+		PstackPackName: r.stackPackName,
+		Pversion:       r.version,
+	}
+	*mock.StackPackDeleteVersionCalls = append(*mock.StackPackDeleteVersionCalls, p)
+	return mock.StackPackDeleteVersionResponse.Response, mock.StackPackDeleteVersionResponse.Error
+}
+
+type StackPackDeleteVersionsMockResponse struct {
+	Result   DeleteVersionsResult
+	Response *http.Response
+	Error    error
+}
+
+type StackPackDeleteVersionsCall struct {
+	PstackPackName string
+	Pfrom          *string
+	Pto            *string
+	Pall           *bool
+	Pdev           *bool
+}
+
+func (mock StackpackApiMock) StackPackDeleteVersions(ctx context.Context, stackPackName string) ApiStackPackDeleteVersionsRequest {
+	return ApiStackPackDeleteVersionsRequest{
+		ApiService:    mock,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+	}
+}
+
+func (mock StackpackApiMock) StackPackDeleteVersionsExecute(r ApiStackPackDeleteVersionsRequest) (*DeleteVersionsResult, *http.Response, error) {
+	p := StackPackDeleteVersionsCall{
+		PstackPackName: r.stackPackName,
+		Pfrom:          r.from,
+		Pto:            r.to,
+		Pall:           r.all,
+		Pdev:           r.dev,
+	}
+	*mock.StackPackDeleteVersionsCalls = append(*mock.StackPackDeleteVersionsCalls, p)
+	return &mock.StackPackDeleteVersionsResponse.Result, mock.StackPackDeleteVersionsResponse.Response, mock.StackPackDeleteVersionsResponse.Error
+}
+
 type StackPackListMockResponse struct {
 	Result   []FullStackPack
 	Response *http.Response
@@ -1474,6 +2165,32 @@ func (mock StackpackApiMock) StackPackListExecute(r ApiStackPackListRequest) ([]
 	p := StackPackListCall{}
 	*mock.StackPackListCalls = append(*mock.StackPackListCalls, p)
 	return mock.StackPackListResponse.Result, mock.StackPackListResponse.Response, mock.StackPackListResponse.Error
+}
+
+type StackPackListVersionsMockResponse struct {
+	Result   []StackPackVersionInfo
+	Response *http.Response
+	Error    error
+}
+
+type StackPackListVersionsCall struct {
+	PstackPackName string
+}
+
+func (mock StackpackApiMock) StackPackListVersions(ctx context.Context, stackPackName string) ApiStackPackListVersionsRequest {
+	return ApiStackPackListVersionsRequest{
+		ApiService:    mock,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+	}
+}
+
+func (mock StackpackApiMock) StackPackListVersionsExecute(r ApiStackPackListVersionsRequest) ([]StackPackVersionInfo, *http.Response, error) {
+	p := StackPackListVersionsCall{
+		PstackPackName: r.stackPackName,
+	}
+	*mock.StackPackListVersionsCalls = append(*mock.StackPackListVersionsCalls, p)
+	return mock.StackPackListVersionsResponse.Result, mock.StackPackListVersionsResponse.Response, mock.StackPackListVersionsResponse.Error
 }
 
 type StackPackUploadMockResponse struct {

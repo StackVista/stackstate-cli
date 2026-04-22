@@ -7,7 +7,10 @@ Method | HTTP request | Description
 [**ConfirmManualSteps**](StackpackApi.md#ConfirmManualSteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
 [**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
 [**ProvisionUninstall**](StackpackApi.md#ProvisionUninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
+[**StackPackDeleteVersion**](StackpackApi.md#StackPackDeleteVersion) | **Delete** /stackpack/{stackPackName}/versions/{version} | Delete a StackPack version
+[**StackPackDeleteVersions**](StackpackApi.md#StackPackDeleteVersions) | **Delete** /stackpack/{stackPackName}/versions | Delete StackPack versions
 [**StackPackList**](StackpackApi.md#StackPackList) | **Get** /stackpack | StackPack API
+[**StackPackListVersions**](StackpackApi.md#StackPackListVersions) | **Get** /stackpack/{stackPackName}/versions | List StackPack versions
 [**StackPackUpload**](StackpackApi.md#StackPackUpload) | **Post** /stackpack | StackPack API
 [**StackPackValidate**](StackpackApi.md#StackPackValidate) | **Post** /stackpack/validate | Validate API
 [**UpgradeStackPack**](StackpackApi.md#UpgradeStackPack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
@@ -234,6 +237,155 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
+## StackPackDeleteVersion
+
+> StackPackDeleteVersion(ctx, stackPackName, version).Execute()
+
+Delete a StackPack version
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackPackName := "stackPackName_example" // string | 
+    version := "version_example" // string | Version string (e.g. '1.2.3')
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.StackPackDeleteVersion(context.Background(), stackPackName, version).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackPackDeleteVersion``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackPackName** | **string** |  | 
+**version** | **string** | Version string (e.g. &#39;1.2.3&#39;) | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiStackPackDeleteVersionRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+
+### Return type
+
+ (empty response body)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## StackPackDeleteVersions
+
+> DeleteVersionsResult StackPackDeleteVersions(ctx, stackPackName).From(from).To(to).All(all).Dev(dev).Execute()
+
+Delete StackPack versions
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackPackName := "stackPackName_example" // string | 
+    from := "from_example" // string | Inclusive lower bound. Deletes versions >= this version. Can be used alone or combined with 'to' for a range. (optional)
+    to := "to_example" // string | Inclusive upper bound. Deletes versions <= this version. Can be used alone or combined with 'from' for a range. (optional)
+    all := true // bool | Delete all versions. Cannot be combined with 'from' or 'to'. (optional)
+    dev := true // bool | Filter to development versions only (versions with metadata, e.g. SNAPSHOT). Can be combined with any scope selector. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.StackPackDeleteVersions(context.Background(), stackPackName).From(from).To(to).All(all).Dev(dev).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackPackDeleteVersions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `StackPackDeleteVersions`: DeleteVersionsResult
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackPackDeleteVersions`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackPackName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiStackPackDeleteVersionsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **from** | **string** | Inclusive lower bound. Deletes versions &gt;&#x3D; this version. Can be used alone or combined with &#39;to&#39; for a range. | 
+ **to** | **string** | Inclusive upper bound. Deletes versions &lt;&#x3D; this version. Can be used alone or combined with &#39;from&#39; for a range. | 
+ **all** | **bool** | Delete all versions. Cannot be combined with &#39;from&#39; or &#39;to&#39;. | 
+ **dev** | **bool** | Filter to development versions only (versions with metadata, e.g. SNAPSHOT). Can be combined with any scope selector. | 
+
+### Return type
+
+[**DeleteVersionsResult**](DeleteVersionsResult.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
 ## StackPackList
 
 > []FullStackPack StackPackList(ctx).Execute()
@@ -280,6 +432,76 @@ Other parameters are passed through a pointer to a apiStackPackListRequest struc
 ### Return type
 
 [**[]FullStackPack**](FullStackPack.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## StackPackListVersions
+
+> []StackPackVersionInfo StackPackListVersions(ctx, stackPackName).Execute()
+
+List StackPack versions
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackPackName := "stackPackName_example" // string | 
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.StackPackListVersions(context.Background(), stackPackName).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.StackPackListVersions``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `StackPackListVersions`: []StackPackVersionInfo
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.StackPackListVersions`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackPackName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiStackPackListVersionsRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+
+### Return type
+
+[**[]StackPackVersionInfo**](StackPackVersionInfo.md)
 
 ### Authorization
 

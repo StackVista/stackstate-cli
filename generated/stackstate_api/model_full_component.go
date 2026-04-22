@@ -17,24 +17,31 @@ import (
 
 // FullComponent struct for FullComponent
 type FullComponent struct {
-	TypeName     string                     `json:"typeName" yaml:"typeName"`
-	Icon         *string                    `json:"icon,omitempty" yaml:"icon,omitempty"`
-	Fields       []ComponentField           `json:"fields" yaml:"fields"`
-	Data         ComponentData              `json:"data" yaml:"data"`
-	Highlights   *LegacyComponentHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
-	Actions      []ComponentAction          `json:"actions" yaml:"actions"`
-	BoundMetrics []BoundMetric              `json:"boundMetrics" yaml:"boundMetrics"`
-	BoundTraces  *BoundTraces               `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
+	TypeName     string                 `json:"typeName" yaml:"typeName"`
+	Icon         *string                `json:"icon,omitempty" yaml:"icon,omitempty"`
+	Fields       []ComponentField       `json:"fields" yaml:"fields"`
+	Synced       []ExternalComponent    `json:"synced" yaml:"synced"`
+	Provisioning *ComponentProvisioning `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
+	// Resolved related resource definitions in display order. Backend populates from both legacy and new presentation definitions.
+	RelatedResources []RelatedResource          `json:"relatedResources" yaml:"relatedResources"`
+	Events           *ComponentEvents           `json:"events,omitempty" yaml:"events,omitempty"`
+	Data             ComponentData              `json:"data" yaml:"data"`
+	Highlights       *LegacyComponentHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
+	Actions          []ComponentAction          `json:"actions" yaml:"actions"`
+	BoundMetrics     []BoundMetric              `json:"boundMetrics" yaml:"boundMetrics"`
+	BoundTraces      *BoundTraces               `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
 }
 
 // NewFullComponent instantiates a new FullComponent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFullComponent(typeName string, fields []ComponentField, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric) *FullComponent {
+func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric) *FullComponent {
 	this := FullComponent{}
 	this.TypeName = typeName
 	this.Fields = fields
+	this.Synced = synced
+	this.RelatedResources = relatedResources
 	this.Data = data
 	this.Actions = actions
 	this.BoundMetrics = boundMetrics
@@ -127,6 +134,118 @@ func (o *FullComponent) GetFieldsOk() ([]ComponentField, bool) {
 // SetFields sets field value
 func (o *FullComponent) SetFields(v []ComponentField) {
 	o.Fields = v
+}
+
+// GetSynced returns the Synced field value
+func (o *FullComponent) GetSynced() []ExternalComponent {
+	if o == nil {
+		var ret []ExternalComponent
+		return ret
+	}
+
+	return o.Synced
+}
+
+// GetSyncedOk returns a tuple with the Synced field value
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetSyncedOk() ([]ExternalComponent, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Synced, true
+}
+
+// SetSynced sets field value
+func (o *FullComponent) SetSynced(v []ExternalComponent) {
+	o.Synced = v
+}
+
+// GetProvisioning returns the Provisioning field value if set, zero value otherwise.
+func (o *FullComponent) GetProvisioning() ComponentProvisioning {
+	if o == nil || o.Provisioning == nil {
+		var ret ComponentProvisioning
+		return ret
+	}
+	return *o.Provisioning
+}
+
+// GetProvisioningOk returns a tuple with the Provisioning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetProvisioningOk() (*ComponentProvisioning, bool) {
+	if o == nil || o.Provisioning == nil {
+		return nil, false
+	}
+	return o.Provisioning, true
+}
+
+// HasProvisioning returns a boolean if a field has been set.
+func (o *FullComponent) HasProvisioning() bool {
+	if o != nil && o.Provisioning != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetProvisioning gets a reference to the given ComponentProvisioning and assigns it to the Provisioning field.
+func (o *FullComponent) SetProvisioning(v ComponentProvisioning) {
+	o.Provisioning = &v
+}
+
+// GetRelatedResources returns the RelatedResources field value
+func (o *FullComponent) GetRelatedResources() []RelatedResource {
+	if o == nil {
+		var ret []RelatedResource
+		return ret
+	}
+
+	return o.RelatedResources
+}
+
+// GetRelatedResourcesOk returns a tuple with the RelatedResources field value
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetRelatedResourcesOk() ([]RelatedResource, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.RelatedResources, true
+}
+
+// SetRelatedResources sets field value
+func (o *FullComponent) SetRelatedResources(v []RelatedResource) {
+	o.RelatedResources = v
+}
+
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *FullComponent) GetEvents() ComponentEvents {
+	if o == nil || o.Events == nil {
+		var ret ComponentEvents
+		return ret
+	}
+	return *o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetEventsOk() (*ComponentEvents, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *FullComponent) HasEvents() bool {
+	if o != nil && o.Events != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetEvents gets a reference to the given ComponentEvents and assigns it to the Events field.
+func (o *FullComponent) SetEvents(v ComponentEvents) {
+	o.Events = &v
 }
 
 // GetData returns the Data field value
@@ -275,6 +394,18 @@ func (o FullComponent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["fields"] = o.Fields
+	}
+	if true {
+		toSerialize["synced"] = o.Synced
+	}
+	if o.Provisioning != nil {
+		toSerialize["provisioning"] = o.Provisioning
+	}
+	if true {
+		toSerialize["relatedResources"] = o.RelatedResources
+	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
 	}
 	if true {
 		toSerialize["data"] = o.Data

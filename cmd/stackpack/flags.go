@@ -6,4 +6,7 @@ const (
 	IdFlag               = "id"
 	NameFlag             = "name"
 	UnlockedStrategyFlag = "unlocked-strategy"
+	VersionFlag          = "version"
+	AllFlag              = "all"
+	DevOnlyFlag          = "dev-only"
 )

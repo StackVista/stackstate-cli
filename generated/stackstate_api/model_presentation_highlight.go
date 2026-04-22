@@ -15,10 +15,13 @@ import (
 	"encoding/json"
 )
 
-// PresentationHighlight Highlight presentation definition. The `fields` define the fields to show in the ab. The `flags` field can be used to enable/disable functionalities. If multiple ComponentPresentations match, columns are merged by `columnId` according to binding rank. Absence of the field means no overview is shown.
+// PresentationHighlight Highlight presentation definition. The `fields` define the fields to show in the highlight page. If multiple ComponentPresentations match, fields are merged by `fieldId` according to binding rank. Related resources follow the same merge semantics using `resourceId` as the identity key.
 type PresentationHighlight struct {
-	Title  string                       `json:"title" yaml:"title"`
-	Fields []PresentationHighlightField `json:"fields" yaml:"fields"`
+	Title            string                             `json:"title" yaml:"title"`
+	Fields           []PresentationHighlightField       `json:"fields" yaml:"fields"`
+	Provisioning     *PresentationHighlightProvisioning `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
+	RelatedResources []PresentationRelatedResource      `json:"relatedResources,omitempty" yaml:"relatedResources,omitempty"`
+	Events           *PresentationHighlightEvents       `json:"events,omitempty" yaml:"events,omitempty"`
 }
 
 // NewPresentationHighlight instantiates a new PresentationHighlight object
@@ -88,6 +91,102 @@ func (o *PresentationHighlight) SetFields(v []PresentationHighlightField) {
 	o.Fields = v
 }
 
+// GetProvisioning returns the Provisioning field value if set, zero value otherwise.
+func (o *PresentationHighlight) GetProvisioning() PresentationHighlightProvisioning {
+	if o == nil || o.Provisioning == nil {
+		var ret PresentationHighlightProvisioning
+		return ret
+	}
+	return *o.Provisioning
+}
+
+// GetProvisioningOk returns a tuple with the Provisioning field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationHighlight) GetProvisioningOk() (*PresentationHighlightProvisioning, bool) {
+	if o == nil || o.Provisioning == nil {
+		return nil, false
+	}
+	return o.Provisioning, true
+}
+
+// HasProvisioning returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasProvisioning() bool {
+	if o != nil && o.Provisioning != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetProvisioning gets a reference to the given PresentationHighlightProvisioning and assigns it to the Provisioning field.
+func (o *PresentationHighlight) SetProvisioning(v PresentationHighlightProvisioning) {
+	o.Provisioning = &v
+}
+
+// GetRelatedResources returns the RelatedResources field value if set, zero value otherwise.
+func (o *PresentationHighlight) GetRelatedResources() []PresentationRelatedResource {
+	if o == nil || o.RelatedResources == nil {
+		var ret []PresentationRelatedResource
+		return ret
+	}
+	return o.RelatedResources
+}
+
+// GetRelatedResourcesOk returns a tuple with the RelatedResources field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationHighlight) GetRelatedResourcesOk() ([]PresentationRelatedResource, bool) {
+	if o == nil || o.RelatedResources == nil {
+		return nil, false
+	}
+	return o.RelatedResources, true
+}
+
+// HasRelatedResources returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasRelatedResources() bool {
+	if o != nil && o.RelatedResources != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetRelatedResources gets a reference to the given []PresentationRelatedResource and assigns it to the RelatedResources field.
+func (o *PresentationHighlight) SetRelatedResources(v []PresentationRelatedResource) {
+	o.RelatedResources = v
+}
+
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *PresentationHighlight) GetEvents() PresentationHighlightEvents {
+	if o == nil || o.Events == nil {
+		var ret PresentationHighlightEvents
+		return ret
+	}
+	return *o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationHighlight) GetEventsOk() (*PresentationHighlightEvents, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasEvents() bool {
+	if o != nil && o.Events != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetEvents gets a reference to the given PresentationHighlightEvents and assigns it to the Events field.
+func (o *PresentationHighlight) SetEvents(v PresentationHighlightEvents) {
+	o.Events = &v
+}
+
 func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -95,6 +194,15 @@ func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["fields"] = o.Fields
+	}
+	if o.Provisioning != nil {
+		toSerialize["provisioning"] = o.Provisioning
+	}
+	if o.RelatedResources != nil {
+		toSerialize["relatedResources"] = o.RelatedResources
+	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
 	}
 	return json.Marshal(toSerialize)
 }

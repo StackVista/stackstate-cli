@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
-**Value** | **float32** |  | 
+**Value** | Pointer to **float32** |  | [optional] 
 
 ## Methods
 
 ### NewNumericCell
 
-`func NewNumericCell(type_ string, value float32, ) *NumericCell`
+`func NewNumericCell(type_ string, ) *NumericCell`
 
 NewNumericCell instantiates a new NumericCell object
 This constructor will assign default values to properties that have it defined,
@@ -65,6 +65,11 @@ and a boolean to check if the value has been set.
 
 SetValue sets Value field to given value.
 
+### HasValue
+
+`func (o *NumericCell) HasValue() bool`
+
+HasValue returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

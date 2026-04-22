@@ -27,6 +27,9 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(stackpack.StackpackUpgradeCommand(cli))
 	cmd.AddCommand(stackpack.StackpackConfirmManualStepsCommand(cli))
 	cmd.AddCommand(stackpack.StackpackDescribeCommand(cli))
+	cmd.AddCommand(stackpack.StackpackListVersionsCommand(cli))
+	cmd.AddCommand(stackpack.StackpackDeleteVersionCommand(cli))
+	cmd.AddCommand(stackpack.StackpackDeleteVersionsCommand(cli))
 
 	// The not-production-ready commands
 	if os.Getenv(experimentalStackpackEnvVar) != "" {

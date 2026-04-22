@@ -5,14 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
-**Name** | **string** |  | 
-**ComponentId** | **string** |  | 
+**Component** | Pointer to [**ComponentLink**](ComponentLink.md) |  | [optional] 
 
 ## Methods
 
 ### NewComponentLinkCell
 
-`func NewComponentLinkCell(type_ string, name string, componentId string, ) *ComponentLinkCell`
+`func NewComponentLinkCell(type_ string, ) *ComponentLinkCell`
 
 NewComponentLinkCell instantiates a new ComponentLinkCell object
 This constructor will assign default values to properties that have it defined,
@@ -47,45 +46,30 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetName
+### GetComponent
 
-`func (o *ComponentLinkCell) GetName() string`
+`func (o *ComponentLinkCell) GetComponent() ComponentLink`
 
-GetName returns the Name field if non-nil, zero value otherwise.
+GetComponent returns the Component field if non-nil, zero value otherwise.
 
-### GetNameOk
+### GetComponentOk
 
-`func (o *ComponentLinkCell) GetNameOk() (*string, bool)`
+`func (o *ComponentLinkCell) GetComponentOk() (*ComponentLink, bool)`
 
-GetNameOk returns a tuple with the Name field if it's non-nil, zero value otherwise
+GetComponentOk returns a tuple with the Component field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetName
+### SetComponent
 
-`func (o *ComponentLinkCell) SetName(v string)`
+`func (o *ComponentLinkCell) SetComponent(v ComponentLink)`
 
-SetName sets Name field to given value.
+SetComponent sets Component field to given value.
 
+### HasComponent
 
-### GetComponentId
+`func (o *ComponentLinkCell) HasComponent() bool`
 
-`func (o *ComponentLinkCell) GetComponentId() string`
-
-GetComponentId returns the ComponentId field if non-nil, zero value otherwise.
-
-### GetComponentIdOk
-
-`func (o *ComponentLinkCell) GetComponentIdOk() (*string, bool)`
-
-GetComponentIdOk returns a tuple with the ComponentId field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetComponentId
-
-`func (o *ComponentLinkCell) SetComponentId(v string)`
-
-SetComponentId sets ComponentId field to given value.
-
+HasComponent returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

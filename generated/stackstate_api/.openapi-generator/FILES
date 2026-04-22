@@ -92,6 +92,7 @@ docs/ComponentApi.md
 docs/ComponentCheckState.md
 docs/ComponentCheckStates.md
 docs/ComponentData.md
+docs/ComponentEvents.md
 docs/ComponentField.md
 docs/ComponentHealthChange.md
 docs/ComponentHealthHistory.md
@@ -100,6 +101,7 @@ docs/ComponentHighlightMetricSection.md
 docs/ComponentHighlightMetricSectionAllOf.md
 docs/ComponentHighlightMetrics.md
 docs/ComponentHighlightProjection.md
+docs/ComponentLink.md
 docs/ComponentLinkCell.md
 docs/ComponentLinkField.md
 docs/ComponentLinkFieldAllOf.md
@@ -113,11 +115,9 @@ docs/ComponentPresentationFilter.md
 docs/ComponentPresentationFilterDefinition.md
 docs/ComponentPresentationQueryBinding.md
 docs/ComponentPresentationRank.md
+docs/ComponentProvisioning.md
 docs/ComponentQuery.md
 docs/ComponentSummaryLocation.md
-docs/ComponentTypeEvents.md
-docs/ComponentTypeExternalComponent.md
-docs/ComponentTypeRelatedResources.md
 docs/ComponentViewArguments.md
 docs/ContainerImageProjection.md
 docs/CreateSubject.md
@@ -139,6 +139,7 @@ docs/DashboardValidationError.md
 docs/DashboardWriteSchema.md
 docs/DashboardsApi.md
 docs/DataUnavailable.md
+docs/DeleteVersionsResult.md
 docs/DependencyDirection.md
 docs/DummyApi.md
 docs/DurationCell.md
@@ -453,10 +454,13 @@ docs/PresentationFilter.md
 docs/PresentationFilterName.md
 docs/PresentationFiltersResponse.md
 docs/PresentationHighlight.md
+docs/PresentationHighlightEvents.md
 docs/PresentationHighlightField.md
+docs/PresentationHighlightProvisioning.md
 docs/PresentationMainMenu.md
 docs/PresentationName.md
 docs/PresentationOverview.md
+docs/PresentationRelatedResource.md
 docs/PresentationTagFilter.md
 docs/ProblemApi.md
 docs/ProblemNotFound.md
@@ -494,6 +498,7 @@ docs/RatioFieldAllOf.md
 docs/RatioProjection.md
 docs/ReadyStatusCell.md
 docs/ReadyStatusMetaDisplay.md
+docs/RelatedResource.md
 docs/RelationApi.md
 docs/RelationData.md
 docs/ReleaseStatus.md
@@ -541,6 +546,7 @@ docs/StackPackError.md
 docs/StackPackIntegration.md
 docs/StackPackStep.md
 docs/StackPackStepValue.md
+docs/StackPackVersionInfo.md
 docs/StackpackApi.md
 docs/StreamList.md
 docs/StreamListItem.md
@@ -671,6 +677,7 @@ model_component_action.go
 model_component_check_state.go
 model_component_check_states.go
 model_component_data.go
+model_component_events.go
 model_component_field.go
 model_component_health_change.go
 model_component_health_history.go
@@ -679,6 +686,7 @@ model_component_highlight_metric_section.go
 model_component_highlight_metric_section_all_of.go
 model_component_highlight_metrics.go
 model_component_highlight_projection.go
+model_component_link.go
 model_component_link_cell.go
 model_component_link_field.go
 model_component_link_field_all_of.go
@@ -691,11 +699,9 @@ model_component_presentation_filter.go
 model_component_presentation_filter_definition.go
 model_component_presentation_query_binding.go
 model_component_presentation_rank.go
+model_component_provisioning.go
 model_component_query.go
 model_component_summary_location.go
-model_component_type_events.go
-model_component_type_external_component.go
-model_component_type_related_resources.go
 model_component_view_arguments.go
 model_container_image_projection.go
 model_create_subject.go
@@ -716,6 +722,7 @@ model_dashboard_scope.go
 model_dashboard_validation_error.go
 model_dashboard_write_schema.go
 model_data_unavailable.go
+model_delete_versions_result.go
 model_dependency_direction.go
 model_duration_cell.go
 model_duration_field.go
@@ -1013,10 +1020,13 @@ model_presentation_filter.go
 model_presentation_filter_name.go
 model_presentation_filters_response.go
 model_presentation_highlight.go
+model_presentation_highlight_events.go
 model_presentation_highlight_field.go
+model_presentation_highlight_provisioning.go
 model_presentation_main_menu.go
 model_presentation_name.go
 model_presentation_overview.go
+model_presentation_related_resource.go
 model_presentation_tag_filter.go
 model_problem_not_found.go
 model_prom_batch_envelope.go
@@ -1053,6 +1063,7 @@ model_ratio_field_all_of.go
 model_ratio_projection.go
 model_ready_status_cell.go
 model_ready_status_meta_display.go
+model_related_resource.go
 model_relation_data.go
 model_release_status.go
 model_request_error.go
@@ -1095,6 +1106,7 @@ model_stack_pack_error.go
 model_stack_pack_integration.go
 model_stack_pack_step.go
 model_stack_pack_step_value.go
+model_stack_pack_version_info.go
 model_stream_list.go
 model_stream_list_item.go
 model_string_items_with_total.go

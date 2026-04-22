@@ -17,18 +17,17 @@ import (
 
 // NumericCell struct for NumericCell
 type NumericCell struct {
-	Type  string  `json:"_type" yaml:"_type"`
-	Value float32 `json:"value" yaml:"value"`
+	Type  string   `json:"_type" yaml:"_type"`
+	Value *float32 `json:"value,omitempty" yaml:"value,omitempty"`
 }
 
 // NewNumericCell instantiates a new NumericCell object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewNumericCell(type_ string, value float32) *NumericCell {
+func NewNumericCell(type_ string) *NumericCell {
 	this := NumericCell{}
 	this.Type = type_
-	this.Value = value
 	return &this
 }
 
@@ -64,28 +63,36 @@ func (o *NumericCell) SetType(v string) {
 	o.Type = v
 }
 
-// GetValue returns the Value field value
+// GetValue returns the Value field value if set, zero value otherwise.
 func (o *NumericCell) GetValue() float32 {
-	if o == nil {
+	if o == nil || o.Value == nil {
 		var ret float32
 		return ret
 	}
-
-	return o.Value
+	return *o.Value
 }
 
-// GetValueOk returns a tuple with the Value field value
+// GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *NumericCell) GetValueOk() (*float32, bool) {
-	if o == nil {
+	if o == nil || o.Value == nil {
 		return nil, false
 	}
-	return &o.Value, true
+	return o.Value, true
 }
 
-// SetValue sets field value
+// HasValue returns a boolean if a field has been set.
+func (o *NumericCell) HasValue() bool {
+	if o != nil && o.Value != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetValue gets a reference to the given float32 and assigns it to the Value field.
 func (o *NumericCell) SetValue(v float32) {
-	o.Value = v
+	o.Value = &v
 }
 
 func (o NumericCell) MarshalJSON() ([]byte, error) {
@@ -93,7 +100,7 @@ func (o NumericCell) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["_type"] = o.Type
 	}
-	if true {
+	if o.Value != nil {
 		toSerialize["value"] = o.Value
 	}
 	return json.Marshal(toSerialize)

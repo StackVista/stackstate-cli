@@ -8,12 +8,13 @@ Name | Type | Description | Notes
 **Source** | [**FullComponent**](FullComponent.md) |  | 
 **Target** | [**FullComponent**](FullComponent.md) |  | 
 **TypeName** | **string** |  | 
+**Synced** | [**[]ExternalRelation**](ExternalRelation.md) |  | 
 
 ## Methods
 
 ### NewFullRelation
 
-`func NewFullRelation(data RelationData, source FullComponent, target FullComponent, typeName string, ) *FullRelation`
+`func NewFullRelation(data RelationData, source FullComponent, target FullComponent, typeName string, synced []ExternalRelation, ) *FullRelation`
 
 NewFullRelation instantiates a new FullRelation object
 This constructor will assign default values to properties that have it defined,
@@ -106,6 +107,26 @@ and a boolean to check if the value has been set.
 `func (o *FullRelation) SetTypeName(v string)`
 
 SetTypeName sets TypeName field to given value.
+
+
+### GetSynced
+
+`func (o *FullRelation) GetSynced() []ExternalRelation`
+
+GetSynced returns the Synced field if non-nil, zero value otherwise.
+
+### GetSyncedOk
+
+`func (o *FullRelation) GetSyncedOk() (*[]ExternalRelation, bool)`
+
+GetSyncedOk returns a tuple with the Synced field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSynced
+
+`func (o *FullRelation) SetSynced(v []ExternalRelation)`
+
+SetSynced sets Synced field to given value.
 
 
 

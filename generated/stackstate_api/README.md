@@ -90,11 +90,11 @@ Class | Method | HTTP request | Description
 *AgentLeasesApi* | [**AgentCheckLease**](docs/AgentLeasesApi.md#agentchecklease) | **Post** /agents/{agentId}/checkLease | Check the lease of an agent.
 *AgentRegistrationsApi* | [**AllAgentRegistrations**](docs/AgentRegistrationsApi.md#allagentregistrations) | **Get** /agents | Overview of registered agents
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
-*ComponentApi* | [**GetComponentCheckStates**](docs/ComponentApi.md#getcomponentcheckstates) | **Get** /components/{componentIdOrUrn}/checkStates | Get a component checkstates
-*ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrUrn}/healthHistory | Get a component health history
-*ComponentApi* | [**GetComponentMetricBinding**](docs/ComponentApi.md#getcomponentmetricbinding) | **Get** /components/{componentIdOrUrn}/bindmetric | Get a bound metric binding to a component
-*ComponentApi* | [**GetComponentMetricsWithData**](docs/ComponentApi.md#getcomponentmetricswithdata) | **Get** /components/{componentIdOrUrn}/boundMetricsWithData | Bound metric bindings that have data for a component
-*ComponentApi* | [**GetFullComponent**](docs/ComponentApi.md#getfullcomponent) | **Get** /components/{componentIdOrUrn} | Get full component
+*ComponentApi* | [**GetComponentCheckStates**](docs/ComponentApi.md#getcomponentcheckstates) | **Get** /components/{componentIdOrIdentifier}/checkStates | Get a component checkstates
+*ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrIdentifier}/healthHistory | Get a component health history
+*ComponentApi* | [**GetComponentMetricBinding**](docs/ComponentApi.md#getcomponentmetricbinding) | **Get** /components/{componentIdOrIdentifier}/bindmetric | Get a bound metric binding to a component
+*ComponentApi* | [**GetComponentMetricsWithData**](docs/ComponentApi.md#getcomponentmetricswithdata) | **Get** /components/{componentIdOrIdentifier}/boundMetricsWithData | Bound metric bindings that have data for a component
+*ComponentApi* | [**GetFullComponent**](docs/ComponentApi.md#getfullcomponent) | **Get** /components/{componentIdOrIdentifier} | Get full component
 *ComponentPresentationApi* | [**DeleteComponentPresentationByIdentifier**](docs/ComponentPresentationApi.md#deletecomponentpresentationbyidentifier) | **Delete** /presentations/{identifier} | Delete a component presentation by Identifier
 *ComponentPresentationApi* | [**GetComponentPresentationByIdentifier**](docs/ComponentPresentationApi.md#getcomponentpresentationbyidentifier) | **Get** /presentations/{identifier} | Get a component presentation by Identifier
 *ComponentPresentationApi* | [**GetComponentPresentations**](docs/ComponentPresentationApi.md#getcomponentpresentations) | **Get** /presentations | List all component presentations
@@ -228,7 +228,10 @@ Class | Method | HTTP request | Description
 *StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
 *StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
+*StackpackApi* | [**StackPackDeleteVersion**](docs/StackpackApi.md#stackpackdeleteversion) | **Delete** /stackpack/{stackPackName}/versions/{version} | Delete a StackPack version
+*StackpackApi* | [**StackPackDeleteVersions**](docs/StackpackApi.md#stackpackdeleteversions) | **Delete** /stackpack/{stackPackName}/versions | Delete StackPack versions
 *StackpackApi* | [**StackPackList**](docs/StackpackApi.md#stackpacklist) | **Get** /stackpack | StackPack API
+*StackpackApi* | [**StackPackListVersions**](docs/StackpackApi.md#stackpacklistversions) | **Get** /stackpack/{stackPackName}/versions | List StackPack versions
 *StackpackApi* | [**StackPackUpload**](docs/StackpackApi.md#stackpackupload) | **Post** /stackpack | StackPack API
 *StackpackApi* | [**StackPackValidate**](docs/StackpackApi.md#stackpackvalidate) | **Post** /stackpack/validate | Validate API
 *StackpackApi* | [**UpgradeStackPack**](docs/StackpackApi.md#upgradestackpack) | **Post** /stackpack/{stackPackName}/upgrade | Upgrade API
@@ -306,6 +309,7 @@ Class | Method | HTTP request | Description
  - [ComponentCheckState](docs/ComponentCheckState.md)
  - [ComponentCheckStates](docs/ComponentCheckStates.md)
  - [ComponentData](docs/ComponentData.md)
+ - [ComponentEvents](docs/ComponentEvents.md)
  - [ComponentField](docs/ComponentField.md)
  - [ComponentHealthChange](docs/ComponentHealthChange.md)
  - [ComponentHealthHistory](docs/ComponentHealthHistory.md)
@@ -314,6 +318,7 @@ Class | Method | HTTP request | Description
  - [ComponentHighlightMetricSectionAllOf](docs/ComponentHighlightMetricSectionAllOf.md)
  - [ComponentHighlightMetrics](docs/ComponentHighlightMetrics.md)
  - [ComponentHighlightProjection](docs/ComponentHighlightProjection.md)
+ - [ComponentLink](docs/ComponentLink.md)
  - [ComponentLinkCell](docs/ComponentLinkCell.md)
  - [ComponentLinkField](docs/ComponentLinkField.md)
  - [ComponentLinkFieldAllOf](docs/ComponentLinkFieldAllOf.md)
@@ -326,11 +331,9 @@ Class | Method | HTTP request | Description
  - [ComponentPresentationFilterDefinition](docs/ComponentPresentationFilterDefinition.md)
  - [ComponentPresentationQueryBinding](docs/ComponentPresentationQueryBinding.md)
  - [ComponentPresentationRank](docs/ComponentPresentationRank.md)
+ - [ComponentProvisioning](docs/ComponentProvisioning.md)
  - [ComponentQuery](docs/ComponentQuery.md)
  - [ComponentSummaryLocation](docs/ComponentSummaryLocation.md)
- - [ComponentTypeEvents](docs/ComponentTypeEvents.md)
- - [ComponentTypeExternalComponent](docs/ComponentTypeExternalComponent.md)
- - [ComponentTypeRelatedResources](docs/ComponentTypeRelatedResources.md)
  - [ComponentViewArguments](docs/ComponentViewArguments.md)
  - [ContainerImageProjection](docs/ContainerImageProjection.md)
  - [CreateSubject](docs/CreateSubject.md)
@@ -351,6 +354,7 @@ Class | Method | HTTP request | Description
  - [DashboardValidationError](docs/DashboardValidationError.md)
  - [DashboardWriteSchema](docs/DashboardWriteSchema.md)
  - [DataUnavailable](docs/DataUnavailable.md)
+ - [DeleteVersionsResult](docs/DeleteVersionsResult.md)
  - [DependencyDirection](docs/DependencyDirection.md)
  - [DurationCell](docs/DurationCell.md)
  - [DurationField](docs/DurationField.md)
@@ -648,10 +652,13 @@ Class | Method | HTTP request | Description
  - [PresentationFilterName](docs/PresentationFilterName.md)
  - [PresentationFiltersResponse](docs/PresentationFiltersResponse.md)
  - [PresentationHighlight](docs/PresentationHighlight.md)
+ - [PresentationHighlightEvents](docs/PresentationHighlightEvents.md)
  - [PresentationHighlightField](docs/PresentationHighlightField.md)
+ - [PresentationHighlightProvisioning](docs/PresentationHighlightProvisioning.md)
  - [PresentationMainMenu](docs/PresentationMainMenu.md)
  - [PresentationName](docs/PresentationName.md)
  - [PresentationOverview](docs/PresentationOverview.md)
+ - [PresentationRelatedResource](docs/PresentationRelatedResource.md)
  - [PresentationTagFilter](docs/PresentationTagFilter.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromBatchEnvelope](docs/PromBatchEnvelope.md)
@@ -688,6 +695,7 @@ Class | Method | HTTP request | Description
  - [RatioProjection](docs/RatioProjection.md)
  - [ReadyStatusCell](docs/ReadyStatusCell.md)
  - [ReadyStatusMetaDisplay](docs/ReadyStatusMetaDisplay.md)
+ - [RelatedResource](docs/RelatedResource.md)
  - [RelationData](docs/RelationData.md)
  - [ReleaseStatus](docs/ReleaseStatus.md)
  - [RequestError](docs/RequestError.md)
@@ -730,6 +738,7 @@ Class | Method | HTTP request | Description
  - [StackPackIntegration](docs/StackPackIntegration.md)
  - [StackPackStep](docs/StackPackStep.md)
  - [StackPackStepValue](docs/StackPackStepValue.md)
+ - [StackPackVersionInfo](docs/StackPackVersionInfo.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)

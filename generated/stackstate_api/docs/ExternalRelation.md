@@ -11,12 +11,13 @@ Name | Type | Description | Notes
 **LastUpdateTimestamp** | Pointer to **int64** |  | [optional] 
 **ElementTypeTag** | Pointer to **string** |  | [optional] 
 **SyncName** | **string** |  | 
+**Tags** | **[]string** |  | 
 
 ## Methods
 
 ### NewExternalRelation
 
-`func NewExternalRelation(identifiers []string, data map[string]interface{}, syncName string, ) *ExternalRelation`
+`func NewExternalRelation(identifiers []string, data map[string]interface{}, syncName string, tags []string, ) *ExternalRelation`
 
 NewExternalRelation instantiates a new ExternalRelation object
 This constructor will assign default values to properties that have it defined,
@@ -189,6 +190,26 @@ and a boolean to check if the value has been set.
 `func (o *ExternalRelation) SetSyncName(v string)`
 
 SetSyncName sets SyncName field to given value.
+
+
+### GetTags
+
+`func (o *ExternalRelation) GetTags() []string`
+
+GetTags returns the Tags field if non-nil, zero value otherwise.
+
+### GetTagsOk
+
+`func (o *ExternalRelation) GetTagsOk() (*[]string, bool)`
+
+GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTags
+
+`func (o *ExternalRelation) SetTags(v []string)`
+
+SetTags sets Tags field to given value.
 
 
 

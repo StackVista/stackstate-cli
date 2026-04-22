@@ -508,6 +508,167 @@ paths:
       summary: Upgrade API
       tags:
       - stackpack
+  /stackpack/{stackPackName}/versions:
+    delete:
+      description: "Delete versions of a StackPack. Versions currently in use are\
+        \ skipped.\n\nSupported parameter combinations:\n- `?to=X` — delete all versions\
+        \ up to and including X\n- `?from=X` — delete all versions from X onwards\n\
+        - `?from=X&to=Y` — delete versions in the inclusive range [X, Y]\n- `?all=true`\
+        \ — delete all versions\n- Any of the above combined with `&dev=true` to restrict\
+        \ to development versions only\n"
+      operationId: stackPackDeleteVersions
+      parameters:
+      - in: path
+        name: stackPackName
+        required: true
+        schema:
+          type: string
+      - description: Inclusive lower bound. Deletes versions >= this version. Can
+          be used alone or combined with 'to' for a range.
+        in: query
+        name: from
+        required: false
+        schema:
+          type: string
+      - description: Inclusive upper bound. Deletes versions <= this version. Can
+          be used alone or combined with 'from' for a range.
+        in: query
+        name: to
+        required: false
+        schema:
+          type: string
+      - description: Delete all versions. Cannot be combined with 'from' or 'to'.
+        in: query
+        name: all
+        required: false
+        schema:
+          type: boolean
+      - description: "Filter to development versions only (versions with metadata,\
+          \ e.g. SNAPSHOT). Can be combined with any scope selector."
+        in: query
+        name: dev
+        required: false
+        schema:
+          type: boolean
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteVersionsResult'
+          description: Batch delete result
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: "Invalid parameters (e.g. invalid version string, incompatible\
+            \ parameter combination)"
+        "404":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: StackPack not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteVersionsResult'
+          description: All targeted versions are currently in use
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete StackPack versions
+      tags:
+      - stackpack
+    get:
+      description: List all available versions of a StackPack
+      operationId: stackPackListVersions
+      parameters:
+      - in: path
+        name: stackPackName
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/StackPackVersionInfo'
+                type: array
+          description: List of versions
+        "404":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: StackPack not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: List StackPack versions
+      tags:
+      - stackpack
+  /stackpack/{stackPackName}/versions/{version}:
+    delete:
+      description: Delete a specific version of a StackPack. Fails if the version
+        is currently in use.
+      operationId: stackPackDeleteVersion
+      parameters:
+      - in: path
+        name: stackPackName
+        required: true
+        schema:
+          type: string
+      - description: Version string (e.g. '1.2.3')
+        in: path
+        name: version
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Version deleted successfully
+        "400":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: bad request
+        "404":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: Version not found
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Delete a StackPack version
+      tags:
+      - stackpack
   /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId}:
     post:
       description: Confirm manual steps of the stackpack
@@ -5541,17 +5702,17 @@ paths:
       summary: List layout hints
       tags:
       - layout
-  /components/{componentIdOrUrn}:
+  /components/{componentIdOrIdentifier}:
     get:
       description: Get full component details
       operationId: getFullComponent
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
-        name: componentIdOrUrn
+        name: componentIdOrIdentifier
         required: true
         schema:
-          $ref: '#/components/schemas/ComponentIdOrUrn'
+          $ref: '#/components/schemas/ComponentIdOrIdentifier'
       - description: A timestamp at which resources will be queried. If not given
           the resources are queried at current time.
         in: query
@@ -5576,7 +5737,7 @@ paths:
       summary: Get full component
       tags:
       - component
-  /components/{componentIdOrUrn}/healthHistory:
+  /components/{componentIdOrIdentifier}/healthHistory:
     get:
       description: Get a component health history for a defined period of time by
         id or identifier
@@ -5584,10 +5745,10 @@ paths:
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
-        name: componentIdOrUrn
+        name: componentIdOrIdentifier
         required: true
         schema:
-          $ref: '#/components/schemas/ComponentIdOrUrn'
+          $ref: '#/components/schemas/ComponentIdOrIdentifier'
       - description: The start time of a time range to query resources.
         in: query
         name: startTime
@@ -5619,7 +5780,7 @@ paths:
       summary: Get a component health history
       tags:
       - component
-  /components/{componentIdOrUrn}/checkStates:
+  /components/{componentIdOrIdentifier}/checkStates:
     get:
       description: Get a component checkstates for a defined period of time by id
         or identifier
@@ -5627,10 +5788,10 @@ paths:
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
-        name: componentIdOrUrn
+        name: componentIdOrIdentifier
         required: true
         schema:
-          $ref: '#/components/schemas/ComponentIdOrUrn'
+          $ref: '#/components/schemas/ComponentIdOrIdentifier'
       - description: The start time of a time range to query resources.
         in: query
         name: startTime
@@ -5662,7 +5823,7 @@ paths:
       summary: Get a component checkstates
       tags:
       - component
-  /components/{componentIdOrUrn}/bindmetric:
+  /components/{componentIdOrIdentifier}/bindmetric:
     get:
       description: Bind the variables in a metric binding to a component to get valid
         queries for fetching metric data
@@ -5670,16 +5831,16 @@ paths:
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
-        name: componentIdOrUrn
+        name: componentIdOrIdentifier
         required: true
         schema:
-          $ref: '#/components/schemas/ComponentIdOrUrn'
+          $ref: '#/components/schemas/ComponentIdOrIdentifier'
       - description: The identifier (urn) of a metric binding
         in: query
         name: metricBindingIdentifier
         required: true
         schema:
-          $ref: '#/components/schemas/ComponentIdOrUrn'
+          $ref: '#/components/schemas/ComponentIdOrIdentifier'
       - description: A timestamp at which resources will be queried. If not given
           the resources are queried at current time.
         in: query
@@ -5704,17 +5865,17 @@ paths:
       summary: Get a bound metric binding to a component
       tags:
       - component
-  /components/{componentIdOrUrn}/boundMetricsWithData:
+  /components/{componentIdOrIdentifier}/boundMetricsWithData:
     get:
       description: Bound metric bindings for metrics that have data for a component
       operationId: getComponentMetricsWithData
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
-        name: componentIdOrUrn
+        name: componentIdOrIdentifier
         required: true
         schema:
-          $ref: '#/components/schemas/ComponentIdOrUrn'
+          $ref: '#/components/schemas/ComponentIdOrIdentifier'
       - description: A timestamp at which resources will be queried. If not given
           the resources are queried at current time.
         in: query
@@ -8195,6 +8356,44 @@ components:
         lastUpdateTimestamp:
           format: int64
           type: integer
+      type: object
+    StackPackVersionInfo:
+      example:
+        isDev: true
+        isInUse: true
+        version: version
+      properties:
+        version:
+          type: string
+        isDev:
+          type: boolean
+        isInUse:
+          type: boolean
+      required:
+      - isDev
+      - isInUse
+      - version
+      type: object
+    DeleteVersionsResult:
+      example:
+        deleted:
+        - deleted
+        - deleted
+        skippedInUse:
+        - skippedInUse
+        - skippedInUse
+      properties:
+        deleted:
+          items:
+            type: string
+          type: array
+        skippedInUse:
+          items:
+            type: string
+          type: array
+      required:
+      - deleted
+      - skippedInUse
       type: object
     MonitorList:
       example:
@@ -14143,18 +14342,41 @@ components:
       - message
       - statusCode
       type: object
-    ComponentIdOrUrn:
-      pattern: "^urn:.+|[0-9]+$"
+    ComponentIdOrIdentifier:
       type: string
     FullComponent:
       example:
+        synced:
+        - syncName: syncName
+          lastUpdateTimestamp: 6
+          elementTypeTag: elementTypeTag
+          sourceProperties: "{}"
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 0
+          status: "{}"
+          tags:
+          - tags
+          - tags
+        - syncName: syncName
+          lastUpdateTimestamp: 6
+          elementTypeTag: elementTypeTag
+          sourceProperties: "{}"
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 0
+          status: "{}"
+          tags:
+          - tags
+          - tags
         highlights:
-          showLastChange: true
           namePlural: namePlural
-          externalComponent:
-            externalIdSelector: externalIdSelector
-            showConfiguration: true
-            showStatus: true
           showLogs: true
           metrics:
           - bindings:
@@ -14169,45 +14391,8 @@ components:
             name: name
             description: description
             defaultExpanded: true
-          events:
-            showEvents: true
-            relatedResourcesTemplate: relatedResourcesTemplate
-          relatedResources:
-          - hint: hint
-            stql: stql
-            title: title
-            viewTypeIdentifier: viewTypeIdentifier
-            resourceType: resourceType
-          - hint: hint
-            stql: stql
-            title: title
-            viewTypeIdentifier: viewTypeIdentifier
-            resourceType: resourceType
         data:
-          lastUpdateTimestamp: 6
-          synced:
-          - syncName: syncName
-            lastUpdateTimestamp: 5
-            elementTypeTag: elementTypeTag
-            sourceProperties: "{}"
-            data: "{}"
-            identifiers:
-            - identifiers
-            - identifiers
-            externalId: externalId
-            id: 1
-            status: "{}"
-          - syncName: syncName
-            lastUpdateTimestamp: 5
-            elementTypeTag: elementTypeTag
-            sourceProperties: "{}"
-            data: "{}"
-            identifiers:
-            - identifiers
-            - identifiers
-            externalId: externalId
-            id: 1
-            status: "{}"
+          lastUpdateTimestamp: 5
           identifiers:
           - identifiers
           - identifiers
@@ -14215,7 +14400,7 @@ components:
           name: name
           description: description
           health: null
-          id: 0
+          id: 1
           layerName: layerName
           version: version
           properties:
@@ -14225,6 +14410,10 @@ components:
           - tags
         typeName: typeName
         icon: icon
+        provisioning:
+          showConfiguration: true
+          externalId: externalId
+          showStatus: true
         boundTraces:
           filter:
             traceId:
@@ -14262,6 +14451,18 @@ components:
         - name: name
           description: description
           id: 5
+        relatedResources:
+        - resourceId: resourceId
+          stql: stql
+          title: title
+          presentationIdentifier: presentationIdentifier
+        - resourceId: resourceId
+          stql: stql
+          title: title
+          presentationIdentifier: presentationIdentifier
+        events:
+          relatedResourcesQuery: relatedResourcesQuery
+          showEvents: true
         boundMetrics:
         - layout:
             metricPerspective:
@@ -14330,6 +14531,20 @@ components:
           items:
             $ref: '#/components/schemas/ComponentField'
           type: array
+        synced:
+          items:
+            $ref: '#/components/schemas/ExternalComponent'
+          type: array
+        provisioning:
+          $ref: '#/components/schemas/ComponentProvisioning'
+        relatedResources:
+          description: Resolved related resource definitions in display order. Backend
+            populates from both legacy and new presentation definitions.
+          items:
+            $ref: '#/components/schemas/RelatedResource'
+          type: array
+        events:
+          $ref: '#/components/schemas/ComponentEvents'
         data:
           $ref: '#/components/schemas/ComponentData'
         highlights:
@@ -14349,6 +14564,8 @@ components:
       - boundMetrics
       - data
       - fields
+      - relatedResources
+      - synced
       - typeName
     ComponentField:
       description: Display type and value for the field.
@@ -14417,32 +14634,117 @@ components:
       allOf:
       - $ref: '#/components/schemas/BaseComponentField'
       - $ref: '#/components/schemas/MapField_allOf'
+    ExternalComponent:
+      example:
+        syncName: syncName
+        lastUpdateTimestamp: 6
+        elementTypeTag: elementTypeTag
+        sourceProperties: "{}"
+        data: "{}"
+        identifiers:
+        - identifiers
+        - identifiers
+        externalId: externalId
+        id: 0
+        status: "{}"
+        tags:
+        - tags
+        - tags
+      properties:
+        externalId:
+          type: string
+        identifiers:
+          items:
+            type: string
+          type: array
+        data:
+          type: object
+        id:
+          format: int64
+          type: integer
+        lastUpdateTimestamp:
+          format: int64
+          type: integer
+        elementTypeTag:
+          type: string
+        syncName:
+          type: string
+        sourceProperties:
+          type: object
+        status:
+          type: object
+        tags:
+          items:
+            type: string
+          type: array
+      required:
+      - data
+      - identifiers
+      - sourceProperties
+      - syncName
+      - tags
+    ComponentProvisioning:
+      example:
+        showConfiguration: true
+        externalId: externalId
+        showStatus: true
+      properties:
+        showConfiguration:
+          type: boolean
+        showStatus:
+          type: boolean
+        externalId:
+          type: string
+      required:
+      - externalId
+      - showConfiguration
+      - showStatus
+    RelatedResource:
+      description: "A resolved related resource definition returned in the FullComponent\
+        \ response.\nThe backend merges related resources from all matching presentations,\
+        \ resolves template variables\nin the stql field, and derives the name from\
+        \ the referenced presentation's PresentationName.\nArray order in the response\
+        \ determines display order.\n"
+      example:
+        resourceId: resourceId
+        stql: stql
+        title: title
+        presentationIdentifier: presentationIdentifier
+      properties:
+        resourceId:
+          description: Identity key for this related resource.
+          type: string
+        title:
+          description: Section heading displayed in the UI.
+          type: string
+        stql:
+          description: Resolved STQL query with template variables substituted.
+          type: string
+        presentationIdentifier:
+          description: ComponentPresentation identifier whose overview spec is used
+            for rendering.
+          type: string
+      required:
+      - presentationIdentifier
+      - resourceId
+      - stql
+      - title
+      type: object
+    ComponentEvents:
+      example:
+        relatedResourcesQuery: relatedResourcesQuery
+        showEvents: true
+      properties:
+        showEvents:
+          type: boolean
+        relatedResourcesQuery:
+          description: Topology query for resources related to the highlighted component
+          type: string
+      required:
+      - showEvents
     ComponentData:
       example:
-        lastUpdateTimestamp: 6
-        synced:
-        - syncName: syncName
-          lastUpdateTimestamp: 5
-          elementTypeTag: elementTypeTag
-          sourceProperties: "{}"
-          data: "{}"
-          identifiers:
-          - identifiers
-          - identifiers
-          externalId: externalId
-          id: 1
-          status: "{}"
-        - syncName: syncName
-          lastUpdateTimestamp: 5
-          elementTypeTag: elementTypeTag
-          sourceProperties: "{}"
-          data: "{}"
-          identifiers:
-          - identifiers
-          - identifiers
-          externalId: externalId
-          id: 1
-          status: "{}"
+        lastUpdateTimestamp: 5
         identifiers:
         - identifiers
         - identifiers
@@ -14450,7 +14752,7 @@ components:
         name: name
         description: description
         health: null
-        id: 0
+        id: 1
         layerName: layerName
         version: version
         properties:
@@ -14489,64 +14791,14 @@ components:
         lastUpdateTimestamp:
           format: int64
           type: integer
-        synced:
-          items:
-            $ref: '#/components/schemas/ExternalComponent'
-          type: array
       required:
       - name
       - properties
       - synced
       - tags
-    ExternalComponent:
-      example:
-        syncName: syncName
-        lastUpdateTimestamp: 5
-        elementTypeTag: elementTypeTag
-        sourceProperties: "{}"
-        data: "{}"
-        identifiers:
-        - identifiers
-        - identifiers
-        externalId: externalId
-        id: 1
-        status: "{}"
-      properties:
-        externalId:
-          type: string
-        identifiers:
-          items:
-            type: string
-          type: array
-        data:
-          type: object
-        id:
-          format: int64
-          type: integer
-        lastUpdateTimestamp:
-          format: int64
-          type: integer
-        elementTypeTag:
-          type: string
-        syncName:
-          type: string
-        sourceProperties:
-          type: object
-        status:
-          type: object
-      required:
-      - data
-      - identifiers
-      - sourceProperties
-      - syncName
     LegacyComponentHighlights:
       example:
-        showLastChange: true
         namePlural: namePlural
-        externalComponent:
-          externalIdSelector: externalIdSelector
-          showConfiguration: true
-          showStatus: true
         showLogs: true
         metrics:
         - bindings:
@@ -14561,46 +14813,19 @@ components:
           name: name
           description: description
           defaultExpanded: true
-        events:
-          showEvents: true
-          relatedResourcesTemplate: relatedResourcesTemplate
-        relatedResources:
-        - hint: hint
-          stql: stql
-          title: title
-          viewTypeIdentifier: viewTypeIdentifier
-          resourceType: resourceType
-        - hint: hint
-          stql: stql
-          title: title
-          viewTypeIdentifier: viewTypeIdentifier
-          resourceType: resourceType
       properties:
         namePlural:
           type: string
-        events:
-          $ref: '#/components/schemas/ComponentTypeEvents'
         showLogs:
           type: boolean
-        showLastChange:
-          type: boolean
-        externalComponent:
-          $ref: '#/components/schemas/ComponentTypeExternalComponent'
-        relatedResources:
-          items:
-            $ref: '#/components/schemas/ComponentTypeRelatedResources'
-          type: array
         metrics:
           items:
             $ref: '#/components/schemas/ComponentHighlightMetrics'
           type: array
       required:
-      - events
-      - externalComponent
       - metrics
       - namePlural
       - relatedResources
-      - showLastChange
       - showLogs
     ComponentAction:
       example:
@@ -14939,47 +15164,77 @@ components:
       - boundMetrics
     FullRelation:
       example:
+        synced:
+        - syncName: syncName
+          lastUpdateTimestamp: 5
+          elementTypeTag: elementTypeTag
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 1
+          tags:
+          - tags
+          - tags
+        - syncName: syncName
+          lastUpdateTimestamp: 5
+          elementTypeTag: elementTypeTag
+          data: "{}"
+          identifiers:
+          - identifiers
+          - identifiers
+          externalId: externalId
+          id: 1
+          tags:
+          - tags
+          - tags
         data:
           dependencyDirection: null
-          lastUpdateTimestamp: 5
-          synced:
-          - syncName: syncName
-            lastUpdateTimestamp: 6
-            elementTypeTag: elementTypeTag
-            data: "{}"
-            identifiers:
-            - identifiers
-            - identifiers
-            externalId: externalId
-            id: 0
-          - syncName: syncName
-            lastUpdateTimestamp: 6
-            elementTypeTag: elementTypeTag
-            data: "{}"
-            identifiers:
-            - identifiers
-            - identifiers
-            externalId: externalId
-            id: 0
+          lastUpdateTimestamp: 6
           identifiers:
           - identifiers
           - identifiers
           name: name
           health: null
           description: description
-          id: 1
+          id: 0
           tags:
           - tags
           - tags
         typeName: typeName
         source:
+          synced:
+          - syncName: syncName
+            lastUpdateTimestamp: 6
+            elementTypeTag: elementTypeTag
+            sourceProperties: "{}"
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 0
+            status: "{}"
+            tags:
+            - tags
+            - tags
+          - syncName: syncName
+            lastUpdateTimestamp: 6
+            elementTypeTag: elementTypeTag
+            sourceProperties: "{}"
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 0
+            status: "{}"
+            tags:
+            - tags
+            - tags
           highlights:
-            showLastChange: true
             namePlural: namePlural
-            externalComponent:
-              externalIdSelector: externalIdSelector
-              showConfiguration: true
-              showStatus: true
             showLogs: true
             metrics:
             - bindings:
@@ -14994,45 +15249,8 @@ components:
               name: name
               description: description
               defaultExpanded: true
-            events:
-              showEvents: true
-              relatedResourcesTemplate: relatedResourcesTemplate
-            relatedResources:
-            - hint: hint
-              stql: stql
-              title: title
-              viewTypeIdentifier: viewTypeIdentifier
-              resourceType: resourceType
-            - hint: hint
-              stql: stql
-              title: title
-              viewTypeIdentifier: viewTypeIdentifier
-              resourceType: resourceType
           data:
-            lastUpdateTimestamp: 6
-            synced:
-            - syncName: syncName
-              lastUpdateTimestamp: 5
-              elementTypeTag: elementTypeTag
-              sourceProperties: "{}"
-              data: "{}"
-              identifiers:
-              - identifiers
-              - identifiers
-              externalId: externalId
-              id: 1
-              status: "{}"
-            - syncName: syncName
-              lastUpdateTimestamp: 5
-              elementTypeTag: elementTypeTag
-              sourceProperties: "{}"
-              data: "{}"
-              identifiers:
-              - identifiers
-              - identifiers
-              externalId: externalId
-              id: 1
-              status: "{}"
+            lastUpdateTimestamp: 5
             identifiers:
             - identifiers
             - identifiers
@@ -15040,7 +15258,7 @@ components:
             name: name
             description: description
             health: null
-            id: 0
+            id: 1
             layerName: layerName
             version: version
             properties:
@@ -15050,6 +15268,10 @@ components:
             - tags
           typeName: typeName
           icon: icon
+          provisioning:
+            showConfiguration: true
+            externalId: externalId
+            showStatus: true
           boundTraces:
             filter:
               traceId:
@@ -15087,6 +15309,18 @@ components:
           - name: name
             description: description
             id: 5
+          relatedResources:
+          - resourceId: resourceId
+            stql: stql
+            title: title
+            presentationIdentifier: presentationIdentifier
+          - resourceId: resourceId
+            stql: stql
+            title: title
+            presentationIdentifier: presentationIdentifier
+          events:
+            relatedResourcesQuery: relatedResourcesQuery
+            showEvents: true
           boundMetrics:
           - layout:
               metricPerspective:
@@ -15147,13 +15381,37 @@ components:
             tags:
               key: tags
         target:
+          synced:
+          - syncName: syncName
+            lastUpdateTimestamp: 6
+            elementTypeTag: elementTypeTag
+            sourceProperties: "{}"
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 0
+            status: "{}"
+            tags:
+            - tags
+            - tags
+          - syncName: syncName
+            lastUpdateTimestamp: 6
+            elementTypeTag: elementTypeTag
+            sourceProperties: "{}"
+            data: "{}"
+            identifiers:
+            - identifiers
+            - identifiers
+            externalId: externalId
+            id: 0
+            status: "{}"
+            tags:
+            - tags
+            - tags
           highlights:
-            showLastChange: true
             namePlural: namePlural
-            externalComponent:
-              externalIdSelector: externalIdSelector
-              showConfiguration: true
-              showStatus: true
             showLogs: true
             metrics:
             - bindings:
@@ -15168,45 +15426,8 @@ components:
               name: name
               description: description
               defaultExpanded: true
-            events:
-              showEvents: true
-              relatedResourcesTemplate: relatedResourcesTemplate
-            relatedResources:
-            - hint: hint
-              stql: stql
-              title: title
-              viewTypeIdentifier: viewTypeIdentifier
-              resourceType: resourceType
-            - hint: hint
-              stql: stql
-              title: title
-              viewTypeIdentifier: viewTypeIdentifier
-              resourceType: resourceType
           data:
-            lastUpdateTimestamp: 6
-            synced:
-            - syncName: syncName
-              lastUpdateTimestamp: 5
-              elementTypeTag: elementTypeTag
-              sourceProperties: "{}"
-              data: "{}"
-              identifiers:
-              - identifiers
-              - identifiers
-              externalId: externalId
-              id: 1
-              status: "{}"
-            - syncName: syncName
-              lastUpdateTimestamp: 5
-              elementTypeTag: elementTypeTag
-              sourceProperties: "{}"
-              data: "{}"
-              identifiers:
-              - identifiers
-              - identifiers
-              externalId: externalId
-              id: 1
-              status: "{}"
+            lastUpdateTimestamp: 5
             identifiers:
             - identifiers
             - identifiers
@@ -15214,7 +15435,7 @@ components:
             name: name
             description: description
             health: null
-            id: 0
+            id: 1
             layerName: layerName
             version: version
             properties:
@@ -15224,6 +15445,10 @@ components:
             - tags
           typeName: typeName
           icon: icon
+          provisioning:
+            showConfiguration: true
+            externalId: externalId
+            showStatus: true
           boundTraces:
             filter:
               traceId:
@@ -15261,6 +15486,18 @@ components:
           - name: name
             description: description
             id: 5
+          relatedResources:
+          - resourceId: resourceId
+            stql: stql
+            title: title
+            presentationIdentifier: presentationIdentifier
+          - resourceId: resourceId
+            stql: stql
+            title: title
+            presentationIdentifier: presentationIdentifier
+          events:
+            relatedResourcesQuery: relatedResourcesQuery
+            showEvents: true
           boundMetrics:
           - layout:
               metricPerspective:
@@ -15329,41 +15566,27 @@ components:
           $ref: '#/components/schemas/FullComponent'
         typeName:
           type: string
+        synced:
+          items:
+            $ref: '#/components/schemas/ExternalRelation'
+          type: array
       required:
       - data
       - source
+      - synced
       - target
       - typeName
     RelationData:
       example:
         dependencyDirection: null
-        lastUpdateTimestamp: 5
-        synced:
-        - syncName: syncName
-          lastUpdateTimestamp: 6
-          elementTypeTag: elementTypeTag
-          data: "{}"
-          identifiers:
-          - identifiers
-          - identifiers
-          externalId: externalId
-          id: 0
-        - syncName: syncName
-          lastUpdateTimestamp: 6
-          elementTypeTag: elementTypeTag
-          data: "{}"
-          identifiers:
-          - identifiers
-          - identifiers
-          externalId: externalId
-          id: 0
+        lastUpdateTimestamp: 6
         identifiers:
         - identifiers
         - identifiers
         name: name
         health: null
         description: description
-        id: 1
+        id: 0
         tags:
         - tags
         - tags
@@ -15374,10 +15597,6 @@ components:
           type: array
         health:
           $ref: '#/components/schemas/HealthStateValue'
-        synced:
-          items:
-            $ref: '#/components/schemas/ExternalRelation'
-          type: array
         identifiers:
           items:
             type: string
@@ -15397,19 +15616,27 @@ components:
       required:
       - dependencyDirection
       - identifiers
-      - synced
       - tags
+    DependencyDirection:
+      enum:
+      - one-way
+      - none
+      - both
+      type: string
     ExternalRelation:
       example:
         syncName: syncName
-        lastUpdateTimestamp: 6
+        lastUpdateTimestamp: 5
         elementTypeTag: elementTypeTag
         data: "{}"
         identifiers:
         - identifiers
         - identifiers
         externalId: externalId
-        id: 0
+        id: 1
+        tags:
+        - tags
+        - tags
       properties:
         externalId:
           type: string
@@ -15429,16 +15656,15 @@ components:
           type: string
         syncName:
           type: string
+        tags:
+          items:
+            type: string
+          type: array
       required:
       - data
       - identifiers
       - syncName
-    DependencyDirection:
-      enum:
-      - one-way
-      - none
-      - both
-      type: string
+      - tags
     StackElementNotFound:
       discriminator:
         propertyName: _type
@@ -17052,6 +17278,10 @@ components:
               singular: singular
               title: title
           highlight:
+            provisioning:
+              externalComponentSelector: externalComponentSelector
+              showConfiguration: true
+              showStatus: true
             title: title
             fields:
             - description: description
@@ -17064,6 +17294,21 @@ components:
               title: title
               fieldId: fieldId
               order: 5.962133916683182
+            relatedResources:
+            - resourceId: resourceId
+              title: title
+              topologyQuery: topologyQuery
+              order: 5.637376656633329
+              presentationIdentifier: presentationIdentifier
+            - resourceId: resourceId
+              title: title
+              topologyQuery: topologyQuery
+              order: 5.637376656633329
+              presentationIdentifier: presentationIdentifier
+            events:
+              excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+              relatedResourcesQuery: relatedResourcesQuery
+              showEvents: true
           icon: icon
           filters:
           - filterId: filterId
@@ -17562,12 +17807,18 @@ components:
           enum:
           - ComponentLinkCell
           type: string
+        component:
+          $ref: '#/components/schemas/ComponentLink'
+      required:
+      - _type
+      type: object
+    ComponentLink:
+      properties:
         name:
           type: string
         componentId:
           type: string
       required:
-      - _type
       - componentId
       - name
       type: object
@@ -17605,7 +17856,6 @@ components:
           type: number
       required:
       - _type
-      - value
       type: object
     DurationCell:
       properties:
@@ -17638,8 +17888,6 @@ components:
           $ref: '#/components/schemas/HealthStateValue'
       required:
       - _type
-      - ready
-      - total
       type: object
     PaginationResponse:
       properties:
@@ -18478,55 +18726,6 @@ components:
       - offsetNanos
       - timestamp
       type: object
-    ComponentTypeEvents:
-      example:
-        showEvents: true
-        relatedResourcesTemplate: relatedResourcesTemplate
-      properties:
-        showEvents:
-          type: boolean
-        relatedResourcesTemplate:
-          type: string
-      required:
-      - showEvents
-    ComponentTypeExternalComponent:
-      example:
-        externalIdSelector: externalIdSelector
-        showConfiguration: true
-        showStatus: true
-      properties:
-        showConfiguration:
-          type: boolean
-        showStatus:
-          type: boolean
-        externalIdSelector:
-          type: string
-      required:
-      - externalIdSelector
-      - showConfiguration
-      - showStatus
-    ComponentTypeRelatedResources:
-      example:
-        hint: hint
-        stql: stql
-        title: title
-        viewTypeIdentifier: viewTypeIdentifier
-        resourceType: resourceType
-      properties:
-        resourceType:
-          type: string
-        title:
-          type: string
-        stql:
-          type: string
-        hint:
-          type: string
-        viewTypeIdentifier:
-          type: string
-      required:
-      - resourceType
-      - stql
-      - title
     ComponentHighlightMetrics:
       example:
         bindings:
@@ -19279,6 +19478,10 @@ components:
             singular: singular
             title: title
         highlight:
+          provisioning:
+            externalComponentSelector: externalComponentSelector
+            showConfiguration: true
+            showStatus: true
           title: title
           fields:
           - description: description
@@ -19291,6 +19494,21 @@ components:
             title: title
             fieldId: fieldId
             order: 5.962133916683182
+          relatedResources:
+          - resourceId: resourceId
+            title: title
+            topologyQuery: topologyQuery
+            order: 5.637376656633329
+            presentationIdentifier: presentationIdentifier
+          - resourceId: resourceId
+            title: title
+            topologyQuery: topologyQuery
+            order: 5.637376656633329
+            presentationIdentifier: presentationIdentifier
+          events:
+            excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+            relatedResourcesQuery: relatedResourcesQuery
+            showEvents: true
         icon: icon
         filters:
         - filterId: filterId
@@ -19567,10 +19785,14 @@ components:
       type: object
     PresentationHighlight:
       description: "Highlight presentation definition. The `fields` define the fields\
-        \ to show in the ab. The `flags` field can be used to enable/disable functionalities.\n\
-        If multiple ComponentPresentations match, columns are merged by `columnId`\
-        \ according to binding rank. Absence of the field means no overview is shown.\n"
+        \ to show in the highlight page.\nIf multiple ComponentPresentations match,\
+        \ fields are merged by `fieldId` according to binding rank.\nRelated resources\
+        \ follow the same merge semantics using `resourceId` as the identity key.\n"
       example:
+        provisioning:
+          externalComponentSelector: externalComponentSelector
+          showConfiguration: true
+          showStatus: true
         title: title
         fields:
         - description: description
@@ -19583,6 +19805,21 @@ components:
           title: title
           fieldId: fieldId
           order: 5.962133916683182
+        relatedResources:
+        - resourceId: resourceId
+          title: title
+          topologyQuery: topologyQuery
+          order: 5.637376656633329
+          presentationIdentifier: presentationIdentifier
+        - resourceId: resourceId
+          title: title
+          topologyQuery: topologyQuery
+          order: 5.637376656633329
+          presentationIdentifier: presentationIdentifier
+        events:
+          excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+          relatedResourcesQuery: relatedResourcesQuery
+          showEvents: true
       properties:
         title:
           type: string
@@ -19590,6 +19827,14 @@ components:
           items:
             $ref: '#/components/schemas/PresentationHighlightField'
           type: array
+        provisioning:
+          $ref: '#/components/schemas/PresentationHighlightProvisioning'
+        relatedResources:
+          items:
+            $ref: '#/components/schemas/PresentationRelatedResource'
+          type: array
+        events:
+          $ref: '#/components/schemas/PresentationHighlightEvents'
       required:
       - fields
       - title
@@ -19649,6 +19894,81 @@ components:
       required:
       - _type
       - value
+      type: object
+    PresentationHighlightProvisioning:
+      description: Provisioning section of a component in the highlight presentation.
+        The `externalComponentSelector` field is used to identify the external component
+        with provisioning details for this component.
+      example:
+        externalComponentSelector: externalComponentSelector
+        showConfiguration: true
+        showStatus: true
+      properties:
+        externalComponentSelector:
+          description: Cel expression that selects the external component with provisioning
+            details
+          type: string
+        showConfiguration:
+          type: boolean
+        showStatus:
+          type: boolean
+      type: object
+    PresentationRelatedResource:
+      description: "Related resource definition for the highlight page. Each entry\
+        \ defines a section showing components\nrelated to the one being viewed, rendered\
+        \ using the referenced presentation's overview spec.\nMerge semantics follow\
+        \ highlight field rules:\n- All presentations whose binding matches the component\
+        \ contribute related resources.\n- Same resourceId with higher specificity\
+        \ wins (override).\n- Different resourceId entries are appended.\n- Display\
+        \ order is determined by the order field.\n"
+      example:
+        resourceId: resourceId
+        title: title
+        topologyQuery: topologyQuery
+        order: 5.637376656633329
+        presentationIdentifier: presentationIdentifier
+      properties:
+        resourceId:
+          description: "Stable identity key for merging across presentations, analogous\
+            \ to fieldId and filterId."
+          type: string
+        title:
+          description: Section heading displayed in the UI for this related resource.
+          type: string
+        order:
+          description: Display order. Higher value means it shows first in UI.
+          format: double
+          type: number
+        topologyQuery:
+          description: "STQL query scoping the related components. Supports template\
+            \ interpolation with ${*} placeholders\n(e.g. ${identifiers[0]}, ${tags['namespace']}).\n\
+            The backend intersects this query with the referenced presentation's binding\
+            \ query.\n"
+          type: string
+        presentationIdentifier:
+          description: "References a ComponentPresentation by identifier to reuse\
+            \ its overview spec (columns, name, filters)\nfor rendering this related\
+            \ resource section. Must be within the same stackpack.\n"
+          type: string
+      required:
+      - order
+      - resourceId
+      - title
+      type: object
+    PresentationHighlightEvents:
+      example:
+        excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+        relatedResourcesQuery: relatedResourcesQuery
+        showEvents: true
+      properties:
+        showEvents:
+          type: boolean
+        relatedResourcesQuery:
+          type: string
+        excludedRelatedResourcesQuery:
+          type: string
+      required:
+      - showEvents
       type: object
     ComponentPresentationFilter:
       description: "Filter definition for ComponentPresentation.\nWhen only `filterId`\
