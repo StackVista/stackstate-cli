@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Synced** | [**[]ExternalComponent**](ExternalComponent.md) |  | 
 **Provisioning** | Pointer to [**ComponentProvisioning**](ComponentProvisioning.md) |  | [optional] 
 **RelatedResources** | [**[]RelatedResource**](RelatedResource.md) | Resolved related resource definitions in display order. Backend populates from both legacy and new presentation definitions. | 
+**Events** | Pointer to [**ComponentEvents**](ComponentEvents.md) |  | [optional] 
 **Data** | [**ComponentData**](ComponentData.md) |  | 
 **Highlights** | Pointer to [**LegacyComponentHighlights**](LegacyComponentHighlights.md) |  | [optional] 
 **Actions** | [**[]ComponentAction**](ComponentAction.md) |  | 
@@ -164,6 +165,31 @@ and a boolean to check if the value has been set.
 
 SetRelatedResources sets RelatedResources field to given value.
 
+
+### GetEvents
+
+`func (o *FullComponent) GetEvents() ComponentEvents`
+
+GetEvents returns the Events field if non-nil, zero value otherwise.
+
+### GetEventsOk
+
+`func (o *FullComponent) GetEventsOk() (*ComponentEvents, bool)`
+
+GetEventsOk returns a tuple with the Events field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetEvents
+
+`func (o *FullComponent) SetEvents(v ComponentEvents)`
+
+SetEvents sets Events field to given value.
+
+### HasEvents
+
+`func (o *FullComponent) HasEvents() bool`
+
+HasEvents returns a boolean if a field has been set.
 
 ### GetData
 

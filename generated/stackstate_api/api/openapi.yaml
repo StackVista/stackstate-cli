@@ -510,8 +510,12 @@ paths:
       - stackpack
   /stackpack/{stackPackName}/versions:
     delete:
-      description: Delete versions of a StackPack by range or threshold. Versions
-        currently in use are skipped.
+      description: "Delete versions of a StackPack. Versions currently in use are\
+        \ skipped.\n\nSupported parameter combinations:\n- `?to=X` — delete all versions\
+        \ up to and including X\n- `?from=X` — delete all versions from X onwards\n\
+        - `?from=X&to=Y` — delete versions in the inclusive range [X, Y]\n- `?all=true`\
+        \ — delete all versions\n- Any of the above combined with `&dev=true` to restrict\
+        \ to development versions only\n"
       operationId: stackPackDeleteVersions
       parameters:
       - in: path
@@ -519,24 +523,33 @@ paths:
         required: true
         schema:
           type: string
-      - description: Delete all versions strictly less than this version
-        in: query
-        name: before
-        required: false
-        schema:
-          type: string
-      - description: Inclusive start of version range to delete
+      - description: Inclusive lower bound. Deletes versions >= this version. Can
+          be used alone or combined with 'to' for a range.
         in: query
         name: from
         required: false
         schema:
           type: string
-      - description: Inclusive end of version range to delete
+      - description: Inclusive upper bound. Deletes versions <= this version. Can
+          be used alone or combined with 'from' for a range.
         in: query
         name: to
         required: false
         schema:
           type: string
+      - description: Delete all versions. Cannot be combined with 'from' or 'to'.
+        in: query
+        name: all
+        required: false
+        schema:
+          type: boolean
+      - description: "Filter to development versions only (versions with metadata,\
+          \ e.g. SNAPSHOT). Can be combined with any scope selector."
+        in: query
+        name: dev
+        required: false
+        schema:
+          type: boolean
       responses:
         "200":
           content:
@@ -551,7 +564,22 @@ paths:
                 items:
                   type: string
                 type: array
-          description: bad request
+          description: "Invalid parameters (e.g. invalid version string, incompatible\
+            \ parameter combination)"
+        "404":
+          content:
+            application/json:
+              schema:
+                items:
+                  type: string
+                type: array
+          description: StackPack not found
+        "409":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteVersionsResult'
+          description: All targeted versions are currently in use
         "500":
           content:
             application/json:
@@ -14363,9 +14391,6 @@ components:
             name: name
             description: description
             defaultExpanded: true
-          events:
-            showEvents: true
-            relatedResourcesTemplate: relatedResourcesTemplate
         data:
           lastUpdateTimestamp: 5
           identifiers:
@@ -14435,6 +14460,9 @@ components:
           stql: stql
           title: title
           presentationIdentifier: presentationIdentifier
+        events:
+          relatedResourcesQuery: relatedResourcesQuery
+          showEvents: true
         boundMetrics:
         - layout:
             metricPerspective:
@@ -14515,6 +14543,8 @@ components:
           items:
             $ref: '#/components/schemas/RelatedResource'
           type: array
+        events:
+          $ref: '#/components/schemas/ComponentEvents'
         data:
           $ref: '#/components/schemas/ComponentData'
         highlights:
@@ -14700,6 +14730,18 @@ components:
       - stql
       - title
       type: object
+    ComponentEvents:
+      example:
+        relatedResourcesQuery: relatedResourcesQuery
+        showEvents: true
+      properties:
+        showEvents:
+          type: boolean
+        relatedResourcesQuery:
+          description: Topology query for resources related to the highlighted component
+          type: string
+      required:
+      - showEvents
     ComponentData:
       example:
         lastUpdateTimestamp: 5
@@ -14771,14 +14813,9 @@ components:
           name: name
           description: description
           defaultExpanded: true
-        events:
-          showEvents: true
-          relatedResourcesTemplate: relatedResourcesTemplate
       properties:
         namePlural:
           type: string
-        events:
-          $ref: '#/components/schemas/ComponentTypeEvents'
         showLogs:
           type: boolean
         metrics:
@@ -14786,12 +14823,9 @@ components:
             $ref: '#/components/schemas/ComponentHighlightMetrics'
           type: array
       required:
-      - events
-      - externalComponent
       - metrics
       - namePlural
       - relatedResources
-      - showLastChange
       - showLogs
     ComponentAction:
       example:
@@ -15215,9 +15249,6 @@ components:
               name: name
               description: description
               defaultExpanded: true
-            events:
-              showEvents: true
-              relatedResourcesTemplate: relatedResourcesTemplate
           data:
             lastUpdateTimestamp: 5
             identifiers:
@@ -15287,6 +15318,9 @@ components:
             stql: stql
             title: title
             presentationIdentifier: presentationIdentifier
+          events:
+            relatedResourcesQuery: relatedResourcesQuery
+            showEvents: true
           boundMetrics:
           - layout:
               metricPerspective:
@@ -15392,9 +15426,6 @@ components:
               name: name
               description: description
               defaultExpanded: true
-            events:
-              showEvents: true
-              relatedResourcesTemplate: relatedResourcesTemplate
           data:
             lastUpdateTimestamp: 5
             identifiers:
@@ -15464,6 +15495,9 @@ components:
             stql: stql
             title: title
             presentationIdentifier: presentationIdentifier
+          events:
+            relatedResourcesQuery: relatedResourcesQuery
+            showEvents: true
           boundMetrics:
           - layout:
               metricPerspective:
@@ -17271,6 +17305,10 @@ components:
               topologyQuery: topologyQuery
               order: 5.637376656633329
               presentationIdentifier: presentationIdentifier
+            events:
+              excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+              relatedResourcesQuery: relatedResourcesQuery
+              showEvents: true
           icon: icon
           filters:
           - filterId: filterId
@@ -18688,17 +18726,6 @@ components:
       - offsetNanos
       - timestamp
       type: object
-    ComponentTypeEvents:
-      example:
-        showEvents: true
-        relatedResourcesTemplate: relatedResourcesTemplate
-      properties:
-        showEvents:
-          type: boolean
-        relatedResourcesTemplate:
-          type: string
-      required:
-      - showEvents
     ComponentHighlightMetrics:
       example:
         bindings:
@@ -19478,6 +19505,10 @@ components:
             topologyQuery: topologyQuery
             order: 5.637376656633329
             presentationIdentifier: presentationIdentifier
+          events:
+            excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+            relatedResourcesQuery: relatedResourcesQuery
+            showEvents: true
         icon: icon
         filters:
         - filterId: filterId
@@ -19785,6 +19816,10 @@ components:
           topologyQuery: topologyQuery
           order: 5.637376656633329
           presentationIdentifier: presentationIdentifier
+        events:
+          excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+          relatedResourcesQuery: relatedResourcesQuery
+          showEvents: true
       properties:
         title:
           type: string
@@ -19798,6 +19833,8 @@ components:
           items:
             $ref: '#/components/schemas/PresentationRelatedResource'
           type: array
+        events:
+          $ref: '#/components/schemas/PresentationHighlightEvents'
       required:
       - fields
       - title
@@ -19917,6 +19954,21 @@ components:
       - order
       - resourceId
       - title
+      type: object
+    PresentationHighlightEvents:
+      example:
+        excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
+        relatedResourcesQuery: relatedResourcesQuery
+        showEvents: true
+      properties:
+        showEvents:
+          type: boolean
+        relatedResourcesQuery:
+          type: string
+        excludedRelatedResourcesQuery:
+          type: string
+      required:
+      - showEvents
       type: object
     ComponentPresentationFilter:
       description: "Filter definition for ComponentPresentation.\nWhen only `filterId`\

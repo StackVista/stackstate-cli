@@ -5,7 +5,6 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **NamePlural** | **string** |  | 
-**Events** | [**ComponentTypeEvents**](ComponentTypeEvents.md) |  | 
 **ShowLogs** | **bool** |  | 
 **Metrics** | [**[]ComponentHighlightMetrics**](ComponentHighlightMetrics.md) |  | 
 
@@ -13,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewLegacyComponentHighlights
 
-`func NewLegacyComponentHighlights(namePlural string, events ComponentTypeEvents, showLogs bool, metrics []ComponentHighlightMetrics, ) *LegacyComponentHighlights`
+`func NewLegacyComponentHighlights(namePlural string, showLogs bool, metrics []ComponentHighlightMetrics, ) *LegacyComponentHighlights`
 
 NewLegacyComponentHighlights instantiates a new LegacyComponentHighlights object
 This constructor will assign default values to properties that have it defined,
@@ -46,26 +45,6 @@ and a boolean to check if the value has been set.
 `func (o *LegacyComponentHighlights) SetNamePlural(v string)`
 
 SetNamePlural sets NamePlural field to given value.
-
-
-### GetEvents
-
-`func (o *LegacyComponentHighlights) GetEvents() ComponentTypeEvents`
-
-GetEvents returns the Events field if non-nil, zero value otherwise.
-
-### GetEventsOk
-
-`func (o *LegacyComponentHighlights) GetEventsOk() (*ComponentTypeEvents, bool)`
-
-GetEventsOk returns a tuple with the Events field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetEvents
-
-`func (o *LegacyComponentHighlights) SetEvents(v ComponentTypeEvents)`
-
-SetEvents sets Events field to given value.
 
 
 ### GetShowLogs

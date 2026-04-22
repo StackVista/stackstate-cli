@@ -24,6 +24,7 @@ type FullComponent struct {
 	Provisioning *ComponentProvisioning `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
 	// Resolved related resource definitions in display order. Backend populates from both legacy and new presentation definitions.
 	RelatedResources []RelatedResource          `json:"relatedResources" yaml:"relatedResources"`
+	Events           *ComponentEvents           `json:"events,omitempty" yaml:"events,omitempty"`
 	Data             ComponentData              `json:"data" yaml:"data"`
 	Highlights       *LegacyComponentHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
 	Actions          []ComponentAction          `json:"actions" yaml:"actions"`
@@ -215,6 +216,38 @@ func (o *FullComponent) SetRelatedResources(v []RelatedResource) {
 	o.RelatedResources = v
 }
 
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *FullComponent) GetEvents() ComponentEvents {
+	if o == nil || o.Events == nil {
+		var ret ComponentEvents
+		return ret
+	}
+	return *o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetEventsOk() (*ComponentEvents, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *FullComponent) HasEvents() bool {
+	if o != nil && o.Events != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetEvents gets a reference to the given ComponentEvents and assigns it to the Events field.
+func (o *FullComponent) SetEvents(v ComponentEvents) {
+	o.Events = &v
+}
+
 // GetData returns the Data field value
 func (o *FullComponent) GetData() ComponentData {
 	if o == nil {
@@ -370,6 +403,9 @@ func (o FullComponent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["relatedResources"] = o.RelatedResources
+	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
 	}
 	if true {
 		toSerialize["data"] = o.Data

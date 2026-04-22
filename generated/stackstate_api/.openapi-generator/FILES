@@ -92,6 +92,7 @@ docs/ComponentApi.md
 docs/ComponentCheckState.md
 docs/ComponentCheckStates.md
 docs/ComponentData.md
+docs/ComponentEvents.md
 docs/ComponentField.md
 docs/ComponentHealthChange.md
 docs/ComponentHealthHistory.md
@@ -117,7 +118,6 @@ docs/ComponentPresentationRank.md
 docs/ComponentProvisioning.md
 docs/ComponentQuery.md
 docs/ComponentSummaryLocation.md
-docs/ComponentTypeEvents.md
 docs/ComponentViewArguments.md
 docs/ContainerImageProjection.md
 docs/CreateSubject.md
@@ -454,6 +454,7 @@ docs/PresentationFilter.md
 docs/PresentationFilterName.md
 docs/PresentationFiltersResponse.md
 docs/PresentationHighlight.md
+docs/PresentationHighlightEvents.md
 docs/PresentationHighlightField.md
 docs/PresentationHighlightProvisioning.md
 docs/PresentationMainMenu.md
@@ -676,6 +677,7 @@ model_component_action.go
 model_component_check_state.go
 model_component_check_states.go
 model_component_data.go
+model_component_events.go
 model_component_field.go
 model_component_health_change.go
 model_component_health_history.go
@@ -700,7 +702,6 @@ model_component_presentation_rank.go
 model_component_provisioning.go
 model_component_query.go
 model_component_summary_location.go
-model_component_type_events.go
 model_component_view_arguments.go
 model_container_image_projection.go
 model_create_subject.go
@@ -1019,6 +1020,7 @@ model_presentation_filter.go
 model_presentation_filter_name.go
 model_presentation_filters_response.go
 model_presentation_highlight.go
+model_presentation_highlight_events.go
 model_presentation_highlight_field.go
 model_presentation_highlight_provisioning.go
 model_presentation_main_menu.go

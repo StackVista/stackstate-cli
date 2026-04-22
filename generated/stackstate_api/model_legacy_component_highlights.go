@@ -18,7 +18,6 @@ import (
 // LegacyComponentHighlights struct for LegacyComponentHighlights
 type LegacyComponentHighlights struct {
 	NamePlural string                      `json:"namePlural" yaml:"namePlural"`
-	Events     ComponentTypeEvents         `json:"events" yaml:"events"`
 	ShowLogs   bool                        `json:"showLogs" yaml:"showLogs"`
 	Metrics    []ComponentHighlightMetrics `json:"metrics" yaml:"metrics"`
 }
@@ -27,10 +26,9 @@ type LegacyComponentHighlights struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLegacyComponentHighlights(namePlural string, events ComponentTypeEvents, showLogs bool, metrics []ComponentHighlightMetrics) *LegacyComponentHighlights {
+func NewLegacyComponentHighlights(namePlural string, showLogs bool, metrics []ComponentHighlightMetrics) *LegacyComponentHighlights {
 	this := LegacyComponentHighlights{}
 	this.NamePlural = namePlural
-	this.Events = events
 	this.ShowLogs = showLogs
 	this.Metrics = metrics
 	return &this
@@ -66,30 +64,6 @@ func (o *LegacyComponentHighlights) GetNamePluralOk() (*string, bool) {
 // SetNamePlural sets field value
 func (o *LegacyComponentHighlights) SetNamePlural(v string) {
 	o.NamePlural = v
-}
-
-// GetEvents returns the Events field value
-func (o *LegacyComponentHighlights) GetEvents() ComponentTypeEvents {
-	if o == nil {
-		var ret ComponentTypeEvents
-		return ret
-	}
-
-	return o.Events
-}
-
-// GetEventsOk returns a tuple with the Events field value
-// and a boolean to check if the value has been set.
-func (o *LegacyComponentHighlights) GetEventsOk() (*ComponentTypeEvents, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Events, true
-}
-
-// SetEvents sets field value
-func (o *LegacyComponentHighlights) SetEvents(v ComponentTypeEvents) {
-	o.Events = v
 }
 
 // GetShowLogs returns the ShowLogs field value
@@ -144,9 +118,6 @@ func (o LegacyComponentHighlights) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["namePlural"] = o.NamePlural
-	}
-	if true {
-		toSerialize["events"] = o.Events
 	}
 	if true {
 		toSerialize["showLogs"] = o.ShowLogs

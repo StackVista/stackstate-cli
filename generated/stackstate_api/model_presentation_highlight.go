@@ -21,6 +21,7 @@ type PresentationHighlight struct {
 	Fields           []PresentationHighlightField       `json:"fields" yaml:"fields"`
 	Provisioning     *PresentationHighlightProvisioning `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
 	RelatedResources []PresentationRelatedResource      `json:"relatedResources,omitempty" yaml:"relatedResources,omitempty"`
+	Events           *PresentationHighlightEvents       `json:"events,omitempty" yaml:"events,omitempty"`
 }
 
 // NewPresentationHighlight instantiates a new PresentationHighlight object
@@ -154,6 +155,38 @@ func (o *PresentationHighlight) SetRelatedResources(v []PresentationRelatedResou
 	o.RelatedResources = v
 }
 
+// GetEvents returns the Events field value if set, zero value otherwise.
+func (o *PresentationHighlight) GetEvents() PresentationHighlightEvents {
+	if o == nil || o.Events == nil {
+		var ret PresentationHighlightEvents
+		return ret
+	}
+	return *o.Events
+}
+
+// GetEventsOk returns a tuple with the Events field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationHighlight) GetEventsOk() (*PresentationHighlightEvents, bool) {
+	if o == nil || o.Events == nil {
+		return nil, false
+	}
+	return o.Events, true
+}
+
+// HasEvents returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasEvents() bool {
+	if o != nil && o.Events != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetEvents gets a reference to the given PresentationHighlightEvents and assigns it to the Events field.
+func (o *PresentationHighlight) SetEvents(v PresentationHighlightEvents) {
+	o.Events = &v
+}
+
 func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -167,6 +200,9 @@ func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	}
 	if o.RelatedResources != nil {
 		toSerialize["relatedResources"] = o.RelatedResources
+	}
+	if o.Events != nil {
+		toSerialize["events"] = o.Events
 	}
 	return json.Marshal(toSerialize)
 }

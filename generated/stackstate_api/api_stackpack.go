@@ -86,13 +86,21 @@ type StackpackApi interface {
 	StackPackDeleteVersionExecute(r ApiStackPackDeleteVersionRequest) (*http.Response, error)
 
 	/*
-		StackPackDeleteVersions Delete StackPack versions
+			StackPackDeleteVersions Delete StackPack versions
 
-		Delete versions of a StackPack by range or threshold. Versions currently in use are skipped.
+			Delete versions of a StackPack. Versions currently in use are skipped.
 
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param stackPackName
-		@return ApiStackPackDeleteVersionsRequest
+		Supported parameter combinations:
+		- `?to=X` — delete all versions up to and including X
+		- `?from=X` — delete all versions from X onwards
+		- `?from=X&to=Y` — delete versions in the inclusive range [X, Y]
+		- `?all=true` — delete all versions
+		- Any of the above combined with `&dev=true` to restrict to development versions only
+
+
+			@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+			@param stackPackName
+			@return ApiStackPackDeleteVersionsRequest
 	*/
 	StackPackDeleteVersions(ctx context.Context, stackPackName string) ApiStackPackDeleteVersionsRequest
 
@@ -854,19 +862,19 @@ type ApiStackPackDeleteVersionsRequest struct {
 	dev           *bool
 }
 
-// Inclusive lower bound. Deletes versions >= this version. Can be used alone or combined with 'to' for a range.
+// Inclusive lower bound. Deletes versions &gt;&#x3D; this version. Can be used alone or combined with &#39;to&#39; for a range.
 func (r ApiStackPackDeleteVersionsRequest) From(from string) ApiStackPackDeleteVersionsRequest {
 	r.from = &from
 	return r
 }
 
-// Inclusive upper bound. Deletes versions <= this version. Can be used alone or combined with 'from' for a range.
+// Inclusive upper bound. Deletes versions &lt;&#x3D; this version. Can be used alone or combined with &#39;from&#39; for a range.
 func (r ApiStackPackDeleteVersionsRequest) To(to string) ApiStackPackDeleteVersionsRequest {
 	r.to = &to
 	return r
 }
 
-// Delete all versions. Cannot be combined with 'from' or 'to'.
+// Delete all versions. Cannot be combined with &#39;from&#39; or &#39;to&#39;.
 func (r ApiStackPackDeleteVersionsRequest) All(all bool) ApiStackPackDeleteVersionsRequest {
 	r.all = &all
 	return r
@@ -885,7 +893,14 @@ func (r ApiStackPackDeleteVersionsRequest) Execute() (*DeleteVersionsResult, *ht
 /*
 StackPackDeleteVersions Delete StackPack versions
 
-Delete versions of a StackPack by range or threshold. Versions currently in use are skipped.
+Delete versions of a StackPack. Versions currently in use are skipped.
+
+Supported parameter combinations:
+- `?to=X` — delete all versions up to and including X
+- `?from=X` — delete all versions from X onwards
+- `?from=X&to=Y` — delete versions in the inclusive range [X, Y]
+- `?all=true` — delete all versions
+- Any of the above combined with `&dev=true` to restrict to development versions only
 
 	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
 	@param stackPackName
@@ -1017,6 +1032,26 @@ func (a *StackpackApiService) StackPackDeleteVersionsExecute(r ApiStackPackDelet
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
 			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 404 {
+			var v []string
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 409 {
+			var v DeleteVersionsResult
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
