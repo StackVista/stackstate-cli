@@ -35,7 +35,7 @@ This command validates a stackpack by uploading it to the server.
 
 Exactly one of --stackpack-directory or --stackpack-file must be specified.
 
-This command is experimental and requires STS_EXPERIMENTAL_STACKPACK environment variable to be set.`,
+This command is experimental and requires STS_EXPERIMENTAL_STACKPACKS environment variable to be set.`,
 		Example: `# Validate a stackpack directory (automatically packaged)
 sts stackpack validate --stackpack-directory ./my-stackpack
 
