@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	experimentalStackpackEnvVar = "STS_EXPERIMENTAL_STACKPACK"
+	experimentalStackpackEnvVar = "STS_EXPERIMENTAL_STACKPACKS"
 )
 
 func StackPackCommand(cli *di.Deps) *cobra.Command {
