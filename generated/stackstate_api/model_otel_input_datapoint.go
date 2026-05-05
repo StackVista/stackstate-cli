@@ -18,8 +18,9 @@ import (
 // OtelInputDatapoint Defines conditional mapping at the resource -> scope -> metric -> datapoint level. If omitted, `condition` defaults to `true` and `action` defaults to `CONTINUE`.
 type OtelInputDatapoint struct {
 	// A Cel expression that must return a boolean
-	Condition *string                   `json:"condition,omitempty" yaml:"condition,omitempty"`
-	Action    *OtelInputConditionAction `json:"action,omitempty" yaml:"action,omitempty"`
+	Condition *string `json:"condition,omitempty" yaml:"condition,omitempty"`
+	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
+	Action *string `json:"action,omitempty" yaml:"action,omitempty"`
 }
 
 // NewOtelInputDatapoint instantiates a new OtelInputDatapoint object
@@ -72,9 +73,9 @@ func (o *OtelInputDatapoint) SetCondition(v string) {
 }
 
 // GetAction returns the Action field value if set, zero value otherwise.
-func (o *OtelInputDatapoint) GetAction() OtelInputConditionAction {
+func (o *OtelInputDatapoint) GetAction() string {
 	if o == nil || o.Action == nil {
-		var ret OtelInputConditionAction
+		var ret string
 		return ret
 	}
 	return *o.Action
@@ -82,7 +83,7 @@ func (o *OtelInputDatapoint) GetAction() OtelInputConditionAction {
 
 // GetActionOk returns a tuple with the Action field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *OtelInputDatapoint) GetActionOk() (*OtelInputConditionAction, bool) {
+func (o *OtelInputDatapoint) GetActionOk() (*string, bool) {
 	if o == nil || o.Action == nil {
 		return nil, false
 	}
@@ -98,8 +99,8 @@ func (o *OtelInputDatapoint) HasAction() bool {
 	return false
 }
 
-// SetAction gets a reference to the given OtelInputConditionAction and assigns it to the Action field.
-func (o *OtelInputDatapoint) SetAction(v OtelInputConditionAction) {
+// SetAction gets a reference to the given string and assigns it to the Action field.
+func (o *OtelInputDatapoint) SetAction(v string) {
 	o.Action = &v
 }
 

@@ -577,7 +577,6 @@ Class | Method | HTTP request | Description
  - [OtelComponentMappingFieldMapping](docs/OtelComponentMappingFieldMapping.md)
  - [OtelComponentMappingOutput](docs/OtelComponentMappingOutput.md)
  - [OtelInput](docs/OtelInput.md)
- - [OtelInputConditionAction](docs/OtelInputConditionAction.md)
  - [OtelInputDatapoint](docs/OtelInputDatapoint.md)
  - [OtelInputLog](docs/OtelInputLog.md)
  - [OtelInputMetric](docs/OtelInputMetric.md)

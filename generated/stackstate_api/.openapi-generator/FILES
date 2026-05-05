@@ -376,7 +376,6 @@ docs/OtelComponentMapping.md
 docs/OtelComponentMappingFieldMapping.md
 docs/OtelComponentMappingOutput.md
 docs/OtelInput.md
-docs/OtelInputConditionAction.md
 docs/OtelInputDatapoint.md
 docs/OtelInputLog.md
 docs/OtelInputMetric.md
@@ -945,7 +944,6 @@ model_otel_component_mapping.go
 model_otel_component_mapping_field_mapping.go
 model_otel_component_mapping_output.go
 model_otel_input.go
-model_otel_input_condition_action.go
 model_otel_input_datapoint.go
 model_otel_input_log.go
 model_otel_input_metric.go
