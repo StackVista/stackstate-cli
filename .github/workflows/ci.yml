@@ -130,8 +130,8 @@ jobs:
         if: github.event_name != 'pull_request'
         with:
           registry: docker.io
-          username: ${{ secrets.DOCKER_USER }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
       - name: Go releaser publish
         uses: goreleaser/goreleaser-action@v5
         env:
