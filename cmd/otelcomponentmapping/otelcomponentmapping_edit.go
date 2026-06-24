@@ -79,6 +79,7 @@ func RunEditComponentMappingCommand(args *EditArgs) di.CmdWithApiFn {
 			Output:      editedMapping.Output,
 			Vars:        editedMapping.Vars,
 			ExpireAfter: editedMapping.ExpireAfter,
+			Rank:        editedMapping.Rank,
 		}
 		upserted, resp, err := api.OtelMappingApi.UpsertOtelComponentMappings(cli.Context).UpsertOtelComponentMappingsRequest(reqObj).Execute()
 		if err != nil {
