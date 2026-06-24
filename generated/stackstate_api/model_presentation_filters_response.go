@@ -17,6 +17,8 @@ import (
 
 // PresentationFiltersResponse struct for PresentationFiltersResponse
 type PresentationFiltersResponse struct {
+	// Whether topology filters are enabled for this presentation.
+	TopologyFilters bool `json:"topologyFilters" yaml:"topologyFilters"`
 	// Presentation filters in display order. Earlier items are primary (filter bar), later items are secondary (\"More\" section).
 	Filters []PresentationFilter `json:"filters" yaml:"filters"`
 	// Label for the section within \"More\" tab when secondary filters are present.
@@ -27,8 +29,9 @@ type PresentationFiltersResponse struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPresentationFiltersResponse(filters []PresentationFilter, menuSection string) *PresentationFiltersResponse {
+func NewPresentationFiltersResponse(topologyFilters bool, filters []PresentationFilter, menuSection string) *PresentationFiltersResponse {
 	this := PresentationFiltersResponse{}
+	this.TopologyFilters = topologyFilters
 	this.Filters = filters
 	this.MenuSection = menuSection
 	return &this
@@ -40,6 +43,30 @@ func NewPresentationFiltersResponse(filters []PresentationFilter, menuSection st
 func NewPresentationFiltersResponseWithDefaults() *PresentationFiltersResponse {
 	this := PresentationFiltersResponse{}
 	return &this
+}
+
+// GetTopologyFilters returns the TopologyFilters field value
+func (o *PresentationFiltersResponse) GetTopologyFilters() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.TopologyFilters
+}
+
+// GetTopologyFiltersOk returns a tuple with the TopologyFilters field value
+// and a boolean to check if the value has been set.
+func (o *PresentationFiltersResponse) GetTopologyFiltersOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TopologyFilters, true
+}
+
+// SetTopologyFilters sets field value
+func (o *PresentationFiltersResponse) SetTopologyFilters(v bool) {
+	o.TopologyFilters = v
 }
 
 // GetFilters returns the Filters field value
@@ -92,6 +119,9 @@ func (o *PresentationFiltersResponse) SetMenuSection(v string) {
 
 func (o PresentationFiltersResponse) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if true {
+		toSerialize["topologyFilters"] = o.TopologyFilters
+	}
 	if true {
 		toSerialize["filters"] = o.Filters
 	}

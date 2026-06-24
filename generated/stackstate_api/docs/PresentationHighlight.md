@@ -9,6 +9,7 @@ Name | Type | Description | Notes
 **Provisioning** | Pointer to [**PresentationHighlightProvisioning**](PresentationHighlightProvisioning.md) |  | [optional] 
 **RelatedResources** | Pointer to [**[]PresentationRelatedResource**](PresentationRelatedResource.md) |  | [optional] 
 **Events** | Pointer to [**PresentationHighlightEvents**](PresentationHighlightEvents.md) |  | [optional] 
+**Metrics** | Pointer to [**[]PresentationHighlightMetricsSection**](PresentationHighlightMetricsSection.md) |  | [optional] 
 
 ## Methods
 
@@ -143,6 +144,31 @@ SetEvents sets Events field to given value.
 `func (o *PresentationHighlight) HasEvents() bool`
 
 HasEvents returns a boolean if a field has been set.
+
+### GetMetrics
+
+`func (o *PresentationHighlight) GetMetrics() []PresentationHighlightMetricsSection`
+
+GetMetrics returns the Metrics field if non-nil, zero value otherwise.
+
+### GetMetricsOk
+
+`func (o *PresentationHighlight) GetMetricsOk() (*[]PresentationHighlightMetricsSection, bool)`
+
+GetMetricsOk returns a tuple with the Metrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetrics
+
+`func (o *PresentationHighlight) SetMetrics(v []PresentationHighlightMetricsSection)`
+
+SetMetrics sets Metrics field to given value.
+
+### HasMetrics
+
+`func (o *PresentationHighlight) HasMetrics() bool`
+
+HasMetrics returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

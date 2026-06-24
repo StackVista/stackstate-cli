@@ -6,14 +6,13 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SourceId** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **TargetId** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
-**TypeName** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
-**TypeIdentifier** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
+**DependencyType** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 
 ## Methods
 
 ### NewOtelRelationMappingOutput
 
-`func NewOtelRelationMappingOutput(sourceId string, targetId string, typeName string, ) *OtelRelationMappingOutput`
+`func NewOtelRelationMappingOutput(sourceId string, targetId string, dependencyType string, ) *OtelRelationMappingOutput`
 
 NewOtelRelationMappingOutput instantiates a new OtelRelationMappingOutput object
 This constructor will assign default values to properties that have it defined,
@@ -68,50 +67,25 @@ and a boolean to check if the value has been set.
 SetTargetId sets TargetId field to given value.
 
 
-### GetTypeName
+### GetDependencyType
 
-`func (o *OtelRelationMappingOutput) GetTypeName() string`
+`func (o *OtelRelationMappingOutput) GetDependencyType() string`
 
-GetTypeName returns the TypeName field if non-nil, zero value otherwise.
+GetDependencyType returns the DependencyType field if non-nil, zero value otherwise.
 
-### GetTypeNameOk
+### GetDependencyTypeOk
 
-`func (o *OtelRelationMappingOutput) GetTypeNameOk() (*string, bool)`
+`func (o *OtelRelationMappingOutput) GetDependencyTypeOk() (*string, bool)`
 
-GetTypeNameOk returns a tuple with the TypeName field if it's non-nil, zero value otherwise
+GetDependencyTypeOk returns a tuple with the DependencyType field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetTypeName
+### SetDependencyType
 
-`func (o *OtelRelationMappingOutput) SetTypeName(v string)`
+`func (o *OtelRelationMappingOutput) SetDependencyType(v string)`
 
-SetTypeName sets TypeName field to given value.
+SetDependencyType sets DependencyType field to given value.
 
-
-### GetTypeIdentifier
-
-`func (o *OtelRelationMappingOutput) GetTypeIdentifier() string`
-
-GetTypeIdentifier returns the TypeIdentifier field if non-nil, zero value otherwise.
-
-### GetTypeIdentifierOk
-
-`func (o *OtelRelationMappingOutput) GetTypeIdentifierOk() (*string, bool)`
-
-GetTypeIdentifierOk returns a tuple with the TypeIdentifier field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTypeIdentifier
-
-`func (o *OtelRelationMappingOutput) SetTypeIdentifier(v string)`
-
-SetTypeIdentifier sets TypeIdentifier field to given value.
-
-### HasTypeIdentifier
-
-`func (o *OtelRelationMappingOutput) HasTypeIdentifier() bool`
-
-HasTypeIdentifier returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

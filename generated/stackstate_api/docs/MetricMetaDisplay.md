@@ -7,9 +7,9 @@ Name | Type | Description | Notes
 **Type** | **string** |  | 
 **Unit** | Pointer to **NullableString** |  | [optional] 
 **DecimalPlaces** | Pointer to **NullableInt32** |  | [optional] 
-**ShowChart** | Pointer to **NullableBool** |  | [optional] 
+**Sparkline** | Pointer to **NullableBool** |  | [optional] 
 **Locked** | **bool** |  | 
-**MetricId** | Pointer to [**MetricBindingId**](MetricBindingId.md) |  | [optional] 
+**BoundMetricId** | Pointer to [**BoundMetricId**](BoundMetricId.md) |  | [optional] 
 
 ## Methods
 
@@ -120,41 +120,41 @@ HasDecimalPlaces returns a boolean if a field has been set.
 `func (o *MetricMetaDisplay) UnsetDecimalPlaces()`
 
 UnsetDecimalPlaces ensures that no value is present for DecimalPlaces, not even an explicit nil
-### GetShowChart
+### GetSparkline
 
-`func (o *MetricMetaDisplay) GetShowChart() bool`
+`func (o *MetricMetaDisplay) GetSparkline() bool`
 
-GetShowChart returns the ShowChart field if non-nil, zero value otherwise.
+GetSparkline returns the Sparkline field if non-nil, zero value otherwise.
 
-### GetShowChartOk
+### GetSparklineOk
 
-`func (o *MetricMetaDisplay) GetShowChartOk() (*bool, bool)`
+`func (o *MetricMetaDisplay) GetSparklineOk() (*bool, bool)`
 
-GetShowChartOk returns a tuple with the ShowChart field if it's non-nil, zero value otherwise
+GetSparklineOk returns a tuple with the Sparkline field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetShowChart
+### SetSparkline
 
-`func (o *MetricMetaDisplay) SetShowChart(v bool)`
+`func (o *MetricMetaDisplay) SetSparkline(v bool)`
 
-SetShowChart sets ShowChart field to given value.
+SetSparkline sets Sparkline field to given value.
 
-### HasShowChart
+### HasSparkline
 
-`func (o *MetricMetaDisplay) HasShowChart() bool`
+`func (o *MetricMetaDisplay) HasSparkline() bool`
 
-HasShowChart returns a boolean if a field has been set.
+HasSparkline returns a boolean if a field has been set.
 
-### SetShowChartNil
+### SetSparklineNil
 
-`func (o *MetricMetaDisplay) SetShowChartNil(b bool)`
+`func (o *MetricMetaDisplay) SetSparklineNil(b bool)`
 
- SetShowChartNil sets the value for ShowChart to be an explicit nil
+ SetSparklineNil sets the value for Sparkline to be an explicit nil
 
-### UnsetShowChart
-`func (o *MetricMetaDisplay) UnsetShowChart()`
+### UnsetSparkline
+`func (o *MetricMetaDisplay) UnsetSparkline()`
 
-UnsetShowChart ensures that no value is present for ShowChart, not even an explicit nil
+UnsetSparkline ensures that no value is present for Sparkline, not even an explicit nil
 ### GetLocked
 
 `func (o *MetricMetaDisplay) GetLocked() bool`
@@ -175,30 +175,30 @@ and a boolean to check if the value has been set.
 SetLocked sets Locked field to given value.
 
 
-### GetMetricId
+### GetBoundMetricId
 
-`func (o *MetricMetaDisplay) GetMetricId() MetricBindingId`
+`func (o *MetricMetaDisplay) GetBoundMetricId() BoundMetricId`
 
-GetMetricId returns the MetricId field if non-nil, zero value otherwise.
+GetBoundMetricId returns the BoundMetricId field if non-nil, zero value otherwise.
 
-### GetMetricIdOk
+### GetBoundMetricIdOk
 
-`func (o *MetricMetaDisplay) GetMetricIdOk() (*MetricBindingId, bool)`
+`func (o *MetricMetaDisplay) GetBoundMetricIdOk() (*BoundMetricId, bool)`
 
-GetMetricIdOk returns a tuple with the MetricId field if it's non-nil, zero value otherwise
+GetBoundMetricIdOk returns a tuple with the BoundMetricId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricId
+### SetBoundMetricId
 
-`func (o *MetricMetaDisplay) SetMetricId(v MetricBindingId)`
+`func (o *MetricMetaDisplay) SetBoundMetricId(v BoundMetricId)`
 
-SetMetricId sets MetricId field to given value.
+SetBoundMetricId sets BoundMetricId field to given value.
 
-### HasMetricId
+### HasBoundMetricId
 
-`func (o *MetricMetaDisplay) HasMetricId() bool`
+`func (o *MetricMetaDisplay) HasBoundMetricId() bool`
 
-HasMetricId returns a boolean if a field has been set.
+HasBoundMetricId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

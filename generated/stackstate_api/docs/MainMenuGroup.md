@@ -8,14 +8,14 @@ Name | Type | Description | Notes
 **Identifier** | Pointer to **string** |  | [optional] 
 **Description** | Pointer to **string** |  | [optional] 
 **DefaultOpen** | **bool** |  | 
-**Icon** | **string** |  | 
+**Icon** | Pointer to **string** |  | [optional] 
 **Items** | [**[]MainMenuViewItem**](MainMenuViewItem.md) |  | 
 
 ## Methods
 
 ### NewMainMenuGroup
 
-`func NewMainMenuGroup(name string, defaultOpen bool, icon string, items []MainMenuViewItem, ) *MainMenuGroup`
+`func NewMainMenuGroup(name string, defaultOpen bool, items []MainMenuViewItem, ) *MainMenuGroup`
 
 NewMainMenuGroup instantiates a new MainMenuGroup object
 This constructor will assign default values to properties that have it defined,
@@ -139,6 +139,11 @@ and a boolean to check if the value has been set.
 
 SetIcon sets Icon field to given value.
 
+### HasIcon
+
+`func (o *MainMenuGroup) HasIcon() bool`
+
+HasIcon returns a boolean if a field has been set.
 
 ### GetItems
 

@@ -8,10 +8,6 @@ Name | Type | Description | Notes
 **Name** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **TypeName** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **TypeIdentifier** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
-**LayerName** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
-**LayerIdentifier** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
-**DomainName** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
-**DomainIdentifier** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
 **Required** | Pointer to [**OtelComponentMappingFieldMapping**](OtelComponentMappingFieldMapping.md) |  | [optional] 
 **Optional** | Pointer to [**OtelComponentMappingFieldMapping**](OtelComponentMappingFieldMapping.md) |  | [optional] 
 
@@ -19,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewOtelComponentMappingOutput
 
-`func NewOtelComponentMappingOutput(identifier string, name string, typeName string, layerName string, domainName string, ) *OtelComponentMappingOutput`
+`func NewOtelComponentMappingOutput(identifier string, name string, typeName string, ) *OtelComponentMappingOutput`
 
 NewOtelComponentMappingOutput instantiates a new OtelComponentMappingOutput object
 This constructor will assign default values to properties that have it defined,
@@ -118,96 +114,6 @@ SetTypeIdentifier sets TypeIdentifier field to given value.
 `func (o *OtelComponentMappingOutput) HasTypeIdentifier() bool`
 
 HasTypeIdentifier returns a boolean if a field has been set.
-
-### GetLayerName
-
-`func (o *OtelComponentMappingOutput) GetLayerName() string`
-
-GetLayerName returns the LayerName field if non-nil, zero value otherwise.
-
-### GetLayerNameOk
-
-`func (o *OtelComponentMappingOutput) GetLayerNameOk() (*string, bool)`
-
-GetLayerNameOk returns a tuple with the LayerName field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLayerName
-
-`func (o *OtelComponentMappingOutput) SetLayerName(v string)`
-
-SetLayerName sets LayerName field to given value.
-
-
-### GetLayerIdentifier
-
-`func (o *OtelComponentMappingOutput) GetLayerIdentifier() string`
-
-GetLayerIdentifier returns the LayerIdentifier field if non-nil, zero value otherwise.
-
-### GetLayerIdentifierOk
-
-`func (o *OtelComponentMappingOutput) GetLayerIdentifierOk() (*string, bool)`
-
-GetLayerIdentifierOk returns a tuple with the LayerIdentifier field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLayerIdentifier
-
-`func (o *OtelComponentMappingOutput) SetLayerIdentifier(v string)`
-
-SetLayerIdentifier sets LayerIdentifier field to given value.
-
-### HasLayerIdentifier
-
-`func (o *OtelComponentMappingOutput) HasLayerIdentifier() bool`
-
-HasLayerIdentifier returns a boolean if a field has been set.
-
-### GetDomainName
-
-`func (o *OtelComponentMappingOutput) GetDomainName() string`
-
-GetDomainName returns the DomainName field if non-nil, zero value otherwise.
-
-### GetDomainNameOk
-
-`func (o *OtelComponentMappingOutput) GetDomainNameOk() (*string, bool)`
-
-GetDomainNameOk returns a tuple with the DomainName field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDomainName
-
-`func (o *OtelComponentMappingOutput) SetDomainName(v string)`
-
-SetDomainName sets DomainName field to given value.
-
-
-### GetDomainIdentifier
-
-`func (o *OtelComponentMappingOutput) GetDomainIdentifier() string`
-
-GetDomainIdentifier returns the DomainIdentifier field if non-nil, zero value otherwise.
-
-### GetDomainIdentifierOk
-
-`func (o *OtelComponentMappingOutput) GetDomainIdentifierOk() (*string, bool)`
-
-GetDomainIdentifierOk returns a tuple with the DomainIdentifier field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDomainIdentifier
-
-`func (o *OtelComponentMappingOutput) SetDomainIdentifier(v string)`
-
-SetDomainIdentifier sets DomainIdentifier field to given value.
-
-### HasDomainIdentifier
-
-`func (o *OtelComponentMappingOutput) HasDomainIdentifier() bool`
-
-HasDomainIdentifier returns a boolean if a field has been set.
 
 ### GetRequired
 

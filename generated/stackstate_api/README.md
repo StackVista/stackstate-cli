@@ -90,11 +90,11 @@ Class | Method | HTTP request | Description
 *AgentLeasesApi* | [**AgentCheckLease**](docs/AgentLeasesApi.md#agentchecklease) | **Post** /agents/{agentId}/checkLease | Check the lease of an agent.
 *AgentRegistrationsApi* | [**AllAgentRegistrations**](docs/AgentRegistrationsApi.md#allagentregistrations) | **Get** /agents | Overview of registered agents
 *ApiTokenApi* | [**GetCurrentUserApiTokens**](docs/ApiTokenApi.md#getcurrentuserapitokens) | **Get** /user/profile/tokens | Get current user&#39;s API tokens
+*ComponentApi* | [**GetComponentBoundMetric**](docs/ComponentApi.md#getcomponentboundmetric) | **Post** /components/{componentIdOrIdentifier}/bindmetric | Get a bound metric for a component
 *ComponentApi* | [**GetComponentCheckStates**](docs/ComponentApi.md#getcomponentcheckstates) | **Get** /components/{componentIdOrIdentifier}/checkStates | Get a component checkstates
 *ComponentApi* | [**GetComponentHealthHistory**](docs/ComponentApi.md#getcomponenthealthhistory) | **Get** /components/{componentIdOrIdentifier}/healthHistory | Get a component health history
-*ComponentApi* | [**GetComponentMetricBinding**](docs/ComponentApi.md#getcomponentmetricbinding) | **Get** /components/{componentIdOrIdentifier}/bindmetric | Get a bound metric binding to a component
-*ComponentApi* | [**GetComponentMetricsWithData**](docs/ComponentApi.md#getcomponentmetricswithdata) | **Get** /components/{componentIdOrIdentifier}/boundMetricsWithData | Bound metric bindings that have data for a component
 *ComponentApi* | [**GetFullComponent**](docs/ComponentApi.md#getfullcomponent) | **Get** /components/{componentIdOrIdentifier} | Get full component
+*ComponentApi* | [**GetMetricPerspectiveData**](docs/ComponentApi.md#getmetricperspectivedata) | **Get** /components/{componentIdOrIdentifier}/metricPerspectiveData | Bound metric bindings that have data for a component
 *ComponentPresentationApi* | [**DeleteComponentPresentationByIdentifier**](docs/ComponentPresentationApi.md#deletecomponentpresentationbyidentifier) | **Delete** /presentations/{identifier} | Delete a component presentation by Identifier
 *ComponentPresentationApi* | [**GetComponentPresentationByIdentifier**](docs/ComponentPresentationApi.md#getcomponentpresentationbyidentifier) | **Get** /presentations/{identifier} | Get a component presentation by Identifier
 *ComponentPresentationApi* | [**GetComponentPresentations**](docs/ComponentPresentationApi.md#getcomponentpresentations) | **Get** /presentations | List all component presentations
@@ -126,7 +126,6 @@ Class | Method | HTTP request | Description
 *KubernetesLogsApi* | [**GetKubernetesLogs**](docs/KubernetesLogsApi.md#getkuberneteslogs) | **Get** /k8s/logs | Get Kubernetes logs
 *KubernetesLogsApi* | [**GetKubernetesLogsAutocomplete**](docs/KubernetesLogsApi.md#getkuberneteslogsautocomplete) | **Get** /k8s/logs/autocomplete | Get Kubernetes logs autocomplete values
 *KubernetesLogsApi* | [**GetKubernetesLogsHistogram**](docs/KubernetesLogsApi.md#getkuberneteslogshistogram) | **Get** /k8s/logs/histogram | Get Kubernetes logs histogram
-*LayoutApi* | [**GetAllLayouts**](docs/LayoutApi.md#getalllayouts) | **Get** /layouts | List layout hints
 *MainMenuApi* | [**MainMenuGet**](docs/MainMenuApi.md#mainmenuget) | **Get** /main-menu | Get Main Menu
 *MetricApi* | [**GetExemplarsQuery**](docs/MetricApi.md#getexemplarsquery) | **Get** /metrics/query_exemplars | Experimental: Exemplars for a specific time range
 *MetricApi* | [**GetInstantQuery**](docs/MetricApi.md#getinstantquery) | **Get** /metrics/query | Instant query at a single point in time
@@ -217,6 +216,7 @@ Class | Method | HTTP request | Description
 *PermissionsApi* | [**GetPermissions**](docs/PermissionsApi.md#getpermissions) | **Get** /security/permissions/list | List permissions
 *PermissionsApi* | [**GrantPermissions**](docs/PermissionsApi.md#grantpermissions) | **Post** /security/permissions/{subject} | Grant permissions
 *PermissionsApi* | [**RevokePermissions**](docs/PermissionsApi.md#revokepermissions) | **Delete** /security/permissions/{subject} | Revoke permissions
+*PerspectivesApi* | [**GetPerspectives**](docs/PerspectivesApi.md#getperspectives) | **Get** /perspectives/{presentationOrViewUrn} | Get the perspectives for a view
 *ProblemApi* | [**GetProblemCausingEvents**](docs/ProblemApi.md#getproblemcausingevents) | **Get** /problems/{problemId}/causing-events | List possible events which led to the problem
 *RelationApi* | [**GetFullRelation**](docs/RelationApi.md#getfullrelation) | **Get** /relations/{relationId} | Get full relation
 *ScriptingApi* | [**ScriptExecute**](docs/ScriptingApi.md#scriptexecute) | **Post** /script/execute | Execute script
@@ -262,6 +262,8 @@ Class | Method | HTTP request | Description
 *UserSessionApi* | [**GetUserSessionAssumedRole**](docs/UserSessionApi.md#getusersessionassumedrole) | **Get** /user/session/assumedRole | Get the assumed a role for the current session
 *UserSessionApi* | [**GetUserSessionAvailableRoles**](docs/UserSessionApi.md#getusersessionavailableroles) | **Get** /user/session/availableRoles | Get a list of available roles for this session
 *UserSessionApi* | [**SaveUserSessionAssumedRole**](docs/UserSessionApi.md#saveusersessionassumedrole) | **Put** /user/session/assumedRole | Set the assumed role for the current session
+*ViewApi* | [**GetView**](docs/ViewApi.md#getview) | **Get** /views/{viewIdOrIdentifier} | Get a single view
+*ViewApi* | [**GetViews**](docs/ViewApi.md#getviews) | **Get** /views | Get a list of views
 
 
 ## Documentation For Models
@@ -290,19 +292,26 @@ Class | Method | HTTP request | Description
  - [ArgumentTimeWindowVal](docs/ArgumentTimeWindowVal.md)
  - [ArgumentTopologyPromQLMetricVal](docs/ArgumentTopologyPromQLMetricVal.md)
  - [ArgumentTopologyQueryVal](docs/ArgumentTopologyQueryVal.md)
+ - [BarChart](docs/BarChart.md)
  - [BaseComponentField](docs/BaseComponentField.md)
- - [BaseLayoutHint](docs/BaseLayoutHint.md)
  - [BaseMonitorError](docs/BaseMonitorError.md)
  - [BaseNotificationChannel](docs/BaseNotificationChannel.md)
  - [BoundMetric](docs/BoundMetric.md)
+ - [BoundMetricBindingId](docs/BoundMetricBindingId.md)
+ - [BoundMetricId](docs/BoundMetricId.md)
  - [BoundMetricQuery](docs/BoundMetricQuery.md)
- - [BoundMetrics](docs/BoundMetrics.md)
+ - [BoundPresentationMetricId](docs/BoundPresentationMetricId.md)
+ - [BoundSummaryMetric](docs/BoundSummaryMetric.md)
  - [BoundTraces](docs/BoundTraces.md)
  - [CausingEventsAreNotAvailableForTheTime](docs/CausingEventsAreNotAvailableForTheTime.md)
  - [CausingEventsResult](docs/CausingEventsResult.md)
  - [CellValue](docs/CellValue.md)
  - [ChannelReferenceId](docs/ChannelReferenceId.md)
- - [ChartType](docs/ChartType.md)
+ - [Chart](docs/Chart.md)
+ - [ChartCalculation](docs/ChartCalculation.md)
+ - [ChartStatThresholds](docs/ChartStatThresholds.md)
+ - [ChartThresholdStep](docs/ChartThresholdStep.md)
+ - [ChartThresholds](docs/ChartThresholds.md)
  - [CheckLeaseRequest](docs/CheckLeaseRequest.md)
  - [ComparatorWithoutEquality](docs/ComparatorWithoutEquality.md)
  - [ComponentAction](docs/ComponentAction.md)
@@ -313,10 +322,6 @@ Class | Method | HTTP request | Description
  - [ComponentField](docs/ComponentField.md)
  - [ComponentHealthChange](docs/ComponentHealthChange.md)
  - [ComponentHealthHistory](docs/ComponentHealthHistory.md)
- - [ComponentHighlightLocation](docs/ComponentHighlightLocation.md)
- - [ComponentHighlightMetricSection](docs/ComponentHighlightMetricSection.md)
- - [ComponentHighlightMetricSectionAllOf](docs/ComponentHighlightMetricSectionAllOf.md)
- - [ComponentHighlightMetrics](docs/ComponentHighlightMetrics.md)
  - [ComponentHighlightProjection](docs/ComponentHighlightProjection.md)
  - [ComponentLink](docs/ComponentLink.md)
  - [ComponentLinkCell](docs/ComponentLinkCell.md)
@@ -324,16 +329,19 @@ Class | Method | HTTP request | Description
  - [ComponentLinkFieldAllOf](docs/ComponentLinkFieldAllOf.md)
  - [ComponentLinkMetaDisplay](docs/ComponentLinkMetaDisplay.md)
  - [ComponentLinkProjection](docs/ComponentLinkProjection.md)
+ - [ComponentMetricSection](docs/ComponentMetricSection.md)
+ - [ComponentMetricTab](docs/ComponentMetricTab.md)
  - [ComponentOverviewProjection](docs/ComponentOverviewProjection.md)
  - [ComponentPresentation](docs/ComponentPresentation.md)
  - [ComponentPresentationApiError](docs/ComponentPresentationApiError.md)
  - [ComponentPresentationFilter](docs/ComponentPresentationFilter.md)
  - [ComponentPresentationFilterDefinition](docs/ComponentPresentationFilterDefinition.md)
+ - [ComponentPresentationMetric](docs/ComponentPresentationMetric.md)
  - [ComponentPresentationQueryBinding](docs/ComponentPresentationQueryBinding.md)
  - [ComponentPresentationRank](docs/ComponentPresentationRank.md)
  - [ComponentProvisioning](docs/ComponentProvisioning.md)
  - [ComponentQuery](docs/ComponentQuery.md)
- - [ComponentSummaryLocation](docs/ComponentSummaryLocation.md)
+ - [ComponentSummary](docs/ComponentSummary.md)
  - [ComponentViewArguments](docs/ComponentViewArguments.md)
  - [ContainerImageProjection](docs/ContainerImageProjection.md)
  - [CreateSubject](docs/CreateSubject.md)
@@ -408,6 +416,7 @@ Class | Method | HTTP request | Description
  - [FullComponent](docs/FullComponent.md)
  - [FullRelation](docs/FullRelation.md)
  - [FullStackPack](docs/FullStackPack.md)
+ - [GaugeChart](docs/GaugeChart.md)
  - [GenericApiError](docs/GenericApiError.md)
  - [GenericErrorsResponse](docs/GenericErrorsResponse.md)
  - [GetCausingEventsBadRequest](docs/GetCausingEventsBadRequest.md)
@@ -455,9 +464,6 @@ Class | Method | HTTP request | Description
  - [KubernetesLogHistogramBucket](docs/KubernetesLogHistogramBucket.md)
  - [KubernetesLogRecord](docs/KubernetesLogRecord.md)
  - [KubernetesLogSeverityHistogramBucket](docs/KubernetesLogSeverityHistogramBucket.md)
- - [LayoutApiError](docs/LayoutApiError.md)
- - [LayoutHint](docs/LayoutHint.md)
- - [LayoutList](docs/LayoutList.md)
  - [LegacyComponentHighlights](docs/LegacyComponentHighlights.md)
  - [LicensedSubscription](docs/LicensedSubscription.md)
  - [LimitOutOfRange](docs/LimitOutOfRange.md)
@@ -477,20 +483,13 @@ Class | Method | HTTP request | Description
  - [Message](docs/Message.md)
  - [MessageLevel](docs/MessageLevel.md)
  - [Messages](docs/Messages.md)
- - [MetricBindingId](docs/MetricBindingId.md)
- - [MetricBindingLayout](docs/MetricBindingLayout.md)
  - [MetricBucketValue](docs/MetricBucketValue.md)
  - [MetricCell](docs/MetricCell.md)
  - [MetricField](docs/MetricField.md)
  - [MetricFieldAllOf](docs/MetricFieldAllOf.md)
  - [MetricMetaDisplay](docs/MetricMetaDisplay.md)
- - [MetricPerspectiveLocation](docs/MetricPerspectiveLocation.md)
- - [MetricPerspectiveSection](docs/MetricPerspectiveSection.md)
- - [MetricPerspectiveSectionAllOf](docs/MetricPerspectiveSectionAllOf.md)
- - [MetricPerspectiveTab](docs/MetricPerspectiveTab.md)
- - [MetricPerspectiveTabAllOf](docs/MetricPerspectiveTabAllOf.md)
+ - [MetricPerspectiveData](docs/MetricPerspectiveData.md)
  - [MetricProjection](docs/MetricProjection.md)
- - [MetricValuation](docs/MetricValuation.md)
  - [Monitor](docs/Monitor.md)
  - [MonitorApiError](docs/MonitorApiError.md)
  - [MonitorApiErrorAllOf](docs/MonitorApiErrorAllOf.md)
@@ -573,6 +572,8 @@ Class | Method | HTTP request | Description
  - [OpsgenieRegion](docs/OpsgenieRegion.md)
  - [OpsgenieResponder](docs/OpsgenieResponder.md)
  - [OpsgenieResponderType](docs/OpsgenieResponderType.md)
+ - [OrderedComponentPresentationMetric](docs/OrderedComponentPresentationMetric.md)
+ - [OrderedComponentPresentationMetricAllOf](docs/OrderedComponentPresentationMetricAllOf.md)
  - [OtelComponentMapping](docs/OtelComponentMapping.md)
  - [OtelComponentMappingFieldMapping](docs/OtelComponentMappingFieldMapping.md)
  - [OtelComponentMappingOutput](docs/OtelComponentMappingOutput.md)
@@ -646,6 +647,8 @@ Class | Method | HTTP request | Description
  - [PersesVariableDisplaySpec](docs/PersesVariableDisplaySpec.md)
  - [PersesVariableSort](docs/PersesVariableSort.md)
  - [PersesVariableTypes](docs/PersesVariableTypes.md)
+ - [Perspectives](docs/Perspectives.md)
+ - [PerspectivesApiError](docs/PerspectivesApiError.md)
  - [PresentationDefinition](docs/PresentationDefinition.md)
  - [PresentationFilter](docs/PresentationFilter.md)
  - [PresentationFilterName](docs/PresentationFilterName.md)
@@ -653,11 +656,20 @@ Class | Method | HTTP request | Description
  - [PresentationHighlight](docs/PresentationHighlight.md)
  - [PresentationHighlightEvents](docs/PresentationHighlightEvents.md)
  - [PresentationHighlightField](docs/PresentationHighlightField.md)
+ - [PresentationHighlightMetricsSection](docs/PresentationHighlightMetricsSection.md)
  - [PresentationHighlightProvisioning](docs/PresentationHighlightProvisioning.md)
  - [PresentationMainMenu](docs/PresentationMainMenu.md)
+ - [PresentationMetricPerspective](docs/PresentationMetricPerspective.md)
+ - [PresentationMetricPerspectiveSection](docs/PresentationMetricPerspectiveSection.md)
+ - [PresentationMetricPerspectiveTab](docs/PresentationMetricPerspectiveTab.md)
+ - [PresentationMetricQuery](docs/PresentationMetricQuery.md)
  - [PresentationName](docs/PresentationName.md)
  - [PresentationOverview](docs/PresentationOverview.md)
+ - [PresentationOverviewSorting](docs/PresentationOverviewSorting.md)
+ - [PresentationOverviewSortingDirection](docs/PresentationOverviewSortingDirection.md)
  - [PresentationRelatedResource](docs/PresentationRelatedResource.md)
+ - [PresentationSummary](docs/PresentationSummary.md)
+ - [PresentationSummaryMetric](docs/PresentationSummaryMetric.md)
  - [PresentationTagFilter](docs/PresentationTagFilter.md)
  - [ProblemNotFound](docs/ProblemNotFound.md)
  - [PromBatchEnvelope](docs/PromBatchEnvelope.md)
@@ -689,6 +701,7 @@ Class | Method | HTTP request | Description
  - [QueryParsingFailure](docs/QueryParsingFailure.md)
  - [QuerySnapshotResult](docs/QuerySnapshotResult.md)
  - [QueryViewArguments](docs/QueryViewArguments.md)
+ - [QueryViewFlag](docs/QueryViewFlag.md)
  - [RatioField](docs/RatioField.md)
  - [RatioFieldAllOf](docs/RatioFieldAllOf.md)
  - [RatioProjection](docs/RatioProjection.md)
@@ -738,6 +751,7 @@ Class | Method | HTTP request | Description
  - [StackPackStep](docs/StackPackStep.md)
  - [StackPackStepValue](docs/StackPackStepValue.md)
  - [StackPackVersionInfo](docs/StackPackVersionInfo.md)
+ - [StatChart](docs/StatChart.md)
  - [StreamList](docs/StreamList.md)
  - [StreamListItem](docs/StreamListItem.md)
  - [StringItemsWithTotal](docs/StringItemsWithTotal.md)
@@ -761,6 +775,7 @@ Class | Method | HTTP request | Description
  - [TextFieldAllOf](docs/TextFieldAllOf.md)
  - [TextMetaDisplay](docs/TextMetaDisplay.md)
  - [TextProjection](docs/TextProjection.md)
+ - [TimeSeriesChart](docs/TimeSeriesChart.md)
  - [TimelineSummary](docs/TimelineSummary.md)
  - [TimelineSummaryError](docs/TimelineSummaryError.md)
  - [TimelineSummaryEventBucket](docs/TimelineSummaryEventBucket.md)
@@ -771,10 +786,14 @@ Class | Method | HTTP request | Description
  - [TooManyActiveQueries](docs/TooManyActiveQueries.md)
  - [TooManyTopologyResults](docs/TooManyTopologyResults.md)
  - [Topic](docs/Topic.md)
+ - [TopologyDomain](docs/TopologyDomain.md)
  - [TopologyEvent](docs/TopologyEvent.md)
+ - [TopologyLayer](docs/TopologyLayer.md)
  - [TopologyMatchResult](docs/TopologyMatchResult.md)
  - [TopologyOverflowError](docs/TopologyOverflowError.md)
+ - [TopologyPerspective](docs/TopologyPerspective.md)
  - [TopologyPromQLMetric](docs/TopologyPromQLMetric.md)
+ - [TopologySettings](docs/TopologySettings.md)
  - [TopologyStreamError](docs/TopologyStreamError.md)
  - [TopologyStreamList](docs/TopologyStreamList.md)
  - [TopologyStreamListItem](docs/TopologyStreamListItem.md)
@@ -805,7 +824,10 @@ Class | Method | HTTP request | Description
  - [UserNotLoggedInError](docs/UserNotLoggedInError.md)
  - [UserProfile](docs/UserProfile.md)
  - [UserProfileSaveError](docs/UserProfileSaveError.md)
+ - [View](docs/View.md)
  - [ViewCheckState](docs/ViewCheckState.md)
+ - [ViewList](docs/ViewList.md)
+ - [ViewNotFoundError](docs/ViewNotFoundError.md)
  - [ViewSnapshotRequest](docs/ViewSnapshotRequest.md)
  - [WebhookChannelRefId](docs/WebhookChannelRefId.md)
  - [WebhookChannelWriteSchema](docs/WebhookChannelWriteSchema.md)

@@ -17,12 +17,12 @@ import (
 
 // MetricMetaDisplay struct for MetricMetaDisplay
 type MetricMetaDisplay struct {
-	Type          string           `json:"_type" yaml:"_type"`
-	Unit          NullableString   `json:"unit,omitempty" yaml:"unit,omitempty"`
-	DecimalPlaces NullableInt32    `json:"decimalPlaces,omitempty" yaml:"decimalPlaces,omitempty"`
-	ShowChart     NullableBool     `json:"showChart,omitempty" yaml:"showChart,omitempty"`
-	Locked        bool             `json:"locked" yaml:"locked"`
-	MetricId      *MetricBindingId `json:"metricId,omitempty" yaml:"metricId,omitempty"`
+	Type          string         `json:"_type" yaml:"_type"`
+	Unit          NullableString `json:"unit,omitempty" yaml:"unit,omitempty"`
+	DecimalPlaces NullableInt32  `json:"decimalPlaces,omitempty" yaml:"decimalPlaces,omitempty"`
+	Sparkline     NullableBool   `json:"sparkline,omitempty" yaml:"sparkline,omitempty"`
+	Locked        bool           `json:"locked" yaml:"locked"`
+	BoundMetricId *BoundMetricId `json:"boundMetricId,omitempty" yaml:"boundMetricId,omitempty"`
 }
 
 // NewMetricMetaDisplay instantiates a new MetricMetaDisplay object
@@ -154,47 +154,47 @@ func (o *MetricMetaDisplay) UnsetDecimalPlaces() {
 	o.DecimalPlaces.Unset()
 }
 
-// GetShowChart returns the ShowChart field value if set, zero value otherwise (both if not set or set to explicit null).
-func (o *MetricMetaDisplay) GetShowChart() bool {
-	if o == nil || o.ShowChart.Get() == nil {
+// GetSparkline returns the Sparkline field value if set, zero value otherwise (both if not set or set to explicit null).
+func (o *MetricMetaDisplay) GetSparkline() bool {
+	if o == nil || o.Sparkline.Get() == nil {
 		var ret bool
 		return ret
 	}
-	return *o.ShowChart.Get()
+	return *o.Sparkline.Get()
 }
 
-// GetShowChartOk returns a tuple with the ShowChart field value if set, nil otherwise
+// GetSparklineOk returns a tuple with the Sparkline field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 // NOTE: If the value is an explicit nil, `nil, true` will be returned
-func (o *MetricMetaDisplay) GetShowChartOk() (*bool, bool) {
+func (o *MetricMetaDisplay) GetSparklineOk() (*bool, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return o.ShowChart.Get(), o.ShowChart.IsSet()
+	return o.Sparkline.Get(), o.Sparkline.IsSet()
 }
 
-// HasShowChart returns a boolean if a field has been set.
-func (o *MetricMetaDisplay) HasShowChart() bool {
-	if o != nil && o.ShowChart.IsSet() {
+// HasSparkline returns a boolean if a field has been set.
+func (o *MetricMetaDisplay) HasSparkline() bool {
+	if o != nil && o.Sparkline.IsSet() {
 		return true
 	}
 
 	return false
 }
 
-// SetShowChart gets a reference to the given NullableBool and assigns it to the ShowChart field.
-func (o *MetricMetaDisplay) SetShowChart(v bool) {
-	o.ShowChart.Set(&v)
+// SetSparkline gets a reference to the given NullableBool and assigns it to the Sparkline field.
+func (o *MetricMetaDisplay) SetSparkline(v bool) {
+	o.Sparkline.Set(&v)
 }
 
-// SetShowChartNil sets the value for ShowChart to be an explicit nil
-func (o *MetricMetaDisplay) SetShowChartNil() {
-	o.ShowChart.Set(nil)
+// SetSparklineNil sets the value for Sparkline to be an explicit nil
+func (o *MetricMetaDisplay) SetSparklineNil() {
+	o.Sparkline.Set(nil)
 }
 
-// UnsetShowChart ensures that no value is present for ShowChart, not even an explicit nil
-func (o *MetricMetaDisplay) UnsetShowChart() {
-	o.ShowChart.Unset()
+// UnsetSparkline ensures that no value is present for Sparkline, not even an explicit nil
+func (o *MetricMetaDisplay) UnsetSparkline() {
+	o.Sparkline.Unset()
 }
 
 // GetLocked returns the Locked field value
@@ -221,36 +221,36 @@ func (o *MetricMetaDisplay) SetLocked(v bool) {
 	o.Locked = v
 }
 
-// GetMetricId returns the MetricId field value if set, zero value otherwise.
-func (o *MetricMetaDisplay) GetMetricId() MetricBindingId {
-	if o == nil || o.MetricId == nil {
-		var ret MetricBindingId
+// GetBoundMetricId returns the BoundMetricId field value if set, zero value otherwise.
+func (o *MetricMetaDisplay) GetBoundMetricId() BoundMetricId {
+	if o == nil || o.BoundMetricId == nil {
+		var ret BoundMetricId
 		return ret
 	}
-	return *o.MetricId
+	return *o.BoundMetricId
 }
 
-// GetMetricIdOk returns a tuple with the MetricId field value if set, nil otherwise
+// GetBoundMetricIdOk returns a tuple with the BoundMetricId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetricMetaDisplay) GetMetricIdOk() (*MetricBindingId, bool) {
-	if o == nil || o.MetricId == nil {
+func (o *MetricMetaDisplay) GetBoundMetricIdOk() (*BoundMetricId, bool) {
+	if o == nil || o.BoundMetricId == nil {
 		return nil, false
 	}
-	return o.MetricId, true
+	return o.BoundMetricId, true
 }
 
-// HasMetricId returns a boolean if a field has been set.
-func (o *MetricMetaDisplay) HasMetricId() bool {
-	if o != nil && o.MetricId != nil {
+// HasBoundMetricId returns a boolean if a field has been set.
+func (o *MetricMetaDisplay) HasBoundMetricId() bool {
+	if o != nil && o.BoundMetricId != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetMetricId gets a reference to the given MetricBindingId and assigns it to the MetricId field.
-func (o *MetricMetaDisplay) SetMetricId(v MetricBindingId) {
-	o.MetricId = &v
+// SetBoundMetricId gets a reference to the given BoundMetricId and assigns it to the BoundMetricId field.
+func (o *MetricMetaDisplay) SetBoundMetricId(v BoundMetricId) {
+	o.BoundMetricId = &v
 }
 
 func (o MetricMetaDisplay) MarshalJSON() ([]byte, error) {
@@ -264,14 +264,14 @@ func (o MetricMetaDisplay) MarshalJSON() ([]byte, error) {
 	if o.DecimalPlaces.IsSet() {
 		toSerialize["decimalPlaces"] = o.DecimalPlaces.Get()
 	}
-	if o.ShowChart.IsSet() {
-		toSerialize["showChart"] = o.ShowChart.Get()
+	if o.Sparkline.IsSet() {
+		toSerialize["sparkline"] = o.Sparkline.Get()
 	}
 	if true {
 		toSerialize["locked"] = o.Locked
 	}
-	if o.MetricId != nil {
-		toSerialize["metricId"] = o.MetricId
+	if o.BoundMetricId != nil {
+		toSerialize["boundMetricId"] = o.BoundMetricId
 	}
 	return json.Marshal(toSerialize)
 }

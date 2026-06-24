@@ -7,9 +7,9 @@ Name | Type | Description | Notes
 **Type** | **string** |  | 
 **Unit** | Pointer to **NullableString** |  | [optional] 
 **DecimalPlaces** | Pointer to **NullableInt32** |  | [optional] 
-**ShowChart** | Pointer to **NullableBool** |  | [optional] 
+**Sparkline** | Pointer to **NullableBool** |  | [optional] 
 **Locked** | **bool** |  | 
-**MetricId** | Pointer to [**MetricBindingId**](MetricBindingId.md) |  | [optional] 
+**BoundMetricId** | Pointer to [**BoundMetricId**](BoundMetricId.md) |  | [optional] 
 **External** | **bool** |  | 
 
 ## Methods
@@ -121,41 +121,41 @@ HasDecimalPlaces returns a boolean if a field has been set.
 `func (o *OverviewColumnMetaDisplay) UnsetDecimalPlaces()`
 
 UnsetDecimalPlaces ensures that no value is present for DecimalPlaces, not even an explicit nil
-### GetShowChart
+### GetSparkline
 
-`func (o *OverviewColumnMetaDisplay) GetShowChart() bool`
+`func (o *OverviewColumnMetaDisplay) GetSparkline() bool`
 
-GetShowChart returns the ShowChart field if non-nil, zero value otherwise.
+GetSparkline returns the Sparkline field if non-nil, zero value otherwise.
 
-### GetShowChartOk
+### GetSparklineOk
 
-`func (o *OverviewColumnMetaDisplay) GetShowChartOk() (*bool, bool)`
+`func (o *OverviewColumnMetaDisplay) GetSparklineOk() (*bool, bool)`
 
-GetShowChartOk returns a tuple with the ShowChart field if it's non-nil, zero value otherwise
+GetSparklineOk returns a tuple with the Sparkline field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetShowChart
+### SetSparkline
 
-`func (o *OverviewColumnMetaDisplay) SetShowChart(v bool)`
+`func (o *OverviewColumnMetaDisplay) SetSparkline(v bool)`
 
-SetShowChart sets ShowChart field to given value.
+SetSparkline sets Sparkline field to given value.
 
-### HasShowChart
+### HasSparkline
 
-`func (o *OverviewColumnMetaDisplay) HasShowChart() bool`
+`func (o *OverviewColumnMetaDisplay) HasSparkline() bool`
 
-HasShowChart returns a boolean if a field has been set.
+HasSparkline returns a boolean if a field has been set.
 
-### SetShowChartNil
+### SetSparklineNil
 
-`func (o *OverviewColumnMetaDisplay) SetShowChartNil(b bool)`
+`func (o *OverviewColumnMetaDisplay) SetSparklineNil(b bool)`
 
- SetShowChartNil sets the value for ShowChart to be an explicit nil
+ SetSparklineNil sets the value for Sparkline to be an explicit nil
 
-### UnsetShowChart
-`func (o *OverviewColumnMetaDisplay) UnsetShowChart()`
+### UnsetSparkline
+`func (o *OverviewColumnMetaDisplay) UnsetSparkline()`
 
-UnsetShowChart ensures that no value is present for ShowChart, not even an explicit nil
+UnsetSparkline ensures that no value is present for Sparkline, not even an explicit nil
 ### GetLocked
 
 `func (o *OverviewColumnMetaDisplay) GetLocked() bool`
@@ -176,30 +176,30 @@ and a boolean to check if the value has been set.
 SetLocked sets Locked field to given value.
 
 
-### GetMetricId
+### GetBoundMetricId
 
-`func (o *OverviewColumnMetaDisplay) GetMetricId() MetricBindingId`
+`func (o *OverviewColumnMetaDisplay) GetBoundMetricId() BoundMetricId`
 
-GetMetricId returns the MetricId field if non-nil, zero value otherwise.
+GetBoundMetricId returns the BoundMetricId field if non-nil, zero value otherwise.
 
-### GetMetricIdOk
+### GetBoundMetricIdOk
 
-`func (o *OverviewColumnMetaDisplay) GetMetricIdOk() (*MetricBindingId, bool)`
+`func (o *OverviewColumnMetaDisplay) GetBoundMetricIdOk() (*BoundMetricId, bool)`
 
-GetMetricIdOk returns a tuple with the MetricId field if it's non-nil, zero value otherwise
+GetBoundMetricIdOk returns a tuple with the BoundMetricId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetMetricId
+### SetBoundMetricId
 
-`func (o *OverviewColumnMetaDisplay) SetMetricId(v MetricBindingId)`
+`func (o *OverviewColumnMetaDisplay) SetBoundMetricId(v BoundMetricId)`
 
-SetMetricId sets MetricId field to given value.
+SetBoundMetricId sets BoundMetricId field to given value.
 
-### HasMetricId
+### HasBoundMetricId
 
-`func (o *OverviewColumnMetaDisplay) HasMetricId() bool`
+`func (o *OverviewColumnMetaDisplay) HasBoundMetricId() bool`
 
-HasMetricId returns a boolean if a field has been set.
+HasBoundMetricId returns a boolean if a field has been set.
 
 ### GetExternal
 

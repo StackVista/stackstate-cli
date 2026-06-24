@@ -7,7 +7,10 @@ Name | Type | Description | Notes
 **Icon** | Pointer to **string** |  | [optional] 
 **Overview** | Pointer to [**PresentationOverview**](PresentationOverview.md) |  | [optional] 
 **Highlight** | Pointer to [**PresentationHighlight**](PresentationHighlight.md) |  | [optional] 
+**Summary** | Pointer to [**PresentationSummary**](PresentationSummary.md) |  | [optional] 
 **Filters** | Pointer to [**[]ComponentPresentationFilter**](ComponentPresentationFilter.md) |  | [optional] 
+**MetricPerspective** | Pointer to [**PresentationMetricPerspective**](PresentationMetricPerspective.md) |  | [optional] 
+**Topology** | Pointer to [**TopologySettings**](TopologySettings.md) |  | [optional] 
 
 ## Methods
 
@@ -103,6 +106,31 @@ SetHighlight sets Highlight field to given value.
 
 HasHighlight returns a boolean if a field has been set.
 
+### GetSummary
+
+`func (o *PresentationDefinition) GetSummary() PresentationSummary`
+
+GetSummary returns the Summary field if non-nil, zero value otherwise.
+
+### GetSummaryOk
+
+`func (o *PresentationDefinition) GetSummaryOk() (*PresentationSummary, bool)`
+
+GetSummaryOk returns a tuple with the Summary field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSummary
+
+`func (o *PresentationDefinition) SetSummary(v PresentationSummary)`
+
+SetSummary sets Summary field to given value.
+
+### HasSummary
+
+`func (o *PresentationDefinition) HasSummary() bool`
+
+HasSummary returns a boolean if a field has been set.
+
 ### GetFilters
 
 `func (o *PresentationDefinition) GetFilters() []ComponentPresentationFilter`
@@ -127,6 +155,56 @@ SetFilters sets Filters field to given value.
 `func (o *PresentationDefinition) HasFilters() bool`
 
 HasFilters returns a boolean if a field has been set.
+
+### GetMetricPerspective
+
+`func (o *PresentationDefinition) GetMetricPerspective() PresentationMetricPerspective`
+
+GetMetricPerspective returns the MetricPerspective field if non-nil, zero value otherwise.
+
+### GetMetricPerspectiveOk
+
+`func (o *PresentationDefinition) GetMetricPerspectiveOk() (*PresentationMetricPerspective, bool)`
+
+GetMetricPerspectiveOk returns a tuple with the MetricPerspective field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetricPerspective
+
+`func (o *PresentationDefinition) SetMetricPerspective(v PresentationMetricPerspective)`
+
+SetMetricPerspective sets MetricPerspective field to given value.
+
+### HasMetricPerspective
+
+`func (o *PresentationDefinition) HasMetricPerspective() bool`
+
+HasMetricPerspective returns a boolean if a field has been set.
+
+### GetTopology
+
+`func (o *PresentationDefinition) GetTopology() TopologySettings`
+
+GetTopology returns the Topology field if non-nil, zero value otherwise.
+
+### GetTopologyOk
+
+`func (o *PresentationDefinition) GetTopologyOk() (*TopologySettings, bool)`
+
+GetTopologyOk returns a tuple with the Topology field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTopology
+
+`func (o *PresentationDefinition) SetTopology(v TopologySettings)`
+
+SetTopology sets Topology field to given value.
+
+### HasTopology
+
+`func (o *PresentationDefinition) HasTopology() bool`
+
+HasTopology returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

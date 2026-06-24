@@ -74,8 +74,6 @@ type APIClient struct {
 
 	KubernetesLogsApi KubernetesLogsApi
 
-	LayoutApi LayoutApi
-
 	MainMenuApi MainMenuApi
 
 	MetricApi MetricApi
@@ -95,6 +93,8 @@ type APIClient struct {
 	OverviewApi OverviewApi
 
 	PermissionsApi PermissionsApi
+
+	PerspectivesApi PerspectivesApi
 
 	ProblemApi ProblemApi
 
@@ -129,6 +129,8 @@ type APIClient struct {
 	UserProfileApi UserProfileApi
 
 	UserSessionApi UserSessionApi
+
+	ViewApi ViewApi
 }
 
 type service struct {
@@ -159,7 +161,6 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.HealthSynchronizationApi = (*HealthSynchronizationApiService)(&c.common)
 	c.ImportApi = (*ImportApiService)(&c.common)
 	c.KubernetesLogsApi = (*KubernetesLogsApiService)(&c.common)
-	c.LayoutApi = (*LayoutApiService)(&c.common)
 	c.MainMenuApi = (*MainMenuApiService)(&c.common)
 	c.MetricApi = (*MetricApiService)(&c.common)
 	c.MonitorApi = (*MonitorApiService)(&c.common)
@@ -170,6 +171,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.OtelMappingApi = (*OtelMappingApiService)(&c.common)
 	c.OverviewApi = (*OverviewApiService)(&c.common)
 	c.PermissionsApi = (*PermissionsApiService)(&c.common)
+	c.PerspectivesApi = (*PerspectivesApiService)(&c.common)
 	c.ProblemApi = (*ProblemApiService)(&c.common)
 	c.RelationApi = (*RelationApiService)(&c.common)
 	c.ScriptingApi = (*ScriptingApiService)(&c.common)
@@ -187,6 +189,7 @@ func NewAPIClient(cfg *Configuration) *APIClient {
 	c.UserAuthorizationApi = (*UserAuthorizationApiService)(&c.common)
 	c.UserProfileApi = (*UserProfileApiService)(&c.common)
 	c.UserSessionApi = (*UserSessionApiService)(&c.common)
+	c.ViewApi = (*ViewApiService)(&c.common)
 
 	return c
 }

@@ -23,6 +23,21 @@ import (
 type ComponentApi interface {
 
 	/*
+		GetComponentBoundMetric Get a bound metric for a component
+
+		Bind the variables in a metric binding to a component to get valid queries for fetching metric data
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
+		@return ApiGetComponentBoundMetricRequest
+	*/
+	GetComponentBoundMetric(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentBoundMetricRequest
+
+	// GetComponentBoundMetricExecute executes the request
+	//  @return BoundMetric
+	GetComponentBoundMetricExecute(r ApiGetComponentBoundMetricRequest) (*BoundMetric, *http.Response, error)
+
+	/*
 		GetComponentCheckStates Get a component checkstates
 
 		Get a component checkstates for a defined period of time by id or identifier
@@ -53,36 +68,6 @@ type ComponentApi interface {
 	GetComponentHealthHistoryExecute(r ApiGetComponentHealthHistoryRequest) (*ComponentHealthHistory, *http.Response, error)
 
 	/*
-		GetComponentMetricBinding Get a bound metric binding to a component
-
-		Bind the variables in a metric binding to a component to get valid queries for fetching metric data
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrIdentifier The id or identifier (urn) of a component
-		@return ApiGetComponentMetricBindingRequest
-	*/
-	GetComponentMetricBinding(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricBindingRequest
-
-	// GetComponentMetricBindingExecute executes the request
-	//  @return BoundMetric
-	GetComponentMetricBindingExecute(r ApiGetComponentMetricBindingRequest) (*BoundMetric, *http.Response, error)
-
-	/*
-		GetComponentMetricsWithData Bound metric bindings that have data for a component
-
-		Bound metric bindings for metrics that have data for a component
-
-		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-		@param componentIdOrIdentifier The id or identifier (urn) of a component
-		@return ApiGetComponentMetricsWithDataRequest
-	*/
-	GetComponentMetricsWithData(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricsWithDataRequest
-
-	// GetComponentMetricsWithDataExecute executes the request
-	//  @return BoundMetrics
-	GetComponentMetricsWithDataExecute(r ApiGetComponentMetricsWithDataRequest) (*BoundMetrics, *http.Response, error)
-
-	/*
 		GetFullComponent Get full component
 
 		Get full component details
@@ -96,10 +81,201 @@ type ComponentApi interface {
 	// GetFullComponentExecute executes the request
 	//  @return FullComponent
 	GetFullComponentExecute(r ApiGetFullComponentRequest) (*FullComponent, *http.Response, error)
+
+	/*
+		GetMetricPerspectiveData Bound metric bindings that have data for a component
+
+		Bound metric bindings for metrics that have data for a component
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param componentIdOrIdentifier The id or identifier (urn) of a component
+		@return ApiGetMetricPerspectiveDataRequest
+	*/
+	GetMetricPerspectiveData(ctx context.Context, componentIdOrIdentifier string) ApiGetMetricPerspectiveDataRequest
+
+	// GetMetricPerspectiveDataExecute executes the request
+	//  @return MetricPerspectiveData
+	GetMetricPerspectiveDataExecute(r ApiGetMetricPerspectiveDataRequest) (*MetricPerspectiveData, *http.Response, error)
 }
 
 // ComponentApiService ComponentApi service
 type ComponentApiService service
+
+type ApiGetComponentBoundMetricRequest struct {
+	ctx                     context.Context
+	ApiService              ComponentApi
+	componentIdOrIdentifier string
+	boundMetricId           *BoundMetricId
+	topologyTime            *int32
+}
+
+func (r ApiGetComponentBoundMetricRequest) BoundMetricId(boundMetricId BoundMetricId) ApiGetComponentBoundMetricRequest {
+	r.boundMetricId = &boundMetricId
+	return r
+}
+
+// A timestamp at which resources will be queried. If not given the resources are queried at current time.
+func (r ApiGetComponentBoundMetricRequest) TopologyTime(topologyTime int32) ApiGetComponentBoundMetricRequest {
+	r.topologyTime = &topologyTime
+	return r
+}
+
+func (r ApiGetComponentBoundMetricRequest) Execute() (*BoundMetric, *http.Response, error) {
+	return r.ApiService.GetComponentBoundMetricExecute(r)
+}
+
+/*
+GetComponentBoundMetric Get a bound metric for a component
+
+Bind the variables in a metric binding to a component to get valid queries for fetching metric data
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
+	@return ApiGetComponentBoundMetricRequest
+*/
+func (a *ComponentApiService) GetComponentBoundMetric(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentBoundMetricRequest {
+	return ApiGetComponentBoundMetricRequest{
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
+	}
+}
+
+// Execute executes the request
+//
+//	@return BoundMetric
+func (a *ComponentApiService) GetComponentBoundMetricExecute(r ApiGetComponentBoundMetricRequest) (*BoundMetric, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *BoundMetric
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentBoundMetric")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/bindmetric"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.boundMetricId == nil {
+		return localVarReturnValue, nil, reportError("boundMetricId is required and must be specified")
+	}
+
+	if r.topologyTime != nil {
+		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
+	}
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.boundMetricId
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiGetComponentCheckStatesRequest struct {
 	ctx                     context.Context
@@ -453,369 +629,6 @@ func (a *ComponentApiService) GetComponentHealthHistoryExecute(r ApiGetComponent
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
-type ApiGetComponentMetricBindingRequest struct {
-	ctx                     context.Context
-	ApiService              ComponentApi
-	componentIdOrIdentifier string
-	metricBindingIdentifier *string
-	topologyTime            *int32
-}
-
-// The identifier (urn) of a metric binding
-func (r ApiGetComponentMetricBindingRequest) MetricBindingIdentifier(metricBindingIdentifier string) ApiGetComponentMetricBindingRequest {
-	r.metricBindingIdentifier = &metricBindingIdentifier
-	return r
-}
-
-// A timestamp at which resources will be queried. If not given the resources are queried at current time.
-func (r ApiGetComponentMetricBindingRequest) TopologyTime(topologyTime int32) ApiGetComponentMetricBindingRequest {
-	r.topologyTime = &topologyTime
-	return r
-}
-
-func (r ApiGetComponentMetricBindingRequest) Execute() (*BoundMetric, *http.Response, error) {
-	return r.ApiService.GetComponentMetricBindingExecute(r)
-}
-
-/*
-GetComponentMetricBinding Get a bound metric binding to a component
-
-Bind the variables in a metric binding to a component to get valid queries for fetching metric data
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrIdentifier The id or identifier (urn) of a component
-	@return ApiGetComponentMetricBindingRequest
-*/
-func (a *ComponentApiService) GetComponentMetricBinding(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricBindingRequest {
-	return ApiGetComponentMetricBindingRequest{
-		ApiService:              a,
-		ctx:                     ctx,
-		componentIdOrIdentifier: componentIdOrIdentifier,
-	}
-}
-
-// Execute executes the request
-//
-//	@return BoundMetric
-func (a *ComponentApiService) GetComponentMetricBindingExecute(r ApiGetComponentMetricBindingRequest) (*BoundMetric, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *BoundMetric
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentMetricBinding")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/bindmetric"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.metricBindingIdentifier == nil {
-		return localVarReturnValue, nil, reportError("metricBindingIdentifier is required and must be specified")
-	}
-
-	localVarQueryParams.Add("metricBindingIdentifier", parameterToString(*r.metricBindingIdentifier, ""))
-	if r.topologyTime != nil {
-		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
-	}
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Token"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceBearer"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
-type ApiGetComponentMetricsWithDataRequest struct {
-	ctx                     context.Context
-	ApiService              ComponentApi
-	componentIdOrIdentifier string
-	startTime               *int32
-	endTime                 *int32
-	topologyTime            *int32
-}
-
-// The start time of a time range to query resources.
-func (r ApiGetComponentMetricsWithDataRequest) StartTime(startTime int32) ApiGetComponentMetricsWithDataRequest {
-	r.startTime = &startTime
-	return r
-}
-
-// The end time of a time range to query resources.
-func (r ApiGetComponentMetricsWithDataRequest) EndTime(endTime int32) ApiGetComponentMetricsWithDataRequest {
-	r.endTime = &endTime
-	return r
-}
-
-// A timestamp at which resources will be queried. If not given the resources are queried at current time.
-func (r ApiGetComponentMetricsWithDataRequest) TopologyTime(topologyTime int32) ApiGetComponentMetricsWithDataRequest {
-	r.topologyTime = &topologyTime
-	return r
-}
-
-func (r ApiGetComponentMetricsWithDataRequest) Execute() (*BoundMetrics, *http.Response, error) {
-	return r.ApiService.GetComponentMetricsWithDataExecute(r)
-}
-
-/*
-GetComponentMetricsWithData Bound metric bindings that have data for a component
-
-Bound metric bindings for metrics that have data for a component
-
-	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	@param componentIdOrIdentifier The id or identifier (urn) of a component
-	@return ApiGetComponentMetricsWithDataRequest
-*/
-func (a *ComponentApiService) GetComponentMetricsWithData(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricsWithDataRequest {
-	return ApiGetComponentMetricsWithDataRequest{
-		ApiService:              a,
-		ctx:                     ctx,
-		componentIdOrIdentifier: componentIdOrIdentifier,
-	}
-}
-
-// Execute executes the request
-//
-//	@return BoundMetrics
-func (a *ComponentApiService) GetComponentMetricsWithDataExecute(r ApiGetComponentMetricsWithDataRequest) (*BoundMetrics, *http.Response, error) {
-	var (
-		localVarHTTPMethod  = http.MethodGet
-		localVarPostBody    interface{}
-		formFiles           []formFile
-		localVarReturnValue *BoundMetrics
-	)
-
-	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetComponentMetricsWithData")
-	if err != nil {
-		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
-	}
-
-	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/boundMetricsWithData"
-	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
-
-	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := url.Values{}
-	localVarFormParams := url.Values{}
-	if r.startTime == nil {
-		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
-	}
-	if r.endTime == nil {
-		return localVarReturnValue, nil, reportError("endTime is required and must be specified")
-	}
-
-	if r.topologyTime != nil {
-		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
-	}
-	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
-	localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
-	// to determine the Content-Type header
-	localVarHTTPContentTypes := []string{}
-
-	// set Content-Type header
-	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
-	if localVarHTTPContentType != "" {
-		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
-	}
-
-	// to determine the Accept header
-	localVarHTTPHeaderAccepts := []string{"application/json"}
-
-	// set Accept header
-	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
-	if localVarHTTPHeaderAccept != "" {
-		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ApiToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Token"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceBearer"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-ServiceBearer"] = key
-			}
-		}
-	}
-	if r.ctx != nil {
-		// API Key Authentication
-		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
-			if apiKey, ok := auth["ServiceToken"]; ok {
-				var key string
-				if apiKey.Prefix != "" {
-					key = apiKey.Prefix + " " + apiKey.Key
-				} else {
-					key = apiKey.Key
-				}
-				localVarHeaderParams["X-API-Key"] = key
-			}
-		}
-	}
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
-	if err != nil {
-		return localVarReturnValue, nil, err
-	}
-
-	localVarHTTPResponse, err := a.client.callAPI(req)
-	if err != nil || localVarHTTPResponse == nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
-	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
-	if err != nil {
-		return localVarReturnValue, localVarHTTPResponse, err
-	}
-
-	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: localVarHTTPResponse.Status,
-		}
-		if localVarHTTPResponse.StatusCode == 500 {
-			var v GenericErrorsResponse
-			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-			if err != nil {
-				newErr.error = err.Error()
-				return localVarReturnValue, localVarHTTPResponse, newErr
-			}
-			newErr.model = v
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
-	if err != nil {
-		newErr := &GenericOpenAPIError{
-			body:  localVarBody,
-			error: err.Error(),
-		}
-		return localVarReturnValue, localVarHTTPResponse, newErr
-	}
-
-	return localVarReturnValue, localVarHTTPResponse, nil
-}
-
 type ApiGetFullComponentRequest struct {
 	ctx                     context.Context
 	ApiService              ComponentApi
@@ -981,36 +794,253 @@ func (a *ComponentApiService) GetFullComponentExecute(r ApiGetFullComponentReque
 	return localVarReturnValue, localVarHTTPResponse, nil
 }
 
+type ApiGetMetricPerspectiveDataRequest struct {
+	ctx                     context.Context
+	ApiService              ComponentApi
+	componentIdOrIdentifier string
+	startTime               *int32
+	endTime                 *int32
+	topologyTime            *int32
+}
+
+// The start time of a time range to query resources.
+func (r ApiGetMetricPerspectiveDataRequest) StartTime(startTime int32) ApiGetMetricPerspectiveDataRequest {
+	r.startTime = &startTime
+	return r
+}
+
+// The end time of a time range to query resources.
+func (r ApiGetMetricPerspectiveDataRequest) EndTime(endTime int32) ApiGetMetricPerspectiveDataRequest {
+	r.endTime = &endTime
+	return r
+}
+
+// A timestamp at which resources will be queried. If not given the resources are queried at current time.
+func (r ApiGetMetricPerspectiveDataRequest) TopologyTime(topologyTime int32) ApiGetMetricPerspectiveDataRequest {
+	r.topologyTime = &topologyTime
+	return r
+}
+
+func (r ApiGetMetricPerspectiveDataRequest) Execute() (*MetricPerspectiveData, *http.Response, error) {
+	return r.ApiService.GetMetricPerspectiveDataExecute(r)
+}
+
+/*
+GetMetricPerspectiveData Bound metric bindings that have data for a component
+
+Bound metric bindings for metrics that have data for a component
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param componentIdOrIdentifier The id or identifier (urn) of a component
+	@return ApiGetMetricPerspectiveDataRequest
+*/
+func (a *ComponentApiService) GetMetricPerspectiveData(ctx context.Context, componentIdOrIdentifier string) ApiGetMetricPerspectiveDataRequest {
+	return ApiGetMetricPerspectiveDataRequest{
+		ApiService:              a,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
+	}
+}
+
+// Execute executes the request
+//
+//	@return MetricPerspectiveData
+func (a *ComponentApiService) GetMetricPerspectiveDataExecute(r ApiGetMetricPerspectiveDataRequest) (*MetricPerspectiveData, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodGet
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue *MetricPerspectiveData
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "ComponentApiService.GetMetricPerspectiveData")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/components/{componentIdOrIdentifier}/metricPerspectiveData"
+	localVarPath = strings.Replace(localVarPath, "{"+"componentIdOrIdentifier"+"}", url.PathEscape(parameterToString(r.componentIdOrIdentifier, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.startTime == nil {
+		return localVarReturnValue, nil, reportError("startTime is required and must be specified")
+	}
+	if r.endTime == nil {
+		return localVarReturnValue, nil, reportError("endTime is required and must be specified")
+	}
+
+	if r.topologyTime != nil {
+		localVarQueryParams.Add("topologyTime", parameterToString(*r.topologyTime, ""))
+	}
+	localVarQueryParams.Add("startTime", parameterToString(*r.startTime, ""))
+	localVarQueryParams.Add("endTime", parameterToString(*r.endTime, ""))
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
 // ---------------------------------------------
 // ------------------ MOCKS --------------------
 // ---------------------------------------------
 
 type ComponentApiMock struct {
-	GetComponentCheckStatesCalls        *[]GetComponentCheckStatesCall
-	GetComponentCheckStatesResponse     GetComponentCheckStatesMockResponse
-	GetComponentHealthHistoryCalls      *[]GetComponentHealthHistoryCall
-	GetComponentHealthHistoryResponse   GetComponentHealthHistoryMockResponse
-	GetComponentMetricBindingCalls      *[]GetComponentMetricBindingCall
-	GetComponentMetricBindingResponse   GetComponentMetricBindingMockResponse
-	GetComponentMetricsWithDataCalls    *[]GetComponentMetricsWithDataCall
-	GetComponentMetricsWithDataResponse GetComponentMetricsWithDataMockResponse
-	GetFullComponentCalls               *[]GetFullComponentCall
-	GetFullComponentResponse            GetFullComponentMockResponse
+	GetComponentBoundMetricCalls      *[]GetComponentBoundMetricCall
+	GetComponentBoundMetricResponse   GetComponentBoundMetricMockResponse
+	GetComponentCheckStatesCalls      *[]GetComponentCheckStatesCall
+	GetComponentCheckStatesResponse   GetComponentCheckStatesMockResponse
+	GetComponentHealthHistoryCalls    *[]GetComponentHealthHistoryCall
+	GetComponentHealthHistoryResponse GetComponentHealthHistoryMockResponse
+	GetFullComponentCalls             *[]GetFullComponentCall
+	GetFullComponentResponse          GetFullComponentMockResponse
+	GetMetricPerspectiveDataCalls     *[]GetMetricPerspectiveDataCall
+	GetMetricPerspectiveDataResponse  GetMetricPerspectiveDataMockResponse
 }
 
 func NewComponentApiMock() ComponentApiMock {
+	xGetComponentBoundMetricCalls := make([]GetComponentBoundMetricCall, 0)
 	xGetComponentCheckStatesCalls := make([]GetComponentCheckStatesCall, 0)
 	xGetComponentHealthHistoryCalls := make([]GetComponentHealthHistoryCall, 0)
-	xGetComponentMetricBindingCalls := make([]GetComponentMetricBindingCall, 0)
-	xGetComponentMetricsWithDataCalls := make([]GetComponentMetricsWithDataCall, 0)
 	xGetFullComponentCalls := make([]GetFullComponentCall, 0)
+	xGetMetricPerspectiveDataCalls := make([]GetMetricPerspectiveDataCall, 0)
 	return ComponentApiMock{
-		GetComponentCheckStatesCalls:     &xGetComponentCheckStatesCalls,
-		GetComponentHealthHistoryCalls:   &xGetComponentHealthHistoryCalls,
-		GetComponentMetricBindingCalls:   &xGetComponentMetricBindingCalls,
-		GetComponentMetricsWithDataCalls: &xGetComponentMetricsWithDataCalls,
-		GetFullComponentCalls:            &xGetFullComponentCalls,
+		GetComponentBoundMetricCalls:   &xGetComponentBoundMetricCalls,
+		GetComponentCheckStatesCalls:   &xGetComponentCheckStatesCalls,
+		GetComponentHealthHistoryCalls: &xGetComponentHealthHistoryCalls,
+		GetFullComponentCalls:          &xGetFullComponentCalls,
+		GetMetricPerspectiveDataCalls:  &xGetMetricPerspectiveDataCalls,
 	}
+}
+
+type GetComponentBoundMetricMockResponse struct {
+	Result   BoundMetric
+	Response *http.Response
+	Error    error
+}
+
+type GetComponentBoundMetricCall struct {
+	PcomponentIdOrIdentifier string
+	PboundMetricId           *BoundMetricId
+	PtopologyTime            *int32
+}
+
+func (mock ComponentApiMock) GetComponentBoundMetric(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentBoundMetricRequest {
+	return ApiGetComponentBoundMetricRequest{
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
+	}
+}
+
+func (mock ComponentApiMock) GetComponentBoundMetricExecute(r ApiGetComponentBoundMetricRequest) (*BoundMetric, *http.Response, error) {
+	p := GetComponentBoundMetricCall{
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
+		PboundMetricId:           r.boundMetricId,
+		PtopologyTime:            r.topologyTime,
+	}
+	*mock.GetComponentBoundMetricCalls = append(*mock.GetComponentBoundMetricCalls, p)
+	return &mock.GetComponentBoundMetricResponse.Result, mock.GetComponentBoundMetricResponse.Response, mock.GetComponentBoundMetricResponse.Error
 }
 
 type GetComponentCheckStatesMockResponse struct {
@@ -1073,68 +1103,6 @@ func (mock ComponentApiMock) GetComponentHealthHistoryExecute(r ApiGetComponentH
 	return &mock.GetComponentHealthHistoryResponse.Result, mock.GetComponentHealthHistoryResponse.Response, mock.GetComponentHealthHistoryResponse.Error
 }
 
-type GetComponentMetricBindingMockResponse struct {
-	Result   BoundMetric
-	Response *http.Response
-	Error    error
-}
-
-type GetComponentMetricBindingCall struct {
-	PcomponentIdOrIdentifier string
-	PmetricBindingIdentifier *string
-	PtopologyTime            *int32
-}
-
-func (mock ComponentApiMock) GetComponentMetricBinding(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricBindingRequest {
-	return ApiGetComponentMetricBindingRequest{
-		ApiService:              mock,
-		ctx:                     ctx,
-		componentIdOrIdentifier: componentIdOrIdentifier,
-	}
-}
-
-func (mock ComponentApiMock) GetComponentMetricBindingExecute(r ApiGetComponentMetricBindingRequest) (*BoundMetric, *http.Response, error) {
-	p := GetComponentMetricBindingCall{
-		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
-		PmetricBindingIdentifier: r.metricBindingIdentifier,
-		PtopologyTime:            r.topologyTime,
-	}
-	*mock.GetComponentMetricBindingCalls = append(*mock.GetComponentMetricBindingCalls, p)
-	return &mock.GetComponentMetricBindingResponse.Result, mock.GetComponentMetricBindingResponse.Response, mock.GetComponentMetricBindingResponse.Error
-}
-
-type GetComponentMetricsWithDataMockResponse struct {
-	Result   BoundMetrics
-	Response *http.Response
-	Error    error
-}
-
-type GetComponentMetricsWithDataCall struct {
-	PcomponentIdOrIdentifier string
-	PstartTime               *int32
-	PendTime                 *int32
-	PtopologyTime            *int32
-}
-
-func (mock ComponentApiMock) GetComponentMetricsWithData(ctx context.Context, componentIdOrIdentifier string) ApiGetComponentMetricsWithDataRequest {
-	return ApiGetComponentMetricsWithDataRequest{
-		ApiService:              mock,
-		ctx:                     ctx,
-		componentIdOrIdentifier: componentIdOrIdentifier,
-	}
-}
-
-func (mock ComponentApiMock) GetComponentMetricsWithDataExecute(r ApiGetComponentMetricsWithDataRequest) (*BoundMetrics, *http.Response, error) {
-	p := GetComponentMetricsWithDataCall{
-		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
-		PstartTime:               r.startTime,
-		PendTime:                 r.endTime,
-		PtopologyTime:            r.topologyTime,
-	}
-	*mock.GetComponentMetricsWithDataCalls = append(*mock.GetComponentMetricsWithDataCalls, p)
-	return &mock.GetComponentMetricsWithDataResponse.Result, mock.GetComponentMetricsWithDataResponse.Response, mock.GetComponentMetricsWithDataResponse.Error
-}
-
 type GetFullComponentMockResponse struct {
 	Result   FullComponent
 	Response *http.Response
@@ -1161,4 +1129,36 @@ func (mock ComponentApiMock) GetFullComponentExecute(r ApiGetFullComponentReques
 	}
 	*mock.GetFullComponentCalls = append(*mock.GetFullComponentCalls, p)
 	return &mock.GetFullComponentResponse.Result, mock.GetFullComponentResponse.Response, mock.GetFullComponentResponse.Error
+}
+
+type GetMetricPerspectiveDataMockResponse struct {
+	Result   MetricPerspectiveData
+	Response *http.Response
+	Error    error
+}
+
+type GetMetricPerspectiveDataCall struct {
+	PcomponentIdOrIdentifier string
+	PstartTime               *int32
+	PendTime                 *int32
+	PtopologyTime            *int32
+}
+
+func (mock ComponentApiMock) GetMetricPerspectiveData(ctx context.Context, componentIdOrIdentifier string) ApiGetMetricPerspectiveDataRequest {
+	return ApiGetMetricPerspectiveDataRequest{
+		ApiService:              mock,
+		ctx:                     ctx,
+		componentIdOrIdentifier: componentIdOrIdentifier,
+	}
+}
+
+func (mock ComponentApiMock) GetMetricPerspectiveDataExecute(r ApiGetMetricPerspectiveDataRequest) (*MetricPerspectiveData, *http.Response, error) {
+	p := GetMetricPerspectiveDataCall{
+		PcomponentIdOrIdentifier: r.componentIdOrIdentifier,
+		PstartTime:               r.startTime,
+		PendTime:                 r.endTime,
+		PtopologyTime:            r.topologyTime,
+	}
+	*mock.GetMetricPerspectiveDataCalls = append(*mock.GetMetricPerspectiveDataCalls, p)
+	return &mock.GetMetricPerspectiveDataResponse.Result, mock.GetMetricPerspectiveDataResponse.Response, mock.GetMetricPerspectiveDataResponse.Error
 }

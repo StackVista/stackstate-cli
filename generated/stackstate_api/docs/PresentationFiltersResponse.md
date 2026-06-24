@@ -4,6 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**TopologyFilters** | **bool** | Whether topology filters are enabled for this presentation. | 
 **Filters** | [**[]PresentationFilter**](PresentationFilter.md) | Presentation filters in display order. Earlier items are primary (filter bar), later items are secondary (\&quot;More\&quot; section).  | 
 **MenuSection** | **string** | Label for the section within \&quot;More\&quot; tab when secondary filters are present. | 
 
@@ -11,7 +12,7 @@ Name | Type | Description | Notes
 
 ### NewPresentationFiltersResponse
 
-`func NewPresentationFiltersResponse(filters []PresentationFilter, menuSection string, ) *PresentationFiltersResponse`
+`func NewPresentationFiltersResponse(topologyFilters bool, filters []PresentationFilter, menuSection string, ) *PresentationFiltersResponse`
 
 NewPresentationFiltersResponse instantiates a new PresentationFiltersResponse object
 This constructor will assign default values to properties that have it defined,
@@ -25,6 +26,26 @@ will change when the set of required properties is changed
 NewPresentationFiltersResponseWithDefaults instantiates a new PresentationFiltersResponse object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetTopologyFilters
+
+`func (o *PresentationFiltersResponse) GetTopologyFilters() bool`
+
+GetTopologyFilters returns the TopologyFilters field if non-nil, zero value otherwise.
+
+### GetTopologyFiltersOk
+
+`func (o *PresentationFiltersResponse) GetTopologyFiltersOk() (*bool, bool)`
+
+GetTopologyFiltersOk returns a tuple with the TopologyFilters field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTopologyFilters
+
+`func (o *PresentationFiltersResponse) SetTopologyFilters(v bool)`
+
+SetTopologyFilters sets TopologyFilters field to given value.
+
 
 ### GetFilters
 

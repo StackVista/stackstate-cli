@@ -5682,26 +5682,6 @@ paths:
       summary: Fetch components based on resource attributes
       tags:
       - traces
-  /layouts:
-    get:
-      description: List all available layout hints in the system
-      operationId: getAllLayouts
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LayoutList'
-          description: List of all available layout hints
-        "500":
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/LayoutApiError'
-          description: container for all error response
-      summary: List layout hints
-      tags:
-      - layout
   /components/{componentIdOrIdentifier}:
     get:
       description: Get full component details
@@ -5824,20 +5804,14 @@ paths:
       tags:
       - component
   /components/{componentIdOrIdentifier}/bindmetric:
-    get:
+    post:
       description: Bind the variables in a metric binding to a component to get valid
         queries for fetching metric data
-      operationId: getComponentMetricBinding
+      operationId: getComponentBoundMetric
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
         name: componentIdOrIdentifier
-        required: true
-        schema:
-          $ref: '#/components/schemas/ComponentIdOrIdentifier'
-      - description: The identifier (urn) of a metric binding
-        in: query
-        name: metricBindingIdentifier
         required: true
         schema:
           $ref: '#/components/schemas/ComponentIdOrIdentifier'
@@ -5849,6 +5823,12 @@ paths:
         schema:
           format: instant
           type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoundMetricId'
+        required: true
       responses:
         "200":
           content:
@@ -5862,13 +5842,13 @@ paths:
               schema:
                 $ref: '#/components/schemas/GenericErrorsResponse'
           description: Error when handling the request on the server side.
-      summary: Get a bound metric binding to a component
+      summary: Get a bound metric for a component
       tags:
       - component
-  /components/{componentIdOrIdentifier}/boundMetricsWithData:
+  /components/{componentIdOrIdentifier}/metricPerspectiveData:
     get:
       description: Bound metric bindings for metrics that have data for a component
-      operationId: getComponentMetricsWithData
+      operationId: getMetricPerspectiveData
       parameters:
       - description: The id or identifier (urn) of a component
         in: path
@@ -5903,7 +5883,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/BoundMetrics'
+                $ref: '#/components/schemas/MetricPerspectiveData'
           description: Bound metrics
         "500":
           content:
@@ -6777,6 +6757,59 @@ paths:
       required: true
       schema:
         type: string
+  /views:
+    get:
+      description: Get a list of all QueryView settings.
+      operationId: getViews
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewList'
+          description: List of views
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a list of views
+      tags:
+      - view
+  /views/{viewIdOrIdentifier}:
+    get:
+      description: Get a QueryView by its ID or identifier.
+      operationId: getView
+      parameters:
+      - description: The system ID or identifier of a QueryView.
+        in: path
+        name: viewIdOrIdentifier
+        required: true
+        schema:
+          $ref: '#/components/schemas/ViewIdOrIdentifier'
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/View'
+          description: A single view
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ViewNotFoundError'
+          description: View not found.
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Get a single view
+      tags:
+      - view
   /main-menu:
     get:
       description: Get Main Menu
@@ -6869,6 +6902,12 @@ paths:
                 $ref: '#/components/schemas/OverviewErrorResponse'
           description: Bad request. The request was invalid or cannot be otherwise
             served.
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OverviewErrorResponse'
+          description: Presentation not found.
       summary: Get overview data for components
       tags:
       - overview
@@ -6919,6 +6958,55 @@ paths:
       summary: Get resolved filters for a presentation
       tags:
       - componentPresentation
+    parameters:
+    - description: "A Component Presentation Identifier, legacy View (QueryView, ViewType)\
+        \ URNs are supported for backward compatibility"
+      in: path
+      name: presentationOrViewUrn
+      required: true
+      schema:
+        type: string
+  /perspectives/{presentationOrViewUrn}:
+    get:
+      description: "Returns the perspectives, and the per-perspective configs that\
+        \ are available.\n\nActs as the canonical view-open permission check: returns\
+        \ 403 when the\ncaller lacks access and 404 when the URN does not resolve.\n"
+      operationId: getPerspectives
+      parameters:
+      - description: "A Component Presentation Identifier, legacy View (QueryView,\
+          \ ViewType) URNs are supported for backward compatibility"
+        in: path
+        name: presentationOrViewUrn
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Perspectives'
+          description: Resolved perspectives
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerspectivesApiError'
+          description: "No ComponentPresentation, QueryView, or ViewType found for\
+            \ the given URN"
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerspectivesApiError'
+          description: Error when handling the request on the server side.
+      summary: Get the perspectives for a view
+      tags:
+      - perspectives
     parameters:
     - description: "A Component Presentation Identifier, legacy View (QueryView, ViewType)\
         \ URNs are supported for backward compatibility"
@@ -7660,18 +7748,6 @@ components:
           schema:
             $ref: '#/components/schemas/SpanComponents'
       description: Components
-    layouts:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/LayoutList'
-      description: List of all available layout hints
-    layoutApiError:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/LayoutApiError'
-      description: container for all error response
     fullComponent:
       content:
         application/json:
@@ -7696,11 +7772,11 @@ components:
           schema:
             $ref: '#/components/schemas/BoundMetric'
       description: Bound metric
-    boundMetrics:
+    metricPerspectiveData:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/BoundMetrics'
+            $ref: '#/components/schemas/MetricPerspectiveData'
       description: Bound metrics
     fullRelation:
       content:
@@ -7792,6 +7868,24 @@ components:
           schema:
             $ref: '#/components/schemas/ComponentPresentationApiError'
       description: Component Presentation with given identifier not found
+    views:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ViewList'
+      description: List of views
+    view:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/View'
+      description: A single view
+    viewNotFoundError:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ViewNotFoundError'
+      description: View not found.
     mainMenuGroup:
       content:
         application/json:
@@ -7812,6 +7906,19 @@ components:
           schema:
             $ref: '#/components/schemas/QueryParsingFailure'
       description: Query parsing failed
+    PerspectivesNotFound:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PerspectivesApiError'
+      description: "No ComponentPresentation, QueryView, or ViewType found for the\
+        \ given URN"
+    PerspectivesErrorResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/PerspectivesApiError'
+      description: Error when handling the request on the server side.
   schemas:
     GenericErrorsResponse:
       properties:
@@ -14289,63 +14396,24 @@ components:
       - name
       - type
       type: object
-    LayoutList:
-      example:
-        layouts:
-        - null
-        - null
-      properties:
-        layouts:
-          items:
-            $ref: '#/components/schemas/LayoutHint'
-          type: array
-      required:
-      - layouts
-      type: object
-    LayoutHint:
-      discriminator:
-        propertyName: _type
-      oneOf:
-      - $ref: '#/components/schemas/MetricPerspectiveTab'
-      - $ref: '#/components/schemas/MetricPerspectiveSection'
-      - $ref: '#/components/schemas/ComponentHighlightMetricSection'
-    MetricPerspectiveTab:
-      allOf:
-      - $ref: '#/components/schemas/BaseLayoutHint'
-      - $ref: '#/components/schemas/MetricPerspectiveTab_allOf'
-    BaseLayoutHint:
-      properties:
-        name:
-          type: string
-        weight:
-          format: float
-          type: number
-      required:
-      - name
-      - weight
-      type: object
-    MetricPerspectiveSection:
-      allOf:
-      - $ref: '#/components/schemas/BaseLayoutHint'
-      - $ref: '#/components/schemas/MetricPerspectiveSection_allOf'
-    ComponentHighlightMetricSection:
-      allOf:
-      - $ref: '#/components/schemas/BaseLayoutHint'
-      - $ref: '#/components/schemas/ComponentHighlightMetricSection_allOf'
-    LayoutApiError:
-      properties:
-        statusCode:
-          type: string
-        message:
-          type: string
-      required:
-      - message
-      - statusCode
-      type: object
     ComponentIdOrIdentifier:
       type: string
     FullComponent:
       example:
+        summary:
+          metrics:
+          - dummy: true
+            boundMetricId: null
+            unit: unit
+            decimalPlaces: 5
+            query: query
+            name: name
+          - dummy: true
+            boundMetricId: null
+            unit: unit
+            decimalPlaces: 5
+            query: query
+            name: name
         synced:
         - syncName: syncName
           lastUpdateTimestamp: 6
@@ -14375,22 +14443,6 @@ components:
           tags:
           - tags
           - tags
-        highlights:
-          namePlural: namePlural
-          showLogs: true
-          metrics:
-          - bindings:
-            - bindings
-            - bindings
-            name: name
-            description: description
-            defaultExpanded: true
-          - bindings:
-            - bindings
-            - bindings
-            name: name
-            description: description
-            defaultExpanded: true
         data:
           lastUpdateTimestamp: 5
           identifiers:
@@ -14408,12 +14460,75 @@ components:
           tags:
           - tags
           - tags
+        highlightMetrics:
+        - description: description
+          sectionId: sectionId
+          metrics:
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          title: title
+          defaultExpanded: true
+        - description: description
+          sectionId: sectionId
+          metrics:
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          title: title
+          defaultExpanded: true
         typeName: typeName
         icon: icon
-        provisioning:
-          showConfiguration: true
-          externalId: externalId
-          showStatus: true
         boundTraces:
           filter:
             traceId:
@@ -14441,16 +14556,22 @@ components:
             scopeVersion:
             - scopeVersion
             - scopeVersion
+        highlights:
+          showLogs: true
+        provisioning:
+          showConfiguration: true
+          externalId: externalId
+          showStatus: true
         fields:
         - null
         - null
         actions:
         - name: name
           description: description
-          id: 5
+          id: 2
         - name: name
           description: description
-          id: 5
+          id: 2
         relatedResources:
         - resourceId: resourceId
           stql: stql
@@ -14463,65 +14584,6 @@ components:
         events:
           relatedResourcesQuery: relatedResourcesQuery
           showEvents: true
-        boundMetrics:
-        - layout:
-            metricPerspective:
-              tab: tab
-              weight: 2
-              section: section
-            componentSummary:
-              weight: 9
-            componentHighlight:
-              weight: 7
-              section: section
-          dummy: true
-          identifier: identifier
-          unit: unit
-          valuation: null
-          boundQueries:
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          name: name
-          chartType: null
-          description: description
-          alias: alias
-          tags:
-            key: tags
-        - layout:
-            metricPerspective:
-              tab: tab
-              weight: 2
-              section: section
-            componentSummary:
-              weight: 9
-            componentHighlight:
-              weight: 7
-              section: section
-          dummy: true
-          identifier: identifier
-          unit: unit
-          valuation: null
-          boundQueries:
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          name: name
-          chartType: null
-          description: description
-          alias: alias
-          tags:
-            key: tags
       properties:
         typeName:
           type: string
@@ -14549,22 +14611,26 @@ components:
           $ref: '#/components/schemas/ComponentData'
         highlights:
           $ref: '#/components/schemas/LegacyComponentHighlights'
+        summary:
+          $ref: '#/components/schemas/ComponentSummary'
+        highlightMetrics:
+          items:
+            $ref: '#/components/schemas/ComponentMetricSection'
+          type: array
         actions:
           items:
             $ref: '#/components/schemas/ComponentAction'
-          type: array
-        boundMetrics:
-          items:
-            $ref: '#/components/schemas/BoundMetric'
           type: array
         boundTraces:
           $ref: '#/components/schemas/BoundTraces'
       required:
       - actions
-      - boundMetrics
       - data
       - fields
+      - highlightMetrics
+      - metricPerspective
       - relatedResources
+      - summary
       - synced
       - typeName
     ComponentField:
@@ -14798,67 +14864,147 @@ components:
       - tags
     LegacyComponentHighlights:
       example:
-        namePlural: namePlural
         showLogs: true
-        metrics:
-        - bindings:
-          - bindings
-          - bindings
-          name: name
-          description: description
-          defaultExpanded: true
-        - bindings:
-          - bindings
-          - bindings
-          name: name
-          description: description
-          defaultExpanded: true
       properties:
-        namePlural:
-          type: string
         showLogs:
           type: boolean
+      required:
+      - showLogs
+    ComponentSummary:
+      example:
+        metrics:
+        - dummy: true
+          boundMetricId: null
+          unit: unit
+          decimalPlaces: 5
+          query: query
+          name: name
+        - dummy: true
+          boundMetricId: null
+          unit: unit
+          decimalPlaces: 5
+          query: query
+          name: name
+      properties:
         metrics:
           items:
-            $ref: '#/components/schemas/ComponentHighlightMetrics'
+            $ref: '#/components/schemas/BoundSummaryMetric'
           type: array
       required:
       - metrics
-      - namePlural
-      - relatedResources
-      - showLogs
-    ComponentAction:
+      type: object
+    BoundSummaryMetric:
       example:
+        dummy: true
+        boundMetricId: null
+        unit: unit
+        decimalPlaces: 5
+        query: query
         name: name
-        description: description
-        id: 5
       properties:
-        id:
-          format: int64
-          type: integer
+        boundMetricId:
+          $ref: '#/components/schemas/BoundMetricId'
         name:
+          type: string
+        query:
+          type: string
+        unit:
+          type: string
+        decimalPlaces:
+          type: integer
+        dummy:
+          type: boolean
+      required:
+      - name
+      - query
+    BoundMetricId:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/BoundMetricBindingId'
+      - $ref: '#/components/schemas/BoundPresentationMetricId'
+    BoundMetricBindingId:
+      properties:
+        _type:
+          enum:
+          - BoundMetricBindingId
+          type: string
+        identifier:
+          type: string
+      required:
+      - _type
+      - identifier
+    BoundPresentationMetricId:
+      properties:
+        _type:
+          enum:
+          - BoundPresentationMetricId
+          type: string
+        presentationIdentifier:
+          type: string
+        metricId:
+          type: string
+      required:
+      - _type
+      - metricId
+    ComponentMetricSection:
+      example:
+        description: description
+        sectionId: sectionId
+        metrics:
+        - dummy: true
+          boundMetricId: null
+          boundQueries:
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          name: name
+          description: description
+          chart: null
+        - dummy: true
+          boundMetricId: null
+          boundQueries:
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          - expression: expression
+            componentIdentifierTemplate: componentIdentifierTemplate
+            alias: alias
+            primary: true
+          name: name
+          description: description
+          chart: null
+        title: title
+        defaultExpanded: true
+      properties:
+        sectionId:
+          type: string
+        title:
           type: string
         description:
           type: string
+        metrics:
+          items:
+            $ref: '#/components/schemas/BoundMetric'
+          type: array
+        defaultExpanded:
+          type: boolean
       required:
-      - id
-      - name
+      - defaultExpanded
+      - metrics
+      - sectionId
+      - title
+      type: object
     BoundMetric:
       example:
-        layout:
-          metricPerspective:
-            tab: tab
-            weight: 2
-            section: section
-          componentSummary:
-            weight: 9
-          componentHighlight:
-            weight: 7
-            section: section
         dummy: true
-        identifier: identifier
-        unit: unit
-        valuation: null
+        boundMetricId: null
         boundQueries:
         - expression: expression
           componentIdentifierTemplate: componentIdentifierTemplate
@@ -14869,15 +15015,12 @@ components:
           alias: alias
           primary: true
         name: name
-        chartType: null
         description: description
-        alias: alias
-        tags:
-          key: tags
+        chart: null
       properties:
+        boundMetricId:
+          $ref: '#/components/schemas/BoundMetricId'
         name:
-          type: string
-        identifier:
           type: string
         boundQueries:
           items:
@@ -14885,27 +15028,13 @@ components:
           type: array
         description:
           type: string
-        unit:
-          type: string
-        chartType:
-          $ref: '#/components/schemas/ChartType'
-        alias:
-          type: string
-        valuation:
-          $ref: '#/components/schemas/MetricValuation'
-        tags:
-          additionalProperties:
-            type: string
-          type: object
-        layout:
-          $ref: '#/components/schemas/MetricBindingLayout'
+        chart:
+          $ref: '#/components/schemas/Chart'
         dummy:
           type: boolean
       required:
       - boundQueries
-      - chartType
       - name
-      - tags
     BoundMetricQuery:
       example:
         expression: expression
@@ -14924,65 +15053,22 @@ components:
       required:
       - alias
       - expression
-    ChartType:
-      enum:
-      - line
-      type: string
-    MetricValuation:
-      enum:
-      - higher-is-better
-      - lower-is-better
-      type: string
-    MetricBindingLayout:
+    ComponentAction:
       example:
-        metricPerspective:
-          tab: tab
-          weight: 2
-          section: section
-        componentSummary:
-          weight: 9
-        componentHighlight:
-          weight: 7
-          section: section
+        name: name
+        description: description
+        id: 2
       properties:
-        metricPerspective:
-          $ref: '#/components/schemas/MetricPerspectiveLocation'
-        componentHighlight:
-          $ref: '#/components/schemas/ComponentHighlightLocation'
-        componentSummary:
-          $ref: '#/components/schemas/ComponentSummaryLocation'
-    MetricPerspectiveLocation:
-      example:
-        tab: tab
-        weight: 2
-        section: section
-      properties:
-        tab:
-          type: string
-        section:
-          type: string
-        weight:
+        id:
+          format: int64
           type: integer
+        name:
+          type: string
+        description:
+          type: string
       required:
-      - section
-      - tab
-    ComponentHighlightLocation:
-      example:
-        weight: 7
-        section: section
-      properties:
-        section:
-          type: string
-        weight:
-          type: integer
-      required:
-      - section
-    ComponentSummaryLocation:
-      example:
-        weight: 9
-      properties:
-        weight:
-          type: integer
+      - id
+      - name
     BoundTraces:
       example:
         filter:
@@ -15094,74 +15180,240 @@ components:
       - idOrIdentifier
       - identifier
       - startTime
-    BoundMetrics:
+    MetricPerspectiveData:
       example:
-        boundMetrics:
-        - layout:
-            metricPerspective:
-              tab: tab
-              weight: 2
-              section: section
-            componentSummary:
-              weight: 9
-            componentHighlight:
-              weight: 7
-              section: section
-          dummy: true
-          identifier: identifier
-          unit: unit
-          valuation: null
-          boundQueries:
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          name: name
-          chartType: null
-          description: description
-          alias: alias
-          tags:
-            key: tags
-        - layout:
-            metricPerspective:
-              tab: tab
-              weight: 2
-              section: section
-            componentSummary:
-              weight: 9
-            componentHighlight:
-              weight: 7
-              section: section
-          dummy: true
-          identifier: identifier
-          unit: unit
-          valuation: null
-          boundQueries:
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          - expression: expression
-            componentIdentifierTemplate: componentIdentifierTemplate
-            alias: alias
-            primary: true
-          name: name
-          chartType: null
-          description: description
-          alias: alias
-          tags:
-            key: tags
+        tabs:
+        - tabId: tabId
+          title: title
+          sections:
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
+        - tabId: tabId
+          title: title
+          sections:
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
       properties:
-        boundMetrics:
+        tabs:
           items:
-            $ref: '#/components/schemas/BoundMetric'
+            $ref: '#/components/schemas/ComponentMetricTab'
           type: array
       required:
-      - boundMetrics
+      - tabs
+      type: object
+    ComponentMetricTab:
+      example:
+        tabId: tabId
+        title: title
+        sections:
+        - description: description
+          sectionId: sectionId
+          metrics:
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          title: title
+          defaultExpanded: true
+        - description: description
+          sectionId: sectionId
+          metrics:
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          - dummy: true
+            boundMetricId: null
+            boundQueries:
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            - expression: expression
+              componentIdentifierTemplate: componentIdentifierTemplate
+              alias: alias
+              primary: true
+            name: name
+            description: description
+            chart: null
+          title: title
+          defaultExpanded: true
+      properties:
+        tabId:
+          type: string
+        title:
+          type: string
+        sections:
+          items:
+            $ref: '#/components/schemas/ComponentMetricSection'
+          type: array
+      required:
+      - sections
+      - tabId
+      - title
+      type: object
     FullRelation:
       example:
         synced:
@@ -15204,6 +15456,20 @@ components:
           - tags
         typeName: typeName
         source:
+          summary:
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              unit: unit
+              decimalPlaces: 5
+              query: query
+              name: name
+            - dummy: true
+              boundMetricId: null
+              unit: unit
+              decimalPlaces: 5
+              query: query
+              name: name
           synced:
           - syncName: syncName
             lastUpdateTimestamp: 6
@@ -15233,22 +15499,6 @@ components:
             tags:
             - tags
             - tags
-          highlights:
-            namePlural: namePlural
-            showLogs: true
-            metrics:
-            - bindings:
-              - bindings
-              - bindings
-              name: name
-              description: description
-              defaultExpanded: true
-            - bindings:
-              - bindings
-              - bindings
-              name: name
-              description: description
-              defaultExpanded: true
           data:
             lastUpdateTimestamp: 5
             identifiers:
@@ -15266,12 +15516,75 @@ components:
             tags:
             - tags
             - tags
+          highlightMetrics:
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
           typeName: typeName
           icon: icon
-          provisioning:
-            showConfiguration: true
-            externalId: externalId
-            showStatus: true
           boundTraces:
             filter:
               traceId:
@@ -15299,16 +15612,22 @@ components:
               scopeVersion:
               - scopeVersion
               - scopeVersion
+          highlights:
+            showLogs: true
+          provisioning:
+            showConfiguration: true
+            externalId: externalId
+            showStatus: true
           fields:
           - null
           - null
           actions:
           - name: name
             description: description
-            id: 5
+            id: 2
           - name: name
             description: description
-            id: 5
+            id: 2
           relatedResources:
           - resourceId: resourceId
             stql: stql
@@ -15321,66 +15640,21 @@ components:
           events:
             relatedResourcesQuery: relatedResourcesQuery
             showEvents: true
-          boundMetrics:
-          - layout:
-              metricPerspective:
-                tab: tab
-                weight: 2
-                section: section
-              componentSummary:
-                weight: 9
-              componentHighlight:
-                weight: 7
-                section: section
-            dummy: true
-            identifier: identifier
-            unit: unit
-            valuation: null
-            boundQueries:
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            name: name
-            chartType: null
-            description: description
-            alias: alias
-            tags:
-              key: tags
-          - layout:
-              metricPerspective:
-                tab: tab
-                weight: 2
-                section: section
-              componentSummary:
-                weight: 9
-              componentHighlight:
-                weight: 7
-                section: section
-            dummy: true
-            identifier: identifier
-            unit: unit
-            valuation: null
-            boundQueries:
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            name: name
-            chartType: null
-            description: description
-            alias: alias
-            tags:
-              key: tags
         target:
+          summary:
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              unit: unit
+              decimalPlaces: 5
+              query: query
+              name: name
+            - dummy: true
+              boundMetricId: null
+              unit: unit
+              decimalPlaces: 5
+              query: query
+              name: name
           synced:
           - syncName: syncName
             lastUpdateTimestamp: 6
@@ -15410,22 +15684,6 @@ components:
             tags:
             - tags
             - tags
-          highlights:
-            namePlural: namePlural
-            showLogs: true
-            metrics:
-            - bindings:
-              - bindings
-              - bindings
-              name: name
-              description: description
-              defaultExpanded: true
-            - bindings:
-              - bindings
-              - bindings
-              name: name
-              description: description
-              defaultExpanded: true
           data:
             lastUpdateTimestamp: 5
             identifiers:
@@ -15443,12 +15701,75 @@ components:
             tags:
             - tags
             - tags
+          highlightMetrics:
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            - dummy: true
+              boundMetricId: null
+              boundQueries:
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              - expression: expression
+                componentIdentifierTemplate: componentIdentifierTemplate
+                alias: alias
+                primary: true
+              name: name
+              description: description
+              chart: null
+            title: title
+            defaultExpanded: true
           typeName: typeName
           icon: icon
-          provisioning:
-            showConfiguration: true
-            externalId: externalId
-            showStatus: true
           boundTraces:
             filter:
               traceId:
@@ -15476,16 +15797,22 @@ components:
               scopeVersion:
               - scopeVersion
               - scopeVersion
+          highlights:
+            showLogs: true
+          provisioning:
+            showConfiguration: true
+            externalId: externalId
+            showStatus: true
           fields:
           - null
           - null
           actions:
           - name: name
             description: description
-            id: 5
+            id: 2
           - name: name
             description: description
-            id: 5
+            id: 2
           relatedResources:
           - resourceId: resourceId
             stql: stql
@@ -15498,65 +15825,6 @@ components:
           events:
             relatedResourcesQuery: relatedResourcesQuery
             showEvents: true
-          boundMetrics:
-          - layout:
-              metricPerspective:
-                tab: tab
-                weight: 2
-                section: section
-              componentSummary:
-                weight: 9
-              componentHighlight:
-                weight: 7
-                section: section
-            dummy: true
-            identifier: identifier
-            unit: unit
-            valuation: null
-            boundQueries:
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            name: name
-            chartType: null
-            description: description
-            alias: alias
-            tags:
-              key: tags
-          - layout:
-              metricPerspective:
-                tab: tab
-                weight: 2
-                section: section
-              componentSummary:
-                weight: 9
-              componentHighlight:
-                weight: 7
-                section: section
-            dummy: true
-            identifier: identifier
-            unit: unit
-            valuation: null
-            boundQueries:
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            - expression: expression
-              componentIdentifierTemplate: componentIdentifierTemplate
-              alias: alias
-              primary: true
-            name: name
-            chartType: null
-            description: description
-            alias: alias
-            tags:
-              key: tags
       properties:
         data:
           $ref: '#/components/schemas/RelationData'
@@ -16795,12 +17063,9 @@ components:
     OtelComponentMappingOutput:
       example:
         identifier: identifier
-        domainIdentifier: domainIdentifier
-        domainName: domainName
         name: name
         typeName: typeName
         typeIdentifier: typeIdentifier
-        layerIdentifier: layerIdentifier
         optional:
           configuration: configuration
           additionalIdentifiers:
@@ -16815,7 +17080,6 @@ components:
             source: source
             target: target
           status: status
-        layerName: layerName
         required:
           configuration: configuration
           additionalIdentifiers:
@@ -16851,34 +17115,12 @@ components:
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
-        layerName:
-          description: "An expression that must produce a string. It must be one of\
-            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-          type: string
-        layerIdentifier:
-          description: "An expression that must produce a string. It must be one of\
-            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-          type: string
-        domainName:
-          description: "An expression that must produce a string. It must be one of\
-            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-          type: string
-        domainIdentifier:
-          description: "An expression that must produce a string. It must be one of\
-            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-          type: string
         required:
           $ref: '#/components/schemas/OtelComponentMappingFieldMapping'
         optional:
           $ref: '#/components/schemas/OtelComponentMappingFieldMapping'
       required:
-      - domainName
       - identifier
-      - layerName
       - name
       - typeName
       type: object
@@ -16981,12 +17223,9 @@ components:
       example:
         output:
           identifier: identifier
-          domainIdentifier: domainIdentifier
-          domainName: domainName
           name: name
           typeName: typeName
           typeIdentifier: typeIdentifier
-          layerIdentifier: layerIdentifier
           optional:
             configuration: configuration
             additionalIdentifiers:
@@ -17001,7 +17240,6 @@ components:
               source: source
               target: target
             status: status
-          layerName: layerName
           required:
             configuration: configuration
             additionalIdentifiers:
@@ -17172,9 +17410,8 @@ components:
     OtelRelationMappingOutput:
       example:
         sourceId: sourceId
+        dependencyType: dependencyType
         targetId: targetId
-        typeName: typeName
-        typeIdentifier: typeIdentifier
       properties:
         sourceId:
           description: "An expression that must produce a string. It must be one of\
@@ -17186,17 +17423,13 @@ components:
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
-        typeName:
-          description: "An expression that must produce a string. It must be one of\
-            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-          type: string
-        typeIdentifier:
+        dependencyType:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
       required:
+      - dependencyType
       - sourceId
       - targetId
       - typeName
@@ -17205,9 +17438,8 @@ components:
       example:
         output:
           sourceId: sourceId
+          dependencyType: dependencyType
           targetId: targetId
-          typeName: typeName
-          typeIdentifier: typeIdentifier
         identifier: identifier
         input:
           resource:
@@ -17273,6 +17505,22 @@ components:
     ComponentPresentation:
       example:
         presentation:
+          summary:
+            metrics:
+            - unit: unit
+              decimalPlaces: 9
+              metricId: metricId
+              query: query
+              summaryMetricId: summaryMetricId
+              name: name
+              order: 7.061401241503109
+            - unit: unit
+              decimalPlaces: 9
+              metricId: metricId
+              query: query
+              summaryMetricId: summaryMetricId
+              name: name
+              order: 7.061401241503109
           overview:
             fixedColumns: 1
             mainMenu:
@@ -17290,11 +17538,33 @@ components:
               plural: plural
               singular: singular
               title: title
+            sort:
+            - columnId: columnId
+              direction: null
+            - columnId: columnId
+              direction: null
           highlight:
             provisioning:
-              externalComponentSelector: externalComponentSelector
+              topologySourceSelector: topologySourceSelector
               showConfiguration: true
               showStatus: true
+            metrics:
+            - description: description
+              sectionId: sectionId
+              metrics:
+              - null
+              - null
+              title: title
+              defaultExpanded: true
+              order: 2.3021358869347655
+            - description: description
+              sectionId: sectionId
+              metrics:
+              - null
+              - null
+              title: title
+              defaultExpanded: true
+              order: 2.3021358869347655
             title: title
             fields:
             - description: description
@@ -17322,6 +17592,56 @@ components:
               excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
               relatedResourcesQuery: relatedResourcesQuery
               showEvents: true
+          metricPerspective:
+            tabs:
+            - tabId: tabId
+              title: title
+              sections:
+              - sectionId: sectionId
+                metrics:
+                - null
+                - null
+                title: title
+                order: 2.027123023002322
+              - sectionId: sectionId
+                metrics:
+                - null
+                - null
+                title: title
+                order: 2.027123023002322
+              order: 3.616076749251911
+            - tabId: tabId
+              title: title
+              sections:
+              - sectionId: sectionId
+                metrics:
+                - null
+                - null
+                title: title
+                order: 2.027123023002322
+              - sectionId: sectionId
+                metrics:
+                - null
+                - null
+                title: title
+                order: 2.027123023002322
+              order: 3.616076749251911
+          topology:
+            neighboringComponents: true
+            autoGrouping: true
+            groupedByRelations: true
+            domain:
+              name: name
+              order: 1.2315135367772556
+            showIndirectRelations: true
+            groupedByLayers: true
+            connectedComponents: true
+            groupingEnabled: true
+            minimumGroupSize: 4
+            groupedByDomains: true
+            layer:
+              name: name
+              order: 7.386281948385884
           icon: icon
           filters:
           - filterId: filterId
@@ -17369,6 +17689,140 @@ components:
       required:
       - message
       type: object
+    ViewList:
+      example:
+        views:
+        - identifier: identifier
+          neighboringComponents: true
+          autoGrouping: true
+          groupedByRelations: true
+          flags:
+          - null
+          - null
+          connectedComponents: true
+          topologyQuery: topologyQuery
+          minimumGroupSize: 6
+          name: name
+          viewType: viewType
+          groupedByLayers: true
+          showIndirectRelations: true
+          id: 0
+          groupingEnabled: true
+          groupedByDomains: true
+          ownedBy: ownedBy
+        - identifier: identifier
+          neighboringComponents: true
+          autoGrouping: true
+          groupedByRelations: true
+          flags:
+          - null
+          - null
+          connectedComponents: true
+          topologyQuery: topologyQuery
+          minimumGroupSize: 6
+          name: name
+          viewType: viewType
+          groupedByLayers: true
+          showIndirectRelations: true
+          id: 0
+          groupingEnabled: true
+          groupedByDomains: true
+          ownedBy: ownedBy
+      properties:
+        views:
+          items:
+            $ref: '#/components/schemas/View'
+          type: array
+      required:
+      - views
+      type: object
+    View:
+      example:
+        identifier: identifier
+        neighboringComponents: true
+        autoGrouping: true
+        groupedByRelations: true
+        flags:
+        - null
+        - null
+        connectedComponents: true
+        topologyQuery: topologyQuery
+        minimumGroupSize: 6
+        name: name
+        viewType: viewType
+        groupedByLayers: true
+        showIndirectRelations: true
+        id: 0
+        groupingEnabled: true
+        groupedByDomains: true
+        ownedBy: ownedBy
+      properties:
+        id:
+          format: int64
+          type: integer
+        identifier:
+          type: string
+        name:
+          type: string
+        viewType:
+          type: string
+        topologyQuery:
+          type: string
+        groupingEnabled:
+          type: boolean
+        groupedByLayers:
+          type: boolean
+        groupedByDomains:
+          type: boolean
+        groupedByRelations:
+          type: boolean
+        minimumGroupSize:
+          format: int64
+          type: integer
+        showIndirectRelations:
+          type: boolean
+        autoGrouping:
+          type: boolean
+        connectedComponents:
+          type: boolean
+        neighboringComponents:
+          type: boolean
+        flags:
+          items:
+            $ref: '#/components/schemas/QueryViewFlag'
+          type: array
+          uniqueItems: true
+        ownedBy:
+          type: string
+      required:
+      - autoGrouping
+      - connectedComponents
+      - flags
+      - groupedByDomains
+      - groupedByLayers
+      - groupedByRelations
+      - groupingEnabled
+      - id
+      - minimumGroupSize
+      - name
+      - neighboringComponents
+      - showIndirectRelations
+      - topologyQuery
+      type: object
+    ViewIdOrIdentifier:
+      description: The system ID or identifier of a QueryView.
+      type: string
+    ViewNotFoundError:
+      properties:
+        message:
+          description: A detailed error message describing why the operation failed.
+          type: string
+        viewIdOrIdentifier:
+          type: string
+      required:
+      - message
+      - viewIdOrIdentifier
+      type: object
     MainMenuGroup:
       example:
         identifier: identifier
@@ -17400,7 +17854,6 @@ components:
           type: array
       required:
       - defaultOpen
-      - icon
       - items
       - name
     MainMenuViewItem:
@@ -17655,23 +18108,16 @@ components:
         decimalPlaces:
           nullable: true
           type: integer
-        showChart:
+        sparkline:
           nullable: true
           type: boolean
         locked:
           type: boolean
-        metricId:
-          $ref: '#/components/schemas/MetricBindingId'
+        boundMetricId:
+          $ref: '#/components/schemas/BoundMetricId'
       required:
       - _type
       - locked
-      type: object
-    MetricBindingId:
-      properties:
-        identifier:
-          type: string
-      required:
-      - identifier
       type: object
     ComponentLinkMetaDisplay:
       properties:
@@ -18117,7 +18563,11 @@ components:
         filters:
         - null
         - null
+        topologyFilters: true
       properties:
+        topologyFilters:
+          description: Whether topology filters are enabled for this presentation.
+          type: boolean
         filters:
           description: "Presentation filters in display order. Earlier items are primary\
             \ (filter bar),\nlater items are secondary (\"More\" section).\n"
@@ -18131,6 +18581,7 @@ components:
       required:
       - filters
       - menuSection
+      - topologyFilters
       type: object
     PresentationFilter:
       discriminator:
@@ -18165,6 +18616,82 @@ components:
       required:
       - plural
       - singular
+      type: object
+    Perspectives:
+      description: |
+        The set of perspectives the frontend needs to render a view page in one response.
+        Each optional field carries the per-perspective config; absence means
+        the perspective is not available for this view.
+      example:
+        identifier: identifier
+        overview: "{}"
+        topology:
+          queryMetadata:
+            minGroupSize: 0
+            neighboringComponents: true
+            groupedByRelation: true
+            autoGrouping: true
+            groupedByLayer: true
+            queryTime: 6
+            showFullComponent: true
+            showIndirectRelations: true
+            connectedComponents: true
+            groupingEnabled: true
+            groupedByDomain: true
+        topologyQuery: topologyQuery
+        events: "{}"
+      properties:
+        identifier:
+          description: The resolved URN (ComponentPresentation identifier or legacy
+            QueryView/ViewType URN).
+          type: string
+        topologyQuery:
+          description: "STQL query for this view. Used by the shared timeline, the\
+            \ events perspective, and the topology perspective."
+          type: string
+        overview:
+          type: object
+        topology:
+          $ref: '#/components/schemas/TopologyPerspective'
+        events:
+          type: object
+      required:
+      - identifier
+      - topologyQuery
+      type: object
+    OverviewPerspective:
+      type: object
+    TopologyPerspective:
+      description: |
+        Topology perspective config. Reuses QueryMetadata from the snapshot API
+        as the rendering spec.
+      example:
+        queryMetadata:
+          minGroupSize: 0
+          neighboringComponents: true
+          groupedByRelation: true
+          autoGrouping: true
+          groupedByLayer: true
+          queryTime: 6
+          showFullComponent: true
+          showIndirectRelations: true
+          connectedComponents: true
+          groupingEnabled: true
+          groupedByDomain: true
+      properties:
+        queryMetadata:
+          $ref: '#/components/schemas/QueryMetadata'
+      required:
+      - queryMetadata
+      type: object
+    EventsPerspective:
+      type: object
+    PerspectivesApiError:
+      properties:
+        message:
+          type: string
+      required:
+      - message
       type: object
     Argument:
       discriminator:
@@ -18739,29 +19266,137 @@ components:
       - offsetNanos
       - timestamp
       type: object
-    ComponentHighlightMetrics:
-      example:
-        bindings:
-        - bindings
-        - bindings
-        name: name
-        description: description
-        defaultExpanded: true
+    Chart:
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/TimeSeriesChart'
+      - $ref: '#/components/schemas/GaugeChart'
+      - $ref: '#/components/schemas/BarChart'
+      - $ref: '#/components/schemas/StatChart'
+    TimeSeriesChart:
       properties:
-        name:
+        _type:
+          enum:
+          - TimeSeriesChart
           type: string
-        description:
+        unit:
           type: string
-        bindings:
-          items:
-            type: string
-          type: array
-        defaultExpanded:
+        decimals:
+          type: integer
+        min:
+          format: double
+          type: number
+        max:
+          format: double
+          type: number
+        connectNulls:
           type: boolean
+        thresholds:
+          $ref: '#/components/schemas/ChartThresholds'
       required:
-      - bindings
-      - defaultExpanded
-      - name
+      - _type
+    ChartThresholds:
+      properties:
+        mode:
+          enum:
+          - absolute
+          - percent
+          type: string
+        defaultColor:
+          type: string
+        steps:
+          items:
+            $ref: '#/components/schemas/ChartThresholdStep'
+          type: array
+      required:
+      - steps
+    ChartThresholdStep:
+      properties:
+        value:
+          type: number
+        color:
+          type: string
+      required:
+      - value
+    GaugeChart:
+      properties:
+        _type:
+          enum:
+          - GaugeChart
+          type: string
+        unit:
+          type: string
+        decimals:
+          type: integer
+        max:
+          format: double
+          type: number
+        calculation:
+          $ref: '#/components/schemas/ChartCalculation'
+        thresholds:
+          $ref: '#/components/schemas/ChartThresholds'
+      required:
+      - _type
+    ChartCalculation:
+      enum:
+      - mean
+      - sum
+      - min
+      - max
+      - first
+      - first-number
+      - last
+      - last-number
+      type: string
+    BarChart:
+      properties:
+        _type:
+          enum:
+          - BarChart
+          type: string
+        unit:
+          type: string
+        decimals:
+          type: integer
+        min:
+          format: double
+          type: number
+        max:
+          format: double
+          type: number
+        thresholds:
+          $ref: '#/components/schemas/ChartThresholds'
+      required:
+      - _type
+    StatChart:
+      properties:
+        _type:
+          enum:
+          - StatChart
+          type: string
+        unit:
+          type: string
+        decimals:
+          type: integer
+        sparkline:
+          type: boolean
+        calculation:
+          $ref: '#/components/schemas/ChartCalculation'
+        thresholds:
+          $ref: '#/components/schemas/ChartStatThresholds'
+      required:
+      - _type
+    ChartStatThresholds:
+      properties:
+        defaultColor:
+          type: string
+        steps:
+          items:
+            $ref: '#/components/schemas/ChartThresholdStep'
+          type: array
+      required:
+      - steps
     PersesDashboard:
       example:
         metadata:
@@ -19470,9 +20105,27 @@ components:
     PresentationDefinition:
       description: "Component presentation definition.\nIf multiple ComponentPresentations\
         \ match, `filters` are merged by filter identity with the most specific presentation\
-        \ winning.\nAbsence of the field keeps legacy behavior (for example, ViewType-based\
-        \ filters) unchanged.\n"
+        \ winning.\nScalar fields like `icon` and `topology` follow most-specific-wins\
+        \ semantics across matching presentations.\nAbsence of `topology` means the\
+        \ Topology perspective is not available for this presentation.\nAbsence of\
+        \ the field keeps legacy behavior (for example, ViewType-based filters) unchanged.\n"
       example:
+        summary:
+          metrics:
+          - unit: unit
+            decimalPlaces: 9
+            metricId: metricId
+            query: query
+            summaryMetricId: summaryMetricId
+            name: name
+            order: 7.061401241503109
+          - unit: unit
+            decimalPlaces: 9
+            metricId: metricId
+            query: query
+            summaryMetricId: summaryMetricId
+            name: name
+            order: 7.061401241503109
         overview:
           fixedColumns: 1
           mainMenu:
@@ -19490,11 +20143,33 @@ components:
             plural: plural
             singular: singular
             title: title
+          sort:
+          - columnId: columnId
+            direction: null
+          - columnId: columnId
+            direction: null
         highlight:
           provisioning:
-            externalComponentSelector: externalComponentSelector
+            topologySourceSelector: topologySourceSelector
             showConfiguration: true
             showStatus: true
+          metrics:
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - null
+            - null
+            title: title
+            defaultExpanded: true
+            order: 2.3021358869347655
+          - description: description
+            sectionId: sectionId
+            metrics:
+            - null
+            - null
+            title: title
+            defaultExpanded: true
+            order: 2.3021358869347655
           title: title
           fields:
           - description: description
@@ -19522,6 +20197,56 @@ components:
             excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
             relatedResourcesQuery: relatedResourcesQuery
             showEvents: true
+        metricPerspective:
+          tabs:
+          - tabId: tabId
+            title: title
+            sections:
+            - sectionId: sectionId
+              metrics:
+              - null
+              - null
+              title: title
+              order: 2.027123023002322
+            - sectionId: sectionId
+              metrics:
+              - null
+              - null
+              title: title
+              order: 2.027123023002322
+            order: 3.616076749251911
+          - tabId: tabId
+            title: title
+            sections:
+            - sectionId: sectionId
+              metrics:
+              - null
+              - null
+              title: title
+              order: 2.027123023002322
+            - sectionId: sectionId
+              metrics:
+              - null
+              - null
+              title: title
+              order: 2.027123023002322
+            order: 3.616076749251911
+        topology:
+          neighboringComponents: true
+          autoGrouping: true
+          groupedByRelations: true
+          domain:
+            name: name
+            order: 1.2315135367772556
+          showIndirectRelations: true
+          groupedByLayers: true
+          connectedComponents: true
+          groupingEnabled: true
+          minimumGroupSize: 4
+          groupedByDomains: true
+          layer:
+            name: name
+            order: 7.386281948385884
         icon: icon
         filters:
         - filterId: filterId
@@ -19543,10 +20268,16 @@ components:
           $ref: '#/components/schemas/PresentationOverview'
         highlight:
           $ref: '#/components/schemas/PresentationHighlight'
+        summary:
+          $ref: '#/components/schemas/PresentationSummary'
         filters:
           items:
             $ref: '#/components/schemas/ComponentPresentationFilter'
           type: array
+        metricPerspective:
+          $ref: '#/components/schemas/PresentationMetricPerspective'
+        topology:
+          $ref: '#/components/schemas/TopologySettings'
       type: object
     PresentationOverview:
       description: "Overview presentation definition. The `columns` field defines\
@@ -19571,6 +20302,11 @@ components:
           plural: plural
           singular: singular
           title: title
+        sort:
+        - columnId: columnId
+          direction: null
+        - columnId: columnId
+          direction: null
       properties:
         name:
           $ref: '#/components/schemas/PresentationName'
@@ -19582,6 +20318,10 @@ components:
           type: array
         fixedColumns:
           type: integer
+        sort:
+          items:
+            $ref: '#/components/schemas/PresentationOverviewSorting'
+          type: array
       required:
       - columns
       - name
@@ -19672,15 +20412,17 @@ components:
           enum:
           - MetricProjection
           type: string
-        showChart:
-          type: boolean
-        decimalPlaces:
-          type: integer
-        unit:
-          type: string
         query:
           description: Individual metric query that returns a timeseries for a specific
             cell.
+          type: string
+        unit:
+          type: string
+        decimalPlaces:
+          type: integer
+        sparkline:
+          type: boolean
+        metricId:
           type: string
       required:
       - _type
@@ -19796,6 +20538,23 @@ components:
       - imageId
       - imageName
       type: object
+    PresentationOverviewSorting:
+      example:
+        columnId: columnId
+        direction: null
+      properties:
+        columnId:
+          type: string
+        direction:
+          $ref: '#/components/schemas/PresentationOverviewSortingDirection'
+      required:
+      - columnId
+      type: object
+    PresentationOverviewSortingDirection:
+      enum:
+      - Ascending
+      - Descending
+      type: string
     PresentationHighlight:
       description: "Highlight presentation definition. The `fields` define the fields\
         \ to show in the highlight page.\nIf multiple ComponentPresentations match,\
@@ -19803,9 +20562,26 @@ components:
         \ follow the same merge semantics using `resourceId` as the identity key.\n"
       example:
         provisioning:
-          externalComponentSelector: externalComponentSelector
+          topologySourceSelector: topologySourceSelector
           showConfiguration: true
           showStatus: true
+        metrics:
+        - description: description
+          sectionId: sectionId
+          metrics:
+          - null
+          - null
+          title: title
+          defaultExpanded: true
+          order: 2.3021358869347655
+        - description: description
+          sectionId: sectionId
+          metrics:
+          - null
+          - null
+          title: title
+          defaultExpanded: true
+          order: 2.3021358869347655
         title: title
         fields:
         - description: description
@@ -19848,6 +20624,10 @@ components:
           type: array
         events:
           $ref: '#/components/schemas/PresentationHighlightEvents'
+        metrics:
+          items:
+            $ref: '#/components/schemas/PresentationHighlightMetricsSection'
+          type: array
       required:
       - fields
       - title
@@ -19910,14 +20690,14 @@ components:
       type: object
     PresentationHighlightProvisioning:
       description: Provisioning section of a component in the highlight presentation.
-        The `externalComponentSelector` field is used to identify the external component
+        The `topologySourceSelector` field is used to identify the external component
         with provisioning details for this component.
       example:
-        externalComponentSelector: externalComponentSelector
+        topologySourceSelector: topologySourceSelector
         showConfiguration: true
         showStatus: true
       properties:
-        externalComponentSelector:
+        topologySourceSelector:
           description: Cel expression that selects the external component with provisioning
             details
           type: string
@@ -19982,6 +20762,120 @@ components:
           type: string
       required:
       - showEvents
+      type: object
+    PresentationHighlightMetricsSection:
+      example:
+        description: description
+        sectionId: sectionId
+        metrics:
+        - null
+        - null
+        title: title
+        defaultExpanded: true
+        order: 2.3021358869347655
+      properties:
+        sectionId:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        defaultExpanded:
+          type: boolean
+        order:
+          format: double
+          type: number
+        metrics:
+          items:
+            $ref: '#/components/schemas/OrderedComponentPresentationMetric'
+          type: array
+      required:
+      - order
+      - sectionId
+      - title
+      type: object
+    OrderedComponentPresentationMetric:
+      allOf:
+      - $ref: '#/components/schemas/ComponentPresentationMetric'
+      - $ref: '#/components/schemas/OrderedComponentPresentationMetric_allOf'
+    ComponentPresentationMetric:
+      properties:
+        metricId:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        metricQueries:
+          items:
+            $ref: '#/components/schemas/PresentationMetricQuery'
+          type: array
+        chart:
+          $ref: '#/components/schemas/Chart'
+      required:
+      - metricId
+      type: object
+    PresentationMetricQuery:
+      properties:
+        expression:
+          type: string
+        alias:
+          type: string
+        componentIdentifierTemplate:
+          type: string
+      required:
+      - alias
+      - expression
+    PresentationSummary:
+      example:
+        metrics:
+        - unit: unit
+          decimalPlaces: 9
+          metricId: metricId
+          query: query
+          summaryMetricId: summaryMetricId
+          name: name
+          order: 7.061401241503109
+        - unit: unit
+          decimalPlaces: 9
+          metricId: metricId
+          query: query
+          summaryMetricId: summaryMetricId
+          name: name
+          order: 7.061401241503109
+      properties:
+        metrics:
+          items:
+            $ref: '#/components/schemas/PresentationSummaryMetric'
+          type: array
+      type: object
+    PresentationSummaryMetric:
+      example:
+        unit: unit
+        decimalPlaces: 9
+        metricId: metricId
+        query: query
+        summaryMetricId: summaryMetricId
+        name: name
+        order: 7.061401241503109
+      properties:
+        summaryMetricId:
+          type: string
+        name:
+          type: string
+        order:
+          format: double
+          type: number
+        query:
+          type: string
+        unit:
+          type: string
+        decimalPlaces:
+          type: integer
+        metricId:
+          type: string
+      required:
+      - summaryMetricId
       type: object
     ComponentPresentationFilter:
       description: "Filter definition for ComponentPresentation.\nWhen only `filterId`\
@@ -20050,6 +20944,196 @@ components:
       - _type
       - tagKey
       type: object
+    PresentationMetricPerspective:
+      example:
+        tabs:
+        - tabId: tabId
+          title: title
+          sections:
+          - sectionId: sectionId
+            metrics:
+            - null
+            - null
+            title: title
+            order: 2.027123023002322
+          - sectionId: sectionId
+            metrics:
+            - null
+            - null
+            title: title
+            order: 2.027123023002322
+          order: 3.616076749251911
+        - tabId: tabId
+          title: title
+          sections:
+          - sectionId: sectionId
+            metrics:
+            - null
+            - null
+            title: title
+            order: 2.027123023002322
+          - sectionId: sectionId
+            metrics:
+            - null
+            - null
+            title: title
+            order: 2.027123023002322
+          order: 3.616076749251911
+      properties:
+        tabs:
+          items:
+            $ref: '#/components/schemas/PresentationMetricPerspectiveTab'
+          type: array
+      required:
+      - tabs
+      type: object
+    PresentationMetricPerspectiveTab:
+      example:
+        tabId: tabId
+        title: title
+        sections:
+        - sectionId: sectionId
+          metrics:
+          - null
+          - null
+          title: title
+          order: 2.027123023002322
+        - sectionId: sectionId
+          metrics:
+          - null
+          - null
+          title: title
+          order: 2.027123023002322
+        order: 3.616076749251911
+      properties:
+        tabId:
+          type: string
+        title:
+          type: string
+        order:
+          format: double
+          type: number
+        sections:
+          items:
+            $ref: '#/components/schemas/PresentationMetricPerspectiveSection'
+          type: array
+      required:
+      - order
+      - tabId
+      - title
+      type: object
+    PresentationMetricPerspectiveSection:
+      example:
+        sectionId: sectionId
+        metrics:
+        - null
+        - null
+        title: title
+        order: 2.027123023002322
+      properties:
+        sectionId:
+          type: string
+        title:
+          type: string
+        order:
+          format: double
+          type: number
+        metrics:
+          items:
+            $ref: '#/components/schemas/OrderedComponentPresentationMetric'
+          type: array
+      required:
+      - order
+      - sectionId
+      - title
+      type: object
+    TopologySettings:
+      description: "Rendering settings for the topology perspective.\nNear-copy of\
+        \ QueryMetadata used for topology rendering today; differences:\n- `queryTime`\
+        \ is intentionally absent (request-time state, not a presentation setting).\n\
+        Most-specific-wins merge semantics across matching ComponentPresentations.\n"
+      example:
+        neighboringComponents: true
+        autoGrouping: true
+        groupedByRelations: true
+        domain:
+          name: name
+          order: 1.2315135367772556
+        showIndirectRelations: true
+        groupedByLayers: true
+        connectedComponents: true
+        groupingEnabled: true
+        minimumGroupSize: 4
+        groupedByDomains: true
+        layer:
+          name: name
+          order: 7.386281948385884
+      properties:
+        groupingEnabled:
+          type: boolean
+        showIndirectRelations:
+          type: boolean
+        minimumGroupSize:
+          format: int64
+          type: integer
+        groupedByLayers:
+          type: boolean
+        groupedByDomains:
+          type: boolean
+        groupedByRelations:
+          type: boolean
+        autoGrouping:
+          type: boolean
+        connectedComponents:
+          type: boolean
+        neighboringComponents:
+          type: boolean
+        layer:
+          $ref: '#/components/schemas/TopologyLayer'
+        domain:
+          $ref: '#/components/schemas/TopologyDomain'
+      type: object
+    TopologyLayer:
+      description: "Layer assigned to components matched by this presentation, used\
+        \ to bucket and order them in the topology view.\nAt presentation time, the\
+        \ layer of the most-specific matching presentation wins.\nWhen multiple components\
+        \ share a layer name with different orders, the highest order wins.\n"
+      example:
+        name: name
+        order: 7.386281948385884
+      properties:
+        name:
+          type: string
+        order:
+          format: double
+          type: number
+      required:
+      - name
+      - order
+      type: object
+    TopologyDomain:
+      description: "Domain assigned to components matched by this presentation, used\
+        \ to bucket and order them in the topology view.\nAt presentation time, the\
+        \ domain of the most-specific matching presentation wins.\nWhen multiple components\
+        \ share a domain name with different orders, the highest order wins.\n"
+      example:
+        name: name
+        order: 1.2315135367772556
+      properties:
+        name:
+          type: string
+        order:
+          format: double
+          type: number
+      required:
+      - name
+      - order
+      type: object
+    QueryViewFlag:
+      enum:
+      - NotUnlockable
+      - HideFromViewsOverview
+      type: string
     upsertOtelComponentMappings_request:
       properties:
         identifier:
@@ -20256,36 +21340,6 @@ components:
       - primaryFilterMatches
       - secondaryFilterMatches
       type: object
-    MetricPerspectiveTab_allOf:
-      properties:
-        _type:
-          enum:
-          - MetricPerspectiveTab
-          type: string
-      required:
-      - _type
-      type: object
-    MetricPerspectiveSection_allOf:
-      properties:
-        _type:
-          enum:
-          - MetricPerspectiveSection
-          type: string
-        tab:
-          type: string
-      required:
-      - _type
-      - tab
-      type: object
-    ComponentHighlightMetricSection_allOf:
-      properties:
-        _type:
-          enum:
-          - ComponentHighlightMetricSection
-          type: string
-      required:
-      - _type
-      type: object
     ErrorField_allOf:
       properties:
         _type:
@@ -20467,6 +21521,12 @@ components:
           $ref: '#/components/schemas/PersesDashboard'
       required:
       - dashboard
+      type: object
+    OrderedComponentPresentationMetric_allOf:
+      properties:
+        order:
+          format: double
+          type: number
       type: object
   securitySchemes:
     ApiToken:

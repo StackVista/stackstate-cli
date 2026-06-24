@@ -24,30 +24,20 @@ type OtelComponentMappingOutput struct {
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
 	TypeName string `json:"typeName" yaml:"typeName"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	TypeIdentifier *string `json:"typeIdentifier,omitempty" yaml:"typeIdentifier,omitempty"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	LayerName string `json:"layerName" yaml:"layerName"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	LayerIdentifier *string `json:"layerIdentifier,omitempty" yaml:"layerIdentifier,omitempty"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	DomainName string `json:"domainName" yaml:"domainName"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	DomainIdentifier *string                           `json:"domainIdentifier,omitempty" yaml:"domainIdentifier,omitempty"`
-	Required         *OtelComponentMappingFieldMapping `json:"required,omitempty" yaml:"required,omitempty"`
-	Optional         *OtelComponentMappingFieldMapping `json:"optional,omitempty" yaml:"optional,omitempty"`
+	TypeIdentifier *string                           `json:"typeIdentifier,omitempty" yaml:"typeIdentifier,omitempty"`
+	Required       *OtelComponentMappingFieldMapping `json:"required,omitempty" yaml:"required,omitempty"`
+	Optional       *OtelComponentMappingFieldMapping `json:"optional,omitempty" yaml:"optional,omitempty"`
 }
 
 // NewOtelComponentMappingOutput instantiates a new OtelComponentMappingOutput object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOtelComponentMappingOutput(identifier string, name string, typeName string, layerName string, domainName string) *OtelComponentMappingOutput {
+func NewOtelComponentMappingOutput(identifier string, name string, typeName string) *OtelComponentMappingOutput {
 	this := OtelComponentMappingOutput{}
 	this.Identifier = identifier
 	this.Name = name
 	this.TypeName = typeName
-	this.LayerName = layerName
-	this.DomainName = domainName
 	return &this
 }
 
@@ -163,118 +153,6 @@ func (o *OtelComponentMappingOutput) SetTypeIdentifier(v string) {
 	o.TypeIdentifier = &v
 }
 
-// GetLayerName returns the LayerName field value
-func (o *OtelComponentMappingOutput) GetLayerName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.LayerName
-}
-
-// GetLayerNameOk returns a tuple with the LayerName field value
-// and a boolean to check if the value has been set.
-func (o *OtelComponentMappingOutput) GetLayerNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.LayerName, true
-}
-
-// SetLayerName sets field value
-func (o *OtelComponentMappingOutput) SetLayerName(v string) {
-	o.LayerName = v
-}
-
-// GetLayerIdentifier returns the LayerIdentifier field value if set, zero value otherwise.
-func (o *OtelComponentMappingOutput) GetLayerIdentifier() string {
-	if o == nil || o.LayerIdentifier == nil {
-		var ret string
-		return ret
-	}
-	return *o.LayerIdentifier
-}
-
-// GetLayerIdentifierOk returns a tuple with the LayerIdentifier field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OtelComponentMappingOutput) GetLayerIdentifierOk() (*string, bool) {
-	if o == nil || o.LayerIdentifier == nil {
-		return nil, false
-	}
-	return o.LayerIdentifier, true
-}
-
-// HasLayerIdentifier returns a boolean if a field has been set.
-func (o *OtelComponentMappingOutput) HasLayerIdentifier() bool {
-	if o != nil && o.LayerIdentifier != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetLayerIdentifier gets a reference to the given string and assigns it to the LayerIdentifier field.
-func (o *OtelComponentMappingOutput) SetLayerIdentifier(v string) {
-	o.LayerIdentifier = &v
-}
-
-// GetDomainName returns the DomainName field value
-func (o *OtelComponentMappingOutput) GetDomainName() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.DomainName
-}
-
-// GetDomainNameOk returns a tuple with the DomainName field value
-// and a boolean to check if the value has been set.
-func (o *OtelComponentMappingOutput) GetDomainNameOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.DomainName, true
-}
-
-// SetDomainName sets field value
-func (o *OtelComponentMappingOutput) SetDomainName(v string) {
-	o.DomainName = v
-}
-
-// GetDomainIdentifier returns the DomainIdentifier field value if set, zero value otherwise.
-func (o *OtelComponentMappingOutput) GetDomainIdentifier() string {
-	if o == nil || o.DomainIdentifier == nil {
-		var ret string
-		return ret
-	}
-	return *o.DomainIdentifier
-}
-
-// GetDomainIdentifierOk returns a tuple with the DomainIdentifier field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OtelComponentMappingOutput) GetDomainIdentifierOk() (*string, bool) {
-	if o == nil || o.DomainIdentifier == nil {
-		return nil, false
-	}
-	return o.DomainIdentifier, true
-}
-
-// HasDomainIdentifier returns a boolean if a field has been set.
-func (o *OtelComponentMappingOutput) HasDomainIdentifier() bool {
-	if o != nil && o.DomainIdentifier != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDomainIdentifier gets a reference to the given string and assigns it to the DomainIdentifier field.
-func (o *OtelComponentMappingOutput) SetDomainIdentifier(v string) {
-	o.DomainIdentifier = &v
-}
-
 // GetRequired returns the Required field value if set, zero value otherwise.
 func (o *OtelComponentMappingOutput) GetRequired() OtelComponentMappingFieldMapping {
 	if o == nil || o.Required == nil {
@@ -352,18 +230,6 @@ func (o OtelComponentMappingOutput) MarshalJSON() ([]byte, error) {
 	}
 	if o.TypeIdentifier != nil {
 		toSerialize["typeIdentifier"] = o.TypeIdentifier
-	}
-	if true {
-		toSerialize["layerName"] = o.LayerName
-	}
-	if o.LayerIdentifier != nil {
-		toSerialize["layerIdentifier"] = o.LayerIdentifier
-	}
-	if true {
-		toSerialize["domainName"] = o.DomainName
-	}
-	if o.DomainIdentifier != nil {
-		toSerialize["domainIdentifier"] = o.DomainIdentifier
 	}
 	if o.Required != nil {
 		toSerialize["required"] = o.Required

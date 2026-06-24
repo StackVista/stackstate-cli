@@ -13,15 +13,16 @@ Name | Type | Description | Notes
 **Events** | Pointer to [**ComponentEvents**](ComponentEvents.md) |  | [optional] 
 **Data** | [**ComponentData**](ComponentData.md) |  | 
 **Highlights** | Pointer to [**LegacyComponentHighlights**](LegacyComponentHighlights.md) |  | [optional] 
+**Summary** | [**ComponentSummary**](ComponentSummary.md) |  | 
+**HighlightMetrics** | [**[]ComponentMetricSection**](ComponentMetricSection.md) |  | 
 **Actions** | [**[]ComponentAction**](ComponentAction.md) |  | 
-**BoundMetrics** | [**[]BoundMetric**](BoundMetric.md) |  | 
 **BoundTraces** | Pointer to [**BoundTraces**](BoundTraces.md) |  | [optional] 
 
 ## Methods
 
 ### NewFullComponent
 
-`func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric, ) *FullComponent`
+`func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, summary ComponentSummary, highlightMetrics []ComponentMetricSection, actions []ComponentAction, ) *FullComponent`
 
 NewFullComponent instantiates a new FullComponent object
 This constructor will assign default values to properties that have it defined,
@@ -236,6 +237,46 @@ SetHighlights sets Highlights field to given value.
 
 HasHighlights returns a boolean if a field has been set.
 
+### GetSummary
+
+`func (o *FullComponent) GetSummary() ComponentSummary`
+
+GetSummary returns the Summary field if non-nil, zero value otherwise.
+
+### GetSummaryOk
+
+`func (o *FullComponent) GetSummaryOk() (*ComponentSummary, bool)`
+
+GetSummaryOk returns a tuple with the Summary field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSummary
+
+`func (o *FullComponent) SetSummary(v ComponentSummary)`
+
+SetSummary sets Summary field to given value.
+
+
+### GetHighlightMetrics
+
+`func (o *FullComponent) GetHighlightMetrics() []ComponentMetricSection`
+
+GetHighlightMetrics returns the HighlightMetrics field if non-nil, zero value otherwise.
+
+### GetHighlightMetricsOk
+
+`func (o *FullComponent) GetHighlightMetricsOk() (*[]ComponentMetricSection, bool)`
+
+GetHighlightMetricsOk returns a tuple with the HighlightMetrics field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetHighlightMetrics
+
+`func (o *FullComponent) SetHighlightMetrics(v []ComponentMetricSection)`
+
+SetHighlightMetrics sets HighlightMetrics field to given value.
+
+
 ### GetActions
 
 `func (o *FullComponent) GetActions() []ComponentAction`
@@ -254,26 +295,6 @@ and a boolean to check if the value has been set.
 `func (o *FullComponent) SetActions(v []ComponentAction)`
 
 SetActions sets Actions field to given value.
-
-
-### GetBoundMetrics
-
-`func (o *FullComponent) GetBoundMetrics() []BoundMetric`
-
-GetBoundMetrics returns the BoundMetrics field if non-nil, zero value otherwise.
-
-### GetBoundMetricsOk
-
-`func (o *FullComponent) GetBoundMetricsOk() (*[]BoundMetric, bool)`
-
-GetBoundMetricsOk returns a tuple with the BoundMetrics field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetBoundMetrics
-
-`func (o *FullComponent) SetBoundMetrics(v []BoundMetric)`
-
-SetBoundMetrics sets BoundMetrics field to given value.
 
 
 ### GetBoundTraces

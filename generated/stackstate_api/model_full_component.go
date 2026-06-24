@@ -27,8 +27,9 @@ type FullComponent struct {
 	Events           *ComponentEvents           `json:"events,omitempty" yaml:"events,omitempty"`
 	Data             ComponentData              `json:"data" yaml:"data"`
 	Highlights       *LegacyComponentHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
+	Summary          ComponentSummary           `json:"summary" yaml:"summary"`
+	HighlightMetrics []ComponentMetricSection   `json:"highlightMetrics" yaml:"highlightMetrics"`
 	Actions          []ComponentAction          `json:"actions" yaml:"actions"`
-	BoundMetrics     []BoundMetric              `json:"boundMetrics" yaml:"boundMetrics"`
 	BoundTraces      *BoundTraces               `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
 }
 
@@ -36,15 +37,16 @@ type FullComponent struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, actions []ComponentAction, boundMetrics []BoundMetric) *FullComponent {
+func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, summary ComponentSummary, highlightMetrics []ComponentMetricSection, actions []ComponentAction) *FullComponent {
 	this := FullComponent{}
 	this.TypeName = typeName
 	this.Fields = fields
 	this.Synced = synced
 	this.RelatedResources = relatedResources
 	this.Data = data
+	this.Summary = summary
+	this.HighlightMetrics = highlightMetrics
 	this.Actions = actions
-	this.BoundMetrics = boundMetrics
 	return &this
 }
 
@@ -304,6 +306,54 @@ func (o *FullComponent) SetHighlights(v LegacyComponentHighlights) {
 	o.Highlights = &v
 }
 
+// GetSummary returns the Summary field value
+func (o *FullComponent) GetSummary() ComponentSummary {
+	if o == nil {
+		var ret ComponentSummary
+		return ret
+	}
+
+	return o.Summary
+}
+
+// GetSummaryOk returns a tuple with the Summary field value
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetSummaryOk() (*ComponentSummary, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Summary, true
+}
+
+// SetSummary sets field value
+func (o *FullComponent) SetSummary(v ComponentSummary) {
+	o.Summary = v
+}
+
+// GetHighlightMetrics returns the HighlightMetrics field value
+func (o *FullComponent) GetHighlightMetrics() []ComponentMetricSection {
+	if o == nil {
+		var ret []ComponentMetricSection
+		return ret
+	}
+
+	return o.HighlightMetrics
+}
+
+// GetHighlightMetricsOk returns a tuple with the HighlightMetrics field value
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetHighlightMetricsOk() ([]ComponentMetricSection, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.HighlightMetrics, true
+}
+
+// SetHighlightMetrics sets field value
+func (o *FullComponent) SetHighlightMetrics(v []ComponentMetricSection) {
+	o.HighlightMetrics = v
+}
+
 // GetActions returns the Actions field value
 func (o *FullComponent) GetActions() []ComponentAction {
 	if o == nil {
@@ -326,30 +376,6 @@ func (o *FullComponent) GetActionsOk() ([]ComponentAction, bool) {
 // SetActions sets field value
 func (o *FullComponent) SetActions(v []ComponentAction) {
 	o.Actions = v
-}
-
-// GetBoundMetrics returns the BoundMetrics field value
-func (o *FullComponent) GetBoundMetrics() []BoundMetric {
-	if o == nil {
-		var ret []BoundMetric
-		return ret
-	}
-
-	return o.BoundMetrics
-}
-
-// GetBoundMetricsOk returns a tuple with the BoundMetrics field value
-// and a boolean to check if the value has been set.
-func (o *FullComponent) GetBoundMetricsOk() ([]BoundMetric, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.BoundMetrics, true
-}
-
-// SetBoundMetrics sets field value
-func (o *FullComponent) SetBoundMetrics(v []BoundMetric) {
-	o.BoundMetrics = v
 }
 
 // GetBoundTraces returns the BoundTraces field value if set, zero value otherwise.
@@ -414,10 +440,13 @@ func (o FullComponent) MarshalJSON() ([]byte, error) {
 		toSerialize["highlights"] = o.Highlights
 	}
 	if true {
-		toSerialize["actions"] = o.Actions
+		toSerialize["summary"] = o.Summary
 	}
 	if true {
-		toSerialize["boundMetrics"] = o.BoundMetrics
+		toSerialize["highlightMetrics"] = o.HighlightMetrics
+	}
+	if true {
+		toSerialize["actions"] = o.Actions
 	}
 	if o.BoundTraces != nil {
 		toSerialize["boundTraces"] = o.BoundTraces

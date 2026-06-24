@@ -6,10 +6,11 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Value** | **string** | Cel expression that returns a map&lt;string,dyn&gt; | 
-**ShowChart** | Pointer to **bool** |  | [optional] 
-**DecimalPlaces** | Pointer to **int32** |  | [optional] 
-**Unit** | Pointer to **NullableString** |  | [optional] 
 **Query** | **string** | Individual metric query that returns a timeseries for a specific cell. | 
+**Unit** | Pointer to **NullableString** |  | [optional] 
+**DecimalPlaces** | Pointer to **int32** |  | [optional] 
+**Sparkline** | Pointer to **bool** |  | [optional] 
+**MetricId** | Pointer to **string** |  | [optional] 
 **Name** | **string** | Cel expression that returns a string that represents the name of the component to link to | 
 **Identifier** | **string** | Cel expression that returns a string that represents the identifier in order to build the link | 
 **AsTag** | Pointer to **bool** | Should the value be rendered as a tag or as plain text | [optional] [default to false]
@@ -81,55 +82,25 @@ and a boolean to check if the value has been set.
 SetValue sets Value field to given value.
 
 
-### GetShowChart
+### GetQuery
 
-`func (o *ComponentHighlightProjection) GetShowChart() bool`
+`func (o *ComponentHighlightProjection) GetQuery() string`
 
-GetShowChart returns the ShowChart field if non-nil, zero value otherwise.
+GetQuery returns the Query field if non-nil, zero value otherwise.
 
-### GetShowChartOk
+### GetQueryOk
 
-`func (o *ComponentHighlightProjection) GetShowChartOk() (*bool, bool)`
+`func (o *ComponentHighlightProjection) GetQueryOk() (*string, bool)`
 
-GetShowChartOk returns a tuple with the ShowChart field if it's non-nil, zero value otherwise
+GetQueryOk returns a tuple with the Query field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetShowChart
+### SetQuery
 
-`func (o *ComponentHighlightProjection) SetShowChart(v bool)`
+`func (o *ComponentHighlightProjection) SetQuery(v string)`
 
-SetShowChart sets ShowChart field to given value.
+SetQuery sets Query field to given value.
 
-### HasShowChart
-
-`func (o *ComponentHighlightProjection) HasShowChart() bool`
-
-HasShowChart returns a boolean if a field has been set.
-
-### GetDecimalPlaces
-
-`func (o *ComponentHighlightProjection) GetDecimalPlaces() int32`
-
-GetDecimalPlaces returns the DecimalPlaces field if non-nil, zero value otherwise.
-
-### GetDecimalPlacesOk
-
-`func (o *ComponentHighlightProjection) GetDecimalPlacesOk() (*int32, bool)`
-
-GetDecimalPlacesOk returns a tuple with the DecimalPlaces field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDecimalPlaces
-
-`func (o *ComponentHighlightProjection) SetDecimalPlaces(v int32)`
-
-SetDecimalPlaces sets DecimalPlaces field to given value.
-
-### HasDecimalPlaces
-
-`func (o *ComponentHighlightProjection) HasDecimalPlaces() bool`
-
-HasDecimalPlaces returns a boolean if a field has been set.
 
 ### GetUnit
 
@@ -166,25 +137,80 @@ HasUnit returns a boolean if a field has been set.
 `func (o *ComponentHighlightProjection) UnsetUnit()`
 
 UnsetUnit ensures that no value is present for Unit, not even an explicit nil
-### GetQuery
+### GetDecimalPlaces
 
-`func (o *ComponentHighlightProjection) GetQuery() string`
+`func (o *ComponentHighlightProjection) GetDecimalPlaces() int32`
 
-GetQuery returns the Query field if non-nil, zero value otherwise.
+GetDecimalPlaces returns the DecimalPlaces field if non-nil, zero value otherwise.
 
-### GetQueryOk
+### GetDecimalPlacesOk
 
-`func (o *ComponentHighlightProjection) GetQueryOk() (*string, bool)`
+`func (o *ComponentHighlightProjection) GetDecimalPlacesOk() (*int32, bool)`
 
-GetQueryOk returns a tuple with the Query field if it's non-nil, zero value otherwise
+GetDecimalPlacesOk returns a tuple with the DecimalPlaces field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetQuery
+### SetDecimalPlaces
 
-`func (o *ComponentHighlightProjection) SetQuery(v string)`
+`func (o *ComponentHighlightProjection) SetDecimalPlaces(v int32)`
 
-SetQuery sets Query field to given value.
+SetDecimalPlaces sets DecimalPlaces field to given value.
 
+### HasDecimalPlaces
+
+`func (o *ComponentHighlightProjection) HasDecimalPlaces() bool`
+
+HasDecimalPlaces returns a boolean if a field has been set.
+
+### GetSparkline
+
+`func (o *ComponentHighlightProjection) GetSparkline() bool`
+
+GetSparkline returns the Sparkline field if non-nil, zero value otherwise.
+
+### GetSparklineOk
+
+`func (o *ComponentHighlightProjection) GetSparklineOk() (*bool, bool)`
+
+GetSparklineOk returns a tuple with the Sparkline field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSparkline
+
+`func (o *ComponentHighlightProjection) SetSparkline(v bool)`
+
+SetSparkline sets Sparkline field to given value.
+
+### HasSparkline
+
+`func (o *ComponentHighlightProjection) HasSparkline() bool`
+
+HasSparkline returns a boolean if a field has been set.
+
+### GetMetricId
+
+`func (o *ComponentHighlightProjection) GetMetricId() string`
+
+GetMetricId returns the MetricId field if non-nil, zero value otherwise.
+
+### GetMetricIdOk
+
+`func (o *ComponentHighlightProjection) GetMetricIdOk() (*string, bool)`
+
+GetMetricIdOk returns a tuple with the MetricId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetricId
+
+`func (o *ComponentHighlightProjection) SetMetricId(v string)`
+
+SetMetricId sets MetricId field to given value.
+
+### HasMetricId
+
+`func (o *ComponentHighlightProjection) HasMetricId() bool`
+
+HasMetricId returns a boolean if a field has been set.
 
 ### GetName
 

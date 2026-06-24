@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **MainMenu** | Pointer to [**PresentationMainMenu**](PresentationMainMenu.md) |  | [optional] 
 **Columns** | [**[]OverviewColumnDefinition**](OverviewColumnDefinition.md) |  | 
 **FixedColumns** | Pointer to **int32** |  | [optional] 
+**Sort** | Pointer to [**[]PresentationOverviewSorting**](PresentationOverviewSorting.md) |  | [optional] 
 
 ## Methods
 
@@ -117,6 +118,31 @@ SetFixedColumns sets FixedColumns field to given value.
 `func (o *PresentationOverview) HasFixedColumns() bool`
 
 HasFixedColumns returns a boolean if a field has been set.
+
+### GetSort
+
+`func (o *PresentationOverview) GetSort() []PresentationOverviewSorting`
+
+GetSort returns the Sort field if non-nil, zero value otherwise.
+
+### GetSortOk
+
+`func (o *PresentationOverview) GetSortOk() (*[]PresentationOverviewSorting, bool)`
+
+GetSortOk returns a tuple with the Sort field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSort
+
+`func (o *PresentationOverview) SetSort(v []PresentationOverviewSorting)`
+
+SetSort sets Sort field to given value.
+
+### HasSort
+
+`func (o *PresentationOverview) HasSort() bool`
+
+HasSort returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

@@ -4,23 +4,18 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**BoundMetricId** | Pointer to [**BoundMetricId**](BoundMetricId.md) |  | [optional] 
 **Name** | **string** |  | 
-**Identifier** | Pointer to **string** |  | [optional] 
 **BoundQueries** | [**[]BoundMetricQuery**](BoundMetricQuery.md) |  | 
 **Description** | Pointer to **string** |  | [optional] 
-**Unit** | Pointer to **string** |  | [optional] 
-**ChartType** | [**ChartType**](ChartType.md) |  | 
-**Alias** | Pointer to **string** |  | [optional] 
-**Valuation** | Pointer to [**MetricValuation**](MetricValuation.md) |  | [optional] 
-**Tags** | **map[string]string** |  | 
-**Layout** | Pointer to [**MetricBindingLayout**](MetricBindingLayout.md) |  | [optional] 
+**Chart** | Pointer to [**Chart**](Chart.md) |  | [optional] 
 **Dummy** | Pointer to **bool** |  | [optional] 
 
 ## Methods
 
 ### NewBoundMetric
 
-`func NewBoundMetric(name string, boundQueries []BoundMetricQuery, chartType ChartType, tags map[string]string, ) *BoundMetric`
+`func NewBoundMetric(name string, boundQueries []BoundMetricQuery, ) *BoundMetric`
 
 NewBoundMetric instantiates a new BoundMetric object
 This constructor will assign default values to properties that have it defined,
@@ -34,6 +29,31 @@ will change when the set of required properties is changed
 NewBoundMetricWithDefaults instantiates a new BoundMetric object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
+
+### GetBoundMetricId
+
+`func (o *BoundMetric) GetBoundMetricId() BoundMetricId`
+
+GetBoundMetricId returns the BoundMetricId field if non-nil, zero value otherwise.
+
+### GetBoundMetricIdOk
+
+`func (o *BoundMetric) GetBoundMetricIdOk() (*BoundMetricId, bool)`
+
+GetBoundMetricIdOk returns a tuple with the BoundMetricId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetBoundMetricId
+
+`func (o *BoundMetric) SetBoundMetricId(v BoundMetricId)`
+
+SetBoundMetricId sets BoundMetricId field to given value.
+
+### HasBoundMetricId
+
+`func (o *BoundMetric) HasBoundMetricId() bool`
+
+HasBoundMetricId returns a boolean if a field has been set.
 
 ### GetName
 
@@ -54,31 +74,6 @@ and a boolean to check if the value has been set.
 
 SetName sets Name field to given value.
 
-
-### GetIdentifier
-
-`func (o *BoundMetric) GetIdentifier() string`
-
-GetIdentifier returns the Identifier field if non-nil, zero value otherwise.
-
-### GetIdentifierOk
-
-`func (o *BoundMetric) GetIdentifierOk() (*string, bool)`
-
-GetIdentifierOk returns a tuple with the Identifier field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetIdentifier
-
-`func (o *BoundMetric) SetIdentifier(v string)`
-
-SetIdentifier sets Identifier field to given value.
-
-### HasIdentifier
-
-`func (o *BoundMetric) HasIdentifier() bool`
-
-HasIdentifier returns a boolean if a field has been set.
 
 ### GetBoundQueries
 
@@ -125,145 +120,30 @@ SetDescription sets Description field to given value.
 
 HasDescription returns a boolean if a field has been set.
 
-### GetUnit
+### GetChart
 
-`func (o *BoundMetric) GetUnit() string`
+`func (o *BoundMetric) GetChart() Chart`
 
-GetUnit returns the Unit field if non-nil, zero value otherwise.
+GetChart returns the Chart field if non-nil, zero value otherwise.
 
-### GetUnitOk
+### GetChartOk
 
-`func (o *BoundMetric) GetUnitOk() (*string, bool)`
+`func (o *BoundMetric) GetChartOk() (*Chart, bool)`
 
-GetUnitOk returns a tuple with the Unit field if it's non-nil, zero value otherwise
+GetChartOk returns a tuple with the Chart field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetUnit
+### SetChart
 
-`func (o *BoundMetric) SetUnit(v string)`
+`func (o *BoundMetric) SetChart(v Chart)`
 
-SetUnit sets Unit field to given value.
+SetChart sets Chart field to given value.
 
-### HasUnit
+### HasChart
 
-`func (o *BoundMetric) HasUnit() bool`
+`func (o *BoundMetric) HasChart() bool`
 
-HasUnit returns a boolean if a field has been set.
-
-### GetChartType
-
-`func (o *BoundMetric) GetChartType() ChartType`
-
-GetChartType returns the ChartType field if non-nil, zero value otherwise.
-
-### GetChartTypeOk
-
-`func (o *BoundMetric) GetChartTypeOk() (*ChartType, bool)`
-
-GetChartTypeOk returns a tuple with the ChartType field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetChartType
-
-`func (o *BoundMetric) SetChartType(v ChartType)`
-
-SetChartType sets ChartType field to given value.
-
-
-### GetAlias
-
-`func (o *BoundMetric) GetAlias() string`
-
-GetAlias returns the Alias field if non-nil, zero value otherwise.
-
-### GetAliasOk
-
-`func (o *BoundMetric) GetAliasOk() (*string, bool)`
-
-GetAliasOk returns a tuple with the Alias field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAlias
-
-`func (o *BoundMetric) SetAlias(v string)`
-
-SetAlias sets Alias field to given value.
-
-### HasAlias
-
-`func (o *BoundMetric) HasAlias() bool`
-
-HasAlias returns a boolean if a field has been set.
-
-### GetValuation
-
-`func (o *BoundMetric) GetValuation() MetricValuation`
-
-GetValuation returns the Valuation field if non-nil, zero value otherwise.
-
-### GetValuationOk
-
-`func (o *BoundMetric) GetValuationOk() (*MetricValuation, bool)`
-
-GetValuationOk returns a tuple with the Valuation field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetValuation
-
-`func (o *BoundMetric) SetValuation(v MetricValuation)`
-
-SetValuation sets Valuation field to given value.
-
-### HasValuation
-
-`func (o *BoundMetric) HasValuation() bool`
-
-HasValuation returns a boolean if a field has been set.
-
-### GetTags
-
-`func (o *BoundMetric) GetTags() map[string]string`
-
-GetTags returns the Tags field if non-nil, zero value otherwise.
-
-### GetTagsOk
-
-`func (o *BoundMetric) GetTagsOk() (*map[string]string, bool)`
-
-GetTagsOk returns a tuple with the Tags field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTags
-
-`func (o *BoundMetric) SetTags(v map[string]string)`
-
-SetTags sets Tags field to given value.
-
-
-### GetLayout
-
-`func (o *BoundMetric) GetLayout() MetricBindingLayout`
-
-GetLayout returns the Layout field if non-nil, zero value otherwise.
-
-### GetLayoutOk
-
-`func (o *BoundMetric) GetLayoutOk() (*MetricBindingLayout, bool)`
-
-GetLayoutOk returns a tuple with the Layout field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLayout
-
-`func (o *BoundMetric) SetLayout(v MetricBindingLayout)`
-
-SetLayout sets Layout field to given value.
-
-### HasLayout
-
-`func (o *BoundMetric) HasLayout() bool`
-
-HasLayout returns a boolean if a field has been set.
+HasChart returns a boolean if a field has been set.
 
 ### GetDummy
 
