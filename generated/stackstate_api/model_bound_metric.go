@@ -17,29 +17,22 @@ import (
 
 // BoundMetric struct for BoundMetric
 type BoundMetric struct {
-	Name         string               `json:"name" yaml:"name"`
-	Identifier   *string              `json:"identifier,omitempty" yaml:"identifier,omitempty"`
-	BoundQueries []BoundMetricQuery   `json:"boundQueries" yaml:"boundQueries"`
-	Description  *string              `json:"description,omitempty" yaml:"description,omitempty"`
-	Unit         *string              `json:"unit,omitempty" yaml:"unit,omitempty"`
-	ChartType    ChartType            `json:"chartType" yaml:"chartType"`
-	Alias        *string              `json:"alias,omitempty" yaml:"alias,omitempty"`
-	Valuation    *MetricValuation     `json:"valuation,omitempty" yaml:"valuation,omitempty"`
-	Tags         map[string]string    `json:"tags" yaml:"tags"`
-	Layout       *MetricBindingLayout `json:"layout,omitempty" yaml:"layout,omitempty"`
-	Dummy        *bool                `json:"dummy,omitempty" yaml:"dummy,omitempty"`
+	BoundMetricId *BoundMetricId     `json:"boundMetricId,omitempty" yaml:"boundMetricId,omitempty"`
+	Name          string             `json:"name" yaml:"name"`
+	BoundQueries  []BoundMetricQuery `json:"boundQueries" yaml:"boundQueries"`
+	Description   *string            `json:"description,omitempty" yaml:"description,omitempty"`
+	Chart         *Chart             `json:"chart,omitempty" yaml:"chart,omitempty"`
+	Dummy         *bool              `json:"dummy,omitempty" yaml:"dummy,omitempty"`
 }
 
 // NewBoundMetric instantiates a new BoundMetric object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewBoundMetric(name string, boundQueries []BoundMetricQuery, chartType ChartType, tags map[string]string) *BoundMetric {
+func NewBoundMetric(name string, boundQueries []BoundMetricQuery) *BoundMetric {
 	this := BoundMetric{}
 	this.Name = name
 	this.BoundQueries = boundQueries
-	this.ChartType = chartType
-	this.Tags = tags
 	return &this
 }
 
@@ -49,6 +42,38 @@ func NewBoundMetric(name string, boundQueries []BoundMetricQuery, chartType Char
 func NewBoundMetricWithDefaults() *BoundMetric {
 	this := BoundMetric{}
 	return &this
+}
+
+// GetBoundMetricId returns the BoundMetricId field value if set, zero value otherwise.
+func (o *BoundMetric) GetBoundMetricId() BoundMetricId {
+	if o == nil || o.BoundMetricId == nil {
+		var ret BoundMetricId
+		return ret
+	}
+	return *o.BoundMetricId
+}
+
+// GetBoundMetricIdOk returns a tuple with the BoundMetricId field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *BoundMetric) GetBoundMetricIdOk() (*BoundMetricId, bool) {
+	if o == nil || o.BoundMetricId == nil {
+		return nil, false
+	}
+	return o.BoundMetricId, true
+}
+
+// HasBoundMetricId returns a boolean if a field has been set.
+func (o *BoundMetric) HasBoundMetricId() bool {
+	if o != nil && o.BoundMetricId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetBoundMetricId gets a reference to the given BoundMetricId and assigns it to the BoundMetricId field.
+func (o *BoundMetric) SetBoundMetricId(v BoundMetricId) {
+	o.BoundMetricId = &v
 }
 
 // GetName returns the Name field value
@@ -73,38 +98,6 @@ func (o *BoundMetric) GetNameOk() (*string, bool) {
 // SetName sets field value
 func (o *BoundMetric) SetName(v string) {
 	o.Name = v
-}
-
-// GetIdentifier returns the Identifier field value if set, zero value otherwise.
-func (o *BoundMetric) GetIdentifier() string {
-	if o == nil || o.Identifier == nil {
-		var ret string
-		return ret
-	}
-	return *o.Identifier
-}
-
-// GetIdentifierOk returns a tuple with the Identifier field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BoundMetric) GetIdentifierOk() (*string, bool) {
-	if o == nil || o.Identifier == nil {
-		return nil, false
-	}
-	return o.Identifier, true
-}
-
-// HasIdentifier returns a boolean if a field has been set.
-func (o *BoundMetric) HasIdentifier() bool {
-	if o != nil && o.Identifier != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetIdentifier gets a reference to the given string and assigns it to the Identifier field.
-func (o *BoundMetric) SetIdentifier(v string) {
-	o.Identifier = &v
 }
 
 // GetBoundQueries returns the BoundQueries field value
@@ -163,180 +156,36 @@ func (o *BoundMetric) SetDescription(v string) {
 	o.Description = &v
 }
 
-// GetUnit returns the Unit field value if set, zero value otherwise.
-func (o *BoundMetric) GetUnit() string {
-	if o == nil || o.Unit == nil {
-		var ret string
+// GetChart returns the Chart field value if set, zero value otherwise.
+func (o *BoundMetric) GetChart() Chart {
+	if o == nil || o.Chart == nil {
+		var ret Chart
 		return ret
 	}
-	return *o.Unit
+	return *o.Chart
 }
 
-// GetUnitOk returns a tuple with the Unit field value if set, nil otherwise
+// GetChartOk returns a tuple with the Chart field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *BoundMetric) GetUnitOk() (*string, bool) {
-	if o == nil || o.Unit == nil {
+func (o *BoundMetric) GetChartOk() (*Chart, bool) {
+	if o == nil || o.Chart == nil {
 		return nil, false
 	}
-	return o.Unit, true
+	return o.Chart, true
 }
 
-// HasUnit returns a boolean if a field has been set.
-func (o *BoundMetric) HasUnit() bool {
-	if o != nil && o.Unit != nil {
+// HasChart returns a boolean if a field has been set.
+func (o *BoundMetric) HasChart() bool {
+	if o != nil && o.Chart != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetUnit gets a reference to the given string and assigns it to the Unit field.
-func (o *BoundMetric) SetUnit(v string) {
-	o.Unit = &v
-}
-
-// GetChartType returns the ChartType field value
-func (o *BoundMetric) GetChartType() ChartType {
-	if o == nil {
-		var ret ChartType
-		return ret
-	}
-
-	return o.ChartType
-}
-
-// GetChartTypeOk returns a tuple with the ChartType field value
-// and a boolean to check if the value has been set.
-func (o *BoundMetric) GetChartTypeOk() (*ChartType, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.ChartType, true
-}
-
-// SetChartType sets field value
-func (o *BoundMetric) SetChartType(v ChartType) {
-	o.ChartType = v
-}
-
-// GetAlias returns the Alias field value if set, zero value otherwise.
-func (o *BoundMetric) GetAlias() string {
-	if o == nil || o.Alias == nil {
-		var ret string
-		return ret
-	}
-	return *o.Alias
-}
-
-// GetAliasOk returns a tuple with the Alias field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BoundMetric) GetAliasOk() (*string, bool) {
-	if o == nil || o.Alias == nil {
-		return nil, false
-	}
-	return o.Alias, true
-}
-
-// HasAlias returns a boolean if a field has been set.
-func (o *BoundMetric) HasAlias() bool {
-	if o != nil && o.Alias != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetAlias gets a reference to the given string and assigns it to the Alias field.
-func (o *BoundMetric) SetAlias(v string) {
-	o.Alias = &v
-}
-
-// GetValuation returns the Valuation field value if set, zero value otherwise.
-func (o *BoundMetric) GetValuation() MetricValuation {
-	if o == nil || o.Valuation == nil {
-		var ret MetricValuation
-		return ret
-	}
-	return *o.Valuation
-}
-
-// GetValuationOk returns a tuple with the Valuation field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BoundMetric) GetValuationOk() (*MetricValuation, bool) {
-	if o == nil || o.Valuation == nil {
-		return nil, false
-	}
-	return o.Valuation, true
-}
-
-// HasValuation returns a boolean if a field has been set.
-func (o *BoundMetric) HasValuation() bool {
-	if o != nil && o.Valuation != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetValuation gets a reference to the given MetricValuation and assigns it to the Valuation field.
-func (o *BoundMetric) SetValuation(v MetricValuation) {
-	o.Valuation = &v
-}
-
-// GetTags returns the Tags field value
-func (o *BoundMetric) GetTags() map[string]string {
-	if o == nil {
-		var ret map[string]string
-		return ret
-	}
-
-	return o.Tags
-}
-
-// GetTagsOk returns a tuple with the Tags field value
-// and a boolean to check if the value has been set.
-func (o *BoundMetric) GetTagsOk() (*map[string]string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Tags, true
-}
-
-// SetTags sets field value
-func (o *BoundMetric) SetTags(v map[string]string) {
-	o.Tags = v
-}
-
-// GetLayout returns the Layout field value if set, zero value otherwise.
-func (o *BoundMetric) GetLayout() MetricBindingLayout {
-	if o == nil || o.Layout == nil {
-		var ret MetricBindingLayout
-		return ret
-	}
-	return *o.Layout
-}
-
-// GetLayoutOk returns a tuple with the Layout field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *BoundMetric) GetLayoutOk() (*MetricBindingLayout, bool) {
-	if o == nil || o.Layout == nil {
-		return nil, false
-	}
-	return o.Layout, true
-}
-
-// HasLayout returns a boolean if a field has been set.
-func (o *BoundMetric) HasLayout() bool {
-	if o != nil && o.Layout != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetLayout gets a reference to the given MetricBindingLayout and assigns it to the Layout field.
-func (o *BoundMetric) SetLayout(v MetricBindingLayout) {
-	o.Layout = &v
+// SetChart gets a reference to the given Chart and assigns it to the Chart field.
+func (o *BoundMetric) SetChart(v Chart) {
+	o.Chart = &v
 }
 
 // GetDummy returns the Dummy field value if set, zero value otherwise.
@@ -373,11 +222,11 @@ func (o *BoundMetric) SetDummy(v bool) {
 
 func (o BoundMetric) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
+	if o.BoundMetricId != nil {
+		toSerialize["boundMetricId"] = o.BoundMetricId
+	}
 	if true {
 		toSerialize["name"] = o.Name
-	}
-	if o.Identifier != nil {
-		toSerialize["identifier"] = o.Identifier
 	}
 	if true {
 		toSerialize["boundQueries"] = o.BoundQueries
@@ -385,23 +234,8 @@ func (o BoundMetric) MarshalJSON() ([]byte, error) {
 	if o.Description != nil {
 		toSerialize["description"] = o.Description
 	}
-	if o.Unit != nil {
-		toSerialize["unit"] = o.Unit
-	}
-	if true {
-		toSerialize["chartType"] = o.ChartType
-	}
-	if o.Alias != nil {
-		toSerialize["alias"] = o.Alias
-	}
-	if o.Valuation != nil {
-		toSerialize["valuation"] = o.Valuation
-	}
-	if true {
-		toSerialize["tags"] = o.Tags
-	}
-	if o.Layout != nil {
-		toSerialize["layout"] = o.Layout
+	if o.Chart != nil {
+		toSerialize["chart"] = o.Chart
 	}
 	if o.Dummy != nil {
 		toSerialize["dummy"] = o.Dummy

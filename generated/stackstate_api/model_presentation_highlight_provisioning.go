@@ -15,12 +15,12 @@ import (
 	"encoding/json"
 )
 
-// PresentationHighlightProvisioning Provisioning section of a component in the highlight presentation. The `externalComponentSelector` field is used to identify the external component with provisioning details for this component.
+// PresentationHighlightProvisioning Provisioning section of a component in the highlight presentation. The `topologySourceSelector` field is used to identify the external component with provisioning details for this component.
 type PresentationHighlightProvisioning struct {
 	// Cel expression that selects the external component with provisioning details
-	ExternalComponentSelector *string `json:"externalComponentSelector,omitempty" yaml:"externalComponentSelector,omitempty"`
-	ShowConfiguration         *bool   `json:"showConfiguration,omitempty" yaml:"showConfiguration,omitempty"`
-	ShowStatus                *bool   `json:"showStatus,omitempty" yaml:"showStatus,omitempty"`
+	TopologySourceSelector *string `json:"topologySourceSelector,omitempty" yaml:"topologySourceSelector,omitempty"`
+	ShowConfiguration      *bool   `json:"showConfiguration,omitempty" yaml:"showConfiguration,omitempty"`
+	ShowStatus             *bool   `json:"showStatus,omitempty" yaml:"showStatus,omitempty"`
 }
 
 // NewPresentationHighlightProvisioning instantiates a new PresentationHighlightProvisioning object
@@ -40,36 +40,36 @@ func NewPresentationHighlightProvisioningWithDefaults() *PresentationHighlightPr
 	return &this
 }
 
-// GetExternalComponentSelector returns the ExternalComponentSelector field value if set, zero value otherwise.
-func (o *PresentationHighlightProvisioning) GetExternalComponentSelector() string {
-	if o == nil || o.ExternalComponentSelector == nil {
+// GetTopologySourceSelector returns the TopologySourceSelector field value if set, zero value otherwise.
+func (o *PresentationHighlightProvisioning) GetTopologySourceSelector() string {
+	if o == nil || o.TopologySourceSelector == nil {
 		var ret string
 		return ret
 	}
-	return *o.ExternalComponentSelector
+	return *o.TopologySourceSelector
 }
 
-// GetExternalComponentSelectorOk returns a tuple with the ExternalComponentSelector field value if set, nil otherwise
+// GetTopologySourceSelectorOk returns a tuple with the TopologySourceSelector field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *PresentationHighlightProvisioning) GetExternalComponentSelectorOk() (*string, bool) {
-	if o == nil || o.ExternalComponentSelector == nil {
+func (o *PresentationHighlightProvisioning) GetTopologySourceSelectorOk() (*string, bool) {
+	if o == nil || o.TopologySourceSelector == nil {
 		return nil, false
 	}
-	return o.ExternalComponentSelector, true
+	return o.TopologySourceSelector, true
 }
 
-// HasExternalComponentSelector returns a boolean if a field has been set.
-func (o *PresentationHighlightProvisioning) HasExternalComponentSelector() bool {
-	if o != nil && o.ExternalComponentSelector != nil {
+// HasTopologySourceSelector returns a boolean if a field has been set.
+func (o *PresentationHighlightProvisioning) HasTopologySourceSelector() bool {
+	if o != nil && o.TopologySourceSelector != nil {
 		return true
 	}
 
 	return false
 }
 
-// SetExternalComponentSelector gets a reference to the given string and assigns it to the ExternalComponentSelector field.
-func (o *PresentationHighlightProvisioning) SetExternalComponentSelector(v string) {
-	o.ExternalComponentSelector = &v
+// SetTopologySourceSelector gets a reference to the given string and assigns it to the TopologySourceSelector field.
+func (o *PresentationHighlightProvisioning) SetTopologySourceSelector(v string) {
+	o.TopologySourceSelector = &v
 }
 
 // GetShowConfiguration returns the ShowConfiguration field value if set, zero value otherwise.
@@ -138,8 +138,8 @@ func (o *PresentationHighlightProvisioning) SetShowStatus(v bool) {
 
 func (o PresentationHighlightProvisioning) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
-	if o.ExternalComponentSelector != nil {
-		toSerialize["externalComponentSelector"] = o.ExternalComponentSelector
+	if o.TopologySourceSelector != nil {
+		toSerialize["topologySourceSelector"] = o.TopologySourceSelector
 	}
 	if o.ShowConfiguration != nil {
 		toSerialize["showConfiguration"] = o.ShowConfiguration

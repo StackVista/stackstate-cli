@@ -4,7 +4,7 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**ExternalComponentSelector** | Pointer to **string** | Cel expression that selects the external component with provisioning details | [optional] 
+**TopologySourceSelector** | Pointer to **string** | Cel expression that selects the external component with provisioning details | [optional] 
 **ShowConfiguration** | Pointer to **bool** |  | [optional] 
 **ShowStatus** | Pointer to **bool** |  | [optional] 
 
@@ -27,30 +27,30 @@ NewPresentationHighlightProvisioningWithDefaults instantiates a new Presentation
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
-### GetExternalComponentSelector
+### GetTopologySourceSelector
 
-`func (o *PresentationHighlightProvisioning) GetExternalComponentSelector() string`
+`func (o *PresentationHighlightProvisioning) GetTopologySourceSelector() string`
 
-GetExternalComponentSelector returns the ExternalComponentSelector field if non-nil, zero value otherwise.
+GetTopologySourceSelector returns the TopologySourceSelector field if non-nil, zero value otherwise.
 
-### GetExternalComponentSelectorOk
+### GetTopologySourceSelectorOk
 
-`func (o *PresentationHighlightProvisioning) GetExternalComponentSelectorOk() (*string, bool)`
+`func (o *PresentationHighlightProvisioning) GetTopologySourceSelectorOk() (*string, bool)`
 
-GetExternalComponentSelectorOk returns a tuple with the ExternalComponentSelector field if it's non-nil, zero value otherwise
+GetTopologySourceSelectorOk returns a tuple with the TopologySourceSelector field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetExternalComponentSelector
+### SetTopologySourceSelector
 
-`func (o *PresentationHighlightProvisioning) SetExternalComponentSelector(v string)`
+`func (o *PresentationHighlightProvisioning) SetTopologySourceSelector(v string)`
 
-SetExternalComponentSelector sets ExternalComponentSelector field to given value.
+SetTopologySourceSelector sets TopologySourceSelector field to given value.
 
-### HasExternalComponentSelector
+### HasTopologySourceSelector
 
-`func (o *PresentationHighlightProvisioning) HasExternalComponentSelector() bool`
+`func (o *PresentationHighlightProvisioning) HasTopologySourceSelector() bool`
 
-HasExternalComponentSelector returns a boolean if a field has been set.
+HasTopologySourceSelector returns a boolean if a field has been set.
 
 ### GetShowConfiguration
 

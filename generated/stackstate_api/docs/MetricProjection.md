@@ -5,10 +5,11 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
-**ShowChart** | Pointer to **bool** |  | [optional] 
-**DecimalPlaces** | Pointer to **int32** |  | [optional] 
-**Unit** | Pointer to **string** |  | [optional] 
 **Query** | **string** | Individual metric query that returns a timeseries for a specific cell. | 
+**Unit** | Pointer to **string** |  | [optional] 
+**DecimalPlaces** | Pointer to **int32** |  | [optional] 
+**Sparkline** | Pointer to **bool** |  | [optional] 
+**MetricId** | Pointer to **string** |  | [optional] 
 
 ## Methods
 
@@ -49,55 +50,25 @@ and a boolean to check if the value has been set.
 SetType sets Type field to given value.
 
 
-### GetShowChart
+### GetQuery
 
-`func (o *MetricProjection) GetShowChart() bool`
+`func (o *MetricProjection) GetQuery() string`
 
-GetShowChart returns the ShowChart field if non-nil, zero value otherwise.
+GetQuery returns the Query field if non-nil, zero value otherwise.
 
-### GetShowChartOk
+### GetQueryOk
 
-`func (o *MetricProjection) GetShowChartOk() (*bool, bool)`
+`func (o *MetricProjection) GetQueryOk() (*string, bool)`
 
-GetShowChartOk returns a tuple with the ShowChart field if it's non-nil, zero value otherwise
+GetQueryOk returns a tuple with the Query field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetShowChart
+### SetQuery
 
-`func (o *MetricProjection) SetShowChart(v bool)`
+`func (o *MetricProjection) SetQuery(v string)`
 
-SetShowChart sets ShowChart field to given value.
+SetQuery sets Query field to given value.
 
-### HasShowChart
-
-`func (o *MetricProjection) HasShowChart() bool`
-
-HasShowChart returns a boolean if a field has been set.
-
-### GetDecimalPlaces
-
-`func (o *MetricProjection) GetDecimalPlaces() int32`
-
-GetDecimalPlaces returns the DecimalPlaces field if non-nil, zero value otherwise.
-
-### GetDecimalPlacesOk
-
-`func (o *MetricProjection) GetDecimalPlacesOk() (*int32, bool)`
-
-GetDecimalPlacesOk returns a tuple with the DecimalPlaces field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDecimalPlaces
-
-`func (o *MetricProjection) SetDecimalPlaces(v int32)`
-
-SetDecimalPlaces sets DecimalPlaces field to given value.
-
-### HasDecimalPlaces
-
-`func (o *MetricProjection) HasDecimalPlaces() bool`
-
-HasDecimalPlaces returns a boolean if a field has been set.
 
 ### GetUnit
 
@@ -124,25 +95,80 @@ SetUnit sets Unit field to given value.
 
 HasUnit returns a boolean if a field has been set.
 
-### GetQuery
+### GetDecimalPlaces
 
-`func (o *MetricProjection) GetQuery() string`
+`func (o *MetricProjection) GetDecimalPlaces() int32`
 
-GetQuery returns the Query field if non-nil, zero value otherwise.
+GetDecimalPlaces returns the DecimalPlaces field if non-nil, zero value otherwise.
 
-### GetQueryOk
+### GetDecimalPlacesOk
 
-`func (o *MetricProjection) GetQueryOk() (*string, bool)`
+`func (o *MetricProjection) GetDecimalPlacesOk() (*int32, bool)`
 
-GetQueryOk returns a tuple with the Query field if it's non-nil, zero value otherwise
+GetDecimalPlacesOk returns a tuple with the DecimalPlaces field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
-### SetQuery
+### SetDecimalPlaces
 
-`func (o *MetricProjection) SetQuery(v string)`
+`func (o *MetricProjection) SetDecimalPlaces(v int32)`
 
-SetQuery sets Query field to given value.
+SetDecimalPlaces sets DecimalPlaces field to given value.
 
+### HasDecimalPlaces
+
+`func (o *MetricProjection) HasDecimalPlaces() bool`
+
+HasDecimalPlaces returns a boolean if a field has been set.
+
+### GetSparkline
+
+`func (o *MetricProjection) GetSparkline() bool`
+
+GetSparkline returns the Sparkline field if non-nil, zero value otherwise.
+
+### GetSparklineOk
+
+`func (o *MetricProjection) GetSparklineOk() (*bool, bool)`
+
+GetSparklineOk returns a tuple with the Sparkline field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetSparkline
+
+`func (o *MetricProjection) SetSparkline(v bool)`
+
+SetSparkline sets Sparkline field to given value.
+
+### HasSparkline
+
+`func (o *MetricProjection) HasSparkline() bool`
+
+HasSparkline returns a boolean if a field has been set.
+
+### GetMetricId
+
+`func (o *MetricProjection) GetMetricId() string`
+
+GetMetricId returns the MetricId field if non-nil, zero value otherwise.
+
+### GetMetricIdOk
+
+`func (o *MetricProjection) GetMetricIdOk() (*string, bool)`
+
+GetMetricIdOk returns a tuple with the MetricId field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetMetricId
+
+`func (o *MetricProjection) SetMetricId(v string)`
+
+SetMetricId sets MetricId field to given value.
+
+### HasMetricId
+
+`func (o *MetricProjection) HasMetricId() bool`
+
+HasMetricId returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

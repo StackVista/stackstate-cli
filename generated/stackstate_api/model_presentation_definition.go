@@ -15,12 +15,15 @@ import (
 	"encoding/json"
 )
 
-// PresentationDefinition Component presentation definition. If multiple ComponentPresentations match, `filters` are merged by filter identity with the most specific presentation winning. Absence of the field keeps legacy behavior (for example, ViewType-based filters) unchanged.
+// PresentationDefinition Component presentation definition. If multiple ComponentPresentations match, `filters` are merged by filter identity with the most specific presentation winning. Scalar fields like `icon` and `topology` follow most-specific-wins semantics across matching presentations. Absence of `topology` means the Topology perspective is not available for this presentation. Absence of the field keeps legacy behavior (for example, ViewType-based filters) unchanged.
 type PresentationDefinition struct {
-	Icon      *string                       `json:"icon,omitempty" yaml:"icon,omitempty"`
-	Overview  *PresentationOverview         `json:"overview,omitempty" yaml:"overview,omitempty"`
-	Highlight *PresentationHighlight        `json:"highlight,omitempty" yaml:"highlight,omitempty"`
-	Filters   []ComponentPresentationFilter `json:"filters,omitempty" yaml:"filters,omitempty"`
+	Icon              *string                        `json:"icon,omitempty" yaml:"icon,omitempty"`
+	Overview          *PresentationOverview          `json:"overview,omitempty" yaml:"overview,omitempty"`
+	Highlight         *PresentationHighlight         `json:"highlight,omitempty" yaml:"highlight,omitempty"`
+	Summary           *PresentationSummary           `json:"summary,omitempty" yaml:"summary,omitempty"`
+	Filters           []ComponentPresentationFilter  `json:"filters,omitempty" yaml:"filters,omitempty"`
+	MetricPerspective *PresentationMetricPerspective `json:"metricPerspective,omitempty" yaml:"metricPerspective,omitempty"`
+	Topology          *TopologySettings              `json:"topology,omitempty" yaml:"topology,omitempty"`
 }
 
 // NewPresentationDefinition instantiates a new PresentationDefinition object
@@ -136,6 +139,38 @@ func (o *PresentationDefinition) SetHighlight(v PresentationHighlight) {
 	o.Highlight = &v
 }
 
+// GetSummary returns the Summary field value if set, zero value otherwise.
+func (o *PresentationDefinition) GetSummary() PresentationSummary {
+	if o == nil || o.Summary == nil {
+		var ret PresentationSummary
+		return ret
+	}
+	return *o.Summary
+}
+
+// GetSummaryOk returns a tuple with the Summary field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationDefinition) GetSummaryOk() (*PresentationSummary, bool) {
+	if o == nil || o.Summary == nil {
+		return nil, false
+	}
+	return o.Summary, true
+}
+
+// HasSummary returns a boolean if a field has been set.
+func (o *PresentationDefinition) HasSummary() bool {
+	if o != nil && o.Summary != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSummary gets a reference to the given PresentationSummary and assigns it to the Summary field.
+func (o *PresentationDefinition) SetSummary(v PresentationSummary) {
+	o.Summary = &v
+}
+
 // GetFilters returns the Filters field value if set, zero value otherwise.
 func (o *PresentationDefinition) GetFilters() []ComponentPresentationFilter {
 	if o == nil || o.Filters == nil {
@@ -168,6 +203,70 @@ func (o *PresentationDefinition) SetFilters(v []ComponentPresentationFilter) {
 	o.Filters = v
 }
 
+// GetMetricPerspective returns the MetricPerspective field value if set, zero value otherwise.
+func (o *PresentationDefinition) GetMetricPerspective() PresentationMetricPerspective {
+	if o == nil || o.MetricPerspective == nil {
+		var ret PresentationMetricPerspective
+		return ret
+	}
+	return *o.MetricPerspective
+}
+
+// GetMetricPerspectiveOk returns a tuple with the MetricPerspective field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationDefinition) GetMetricPerspectiveOk() (*PresentationMetricPerspective, bool) {
+	if o == nil || o.MetricPerspective == nil {
+		return nil, false
+	}
+	return o.MetricPerspective, true
+}
+
+// HasMetricPerspective returns a boolean if a field has been set.
+func (o *PresentationDefinition) HasMetricPerspective() bool {
+	if o != nil && o.MetricPerspective != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMetricPerspective gets a reference to the given PresentationMetricPerspective and assigns it to the MetricPerspective field.
+func (o *PresentationDefinition) SetMetricPerspective(v PresentationMetricPerspective) {
+	o.MetricPerspective = &v
+}
+
+// GetTopology returns the Topology field value if set, zero value otherwise.
+func (o *PresentationDefinition) GetTopology() TopologySettings {
+	if o == nil || o.Topology == nil {
+		var ret TopologySettings
+		return ret
+	}
+	return *o.Topology
+}
+
+// GetTopologyOk returns a tuple with the Topology field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationDefinition) GetTopologyOk() (*TopologySettings, bool) {
+	if o == nil || o.Topology == nil {
+		return nil, false
+	}
+	return o.Topology, true
+}
+
+// HasTopology returns a boolean if a field has been set.
+func (o *PresentationDefinition) HasTopology() bool {
+	if o != nil && o.Topology != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetTopology gets a reference to the given TopologySettings and assigns it to the Topology field.
+func (o *PresentationDefinition) SetTopology(v TopologySettings) {
+	o.Topology = &v
+}
+
 func (o PresentationDefinition) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Icon != nil {
@@ -179,8 +278,17 @@ func (o PresentationDefinition) MarshalJSON() ([]byte, error) {
 	if o.Highlight != nil {
 		toSerialize["highlight"] = o.Highlight
 	}
+	if o.Summary != nil {
+		toSerialize["summary"] = o.Summary
+	}
 	if o.Filters != nil {
 		toSerialize["filters"] = o.Filters
+	}
+	if o.MetricPerspective != nil {
+		toSerialize["metricPerspective"] = o.MetricPerspective
+	}
+	if o.Topology != nil {
+		toSerialize["topology"] = o.Topology
 	}
 	return json.Marshal(toSerialize)
 }

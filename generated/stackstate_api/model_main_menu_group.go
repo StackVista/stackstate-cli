@@ -21,7 +21,7 @@ type MainMenuGroup struct {
 	Identifier  *string            `json:"identifier,omitempty" yaml:"identifier,omitempty"`
 	Description *string            `json:"description,omitempty" yaml:"description,omitempty"`
 	DefaultOpen bool               `json:"defaultOpen" yaml:"defaultOpen"`
-	Icon        string             `json:"icon" yaml:"icon"`
+	Icon        *string            `json:"icon,omitempty" yaml:"icon,omitempty"`
 	Items       []MainMenuViewItem `json:"items" yaml:"items"`
 }
 
@@ -29,11 +29,10 @@ type MainMenuGroup struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMainMenuGroup(name string, defaultOpen bool, icon string, items []MainMenuViewItem) *MainMenuGroup {
+func NewMainMenuGroup(name string, defaultOpen bool, items []MainMenuViewItem) *MainMenuGroup {
 	this := MainMenuGroup{}
 	this.Name = name
 	this.DefaultOpen = defaultOpen
-	this.Icon = icon
 	this.Items = items
 	return &this
 }
@@ -158,28 +157,36 @@ func (o *MainMenuGroup) SetDefaultOpen(v bool) {
 	o.DefaultOpen = v
 }
 
-// GetIcon returns the Icon field value
+// GetIcon returns the Icon field value if set, zero value otherwise.
 func (o *MainMenuGroup) GetIcon() string {
-	if o == nil {
+	if o == nil || o.Icon == nil {
 		var ret string
 		return ret
 	}
-
-	return o.Icon
+	return *o.Icon
 }
 
-// GetIconOk returns a tuple with the Icon field value
+// GetIconOk returns a tuple with the Icon field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *MainMenuGroup) GetIconOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Icon == nil {
 		return nil, false
 	}
-	return &o.Icon, true
+	return o.Icon, true
 }
 
-// SetIcon sets field value
+// HasIcon returns a boolean if a field has been set.
+func (o *MainMenuGroup) HasIcon() bool {
+	if o != nil && o.Icon != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIcon gets a reference to the given string and assigns it to the Icon field.
 func (o *MainMenuGroup) SetIcon(v string) {
-	o.Icon = v
+	o.Icon = &v
 }
 
 // GetItems returns the Items field value
@@ -220,7 +227,7 @@ func (o MainMenuGroup) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["defaultOpen"] = o.DefaultOpen
 	}
-	if true {
+	if o.Icon != nil {
 		toSerialize["icon"] = o.Icon
 	}
 	if true {

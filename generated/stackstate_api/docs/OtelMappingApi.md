@@ -558,7 +558,7 @@ import (
 )
 
 func main() {
-    upsertOtelComponentMappingsRequest := *openapiclient.NewUpsertOtelComponentMappingsRequest("Identifier_example", "Name_example", *openapiclient.NewOtelInput([]openapiclient.OtelInputSignal{openapiclient.OtelInputSignal("TRACES")}, *openapiclient.NewOtelInputResource()), *openapiclient.NewOtelComponentMappingOutput("Identifier_example", "Name_example", "TypeName_example", "LayerName_example", "DomainName_example"), int64(123)) // UpsertOtelComponentMappingsRequest | Otel Component Mapping to create/update
+    upsertOtelComponentMappingsRequest := *openapiclient.NewUpsertOtelComponentMappingsRequest("Identifier_example", "Name_example", *openapiclient.NewOtelInput([]openapiclient.OtelInputSignal{openapiclient.OtelInputSignal("TRACES")}, *openapiclient.NewOtelInputResource()), *openapiclient.NewOtelComponentMappingOutput("Identifier_example", "Name_example", "TypeName_example"), int64(123)) // UpsertOtelComponentMappingsRequest | Otel Component Mapping to create/update
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -622,7 +622,7 @@ import (
 )
 
 func main() {
-    upsertOtelRelationMappingsRequest := *openapiclient.NewUpsertOtelRelationMappingsRequest("Identifier_example", "Name_example", *openapiclient.NewOtelInput([]openapiclient.OtelInputSignal{openapiclient.OtelInputSignal("TRACES")}, *openapiclient.NewOtelInputResource()), *openapiclient.NewOtelRelationMappingOutput("SourceId_example", "TargetId_example", "TypeName_example"), int64(123)) // UpsertOtelRelationMappingsRequest | Otel Relation Mapping to create/update
+    upsertOtelRelationMappingsRequest := *openapiclient.NewUpsertOtelRelationMappingsRequest("Identifier_example", "Name_example", *openapiclient.NewOtelInput([]openapiclient.OtelInputSignal{openapiclient.OtelInputSignal("TRACES")}, *openapiclient.NewOtelInputResource()), *openapiclient.NewOtelRelationMappingOutput("SourceId_example", "TargetId_example", "DependencyType_example"), int64(123)) // UpsertOtelRelationMappingsRequest | Otel Relation Mapping to create/update
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

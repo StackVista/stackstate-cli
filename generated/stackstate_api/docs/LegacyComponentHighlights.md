@@ -4,15 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**NamePlural** | **string** |  | 
 **ShowLogs** | **bool** |  | 
-**Metrics** | [**[]ComponentHighlightMetrics**](ComponentHighlightMetrics.md) |  | 
 
 ## Methods
 
 ### NewLegacyComponentHighlights
 
-`func NewLegacyComponentHighlights(namePlural string, showLogs bool, metrics []ComponentHighlightMetrics, ) *LegacyComponentHighlights`
+`func NewLegacyComponentHighlights(showLogs bool, ) *LegacyComponentHighlights`
 
 NewLegacyComponentHighlights instantiates a new LegacyComponentHighlights object
 This constructor will assign default values to properties that have it defined,
@@ -26,26 +24,6 @@ will change when the set of required properties is changed
 NewLegacyComponentHighlightsWithDefaults instantiates a new LegacyComponentHighlights object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
-
-### GetNamePlural
-
-`func (o *LegacyComponentHighlights) GetNamePlural() string`
-
-GetNamePlural returns the NamePlural field if non-nil, zero value otherwise.
-
-### GetNamePluralOk
-
-`func (o *LegacyComponentHighlights) GetNamePluralOk() (*string, bool)`
-
-GetNamePluralOk returns a tuple with the NamePlural field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetNamePlural
-
-`func (o *LegacyComponentHighlights) SetNamePlural(v string)`
-
-SetNamePlural sets NamePlural field to given value.
-
 
 ### GetShowLogs
 
@@ -65,26 +43,6 @@ and a boolean to check if the value has been set.
 `func (o *LegacyComponentHighlights) SetShowLogs(v bool)`
 
 SetShowLogs sets ShowLogs field to given value.
-
-
-### GetMetrics
-
-`func (o *LegacyComponentHighlights) GetMetrics() []ComponentHighlightMetrics`
-
-GetMetrics returns the Metrics field if non-nil, zero value otherwise.
-
-### GetMetricsOk
-
-`func (o *LegacyComponentHighlights) GetMetricsOk() (*[]ComponentHighlightMetrics, bool)`
-
-GetMetricsOk returns a tuple with the Metrics field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetMetrics
-
-`func (o *LegacyComponentHighlights) SetMetrics(v []ComponentHighlightMetrics)`
-
-SetMetrics sets Metrics field to given value.
 
 
 

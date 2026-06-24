@@ -17,11 +17,12 @@ import (
 
 // PresentationHighlight Highlight presentation definition. The `fields` define the fields to show in the highlight page. If multiple ComponentPresentations match, fields are merged by `fieldId` according to binding rank. Related resources follow the same merge semantics using `resourceId` as the identity key.
 type PresentationHighlight struct {
-	Title            string                             `json:"title" yaml:"title"`
-	Fields           []PresentationHighlightField       `json:"fields" yaml:"fields"`
-	Provisioning     *PresentationHighlightProvisioning `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
-	RelatedResources []PresentationRelatedResource      `json:"relatedResources,omitempty" yaml:"relatedResources,omitempty"`
-	Events           *PresentationHighlightEvents       `json:"events,omitempty" yaml:"events,omitempty"`
+	Title            string                                `json:"title" yaml:"title"`
+	Fields           []PresentationHighlightField          `json:"fields" yaml:"fields"`
+	Provisioning     *PresentationHighlightProvisioning    `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
+	RelatedResources []PresentationRelatedResource         `json:"relatedResources,omitempty" yaml:"relatedResources,omitempty"`
+	Events           *PresentationHighlightEvents          `json:"events,omitempty" yaml:"events,omitempty"`
+	Metrics          []PresentationHighlightMetricsSection `json:"metrics,omitempty" yaml:"metrics,omitempty"`
 }
 
 // NewPresentationHighlight instantiates a new PresentationHighlight object
@@ -187,6 +188,38 @@ func (o *PresentationHighlight) SetEvents(v PresentationHighlightEvents) {
 	o.Events = &v
 }
 
+// GetMetrics returns the Metrics field value if set, zero value otherwise.
+func (o *PresentationHighlight) GetMetrics() []PresentationHighlightMetricsSection {
+	if o == nil || o.Metrics == nil {
+		var ret []PresentationHighlightMetricsSection
+		return ret
+	}
+	return o.Metrics
+}
+
+// GetMetricsOk returns a tuple with the Metrics field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationHighlight) GetMetricsOk() ([]PresentationHighlightMetricsSection, bool) {
+	if o == nil || o.Metrics == nil {
+		return nil, false
+	}
+	return o.Metrics, true
+}
+
+// HasMetrics returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasMetrics() bool {
+	if o != nil && o.Metrics != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMetrics gets a reference to the given []PresentationHighlightMetricsSection and assigns it to the Metrics field.
+func (o *PresentationHighlight) SetMetrics(v []PresentationHighlightMetricsSection) {
+	o.Metrics = v
+}
+
 func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -203,6 +236,9 @@ func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	}
 	if o.Events != nil {
 		toSerialize["events"] = o.Events
+	}
+	if o.Metrics != nil {
+		toSerialize["metrics"] = o.Metrics
 	}
 	return json.Marshal(toSerialize)
 }

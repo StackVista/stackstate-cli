@@ -17,20 +17,16 @@ import (
 
 // LegacyComponentHighlights struct for LegacyComponentHighlights
 type LegacyComponentHighlights struct {
-	NamePlural string                      `json:"namePlural" yaml:"namePlural"`
-	ShowLogs   bool                        `json:"showLogs" yaml:"showLogs"`
-	Metrics    []ComponentHighlightMetrics `json:"metrics" yaml:"metrics"`
+	ShowLogs bool `json:"showLogs" yaml:"showLogs"`
 }
 
 // NewLegacyComponentHighlights instantiates a new LegacyComponentHighlights object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewLegacyComponentHighlights(namePlural string, showLogs bool, metrics []ComponentHighlightMetrics) *LegacyComponentHighlights {
+func NewLegacyComponentHighlights(showLogs bool) *LegacyComponentHighlights {
 	this := LegacyComponentHighlights{}
-	this.NamePlural = namePlural
 	this.ShowLogs = showLogs
-	this.Metrics = metrics
 	return &this
 }
 
@@ -40,30 +36,6 @@ func NewLegacyComponentHighlights(namePlural string, showLogs bool, metrics []Co
 func NewLegacyComponentHighlightsWithDefaults() *LegacyComponentHighlights {
 	this := LegacyComponentHighlights{}
 	return &this
-}
-
-// GetNamePlural returns the NamePlural field value
-func (o *LegacyComponentHighlights) GetNamePlural() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.NamePlural
-}
-
-// GetNamePluralOk returns a tuple with the NamePlural field value
-// and a boolean to check if the value has been set.
-func (o *LegacyComponentHighlights) GetNamePluralOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.NamePlural, true
-}
-
-// SetNamePlural sets field value
-func (o *LegacyComponentHighlights) SetNamePlural(v string) {
-	o.NamePlural = v
 }
 
 // GetShowLogs returns the ShowLogs field value
@@ -90,40 +62,10 @@ func (o *LegacyComponentHighlights) SetShowLogs(v bool) {
 	o.ShowLogs = v
 }
 
-// GetMetrics returns the Metrics field value
-func (o *LegacyComponentHighlights) GetMetrics() []ComponentHighlightMetrics {
-	if o == nil {
-		var ret []ComponentHighlightMetrics
-		return ret
-	}
-
-	return o.Metrics
-}
-
-// GetMetricsOk returns a tuple with the Metrics field value
-// and a boolean to check if the value has been set.
-func (o *LegacyComponentHighlights) GetMetricsOk() ([]ComponentHighlightMetrics, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return o.Metrics, true
-}
-
-// SetMetrics sets field value
-func (o *LegacyComponentHighlights) SetMetrics(v []ComponentHighlightMetrics) {
-	o.Metrics = v
-}
-
 func (o LegacyComponentHighlights) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
-		toSerialize["namePlural"] = o.NamePlural
-	}
-	if true {
 		toSerialize["showLogs"] = o.ShowLogs
-	}
-	if true {
-		toSerialize["metrics"] = o.Metrics
 	}
 	return json.Marshal(toSerialize)
 }

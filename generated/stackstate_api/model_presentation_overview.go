@@ -17,10 +17,11 @@ import (
 
 // PresentationOverview Overview presentation definition. The `columns` field defines the columns to show in the overview table. The `flags` field can be used to enable/disable functionalities. If multiple ComponentPresentations match, columns are merged by `columnId` according to binding rank. Absence of the field means no overview is shown.
 type PresentationOverview struct {
-	Name         PresentationName           `json:"name" yaml:"name"`
-	MainMenu     *PresentationMainMenu      `json:"mainMenu,omitempty" yaml:"mainMenu,omitempty"`
-	Columns      []OverviewColumnDefinition `json:"columns" yaml:"columns"`
-	FixedColumns *int32                     `json:"fixedColumns,omitempty" yaml:"fixedColumns,omitempty"`
+	Name         PresentationName              `json:"name" yaml:"name"`
+	MainMenu     *PresentationMainMenu         `json:"mainMenu,omitempty" yaml:"mainMenu,omitempty"`
+	Columns      []OverviewColumnDefinition    `json:"columns" yaml:"columns"`
+	FixedColumns *int32                        `json:"fixedColumns,omitempty" yaml:"fixedColumns,omitempty"`
+	Sort         []PresentationOverviewSorting `json:"sort,omitempty" yaml:"sort,omitempty"`
 }
 
 // NewPresentationOverview instantiates a new PresentationOverview object
@@ -154,6 +155,38 @@ func (o *PresentationOverview) SetFixedColumns(v int32) {
 	o.FixedColumns = &v
 }
 
+// GetSort returns the Sort field value if set, zero value otherwise.
+func (o *PresentationOverview) GetSort() []PresentationOverviewSorting {
+	if o == nil || o.Sort == nil {
+		var ret []PresentationOverviewSorting
+		return ret
+	}
+	return o.Sort
+}
+
+// GetSortOk returns a tuple with the Sort field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationOverview) GetSortOk() ([]PresentationOverviewSorting, bool) {
+	if o == nil || o.Sort == nil {
+		return nil, false
+	}
+	return o.Sort, true
+}
+
+// HasSort returns a boolean if a field has been set.
+func (o *PresentationOverview) HasSort() bool {
+	if o != nil && o.Sort != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSort gets a reference to the given []PresentationOverviewSorting and assigns it to the Sort field.
+func (o *PresentationOverview) SetSort(v []PresentationOverviewSorting) {
+	o.Sort = v
+}
+
 func (o PresentationOverview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -167,6 +200,9 @@ func (o PresentationOverview) MarshalJSON() ([]byte, error) {
 	}
 	if o.FixedColumns != nil {
 		toSerialize["fixedColumns"] = o.FixedColumns
+	}
+	if o.Sort != nil {
+		toSerialize["sort"] = o.Sort
 	}
 	return json.Marshal(toSerialize)
 }

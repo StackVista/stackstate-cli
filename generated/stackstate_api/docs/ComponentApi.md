@@ -4,12 +4,86 @@ All URIs are relative to *http://localhost*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**GetComponentBoundMetric**](ComponentApi.md#GetComponentBoundMetric) | **Post** /components/{componentIdOrIdentifier}/bindmetric | Get a bound metric for a component
 [**GetComponentCheckStates**](ComponentApi.md#GetComponentCheckStates) | **Get** /components/{componentIdOrIdentifier}/checkStates | Get a component checkstates
 [**GetComponentHealthHistory**](ComponentApi.md#GetComponentHealthHistory) | **Get** /components/{componentIdOrIdentifier}/healthHistory | Get a component health history
-[**GetComponentMetricBinding**](ComponentApi.md#GetComponentMetricBinding) | **Get** /components/{componentIdOrIdentifier}/bindmetric | Get a bound metric binding to a component
-[**GetComponentMetricsWithData**](ComponentApi.md#GetComponentMetricsWithData) | **Get** /components/{componentIdOrIdentifier}/boundMetricsWithData | Bound metric bindings that have data for a component
 [**GetFullComponent**](ComponentApi.md#GetFullComponent) | **Get** /components/{componentIdOrIdentifier} | Get full component
+[**GetMetricPerspectiveData**](ComponentApi.md#GetMetricPerspectiveData) | **Get** /components/{componentIdOrIdentifier}/metricPerspectiveData | Bound metric bindings that have data for a component
 
+
+
+## GetComponentBoundMetric
+
+> BoundMetric GetComponentBoundMetric(ctx, componentIdOrIdentifier).BoundMetricId(boundMetricId).TopologyTime(topologyTime).Execute()
+
+Get a bound metric for a component
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    componentIdOrIdentifier := "componentIdOrIdentifier_example" // string | The id or identifier (urn) of a component
+    boundMetricId := openapiclient.BoundMetricId{BoundMetricBindingId: openapiclient.NewBoundMetricBindingId("Type_example", "Identifier_example")} // BoundMetricId | 
+    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ComponentApi.GetComponentBoundMetric(context.Background(), componentIdOrIdentifier).BoundMetricId(boundMetricId).TopologyTime(topologyTime).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ComponentApi.GetComponentBoundMetric``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetComponentBoundMetric`: BoundMetric
+    fmt.Fprintf(os.Stdout, "Response from `ComponentApi.GetComponentBoundMetric`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**componentIdOrIdentifier** | **string** | The id or identifier (urn) of a component | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetComponentBoundMetricRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **boundMetricId** | [**BoundMetricId**](BoundMetricId.md) |  | 
+ **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried at current time. | 
+
+### Return type
+
+[**BoundMetric**](BoundMetric.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## GetComponentCheckStates
@@ -160,156 +234,6 @@ Name | Type | Description  | Notes
 [[Back to README]](../README.md)
 
 
-## GetComponentMetricBinding
-
-> BoundMetric GetComponentMetricBinding(ctx, componentIdOrIdentifier).MetricBindingIdentifier(metricBindingIdentifier).TopologyTime(topologyTime).Execute()
-
-Get a bound metric binding to a component
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    componentIdOrIdentifier := "componentIdOrIdentifier_example" // string | The id or identifier (urn) of a component
-    metricBindingIdentifier := "metricBindingIdentifier_example" // string | The identifier (urn) of a metric binding
-    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ComponentApi.GetComponentMetricBinding(context.Background(), componentIdOrIdentifier).MetricBindingIdentifier(metricBindingIdentifier).TopologyTime(topologyTime).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ComponentApi.GetComponentMetricBinding``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetComponentMetricBinding`: BoundMetric
-    fmt.Fprintf(os.Stdout, "Response from `ComponentApi.GetComponentMetricBinding`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**componentIdOrIdentifier** | **string** | The id or identifier (urn) of a component | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetComponentMetricBindingRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **metricBindingIdentifier** | **string** | The identifier (urn) of a metric binding | 
- **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried at current time. | 
-
-### Return type
-
-[**BoundMetric**](BoundMetric.md)
-
-### Authorization
-
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
-## GetComponentMetricsWithData
-
-> BoundMetrics GetComponentMetricsWithData(ctx, componentIdOrIdentifier).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
-
-Bound metric bindings that have data for a component
-
-
-
-### Example
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "os"
-    openapiclient "./openapi"
-)
-
-func main() {
-    componentIdOrIdentifier := "componentIdOrIdentifier_example" // string | The id or identifier (urn) of a component
-    startTime := int32(56) // int32 | The start time of a time range to query resources.
-    endTime := int32(56) // int32 | The end time of a time range to query resources.
-    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
-
-    configuration := openapiclient.NewConfiguration()
-    apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.ComponentApi.GetComponentMetricsWithData(context.Background(), componentIdOrIdentifier).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
-    if err != nil {
-        fmt.Fprintf(os.Stderr, "Error when calling `ComponentApi.GetComponentMetricsWithData``: %v\n", err)
-        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
-    }
-    // response from `GetComponentMetricsWithData`: BoundMetrics
-    fmt.Fprintf(os.Stdout, "Response from `ComponentApi.GetComponentMetricsWithData`: %v\n", resp)
-}
-```
-
-### Path Parameters
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
-**componentIdOrIdentifier** | **string** | The id or identifier (urn) of a component | 
-
-### Other Parameters
-
-Other parameters are passed through a pointer to a apiGetComponentMetricsWithDataRequest struct via the builder pattern
-
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **startTime** | **int32** | The start time of a time range to query resources. | 
- **endTime** | **int32** | The end time of a time range to query resources. | 
- **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried at current time. | 
-
-### Return type
-
-[**BoundMetrics**](BoundMetrics.md)
-
-### Authorization
-
-[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
-
-### HTTP request headers
-
-- **Content-Type**: Not defined
-- **Accept**: application/json
-
-[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
-[[Back to Model list]](../README.md#documentation-for-models)
-[[Back to README]](../README.md)
-
-
 ## GetFullComponent
 
 > FullComponent GetFullComponent(ctx, componentIdOrIdentifier).TopologyTime(topologyTime).Execute()
@@ -367,6 +291,82 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**FullComponent**](FullComponent.md)
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## GetMetricPerspectiveData
+
+> MetricPerspectiveData GetMetricPerspectiveData(ctx, componentIdOrIdentifier).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
+
+Bound metric bindings that have data for a component
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    componentIdOrIdentifier := "componentIdOrIdentifier_example" // string | The id or identifier (urn) of a component
+    startTime := int32(56) // int32 | The start time of a time range to query resources.
+    endTime := int32(56) // int32 | The end time of a time range to query resources.
+    topologyTime := int32(56) // int32 | A timestamp at which resources will be queried. If not given the resources are queried at current time. (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.ComponentApi.GetMetricPerspectiveData(context.Background(), componentIdOrIdentifier).StartTime(startTime).EndTime(endTime).TopologyTime(topologyTime).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `ComponentApi.GetMetricPerspectiveData``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `GetMetricPerspectiveData`: MetricPerspectiveData
+    fmt.Fprintf(os.Stdout, "Response from `ComponentApi.GetMetricPerspectiveData`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**componentIdOrIdentifier** | **string** | The id or identifier (urn) of a component | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiGetMetricPerspectiveDataRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **startTime** | **int32** | The start time of a time range to query resources. | 
+ **endTime** | **int32** | The end time of a time range to query resources. | 
+ **topologyTime** | **int32** | A timestamp at which resources will be queried. If not given the resources are queried at current time. | 
+
+### Return type
+
+[**MetricPerspectiveData**](MetricPerspectiveData.md)
 
 ### Authorization
 

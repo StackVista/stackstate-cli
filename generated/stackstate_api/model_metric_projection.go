@@ -17,12 +17,13 @@ import (
 
 // MetricProjection struct for MetricProjection
 type MetricProjection struct {
-	Type          string  `json:"_type" yaml:"_type"`
-	ShowChart     *bool   `json:"showChart,omitempty" yaml:"showChart,omitempty"`
-	DecimalPlaces *int32  `json:"decimalPlaces,omitempty" yaml:"decimalPlaces,omitempty"`
-	Unit          *string `json:"unit,omitempty" yaml:"unit,omitempty"`
+	Type string `json:"_type" yaml:"_type"`
 	// Individual metric query that returns a timeseries for a specific cell.
-	Query string `json:"query" yaml:"query"`
+	Query         string  `json:"query" yaml:"query"`
+	Unit          *string `json:"unit,omitempty" yaml:"unit,omitempty"`
+	DecimalPlaces *int32  `json:"decimalPlaces,omitempty" yaml:"decimalPlaces,omitempty"`
+	Sparkline     *bool   `json:"sparkline,omitempty" yaml:"sparkline,omitempty"`
+	MetricId      *string `json:"metricId,omitempty" yaml:"metricId,omitempty"`
 }
 
 // NewMetricProjection instantiates a new MetricProjection object
@@ -68,68 +69,28 @@ func (o *MetricProjection) SetType(v string) {
 	o.Type = v
 }
 
-// GetShowChart returns the ShowChart field value if set, zero value otherwise.
-func (o *MetricProjection) GetShowChart() bool {
-	if o == nil || o.ShowChart == nil {
-		var ret bool
+// GetQuery returns the Query field value
+func (o *MetricProjection) GetQuery() string {
+	if o == nil {
+		var ret string
 		return ret
 	}
-	return *o.ShowChart
+
+	return o.Query
 }
 
-// GetShowChartOk returns a tuple with the ShowChart field value if set, nil otherwise
+// GetQueryOk returns a tuple with the Query field value
 // and a boolean to check if the value has been set.
-func (o *MetricProjection) GetShowChartOk() (*bool, bool) {
-	if o == nil || o.ShowChart == nil {
+func (o *MetricProjection) GetQueryOk() (*string, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return o.ShowChart, true
+	return &o.Query, true
 }
 
-// HasShowChart returns a boolean if a field has been set.
-func (o *MetricProjection) HasShowChart() bool {
-	if o != nil && o.ShowChart != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetShowChart gets a reference to the given bool and assigns it to the ShowChart field.
-func (o *MetricProjection) SetShowChart(v bool) {
-	o.ShowChart = &v
-}
-
-// GetDecimalPlaces returns the DecimalPlaces field value if set, zero value otherwise.
-func (o *MetricProjection) GetDecimalPlaces() int32 {
-	if o == nil || o.DecimalPlaces == nil {
-		var ret int32
-		return ret
-	}
-	return *o.DecimalPlaces
-}
-
-// GetDecimalPlacesOk returns a tuple with the DecimalPlaces field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *MetricProjection) GetDecimalPlacesOk() (*int32, bool) {
-	if o == nil || o.DecimalPlaces == nil {
-		return nil, false
-	}
-	return o.DecimalPlaces, true
-}
-
-// HasDecimalPlaces returns a boolean if a field has been set.
-func (o *MetricProjection) HasDecimalPlaces() bool {
-	if o != nil && o.DecimalPlaces != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDecimalPlaces gets a reference to the given int32 and assigns it to the DecimalPlaces field.
-func (o *MetricProjection) SetDecimalPlaces(v int32) {
-	o.DecimalPlaces = &v
+// SetQuery sets field value
+func (o *MetricProjection) SetQuery(v string) {
+	o.Query = v
 }
 
 // GetUnit returns the Unit field value if set, zero value otherwise.
@@ -164,28 +125,100 @@ func (o *MetricProjection) SetUnit(v string) {
 	o.Unit = &v
 }
 
-// GetQuery returns the Query field value
-func (o *MetricProjection) GetQuery() string {
-	if o == nil {
+// GetDecimalPlaces returns the DecimalPlaces field value if set, zero value otherwise.
+func (o *MetricProjection) GetDecimalPlaces() int32 {
+	if o == nil || o.DecimalPlaces == nil {
+		var ret int32
+		return ret
+	}
+	return *o.DecimalPlaces
+}
+
+// GetDecimalPlacesOk returns a tuple with the DecimalPlaces field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MetricProjection) GetDecimalPlacesOk() (*int32, bool) {
+	if o == nil || o.DecimalPlaces == nil {
+		return nil, false
+	}
+	return o.DecimalPlaces, true
+}
+
+// HasDecimalPlaces returns a boolean if a field has been set.
+func (o *MetricProjection) HasDecimalPlaces() bool {
+	if o != nil && o.DecimalPlaces != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetDecimalPlaces gets a reference to the given int32 and assigns it to the DecimalPlaces field.
+func (o *MetricProjection) SetDecimalPlaces(v int32) {
+	o.DecimalPlaces = &v
+}
+
+// GetSparkline returns the Sparkline field value if set, zero value otherwise.
+func (o *MetricProjection) GetSparkline() bool {
+	if o == nil || o.Sparkline == nil {
+		var ret bool
+		return ret
+	}
+	return *o.Sparkline
+}
+
+// GetSparklineOk returns a tuple with the Sparkline field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MetricProjection) GetSparklineOk() (*bool, bool) {
+	if o == nil || o.Sparkline == nil {
+		return nil, false
+	}
+	return o.Sparkline, true
+}
+
+// HasSparkline returns a boolean if a field has been set.
+func (o *MetricProjection) HasSparkline() bool {
+	if o != nil && o.Sparkline != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetSparkline gets a reference to the given bool and assigns it to the Sparkline field.
+func (o *MetricProjection) SetSparkline(v bool) {
+	o.Sparkline = &v
+}
+
+// GetMetricId returns the MetricId field value if set, zero value otherwise.
+func (o *MetricProjection) GetMetricId() string {
+	if o == nil || o.MetricId == nil {
 		var ret string
 		return ret
 	}
-
-	return o.Query
+	return *o.MetricId
 }
 
-// GetQueryOk returns a tuple with the Query field value
+// GetMetricIdOk returns a tuple with the MetricId field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MetricProjection) GetQueryOk() (*string, bool) {
-	if o == nil {
+func (o *MetricProjection) GetMetricIdOk() (*string, bool) {
+	if o == nil || o.MetricId == nil {
 		return nil, false
 	}
-	return &o.Query, true
+	return o.MetricId, true
 }
 
-// SetQuery sets field value
-func (o *MetricProjection) SetQuery(v string) {
-	o.Query = v
+// HasMetricId returns a boolean if a field has been set.
+func (o *MetricProjection) HasMetricId() bool {
+	if o != nil && o.MetricId != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetMetricId gets a reference to the given string and assigns it to the MetricId field.
+func (o *MetricProjection) SetMetricId(v string) {
+	o.MetricId = &v
 }
 
 func (o MetricProjection) MarshalJSON() ([]byte, error) {
@@ -193,17 +226,20 @@ func (o MetricProjection) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["_type"] = o.Type
 	}
-	if o.ShowChart != nil {
-		toSerialize["showChart"] = o.ShowChart
-	}
-	if o.DecimalPlaces != nil {
-		toSerialize["decimalPlaces"] = o.DecimalPlaces
+	if true {
+		toSerialize["query"] = o.Query
 	}
 	if o.Unit != nil {
 		toSerialize["unit"] = o.Unit
 	}
-	if true {
-		toSerialize["query"] = o.Query
+	if o.DecimalPlaces != nil {
+		toSerialize["decimalPlaces"] = o.DecimalPlaces
+	}
+	if o.Sparkline != nil {
+		toSerialize["sparkline"] = o.Sparkline
+	}
+	if o.MetricId != nil {
+		toSerialize["metricId"] = o.MetricId
 	}
 	return json.Marshal(toSerialize)
 }
