@@ -261,6 +261,8 @@ docs/LinkCell.md
 docs/LinkField.md
 docs/LinkFieldAllOf.md
 docs/LinkMetaDisplay.md
+docs/ListField.md
+docs/ListFieldAllOf.md
 docs/LockedResponse.md
 docs/LogLevel.md
 docs/LogSeverity.md
@@ -374,6 +376,7 @@ docs/OrderedComponentPresentationMetricAllOf.md
 docs/OtelComponentMapping.md
 docs/OtelComponentMappingFieldMapping.md
 docs/OtelComponentMappingOutput.md
+docs/OtelComponentMappingRank.md
 docs/OtelInput.md
 docs/OtelInputDatapoint.md
 docs/OtelInputLog.md
@@ -858,6 +861,8 @@ model_link_cell.go
 model_link_field.go
 model_link_field_all_of.go
 model_link_meta_display.go
+model_list_field.go
+model_list_field_all_of.go
 model_locked_response.go
 model_log_level.go
 model_log_severity.go
@@ -964,6 +969,7 @@ model_ordered_component_presentation_metric_all_of.go
 model_otel_component_mapping.go
 model_otel_component_mapping_field_mapping.go
 model_otel_component_mapping_output.go
+model_otel_component_mapping_rank.go
 model_otel_input.go
 model_otel_input_datapoint.go
 model_otel_input_log.go

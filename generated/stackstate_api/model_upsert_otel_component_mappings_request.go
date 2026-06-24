@@ -24,19 +24,21 @@ type UpsertOtelComponentMappingsRequest struct {
 	Output      OtelComponentMappingOutput `json:"output" yaml:"output"`
 	Vars        []OtelVariableMapping      `json:"vars,omitempty" yaml:"vars,omitempty"`
 	ExpireAfter int64                      `json:"expireAfter" yaml:"expireAfter"`
+	Rank        OtelComponentMappingRank   `json:"rank" yaml:"rank"`
 }
 
 // NewUpsertOtelComponentMappingsRequest instantiates a new UpsertOtelComponentMappingsRequest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewUpsertOtelComponentMappingsRequest(identifier string, name string, input OtelInput, output OtelComponentMappingOutput, expireAfter int64) *UpsertOtelComponentMappingsRequest {
+func NewUpsertOtelComponentMappingsRequest(identifier string, name string, input OtelInput, output OtelComponentMappingOutput, expireAfter int64, rank OtelComponentMappingRank) *UpsertOtelComponentMappingsRequest {
 	this := UpsertOtelComponentMappingsRequest{}
 	this.Identifier = identifier
 	this.Name = name
 	this.Input = input
 	this.Output = output
 	this.ExpireAfter = expireAfter
+	this.Rank = rank
 	return &this
 }
 
@@ -232,6 +234,30 @@ func (o *UpsertOtelComponentMappingsRequest) SetExpireAfter(v int64) {
 	o.ExpireAfter = v
 }
 
+// GetRank returns the Rank field value
+func (o *UpsertOtelComponentMappingsRequest) GetRank() OtelComponentMappingRank {
+	if o == nil {
+		var ret OtelComponentMappingRank
+		return ret
+	}
+
+	return o.Rank
+}
+
+// GetRankOk returns a tuple with the Rank field value
+// and a boolean to check if the value has been set.
+func (o *UpsertOtelComponentMappingsRequest) GetRankOk() (*OtelComponentMappingRank, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.Rank, true
+}
+
+// SetRank sets field value
+func (o *UpsertOtelComponentMappingsRequest) SetRank(v OtelComponentMappingRank) {
+	o.Rank = v
+}
+
 func (o UpsertOtelComponentMappingsRequest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -254,6 +280,9 @@ func (o UpsertOtelComponentMappingsRequest) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["expireAfter"] = o.ExpireAfter
+	}
+	if true {
+		toSerialize["rank"] = o.Rank
 	}
 	return json.Marshal(toSerialize)
 }

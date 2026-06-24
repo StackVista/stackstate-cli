@@ -7,7 +7,6 @@ Name | Type | Description | Notes
 **Identifier** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **Name** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **TypeName** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
-**TypeIdentifier** | Pointer to **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | [optional] 
 **Required** | Pointer to [**OtelComponentMappingFieldMapping**](OtelComponentMappingFieldMapping.md) |  | [optional] 
 **Optional** | Pointer to [**OtelComponentMappingFieldMapping**](OtelComponentMappingFieldMapping.md) |  | [optional] 
 
@@ -89,31 +88,6 @@ and a boolean to check if the value has been set.
 
 SetTypeName sets TypeName field to given value.
 
-
-### GetTypeIdentifier
-
-`func (o *OtelComponentMappingOutput) GetTypeIdentifier() string`
-
-GetTypeIdentifier returns the TypeIdentifier field if non-nil, zero value otherwise.
-
-### GetTypeIdentifierOk
-
-`func (o *OtelComponentMappingOutput) GetTypeIdentifierOk() (*string, bool)`
-
-GetTypeIdentifierOk returns a tuple with the TypeIdentifier field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetTypeIdentifier
-
-`func (o *OtelComponentMappingOutput) SetTypeIdentifier(v string)`
-
-SetTypeIdentifier sets TypeIdentifier field to given value.
-
-### HasTypeIdentifier
-
-`func (o *OtelComponentMappingOutput) HasTypeIdentifier() bool`
-
-HasTypeIdentifier returns a boolean if a field has been set.
 
 ### GetRequired
 

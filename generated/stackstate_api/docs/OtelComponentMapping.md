@@ -12,12 +12,13 @@ Name | Type | Description | Notes
 **Output** | [**OtelComponentMappingOutput**](OtelComponentMappingOutput.md) |  | 
 **Vars** | Pointer to [**[]OtelVariableMapping**](OtelVariableMapping.md) |  | [optional] 
 **ExpireAfter** | **int64** |  | 
+**Rank** | [**OtelComponentMappingRank**](OtelComponentMappingRank.md) |  | 
 
 ## Methods
 
 ### NewOtelComponentMapping
 
-`func NewOtelComponentMapping(type_ string, identifier string, name string, input OtelInput, output OtelComponentMappingOutput, expireAfter int64, ) *OtelComponentMapping`
+`func NewOtelComponentMapping(type_ string, identifier string, name string, input OtelInput, output OtelComponentMappingOutput, expireAfter int64, rank OtelComponentMappingRank, ) *OtelComponentMapping`
 
 NewOtelComponentMapping instantiates a new OtelComponentMapping object
 This constructor will assign default values to properties that have it defined,
@@ -200,6 +201,26 @@ and a boolean to check if the value has been set.
 `func (o *OtelComponentMapping) SetExpireAfter(v int64)`
 
 SetExpireAfter sets ExpireAfter field to given value.
+
+
+### GetRank
+
+`func (o *OtelComponentMapping) GetRank() OtelComponentMappingRank`
+
+GetRank returns the Rank field if non-nil, zero value otherwise.
+
+### GetRankOk
+
+`func (o *OtelComponentMapping) GetRankOk() (*OtelComponentMappingRank, bool)`
+
+GetRankOk returns a tuple with the Rank field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetRank
+
+`func (o *OtelComponentMapping) SetRank(v OtelComponentMappingRank)`
+
+SetRank sets Rank field to given value.
 
 
 

@@ -23,13 +23,13 @@ Name | Type | Description | Notes
 **Numerator** | **float32** |  | 
 **Denominator** | **float32** |  | 
 **Status** | Pointer to [**HealthStateValue**](HealthStateValue.md) |  | [optional] 
-**Values** | **map[string]string** |  | 
+**Values** | **[]string** |  | 
 
 ## Methods
 
 ### NewComponentField
 
-`func NewComponentField(fieldId string, title string, type_ string, message string, query string, name string, url string, identifier string, state HealthStateValue, value float32, asTag bool, startTime int32, numerator float32, denominator float32, values map[string]string, ) *ComponentField`
+`func NewComponentField(fieldId string, title string, type_ string, message string, query string, name string, url string, identifier string, state HealthStateValue, value float32, asTag bool, startTime int32, numerator float32, denominator float32, values []string, ) *ComponentField`
 
 NewComponentField instantiates a new ComponentField object
 This constructor will assign default values to properties that have it defined,
@@ -461,20 +461,20 @@ HasStatus returns a boolean if a field has been set.
 
 ### GetValues
 
-`func (o *ComponentField) GetValues() map[string]string`
+`func (o *ComponentField) GetValues() []string`
 
 GetValues returns the Values field if non-nil, zero value otherwise.
 
 ### GetValuesOk
 
-`func (o *ComponentField) GetValuesOk() (*map[string]string, bool)`
+`func (o *ComponentField) GetValuesOk() (*[]string, bool)`
 
 GetValuesOk returns a tuple with the Values field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValues
 
-`func (o *ComponentField) SetValues(v map[string]string)`
+`func (o *ComponentField) SetValues(v []string)`
 
 SetValues sets Values field to given value.
 

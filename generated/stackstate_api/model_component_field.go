@@ -23,6 +23,7 @@ type ComponentField struct {
 	ErrorField         *ErrorField
 	HealthField        *HealthField
 	LinkField          *LinkField
+	ListField          *ListField
 	MapField           *MapField
 	MetricField        *MetricField
 	NumericField       *NumericField
@@ -62,6 +63,13 @@ func HealthFieldAsComponentField(v *HealthField) ComponentField {
 func LinkFieldAsComponentField(v *LinkField) ComponentField {
 	return ComponentField{
 		LinkField: v,
+	}
+}
+
+// ListFieldAsComponentField is a convenience function that returns ListField wrapped in ComponentField
+func ListFieldAsComponentField(v *ListField) ComponentField {
+	return ComponentField{
+		ListField: v,
 	}
 }
 
@@ -170,6 +178,18 @@ func (dst *ComponentField) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'ListField'
+	if jsonDict["_type"] == "ListField" {
+		// try to unmarshal JSON data into ListField
+		err = json.Unmarshal(data, &dst.ListField)
+		if err == nil {
+			return nil // data stored in dst.ListField, return on the first match
+		} else {
+			dst.ListField = nil
+			return fmt.Errorf("Failed to unmarshal ComponentField as ListField: %s", err.Error())
+		}
+	}
+
 	// check if the discriminator value is 'MapField'
 	if jsonDict["_type"] == "MapField" {
 		// try to unmarshal JSON data into MapField
@@ -255,6 +275,10 @@ func (src ComponentField) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.LinkField)
 	}
 
+	if src.ListField != nil {
+		return json.Marshal(&src.ListField)
+	}
+
 	if src.MapField != nil {
 		return json.Marshal(&src.MapField)
 	}
@@ -301,6 +325,10 @@ func (obj *ComponentField) GetActualInstance() interface{} {
 
 	if obj.LinkField != nil {
 		return obj.LinkField
+	}
+
+	if obj.ListField != nil {
+		return obj.ListField
 	}
 
 	if obj.MapField != nil {

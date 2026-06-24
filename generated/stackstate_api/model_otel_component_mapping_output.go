@@ -22,11 +22,9 @@ type OtelComponentMappingOutput struct {
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
 	Name string `json:"name" yaml:"name"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	TypeName string `json:"typeName" yaml:"typeName"`
-	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
-	TypeIdentifier *string                           `json:"typeIdentifier,omitempty" yaml:"typeIdentifier,omitempty"`
-	Required       *OtelComponentMappingFieldMapping `json:"required,omitempty" yaml:"required,omitempty"`
-	Optional       *OtelComponentMappingFieldMapping `json:"optional,omitempty" yaml:"optional,omitempty"`
+	TypeName string                            `json:"typeName" yaml:"typeName"`
+	Required *OtelComponentMappingFieldMapping `json:"required,omitempty" yaml:"required,omitempty"`
+	Optional *OtelComponentMappingFieldMapping `json:"optional,omitempty" yaml:"optional,omitempty"`
 }
 
 // NewOtelComponentMappingOutput instantiates a new OtelComponentMappingOutput object
@@ -121,38 +119,6 @@ func (o *OtelComponentMappingOutput) SetTypeName(v string) {
 	o.TypeName = v
 }
 
-// GetTypeIdentifier returns the TypeIdentifier field value if set, zero value otherwise.
-func (o *OtelComponentMappingOutput) GetTypeIdentifier() string {
-	if o == nil || o.TypeIdentifier == nil {
-		var ret string
-		return ret
-	}
-	return *o.TypeIdentifier
-}
-
-// GetTypeIdentifierOk returns a tuple with the TypeIdentifier field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *OtelComponentMappingOutput) GetTypeIdentifierOk() (*string, bool) {
-	if o == nil || o.TypeIdentifier == nil {
-		return nil, false
-	}
-	return o.TypeIdentifier, true
-}
-
-// HasTypeIdentifier returns a boolean if a field has been set.
-func (o *OtelComponentMappingOutput) HasTypeIdentifier() bool {
-	if o != nil && o.TypeIdentifier != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetTypeIdentifier gets a reference to the given string and assigns it to the TypeIdentifier field.
-func (o *OtelComponentMappingOutput) SetTypeIdentifier(v string) {
-	o.TypeIdentifier = &v
-}
-
 // GetRequired returns the Required field value if set, zero value otherwise.
 func (o *OtelComponentMappingOutput) GetRequired() OtelComponentMappingFieldMapping {
 	if o == nil || o.Required == nil {
@@ -227,9 +193,6 @@ func (o OtelComponentMappingOutput) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["typeName"] = o.TypeName
-	}
-	if o.TypeIdentifier != nil {
-		toSerialize["typeIdentifier"] = o.TypeIdentifier
 	}
 	if o.Required != nil {
 		toSerialize["required"] = o.Required
