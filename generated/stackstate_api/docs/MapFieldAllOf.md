@@ -6,13 +6,12 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Type** | **string** |  | 
 **Values** | **map[string]string** |  | 
-**AsTag** | **bool** |  | [default to false]
 
 ## Methods
 
 ### NewMapFieldAllOf
 
-`func NewMapFieldAllOf(type_ string, values map[string]string, asTag bool, ) *MapFieldAllOf`
+`func NewMapFieldAllOf(type_ string, values map[string]string, ) *MapFieldAllOf`
 
 NewMapFieldAllOf instantiates a new MapFieldAllOf object
 This constructor will assign default values to properties that have it defined,
@@ -65,26 +64,6 @@ and a boolean to check if the value has been set.
 `func (o *MapFieldAllOf) SetValues(v map[string]string)`
 
 SetValues sets Values field to given value.
-
-
-### GetAsTag
-
-`func (o *MapFieldAllOf) GetAsTag() bool`
-
-GetAsTag returns the AsTag field if non-nil, zero value otherwise.
-
-### GetAsTagOk
-
-`func (o *MapFieldAllOf) GetAsTagOk() (*bool, bool)`
-
-GetAsTagOk returns a tuple with the AsTag field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAsTag
-
-`func (o *MapFieldAllOf) SetAsTag(v bool)`
-
-SetAsTag sets AsTag field to given value.
 
 
 

@@ -558,7 +558,7 @@ import (
 )
 
 func main() {
-    upsertOtelComponentMappingsRequest := *openapiclient.NewUpsertOtelComponentMappingsRequest("Identifier_example", "Name_example", *openapiclient.NewOtelInput([]openapiclient.OtelInputSignal{openapiclient.OtelInputSignal("TRACES")}, *openapiclient.NewOtelInputResource()), *openapiclient.NewOtelComponentMappingOutput("Identifier_example", "Name_example", "TypeName_example"), int64(123)) // UpsertOtelComponentMappingsRequest | Otel Component Mapping to create/update
+    upsertOtelComponentMappingsRequest := *openapiclient.NewUpsertOtelComponentMappingsRequest("Identifier_example", "Name_example", *openapiclient.NewOtelInput([]openapiclient.OtelInputSignal{openapiclient.OtelInputSignal("TRACES")}, *openapiclient.NewOtelInputResource()), *openapiclient.NewOtelComponentMappingOutput("Identifier_example", "Name_example", "TypeName_example"), int64(123), *openapiclient.NewOtelComponentMappingRank(float64(123))) // UpsertOtelComponentMappingsRequest | Otel Component Mapping to create/update
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)

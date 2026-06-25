@@ -27,6 +27,7 @@ type ComponentField struct {
 	MetricField        *MetricField
 	NumericField       *NumericField
 	RatioField         *RatioField
+	TagField           *TagField
 	TextField          *TextField
 }
 
@@ -90,6 +91,13 @@ func NumericFieldAsComponentField(v *NumericField) ComponentField {
 func RatioFieldAsComponentField(v *RatioField) ComponentField {
 	return ComponentField{
 		RatioField: v,
+	}
+}
+
+// TagFieldAsComponentField is a convenience function that returns TagField wrapped in ComponentField
+func TagFieldAsComponentField(v *TagField) ComponentField {
+	return ComponentField{
+		TagField: v,
 	}
 }
 
@@ -218,6 +226,18 @@ func (dst *ComponentField) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'TagField'
+	if jsonDict["_type"] == "TagField" {
+		// try to unmarshal JSON data into TagField
+		err = json.Unmarshal(data, &dst.TagField)
+		if err == nil {
+			return nil // data stored in dst.TagField, return on the first match
+		} else {
+			dst.TagField = nil
+			return fmt.Errorf("Failed to unmarshal ComponentField as TagField: %s", err.Error())
+		}
+	}
+
 	// check if the discriminator value is 'TextField'
 	if jsonDict["_type"] == "TextField" {
 		// try to unmarshal JSON data into TextField
@@ -271,6 +291,10 @@ func (src ComponentField) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.RatioField)
 	}
 
+	if src.TagField != nil {
+		return json.Marshal(&src.TagField)
+	}
+
 	if src.TextField != nil {
 		return json.Marshal(&src.TextField)
 	}
@@ -317,6 +341,10 @@ func (obj *ComponentField) GetActualInstance() interface{} {
 
 	if obj.RatioField != nil {
 		return obj.RatioField
+	}
+
+	if obj.TagField != nil {
+		return obj.TagField
 	}
 
 	if obj.TextField != nil {

@@ -374,6 +374,7 @@ docs/OrderedComponentPresentationMetricAllOf.md
 docs/OtelComponentMapping.md
 docs/OtelComponentMappingFieldMapping.md
 docs/OtelComponentMappingOutput.md
+docs/OtelComponentMappingRank.md
 docs/OtelInput.md
 docs/OtelInputDatapoint.md
 docs/OtelInputLog.md
@@ -576,7 +577,10 @@ docs/SystemNotification.md
 docs/SystemNotificationSeverity.md
 docs/SystemNotifications.md
 docs/SystemNotificationsApi.md
+docs/TagField.md
+docs/TagFieldAllOf.md
 docs/TagFilter.md
+docs/TagProjection.md
 docs/TeamsChannelRefId.md
 docs/TeamsChannelWriteSchema.md
 docs/TeamsNotificationChannel.md
@@ -964,6 +968,7 @@ model_ordered_component_presentation_metric_all_of.go
 model_otel_component_mapping.go
 model_otel_component_mapping_field_mapping.go
 model_otel_component_mapping_output.go
+model_otel_component_mapping_rank.go
 model_otel_input.go
 model_otel_input_datapoint.go
 model_otel_input_log.go
@@ -1152,7 +1157,10 @@ model_suggestions.go
 model_system_notification.go
 model_system_notification_severity.go
 model_system_notifications.go
+model_tag_field.go
+model_tag_field_all_of.go
 model_tag_filter.go
+model_tag_projection.go
 model_teams_channel_ref_id.go
 model_teams_channel_write_schema.go
 model_teams_notification_channel.go

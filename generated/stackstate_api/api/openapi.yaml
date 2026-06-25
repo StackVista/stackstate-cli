@@ -14648,6 +14648,7 @@ components:
       - $ref: '#/components/schemas/DurationField'
       - $ref: '#/components/schemas/RatioField'
       - $ref: '#/components/schemas/MapField'
+      - $ref: '#/components/schemas/TagField'
     ErrorField:
       allOf:
       - $ref: '#/components/schemas/BaseComponentField'
@@ -14700,6 +14701,10 @@ components:
       allOf:
       - $ref: '#/components/schemas/BaseComponentField'
       - $ref: '#/components/schemas/MapField_allOf'
+    TagField:
+      allOf:
+      - $ref: '#/components/schemas/BaseComponentField'
+      - $ref: '#/components/schemas/TagField_allOf'
     ExternalComponent:
       example:
         syncName: syncName
@@ -17065,7 +17070,6 @@ components:
         identifier: identifier
         name: name
         typeName: typeName
-        typeIdentifier: typeIdentifier
         optional:
           configuration: configuration
           additionalIdentifiers:
@@ -17106,11 +17110,6 @@ components:
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         typeName:
-          description: "An expression that must produce a string. It must be one of\
-            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
-            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
-          type: string
-        typeIdentifier:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
@@ -17219,13 +17218,28 @@ components:
       - name
       - value
       type: object
+    OtelComponentMappingRank:
+      example:
+        specificity: 6.027456183070403
+      properties:
+        specificity:
+          description: "Determines how much of a \"specialization\" this mapping is.\
+            \ Higher number means more specific. Used during component merge to pick\
+            \ the winning typeName / name when multiple mappings contribute to the\
+            \ same component identifier. Recommended ranges: 1–99 environment & infrastructure;\
+            \ 100–199 platform & orchestration (k8s, otel base); 200–299 application\
+            \ / service; 300–399 runtime / SDK / language; 400+ user overrides."
+          format: double
+          type: number
+      required:
+      - specificity
+      type: object
     OtelComponentMapping:
       example:
         output:
           identifier: identifier
           name: name
           typeName: typeName
-          typeIdentifier: typeIdentifier
           optional:
             configuration: configuration
             additionalIdentifiers:
@@ -17280,6 +17294,8 @@ components:
         _type: OtelComponentMapping
         name: name
         description: description
+        rank:
+          specificity: 6.027456183070403
         expireAfter: 0
         vars:
         - name: name
@@ -17308,6 +17324,8 @@ components:
         expireAfter:
           format: int64
           type: integer
+        rank:
+          $ref: '#/components/schemas/OtelComponentMappingRank'
       required:
       - _type
       - expireAfter
@@ -17315,6 +17333,7 @@ components:
       - input
       - name
       - output
+      - rank
       type: object
     OtelMappingStatus:
       example:
@@ -20672,6 +20691,7 @@ components:
       - $ref: '#/components/schemas/RatioProjection'
       - $ref: '#/components/schemas/ContainerImageProjection'
       - $ref: '#/components/schemas/MapProjection'
+      - $ref: '#/components/schemas/TagProjection'
     MapProjection:
       properties:
         _type:
@@ -20681,12 +20701,18 @@ components:
         value:
           description: "Cel expression that returns a map<string,dyn>"
           type: string
-        asTags:
-          default: true
-          type: boolean
       required:
       - _type
       - value
+      type: object
+    TagProjection:
+      properties:
+        _type:
+          enum:
+          - TagProjection
+          type: string
+      required:
+      - _type
       type: object
     PresentationHighlightProvisioning:
       description: Provisioning section of a component in the highlight presentation.
@@ -21153,12 +21179,15 @@ components:
         expireAfter:
           format: int64
           type: integer
+        rank:
+          $ref: '#/components/schemas/OtelComponentMappingRank'
       required:
       - expireAfter
       - identifier
       - input
       - name
       - output
+      - rank
       type: object
     upsertOtelRelationMappings_request:
       properties:
@@ -21489,12 +21518,22 @@ components:
           additionalProperties:
             type: string
           type: object
-        asTag:
-          default: false
-          type: boolean
       required:
       - _type
-      - asTag
+      - values
+      type: object
+    TagField_allOf:
+      properties:
+        _type:
+          enum:
+          - TagField
+          type: string
+        values:
+          items:
+            type: string
+          type: array
+      required:
+      - _type
       - values
       type: object
     TimelineSummaryRequest_arguments:

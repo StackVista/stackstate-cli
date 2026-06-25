@@ -15,21 +15,21 @@ import (
 	"encoding/json"
 )
 
-// MapField struct for MapField
-type MapField struct {
-	FieldId     string            `json:"fieldId" yaml:"fieldId"`
-	Title       string            `json:"title" yaml:"title"`
-	Description *string           `json:"description,omitempty" yaml:"description,omitempty"`
-	Type        string            `json:"_type" yaml:"_type"`
-	Values      map[string]string `json:"values" yaml:"values"`
+// TagField struct for TagField
+type TagField struct {
+	FieldId     string   `json:"fieldId" yaml:"fieldId"`
+	Title       string   `json:"title" yaml:"title"`
+	Description *string  `json:"description,omitempty" yaml:"description,omitempty"`
+	Type        string   `json:"_type" yaml:"_type"`
+	Values      []string `json:"values" yaml:"values"`
 }
 
-// NewMapField instantiates a new MapField object
+// NewTagField instantiates a new TagField object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMapField(fieldId string, title string, type_ string, values map[string]string) *MapField {
-	this := MapField{}
+func NewTagField(fieldId string, title string, type_ string, values []string) *TagField {
+	this := TagField{}
 	this.FieldId = fieldId
 	this.Title = title
 	this.Type = type_
@@ -37,16 +37,16 @@ func NewMapField(fieldId string, title string, type_ string, values map[string]s
 	return &this
 }
 
-// NewMapFieldWithDefaults instantiates a new MapField object
+// NewTagFieldWithDefaults instantiates a new TagField object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewMapFieldWithDefaults() *MapField {
-	this := MapField{}
+func NewTagFieldWithDefaults() *TagField {
+	this := TagField{}
 	return &this
 }
 
 // GetFieldId returns the FieldId field value
-func (o *MapField) GetFieldId() string {
+func (o *TagField) GetFieldId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -57,7 +57,7 @@ func (o *MapField) GetFieldId() string {
 
 // GetFieldIdOk returns a tuple with the FieldId field value
 // and a boolean to check if the value has been set.
-func (o *MapField) GetFieldIdOk() (*string, bool) {
+func (o *TagField) GetFieldIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -65,12 +65,12 @@ func (o *MapField) GetFieldIdOk() (*string, bool) {
 }
 
 // SetFieldId sets field value
-func (o *MapField) SetFieldId(v string) {
+func (o *TagField) SetFieldId(v string) {
 	o.FieldId = v
 }
 
 // GetTitle returns the Title field value
-func (o *MapField) GetTitle() string {
+func (o *TagField) GetTitle() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -81,7 +81,7 @@ func (o *MapField) GetTitle() string {
 
 // GetTitleOk returns a tuple with the Title field value
 // and a boolean to check if the value has been set.
-func (o *MapField) GetTitleOk() (*string, bool) {
+func (o *TagField) GetTitleOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -89,12 +89,12 @@ func (o *MapField) GetTitleOk() (*string, bool) {
 }
 
 // SetTitle sets field value
-func (o *MapField) SetTitle(v string) {
+func (o *TagField) SetTitle(v string) {
 	o.Title = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *MapField) GetDescription() string {
+func (o *TagField) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -104,7 +104,7 @@ func (o *MapField) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *MapField) GetDescriptionOk() (*string, bool) {
+func (o *TagField) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -112,7 +112,7 @@ func (o *MapField) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *MapField) HasDescription() bool {
+func (o *TagField) HasDescription() bool {
 	if o != nil && o.Description != nil {
 		return true
 	}
@@ -121,12 +121,12 @@ func (o *MapField) HasDescription() bool {
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *MapField) SetDescription(v string) {
+func (o *TagField) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetType returns the Type field value
-func (o *MapField) GetType() string {
+func (o *TagField) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -137,7 +137,7 @@ func (o *MapField) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *MapField) GetTypeOk() (*string, bool) {
+func (o *TagField) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -145,14 +145,14 @@ func (o *MapField) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *MapField) SetType(v string) {
+func (o *TagField) SetType(v string) {
 	o.Type = v
 }
 
 // GetValues returns the Values field value
-func (o *MapField) GetValues() map[string]string {
+func (o *TagField) GetValues() []string {
 	if o == nil {
-		var ret map[string]string
+		var ret []string
 		return ret
 	}
 
@@ -161,19 +161,19 @@ func (o *MapField) GetValues() map[string]string {
 
 // GetValuesOk returns a tuple with the Values field value
 // and a boolean to check if the value has been set.
-func (o *MapField) GetValuesOk() (*map[string]string, bool) {
+func (o *TagField) GetValuesOk() ([]string, bool) {
 	if o == nil {
 		return nil, false
 	}
-	return &o.Values, true
+	return o.Values, true
 }
 
 // SetValues sets field value
-func (o *MapField) SetValues(v map[string]string) {
+func (o *TagField) SetValues(v []string) {
 	o.Values = v
 }
 
-func (o MapField) MarshalJSON() ([]byte, error) {
+func (o TagField) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["fieldId"] = o.FieldId
@@ -193,38 +193,38 @@ func (o MapField) MarshalJSON() ([]byte, error) {
 	return json.Marshal(toSerialize)
 }
 
-type NullableMapField struct {
-	value *MapField
+type NullableTagField struct {
+	value *TagField
 	isSet bool
 }
 
-func (v NullableMapField) Get() *MapField {
+func (v NullableTagField) Get() *TagField {
 	return v.value
 }
 
-func (v *NullableMapField) Set(val *MapField) {
+func (v *NullableTagField) Set(val *TagField) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableMapField) IsSet() bool {
+func (v NullableTagField) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableMapField) Unset() {
+func (v *NullableTagField) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableMapField(val *MapField) *NullableMapField {
-	return &NullableMapField{value: val, isSet: true}
+func NewNullableTagField(val *TagField) *NullableTagField {
+	return &NullableTagField{value: val, isSet: true}
 }
 
-func (v NullableMapField) MarshalJSON() ([]byte, error) {
+func (v NullableTagField) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableMapField) UnmarshalJSON(src []byte) error {
+func (v *NullableTagField) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

@@ -15,34 +15,31 @@ import (
 	"encoding/json"
 )
 
-// MapProjection struct for MapProjection
-type MapProjection struct {
+// TagProjection struct for TagProjection
+type TagProjection struct {
 	Type string `json:"_type" yaml:"_type"`
-	// Cel expression that returns a map<string,dyn>
-	Value string `json:"value" yaml:"value"`
 }
 
-// NewMapProjection instantiates a new MapProjection object
+// NewTagProjection instantiates a new TagProjection object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMapProjection(type_ string, value string) *MapProjection {
-	this := MapProjection{}
+func NewTagProjection(type_ string) *TagProjection {
+	this := TagProjection{}
 	this.Type = type_
-	this.Value = value
 	return &this
 }
 
-// NewMapProjectionWithDefaults instantiates a new MapProjection object
+// NewTagProjectionWithDefaults instantiates a new TagProjection object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewMapProjectionWithDefaults() *MapProjection {
-	this := MapProjection{}
+func NewTagProjectionWithDefaults() *TagProjection {
+	this := TagProjection{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *MapProjection) GetType() string {
+func (o *TagProjection) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -53,7 +50,7 @@ func (o *MapProjection) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *MapProjection) GetTypeOk() (*string, bool) {
+func (o *TagProjection) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -61,77 +58,50 @@ func (o *MapProjection) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *MapProjection) SetType(v string) {
+func (o *TagProjection) SetType(v string) {
 	o.Type = v
 }
 
-// GetValue returns the Value field value
-func (o *MapProjection) GetValue() string {
-	if o == nil {
-		var ret string
-		return ret
-	}
-
-	return o.Value
-}
-
-// GetValueOk returns a tuple with the Value field value
-// and a boolean to check if the value has been set.
-func (o *MapProjection) GetValueOk() (*string, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.Value, true
-}
-
-// SetValue sets field value
-func (o *MapProjection) SetValue(v string) {
-	o.Value = v
-}
-
-func (o MapProjection) MarshalJSON() ([]byte, error) {
+func (o TagProjection) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["_type"] = o.Type
 	}
-	if true {
-		toSerialize["value"] = o.Value
-	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableMapProjection struct {
-	value *MapProjection
+type NullableTagProjection struct {
+	value *TagProjection
 	isSet bool
 }
 
-func (v NullableMapProjection) Get() *MapProjection {
+func (v NullableTagProjection) Get() *TagProjection {
 	return v.value
 }
 
-func (v *NullableMapProjection) Set(val *MapProjection) {
+func (v *NullableTagProjection) Set(val *TagProjection) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableMapProjection) IsSet() bool {
+func (v NullableTagProjection) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableMapProjection) Unset() {
+func (v *NullableTagProjection) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableMapProjection(val *MapProjection) *NullableMapProjection {
-	return &NullableMapProjection{value: val, isSet: true}
+func NewNullableTagProjection(val *TagProjection) *NullableTagProjection {
+	return &NullableTagProjection{value: val, isSet: true}
 }
 
-func (v NullableMapProjection) MarshalJSON() ([]byte, error) {
+func (v NullableTagProjection) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableMapProjection) UnmarshalJSON(src []byte) error {
+func (v *NullableTagProjection) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

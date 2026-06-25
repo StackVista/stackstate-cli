@@ -66,6 +66,7 @@ func applyYAMLOtelComponentMapping(cli *di.Deps, api *stackstate_api.APIClient, 
 		Output:      mapping.Output,
 		Vars:        mapping.Vars,
 		ExpireAfter: mapping.ExpireAfter,
+		Rank:        mapping.Rank,
 	}
 	upserted, resp, err := api.OtelMappingApi.UpsertOtelComponentMappings(cli.Context).UpsertOtelComponentMappingsRequest(reqObj).Execute()
 	if err != nil {
