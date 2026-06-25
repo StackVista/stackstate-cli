@@ -22,6 +22,8 @@ type OtelRelationMappingOutput struct {
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
 	TargetId string `json:"targetId" yaml:"targetId"`
 	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
+	TypeName string `json:"typeName" yaml:"typeName"`
+	// An expression that must produce a string. It must be one of these formats:   - A plain string, for example `\"this is a plain string\"`   - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`
 	DependencyType string `json:"dependencyType" yaml:"dependencyType"`
 }
 
@@ -29,10 +31,11 @@ type OtelRelationMappingOutput struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewOtelRelationMappingOutput(sourceId string, targetId string, dependencyType string) *OtelRelationMappingOutput {
+func NewOtelRelationMappingOutput(sourceId string, targetId string, typeName string, dependencyType string) *OtelRelationMappingOutput {
 	this := OtelRelationMappingOutput{}
 	this.SourceId = sourceId
 	this.TargetId = targetId
+	this.TypeName = typeName
 	this.DependencyType = dependencyType
 	return &this
 }
@@ -93,6 +96,30 @@ func (o *OtelRelationMappingOutput) SetTargetId(v string) {
 	o.TargetId = v
 }
 
+// GetTypeName returns the TypeName field value
+func (o *OtelRelationMappingOutput) GetTypeName() string {
+	if o == nil {
+		var ret string
+		return ret
+	}
+
+	return o.TypeName
+}
+
+// GetTypeNameOk returns a tuple with the TypeName field value
+// and a boolean to check if the value has been set.
+func (o *OtelRelationMappingOutput) GetTypeNameOk() (*string, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.TypeName, true
+}
+
+// SetTypeName sets field value
+func (o *OtelRelationMappingOutput) SetTypeName(v string) {
+	o.TypeName = v
+}
+
 // GetDependencyType returns the DependencyType field value
 func (o *OtelRelationMappingOutput) GetDependencyType() string {
 	if o == nil {
@@ -124,6 +151,9 @@ func (o OtelRelationMappingOutput) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["targetId"] = o.TargetId
+	}
+	if true {
+		toSerialize["typeName"] = o.TypeName
 	}
 	if true {
 		toSerialize["dependencyType"] = o.DependencyType

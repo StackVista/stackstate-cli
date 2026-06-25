@@ -17,17 +17,15 @@ import (
 
 // TopologySettings Rendering settings for the topology perspective. Near-copy of QueryMetadata used for topology rendering today; differences: - `queryTime` is intentionally absent (request-time state, not a presentation setting). Most-specific-wins merge semantics across matching ComponentPresentations.
 type TopologySettings struct {
-	GroupingEnabled       *bool           `json:"groupingEnabled,omitempty" yaml:"groupingEnabled,omitempty"`
-	ShowIndirectRelations *bool           `json:"showIndirectRelations,omitempty" yaml:"showIndirectRelations,omitempty"`
-	MinimumGroupSize      *int64          `json:"minimumGroupSize,omitempty" yaml:"minimumGroupSize,omitempty"`
-	GroupedByLayers       *bool           `json:"groupedByLayers,omitempty" yaml:"groupedByLayers,omitempty"`
-	GroupedByDomains      *bool           `json:"groupedByDomains,omitempty" yaml:"groupedByDomains,omitempty"`
-	GroupedByRelations    *bool           `json:"groupedByRelations,omitempty" yaml:"groupedByRelations,omitempty"`
-	AutoGrouping          *bool           `json:"autoGrouping,omitempty" yaml:"autoGrouping,omitempty"`
-	ConnectedComponents   *bool           `json:"connectedComponents,omitempty" yaml:"connectedComponents,omitempty"`
-	NeighboringComponents *bool           `json:"neighboringComponents,omitempty" yaml:"neighboringComponents,omitempty"`
-	Layer                 *TopologyLayer  `json:"layer,omitempty" yaml:"layer,omitempty"`
-	Domain                *TopologyDomain `json:"domain,omitempty" yaml:"domain,omitempty"`
+	GroupingEnabled       *bool  `json:"groupingEnabled,omitempty" yaml:"groupingEnabled,omitempty"`
+	ShowIndirectRelations *bool  `json:"showIndirectRelations,omitempty" yaml:"showIndirectRelations,omitempty"`
+	MinimumGroupSize      *int64 `json:"minimumGroupSize,omitempty" yaml:"minimumGroupSize,omitempty"`
+	GroupedByLayers       *bool  `json:"groupedByLayers,omitempty" yaml:"groupedByLayers,omitempty"`
+	GroupedByDomains      *bool  `json:"groupedByDomains,omitempty" yaml:"groupedByDomains,omitempty"`
+	GroupedByRelations    *bool  `json:"groupedByRelations,omitempty" yaml:"groupedByRelations,omitempty"`
+	AutoGrouping          *bool  `json:"autoGrouping,omitempty" yaml:"autoGrouping,omitempty"`
+	ConnectedComponents   *bool  `json:"connectedComponents,omitempty" yaml:"connectedComponents,omitempty"`
+	NeighboringComponents *bool  `json:"neighboringComponents,omitempty" yaml:"neighboringComponents,omitempty"`
 }
 
 // NewTopologySettings instantiates a new TopologySettings object
@@ -335,70 +333,6 @@ func (o *TopologySettings) SetNeighboringComponents(v bool) {
 	o.NeighboringComponents = &v
 }
 
-// GetLayer returns the Layer field value if set, zero value otherwise.
-func (o *TopologySettings) GetLayer() TopologyLayer {
-	if o == nil || o.Layer == nil {
-		var ret TopologyLayer
-		return ret
-	}
-	return *o.Layer
-}
-
-// GetLayerOk returns a tuple with the Layer field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *TopologySettings) GetLayerOk() (*TopologyLayer, bool) {
-	if o == nil || o.Layer == nil {
-		return nil, false
-	}
-	return o.Layer, true
-}
-
-// HasLayer returns a boolean if a field has been set.
-func (o *TopologySettings) HasLayer() bool {
-	if o != nil && o.Layer != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetLayer gets a reference to the given TopologyLayer and assigns it to the Layer field.
-func (o *TopologySettings) SetLayer(v TopologyLayer) {
-	o.Layer = &v
-}
-
-// GetDomain returns the Domain field value if set, zero value otherwise.
-func (o *TopologySettings) GetDomain() TopologyDomain {
-	if o == nil || o.Domain == nil {
-		var ret TopologyDomain
-		return ret
-	}
-	return *o.Domain
-}
-
-// GetDomainOk returns a tuple with the Domain field value if set, nil otherwise
-// and a boolean to check if the value has been set.
-func (o *TopologySettings) GetDomainOk() (*TopologyDomain, bool) {
-	if o == nil || o.Domain == nil {
-		return nil, false
-	}
-	return o.Domain, true
-}
-
-// HasDomain returns a boolean if a field has been set.
-func (o *TopologySettings) HasDomain() bool {
-	if o != nil && o.Domain != nil {
-		return true
-	}
-
-	return false
-}
-
-// SetDomain gets a reference to the given TopologyDomain and assigns it to the Domain field.
-func (o *TopologySettings) SetDomain(v TopologyDomain) {
-	o.Domain = &v
-}
-
 func (o TopologySettings) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.GroupingEnabled != nil {
@@ -427,12 +361,6 @@ func (o TopologySettings) MarshalJSON() ([]byte, error) {
 	}
 	if o.NeighboringComponents != nil {
 		toSerialize["neighboringComponents"] = o.NeighboringComponents
-	}
-	if o.Layer != nil {
-		toSerialize["layer"] = o.Layer
-	}
-	if o.Domain != nil {
-		toSerialize["domain"] = o.Domain
 	}
 	return json.Marshal(toSerialize)
 }
