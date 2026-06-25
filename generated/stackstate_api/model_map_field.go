@@ -22,20 +22,18 @@ type MapField struct {
 	Description *string           `json:"description,omitempty" yaml:"description,omitempty"`
 	Type        string            `json:"_type" yaml:"_type"`
 	Values      map[string]string `json:"values" yaml:"values"`
-	AsTag       bool              `json:"asTag" yaml:"asTag"`
 }
 
 // NewMapField instantiates a new MapField object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMapField(fieldId string, title string, type_ string, values map[string]string, asTag bool) *MapField {
+func NewMapField(fieldId string, title string, type_ string, values map[string]string) *MapField {
 	this := MapField{}
 	this.FieldId = fieldId
 	this.Title = title
 	this.Type = type_
 	this.Values = values
-	this.AsTag = asTag
 	return &this
 }
 
@@ -44,8 +42,6 @@ func NewMapField(fieldId string, title string, type_ string, values map[string]s
 // but it doesn't guarantee that properties required by API are set
 func NewMapFieldWithDefaults() *MapField {
 	this := MapField{}
-	var asTag bool = false
-	this.AsTag = asTag
 	return &this
 }
 
@@ -177,30 +173,6 @@ func (o *MapField) SetValues(v map[string]string) {
 	o.Values = v
 }
 
-// GetAsTag returns the AsTag field value
-func (o *MapField) GetAsTag() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.AsTag
-}
-
-// GetAsTagOk returns a tuple with the AsTag field value
-// and a boolean to check if the value has been set.
-func (o *MapField) GetAsTagOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.AsTag, true
-}
-
-// SetAsTag sets field value
-func (o *MapField) SetAsTag(v bool) {
-	o.AsTag = v
-}
-
 func (o MapField) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -217,9 +189,6 @@ func (o MapField) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["values"] = o.Values
-	}
-	if true {
-		toSerialize["asTag"] = o.AsTag
 	}
 	return json.Marshal(toSerialize)
 }

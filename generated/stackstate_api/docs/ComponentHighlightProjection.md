@@ -21,7 +21,6 @@ Name | Type | Description | Notes
 **Status** | Pointer to **string** | Cel expression that returns a string that represents a valid HealthState | [optional] 
 **ImageId** | **string** | Cel expression that returns a string | 
 **ImageName** | **string** | Cel expression that returns a string | 
-**AsTags** | Pointer to **bool** |  | [optional] [default to true]
 
 ## Methods
 
@@ -426,31 +425,6 @@ and a boolean to check if the value has been set.
 
 SetImageName sets ImageName field to given value.
 
-
-### GetAsTags
-
-`func (o *ComponentHighlightProjection) GetAsTags() bool`
-
-GetAsTags returns the AsTags field if non-nil, zero value otherwise.
-
-### GetAsTagsOk
-
-`func (o *ComponentHighlightProjection) GetAsTagsOk() (*bool, bool)`
-
-GetAsTagsOk returns a tuple with the AsTags field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAsTags
-
-`func (o *ComponentHighlightProjection) SetAsTags(v bool)`
-
-SetAsTags sets AsTags field to given value.
-
-### HasAsTags
-
-`func (o *ComponentHighlightProjection) HasAsTags() bool`
-
-HasAsTags returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

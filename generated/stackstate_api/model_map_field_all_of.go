@@ -19,18 +19,16 @@ import (
 type MapFieldAllOf struct {
 	Type   string            `json:"_type" yaml:"_type"`
 	Values map[string]string `json:"values" yaml:"values"`
-	AsTag  bool              `json:"asTag" yaml:"asTag"`
 }
 
 // NewMapFieldAllOf instantiates a new MapFieldAllOf object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMapFieldAllOf(type_ string, values map[string]string, asTag bool) *MapFieldAllOf {
+func NewMapFieldAllOf(type_ string, values map[string]string) *MapFieldAllOf {
 	this := MapFieldAllOf{}
 	this.Type = type_
 	this.Values = values
-	this.AsTag = asTag
 	return &this
 }
 
@@ -39,8 +37,6 @@ func NewMapFieldAllOf(type_ string, values map[string]string, asTag bool) *MapFi
 // but it doesn't guarantee that properties required by API are set
 func NewMapFieldAllOfWithDefaults() *MapFieldAllOf {
 	this := MapFieldAllOf{}
-	var asTag bool = false
-	this.AsTag = asTag
 	return &this
 }
 
@@ -92,30 +88,6 @@ func (o *MapFieldAllOf) SetValues(v map[string]string) {
 	o.Values = v
 }
 
-// GetAsTag returns the AsTag field value
-func (o *MapFieldAllOf) GetAsTag() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.AsTag
-}
-
-// GetAsTagOk returns a tuple with the AsTag field value
-// and a boolean to check if the value has been set.
-func (o *MapFieldAllOf) GetAsTagOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.AsTag, true
-}
-
-// SetAsTag sets field value
-func (o *MapFieldAllOf) SetAsTag(v bool) {
-	o.AsTag = v
-}
-
 func (o MapFieldAllOf) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
@@ -123,9 +95,6 @@ func (o MapFieldAllOf) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["values"] = o.Values
-	}
-	if true {
-		toSerialize["asTag"] = o.AsTag
 	}
 	return json.Marshal(toSerialize)
 }

@@ -23,11 +23,11 @@ type ComponentField struct {
 	ErrorField         *ErrorField
 	HealthField        *HealthField
 	LinkField          *LinkField
-	ListField          *ListField
 	MapField           *MapField
 	MetricField        *MetricField
 	NumericField       *NumericField
 	RatioField         *RatioField
+	TagField           *TagField
 	TextField          *TextField
 }
 
@@ -66,13 +66,6 @@ func LinkFieldAsComponentField(v *LinkField) ComponentField {
 	}
 }
 
-// ListFieldAsComponentField is a convenience function that returns ListField wrapped in ComponentField
-func ListFieldAsComponentField(v *ListField) ComponentField {
-	return ComponentField{
-		ListField: v,
-	}
-}
-
 // MapFieldAsComponentField is a convenience function that returns MapField wrapped in ComponentField
 func MapFieldAsComponentField(v *MapField) ComponentField {
 	return ComponentField{
@@ -98,6 +91,13 @@ func NumericFieldAsComponentField(v *NumericField) ComponentField {
 func RatioFieldAsComponentField(v *RatioField) ComponentField {
 	return ComponentField{
 		RatioField: v,
+	}
+}
+
+// TagFieldAsComponentField is a convenience function that returns TagField wrapped in ComponentField
+func TagFieldAsComponentField(v *TagField) ComponentField {
+	return ComponentField{
+		TagField: v,
 	}
 }
 
@@ -178,18 +178,6 @@ func (dst *ComponentField) UnmarshalJSON(data []byte) error {
 		}
 	}
 
-	// check if the discriminator value is 'ListField'
-	if jsonDict["_type"] == "ListField" {
-		// try to unmarshal JSON data into ListField
-		err = json.Unmarshal(data, &dst.ListField)
-		if err == nil {
-			return nil // data stored in dst.ListField, return on the first match
-		} else {
-			dst.ListField = nil
-			return fmt.Errorf("Failed to unmarshal ComponentField as ListField: %s", err.Error())
-		}
-	}
-
 	// check if the discriminator value is 'MapField'
 	if jsonDict["_type"] == "MapField" {
 		// try to unmarshal JSON data into MapField
@@ -238,6 +226,18 @@ func (dst *ComponentField) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'TagField'
+	if jsonDict["_type"] == "TagField" {
+		// try to unmarshal JSON data into TagField
+		err = json.Unmarshal(data, &dst.TagField)
+		if err == nil {
+			return nil // data stored in dst.TagField, return on the first match
+		} else {
+			dst.TagField = nil
+			return fmt.Errorf("Failed to unmarshal ComponentField as TagField: %s", err.Error())
+		}
+	}
+
 	// check if the discriminator value is 'TextField'
 	if jsonDict["_type"] == "TextField" {
 		// try to unmarshal JSON data into TextField
@@ -275,10 +275,6 @@ func (src ComponentField) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.LinkField)
 	}
 
-	if src.ListField != nil {
-		return json.Marshal(&src.ListField)
-	}
-
 	if src.MapField != nil {
 		return json.Marshal(&src.MapField)
 	}
@@ -293,6 +289,10 @@ func (src ComponentField) MarshalJSON() ([]byte, error) {
 
 	if src.RatioField != nil {
 		return json.Marshal(&src.RatioField)
+	}
+
+	if src.TagField != nil {
+		return json.Marshal(&src.TagField)
 	}
 
 	if src.TextField != nil {
@@ -327,10 +327,6 @@ func (obj *ComponentField) GetActualInstance() interface{} {
 		return obj.LinkField
 	}
 
-	if obj.ListField != nil {
-		return obj.ListField
-	}
-
 	if obj.MapField != nil {
 		return obj.MapField
 	}
@@ -345,6 +341,10 @@ func (obj *ComponentField) GetActualInstance() interface{} {
 
 	if obj.RatioField != nil {
 		return obj.RatioField
+	}
+
+	if obj.TagField != nil {
+		return obj.TagField
 	}
 
 	if obj.TextField != nil {

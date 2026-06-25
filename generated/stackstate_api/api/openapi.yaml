@@ -14648,7 +14648,7 @@ components:
       - $ref: '#/components/schemas/DurationField'
       - $ref: '#/components/schemas/RatioField'
       - $ref: '#/components/schemas/MapField'
-      - $ref: '#/components/schemas/ListField'
+      - $ref: '#/components/schemas/TagField'
     ErrorField:
       allOf:
       - $ref: '#/components/schemas/BaseComponentField'
@@ -14701,10 +14701,10 @@ components:
       allOf:
       - $ref: '#/components/schemas/BaseComponentField'
       - $ref: '#/components/schemas/MapField_allOf'
-    ListField:
+    TagField:
       allOf:
       - $ref: '#/components/schemas/BaseComponentField'
-      - $ref: '#/components/schemas/ListField_allOf'
+      - $ref: '#/components/schemas/TagField_allOf'
     ExternalComponent:
       example:
         syncName: syncName
@@ -20691,6 +20691,7 @@ components:
       - $ref: '#/components/schemas/RatioProjection'
       - $ref: '#/components/schemas/ContainerImageProjection'
       - $ref: '#/components/schemas/MapProjection'
+      - $ref: '#/components/schemas/TagProjection'
     MapProjection:
       properties:
         _type:
@@ -20700,12 +20701,18 @@ components:
         value:
           description: "Cel expression that returns a map<string,dyn>"
           type: string
-        asTags:
-          default: true
-          type: boolean
       required:
       - _type
       - value
+      type: object
+    TagProjection:
+      properties:
+        _type:
+          enum:
+          - TagProjection
+          type: string
+      required:
+      - _type
       type: object
     PresentationHighlightProvisioning:
       description: Provisioning section of a component in the highlight presentation.
@@ -21511,30 +21518,22 @@ components:
           additionalProperties:
             type: string
           type: object
-        asTag:
-          default: false
-          type: boolean
       required:
       - _type
-      - asTag
       - values
       type: object
-    ListField_allOf:
+    TagField_allOf:
       properties:
         _type:
           enum:
-          - ListField
+          - TagField
           type: string
         values:
           items:
             type: string
           type: array
-        asTag:
-          default: false
-          type: boolean
       required:
       - _type
-      - asTag
       - values
       type: object
     TimelineSummaryRequest_arguments:

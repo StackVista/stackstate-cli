@@ -26,6 +26,7 @@ type ComponentHighlightProjection struct {
 	MetricProjection         *MetricProjection
 	NumericProjection        *NumericProjection
 	RatioProjection          *RatioProjection
+	TagProjection            *TagProjection
 	TextProjection           *TextProjection
 }
 
@@ -82,6 +83,13 @@ func NumericProjectionAsComponentHighlightProjection(v *NumericProjection) Compo
 func RatioProjectionAsComponentHighlightProjection(v *RatioProjection) ComponentHighlightProjection {
 	return ComponentHighlightProjection{
 		RatioProjection: v,
+	}
+}
+
+// TagProjectionAsComponentHighlightProjection is a convenience function that returns TagProjection wrapped in ComponentHighlightProjection
+func TagProjectionAsComponentHighlightProjection(v *TagProjection) ComponentHighlightProjection {
+	return ComponentHighlightProjection{
+		TagProjection: v,
 	}
 }
 
@@ -198,6 +206,18 @@ func (dst *ComponentHighlightProjection) UnmarshalJSON(data []byte) error {
 		}
 	}
 
+	// check if the discriminator value is 'TagProjection'
+	if jsonDict["_type"] == "TagProjection" {
+		// try to unmarshal JSON data into TagProjection
+		err = json.Unmarshal(data, &dst.TagProjection)
+		if err == nil {
+			return nil // data stored in dst.TagProjection, return on the first match
+		} else {
+			dst.TagProjection = nil
+			return fmt.Errorf("Failed to unmarshal ComponentHighlightProjection as TagProjection: %s", err.Error())
+		}
+	}
+
 	// check if the discriminator value is 'TextProjection'
 	if jsonDict["_type"] == "TextProjection" {
 		// try to unmarshal JSON data into TextProjection
@@ -247,6 +267,10 @@ func (src ComponentHighlightProjection) MarshalJSON() ([]byte, error) {
 		return json.Marshal(&src.RatioProjection)
 	}
 
+	if src.TagProjection != nil {
+		return json.Marshal(&src.TagProjection)
+	}
+
 	if src.TextProjection != nil {
 		return json.Marshal(&src.TextProjection)
 	}
@@ -289,6 +313,10 @@ func (obj *ComponentHighlightProjection) GetActualInstance() interface{} {
 
 	if obj.RatioProjection != nil {
 		return obj.RatioProjection
+	}
+
+	if obj.TagProjection != nil {
+		return obj.TagProjection
 	}
 
 	if obj.TextProjection != nil {

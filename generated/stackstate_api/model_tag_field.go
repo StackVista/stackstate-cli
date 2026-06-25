@@ -15,42 +15,38 @@ import (
 	"encoding/json"
 )
 
-// ListField struct for ListField
-type ListField struct {
+// TagField struct for TagField
+type TagField struct {
 	FieldId     string   `json:"fieldId" yaml:"fieldId"`
 	Title       string   `json:"title" yaml:"title"`
 	Description *string  `json:"description,omitempty" yaml:"description,omitempty"`
 	Type        string   `json:"_type" yaml:"_type"`
 	Values      []string `json:"values" yaml:"values"`
-	AsTag       bool     `json:"asTag" yaml:"asTag"`
 }
 
-// NewListField instantiates a new ListField object
+// NewTagField instantiates a new TagField object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListField(fieldId string, title string, type_ string, values []string, asTag bool) *ListField {
-	this := ListField{}
+func NewTagField(fieldId string, title string, type_ string, values []string) *TagField {
+	this := TagField{}
 	this.FieldId = fieldId
 	this.Title = title
 	this.Type = type_
 	this.Values = values
-	this.AsTag = asTag
 	return &this
 }
 
-// NewListFieldWithDefaults instantiates a new ListField object
+// NewTagFieldWithDefaults instantiates a new TagField object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListFieldWithDefaults() *ListField {
-	this := ListField{}
-	var asTag bool = false
-	this.AsTag = asTag
+func NewTagFieldWithDefaults() *TagField {
+	this := TagField{}
 	return &this
 }
 
 // GetFieldId returns the FieldId field value
-func (o *ListField) GetFieldId() string {
+func (o *TagField) GetFieldId() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -61,7 +57,7 @@ func (o *ListField) GetFieldId() string {
 
 // GetFieldIdOk returns a tuple with the FieldId field value
 // and a boolean to check if the value has been set.
-func (o *ListField) GetFieldIdOk() (*string, bool) {
+func (o *TagField) GetFieldIdOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -69,12 +65,12 @@ func (o *ListField) GetFieldIdOk() (*string, bool) {
 }
 
 // SetFieldId sets field value
-func (o *ListField) SetFieldId(v string) {
+func (o *TagField) SetFieldId(v string) {
 	o.FieldId = v
 }
 
 // GetTitle returns the Title field value
-func (o *ListField) GetTitle() string {
+func (o *TagField) GetTitle() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -85,7 +81,7 @@ func (o *ListField) GetTitle() string {
 
 // GetTitleOk returns a tuple with the Title field value
 // and a boolean to check if the value has been set.
-func (o *ListField) GetTitleOk() (*string, bool) {
+func (o *TagField) GetTitleOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -93,12 +89,12 @@ func (o *ListField) GetTitleOk() (*string, bool) {
 }
 
 // SetTitle sets field value
-func (o *ListField) SetTitle(v string) {
+func (o *TagField) SetTitle(v string) {
 	o.Title = v
 }
 
 // GetDescription returns the Description field value if set, zero value otherwise.
-func (o *ListField) GetDescription() string {
+func (o *TagField) GetDescription() string {
 	if o == nil || o.Description == nil {
 		var ret string
 		return ret
@@ -108,7 +104,7 @@ func (o *ListField) GetDescription() string {
 
 // GetDescriptionOk returns a tuple with the Description field value if set, nil otherwise
 // and a boolean to check if the value has been set.
-func (o *ListField) GetDescriptionOk() (*string, bool) {
+func (o *TagField) GetDescriptionOk() (*string, bool) {
 	if o == nil || o.Description == nil {
 		return nil, false
 	}
@@ -116,7 +112,7 @@ func (o *ListField) GetDescriptionOk() (*string, bool) {
 }
 
 // HasDescription returns a boolean if a field has been set.
-func (o *ListField) HasDescription() bool {
+func (o *TagField) HasDescription() bool {
 	if o != nil && o.Description != nil {
 		return true
 	}
@@ -125,12 +121,12 @@ func (o *ListField) HasDescription() bool {
 }
 
 // SetDescription gets a reference to the given string and assigns it to the Description field.
-func (o *ListField) SetDescription(v string) {
+func (o *TagField) SetDescription(v string) {
 	o.Description = &v
 }
 
 // GetType returns the Type field value
-func (o *ListField) GetType() string {
+func (o *TagField) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -141,7 +137,7 @@ func (o *ListField) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *ListField) GetTypeOk() (*string, bool) {
+func (o *TagField) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -149,12 +145,12 @@ func (o *ListField) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *ListField) SetType(v string) {
+func (o *TagField) SetType(v string) {
 	o.Type = v
 }
 
 // GetValues returns the Values field value
-func (o *ListField) GetValues() []string {
+func (o *TagField) GetValues() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -165,7 +161,7 @@ func (o *ListField) GetValues() []string {
 
 // GetValuesOk returns a tuple with the Values field value
 // and a boolean to check if the value has been set.
-func (o *ListField) GetValuesOk() ([]string, bool) {
+func (o *TagField) GetValuesOk() ([]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -173,35 +169,11 @@ func (o *ListField) GetValuesOk() ([]string, bool) {
 }
 
 // SetValues sets field value
-func (o *ListField) SetValues(v []string) {
+func (o *TagField) SetValues(v []string) {
 	o.Values = v
 }
 
-// GetAsTag returns the AsTag field value
-func (o *ListField) GetAsTag() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.AsTag
-}
-
-// GetAsTagOk returns a tuple with the AsTag field value
-// and a boolean to check if the value has been set.
-func (o *ListField) GetAsTagOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.AsTag, true
-}
-
-// SetAsTag sets field value
-func (o *ListField) SetAsTag(v bool) {
-	o.AsTag = v
-}
-
-func (o ListField) MarshalJSON() ([]byte, error) {
+func (o TagField) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["fieldId"] = o.FieldId
@@ -218,44 +190,41 @@ func (o ListField) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["values"] = o.Values
 	}
-	if true {
-		toSerialize["asTag"] = o.AsTag
-	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableListField struct {
-	value *ListField
+type NullableTagField struct {
+	value *TagField
 	isSet bool
 }
 
-func (v NullableListField) Get() *ListField {
+func (v NullableTagField) Get() *TagField {
 	return v.value
 }
 
-func (v *NullableListField) Set(val *ListField) {
+func (v *NullableTagField) Set(val *TagField) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableListField) IsSet() bool {
+func (v NullableTagField) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableListField) Unset() {
+func (v *NullableTagField) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableListField(val *ListField) *NullableListField {
-	return &NullableListField{value: val, isSet: true}
+func NewNullableTagField(val *TagField) *NullableTagField {
+	return &NullableTagField{value: val, isSet: true}
 }
 
-func (v NullableListField) MarshalJSON() ([]byte, error) {
+func (v NullableTagField) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableListField) UnmarshalJSON(src []byte) error {
+func (v *NullableTagField) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

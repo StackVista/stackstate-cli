@@ -1,4 +1,4 @@
-# ListField
+# TagField
 
 ## Properties
 
@@ -9,150 +9,129 @@ Name | Type | Description | Notes
 **Description** | Pointer to **string** |  | [optional] 
 **Type** | **string** |  | 
 **Values** | **[]string** |  | 
-**AsTag** | **bool** |  | [default to false]
 
 ## Methods
 
-### NewListField
+### NewTagField
 
-`func NewListField(fieldId string, title string, type_ string, values []string, asTag bool, ) *ListField`
+`func NewTagField(fieldId string, title string, type_ string, values []string, ) *TagField`
 
-NewListField instantiates a new ListField object
+NewTagField instantiates a new TagField object
 This constructor will assign default values to properties that have it defined,
 and makes sure properties required by API are set, but the set of arguments
 will change when the set of required properties is changed
 
-### NewListFieldWithDefaults
+### NewTagFieldWithDefaults
 
-`func NewListFieldWithDefaults() *ListField`
+`func NewTagFieldWithDefaults() *TagField`
 
-NewListFieldWithDefaults instantiates a new ListField object
+NewTagFieldWithDefaults instantiates a new TagField object
 This constructor will only assign default values to properties that have it defined,
 but it doesn't guarantee that properties required by API are set
 
 ### GetFieldId
 
-`func (o *ListField) GetFieldId() string`
+`func (o *TagField) GetFieldId() string`
 
 GetFieldId returns the FieldId field if non-nil, zero value otherwise.
 
 ### GetFieldIdOk
 
-`func (o *ListField) GetFieldIdOk() (*string, bool)`
+`func (o *TagField) GetFieldIdOk() (*string, bool)`
 
 GetFieldIdOk returns a tuple with the FieldId field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetFieldId
 
-`func (o *ListField) SetFieldId(v string)`
+`func (o *TagField) SetFieldId(v string)`
 
 SetFieldId sets FieldId field to given value.
 
 
 ### GetTitle
 
-`func (o *ListField) GetTitle() string`
+`func (o *TagField) GetTitle() string`
 
 GetTitle returns the Title field if non-nil, zero value otherwise.
 
 ### GetTitleOk
 
-`func (o *ListField) GetTitleOk() (*string, bool)`
+`func (o *TagField) GetTitleOk() (*string, bool)`
 
 GetTitleOk returns a tuple with the Title field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetTitle
 
-`func (o *ListField) SetTitle(v string)`
+`func (o *TagField) SetTitle(v string)`
 
 SetTitle sets Title field to given value.
 
 
 ### GetDescription
 
-`func (o *ListField) GetDescription() string`
+`func (o *TagField) GetDescription() string`
 
 GetDescription returns the Description field if non-nil, zero value otherwise.
 
 ### GetDescriptionOk
 
-`func (o *ListField) GetDescriptionOk() (*string, bool)`
+`func (o *TagField) GetDescriptionOk() (*string, bool)`
 
 GetDescriptionOk returns a tuple with the Description field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetDescription
 
-`func (o *ListField) SetDescription(v string)`
+`func (o *TagField) SetDescription(v string)`
 
 SetDescription sets Description field to given value.
 
 ### HasDescription
 
-`func (o *ListField) HasDescription() bool`
+`func (o *TagField) HasDescription() bool`
 
 HasDescription returns a boolean if a field has been set.
 
 ### GetType
 
-`func (o *ListField) GetType() string`
+`func (o *TagField) GetType() string`
 
 GetType returns the Type field if non-nil, zero value otherwise.
 
 ### GetTypeOk
 
-`func (o *ListField) GetTypeOk() (*string, bool)`
+`func (o *TagField) GetTypeOk() (*string, bool)`
 
 GetTypeOk returns a tuple with the Type field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetType
 
-`func (o *ListField) SetType(v string)`
+`func (o *TagField) SetType(v string)`
 
 SetType sets Type field to given value.
 
 
 ### GetValues
 
-`func (o *ListField) GetValues() []string`
+`func (o *TagField) GetValues() []string`
 
 GetValues returns the Values field if non-nil, zero value otherwise.
 
 ### GetValuesOk
 
-`func (o *ListField) GetValuesOk() (*[]string, bool)`
+`func (o *TagField) GetValuesOk() (*[]string, bool)`
 
 GetValuesOk returns a tuple with the Values field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetValues
 
-`func (o *ListField) SetValues(v []string)`
+`func (o *TagField) SetValues(v []string)`
 
 SetValues sets Values field to given value.
-
-
-### GetAsTag
-
-`func (o *ListField) GetAsTag() bool`
-
-GetAsTag returns the AsTag field if non-nil, zero value otherwise.
-
-### GetAsTagOk
-
-`func (o *ListField) GetAsTagOk() (*bool, bool)`
-
-GetAsTagOk returns a tuple with the AsTag field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAsTag
-
-`func (o *ListField) SetAsTag(v bool)`
-
-SetAsTag sets AsTag field to given value.
 
 
 

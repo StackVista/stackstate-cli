@@ -15,37 +15,33 @@ import (
 	"encoding/json"
 )
 
-// ListFieldAllOf struct for ListFieldAllOf
-type ListFieldAllOf struct {
+// TagFieldAllOf struct for TagFieldAllOf
+type TagFieldAllOf struct {
 	Type   string   `json:"_type" yaml:"_type"`
 	Values []string `json:"values" yaml:"values"`
-	AsTag  bool     `json:"asTag" yaml:"asTag"`
 }
 
-// NewListFieldAllOf instantiates a new ListFieldAllOf object
+// NewTagFieldAllOf instantiates a new TagFieldAllOf object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewListFieldAllOf(type_ string, values []string, asTag bool) *ListFieldAllOf {
-	this := ListFieldAllOf{}
+func NewTagFieldAllOf(type_ string, values []string) *TagFieldAllOf {
+	this := TagFieldAllOf{}
 	this.Type = type_
 	this.Values = values
-	this.AsTag = asTag
 	return &this
 }
 
-// NewListFieldAllOfWithDefaults instantiates a new ListFieldAllOf object
+// NewTagFieldAllOfWithDefaults instantiates a new TagFieldAllOf object
 // This constructor will only assign default values to properties that have it defined,
 // but it doesn't guarantee that properties required by API are set
-func NewListFieldAllOfWithDefaults() *ListFieldAllOf {
-	this := ListFieldAllOf{}
-	var asTag bool = false
-	this.AsTag = asTag
+func NewTagFieldAllOfWithDefaults() *TagFieldAllOf {
+	this := TagFieldAllOf{}
 	return &this
 }
 
 // GetType returns the Type field value
-func (o *ListFieldAllOf) GetType() string {
+func (o *TagFieldAllOf) GetType() string {
 	if o == nil {
 		var ret string
 		return ret
@@ -56,7 +52,7 @@ func (o *ListFieldAllOf) GetType() string {
 
 // GetTypeOk returns a tuple with the Type field value
 // and a boolean to check if the value has been set.
-func (o *ListFieldAllOf) GetTypeOk() (*string, bool) {
+func (o *TagFieldAllOf) GetTypeOk() (*string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -64,12 +60,12 @@ func (o *ListFieldAllOf) GetTypeOk() (*string, bool) {
 }
 
 // SetType sets field value
-func (o *ListFieldAllOf) SetType(v string) {
+func (o *TagFieldAllOf) SetType(v string) {
 	o.Type = v
 }
 
 // GetValues returns the Values field value
-func (o *ListFieldAllOf) GetValues() []string {
+func (o *TagFieldAllOf) GetValues() []string {
 	if o == nil {
 		var ret []string
 		return ret
@@ -80,7 +76,7 @@ func (o *ListFieldAllOf) GetValues() []string {
 
 // GetValuesOk returns a tuple with the Values field value
 // and a boolean to check if the value has been set.
-func (o *ListFieldAllOf) GetValuesOk() ([]string, bool) {
+func (o *TagFieldAllOf) GetValuesOk() ([]string, bool) {
 	if o == nil {
 		return nil, false
 	}
@@ -88,35 +84,11 @@ func (o *ListFieldAllOf) GetValuesOk() ([]string, bool) {
 }
 
 // SetValues sets field value
-func (o *ListFieldAllOf) SetValues(v []string) {
+func (o *TagFieldAllOf) SetValues(v []string) {
 	o.Values = v
 }
 
-// GetAsTag returns the AsTag field value
-func (o *ListFieldAllOf) GetAsTag() bool {
-	if o == nil {
-		var ret bool
-		return ret
-	}
-
-	return o.AsTag
-}
-
-// GetAsTagOk returns a tuple with the AsTag field value
-// and a boolean to check if the value has been set.
-func (o *ListFieldAllOf) GetAsTagOk() (*bool, bool) {
-	if o == nil {
-		return nil, false
-	}
-	return &o.AsTag, true
-}
-
-// SetAsTag sets field value
-func (o *ListFieldAllOf) SetAsTag(v bool) {
-	o.AsTag = v
-}
-
-func (o ListFieldAllOf) MarshalJSON() ([]byte, error) {
+func (o TagFieldAllOf) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["_type"] = o.Type
@@ -124,44 +96,41 @@ func (o ListFieldAllOf) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["values"] = o.Values
 	}
-	if true {
-		toSerialize["asTag"] = o.AsTag
-	}
 	return json.Marshal(toSerialize)
 }
 
-type NullableListFieldAllOf struct {
-	value *ListFieldAllOf
+type NullableTagFieldAllOf struct {
+	value *TagFieldAllOf
 	isSet bool
 }
 
-func (v NullableListFieldAllOf) Get() *ListFieldAllOf {
+func (v NullableTagFieldAllOf) Get() *TagFieldAllOf {
 	return v.value
 }
 
-func (v *NullableListFieldAllOf) Set(val *ListFieldAllOf) {
+func (v *NullableTagFieldAllOf) Set(val *TagFieldAllOf) {
 	v.value = val
 	v.isSet = true
 }
 
-func (v NullableListFieldAllOf) IsSet() bool {
+func (v NullableTagFieldAllOf) IsSet() bool {
 	return v.isSet
 }
 
-func (v *NullableListFieldAllOf) Unset() {
+func (v *NullableTagFieldAllOf) Unset() {
 	v.value = nil
 	v.isSet = false
 }
 
-func NewNullableListFieldAllOf(val *ListFieldAllOf) *NullableListFieldAllOf {
-	return &NullableListFieldAllOf{value: val, isSet: true}
+func NewNullableTagFieldAllOf(val *TagFieldAllOf) *NullableTagFieldAllOf {
+	return &NullableTagFieldAllOf{value: val, isSet: true}
 }
 
-func (v NullableListFieldAllOf) MarshalJSON() ([]byte, error) {
+func (v NullableTagFieldAllOf) MarshalJSON() ([]byte, error) {
 	return json.Marshal(v.value)
 }
 
-func (v *NullableListFieldAllOf) UnmarshalJSON(src []byte) error {
+func (v *NullableTagFieldAllOf) UnmarshalJSON(src []byte) error {
 	v.isSet = true
 	return json.Unmarshal(src, &v.value)
 }

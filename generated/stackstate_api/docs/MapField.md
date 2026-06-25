@@ -9,13 +9,12 @@ Name | Type | Description | Notes
 **Description** | Pointer to **string** |  | [optional] 
 **Type** | **string** |  | 
 **Values** | **map[string]string** |  | 
-**AsTag** | **bool** |  | [default to false]
 
 ## Methods
 
 ### NewMapField
 
-`func NewMapField(fieldId string, title string, type_ string, values map[string]string, asTag bool, ) *MapField`
+`func NewMapField(fieldId string, title string, type_ string, values map[string]string, ) *MapField`
 
 NewMapField instantiates a new MapField object
 This constructor will assign default values to properties that have it defined,
@@ -133,26 +132,6 @@ and a boolean to check if the value has been set.
 `func (o *MapField) SetValues(v map[string]string)`
 
 SetValues sets Values field to given value.
-
-
-### GetAsTag
-
-`func (o *MapField) GetAsTag() bool`
-
-GetAsTag returns the AsTag field if non-nil, zero value otherwise.
-
-### GetAsTagOk
-
-`func (o *MapField) GetAsTagOk() (*bool, bool)`
-
-GetAsTagOk returns a tuple with the AsTag field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetAsTag
-
-`func (o *MapField) SetAsTag(v bool)`
-
-SetAsTag sets AsTag field to given value.
 
 
 

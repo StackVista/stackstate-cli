@@ -261,8 +261,6 @@ docs/LinkCell.md
 docs/LinkField.md
 docs/LinkFieldAllOf.md
 docs/LinkMetaDisplay.md
-docs/ListField.md
-docs/ListFieldAllOf.md
 docs/LockedResponse.md
 docs/LogLevel.md
 docs/LogSeverity.md
@@ -579,7 +577,10 @@ docs/SystemNotification.md
 docs/SystemNotificationSeverity.md
 docs/SystemNotifications.md
 docs/SystemNotificationsApi.md
+docs/TagField.md
+docs/TagFieldAllOf.md
 docs/TagFilter.md
+docs/TagProjection.md
 docs/TeamsChannelRefId.md
 docs/TeamsChannelWriteSchema.md
 docs/TeamsNotificationChannel.md
@@ -861,8 +862,6 @@ model_link_cell.go
 model_link_field.go
 model_link_field_all_of.go
 model_link_meta_display.go
-model_list_field.go
-model_list_field_all_of.go
 model_locked_response.go
 model_log_level.go
 model_log_severity.go
@@ -1158,7 +1157,10 @@ model_suggestions.go
 model_system_notification.go
 model_system_notification_severity.go
 model_system_notifications.go
+model_tag_field.go
+model_tag_field_all_of.go
 model_tag_filter.go
+model_tag_projection.go
 model_teams_channel_ref_id.go
 model_teams_channel_write_schema.go
 model_teams_notification_channel.go
