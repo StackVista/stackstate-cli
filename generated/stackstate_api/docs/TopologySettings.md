@@ -13,8 +13,6 @@ Name | Type | Description | Notes
 **AutoGrouping** | Pointer to **bool** |  | [optional] 
 **ConnectedComponents** | Pointer to **bool** |  | [optional] 
 **NeighboringComponents** | Pointer to **bool** |  | [optional] 
-**Layer** | Pointer to [**TopologyLayer**](TopologyLayer.md) |  | [optional] 
-**Domain** | Pointer to [**TopologyDomain**](TopologyDomain.md) |  | [optional] 
 
 ## Methods
 
@@ -259,56 +257,6 @@ SetNeighboringComponents sets NeighboringComponents field to given value.
 `func (o *TopologySettings) HasNeighboringComponents() bool`
 
 HasNeighboringComponents returns a boolean if a field has been set.
-
-### GetLayer
-
-`func (o *TopologySettings) GetLayer() TopologyLayer`
-
-GetLayer returns the Layer field if non-nil, zero value otherwise.
-
-### GetLayerOk
-
-`func (o *TopologySettings) GetLayerOk() (*TopologyLayer, bool)`
-
-GetLayerOk returns a tuple with the Layer field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetLayer
-
-`func (o *TopologySettings) SetLayer(v TopologyLayer)`
-
-SetLayer sets Layer field to given value.
-
-### HasLayer
-
-`func (o *TopologySettings) HasLayer() bool`
-
-HasLayer returns a boolean if a field has been set.
-
-### GetDomain
-
-`func (o *TopologySettings) GetDomain() TopologyDomain`
-
-GetDomain returns the Domain field if non-nil, zero value otherwise.
-
-### GetDomainOk
-
-`func (o *TopologySettings) GetDomainOk() (*TopologyDomain, bool)`
-
-GetDomainOk returns a tuple with the Domain field if it's non-nil, zero value otherwise
-and a boolean to check if the value has been set.
-
-### SetDomain
-
-`func (o *TopologySettings) SetDomain(v TopologyDomain)`
-
-SetDomain sets Domain field to given value.
-
-### HasDomain
-
-`func (o *TopologySettings) HasDomain() bool`
-
-HasDomain returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

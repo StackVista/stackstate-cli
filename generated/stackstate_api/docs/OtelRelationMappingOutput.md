@@ -6,13 +6,14 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **SourceId** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **TargetId** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
+**TypeName** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 **DependencyType** | **string** | An expression that must produce a string. It must be one of these formats:   - A plain string, for example &#x60;\&quot;this is a plain string\&quot;&#x60;   - A cel expression that must return a string, for example: &#x60;resource.attributes[&#39;service.namespace&#39;]&#x60; | 
 
 ## Methods
 
 ### NewOtelRelationMappingOutput
 
-`func NewOtelRelationMappingOutput(sourceId string, targetId string, dependencyType string, ) *OtelRelationMappingOutput`
+`func NewOtelRelationMappingOutput(sourceId string, targetId string, typeName string, dependencyType string, ) *OtelRelationMappingOutput`
 
 NewOtelRelationMappingOutput instantiates a new OtelRelationMappingOutput object
 This constructor will assign default values to properties that have it defined,
@@ -65,6 +66,26 @@ and a boolean to check if the value has been set.
 `func (o *OtelRelationMappingOutput) SetTargetId(v string)`
 
 SetTargetId sets TargetId field to given value.
+
+
+### GetTypeName
+
+`func (o *OtelRelationMappingOutput) GetTypeName() string`
+
+GetTypeName returns the TypeName field if non-nil, zero value otherwise.
+
+### GetTypeNameOk
+
+`func (o *OtelRelationMappingOutput) GetTypeNameOk() (*string, bool)`
+
+GetTypeNameOk returns a tuple with the TypeName field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetTypeName
+
+`func (o *OtelRelationMappingOutput) SetTypeName(v string)`
+
+SetTypeName sets TypeName field to given value.
 
 
 ### GetDependencyType

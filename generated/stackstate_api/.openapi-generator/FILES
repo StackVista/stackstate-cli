@@ -603,9 +603,7 @@ docs/TooManyActiveQueries.md
 docs/TooManyTopologyResults.md
 docs/Topic.md
 docs/TopicApi.md
-docs/TopologyDomain.md
 docs/TopologyEvent.md
-docs/TopologyLayer.md
 docs/TopologyMatchResult.md
 docs/TopologyOverflowError.md
 docs/TopologyPerspective.md
@@ -1181,9 +1179,7 @@ model_timeline_summary_request_arguments.go
 model_too_many_active_queries.go
 model_too_many_topology_results.go
 model_topic.go
-model_topology_domain.go
 model_topology_event.go
-model_topology_layer.go
 model_topology_match_result.go
 model_topology_overflow_error.go
 model_topology_perspective.go

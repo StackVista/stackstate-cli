@@ -17431,6 +17431,7 @@ components:
         sourceId: sourceId
         dependencyType: dependencyType
         targetId: targetId
+        typeName: typeName
       properties:
         sourceId:
           description: "An expression that must produce a string. It must be one of\
@@ -17438,6 +17439,11 @@ components:
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
           type: string
         targetId:
+          description: "An expression that must produce a string. It must be one of\
+            \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
+            `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
+          type: string
+        typeName:
           description: "An expression that must produce a string. It must be one of\
             \ these formats:\n  - A plain string, for example `\"this is a plain string\"\
             `\n  - A cel expression that must return a string, for example: `resource.attributes['service.namespace']`"
@@ -17459,6 +17465,7 @@ components:
           sourceId: sourceId
           dependencyType: dependencyType
           targetId: targetId
+          typeName: typeName
         identifier: identifier
         input:
           resource:
@@ -17649,18 +17656,12 @@ components:
             neighboringComponents: true
             autoGrouping: true
             groupedByRelations: true
-            domain:
-              name: name
-              order: 1.2315135367772556
             showIndirectRelations: true
             groupedByLayers: true
             connectedComponents: true
             groupingEnabled: true
             minimumGroupSize: 4
             groupedByDomains: true
-            layer:
-              name: name
-              order: 7.386281948385884
           icon: icon
           filters:
           - filterId: filterId
@@ -20254,18 +20255,12 @@ components:
           neighboringComponents: true
           autoGrouping: true
           groupedByRelations: true
-          domain:
-            name: name
-            order: 1.2315135367772556
           showIndirectRelations: true
           groupedByLayers: true
           connectedComponents: true
           groupingEnabled: true
           minimumGroupSize: 4
           groupedByDomains: true
-          layer:
-            name: name
-            order: 7.386281948385884
         icon: icon
         filters:
         - filterId: filterId
@@ -21082,18 +21077,12 @@ components:
         neighboringComponents: true
         autoGrouping: true
         groupedByRelations: true
-        domain:
-          name: name
-          order: 1.2315135367772556
         showIndirectRelations: true
         groupedByLayers: true
         connectedComponents: true
         groupingEnabled: true
         minimumGroupSize: 4
         groupedByDomains: true
-        layer:
-          name: name
-          order: 7.386281948385884
       properties:
         groupingEnabled:
           type: boolean
@@ -21114,46 +21103,6 @@ components:
           type: boolean
         neighboringComponents:
           type: boolean
-        layer:
-          $ref: '#/components/schemas/TopologyLayer'
-        domain:
-          $ref: '#/components/schemas/TopologyDomain'
-      type: object
-    TopologyLayer:
-      description: "Layer assigned to components matched by this presentation, used\
-        \ to bucket and order them in the topology view.\nAt presentation time, the\
-        \ layer of the most-specific matching presentation wins.\nWhen multiple components\
-        \ share a layer name with different orders, the highest order wins.\n"
-      example:
-        name: name
-        order: 7.386281948385884
-      properties:
-        name:
-          type: string
-        order:
-          format: double
-          type: number
-      required:
-      - name
-      - order
-      type: object
-    TopologyDomain:
-      description: "Domain assigned to components matched by this presentation, used\
-        \ to bucket and order them in the topology view.\nAt presentation time, the\
-        \ domain of the most-specific matching presentation wins.\nWhen multiple components\
-        \ share a domain name with different orders, the highest order wins.\n"
-      example:
-        name: name
-        order: 1.2315135367772556
-      properties:
-        name:
-          type: string
-        order:
-          format: double
-          type: number
-      required:
-      - name
-      - order
       type: object
     QueryViewFlag:
       enum:
