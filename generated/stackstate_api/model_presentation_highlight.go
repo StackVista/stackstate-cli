@@ -15,12 +15,13 @@ import (
 	"encoding/json"
 )
 
-// PresentationHighlight Highlight presentation definition. The `fields` define the fields to show in the highlight page. If multiple ComponentPresentations match, fields are merged by `fieldId` according to binding rank. Related resources follow the same merge semantics using `resourceId` as the identity key.
+// PresentationHighlight Highlight presentation definition. The `fields` define the fields to show in the highlight page. If multiple ComponentPresentations match, fields are merged by `fieldId` according to binding rank. Related resources follow the same merge semantics using `resourceId` as the identity key. Links follow the same merge semantics using `linkId` as the identity key.
 type PresentationHighlight struct {
 	Title            string                                `json:"title" yaml:"title"`
 	Fields           []PresentationHighlightField          `json:"fields" yaml:"fields"`
 	Provisioning     *PresentationHighlightProvisioning    `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
 	RelatedResources []PresentationRelatedResource         `json:"relatedResources,omitempty" yaml:"relatedResources,omitempty"`
+	Links            []PresentationLink                    `json:"links,omitempty" yaml:"links,omitempty"`
 	Events           *PresentationHighlightEvents          `json:"events,omitempty" yaml:"events,omitempty"`
 	Metrics          []PresentationHighlightMetricsSection `json:"metrics,omitempty" yaml:"metrics,omitempty"`
 }
@@ -156,6 +157,38 @@ func (o *PresentationHighlight) SetRelatedResources(v []PresentationRelatedResou
 	o.RelatedResources = v
 }
 
+// GetLinks returns the Links field value if set, zero value otherwise.
+func (o *PresentationHighlight) GetLinks() []PresentationLink {
+	if o == nil || o.Links == nil {
+		var ret []PresentationLink
+		return ret
+	}
+	return o.Links
+}
+
+// GetLinksOk returns a tuple with the Links field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *PresentationHighlight) GetLinksOk() ([]PresentationLink, bool) {
+	if o == nil || o.Links == nil {
+		return nil, false
+	}
+	return o.Links, true
+}
+
+// HasLinks returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasLinks() bool {
+	if o != nil && o.Links != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetLinks gets a reference to the given []PresentationLink and assigns it to the Links field.
+func (o *PresentationHighlight) SetLinks(v []PresentationLink) {
+	o.Links = v
+}
+
 // GetEvents returns the Events field value if set, zero value otherwise.
 func (o *PresentationHighlight) GetEvents() PresentationHighlightEvents {
 	if o == nil || o.Events == nil {
@@ -233,6 +266,9 @@ func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	}
 	if o.RelatedResources != nil {
 		toSerialize["relatedResources"] = o.RelatedResources
+	}
+	if o.Links != nil {
+		toSerialize["links"] = o.Links
 	}
 	if o.Events != nil {
 		toSerialize["events"] = o.Events

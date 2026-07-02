@@ -17,7 +17,8 @@ import (
 
 // MonitorPreview struct for MonitorPreview
 type MonitorPreview struct {
-	Arguments []Argument `json:"arguments,omitempty" yaml:"arguments,omitempty"`
+	Arguments       []Argument `json:"arguments,omitempty" yaml:"arguments,omitempty"`
+	IntervalSeconds *int32     `json:"intervalSeconds,omitempty" yaml:"intervalSeconds,omitempty"`
 }
 
 // NewMonitorPreview instantiates a new MonitorPreview object
@@ -69,10 +70,45 @@ func (o *MonitorPreview) SetArguments(v []Argument) {
 	o.Arguments = v
 }
 
+// GetIntervalSeconds returns the IntervalSeconds field value if set, zero value otherwise.
+func (o *MonitorPreview) GetIntervalSeconds() int32 {
+	if o == nil || o.IntervalSeconds == nil {
+		var ret int32
+		return ret
+	}
+	return *o.IntervalSeconds
+}
+
+// GetIntervalSecondsOk returns a tuple with the IntervalSeconds field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *MonitorPreview) GetIntervalSecondsOk() (*int32, bool) {
+	if o == nil || o.IntervalSeconds == nil {
+		return nil, false
+	}
+	return o.IntervalSeconds, true
+}
+
+// HasIntervalSeconds returns a boolean if a field has been set.
+func (o *MonitorPreview) HasIntervalSeconds() bool {
+	if o != nil && o.IntervalSeconds != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetIntervalSeconds gets a reference to the given int32 and assigns it to the IntervalSeconds field.
+func (o *MonitorPreview) SetIntervalSeconds(v int32) {
+	o.IntervalSeconds = &v
+}
+
 func (o MonitorPreview) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if o.Arguments != nil {
 		toSerialize["arguments"] = o.Arguments
+	}
+	if o.IntervalSeconds != nil {
+		toSerialize["intervalSeconds"] = o.IntervalSeconds
 	}
 	return json.Marshal(toSerialize)
 }

@@ -10,6 +10,7 @@ Name | Type | Description | Notes
 **Synced** | [**[]ExternalComponent**](ExternalComponent.md) |  | 
 **Provisioning** | Pointer to [**ComponentProvisioning**](ComponentProvisioning.md) |  | [optional] 
 **RelatedResources** | [**[]RelatedResource**](RelatedResource.md) | Resolved related resource definitions in display order. Backend populates from both legacy and new presentation definitions. | 
+**Links** | [**[]ComponentPresentationLink**](ComponentPresentationLink.md) | Resolved presentation links in display order. Backend populates from matching presentation definitions. | 
 **Events** | Pointer to [**ComponentEvents**](ComponentEvents.md) |  | [optional] 
 **Data** | [**ComponentData**](ComponentData.md) |  | 
 **Highlights** | Pointer to [**LegacyComponentHighlights**](LegacyComponentHighlights.md) |  | [optional] 
@@ -22,7 +23,7 @@ Name | Type | Description | Notes
 
 ### NewFullComponent
 
-`func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, summary ComponentSummary, highlightMetrics []ComponentMetricSection, actions []ComponentAction, ) *FullComponent`
+`func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, links []ComponentPresentationLink, data ComponentData, summary ComponentSummary, highlightMetrics []ComponentMetricSection, actions []ComponentAction, ) *FullComponent`
 
 NewFullComponent instantiates a new FullComponent object
 This constructor will assign default values to properties that have it defined,
@@ -165,6 +166,26 @@ and a boolean to check if the value has been set.
 `func (o *FullComponent) SetRelatedResources(v []RelatedResource)`
 
 SetRelatedResources sets RelatedResources field to given value.
+
+
+### GetLinks
+
+`func (o *FullComponent) GetLinks() []ComponentPresentationLink`
+
+GetLinks returns the Links field if non-nil, zero value otherwise.
+
+### GetLinksOk
+
+`func (o *FullComponent) GetLinksOk() (*[]ComponentPresentationLink, bool)`
+
+GetLinksOk returns a tuple with the Links field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLinks
+
+`func (o *FullComponent) SetLinks(v []ComponentPresentationLink)`
+
+SetLinks sets Links field to given value.
 
 
 ### GetEvents

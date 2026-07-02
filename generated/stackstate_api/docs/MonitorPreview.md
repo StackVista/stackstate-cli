@@ -5,6 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Arguments** | Pointer to [**[]Argument**](Argument.md) |  | [optional] 
+**IntervalSeconds** | Pointer to **int32** |  | [optional] 
 
 ## Methods
 
@@ -49,6 +50,31 @@ SetArguments sets Arguments field to given value.
 `func (o *MonitorPreview) HasArguments() bool`
 
 HasArguments returns a boolean if a field has been set.
+
+### GetIntervalSeconds
+
+`func (o *MonitorPreview) GetIntervalSeconds() int32`
+
+GetIntervalSeconds returns the IntervalSeconds field if non-nil, zero value otherwise.
+
+### GetIntervalSecondsOk
+
+`func (o *MonitorPreview) GetIntervalSecondsOk() (*int32, bool)`
+
+GetIntervalSecondsOk returns a tuple with the IntervalSeconds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIntervalSeconds
+
+`func (o *MonitorPreview) SetIntervalSeconds(v int32)`
+
+SetIntervalSeconds sets IntervalSeconds field to given value.
+
+### HasIntervalSeconds
+
+`func (o *MonitorPreview) HasIntervalSeconds() bool`
+
+HasIntervalSeconds returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

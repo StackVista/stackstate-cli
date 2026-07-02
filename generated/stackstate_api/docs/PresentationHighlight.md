@@ -8,6 +8,7 @@ Name | Type | Description | Notes
 **Fields** | [**[]PresentationHighlightField**](PresentationHighlightField.md) |  | 
 **Provisioning** | Pointer to [**PresentationHighlightProvisioning**](PresentationHighlightProvisioning.md) |  | [optional] 
 **RelatedResources** | Pointer to [**[]PresentationRelatedResource**](PresentationRelatedResource.md) |  | [optional] 
+**Links** | Pointer to [**[]PresentationLink**](PresentationLink.md) |  | [optional] 
 **Events** | Pointer to [**PresentationHighlightEvents**](PresentationHighlightEvents.md) |  | [optional] 
 **Metrics** | Pointer to [**[]PresentationHighlightMetricsSection**](PresentationHighlightMetricsSection.md) |  | [optional] 
 
@@ -119,6 +120,31 @@ SetRelatedResources sets RelatedResources field to given value.
 `func (o *PresentationHighlight) HasRelatedResources() bool`
 
 HasRelatedResources returns a boolean if a field has been set.
+
+### GetLinks
+
+`func (o *PresentationHighlight) GetLinks() []PresentationLink`
+
+GetLinks returns the Links field if non-nil, zero value otherwise.
+
+### GetLinksOk
+
+`func (o *PresentationHighlight) GetLinksOk() (*[]PresentationLink, bool)`
+
+GetLinksOk returns a tuple with the Links field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetLinks
+
+`func (o *PresentationHighlight) SetLinks(v []PresentationLink)`
+
+SetLinks sets Links field to given value.
+
+### HasLinks
+
+`func (o *PresentationHighlight) HasLinks() bool`
+
+HasLinks returns a boolean if a field has been set.
 
 ### GetEvents
 

@@ -8744,11 +8744,14 @@ components:
         arguments:
         - null
         - null
+        intervalSeconds: 0
       properties:
         arguments:
           items:
             $ref: '#/components/schemas/Argument'
           type: array
+        intervalSeconds:
+          type: integer
       type: object
     MonitorPreviewResult:
       example:
@@ -9259,13 +9262,17 @@ components:
         arguments:
         - null
         - null
+        intervalSeconds: 0
       properties:
         arguments:
           items:
             $ref: '#/components/schemas/Argument'
           type: array
+        intervalSeconds:
+          type: integer
       required:
       - arguments
+      - intervalSeconds
       type: object
     MonitorFunctionNotFoundError:
       properties:
@@ -14562,6 +14569,9 @@ components:
           showConfiguration: true
           externalId: externalId
           showStatus: true
+        links:
+        - null
+        - null
         fields:
         - null
         - null
@@ -14605,6 +14615,12 @@ components:
           items:
             $ref: '#/components/schemas/RelatedResource'
           type: array
+        links:
+          description: Resolved presentation links in display order. Backend populates
+            from matching presentation definitions.
+          items:
+            $ref: '#/components/schemas/ComponentPresentationLink'
+          type: array
         events:
           $ref: '#/components/schemas/ComponentEvents'
         data:
@@ -14628,6 +14644,7 @@ components:
       - data
       - fields
       - highlightMetrics
+      - links
       - metricPerspective
       - relatedResources
       - summary
@@ -14799,6 +14816,63 @@ components:
       - presentationIdentifier
       - resourceId
       - stql
+      - title
+      type: object
+    ComponentPresentationLink:
+      description: A resolved link definition returned in the FullComponent response.
+      discriminator:
+        propertyName: _type
+      oneOf:
+      - $ref: '#/components/schemas/ResolvedComponentPresentationLink'
+      - $ref: '#/components/schemas/ErrorComponentPresentationLink'
+    ResolvedComponentPresentationLink:
+      properties:
+        _type:
+          enum:
+          - ResolvedPresentationComponentLink
+          type: string
+        linkId:
+          description: Identity key for this link.
+          type: string
+        title:
+          description: Displayed link title.
+          type: string
+        target:
+          description: Relative or fully-qualified link target.
+          type: string
+        openInNewTab:
+          description: Whether the link opens in a new tab.
+          type: boolean
+        tooltip:
+          description: Optional tooltip text.
+          type: string
+      required:
+      - _type
+      - linkId
+      - openInNewTab
+      - target
+      - title
+      type: object
+    ErrorComponentPresentationLink:
+      properties:
+        _type:
+          enum:
+          - ErrorPresentationComponentLink
+          type: string
+        linkId:
+          description: Identity key for this link.
+          type: string
+        title:
+          description: "Displayed link title, or the link identity when the title\
+            \ could not be resolved."
+          type: string
+        message:
+          description: Reason why the link could not be resolved.
+          type: string
+      required:
+      - _type
+      - linkId
+      - message
       - title
       type: object
     ComponentEvents:
@@ -15623,6 +15697,9 @@ components:
             showConfiguration: true
             externalId: externalId
             showStatus: true
+          links:
+          - null
+          - null
           fields:
           - null
           - null
@@ -15808,6 +15885,9 @@ components:
             showConfiguration: true
             externalId: externalId
             showStatus: true
+          links:
+          - null
+          - null
           fields:
           - null
           - null
@@ -17534,19 +17614,19 @@ components:
           summary:
             metrics:
             - unit: unit
-              decimalPlaces: 9
+              decimalPlaces: 3
               metricId: metricId
               query: query
               summaryMetricId: summaryMetricId
               name: name
-              order: 7.061401241503109
+              order: 9.301444243932576
             - unit: unit
-              decimalPlaces: 9
+              decimalPlaces: 3
               metricId: metricId
               query: query
               summaryMetricId: summaryMetricId
               name: name
-              order: 7.061401241503109
+              order: 9.301444243932576
           overview:
             fixedColumns: 1
             mainMenu:
@@ -17574,6 +17654,21 @@ components:
               topologySourceSelector: topologySourceSelector
               showConfiguration: true
               showStatus: true
+            links:
+            - filter: filter
+              linkId: linkId
+              tooltip: tooltip
+              title: title
+              openInNewTab: false
+              target: target
+              order: 2.3021358869347655
+            - filter: filter
+              linkId: linkId
+              tooltip: tooltip
+              title: title
+              openInNewTab: false
+              target: target
+              order: 2.3021358869347655
             metrics:
             - description: description
               sectionId: sectionId
@@ -17582,7 +17677,7 @@ components:
               - null
               title: title
               defaultExpanded: true
-              order: 2.3021358869347655
+              order: 7.061401241503109
             - description: description
               sectionId: sectionId
               metrics:
@@ -17590,7 +17685,7 @@ components:
               - null
               title: title
               defaultExpanded: true
-              order: 2.3021358869347655
+              order: 7.061401241503109
             title: title
             fields:
             - description: description
@@ -17628,14 +17723,14 @@ components:
                 - null
                 - null
                 title: title
-                order: 2.027123023002322
+                order: 4.145608029883936
               - sectionId: sectionId
                 metrics:
                 - null
                 - null
                 title: title
-                order: 2.027123023002322
-              order: 3.616076749251911
+                order: 4.145608029883936
+              order: 2.027123023002322
             - tabId: tabId
               title: title
               sections:
@@ -17644,14 +17739,14 @@ components:
                 - null
                 - null
                 title: title
-                order: 2.027123023002322
+                order: 4.145608029883936
               - sectionId: sectionId
                 metrics:
                 - null
                 - null
                 title: title
-                order: 2.027123023002322
-              order: 3.616076749251911
+                order: 4.145608029883936
+              order: 2.027123023002322
           topology:
             neighboringComponents: true
             autoGrouping: true
@@ -17660,7 +17755,7 @@ components:
             groupedByLayers: true
             connectedComponents: true
             groupingEnabled: true
-            minimumGroupSize: 4
+            minimumGroupSize: 7
             groupedByDomains: true
           icon: icon
           filters:
@@ -20133,19 +20228,19 @@ components:
         summary:
           metrics:
           - unit: unit
-            decimalPlaces: 9
+            decimalPlaces: 3
             metricId: metricId
             query: query
             summaryMetricId: summaryMetricId
             name: name
-            order: 7.061401241503109
+            order: 9.301444243932576
           - unit: unit
-            decimalPlaces: 9
+            decimalPlaces: 3
             metricId: metricId
             query: query
             summaryMetricId: summaryMetricId
             name: name
-            order: 7.061401241503109
+            order: 9.301444243932576
         overview:
           fixedColumns: 1
           mainMenu:
@@ -20173,6 +20268,21 @@ components:
             topologySourceSelector: topologySourceSelector
             showConfiguration: true
             showStatus: true
+          links:
+          - filter: filter
+            linkId: linkId
+            tooltip: tooltip
+            title: title
+            openInNewTab: false
+            target: target
+            order: 2.3021358869347655
+          - filter: filter
+            linkId: linkId
+            tooltip: tooltip
+            title: title
+            openInNewTab: false
+            target: target
+            order: 2.3021358869347655
           metrics:
           - description: description
             sectionId: sectionId
@@ -20181,7 +20291,7 @@ components:
             - null
             title: title
             defaultExpanded: true
-            order: 2.3021358869347655
+            order: 7.061401241503109
           - description: description
             sectionId: sectionId
             metrics:
@@ -20189,7 +20299,7 @@ components:
             - null
             title: title
             defaultExpanded: true
-            order: 2.3021358869347655
+            order: 7.061401241503109
           title: title
           fields:
           - description: description
@@ -20227,14 +20337,14 @@ components:
               - null
               - null
               title: title
-              order: 2.027123023002322
+              order: 4.145608029883936
             - sectionId: sectionId
               metrics:
               - null
               - null
               title: title
-              order: 2.027123023002322
-            order: 3.616076749251911
+              order: 4.145608029883936
+            order: 2.027123023002322
           - tabId: tabId
             title: title
             sections:
@@ -20243,14 +20353,14 @@ components:
               - null
               - null
               title: title
-              order: 2.027123023002322
+              order: 4.145608029883936
             - sectionId: sectionId
               metrics:
               - null
               - null
               title: title
-              order: 2.027123023002322
-            order: 3.616076749251911
+              order: 4.145608029883936
+            order: 2.027123023002322
         topology:
           neighboringComponents: true
           autoGrouping: true
@@ -20259,7 +20369,7 @@ components:
           groupedByLayers: true
           connectedComponents: true
           groupingEnabled: true
-          minimumGroupSize: 4
+          minimumGroupSize: 7
           groupedByDomains: true
         icon: icon
         filters:
@@ -20573,12 +20683,28 @@ components:
       description: "Highlight presentation definition. The `fields` define the fields\
         \ to show in the highlight page.\nIf multiple ComponentPresentations match,\
         \ fields are merged by `fieldId` according to binding rank.\nRelated resources\
-        \ follow the same merge semantics using `resourceId` as the identity key.\n"
+        \ follow the same merge semantics using `resourceId` as the identity key.\n\
+        Links follow the same merge semantics using `linkId` as the identity key.\n"
       example:
         provisioning:
           topologySourceSelector: topologySourceSelector
           showConfiguration: true
           showStatus: true
+        links:
+        - filter: filter
+          linkId: linkId
+          tooltip: tooltip
+          title: title
+          openInNewTab: false
+          target: target
+          order: 2.3021358869347655
+        - filter: filter
+          linkId: linkId
+          tooltip: tooltip
+          title: title
+          openInNewTab: false
+          target: target
+          order: 2.3021358869347655
         metrics:
         - description: description
           sectionId: sectionId
@@ -20587,7 +20713,7 @@ components:
           - null
           title: title
           defaultExpanded: true
-          order: 2.3021358869347655
+          order: 7.061401241503109
         - description: description
           sectionId: sectionId
           metrics:
@@ -20595,7 +20721,7 @@ components:
           - null
           title: title
           defaultExpanded: true
-          order: 2.3021358869347655
+          order: 7.061401241503109
         title: title
         fields:
         - description: description
@@ -20635,6 +20761,10 @@ components:
         relatedResources:
           items:
             $ref: '#/components/schemas/PresentationRelatedResource'
+          type: array
+        links:
+          items:
+            $ref: '#/components/schemas/PresentationLink'
           type: array
         events:
           $ref: '#/components/schemas/PresentationHighlightEvents'
@@ -20769,6 +20899,57 @@ components:
       - resourceId
       - title
       type: object
+    PresentationLink:
+      description: "Link definition for the highlight page. Each entry defines a navigation\
+        \ link shown for a component.\nMerge semantics follow related resource rules:\n\
+        - All presentations whose binding matches the component contribute links.\n\
+        - Same linkId with higher specificity wins (override).\n- Different linkId\
+        \ entries are appended.\n- Display order is determined by the order field.\n\
+        CEL expressions are evaluated against the component presentation context.\
+        \ The filter is evaluated first;\nif it evaluates to false the link is omitted.\
+        \ If the filter includes the link but required data cannot be\nevaluated,\
+        \ the resolved highlight response reports an error link.\n"
+      example:
+        filter: filter
+        linkId: linkId
+        tooltip: tooltip
+        title: title
+        openInNewTab: false
+        target: target
+        order: 2.3021358869347655
+      properties:
+        linkId:
+          description: "Stable identity key for merging across presentations, analogous\
+            \ to fieldId and resourceId."
+          type: string
+        title:
+          description: CEL expression that returns the displayed link title.
+          type: string
+        target:
+          description: CEL expression that returns a relative or fully-qualified link
+            target.
+          type: string
+        openInNewTab:
+          default: false
+          description: Whether the link opens in a new tab. Defaults to false.
+          type: boolean
+        tooltip:
+          description: Optional CEL expression that returns tooltip text.
+          type: string
+        filter:
+          description: Optional CEL boolean expression deciding whether the link is
+            shown. Missing filters default to true.
+          type: string
+        order:
+          description: Display order. Higher value means it shows first in UI.
+          format: double
+          type: number
+      required:
+      - linkId
+      - order
+      - target
+      - title
+      type: object
     PresentationHighlightEvents:
       example:
         excludedRelatedResourcesQuery: excludedRelatedResourcesQuery
@@ -20793,7 +20974,7 @@ components:
         - null
         title: title
         defaultExpanded: true
-        order: 2.3021358869347655
+        order: 7.061401241503109
       properties:
         sectionId:
           type: string
@@ -20851,19 +21032,19 @@ components:
       example:
         metrics:
         - unit: unit
-          decimalPlaces: 9
+          decimalPlaces: 3
           metricId: metricId
           query: query
           summaryMetricId: summaryMetricId
           name: name
-          order: 7.061401241503109
+          order: 9.301444243932576
         - unit: unit
-          decimalPlaces: 9
+          decimalPlaces: 3
           metricId: metricId
           query: query
           summaryMetricId: summaryMetricId
           name: name
-          order: 7.061401241503109
+          order: 9.301444243932576
       properties:
         metrics:
           items:
@@ -20873,12 +21054,12 @@ components:
     PresentationSummaryMetric:
       example:
         unit: unit
-        decimalPlaces: 9
+        decimalPlaces: 3
         metricId: metricId
         query: query
         summaryMetricId: summaryMetricId
         name: name
-        order: 7.061401241503109
+        order: 9.301444243932576
       properties:
         summaryMetricId:
           type: string
@@ -20976,14 +21157,14 @@ components:
             - null
             - null
             title: title
-            order: 2.027123023002322
+            order: 4.145608029883936
           - sectionId: sectionId
             metrics:
             - null
             - null
             title: title
-            order: 2.027123023002322
-          order: 3.616076749251911
+            order: 4.145608029883936
+          order: 2.027123023002322
         - tabId: tabId
           title: title
           sections:
@@ -20992,14 +21173,14 @@ components:
             - null
             - null
             title: title
-            order: 2.027123023002322
+            order: 4.145608029883936
           - sectionId: sectionId
             metrics:
             - null
             - null
             title: title
-            order: 2.027123023002322
-          order: 3.616076749251911
+            order: 4.145608029883936
+          order: 2.027123023002322
       properties:
         tabs:
           items:
@@ -21018,14 +21199,14 @@ components:
           - null
           - null
           title: title
-          order: 2.027123023002322
+          order: 4.145608029883936
         - sectionId: sectionId
           metrics:
           - null
           - null
           title: title
-          order: 2.027123023002322
-        order: 3.616076749251911
+          order: 4.145608029883936
+        order: 2.027123023002322
       properties:
         tabId:
           type: string
@@ -21050,7 +21231,7 @@ components:
         - null
         - null
         title: title
-        order: 2.027123023002322
+        order: 4.145608029883936
       properties:
         sectionId:
           type: string
@@ -21081,7 +21262,7 @@ components:
         groupedByLayers: true
         connectedComponents: true
         groupingEnabled: true
-        minimumGroupSize: 4
+        minimumGroupSize: 7
         groupedByDomains: true
       properties:
         groupingEnabled:

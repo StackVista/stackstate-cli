@@ -23,26 +23,29 @@ type FullComponent struct {
 	Synced       []ExternalComponent    `json:"synced" yaml:"synced"`
 	Provisioning *ComponentProvisioning `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
 	// Resolved related resource definitions in display order. Backend populates from both legacy and new presentation definitions.
-	RelatedResources []RelatedResource          `json:"relatedResources" yaml:"relatedResources"`
-	Events           *ComponentEvents           `json:"events,omitempty" yaml:"events,omitempty"`
-	Data             ComponentData              `json:"data" yaml:"data"`
-	Highlights       *LegacyComponentHighlights `json:"highlights,omitempty" yaml:"highlights,omitempty"`
-	Summary          ComponentSummary           `json:"summary" yaml:"summary"`
-	HighlightMetrics []ComponentMetricSection   `json:"highlightMetrics" yaml:"highlightMetrics"`
-	Actions          []ComponentAction          `json:"actions" yaml:"actions"`
-	BoundTraces      *BoundTraces               `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
+	RelatedResources []RelatedResource `json:"relatedResources" yaml:"relatedResources"`
+	// Resolved presentation links in display order. Backend populates from matching presentation definitions.
+	Links            []ComponentPresentationLink `json:"links" yaml:"links"`
+	Events           *ComponentEvents            `json:"events,omitempty" yaml:"events,omitempty"`
+	Data             ComponentData               `json:"data" yaml:"data"`
+	Highlights       *LegacyComponentHighlights  `json:"highlights,omitempty" yaml:"highlights,omitempty"`
+	Summary          ComponentSummary            `json:"summary" yaml:"summary"`
+	HighlightMetrics []ComponentMetricSection    `json:"highlightMetrics" yaml:"highlightMetrics"`
+	Actions          []ComponentAction           `json:"actions" yaml:"actions"`
+	BoundTraces      *BoundTraces                `json:"boundTraces,omitempty" yaml:"boundTraces,omitempty"`
 }
 
 // NewFullComponent instantiates a new FullComponent object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, data ComponentData, summary ComponentSummary, highlightMetrics []ComponentMetricSection, actions []ComponentAction) *FullComponent {
+func NewFullComponent(typeName string, fields []ComponentField, synced []ExternalComponent, relatedResources []RelatedResource, links []ComponentPresentationLink, data ComponentData, summary ComponentSummary, highlightMetrics []ComponentMetricSection, actions []ComponentAction) *FullComponent {
 	this := FullComponent{}
 	this.TypeName = typeName
 	this.Fields = fields
 	this.Synced = synced
 	this.RelatedResources = relatedResources
+	this.Links = links
 	this.Data = data
 	this.Summary = summary
 	this.HighlightMetrics = highlightMetrics
@@ -216,6 +219,30 @@ func (o *FullComponent) GetRelatedResourcesOk() ([]RelatedResource, bool) {
 // SetRelatedResources sets field value
 func (o *FullComponent) SetRelatedResources(v []RelatedResource) {
 	o.RelatedResources = v
+}
+
+// GetLinks returns the Links field value
+func (o *FullComponent) GetLinks() []ComponentPresentationLink {
+	if o == nil {
+		var ret []ComponentPresentationLink
+		return ret
+	}
+
+	return o.Links
+}
+
+// GetLinksOk returns a tuple with the Links field value
+// and a boolean to check if the value has been set.
+func (o *FullComponent) GetLinksOk() ([]ComponentPresentationLink, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return o.Links, true
+}
+
+// SetLinks sets field value
+func (o *FullComponent) SetLinks(v []ComponentPresentationLink) {
+	o.Links = v
 }
 
 // GetEvents returns the Events field value if set, zero value otherwise.
@@ -429,6 +456,9 @@ func (o FullComponent) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["relatedResources"] = o.RelatedResources
+	}
+	if true {
+		toSerialize["links"] = o.Links
 	}
 	if o.Events != nil {
 		toSerialize["events"] = o.Events

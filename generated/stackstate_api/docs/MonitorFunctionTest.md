@@ -5,12 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Arguments** | [**[]Argument**](Argument.md) |  | 
+**IntervalSeconds** | **int32** |  | 
 
 ## Methods
 
 ### NewMonitorFunctionTest
 
-`func NewMonitorFunctionTest(arguments []Argument, ) *MonitorFunctionTest`
+`func NewMonitorFunctionTest(arguments []Argument, intervalSeconds int32, ) *MonitorFunctionTest`
 
 NewMonitorFunctionTest instantiates a new MonitorFunctionTest object
 This constructor will assign default values to properties that have it defined,
@@ -43,6 +44,26 @@ and a boolean to check if the value has been set.
 `func (o *MonitorFunctionTest) SetArguments(v []Argument)`
 
 SetArguments sets Arguments field to given value.
+
+
+### GetIntervalSeconds
+
+`func (o *MonitorFunctionTest) GetIntervalSeconds() int32`
+
+GetIntervalSeconds returns the IntervalSeconds field if non-nil, zero value otherwise.
+
+### GetIntervalSecondsOk
+
+`func (o *MonitorFunctionTest) GetIntervalSecondsOk() (*int32, bool)`
+
+GetIntervalSecondsOk returns a tuple with the IntervalSeconds field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetIntervalSeconds
+
+`func (o *MonitorFunctionTest) SetIntervalSeconds(v int32)`
+
+SetIntervalSeconds sets IntervalSeconds field to given value.
 
 
 
