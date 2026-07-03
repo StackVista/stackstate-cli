@@ -70,7 +70,7 @@ docker run -ti --rm stackstate-cli2-ci:latest go version
 
 ## Working with openapi
 
-This repository pulls the stackstate-api spec from the [openapi repository](https://gitlab.com/stackvista/platform/stackstate-openapi).
+This repository pulls the stackstate-api spec from the [openapi repository](https://github.com/StackVista/stackstate-openapi).
 
 ### Bumping the openapi version
 - Change the version/branch/commit sha in the `stackstate_openapi/openapi_version` file
