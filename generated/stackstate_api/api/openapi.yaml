@@ -14829,7 +14829,7 @@ components:
       properties:
         _type:
           enum:
-          - ResolvedPresentationComponentLink
+          - ResolvedComponentPresentationLink
           type: string
         linkId:
           description: Identity key for this link.
@@ -18753,6 +18753,7 @@ components:
             connectedComponents: true
             groupingEnabled: true
             groupedByDomain: true
+        readOnly: true
         topologyQuery: topologyQuery
         events: "{}"
       properties:
@@ -18764,6 +18765,12 @@ components:
           description: "STQL query for this view. Used by the shared timeline, the\
             \ events perspective, and the topology perspective."
           type: string
+        readOnly:
+          description: "When true, the view is system-managed (e.g. a ComponentPresentation\
+            \ or ViewType) and the\nfrontend must not offer save, save-as, edit, or\
+            \ delete operations. When false, the view is\na user-managed QueryView\
+            \ and mutation operations are permitted subject to normal permission checks.\n"
+          type: boolean
         overview:
           type: object
         topology:
@@ -18772,6 +18779,7 @@ components:
           type: object
       required:
       - identifier
+      - readOnly
       - topologyQuery
       type: object
     OverviewPerspective:
@@ -20946,9 +20954,6 @@ components:
           type: number
       required:
       - linkId
-      - order
-      - target
-      - title
       type: object
     PresentationHighlightEvents:
       example:

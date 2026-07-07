@@ -20,9 +20,9 @@ type PresentationLink struct {
 	// Stable identity key for merging across presentations, analogous to fieldId and resourceId.
 	LinkId string `json:"linkId" yaml:"linkId"`
 	// CEL expression that returns the displayed link title.
-	Title string `json:"title" yaml:"title"`
+	Title *string `json:"title,omitempty" yaml:"title,omitempty"`
 	// CEL expression that returns a relative or fully-qualified link target.
-	Target string `json:"target" yaml:"target"`
+	Target *string `json:"target,omitempty" yaml:"target,omitempty"`
 	// Whether the link opens in a new tab. Defaults to false.
 	OpenInNewTab *bool `json:"openInNewTab,omitempty" yaml:"openInNewTab,omitempty"`
 	// Optional CEL expression that returns tooltip text.
@@ -30,21 +30,18 @@ type PresentationLink struct {
 	// Optional CEL boolean expression deciding whether the link is shown. Missing filters default to true.
 	Filter *string `json:"filter,omitempty" yaml:"filter,omitempty"`
 	// Display order. Higher value means it shows first in UI.
-	Order float64 `json:"order" yaml:"order"`
+	Order *float64 `json:"order,omitempty" yaml:"order,omitempty"`
 }
 
 // NewPresentationLink instantiates a new PresentationLink object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPresentationLink(linkId string, title string, target string, order float64) *PresentationLink {
+func NewPresentationLink(linkId string) *PresentationLink {
 	this := PresentationLink{}
 	this.LinkId = linkId
-	this.Title = title
-	this.Target = target
 	var openInNewTab bool = false
 	this.OpenInNewTab = &openInNewTab
-	this.Order = order
 	return &this
 }
 
@@ -82,52 +79,68 @@ func (o *PresentationLink) SetLinkId(v string) {
 	o.LinkId = v
 }
 
-// GetTitle returns the Title field value
+// GetTitle returns the Title field value if set, zero value otherwise.
 func (o *PresentationLink) GetTitle() string {
-	if o == nil {
+	if o == nil || o.Title == nil {
 		var ret string
 		return ret
 	}
-
-	return o.Title
+	return *o.Title
 }
 
-// GetTitleOk returns a tuple with the Title field value
+// GetTitleOk returns a tuple with the Title field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *PresentationLink) GetTitleOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Title == nil {
 		return nil, false
 	}
-	return &o.Title, true
+	return o.Title, true
 }
 
-// SetTitle sets field value
+// HasTitle returns a boolean if a field has been set.
+func (o *PresentationLink) HasTitle() bool {
+	if o != nil && o.Title != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetTitle gets a reference to the given string and assigns it to the Title field.
 func (o *PresentationLink) SetTitle(v string) {
-	o.Title = v
+	o.Title = &v
 }
 
-// GetTarget returns the Target field value
+// GetTarget returns the Target field value if set, zero value otherwise.
 func (o *PresentationLink) GetTarget() string {
-	if o == nil {
+	if o == nil || o.Target == nil {
 		var ret string
 		return ret
 	}
-
-	return o.Target
+	return *o.Target
 }
 
-// GetTargetOk returns a tuple with the Target field value
+// GetTargetOk returns a tuple with the Target field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *PresentationLink) GetTargetOk() (*string, bool) {
-	if o == nil {
+	if o == nil || o.Target == nil {
 		return nil, false
 	}
-	return &o.Target, true
+	return o.Target, true
 }
 
-// SetTarget sets field value
+// HasTarget returns a boolean if a field has been set.
+func (o *PresentationLink) HasTarget() bool {
+	if o != nil && o.Target != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetTarget gets a reference to the given string and assigns it to the Target field.
 func (o *PresentationLink) SetTarget(v string) {
-	o.Target = v
+	o.Target = &v
 }
 
 // GetOpenInNewTab returns the OpenInNewTab field value if set, zero value otherwise.
@@ -226,28 +239,36 @@ func (o *PresentationLink) SetFilter(v string) {
 	o.Filter = &v
 }
 
-// GetOrder returns the Order field value
+// GetOrder returns the Order field value if set, zero value otherwise.
 func (o *PresentationLink) GetOrder() float64 {
-	if o == nil {
+	if o == nil || o.Order == nil {
 		var ret float64
 		return ret
 	}
-
-	return o.Order
+	return *o.Order
 }
 
-// GetOrderOk returns a tuple with the Order field value
+// GetOrderOk returns a tuple with the Order field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *PresentationLink) GetOrderOk() (*float64, bool) {
-	if o == nil {
+	if o == nil || o.Order == nil {
 		return nil, false
 	}
-	return &o.Order, true
+	return o.Order, true
 }
 
-// SetOrder sets field value
+// HasOrder returns a boolean if a field has been set.
+func (o *PresentationLink) HasOrder() bool {
+	if o != nil && o.Order != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetOrder gets a reference to the given float64 and assigns it to the Order field.
 func (o *PresentationLink) SetOrder(v float64) {
-	o.Order = v
+	o.Order = &v
 }
 
 func (o PresentationLink) MarshalJSON() ([]byte, error) {
@@ -255,10 +276,10 @@ func (o PresentationLink) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["linkId"] = o.LinkId
 	}
-	if true {
+	if o.Title != nil {
 		toSerialize["title"] = o.Title
 	}
-	if true {
+	if o.Target != nil {
 		toSerialize["target"] = o.Target
 	}
 	if o.OpenInNewTab != nil {
@@ -270,7 +291,7 @@ func (o PresentationLink) MarshalJSON() ([]byte, error) {
 	if o.Filter != nil {
 		toSerialize["filter"] = o.Filter
 	}
-	if true {
+	if o.Order != nil {
 		toSerialize["order"] = o.Order
 	}
 	return json.Marshal(toSerialize)

@@ -5,18 +5,18 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **LinkId** | **string** | Stable identity key for merging across presentations, analogous to fieldId and resourceId. | 
-**Title** | **string** | CEL expression that returns the displayed link title. | 
-**Target** | **string** | CEL expression that returns a relative or fully-qualified link target. | 
+**Title** | Pointer to **string** | CEL expression that returns the displayed link title. | [optional] 
+**Target** | Pointer to **string** | CEL expression that returns a relative or fully-qualified link target. | [optional] 
 **OpenInNewTab** | Pointer to **bool** | Whether the link opens in a new tab. Defaults to false. | [optional] [default to false]
 **Tooltip** | Pointer to **string** | Optional CEL expression that returns tooltip text. | [optional] 
 **Filter** | Pointer to **string** | Optional CEL boolean expression deciding whether the link is shown. Missing filters default to true. | [optional] 
-**Order** | **float64** | Display order. Higher value means it shows first in UI. | 
+**Order** | Pointer to **float64** | Display order. Higher value means it shows first in UI. | [optional] 
 
 ## Methods
 
 ### NewPresentationLink
 
-`func NewPresentationLink(linkId string, title string, target string, order float64, ) *PresentationLink`
+`func NewPresentationLink(linkId string, ) *PresentationLink`
 
 NewPresentationLink instantiates a new PresentationLink object
 This constructor will assign default values to properties that have it defined,
@@ -70,6 +70,11 @@ and a boolean to check if the value has been set.
 
 SetTitle sets Title field to given value.
 
+### HasTitle
+
+`func (o *PresentationLink) HasTitle() bool`
+
+HasTitle returns a boolean if a field has been set.
 
 ### GetTarget
 
@@ -90,6 +95,11 @@ and a boolean to check if the value has been set.
 
 SetTarget sets Target field to given value.
 
+### HasTarget
+
+`func (o *PresentationLink) HasTarget() bool`
+
+HasTarget returns a boolean if a field has been set.
 
 ### GetOpenInNewTab
 
@@ -185,6 +195,11 @@ and a boolean to check if the value has been set.
 
 SetOrder sets Order field to given value.
 
+### HasOrder
+
+`func (o *PresentationLink) HasOrder() bool`
+
+HasOrder returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
