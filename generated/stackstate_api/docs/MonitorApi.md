@@ -879,7 +879,7 @@ import (
 
 func main() {
     monitorFunctionIdOrUrn := "monitorFunctionIdOrUrn_example" // string | The id or identifier (urn) of a monitor function
-    monitorFunctionTest := *openapiclient.NewMonitorFunctionTest([]openapiclient.Argument{openapiclient.Argument{ArgumentBooleanVal: openapiclient.NewArgumentBooleanVal("Type_example", int64(123), false)}}) // MonitorFunctionTest | Monitor function arguments to test
+    monitorFunctionTest := *openapiclient.NewMonitorFunctionTest([]openapiclient.Argument{openapiclient.Argument{ArgumentBooleanVal: openapiclient.NewArgumentBooleanVal("Type_example", int64(123), false)}}, int32(123)) // MonitorFunctionTest | Monitor function arguments to test
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
@@ -951,7 +951,7 @@ import (
 
 func main() {
     monitorFunctionIdOrUrn := "monitorFunctionIdOrUrn_example" // string | The id or identifier (urn) of a monitor function
-    monitorFunctionTest := *openapiclient.NewMonitorFunctionTest([]openapiclient.Argument{openapiclient.Argument{ArgumentBooleanVal: openapiclient.NewArgumentBooleanVal("Type_example", int64(123), false)}}) // MonitorFunctionTest | Monitor function arguments to test
+    monitorFunctionTest := *openapiclient.NewMonitorFunctionTest([]openapiclient.Argument{openapiclient.Argument{ArgumentBooleanVal: openapiclient.NewArgumentBooleanVal("Type_example", int64(123), false)}}, int32(123)) // MonitorFunctionTest | Monitor function arguments to test
     healthState := openapiclient.HealthStateValue("UNINITIALIZED") // HealthStateValue | Health state of check states (optional)
     limit := int32(56) // int32 |  (optional)
 

@@ -20,20 +20,23 @@ type Perspectives struct {
 	// The resolved URN (ComponentPresentation identifier or legacy QueryView/ViewType URN).
 	Identifier string `json:"identifier" yaml:"identifier"`
 	// STQL query for this view. Used by the shared timeline, the events perspective, and the topology perspective.
-	TopologyQuery string                 `json:"topologyQuery" yaml:"topologyQuery"`
-	Overview      map[string]interface{} `json:"overview,omitempty" yaml:"overview,omitempty"`
-	Topology      *TopologyPerspective   `json:"topology,omitempty" yaml:"topology,omitempty"`
-	Events        map[string]interface{} `json:"events,omitempty" yaml:"events,omitempty"`
+	TopologyQuery string `json:"topologyQuery" yaml:"topologyQuery"`
+	// When true, the view is system-managed (e.g. a ComponentPresentation or ViewType) and the frontend must not offer save, save-as, edit, or delete operations. When false, the view is a user-managed QueryView and mutation operations are permitted subject to normal permission checks.
+	ReadOnly bool                   `json:"readOnly" yaml:"readOnly"`
+	Overview map[string]interface{} `json:"overview,omitempty" yaml:"overview,omitempty"`
+	Topology *TopologyPerspective   `json:"topology,omitempty" yaml:"topology,omitempty"`
+	Events   map[string]interface{} `json:"events,omitempty" yaml:"events,omitempty"`
 }
 
 // NewPerspectives instantiates a new Perspectives object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPerspectives(identifier string, topologyQuery string) *Perspectives {
+func NewPerspectives(identifier string, topologyQuery string, readOnly bool) *Perspectives {
 	this := Perspectives{}
 	this.Identifier = identifier
 	this.TopologyQuery = topologyQuery
+	this.ReadOnly = readOnly
 	return &this
 }
 
@@ -91,6 +94,30 @@ func (o *Perspectives) GetTopologyQueryOk() (*string, bool) {
 // SetTopologyQuery sets field value
 func (o *Perspectives) SetTopologyQuery(v string) {
 	o.TopologyQuery = v
+}
+
+// GetReadOnly returns the ReadOnly field value
+func (o *Perspectives) GetReadOnly() bool {
+	if o == nil {
+		var ret bool
+		return ret
+	}
+
+	return o.ReadOnly
+}
+
+// GetReadOnlyOk returns a tuple with the ReadOnly field value
+// and a boolean to check if the value has been set.
+func (o *Perspectives) GetReadOnlyOk() (*bool, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.ReadOnly, true
+}
+
+// SetReadOnly sets field value
+func (o *Perspectives) SetReadOnly(v bool) {
+	o.ReadOnly = v
 }
 
 // GetOverview returns the Overview field value if set, zero value otherwise.
@@ -196,6 +223,9 @@ func (o Perspectives) MarshalJSON() ([]byte, error) {
 	}
 	if true {
 		toSerialize["topologyQuery"] = o.TopologyQuery
+	}
+	if true {
+		toSerialize["readOnly"] = o.ReadOnly
 	}
 	if o.Overview != nil {
 		toSerialize["overview"] = o.Overview

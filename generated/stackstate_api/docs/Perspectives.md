@@ -6,6 +6,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Identifier** | **string** | The resolved URN (ComponentPresentation identifier or legacy QueryView/ViewType URN). | 
 **TopologyQuery** | **string** | STQL query for this view. Used by the shared timeline, the events perspective, and the topology perspective. | 
+**ReadOnly** | **bool** | When true, the view is system-managed (e.g. a ComponentPresentation or ViewType) and the frontend must not offer save, save-as, edit, or delete operations. When false, the view is a user-managed QueryView and mutation operations are permitted subject to normal permission checks.  | 
 **Overview** | Pointer to **map[string]interface{}** |  | [optional] 
 **Topology** | Pointer to [**TopologyPerspective**](TopologyPerspective.md) |  | [optional] 
 **Events** | Pointer to **map[string]interface{}** |  | [optional] 
@@ -14,7 +15,7 @@ Name | Type | Description | Notes
 
 ### NewPerspectives
 
-`func NewPerspectives(identifier string, topologyQuery string, ) *Perspectives`
+`func NewPerspectives(identifier string, topologyQuery string, readOnly bool, ) *Perspectives`
 
 NewPerspectives instantiates a new Perspectives object
 This constructor will assign default values to properties that have it defined,
@@ -67,6 +68,26 @@ and a boolean to check if the value has been set.
 `func (o *Perspectives) SetTopologyQuery(v string)`
 
 SetTopologyQuery sets TopologyQuery field to given value.
+
+
+### GetReadOnly
+
+`func (o *Perspectives) GetReadOnly() bool`
+
+GetReadOnly returns the ReadOnly field if non-nil, zero value otherwise.
+
+### GetReadOnlyOk
+
+`func (o *Perspectives) GetReadOnlyOk() (*bool, bool)`
+
+GetReadOnlyOk returns a tuple with the ReadOnly field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetReadOnly
+
+`func (o *Perspectives) SetReadOnly(v bool)`
+
+SetReadOnly sets ReadOnly field to given value.
 
 
 ### GetOverview

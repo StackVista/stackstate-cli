@@ -119,6 +119,7 @@ docs/ComponentPresentationApi.md
 docs/ComponentPresentationApiError.md
 docs/ComponentPresentationFilter.md
 docs/ComponentPresentationFilterDefinition.md
+docs/ComponentPresentationLink.md
 docs/ComponentPresentationMetric.md
 docs/ComponentPresentationQueryBinding.md
 docs/ComponentPresentationRank.md
@@ -162,6 +163,7 @@ docs/EmailChannelWriteSchema.md
 docs/EmailNotificationChannel.md
 docs/EmailNotificationChannelAllOf.md
 docs/EmailNotificationStatus.md
+docs/ErrorComponentPresentationLink.md
 docs/ErrorField.md
 docs/ErrorFieldAllOf.md
 docs/EventApi.md
@@ -460,6 +462,7 @@ docs/PresentationHighlightEvents.md
 docs/PresentationHighlightField.md
 docs/PresentationHighlightMetricsSection.md
 docs/PresentationHighlightProvisioning.md
+docs/PresentationLink.md
 docs/PresentationMainMenu.md
 docs/PresentationMetricPerspective.md
 docs/PresentationMetricPerspectiveSection.md
@@ -516,6 +519,7 @@ docs/RelationData.md
 docs/ReleaseStatus.md
 docs/RequestError.md
 docs/RequestValidationError.md
+docs/ResolvedComponentPresentationLink.md
 docs/Role.md
 docs/RoleNotAvailableError.md
 docs/Roles.md
@@ -725,6 +729,7 @@ model_component_presentation.go
 model_component_presentation_api_error.go
 model_component_presentation_filter.go
 model_component_presentation_filter_definition.go
+model_component_presentation_link.go
 model_component_presentation_metric.go
 model_component_presentation_query_binding.go
 model_component_presentation_rank.go
@@ -766,6 +771,7 @@ model_email_channel_write_schema.go
 model_email_notification_channel.go
 model_email_notification_channel_all_of.go
 model_email_notification_status.go
+model_error_component_presentation_link.go
 model_error_field.go
 model_error_field_all_of.go
 model_event_bucket.go
@@ -1048,6 +1054,7 @@ model_presentation_highlight_events.go
 model_presentation_highlight_field.go
 model_presentation_highlight_metrics_section.go
 model_presentation_highlight_provisioning.go
+model_presentation_link.go
 model_presentation_main_menu.go
 model_presentation_metric_perspective.go
 model_presentation_metric_perspective_section.go
@@ -1102,6 +1109,7 @@ model_relation_data.go
 model_release_status.go
 model_request_error.go
 model_request_validation_error.go
+model_resolved_component_presentation_link.go
 model_role.go
 model_role_not_available_error.go
 model_roles.go

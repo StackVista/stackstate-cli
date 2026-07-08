@@ -17,16 +17,18 @@ import (
 
 // MonitorFunctionTest struct for MonitorFunctionTest
 type MonitorFunctionTest struct {
-	Arguments []Argument `json:"arguments" yaml:"arguments"`
+	Arguments       []Argument `json:"arguments" yaml:"arguments"`
+	IntervalSeconds int32      `json:"intervalSeconds" yaml:"intervalSeconds"`
 }
 
 // NewMonitorFunctionTest instantiates a new MonitorFunctionTest object
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewMonitorFunctionTest(arguments []Argument) *MonitorFunctionTest {
+func NewMonitorFunctionTest(arguments []Argument, intervalSeconds int32) *MonitorFunctionTest {
 	this := MonitorFunctionTest{}
 	this.Arguments = arguments
+	this.IntervalSeconds = intervalSeconds
 	return &this
 }
 
@@ -62,10 +64,37 @@ func (o *MonitorFunctionTest) SetArguments(v []Argument) {
 	o.Arguments = v
 }
 
+// GetIntervalSeconds returns the IntervalSeconds field value
+func (o *MonitorFunctionTest) GetIntervalSeconds() int32 {
+	if o == nil {
+		var ret int32
+		return ret
+	}
+
+	return o.IntervalSeconds
+}
+
+// GetIntervalSecondsOk returns a tuple with the IntervalSeconds field value
+// and a boolean to check if the value has been set.
+func (o *MonitorFunctionTest) GetIntervalSecondsOk() (*int32, bool) {
+	if o == nil {
+		return nil, false
+	}
+	return &o.IntervalSeconds, true
+}
+
+// SetIntervalSeconds sets field value
+func (o *MonitorFunctionTest) SetIntervalSeconds(v int32) {
+	o.IntervalSeconds = v
+}
+
 func (o MonitorFunctionTest) MarshalJSON() ([]byte, error) {
 	toSerialize := map[string]interface{}{}
 	if true {
 		toSerialize["arguments"] = o.Arguments
+	}
+	if true {
+		toSerialize["intervalSeconds"] = o.IntervalSeconds
 	}
 	return json.Marshal(toSerialize)
 }
