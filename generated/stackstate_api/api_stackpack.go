@@ -348,11 +348,18 @@ type ApiProvisionDetailsRequest struct {
 	ApiService    StackpackApi
 	stackPackName string
 	unlocked      *string
+	version       *string
 	requestBody   *map[string]string
 }
 
 func (r ApiProvisionDetailsRequest) Unlocked(unlocked string) ApiProvisionDetailsRequest {
 	r.unlocked = &unlocked
+	return r
+}
+
+// Optional version string (e.g. &#39;1.2.3&#39;). If not provided, the latest version is used. When provisioning, the StackPack cannot already be installed at a different version.
+func (r ApiProvisionDetailsRequest) Version(version string) ApiProvisionDetailsRequest {
+	r.version = &version
 	return r
 }
 
@@ -409,6 +416,9 @@ func (a *StackpackApiService) ProvisionDetailsExecute(r ApiProvisionDetailsReque
 	}
 
 	localVarQueryParams.Add("unlocked", parameterToString(*r.unlocked, ""))
+	if r.version != nil {
+		localVarQueryParams.Add("version", parameterToString(*r.version, ""))
+	}
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
 
@@ -2033,6 +2043,7 @@ type ProvisionDetailsMockResponse struct {
 type ProvisionDetailsCall struct {
 	PstackPackName string
 	Punlocked      *string
+	Pversion       *string
 	PrequestBody   *map[string]string
 }
 
@@ -2048,6 +2059,7 @@ func (mock StackpackApiMock) ProvisionDetailsExecute(r ApiProvisionDetailsReques
 	p := ProvisionDetailsCall{
 		PstackPackName: r.stackPackName,
 		Punlocked:      r.unlocked,
+		Pversion:       r.version,
 		PrequestBody:   r.requestBody,
 	}
 	*mock.ProvisionDetailsCalls = append(*mock.ProvisionDetailsCalls, p)

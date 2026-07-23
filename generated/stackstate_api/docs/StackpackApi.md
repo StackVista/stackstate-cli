@@ -92,7 +92,7 @@ Name | Type | Description  | Notes
 
 ## ProvisionDetails
 
-> ProvisionResponse ProvisionDetails(ctx, stackPackName).Unlocked(unlocked).RequestBody(requestBody).Execute()
+> ProvisionResponse ProvisionDetails(ctx, stackPackName).Unlocked(unlocked).Version(version).RequestBody(requestBody).Execute()
 
 Provision API
 
@@ -113,11 +113,12 @@ import (
 func main() {
     stackPackName := "stackPackName_example" // string | 
     unlocked := "unlocked_example" // string | 
+    version := "version_example" // string | Optional version string (e.g. '1.2.3'). If not provided, the latest version is used. When provisioning, the StackPack cannot already be installed at a different version. (optional)
     requestBody := map[string]string{"key": "Inner_example"} // map[string]string |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     apiClient := openapiclient.NewAPIClient(configuration)
-    resp, r, err := apiClient.StackpackApi.ProvisionDetails(context.Background(), stackPackName).Unlocked(unlocked).RequestBody(requestBody).Execute()
+    resp, r, err := apiClient.StackpackApi.ProvisionDetails(context.Background(), stackPackName).Unlocked(unlocked).Version(version).RequestBody(requestBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.ProvisionDetails``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -144,6 +145,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **unlocked** | **string** |  | 
+ **version** | **string** | Optional version string (e.g. &#39;1.2.3&#39;). If not provided, the latest version is used. When provisioning, the StackPack cannot already be installed at a different version. | 
  **requestBody** | **map[string]string** |  | 
 
 ### Return type

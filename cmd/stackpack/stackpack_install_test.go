@@ -112,6 +112,34 @@ func TestStackpackInstallNoParameters(t *testing.T) {
 	)
 }
 
+func TestStackpackInstallWithVersion(t *testing.T) {
+	cli, cmd := setupStackPackInstallCmd(t)
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
+		"--stackpack-version", "3.2.0",
+	)
+
+	strategyFlag := FailStrategy
+	versionFlag := "3.2.0"
+	assert.Equal(t,
+		stackstate_api.ProvisionDetailsCall{
+			PstackPackName: "zabbix",
+			Punlocked:      &strategyFlag,
+			Pversion:       &versionFlag,
+			PrequestBody:   &map[string]string{},
+		},
+		(*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0],
+	)
+}
+
+func TestStackpackInstallWithoutVersion(t *testing.T) {
+	cli, cmd := setupStackPackInstallCmd(t)
+
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix")
+
+	assert.Nil(t, (*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0].Pversion)
+}
+
 func TestStackpackInstallPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 

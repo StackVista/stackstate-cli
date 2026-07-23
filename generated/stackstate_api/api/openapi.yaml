@@ -413,6 +413,14 @@ paths:
         required: true
         schema:
           type: string
+      - description: "Optional version string (e.g. '1.2.3'). If not provided, the\
+          \ latest version is used. When provisioning, the StackPack cannot already\
+          \ be installed at a different version."
+        in: query
+        name: version
+        required: false
+        schema:
+          type: string
       requestBody:
         content:
           application/json:
@@ -14857,7 +14865,7 @@ components:
       properties:
         _type:
           enum:
-          - ErrorPresentationComponentLink
+          - ErrorComponentPresentationLink
           type: string
         linkId:
           description: Identity key for this link.
@@ -20781,7 +20789,6 @@ components:
             $ref: '#/components/schemas/PresentationHighlightMetricsSection'
           type: array
       required:
-      - fields
       - title
       type: object
     PresentationHighlightField:
