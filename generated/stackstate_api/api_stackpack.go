@@ -40,6 +40,21 @@ type StackpackApi interface {
 	ConfirmManualStepsExecute(r ApiConfirmManualStepsRequest) (string, *http.Response, error)
 
 	/*
+		DowngradeStackPack Downgrade API
+
+		Downgrade a StackPack to an older version. Only supported for StackPacks 2.0; the target version must be lower than the currently installed version.
+
+		@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+		@param stackPackName
+		@return ApiDowngradeStackPackRequest
+	*/
+	DowngradeStackPack(ctx context.Context, stackPackName string) ApiDowngradeStackPackRequest
+
+	// DowngradeStackPackExecute executes the request
+	//  @return string
+	DowngradeStackPackExecute(r ApiDowngradeStackPackRequest) (string, *http.Response, error)
+
+	/*
 		ProvisionDetails Provision API
 
 		Provision details
@@ -238,6 +253,172 @@ func (a *StackpackApiService) ConfirmManualStepsExecute(r ApiConfirmManualStepsR
 	localVarQueryParams := url.Values{}
 	localVarFormParams := url.Values{}
 
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ApiToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Token"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceBearer"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-ServiceBearer"] = key
+			}
+		}
+	}
+	if r.ctx != nil {
+		// API Key Authentication
+		if auth, ok := r.ctx.Value(ContextAPIKeys).(map[string]APIKey); ok {
+			if apiKey, ok := auth["ServiceToken"]; ok {
+				var key string
+				if apiKey.Prefix != "" {
+					key = apiKey.Prefix + " " + apiKey.Key
+				} else {
+					key = apiKey.Key
+				}
+				localVarHeaderParams["X-API-Key"] = key
+			}
+		}
+	}
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v GenericErrorsResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := &GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
+
+type ApiDowngradeStackPackRequest struct {
+	ctx           context.Context
+	ApiService    StackpackApi
+	stackPackName string
+	version       *string
+}
+
+// Version string (e.g. &#39;1.2.3&#39;) to downgrade to. Must be lower than the currently installed version.
+func (r ApiDowngradeStackPackRequest) Version(version string) ApiDowngradeStackPackRequest {
+	r.version = &version
+	return r
+}
+
+func (r ApiDowngradeStackPackRequest) Execute() (string, *http.Response, error) {
+	return r.ApiService.DowngradeStackPackExecute(r)
+}
+
+/*
+DowngradeStackPack Downgrade API
+
+Downgrade a StackPack to an older version. Only supported for StackPacks 2.0; the target version must be lower than the currently installed version.
+
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@param stackPackName
+	@return ApiDowngradeStackPackRequest
+*/
+func (a *StackpackApiService) DowngradeStackPack(ctx context.Context, stackPackName string) ApiDowngradeStackPackRequest {
+	return ApiDowngradeStackPackRequest{
+		ApiService:    a,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+	}
+}
+
+// Execute executes the request
+//
+//	@return string
+func (a *StackpackApiService) DowngradeStackPackExecute(r ApiDowngradeStackPackRequest) (string, *http.Response, error) {
+	var (
+		localVarHTTPMethod  = http.MethodPost
+		localVarPostBody    interface{}
+		formFiles           []formFile
+		localVarReturnValue string
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "StackpackApiService.DowngradeStackPack")
+	if err != nil {
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/stackpack/{stackPackName}/downgrade"
+	localVarPath = strings.Replace(localVarPath, "{"+"stackPackName"+"}", url.PathEscape(parameterToString(r.stackPackName, "")), -1)
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
+	if r.version == nil {
+		return localVarReturnValue, nil, reportError("version is required and must be specified")
+	}
+
+	localVarQueryParams.Add("version", parameterToString(*r.version, ""))
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{}
 
@@ -1960,6 +2141,8 @@ func (a *StackpackApiService) UpgradeStackPackExecute(r ApiUpgradeStackPackReque
 type StackpackApiMock struct {
 	ConfirmManualStepsCalls         *[]ConfirmManualStepsCall
 	ConfirmManualStepsResponse      ConfirmManualStepsMockResponse
+	DowngradeStackPackCalls         *[]DowngradeStackPackCall
+	DowngradeStackPackResponse      DowngradeStackPackMockResponse
 	ProvisionDetailsCalls           *[]ProvisionDetailsCall
 	ProvisionDetailsResponse        ProvisionDetailsMockResponse
 	ProvisionUninstallCalls         *[]ProvisionUninstallCall
@@ -1982,6 +2165,7 @@ type StackpackApiMock struct {
 
 func NewStackpackApiMock() StackpackApiMock {
 	xConfirmManualStepsCalls := make([]ConfirmManualStepsCall, 0)
+	xDowngradeStackPackCalls := make([]DowngradeStackPackCall, 0)
 	xProvisionDetailsCalls := make([]ProvisionDetailsCall, 0)
 	xProvisionUninstallCalls := make([]ProvisionUninstallCall, 0)
 	xStackPackDeleteVersionCalls := make([]StackPackDeleteVersionCall, 0)
@@ -1993,6 +2177,7 @@ func NewStackpackApiMock() StackpackApiMock {
 	xUpgradeStackPackCalls := make([]UpgradeStackPackCall, 0)
 	return StackpackApiMock{
 		ConfirmManualStepsCalls:      &xConfirmManualStepsCalls,
+		DowngradeStackPackCalls:      &xDowngradeStackPackCalls,
 		ProvisionDetailsCalls:        &xProvisionDetailsCalls,
 		ProvisionUninstallCalls:      &xProvisionUninstallCalls,
 		StackPackDeleteVersionCalls:  &xStackPackDeleteVersionCalls,
@@ -2032,6 +2217,34 @@ func (mock StackpackApiMock) ConfirmManualStepsExecute(r ApiConfirmManualStepsRe
 	}
 	*mock.ConfirmManualStepsCalls = append(*mock.ConfirmManualStepsCalls, p)
 	return mock.ConfirmManualStepsResponse.Result, mock.ConfirmManualStepsResponse.Response, mock.ConfirmManualStepsResponse.Error
+}
+
+type DowngradeStackPackMockResponse struct {
+	Result   string
+	Response *http.Response
+	Error    error
+}
+
+type DowngradeStackPackCall struct {
+	PstackPackName string
+	Pversion       *string
+}
+
+func (mock StackpackApiMock) DowngradeStackPack(ctx context.Context, stackPackName string) ApiDowngradeStackPackRequest {
+	return ApiDowngradeStackPackRequest{
+		ApiService:    mock,
+		ctx:           ctx,
+		stackPackName: stackPackName,
+	}
+}
+
+func (mock StackpackApiMock) DowngradeStackPackExecute(r ApiDowngradeStackPackRequest) (string, *http.Response, error) {
+	p := DowngradeStackPackCall{
+		PstackPackName: r.stackPackName,
+		Pversion:       r.version,
+	}
+	*mock.DowngradeStackPackCalls = append(*mock.DowngradeStackPackCalls, p)
+	return mock.DowngradeStackPackResponse.Result, mock.DowngradeStackPackResponse.Response, mock.DowngradeStackPackResponse.Error
 }
 
 type ProvisionDetailsMockResponse struct {

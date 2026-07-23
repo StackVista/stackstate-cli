@@ -516,6 +516,40 @@ paths:
       summary: Upgrade API
       tags:
       - stackpack
+  /stackpack/{stackPackName}/downgrade:
+    post:
+      description: Downgrade a StackPack to an older version. Only supported for StackPacks
+        2.0; the target version must be lower than the currently installed version.
+      operationId: downgradeStackPack
+      parameters:
+      - in: path
+        name: stackPackName
+        required: true
+        schema:
+          type: string
+      - description: Version string (e.g. '1.2.3') to downgrade to. Must be lower
+          than the currently installed version.
+        in: query
+        name: version
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+          description: successful
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GenericErrorsResponse'
+          description: Error when handling the request on the server side.
+      summary: Downgrade API
+      tags:
+      - stackpack
   /stackpack/{stackPackName}/versions:
     delete:
       description: "Delete versions of a StackPack. Versions currently in use are\

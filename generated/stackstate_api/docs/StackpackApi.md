@@ -5,6 +5,7 @@ All URIs are relative to *http://localhost*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**ConfirmManualSteps**](StackpackApi.md#ConfirmManualSteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
+[**DowngradeStackPack**](StackpackApi.md#DowngradeStackPack) | **Post** /stackpack/{stackPackName}/downgrade | Downgrade API
 [**ProvisionDetails**](StackpackApi.md#ProvisionDetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
 [**ProvisionUninstall**](StackpackApi.md#ProvisionUninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
 [**StackPackDeleteVersion**](StackpackApi.md#StackPackDeleteVersion) | **Delete** /stackpack/{stackPackName}/versions/{version} | Delete a StackPack version
@@ -71,6 +72,78 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
 
+
+### Return type
+
+**string**
+
+### Authorization
+
+[ApiToken](../README.md#ApiToken), [ServiceBearer](../README.md#ServiceBearer), [ServiceToken](../README.md#ServiceToken)
+
+### HTTP request headers
+
+- **Content-Type**: Not defined
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
+
+
+## DowngradeStackPack
+
+> string DowngradeStackPack(ctx, stackPackName).Version(version).Execute()
+
+Downgrade API
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    stackPackName := "stackPackName_example" // string | 
+    version := "version_example" // string | Version string (e.g. '1.2.3') to downgrade to. Must be lower than the currently installed version.
+
+    configuration := openapiclient.NewConfiguration()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.StackpackApi.DowngradeStackPack(context.Background(), stackPackName).Version(version).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `StackpackApi.DowngradeStackPack``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `DowngradeStackPack`: string
+    fmt.Fprintf(os.Stdout, "Response from `StackpackApi.DowngradeStackPack`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+**ctx** | **context.Context** | context for authentication, logging, cancellation, deadlines, tracing, etc.
+**stackPackName** | **string** |  | 
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiDowngradeStackPackRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **version** | **string** | Version string (e.g. &#39;1.2.3&#39;) to downgrade to. Must be lower than the currently installed version. | 
 
 ### Return type
 
