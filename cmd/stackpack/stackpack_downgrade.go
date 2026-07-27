@@ -8,7 +8,6 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
-	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 type DowngradeArgs struct {
@@ -35,7 +34,7 @@ sts stackpack downgrade --name kubernetes --stackpack-version 1.2.3 --wait`,
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
 	cmd.Flags().StringVar(&args.Version, StackpackVersionFlag, "", "Version to downgrade to")
-	cmd.MarkFlagRequired(StackpackVersionFlag)
+	cmd.MarkFlagRequired(StackpackVersionFlag) //nolint:errcheck
 	cmd.Flags().BoolVar(&args.Wait, "wait", false, "Wait for downgrade to complete")
 	cmd.Flags().DurationVar(&args.Timeout, "timeout", DefaultTimeout, "Timeout for waiting")
 	return cmd
@@ -56,58 +55,8 @@ func RunStackpackDowngradeCommand(args *DowngradeArgs) di.CmdWithApiFn {
 		}
 
 		if args.Wait {
-			if !cli.IsJson() {
-				cli.Printer.PrintLn("Waiting for downgrade to complete...")
-			}
-
-			waiter := NewOperationWaiter(cli, api)
-			waitErr := waiter.WaitForCompletion(WaitOptions{
-				StackPackName: args.TypeName,
-				Timeout:       args.Timeout,
-				PollInterval:  DefaultPollInterval,
-			})
-			if waitErr != nil {
-				return common.NewRuntimeError(waitErr)
-			}
-
-			stackPackList, cliErr := fetchAllStackPacks(cli, api)
-			if cliErr != nil {
+			if cliErr := waitAndDisplayResult(cli, api, args.TypeName, args.Timeout, "downgrade"); cliErr != nil {
 				return cliErr
-			}
-
-			finalStackPack, err := findStackPackByName(stackPackList, args.TypeName)
-			if err != nil {
-				return common.NewNotFoundError(err)
-			}
-
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{
-					"stackpack":       finalStackPack,
-					"status":          "completed",
-					"current-version": finalStackPack.GetVersion(),
-				})
-			} else {
-				cli.Printer.Success("StackPack downgrade completed successfully")
-
-				data := make([][]interface{}, 0)
-				for _, config := range finalStackPack.GetConfigurations() {
-					lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
-					data = append(data, []interface{}{
-						config.GetId(),
-						finalStackPack.GetName(),
-						config.GetStatus(),
-						config.GetStackPackVersion(),
-						lastUpdateTime,
-					})
-				}
-
-				cli.Printer.Table(
-					printer.TableData{
-						Header:              []string{"id", "name", "status", "version", "last updated"},
-						Data:                data,
-						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.TypeName},
-					},
-				)
 			}
 		} else {
 			if cli.IsJson() {

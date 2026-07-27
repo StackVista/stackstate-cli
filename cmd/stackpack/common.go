@@ -10,6 +10,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 const (
@@ -116,6 +117,63 @@ func (w *OperationWaiter) WaitForCompletion(options WaitOptions) error {
 			// Continue polling - some configurations are still in progress
 		}
 	}
+}
+
+// waitAndDisplayResult waits for a StackPack operation to complete, then displays the final status.
+// operationLabel is used in progress/success messages (e.g. "upgrade" or "downgrade").
+func waitAndDisplayResult(cli *di.Deps, api *stackstate_api.APIClient, stackPackName string, timeout time.Duration, operationLabel string) common.CLIError {
+	if !cli.IsJson() {
+		cli.Printer.PrintLn("Waiting for " + operationLabel + " to complete...")
+	}
+
+	waiter := NewOperationWaiter(cli, api)
+	if waitErr := waiter.WaitForCompletion(WaitOptions{
+		StackPackName: stackPackName,
+		Timeout:       timeout,
+		PollInterval:  DefaultPollInterval,
+	}); waitErr != nil {
+		return common.NewRuntimeError(waitErr)
+	}
+
+	stackPackList, cliErr := fetchAllStackPacks(cli, api)
+	if cliErr != nil {
+		return cliErr
+	}
+
+	finalStackPack, err := findStackPackByName(stackPackList, stackPackName)
+	if err != nil {
+		return common.NewNotFoundError(err)
+	}
+
+	if cli.IsJson() {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"stackpack":       finalStackPack,
+			"status":          "completed",
+			"current-version": finalStackPack.GetVersion(),
+		})
+	} else {
+		cli.Printer.Success("StackPack " + operationLabel + " completed successfully")
+
+		data := make([][]interface{}, 0)
+		for _, config := range finalStackPack.GetConfigurations() {
+			lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
+			data = append(data, []interface{}{
+				config.GetId(),
+				finalStackPack.GetName(),
+				config.GetStatus(),
+				config.GetStackPackVersion(),
+				lastUpdateTime,
+			})
+		}
+
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"id", "name", "status", "version", "last updated"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + stackPackName},
+		})
+	}
+
+	return nil
 }
 
 func findStackPackByName(stacks []stackstate_api.FullStackPack, name string) (stackstate_api.FullStackPack, error) {
