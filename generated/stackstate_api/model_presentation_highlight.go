@@ -18,7 +18,7 @@ import (
 // PresentationHighlight Highlight presentation definition. The `fields` define the fields to show in the highlight page. If multiple ComponentPresentations match, fields are merged by `fieldId` according to binding rank. Related resources follow the same merge semantics using `resourceId` as the identity key. Links follow the same merge semantics using `linkId` as the identity key.
 type PresentationHighlight struct {
 	Title            string                                `json:"title" yaml:"title"`
-	Fields           []PresentationHighlightField          `json:"fields" yaml:"fields"`
+	Fields           []PresentationHighlightField          `json:"fields,omitempty" yaml:"fields,omitempty"`
 	Provisioning     *PresentationHighlightProvisioning    `json:"provisioning,omitempty" yaml:"provisioning,omitempty"`
 	RelatedResources []PresentationRelatedResource         `json:"relatedResources,omitempty" yaml:"relatedResources,omitempty"`
 	Links            []PresentationLink                    `json:"links,omitempty" yaml:"links,omitempty"`
@@ -30,10 +30,9 @@ type PresentationHighlight struct {
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewPresentationHighlight(title string, fields []PresentationHighlightField) *PresentationHighlight {
+func NewPresentationHighlight(title string) *PresentationHighlight {
 	this := PresentationHighlight{}
 	this.Title = title
-	this.Fields = fields
 	return &this
 }
 
@@ -69,26 +68,34 @@ func (o *PresentationHighlight) SetTitle(v string) {
 	o.Title = v
 }
 
-// GetFields returns the Fields field value
+// GetFields returns the Fields field value if set, zero value otherwise.
 func (o *PresentationHighlight) GetFields() []PresentationHighlightField {
-	if o == nil {
+	if o == nil || o.Fields == nil {
 		var ret []PresentationHighlightField
 		return ret
 	}
-
 	return o.Fields
 }
 
-// GetFieldsOk returns a tuple with the Fields field value
+// GetFieldsOk returns a tuple with the Fields field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *PresentationHighlight) GetFieldsOk() ([]PresentationHighlightField, bool) {
-	if o == nil {
+	if o == nil || o.Fields == nil {
 		return nil, false
 	}
 	return o.Fields, true
 }
 
-// SetFields sets field value
+// HasFields returns a boolean if a field has been set.
+func (o *PresentationHighlight) HasFields() bool {
+	if o != nil && o.Fields != nil {
+		return true
+	}
+
+	return false
+}
+
+// SetFields gets a reference to the given []PresentationHighlightField and assigns it to the Fields field.
 func (o *PresentationHighlight) SetFields(v []PresentationHighlightField) {
 	o.Fields = v
 }
@@ -258,7 +265,7 @@ func (o PresentationHighlight) MarshalJSON() ([]byte, error) {
 	if true {
 		toSerialize["title"] = o.Title
 	}
-	if true {
+	if o.Fields != nil {
 		toSerialize["fields"] = o.Fields
 	}
 	if o.Provisioning != nil {

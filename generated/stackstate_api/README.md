@@ -226,6 +226,7 @@ Class | Method | HTTP request | Description
 *ServiceTokenApi* | [**GetServiceTokens**](docs/ServiceTokenApi.md#getservicetokens) | **Get** /security/tokens | Get service tokens
 *SnapshotApi* | [**QuerySnapshot**](docs/SnapshotApi.md#querysnapshot) | **Post** /snapshot | Query topology snapshot
 *StackpackApi* | [**ConfirmManualSteps**](docs/StackpackApi.md#confirmmanualsteps) | **Post** /stackpack/{stackPackName}/confirm-manual-steps/{stackPackInstanceId} | Confirm manual steps
+*StackpackApi* | [**DowngradeStackPack**](docs/StackpackApi.md#downgradestackpack) | **Post** /stackpack/{stackPackName}/downgrade | Downgrade API
 *StackpackApi* | [**ProvisionDetails**](docs/StackpackApi.md#provisiondetails) | **Post** /stackpack/{stackPackName}/provision | Provision API
 *StackpackApi* | [**ProvisionUninstall**](docs/StackpackApi.md#provisionuninstall) | **Post** /stackpack/{stackPackName}/deprovision/{stackPackInstanceId} | Provision API
 *StackpackApi* | [**StackPackDeleteVersion**](docs/StackpackApi.md#stackpackdeleteversion) | **Delete** /stackpack/{stackPackName}/versions/{version} | Delete a StackPack version

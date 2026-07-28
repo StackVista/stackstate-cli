@@ -11,7 +11,6 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
-	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 var (
@@ -73,65 +72,9 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		// Wait functionality: monitor upgrade until completion
 		if args.Wait {
-			if !cli.IsJson() {
-				cli.Printer.PrintLn("Waiting for upgrade to complete...")
-			}
-
-			// Use OperationWaiter to poll until all configurations are upgraded
-			waiter := NewOperationWaiter(cli, api)
-			waitErr := waiter.WaitForCompletion(WaitOptions{
-				StackPackName: args.TypeName,
-				Timeout:       args.Timeout,
-				PollInterval:  DefaultPollInterval,
-			})
-			if waitErr != nil {
-				// Use NewRuntimeError to avoid showing usage on operation failures
-				return common.NewRuntimeError(waitErr)
-			}
-
-			// Re-fetch final status for display after successful completion
-			stackPackList, cliErr := fetchAllStackPacks(cli, api)
-			if cliErr != nil {
+			if cliErr := waitAndDisplayResult(cli, api, args.TypeName, args.Timeout, "upgrade"); cliErr != nil {
 				return cliErr
-			}
-
-			finalStackPack, err := findStackPackByName(stackPackList, args.TypeName)
-			if err != nil {
-				return common.NewNotFoundError(err)
-			}
-
-			// Display final status
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{
-					"stackpack":       finalStackPack,
-					"status":          "completed",
-					"current-version": finalStackPack.GetVersion(),
-				})
-			} else {
-				cli.Printer.Success("StackPack upgrade completed successfully")
-
-				// Show configurations status
-				data := make([][]interface{}, 0)
-				for _, config := range finalStackPack.GetConfigurations() {
-					lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
-					data = append(data, []interface{}{
-						config.GetId(),
-						finalStackPack.GetName(),
-						config.GetStatus(),
-						config.GetStackPackVersion(),
-						lastUpdateTime,
-					})
-				}
-
-				cli.Printer.Table(
-					printer.TableData{
-						Header:              []string{"id", "name", "status", "version", "last updated"},
-						Data:                data,
-						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.TypeName},
-					},
-				)
 			}
 		} else {
 			if cli.IsJson() {

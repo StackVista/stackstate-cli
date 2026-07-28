@@ -5,7 +5,7 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Title** | **string** |  | 
-**Fields** | [**[]PresentationHighlightField**](PresentationHighlightField.md) |  | 
+**Fields** | Pointer to [**[]PresentationHighlightField**](PresentationHighlightField.md) |  | [optional] 
 **Provisioning** | Pointer to [**PresentationHighlightProvisioning**](PresentationHighlightProvisioning.md) |  | [optional] 
 **RelatedResources** | Pointer to [**[]PresentationRelatedResource**](PresentationRelatedResource.md) |  | [optional] 
 **Links** | Pointer to [**[]PresentationLink**](PresentationLink.md) |  | [optional] 
@@ -16,7 +16,7 @@ Name | Type | Description | Notes
 
 ### NewPresentationHighlight
 
-`func NewPresentationHighlight(title string, fields []PresentationHighlightField, ) *PresentationHighlight`
+`func NewPresentationHighlight(title string, ) *PresentationHighlight`
 
 NewPresentationHighlight instantiates a new PresentationHighlight object
 This constructor will assign default values to properties that have it defined,
@@ -70,6 +70,11 @@ and a boolean to check if the value has been set.
 
 SetFields sets Fields field to given value.
 
+### HasFields
+
+`func (o *PresentationHighlight) HasFields() bool`
+
+HasFields returns a boolean if a field has been set.
 
 ### GetProvisioning
 

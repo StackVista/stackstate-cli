@@ -16,6 +16,7 @@ import (
 type InstallArgs struct {
 	Name             string
 	UnlockedStrategy string
+	Version          string
 	Params           map[string]string
 	Wait             bool
 	Timeout          time.Duration
@@ -33,7 +34,10 @@ func StackpackInstallCommand(cli *di.Deps) *cobra.Command {
 sts stackpack install --name example -p "full_name=First Last" -p URL=https://stackstate.com
 
 # install and wait for completion
-sts stackpack install --name kubernetes -p cluster_name=production --wait`,
+sts stackpack install --name kubernetes -p cluster_name=production --wait
+
+# install a specific (older) version, e.g. to downgrade
+sts stackpack install --name example --stackpack-version 1.2.3 -p "full_name=First Last"`,
 		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
@@ -44,6 +48,7 @@ sts stackpack install --name kubernetes -p cluster_name=production --wait`,
 		"Strategy use to upgrade StackPack instance"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
 	)
+	cmd.Flags().StringVar(&args.Version, StackpackVersionFlag, "", "Install a specific version of the StackPack, for example to downgrade (the StackPack must not already be installed at a different version)")
 	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", args.Params, "List of parameters of the form \"key=value\"")
 	cmd.Flags().BoolVar(&args.Wait, "wait", false, "Wait for installation to complete")
 	cmd.Flags().DurationVar(&args.Timeout, "timeout", DefaultTimeout, "Timeout for waiting")
@@ -57,7 +62,11 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		instance, resp, err := api.StackpackApi.ProvisionDetails(cli.Context, args.Name).RequestBody(args.Params).Unlocked(args.UnlockedStrategy).Execute()
+		apiRequest := api.StackpackApi.ProvisionDetails(cli.Context, args.Name).RequestBody(args.Params).Unlocked(args.UnlockedStrategy)
+		if args.Version != "" {
+			apiRequest = apiRequest.Version(args.Version)
+		}
+		instance, resp, err := apiRequest.Execute()
 		if err != nil {
 			return common.NewResponseError(err, resp)
 		}
