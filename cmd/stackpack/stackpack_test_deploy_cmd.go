@@ -23,10 +23,9 @@ const (
 
 // TestDeployArgs contains arguments for stackpack test-deploy command
 type TestDeployArgs struct {
-	StackpackDir     string
-	Params           map[string]string
-	Yes              bool
-	UnlockedStrategy string
+	StackpackDir string
+	Params       map[string]string
+	Yes          bool
 }
 
 // StackpackTestDeployCommand creates the test-deploy subcommand
@@ -55,18 +54,14 @@ sts stackpack test-deploy -p "param1=value1"
 # Skip confirmation prompt
 sts stackpack test-deploy --yes
 
-# Test stackpack in specific directory with unlocked strategy
-sts stackpack test-deploy -d ./my-stackpack --yes --unlocked-strategy force
-
-# Test with custom unlocked strategy
-sts stackpack test-deploy --unlocked-strategy skip --yes`,
+# Test stackpack in specific directory
+sts stackpack test-deploy -d ./my-stackpack --yes`,
 		RunE: cli.CmdRunEWithApi(RunStackpackTestDeployCommand(args)),
 	}
 
 	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory (defaults to current directory)")
 	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", args.Params, "List of parameters of the form \"key=value\"")
 	cmd.Flags().BoolVarP(&args.Yes, "yes", "y", false, "Skip confirmation prompt before upload")
-	cmd.Flags().StringVar(&args.UnlockedStrategy, UnlockedStrategyFlag, "fail", "Strategy for dealing with unlocked StackPacks. Valid options are: fail, force, skip")
 
 	return cmd
 }
@@ -214,7 +209,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		if installedVersion != "" {
 			upgradeArgs := &UpgradeArgs{
 				TypeName:         originalInfo.Name,
-				UnlockedStrategy: args.UnlockedStrategy,
+				UnlockedStrategy: "fail",
 				Wait:             true,
 				Timeout:          DefaultTimeout,
 			}
@@ -226,7 +221,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		} else {
 			installArgs := &InstallArgs{
 				Name:             originalInfo.Name,
-				UnlockedStrategy: args.UnlockedStrategy,
+				UnlockedStrategy: "fail",
 				Params:           args.Params,
 				Wait:             true,
 				Timeout:          DefaultTimeout,

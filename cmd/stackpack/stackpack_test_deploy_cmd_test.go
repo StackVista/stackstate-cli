@@ -44,10 +44,6 @@ func TestStackpackTestDeployCommand_FlagsAndStructure(t *testing.T) {
 	yesFlag := flags.Lookup("yes")
 	require.NotNil(t, yesFlag)
 	assert.Equal(t, "y", yesFlag.Shorthand)
-
-	unlockedStrategyFlag := flags.Lookup("unlocked-strategy")
-	require.NotNil(t, unlockedStrategyFlag)
-	assert.Equal(t, "fail", unlockedStrategyFlag.DefValue)
 }
 
 func TestBumpSnapshotVersion(t *testing.T) {
@@ -177,7 +173,7 @@ func TestStackpackTestDeployCommand_RequiredFlags(t *testing.T) {
 		},
 		{
 			name:    "with all flags",
-			args:    []string{"-d", "./test", "-p", "param1=value1", "--yes", "--unlocked-strategy", "force"},
+			args:    []string{"-d", "./test", "-p", "param1=value1", "--yes"},
 			wantErr: false,
 		},
 	}
