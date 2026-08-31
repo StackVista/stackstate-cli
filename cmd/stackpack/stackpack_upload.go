@@ -23,14 +23,14 @@ func StackpackUploadCommand(cli *di.Deps) *cobra.Command {
 		Long:  "Upload a StackPack file (.sts) to SUSE Observability. After upload, the StackPack can be installed using 'sts stackpack install'.",
 		Example: `# upload a StackPack
 sts stackpack upload --file my-stackpack.sts`,
-		RunE: cli.CmdRunEWithApi(RunStackpackUploadCommand(args, false)),
+		RunE: cli.CmdRunEWithApi(RunStackpackUploadCommand(args)),
 	}
 	common.AddRequiredFileFlagVar(cmd, &args.FilePath, "Stackpack file to upload (.sts file)")
 
 	return cmd
 }
 
-func RunStackpackUploadCommand(args *UploadArgs, mute bool) di.CmdWithApiFn {
+func RunStackpackUploadCommand(args *UploadArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -48,18 +48,16 @@ func RunStackpackUploadCommand(args *UploadArgs, mute bool) di.CmdWithApiFn {
 			return common.NewResponseError(err, resp)
 		}
 
-		if !mute {
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{
-					"uploaded-stackpack": stackpack,
-				})
-			} else {
-				cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", args.FilePath))
-				cli.Printer.Table(printer.TableData{
-					Header: []string{"name", "display name", "version"},
-					Data:   [][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
-				})
-			}
+		if cli.IsJson() {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"uploaded-stackpack": stackpack,
+			})
+		} else {
+			cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", args.FilePath))
+			cli.Printer.Table(printer.TableData{
+				Header: []string{"name", "display name", "version"},
+				Data:   [][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
+			})
 		}
 
 		return nil

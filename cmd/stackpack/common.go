@@ -121,7 +121,7 @@ func (w *OperationWaiter) WaitForCompletion(options WaitOptions) error {
 
 // waitAndDisplayResult waits for a StackPack operation to complete, then displays the final status.
 // operationLabel is used in progress/success messages (e.g. "upgrade" or "downgrade").
-func waitAndDisplayResult(cli *di.Deps, api *stackstate_api.APIClient, stackPackName string, timeout time.Duration, operationLabel string, mute bool) common.CLIError {
+func waitAndDisplayResult(cli *di.Deps, api *stackstate_api.APIClient, stackPackName string, timeout time.Duration, operationLabel string) common.CLIError {
 	if !cli.IsJson() {
 		cli.Printer.PrintLn("Waiting for " + operationLabel + " to complete...")
 	}
@@ -145,34 +145,32 @@ func waitAndDisplayResult(cli *di.Deps, api *stackstate_api.APIClient, stackPack
 		return common.NewNotFoundError(err)
 	}
 
-	if !mute {
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"stackpack":       finalStackPack,
-				"status":          "completed",
-				"current-version": finalStackPack.GetVersion(),
-			})
-		} else {
-			cli.Printer.Success("StackPack " + operationLabel + " completed successfully")
+	if cli.IsJson() {
+		cli.Printer.PrintJson(map[string]interface{}{
+			"stackpack":       finalStackPack,
+			"status":          "completed",
+			"current-version": finalStackPack.GetVersion(),
+		})
+	} else {
+		cli.Printer.Success("StackPack " + operationLabel + " completed successfully")
 
-			data := make([][]interface{}, 0)
-			for _, config := range finalStackPack.GetConfigurations() {
-				lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
-				data = append(data, []interface{}{
-					config.GetId(),
-					finalStackPack.GetName(),
-					config.GetStatus(),
-					config.GetStackPackVersion(),
-					lastUpdateTime,
-				})
-			}
-
-			cli.Printer.Table(printer.TableData{
-				Header:              []string{"id", "name", "status", "version", "last updated"},
-				Data:                data,
-				MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + stackPackName},
+		data := make([][]interface{}, 0)
+		for _, config := range finalStackPack.GetConfigurations() {
+			lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
+			data = append(data, []interface{}{
+				config.GetId(),
+				finalStackPack.GetName(),
+				config.GetStatus(),
+				config.GetStackPackVersion(),
+				lastUpdateTime,
 			})
 		}
+
+		cli.Printer.Table(printer.TableData{
+			Header:              []string{"id", "name", "status", "version", "last updated"},
+			Data:                data,
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + stackPackName},
+		})
 	}
 
 	return nil

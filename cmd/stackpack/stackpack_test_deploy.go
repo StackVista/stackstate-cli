@@ -15,6 +15,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 const (
@@ -332,33 +333,50 @@ func confirmUpload(cli *di.Deps, zipFile string) bool {
 // runPackageStep executes the package command logic
 func runPackageStep(cli *di.Deps, args *PackageArgs) common.CLIError {
 	// Reuse the existing package command logic
-	packageCmd := &cobra.Command{}
-	packageFn := RunStackpackPackageCommand(args, true)
-	return packageFn(cli, packageCmd)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		packageCmd := &cobra.Command{}
+		packageFn := RunStackpackPackageCommand(args)
+		return packageFn(ctx, packageCmd)
+	})
 }
 
 // runUploadStep executes the upload command logic
 func runUploadStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *UploadArgs) common.CLIError {
-	// Reuse the existing upload command logic
-	uploadCmd := &cobra.Command{}
-	uploadFn := RunStackpackUploadCommand(args, true)
-	return uploadFn(uploadCmd, cli, api, serverInfo)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		// Reuse the existing upload command logic
+		uploadCmd := &cobra.Command{}
+		uploadFn := RunStackpackUploadCommand(args)
+		return uploadFn(uploadCmd, ctx, api, serverInfo)
+	})
 }
 
 // runInstallStep executes the install command logic
 func runInstallStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *InstallArgs) common.CLIError {
-	// Reuse the existing install command logic
-	installCmd := &cobra.Command{}
-	installFn := RunStackpackInstallCommand(args, true)
-	return installFn(installCmd, cli, api, serverInfo)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		// Reuse the existing install command logic
+		installCmd := &cobra.Command{}
+		installFn := RunStackpackInstallCommand(args)
+		return installFn(installCmd, ctx, api, serverInfo)
+	})
 }
 
 // runUpgradeStep executes the upgrade command logic
 func runUpgradeStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *UpgradeArgs) common.CLIError {
-	// Reuse the existing upgrade command logic
-	upgradeCmd := &cobra.Command{}
-	upgradeFn := RunStackpackUpgradeCommand(args, true)
-	return upgradeFn(upgradeCmd, cli, api, serverInfo)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		// Reuse the existing upgrade command logic
+		upgradeCmd := &cobra.Command{}
+		upgradeFn := RunStackpackUpgradeCommand(args)
+		return upgradeFn(upgradeCmd, ctx, api, serverInfo)
+	})
+}
+
+func runCmd(cli *di.Deps, f func(ctx *di.Deps) common.CLIError) common.CLIError {
+	oldPr := cli.Printer
+	pr := printer.NewMockPrinter(nil)
+	cli.Printer = &pr
+	err := f(cli)
+	cli.Printer = oldPr
+	return err
 }
 
 // getInstalledStackpackVersion checks if a stackpack is installed and returns its version

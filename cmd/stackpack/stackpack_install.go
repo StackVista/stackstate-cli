@@ -38,7 +38,7 @@ sts stackpack install --name kubernetes -p cluster_name=production --wait
 
 # install a specific (older) version, e.g. to downgrade
 sts stackpack install --name example --stackpack-version 1.2.3 -p "full_name=First Last"`,
-		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args, false)),
+		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
@@ -55,7 +55,7 @@ sts stackpack install --name example --stackpack-version 1.2.3 -p "full_name=Fir
 	return cmd
 }
 
-func RunStackpackInstallCommand(args *InstallArgs, mute bool) di.CmdWithApiFn {
+func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -101,38 +101,36 @@ func RunStackpackInstallCommand(args *InstallArgs, mute bool) di.CmdWithApiFn {
 			}
 
 			// Display final status
-			if !mute {
-				if cli.IsJson() {
-					cli.Printer.PrintJson(map[string]interface{}{
-						"stackpack": finalStackPack,
-						"status":    "completed",
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"stackpack": finalStackPack,
+					"status":    "completed",
+				})
+			} else {
+				cli.Printer.Success("StackPack installation completed successfully")
+
+				// Show configurations status
+				data := make([][]interface{}, 0)
+				for _, config := range finalStackPack.GetConfigurations() {
+					lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
+					data = append(data, []interface{}{
+						config.GetId(),
+						finalStackPack.GetName(),
+						config.GetStatus(),
+						config.GetStackPackVersion(),
+						lastUpdateTime,
 					})
-				} else {
-					cli.Printer.Success("StackPack installation completed successfully")
-
-					// Show configurations status
-					data := make([][]interface{}, 0)
-					for _, config := range finalStackPack.GetConfigurations() {
-						lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
-						data = append(data, []interface{}{
-							config.GetId(),
-							finalStackPack.GetName(),
-							config.GetStatus(),
-							config.GetStackPackVersion(),
-							lastUpdateTime,
-						})
-					}
-
-					cli.Printer.Table(
-						printer.TableData{
-							Header:              []string{"id", "name", "status", "version", "last updated"},
-							Data:                data,
-							MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.Name},
-						},
-					)
 				}
+
+				cli.Printer.Table(
+					printer.TableData{
+						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Data:                data,
+						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.Name},
+					},
+				)
 			}
-		} else if !mute {
+		} else {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"instance": instance,
