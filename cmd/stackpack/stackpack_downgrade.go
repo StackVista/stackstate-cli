@@ -30,7 +30,7 @@ sts stackpack downgrade --name kubernetes --stackpack-version 1.2.3
 
 # downgrade and wait for completion
 sts stackpack downgrade --name kubernetes --stackpack-version 1.2.3 --wait`,
-		RunE: cli.CmdRunEWithApi(RunStackpackDowngradeCommand(args)),
+		RunE: cli.CmdRunEWithApi(RunStackpackDowngradeCommand(args, false)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
 	cmd.Flags().StringVar(&args.Version, StackpackVersionFlag, "", "Version to downgrade to")
@@ -40,7 +40,7 @@ sts stackpack downgrade --name kubernetes --stackpack-version 1.2.3 --wait`,
 	return cmd
 }
 
-func RunStackpackDowngradeCommand(args *DowngradeArgs) di.CmdWithApiFn {
+func RunStackpackDowngradeCommand(args *DowngradeArgs, mute bool) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -55,7 +55,7 @@ func RunStackpackDowngradeCommand(args *DowngradeArgs) di.CmdWithApiFn {
 		}
 
 		if args.Wait {
-			if cliErr := waitAndDisplayResult(cli, api, args.TypeName, args.Timeout, "downgrade"); cliErr != nil {
+			if cliErr := waitAndDisplayResult(cli, api, args.TypeName, args.Timeout, "downgrade", mute); cliErr != nil {
 				return cliErr
 			}
 		} else {

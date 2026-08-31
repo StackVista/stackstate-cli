@@ -38,7 +38,7 @@ sts stackpack install --name kubernetes -p cluster_name=production --wait
 
 # install a specific (older) version, e.g. to downgrade
 sts stackpack install --name example --stackpack-version 1.2.3 -p "full_name=First Last"`,
-		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args)),
+		RunE: cli.CmdRunEWithApi(RunStackpackInstallCommand(args, false)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
@@ -55,7 +55,7 @@ sts stackpack install --name example --stackpack-version 1.2.3 -p "full_name=Fir
 	return cmd
 }
 
-func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
+func RunStackpackInstallCommand(args *InstallArgs, mute bool) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -101,51 +101,55 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 			}
 
 			// Display final status
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{
-					"stackpack": finalStackPack,
-					"status":    "completed",
-				})
-			} else {
-				cli.Printer.Success("StackPack installation completed successfully")
-
-				// Show configurations status
-				data := make([][]interface{}, 0)
-				for _, config := range finalStackPack.GetConfigurations() {
-					lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
-					data = append(data, []interface{}{
-						config.GetId(),
-						finalStackPack.GetName(),
-						config.GetStatus(),
-						config.GetStackPackVersion(),
-						lastUpdateTime,
+			if !mute {
+				if cli.IsJson() {
+					cli.Printer.PrintJson(map[string]interface{}{
+						"stackpack": finalStackPack,
+						"status":    "completed",
 					})
-				}
+				} else {
+					cli.Printer.Success("StackPack installation completed successfully")
 
-				cli.Printer.Table(
-					printer.TableData{
-						Header:              []string{"id", "name", "status", "version", "last updated"},
-						Data:                data,
-						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.Name},
-					},
-				)
+					// Show configurations status
+					data := make([][]interface{}, 0)
+					for _, config := range finalStackPack.GetConfigurations() {
+						lastUpdateTime := time.UnixMilli(config.GetLastUpdateTimestamp())
+						data = append(data, []interface{}{
+							config.GetId(),
+							finalStackPack.GetName(),
+							config.GetStatus(),
+							config.GetStackPackVersion(),
+							lastUpdateTime,
+						})
+					}
+
+					cli.Printer.Table(
+						printer.TableData{
+							Header:              []string{"id", "name", "status", "version", "last updated"},
+							Data:                data,
+							MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.Name},
+						},
+					)
+				}
 			}
 		} else {
-			if cli.IsJson() {
-				cli.Printer.PrintJson(map[string]interface{}{
-					"instance": instance,
-				})
-			} else {
-				lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
+			if !mute {
+				if cli.IsJson() {
+					cli.Printer.PrintJson(map[string]interface{}{
+						"instance": instance,
+					})
+				} else {
+					lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
 
-				cli.Printer.Success("StackPack instance installation triggered")
-				cli.Printer.Table(
-					printer.TableData{
-						Header:              []string{"id", "name", "status", "version", "last updated"},
-						Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
-						MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
-					},
-				)
+					cli.Printer.Success("StackPack instance installation triggered")
+					cli.Printer.Table(
+						printer.TableData{
+							Header:              []string{"id", "name", "status", "version", "last updated"},
+							Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
+							MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
+						},
+					)
+				}
 			}
 		}
 

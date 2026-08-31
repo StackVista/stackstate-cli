@@ -237,7 +237,8 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			printMsg(cli, fmt.Sprintf("Note: Could not clean up .sts file %s: %v", packageArgs.ArchiveFile, err))
 		} else if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"version": baseVersionForSnapshot,
+				"stackpack": originalInfo.Name,
+				"version":   newVersion,
 			})
 		}
 
@@ -333,7 +334,7 @@ func confirmUpload(cli *di.Deps, zipFile string) bool {
 func runPackageStep(cli *di.Deps, args *PackageArgs) common.CLIError {
 	// Reuse the existing package command logic
 	packageCmd := &cobra.Command{}
-	packageFn := RunStackpackPackageCommand(args)
+	packageFn := RunStackpackPackageCommand(args, true)
 	return packageFn(cli, packageCmd)
 }
 
@@ -341,7 +342,7 @@ func runPackageStep(cli *di.Deps, args *PackageArgs) common.CLIError {
 func runUploadStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *UploadArgs) common.CLIError {
 	// Reuse the existing upload command logic
 	uploadCmd := &cobra.Command{}
-	uploadFn := RunStackpackUploadCommand(args)
+	uploadFn := RunStackpackUploadCommand(args, true)
 	return uploadFn(uploadCmd, cli, api, serverInfo)
 }
 
@@ -349,7 +350,7 @@ func runUploadStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stac
 func runInstallStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *InstallArgs) common.CLIError {
 	// Reuse the existing install command logic
 	installCmd := &cobra.Command{}
-	installFn := RunStackpackInstallCommand(args)
+	installFn := RunStackpackInstallCommand(args, true)
 	return installFn(installCmd, cli, api, serverInfo)
 }
 
@@ -357,7 +358,7 @@ func runInstallStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *sta
 func runUpgradeStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *UpgradeArgs) common.CLIError {
 	// Reuse the existing upgrade command logic
 	upgradeCmd := &cobra.Command{}
-	upgradeFn := RunStackpackUpgradeCommand(args)
+	upgradeFn := RunStackpackUpgradeCommand(args, true)
 	return upgradeFn(upgradeCmd, cli, api, serverInfo)
 }
 

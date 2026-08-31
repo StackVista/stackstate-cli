@@ -35,7 +35,7 @@ sts stackpack upgrade --name kubernetes
 
 # upgrade and wait for completion
 sts stackpack upgrade --name kubernetes --wait`,
-		RunE: cli.CmdRunEWithApi(RunStackpackUpgradeCommand(args)),
+		RunE: cli.CmdRunEWithApi(RunStackpackUpgradeCommand(args, false)),
 	}
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
@@ -49,7 +49,7 @@ sts stackpack upgrade --name kubernetes --wait`,
 	cmd.Flags().DurationVar(&args.Timeout, "timeout", DefaultTimeout, "Timeout for waiting")
 	return cmd
 }
-func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
+func RunStackpackUpgradeCommand(args *UpgradeArgs, mute bool) di.CmdWithApiFn {
 	return func(
 		cmd *cobra.Command,
 		cli *di.Deps,
@@ -73,10 +73,10 @@ func RunStackpackUpgradeCommand(args *UpgradeArgs) di.CmdWithApiFn {
 		}
 
 		if args.Wait {
-			if cliErr := waitAndDisplayResult(cli, api, args.TypeName, args.Timeout, "upgrade"); cliErr != nil {
+			if cliErr := waitAndDisplayResult(cli, api, args.TypeName, args.Timeout, "upgrade", mute); cliErr != nil {
 				return cliErr
 			}
-		} else {
+		} else if !mute {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
 					"success":         true,

@@ -106,7 +106,7 @@ sts stackpack package -f my-custom-archive.sts
 
 # Force overwrite existing .sts file
 sts stackpack package --force`,
-		RunE: cli.CmdRunE(RunStackpackPackageCommand(args)),
+		RunE: cli.CmdRunE(RunStackpackPackageCommand(args, false)),
 	}
 
 	cmd.Flags().StringVarP(&args.StackpackDir, "directory", "d", "", "Path to stackpack directory (defaults to current directory)")
@@ -117,7 +117,7 @@ sts stackpack package --force`,
 }
 
 // RunStackpackPackageCommand executes the package command
-func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
+func RunStackpackPackageCommand(args *PackageArgs, mute bool) func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 	return func(cli *di.Deps, cmd *cobra.Command) common.CLIError {
 		// Set default stackpack directory
 		if args.StackpackDir == "" {
@@ -180,19 +180,21 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 			return common.NewRuntimeError(fmt.Errorf("failed to create .sts file: %w", err))
 		}
 
-		if cli.IsJson() {
-			cli.Printer.PrintJson(map[string]interface{}{
-				"success":           true,
-				"stackpack_name":    stackpackInfo.Name,
-				"stackpack_version": stackpackInfo.Version,
-				"zip_file":          args.ArchiveFile,
-				"source_dir":        args.StackpackDir,
-			})
-		} else {
-			cli.Printer.Successf("Stackpack packaged successfully!")
-			cli.Printer.PrintLn("")
-			cli.Printer.PrintLn(fmt.Sprintf("Stackpack: %s (v%s)", stackpackInfo.Name, stackpackInfo.Version))
-			cli.Printer.PrintLn(fmt.Sprintf(".sts file: %s", args.ArchiveFile))
+		if !mute {
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"success":           true,
+					"stackpack_name":    stackpackInfo.Name,
+					"stackpack_version": stackpackInfo.Version,
+					"zip_file":          args.ArchiveFile,
+					"source_dir":        args.StackpackDir,
+				})
+			} else {
+				cli.Printer.Successf("Stackpack packaged successfully!")
+				cli.Printer.PrintLn("")
+				cli.Printer.PrintLn(fmt.Sprintf("Stackpack: %s (v%s)", stackpackInfo.Name, stackpackInfo.Version))
+				cli.Printer.PrintLn(fmt.Sprintf(".sts file: %s", args.ArchiveFile))
+			}
 		}
 
 		return nil
