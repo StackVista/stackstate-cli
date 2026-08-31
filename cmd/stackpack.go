@@ -1,15 +1,9 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/cmd/stackpack"
 	"github.com/stackvista/stackstate-cli/internal/di"
-)
-
-const (
-	experimentalStackpackEnvVar = "STS_EXPERIMENTAL_STACKPACKS"
 )
 
 func StackPackCommand(cli *di.Deps) *cobra.Command {
@@ -31,14 +25,10 @@ func StackPackCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(stackpack.StackpackListVersionsCommand(cli))
 	cmd.AddCommand(stackpack.StackpackDeleteVersionCommand(cli))
 	cmd.AddCommand(stackpack.StackpackDeleteVersionsCommand(cli))
-
-	// The not-production-ready commands
-	if os.Getenv(experimentalStackpackEnvVar) != "" {
-		cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
-		cmd.AddCommand(stackpack.StackpackPackageCommand(cli))
-		cmd.AddCommand(stackpack.StackpackTestDeployCommand(cli))
-		cmd.AddCommand(stackpack.StackpackValidateCommand(cli))
-	}
+	cmd.AddCommand(stackpack.StackpackScaffoldCommand(cli))
+	cmd.AddCommand(stackpack.StackpackPackageCommand(cli))
+	cmd.AddCommand(stackpack.StackpackTestDeployCommand(cli))
+	cmd.AddCommand(stackpack.StackpackValidateCommand(cli))
 
 	return cmd
 }

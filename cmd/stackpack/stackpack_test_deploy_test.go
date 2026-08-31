@@ -33,7 +33,7 @@ func TestStackpackTestDeployCommand_FlagsAndStructure(t *testing.T) {
 	// Test flags exist
 	flags := cmd.Flags()
 
-	stackpackDirFlag := flags.Lookup("stackpack-directory")
+	stackpackDirFlag := flags.Lookup("directory")
 	require.NotNil(t, stackpackDirFlag)
 	assert.Equal(t, "d", stackpackDirFlag.Shorthand)
 

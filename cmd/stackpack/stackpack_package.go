@@ -109,8 +109,8 @@ sts stackpack package --force`,
 		RunE: cli.CmdRunE(RunStackpackPackageCommand(args)),
 	}
 
-	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory (defaults to current directory)")
-	cmd.Flags().StringVarP(&args.ArchiveFile, "archive-file", "f", "", "Path to the .sts file to create (defaults to <stackpack_name>-<version>.sts in current directory)")
+	cmd.Flags().StringVarP(&args.StackpackDir, "directory", "d", "", "Path to stackpack directory (defaults to current directory)")
+	cmd.Flags().StringVarP(&args.ArchiveFile, "file", "f", "", "Path to the .sts file to create (defaults to <stackpack_name>-<version>.sts in current directory)")
 	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing .sts file without prompting")
 
 	return cmd

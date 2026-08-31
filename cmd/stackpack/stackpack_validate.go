@@ -33,19 +33,17 @@ This command validates a stackpack by uploading it to the server.
 - If a directory is provided, it is automatically packaged into a .sts file before uploading
 - If a .sts file is provided, it is uploaded directly
 
-Exactly one of --stackpack-directory or --stackpack-file must be specified.
-
-This command is experimental and requires STS_EXPERIMENTAL_STACKPACKS environment variable to be set.`,
+Exactly one of --directory or --file must be specified.`,
 		Example: `# Validate a stackpack directory (automatically packaged)
-sts stackpack validate --stackpack-directory ./my-stackpack
+sts stackpack validate --directory ./my-stackpack
 
 # Validate a pre-packaged .sts file
-sts stackpack validate --stackpack-file ./my-stackpack.sts`,
+sts stackpack validate --file ./my-stackpack.sts`,
 		RunE: cli.CmdRunEWithApi(RunStackpackValidateCommand(args)),
 	}
 
-	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory")
-	cmd.Flags().StringVarP(&args.StackpackFile, "stackpack-file", "f", "", "Path to .sts file")
+	cmd.Flags().StringVarP(&args.StackpackDir, "directory", "d", "", "Path to stackpack directory")
+	cmd.Flags().StringVarP(&args.StackpackFile, "file", "f", "", "Path to .sts file")
 
 	return cmd
 }
@@ -61,7 +59,7 @@ func RunStackpackValidateCommand(args *ValidateArgs) di.CmdWithApiFn {
 		// Validate exactly one of directory or file is set
 		if (args.StackpackDir == "" && args.StackpackFile == "") ||
 			(args.StackpackDir != "" && args.StackpackFile != "") {
-			return common.NewCLIArgParseError(fmt.Errorf("exactly one of --stackpack-directory or --stackpack-file must be specified"))
+			return common.NewCLIArgParseError(fmt.Errorf("exactly one of --directory or --file must be specified"))
 		}
 
 		// Prepare file to validate - if directory is provided, package it first

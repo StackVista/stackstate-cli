@@ -18,7 +18,7 @@ func OtelComponentMappingDeleteCommand(deps *di.Deps) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "delete",
 		Short: "Delete an OTel Component Mapping by identifier (URN)",
-		Long:  "Delete an OTel Component Mapping by identifier (URN)",
+		Long:  "Delete an OTel Component Mapping by identifier (URN).",
 		Example: `# delete a component mapping by identifier
 sts otel-component-mapping delete --identifier urn:stackpack:stackpack-name:shared:otel-component-mapping:service`,
 		RunE: deps.CmdRunEWithApi(RunDeleteComponentMappingCommand(args)),

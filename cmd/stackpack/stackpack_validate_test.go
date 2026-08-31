@@ -61,7 +61,7 @@ func TestValidate_WithDirectory_AutoPackages(t *testing.T) {
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 	createTestStackpackDir(t, stackpackDir, "test-stackpack", "1.0.0")
 
-	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-directory", stackpackDir)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", stackpackDir)
 	require.NoError(t, err)
 
 	// Verify success message
@@ -81,7 +81,7 @@ func TestValidate_WithDirectory_InvalidStackpack(t *testing.T) {
 	stackpackDir := filepath.Join(tempDir, "invalid-stackpack")
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 
-	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-directory", stackpackDir)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", stackpackDir)
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "required stackpack item not found")
 }
@@ -98,7 +98,7 @@ func TestValidate_WithDirectory_MissingStackpackYaml(t *testing.T) {
 	require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "resources"), 0755))
 	require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "README.md"), []byte("test"), 0644))
 
-	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-directory", stackpackDir)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", stackpackDir)
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "required stackpack item not found")
 }
@@ -114,7 +114,7 @@ func TestValidate_WithPrePackagedFile(t *testing.T) {
 	stackpackFile := filepath.Join(tempDir, "test.sts")
 	require.NoError(t, os.WriteFile(stackpackFile, []byte("test stackpack content"), 0644))
 
-	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-file", stackpackFile)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", stackpackFile)
 	require.NoError(t, err)
 
 	// Verify success message
@@ -133,7 +133,7 @@ func TestValidate_JSONOutput(t *testing.T) {
 	stackpackFile := filepath.Join(tempDir, "test.sts")
 	require.NoError(t, os.WriteFile(stackpackFile, []byte("test content"), 0644))
 
-	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-file", stackpackFile, "-o", "json")
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", stackpackFile, "-o", "json")
 	require.NoError(t, err)
 
 	// Verify JSON was called
@@ -174,7 +174,7 @@ func TestValidate_MutuallyExclusive(t *testing.T) {
 func TestValidate_NonexistentFile(t *testing.T) {
 	cli, cmd := setupValidateCmd(t)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-file", "/nonexistent/path/file.sts")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--file", "/nonexistent/path/file.sts")
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "failed to access stackpack file")
 }
@@ -196,7 +196,7 @@ func TestValidate_WithDirectory_IncludingOptionalItems(t *testing.T) {
 	require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "includes"), 0755))
 	require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "includes", "include.txt"), []byte("include data"), 0644))
 
-	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-directory", stackpackDir)
+	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", stackpackDir)
 	require.NoError(t, err)
 
 	// Verify success message
@@ -208,7 +208,7 @@ func TestValidate_WithDirectory_IncludingOptionalItems(t *testing.T) {
 func TestValidate_NonexistentDirectory(t *testing.T) {
 	cli, cmd := setupValidateCmd(t)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--stackpack-directory", "/nonexistent/stackpack/dir")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", "/nonexistent/stackpack/dir")
 	require.Error(t, err)
 	assert.Contains(t, err.Error(), "required stackpack item not found")
 }

@@ -15,6 +15,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
 const (
@@ -59,7 +60,7 @@ sts stackpack test-deploy -d ./my-stackpack --yes`,
 		RunE: cli.CmdRunEWithApi(RunStackpackTestDeployCommand(args)),
 	}
 
-	cmd.Flags().StringVarP(&args.StackpackDir, "stackpack-directory", "d", "", "Path to stackpack directory (defaults to current directory)")
+	cmd.Flags().StringVarP(&args.StackpackDir, "directory", "d", "", "Path to stackpack directory (defaults to current directory)")
 	cmd.Flags().StringToStringVarP(&args.Params, ParameterFlag, "p", args.Params, "List of parameters of the form \"key=value\"")
 	cmd.Flags().BoolVarP(&args.Yes, "yes", "y", false, "Skip confirmation prompt before upload")
 
@@ -76,11 +77,6 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-		// Warn if JSON output is requested - not meaningful for test-deploy command
-		if cli.IsJson() {
-			cli.Printer.PrintLn("Warning: JSON output format is not meaningful for the test-deploy command, proceeding with text output")
-		}
-
 		// Set default stackpack directory
 		if args.StackpackDir == "" {
 			currentDir, err := os.Getwd()
@@ -98,12 +94,12 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			return common.NewRuntimeError(fmt.Errorf("failed to parse %s: %w", stackpackConfigFile, err))
 		}
 
-		cli.Printer.Success("Starting stackpack test-deploy sequence...")
-		cli.Printer.PrintLn(fmt.Sprintf("  Stackpack: %s (current version: %s)", originalInfo.Name, originalInfo.Version))
-		cli.Printer.PrintLn("")
+		printSuccess(cli, "Starting stackpack test-deploy sequence...")
+		printMsg(cli, fmt.Sprintf("  Stackpack: %s (current version: %s)", originalInfo.Name, originalInfo.Version))
+		printMsg(cli, "")
 
 		// Step 1: Check installed version and determine base version for snapshot
-		cli.Printer.PrintLn("Step 1/5: Checking installed version...")
+		printMsg(cli, "Step 1/5: Checking installed version...")
 		installedVersion, err := getInstalledStackpackVersion(cli, api, originalInfo.Name)
 		if err != nil {
 			return common.NewRuntimeError(fmt.Errorf("failed to check installed stackpack version: %w", err))
@@ -111,7 +107,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 
 		baseVersionForSnapshot := originalInfo.Version
 		if installedVersion != "" {
-			cli.Printer.PrintLn(fmt.Sprintf("  Found installed version: %s", installedVersion))
+			printMsg(cli, fmt.Sprintf("  Found installed version: %s", installedVersion))
 
 			// Compare base versions (strip cli-test suffix from installed version for comparison)
 			installedBaseVersion := installedVersion
@@ -129,15 +125,15 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			baseComparison := compareVersions(installedBaseVersion, originalInfo.Version)
 			if baseComparison > 0 || (baseComparison == 0 && strings.Contains(installedVersion, "-cli-test.")) {
 				baseVersionForSnapshot = installedVersion
-				cli.Printer.PrintLn(fmt.Sprintf("  Using installed version as base: %s", baseVersionForSnapshot))
+				printMsg(cli, fmt.Sprintf("  Using installed version as base: %s", baseVersionForSnapshot))
 			} else if baseComparison < 0 {
-				cli.Printer.PrintLn(fmt.Sprintf("  Using local version as base (higher than installed): %s", baseVersionForSnapshot))
+				printMsg(cli, fmt.Sprintf("  Using local version as base (higher than installed): %s", baseVersionForSnapshot))
 			}
 		}
 
 		// Step 2: Create temporary directory and copy stackpack
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Step 2/5: Creating temporary copy for testing...")
+		printMsg(cli, "")
+		printMsg(cli, "Step 2/5: Creating temporary copy for testing...")
 
 		tempDir, err := os.MkdirTemp("", "stackpack-test-*")
 		if err != nil {
@@ -147,7 +143,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		// Ensure cleanup of temporary directory
 		defer func() {
 			if removeErr := os.RemoveAll(tempDir); removeErr != nil {
-				cli.Printer.PrintLn(fmt.Sprintf("Warning: Failed to cleanup temporary directory: %v", removeErr))
+				printMsg(cli, fmt.Sprintf("Warning: Failed to cleanup temporary directory: %v", removeErr))
 			}
 		}()
 
@@ -155,22 +151,22 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		if err := copyDirectory(args.StackpackDir, tempStackpackDir); err != nil {
 			return common.NewRuntimeError(fmt.Errorf("failed to copy stackpack to temporary directory: %w", err))
 		}
-		cli.Printer.Success("Temporary copy created")
+		printSuccess(cli, "Temporary copy created")
 
 		// Step 3: Update version in temporary copy
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Step 3/5: Bumping version for testing...")
+		printMsg(cli, "")
+		printMsg(cli, "Step 3/5: Bumping version for testing...")
 
 		tempConfigPath := filepath.Join(tempStackpackDir, stackpackConfigFile)
 		newVersion, err := bumpSnapshotVersionWithBase(tempConfigPath, baseVersionForSnapshot)
 		if err != nil {
 			return common.NewRuntimeError(fmt.Errorf("failed to bump version: %w", err))
 		}
-		cli.Printer.Success(fmt.Sprintf("Version bumped to: %s", newVersion))
+		printSuccess(cli, fmt.Sprintf("Version bumped to: %s", newVersion))
 
 		// Step 4: Package stackpack from temporary directory
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Step 4/5: Packaging stackpack...")
+		printMsg(cli, "")
+		printMsg(cli, "Step 4/5: Packaging stackpack...")
 		packageArgs := &PackageArgs{
 			StackpackDir: tempStackpackDir, // Use temporary directory
 			Force:        true,             // Always overwrite for testing
@@ -183,19 +179,19 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		if err := runPackageStep(cli, packageArgs); err != nil {
 			return err
 		}
-		cli.Printer.Success("Stackpack packaged successfully")
+		printSuccess(cli, "Stackpack packaged successfully")
 
 		// Step 5: Confirm upload (if needed) and execute upload/install workflow
-		if !args.Yes {
-			cli.Printer.PrintLn("")
+		if !args.Yes && !cli.IsJson() {
+			printMsg(cli, "")
 			if !confirmUpload(cli, packageArgs.ArchiveFile) {
 				return common.NewRuntimeError(fmt.Errorf("upload cancelled by user"))
 			}
 		}
 
 		// Upload stackpack
-		cli.Printer.PrintLn("")
-		cli.Printer.PrintLn("Step 5/5: Uploading and installing/upgrading stackpack...")
+		printMsg(cli, "")
+		printMsg(cli, "Step 5/5: Uploading and installing/upgrading stackpack...")
 		uploadArgs := &UploadArgs{
 			FilePath: packageArgs.ArchiveFile,
 		}
@@ -203,7 +199,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		if err := runUploadStep(cli, api, serverInfo, uploadArgs); err != nil {
 			return err
 		}
-		cli.Printer.Success("Stackpack uploaded successfully")
+		printSuccess(cli, "Stackpack uploaded successfully")
 
 		// Install or upgrade stackpack based on installation status
 		if installedVersion != "" {
@@ -217,7 +213,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			if err := runUpgradeStep(cli, api, serverInfo, upgradeArgs); err != nil {
 				return err
 			}
-			cli.Printer.Success("Stackpack upgraded successfully")
+			printSuccess(cli, "Stackpack upgraded successfully")
 		} else {
 			installArgs := &InstallArgs{
 				Name:             originalInfo.Name,
@@ -230,15 +226,20 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			if err := runInstallStep(cli, api, serverInfo, installArgs); err != nil {
 				return err
 			}
-			cli.Printer.Success("Stackpack installed successfully")
+			printSuccess(cli, "Stackpack installed successfully")
 		}
 
-		cli.Printer.PrintLn("")
-		cli.Printer.Success("🎉 Test-deploy sequence completed successfully!")
+		printMsg(cli, "")
+		printSuccess(cli, "🎉 Test-deploy sequence completed successfully!")
 
 		// Clean up .sts file
 		if err := os.Remove(packageArgs.ArchiveFile); err != nil {
-			cli.Printer.PrintLn(fmt.Sprintf("Note: Could not clean up .sts file %s: %v", packageArgs.ArchiveFile, err))
+			printMsg(cli, fmt.Sprintf("Note: Could not clean up .sts file %s: %v", packageArgs.ArchiveFile, err))
+		} else if cli.IsJson() {
+			cli.Printer.PrintJson(map[string]interface{}{
+				"stackpack": originalInfo.Name,
+				"version":   newVersion,
+			})
 		}
 
 		return nil
@@ -315,8 +316,8 @@ func confirmUpload(cli *di.Deps, zipFile string) bool {
 		serverURL = cli.CurrentContext.URL
 	}
 
-	cli.Printer.PrintLn(fmt.Sprintf("⚠️  This will upload '%s' to SUSE Observability server:", filepath.Base(zipFile)))
-	cli.Printer.PrintLn(fmt.Sprintf("   Server: %s", serverURL))
+	printMsg(cli, fmt.Sprintf("⚠️  This will upload '%s' to SUSE Observability server:", filepath.Base(zipFile)))
+	printMsg(cli, fmt.Sprintf("   Server: %s", serverURL))
 	fmt.Print("   Continue? (y/N): ")
 
 	reader := bufio.NewReader(os.Stdin)
@@ -332,33 +333,50 @@ func confirmUpload(cli *di.Deps, zipFile string) bool {
 // runPackageStep executes the package command logic
 func runPackageStep(cli *di.Deps, args *PackageArgs) common.CLIError {
 	// Reuse the existing package command logic
-	packageCmd := &cobra.Command{}
-	packageFn := RunStackpackPackageCommand(args)
-	return packageFn(cli, packageCmd)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		packageCmd := &cobra.Command{}
+		packageFn := RunStackpackPackageCommand(args)
+		return packageFn(ctx, packageCmd)
+	})
 }
 
 // runUploadStep executes the upload command logic
 func runUploadStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *UploadArgs) common.CLIError {
-	// Reuse the existing upload command logic
-	uploadCmd := &cobra.Command{}
-	uploadFn := RunStackpackUploadCommand(args)
-	return uploadFn(uploadCmd, cli, api, serverInfo)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		// Reuse the existing upload command logic
+		uploadCmd := &cobra.Command{}
+		uploadFn := RunStackpackUploadCommand(args)
+		return uploadFn(uploadCmd, ctx, api, serverInfo)
+	})
 }
 
 // runInstallStep executes the install command logic
 func runInstallStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *InstallArgs) common.CLIError {
-	// Reuse the existing install command logic
-	installCmd := &cobra.Command{}
-	installFn := RunStackpackInstallCommand(args)
-	return installFn(installCmd, cli, api, serverInfo)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		// Reuse the existing install command logic
+		installCmd := &cobra.Command{}
+		installFn := RunStackpackInstallCommand(args)
+		return installFn(installCmd, ctx, api, serverInfo)
+	})
 }
 
 // runUpgradeStep executes the upgrade command logic
 func runUpgradeStep(cli *di.Deps, api *stackstate_api.APIClient, serverInfo *stackstate_api.ServerInfo, args *UpgradeArgs) common.CLIError {
-	// Reuse the existing upgrade command logic
-	upgradeCmd := &cobra.Command{}
-	upgradeFn := RunStackpackUpgradeCommand(args)
-	return upgradeFn(upgradeCmd, cli, api, serverInfo)
+	return runCmd(cli, func(ctx *di.Deps) common.CLIError {
+		// Reuse the existing upgrade command logic
+		upgradeCmd := &cobra.Command{}
+		upgradeFn := RunStackpackUpgradeCommand(args)
+		return upgradeFn(upgradeCmd, ctx, api, serverInfo)
+	})
+}
+
+func runCmd(cli *di.Deps, f func(ctx *di.Deps) common.CLIError) common.CLIError {
+	oldPr := cli.Printer
+	pr := printer.NewMockPrinter(nil)
+	cli.Printer = &pr
+	err := f(cli)
+	cli.Printer = oldPr
+	return err
 }
 
 // getInstalledStackpackVersion checks if a stackpack is installed and returns its version
@@ -488,4 +506,16 @@ func updateVersionInYaml(configPath, newVersion string) error {
 	}
 
 	return nil
+}
+
+func printMsg(cli *di.Deps, msg string) {
+	if !cli.IsJson() {
+		cli.Printer.PrintLn(msg)
+	}
+}
+
+func printSuccess(cli *di.Deps, msg string) {
+	if !cli.IsJson() {
+		cli.Printer.Success(msg)
+	}
 }

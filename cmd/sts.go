@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/spf13/cobra"
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
@@ -34,12 +32,8 @@ func STSCommand(cli *di.Deps) *cobra.Command {
 	cmd.AddCommand(UserSessionCommand(cli))
 	cmd.AddCommand(DashboardCommand(cli))
 	cmd.AddCommand(TopologyCommand(cli))
-
-	// Experimental commands for otel mapping
-	if os.Getenv("STS_EXPERIMENTAL_STACKPACKS") != "" {
-		cmd.AddCommand(OtelComponentMappingCommand(cli))
-		cmd.AddCommand(OtelRelationMappingCommand(cli))
-	}
+	cmd.AddCommand(OtelComponentMappingCommand(cli))
+	cmd.AddCommand(OtelRelationMappingCommand(cli))
 
 	return cmd
 }
