@@ -132,24 +132,22 @@ func RunStackpackInstallCommand(args *InstallArgs, mute bool) di.CmdWithApiFn {
 					)
 				}
 			}
-		} else {
-			if !mute {
-				if cli.IsJson() {
-					cli.Printer.PrintJson(map[string]interface{}{
-						"instance": instance,
-					})
-				} else {
-					lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
+		} else if !mute {
+			if cli.IsJson() {
+				cli.Printer.PrintJson(map[string]interface{}{
+					"instance": instance,
+				})
+			} else {
+				lastUpdateTime := time.UnixMilli(instance.GetLastUpdateTimestamp())
 
-					cli.Printer.Success("StackPack instance installation triggered")
-					cli.Printer.Table(
-						printer.TableData{
-							Header:              []string{"id", "name", "status", "version", "last updated"},
-							Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
-							MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
-						},
-					)
-				}
+				cli.Printer.Success("StackPack instance installation triggered")
+				cli.Printer.Table(
+					printer.TableData{
+						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
+						MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
+					},
+				)
 			}
 		}
 

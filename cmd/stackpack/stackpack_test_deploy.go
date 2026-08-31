@@ -76,7 +76,6 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		api *stackstate_api.APIClient,
 		serverInfo *stackstate_api.ServerInfo,
 	) common.CLIError {
-
 		// Set default stackpack directory
 		if args.StackpackDir == "" {
 			currentDir, err := os.Getwd()

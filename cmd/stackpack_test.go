@@ -22,9 +22,9 @@ func TestStackPackCommand_EnabledCommands(t *testing.T) {
 		"upgrade",
 		"confirm-manual-steps",
 		"describe",
-	  "scaffold",
-    "package",
-    "test-deploy",
+		"scaffold",
+		"package",
+		"test-deploy",
 	}
 
 	for _, cmdName := range expectedCommands {
