@@ -6,6 +6,7 @@ import (
 	"os"
 	"runtime"
 	"strings"
+	_ "time/tzdata" // Preserve named timezones when the runtime has no zoneinfo.
 
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
