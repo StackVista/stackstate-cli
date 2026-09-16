@@ -90,7 +90,8 @@ jobs:
           set -euo pipefail
           trivy image --image-src docker --scanners vuln --list-all-pkgs \
             --format json --output evidence/trivy-vuln.json "$IMAGE"
-          grype "docker:$IMAGE" -o json > evidence/grype.json
+          grype "docker:$IMAGE" -o json=evidence/grype.json \
+            -o cyclonedx-json=evidence/grype-inventory.json
           trivy image --image-src docker --scanners secret --exit-code 1 \
             --format json --output "$RUNNER_TEMP/secrets.json" "$IMAGE"
           cp "$RUNNER_TEMP/secrets.json" evidence/trivy-secret.json
@@ -110,5 +111,8 @@ jobs:
           jq -e '.Metadata.OS.Family == "sles" and .Metadata.OS.EOSL != true and
             ([.Results[]? | select(.Class == "os-pkgs") | .Packages[]?] | length > 0) and
             ([.Results[]?.Vulnerabilities[]?] | length == 0)' evidence/trivy-vuln.json
-          jq -e '([.artifacts[]? | select(.type == "rpm")] | length > 0) and
-            (.matches | length == 0)' evidence/grype.json
+          echo 'Require Grype RPM inventory from its CycloneDX report'
+          jq -e '[.components[]? | select((.purl // "") | startswith("pkg:rpm/"))]
+            | length > 0' evidence/grype-inventory.json
+          echo 'Require zero Grype vulnerability matches'
+          jq -e '.matches | type == "array" and length == 0' evidence/grype.json
