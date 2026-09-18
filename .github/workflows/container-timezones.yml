@@ -66,6 +66,11 @@ jobs:
           bash docker/test-timezones.sh "$IMAGE" "$ARCH" | tee evidence/timezones.txt
           docker run --rm "$IMAGE" version -o json > evidence/version.json
           docker run --rm "$IMAGE" --help > evidence/help.txt
+      - name: Check actual CLI TLS trust and missing-CA negative control
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash docker/test-tls.sh "$IMAGE" | tee evidence/tls.txt
       - name: Install checksum-verified scanners
         shell: bash
         run: |
@@ -95,9 +100,6 @@ jobs:
           trivy image --image-src docker --scanners secret --exit-code 1 \
             --format json --output "$RUNNER_TEMP/secrets.json" "$IMAGE"
           cp "$RUNNER_TEMP/secrets.json" evidence/trivy-secret.json
-          trivy version --format json > evidence/trivy-version.json
-          grype version > evidence/grype-version.txt
-          grype db status -o json > evidence/grype-db.json
       - name: Retain candidate evidence
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

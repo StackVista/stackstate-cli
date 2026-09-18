@@ -1,5 +1,5 @@
 # Pinned to the multi-arch index digest, not a per-arch one, so the amd64 and
 # arm64v8 GoReleaser builds can both resolve it via --platform.
-FROM registry.suse.com/bci/bci-micro:15.7@sha256:d56510e6d35ef2ffe7534f880bcd5ec599322693e4909f5c99f1bcbb155cf2fa
+FROM registry.suse.com/bci/bci-nano:15.7@sha256:794d075f0ffa66f6fc1f7073b4957c4c797f29f04384fe547b34f865c7afeebb
 ENTRYPOINT ["/usr/bin/sts"]
 COPY sts /usr/bin/sts

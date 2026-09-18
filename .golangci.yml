@@ -37,11 +37,6 @@ linters:
     # - revive TODO: enable when fixed
     # - stylecheck TODO: enable when fixed
   settings:
-    goconst:
-      # Preserve v2.9.0 coverage; composite literal checks were added afterward.
-      exclude-types:
-        - Call
-        - CompositeLit
     depguard:
       rules:
         main:
