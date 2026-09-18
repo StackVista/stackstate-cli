@@ -1,0 +1,18 @@
+[
+  {
+    "arch": "arm64",
+    "digest": "sha256:587222286b6497aae78ed7f4a527b512a6923fd86fa8645b6093045d23cbe803",
+    "base_layers_match": true,
+    "tag": "3.9.1-arm64v8",
+    "binary_sha256": "16a9ef94a06f92cb0e83a23ca94364684961a07e08e920937f920608dbb68b6a",
+    "cosign_tree_exit": 0
+  },
+  {
+    "arch": "amd64",
+    "digest": "sha256:28e1756b62c30953be914bd54f50363e88f353293cd3d67c5a458f5b05ffcdd3",
+    "base_layers_match": true,
+    "tag": "3.9.1-x86_64",
+    "binary_sha256": "e5d3f786272dee833887c570a11a520d28decdc31a890de84166de07c749e165",
+    "cosign_tree_exit": 0
+  }
+]

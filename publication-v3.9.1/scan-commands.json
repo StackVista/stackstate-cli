@@ -1,0 +1,110 @@
+[
+  {
+    "command": [
+      "trivy",
+      "image",
+      "--image-src",
+      "remote",
+      "--platform",
+      "linux/arm64",
+      "--scanners",
+      "vuln",
+      "--list-all-pkgs",
+      "--severity",
+      "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL",
+      "--format",
+      "json",
+      "--output",
+      "/home/omnigent/workspace/cli391-evidence/arm64/trivy.json",
+      "stackstate/stackstate-cli2@sha256:587222286b6497aae78ed7f4a527b512a6923fd86fa8645b6093045d23cbe803"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "/home/omnigent/workspace/cli391-tools/grype",
+      "registry:stackstate/stackstate-cli2@sha256:587222286b6497aae78ed7f4a527b512a6923fd86fa8645b6093045d23cbe803",
+      "--platform",
+      "linux/arm64",
+      "-o",
+      "json=/home/omnigent/workspace/cli391-evidence/arm64/grype.json",
+      "-o",
+      "cyclonedx-json=/home/omnigent/workspace/cli391-evidence/arm64/inventory.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "trivy",
+      "image",
+      "--image-src",
+      "remote",
+      "--platform",
+      "linux/arm64",
+      "--scanners",
+      "secret",
+      "--exit-code",
+      "1",
+      "--format",
+      "json",
+      "--output",
+      "/home/omnigent/workspace/cli391-evidence/arm64/secrets.json",
+      "stackstate/stackstate-cli2@sha256:587222286b6497aae78ed7f4a527b512a6923fd86fa8645b6093045d23cbe803"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "trivy",
+      "image",
+      "--image-src",
+      "remote",
+      "--platform",
+      "linux/amd64",
+      "--scanners",
+      "vuln",
+      "--list-all-pkgs",
+      "--severity",
+      "UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL",
+      "--format",
+      "json",
+      "--output",
+      "/home/omnigent/workspace/cli391-evidence/amd64/trivy.json",
+      "stackstate/stackstate-cli2@sha256:28e1756b62c30953be914bd54f50363e88f353293cd3d67c5a458f5b05ffcdd3"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "/home/omnigent/workspace/cli391-tools/grype",
+      "registry:stackstate/stackstate-cli2@sha256:28e1756b62c30953be914bd54f50363e88f353293cd3d67c5a458f5b05ffcdd3",
+      "--platform",
+      "linux/amd64",
+      "-o",
+      "json=/home/omnigent/workspace/cli391-evidence/amd64/grype.json",
+      "-o",
+      "cyclonedx-json=/home/omnigent/workspace/cli391-evidence/amd64/inventory.json"
+    ],
+    "exit": 0
+  },
+  {
+    "command": [
+      "trivy",
+      "image",
+      "--image-src",
+      "remote",
+      "--platform",
+      "linux/amd64",
+      "--scanners",
+      "secret",
+      "--exit-code",
+      "1",
+      "--format",
+      "json",
+      "--output",
+      "/home/omnigent/workspace/cli391-evidence/amd64/secrets.json",
+      "stackstate/stackstate-cli2@sha256:28e1756b62c30953be914bd54f50363e88f353293cd3d67c5a458f5b05ffcdd3"
+    ],
+    "exit": 0
+  }
+]

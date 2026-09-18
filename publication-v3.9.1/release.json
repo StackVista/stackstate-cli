@@ -1,0 +1,91 @@
+{
+  "assets": [
+    {
+      "apiUrl": "https://api.github.com/repos/StackVista/stackstate-cli/releases/assets/572691053",
+      "contentType": "application/gzip",
+      "createdAt": "2026-09-18T13:30:57Z",
+      "digest": "sha256:0d941b72c5f7586baf56caf569fc91bb5043f42ecebd94169e7be11059b3bbdf",
+      "downloadCount": 0,
+      "id": "RA_kwDOHWSk8c4iIpJt",
+      "label": "",
+      "name": "stackstate-cli-3.9.1.darwin-arm64.tar.gz",
+      "size": 14502382,
+      "state": "uploaded",
+      "updatedAt": "2026-09-18T13:30:58Z",
+      "url": "https://github.com/StackVista/stackstate-cli/releases/download/v3.9.1/stackstate-cli-3.9.1.darwin-arm64.tar.gz"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/StackVista/stackstate-cli/releases/assets/572691054",
+      "contentType": "application/gzip",
+      "createdAt": "2026-09-18T13:30:57Z",
+      "digest": "sha256:eb4af1effa6a629db4a75d9565f644036dca9ac1003eb21c9cf0837fa84fda16",
+      "downloadCount": 0,
+      "id": "RA_kwDOHWSk8c4iIpJu",
+      "label": "",
+      "name": "stackstate-cli-3.9.1.darwin-x86_64.tar.gz",
+      "size": 15838635,
+      "state": "uploaded",
+      "updatedAt": "2026-09-18T13:30:58Z",
+      "url": "https://github.com/StackVista/stackstate-cli/releases/download/v3.9.1/stackstate-cli-3.9.1.darwin-x86_64.tar.gz"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/StackVista/stackstate-cli/releases/assets/572691094",
+      "contentType": "application/gzip",
+      "createdAt": "2026-09-18T13:30:58Z",
+      "digest": "sha256:964be6739e17df397c97cf9ac96d7496ea96effaf31bcae2a5a7e249ffd5e1ae",
+      "downloadCount": 0,
+      "id": "RA_kwDOHWSk8c4iIpKW",
+      "label": "",
+      "name": "stackstate-cli-3.9.1.linux-arm64.tar.gz",
+      "size": 13854808,
+      "state": "uploaded",
+      "updatedAt": "2026-09-18T13:30:59Z",
+      "url": "https://github.com/StackVista/stackstate-cli/releases/download/v3.9.1/stackstate-cli-3.9.1.linux-arm64.tar.gz"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/StackVista/stackstate-cli/releases/assets/572691057",
+      "contentType": "application/gzip",
+      "createdAt": "2026-09-18T13:30:57Z",
+      "digest": "sha256:377ae7a603b14227767ad3b07475590dd0fc686b6e7ad7a8e65a178665d5045c",
+      "downloadCount": 0,
+      "id": "RA_kwDOHWSk8c4iIpJx",
+      "label": "",
+      "name": "stackstate-cli-3.9.1.linux-x86_64.tar.gz",
+      "size": 15567454,
+      "state": "uploaded",
+      "updatedAt": "2026-09-18T13:30:58Z",
+      "url": "https://github.com/StackVista/stackstate-cli/releases/download/v3.9.1/stackstate-cli-3.9.1.linux-x86_64.tar.gz"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/StackVista/stackstate-cli/releases/assets/572691055",
+      "contentType": "application/zip",
+      "createdAt": "2026-09-18T13:30:57Z",
+      "digest": "sha256:75cd0d372240ce39f6584507eb2c53509ae37f41ae797b549403589a09645e00",
+      "downloadCount": 0,
+      "id": "RA_kwDOHWSk8c4iIpJv",
+      "label": "",
+      "name": "stackstate-cli-3.9.1.windows-x86_64.zip",
+      "size": 15988835,
+      "state": "uploaded",
+      "updatedAt": "2026-09-18T13:30:58Z",
+      "url": "https://github.com/StackVista/stackstate-cli/releases/download/v3.9.1/stackstate-cli-3.9.1.windows-x86_64.zip"
+    },
+    {
+      "apiUrl": "https://api.github.com/repos/StackVista/stackstate-cli/releases/assets/572691095",
+      "contentType": "text/plain; charset=utf-8",
+      "createdAt": "2026-09-18T13:30:58Z",
+      "digest": "sha256:5543caed89617459f3920355bb58b9015c3a847003d292ddfabc78cb7261d70f",
+      "downloadCount": 0,
+      "id": "RA_kwDOHWSk8c4iIpKX",
+      "label": "",
+      "name": "stackstate-cli_3.9.1_checksums.txt",
+      "size": 534,
+      "state": "uploaded",
+      "updatedAt": "2026-09-18T13:30:58Z",
+      "url": "https://github.com/StackVista/stackstate-cli/releases/download/v3.9.1/stackstate-cli_3.9.1_checksums.txt"
+    }
+  ],
+  "publishedAt": "2026-09-18T13:30:59Z",
+  "tagName": "v3.9.1",
+  "url": "https://github.com/StackVista/stackstate-cli/releases/tag/v3.9.1"
+}

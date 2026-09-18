@@ -1,0 +1,42 @@
+[
+  {
+    "archive": "stackstate-cli-3.9.1.linux-x86_64.tar.gz",
+    "binary_sha256": "e5d3f786272dee833887c570a11a520d28decdc31a890de84166de07c749e165",
+    "revision": "42d67de511f7e9b0a6ff4bc4cfa80cdb999cede9",
+    "go": "1.25.13",
+    "version": "3.9.1",
+    "static": true
+  },
+  {
+    "archive": "stackstate-cli-3.9.1.darwin-x86_64.tar.gz",
+    "binary_sha256": "4e9778e12302ea9f51c71345c3630f1d60e724a7c3374a4cd750eb432100cd4a",
+    "revision": "42d67de511f7e9b0a6ff4bc4cfa80cdb999cede9",
+    "go": "1.25.13",
+    "version": "3.9.1",
+    "static": true
+  },
+  {
+    "archive": "stackstate-cli-3.9.1.windows-x86_64.zip",
+    "binary_sha256": "a8df3b438a1ae5f09f47891022400fdc22602037ebfb2337c8ea8929a5a247a1",
+    "revision": "42d67de511f7e9b0a6ff4bc4cfa80cdb999cede9",
+    "go": "1.25.13",
+    "version": "3.9.1",
+    "static": true
+  },
+  {
+    "archive": "stackstate-cli-3.9.1.darwin-arm64.tar.gz",
+    "binary_sha256": "f20b07e371d4325400678f4077ad0642a30205eca71b7e88792720191883d347",
+    "revision": "42d67de511f7e9b0a6ff4bc4cfa80cdb999cede9",
+    "go": "1.25.13",
+    "version": "3.9.1",
+    "static": true
+  },
+  {
+    "archive": "stackstate-cli-3.9.1.linux-arm64.tar.gz",
+    "binary_sha256": "16a9ef94a06f92cb0e83a23ca94364684961a07e08e920937f920608dbb68b6a",
+    "revision": "42d67de511f7e9b0a6ff4bc4cfa80cdb999cede9",
+    "go": "1.25.13",
+    "version": "3.9.1",
+    "static": true
+  }
+]

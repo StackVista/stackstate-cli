@@ -1,0 +1,84 @@
+[
+  {
+    "name": "stackstate-cli-3.9.1.darwin-arm64.tar.gz",
+    "github": {
+      "status": 200,
+      "sha256": "0d941b72c5f7586baf56caf569fc91bb5043f42ecebd94169e7be11059b3bbdf",
+      "size": 14502382
+    },
+    "public": {
+      "status": 200,
+      "sha256": "0d941b72c5f7586baf56caf569fc91bb5043f42ecebd94169e7be11059b3bbdf",
+      "size": 14502382
+    }
+  },
+  {
+    "name": "stackstate-cli-3.9.1.darwin-x86_64.tar.gz",
+    "github": {
+      "status": 200,
+      "sha256": "eb4af1effa6a629db4a75d9565f644036dca9ac1003eb21c9cf0837fa84fda16",
+      "size": 15838635
+    },
+    "public": {
+      "status": 200,
+      "sha256": "eb4af1effa6a629db4a75d9565f644036dca9ac1003eb21c9cf0837fa84fda16",
+      "size": 15838635
+    }
+  },
+  {
+    "name": "stackstate-cli-3.9.1.linux-arm64.tar.gz",
+    "github": {
+      "status": 200,
+      "sha256": "964be6739e17df397c97cf9ac96d7496ea96effaf31bcae2a5a7e249ffd5e1ae",
+      "size": 13854808
+    },
+    "public": {
+      "status": 200,
+      "sha256": "964be6739e17df397c97cf9ac96d7496ea96effaf31bcae2a5a7e249ffd5e1ae",
+      "size": 13854808
+    }
+  },
+  {
+    "name": "stackstate-cli-3.9.1.linux-x86_64.tar.gz",
+    "github": {
+      "status": 200,
+      "sha256": "377ae7a603b14227767ad3b07475590dd0fc686b6e7ad7a8e65a178665d5045c",
+      "size": 15567454
+    },
+    "public": {
+      "status": 200,
+      "sha256": "377ae7a603b14227767ad3b07475590dd0fc686b6e7ad7a8e65a178665d5045c",
+      "size": 15567454
+    }
+  },
+  {
+    "name": "stackstate-cli-3.9.1.windows-x86_64.zip",
+    "github": {
+      "status": 200,
+      "sha256": "75cd0d372240ce39f6584507eb2c53509ae37f41ae797b549403589a09645e00",
+      "size": 15988835
+    },
+    "public": {
+      "status": 200,
+      "sha256": "75cd0d372240ce39f6584507eb2c53509ae37f41ae797b549403589a09645e00",
+      "size": 15988835
+    }
+  },
+  {
+    "name": "stackstate-cli_3.9.1_checksums.txt",
+    "github": {
+      "status": 200,
+      "sha256": "5543caed89617459f3920355bb58b9015c3a847003d292ddfabc78cb7261d70f",
+      "size": 534
+    },
+    "public": {
+      "status": 200,
+      "sha256": "5543caed89617459f3920355bb58b9015c3a847003d292ddfabc78cb7261d70f",
+      "size": 534
+    }
+  },
+  {
+    "LATEST_VERSION": "v3.9.1",
+    "installers": "byte-identical to release source"
+  }
+]

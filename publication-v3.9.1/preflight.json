@@ -1,0 +1,121 @@
+[
+  {
+    "cmd": [
+      "gh",
+      "run",
+      "view",
+      "35341792069",
+      "--json",
+      "headSha,status,conclusion"
+    ],
+    "code": 0,
+    "out": "{\"conclusion\":\"success\",\"headSha\":\"42d67de511f7e9b0a6ff4bc4cfa80cdb999cede9\",\"status\":\"completed\"}\n",
+    "err": ""
+  },
+  {
+    "cmd": [
+      "git",
+      "ls-remote",
+      "origin",
+      "refs/tags/v3.9.1"
+    ],
+    "code": 0,
+    "out": "",
+    "err": ""
+  },
+  {
+    "cmd": [
+      "gh",
+      "release",
+      "view",
+      "v3.9.1",
+      "--json",
+      "tagName"
+    ],
+    "code": 1,
+    "out": "",
+    "err": "release not found\n"
+  },
+  {
+    "cmd": [
+      "gh",
+      "run",
+      "list",
+      "--branch",
+      "v3.9.1",
+      "--json",
+      "databaseId,status,conclusion"
+    ],
+    "code": 0,
+    "out": "[]\n",
+    "err": ""
+  },
+  {
+    "cmd": [
+      "docker",
+      "manifest",
+      "inspect",
+      "stackstate/stackstate-cli2:3.9.1"
+    ],
+    "code": 1,
+    "out": "",
+    "err": "no such manifest: docker.io/stackstate/stackstate-cli2:3.9.1\n"
+  },
+  {
+    "cmd": [
+      "docker",
+      "manifest",
+      "inspect",
+      "stackstate/stackstate-cli2:3.9.1-x86_64"
+    ],
+    "code": 1,
+    "out": "",
+    "err": "no such manifest: docker.io/stackstate/stackstate-cli2:3.9.1-x86_64\n"
+  },
+  {
+    "cmd": [
+      "docker",
+      "manifest",
+      "inspect",
+      "stackstate/stackstate-cli2:3.9.1-arm64v8"
+    ],
+    "code": 1,
+    "out": "",
+    "err": "no such manifest: docker.io/stackstate/stackstate-cli2:3.9.1-arm64v8\n"
+  },
+  {
+    "path": "LATEST_VERSION",
+    "status": 200,
+    "body": "v3.9.0\n"
+  },
+  {
+    "path": "v3.9.1/stackstate-cli-3.9.1.darwin-arm64.tar.gz",
+    "status": 404,
+    "body": "<html>\n<head><title>404 Not Found</title></head>\n<body>\n<h1>404 Not Found</h1>\n<ul>\n<li>Code: NoSuchKey</li>\n<li>Message: The specified key does not exist.</li>\n<li>Key: stackstate-cli/v3.9.1/stackstate-cli-3.9.1.darwin-arm64.tar.gz</li>\n<li>RequestI"
+  },
+  {
+    "path": "v3.9.1/stackstate-cli-3.9.1.darwin-x86_64.tar.gz",
+    "status": 404,
+    "body": "<html>\n<head><title>404 Not Found</title></head>\n<body>\n<h1>404 Not Found</h1>\n<ul>\n<li>Code: NoSuchKey</li>\n<li>Message: The specified key does not exist.</li>\n<li>Key: stackstate-cli/v3.9.1/stackstate-cli-3.9.1.darwin-x86_64.tar.gz</li>\n<li>Request"
+  },
+  {
+    "path": "v3.9.1/stackstate-cli-3.9.1.linux-arm64.tar.gz",
+    "status": 404,
+    "body": "<html>\n<head><title>404 Not Found</title></head>\n<body>\n<h1>404 Not Found</h1>\n<ul>\n<li>Code: NoSuchKey</li>\n<li>Message: The specified key does not exist.</li>\n<li>Key: stackstate-cli/v3.9.1/stackstate-cli-3.9.1.linux-arm64.tar.gz</li>\n<li>RequestId"
+  },
+  {
+    "path": "v3.9.1/stackstate-cli-3.9.1.linux-x86_64.tar.gz",
+    "status": 404,
+    "body": "<html>\n<head><title>404 Not Found</title></head>\n<body>\n<h1>404 Not Found</h1>\n<ul>\n<li>Code: NoSuchKey</li>\n<li>Message: The specified key does not exist.</li>\n<li>Key: stackstate-cli/v3.9.1/stackstate-cli-3.9.1.linux-x86_64.tar.gz</li>\n<li>RequestI"
+  },
+  {
+    "path": "v3.9.1/stackstate-cli-3.9.1.windows-x86_64.zip",
+    "status": 404,
+    "body": "<html>\n<head><title>404 Not Found</title></head>\n<body>\n<h1>404 Not Found</h1>\n<ul>\n<li>Code: NoSuchKey</li>\n<li>Message: The specified key does not exist.</li>\n<li>Key: stackstate-cli/v3.9.1/stackstate-cli-3.9.1.windows-x86_64.zip</li>\n<li>RequestId"
+  },
+  {
+    "path": "v3.9.1/stackstate-cli_3.9.1_checksums.txt",
+    "status": 404,
+    "body": "<html>\n<head><title>404 Not Found</title></head>\n<body>\n<h1>404 Not Found</h1>\n<ul>\n<li>Code: NoSuchKey</li>\n<li>Message: The specified key does not exist.</li>\n<li>Key: stackstate-cli/v3.9.1/stackstate-cli_3.9.1_checksums.txt</li>\n<li>RequestId: STF"
+  }
+]

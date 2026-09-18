@@ -1,0 +1,3 @@
+📦 Supply Chain Security Related artifacts for an image: stackstate/stackstate-cli2@sha256:28e1756b62c30953be914bd54f50363e88f353293cd3d67c5a458f5b05ffcdd3
+No Supply Chain Security Related Artifacts found for image stackstate/stackstate-cli2@sha256:28e1756b62c30953be914bd54f50363e88f353293cd3d67c5a458f5b05ffcdd3,
+ start creating one with simply running$ cosign sign <img>

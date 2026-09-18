@@ -1,0 +1,88 @@
+[
+  {
+    "arch": "amd64",
+    "os": {
+      "Family": "sles",
+      "Name": "15.7"
+    },
+    "os_packages": [
+      [
+        "ca-certificates-mozilla-prebuilt",
+        "2.84"
+      ],
+      [
+        "filesystem",
+        "15.0"
+      ],
+      [
+        "gpg-pubkey",
+        "3fa1d6ce"
+      ],
+      [
+        "skelcd-EULA-bci",
+        "20250430"
+      ],
+      [
+        "sles-release",
+        "15.7"
+      ],
+      [
+        "system-user-root",
+        "20190513"
+      ],
+      [
+        "timezone",
+        "2026c"
+      ]
+    ],
+    "grype_rpms": 7,
+    "trivy_vulns": 0,
+    "grype_matches": 0,
+    "secrets": 0,
+    "archive_image_binary_identical": true,
+    "buildinfo": "/home/omnigent/workspace/cli391-evidence/amd64/sts: go1.25.13"
+  },
+  {
+    "arch": "arm64",
+    "os": {
+      "Family": "sles",
+      "Name": "15.7"
+    },
+    "os_packages": [
+      [
+        "ca-certificates-mozilla-prebuilt",
+        "2.84"
+      ],
+      [
+        "filesystem",
+        "15.0"
+      ],
+      [
+        "gpg-pubkey",
+        "3fa1d6ce"
+      ],
+      [
+        "skelcd-EULA-bci",
+        "20250430"
+      ],
+      [
+        "sles-release",
+        "15.7"
+      ],
+      [
+        "system-user-root",
+        "20190513"
+      ],
+      [
+        "timezone",
+        "2026c"
+      ]
+    ],
+    "grype_rpms": 7,
+    "trivy_vulns": 0,
+    "grype_matches": 0,
+    "secrets": 0,
+    "archive_image_binary_identical": true,
+    "buildinfo": "/home/omnigent/workspace/cli391-evidence/arm64/sts: go1.25.13"
+  }
+]
