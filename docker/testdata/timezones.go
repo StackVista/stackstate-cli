@@ -31,6 +31,11 @@ func check() error {
 		{"America/New_York", 0, "1969-12-31 19:00:00 EST", "1969-12-31"},
 		{"America/New_York", 1593561600000, "2020-06-30 20:00:00 EDT", "2020-06-30"},
 		{"Asia/Kathmandu", 1593561600000, "2020-07-01 05:45:00 +0545", "2020-07-01"},
+		// DLA-4569-1: Vancouver must not fall back to UTC-08 in November 2026.
+		{"America/Vancouver", 1793604600000, "2026-11-02 00:30:00 MST", "2026-11-02"},
+		{"America/Vancouver", 1798788600000, "2027-01-01 00:30:00 MST", "2027-01-01"},
+		// Historical winter timestamps must still use the former UTC-08 rule.
+		{"America/Vancouver", 0, "1969-12-31 16:00:00 PST", "1969-12-31"},
 	}
 	for _, tc := range cases {
 		server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
