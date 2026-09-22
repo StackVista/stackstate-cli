@@ -40,7 +40,7 @@ sts stackpack upgrade --name kubernetes --wait`,
 	common.AddRequiredNameFlagVar(cmd, &args.TypeName, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
 		UnlockedStrategyFlag,
-		"",
+		"fail",
 		UnlockedStrategyChoices,
 		"Strategy use to upgrade StackPack instance"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),

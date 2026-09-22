@@ -70,6 +70,19 @@ func TestStackpackUpgradePrintToJson(t *testing.T) {
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 }
 
+func TestStackpackUpgradeDefaultsUnlockedStrategy(t *testing.T) {
+	cli, cmd := setupStackPackUpgradeCmd(t)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix")
+
+	defaultStrategy := "fail"
+	assert.Equal(t,
+		[]stackstate_api.UpgradeStackPackCall{{
+			PstackPackName: "zabbix",
+			Punlocked:      &defaultStrategy,
+		}},
+		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
+}
+
 func TestStackpackUpgradeHasWaitFlags(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackUpgradeCommand(&cli.Deps)
