@@ -25,7 +25,7 @@
         # Dependencies used for both development and CI/CD
         sharedDeps = pkgs: (with pkgs; [
           bash
-          go_1_24
+          go_1_26
           gotools
           diffutils # Required for golangci-lint
           golangci-lint
@@ -43,10 +43,9 @@
           docker
         ]);
 
-        darwinDevShellExtraDeps = pkgs: pkgs.lib.optionals pkgs.stdenv.isDarwin (with pkgs.darwin.apple_sdk_11_0; [
-          Libsystem
-          IOKit
-        ]);
+        darwinDevShellExtraDeps = pkgs: pkgs.lib.optionals pkgs.stdenv.isDarwin [
+          pkgs.apple-sdk
+        ];
       in {
 
         devShells = {
@@ -62,16 +61,18 @@
         devShell = self.devShells."${system}".dev;
 
         packages = {
-          sts = pkgs.buildGo124Module {
+          sts = pkgs.buildGo126Module {
             pname = "sts";
             version = "2.0.0";
 
             src = ./.;
 
-            vendorHash = "sha256-aXTDHT1N+4Qpkuxb8vvBvP2VPyS5ofCgX6XFhJ5smUQ=";
+            vendorHash = "sha256-IEe+6uB7417MXThBwptvLQxPaKrxyzpLcZDUNvj+iS0=";
+
+            subPackages = [ "." ];
 
             postInstall = ''
-              mv $out/bin/stackstate-cli2 $out/bin/sts
+              mv $out/bin/stackstate-cli $out/bin/sts
             '';
           };
 
@@ -108,4 +109,3 @@
         };
       });
 }
-
