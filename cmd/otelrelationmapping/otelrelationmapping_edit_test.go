@@ -5,7 +5,7 @@ import (
 	"io"
 	"testing"
 
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v2"
 
 	"github.com/stackvista/stackstate-cli/cmd/otelrelationmapping"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"

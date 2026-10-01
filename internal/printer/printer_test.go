@@ -118,6 +118,27 @@ foo: 1
 	testPrintStruct(t, p, testStruct, expectedYaml)
 }
 
+func TestPrintStructYAMLScalarFormatting(t *testing.T) {
+	testStruct := map[string]interface{}{
+		"enabled": true,
+		"missing": nil,
+		"number":  12,
+		"string":  "0123",
+		"text":    "first line\nsecond line\n",
+	}
+	const expected = `enabled: true
+missing: null
+number: 12
+string: "0123"
+text: |
+  first line
+  second line
+`
+	p, _, _ := setupPrinter()
+	p.SetUseColor(false)
+	testPrintStruct(t, p, testStruct, expected)
+}
+
 func TestPrintStructAsYamlWithColor(t *testing.T) {
 	testStruct := map[string]interface{}{
 		"foo": 1,

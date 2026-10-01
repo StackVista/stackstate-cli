@@ -12,7 +12,7 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"gopkg.in/yaml.v2"
+	"go.yaml.in/yaml/v2"
 )
 
 func deepNormalizeOtelComponentMapping(m *stackstate_api.OtelComponentMapping) {

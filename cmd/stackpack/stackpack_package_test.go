@@ -1,7 +1,9 @@
 package stackpack
 
 import (
+	"archive/zip"
 	"fmt"
+	"io"
 	"os"
 	"path/filepath"
 	"testing"
@@ -11,6 +13,53 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
+
+func TestStackpackPackageCommand_ArchiveContents(t *testing.T) {
+	dir := t.TempDir()
+	createTestStackpack(t, dir, "test-stackpack", "1.0.0")
+	const manifest = `name: &name test-stackpack
+displayName: *name
+version: "1.0.0"
+description: |
+  first line
+  second line
+`
+	files := map[string]string{
+		"stackpack.yaml":        manifest,
+		"README.md":             "# test-stackpack\n\nThis is a test stackpack.",
+		"settings/test.sty":     "test settings",
+		"resources/overview.md": "test overview",
+		"icons/icon.svg":        "<svg/>",
+		"includes/example.txt":  "included",
+	}
+	for path, content := range files {
+		target := filepath.Join(dir, filepath.FromSlash(path))
+		require.NoError(t, os.MkdirAll(filepath.Dir(target), defaultDirMode))
+		require.NoError(t, os.WriteFile(target, []byte(content), 0644))
+	}
+	require.NoError(t, os.WriteFile(filepath.Join(dir, "excluded.txt"), []byte("excluded"), 0644))
+	archivePath := filepath.Join(t.TempDir(), "package.sts")
+	cli, cmd := setupStackPackPackageCmd(t)
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "-d", dir, "-f", archivePath)
+	require.NoError(t, err)
+
+	archive, err := zip.OpenReader(archivePath)
+	require.NoError(t, err)
+	defer archive.Close()
+	actual := map[string]string{}
+	for _, file := range archive.File {
+		if file.FileInfo().IsDir() {
+			continue
+		}
+		reader, err := file.Open()
+		require.NoError(t, err)
+		content, err := io.ReadAll(reader)
+		require.NoError(t, err)
+		require.NoError(t, reader.Close())
+		actual[file.Name] = string(content)
+	}
+	assert.Equal(t, files, actual)
+}
 
 // setupStackPackPackageCmd creates a test command with mock dependencies
 func setupStackPackPackageCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
