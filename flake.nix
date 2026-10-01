@@ -69,8 +69,6 @@
 
             vendorHash = "sha256-IEe+6uB7417MXThBwptvLQxPaKrxyzpLcZDUNvj+iS0=";
 
-            subPackages = [ "." ];
-
             postInstall = ''
               mv $out/bin/stackstate-cli $out/bin/sts
             '';
