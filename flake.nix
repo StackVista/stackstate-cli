@@ -4,7 +4,7 @@
   nixConfig.bash-prompt = "STS CLI 2 $ ";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -25,7 +25,7 @@
         # Dependencies used for both development and CI/CD
         sharedDeps = pkgs: (with pkgs; [
           bash
-          go_1_26
+          go_1_25
           gotools
           diffutils # Required for golangci-lint
           golangci-lint
@@ -61,7 +61,7 @@
         devShell = self.devShells."${system}".dev;
 
         packages = {
-          sts = pkgs.buildGo126Module {
+          sts = pkgs.buildGo125Module {
             pname = "sts";
             version = "2.0.0";
 
