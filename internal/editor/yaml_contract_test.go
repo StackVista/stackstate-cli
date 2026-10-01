@@ -2,19 +2,21 @@ package editor
 
 import (
 	"fmt"
-	"github.com/go-openapi/swag"
+	"strings"
+	"testing"
+
+	"github.com/go-openapi/swag/jsonutils"
+	"github.com/go-openapi/swag/yamlutils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 	"go.yaml.in/yaml/v3"
-	"strings"
-	"testing"
 )
 
 func TestOpenAPIOrderedJSONRoundTrip(t *testing.T) {
 	const fixture = `{"z":null,"a":{"enabled":true,"number":12,"string":"0123"},"text":"first\nsecond\n"}`
-	var value swag.JSONMapSlice
-	require.NoError(t, swag.ReadJSON([]byte(fixture), &value))
-	actual, err := swag.WriteJSON(value)
+	var value jsonutils.JSONMapSlice
+	require.NoError(t, jsonutils.ReadJSON([]byte(fixture), &value))
+	actual, err := jsonutils.WriteJSON(value)
 	require.NoError(t, err)
 	assert.Equal(t, fixture, string(actual))
 }
@@ -33,7 +35,7 @@ text: |
 `
 	var node yaml.Node
 	require.NoError(t, yaml.Unmarshal([]byte(fixture), &node))
-	actual, err := swag.YAMLToJSON(node.Content[0])
+	actual, err := yamlutils.YAMLToJSON(node.Content[0])
 	require.NoError(t, err)
 	const expected = `{"z":null,"a":{"enabled":true,"number":12,"string":"0123","legacy":"yes"},"copy":{"enabled":true,"number":12,"string":"0123","legacy":"yes"},"text":"first\nsecond\n"}`
 	assert.Equal(t, expected, string(actual))
@@ -42,8 +44,8 @@ text: |
 func TestOpenAPIRejectsExcessiveJSONDepth(t *testing.T) {
 	const depth = 20000
 	payload := `{"a":` + strings.Repeat("[", depth) + strings.Repeat("]", depth) + `}`
-	var value swag.JSONMapSlice
-	require.Error(t, swag.ReadJSON([]byte(payload), &value))
+	var value jsonutils.JSONMapSlice
+	require.Error(t, jsonutils.ReadJSON([]byte(payload), &value))
 }
 
 func TestOpenAPIRejectsExcessiveYAMLAliases(t *testing.T) {
@@ -52,8 +54,8 @@ func TestOpenAPIRejectsExcessiveYAMLAliases(t *testing.T) {
 	for i := 1; i <= 20; i++ {
 		fmt.Fprintf(&fixture, "a%d: &a%d [*a%d, *a%d]\n", i, i, i-1, i-1)
 	}
-	doc, err := swag.BytesToYAMLDoc([]byte(fixture.String()))
+	doc, err := yamlutils.BytesToYAMLDoc([]byte(fixture.String()))
 	require.NoError(t, err)
-	_, err = swag.YAMLToJSON(doc)
+	_, err = yamlutils.YAMLToJSON(doc)
 	require.ErrorContains(t, err, "excessive aliasing")
 }
