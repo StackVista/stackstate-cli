@@ -1,0 +1,15 @@
+name: Renovate
+
+on:
+  schedule:
+    - cron: "0 1,8 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  renovate:
+    uses: StackVista/renovate-config/.github/workflows/renovate.yml@c5f974f5b7b1951c12daaa63b607d9eecc2574d3 # main
+    secrets:
+      RENOVATE_GH_APP_PRIVATE_KEY: ${{ secrets.RENOVATE_GH_APP_PRIVATE_KEY }}

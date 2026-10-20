@@ -17,16 +17,20 @@ runs:
   using: 'composite'
   steps:
     - name: Log in to the Container registry
-      uses: docker/login-action@v3
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
       with:
         registry: quay.io
         username: ${{ env.QUAY_USER }}
         password: ${{ env.QUAY_PASSWORD }}
     - name: Run command
       shell: bash
+      env:
+        ENTRYPOINT: ${{ inputs.entrypoint }}
+        COMMAND: ${{ inputs.run }}
+        OPTIONS: ${{ inputs.options }}
+        IMAGE: ${{ inputs.image }}
+        WORKSPACE: ${{ github.workspace }}
       run: |
-        export ENTRYPOINT='${{ inputs.entrypoint }}'
-        export COMMAND='${{ inputs.run }}'
         export COMMAND_PREFIX=''
 
         # Prep for a shell script.
@@ -38,15 +42,12 @@ runs:
         fi
 
         # Strip newlines in options.
-        export OPTIONS='${{ inputs.options }}'
         OPTIONS=${OPTIONS//$'\n'/ }
 
         # Sanitize the image name.
-        export IMAGE='${{ inputs.image }}'
         IMAGE=${IMAGE//$'\n'/}
 
         # Prep the workspace.
-        export WORKSPACE='${{ github.workspace }}'
         WORKSPACE=${WORKSPACE//$'\n'/}
 
         # Prep volumes.
