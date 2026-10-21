@@ -10,6 +10,6 @@ permissions:
 
 jobs:
   renovate:
-    uses: StackVista/renovate-config/.github/workflows/renovate.yml@c308265fc9a7ee7aecaf1590383094214045049a # main
+    uses: StackVista/renovate-config/.github/workflows/renovate.yml@c308265fc9a7ee7aecaf1590383094214045049a
     secrets:
       RENOVATE_GH_APP_PRIVATE_KEY: ${{ secrets.RENOVATE_GH_APP_PRIVATE_KEY }}
