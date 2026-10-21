@@ -116,7 +116,7 @@ jobs:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
           # 'latest', 'nightly', or a semver
-          version: v1.25.1
+          version: v2.18.3
           args: check
 
   test:
@@ -188,7 +188,7 @@ jobs:
           # either 'goreleaser' (default) or 'goreleaser-pro'
           distribution: goreleaser
           # 'latest', 'nightly', or a semver
-          version: v1.25.1
+          version: v2.18.3
           args: release
       - name: Write latest version to file
         run: mkdir -p dist && printf '%s\n' "${TAG}" > dist/LATEST_VERSION
