@@ -23,7 +23,7 @@ require (
 	github.com/spf13/pflag v1.1.0
 	golang.org/x/text v0.44.0
 	gopkg.in/yaml.v2 v2.4.0
-	k8s.io/kubectl v0.29.15
+	k8s.io/kubectl v0.37.2
 )
 
 require github.com/rivo/uniseg v0.4.7 // indirect
@@ -73,7 +73,7 @@ require (
 	k8s.io/utils v0.0.0-20240310230437-4693a0247e57 // indirect
 	sigs.k8s.io/json v0.0.0-20221116044647-bc3834ca7abd // indirect
 	sigs.k8s.io/kustomize/api v0.17.1 // indirect
-	sigs.k8s.io/kustomize/kyaml v0.17.2
+	sigs.k8s.io/kustomize/kyaml v0.21.2
 	sigs.k8s.io/structured-merge-diff/v4 v4.4.1 // indirect
 	sigs.k8s.io/yaml v1.4.0 // indirect
 )
