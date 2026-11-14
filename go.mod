@@ -1,6 +1,6 @@
 module github.com/stackvista/stackstate-cli
 
-go 1.26.11
+go 1.27.4
 
 require (
 	github.com/alecthomas/chroma v0.10.0
