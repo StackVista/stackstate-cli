@@ -8,17 +8,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testBar     = "bar"
-	nameFlagArg = "--name"
-)
-
 func TestDeleteCurrentContext(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	setupConfig(t, &cli)
 	cmd := DeleteCommand(&cli.Deps)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, nameFlagArg, "foo")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "foo")
 	assert.Errorf(t, err, "cannot delete the current context (foo)")
 }
 
@@ -27,7 +22,7 @@ func TestDeleteNonExistingContext(t *testing.T) {
 	setupConfig(t, &cli)
 	cmd := DeleteCommand(&cli.Deps)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, nameFlagArg, "x")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "x")
 	assert.Errorf(t, err, "context with name 'x' not found")
 }
 
@@ -36,7 +31,7 @@ func TestDeleteContext(t *testing.T) {
 	setupConfig(t, &cli)
 	cmd := DeleteCommand(&cli.Deps)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, nameFlagArg, testBar)
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--name", "bar")
 	assert.NoError(t, err)
 
 	cfg, err := config.ReadConfig(cli.ConfigPath)

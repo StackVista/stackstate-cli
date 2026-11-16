@@ -13,11 +13,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const (
-	testMappingName = "my-relation-mapping"
-	testMappingURN  = "urn:otel:relation:foo"
-)
-
 func createTempYamlFile(t *testing.T, content string) string {
 	t.Helper()
 	tmpfile, err := os.CreateTemp(os.TempDir(), "test_relationmapping_*.yaml")
@@ -42,8 +37,8 @@ func TestOtelRelationMappingApply_SuccessYaml(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelrelationmapping.OtelRelationMappingApplyCommand(&cli.Deps)
 	mapping := stackstate_api.UpsertOtelRelationMappingsRequest{
-		Name:       testMappingName,
-		Identifier: testMappingURN,
+		Name:       "my-relation-mapping",
+		Identifier: "urn:otel:relation:foo",
 	}
 	yamlContent, err := yaml.Marshal(mapping)
 	assert.NoError(t, err)
@@ -65,8 +60,8 @@ func TestOtelRelationMappingApply_SuccessJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelrelationmapping.OtelRelationMappingApplyCommand(&cli.Deps)
 	mapping := stackstate_api.UpsertOtelRelationMappingsRequest{
-		Name:       testMappingName,
-		Identifier: testMappingURN,
+		Name:       "my-relation-mapping",
+		Identifier: "urn:otel:relation:foo",
 	}
 	yamlContent, err := yaml.Marshal(mapping)
 	assert.NoError(t, err)
@@ -117,8 +112,8 @@ func TestOtelRelationMappingApply_ApiError(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelrelationmapping.OtelRelationMappingApplyCommand(&cli.Deps)
 	mapping := stackstate_api.UpsertOtelRelationMappingsRequest{
-		Name:       testMappingName,
-		Identifier: testMappingURN,
+		Name:       "my-relation-mapping",
+		Identifier: "urn:otel:relation:foo",
 	}
 	yamlContent, err := yaml.Marshal(mapping)
 	assert.NoError(t, err)

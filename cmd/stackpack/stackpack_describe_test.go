@@ -11,14 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testType = "type"
-)
-
-const (
-	installedInstancesTitle = "installed StackPack instances"
-)
-
 var (
 	testDisplayName   = "Test StackPack"
 	testCurrVersion   = "1.2.3"
@@ -85,8 +77,8 @@ func TestStackpackDescribeNotFound(t *testing.T) {
 
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, "foobar")
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, "foobar", "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", "foobar")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", "foobar", "-o", "json")
 
 	expected := []error{
 		fmt.Errorf("StackPack 'foobar' not found."),
@@ -102,7 +94,7 @@ func TestStackpackDescribeJson(t *testing.T) {
 
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = mockResponse
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, awsName, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", awsName, "-o", "json")
 
 	expected := []map[string]interface{}{
 		{
@@ -119,7 +111,7 @@ func TestStackpackDescribeText(t *testing.T) {
 
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{testStackPack}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, testName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
 	expectedLines := []string{
 		fmt.Sprintf("StackPack %s v%s (latest available is v%s)", testDisplayName, testCurrVersion, testLatestVersion),
@@ -131,7 +123,7 @@ func TestStackpackDescribeText(t *testing.T) {
 
 	expectedTables := []printer.TableData{
 		{
-			Header: []string{NameFlag, displayNameColumn, testType},
+			Header: []string{"name", "display name", "type"},
 			Data: [][]interface{}{
 				{&testStep1Name, &testStep1Name, &testStepType},
 				{&testStep2Name, &testStep2Name, &testStepType},
@@ -139,11 +131,11 @@ func TestStackpackDescribeText(t *testing.T) {
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "instance parameters"},
 		},
 		{
-			Header: []string{"id", statusKey, versionKey, lastUpdatedColumn},
+			Header: []string{"id", "status", "version", "last updated"},
 			Data: [][]interface{}{
 				{&testId, testStatus, testCurrVersion, testTimestamp},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: installedInstancesTitle},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 		},
 	}
 
@@ -160,7 +152,7 @@ func TestStackpackDescribeTextNoCategories(t *testing.T) {
 
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, testName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
 	expectedLines := []string{
 		fmt.Sprintf("StackPack %s v%s (latest available is v%s)", testDisplayName, testCurrVersion, testLatestVersion),
@@ -181,15 +173,15 @@ func TestStackpackDescribeTextNoSteps(t *testing.T) {
 
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, testName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
 	expectedTables := []printer.TableData{
 		{
-			Header: []string{"id", statusKey, versionKey, lastUpdatedColumn},
+			Header: []string{"id", "status", "version", "last updated"},
 			Data: [][]interface{}{
 				{&testId, testStatus, testCurrVersion, testTimestamp},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: installedInstancesTitle},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 		},
 	}
 
@@ -205,11 +197,11 @@ func TestStackpackDescribeTextNoInstances(t *testing.T) {
 
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{newTest}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", nameFlagArg, testName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "describe", "--name", testName)
 
 	expectedTables := []printer.TableData{
 		{
-			Header: []string{NameFlag, displayNameColumn, testType},
+			Header: []string{"name", "display name", "type"},
 			Data: [][]interface{}{
 				{&testStep1Name, &testStep1Name, &testStepType},
 				{&testStep2Name, &testStep2Name, &testStepType},
@@ -218,9 +210,9 @@ func TestStackpackDescribeTextNoInstances(t *testing.T) {
 		},
 		// NOTE Still printed.
 		{
-			Header:              []string{"id", statusKey, versionKey, lastUpdatedColumn},
+			Header:              []string{"id", "status", "version", "last updated"},
 			Data:                [][]interface{}{},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: installedInstancesTitle},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 		},
 	}
 	assert.Equal(t, expectedTables, *cli.MockPrinter.TableCalls)

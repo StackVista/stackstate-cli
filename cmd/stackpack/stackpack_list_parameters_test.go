@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	parameterName   = testZabbix
+	parameterName   = "zabbix"
 	stepName        = "zabbix_instance_name"
 	stepDisplayName = "Zabbix Instance Name"
 	stepType        = "Text"
@@ -50,10 +50,10 @@ func setupStackpackListParametersFn(t *testing.T) (*di.MockDeps, *cobra.Command)
 
 func TestStackpackListParameterPrintToTable(t *testing.T) {
 	cli, cmd := setupStackpackListParametersFn(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", nameFlagArg, parameterName)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", "--name", parameterName)
 	expectedTableCall := []printer.TableData{
 		{
-			Header:              []string{NameFlag, displayNameColumn, testType},
+			Header:              []string{"name", "display name", "type"},
 			Data:                [][]interface{}{{&firstStepName, &stepDisplayName, &stepType}, {&stepName, &stepDisplayName, &stepType}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack \"%s\"", parameterName)},
 		},
@@ -63,7 +63,7 @@ func TestStackpackListParameterPrintToTable(t *testing.T) {
 
 func TestStackpackListParameterPrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListParametersFn(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", nameFlagArg, parameterName, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-parameters", "--name", parameterName, "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"parameters": []stackstate_api.StackPackStep{
 			{

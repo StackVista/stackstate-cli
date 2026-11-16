@@ -12,10 +12,6 @@ import (
 )
 
 const (
-	testWait                 = "--wait"
-	testInitialVersion       = "1.0.0"
-	testZabbix               = "zabbix"
-	timeoutFlagArg           = "--timeout"
 	testStackPackName        = "test-stackpack"
 	successfulResponseResult = "successful"
 )
@@ -36,7 +32,7 @@ func TestOperationWaiter_WaitForCompletion_Success(t *testing.T) {
 				{
 					Id:                  &configID,
 					Status:              StatusInstalled,
-					StackPackVersion:    testInitialVersion,
+					StackPackVersion:    "1.0.0",
 					LastUpdateTimestamp: &timestamp,
 					Config:              map[string]interface{}{},
 				},
@@ -81,7 +77,7 @@ func TestOperationWaiter_WaitForCompletion_Error(t *testing.T) {
 				{
 					Id:                  &configID,
 					Status:              StatusError,
-					StackPackVersion:    testInitialVersion,
+					StackPackVersion:    "1.0.0",
 					LastUpdateTimestamp: &timestamp,
 					Config:              map[string]interface{}{},
 					Error:               &stackPackError,
@@ -120,7 +116,7 @@ func TestOperationWaiter_WaitForCompletion_Timeout(t *testing.T) {
 				{
 					Id:                  &configID,
 					Status:              StatusProvisioning,
-					StackPackVersion:    testInitialVersion,
+					StackPackVersion:    "1.0.0",
 					LastUpdateTimestamp: &timestamp,
 					Config:              map[string]interface{}{},
 				},
@@ -181,14 +177,14 @@ func TestOperationWaiter_WaitForCompletion_MultipleConfigurations(t *testing.T) 
 				{
 					Id:                  &configID1,
 					Status:              StatusInstalled,
-					StackPackVersion:    testInitialVersion,
+					StackPackVersion:    "1.0.0",
 					LastUpdateTimestamp: &timestamp,
 					Config:              map[string]interface{}{},
 				},
 				{
 					Id:                  &configID2,
 					Status:              StatusProvisioning,
-					StackPackVersion:    testInitialVersion,
+					StackPackVersion:    "1.0.0",
 					LastUpdateTimestamp: &timestamp,
 					Config:              map[string]interface{}{},
 				},
@@ -211,7 +207,7 @@ func TestOperationWaiter_WaitForCompletion_MultipleConfigurations(t *testing.T) 
 }
 
 func TestFindStackPackByName_Found(t *testing.T) {
-	stackpackName := testZabbix
+	stackpackName := "zabbix"
 	stacks := []stackstate_api.FullStackPack{
 		{Name: "mysql"},
 		{Name: stackpackName},
@@ -260,7 +256,7 @@ func validateWaitFlags(t *testing.T, cmd *cobra.Command) {
 	assert.Equal(t, "1m0s", timeoutFlag.DefValue, "timeout flag default should be 1m0s")
 
 	// Verify the flags can be set
-	err := cmd.ParseFlags([]string{testWait, timeoutFlagArg, "30s"})
+	err := cmd.ParseFlags([]string{"--wait", "--timeout", "30s"})
 	assert.NoError(t, err)
 
 	waitValue, err := cmd.Flags().GetBool("wait")

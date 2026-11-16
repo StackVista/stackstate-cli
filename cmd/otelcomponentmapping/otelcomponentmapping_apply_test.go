@@ -13,11 +13,6 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-const (
-	testMappingName = "my-mapping"
-	testMappingURN  = "urn:otel:component:foo"
-)
-
 func createTempYamlFile(t *testing.T, content string) string {
 	t.Helper()
 	tmpfile, err := os.CreateTemp(os.TempDir(), "test_componentmapping_*.yaml")
@@ -42,8 +37,8 @@ func TestOtelComponentMappingApply_SuccessYaml(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelcomponentmapping.OtelComponentMappingApplyCommand(&cli.Deps)
 	mapping := stackstate_api.OtelComponentMapping{
-		Name:       testMappingName,
-		Identifier: testMappingURN,
+		Name:       "my-mapping",
+		Identifier: "urn:otel:component:foo",
 	}
 	yamlContent, err := yaml.Marshal(mapping)
 	assert.NoError(t, err)
@@ -65,8 +60,8 @@ func TestOtelComponentMappingApply_SuccessJson(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelcomponentmapping.OtelComponentMappingApplyCommand(&cli.Deps)
 	mapping := stackstate_api.OtelComponentMapping{
-		Name:       testMappingName,
-		Identifier: testMappingURN,
+		Name:       "my-mapping",
+		Identifier: "urn:otel:component:foo",
 	}
 	yamlContent, err := yaml.Marshal(mapping)
 	assert.NoError(t, err)
@@ -130,8 +125,8 @@ func TestOtelComponentMappingApply_ApiError(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelcomponentmapping.OtelComponentMappingApplyCommand(&cli.Deps)
 	mapping := stackstate_api.OtelComponentMapping{
-		Name:       testMappingName,
-		Identifier: testMappingURN,
+		Name:       "my-mapping",
+		Identifier: "urn:otel:component:foo",
 	}
 	yamlContent, err := yaml.Marshal(mapping)
 	assert.NoError(t, err)

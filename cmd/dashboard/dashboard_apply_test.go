@@ -10,10 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testGrid = "Grid"
-)
-
 func setDashboardApplyCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := DashboardApplyCommand(&cli.Deps)
@@ -31,7 +27,7 @@ func createTestApplyResult() sts.DashboardReadFullSchema {
 			Spec: &sts.PersesDashboardSpec{
 				Layouts: []sts.PersesLayout{
 					{
-						Kind: testGrid,
+						Kind: "Grid",
 						Spec: sts.PersesLayoutSpec{
 							Items: []sts.PersesGridItem{},
 						},

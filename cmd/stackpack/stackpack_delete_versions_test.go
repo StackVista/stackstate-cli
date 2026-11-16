@@ -9,16 +9,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testNextVersion  = "1.1.0"
-	testMajorVersion = "2.0.0"
-)
-
 func setupStackPackDeleteVersionsCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDeleteVersionsCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsResponse.Result = stackstate_api.DeleteVersionsResult{
-		Deleted:      []string{testInitialVersion, testNextVersion},
+		Deleted:      []string{"1.0.0", "1.1.0"},
 		SkippedInUse: []string{"1.2.0"},
 	}
 	return &cli, cmd
@@ -26,7 +21,7 @@ func setupStackPackDeleteVersionsCmd(t *testing.T) (*di.MockDeps, *cobra.Command
 
 func TestStackpackDeleteVersionsWithTo(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--to", "1.5.0")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--to", "1.5.0")
 
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
 	assert.Equal(t, []string{"Deleted versions: 1.0.0, 1.1.0"}, *cli.MockPrinter.SuccessCalls)
@@ -42,12 +37,12 @@ func TestStackpackDeleteVersionsWithTo(t *testing.T) {
 
 func TestStackpackDeleteVersionsWithRange(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--from", testInitialVersion, "--to", "1.5.0")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--from", "1.0.0", "--to", "1.5.0")
 
 	assert.Equal(t, 1, len(*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls))
 	call := (*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls)[0]
 	assert.Equal(t, "kubernetes", call.PstackPackName)
-	assert.Equal(t, testInitialVersion, *call.Pfrom)
+	assert.Equal(t, "1.0.0", *call.Pfrom)
 	assert.Equal(t, "1.5.0", *call.Pto)
 	assert.Nil(t, call.Pall)
 	assert.Nil(t, call.Pdev)
@@ -55,7 +50,7 @@ func TestStackpackDeleteVersionsWithRange(t *testing.T) {
 
 func TestStackpackDeleteVersionsWithAll(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--all")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--all")
 
 	assert.Equal(t, 1, len(*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls))
 	call := (*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls)[0]
@@ -68,7 +63,7 @@ func TestStackpackDeleteVersionsWithAll(t *testing.T) {
 
 func TestStackpackDeleteVersionsWithAllAndDevOnly(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--all", "--dev-only")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--all", "--dev-only")
 
 	assert.Equal(t, 1, len(*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls))
 	call := (*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionsCalls)[0]
@@ -81,10 +76,10 @@ func TestStackpackDeleteVersionsWithAllAndDevOnly(t *testing.T) {
 
 func TestStackpackDeleteVersionsPrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--to", testMajorVersion, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--to", "2.0.0", "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
-		"deleted":      []string{testInitialVersion, testNextVersion},
+		"deleted":      []string{"1.0.0", "1.1.0"},
 		"skippedInUse": []string{"1.2.0"},
 	}}
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
@@ -94,20 +89,20 @@ func TestStackpackDeleteVersionsPrintToJson(t *testing.T) {
 func TestStackpackDeleteVersionsNoFlags(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDeleteVersionsCommand(&cli.Deps)
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes")
 	assert.Error(t, err)
 }
 
 func TestStackpackDeleteVersionsAllWithFrom(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDeleteVersionsCommand(&cli.Deps)
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--all", "--from", testInitialVersion)
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--all", "--from", "1.0.0")
 	assert.Error(t, err)
 }
 
 func TestStackpackDeleteVersionsAllWithTo(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDeleteVersionsCommand(&cli.Deps)
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "delete-versions", nameFlagArg, "kubernetes", "--all", "--to", "1.5.0")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "delete-versions", "--name", "kubernetes", "--all", "--to", "1.5.0")
 	assert.Error(t, err)
 }

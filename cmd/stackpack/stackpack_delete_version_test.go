@@ -16,7 +16,7 @@ func setupStackPackDeleteVersionCmd(t *testing.T) (*di.MockDeps, *cobra.Command)
 
 func TestStackpackDeleteVersionPrintToConsole(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-version", nameFlagArg, "kubernetes", "--stackpack-version", testInitialVersion)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-version", "--name", "kubernetes", "--stackpack-version", "1.0.0")
 
 	expectedSuccessMessage := []string{"Successfully deleted version 1.0.0 of StackPack kubernetes"}
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
@@ -25,15 +25,15 @@ func TestStackpackDeleteVersionPrintToConsole(t *testing.T) {
 	assert.Equal(t, 1, len(*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionCalls))
 	call := (*cli.MockClient.ApiMocks.StackpackApi.StackPackDeleteVersionCalls)[0]
 	assert.Equal(t, "kubernetes", call.PstackPackName)
-	assert.Equal(t, testInitialVersion, call.Pversion)
+	assert.Equal(t, "1.0.0", call.Pversion)
 }
 
 func TestStackpackDeleteVersionPrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackDeleteVersionCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-version", nameFlagArg, "kubernetes", "--stackpack-version", testInitialVersion, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete-version", "--name", "kubernetes", "--stackpack-version", "1.0.0", "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
-		"deleted": testInitialVersion,
+		"deleted": "1.0.0",
 	}}
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)

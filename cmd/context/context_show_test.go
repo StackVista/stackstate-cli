@@ -24,7 +24,7 @@ func TestShowContextJSON(t *testing.T) {
 	assert.Equal(t, &config.StsContext{
 		URL:      "http://foo.com",
 		APIToken: "apiToken",
-		APIPath:  testAPIPath,
+		APIPath:  "/api",
 	}, calls[0]["current-context"])
 }
 

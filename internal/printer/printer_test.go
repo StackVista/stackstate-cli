@@ -15,16 +15,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testWorld          = "World"
-	testNestedValue    = "foobarbaz"
-	testHello          = "Hello"
-	testFoo            = "foo"
-	testBar            = "bar"
-	testBaz            = "baz"
-	testCapitalizedFoo = "Foo"
-)
-
 func setupPrinter() (*StdPrinter, *bytes.Buffer, *bytes.Buffer) {
 	var stdOut, stdErr bytes.Buffer
 	p := NewStdPrinter("linux", &stdOut, &stdErr)
@@ -69,9 +59,9 @@ func TestPrintWithoutSymbolButWithColorOnWindows(t *testing.T) {
 
 func TestPrintStructAsJsonWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
-		testFoo: 1,
-		testBar: map[string]interface{}{
-			testBaz: testNestedValue,
+		"foo": 1,
+		"bar": map[string]interface{}{
+			"baz": "foobarbaz",
 			"in": map[string]interface{}{
 				"out": 1,
 			},
@@ -114,9 +104,9 @@ func TestPrintErrJson(t *testing.T) {
 
 func TestPrintStructAsYamlWithoutColor(t *testing.T) {
 	testStruct := map[string]interface{}{
-		testFoo: 1,
-		testBar: map[string]interface{}{
-			testBaz: testNestedValue,
+		"foo": 1,
+		"bar": map[string]interface{}{
+			"baz": "foobarbaz",
 		},
 	}
 	const expectedYaml = `bar:
@@ -130,9 +120,9 @@ foo: 1
 
 func TestPrintStructAsYamlWithColor(t *testing.T) {
 	testStruct := map[string]interface{}{
-		testFoo: 1,
-		testBar: map[string]interface{}{
-			testBaz: testNestedValue,
+		"foo": 1,
+		"bar": map[string]interface{}{
+			"baz": "foobarbaz",
 		},
 	}
 	//nolint:lll
@@ -236,7 +226,7 @@ func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 	p.SetUseColor(false)
 	p.MaxWidth = 25
 	p.Table(TableData{
-		Header: []string{testHello, testCapitalizedFoo, testWorld},
+		Header: []string{"Hello", "Foo", "World"},
 		Data: [][]interface{}{
 			{"1", "2", "3"},
 			{"hello darkness my old friend", "I've come to talk to you again", "Because a vision softly creeping"},
@@ -253,7 +243,7 @@ func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 	p.SetUseColor(false)
 	p.MaxWidth = 30
 	p.Table(TableData{
-		Header: []string{testHello, testCapitalizedFoo, testWorld},
+		Header: []string{"Hello", "Foo", "World"},
 		Data: [][]interface{}{
 			{"hello", "darkness my old friend", "Because a vision softly creeping"},
 		},
@@ -269,7 +259,7 @@ func TestTableDoesNotRenderBiggerThanMaxWidth(t *testing.T) {
 	p.SetUseColor(false)
 
 	data := []string{"hello", "fooba", "world"}
-	header1 := []string{testHello, testCapitalizedFoo, testWorld}
+	header1 := []string{"Hello", "Foo", "World"}
 	header2 := []string{"x", "y", "z"}
 	header3 := []string{"Wooot", "Woot", "It's the sound Of da Police"}
 	for i := 0; i < 100; i++ {

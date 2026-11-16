@@ -9,10 +9,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testHealthStreamURN = "urn:health:self_monitoring:self_monitoring_scraper"
-)
-
 func setupHealthDeleteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := HealthDeleteCommand(&cli.Deps)
@@ -23,7 +19,7 @@ func setupHealthDeleteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestHealthDeletePrintToTable(t *testing.T) {
 	cli, cmd := setupHealthDeleteCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete", "--urn", testHealthStreamURN)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete", "--urn", "urn:health:self_monitoring:self_monitoring_scraper")
 
 	assert.Equal(t, []string{"Stream deleted: urn:health:self_monitoring:self_monitoring_scraper"}, *cli.MockPrinter.SuccessCalls)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
@@ -31,10 +27,10 @@ func TestHealthDeletePrintToTable(t *testing.T) {
 
 func TestHealthDeletePrintToJson(t *testing.T) {
 	cli, cmd := setupHealthDeleteCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete", "--urn", testHealthStreamURN, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "delete", "--urn", "urn:health:self_monitoring:self_monitoring_scraper", "-o", "json")
 	assert.Equal(t,
 		[]map[string]interface{}{{
-			"deleted-stream-urn": testHealthStreamURN,
+			"deleted-stream-urn": "urn:health:self_monitoring:self_monitoring_scraper",
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)

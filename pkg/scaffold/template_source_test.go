@@ -41,32 +41,32 @@ func TestLocalDirSource_Validate(t *testing.T) {
 		{
 			name:         "valid directory with template",
 			path:         "",
-			templateName: testTemplateName,
+			templateName: "test-template",
 			setupFunc: func(tempDir string) error {
-				return os.MkdirAll(filepath.Join(tempDir, testTemplateName), 0755)
+				return os.MkdirAll(filepath.Join(tempDir, "test-template"), 0755)
 			},
 			wantErr: false,
 		},
 		{
 			name:         "empty path",
 			path:         "",
-			templateName: testTemplateName,
+			templateName: "test-template",
 			setupFunc:    func(tempDir string) error { return nil },
 			wantErr:      true,
 			expectedErr:  "template path is required",
 		},
 		{
-			name:         emptyTemplateNameCase,
+			name:         "empty template name",
 			path:         "/test/path",
 			templateName: "",
 			setupFunc:    func(tempDir string) error { return nil },
 			wantErr:      true,
-			expectedErr:  templateNameRequiredError,
+			expectedErr:  "template name is required",
 		},
 		{
 			name:         "non-existent directory",
 			path:         "/non/existent/path",
-			templateName: testTemplateName,
+			templateName: "test-template",
 			setupFunc:    func(tempDir string) error { return nil },
 			wantErr:      true,
 			expectedErr:  "template directory does not exist: /non/existent/path",
@@ -74,7 +74,7 @@ func TestLocalDirSource_Validate(t *testing.T) {
 		{
 			name:         "path is a file not directory",
 			path:         "",
-			templateName: testTemplateName,
+			templateName: "test-template",
 			setupFunc: func(tempDir string) error {
 				return os.WriteFile(tempDir+"/file.txt", []byte("test"), 0644)
 			},
@@ -133,9 +133,9 @@ func TestLocalDirSource_Fetch(t *testing.T) {
 	}{
 		{
 			name:         "successful fetch",
-			templateName: testTemplateName,
+			templateName: "test-template",
 			setupFunc: func(tempDir string) error {
-				return os.MkdirAll(filepath.Join(tempDir, testTemplateName), 0755)
+				return os.MkdirAll(filepath.Join(tempDir, "test-template"), 0755)
 			},
 			wantErr: false,
 		},

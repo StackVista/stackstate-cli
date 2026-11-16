@@ -10,10 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testDashboards = "dashboards"
-)
-
 var (
 	firstDashboardName         = "aDashboard"
 	firstDashboardId           = int64(1)
@@ -87,7 +83,7 @@ func TestDashboardListPrintToTable(t *testing.T) {
 			Data: [][]interface{}{
 				{firstDashboardId, firstDashboardIdentifier, firstDashboardName, firstDashboardDescription, firstDashboardScope},
 				{secondDashboardId, secondDashboardIdentifier, secondDashboardName, secondDashboardDescription, secondDashboardScope}},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testDashboards},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "dashboards"},
 		},
 	}
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
@@ -100,7 +96,7 @@ func TestDashboardListPrintToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--output", "json")
 	expectedJsonCall := []map[string]interface{}{
 		{
-			testDashboards: orderedArray,
+			"dashboards": orderedArray,
 		},
 	}
 	assert.Equal(t, expectedJsonCall, *cli.MockPrinter.PrintJsonCalls)
@@ -116,7 +112,7 @@ func TestDashboardListEmptyResults(t *testing.T) {
 		{
 			Header:              []string{"Id", "Identifier", "Name", "Description", "Scope"},
 			Data:                [][]interface{}{},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testDashboards},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "dashboards"},
 		},
 	}
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)

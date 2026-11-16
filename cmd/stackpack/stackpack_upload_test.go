@@ -11,10 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testDisplayTest = "display test"
-)
-
 func setupStackPackUploadCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackUploadCommand(&cli.Deps)
@@ -37,9 +33,9 @@ func TestUploadStackPackPrintsToTable(t *testing.T) {
 	cli, cmd := setupStackPackUploadCmd(t)
 	file := createTempFile()
 
-	name := testUploadName
-	displayName := testDisplayTest
-	version := testInitialVersion
+	name := "test"
+	displayName := "display test"
+	version := "1.0.0"
 	stackpack := sts.StackPack{
 		Name:        name,
 		DisplayName: displayName,
@@ -51,8 +47,8 @@ func TestUploadStackPackPrintsToTable(t *testing.T) {
 
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{NameFlag, displayNameColumn, versionKey},
-			Data:   [][]interface{}{{testUploadName, testDisplayTest, testInitialVersion}},
+			Header: []string{"name", "display name", "version"},
+			Data:   [][]interface{}{{"test", "display test", "1.0.0"}},
 		},
 	}
 
@@ -64,9 +60,9 @@ func TestUploadStackPackPrintToJson(t *testing.T) {
 	file := createTempFile()
 
 	stackpack := &sts.StackPack{
-		Name:        testUploadName,
-		DisplayName: testDisplayTest,
-		Version:     testInitialVersion,
+		Name:        "test",
+		DisplayName: "display test",
+		Version:     "1.0.0",
 	}
 	cli.MockClient.ApiMocks.StackpackApi.StackPackUploadResponse.Result = *stackpack
 

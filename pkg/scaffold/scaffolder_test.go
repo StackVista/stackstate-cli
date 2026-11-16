@@ -10,19 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testNameTemplate   = "name=<<.Name>>"
-	testSecondFileName = "file2.txt"
-	testMockSource     = "mock-source"
-	testName           = "test-name"
-	testTemplateName   = "test-template"
-	testConfigFile     = "test.conf"
-	testWebappTemplate = "webapp"
-	testConfigPath     = "config.conf"
-	testPackName       = "test-pack"
-	testFileName       = "file1.txt"
-)
-
 // MockTemplateSource for testing
 type MockTemplateSource struct {
 	fetchResult   string
@@ -67,8 +54,8 @@ func (m *MockPrinter) PrintWarn(message string) {
 }
 
 func TestNewScaffolder(t *testing.T) {
-	mockSource := &MockTemplateSource{stringResult: testMockSource}
-	context := TemplateContext{Name: testName, DisplayName: testName, TemplateName: testTemplateName}
+	mockSource := &MockTemplateSource{stringResult: "mock-source"}
+	context := TemplateContext{Name: "test-name", DisplayName: "test-name", TemplateName: "test-template"}
 	mockPrinter := &MockPrinter{}
 
 	scaffolder := NewScaffolder(mockSource, "/test/dest", context, true, mockPrinter, false)
@@ -79,7 +66,7 @@ func TestNewScaffolder(t *testing.T) {
 	if scaffolder.destination != "/test/dest" {
 		t.Errorf("Expected destination to be '/test/dest', got '%s'", scaffolder.destination)
 	}
-	if scaffolder.context.Name != testName {
+	if scaffolder.context.Name != "test-name" {
 		t.Errorf("Expected context.Name to be 'test-name', got '%s'", scaffolder.context.Name)
 	}
 	if scaffolder.force != true {
@@ -100,30 +87,30 @@ func TestScaffolder_validateArgs(t *testing.T) {
 	}{
 		{
 			name:      "valid args",
-			context:   TemplateContext{Name: testName, DisplayName: testName, TemplateName: testTemplateName},
+			context:   TemplateContext{Name: "test-name", DisplayName: "test-name", TemplateName: "test-template"},
 			sourceErr: nil,
 			wantErr:   false,
 		},
 		{
 			name:        "source validation error",
-			context:     TemplateContext{Name: testName, TemplateName: testTemplateName},
+			context:     TemplateContext{Name: "test-name", TemplateName: "test-template"},
 			sourceErr:   os.ErrInvalid,
 			wantErr:     true,
 			expectedErr: "invalid argument",
 		},
 		{
 			name:        "empty name",
-			context:     TemplateContext{Name: "", TemplateName: testTemplateName},
+			context:     TemplateContext{Name: "", TemplateName: "test-template"},
 			sourceErr:   nil,
 			wantErr:     true,
 			expectedErr: "stackpack name is required",
 		},
 		{
-			name:        emptyTemplateNameCase,
-			context:     TemplateContext{Name: testName, TemplateName: ""},
+			name:        "empty template name",
+			context:     TemplateContext{Name: "test-name", TemplateName: ""},
 			sourceErr:   nil,
 			wantErr:     true,
-			expectedErr: templateNameRequiredError,
+			expectedErr: "template name is required",
 		},
 	}
 
@@ -131,7 +118,7 @@ func TestScaffolder_validateArgs(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			mockSource := &MockTemplateSource{
 				validateError: tt.sourceErr,
-				stringResult:  testMockSource,
+				stringResult:  "mock-source",
 			}
 			mockPrinter := &MockPrinter{}
 
@@ -188,9 +175,9 @@ func TestScaffolder_checkDestinationDirectory(t *testing.T) {
 				tt.destination = destination
 			}
 
-			mockSource := &MockTemplateSource{stringResult: testMockSource}
+			mockSource := &MockTemplateSource{stringResult: "mock-source"}
 			mockPrinter := &MockPrinter{}
-			context := TemplateContext{Name: testName, TemplateName: testTemplateName}
+			context := TemplateContext{Name: "test-name", TemplateName: "test-template"}
 
 			scaffolder := NewScaffolder(mockSource, tt.destination, context, false, mockPrinter, false)
 			err := scaffolder.checkDestinationDirectory()
@@ -230,7 +217,7 @@ func TestScaffolder_processTemplate(t *testing.T) {
 		{
 			name:           "no template variables",
 			content:        "plain text content",
-			context:        TemplateContext{Name: testName, TemplateName: testTemplateName},
+			context:        TemplateContext{Name: "test-name", TemplateName: "test-template"},
 			filename:       "test.txt",
 			expectedResult: "plain text content",
 			wantErr:        false,
@@ -238,16 +225,16 @@ func TestScaffolder_processTemplate(t *testing.T) {
 		{
 			name:           "template with Name variable",
 			content:        "name: <<.Name>>",
-			context:        TemplateContext{Name: "my-stackpack", TemplateName: testGenericTemplate},
-			filename:       testConfigFile,
+			context:        TemplateContext{Name: "my-stackpack", TemplateName: "generic"},
+			filename:       "test.conf",
 			expectedResult: "name: my-stackpack",
 			wantErr:        false,
 		},
 		{
 			name:           "template with TemplateName variable",
 			content:        "template: <<.TemplateName>>",
-			context:        TemplateContext{Name: "my-stackpack", TemplateName: testWebappTemplate},
-			filename:       testConfigFile,
+			context:        TemplateContext{Name: "my-stackpack", TemplateName: "webapp"},
+			filename:       "test.conf",
 			expectedResult: "template: webapp",
 			wantErr:        false,
 		},
@@ -262,16 +249,16 @@ func TestScaffolder_processTemplate(t *testing.T) {
 		{
 			name:        "invalid template syntax",
 			content:     "name: <<.InvalidField>>",
-			context:     TemplateContext{Name: testName, TemplateName: testTemplateName},
-			filename:    testConfigFile,
+			context:     TemplateContext{Name: "test-name", TemplateName: "test-template"},
+			filename:    "test.conf",
 			wantErr:     true,
 			expectedErr: "template execution error",
 		},
 		{
 			name:           "malformed template delimiters",
 			content:        "name: <<.Name",
-			context:        TemplateContext{Name: testName, TemplateName: testTemplateName},
-			filename:       testConfigFile,
+			context:        TemplateContext{Name: "test-name", TemplateName: "test-template"},
+			filename:       "test.conf",
 			wantErr:        false, // Go templates are more permissive, this actually works as literal text
 			expectedResult: "name: <<.Name",
 		},
@@ -279,7 +266,7 @@ func TestScaffolder_processTemplate(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			mockSource := &MockTemplateSource{stringResult: testMockSource}
+			mockSource := &MockTemplateSource{stringResult: "mock-source"}
 			mockPrinter := &MockPrinter{}
 
 			scaffolder := NewScaffolder(mockSource, "/test/dest", tt.context, false, mockPrinter, false)
@@ -318,11 +305,11 @@ func TestScaffolder_renderTemplates(t *testing.T) {
 		{
 			name: "render text files with templates",
 			setupFiles: map[string]string{
-				testConfigPath: testNameTemplate,
-				"readme.md":    "# <<.Name>> StackPack\nTemplate: <<.TemplateName>>",
-				"data.json":    `{"name": "<<.Name>>", "template": "<<.TemplateName>>"}`,
+				"config.conf": "name=<<.Name>>",
+				"readme.md":   "# <<.Name>> StackPack\nTemplate: <<.TemplateName>>",
+				"data.json":   `{"name": "<<.Name>>", "template": "<<.TemplateName>>"}`,
 			},
-			context: TemplateContext{Name: "my-pack", TemplateName: testWebappTemplate},
+			context: TemplateContext{Name: "my-pack", TemplateName: "webapp"},
 			wantErr: false,
 		},
 		{
@@ -331,17 +318,17 @@ func TestScaffolder_renderTemplates(t *testing.T) {
 				"plain.txt": "no template variables here",
 				"script.sh": "#!/bin/bash\necho 'hello world'",
 			},
-			context: TemplateContext{Name: "my-pack", TemplateName: testWebappTemplate},
+			context: TemplateContext{Name: "my-pack", TemplateName: "webapp"},
 			wantErr: false,
 		},
 		{
 			name: "mixed template and non-template files",
 			setupFiles: map[string]string{
-				testConfigPath:       testNameTemplate,
+				"config.conf":        "name=<<.Name>>",
 				"plain.txt":          "static content",
 				"subdir/nested.conf": "template=<<.TemplateName>>",
 			},
-			context: TemplateContext{Name: testPackName, TemplateName: testGenericTemplate},
+			context: TemplateContext{Name: "test-pack", TemplateName: "generic"},
 			wantErr: false,
 		},
 	}
@@ -366,7 +353,7 @@ func TestScaffolder_renderTemplates(t *testing.T) {
 				}
 			}
 
-			mockSource := &MockTemplateSource{stringResult: testMockSource}
+			mockSource := &MockTemplateSource{stringResult: "mock-source"}
 			mockPrinter := &MockPrinter{}
 
 			scaffolder := NewScaffolder(mockSource, "/test/dest", tt.context, false, mockPrinter, false)
@@ -437,22 +424,22 @@ func TestScaffolder_checkForConflicts(t *testing.T) {
 	}{
 		{
 			name:          "no conflicts",
-			sourceFiles:   []string{testFileName, testSecondFileName},
+			sourceFiles:   []string{"file1.txt", "file2.txt"},
 			destFiles:     []string{"other.txt"},
 			expectedCount: 0,
 			wantErr:       false,
 		},
 		{
 			name:          "some conflicts",
-			sourceFiles:   []string{testFileName, testSecondFileName, "file3.txt"},
-			destFiles:     []string{testFileName, "file3.txt"},
+			sourceFiles:   []string{"file1.txt", "file2.txt", "file3.txt"},
+			destFiles:     []string{"file1.txt", "file3.txt"},
 			expectedCount: 2,
 			wantErr:       false,
 		},
 		{
 			name:          "all conflicts",
-			sourceFiles:   []string{testFileName, testSecondFileName},
-			destFiles:     []string{testFileName, testSecondFileName},
+			sourceFiles:   []string{"file1.txt", "file2.txt"},
+			destFiles:     []string{"file1.txt", "file2.txt"},
 			expectedCount: 2,
 			wantErr:       false,
 		},
@@ -490,9 +477,9 @@ func TestScaffolder_checkForConflicts(t *testing.T) {
 				}
 			}
 
-			mockSource := &MockTemplateSource{stringResult: testMockSource}
+			mockSource := &MockTemplateSource{stringResult: "mock-source"}
 			mockPrinter := &MockPrinter{}
-			context := TemplateContext{Name: testName, TemplateName: testTemplateName}
+			context := TemplateContext{Name: "test-name", TemplateName: "test-template"}
 
 			scaffolder := NewScaffolder(mockSource, destDir, context, false, mockPrinter, false)
 			conflicts, err := scaffolder.checkForConflicts(sourceDir, destDir)
@@ -517,9 +504,9 @@ func TestScaffolder_checkForConflicts(t *testing.T) {
 func TestScaffolder_JSONOutput(t *testing.T) {
 	// Create test files map
 	testFiles := map[string]string{
-		testConfigPath: testNameTemplate,
-		"readme.md":    "# <<.Name>> StackPack",
-		"static.txt":   "no template variables here",
+		"config.conf": "name=<<.Name>>",
+		"readme.md":   "# <<.Name>> StackPack",
+		"static.txt":  "no template variables here",
 	}
 
 	tests := []struct {
@@ -565,10 +552,10 @@ func TestScaffolder_JSONOutput(t *testing.T) {
 
 			mockSource := &MockTemplateSource{
 				fetchResult:  sourceDir,
-				stringResult: testMockSource,
+				stringResult: "mock-source",
 			}
 			mockPrinter := &MockPrinter{}
-			templateCtx := TemplateContext{Name: testPackName, TemplateName: testTemplateName}
+			templateCtx := TemplateContext{Name: "test-pack", TemplateName: "test-template"}
 
 			scaffolder := NewScaffolder(mockSource, destDir, templateCtx, false, mockPrinter, tt.jsonOutput)
 			result, cleanup, err := scaffolder.Scaffold(context.TODO())
@@ -582,13 +569,13 @@ func TestScaffolder_JSONOutput(t *testing.T) {
 			if result.Success != true {
 				t.Errorf("Expected success=true, got %v", result.Success)
 			}
-			if result.Name != testPackName {
+			if result.Name != "test-pack" {
 				t.Errorf("Expected name='test-pack', got %s", result.Name)
 			}
-			if result.Template != testTemplateName {
+			if result.Template != "test-template" {
 				t.Errorf("Expected template='test-template', got %s", result.Template)
 			}
-			if result.Source != testMockSource {
+			if result.Source != "mock-source" {
 				t.Errorf("Expected source='mock-source', got %s", result.Source)
 			}
 			if result.FilesCount != len(testFiles) {

@@ -10,11 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testNoChanges        = "+0       -0"
-	testSynchronizations = "synchronizations"
-)
-
 var (
 	Error1 = stackstate_api.NewTopologyStreamError(stackstate_api.MESSAGELEVEL_WARN, "Oops")
 	Error2 = stackstate_api.NewTopologyStreamError(stackstate_api.MESSAGELEVEL_ERROR, "Welp, better leave the premises quickly.")
@@ -92,9 +87,9 @@ func TestTopologySyncDescribeErrors(t *testing.T) {
 		{
 			Header: []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
 			Data: [][]interface{}{
-				{Topo1.NodeId, Topo1.Name, "-", Topo1.Status, testNoChanges, testNoChanges, int64(0)},
+				{Topo1.NodeId, Topo1.Name, "-", Topo1.Status, "+0       -0", "+0       -0", int64(0)},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testSynchronizations},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
 		},
 		{
 			Header: []string{"External ID", "Level", "Message"},

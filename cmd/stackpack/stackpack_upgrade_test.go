@@ -11,9 +11,9 @@ import (
 )
 
 var (
-	stackPackName           = testZabbix
-	stackPackNextVersion    = testMajorVersion
-	stackPackCurrentVersion = testInitialVersion
+	stackPackName           = "zabbix"
+	stackPackNextVersion    = "2.0.0"
+	stackPackCurrentVersion = "1.0.0"
 	strategyFlag            = "overwrite"
 )
 
@@ -35,13 +35,13 @@ func setupStackPackUpgradeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestStackpackUpgradePrintToTable(t *testing.T) {
 	cli, cmd := setupStackPackUpgradeCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, testUpgrade, nameFlagArg, testZabbix,
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
 		"--unlocked-strategy", strategyFlag,
 	)
 
 	assert.Equal(t,
 		[]stackstate_api.UpgradeStackPackCall{{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
@@ -51,19 +51,19 @@ func TestStackpackUpgradePrintToTable(t *testing.T) {
 
 func TestStackpackUpgradePrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackUpgradeCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, testUpgrade, nameFlagArg, testZabbix,
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix",
 		"--unlocked-strategy", strategyFlag, "-o", "json",
 	)
 
 	assert.Equal(t,
 		[]stackstate_api.UpgradeStackPackCall{{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
 
 	expectedJsonCalls := []map[string]interface{}{{
-		successKey:        true,
+		"success":         true,
 		"current-version": stackPackCurrentVersion,
 		"next-version":    stackPackNextVersion,
 	}}
@@ -72,12 +72,12 @@ func TestStackpackUpgradePrintToJson(t *testing.T) {
 
 func TestStackpackUpgradeDefaultsUnlockedStrategy(t *testing.T) {
 	cli, cmd := setupStackPackUpgradeCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, testUpgrade, nameFlagArg, testZabbix)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "upgrade", "--name", "zabbix")
 
 	defaultStrategy := "fail"
 	assert.Equal(t,
 		[]stackstate_api.UpgradeStackPackCall{{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &defaultStrategy,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackCalls)
@@ -132,8 +132,8 @@ func TestStackpackUpgradeWithWaitTimeout(t *testing.T) {
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListResponse.Result = []stackstate_api.FullStackPack{provisioningStackPack}
 	cli.MockClient.ApiMocks.StackpackApi.UpgradeStackPackResponse.Result = successfulResponseResult
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, testUpgrade, nameFlagArg, stackPackName,
-		"--unlocked-strategy", strategyFlag, testWait, timeoutFlagArg, "50ms")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "upgrade", "--name", stackPackName,
+		"--unlocked-strategy", strategyFlag, "--wait", "--timeout", "50ms")
 
 	// Should return timeout error
 	assert.Error(t, err)
@@ -145,7 +145,7 @@ func TestStackpackUpgradeWithWaitJsonFlags(t *testing.T) {
 	cmd := StackpackUpgradeCommand(&cli.Deps)
 
 	// Test that wait and timeout flags can be parsed
-	err := cmd.ParseFlags([]string{nameFlagArg, testUploadName, testWait, timeoutFlagArg, "100ms"})
+	err := cmd.ParseFlags([]string{"--name", "test", "--wait", "--timeout", "100ms"})
 	assert.NoError(t, err)
 
 	// Verify flag values
@@ -157,7 +157,7 @@ func TestStackpackUpgradeWithWaitJsonFlags(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 100*time.Millisecond, timeoutValue)
 
-	nameValue, err := cmd.Flags().GetString(NameFlag)
+	nameValue, err := cmd.Flags().GetString("name")
 	assert.NoError(t, err)
-	assert.Equal(t, testUploadName, nameValue)
+	assert.Equal(t, "test", nameValue)
 }

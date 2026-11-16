@@ -14,15 +14,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testError   = "test-error"
-	testVersion = "version"
-	testJSON    = "json"
-)
-
 func setupSTSCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	errorCmd := cobra.Command{
-		Use:   testError,
+		Use:   "test-error",
 		Short: "some short help text for ErrorCmd",
 		Long:  "Some long help text for ErrorCmd.",
 		RunE: func(cmd *cobra.Command, args []string) error {
@@ -59,7 +53,7 @@ func TestHelpWhenRunningHelp(t *testing.T) {
 
 func TestVersionRun(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{testVersion})
+	cmd.SetArgs([]string{"version"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 	assert.Equal(t, 0, exitCode)
 	assert.Equal(t, []printer.TableData{{
@@ -71,19 +65,19 @@ func TestVersionRun(t *testing.T) {
 func TestVersionJsonRun(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
 
-	cmd.SetArgs([]string{testVersion, "-o", testJSON})
+	cmd.SetArgs([]string{"version", "-o", "json"})
 	exitCode := execute(cli.Context, &cli.Deps, cmd)
 
 	assert.Equal(t, 0, exitCode)
 	assert.Equal(t, []map[string]interface{}{{
-		"commit": "123124", "build-date": "1-1-2022", testVersion: "1.0.0",
+		"commit": "123124", "build-date": "1-1-2022", "version": "1.0.0",
 	}}, *cli.MockPrinter.PrintJsonCalls)
 }
 
 func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
 	cli, sts := setupSTSCmd(t)
 
-	sts.SetArgs([]string{testVersion, "--wrongflag"})
+	sts.SetArgs([]string{"version", "--wrongflag"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
@@ -94,7 +88,7 @@ func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
 func TestErrHandling(t *testing.T) {
 	cli, sts := setupSTSCmd(t)
 
-	sts.SetArgs([]string{testError})
+	sts.SetArgs([]string{"test-error"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
@@ -106,7 +100,7 @@ func TestErrHandling(t *testing.T) {
 func TestErrToJson(t *testing.T) {
 	cli, sts := setupSTSCmd(t)
 
-	sts.SetArgs([]string{testError, "-o", testJSON})
+	sts.SetArgs([]string{"test-error", "-o", "json"})
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
@@ -129,7 +123,7 @@ func TestColorUsedByDefault(t *testing.T) {
 
 	cli, cmd := setupSTSCmd(t)
 
-	cmd.SetArgs([]string{testVersion})
+	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 
 	assert.True(t, cli.MockPrinter.UseColor)
@@ -138,7 +132,7 @@ func TestColorUsedByDefault(t *testing.T) {
 
 func TestNoColorFlag(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{testVersion, "--no-color"})
+	cmd.SetArgs([]string{"version", "--no-color"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
 	assert.True(t, cli.NoColor)
@@ -150,7 +144,7 @@ func TestNoColorWhenDumbTerminal(t *testing.T) {
 	os.Setenv("TERM", "Dumb")
 
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{testVersion})
+	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
 	assert.True(t, cli.NoColor)
@@ -162,7 +156,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 	os.Setenv("NO_COLOR", "false")
 
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{testVersion})
+	cmd.SetArgs([]string{"version"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
 	assert.True(t, cli.NoColor)
@@ -170,7 +164,7 @@ func TestNoColorWhenNoColorEnvExists(t *testing.T) {
 
 func TestNoColorWhenJsonOutput(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{testVersion, "-o", testJSON})
+	cmd.SetArgs([]string{"version", "-o", "json"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.False(t, cli.MockPrinter.UseColor)
 	assert.True(t, cli.NoColor)
@@ -178,7 +172,7 @@ func TestNoColorWhenJsonOutput(t *testing.T) {
 
 func TestVerbose(t *testing.T) {
 	cli, cmd := setupSTSCmd(t)
-	cmd.SetArgs([]string{testVersion, "--verbose"})
+	cmd.SetArgs([]string{"version", "--verbose"})
 	execute(cli.Context, &cli.Deps, cmd)
 	assert.True(t, cli.IsVerBose)
 }

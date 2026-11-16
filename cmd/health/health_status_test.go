@@ -10,16 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testUnknownHealthState = ":shrug:"
-	testHealthStreamError  = "health stream error"
-	testName               = "name"
-	testLastTenSeconds     = "now-10"
-	testFirstMetricRange   = "10-20"
-	testSecondMetricRange  = "20-30"
-	testMetricLatency      = "2000 ms"
-)
-
 var (
 	recoveryMessage = "status recovery message"
 
@@ -40,62 +30,62 @@ var (
 	}
 	SomeErrors = []stackstate_api.HealthStreamError{
 		{
-			Error: testUnknownHealthState,
+			Error: ":shrug:",
 		},
 		{
-			Error: testHealthStreamError,
+			Error: "health stream error",
 		},
 	}
 
 	ExpectedErrorsJson = []map[string]interface{}{
 		{
 			"count":   int32(0),
-			"message": testUnknownHealthState,
+			"message": ":shrug:",
 		},
 		{
 			"count":   int32(0),
-			"message": testHealthStreamError,
+			"message": "health stream error",
 		},
 	}
 	ExpectedErrorsTable = printer.TableData{
 		Header: []string{"Message", "Count"},
 		Data: [][]interface{}{
-			{testUnknownHealthState, int32(0)},
-			{testHealthStreamError, int32(0)},
+			{":shrug:", int32(0)},
+			{"health stream error", int32(0)},
 		},
-		MissingTableDataMsg: printer.NotFoundMsg{Types: errorsKey},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "errors"},
 	}
 
 	ExpectedMetricsJson = []map[string]interface{}{
 		{
-			testName:              "latency seconds",
-			testLastTenSeconds:    float64(23.5),
-			testFirstMetricRange:  float64(23.5),
-			testSecondMetricRange: float64(23.5),
+			"name":   "latency seconds",
+			"now-10": float64(23.5),
+			"10-20":  float64(23.5),
+			"20-30":  float64(23.5),
 		},
 		{
-			testName:              "messages per seconds",
-			testLastTenSeconds:    float64(23.5),
-			testFirstMetricRange:  float64(23.5),
-			testSecondMetricRange: "-",
+			"name":   "messages per seconds",
+			"now-10": float64(23.5),
+			"10-20":  float64(23.5),
+			"20-30":  "-",
 		},
 		{
-			testName:              "creates per seconds",
-			testLastTenSeconds:    float64(23.5),
-			testFirstMetricRange:  "-",
-			testSecondMetricRange: "-",
+			"name":   "creates per seconds",
+			"now-10": float64(23.5),
+			"10-20":  "-",
+			"20-30":  "-",
 		},
 		{
-			testName:              "updates per seconds",
-			testLastTenSeconds:    "-",
-			testFirstMetricRange:  "-",
-			testSecondMetricRange: "-",
+			"name":   "updates per seconds",
+			"now-10": "-",
+			"10-20":  "-",
+			"20-30":  "-",
 		},
 		{
-			testName:              "deletes per seconds",
-			testLastTenSeconds:    "-",
-			testFirstMetricRange:  "-",
-			testSecondMetricRange: "-",
+			"name":   "deletes per seconds",
+			"now-10": "-",
+			"10-20":  "-",
+			"20-30":  "-",
 		},
 	}
 	ExpectedMetricsTable = printer.TableData{
@@ -107,7 +97,7 @@ var (
 			{"updates per seconds", "-", "-", "-"},
 			{"deletes per seconds", "-", "-", "-"},
 		},
-		MissingTableDataMsg: printer.NotFoundMsg{Types: metricsKey},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: "metrics"},
 	}
 )
 
@@ -195,9 +185,9 @@ func TestHealthStatusWithSubStreamPrintToText(t *testing.T) {
 		{
 			Header: []string{"Repeat Interval", "Expiry Interval", "Snapshot Repeat Interval", "Snapshot Expiry Interval", "Checkpoint Offset", "Checkpoint Batch Index"},
 			Data: [][]interface{}{
-				{testMetricLatency, testMetricLatency, "-", "-", "-", "-"},
+				{"2000 ms", "2000 ms", "-", "-", "-", "-"},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: errorsKey},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "errors"},
 		},
 		ExpectedMetricsTable,
 		ExpectedErrorsTable,
@@ -216,8 +206,8 @@ func TestHealthStatusWithSubStreamPrintToJson(t *testing.T) {
 				"expiry-interval": int32(2000),
 				"repeat-interval": int32(2000),
 			},
-			errorsKey:  ExpectedErrorsJson,
-			metricsKey: ExpectedMetricsJson,
+			"errors":  ExpectedErrorsJson,
+			"metrics": ExpectedMetricsJson,
 		},
 	}, *cli.MockPrinter.PrintJsonCalls)
 }
@@ -242,9 +232,9 @@ func TestHealthStatusStreamPrintToText(t *testing.T) {
 		{
 			Header: []string{"Repeat Interval", "Expiry Interval", "Snapshot Repeat Interval", "Snapshot Expiry Interval", "Checkpoint Offset", "Checkpoint Batch Index"},
 			Data: [][]interface{}{
-				{testMetricLatency, testMetricLatency, "-", "-", "-", "-"},
+				{"2000 ms", "2000 ms", "-", "-", "-", "-"},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: errorsKey},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "errors"},
 		},
 		ExpectedMetricsTable,
 		ExpectedErrorsTable,
@@ -265,11 +255,11 @@ func TestHealthStatusStreamPrintToJson(t *testing.T) {
 					"expiry-interval": int32(2000),
 					"repeat-interval": int32(2000),
 				},
-				errorsKey:  ExpectedErrorsJson,
-				metricsKey: ExpectedMetricsJson,
+				"errors":  ExpectedErrorsJson,
+				"metrics": ExpectedMetricsJson,
 			},
-			errorsKey:  ExpectedErrorsJson,
-			metricsKey: ExpectedMetricsJson,
+			"errors":  ExpectedErrorsJson,
+			"metrics": ExpectedMetricsJson,
 		},
 	}, *cli.MockPrinter.PrintJsonCalls)
 }

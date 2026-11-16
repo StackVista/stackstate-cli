@@ -62,7 +62,7 @@ func TestStackpackListPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list")
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{NameFlag, displayNameColumn, "installed version", "next version", "latest version", "instance count"},
+			Header: []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data: [][]interface{}{
 				{awsName, ucmdDisplayName, ucmdbVersion, ucmdbVersion, ucmdbVersion, 1},
 				{ucmdbName, ucmdDisplayName, ucmdbVersion, ucmdbVersion, ucmdbVersion, 1}},
@@ -120,7 +120,7 @@ func TestStackpackListWithInstalledPrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list", "--installed")
 	expectedTableCall := []printer.TableData{
 		{
-			Header:              []string{NameFlag, displayNameColumn, "installed version", "next version", "latest version", "instance count"},
+			Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
 			Data:                [][]interface{}{{name, displayName, version, nextVersion, latestVersion, 1}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 		},

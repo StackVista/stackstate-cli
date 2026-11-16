@@ -41,7 +41,7 @@ func createEditTestDashboard() sts.DashboardReadSchema {
 			Spec: &sts.PersesDashboardSpec{
 				Layouts: []sts.PersesLayout{
 					{
-						Kind: testGrid,
+						Kind: "Grid",
 						Spec: sts.PersesLayoutSpec{
 							Items: []sts.PersesGridItem{},
 						},
@@ -65,7 +65,7 @@ func createEditResult() sts.DashboardReadFullSchema {
 			Spec: &sts.PersesDashboardSpec{
 				Layouts: []sts.PersesLayout{
 					{
-						Kind: testGrid,
+						Kind: "Grid",
 						Spec: sts.PersesLayoutSpec{
 							Items: []sts.PersesGridItem{},
 						},

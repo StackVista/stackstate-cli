@@ -9,20 +9,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testFoo = "foo"
-	testBar = "bar"
-	testBaz = "baz"
-)
-
 var (
-	Set1         = []string{testFoo, testBar, testBaz}
+	Set1         = []string{"foo", "bar", "baz"}
 	Resource1    = "some-view"
 	Permissions1 = map[string][]string{
 		Resource1: Set1,
 	}
 
-	Set2         = []string{testFoo, "fai", "fum"}
+	Set2         = []string{"foo", "fai", "fum"}
 	Resource2    = "system"
 	Permissions2 = map[string][]string{
 		Resource2: Set2,
@@ -37,23 +31,23 @@ var (
 	ExpectedTable = printer.TableData{
 		Header: []string{"permission", "resource"},
 		Data: [][]interface{}{
-			{testBar, Resource1},
-			{testBaz, Resource1},
-			{testFoo, Resource1},
+			{"bar", Resource1},
+			{"baz", Resource1},
+			{"foo", Resource1},
 			{"fai", Resource2},
-			{testFoo, Resource2},
+			{"foo", Resource2},
 			{"fum", Resource2},
 		},
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "matching permissions"},
 	}
 	ExpectedJson = map[string]interface{}{
-		"subject":      SubjectHandle,
-		permissionsKey: AllPermissions,
+		"subject":     SubjectHandle,
+		"permissions": AllPermissions,
 	}
 	ExpectedSourcesJson = map[string]interface{}{
-		"subject":      SubjectHandle,
-		permissionsKey: AllPermissions,
-		"sources":      []string{"Static"},
+		"subject":     SubjectHandle,
+		"permissions": AllPermissions,
+		"sources":     []string{"Static"},
 	}
 )
 
@@ -114,12 +108,12 @@ func TestPermissionsDescribeFilterPermission(t *testing.T) {
 
 	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", testFoo)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--permission", "foo")
 
 	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
-	assert.Equal(t, testFoo, *calls[0].Ppermission)
+	assert.Equal(t, "foo", *calls[0].Ppermission)
 	assert.Nil(t, calls[0].Presource)
 }
 
@@ -145,12 +139,12 @@ func TestPermissionsDescribeFilterResourceAndPermission(t *testing.T) {
 
 	cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsResponse.Result = *Description
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource1, "--permission", testFoo)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--subject", SubjectHandle, "--resource", Resource1, "--permission", "foo")
 
 	calls := *cli.MockClient.ApiMocks.PermissionsApi.DescribePermissionsCalls
 	assert.Len(t, calls, 1)
 	assert.Equal(t, SubjectHandle, calls[0].Psubject)
-	assert.Equal(t, testFoo, *calls[0].Ppermission)
+	assert.Equal(t, "foo", *calls[0].Ppermission)
 	assert.Equal(t, Resource1, *calls[0].Presource)
 }
 

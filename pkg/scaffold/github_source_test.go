@@ -13,19 +13,6 @@ import (
 	"testing"
 )
 
-const (
-	testArchiveFilePath       = "test-repo-main/templates/generic/file.txt"
-	testOwner                 = "testowner"
-	testRepo                  = "testrepo"
-	testTemplatesPath         = "templates"
-	testGenericTemplate       = "generic"
-	testRef                   = "main"
-	emptyTemplateNameCase     = "empty template name"
-	templateNameRequiredError = "template name is required"
-	testRepositoryDir         = "test-repo"
-	testFileContent           = "content"
-)
-
 func TestGitHubSource_NewGitHubSource(t *testing.T) {
 	tests := []struct {
 		name         string
@@ -38,21 +25,21 @@ func TestGitHubSource_NewGitHubSource(t *testing.T) {
 	}{
 		{
 			name:         "all parameters provided",
-			owner:        testOwner,
-			repo:         testRepo,
+			owner:        "testowner",
+			repo:         "testrepo",
 			ref:          "v1.0.0",
-			path:         testTemplatesPath,
-			templateName: testGenericTemplate,
+			path:         "templates",
+			templateName: "generic",
 			expectedRef:  "v1.0.0",
 		},
 		{
 			name:         "empty ref defaults to main",
-			owner:        testOwner,
-			repo:         testRepo,
+			owner:        "testowner",
+			repo:         "testrepo",
 			ref:          "",
-			path:         testTemplatesPath,
-			templateName: testGenericTemplate,
-			expectedRef:  testRef,
+			path:         "templates",
+			templateName: "generic",
+			expectedRef:  "main",
 		},
 	}
 
@@ -87,12 +74,12 @@ func TestGitHubSource_String(t *testing.T) {
 	}{
 		{
 			name:        "with path",
-			source:      NewGitHubSource("owner", "repo", testRef, testTemplatesPath, testGenericTemplate),
+			source:      NewGitHubSource("owner", "repo", "main", "templates", "generic"),
 			expectedStr: "github:owner/repo@main:templates",
 		},
 		{
 			name:        "without path",
-			source:      NewGitHubSource("owner", "repo", "v1.0", "", testGenericTemplate),
+			source:      NewGitHubSource("owner", "repo", "v1.0", "", "generic"),
 			expectedStr: "github:owner/repo@v1.0",
 		},
 	}
@@ -118,40 +105,40 @@ func TestGitHubSource_Validate(t *testing.T) {
 	}{
 		{
 			name:         "valid source",
-			owner:        testOwner,
-			repo:         testRepo,
-			templateName: testGenericTemplate,
+			owner:        "testowner",
+			repo:         "testrepo",
+			templateName: "generic",
 			wantErr:      false,
 		},
 		{
 			name:         "empty owner",
 			owner:        "",
-			repo:         testRepo,
-			templateName: testGenericTemplate,
+			repo:         "testrepo",
+			templateName: "generic",
 			wantErr:      true,
 			expectedErr:  "GitHub repository owner is required",
 		},
 		{
 			name:         "empty repo",
-			owner:        testOwner,
+			owner:        "testowner",
 			repo:         "",
-			templateName: testGenericTemplate,
+			templateName: "generic",
 			wantErr:      true,
 			expectedErr:  "GitHub repository name is required",
 		},
 		{
-			name:         emptyTemplateNameCase,
-			owner:        testOwner,
-			repo:         testRepo,
+			name:         "empty template name",
+			owner:        "testowner",
+			repo:         "testrepo",
 			templateName: "",
 			wantErr:      true,
-			expectedErr:  templateNameRequiredError,
+			expectedErr:  "template name is required",
 		},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			source := NewGitHubSource(tt.owner, tt.repo, testRef, testTemplatesPath, tt.templateName)
+			source := NewGitHubSource(tt.owner, tt.repo, "main", "templates", tt.templateName)
 			err := source.Validate()
 
 			if tt.wantErr {
@@ -171,7 +158,7 @@ func TestGitHubSource_Validate(t *testing.T) {
 
 func TestGitHubSource_Cleanup(t *testing.T) {
 	// Test cleanup when no temp directory is set
-	source := NewGitHubSource("owner", "repo", testRef, "", testGenericTemplate)
+	source := NewGitHubSource("owner", "repo", "main", "", "generic")
 	err := source.Cleanup()
 	if err != nil {
 		t.Errorf("Expected no error when tempDir is empty, got: %v", err)
@@ -221,7 +208,7 @@ func TestGitHubSource_extractZip(t *testing.T) {
 	}
 
 	extractDir := filepath.Join(tempDir, "extracted")
-	source := NewGitHubSource("owner", "repo", testRef, "", testGenericTemplate)
+	source := NewGitHubSource("owner", "repo", "main", "", "generic")
 
 	err = source.extractZip(zipFile, extractDir)
 	if err != nil {
@@ -256,68 +243,68 @@ func TestGitHubSource_findTemplateDirectory(t *testing.T) {
 	}{
 		{
 			name:         "find template with path",
-			repo:         testRepositoryDir,
-			ref:          testRef,
-			path:         testTemplatesPath,
-			templateName: testGenericTemplate,
+			repo:         "test-repo",
+			ref:          "main",
+			path:         "templates",
+			templateName: "generic",
 			setupFiles: map[string]string{
-				testArchiveFilePath: testFileContent,
+				"test-repo-main/templates/generic/file.txt": "content",
 			},
 			wantErr: false,
 		},
 		{
 			name:         "find template without path",
-			repo:         testRepositoryDir,
-			ref:          testRef,
+			repo:         "test-repo",
+			ref:          "main",
 			path:         "",
-			templateName: testGenericTemplate,
+			templateName: "generic",
 			setupFiles: map[string]string{
-				"test-repo-main/generic/file.txt": testFileContent,
+				"test-repo-main/generic/file.txt": "content",
 			},
 			wantErr: false,
 		},
 		{
 			name:         "repo directory not found",
-			repo:         testRepositoryDir,
-			ref:          testRef,
+			repo:         "test-repo",
+			ref:          "main",
 			path:         "",
-			templateName: testGenericTemplate,
+			templateName: "generic",
 			setupFiles: map[string]string{
-				"wrong-repo-main/generic/file.txt": testFileContent,
+				"wrong-repo-main/generic/file.txt": "content",
 			},
 			wantErr:     true,
 			expectedErr: "could not find repository directory in extracted archive",
 		},
 		{
 			name:         "template base directory not found",
-			repo:         testRepositoryDir,
-			ref:          testRef,
+			repo:         "test-repo",
+			ref:          "main",
 			path:         "nonexistent",
-			templateName: testGenericTemplate,
+			templateName: "generic",
 			setupFiles: map[string]string{
-				testArchiveFilePath: testFileContent,
+				"test-repo-main/templates/generic/file.txt": "content",
 			},
 			wantErr:     true,
 			expectedErr: "template base directory not found at path 'nonexistent'",
 		},
 		{
 			name:         "template not found",
-			repo:         testRepositoryDir,
-			ref:          testRef,
-			path:         testTemplatesPath,
+			repo:         "test-repo",
+			ref:          "main",
+			path:         "templates",
 			templateName: "nonexistent",
 			setupFiles: map[string]string{
-				testArchiveFilePath: testFileContent,
+				"test-repo-main/templates/generic/file.txt": "content",
 			},
 			wantErr:     true,
 			expectedErr: "template 'nonexistent' not found in directory",
 		},
 		{
 			name:         "template is file not directory",
-			repo:         testRepositoryDir,
-			ref:          testRef,
-			path:         testTemplatesPath,
-			templateName: testGenericTemplate,
+			repo:         "test-repo",
+			ref:          "main",
+			path:         "templates",
+			templateName: "generic",
 			setupFiles: map[string]string{
 				"test-repo-main/templates/generic": "file content",
 			},
@@ -389,10 +376,10 @@ func TestGitHubSource_findTemplateDirectory(t *testing.T) {
 func TestGitHubSource_Fetch_Integration(t *testing.T) {
 	// Create a mock HTTP server that serves a ZIP file
 	zipData := createTestZipFile(t, map[string]string{
-		"test-repo-main/":                   "",
-		"test-repo-main/templates/":         "",
-		"test-repo-main/templates/generic/": "",
-		testArchiveFilePath:                 "template content",
+		"test-repo-main/":                           "",
+		"test-repo-main/templates/":                 "",
+		"test-repo-main/templates/generic/":         "",
+		"test-repo-main/templates/generic/file.txt": "template content",
 	})
 
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

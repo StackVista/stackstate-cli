@@ -14,11 +14,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testValue     = "value"
-	testHelloTest = "hello test"
-)
-
 func setupScriptExecuteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := ScriptRunCommand(&cli.Deps)
@@ -28,7 +23,7 @@ func setupScriptExecuteCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 func TestExecuteSuccess(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd(t)
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
-		Result: map[string]interface{}{testValue: testHelloTest},
+		Result: map[string]interface{}{"value": "hello test"},
 	}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script")
@@ -39,20 +34,20 @@ func TestExecuteSuccess(t *testing.T) {
 		},
 		*cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteCalls,
 	)
-	assert.Equal(t, []interface{}{testHelloTest}, *cli.MockPrinter.PrintStructCalls)
+	assert.Equal(t, []interface{}{"hello test"}, *cli.MockPrinter.PrintStructCalls)
 }
 
 func TestExecuteSuccessJson(t *testing.T) {
 	cli, cmd := setupScriptExecuteCmd(t)
 	cli.MockClient.ApiMocks.ScriptingApi.ScriptExecuteResponse.Result = sts.ExecuteScriptResponse{
-		Result: map[string]interface{}{testValue: testHelloTest},
+		Result: map[string]interface{}{"value": "hello test"},
 	}
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--script", "test script", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{
-			"result": map[string]interface{}{testValue: testHelloTest},
+			"result": map[string]interface{}{"value": "hello test"},
 		}},
 		*cli.MockPrinter.PrintJsonCalls,
 	)

@@ -28,11 +28,11 @@ func TestShouldDeleteDashboard(t *testing.T) {
 func TestShouldDeleteDashboardWithIdentifier(t *testing.T) {
 	cli, cmd := setDashboardDeleteCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", testDashboardURN)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--identifier", "urn:custom:dashboard:test")
 
 	assert.Len(t, *cli.MockClient.ApiMocks.DashboardsApi.DeleteDashboardCalls, 1)
 	deleteCall := (*cli.MockClient.ApiMocks.DashboardsApi.DeleteDashboardCalls)[0]
-	assert.Equal(t, testDashboardURN, deleteCall.PdashboardIdOrUrn)
+	assert.Equal(t, "urn:custom:dashboard:test", deleteCall.PdashboardIdOrUrn)
 	assert.Equal(t, "Dashboard deleted: urn:custom:dashboard:test", (*cli.MockPrinter.SuccessCalls)[0])
 }
 

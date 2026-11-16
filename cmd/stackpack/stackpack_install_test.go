@@ -12,12 +12,11 @@ import (
 )
 
 const (
-	testUploadName = "test"
-	FailStrategy   = "fail"
+	FailStrategy = "fail"
 )
 
 var (
-	name                  = testZabbix
+	name                  = "zabbix"
 	provisionID           = int64(1234)
 	provisionName         = "provision_name"
 	provisionStatus       = "PROVISIONING"
@@ -43,7 +42,7 @@ func setupStackPackInstallCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 func TestStackpackInstallPrintsToTable(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", nameFlagArg, testZabbix,
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
 		"--parameter", "zabbix_instance_name=test_name",
 		"--parameter", "zabbix_instance_url=test_url",
 	)
@@ -51,7 +50,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 	strategyFlag := FailStrategy
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 			PrequestBody: &map[string]string{
 				"zabbix_instance_name": "test_name",
@@ -62,7 +61,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 	)
 	expectedTableCall := []printer.TableData{
 		{
-			Header:              []string{"id", NameFlag, statusKey, versionKey, lastUpdatedColumn},
+			Header:              []string{"id", "name", "status", "version", "last updated"},
 			Data:                [][]interface{}{{&provisionID, &provisionName, &provisionStatus, &provisionVersion, expectedUpdateTime}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + name},
 		},
@@ -73,7 +72,7 @@ func TestStackpackInstallPrintsToTable(t *testing.T) {
 func TestStackpackInstallComplexParameters(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", nameFlagArg, testZabbix,
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
 		"--parameter", "one=foo,two=bar",
 		"--parameter", "i=am=complex",
 		"--parameter", "empty=",
@@ -83,7 +82,7 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 	strategyFlag := FailStrategy
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 			PrequestBody: &map[string]string{
 				"one":   "foo",
@@ -100,12 +99,12 @@ func TestStackpackInstallComplexParameters(t *testing.T) {
 func TestStackpackInstallNoParameters(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", nameFlagArg, testZabbix)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix")
 
 	strategyFlag := FailStrategy
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 			PrequestBody:   &map[string]string{},
 		},
@@ -116,7 +115,7 @@ func TestStackpackInstallNoParameters(t *testing.T) {
 func TestStackpackInstallWithVersion(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", nameFlagArg, testZabbix,
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix",
 		"--stackpack-version", "3.2.0",
 	)
 
@@ -124,7 +123,7 @@ func TestStackpackInstallWithVersion(t *testing.T) {
 	versionFlag := "3.2.0"
 	assert.Equal(t,
 		stackstate_api.ProvisionDetailsCall{
-			PstackPackName: testZabbix,
+			PstackPackName: "zabbix",
 			Punlocked:      &strategyFlag,
 			Pversion:       &versionFlag,
 			PrequestBody:   &map[string]string{},
@@ -136,7 +135,7 @@ func TestStackpackInstallWithVersion(t *testing.T) {
 func TestStackpackInstallWithoutVersion(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", nameFlagArg, testZabbix)
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix")
 
 	assert.Nil(t, (*cli.MockClient.ApiMocks.StackpackApi.ProvisionDetailsCalls)[0].Pversion)
 }
@@ -144,7 +143,7 @@ func TestStackpackInstallWithoutVersion(t *testing.T) {
 func TestStackpackInstallPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPackInstallCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", nameFlagArg, testZabbix, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "install", "--name", "zabbix", "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{
@@ -202,7 +201,7 @@ func TestStackpackInstallWithWaitTimeout(t *testing.T) {
 		},
 	}
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "install", nameFlagArg, name, testWait, timeoutFlagArg, "50ms")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "install", "--name", name, "--wait", "--timeout", "50ms")
 
 	// Should return timeout error
 	assert.Error(t, err)
@@ -214,7 +213,7 @@ func TestStackpackInstallWithWaitJsonFlags(t *testing.T) {
 	cmd := StackpackInstallCommand(&cli.Deps)
 
 	// Test that wait and timeout flags can be parsed with other flags
-	err := cmd.ParseFlags([]string{nameFlagArg, testUploadName, testWait, timeoutFlagArg, "100ms"})
+	err := cmd.ParseFlags([]string{"--name", "test", "--wait", "--timeout", "100ms"})
 	assert.NoError(t, err)
 
 	// Verify flag values
@@ -226,7 +225,7 @@ func TestStackpackInstallWithWaitJsonFlags(t *testing.T) {
 	assert.NoError(t, err)
 	assert.Equal(t, 100*time.Millisecond, timeoutValue)
 
-	nameValue, err := cmd.Flags().GetString(NameFlag)
+	nameValue, err := cmd.Flags().GetString("name")
 	assert.NoError(t, err)
-	assert.Equal(t, testUploadName, nameValue)
+	assert.Equal(t, "test", nameValue)
 }

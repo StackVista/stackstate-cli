@@ -10,12 +10,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testSubject  = "Subject"
-	testSource   = "Source"
-	testSubjects = "subjects"
-)
-
 var (
 	SomeScopeVar   = SomeScope
 	SubjectConfig1 = stackstate_api.SubjectConfig{
@@ -53,13 +47,13 @@ func TestDescribeSubjectsTable(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{testSubject, testSource},
+			Header: []string{"Subject", "Source"},
 			Data: [][]interface{}{
 				{SubjectConfig1.Handle, SubjectConfig1.Source},
 				{SubjectConfig2.Handle, SubjectConfig2.Source},
 				{SubjectConfig3.Handle, SubjectConfig3.Source},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testSubjects},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 		},
 	}
 
@@ -85,7 +79,7 @@ func TestDescribeSubjectsJson(t *testing.T) {
 
 	expectedJson := []map[string]interface{}{
 		{
-			testSubjects: result,
+			"subjects": result,
 		},
 	}
 
@@ -111,11 +105,11 @@ func TestDescribeSubjectsTableWithFilter(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{testSubject, testSource},
+			Header: []string{"Subject", "Source"},
 			Data: [][]interface{}{
 				{SubjectConfig1.Handle, SubjectConfig1.Source},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testSubjects},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 		},
 	}
 
@@ -141,7 +135,7 @@ func TestDescribeSubjectsJsonWithFilter(t *testing.T) {
 
 	expectedJson := []map[string]interface{}{
 		{
-			testSubjects: []stackstate_api.SubjectConfig{SubjectConfig1},
+			"subjects": []stackstate_api.SubjectConfig{SubjectConfig1},
 		},
 	}
 
@@ -167,11 +161,11 @@ func TestDescribeSubjectsTableWithSourceFilter(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header: []string{testSubject, testSource},
+			Header: []string{"Subject", "Source"},
 			Data: [][]interface{}{
 				{SubjectConfig1.Handle, SubjectConfig1.Source},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testSubjects},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 		},
 	}
 
@@ -193,9 +187,9 @@ func TestProduceEmptyWhenNoSubjectFilter(t *testing.T) {
 
 	expected := []printer.TableData{
 		{
-			Header:              []string{testSubject, testSource},
+			Header:              []string{"Subject", "Source"},
 			Data:                [][]interface{}{},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: testSubjects},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: "subjects"},
 		},
 	}
 

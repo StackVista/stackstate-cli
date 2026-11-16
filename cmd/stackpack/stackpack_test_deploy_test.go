@@ -14,11 +14,6 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-const (
-	testDeployVersion = "1.0.0-cli-test.1"
-	testUpgrade       = "upgrade"
-)
-
 // setupStackpackTestDeployCmd creates a test command with mock dependencies
 func setupStackpackTestDeployCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
@@ -59,12 +54,12 @@ func TestBumpSnapshotVersion(t *testing.T) {
 	}{
 		{
 			name:            "first cli-test version",
-			currentVersion:  testInitialVersion,
+			currentVersion:  "1.0.0",
 			expectedVersion: "1.0.0-cli-test.10000",
 		},
 		{
 			name:            "increment existing cli-test",
-			currentVersion:  testDeployVersion,
+			currentVersion:  "1.0.0-cli-test.1",
 			expectedVersion: "1.0.0-cli-test.2",
 		},
 		{
@@ -113,7 +108,7 @@ func TestUpdateVersionInYaml(t *testing.T) {
 	defer os.RemoveAll(tempDir)
 
 	configPath := filepath.Join(tempDir, "stackpack.yaml")
-	originalVersion := testMajorVersion
+	originalVersion := "2.0.0"
 	newVersion := "2.0.0-cli-test.1"
 
 	// Create config with original version
@@ -131,7 +126,7 @@ displayName: "Test StackPack"`, originalVersion)
 	updatedInfo, err := parser.Parse(configPath)
 	require.NoError(t, err)
 	assert.Equal(t, newVersion, updatedInfo.Version)
-	assert.Equal(t, testStackPackName, updatedInfo.Name)
+	assert.Equal(t, "test-stackpack", updatedInfo.Name)
 }
 
 func TestCopyDirectory(t *testing.T) {
@@ -209,12 +204,12 @@ func TestStackpackTestDeployCommand_DirectoryHandling(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, testStackPackName)
+	stackpackDir := filepath.Join(tempDir, "test-stackpack")
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 
 	// Create required files
-	stackpackName := testStackPackName
-	stackPackCurrentVersion := testInitialVersion
+	stackpackName := "test-stackpack"
+	stackPackCurrentVersion := "1.0.0"
 	createTestStackpack(t, stackpackDir, stackpackName, stackPackCurrentVersion)
 	stackpackTestArchive := fmt.Sprintf("%s-%s-cli-test.10000.sts", stackpackName, stackPackCurrentVersion)
 
@@ -258,15 +253,15 @@ func TestVersionRegexPatterns(t *testing.T) {
 	}{
 		{
 			name:           "regular version",
-			version:        testInitialVersion,
+			version:        "1.0.0",
 			expectedBase:   "",
 			expectedNumber: 0,
 			isSnapshot:     false,
 		},
 		{
 			name:           "first cli-test",
-			version:        testDeployVersion,
-			expectedBase:   testInitialVersion,
+			version:        "1.0.0-cli-test.1",
+			expectedBase:   "1.0.0",
 			expectedNumber: 1,
 			isSnapshot:     true,
 		},
@@ -280,7 +275,7 @@ func TestVersionRegexPatterns(t *testing.T) {
 		{
 			name:           "complex base version",
 			version:        "1.0.0-beta.1.cli-test.3",
-			expectedBase:   testInitialVersion,
+			expectedBase:   "1.0.0",
 			expectedNumber: 3,
 			isSnapshot:     true,
 		},
@@ -345,32 +340,32 @@ func TestCompareVersionsSemver(t *testing.T) {
 	}{
 		{
 			name:     "equal versions",
-			v1:       testInitialVersion,
-			v2:       testInitialVersion,
+			v1:       "1.0.0",
+			v2:       "1.0.0",
 			expected: 0,
 		},
 		{
 			name:     "v1 less than v2",
-			v1:       testInitialVersion,
-			v2:       testNextVersion,
+			v1:       "1.0.0",
+			v2:       "1.1.0",
 			expected: -1,
 		},
 		{
 			name:     "v1 greater than v2",
-			v1:       testMajorVersion,
+			v1:       "2.0.0",
 			v2:       "1.9.9",
 			expected: 1,
 		},
 		{
 			name:     "pre-release versions - cli-test comparison",
-			v1:       testDeployVersion,
+			v1:       "1.0.0-cli-test.1",
 			v2:       "1.0.0-cli-test.2",
 			expected: -1,
 		},
 		{
 			name:     "pre-release vs release",
-			v1:       testDeployVersion,
-			v2:       testInitialVersion,
+			v1:       "1.0.0-cli-test.1",
+			v2:       "1.0.0",
 			expected: -1,
 		},
 		{
@@ -402,13 +397,13 @@ func TestStackpackTestDeployCommand_InstallUpgradeLogic(t *testing.T) {
 		},
 		{
 			name:             "already installed - should upgrade",
-			installedVersion: testInitialVersion,
-			expectedAction:   testUpgrade,
+			installedVersion: "1.0.0",
+			expectedAction:   "upgrade",
 		},
 		{
 			name:             "already installed with pre-release - should upgrade",
 			installedVersion: "1.0.0-beta.1",
-			expectedAction:   testUpgrade,
+			expectedAction:   "upgrade",
 		},
 	}
 
@@ -421,7 +416,7 @@ func TestStackpackTestDeployCommand_InstallUpgradeLogic(t *testing.T) {
 				shouldUpgrade = true
 			}
 
-			if tt.expectedAction == testUpgrade {
+			if tt.expectedAction == "upgrade" {
 				assert.True(t, shouldUpgrade, "Should choose upgrade when stackpack is already installed")
 			} else {
 				assert.False(t, shouldUpgrade, "Should choose install when stackpack is not installed")

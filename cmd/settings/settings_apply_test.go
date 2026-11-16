@@ -54,7 +54,7 @@ func TestSetingsApplyFromFileNoOptionalArgs(t *testing.T) {
 	assert.Nil(t, (*cli.MockClient.ApiMocks.ImportApi.ImportSettingsCalls)[0].Punlocked)
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{typeKey, "Id", identifierColumn, nameKey},
+			Header: []string{"Type", "Id", "Identifier", "Name"},
 			Data:   [][]interface{}{{"Layer", 12345, "urn:stackpack:test:layer:test", "test"}},
 		},
 	}

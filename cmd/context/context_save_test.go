@@ -11,17 +11,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-const (
-	testToken               = "my-token"
-	testContextURL          = "http://bar.com"
-	urlFlagArg              = "--url"
-	testCACertContext       = "cacertdata"
-	testAPIPath             = "/api"
-	serviceTokenFlagArg     = "--service-token"
-	caCertPathFlagArg       = "--ca-cert-path"
-	caCertBase64DataFlagArg = "--ca-cert-base64-data"
-)
-
 func setupSaveCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := SaveCommand(&cli.Deps)
@@ -40,13 +29,13 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 	}{
 		{
 			name: "new context",
-			args: []string{nameFlagArg, "baz", urlFlagArg, "http://baz.com", "--api-token", testToken},
+			args: []string{"--name", "baz", "--url", "http://baz.com", "--api-token", "my-token"},
 			expectedContext: config.NamedContext{
 				Name: "baz",
 				Context: &config.StsContext{
 					URL:      "http://baz.com",
-					APIToken: testToken,
-					APIPath:  testAPIPath,
+					APIToken: "my-token",
+					APIPath:  "/api",
 				},
 			},
 			totalContextInConfig: 7,
@@ -54,13 +43,13 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 		},
 		{
 			name: "existing context",
-			args: []string{nameFlagArg, testBar, urlFlagArg, testContextURL, serviceTokenFlagArg, testToken},
+			args: []string{"--name", "bar", "--url", "http://bar.com", "--service-token", "my-token"},
 			expectedContext: config.NamedContext{
-				Name: testBar,
+				Name: "bar",
 				Context: &config.StsContext{
-					URL:          testContextURL,
-					ServiceToken: testToken,
-					APIPath:      testAPIPath,
+					URL:          "http://bar.com",
+					ServiceToken: "my-token",
+					APIPath:      "/api",
 				},
 			},
 			totalContextInConfig: 6,
@@ -68,13 +57,13 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 		},
 		{
 			name: "existing context ca-cert is set with ca-cert-path",
-			args: []string{nameFlagArg, testBar, urlFlagArg, testContextURL, serviceTokenFlagArg, testToken, caCertPathFlagArg, "testdata/selfSignedCert.crt"},
+			args: []string{"--name", "bar", "--url", "http://bar.com", "--service-token", "my-token", "--ca-cert-path", "testdata/selfSignedCert.crt"},
 			expectedContext: config.NamedContext{
-				Name: testBar,
+				Name: "bar",
 				Context: &config.StsContext{
-					URL:              testContextURL,
-					ServiceToken:     testToken,
-					APIPath:          testAPIPath,
+					URL:              "http://bar.com",
+					ServiceToken:     "my-token",
+					APIPath:          "/api",
 					CaCertBase64Data: selfSignedBase64Cert,
 				},
 			},
@@ -83,13 +72,13 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 		},
 		{
 			name: "new context ca-cert is set with ca-cert-path",
-			args: []string{nameFlagArg, testCACertContext, urlFlagArg, testContextURL, serviceTokenFlagArg, testToken, caCertBase64DataFlagArg, privateCaBase64Cert},
+			args: []string{"--name", "cacertdata", "--url", "http://bar.com", "--service-token", "my-token", "--ca-cert-base64-data", privateCaBase64Cert},
 			expectedContext: config.NamedContext{
-				Name: testCACertContext,
+				Name: "cacertdata",
 				Context: &config.StsContext{
-					URL:              testContextURL,
-					ServiceToken:     testToken,
-					APIPath:          testAPIPath,
+					URL:              "http://bar.com",
+					ServiceToken:     "my-token",
+					APIPath:          "/api",
 					CaCertBase64Data: privateCaBase64Cert,
 				},
 			},
@@ -98,13 +87,13 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 		},
 		{
 			name: "ca-cert-path takes precedence over ca-cert-base64-data",
-			args: []string{nameFlagArg, testCACertContext, urlFlagArg, testContextURL, serviceTokenFlagArg, testToken, caCertPathFlagArg, "testdata/selfSignedCert.crt", caCertBase64DataFlagArg, privateCaBase64Cert},
+			args: []string{"--name", "cacertdata", "--url", "http://bar.com", "--service-token", "my-token", "--ca-cert-path", "testdata/selfSignedCert.crt", "--ca-cert-base64-data", privateCaBase64Cert},
 			expectedContext: config.NamedContext{
-				Name: testCACertContext,
+				Name: "cacertdata",
 				Context: &config.StsContext{
-					URL:              testContextURL,
-					ServiceToken:     testToken,
-					APIPath:          testAPIPath,
+					URL:              "http://bar.com",
+					ServiceToken:     "my-token",
+					APIPath:          "/api",
 					CaCertBase64Data: selfSignedBase64Cert,
 				},
 			},
@@ -113,13 +102,13 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 		},
 		{
 			name: "ca-cert ignored if skip-ssl is set",
-			args: []string{nameFlagArg, testBar, urlFlagArg, testContextURL, serviceTokenFlagArg, testToken, "--skip-ssl", caCertPathFlagArg, "/path/to/ca.crt", caCertBase64DataFlagArg, "base64-data"},
+			args: []string{"--name", "bar", "--url", "http://bar.com", "--service-token", "my-token", "--skip-ssl", "--ca-cert-path", "/path/to/ca.crt", "--ca-cert-base64-data", "base64-data"},
 			expectedContext: config.NamedContext{
-				Name: testBar,
+				Name: "bar",
 				Context: &config.StsContext{
-					URL:              testContextURL,
-					ServiceToken:     testToken,
-					APIPath:          testAPIPath,
+					URL:              "http://bar.com",
+					ServiceToken:     "my-token",
+					APIPath:          "/api",
 					SkipSSL:          true,
 					CaCertBase64Data: "",
 					CaCertPath:       "",
@@ -130,14 +119,14 @@ func TestSaveContext(t *testing.T) { //nolint:funlen
 		},
 		{
 			name:            "no save on missing tokens",
-			args:            []string{nameFlagArg, testBar, urlFlagArg, "http://my-bar.com"},
+			args:            []string{"--name", "bar", "--url", "http://my-bar.com"},
 			expectedContext: config.NamedContext{},
 			wantErr:         true,
 			errorMessage:    "one of the required flags {api-token | service-token} not set",
 		},
 		{
 			name:            "ca-cert-path is not found",
-			args:            []string{nameFlagArg, testBar, urlFlagArg, "http://my-bar.com", serviceTokenFlagArg, testToken, caCertPathFlagArg, "/path/to/ca.crt"},
+			args:            []string{"--name", "bar", "--url", "http://my-bar.com", "--service-token", "my-token", "--ca-cert-path", "/path/to/ca.crt"},
 			expectedContext: config.NamedContext{},
 			wantErr:         true,
 			errorMessage:    "no such file or directory",
