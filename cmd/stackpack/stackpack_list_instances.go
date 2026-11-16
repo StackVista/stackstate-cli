@@ -85,7 +85,7 @@ func RunStackpackListInstanceCommand(args *ListPropertiesArgs) di.CmdWithApiFn {
 			})
 		} else {
 			cli.Printer.Table(printer.TableData{
-				Header:              []string{"id", "status", "version", "last updated"},
+				Header:              []string{"id", statusKey, versionKey, lastUpdatedColumn},
 				Data:                data,
 				MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 			})

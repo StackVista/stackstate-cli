@@ -97,7 +97,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 
 			if strings.Compare(orig, string(c)) == 0 {
 				if cli.IsJson() {
-					cli.Printer.PrintJson(map[string]interface{}{"nodes": []string{}, "message": "No changes made"})
+					cli.Printer.PrintJson(map[string]interface{}{nodesKey: []string{}, "message": "No changes made"})
 				} else {
 					cli.Printer.PrintWarn("No changes made")
 				}
@@ -119,7 +119,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"nodes": nodes,
+					nodesKey: nodes,
 				})
 			} else {
 				tableData := make([][]interface{}, 0)
@@ -130,7 +130,7 @@ func RunMonitorEditCommand(args *EditArgs) di.CmdWithApiFn {
 				cli.Printer.Success(fmt.Sprintf("Updated <bold>%d</> monitor(s).", len(nodes)))
 				if len(nodes) > 0 {
 					cli.Printer.Table(printer.TableData{
-						Header: []string{"Type", "Id", "Status", "Identifier", "Name"},
+						Header: []string{"Type", "Id", statusColumn, identifierKey, nameKey},
 						Data:   tableData,
 					})
 				}

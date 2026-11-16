@@ -9,6 +9,10 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
+const (
+	successKey = "success"
+)
+
 type ManualStepsArgs struct {
 	TypeName string
 	ID       int64
@@ -42,7 +46,7 @@ func RunStackpackConfirmManualStepsCommand(args *ManualStepsArgs) di.CmdWithApiF
 		}
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"success":               true,
+				successKey:              true,
 				"stackpack-name":        args.TypeName,
 				"stackpack-instance-id": args.ID,
 			})

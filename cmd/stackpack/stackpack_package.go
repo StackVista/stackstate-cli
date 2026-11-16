@@ -182,7 +182,7 @@ func RunStackpackPackageCommand(args *PackageArgs) func(cli *di.Deps, cmd *cobra
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"success":           true,
+				successKey:          true,
 				"stackpack_name":    stackpackInfo.Name,
 				"stackpack_version": stackpackInfo.Version,
 				"zip_file":          args.ArchiveFile,

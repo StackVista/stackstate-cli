@@ -50,7 +50,7 @@ func RunMonitorListCommand(
 			tableData = append(tableData, []interface{}{monitor.Id, monitor.Status, *monitor.Identifier, monitor.Name, monitor.FunctionId, monitor.Tags})
 		}
 		cli.Printer.Table(printer.TableData{
-			Header:              []string{"Id", "Status", "Identifier", "Name", "Function Id", "Tags"},
+			Header:              []string{"Id", statusColumn, identifierKey, nameKey, "Function Id", "Tags"},
 			Data:                tableData,
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "monitors"},
 		})

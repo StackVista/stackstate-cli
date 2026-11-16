@@ -14,6 +14,10 @@ import (
 )
 
 const (
+	stackpackKey      = "stackpack"
+	statusKey         = "status"
+	versionKey        = "version"
+	lastUpdatedColumn = "last updated"
 	// StackPack configuration status constants for wait operations
 	StatusInstalled    = "INSTALLED"    // Configuration is successfully installed
 	StatusProvisioning = "PROVISIONING" // Configuration is still being processed
@@ -147,8 +151,8 @@ func waitAndDisplayResult(cli *di.Deps, api *stackstate_api.APIClient, stackPack
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"stackpack":       finalStackPack,
-			"status":          "completed",
+			stackpackKey:      finalStackPack,
+			statusKey:         "completed",
 			"current-version": finalStackPack.GetVersion(),
 		})
 	} else {
@@ -167,7 +171,7 @@ func waitAndDisplayResult(cli *di.Deps, api *stackstate_api.APIClient, stackPack
 		}
 
 		cli.Printer.Table(printer.TableData{
-			Header:              []string{"id", "name", "status", "version", "last updated"},
+			Header:              []string{"id", NameFlag, statusKey, versionKey, lastUpdatedColumn},
 			Data:                data,
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + stackPackName},
 		})

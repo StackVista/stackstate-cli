@@ -60,6 +60,10 @@ linters:
       allow-unused: true
   exclusions:
     generated: lax
+    rules:
+      - path: '(_test|test_helper)\.go$'
+        linters:
+          - goconst
     presets:
       - comments
       - common-false-positives

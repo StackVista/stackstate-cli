@@ -13,6 +13,12 @@ import (
 	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
+const (
+	typeKey          = "Type"
+	nameKey          = "Name"
+	identifierColumn = "Identifier"
+)
+
 var (
 	UnlockedStrategyChoices = []string{"fail", "skip", "overwrite"}
 	LockedStrategyChoices   = []string{"fail", "skip", "overwrite"}
@@ -89,7 +95,7 @@ func RunSettingsApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 			cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> setting node(s).\n", len(nodes)))
 			if len(nodes) > 0 {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Type", "Id", "Identifier", "Name"},
+					Header: []string{typeKey, "Id", identifierColumn, nameKey},
 					Data:   tableData,
 				})
 			}

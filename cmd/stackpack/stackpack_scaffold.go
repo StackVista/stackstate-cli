@@ -70,13 +70,13 @@ sts stackpack scaffold --template-github-repo stackvista/my-templates --name my-
 
 	// Common flags
 	cmd.Flags().StringVar(&args.DestinationDir, "destination-dir", "", "Target directory where scaffolded files will be created. If not specified, creates a directory with the stackpack name in the current working directory")
-	cmd.Flags().StringVar(&args.Name, "name", "", "Name of the stackpack (required). Must start with [a-z] and contain only lowercase letters, digits, and hyphens")
+	cmd.Flags().StringVar(&args.Name, NameFlag, "", "Name of the stackpack (required). Must start with [a-z] and contain only lowercase letters, digits, and hyphens")
 	cmd.Flags().StringVar(&args.DisplayName, "display-name", "", "Name that's displayed on both the StackPack listing page and on the title of the StackPack page. If not provided, the value of --name will be used")
 	cmd.Flags().StringVar(&args.TemplateName, "template-name", defaultTemplateName, fmt.Sprintf("Name of the template subdirectory to use (default: %s)", defaultTemplateName))
 	cmd.Flags().BoolVar(&args.Force, "force", false, "Overwrite existing files without prompting")
 
 	// Mark required flags
-	cmd.MarkFlagRequired("name") //nolint:errcheck
+	cmd.MarkFlagRequired(NameFlag) //nolint:errcheck
 
 	// Template sources are mutually exclusive but not required (will use default GitHub repo if none specified)
 	stscobra.MarkMutexFlags(cmd, []string{"template-local-dir", "template-github-repo"}, "template-source", false)
@@ -145,10 +145,10 @@ func RunStackpackScaffoldCommand(args *ScaffoldArgs) func(cli *di.Deps, cmd *cob
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"success":     result.Success,
+				successKey:    result.Success,
 				"source":      result.Source,
 				"destination": result.Destination,
-				"name":        result.Name,
+				NameFlag:      result.Name,
 				"template":    result.Template,
 				"files_count": result.FilesCount,
 				"files":       result.Files,

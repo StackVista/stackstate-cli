@@ -13,6 +13,10 @@ import (
 	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
+const (
+	failKey = "fail"
+)
+
 type InstallArgs struct {
 	Name             string
 	UnlockedStrategy string
@@ -43,7 +47,7 @@ sts stackpack install --name example --stackpack-version 1.2.3 -p "full_name=Fir
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the StackPack")
 	pflags.EnumVar(cmd.Flags(), &args.UnlockedStrategy,
 		UnlockedStrategyFlag,
-		"fail",
+		failKey,
 		UnlockedStrategyChoices,
 		"Strategy use to upgrade StackPack instance"+
 			fmt.Sprintf(" (must be { %s })", strings.Join(UnlockedStrategyChoices, " | ")),
@@ -103,8 +107,8 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 			// Display final status
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"stackpack": finalStackPack,
-					"status":    "completed",
+					stackpackKey: finalStackPack,
+					statusKey:    "completed",
 				})
 			} else {
 				cli.Printer.Success("StackPack installation completed successfully")
@@ -124,7 +128,7 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 
 				cli.Printer.Table(
 					printer.TableData{
-						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Header:              []string{"id", NameFlag, statusKey, versionKey, lastUpdatedColumn},
 						Data:                data,
 						MissingTableDataMsg: printer.NotFoundMsg{Types: "configurations for " + args.Name},
 					},
@@ -141,7 +145,7 @@ func RunStackpackInstallCommand(args *InstallArgs) di.CmdWithApiFn {
 				cli.Printer.Success("StackPack instance installation triggered")
 				cli.Printer.Table(
 					printer.TableData{
-						Header:              []string{"id", "name", "status", "version", "last updated"},
+						Header:              []string{"id", NameFlag, statusKey, versionKey, lastUpdatedColumn},
 						Data:                [][]interface{}{{instance.Id, instance.Name, instance.Status, instance.StackPackVersion, lastUpdateTime}},
 						MissingTableDataMsg: printer.NotFoundMsg{Types: "provision details of " + args.Name},
 					},

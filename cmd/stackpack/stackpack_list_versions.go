@@ -61,7 +61,7 @@ func RunStackpackListVersionsCommand(args *ListVersionsArgs) di.CmdWithApiFn {
 				})
 			}
 			cli.Printer.Table(printer.TableData{
-				Header:              []string{"version", "dev", "in use"},
+				Header:              []string{versionKey, "dev", "in use"},
 				Data:                data,
 				MissingTableDataMsg: printer.NotFoundMsg{Types: "versions"},
 			})

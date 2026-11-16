@@ -13,6 +13,13 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
+const (
+	identifierKey    = "identifier"
+	componentsKey    = "components"
+	viewSnapshotType = "ViewSnapshot"
+	nameKey          = "name"
+)
+
 const UNKNOWN = "unknown"
 
 type InspectArgs struct {
@@ -56,7 +63,7 @@ sts topology inspect --type "otel service instance" -o json`,
 	cmd.Flags().StringVar(&args.ComponentType, "type", "", "Component type (required)")
 	cmd.MarkFlagRequired("type") //nolint:errcheck
 	cmd.Flags().StringSliceVar(&args.Tags, "tag", []string{}, "Filter by tags in format 'tag-name:tag-value' (multiple allowed, ANDed together)")
-	cmd.Flags().StringSliceVar(&args.Identifiers, "identifier", []string{}, "Filter by component identifiers (multiple allowed, ANDed together)")
+	cmd.Flags().StringSliceVar(&args.Identifiers, identifierKey, []string{}, "Filter by component identifiers (multiple allowed, ANDed together)")
 	cmd.Flags().IntVar(&args.Limit, "limit", 0, "Maximum number of components to output (must be positive)")
 
 	return cmd
@@ -118,7 +125,7 @@ func RunInspectCommand(
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"components": components,
+			componentsKey: components,
 		})
 		return nil
 	} else {
@@ -231,7 +238,7 @@ func parseSnapshotResponse(
 
 	// Note: the `View` prefix on response type comes from the existing (Scala) DTO types
 	// If it's not a ViewSnapshot, it's an error type - return empty components and let error handler deal with it
-	if respType != "ViewSnapshot" {
+	if respType != viewSnapshotType {
 		return nil, fmt.Errorf("response is an error type: %s", respType)
 	}
 
@@ -239,7 +246,7 @@ func parseSnapshotResponse(
 
 	// Parse components from the already-unmarshalled components field
 	var components []Component
-	if componentsSlice, ok := respMap["components"].([]interface{}); ok {
+	if componentsSlice, ok := respMap[componentsKey].([]interface{}); ok {
 		for _, comp := range componentsSlice {
 			if compMap, ok := comp.(map[string]interface{}); ok {
 				components = append(components, parseComponentFromMap(compMap, metadata, baseURL))
@@ -300,8 +307,8 @@ func parseMetadataByIdentifier(metadataValue interface{}) map[string]string {
 
 	for _, item := range items {
 		if itemMap, ok := item.(map[string]interface{}); ok {
-			identifier, idOk := itemMap["identifier"].(string)
-			name, nameOk := itemMap["name"].(string)
+			identifier, idOk := itemMap[identifierKey].(string)
+			name, nameOk := itemMap[nameKey].(string)
 			if idOk && nameOk {
 				result[identifier] = name
 			}
@@ -322,7 +329,7 @@ func parseComponentFromMap(compMap map[string]interface{}, metadata ComponentMet
 	if id, ok := compMap["id"].(float64); ok {
 		comp.ID = int64(id)
 	}
-	if name, ok := compMap["name"].(string); ok {
+	if name, ok := compMap[nameKey].(string); ok {
 		comp.Name = name
 	}
 
@@ -380,8 +387,8 @@ func parseComponentReference(compMap map[string]interface{}, identifierFieldName
 			refName = name
 		}
 		return map[string]interface{}{
-			"identifier": refIdentifier,
-			"name":       refName,
+			identifierKey: refIdentifier,
+			nameKey:       refName,
 		}
 	}
 	return nil
@@ -409,6 +416,6 @@ func printTableOutput(
 	cli.Printer.Table(printer.TableData{
 		Header:              []string{"Name", "Type", "Identifiers"},
 		Data:                tableData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "components"},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: componentsKey},
 	})
 }

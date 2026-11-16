@@ -12,8 +12,9 @@ import (
 )
 
 const (
-	Name      = "name"
-	NameUsage = "StackPack name"
+	displayNameColumn = "display name"
+	Name              = "name"
+	NameUsage         = "StackPack name"
 )
 
 type DescribeArgs struct {
@@ -52,7 +53,7 @@ func RunStackpackDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 			if stackpack.Name == args.Name {
 				if cli.IsJson() {
 					cli.Printer.PrintJson(map[string]interface{}{
-						"stackpack": stackpack,
+						stackpackKey: stackpack,
 					})
 				} else {
 					cli.Printer.PrintLn(fmt.Sprintf("StackPack %s v%s (latest available is v%s)", stackpack.DisplayName, stackpack.Version, stackpack.LatestVersion.Version))
@@ -71,14 +72,14 @@ func RunStackpackDescribeCommand(args *DescribeArgs) di.CmdWithApiFn {
 					if len(stackpack.Steps) > 0 {
 						cli.Printer.PrintLn("\nInstance configuration parameters:")
 						cli.Printer.Table(printer.TableData{
-							Header:              []string{"name", "display name", "type"},
+							Header:              []string{NameFlag, displayNameColumn, "type"},
 							Data:                formatParametersTable(stackpack),
 							MissingTableDataMsg: printer.NotFoundMsg{Types: "instance parameters"},
 						})
 					}
 					cli.Printer.PrintLn("\nInstalled instances:")
 					cli.Printer.Table(printer.TableData{
-						Header:              []string{"id", "status", "version", "last updated"},
+						Header:              []string{"id", statusKey, versionKey, lastUpdatedColumn},
 						Data:                formatInstancesTable(stackpack),
 						MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
 					})

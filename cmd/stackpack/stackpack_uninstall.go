@@ -44,8 +44,8 @@ func RunStackpackUninstallCommand(args *UninstallArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"success": true,
-				"result":  result,
+				successKey: true,
+				"result":   result,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("Successfully uninstalled StackPack: name=%s id=%d", args.Name, args.Id))

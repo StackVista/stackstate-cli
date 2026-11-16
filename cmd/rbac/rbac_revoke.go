@@ -62,8 +62,8 @@ func RunRevokePermissionsCommand(args *RevokePermissionsArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"subject":     description.SubjectHandle,
-				"permissions": description.Permissions,
+				Subject:        description.SubjectHandle,
+				permissionsKey: description.Permissions,
 			})
 		} else {
 			cli.Printer.Successf("Revoked permission '%s' on '%s' from subject '%s'", args.Permission, args.Resource, args.Subject)

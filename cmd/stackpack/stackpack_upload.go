@@ -55,7 +55,7 @@ func RunStackpackUploadCommand(args *UploadArgs) di.CmdWithApiFn {
 		} else {
 			cli.Printer.Success(fmt.Sprintf("uploaded StackPack: %s", args.FilePath))
 			cli.Printer.Table(printer.TableData{
-				Header: []string{"name", "display name", "version"},
+				Header: []string{NameFlag, displayNameColumn, versionKey},
 				Data:   [][]interface{}{{stackpack.Name, stackpack.DisplayName, stackpack.Version}},
 			})
 		}

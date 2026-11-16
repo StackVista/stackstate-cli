@@ -31,7 +31,7 @@ func RunContextShowCommand(cli *di.Deps, cmd *cobra.Command, cfg *config.Config)
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"current-context": ctx.Context,
+			currentContextKey: ctx.Context,
 			"name":            cfg.CurrentContext,
 		})
 	} else {

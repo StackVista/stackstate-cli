@@ -45,9 +45,7 @@ type TableData struct {
 	MissingTableDataMsg MissingTableDataMsg
 }
 
-const (
-	YamlIndent = 2
-)
+const YamlIndent = 2
 
 type StopPrinterFn func()
 

@@ -82,7 +82,7 @@ func RunSettingsListCommand(args *ListArgs) di.CmdWithApiFn {
 				})
 			}
 			cli.Printer.Table(printer.TableData{
-				Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
+				Header:              []string{typeKey, "Id", identifierColumn, nameKey, "owned by", "last updated"},
 				Data:                data,
 				MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("settings of type \"%s\"", args.TypeName)},
 			})
