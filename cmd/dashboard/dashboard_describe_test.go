@@ -27,7 +27,7 @@ func createTestDashboard() sts.DashboardReadSchema {
 			Spec: &sts.PersesDashboardSpec{
 				Layouts: []sts.PersesLayout{
 					{
-						Kind: "Grid",
+						Kind: testGrid,
 						Spec: sts.PersesLayoutSpec{
 							Items: []sts.PersesGridItem{},
 						},

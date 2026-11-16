@@ -12,6 +12,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const (
+	testMyStackpack             = "my-stackpack"
+	missingManifestNameError    = "name not found in stackpack.yaml"
+	missingManifestVersionError = "version not found in stackpack.yaml"
+)
+
 // setupStackPackPackageCmd creates a test command with mock dependencies
 func setupStackPackPackageCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
@@ -52,9 +58,9 @@ func TestStackpackPackageCommand_DefaultBehavior(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "test-stackpack")
+	stackpackDir := filepath.Join(tempDir, testStackPackName)
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
-	createTestStackpack(t, stackpackDir, "test-stackpack", "1.0.0")
+	createTestStackpack(t, stackpackDir, testStackPackName, testInitialVersion)
 
 	// Change to temp directory to test default current directory behavior
 	originalWd, err := os.Getwd()
@@ -93,9 +99,9 @@ func TestStackpackPackageCommand_CustomArchiveFile(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "my-stackpack")
+	stackpackDir := filepath.Join(tempDir, testMyStackpack)
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
-	createTestStackpack(t, stackpackDir, "my-stackpack", "2.1.0")
+	createTestStackpack(t, stackpackDir, testMyStackpack, "2.1.0")
 
 	customZipPath := filepath.Join(tempDir, "custom-name.sts")
 	cli, cmd := setupStackPackPackageCmd(t)
@@ -118,9 +124,9 @@ func TestStackpackPackageCommand_ForceFlag(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "test-stackpack")
+	stackpackDir := filepath.Join(tempDir, testStackPackName)
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
-	createTestStackpack(t, stackpackDir, "test-stackpack", "1.0.0")
+	createTestStackpack(t, stackpackDir, testStackPackName, testInitialVersion)
 
 	zipPath := filepath.Join(tempDir, "test-stackpack-1.0.0.sts")
 
@@ -175,7 +181,7 @@ func TestStackpackPackageCommand_JSONOutput(t *testing.T) {
 	jsonOutput := (*cli.MockPrinter.PrintJsonCalls)[0]
 
 	// Check JSON structure
-	assert.Equal(t, true, jsonOutput["success"])
+	assert.Equal(t, true, jsonOutput[successKey])
 	assert.Equal(t, "json-test", jsonOutput["stackpack_name"])
 	assert.Equal(t, "3.0.0", jsonOutput["stackpack_version"])
 	assert.Contains(t, jsonOutput["zip_file"], "json-test-3.0.0.sts")
@@ -262,24 +268,24 @@ func TestStackpackPackageCommand_InvalidStackpackConf(t *testing.T) {
 		{
 			name:          "missing name field",
 			confContent:   `version: "1.0.0"`,
-			expectedError: "name not found in stackpack.yaml",
+			expectedError: missingManifestNameError,
 		},
 		{
 			name:          "missing version field",
 			confContent:   `name: "test"`,
-			expectedError: "version not found in stackpack.yaml",
+			expectedError: missingManifestVersionError,
 		},
 		{
 			name: "empty name field",
 			confContent: `name: ""
 version: "1.0.0"`,
-			expectedError: "name not found in stackpack.yaml",
+			expectedError: missingManifestNameError,
 		},
 		{
 			name: "empty version field",
 			confContent: `name: "test"
 version: ""`,
-			expectedError: "version not found in stackpack.yaml",
+			expectedError: missingManifestVersionError,
 		},
 	}
 
@@ -323,9 +329,9 @@ func TestStackpackPackageCommand_CreateOutputDirectory(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "test-stackpack")
+	stackpackDir := filepath.Join(tempDir, testStackPackName)
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
-	createTestStackpack(t, stackpackDir, "test-stackpack", "1.0.0")
+	createTestStackpack(t, stackpackDir, testStackPackName, testInitialVersion)
 
 	// Create nested output directory path that doesn't exist
 	outputDir := filepath.Join(tempDir, "output", "nested", "path")
@@ -358,7 +364,7 @@ func TestYamlParser_Parse(t *testing.T) {
 			name: "valid YAML with quotes",
 			content: `name: "my-stackpack"
 version: "1.2.3"`,
-			expectedName: "my-stackpack",
+			expectedName: testMyStackpack,
 			expectedVer:  "1.2.3",
 			expectError:  false,
 		},
@@ -366,7 +372,7 @@ version: "1.2.3"`,
 			name: "valid YAML without quotes",
 			content: `name: my-stackpack
 version: "1.2.3"`,
-			expectedName: "my-stackpack",
+			expectedName: testMyStackpack,
 			expectedVer:  "1.2.3",
 			expectError:  false,
 		},
@@ -377,20 +383,20 @@ name: "test-app"
 # Another comment
 version: "2.0.0"`,
 			expectedName: "test-app",
-			expectedVer:  "2.0.0",
+			expectedVer:  testMajorVersion,
 			expectError:  false,
 		},
 		{
 			name:          "missing name",
 			content:       `version: "1.0.0"`,
 			expectError:   true,
-			errorContains: "name not found in stackpack.yaml",
+			errorContains: missingManifestNameError,
 		},
 		{
 			name:          "missing version",
 			content:       `name: "test"`,
 			expectError:   true,
-			errorContains: "version not found in stackpack.yaml",
+			errorContains: missingManifestVersionError,
 		},
 		{
 			name:          "invalid YAML syntax",

@@ -61,7 +61,7 @@ func RunStackpackDowngradeCommand(args *DowngradeArgs) di.CmdWithApiFn {
 		} else {
 			if cli.IsJson() {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"success":        true,
+					successKey:       true,
 					"target-version": args.Version,
 				})
 			} else {

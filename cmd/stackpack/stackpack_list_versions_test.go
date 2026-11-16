@@ -10,9 +10,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testVersions = "versions"
+)
+
 var listVersionsMockResponse = []stackstate_api.StackPackVersionInfo{
-	{Version: "1.0.0", IsDev: false, IsInUse: true},
-	{Version: "1.1.0", IsDev: false, IsInUse: false},
+	{Version: testInitialVersion, IsDev: false, IsInUse: true},
+	{Version: testNextVersion, IsDev: false, IsInUse: false},
 	{Version: "2.0.0-SNAPSHOT.1", IsDev: true, IsInUse: false},
 }
 
@@ -25,17 +29,17 @@ func setupStackPackListVersionsCmd(t *testing.T) (*di.MockDeps, *cobra.Command) 
 
 func TestStackpackListVersionsPrintToTable(t *testing.T) {
 	cli, cmd := setupStackPackListVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-versions", "--name", "kubernetes")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-versions", nameFlagArg, "kubernetes")
 
 	assert.Equal(t, []printer.TableData{
 		{
-			Header: []string{"version", "dev", "in use"},
+			Header: []string{versionKey, "dev", "in use"},
 			Data: [][]interface{}{
-				{"1.0.0", false, true},
-				{"1.1.0", false, false},
+				{testInitialVersion, false, true},
+				{testNextVersion, false, false},
 				{"2.0.0-SNAPSHOT.1", true, false},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "versions"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: testVersions},
 		},
 	}, *cli.MockPrinter.TableCalls)
 
@@ -45,10 +49,10 @@ func TestStackpackListVersionsPrintToTable(t *testing.T) {
 
 func TestStackpackListVersionsPrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackListVersionsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-versions", "--name", "kubernetes", "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-versions", nameFlagArg, "kubernetes", "-o", "json")
 
 	expectedJsonCalls := []map[string]interface{}{{
-		"versions": listVersionsMockResponse,
+		testVersions: listVersionsMockResponse,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
@@ -58,13 +62,13 @@ func TestStackpackListVersionsEmpty(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackListVersionsCommand(&cli.Deps)
 	cli.MockClient.ApiMocks.StackpackApi.StackPackListVersionsResponse.Result = []stackstate_api.StackPackVersionInfo{}
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-versions", "--name", "kubernetes")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-versions", nameFlagArg, "kubernetes")
 
 	assert.Equal(t, []printer.TableData{
 		{
-			Header:              []string{"version", "dev", "in use"},
+			Header:              []string{versionKey, "dev", "in use"},
 			Data:                [][]interface{}{},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "versions"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: testVersions},
 		},
 	}, *cli.MockPrinter.TableCalls)
 }

@@ -10,6 +10,20 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	typeColumn = "Type"
+)
+
+const (
+	testName                = "Name"
+	testTypeKey             = "_type"
+	identifiersColumn       = "Identifiers"
+	querySnapshotResultType = "QuerySnapshotResult"
+	testMetadata            = "metadata"
+	testComponentTypes      = "componentTypes"
+	testIdentifiers         = "identifiers"
+)
+
 const baseURL = "https://suse-observability-instance.com"
 
 func setInspectCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
@@ -35,7 +49,7 @@ func TestTopologyInspectJson(t *testing.T) {
 
 	jsonData := jsonCalls[0]
 	// Components are serialized from []Component struct
-	assert.NotNil(t, jsonData["components"])
+	assert.NotNil(t, jsonData[componentsKey])
 
 	assert.True(t, len(calls) > 0, "API should have been called")
 }
@@ -56,7 +70,7 @@ func TestTopologyInspectTable(t *testing.T) {
 	assert.Len(t, tableCalls, 1)
 
 	table := tableCalls[0]
-	assert.Equal(t, []string{"Name", "Type", "Identifiers"}, table.Header)
+	assert.Equal(t, []string{testName, typeColumn, identifiersColumn}, table.Header)
 	assert.Len(t, table.Data, 1)
 
 	row := table.Data[0]
@@ -108,14 +122,14 @@ func TestTopologyInspectWithIdentifiers(t *testing.T) {
 func TestTopologyInspectNoResults(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type":      "ViewSnapshot",
-			"components": []interface{}{},
-			"metadata": map[string]interface{}{
-				"componentTypes": []interface{}{},
-				"layers":         []interface{}{},
-				"domains":        []interface{}{},
+			testTypeKey:   viewSnapshotType,
+			componentsKey: []interface{}{},
+			testMetadata: map[string]interface{}{
+				testComponentTypes: []interface{}{},
+				"layers":           []interface{}{},
+				"domains":          []interface{}{},
 			},
 		},
 	}
@@ -128,18 +142,18 @@ func TestTopologyInspectNoResults(t *testing.T) {
 	assert.Len(t, tableCalls, 1)
 
 	table := tableCalls[0]
-	assert.Equal(t, []string{"Name", "Type", "Identifiers"}, table.Header)
+	assert.Equal(t, []string{testName, typeColumn, identifiersColumn}, table.Header)
 	assert.Len(t, table.Data, 0)
-	assert.Equal(t, printer.NotFoundMsg{Types: "components"}, table.MissingTableDataMsg)
+	assert.Equal(t, printer.NotFoundMsg{Types: componentsKey}, table.MissingTableDataMsg)
 }
 
 func TestTopologyInspectMultipleIdentifiers(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	responseData := mockSnapshotResponse()
 	// Modify to include multiple identifiers
-	components := responseData.ViewSnapshotResponse["components"].([]interface{})
+	components := responseData.ViewSnapshotResponse[componentsKey].([]interface{})
 	comp := components[0].(map[string]interface{})
-	comp["identifiers"] = []interface{}{"urn:test:1", "urn:test:2", "urn:test:3"}
+	comp[testIdentifiers] = []interface{}{"urn:test:1", "urn:test:2", "urn:test:3"}
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = responseData
 	cli.CurrentContext.URL = baseURL
 
@@ -158,9 +172,9 @@ func TestTopologyInspectURLEncoding(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	responseData := mockSnapshotResponse()
 	// Set identifier with special characters
-	components := responseData.ViewSnapshotResponse["components"].([]interface{})
+	components := responseData.ViewSnapshotResponse[componentsKey].([]interface{})
 	comp := components[0].(map[string]interface{})
-	comp["identifiers"] = []interface{}{"urn:opentelemetry:namespace/service:component/name"}
+	comp[testIdentifiers] = []interface{}{"urn:opentelemetry:namespace/service:component/name"}
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = responseData
 	cli.CurrentContext.URL = baseURL
 
@@ -168,7 +182,7 @@ func TestTopologyInspectURLEncoding(t *testing.T) {
 
 	// Verify URL encoding in link
 	jsonCalls := *cli.MockPrinter.PrintJsonCalls
-	returnedComponents := jsonCalls[0]["components"].([]Component)
+	returnedComponents := jsonCalls[0][componentsKey].([]Component)
 	// url.PathEscape encodes / to %2F, but : is not encoded, and base URL is prefixed
 	expectedLink := baseURL + "/#/components/urn:opentelemetry:namespace%2Fservice:component%2Fname"
 	assert.Equal(t, expectedLink, returnedComponents[0].Link)
@@ -178,15 +192,15 @@ func TestTopologyInspectWithEnvironment(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	responseData := mockSnapshotResponse()
 	// Add environment to component
-	components := responseData.ViewSnapshotResponse["components"].([]interface{})
+	components := responseData.ViewSnapshotResponse[componentsKey].([]interface{})
 	comp := components[0].(map[string]interface{})
 	comp["environment"] = float64(123)
 	// Add environment to metadata
-	metadata := responseData.ViewSnapshotResponse["metadata"].(map[string]interface{})
+	metadata := responseData.ViewSnapshotResponse[testMetadata].(map[string]interface{})
 	metadata["environments"] = []interface{}{
 		map[string]interface{}{
-			"id":   float64(123),
-			"name": "Production",
+			"id":    float64(123),
+			nameKey: "Production",
 		},
 	}
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = responseData
@@ -198,7 +212,7 @@ func TestTopologyInspectWithEnvironment(t *testing.T) {
 	jsonCalls := *cli.MockPrinter.PrintJsonCalls
 	assert.Len(t, jsonCalls, 1)
 	jsonData := jsonCalls[0]
-	assert.NotNil(t, jsonData["components"])
+	assert.NotNil(t, jsonData[componentsKey])
 }
 
 func TestTopologyInspectTypeRequired(t *testing.T) {
@@ -240,7 +254,7 @@ func TestTopologyInspectWithBaseURL(t *testing.T) {
 
 	jsonData := jsonCalls[0]
 	// Components are serialized from []Component struct
-	components := jsonData["components"].([]Component)
+	components := jsonData[componentsKey].([]Component)
 	assert.NotNil(t, components)
 
 	expectedLink := "https://stackstate.example.com:8080/#/components/urn:test:component:1"
@@ -250,9 +264,9 @@ func TestTopologyInspectWithBaseURL(t *testing.T) {
 func TestTopologyInspectFetchTimeout(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type":              "ViewSnapshotFetchTimeout",
+			testTypeKey:          "ViewSnapshotFetchTimeout",
 			"usedTimeoutSeconds": float64(30),
 		},
 	}
@@ -268,9 +282,9 @@ func TestTopologyInspectFetchTimeout(t *testing.T) {
 func TestTopologyInspectTooManyActiveQueries(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type": "ViewSnapshotTooManyActiveQueries",
+			testTypeKey: "ViewSnapshotTooManyActiveQueries",
 		},
 	}
 	cli.CurrentContext.URL = baseURL
@@ -285,10 +299,10 @@ func TestTopologyInspectTooManyActiveQueries(t *testing.T) {
 func TestTopologyInspectTopologySizeOverflow(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type":   "ViewSnapshotTopologySizeOverflow",
-			"maxSize": float64(10000),
+			testTypeKey: "ViewSnapshotTopologySizeOverflow",
+			"maxSize":   float64(10000),
 		},
 	}
 	cli.CurrentContext.URL = baseURL
@@ -303,9 +317,9 @@ func TestTopologyInspectTopologySizeOverflow(t *testing.T) {
 func TestTopologyInspectDataUnavailable(t *testing.T) {
 	cli, cmd := setInspectCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type":                 "ViewSnapshotDataUnavailable",
+			testTypeKey:             "ViewSnapshotDataUnavailable",
 			"unavailableAtEpochMs":  float64(1000000),
 			"availableSinceEpochMs": float64(1609459200000),
 		},

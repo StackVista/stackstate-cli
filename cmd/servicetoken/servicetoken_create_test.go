@@ -8,20 +8,28 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testTokenName           = "test-token"
+	testTokenValue          = "test-token-token"
+	testRole                = "test-role"
+	testTokenCreatedMessage = "Service token created: \x1b[37mtest-token-token\x1b[0m\n"
+	testAnotherRole         = "another-role"
+)
+
 func TestServiceTokenCreate(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
-		Name:       "test-token",
-		Token:      "test-token-token",
+		Name:       testTokenName,
+		Token:      testTokenValue,
 		Expiration: int64p(100000000),
 	}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role", "--expiration", "2020-05-22")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", testTokenName, "--roles", testRole, "--expiration", "2020-05-22")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, "test-token", []string{"test-role"}, int64p(1590105600000))
-	assert.Equal(t, []string{"Service token created: \x1b[37mtest-token-token\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
+	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, testTokenName, []string{testRole}, int64p(1590105600000))
+	assert.Equal(t, []string{testTokenCreatedMessage}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestServiceTokenCreateExpirationOptional(t *testing.T) {
@@ -29,15 +37,15 @@ func TestServiceTokenCreateExpirationOptional(t *testing.T) {
 	cmd := CreateCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
-		Name:       "test-token",
-		Token:      "test-token-token",
+		Name:       testTokenName,
+		Token:      testTokenValue,
 		Expiration: int64p(100000000),
 	}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", testTokenName, "--roles", testRole)
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, "test-token", []string{"test-role"}, nil)
-	assert.Equal(t, []string{"Service token created: \x1b[37mtest-token-token\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
+	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, testTokenName, []string{testRole}, nil)
+	assert.Equal(t, []string{testTokenCreatedMessage}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestServiceTokenCreateMultipleRoles(t *testing.T) {
@@ -45,15 +53,15 @@ func TestServiceTokenCreateMultipleRoles(t *testing.T) {
 	cmd := CreateCommand(&cli.Deps)
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
-		Name:       "test-token",
-		Token:      "test-token-token",
+		Name:       testTokenName,
+		Token:      testTokenValue,
 		Expiration: int64p(100000000),
 	}
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role,another-role", "--roles", "third-role")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", testTokenName, "--roles", "test-role,another-role", "--roles", "third-role")
 
-	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, "test-token", []string{"test-role", "another-role", "third-role"}, nil)
-	assert.Equal(t, []string{"Service token created: \x1b[37mtest-token-token\x1b[0m\n"}, *cli.MockPrinter.SuccessCalls)
+	checkCreateCall(t, cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenCalls, testTokenName, []string{testRole, testAnotherRole, "third-role"}, nil)
+	assert.Equal(t, []string{testTokenCreatedMessage}, *cli.MockPrinter.SuccessCalls)
 }
 
 func TestServiceTokenCreateJSON(t *testing.T) {
@@ -61,13 +69,13 @@ func TestServiceTokenCreateJSON(t *testing.T) {
 	cmd := CreateCommand(&cli.Deps)
 
 	r := &stackstate_api.ServiceTokenCreatedResponse{
-		Name:  "test-token",
-		Token: "test-token-token",
+		Name:  testTokenName,
+		Token: testTokenValue,
 	}
 
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = *r
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role", "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", testTokenName, "--roles", testRole, "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

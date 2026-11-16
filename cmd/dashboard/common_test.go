@@ -6,6 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testDashboardURN = "urn:custom:dashboard:test"
+)
+
 func TestResolveDashboardIdOrUrn(t *testing.T) {
 	tests := []struct {
 		name           string
@@ -24,14 +28,14 @@ func TestResolveDashboardIdOrUrn(t *testing.T) {
 		{
 			name:           "Should resolve valid identifier",
 			id:             0,
-			identifier:     "urn:custom:dashboard:test",
-			expectedResult: "urn:custom:dashboard:test",
+			identifier:     testDashboardURN,
+			expectedResult: testDashboardURN,
 			expectedError:  "",
 		},
 		{
 			name:           "Should prioritize ID when both are provided",
 			id:             456,
-			identifier:     "urn:custom:dashboard:test",
+			identifier:     testDashboardURN,
 			expectedResult: "456",
 			expectedError:  "",
 		},

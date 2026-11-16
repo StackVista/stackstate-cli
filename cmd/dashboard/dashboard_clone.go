@@ -85,7 +85,7 @@ func RunDashboardCloneCommand(args *CloneArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"dashboard": clonedDashboard,
+				dashboardKey: clonedDashboard,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("Dashboard cloned successfully! New dashboard ID: %d, Name: %s", clonedDashboard.GetId(), clonedDashboard.GetName()))

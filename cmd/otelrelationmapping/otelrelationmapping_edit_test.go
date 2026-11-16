@@ -13,6 +13,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testOrig = "orig"
+)
+
 type mockEditorStub struct {
 	content []byte
 	err     error
@@ -31,7 +35,7 @@ func TestOtelRelationMappingEdit_SuccessYAML(t *testing.T) {
 	mockIdentifier := "urn:otel:relation:edit-success"
 	orig := stackstate_api.OtelRelationMapping{
 		Identifier: mockIdentifier,
-		Name:       "orig",
+		Name:       testOrig,
 	}
 	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelRelationMappingResponse.Result = orig
 	// YAML of edited mapping
@@ -115,7 +119,7 @@ func TestOtelRelationMappingEdit_EditorError(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelrelationmapping.OtelRelationMappingEditCommand(&cli.Deps)
 	mockIdentifier := "urn:otel:relation:editorfail"
-	orig := stackstate_api.OtelRelationMapping{Identifier: mockIdentifier, Name: "orig"}
+	orig := stackstate_api.OtelRelationMapping{Identifier: mockIdentifier, Name: testOrig}
 	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelRelationMappingResponse.Result = orig
 	cli.Editor = &mockEditorStub{err: errors.New("editor failure")}
 
@@ -132,7 +136,7 @@ func TestOtelRelationMappingEdit_InvalidYAML(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := otelrelationmapping.OtelRelationMappingEditCommand(&cli.Deps)
 	mockIdentifier := "urn:otel:relation:bad-yaml"
-	orig := stackstate_api.OtelRelationMapping{Identifier: mockIdentifier, Name: "orig"}
+	orig := stackstate_api.OtelRelationMapping{Identifier: mockIdentifier, Name: testOrig}
 	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelRelationMappingResponse.Result = orig
 	cli.Editor = &mockEditorStub{content: []byte("not: valid:: yaml::")}
 

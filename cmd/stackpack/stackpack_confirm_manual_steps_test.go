@@ -10,6 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	nameFlagArg = "--name"
+)
+
 func setupStackPacConfirmManualStepsCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackConfirmManualStepsCommand(&cli.Deps)
@@ -19,7 +23,7 @@ func setupStackPacConfirmManualStepsCmd(t *testing.T) (*di.MockDeps, *cobra.Comm
 
 func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 	cli, cmd := setupStackPacConfirmManualStepsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", "--name", "zabbix",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", nameFlagArg, testZabbix,
 		"--id", "1234",
 	)
 	assert.True(t, cli.MockPrinter.HasNonJsonCalls)
@@ -37,12 +41,12 @@ func TestStackpackConfirmManualStepsPrintsToTable(t *testing.T) {
 
 func TestStackpackConfirmManualStepsPrintsToJson(t *testing.T) {
 	cli, cmd := setupStackPacConfirmManualStepsCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", "--name", "zabbix",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "confirm-manual-steps", nameFlagArg, testZabbix,
 		"--id", "1234", "-o", "json",
 	)
 	expectedJsonCalls := []map[string]interface{}{{
-		"success":               true,
-		"stackpack-name":        "zabbix",
+		successKey:              true,
+		"stackpack-name":        testZabbix,
 		"stackpack-instance-id": int64(1234),
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)

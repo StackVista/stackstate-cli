@@ -78,7 +78,7 @@ func RunStackpackListParameterCommand(args *ListPropertiesArgs) di.CmdWithApiFn 
 			})
 		} else {
 			cli.Printer.Table(printer.TableData{
-				Header:              []string{"name", "display name", "type"},
+				Header:              []string{NameFlag, displayNameColumn, "type"},
 				Data:                data,
 				MissingTableDataMsg: printer.NotFoundMsg{Types: fmt.Sprintf("StackPack \"%s\"", args.Name)},
 			})

@@ -22,7 +22,7 @@ var timeTests = map[string]struct {
 	"iso date":              {input: "2022-05-09T15:04:05Z", outTime: int64(1652108645000), outErr: nil},
 	"relative time":         {input: "-2d", outTime: int64(1652108645000 - 2*86400000), outErr: nil},
 	"unix time":             {input: "1652108645000", outTime: int64(1652108645000), outErr: nil},
-	"garbage":               {input: "garbage", outTime: TimeZero, outErr: newTimeParseError("garbage")},
+	invalidFlagValue:        {input: invalidFlagValue, outTime: TimeZero, outErr: newTimeParseError(invalidFlagValue)},
 	"empty ":                {input: "", outTime: TimeZero, outErr: newTimeParseError("")},
 	"invalid relative time": {input: "-2j", outTime: TimeZero, outErr: newInvalidRelativeTimeError("-2j", newUnknownDurationUnitError("j"))},
 }

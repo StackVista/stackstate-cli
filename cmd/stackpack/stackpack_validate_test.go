@@ -57,9 +57,9 @@ func TestValidate_WithDirectory_AutoPackages(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "test-stackpack")
+	stackpackDir := filepath.Join(tempDir, testStackPackName)
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
-	createTestStackpackDir(t, stackpackDir, "test-stackpack", "1.0.0")
+	createTestStackpackDir(t, stackpackDir, testStackPackName, testInitialVersion)
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", stackpackDir)
 	require.NoError(t, err)
@@ -93,10 +93,10 @@ func TestValidate_WithDirectory_MissingStackpackYaml(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "test-stackpack")
+	stackpackDir := filepath.Join(tempDir, testStackPackName)
 	require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "settings"), 0755))
 	require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "resources"), 0755))
-	require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "README.md"), []byte("test"), 0644))
+	require.NoError(t, os.WriteFile(filepath.Join(stackpackDir, "README.md"), []byte(testUploadName), 0644))
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd, "--directory", stackpackDir)
 	require.Error(t, err)
@@ -140,7 +140,7 @@ func TestValidate_JSONOutput(t *testing.T) {
 	require.Len(t, *cli.MockPrinter.PrintJsonCalls, 1)
 	jsonOutput := (*cli.MockPrinter.PrintJsonCalls)[0]
 
-	assert.Equal(t, true, jsonOutput["success"])
+	assert.Equal(t, true, jsonOutput[successKey])
 }
 
 func TestValidate_MissingPath(t *testing.T) {
@@ -162,7 +162,7 @@ func TestValidate_MutuallyExclusive(t *testing.T) {
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
 
 	stackpackFile := filepath.Join(tempDir, "test.sts")
-	require.NoError(t, os.WriteFile(stackpackFile, []byte("test"), 0644))
+	require.NoError(t, os.WriteFile(stackpackFile, []byte(testUploadName), 0644))
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd,
 		"-d", stackpackDir,
@@ -186,9 +186,9 @@ func TestValidate_WithDirectory_IncludingOptionalItems(t *testing.T) {
 	require.NoError(t, err)
 	defer os.RemoveAll(tempDir)
 
-	stackpackDir := filepath.Join(tempDir, "test-stackpack")
+	stackpackDir := filepath.Join(tempDir, testStackPackName)
 	require.NoError(t, os.MkdirAll(stackpackDir, 0755))
-	createTestStackpackDir(t, stackpackDir, "test-stackpack", "1.0.0")
+	createTestStackpackDir(t, stackpackDir, testStackPackName, testInitialVersion)
 
 	// Add optional items
 	require.NoError(t, os.MkdirAll(filepath.Join(stackpackDir, "icons"), 0755))

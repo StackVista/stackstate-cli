@@ -13,6 +13,10 @@ import (
 	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
+const (
+	dashboardKey = "dashboard"
+)
+
 // ApplyArgs contains arguments for dashboard apply command
 type ApplyArgs struct {
 	File string
@@ -93,7 +97,7 @@ func createDashboard(cli *di.Deps, api *stackstate_api.APIClient, fileBytes []by
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"dashboard": dashboard,
+			dashboardKey: dashboard,
 		})
 	} else {
 		cli.Printer.Success(fmt.Sprintf("Dashboard created successfully! ID: %d, Name: %s", dashboard.GetId(), dashboard.GetName()))
@@ -118,7 +122,7 @@ func updateDashboard(cli *di.Deps, api *stackstate_api.APIClient, dashboardId st
 			patchSchema.SetScope(*scope)
 		}
 	}
-	if dashboardContent, ok := dashboardData["dashboard"]; ok {
+	if dashboardContent, ok := dashboardData[dashboardKey]; ok {
 		// Convert dashboard content to PersesDashboard
 		dashboardBytes, err := yaml.Marshal(dashboardContent)
 		if err == nil {
@@ -137,7 +141,7 @@ func updateDashboard(cli *di.Deps, api *stackstate_api.APIClient, dashboardId st
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"dashboard": dashboard,
+			dashboardKey: dashboard,
 		})
 	} else {
 		cli.Printer.Success(fmt.Sprintf("Dashboard updated successfully! ID: %d, Name: %s", dashboard.GetId(), dashboard.GetName()))

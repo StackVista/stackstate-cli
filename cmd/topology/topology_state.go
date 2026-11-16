@@ -51,7 +51,7 @@ sts topology state --type "otel service instance" -o json`,
 
 	cmd.Flags().StringVar(&args.ComponentType, "type", "", "Component type")
 	cmd.Flags().StringSliceVar(&args.Tags, "tag", []string{}, "Filter by tags in format 'tag-name:tag-value' (multiple allowed, ANDed together)")
-	cmd.Flags().StringSliceVar(&args.Identifiers, "identifier", []string{}, "Filter by component identifiers (multiple allowed, ANDed together)")
+	cmd.Flags().StringSliceVar(&args.Identifiers, identifierKey, []string{}, "Filter by component identifiers (multiple allowed, ANDed together)")
 	cmd.Flags().IntVar(&args.Limit, "limit", 0, "Maximum number of components to output (must be positive)")
 
 	return cmd
@@ -111,7 +111,7 @@ func RunStateCommand(
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"components": componentStates,
+			componentsKey: componentStates,
 		})
 		return nil
 	} else {
@@ -141,14 +141,14 @@ func parseStateResponse(result *stackstate_api.QuerySnapshotResult) ([]Component
 		return nil, fmt.Errorf("response has no _type discriminator")
 	}
 
-	if respType != "ViewSnapshot" {
+	if respType != viewSnapshotType {
 		return nil, fmt.Errorf("response is an error type: %s", respType)
 	}
 
 	metadata := parseMetadata(respMap)
 
 	var componentStates []ComponentState
-	if componentsSlice, ok := respMap["components"].([]interface{}); ok {
+	if componentsSlice, ok := respMap[componentsKey].([]interface{}); ok {
 		for _, comp := range componentsSlice {
 			if compMap, ok := comp.(map[string]interface{}); ok {
 				componentStates = append(componentStates, parseComponentStateFromMap(compMap, metadata))
@@ -169,7 +169,7 @@ func parseComponentStateFromMap(compMap map[string]interface{}, metadata Compone
 	if id, ok := compMap["id"].(float64); ok {
 		cs.ID = int64(id)
 	}
-	if name, ok := compMap["name"].(string); ok {
+	if name, ok := compMap[nameKey].(string); ok {
 		cs.Name = name
 	}
 
@@ -216,6 +216,6 @@ func printStateTableOutput(cli *di.Deps, componentStates []ComponentState) {
 	cli.Printer.Table(printer.TableData{
 		Header:              []string{"Name", "Type", "Health State", "Identifiers"},
 		Data:                tableData,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "components"},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: componentsKey},
 	})
 }

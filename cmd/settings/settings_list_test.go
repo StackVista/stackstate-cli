@@ -11,6 +11,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testComponentType = "ComponentType"
+)
+
 var (
 	name            = "One"
 	otherName       = "Two"
@@ -21,7 +25,7 @@ var (
 	nodeApiResult   = []sts.Node{
 		{
 			Id:                  1,
-			TypeName:            "ComponentType",
+			TypeName:            testComponentType,
 			Identifier:          &identifier,
 			Name:                &name,
 			Description:         &description,
@@ -30,7 +34,7 @@ var (
 		},
 		{
 			Id:                  2,
-			TypeName:            "ComponentType",
+			TypeName:            testComponentType,
 			Identifier:          &otherIdentifier,
 			Name:                &otherName,
 			Description:         &description,
@@ -51,12 +55,12 @@ func setupSettingsListCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 func TestSettingsListPrintsToTable(t *testing.T) {
 	cli, cmd := setupSettingsListCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", testComponentType)
 
 	expectedTableCall := []printer.TableData{
 		{
-			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}, {"ComponentType", int64(2), otherIdentifier, otherName, owner, expectedUpdateTime}},
+			Header:              []string{typeKey, "Id", identifierColumn, nameKey, "owned by", "last updated"},
+			Data:                [][]interface{}{{testComponentType, int64(1), identifier, name, owner, expectedUpdateTime}, {testComponentType, int64(2), otherIdentifier, otherName, owner, expectedUpdateTime}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type \"ComponentType\""},
 		},
 	}
@@ -67,14 +71,14 @@ func TestSettingsListPrintsToTable(t *testing.T) {
 func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 	cli, cmd := setupSettingsListCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", testComponentType,
 		"--namespace", "component",
 		"--owned-by", "urn:stackpack:stackstate-self-health:shared")
 
 	expectedTableCall := []printer.TableData{
 		{
-			Header:              []string{"Type", "Id", "Identifier", "Name", "owned by", "last updated"},
-			Data:                [][]interface{}{{"ComponentType", int64(1), identifier, name, owner, expectedUpdateTime}, {"ComponentType", int64(2), otherIdentifier, otherName, owner, expectedUpdateTime}},
+			Header:              []string{typeKey, "Id", identifierColumn, nameKey, "owned by", "last updated"},
+			Data:                [][]interface{}{{testComponentType, int64(1), identifier, name, owner, expectedUpdateTime}, {testComponentType, int64(2), otherIdentifier, otherName, owner, expectedUpdateTime}},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "settings of type \"ComponentType\""},
 		},
 	}
@@ -85,7 +89,7 @@ func TestSettingsListWithNamespaeAndOwnerPrintsToTable(t *testing.T) {
 func TestSettingsListPrintsToJson(t *testing.T) {
 	cli, cmd := setupSettingsListCmd(t)
 
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", "ComponentType", "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--type", testComponentType, "-o", "json")
 
 	assert.Equal(t,
 		[]map[string]interface{}{{

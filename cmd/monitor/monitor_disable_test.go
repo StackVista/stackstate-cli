@@ -27,7 +27,7 @@ func TestMonitorDisableByIdJson(t *testing.T) {
 
 	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
 	expectedJsonCalls := []map[string]interface{}{{
-		"monitor": &monitor,
+		monitorKey: &monitor,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)
@@ -53,7 +53,7 @@ func TestMonitorDisableByIdentifierJson(t *testing.T) {
 	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
 	checkMonitorPatchStatusCall(t, cli.MockClient.ApiMocks.MonitorApi.PatchMonitorCalls, sts.MONITORSTATUSVALUE_DISABLED.Ptr())
 	expectedJsonCalls := []map[string]interface{}{{
-		"monitor": &monitor,
+		monitorKey: &monitor,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
 	assert.False(t, cli.MockPrinter.HasNonJsonCalls)

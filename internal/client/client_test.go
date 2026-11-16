@@ -12,6 +12,12 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const (
+	testVersion       = "1.2.3"
+	testVersionDiff   = "c0ffee23"
+	testVersionCommit = "yes"
+)
+
 func setupClient() (StackStateClient, *stackstate_api.ServerApiMock) {
 	serverApi := stackstate_api.NewServerApiMock()
 	api := stackstate_api.APIClient{
@@ -54,13 +60,13 @@ func TestCombineURLAndApi(t *testing.T) {
 }
 
 func TestVersionToString(t *testing.T) {
-	assert.Equal(t, "1.2.3", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3}))
-	assert.Equal(t, "1.2.3+c0ffee23", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: "c0ffee23"}))
-	assert.Equal(t, "1.2.3+c0ffee23-yes", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: "c0ffee23", Commit: "yes"}))
-	assert.Equal(t, "1.2.3+c0ffee23-yes-dev", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: "c0ffee23", Commit: "yes", IsDev: true}))
+	assert.Equal(t, testVersion, VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3}))
+	assert.Equal(t, "1.2.3+c0ffee23", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: testVersionDiff}))
+	assert.Equal(t, "1.2.3+c0ffee23-yes", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: testVersionDiff, Commit: testVersionCommit}))
+	assert.Equal(t, "1.2.3+c0ffee23-yes-dev", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: testVersionDiff, Commit: testVersionCommit, IsDev: true}))
 	assert.Equal(t, "1.2.3-dev", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, IsDev: true}))
-	assert.Equal(t, "1.2.3-yes-dev", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Commit: "yes", IsDev: true}))
-	assert.Equal(t, "1.2.3-yes", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Commit: "yes"}))
+	assert.Equal(t, "1.2.3-yes-dev", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Commit: testVersionCommit, IsDev: true}))
+	assert.Equal(t, "1.2.3-yes", VersionToString(stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Commit: testVersionCommit}))
 }
 
 type VersionTest struct {
@@ -82,7 +88,7 @@ func TestVersionCompatibilityCheck(t *testing.T) {
 		{Server: V(1, 2, 3), Cmd: "1.0.0", Result: nil},
 		{Server: V(1, 2, 3), Cmd: "1.0.6", Result: nil},
 		{Server: V(1, 2, 3), Cmd: "1.2.0", Result: nil},
-		{Server: V(1, 2, 3), Cmd: "1.2.3", Result: nil},
+		{Server: V(1, 2, 3), Cmd: testVersion, Result: nil},
 
 		// Server version really only needs to be greater than or equal to the command minimum version, even newer major versions are fine
 		{Server: V(2, 2, 3), Cmd: "1.2.4", Result: nil},
@@ -91,25 +97,25 @@ func TestVersionCompatibilityCheck(t *testing.T) {
 		{Server: V(1, 2, 3), Cmd: "1.2.2-alpha.preview+123", Result: nil},
 		{
 			Server: stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Diff: "diff", Commit: "deadbeef"},
-			Cmd:    "1.2.3",
+			Cmd:    testVersion,
 			// FIXME Should be NewAPIVersionMismatchError("1.2.3+diff-deadbeef", "1.2.3"),
 			Result: nil,
 		},
 		// Incompatible versions are detected.
 		{Server: V(1, 2, 3), Cmd: "1.2.3-alpha.preview+123", Result: nil},
-		{Server: V(1, 2, 3), Cmd: "1.2.4", Result: NewAPIVersionMismatchError("1.2.3", "1.2.4")},
-		{Server: V(1, 2, 3), Cmd: "1.3.3", Result: NewAPIVersionMismatchError("1.2.3", "1.3.3")},
-		{Server: V(1, 2, 3), Cmd: "2.2.4", Result: NewAPIVersionMismatchError("1.2.3", "2.2.4")},
+		{Server: V(1, 2, 3), Cmd: "1.2.4", Result: NewAPIVersionMismatchError(testVersion, "1.2.4")},
+		{Server: V(1, 2, 3), Cmd: "1.3.3", Result: NewAPIVersionMismatchError(testVersion, "1.3.3")},
+		{Server: V(1, 2, 3), Cmd: "2.2.4", Result: NewAPIVersionMismatchError(testVersion, "2.2.4")},
 		// Pre-release versions are less than the released version, so they are not sufficient
 		{
 			Server: stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, Commit: "deadbeef"},
-			Cmd:    "1.2.3",
-			Result: NewAPIVersionMismatchError("1.2.3-deadbeef", "1.2.3"),
+			Cmd:    testVersion,
+			Result: NewAPIVersionMismatchError("1.2.3-deadbeef", testVersion),
 		},
 		{
 			Server: stackstate_api.ServerVersion{Major: 1, Minor: 2, Patch: 3, IsDev: true},
-			Cmd:    "1.2.3",
-			Result: NewAPIVersionMismatchError("1.2.3-dev", "1.2.3"),
+			Cmd:    testVersion,
+			Result: NewAPIVersionMismatchError("1.2.3-dev", testVersion),
 		},
 		// Invalid versions are detected.
 		{

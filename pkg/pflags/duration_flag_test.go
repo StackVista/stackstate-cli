@@ -10,6 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	invalidFlagValue = "garbage"
+)
+
 var durationTests = map[string]struct {
 	input       string
 	outDuration time.Duration
@@ -22,7 +26,7 @@ var durationTests = map[string]struct {
 	"2 day":                 {input: "2d", outDuration: 48 * time.Hour, outErr: nil},
 	"1 week":                {input: "1w", outDuration: 24 * time.Hour * 7, outErr: nil},
 	"empty string":          {input: "", outDuration: 0, outErr: newInvalidDurationStringError()},
-	"garbage":               {input: "woot", outDuration: 0, outErr: newInvalidDurationStringError()},
+	invalidFlagValue:        {input: "woot", outDuration: 0, outErr: newInvalidDurationStringError()},
 	"missing unit single":   {input: "1", outDuration: 0, outErr: newInvalidDurationStringError()},
 	"missing unit multi":    {input: "122", outDuration: 0, outErr: newInvalidDurationStringError()},
 	"wrong unit":            {input: "1j", outDuration: 0, outErr: newUnknownDurationUnitError("j")},

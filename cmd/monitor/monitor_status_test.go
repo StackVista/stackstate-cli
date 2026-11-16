@@ -10,6 +10,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testError              = "Error"
+	testMonitorErrorStatus = "Monitor Status: ERROR"
+	testMonitorTimeWindow  = "value between 0 and 0 seconds ago"
+)
+
 var (
 	count            = int32(3)
 	lastRunTimestamp = int64(1663079675007)
@@ -28,7 +34,7 @@ var (
 	healthStateCount         int32 = 10
 	unmappedHealthStateCount int32 = 1
 	monitorError                   = sts.MonitorError{
-		Error: "Error",
+		Error: testError,
 		Count: 11,
 	}
 	metrics = sts.MonitorMetrics{
@@ -108,16 +114,16 @@ func TestMonitorStatusPrintsToTable(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor Status: ERROR", "", "Monitor Stream errors:", "", "Monitor Stream metrics:", "",
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", testMonitorErrorStatus, "", "Monitor Stream errors:", "", "Monitor Stream metrics:", "",
 		"Monitor health states with identifier matching exactly 1 topology element: 0"}
 	expectedTableCall := []printer.TableData{
 		{
 			Header: []string{"message", "occurrence count"},
-			Data:   [][]interface{}{{"Error", int32(11)}},
+			Data:   [][]interface{}{{testError, int32(11)}},
 		},
 		{
-			Header: []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
-				"value between 0 and 0 seconds ago"},
+			Header: []string{"metric", "value between now and 0 seconds ago", testMonitorTimeWindow,
+				testMonitorTimeWindow},
 			Data: [][]interface{}{{"latency (Seconds)"}, {"messages processed (per second)"},
 				{"monitor health states created (per second)"}, {"monitor health states updated (per second)"},
 				{"monitor health states deleted (per second)"}},
@@ -134,7 +140,7 @@ func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", "Monitor Status: ERROR", "Monitor last run: 2022-09-13 14:34:35.007 +0000 UTC",
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: 10", testMonitorErrorStatus, "Monitor last run: 2022-09-13 14:34:35.007 +0000 UTC",
 		"", "Monitor Stream errors:", "", "Monitor health states mapped to topology:", "",
 		"Monitor Stream metrics:", "", "Monitor health states with identifier matching exactly 1 topology element: 0", "",
 		"Monitor health states with identifier which has no matching topology element (1):"}
@@ -142,15 +148,15 @@ func TestMonitorStatusWithHealthStatesCountsPrintsToTable(t *testing.T) {
 	expectedTableCall := []printer.TableData{
 		{
 			Header: []string{"message", "occurrence count"},
-			Data:   [][]interface{}{{"Error", int32(11)}},
+			Data:   [][]interface{}{{testError, int32(11)}},
 		},
 		{
 			Header: []string{"HealthState", "count"},
 			Data:   [][]interface{}{{"CLEAR", count}, {"DEVIATING", count}, {"CRITICAL", count}, {"UNKNOWN", count}},
 		},
 		{
-			Header: []string{"metric", "value between now and 0 seconds ago", "value between 0 and 0 seconds ago",
-				"value between 0 and 0 seconds ago"},
+			Header: []string{"metric", "value between now and 0 seconds ago", testMonitorTimeWindow,
+				testMonitorTimeWindow},
 			Data: [][]interface{}{{"latency (Seconds)"}, {"messages processed (per second)"},
 				{"monitor health states created (per second)"}, {"monitor health states updated (per second)"},
 				{"monitor health states deleted (per second)"}},
@@ -171,7 +177,7 @@ func TestMonitorStatusForDisabled(t *testing.T) {
 
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "-i", "211684343791306")
 
-	expectedPrintlnCalls := []string{"", "Monitor Health State count: -", "Monitor Status: ERROR"}
+	expectedPrintlnCalls := []string{"", "Monitor Health State count: -", testMonitorErrorStatus}
 	expectedTableCall := []printer.TableData{}
 
 	assert.Equal(t, expectedPrintlnCalls, *cli.MockPrinter.PrintLnCalls)

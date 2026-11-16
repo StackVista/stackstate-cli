@@ -114,7 +114,7 @@ func RunSettingsEditCommand(args *EditArgs) di.CmdWithApiFn {
 			cli.Printer.Success(fmt.Sprintf("Updated <bold>%d</> setting node(s).\n", len(nodes)))
 			if len(nodes) > 0 {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Type", "Id", "Identifier", "Name"},
+					Header: []string{typeKey, "Id", identifierColumn, nameKey},
 					Data:   tableData,
 				})
 			}

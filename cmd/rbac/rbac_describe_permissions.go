@@ -13,6 +13,10 @@ import (
 	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
+const (
+	permissionsKey = "permissions"
+)
+
 type DescribePermissionsArgs struct {
 	Subject    string
 	Permission string
@@ -69,14 +73,14 @@ func RunDescribePermissionsCommand(args *DescribePermissionsArgs) di.CmdWithApiF
 		if cli.IsJson() {
 			if sourceStrings != nil {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"subject":     description.SubjectHandle,
-					"permissions": description.Permissions,
-					"sources":     sourceStrings,
+					Subject:        description.SubjectHandle,
+					permissionsKey: description.Permissions,
+					"sources":      sourceStrings,
 				})
 			} else {
 				cli.Printer.PrintJson(map[string]interface{}{
-					"subject":     description.SubjectHandle,
-					"permissions": description.Permissions,
+					Subject:        description.SubjectHandle,
+					permissionsKey: description.Permissions,
 				})
 			}
 		} else {

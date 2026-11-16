@@ -12,6 +12,15 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
+const (
+	templateLocalDirFlagArg    = "--template-local-dir"
+	testDefaultValue           = "default-value"
+	templateNameFlagArg        = "--template-name"
+	destinationDirFlagArg      = "--destination-dir"
+	invalidNamePrefixError     = "must start with a lowercase letter [a-z]"
+	invalidNameCharactersError = "lowercase letters, digits, and hyphens"
+)
+
 func setupStackpackScaffoldCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackScaffoldCommand(&cli.Deps)
@@ -33,7 +42,7 @@ func TestStackpackScaffoldCommand_RequiredFlags(t *testing.T) {
 		},
 		{
 			name:    "valid minimal args with defaults",
-			args:    []string{"--name", "test-stackpack"},
+			args:    []string{nameFlagArg, testStackPackName},
 			wantErr: false,
 		},
 	}
@@ -77,8 +86,8 @@ func TestStackpackScaffoldCommand_MutuallyExclusiveFlags(t *testing.T) {
 	cli, cmd := setupStackpackScaffoldCmd(t)
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd,
-		"--name", "test-stackpack",
-		"--template-local-dir", "./templates",
+		nameFlagArg, testStackPackName,
+		templateLocalDirFlagArg, "./templates",
 		"--template-github-repo", "owner/repo",
 	)
 	require.Error(t, err)
@@ -167,19 +176,19 @@ func TestDefaultIfEmptyString(t *testing.T) {
 		{
 			name:         "empty value returns default",
 			value:        "",
-			defaultValue: "default-value",
-			expected:     "default-value",
+			defaultValue: testDefaultValue,
+			expected:     testDefaultValue,
 		},
 		{
 			name:         "non-empty value returns value",
 			value:        "custom-value",
-			defaultValue: "default-value",
+			defaultValue: testDefaultValue,
 			expected:     "custom-value",
 		},
 		{
 			name:         "whitespace value returns whitespace",
 			value:        "   ",
-			defaultValue: "default-value",
+			defaultValue: testDefaultValue,
 			expected:     "   ",
 		},
 	}
@@ -200,7 +209,7 @@ func TestStackpackScaffoldCommand_LocalDirSource(t *testing.T) {
 
 	// Create a mock template structure
 	templateDir := filepath.Join(tempDir, "templates")
-	genericTemplateDir := filepath.Join(templateDir, "generic")
+	genericTemplateDir := filepath.Join(templateDir, defaultTemplateName)
 	err = os.MkdirAll(genericTemplateDir, 0755)
 	require.NoError(t, err)
 
@@ -222,30 +231,30 @@ func TestStackpackScaffoldCommand_LocalDirSource(t *testing.T) {
 		{
 			name: "local directory source success",
 			args: []string{
-				"--name", "test-stackpack",
-				"--template-local-dir", templateDir,
-				"--template-name", "generic",
-				"--destination-dir", destDir,
+				nameFlagArg, testStackPackName,
+				templateLocalDirFlagArg, templateDir,
+				templateNameFlagArg, defaultTemplateName,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr: false,
 		},
 		{
 			name: "local directory source with non-existent template",
 			args: []string{
-				"--name", "test-stackpack",
-				"--template-local-dir", templateDir,
-				"--template-name", "non-existent",
-				"--destination-dir", destDir,
+				nameFlagArg, testStackPackName,
+				templateLocalDirFlagArg, templateDir,
+				templateNameFlagArg, "non-existent",
+				destinationDirFlagArg, destDir,
 			},
 			wantErr: true,
 		},
 		{
 			name: "local directory source with non-existent directory",
 			args: []string{
-				"--name", "test-stackpack",
-				"--template-local-dir", "/non/existent/path",
-				"--template-name", "generic",
-				"--destination-dir", destDir,
+				nameFlagArg, testStackPackName,
+				templateLocalDirFlagArg, "/non/existent/path",
+				templateNameFlagArg, defaultTemplateName,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr: true,
 		},
@@ -282,7 +291,7 @@ func TestStackpackScaffoldCommand_JSONOutput(t *testing.T) {
 
 	// Create a mock template structure
 	templateDir := filepath.Join(tempDir, "templates")
-	genericTemplateDir := filepath.Join(templateDir, "generic")
+	genericTemplateDir := filepath.Join(templateDir, defaultTemplateName)
 	err = os.MkdirAll(genericTemplateDir, 0755)
 	require.NoError(t, err)
 
@@ -305,10 +314,10 @@ func TestStackpackScaffoldCommand_JSONOutput(t *testing.T) {
 		{
 			name: "regular text output",
 			args: []string{
-				"--name", "test-stackpack",
-				"--template-local-dir", templateDir,
-				"--template-name", "generic",
-				"--destination-dir", destDir,
+				nameFlagArg, testStackPackName,
+				templateLocalDirFlagArg, templateDir,
+				templateNameFlagArg, defaultTemplateName,
+				destinationDirFlagArg, destDir,
 			},
 			expectJson: false,
 			expectText: true,
@@ -316,10 +325,10 @@ func TestStackpackScaffoldCommand_JSONOutput(t *testing.T) {
 		{
 			name: "JSON output",
 			args: []string{
-				"--name", "test-stackpack",
-				"--template-local-dir", templateDir,
-				"--template-name", "generic",
-				"--destination-dir", destDir,
+				nameFlagArg, testStackPackName,
+				templateLocalDirFlagArg, templateDir,
+				templateNameFlagArg, defaultTemplateName,
+				destinationDirFlagArg, destDir,
 				"-o", "json",
 			},
 			expectJson: true,
@@ -339,7 +348,7 @@ func TestStackpackScaffoldCommand_JSONOutput(t *testing.T) {
 				require.Len(t, *cli.MockPrinter.PrintJsonCalls, 1)
 				jsonOutput := (*cli.MockPrinter.PrintJsonCalls)[0]
 				// The JSON output should contain the scaffold result
-				assert.Contains(t, jsonOutput, "success")
+				assert.Contains(t, jsonOutput, successKey)
 
 				// Verify no regular text calls were made for success messages
 				assert.False(t, cli.MockPrinter.HasNonJsonCalls)
@@ -367,7 +376,7 @@ func TestStackpackScaffoldCommand_ForceFlag(t *testing.T) {
 
 	// Create a mock template structure
 	templateDir := filepath.Join(tempDir, "templates")
-	genericTemplateDir := filepath.Join(templateDir, "generic")
+	genericTemplateDir := filepath.Join(templateDir, defaultTemplateName)
 	err = os.MkdirAll(genericTemplateDir, 0755)
 	require.NoError(t, err)
 
@@ -389,10 +398,10 @@ func TestStackpackScaffoldCommand_ForceFlag(t *testing.T) {
 		cli, cmd := setupStackpackScaffoldCmd(t)
 
 		_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd,
-			"--name", "test-stackpack",
-			"--template-local-dir", templateDir,
-			"--template-name", "generic",
-			"--destination-dir", destDir,
+			nameFlagArg, testStackPackName,
+			templateLocalDirFlagArg, templateDir,
+			templateNameFlagArg, defaultTemplateName,
+			destinationDirFlagArg, destDir,
 		)
 		require.Error(t, err)
 		assert.Contains(t, err.Error(), "conflicting files exist")
@@ -402,10 +411,10 @@ func TestStackpackScaffoldCommand_ForceFlag(t *testing.T) {
 		cli, cmd := setupStackpackScaffoldCmd(t)
 
 		_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd,
-			"--name", "test-stackpack",
-			"--template-local-dir", templateDir,
-			"--template-name", "generic",
-			"--destination-dir", destDir,
+			nameFlagArg, testStackPackName,
+			templateLocalDirFlagArg, templateDir,
+			templateNameFlagArg, defaultTemplateName,
+			destinationDirFlagArg, destDir,
 			"--force",
 		)
 
@@ -447,10 +456,10 @@ template: <<.TemplateName>>
 	cli, cmd := setupStackpackScaffoldCmd(t)
 
 	_, err = di.ExecuteCommandWithContext(&cli.Deps, cmd,
-		"--name", "my-awesome-stackpack",
-		"--template-local-dir", templateDir,
-		"--template-name", "custom-template",
-		"--destination-dir", destDir,
+		nameFlagArg, "my-awesome-stackpack",
+		templateLocalDirFlagArg, templateDir,
+		templateNameFlagArg, "custom-template",
+		destinationDirFlagArg, destDir,
 	)
 
 	require.NoError(t, err)
@@ -477,16 +486,16 @@ func TestRunStackpackScaffoldCommand_SourceSelection(t *testing.T) {
 			name: "local directory source selected",
 			args: ScaffoldArgs{
 				TemplateLocalDir: "/path/to/templates",
-				Name:             "test-stackpack",
-				TemplateName:     "generic",
+				Name:             testStackPackName,
+				TemplateName:     defaultTemplateName,
 			},
 			expected: "local",
 		},
 		{
 			name: "github source selected with defaults",
 			args: ScaffoldArgs{
-				Name:         "test-stackpack",
-				TemplateName: "generic",
+				Name:         testStackPackName,
+				TemplateName: defaultTemplateName,
 			},
 			expected: "github-default",
 		},
@@ -494,8 +503,8 @@ func TestRunStackpackScaffoldCommand_SourceSelection(t *testing.T) {
 			name: "github source selected with custom repo",
 			args: ScaffoldArgs{
 				TemplateGitHubRepo: "custom/repo",
-				Name:               "test-stackpack",
-				TemplateName:       "generic",
+				Name:               testStackPackName,
+				TemplateName:       defaultTemplateName,
 			},
 			expected: "github-custom",
 		},
@@ -540,7 +549,7 @@ func TestDisplayNextSteps(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	args := &ScaffoldArgs{
 		DestinationDir: "/path/to/destination",
-		Name:           "test-stackpack",
+		Name:           testStackPackName,
 	}
 
 	displayNextSteps(&cli.Deps, args)
@@ -591,11 +600,11 @@ display_name: <<.DisplayName>>
 		{
 			name: "with display-name flag provided",
 			args: []string{
-				"--name", "my-stackpack",
+				nameFlagArg, testMyStackpack,
 				"--display-name", "My Awesome StackPack",
-				"--template-local-dir", templateDir,
-				"--template-name", "custom-template",
-				"--destination-dir", destDir,
+				templateLocalDirFlagArg, templateDir,
+				templateNameFlagArg, "custom-template",
+				destinationDirFlagArg, destDir,
 			},
 			expectedDisplayName: "My Awesome StackPack",
 			description:         "Should use provided display name",
@@ -603,10 +612,10 @@ display_name: <<.DisplayName>>
 		{
 			name: "without display-name flag - should fallback to name",
 			args: []string{
-				"--name", "my-stackpack-fallback",
-				"--template-local-dir", templateDir,
-				"--template-name", "custom-template",
-				"--destination-dir", destDir,
+				nameFlagArg, "my-stackpack-fallback",
+				templateLocalDirFlagArg, templateDir,
+				templateNameFlagArg, "custom-template",
+				destinationDirFlagArg, destDir,
 			},
 			expectedDisplayName: "my-stackpack-fallback",
 			description:         "Should fallback to name when display-name not provided",
@@ -656,7 +665,7 @@ func TestValidateStackpackName(t *testing.T) {
 		},
 		{
 			name:      "valid name with hyphens",
-			stackName: "my-stackpack",
+			stackName: testMyStackpack,
 			wantErr:   false,
 		},
 		{
@@ -674,83 +683,83 @@ func TestValidateStackpackName(t *testing.T) {
 			name:        "invalid starts with digit",
 			stackName:   "1-stackpack",
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		{
 			name:        "invalid starts with number",
 			stackName:   "2app",
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		// Invalid names - starts with hyphen
 		{
 			name:        "invalid starts with hyphen",
 			stackName:   "-stackpack",
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		// Invalid names - uppercase letters
 		{
 			name:        "invalid uppercase first letter",
 			stackName:   "My-Stackpack",
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		{
 			name:        "invalid camelCase",
 			stackName:   "myApp",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name:        "invalid all uppercase",
 			stackName:   "APP",
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		// Invalid names - spaces
 		{
 			name:        "invalid with spaces",
 			stackName:   "my stackpack",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name:        "invalid app name with space",
 			stackName:   "app name",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		// Invalid names - special characters
 		{
 			name:        "invalid underscore",
 			stackName:   "my_stackpack",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name:        "invalid at symbol",
 			stackName:   "app@domain",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name:        "invalid dot",
 			stackName:   "stack.pack",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name:        "invalid slash",
 			stackName:   "my/app",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name:        "invalid colon",
 			stackName:   "app:v1",
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 	}
 
@@ -778,7 +787,7 @@ func TestStackpackScaffoldCommand_NameValidation(t *testing.T) {
 
 	// Create a mock template structure
 	templateDir := filepath.Join(tempDir, "templates")
-	genericTemplateDir := filepath.Join(templateDir, "generic")
+	genericTemplateDir := filepath.Join(templateDir, defaultTemplateName)
 	err = os.MkdirAll(genericTemplateDir, 0755)
 	require.NoError(t, err)
 
@@ -801,51 +810,51 @@ func TestStackpackScaffoldCommand_NameValidation(t *testing.T) {
 		{
 			name: "valid name passes validation",
 			args: []string{
-				"--name", "my-stackpack",
-				"--template-local-dir", templateDir,
-				"--destination-dir", destDir,
+				nameFlagArg, testMyStackpack,
+				templateLocalDirFlagArg, templateDir,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr: false,
 		},
 		{
 			name: "invalid name with uppercase fails",
 			args: []string{
-				"--name", "My-Stackpack",
-				"--template-local-dir", templateDir,
-				"--destination-dir", destDir,
+				nameFlagArg, "My-Stackpack",
+				templateLocalDirFlagArg, templateDir,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		{
 			name: "invalid name with spaces fails",
 			args: []string{
-				"--name", "my stackpack",
-				"--template-local-dir", templateDir,
-				"--destination-dir", destDir,
+				nameFlagArg, "my stackpack",
+				templateLocalDirFlagArg, templateDir,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 		{
 			name: "invalid name starting with number fails",
 			args: []string{
-				"--name", "1-app",
-				"--template-local-dir", templateDir,
-				"--destination-dir", destDir,
+				nameFlagArg, "1-app",
+				templateLocalDirFlagArg, templateDir,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr:     true,
-			errorSubstr: "must start with a lowercase letter [a-z]",
+			errorSubstr: invalidNamePrefixError,
 		},
 		{
 			name: "invalid name with underscore fails",
 			args: []string{
-				"--name", "my_app",
-				"--template-local-dir", templateDir,
-				"--destination-dir", destDir,
+				nameFlagArg, "my_app",
+				templateLocalDirFlagArg, templateDir,
+				destinationDirFlagArg, destDir,
 			},
 			wantErr:     true,
-			errorSubstr: "lowercase letters, digits, and hyphens",
+			errorSubstr: invalidNameCharactersError,
 		},
 	}
 

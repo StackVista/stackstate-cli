@@ -11,6 +11,11 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
+const (
+	metricsKey = "metrics"
+	errorsKey  = "errors"
+)
+
 type StatusArgs struct {
 	Urn       string
 	SubStream string
@@ -105,8 +110,8 @@ func RunStreamStatus(cli *di.Deps, api *stackstate_api.APIClient, args *StatusAr
 	if cli.IsJson() {
 		json := map[string]interface{}{
 			"consistency-model": status.ConsistencyModel,
-			"metrics":           streamMetricsToJson(status.AggregateMetrics),
-			"errors":            streamErrorsToJson(status.GlobalErrors),
+			metricsKey:          streamMetricsToJson(status.AggregateMetrics),
+			errorsKey:           streamErrorsToJson(status.GlobalErrors),
 		}
 		if status.HasMainStreamStatus() {
 			json["main-stream"] = subStreamStatusToJson(*status.MainStreamStatus)
@@ -148,7 +153,7 @@ func streamMetricsToTable(metrics stackstate_api.HealthStreamMetrics) printer.Ta
 			printer.MetricBucketToRow("updates per seconds", metrics.UpdatesPerSecond),
 			printer.MetricBucketToRow("deletes per seconds", metrics.DeletesPerSecond),
 		},
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "metrics"},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: metricsKey},
 	}
 }
 
@@ -174,7 +179,7 @@ func streamErrorsToTable(errors []stackstate_api.HealthStreamError) printer.Tabl
 	return printer.TableData{
 		Header:              []string{"Message", "Count"},
 		Data:                data,
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "errors"},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: errorsKey},
 	}
 }
 
@@ -233,7 +238,7 @@ func streamConsistencyStateToTable(state stackstate_api.HealthSubStreamConsisten
 		Data: [][]interface{}{
 			{repeatInterval, expiryInterval, snapshotRepeatInterval, snapshotExpiryInterval, checkpointOffset, checkpointBatchIndex},
 		},
-		MissingTableDataMsg: printer.NotFoundMsg{Types: "errors"},
+		MissingTableDataMsg: printer.NotFoundMsg{Types: errorsKey},
 	}
 }
 
@@ -251,8 +256,8 @@ func subStreamStatusToJson(status stackstate_api.HealthSubStreamStatus) map[stri
 	return map[string]interface{}{
 		"check-state-count": status.CheckStateCount,
 		"consistency-state": streamConsistencyStateToJson(status.SubStreamState),
-		"metrics":           streamMetricsToJson(status.Metrics),
-		"errors":            streamErrorsToJson(status.Errors),
+		metricsKey:          streamMetricsToJson(status.Metrics),
+		errorsKey:           streamErrorsToJson(status.Errors),
 	}
 }
 

@@ -11,6 +11,16 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/printer"
 )
 
+const (
+	statusColumn = "Status"
+)
+
+const (
+	nameKey       = "Name"
+	nodesKey      = "nodes"
+	identifierKey = "Identifier"
+)
+
 type ApplyArgs struct {
 	File string
 }
@@ -45,7 +55,7 @@ func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"nodes": nodes,
+				nodesKey: nodes,
 			})
 		} else {
 			if len(nodes) == 0 {
@@ -61,7 +71,7 @@ func RunMonitorApplyCommand(args *ApplyArgs) di.CmdWithApiFn {
 			cli.Printer.Success(fmt.Sprintf("Applied <bold>%d</> monitor(s).", len(nodes)))
 			if len(nodes) > 0 {
 				cli.Printer.Table(printer.TableData{
-					Header: []string{"Type", "Id", "Status", "Identifier", "Name"},
+					Header: []string{"Type", "Id", statusColumn, identifierKey, nameKey},
 					Data:   tableData,
 				})
 			}

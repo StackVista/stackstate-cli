@@ -9,6 +9,10 @@ import (
 )
 
 const (
+	testLocalURL              = "http://localhost:8080"
+	testAPIToken              = "foo"
+	testOtherURL              = "http://other:8080"
+	malformedCertificateError = "x509: malformed certificate"
 	//nolint:lll
 	selfSignedBase64Cert = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUNKekNDQWRHZ0F3SUJBZ0lVVi9hSmoxZkVjQ2dOVTJGYWZZMHVSTHF5N21Bd0RRWUpLb1pJaHZjTkFRRUwKQlFBd0tURW5NQ1VHQTFVRUF3d2VkbWxzYVdGcmIzWXVjMkZ1WkdKdmVDNXpkR0ZqYTNOMFlYUmxMbWx2TUNBWApEVEkxTURjeU1USXdORFUxTmxvWUR6SXhNalV3TmpJM01qQTBOVFUyV2pBcE1TY3dKUVlEVlFRRERCNTJhV3hwCllXdHZkaTV6WVc1a1ltOTRMbk4wWVdOcmMzUmhkR1V1YVc4d1hEQU5CZ2txaGtpRzl3MEJBUUVGQUFOTEFEQkkKQWtFQW9wUXVPSmZJa0xDV0pLVDcwaGdiSEpwVWtFQitaYTJwOXVBMUlOUktNNEFyN2RjVjltdXhOS09jSloycwpWdCtiK1lTS1c4cnRteE5QUVh1RTJENHRlUUlEQVFBQm80SE9NSUhMTUIwR0ExVWREZ1FXQkJRVTBPTFZRRzEyCndNb0VLSGdxSG1aeVhTelozekFmQmdOVkhTTUVHREFXZ0JRVTBPTFZRRzEyd01vRUtIZ3FIbVp5WFN6WjN6QVAKQmdOVkhSTUJBZjhFQlRBREFRSC9NSGdHQTFVZEVRUnhNRytDSG5acGJHbGhhMjkyTG5OaGJtUmliM2d1YzNSaApZMnR6ZEdGMFpTNXBiNElqYjNSc2NDMTJhV3hwWVd0dmRpNXpZVzVrWW05NExuTjBZV05yYzNSaGRHVXVhVytDCktHOTBiSEF0YUhSMGNDMTJhV3hwWVd0dmRpNXpZVzVrWW05NExuTjBZV05yYzNSaGRHVXVhVzh3RFFZSktvWkkKaHZjTkFRRUxCUUFEUVFBZllBVk1lTVJHbFcrR1prellPeGRIaVhYNEFISHA5SWxvWlBMbUJHNExtdlpDODBoVgpLNGNSVUVHSGtSeGdrMGgwYzl3RDhOZFZSM1FuRTBubjZXUEUKLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo="
 )
@@ -34,14 +38,14 @@ current-context: prod
 	assert.NoError(t, err)
 	assert.Len(t, cfg.Contexts, 2)
 	assert.Equal(t, "prod", cfg.CurrentContext)
-	assert.Equal(t, "http://localhost:8080", cfg.Contexts[0].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
+	assert.Equal(t, testLocalURL, cfg.Contexts[0].Context.URL)
+	assert.Equal(t, testAPIToken, cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
 	assert.Equal(t, "/admin", cfg.Contexts[0].Context.AdminAPIPath)
 	assert.Equal(t, selfSignedBase64Cert, cfg.Contexts[0].Context.CaCertBase64Data)
 	assert.Equal(t, "http://prod:8080", cfg.Contexts[1].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[1].Context.ServiceToken)
+	assert.Equal(t, testAPIToken, cfg.Contexts[1].Context.ServiceToken)
 	assert.Equal(t, "/hidden/api", cfg.Contexts[1].Context.APIPath)
 	assert.Equal(t, "/admin/api", cfg.Contexts[1].Context.AdminAPIPath)
 	assert.Empty(t, cfg.Contexts[1].Context.APIToken)
@@ -75,8 +79,8 @@ api-token: foo
 	assert.NoError(t, err)
 	assert.Len(t, cfg.Contexts, 1)
 	assert.Equal(t, "default", cfg.CurrentContext)
-	assert.Equal(t, "http://localhost:8080", cfg.Contexts[0].Context.URL)
-	assert.Equal(t, "foo", cfg.Contexts[0].Context.APIToken)
+	assert.Equal(t, testLocalURL, cfg.Contexts[0].Context.URL)
+	assert.Equal(t, testAPIToken, cfg.Contexts[0].Context.APIToken)
 	assert.Empty(t, cfg.Contexts[0].Context.ServiceToken)
 	assert.Equal(t, "/api", cfg.Contexts[0].Context.APIPath)
 	assert.Equal(t, "/admin", cfg.Contexts[0].Context.AdminAPIPath)
@@ -186,45 +190,45 @@ current-context: default
 
 func TestMergeWithNoTokenOverride(t *testing.T) {
 	c := &StsContext{
-		URL: "http://localhost:8080",
+		URL: testLocalURL,
 	}
 	f := &StsContext{
-		URL:      "http://other:8080",
-		APIToken: "foo",
+		URL:      testOtherURL,
+		APIToken: testAPIToken,
 	}
 
 	n := c.Merge(f)
-	assert.Equal(t, "http://localhost:8080", n.URL)
-	assert.Equal(t, "foo", n.APIToken)
+	assert.Equal(t, testLocalURL, n.URL)
+	assert.Equal(t, testAPIToken, n.APIToken)
 }
 
 func TestMergeWithSameTokenOverride(t *testing.T) {
 	c := &StsContext{
-		URL:      "http://localhost:8080",
+		URL:      testLocalURL,
 		APIToken: "bar",
 	}
 	f := &StsContext{
-		URL:      "http://other:8080",
-		APIToken: "foo",
+		URL:      testOtherURL,
+		APIToken: testAPIToken,
 	}
 
 	n := c.Merge(f)
-	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, testLocalURL, n.URL)
 	assert.Equal(t, "bar", n.APIToken)
 }
 
 func TestMergeWithOtherTokenOverride(t *testing.T) {
 	c := &StsContext{
-		URL:          "http://localhost:8080",
+		URL:          testLocalURL,
 		ServiceToken: "bar",
 	}
 	f := &StsContext{
-		URL:      "http://other:8080",
-		APIToken: "foo",
+		URL:      testOtherURL,
+		APIToken: testAPIToken,
 	}
 
 	n := c.Merge(f)
-	assert.Equal(t, "http://localhost:8080", n.URL)
+	assert.Equal(t, testLocalURL, n.URL)
 	assert.Equal(t, "bar", n.ServiceToken)
 	assert.Equal(t, "", n.APIToken)
 }
@@ -272,13 +276,13 @@ invalid-cert-data
 			name:        "empty certificate data",
 			certData:    []byte{},
 			expectError: true,
-			errorMsg:    "x509: malformed certificate",
+			errorMsg:    malformedCertificateError,
 		},
 		{
 			name:        "nil certificate data",
 			certData:    nil,
 			expectError: true,
-			errorMsg:    "x509: malformed certificate",
+			errorMsg:    malformedCertificateError,
 		},
 		{
 			name:        "invalid PEM block type",
@@ -290,13 +294,13 @@ invalid-cert-data
 			name:        "invalid PEM certificate data",
 			certData:    invalidPEMData,
 			expectError: true,
-			errorMsg:    "x509: malformed certificate",
+			errorMsg:    malformedCertificateError,
 		},
 		{
 			name:        "plain text data",
 			certData:    []byte("not a certificate"),
 			expectError: true,
-			errorMsg:    "x509: malformed certificate",
+			errorMsg:    malformedCertificateError,
 		},
 	}
 

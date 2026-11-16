@@ -18,8 +18,8 @@ func TestServiceTokenList(t *testing.T) {
 			Id:   int64p(1),
 			Name: "test",
 			Roles: []string{
-				"test-role",
-				"another-role",
+				testRole,
+				testAnotherRole,
 			},
 			Expiration: int64p(1590105600000),
 		},
@@ -27,7 +27,7 @@ func TestServiceTokenList(t *testing.T) {
 			Id:   int64p(2),
 			Name: "test2",
 			Roles: []string{
-				"test-role",
+				testRole,
 			},
 			Expiration: nil,
 		},
@@ -39,8 +39,8 @@ func TestServiceTokenList(t *testing.T) {
 		{
 			Header: []string{"id", "name", "expiration", "roles", "dedicated_Subject"},
 			Data: [][]interface{}{
-				{int64(1), "test", "2020-05-22", []string{"test-role", "another-role"}, (*string)(nil)},
-				{int64(2), "test2", "", []string{"test-role"}, (*string)(nil)},
+				{int64(1), "test", "2020-05-22", []string{testRole, testAnotherRole}, (*string)(nil)},
+				{int64(2), "test2", "", []string{testRole}, (*string)(nil)},
 			},
 			MissingTableDataMsg: printer.NotFoundMsg{Types: "service tokens"},
 		},

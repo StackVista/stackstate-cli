@@ -8,6 +8,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testFoo      = "foo"
+	testBar      = "bar"
+	testGreeting = "hello world"
+	testDecimal  = "3.14"
+)
+
 func TestUcFirst(t *testing.T) {
 	assert.Equal(t, UcFirst(""), "")
 	assert.Equal(t, UcFirst("test"), "Test")
@@ -15,7 +22,7 @@ func TestUcFirst(t *testing.T) {
 }
 
 func TestUniqueString(t *testing.T) {
-	assert.Equal(t, []string{"foo", "bar"}, UniqueStrings([]string{"foo", "bar", "foo", "bar"}))
+	assert.Equal(t, []string{testFoo, testBar}, UniqueStrings([]string{testFoo, testBar, testFoo, testBar}))
 }
 
 func TestToString(t *testing.T) {
@@ -35,7 +42,7 @@ func TestToString(t *testing.T) {
 	f32 := float32(3.14)
 	f64 := float32(3.14)
 	unixEpoch := time.UnixMilli(0).In(time.UTC)
-	str := "hello world"
+	str := testGreeting
 	EST, err := time.LoadLocation("EST")
 	if err != nil {
 		t.Fatal(err)
@@ -61,11 +68,11 @@ func TestToString(t *testing.T) {
 		"pint64":        {input: &i64, expected: "-42"},
 		"uint64":        {input: uint64(42), expected: "42"},
 		"puint64":       {input: &ui64, expected: "42"},
-		"float32":       {input: float32(3.14), expected: "3.14"},
-		"pfloat32":      {input: &f32, expected: "3.14"},
+		"float32":       {input: float32(3.14), expected: testDecimal},
+		"pfloat32":      {input: &f32, expected: testDecimal},
 		"float32 round": {input: float32(3), expected: "3"},
-		"float64":       {input: float64(3.14), expected: "3.14"},
-		"pfloat64":      {input: &f64, expected: "3.14"},
+		"float64":       {input: float64(3.14), expected: testDecimal},
+		"pfloat64":      {input: &f64, expected: testDecimal},
 		"float64 round": {input: float64(3), expected: "3"},
 		"float64 round large no scientific notation": {
 			input: float64(107915343054010.0), expected: "107915343054010",
@@ -81,8 +88,8 @@ func TestToString(t *testing.T) {
 		"map nil":           {input: mapnil, expected: "-"},
 		"str nil":           {input: strnil, expected: "-"},
 		"slice nil":         {input: slicenil, expected: "-"},
-		"string":            {input: "hello world", expected: "hello world"},
-		"pstring":           {input: &str, expected: "hello world"},
+		"string":            {input: testGreeting, expected: testGreeting},
+		"pstring":           {input: &str, expected: testGreeting},
 	}
 
 	for name, tc := range tests {

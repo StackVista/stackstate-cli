@@ -68,12 +68,12 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "-n", testName)
 	expectedTableCall := []printer.TableData{
 		{
-			Header: []string{"id", "status", "version", "last updated"},
+			Header: []string{"id", statusKey, versionKey, lastUpdatedColumn},
 			Data: [][]interface{}{
 				{&id, statusInstalled, testVersion, expectedUpdateTimeLi},
 				{&id, statusInstalled, testVersion, beforeUpdateTimeLi},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "installed StackPack instances"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: installedInstancesTitle},
 		},
 	}
 	assert.Equal(t, expectedTableCall, *cli.MockPrinter.TableCalls)
@@ -81,7 +81,7 @@ func TestStackpackListInstancePrintToTable(t *testing.T) {
 
 func TestStackpackListInstancePrintToJson(t *testing.T) {
 	cli, cmd := setupStackpackListInstanceFn(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", "--name", testName, "-o", "json")
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "list-instances", nameFlagArg, testName, "-o", "json")
 	expectedJsonCalls := []map[string]interface{}{{
 		"instances": []stackstate_api.StackPackConfiguration{
 			{

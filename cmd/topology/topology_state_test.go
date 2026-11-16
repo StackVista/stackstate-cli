@@ -10,6 +10,12 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testType        = "type"
+	testState       = "state"
+	testHealthState = "healthState"
+)
+
 func setStateCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := StateCommand(&cli.Deps)
@@ -31,10 +37,10 @@ func TestTopologyStateJson(t *testing.T) {
 	assert.Len(t, jsonCalls, 1)
 
 	jsonData := jsonCalls[0]
-	assert.NotNil(t, jsonData["components"])
+	assert.NotNil(t, jsonData[componentsKey])
 
 	// Check the component has the health state
-	components := jsonData["components"].([]ComponentState)
+	components := jsonData[componentsKey].([]ComponentState)
 	assert.Len(t, components, 1)
 	assert.Equal(t, "CRITICAL", components[0].HealthState)
 }
@@ -54,7 +60,7 @@ func TestTopologyStateTable(t *testing.T) {
 	assert.Len(t, tableCalls, 1)
 
 	table := tableCalls[0]
-	assert.Equal(t, []string{"Name", "Type", "Health State", "Identifiers"}, table.Header)
+	assert.Equal(t, []string{testName, typeColumn, "Health State", identifiersColumn}, table.Header)
 	assert.Len(t, table.Data, 1)
 
 	row := table.Data[0]
@@ -105,14 +111,14 @@ func TestTopologyStateWithIdentifiers(t *testing.T) {
 func TestTopologyStateNoResults(t *testing.T) {
 	cli, cmd := setStateCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type":      "ViewSnapshot",
-			"components": []interface{}{},
-			"metadata": map[string]interface{}{
-				"componentTypes": []interface{}{},
-				"layers":         []interface{}{},
-				"domains":        []interface{}{},
+			testTypeKey:   viewSnapshotType,
+			componentsKey: []interface{}{},
+			testMetadata: map[string]interface{}{
+				testComponentTypes: []interface{}{},
+				"layers":           []interface{}{},
+				"domains":          []interface{}{},
 			},
 		},
 	}
@@ -124,32 +130,32 @@ func TestTopologyStateNoResults(t *testing.T) {
 	assert.Len(t, tableCalls, 1)
 
 	table := tableCalls[0]
-	assert.Equal(t, []string{"Name", "Type", "Health State", "Identifiers"}, table.Header)
+	assert.Equal(t, []string{testName, typeColumn, "Health State", identifiersColumn}, table.Header)
 	assert.Len(t, table.Data, 0)
-	assert.Equal(t, printer.NotFoundMsg{Types: "components"}, table.MissingTableDataMsg)
+	assert.Equal(t, printer.NotFoundMsg{Types: componentsKey}, table.MissingTableDataMsg)
 }
 
 func TestTopologyStateDefaultsToUnknown(t *testing.T) {
 	cli, cmd := setStateCmd(t)
 	// Response without state field
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type": "ViewSnapshot",
-			"components": []interface{}{
+			testTypeKey: viewSnapshotType,
+			componentsKey: []interface{}{
 				map[string]interface{}{
-					"id":          float64(229404307680647),
-					"name":        "test-component",
-					"type":        float64(239975151751041),
-					"identifiers": []interface{}{"urn:test:component:1"},
+					"id":            float64(229404307680647),
+					nameKey:         "test-component",
+					testType:        float64(239975151751041),
+					testIdentifiers: []interface{}{"urn:test:component:1"},
 					// No state field
 				},
 			},
-			"metadata": map[string]interface{}{
-				"componentTypes": []interface{}{
+			testMetadata: map[string]interface{}{
+				testComponentTypes: []interface{}{
 					map[string]interface{}{
-						"id":   float64(239975151751041),
-						"name": "test type",
+						"id":    float64(239975151751041),
+						nameKey: "test type",
 					},
 				},
 			},
@@ -169,43 +175,43 @@ func TestTopologyStateDefaultsToUnknown(t *testing.T) {
 func TestTopologyStateLimit(t *testing.T) {
 	cli, cmd := setStateCmd(t)
 	cli.MockClient.ApiMocks.SnapshotApi.QuerySnapshotResponse.Result = sts.QuerySnapshotResult{
-		Type: "QuerySnapshotResult",
+		Type: querySnapshotResultType,
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type": "ViewSnapshot",
-			"components": []interface{}{
+			testTypeKey: viewSnapshotType,
+			componentsKey: []interface{}{
 				map[string]interface{}{
-					"id":          float64(1),
-					"name":        "component-1",
-					"type":        float64(239975151751041),
-					"identifiers": []interface{}{"urn:test:1"},
-					"state": map[string]interface{}{
-						"healthState": "CLEAR",
+					"id":            float64(1),
+					nameKey:         "component-1",
+					testType:        float64(239975151751041),
+					testIdentifiers: []interface{}{"urn:test:1"},
+					testState: map[string]interface{}{
+						testHealthState: "CLEAR",
 					},
 				},
 				map[string]interface{}{
-					"id":          float64(2),
-					"name":        "component-2",
-					"type":        float64(239975151751041),
-					"identifiers": []interface{}{"urn:test:2"},
-					"state": map[string]interface{}{
-						"healthState": "CRITICAL",
+					"id":            float64(2),
+					nameKey:         "component-2",
+					testType:        float64(239975151751041),
+					testIdentifiers: []interface{}{"urn:test:2"},
+					testState: map[string]interface{}{
+						testHealthState: "CRITICAL",
 					},
 				},
 				map[string]interface{}{
-					"id":          float64(3),
-					"name":        "component-3",
-					"type":        float64(239975151751041),
-					"identifiers": []interface{}{"urn:test:3"},
-					"state": map[string]interface{}{
-						"healthState": "DEVIATING",
+					"id":            float64(3),
+					nameKey:         "component-3",
+					testType:        float64(239975151751041),
+					testIdentifiers: []interface{}{"urn:test:3"},
+					testState: map[string]interface{}{
+						testHealthState: "DEVIATING",
 					},
 				},
 			},
-			"metadata": map[string]interface{}{
-				"componentTypes": []interface{}{
+			testMetadata: map[string]interface{}{
+				testComponentTypes: []interface{}{
 					map[string]interface{}{
-						"id":   float64(239975151751041),
-						"name": "test type",
+						"id":    float64(239975151751041),
+						nameKey: "test type",
 					},
 				},
 			},

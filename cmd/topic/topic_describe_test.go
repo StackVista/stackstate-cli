@@ -12,6 +12,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	messagesKey = "messages"
+)
+
 var (
 	MessageContents     = map[string]interface{}{"test": "value"}
 	MessageContentsJson = "{\"test\":\"value\"}"
@@ -61,7 +65,7 @@ func TestTopicDescribeJson(t *testing.T) {
 
 	expectedJson := []map[string]interface{}{
 		{
-			"messages": Part0MessagesList,
+			messagesKey: Part0MessagesList,
 		},
 	}
 
@@ -86,7 +90,7 @@ func TestTopicDescribeTable(t *testing.T) {
 				{Message2.Key, Message2.Partition, Message2.Offset, MessageContentsJson},
 				{Message3.Key, Message3.Partition, Message3.Offset, MessageContentsJson},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "messages"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: messagesKey},
 		},
 	}
 
@@ -114,7 +118,7 @@ func TestTopicDescribeTableSorting(t *testing.T) {
 				{Message4.Key, Message4.Partition, Message4.Offset, MessageContentsJson},
 				{Message5.Key, Message5.Partition, Message5.Offset, MessageContentsJson},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "messages"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: messagesKey},
 		},
 	}
 
@@ -225,7 +229,7 @@ func TestTopicDescribeMoreThanAvailable(t *testing.T) {
 
 	expectedJson := []map[string]interface{}{
 		{
-			"messages": AllMessagesListSorted,
+			messagesKey: AllMessagesListSorted,
 		},
 	}
 

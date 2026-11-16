@@ -33,12 +33,12 @@ func TestTopologySyncListTable(t *testing.T) {
 		{
 			Header: []string{"Id", "Name", "Identifier", "Status", "Components", "Relations", "Errors"},
 			Data: [][]interface{}{
-				{Topo1.NodeId, Topo1.Name, "-", Topo1.Status, "+0       -0", "+0       -0", int64(0)},
+				{Topo1.NodeId, Topo1.Name, "-", Topo1.Status, testNoChanges, testNoChanges, int64(0)},
 				{Topo2.NodeId, Topo2.Name, "-", Topo2.Status, "+23      -5", "+23      -5", int64(0)},
 				{Topo3.NodeId, Topo3.Name, "-", Topo3.Status, "+23   -12345", "+12345   -23", int64(1)},
 				{Topo4.NodeId, Topo4.Name, "-", Topo4.Status, "+12345 -12345", "+12345 -12345", int64(23)},
 			},
-			MissingTableDataMsg: printer.NotFoundMsg{Types: "synchronizations"},
+			MissingTableDataMsg: printer.NotFoundMsg{Types: testSynchronizations},
 		},
 	}
 
@@ -54,7 +54,7 @@ func TestTopologySyncListJson(t *testing.T) {
 
 	expected := []map[string]interface{}{
 		{
-			"synchronizations": AllTopos,
+			testSynchronizations: AllTopos,
 		},
 	}
 

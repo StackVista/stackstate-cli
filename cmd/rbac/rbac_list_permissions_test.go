@@ -9,9 +9,9 @@ import (
 )
 
 var SomePermissions = []string{
-	"foo",
-	"bar",
-	"baz",
+	testFoo,
+	testBar,
+	testBaz,
 }
 
 func TestPermissionsList(t *testing.T) {
@@ -32,7 +32,7 @@ func TestPermissionsList(t *testing.T) {
 
 	expected := []map[string]interface{}{
 		{
-			"permissions": SomePermissions,
+			permissionsKey: SomePermissions,
 		},
 	}
 

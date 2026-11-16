@@ -66,7 +66,7 @@ func RunStackpackListCommand(args *ListArgs) di.CmdWithApiFn {
 			})
 		} else {
 			cli.Printer.Table(printer.TableData{
-				Header:              []string{"name", "display name", "installed version", "next version", "latest version", "instance count"},
+				Header:              []string{NameFlag, displayNameColumn, "installed version", "next version", "latest version", "instance count"},
 				Data:                data,
 				MissingTableDataMsg: printer.NotFoundMsg{Types: "StackPacks"},
 			})

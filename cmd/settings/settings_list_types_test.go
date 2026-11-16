@@ -10,13 +10,18 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+const (
+	testWorld = "world"
+	testHello = "hello"
+)
+
 func setupSettingListTypesCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 	cli := di.NewMockDeps(t)
 	cmd := SettingsListTypesCommand(&cli.Deps)
 	nodeApiResult := sts.NodeTypes{
 		NodeTypes: []sts.NodeTypesNodeTypesInner{
-			{TypeName: "world", Description: "hello"},
-			{TypeName: "hello", Description: "world"},
+			{TypeName: testWorld, Description: testHello},
+			{TypeName: testHello, Description: testWorld},
 		},
 	}
 	cli.MockClient.ApiMocks.NodeApi.NodeListTypesResponse.Result = nodeApiResult
@@ -30,7 +35,7 @@ func TestListTypesPrintsToTable(t *testing.T) {
 
 	expectedTableCall := []printer.TableData{{
 		Header:              []string{"name", "description"},
-		Data:                [][]interface{}{{"hello", "world"}, {"world", "hello"}},
+		Data:                [][]interface{}{{testHello, testWorld}, {testWorld, testHello}},
 		MissingTableDataMsg: printer.NotFoundMsg{Types: "setting types"},
 	}}
 
@@ -44,8 +49,8 @@ func TestListTypesPrintsToJson(t *testing.T) {
 
 	ordered := sts.NodeTypes{
 		NodeTypes: []sts.NodeTypesNodeTypesInner{
-			{TypeName: "hello", Description: "world"},
-			{TypeName: "world", Description: "hello"},
+			{TypeName: testHello, Description: testWorld},
+			{TypeName: testWorld, Description: testHello},
 		},
 	}
 

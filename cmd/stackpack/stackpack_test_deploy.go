@@ -147,7 +147,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			}
 		}()
 
-		tempStackpackDir := filepath.Join(tempDir, "stackpack")
+		tempStackpackDir := filepath.Join(tempDir, stackpackKey)
 		if err := copyDirectory(args.StackpackDir, tempStackpackDir); err != nil {
 			return common.NewRuntimeError(fmt.Errorf("failed to copy stackpack to temporary directory: %w", err))
 		}
@@ -205,7 +205,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		if installedVersion != "" {
 			upgradeArgs := &UpgradeArgs{
 				TypeName:         originalInfo.Name,
-				UnlockedStrategy: "fail",
+				UnlockedStrategy: failKey,
 				Wait:             true,
 				Timeout:          DefaultTimeout,
 			}
@@ -217,7 +217,7 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 		} else {
 			installArgs := &InstallArgs{
 				Name:             originalInfo.Name,
-				UnlockedStrategy: "fail",
+				UnlockedStrategy: failKey,
 				Params:           args.Params,
 				Wait:             true,
 				Timeout:          DefaultTimeout,
@@ -237,8 +237,8 @@ func RunStackpackTestDeployCommand(args *TestDeployArgs) di.CmdWithApiFn {
 			printMsg(cli, fmt.Sprintf("Note: Could not clean up .sts file %s: %v", packageArgs.ArchiveFile, err))
 		} else if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"stackpack": originalInfo.Name,
-				"version":   newVersion,
+				stackpackKey: originalInfo.Name,
+				versionKey:   newVersion,
 			})
 		}
 

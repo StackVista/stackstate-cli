@@ -48,7 +48,7 @@ func RunMonitorDisableCommand(args *IdArgs, status *sts.MonitorStatusValue) di.C
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"monitor": monitorPatchResult,
+				monitorKey: monitorPatchResult,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("Monitor %s has been disabled", identifier))

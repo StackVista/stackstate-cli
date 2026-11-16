@@ -32,7 +32,7 @@ func TestValidationToJson(t *testing.T) {
 	di.ExecuteCommandWithContextUnsafe(
 		&cli.Deps,
 		cmd,
-		"--url",
+		urlFlagArg,
 		"https://test.stackstate.io/",
 		"--api-token",
 		"blaat",

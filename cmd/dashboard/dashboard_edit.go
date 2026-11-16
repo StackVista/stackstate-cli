@@ -99,7 +99,7 @@ func RunDashboardEditCommand(args *EditArgs) di.CmdWithApiFn {
 				patchSchema.SetScope(*scope)
 			}
 		}
-		if dashboardContent, ok := editedDashboard["dashboard"]; ok {
+		if dashboardContent, ok := editedDashboard[dashboardKey]; ok {
 			// Convert dashboard content to PersesDashboard
 			dashboardBytes, err := json.Marshal(dashboardContent)
 			if err == nil {
@@ -118,7 +118,7 @@ func RunDashboardEditCommand(args *EditArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"dashboard": updatedDashboard,
+				dashboardKey: updatedDashboard,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("Dashboard updated successfully! ID: %d, Name: %s", updatedDashboard.GetId(), updatedDashboard.GetName()))

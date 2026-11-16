@@ -31,7 +31,7 @@ func RunListPermissionsCommand(cmd *cobra.Command, cli *di.Deps, api *stackstate
 
 	if cli.IsJson() {
 		cli.Printer.PrintJson(map[string]interface{}{
-			"permissions": permissions.Permissions,
+			permissionsKey: permissions.Permissions,
 		})
 	} else {
 		cli.Printer.Successf("Available permissions: %s", strings.Join(permissions.Permissions, ", "))

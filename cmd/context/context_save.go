@@ -12,7 +12,8 @@ import (
 )
 
 const (
-	APIPathFlag = "api-path"
+	currentContextKey = "current-context"
+	APIPathFlag       = "api-path"
 )
 
 type SaveArgs struct {
@@ -112,7 +113,7 @@ func RunContextSaveCommand(args *SaveArgs) func(cli *di.Deps, cmd *cobra.Command
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"current-context": cfg.CurrentContext,
+				currentContextKey: cfg.CurrentContext,
 				"context":         namedCtx.Context,
 			})
 		} else {

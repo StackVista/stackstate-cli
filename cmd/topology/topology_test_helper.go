@@ -9,11 +9,11 @@ func mockSnapshotResponse() sts.QuerySnapshotResult {
 	return sts.QuerySnapshotResult{
 		Type: "QuerySnapshotResult",
 		ViewSnapshotResponse: map[string]interface{}{
-			"_type": "ViewSnapshot",
-			"components": []interface{}{
+			"_type": viewSnapshotType,
+			componentsKey: []interface{}{
 				map[string]interface{}{
 					"id":               float64(229404307680647),
-					"name":             "test-component",
+					nameKey:            "test-component",
 					"typeIdentifier":   "urn:test:component-type:test",
 					"layerIdentifier":  "urn:test:layer:test",
 					"domainIdentifier": "urn:test:domain:test",
@@ -27,20 +27,20 @@ func mockSnapshotResponse() sts.QuerySnapshotResult {
 			"metadata": map[string]interface{}{
 				"componentTypes": []interface{}{
 					map[string]interface{}{
-						"identifier": "urn:test:component-type:test",
-						"name":       "test type",
+						identifierKey: "urn:test:component-type:test",
+						nameKey:       "test type",
 					},
 				},
 				"layers": []interface{}{
 					map[string]interface{}{
-						"identifier": "urn:test:layer:test",
-						"name":       "Test Layer",
+						identifierKey: "urn:test:layer:test",
+						nameKey:       "Test Layer",
 					},
 				},
 				"domains": []interface{}{
 					map[string]interface{}{
-						"identifier": "urn:test:domain:test",
-						"name":       "Test Domain",
+						identifierKey: "urn:test:domain:test",
+						nameKey:       "Test Domain",
 					},
 				},
 			},

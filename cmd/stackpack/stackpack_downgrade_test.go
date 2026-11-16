@@ -22,13 +22,13 @@ func setupStackPackDowngradeCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
 
 func TestStackpackDowngradePrintToTable(t *testing.T) {
 	cli, cmd := setupStackPackDowngradeCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "downgrade", "--name", "zabbix",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "downgrade", nameFlagArg, testZabbix,
 		"--stackpack-version", downgradeVersion,
 	)
 
 	assert.Equal(t,
 		[]stackstate_api.DowngradeStackPackCall{{
-			PstackPackName: "zabbix",
+			PstackPackName: testZabbix,
 			Pversion:       &downgradeVersion,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.DowngradeStackPackCalls)
@@ -38,19 +38,19 @@ func TestStackpackDowngradePrintToTable(t *testing.T) {
 
 func TestStackpackDowngradePrintToJson(t *testing.T) {
 	cli, cmd := setupStackPackDowngradeCmd(t)
-	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "downgrade", "--name", "zabbix",
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "downgrade", nameFlagArg, testZabbix,
 		"--stackpack-version", downgradeVersion, "-o", "json",
 	)
 
 	assert.Equal(t,
 		[]stackstate_api.DowngradeStackPackCall{{
-			PstackPackName: "zabbix",
+			PstackPackName: testZabbix,
 			Pversion:       &downgradeVersion,
 		}},
 		*cli.MockClient.ApiMocks.StackpackApi.DowngradeStackPackCalls)
 
 	expectedJsonCalls := []map[string]interface{}{{
-		"success":        true,
+		successKey:       true,
 		"target-version": downgradeVersion,
 	}}
 	assert.Equal(t, expectedJsonCalls, *cli.MockPrinter.PrintJsonCalls)
@@ -60,7 +60,7 @@ func TestStackpackDowngradeRequiresVersion(t *testing.T) {
 	cli := di.NewMockDeps(t)
 	cmd := StackpackDowngradeCommand(&cli.Deps)
 
-	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "downgrade", "--name", "zabbix")
+	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "downgrade", nameFlagArg, testZabbix)
 
 	assert.Error(t, err)
 	assert.Contains(t, err.Error(), "stackpack-version")

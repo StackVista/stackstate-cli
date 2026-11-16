@@ -84,8 +84,8 @@ func RunStackpackValidateCommand(args *ValidateArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"success": true,
-				"result":  result,
+				successKey: true,
+				"result":   result,
 			})
 		} else {
 			cli.Printer.Success("Stackpack validation successful!")

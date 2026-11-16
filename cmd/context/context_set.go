@@ -47,7 +47,7 @@ func RunContextSetCommand(args *SetArgs, cli *di.Deps) func(cli *di.Deps, cmd *c
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"current-context": args.Name,
+				currentContextKey: args.Name,
 			})
 		} else {
 			cli.Printer.PrintLn(fmt.Sprintf("Current context set to %s", args.Name))

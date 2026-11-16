@@ -10,6 +10,10 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 )
 
+const (
+	monitorKey = "monitor"
+)
+
 type CloneArgs struct {
 	IdArgs
 	NewName string
@@ -53,7 +57,7 @@ func RunMonitorCloneCommand(args *CloneArgs) di.CmdWithApiFn {
 
 		if cli.IsJson() {
 			cli.Printer.PrintJson(map[string]interface{}{
-				"monitor": clonedMonitor,
+				monitorKey: clonedMonitor,
 			})
 		} else {
 			cli.Printer.Success(fmt.Sprintf("Monitor %d has been created", clonedMonitor.GetId()))
