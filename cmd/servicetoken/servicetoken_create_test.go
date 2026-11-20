@@ -3,12 +3,15 @@ package servicetoken
 import (
 	"testing"
 
+	"github.com/gookit/color"
+
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestServiceTokenCreate(t *testing.T) {
+	forceColor(t)
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
@@ -25,6 +28,7 @@ func TestServiceTokenCreate(t *testing.T) {
 }
 
 func TestServiceTokenCreateExpirationOptional(t *testing.T) {
+	forceColor(t)
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
@@ -41,6 +45,7 @@ func TestServiceTokenCreateExpirationOptional(t *testing.T) {
 }
 
 func TestServiceTokenCreateMultipleRoles(t *testing.T) {
+	forceColor(t)
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
 
@@ -98,4 +103,28 @@ func checkCreateCall(t *testing.T, calls *[]stackstate_api.CreateNewServiceToken
 	} else {
 		assert.Nil(t, call.PnewServiceTokenRequest.ExpiryDate)
 	}
+}
+
+func TestServiceTokenCreateWithoutColor(t *testing.T) {
+	colorEnabled := color.Disable()
+	t.Cleanup(func() { color.Enable = colorEnabled })
+	cli := di.NewMockDeps(t)
+	cmd := CreateCommand(&cli.Deps)
+	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
+		Name:  "test-token",
+		Token: "test-token-token",
+	}
+	di.ExecuteCommandWithContextUnsafe(&cli.Deps, cmd, "--name", "test-token", "--roles", "test-role")
+	assert.Equal(t, []string{"Service token created: test-token-token\n"}, *cli.MockPrinter.SuccessCalls)
+}
+
+func forceColor(t *testing.T) {
+	t.Helper()
+	colorEnabled := color.Enable
+	colorLevel := color.ForceColor()
+	color.Enable = true
+	t.Cleanup(func() {
+		color.Enable = colorEnabled
+		color.ForceSetColorLevel(colorLevel)
+	})
 }
