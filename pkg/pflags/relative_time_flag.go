@@ -46,8 +46,6 @@ type RelativeTimeValue struct {
 	*time.Time
 }
 
-var _ pflag.DefaultZeroProvider = (*RelativeTimeValue)(nil)
-
 func newRelativeTimeValue(val string, p *time.Time, clock Clock) *RelativeTimeValue {
 	v, err := ParseRelativeTime(clock, val)
 	if err != nil {
@@ -60,10 +58,6 @@ func newRelativeTimeValue(val string, p *time.Time, clock Clock) *RelativeTimeVa
 		Time:  p,
 	}
 	return tv
-}
-
-func (d *RelativeTimeValue) IsDefaultZero(defValue string) bool {
-	return defValue == "" || durationZeroRegex.MatchString(defValue)
 }
 
 func ParseRelativeTime(clock Clock, s string) (time.Time, error) {
@@ -135,12 +129,15 @@ func GetRelativeTime(f *pflag.FlagSet, name string) (time.Time, error) {
 // RelativeTimeVar defines a time.Time flag with specified name, default value, and usage string.
 // The argument p points to a time.Time variable in which to store the value of the flag.
 func RelativeTimeVar(f *pflag.FlagSet, p *time.Time, name string, value string, clock Clock, usage string) {
-	f.Var(newRelativeTimeValue(value, p, clock), name, usage)
+	RelativeTimeVarP(f, p, name, "", value, clock, usage)
 }
 
 // RelativeTimeVarP is like TimeVar, but accepts a shorthand letter that can be used after a single dash.
 func RelativeTimeVarP(f *pflag.FlagSet, p *time.Time, name, shorthand string, value string, clock Clock, usage string) {
 	f.VarP(newRelativeTimeValue(value, p, clock), name, shorthand, usage)
+	if value == "" || durationZeroRegex.MatchString(value) {
+		f.Lookup(name).DefValue = ""
+	}
 }
 
 // RelativeTime defines a time.Time flag with specified name, default value, and usage string.

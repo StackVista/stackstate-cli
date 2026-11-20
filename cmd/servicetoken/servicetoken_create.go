@@ -9,6 +9,7 @@ import (
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/di"
+	"github.com/stackvista/stackstate-cli/pkg/pflags"
 )
 
 const (
@@ -37,7 +38,7 @@ sts service-token create --name my-token --roles stackstate-power-user --expirat
 	}
 
 	common.AddRequiredNameFlagVar(cmd, &args.Name, "Name of the service token")
-	cmd.Flags().TimeVar(&args.Expiration, "expiration", time.Time{}, []string{DateFormat}, "Expiration date of the service token")
+	pflags.TimeVar(cmd.Flags(), &args.Expiration, "expiration", time.Time{}, DateFormat, "Expiration date of the service token")
 	cmd.Flags().StringSliceVar(&args.Roles, "roles", []string{}, "Roles assigned to the service token")
 	cmd.Flags().StringVar(&args.DedicatedSubject, "dedicatedSubject", "", "Subject solely created for usage with this token. The dedicated subject is cleaned after the token is deleted")
 	cmd.MarkFlagRequired("roles") //nolint:errcheck
