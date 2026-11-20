@@ -12,6 +12,7 @@ import (
 	"github.com/stackvista/stackstate-cli/internal/di"
 	"github.com/stackvista/stackstate-cli/internal/printer"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func setupSTSCmd(t *testing.T) (*di.MockDeps, *cobra.Command) {
@@ -81,7 +82,9 @@ func TestSetFlagErrorFuncSetsCLIArgParseError(t *testing.T) {
 	exitCode := execute(cli.Context, &cli.Deps, sts)
 
 	assert.Equal(t, common.CommandFailedRequirementExitCode, exitCode)
-	assert.Equal(t, []error{common.NewCLIArgParseError(fmt.Errorf("unknown flag: --wrongflag"))}, *cli.MockPrinter.PrintErrCalls)
+	require.Len(t, *cli.MockPrinter.PrintErrCalls, 1)
+	assert.IsType(t, common.StdCLIError{}, (*cli.MockPrinter.PrintErrCalls)[0])
+	assert.EqualError(t, (*cli.MockPrinter.PrintErrCalls)[0], "unknown flag: --wrongflag")
 	assert.Contains(t, (*cli.MockPrinter.PrintLnCalls)[0], "Usage:") // show help
 }
 

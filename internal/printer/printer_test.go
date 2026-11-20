@@ -10,6 +10,8 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/jedib0t/go-pretty/v6/text"
+
 	"github.com/stackvista/stackstate-cli/internal/common"
 	"github.com/stackvista/stackstate-cli/internal/util"
 	"github.com/stretchr/testify/assert"
@@ -212,6 +214,13 @@ func TestPrintTableWithoutColor(t *testing.T) {
 }
 
 func TestPrintTableWithColor(t *testing.T) {
+	colorsEnabled := text.Colors{text.FgCyan}.Sprint("test") != "test"
+	text.EnableColors()
+	t.Cleanup(func() {
+		if !colorsEnabled {
+			text.DisableColors()
+		}
+	})
 	p, stdOut, _ := setupPrinter()
 	p.SetUseColor(true)
 	p.Table(TableData{
@@ -234,7 +243,7 @@ func TestPrintTableWrapEqualColumnTreatment(t *testing.T) {
 	})
 
 	//nolint:lll
-	expected := "HELLO  | FOO    | WORLD \n1      | 2      | 3     \nhello  | I've c | Becaus\ndarkne | ome to | e a vi\nss my  |  talk  | sion s\nold fr | to you | oftly \niend   |  again | creepi\n       |        | ng    \n"
+	expected := "HELLO  | FOO    | WORLD \n1      | 2      | 3     \nhello  | I've c | Becaus\ndarkne | ome to | e a vi\nss my  | talk t | sion s\nold fr | o you  | oftly \niend   | again  | creepi\n       |        | ng    \n"
 	assert.Equal(t, expected, stdOut.String())
 }
 
@@ -249,7 +258,7 @@ func TestPrintTableWrapUnequalColumnTreatment(t *testing.T) {
 		},
 	})
 
-	expected := "HELLO | FOO       | WORLD    \nhello | darkness  | Because a\n      | my old fr |  vision s\n      | iend      | oftly cre\n      |           | eping    \n"
+	expected := "HELLO | FOO       | WORLD    \nhello | darkness  | Because a\n      | my old fr | vision so\n      | iend      | ftly cree\n      |           | ping     \n"
 
 	assert.Equal(t, expected, stdOut.String())
 }

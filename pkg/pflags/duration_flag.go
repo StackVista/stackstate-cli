@@ -26,8 +26,6 @@ var (
 	}
 )
 
-var _ pflag.DefaultZeroProvider = (*durationValue)(nil)
-
 // -- time.Duration Value
 type durationValue time.Duration
 
@@ -47,11 +45,6 @@ func (d *durationValue) Type() string {
 }
 
 func (d *durationValue) String() string { return (*time.Duration)(d).String() }
-
-// IsDefaultZero is true if the default is empty, or positive or negative zero
-func (d *durationValue) IsDefaultZero(defValue string) bool {
-	return defValue == "" || durationZeroRegex.MatchString(defValue)
-}
 
 func ParseDuration(strDuration string) (time.Duration, error) {
 	match := durationRegex.FindStringSubmatch(strDuration)
@@ -103,12 +96,15 @@ func GetDuration(f *pflag.FlagSet, name string) (time.Duration, error) {
 // DurationVar defines a time.Duration flag with specified name, default value, and usage string.
 // The argument p points to a time.Duration variable in which to store the value of the flag.
 func DurationVar(f *pflag.FlagSet, p *time.Duration, name string, value time.Duration, usage string) {
-	f.VarP(newDurationValue(value, p), name, "", usage)
+	DurationVarP(f, p, name, "", value, usage)
 }
 
 // DurationVarP is like DurationVar, but accepts a shorthand letter that can be used after a single dash.
 func DurationVarP(f *pflag.FlagSet, p *time.Duration, name, shorthand string, value time.Duration, usage string) {
 	f.VarP(newDurationValue(value, p), name, shorthand, usage)
+	if value == 0 {
+		f.Lookup(name).DefValue = ""
+	}
 }
 
 // Duration defines a time.Duration flag with specified name, default value, and usage string.

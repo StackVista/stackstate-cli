@@ -106,10 +106,10 @@ func checkCreateCall(t *testing.T, calls *[]stackstate_api.CreateNewServiceToken
 }
 
 func TestServiceTokenCreateWithoutColor(t *testing.T) {
-	colorEnabled := color.Disable()
-	t.Cleanup(func() { color.Enable = colorEnabled })
 	cli := di.NewMockDeps(t)
 	cmd := CreateCommand(&cli.Deps)
+	colorEnabled := color.Disable()
+	t.Cleanup(func() { color.Enable = colorEnabled })
 	cli.MockClient.ApiMocks.ServiceTokenApi.CreateNewServiceTokenResponse.Result = stackstate_api.ServiceTokenCreatedResponse{
 		Name:  "test-token",
 		Token: "test-token-token",
