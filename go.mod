@@ -13,7 +13,6 @@ require (
 	github.com/spf13/viper v1.21.0
 	github.com/stretchr/testify v1.12.1
 	golang.org/x/oauth2 v0.38.0
-	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -21,6 +20,7 @@ require (
 	github.com/mattn/go-runewidth v0.0.31
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/spf13/pflag v1.1.0
+	go.yaml.in/yaml/v3 v3.0.6
 	golang.org/x/text v0.44.0
 	k8s.io/kubectl v0.37.2
 )
@@ -103,7 +103,6 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	go.yaml.in/yaml/v2 v2.4.4 // indirect
-	go.yaml.in/yaml/v3 v3.0.5 // indirect
 	golang.org/x/exp v0.0.0-20240416160154-fe59bbe5cc7f // indirect
 	golang.org/x/net v0.62.0 // indirect
 	golang.org/x/sync v0.25.0 // indirect
