@@ -263,3 +263,15 @@ func TestHealthStatusStreamPrintToJson(t *testing.T) {
 		},
 	}, *cli.MockPrinter.PrintJsonCalls)
 }
+
+func TestStreamConsistencyStateTableBatchIndex(t *testing.T) {
+	batchIndex := int64(12)
+	state := stackstate_api.HealthSubStreamConsistencyState{
+		HealthSubStreamTransactionalIncrements: &stackstate_api.HealthSubStreamTransactionalIncrements{
+			BatchIndex: &batchIndex,
+		},
+	}
+	assert.Equal(t, [][]interface{}{{"-", "-", "-", "-", "0", "12"}}, streamConsistencyStateToTable(state).Data)
+	state.HealthSubStreamTransactionalIncrements.BatchIndex = nil
+	assert.Equal(t, [][]interface{}{{"-", "-", "-", "-", "0", "-"}}, streamConsistencyStateToTable(state).Data)
+}
