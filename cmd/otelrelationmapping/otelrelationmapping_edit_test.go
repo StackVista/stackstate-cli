@@ -5,8 +5,6 @@ import (
 	"io"
 	"testing"
 
-	"gopkg.in/yaml.v2"
-
 	"github.com/stackvista/stackstate-cli/cmd/otelrelationmapping"
 	"github.com/stackvista/stackstate-cli/generated/stackstate_api"
 	"github.com/stackvista/stackstate-cli/internal/di"
@@ -21,6 +19,9 @@ type mockEditorStub struct {
 func (m *mockEditorStub) Edit(prefix, suffix string, contents io.Reader) ([]byte, error) {
 	if m.err != nil {
 		return nil, m.err
+	}
+	if m.content == nil {
+		return io.ReadAll(contents)
 	}
 	return m.content, nil
 }
@@ -68,9 +69,7 @@ func TestOtelRelationMappingEdit_NoChange(t *testing.T) {
 	mockIdentifier := "urn:otel:relation:edit-unchanged"
 	orig := stackstate_api.OtelRelationMapping{Identifier: mockIdentifier, Name: "test-unchanged"}
 	cli.MockClient.ApiMocks.OtelMappingApi.GetOtelRelationMappingResponse.Result = orig
-	// Echo original as-is, using canonical YAML
-	origYAML, _ := yaml.Marshal(orig)
-	cli.Editor = &mockEditorStub{content: origYAML}
+	cli.Editor = &mockEditorStub{}
 
 	_, err := di.ExecuteCommandWithContext(&cli.Deps, cmd, "--identifier", mockIdentifier)
 
