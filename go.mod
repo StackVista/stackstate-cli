@@ -6,7 +6,7 @@ require (
 	github.com/alecthomas/chroma v0.10.0
 	github.com/blang/semver/v4 v4.0.0
 	github.com/gookit/color v1.6.3
-	github.com/jedib0t/go-pretty/v6 v6.9.1
+	github.com/jedib0t/go-pretty/v6 v6.9.2
 	github.com/mattn/go-runewidth v0.0.31
 	github.com/mcuadros/go-defaults v1.2.0
 	github.com/mitchellh/go-homedir v1.1.0
