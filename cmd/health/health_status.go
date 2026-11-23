@@ -229,7 +229,7 @@ func streamConsistencyStateToTable(state stackstate_api.HealthSubStreamConsisten
 	if increments := state.HealthSubStreamTransactionalIncrements; increments != nil {
 		checkpointOffset = fmt.Sprintf("%d", increments.GetOffset())
 		if increments.BatchIndex != nil {
-			checkpointBatchIndex = fmt.Sprintf("%d", increments.BatchIndex)
+			checkpointBatchIndex = fmt.Sprintf("%d", *increments.BatchIndex)
 		}
 	}
 
